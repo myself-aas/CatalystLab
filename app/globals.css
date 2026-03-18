@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+:root {
+  /* ── SURFACES ────────────────────────────────────────────── */
+  --bg-canvas: #0c0c0f;
+  --bg-base: #111116;
+  --bg-elevated: #17171e;
+  --bg-overlay: #1e1e28;
+  --bg-sunken: #0a0a0d;
+  --bg-hover: #21212c;
+  --bg-active: #27273a;
+  --bg-selection: #2a2a4a;
+
+  /* ── BORDERS ─────────────────────────────────────────────── */
+  --border-faint: #18181f;
+  --border-subtle: #1f1f2a;
+  --border-default: #2c2c3c;
+  --border-strong: #3c3c52;
+  --border-focus: #5b5bf6;
+
+  /* ── TEXT ────────────────────────────────────────────────── */
+  --text-primary: #eeeef2;
+  --text-secondary: #9898b0;
+  --text-tertiary: #58586e;
+  --text-link: #7b7bf8;
+
+  /* ── PRIMARY ACCENT ──────────────────────────────────────── */
+  --accent: #5b5bf6;
+  --accent-hover: #6d6df8;
+  --accent-muted: #252560;
+  --accent-subtle: #18183a;
+  --accent-glow: rgba(91, 91, 246, 0.15);
+
+  /* ── STATUS COLORS ───────────────────────────────────────── */
+  --emerald: #34d399;
+  --emerald-muted: #0d3828;
+  --emerald-subtle: #091f17;
+  --amber: #f59e0b;
+  --amber-muted: #3a2800;
+  --rose: #f43f5e;
+  --rose-muted: #3d0f1c;
+
+  /* ── ZONE COLORS ─────────────────────────────────────────── */
+  --zone-a: #818cf8;
+  --zone-b: #e879f9;
+  --zone-c: #22d3ee;
+
+  /* ── SOURCE COLORS ───────────────────────────────────────── */
+  --src-ss: #60a5fa;
+  --src-oa: #34d399;
+  --src-arxiv: #fb923c;
+  --src-pm: #f87171;
+  --src-core: #a78bfa;
+  --src-cr: #fbbf24;
+  --src-epmc: #14b8a6;
+  --src-doaj: #4ade80;
+  --src-upw: #e879f9;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--bg-selection);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+.markdown-body {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.markdown-body p {
+  margin-bottom: 1em;
+  color: var(--text-secondary);
+}
+
+.markdown-body ul, .markdown-body ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.markdown-body li {
+  margin-bottom: 0.5em;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-hover) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

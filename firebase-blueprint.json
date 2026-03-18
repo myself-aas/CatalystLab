@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "profiles": {
+      "title": "User Profile",
+      "description": "Stores user-specific metadata and settings.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier for the user." },
+        "full_name": { "type": "string", "description": "The user's full name." },
+        "username": { "type": "string", "description": "The user's chosen username." },
+        "avatar_url": { "type": "string", "description": "URL to the user's avatar image." },
+        "research_field": { "type": "string", "description": "The user's primary research field." },
+        "institution": { "type": "string", "description": "The user's academic institution." },
+        "plan": { "type": "string", "enum": ["free", "pro"], "description": "The user's subscription plan." },
+        "created_at": { "type": "string", "format": "date-time", "description": "When the profile was created." }
+      },
+      "required": ["uid", "full_name"]
+    },
+    "sessions": {
+      "title": "Research Session",
+      "description": "Stores an individual research brainstorming session.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The ID of the user who owns this session." },
+        "instrument_slug": { "type": "string", "description": "The slug of the instrument used." },
+        "zone": { "type": "string", "description": "The zone of the instrument (A, B, or C)." },
+        "title": { "type": "string", "description": "A generated title for the session." },
+        "input_data": { "type": "object", "description": "The raw input data provided by the user." },
+        "output_data": { "type": "object", "description": "The AI-generated output data." },
+        "literature": { "type": "array", "description": "The related research papers found." },
+        "created_at": { "type": "string", "format": "date-time", "description": "When the session was created." }
+      },
+      "required": ["uid", "instrument_slug", "input_data", "output_data"]
+    }
+  },
+  "firestore": {
+    "/profiles/{uid}": {
+      "schema": "profiles",
+      "description": "User profile document."
+    },
+    "/sessions/{sessionId}": {
+      "schema": "sessions",
+      "description": "Individual research session document."
+    }
+  }
+}

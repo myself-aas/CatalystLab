@@ -1,0 +1,133 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: profiles
+    // Document ID: {uid}
+    // Fields:
+    //   - uid: string (required, immutable) - The unique identifier for the user.
+    //   - full_name: string (required, max 100 chars) - The user's full name.
+    //   - username: string (optional, max 50 chars) - The user's chosen username.
+    //   - avatar_url: string (optional, URL format) - URL to the user's avatar image.
+    //   - research_field: string (optional, max 100 chars) - The user's primary research field.
+    //   - institution: string (optional, max 100 chars) - The user's academic institution.
+    //   - plan: string (optional, enum: ['free', 'pro']) - The user's subscription plan.
+    //   - created_at: timestamp (required, immutable) - When the profile was created.
+    //
+    // Collection: sessions
+    // Document ID: {sessionId}
+    // Fields:
+    //   - uid: string (required, immutable) - The ID of the user who owns this session.
+    //   - instrument_slug: string (required, max 50 chars) - The slug of the instrument used.
+    //   - zone: string (optional, max 20 chars) - The zone of the instrument (A, B, or C).
+    //   - title: string (optional, max 200 chars) - A generated title for the session.
+    //   - input_data: map (required, max 100 keys) - The raw input data provided by the user.
+    //   - output_data: map (required, max 100 keys) - The AI-generated output data.
+    //   - literature: list (optional, max 50 items) - The related research papers found.
+    //   - created_at: timestamp (required, immutable) - When the session was created.
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function uidUnchanged() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == request.auth.uid;
+    }
+
+    function uidNotModified() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == resource.data.uid;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function isValidUrl(url) {
+      return url is string && (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    function isRecent(timeVal) {
+      return timeVal is timestamp && 
+             timeVal > request.time - duration.value(5, 'm') &&
+             timeVal < request.time + duration.value(5, 'm');
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidProfile(data) {
+      return data.keys().hasOnly(['uid', 'full_name', 'username', 'avatar_url', 'research_field', 'institution', 'plan', 'created_at']) &&
+             data.uid is string && data.uid.size() > 0 && data.uid.size() < 128 &&
+             data.full_name is string && data.full_name.size() > 0 && data.full_name.size() <= 100 &&
+             (!('username' in data) || (data.username is string && data.username.size() <= 50)) &&
+             (!('avatar_url' in data) || isValidUrl(data.avatar_url)) &&
+             (!('research_field' in data) || (data.research_field is string && data.research_field.size() <= 100)) &&
+             (!('institution' in data) || (data.institution is string && data.institution.size() <= 100)) &&
+             (!('plan' in data) || (data.plan in ['free', 'pro'])) &&
+             data.created_at is timestamp;
+    }
+
+    function isValidSession(data) {
+      return data.keys().hasAll(['uid', 'instrument_slug', 'input_data', 'output_data', 'created_at']) &&
+             data.keys().hasOnly(['uid', 'instrument_slug', 'zone', 'title', 'input_data', 'output_data', 'literature', 'created_at']) &&
+             data.uid is string && data.uid.size() > 0 && data.uid.size() < 128 &&
+             data.instrument_slug is string && data.instrument_slug.size() > 0 && data.instrument_slug.size() <= 50 &&
+             (!('zone' in data) || (data.zone is string && data.zone.size() <= 20)) &&
+             (!('title' in data) || (data.title is string && data.title.size() <= 200)) &&
+             data.input_data is map && data.input_data.size() <= 100 &&
+             data.output_data is map && data.output_data.size() <= 100 &&
+             (!('literature' in data) || (data.literature is list && data.literature.size() <= 50)) &&
+             data.created_at is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /profiles/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && isValidProfile(request.resource.data) && isRecent(request.resource.data.created_at);
+      allow update: if isOwner(uid) && isValidProfile(request.resource.data) && 
+                      request.resource.data.uid == resource.data.uid &&
+                      request.resource.data.created_at == resource.data.created_at;
+      allow delete: if false; // Profiles should not be deleted by users directly
+    }
+
+    match /sessions/{sessionId} {
+      allow read: if isDocOwner();
+      allow create: if isAuthenticated() && 
+                      request.resource.data.uid == request.auth.uid &&
+                      isValidSession(request.resource.data) && 
+                      isRecent(request.resource.data.created_at);
+      allow update: if isDocOwner() && 
+                      isValidSession(request.resource.data) &&
+                      request.resource.data.uid == resource.data.uid &&
+                      request.resource.data.created_at == resource.data.created_at;
+      allow delete: if isDocOwner();
+    }
+
+    // Default deny
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}
