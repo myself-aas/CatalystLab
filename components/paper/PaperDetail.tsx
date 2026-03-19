@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useUser } from '@/hooks/useUser';
-import { supabase } from '@/lib/supabase';
+import { auth, db, handleFirestoreError, OperationType } from '@/lib/firebase';
+import { doc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   BookOpen, 
@@ -37,6 +38,8 @@ interface PaperDetailProps {
   initialData: any;
 }
 
+import { generateTLDR, assessCredibility } from '@/lib/gemini';
+
 export function PaperDetail({ paperId, initialData }: PaperDetailProps) {
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -70,8 +73,15 @@ export function PaperDetail({ paperId, initialData }: PaperDetailProps) {
         journal: data.journal?.name,
       };
 
-      // Cache in Supabase
-      await supabase.from('papers').upsert(formatted);
+      // Cache in Firestore
+      try {
+        await setDoc(doc(db, 'papers', formatted.id), {
+          ...formatted,
+          updated_at: serverTimestamp()
+        }, { merge: true });
+      } catch (error) {
+        console.error('Error caching paper:', error);
+      }
 
       return formatted;
     },
@@ -83,12 +93,7 @@ export function PaperDetail({ paperId, initialData }: PaperDetailProps) {
     queryKey: ['paper-tldr', paperId],
     queryFn: async () => {
       if (paper?.tldr) return paper.tldr;
-      const res = await fetch('/api/tldr', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ abstract: paper?.abstract }),
-      });
-      const data = await res.json();
+      const data = await generateTLDR(paper?.abstract);
       return data.tldr;
     },
     enabled: !!paper?.abstract,
@@ -99,12 +104,7 @@ export function PaperDetail({ paperId, initialData }: PaperDetailProps) {
     queryKey: ['paper-credibility', paperId],
     queryFn: async () => {
       if (paper?.credibility_score) return { score: paper.credibility_score };
-      const res = await fetch('/api/credibility', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paper }),
-      });
-      return await res.json();
+      return await assessCredibility(paper);
     },
     enabled: !!paper,
   });
@@ -112,10 +112,20 @@ export function PaperDetail({ paperId, initialData }: PaperDetailProps) {
   // Bookmark mutation
   const bookmarkMutation = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase
-        .from('post_bookmarks')
-        .insert({ user_id: user?.id, post_id: paperId }); // Reusing bookmarks for papers
-      if (error) throw error;
+      if (!user) {
+        toast.error('Please sign in to bookmark papers');
+        return;
+      }
+      try {
+        const path = 'post_bookmarks';
+        await addDoc(collection(db, path), { 
+          user_id: user.uid, 
+          post_id: paperId,
+          created_at: serverTimestamp()
+        });
+      } catch (error) {
+        handleFirestoreError(error, OperationType.WRITE, 'post_bookmarks');
+      }
     },
     onSuccess: () => {
       toast.success('Paper saved to bookmarks');

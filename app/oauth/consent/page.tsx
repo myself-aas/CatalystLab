@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/authStore';
+import Image from 'next/image';
 import { 
   ShieldCheck, 
   ShieldAlert, 
@@ -150,7 +151,15 @@ function ConsentContent() {
         <div className="p-8 border-b border-[var(--border-faint)] bg-[var(--bg-overlay)] flex flex-col items-center text-center">
           <div className="w-16 h-16 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-xl)] flex items-center justify-center mb-6 shadow-sm">
             {appInfo?.logo_url ? (
-              <img src={appInfo.logo_url} alt={appInfo.name} className="w-10 h-10 object-contain" />
+              <div className="relative w-10 h-10">
+                <Image 
+                  src={appInfo.logo_url} 
+                  alt={appInfo.name} 
+                  fill
+                  className="object-contain" 
+                  referrerPolicy="no-referrer" 
+                />
+              </div>
             ) : (
               <Globe className="w-8 h-8 text-[var(--text-tertiary)]" />
             )}

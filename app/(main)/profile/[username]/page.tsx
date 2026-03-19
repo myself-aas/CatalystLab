@@ -19,6 +19,9 @@ import {
   Loader2,
   AlertCircle
 } from 'lucide-react';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
+import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -105,6 +108,46 @@ export default function ProfilePage() {
   const { username } = useParams();
   const [activeTab, setActiveTab] = useState<'posts' | 'papers' | 'annotations' | 'lists' | 'ideas' | 'activity'>('posts');
 
+  const { data: profile, isLoading: profileLoading } = useQuery({
+    queryKey: ['profile', username],
+    queryFn: async () => {
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('username', '==', username));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) return null;
+      return { id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as Profile;
+    },
+    enabled: !!username,
+  });
+
+  const { data: posts, isLoading: postsLoading } = useQuery({
+    queryKey: ['profile-posts', profile?.id],
+    queryFn: async () => {
+      const postsRef = collection(db, 'posts');
+      const q = query(postsRef, where('uid', '==', profile?.id), orderBy('created_at', 'desc'), limit(20));
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(d => ({ id: d.id, ...d.data(), author: profile })) as Post[];
+    },
+    enabled: !!profile?.id,
+  });
+
+  if (profileLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <AlertCircle className="w-12 h-12 text-rose-500" />
+        <h1 className="text-2xl font-bold">Profile not found</h1>
+      </div>
+    );
+  }
+
   const tabs = [
     { id: 'posts', name: 'Posts', icon: MessageSquare },
     { id: 'papers', name: 'Papers', icon: FileText },
@@ -125,13 +168,13 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-base)] pb-20">
-      <ProfileHeader profile={MOCK_PROFILE} isOwnProfile={username === 'shuvo'} />
+      <ProfileHeader profile={profile} isOwnProfile={false} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-6">
-            <ReputationCard score={MOCK_PROFILE.reputation_score} badges={['first_post', 'prolific_reader', 'top_annotator', 'verified_researcher']} />
+            <ReputationCard score={profile.reputation_score || 0} badges={['first_post', 'prolific_reader', 'top_annotator', 'verified_researcher']} />
             <SkillGraph skills={skills} />
           </div>
 
@@ -172,9 +215,19 @@ export default function ProfilePage() {
                   exit={{ opacity: 0, y: -20 }}
                   className="space-y-6"
                 >
-                  {MOCK_POSTS.map((post) => (
-                    <PostCard key={post.id} post={post} />
-                  ))}
+                  {postsLoading ? (
+                    <div className="flex justify-center py-12">
+                      <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+                    </div>
+                  ) : posts && posts.length > 0 ? (
+                    posts.map((post) => (
+                      <PostCard key={post.id} post={post} />
+                    ))
+                  ) : (
+                    <div className="py-20 text-center text-[var(--text-tertiary)]">
+                      <p>No posts yet.</p>
+                    </div>
+                  )}
                 </motion.div>
               )}
 

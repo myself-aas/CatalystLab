@@ -1,15 +1,28 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutGrid, FlaskConical, FileText, Search, BookOpen, Settings, User } from 'lucide-react';
+import { LayoutGrid, FlaskConical, FileText, Search, BookOpen, Settings, User, Zap, Coins } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/stores/authStore';
+import { checkTokens, getTimeUntilReset } from '@/lib/tokens';
+import { TOKEN_CONFIG } from '@/lib/tokens-config';
 
 export function Sidebar() {
   const pathname = usePathname();
   const { profile, user } = useAuthStore();
+  const [tokens, setTokens] = useState<{ remaining: number; total: number } | null>(null);
+  const [resetTime, setResetTime] = useState<string>('');
+
+  useEffect(() => {
+    if (user) {
+      checkTokens().then(data => setTokens({ remaining: data.remaining, total: data.total }));
+      setResetTime(getTimeUntilReset());
+      const timer = setInterval(() => setResetTime(getTimeUntilReset()), 60000);
+      return () => clearInterval(timer);
+    }
+  }, [user, pathname]); // Refresh on navigation
 
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
@@ -78,15 +91,41 @@ export function Sidebar() {
         </Link>
       </nav>
 
+      {/* TOKENS */}
+      {user && (
+        <div className="px-5 py-4">
+          <div className="bg-[var(--bg-sunken)] rounded-[var(--r-lg)] p-4 border border-[var(--border-subtle)]">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider">Token Balance</span>
+              <Coins className="w-3 h-3 text-[var(--accent)]" />
+            </div>
+            <div className="h-1.5 w-full bg-[var(--bg-elevated)] rounded-full overflow-hidden mb-2">
+              <div 
+                className="h-full bg-[var(--accent)] transition-all duration-500" 
+                style={{ width: `${Math.min(((tokens?.remaining || 0) / (tokens?.total || TOKEN_CONFIG.dailyLimit)) * 100, 100)}%` }}
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between items-center">
+                <span className="text-[11px] text-[var(--text-secondary)] font-mono">
+                  {tokens !== null ? tokens.remaining.toLocaleString() : '...'} / {tokens?.total.toLocaleString() || TOKEN_CONFIG.dailyLimit.toLocaleString()}
+                </span>
+              </div>
+              <span className="text-[9px] text-[var(--text-tertiary)] font-mono">Resets in {resetTime}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* BOTTOM */}
-      <div className="p-4 mt-auto border-t border-[var(--border-faint)]">
+      <div className="p-4 border-t border-[var(--border-faint)]">
         <div className="flex items-center gap-3 px-2">
           <div className="w-6 h-6 rounded-full bg-[var(--bg-overlay)] border border-[var(--border-subtle)] flex items-center justify-center">
             <User className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-medium text-[var(--text-primary)] truncate">{displayName}</p>
-            <span className="text-[10px] font-medium text-[var(--accent)] uppercase tracking-wider">Free Plan</span>
+            <span className="text-[10px] font-medium text-[var(--accent)] uppercase tracking-wider">Research Tier</span>
           </div>
         </div>
       </div>

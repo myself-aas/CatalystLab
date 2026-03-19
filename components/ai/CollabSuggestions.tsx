@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { UserPlus, MessageSquare, Zap, Sparkles, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -69,7 +70,15 @@ export function CollabSuggestions() {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <img src={suggestion.avatar} alt={suggestion.name} className="w-12 h-12 rounded-2xl border border-[var(--border)] object-cover" />
+              <div className="relative w-12 h-12 shrink-0">
+                <Image 
+                  src={suggestion.avatar} 
+                  alt={suggestion.name} 
+                  fill
+                  className="rounded-2xl border border-[var(--border)] object-cover" 
+                  referrerPolicy="no-referrer"
+                />
+              </div>
                 <div>
                   <h4 className="text-[15px] font-black text-[var(--text-primary)]">{suggestion.name}</h4>
                   <p className="text-[12px] text-indigo-400 font-bold">@{suggestion.username}</p>

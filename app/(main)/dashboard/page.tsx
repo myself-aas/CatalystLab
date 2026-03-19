@@ -9,7 +9,7 @@ import { useApp } from '@/lib/context';
 import { useAuthStore } from '@/stores/authStore';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
-import { getRemainingRuns, getTimeUntilReset } from '@/lib/trialSystem';
+import { getUserUsage, USER_DAILY_LIMIT } from '@/lib/usageSystem';
 
 export default function DashboardPage() {
   const { sessions } = useApp();
@@ -17,17 +17,32 @@ export default function DashboardPage() {
   const [query, setQuery] = useState('');
   const [activeZone, setActiveZone] = useState<'all' | 'a' | 'b' | 'c'>('all');
   const { user, profile } = useAuthStore();
-  const [remainingRuns, setRemainingRuns] = useState<number | null>(null);
+  const [usage, setUsage] = useState<number | null>(null);
   const [timeToReset, setTimeToReset] = useState('');
 
   useEffect(() => {
-    setRemainingRuns(getRemainingRuns());
-    const timer = setInterval(() => {
-      setTimeToReset(getTimeUntilReset());
-      setRemainingRuns(getRemainingRuns());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+    if (user) {
+      const fetchUsage = async () => {
+        const data = await getUserUsage(user.uid);
+        setUsage(data.daily_requests);
+        
+        // Calculate time to reset (next midnight UTC)
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setUTCHours(24, 0, 0, 0);
+        const diff = tomorrow.getTime() - now.getTime();
+        
+        const h = Math.floor(diff / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        setTimeToReset(`${h}h ${m}m ${s}s`);
+      };
+
+      fetchUsage();
+      const timer = setInterval(fetchUsage, 10000); // Update every 10s
+      return () => clearInterval(timer);
+    }
+  }, [user]);
 
   const handleQuickRun = (slug: string) => {
     if (query.trim()) {
@@ -65,20 +80,20 @@ export default function DashboardPage() {
           <p className="text-[14px] text-[var(--text-secondary)]">What are you thinking about today?</p>
         </motion.div>
         
-        {remainingRuns !== null && remainingRuns !== Infinity && (
+        {usage !== null && (
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--r-lg)] px-5 py-3 flex items-center gap-6 shadow-sm"
           >
             <div className="space-y-1">
-              <div className="text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Daily Runs</div>
+              <div className="text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Daily Usage</div>
               <div className="text-[14px] font-bold text-[var(--text-primary)] flex items-center gap-2">
                 <div className={cn(
                   "w-1.5 h-1.5 rounded-full animate-pulse",
-                  remainingRuns > 0 ? "bg-[var(--emerald)]" : "bg-[var(--rose)]"
+                  usage < USER_DAILY_LIMIT ? "bg-[var(--emerald)]" : "bg-[var(--rose)]"
                 )} />
-                {remainingRuns} remaining
+                {usage} / {USER_DAILY_LIMIT} runs
               </div>
             </div>
             <div className="w-px h-8 bg-[var(--border-faint)]" />

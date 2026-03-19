@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, Suspense } from 'react';
-import { auth, db } from '@/lib/firebase';
+import { auth, db, handleFirestoreError, OperationType } from '@/lib/firebase';
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -35,13 +35,20 @@ function LoginForm() {
         const user = userCredential.user;
         
         // Create profile in Firestore
-        await setDoc(doc(db, 'profiles', user.uid), {
-          uid: user.uid,
-          full_name: email.split('@')[0],
-          username: email.split('@')[0],
-          created_at: new Date(),
-          plan: 'free'
-        });
+        const profilePath = `users/${user.uid}`;
+        try {
+          await setDoc(doc(db, 'users', user.uid), {
+            uid: user.uid,
+            full_name: email.split('@')[0],
+            username: email.split('@')[0],
+            created_at: new Date(),
+            tokens_remaining: 50000,
+            tokens_total: 50000,
+            tokens_reset_at: new Date().toISOString()
+          });
+        } catch (err) {
+          handleFirestoreError(err, OperationType.WRITE, profilePath);
+        }
 
         router.push(redirectTo);
       } else {
@@ -62,18 +69,30 @@ function LoginForm() {
       const user = result.user;
 
       // Check if profile exists, if not create it
-      const docRef = doc(db, 'profiles', user.uid);
-      const docSnap = await getDoc(docRef);
+      const profilePath = `users/${user.uid}`;
+      let docSnap;
+      try {
+        const docRef = doc(db, 'users', user.uid);
+        docSnap = await getDoc(docRef);
+      } catch (err) {
+        handleFirestoreError(err, OperationType.GET, profilePath);
+      }
 
-      if (!docSnap.exists()) {
-        await setDoc(doc(db, 'profiles', user.uid), {
-          uid: user.uid,
-          full_name: user.displayName || email.split('@')[0],
-          username: user.email?.split('@')[0] || user.uid.substring(0, 8),
-          avatar_url: user.photoURL,
-          created_at: new Date(),
-          plan: 'free'
-        });
+      if (docSnap && !docSnap.exists()) {
+        try {
+          await setDoc(doc(db, 'users', user.uid), {
+            uid: user.uid,
+            full_name: user.displayName || user.email?.split('@')[0] || 'User',
+            username: user.email?.split('@')[0] || user.uid.substring(0, 8),
+            avatar_url: user.photoURL,
+            created_at: new Date(),
+            tokens_remaining: 50000,
+            tokens_total: 50000,
+            tokens_reset_at: new Date().toISOString()
+          });
+        } catch (err) {
+          handleFirestoreError(err, OperationType.WRITE, profilePath);
+        }
       }
 
       router.push(redirectTo);

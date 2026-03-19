@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { useUser } from '@/hooks/useUser';
-import { supabase } from '@/lib/supabase';
+import { db } from '@/lib/firebase';
+import { collection, query, orderBy, getDocs, where } from 'firebase/firestore';
 import { useQuery } from '@tanstack/react-query';
 import { CommunityCard } from '@/components/community/CommunityCard';
 import { Plus, Loader2, Target, Globe, Users } from 'lucide-react';
@@ -14,16 +15,29 @@ export default function CommunitiesPage() {
   const { data: communities, isLoading } = useQuery({
     queryKey: ['communities'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('communities')
-        .select(`
-          *,
-          members:community_members(user_id)
-        `)
-        .order('members_count', { ascending: false });
+      try {
+        // Fetch communities
+        const communitiesRef = collection(db, 'communities');
+        const q = query(communitiesRef, orderBy('members_count', 'desc'));
+        const querySnapshot = await getDocs(q);
+        
+        const communitiesData = await Promise.all(querySnapshot.docs.map(async (docSnap) => {
+          const community = { id: docSnap.id, ...docSnap.data() } as any;
+          
+          // Fetch members for each community
+          const membersRef = collection(db, 'community_members');
+          const mq = query(membersRef, where('community_id', '==', docSnap.id));
+          const membersSnapshot = await getDocs(mq);
+          
+          community.members = membersSnapshot.docs.map(m => m.data());
+          return community;
+        }));
 
-      if (error) throw error;
-      return data;
+        return communitiesData;
+      } catch (error) {
+        console.error('Error fetching communities:', error);
+        throw error;
+      }
     },
   });
 
@@ -36,11 +50,11 @@ export default function CommunitiesPage() {
   }
 
   const myCommunities = communities?.filter(c => 
-    c.members.some((m: any) => m.user_id === user?.id)
+    c.members.some((m: any) => m.user_id === user?.uid)
   ) || [];
   
   const otherCommunities = communities?.filter(c => 
-    !c.members.some((m: any) => m.user_id === user?.id)
+    !c.members.some((m: any) => m.user_id === user?.uid)
   ) || [];
 
   return (

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Sidebar } from '@/components/Sidebar';
 import { TopBar } from '@/components/TopBar';
 import { BottomNav } from '@/components/BottomNav';
@@ -15,7 +16,8 @@ import {
   TrendingUp,
   ArrowLeft
 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -29,47 +31,66 @@ export default function TopicPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('Posts');
 
-  useEffect(() => {
-    if (topic) {
-      fetchTopicData();
-    }
-  }, [topic]);
-
-  const fetchTopicData = async () => {
+  const fetchTopicData = React.useCallback(async () => {
     setLoading(true);
     try {
       // Fetch posts with this topic tag
-      const { data: postsData, error: postsError } = await supabase
-        .from('posts')
-        .select(`
-          *,
-          author:profiles(id, username, full_name, avatar_url),
-          paper:papers(*)
-        `)
-        .contains('tags', [topic])
-        .order('created_at', { ascending: false })
-        .limit(20);
+      const postsRef = collection(db, 'posts');
+      const pq = query(
+        postsRef,
+        where('tags', 'array-contains', topic),
+        orderBy('created_at', 'desc'),
+        limit(20)
+      );
+      const postsSnapshot = await getDocs(pq);
+      
+      const postsData = await Promise.all(postsSnapshot.docs.map(async (docSnap) => {
+        const post = { id: docSnap.id, ...docSnap.data() } as any;
+        
+        // Fetch author profile
+        const authorRef = doc(db, 'users', post.uid);
+        const authorSnap = await getDoc(authorRef);
+        if (authorSnap.exists()) {
+          post.author = authorSnap.data();
+        }
 
-      if (postsError) throw postsError;
+        // Fetch paper if exists
+        if (post.paper_id) {
+          const paperRef = doc(db, 'papers', post.paper_id);
+          const paperSnap = await getDoc(paperRef);
+          if (paperSnap.exists()) {
+            post.paper = paperSnap.data();
+          }
+        }
+
+        return post;
+      }));
+
       setPosts(postsData || []);
 
       // Fetch papers related to this topic
-      const { data: papersData, error: papersError } = await supabase
-        .from('papers')
-        .select('*')
-        .contains('fields_of_study', [topic])
-        .order('citation_count', { ascending: false })
-        .limit(10);
-
-      if (papersError) throw papersError;
-      setPapers(papersData || []);
+      const papersRef = collection(db, 'papers');
+      const papQ = query(
+        papersRef,
+        where('fields_of_study', 'array-contains', topic),
+        orderBy('citation_count', 'desc'),
+        limit(10)
+      );
+      const papersSnapshot = await getDocs(papQ);
+      setPapers(papersSnapshot.docs.map(d => ({ id: d.id, ...d.data() })));
 
     } catch (error) {
       console.error('Error fetching topic data:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [topic]);
+
+  useEffect(() => {
+    if (topic) {
+      fetchTopicData();
+    }
+  }, [topic, fetchTopicData]);
 
   return (
     <div className="flex min-h-screen bg-[var(--bg-canvas)]">
@@ -147,9 +168,15 @@ export default function TopicPage() {
                         className="bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--r-xl)] p-5 hover:border-[var(--border-default)] transition-all"
                       >
                         <div className="flex items-start gap-4 mb-4">
-                          <Link href={`/profile/${post.author?.username}`} className="w-10 h-10 rounded-full overflow-hidden bg-[var(--bg-overlay)] border border-[var(--border-subtle)] flex-shrink-0">
+                          <Link href={`/profile/${post.author?.username}`} className="relative w-10 h-10 rounded-full overflow-hidden bg-[var(--bg-overlay)] border border-[var(--border-subtle)] flex-shrink-0">
                             {post.author?.avatar_url ? (
-                              <img src={post.author.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                              <Image 
+                                src={post.author.avatar_url} 
+                                alt="Avatar" 
+                                fill
+                                className="object-cover" 
+                                referrerPolicy="no-referrer" 
+                              />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-xs font-bold text-[var(--text-secondary)]">
                                 {post.author?.username?.[0] || 'U'}

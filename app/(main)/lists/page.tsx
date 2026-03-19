@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { useUser } from '@/hooks/useUser';
-import { supabase } from '@/lib/supabase';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs, orderBy, or, doc, getDoc } from 'firebase/firestore';
 import { useQuery } from '@tanstack/react-query';
 import { ReadingListCard } from '@/components/lists/ReadingListCard';
 import { Plus, Loader2, BookOpen, Globe } from 'lucide-react';
@@ -12,20 +13,35 @@ export default function ReadingListsPage() {
   const { user } = useUser();
 
   const { data: lists, isLoading } = useQuery({
-    queryKey: ['reading-lists', user?.id],
+    queryKey: ['reading-lists', user?.uid],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('reading_lists')
-        .select(`
-          *,
-          owner:profiles!owner_id(username, full_name, avatar_url),
-          collaborators:reading_list_collaborators(user_id)
-        `)
-        .or(`owner_id.eq.${user?.id},is_public.eq.true`)
-        .order('created_at', { ascending: false });
+      try {
+        const listsRef = collection(db, 'reading_lists');
+        const q = query(
+          listsRef,
+          or(where('owner_id', '==', user?.uid), where('is_public', '==', true)),
+          orderBy('created_at', 'desc')
+        );
+        const querySnapshot = await getDocs(q);
+        
+        const listsData = await Promise.all(querySnapshot.docs.map(async (docSnap) => {
+          const list = { id: docSnap.id, ...docSnap.data() } as any;
+          
+          // Fetch owner profile
+          const ownerRef = doc(db, 'users', list.owner_id);
+          const ownerSnap = await getDoc(ownerRef);
+          if (ownerSnap.exists()) {
+            list.owner = ownerSnap.data();
+          }
 
-      if (error) throw error;
-      return data;
+          return list;
+        }));
+
+        return listsData;
+      } catch (error) {
+        console.error('Error fetching reading lists:', error);
+        throw error;
+      }
     },
     enabled: !!user,
   });
@@ -38,8 +54,8 @@ export default function ReadingListsPage() {
     );
   }
 
-  const myLists = lists?.filter(l => l.owner_id === user?.id) || [];
-  const publicLists = lists?.filter(l => l.owner_id !== user?.id) || [];
+  const myLists = lists?.filter(l => l.owner_id === user?.uid) || [];
+  const publicLists = lists?.filter(l => l.owner_id !== user?.uid) || [];
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">

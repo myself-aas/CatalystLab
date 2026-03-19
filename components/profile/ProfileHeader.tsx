@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { 
   MapPin, 
   Link as LinkIcon, 
@@ -25,9 +26,15 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
   return (
     <div className="relative">
       {/* Cover */}
-      <div className="h-48 sm:h-64 bg-gradient-to-r from-indigo-900/40 via-purple-900/30 to-slate-900/40 border-b border-[var(--border)] overflow-hidden">
+      <div className="relative h-48 sm:h-64 bg-gradient-to-r from-indigo-900/40 via-purple-900/30 to-slate-900/40 border-b border-[var(--border)] overflow-hidden">
         {profile.cover_url && (
-          <img src={profile.cover_url} alt="Cover" className="w-full h-full object-cover opacity-50" />
+          <Image 
+            src={profile.cover_url} 
+            alt="Cover" 
+            fill
+            className="object-cover opacity-50" 
+            referrerPolicy="no-referrer" 
+          />
         )}
       </div>
 
@@ -35,11 +42,13 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
         <div className="relative -mt-16 sm:-mt-24 space-y-6">
           {/* Avatar & Actions */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-            <div className="relative inline-block">
-              <img 
+            <div className="relative inline-block w-32 h-32 sm:w-48 sm:h-48">
+              <Image 
                 src={profile.avatar_url || `https://picsum.photos/seed/${profile.username}/200/200`} 
                 alt={profile.full_name || profile.username} 
-                className="w-32 h-32 sm:w-48 sm:h-48 rounded-3xl border-4 border-[var(--bg-base)] bg-[var(--bg-surface)] shadow-2xl object-cover"
+                fill
+                className="rounded-3xl border-4 border-[var(--bg-base)] bg-[var(--bg-surface)] shadow-2xl object-cover"
+                referrerPolicy="no-referrer"
               />
               {profile.is_verified && (
                 <div className="absolute -bottom-2 -right-2 p-1.5 bg-indigo-500 text-white rounded-xl border-4 border-[var(--bg-base)] shadow-lg">

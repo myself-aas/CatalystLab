@@ -3,7 +3,8 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import { PaperDetail } from '@/components/paper/PaperDetail';
 import { Loader2, AlertCircle } from 'lucide-react';
 
@@ -15,13 +16,16 @@ export default function PaperPage() {
     queryKey: ['paper', paperId],
     queryFn: async () => {
       // First check local cache
-      const { data: cached, error: cacheError } = await supabase
-        .from('papers')
-        .select('*')
-        .eq('id', paperId)
-        .single();
-
-      if (cached) return cached;
+      try {
+        const docRef = doc(db, 'papers', paperId);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          return docSnap.data();
+        }
+      } catch (error) {
+        console.error('Error fetching cached paper:', error);
+      }
 
       // If not in cache, we might need to fetch from API (handled in PaperDetail)
       return null;

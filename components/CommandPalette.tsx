@@ -51,9 +51,10 @@ export function CommandPalette() {
     ...actions.map(a => ({ type: 'action', ...a }))
   ];
 
-  useEffect(() => {
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
     setSelectedIndex(0);
-  }, [query]);
+  };
 
   const handleSelect = (href: string) => {
     router.push(href);
@@ -102,7 +103,7 @@ export function CommandPalette() {
               <input 
                 autoFocus
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={handleQueryChange}
                 onKeyDown={handleKeyDown}
                 placeholder="Search instruments, reports, or actions..."
                 className="flex-1 bg-transparent border-none outline-none text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)]"

@@ -24,7 +24,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useApp } from '@/lib/context';
 import { useAuthStore } from '@/stores/authStore';
-import { recordRun, getRemainingRuns } from '@/lib/trialSystem';
+import { checkLimits, incrementUsage } from '@/lib/usageSystem';
 
 export default function InstrumentPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
@@ -75,10 +75,8 @@ export default function InstrumentPage({ params }: { params: Promise<{ slug: str
 
   const handleRun = async () => {
     if (!input.trim() || isGenerating) return;
-
-    // Trial check
-    if (getRemainingRuns() <= 0) {
-      setError("Daily run limit reached. Please try again tomorrow.");
+    if (!user) {
+      setError("Please sign in to run instruments.");
       return;
     }
 
@@ -91,6 +89,15 @@ export default function InstrumentPage({ params }: { params: Promise<{ slug: str
     setInsight('');
 
     try {
+      // Usage check
+      const limitCheck = await checkLimits(user.uid);
+      if (!limitCheck.canRun) {
+        setError(limitCheck.reason || "Daily limit reached.");
+        setIsGenerating(false);
+        setIsSearching(false);
+        return;
+      }
+
       const ai = getAI();
       
       // Step 1: Extract Keywords & Concepts (Parallel with main run)
@@ -168,7 +175,7 @@ export default function InstrumentPage({ params }: { params: Promise<{ slug: str
       }
 
       // Record run
-      recordRun();
+      await incrementUsage(user.uid);
 
       // Save session
       const session: Session = {

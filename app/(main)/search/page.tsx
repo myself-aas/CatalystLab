@@ -22,6 +22,8 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 
+import { extractConcepts, synthesizePapers } from '@/lib/gemini';
+
 export default function SearchPage() {
   const [query, setQuery] = useState('');
   const [papers, setPapers] = useState<Paper[]>([]);
@@ -49,19 +51,15 @@ export default function SearchPage() {
 
     try {
       // 1. Extract concepts via Gemini
-      const extractRes = await fetch('/api/extract', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: query }),
-      });
-      
       let searchKeywords = [query];
-      if (extractRes.ok) {
-        const data = await extractRes.json();
+      try {
+        const data = await extractConcepts(query);
         setConcepts(data.keywords || []);
         if (data.keywords?.length > 0) {
           searchKeywords = data.keywords;
         }
+      } catch (err) {
+        console.warn('Concept extraction failed, using raw query', err);
       }
 
       // 2. Perform search across 9 sources
@@ -71,19 +69,15 @@ export default function SearchPage() {
 
       // 3. Synthesize findings
       if (results.length > 0) {
-        const synthRes = await fetch('/api/summarize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ papers: results.slice(0, 8) }),
-        });
-
-        if (synthRes.ok) {
-          const synthData = await synthRes.json();
+        try {
+          const synthData = await synthesizePapers(results.slice(0, 8));
           setSynthesis({
-            keyFinding: synthData.summary || 'No key finding detected.',
-            researchGap: synthData.gap || 'No obvious research gap identified in this set.',
-            suggestedMethods: synthData.methods || 'Standard empirical methods recommended.'
+            keyFinding: synthData.synthesis || 'No key finding detected.',
+            researchGap: synthData.researchGap || 'No obvious research gap identified in this set.',
+            suggestedMethods: synthData.recommendedMethods?.join(', ') || 'Standard empirical methods recommended.'
           });
+        } catch (err) {
+          console.warn('Synthesis failed', err);
         }
       }
     } catch (err: any) {

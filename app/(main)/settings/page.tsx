@@ -30,30 +30,32 @@ export default function SettingsPage() {
   const [showGeminiKey, setShowGeminiKey] = useState(false);
   const [showCoreKey, setShowCoreKey] = useState(false);
   
-  const [geminiKey, setGeminiKey] = useState('');
-  const [coreKey, setCoreKey] = useState('');
+  const [geminiKey, setGeminiKey] = useState(() => (typeof window !== 'undefined' ? localStorage.getItem('nl_gemini_key') || '' : ''));
+  const [coreKey, setCoreKey] = useState(() => (typeof window !== 'undefined' ? localStorage.getItem('nl_core_key') || '' : ''));
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<{ text: string, type: 'success' | 'error' } | null>(null);
 
-  const [sources, setSources] = useState({
-    ss: true, oa: true, arxiv: true, pm: true,
-    core: true, cr: true, epmc: true, doaj: true, upw: true
-  });
-
-  useEffect(() => {
-    const storedGemini = localStorage.getItem('nl_gemini_key') || '';
-    const storedCore = localStorage.getItem('nl_core_key') || '';
+  const [sources, setSources] = useState(() => {
+    if (typeof window === 'undefined') return {
+      ss: true, oa: true, arxiv: true, pm: true,
+      core: true, cr: true, epmc: true, doaj: true, upw: true
+    };
     const storedSources = localStorage.getItem('nl_sources');
-    
-    setGeminiKey(storedGemini);
-    setCoreKey(storedCore);
     if (storedSources) {
       try {
-        setSources(JSON.parse(storedSources));
+        return JSON.parse(storedSources);
       } catch (e) {
         console.error('Failed to parse sources from localStorage');
       }
     }
+    return {
+      ss: true, oa: true, arxiv: true, pm: true,
+      core: true, cr: true, epmc: true, doaj: true, upw: true
+    };
+  });
+
+  useEffect(() => {
+    // No longer needed as we initialize in useState
   }, []);
 
   const handleSaveKeys = () => {
@@ -126,56 +128,57 @@ export default function SettingsPage() {
               </nav>
             </aside>
 
-            <div className="flex-1 min-w-0">
-              <AnimatePresence mode="wait">
-                {activeTab === 'profile' && (
-                  <motion.div 
-                    key="profile"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-10"
-                  >
-                    <section className="space-y-6">
-                      <div className="space-y-1">
-                        <h3 className="text-[18px] font-semibold text-[var(--text-primary)]">Public Profile</h3>
-                        <p className="text-[13px] text-[var(--text-secondary)]">Manage your researcher identity and public information.</p>
-                      </div>
+            <div className="flex-1 min-w-0 overflow-x-auto scrollbar-hide">
+              <div className="min-w-full">
+                <AnimatePresence mode="wait">
+                  {activeTab === 'profile' && (
+                    <motion.div 
+                      key="profile"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="space-y-10"
+                    >
+                      <section className="space-y-6">
+                        <div className="space-y-1">
+                          <h3 className="text-[18px] font-semibold text-[var(--text-primary)]">Public Profile</h3>
+                          <p className="text-[13px] text-[var(--text-secondary)]">Manage your researcher identity and public information.</p>
+                        </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Full Name</label>
-                          <input 
-                            type="text" 
-                            className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all"
-                            placeholder="Dr. Researcher"
-                          />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Full Name</label>
+                            <input 
+                              type="text" 
+                              className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all"
+                              placeholder="Dr. Researcher"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Institution</label>
+                            <input 
+                              type="text" 
+                              className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all"
+                              placeholder="University of Science"
+                            />
+                          </div>
+                          <div className="space-y-2 md:col-span-2">
+                            <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Research Bio</label>
+                            <textarea 
+                              className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all min-h-[120px] resize-none"
+                              placeholder="Describe your research focus..."
+                            />
+                          </div>
                         </div>
-                        <div className="space-y-2">
-                          <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Institution</label>
-                          <input 
-                            type="text" 
-                            className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all"
-                            placeholder="University of Science"
-                          />
-                        </div>
-                        <div className="space-y-2 md:col-span-2">
-                          <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Research Bio</label>
-                          <textarea 
-                            className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all min-h-[120px] resize-none"
-                            placeholder="Describe your research focus..."
-                          />
-                        </div>
+                      </section>
+                      
+                      <div className="pt-6 border-t border-[var(--border-faint)] flex justify-end">
+                        <button className="px-6 py-2.5 bg-[var(--accent)] text-white text-[13px] font-bold rounded-[var(--r-md)] hover:bg-[var(--accent-hover)] transition-all uppercase tracking-widest flex items-center gap-2">
+                          <Save className="w-4 h-4" /> Save Profile
+                        </button>
                       </div>
-                    </section>
-                    
-                    <div className="pt-6 border-t border-[var(--border-faint)] flex justify-end">
-                      <button className="px-6 py-2.5 bg-[var(--accent)] text-white text-[13px] font-bold rounded-[var(--r-md)] hover:bg-[var(--accent-hover)] transition-all uppercase tracking-widest flex items-center gap-2">
-                        <Save className="w-4 h-4" /> Save Profile
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
+                    </motion.div>
+                  )}
 
                 {activeTab === 'keys' && (
                   <motion.div 
@@ -367,8 +370,9 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
-        <BottomNav />
-      </main>
-    </div>
-  );
+      </div>
+      <BottomNav />
+    </main>
+  </div>
+);
 }

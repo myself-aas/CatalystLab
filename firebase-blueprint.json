@@ -1,46 +1,138 @@
 {
   "entities": {
-    "profiles": {
-      "title": "User Profile",
-      "description": "Stores user-specific metadata and settings.",
+    "Profile": {
+      "title": "Profile",
+      "description": "User profile information.",
       "type": "object",
       "properties": {
-        "uid": { "type": "string", "description": "The unique identifier for the user." },
-        "full_name": { "type": "string", "description": "The user's full name." },
-        "username": { "type": "string", "description": "The user's chosen username." },
-        "avatar_url": { "type": "string", "description": "URL to the user's avatar image." },
-        "research_field": { "type": "string", "description": "The user's primary research field." },
-        "institution": { "type": "string", "description": "The user's academic institution." },
-        "plan": { "type": "string", "enum": ["free", "pro"], "description": "The user's subscription plan." },
-        "created_at": { "type": "string", "format": "date-time", "description": "When the profile was created." }
+        "username": { "type": "string" },
+        "full_name": { "type": "string" },
+        "avatar_url": { "type": "string" },
+        "bio": { "type": "string" },
+        "institution": { "type": "string" },
+        "position": { "type": "string" },
+        "research_mode": { "type": "boolean" },
+        "reputation_score": { "type": "number" },
+        "is_verified": { "type": "boolean" },
+        "tokens_remaining": { "type": "number" },
+        "tokens_total": { "type": "number" },
+        "tokens_reset_at": { "type": "string", "format": "date-time" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
       },
-      "required": ["uid", "full_name"]
+      "required": ["username", "created_at"]
     },
-    "sessions": {
-      "title": "Research Session",
-      "description": "Stores an individual research brainstorming session.",
+    "Session": {
+      "title": "Session",
+      "description": "A research brainstorming session.",
       "type": "object",
       "properties": {
-        "uid": { "type": "string", "description": "The ID of the user who owns this session." },
-        "instrument_slug": { "type": "string", "description": "The slug of the instrument used." },
-        "zone": { "type": "string", "description": "The zone of the instrument (A, B, or C)." },
-        "title": { "type": "string", "description": "A generated title for the session." },
-        "input_data": { "type": "object", "description": "The raw input data provided by the user." },
-        "output_data": { "type": "object", "description": "The AI-generated output data." },
-        "literature": { "type": "array", "description": "The related research papers found." },
-        "created_at": { "type": "string", "format": "date-time", "description": "When the session was created." }
+        "uid": { "type": "string" },
+        "instrument": { "type": "string" },
+        "zone": { "type": "string" },
+        "input": { "type": "string" },
+        "output": { "type": "object" },
+        "papers": { "type": "array", "items": { "type": "object" } },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "title": { "type": "string" }
       },
-      "required": ["uid", "instrument_slug", "input_data", "output_data"]
+      "required": ["uid", "instrument", "timestamp"]
+    },
+    "Fragment": {
+      "title": "Fragment",
+      "description": "A research fragment for the emergence engine.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "content": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "content", "timestamp"]
+    },
+    "Community": {
+      "title": "Community",
+      "description": "A research community.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "members_count": { "type": "number" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "CommunityMember": {
+      "title": "CommunityMember",
+      "description": "A member of a community.",
+      "type": "object",
+      "properties": {
+        "community_id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ReadingList": {
+      "title": "ReadingList",
+      "description": "A curated list of papers.",
+      "type": "object",
+      "properties": {
+        "owner_id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "is_public": { "type": "boolean" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "FeedPreferences": {
+      "title": "FeedPreferences",
+      "description": "User algorithm settings.",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string" },
+        "topic_weight": { "type": "number" },
+        "recency_weight": { "type": "number" },
+        "network_weight": { "type": "number" },
+        "engagement_weight": { "type": "number" },
+        "paper_weight": { "type": "number" },
+        "show_ai_picks": { "type": "boolean" },
+        "show_trending": { "type": "boolean" },
+        "noise_filter": { "type": "boolean" }
+      }
     }
   },
   "firestore": {
-    "/profiles/{uid}": {
-      "schema": "profiles",
-      "description": "User profile document."
+    "/users/{userId}": {
+      "schema": "Profile",
+      "description": "User profiles."
     },
     "/sessions/{sessionId}": {
-      "schema": "sessions",
-      "description": "Individual research session document."
+      "schema": "Session",
+      "description": "Research sessions."
+    },
+    "/fragments/{fragmentId}": {
+      "schema": "Fragment",
+      "description": "Research fragments."
+    },
+    "/communities/{communityId}": {
+      "schema": "Community",
+      "description": "Research communities."
+    },
+    "/community_members/{memberId}": {
+      "schema": "CommunityMember",
+      "description": "Community memberships."
+    },
+    "/reading_lists/{listId}": {
+      "schema": "ReadingList",
+      "description": "User reading lists."
+    },
+    "/feed_preferences/{userId}": {
+      "schema": "FeedPreferences",
+      "description": "User feed algorithm preferences."
+    },
+    "/system/stats": {
+      "schema": "object",
+      "description": "Global system usage stats."
     }
   }
 }

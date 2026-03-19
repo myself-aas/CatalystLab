@@ -1,57 +1,70 @@
-import { adminDb } from './firebase-admin';
-import { PRICING_PLANS, SubscriptionTier } from './pricing';
+import { auth, db } from './firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { TOKEN_CONFIG } from './tokens-config';
 
-export async function checkAndDecrementTokens(userId: string, cost: number = 1): Promise<boolean> {
-  try {
-    const docRef = adminDb.collection('profiles').doc(userId);
-    const docSnap = await docRef.get();
+export async function checkTokens(): Promise<{ remaining: number; total: number; resetAt: string }> {
+  const user = auth.currentUser;
+  if (!user) throw new Error('User not authenticated');
 
-    if (!docSnap.exists) return false;
-    const profile = docSnap.data();
-    if (!profile) return false;
+  const userRef = doc(db, 'users', user.uid);
+  const userDoc = await getDoc(userRef);
+  if (!userDoc.exists()) throw new Error('User profile not found');
 
-    // Check if tokens need reset (monthly)
-    const now = new Date();
-    const resetAt = profile.tokens_reset_at ? profile.tokens_reset_at.toDate() : new Date(0);
-    
-    if (now > resetAt) {
-      const tier = (profile.subscription_tier as SubscriptionTier) || 'free';
-      const newTokens = PRICING_PLANS[tier].tokensPerMonth;
-      const nextReset = new Date();
-      nextReset.setMonth(nextReset.getMonth() + 1);
+  const userData = userDoc.data();
+  const now = new Date();
+  const lastReset = new Date(userData.tokens_reset_at || 0);
 
-      await docRef.update({
-        tokens_remaining: newTokens,
-        tokens_reset_at: adminDb.firestore.Timestamp.fromDate(nextReset)
-      });
-      
-      return newTokens >= cost;
-    }
-
-    if (profile.tokens_remaining < cost) return false;
-
-    // Decrement tokens
-    await docRef.update({
-      tokens_remaining: profile.tokens_remaining - cost
-    });
-
-    return true;
-  } catch (error) {
-    console.error('Error in checkAndDecrementTokens:', error);
-    return false;
+  if (now.toDateString() !== lastReset.toDateString()) {
+    // Reset tokens locally for UX
+    return {
+      remaining: TOKEN_CONFIG.dailyLimit,
+      total: TOKEN_CONFIG.dailyLimit,
+      resetAt: now.toISOString()
+    };
   }
+
+  return {
+    remaining: userData.tokens_remaining ?? TOKEN_CONFIG.dailyLimit,
+    total: userData.tokens_total ?? TOKEN_CONFIG.dailyLimit,
+    resetAt: userData.tokens_reset_at || now.toISOString()
+  };
 }
 
-export async function getTokensRemaining(userId: string): Promise<number> {
-  try {
-    const docRef = adminDb.collection('profiles').doc(userId);
-    const docSnap = await docRef.get();
-    
-    if (!docSnap.exists) return 0;
-    const data = docSnap.data();
-    return data?.tokens_remaining || 0;
-  } catch (error) {
-    console.error('Error in getTokensRemaining:', error);
-    return 0;
+export async function deductTokens(tokensUsed: number) {
+  const user = auth.currentUser;
+  if (!user) throw new Error('User not authenticated');
+
+  const idToken = await user.getIdToken();
+
+  const response = await fetch('/api/tokens/deduct', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+    body: JSON.stringify({ tokensUsed })
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Failed to deduct tokens');
   }
+
+  return await response.json();
+}
+
+export function estimateTokens(text: string): number {
+  // Rough estimate: 4 characters per token
+  return Math.ceil(text.length / 4);
+}
+
+export function getTimeUntilReset(): string {
+  const now = new Date();
+  const midnight = new Date();
+  midnight.setHours(24, 0, 0, 0);
+  const diff = midnight.getTime() - now.getTime();
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  return `${h}h ${m}m ${s}s`;
 }

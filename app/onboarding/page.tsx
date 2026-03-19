@@ -55,13 +55,16 @@ export default function OnboardingPage() {
     setLoading(true);
 
     try {
-      const docRef = doc(db, 'profiles', user.uid);
+      const docRef = doc(db, 'users', user.uid);
       await updateDoc(docRef, {
         full_name: formData.full_name,
         username: formData.username,
         bio: formData.bio,
         position: formData.position,
         research_interests: formData.research_interests,
+        tokens_remaining: 50000, // Initial daily limit
+        tokens_total: 50000,
+        tokens_reset_at: new Date().toISOString(),
         updated_at: serverTimestamp(),
       });
       

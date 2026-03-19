@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { useUser } from '@/hooks/useUser';
-import { supabase } from '@/lib/supabase';
+import { db, handleFirestoreError, OperationType } from '@/lib/firebase';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   Settings2, 
@@ -30,26 +31,45 @@ export default function AlgorithmPage() {
   const queryClient = useQueryClient();
 
   const { data: prefs, isLoading } = useQuery({
-    queryKey: ['feed-preferences', user?.id],
+    queryKey: ['feed-preferences', user?.uid],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('feed_preferences')
-        .select('*')
-        .eq('user_id', user?.id)
-        .single();
-      if (error) throw error;
-      return data;
+      try {
+        const docRef = doc(db, 'feed_preferences', user?.uid!);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          return docSnap.data();
+        } else {
+          // Create default preferences
+          const defaultPrefs = {
+            user_id: user?.uid,
+            topic_weight: 1.0,
+            recency_weight: 1.0,
+            network_weight: 1.0,
+            engagement_weight: 1.0,
+            paper_weight: 1.0,
+            show_ai_picks: true,
+            show_trending: true,
+            noise_filter: false
+          };
+          await setDoc(docRef, defaultPrefs);
+          return defaultPrefs;
+        }
+      } catch (error) {
+        handleFirestoreError(error, OperationType.GET, 'feed_preferences');
+      }
     },
     enabled: !!user,
   });
 
   const updateMutation = useMutation({
     mutationFn: async (newPrefs: any) => {
-      const { error } = await supabase
-        .from('feed_preferences')
-        .update(newPrefs)
-        .eq('user_id', user?.id);
-      if (error) throw error;
+      try {
+        const docRef = doc(db, 'feed_preferences', user?.uid!);
+        await updateDoc(docRef, newPrefs);
+      } catch (error) {
+        handleFirestoreError(error, OperationType.UPDATE, 'feed_preferences');
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['feed-preferences'] });

@@ -5,7 +5,7 @@ import { Bell, User, Command } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 
-export function TopBar({ title }: { title?: string }) {
+export function TopBar({ title, className }: { title?: string, className?: string }) {
   const pathname = usePathname();
   
   let displayTitle = title;
@@ -20,7 +20,7 @@ export function TopBar({ title }: { title?: string }) {
   }
 
   return (
-    <div className="h-[52px] bg-[var(--bg-base)]/95 backdrop-blur-md border-b border-[var(--border-faint)] flex items-center justify-between px-6 sticky top-0 z-40">
+    <div className={cn("h-[52px] bg-[var(--bg-base)]/95 backdrop-blur-md border-b border-[var(--border-faint)] flex items-center justify-between px-6 sticky top-0 z-40", className)}>
       <div className="text-[14px] font-medium text-[var(--text-primary)]">{displayTitle}</div>
       
       <div className="flex items-center gap-3">

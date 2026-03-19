@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { 
   MessageSquare, 
   Plus, 
@@ -205,7 +206,15 @@ export function AnnotationPanel() {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <img src={annotation.user.avatar} alt={annotation.user.name} className="w-10 h-10 rounded-full border border-[var(--border)]" />
+              <div className="relative w-10 h-10 shrink-0">
+                <Image 
+                  src={annotation.user.avatar} 
+                  alt={annotation.user.name} 
+                  fill
+                  className="rounded-full border border-[var(--border)] object-cover" 
+                  referrerPolicy="no-referrer" 
+                />
+              </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-[14px] font-bold text-[var(--text-primary)]">{annotation.user.name}</span>

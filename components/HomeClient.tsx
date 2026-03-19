@@ -140,7 +140,7 @@ export function HomeClient() {
 
       {/* SECTION 1 — NAVIGATION BAR */}
       <nav className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b",
+        "hidden md:flex fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b",
         isScrolled 
           ? "bg-[#17171e]/95 backdrop-blur-md border-[var(--border-faint)] py-3" 
           : "bg-transparent border-transparent py-5"
@@ -162,7 +162,6 @@ export function HomeClient() {
           <div className="hidden lg:flex items-center gap-8 text-[13px] font-medium text-[var(--text-secondary)]">
             <Link href="#features" className="hover:text-[var(--text-primary)] transition-colors">Features</Link>
             <Link href="#instruments" className="hover:text-[var(--text-primary)] transition-colors">Instruments</Link>
-            <Link href="#pricing" className="hover:text-[var(--text-primary)] transition-colors">Pricing</Link>
             <Link href="#about" className="hover:text-[var(--text-primary)] transition-colors">About</Link>
           </div>
 
@@ -401,150 +400,6 @@ export function HomeClient() {
             ))}
           </div>
           <p className="text-center text-[13px] text-[var(--text-tertiary)]">Zero paywalls. All sources are completely free.</p>
-        </section>
-
-        {/* SECTION 8 — PRICING */}
-        <section id="pricing" className="py-32 px-6 max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)] mb-4 block">SIMPLE, TRANSPARENT PRICING</span>
-            <h2 className="text-[30px] md:text-[38px] font-semibold text-[var(--text-primary)] mb-4">Start free. Upgrade when you need more.</h2>
-            
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <span className="text-[13px] text-[var(--text-secondary)]">Monthly</span>
-              <div className="w-10 h-5 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-full relative cursor-pointer">
-                <div className="absolute top-1 left-1 w-3 h-3 bg-[var(--accent)] rounded-full" />
-              </div>
-              <span className="text-[13px] text-[var(--text-secondary)]">Yearly <span className="text-[var(--emerald)] font-medium">— save 20%</span></span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-            {/* FREE */}
-            <div className="p-8 bg-[var(--bg-elevated)] border border-[var(--border-default)] rounded-[var(--r-xl)] flex flex-col">
-              <div className="mb-6">
-                <h3 className="text-[18px] font-semibold text-[var(--text-primary)] mb-1">Free</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-[30px] font-bold text-[var(--text-primary)]">$0</span>
-                  <span className="text-[13px] text-[var(--text-tertiary)]">/ forever</span>
-                </div>
-                <span className="text-[11px] text-[var(--text-tertiary)]">No credit card needed</span>
-              </div>
-              <p className="text-[13px] text-[var(--text-secondary)] mb-8">For researchers just getting started.</p>
-              <ul className="space-y-3 mb-12 flex-1">
-                {[
-                  "5 instrument runs per day",
-                  "All 20 instruments accessible",
-                  "3 literature sources",
-                  "Save up to 10 reports",
-                  "Basic search"
-                ].map(f => (
-                  <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--text-secondary)]">
-                    <Check className="w-4 h-4 text-[var(--emerald)] shrink-0 mt-0.5" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/login" className="w-full py-2.5 border border-[var(--border-default)] rounded-[var(--r-md)] text-[13px] font-medium text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition-all text-center">
-                Get started free
-              </Link>
-            </div>
-
-            {/* RESEARCHER */}
-            <div className="p-8 bg-[var(--bg-elevated)] border-2 border-[var(--accent)] rounded-[var(--r-xl)] flex flex-col relative scale-[1.02] z-10">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded-full">
-                MOST POPULAR
-              </div>
-              <div className="mb-6">
-                <h3 className="text-[18px] font-semibold text-[var(--text-primary)] mb-1">Researcher</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-[30px] font-bold text-[var(--text-primary)]">$9</span>
-                  <span className="text-[13px] text-[var(--text-tertiary)]">/ month</span>
-                </div>
-                <span className="text-[11px] text-[var(--accent)] font-medium">$7.20/mo billed yearly</span>
-              </div>
-              <p className="text-[13px] text-[var(--text-secondary)] mb-8">For active researchers and graduate students.</p>
-              <ul className="space-y-3 mb-12 flex-1">
-                {[
-                  "Unlimited instrument runs",
-                  "All 20 instruments",
-                  "All 9 literature sources",
-                  "Unlimited saved reports",
-                  "Export: PDF, BibTeX + 11 more",
-                  "Living Reviews (auto-updating)",
-                  "Mind Mesh knowledge graph",
-                  "Priority AI processing"
-                ].map(f => (
-                  <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--text-secondary)]">
-                    <Check className="w-4 h-4 text-[var(--emerald)] shrink-0 mt-0.5" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/login?plan=researcher" className="w-full py-2.5 bg-[var(--accent)] rounded-[var(--r-md)] text-[13px] font-medium text-white hover:bg-[var(--accent-hover)] transition-all text-center">
-                Start 7-day free trial
-              </Link>
-            </div>
-
-            {/* LAB PRO */}
-            <div className="p-8 bg-[var(--bg-elevated)] border border-[var(--border-default)] rounded-[var(--r-xl)] flex flex-col">
-              <div className="mb-6">
-                <h3 className="text-[18px] font-semibold text-[var(--text-primary)] mb-1">Lab Pro</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-[30px] font-bold text-[var(--text-primary)]">$19</span>
-                  <span className="text-[13px] text-[var(--text-tertiary)]">/ month</span>
-                </div>
-                <span className="text-[11px] text-[var(--text-tertiary)]">$15.20/mo billed yearly</span>
-              </div>
-              <p className="text-[13px] text-[var(--text-secondary)] mb-8">For power researchers and PhD candidates.</p>
-              <ul className="space-y-3 mb-12 flex-1">
-                {[
-                  "Everything in Researcher",
-                  "Bring-your-own Gemini key",
-                  "Collaboration sharing",
-                  "Emergence Engine full access",
-                  "Frontier Map proposals",
-                  "Advanced analytics",
-                  "Priority support"
-                ].map(f => (
-                  <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--text-secondary)]">
-                    <Check className="w-4 h-4 text-[var(--emerald)] shrink-0 mt-0.5" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/login?plan=labpro" className="w-full py-2.5 bg-[var(--accent)] rounded-[var(--r-md)] text-[13px] font-medium text-white hover:bg-[var(--accent-hover)] transition-all text-center">
-                Start 7-day free trial
-              </Link>
-            </div>
-
-            {/* INSTITUTION */}
-            <div className="p-8 bg-[var(--bg-elevated)] border border-[var(--border-default)] rounded-[var(--r-xl)] flex flex-col">
-              <div className="mb-6">
-                <h3 className="text-[18px] font-semibold text-[var(--text-primary)] mb-1">Institution</h3>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-[30px] font-bold text-[var(--text-primary)]">$49</span>
-                  <span className="text-[13px] text-[var(--text-tertiary)]">/ month</span>
-                </div>
-                <span className="text-[11px] text-[var(--text-tertiary)]">$39.20/mo billed yearly</span>
-              </div>
-              <p className="text-[13px] text-[var(--text-secondary)] mb-8">For labs, departments, and research groups.</p>
-              <ul className="space-y-3 mb-12 flex-1">
-                {[
-                  "Everything in Lab Pro",
-                  "Up to 10 team members",
-                  "Shared instrument sessions",
-                  "Team knowledge graph",
-                  "Admin dashboard",
-                  "Custom branding",
-                  "Dedicated onboarding call"
-                ].map(f => (
-                  <li key={f} className="flex items-start gap-2 text-[13px] text-[var(--text-secondary)]">
-                    <Check className="w-4 h-4 text-[var(--emerald)] shrink-0 mt-0.5" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <a href="mailto:support@catalystlab.tech" className="w-full py-2.5 border border-[var(--border-default)] rounded-[var(--r-md)] text-[13px] font-medium text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition-all text-center">
-                Contact us
-              </a>
-            </div>
-          </div>
         </section>
 
         {/* SECTION 9 — FOOTER */}
