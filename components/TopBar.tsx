@@ -1,13 +1,30 @@
 'use client';
 
-import React from 'react';
-import { Bell, User, Command } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bell, User, LogOut, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useAuthStore } from '@/stores/authStore';
 
 export function TopBar({ title, className }: { title?: string, className?: string }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { signOut } = useAuthStore();
+  const [isSigningOut, setIsSigningOut] = useState(false);
   
+  const handleSignOut = async () => {
+    try {
+      setIsSigningOut(true);
+      await signOut();
+      router.push('/login');
+    } catch (error) {
+      console.error('Sign Out Error:', error);
+    } finally {
+      setIsSigningOut(false);
+    }
+  };
+
   let displayTitle = title;
   if (!displayTitle) {
     if (pathname === '/dashboard') displayTitle = 'Dashboard';
@@ -25,9 +42,9 @@ export function TopBar({ title, className }: { title?: string, className?: strin
       
       <div className="flex items-center gap-3">
         {/* ⌘K Pill */}
-        <div className="hidden md:flex items-center gap-2 px-2.5 py-1 bg-[var(--bg-overlay)] border border-[var(--border-default)] rounded-[var(--r-sm)] hover:border-[var(--border-strong)] hover:bg-[var(--bg-hover)] transition-all cursor-pointer group">
+        <Link href="/search" className="hidden md:flex items-center gap-2 px-2.5 py-1 bg-[var(--bg-overlay)] border border-[var(--border-default)] rounded-[var(--r-sm)] hover:border-[var(--border-strong)] hover:bg-[var(--bg-hover)] transition-all cursor-pointer group">
           <span className="text-[10px] font-mono text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]">⌘K</span>
-        </div>
+        </Link>
 
         <div className="w-[1px] h-4 bg-[var(--border-faint)] mx-1 hidden md:block" />
 
@@ -36,11 +53,20 @@ export function TopBar({ title, className }: { title?: string, className?: strin
           <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-[var(--accent)] rounded-full border border-[var(--bg-base)]" />
         </button>
         
-        <button className="flex items-center gap-2 p-1 pl-1 pr-2 rounded-full hover:bg-[var(--bg-hover)] border border-transparent hover:border-[var(--border-subtle)] transition-all">
+        <Link href="/profile" className="flex items-center gap-2 p-1 pl-1 pr-2 rounded-full hover:bg-[var(--bg-hover)] border border-transparent hover:border-[var(--border-subtle)] transition-all">
           <div className="w-6 h-6 rounded-full bg-[var(--bg-sunken)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-tertiary)] overflow-hidden">
             <User className="w-3.5 h-3.5" />
           </div>
           <span className="text-[12px] font-medium text-[var(--text-secondary)] hidden sm:block">Researcher</span>
+        </Link>
+
+        <button 
+          onClick={handleSignOut}
+          disabled={isSigningOut}
+          className="p-2 rounded-[var(--r-md)] hover:bg-[var(--rose-muted)] text-[var(--text-tertiary)] hover:text-[var(--rose)] transition-all disabled:opacity-50"
+          title="Sign Out"
+        >
+          {isSigningOut ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogOut className="w-4 h-4" />}
         </button>
       </div>
     </div>

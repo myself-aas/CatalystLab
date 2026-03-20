@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/lib/context";
+import { useAuthStore } from "@/stores/authStore";
+import { db } from "@/lib/firebase";
+import { doc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
 import {
   Save,
   Key,
@@ -23,7 +26,17 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const { user, profile, fetchProfile } = useAuthStore();
+  const [activeTab, setActiveTab] = useState("keys");
+
+  const [profileData, setProfileData] = useState({
+    username: "",
+    full_name: "",
+    institution: "",
+    bio: "",
+  });
+  
+  const [usernameStatus, setUsernameStatus] = useState<"idle" | "checking" | "available" | "taken" | "invalid">("idle");
   const [showGeminiKey, setShowGeminiKey] = useState(false);
   const [showCoreKey, setShowCoreKey] = useState(false);
 
@@ -78,8 +91,71 @@ export default function SettingsPage() {
   });
 
   useEffect(() => {
-    // No longer needed as we initialize in useState
-  }, []);
+    if (profile) {
+      setProfileData({
+        username: profile.username || "",
+        full_name: profile.full_name || "",
+        institution: profile.institution || "",
+        bio: profile.bio || "",
+      });
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    const checkUsername = async () => {
+      if (!profile || profileData.username === profile.username) {
+        setUsernameStatus("idle");
+        return;
+      }
+      
+      const val = profileData.username.trim();
+      if (!val || val.length < 3 || /[^a-zA-Z0-9_.]/.test(val)) {
+        setUsernameStatus("invalid");
+        return;
+      }
+
+      setUsernameStatus("checking");
+      try {
+        const q = query(collection(db, "users"), where("username", "==", val));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          setUsernameStatus("taken");
+        } else {
+          setUsernameStatus("available");
+        }
+      } catch (err) {
+        console.error(err);
+        setUsernameStatus("idle");
+      }
+    };
+
+    const timeout = setTimeout(checkUsername, 500);
+    return () => clearTimeout(timeout);
+  }, [profileData.username, profile]);
+
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    if (usernameStatus === "invalid" || usernameStatus === "taken") {
+      setSaveMessage({ text: "Please choose a valid & unique username", type: "error" });
+      setTimeout(() => setSaveMessage(null), 3000);
+      return;
+    }
+    
+    setIsSaving(true);
+    try {
+      const docRef = doc(db, "users", user.uid);
+      await updateDoc(docRef, { ...profileData, updated_at: new Date().toISOString() });
+      await fetchProfile(user.uid);
+      
+      setSaveMessage({ text: "Profile updated successfully", type: "success" });
+    } catch (err) {
+      console.error(err);
+      setSaveMessage({ text: "Failed to update profile", type: "error" });
+    } finally {
+      setIsSaving(false);
+      setTimeout(() => setSaveMessage(null), 3000);
+    }
+  };
 
   const handleSaveKeys = () => {
     setIsSaving(true);
@@ -103,7 +179,6 @@ export default function SettingsPage() {
   };
 
   const tabs = [
-    { id: "profile", label: "Profile", icon: User },
     { id: "keys", label: "API Keys", icon: Key },
     { id: "sources", label: "Sources", icon: Globe },
     { id: "account", label: "Account", icon: ShieldCheck },
@@ -209,66 +284,6 @@ export default function SettingsPage() {
           <div className="flex-1 min-w-0 overflow-x-auto scrollbar-hide">
             <div className="min-w-full">
               <AnimatePresence mode="wait">
-                {activeTab === "profile" && (
-                  <motion.div
-                    key="profile"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-10"
-                  >
-                    <section className="space-y-6">
-                      <div className="space-y-1">
-                        <h3 className="text-[18px] font-semibold text-[var(--text-primary)]">
-                          Public Profile
-                        </h3>
-                        <p className="text-[13px] text-[var(--text-secondary)]">
-                          Manage your researcher identity and public
-                          information.
-                        </p>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">
-                            Full Name
-                          </label>
-                          <input
-                            type="text"
-                            className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all"
-                            placeholder="Dr. Researcher"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">
-                            Institution
-                          </label>
-                          <input
-                            type="text"
-                            className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all"
-                            placeholder="University of Science"
-                          />
-                        </div>
-                        <div className="space-y-2 md:col-span-2">
-                          <label className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">
-                            Research Bio
-                          </label>
-                          <textarea
-                            className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-md)] px-4 py-2.5 text-[14px] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] transition-all min-h-[120px] resize-none"
-                            placeholder="Describe your research focus..."
-                          />
-                        </div>
-                      </div>
-                    </section>
-
-                    <div className="pt-6 border-t border-[var(--border-faint)] flex justify-end">
-                      <button className="px-6 py-2.5 bg-[var(--accent)] text-white text-[13px] font-bold rounded-[var(--r-md)] hover:bg-[var(--accent-hover)] transition-all uppercase tracking-widest flex items-center gap-2">
-                        <Save className="w-4 h-4" /> Save Profile
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-
                 {activeTab === "keys" && (
                   <motion.div
                     key="keys"

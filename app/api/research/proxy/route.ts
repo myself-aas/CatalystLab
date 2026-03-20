@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyAndDeductTokens } from '@/lib/tokens-server';
+import { TOKEN_COSTS } from '@/lib/tokens-config';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -7,6 +9,15 @@ export async function GET(req: NextRequest) {
 
   if (!query || !source) {
     return NextResponse.json({ error: 'Missing query or source' }, { status: 400 });
+  }
+
+  // Enforce tokens
+  const tokenResult = await verifyAndDeductTokens(req, TOKEN_COSTS.SEARCH_PROXY);
+  if ('error' in tokenResult) {
+    return NextResponse.json({ 
+      error: tokenResult.error, 
+      code: tokenResult.status === 402 ? 'INSUFFICIENT_TOKENS' : 'AUTH_ERROR' 
+    }, { status: tokenResult.status });
   }
 
   try {

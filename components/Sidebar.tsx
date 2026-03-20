@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { LayoutGrid, FlaskConical, FileText, Search, BookOpen, Settings, User, Zap, Coins } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { LayoutGrid, FlaskConical, FileText, Search, BookOpen, Settings, User, Zap, Coins, LogOut, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/stores/authStore';
 import { checkTokens, getTimeUntilReset } from '@/lib/tokens';
@@ -11,9 +11,11 @@ import { TOKEN_CONFIG } from '@/lib/tokens-config';
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { profile, user } = useAuthStore();
+  const { profile, user, signOut } = useAuthStore();
   const [tokens, setTokens] = useState<{ remaining: number; total: number } | null>(null);
   const [resetTime, setResetTime] = useState<string>('');
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {
@@ -23,6 +25,18 @@ export function Sidebar() {
       return () => clearInterval(timer);
     }
   }, [user, pathname]); // Refresh on navigation
+
+  const handleSignOut = async () => {
+    try {
+      setIsSigningOut(true);
+      await signOut();
+      router.push('/login');
+    } catch (error) {
+      console.error('Sign Out Error:', error);
+    } finally {
+      setIsSigningOut(false);
+    }
+  };
 
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
@@ -52,7 +66,7 @@ export function Sidebar() {
       </Link>
 
       {/* NAV */}
-      <nav className="flex-1 px-3 py-2 space-y-1">
+      <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto scrollbar-hide">
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
           return (
@@ -118,16 +132,33 @@ export function Sidebar() {
       )}
 
       {/* BOTTOM */}
-      <div className="p-4 border-t border-[var(--border-faint)]">
-        <div className="flex items-center gap-3 px-2">
-          <div className="w-6 h-6 rounded-full bg-[var(--bg-overlay)] border border-[var(--border-subtle)] flex items-center justify-center">
-            <User className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
-          </div>
+      <div className="p-3 border-t border-[var(--border-faint)] space-y-2">
+        <div className="flex items-center gap-3 px-2 py-1">
+          <Link href="/profile" className="w-8 h-8 rounded-full bg-[var(--bg-overlay)] border border-[var(--border-subtle)] flex items-center justify-center overflow-hidden hover:opacity-80 transition-opacity">
+            {profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              <User className="w-4 h-4 text-[var(--text-secondary)]" />
+            )}
+          </Link>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-medium text-[var(--text-primary)] truncate">{displayName}</p>
             <span className="text-[10px] font-medium text-[var(--accent)] uppercase tracking-wider">Research Tier</span>
           </div>
         </div>
+        
+        <button 
+          onClick={handleSignOut}
+          disabled={isSigningOut}
+          className="w-full flex items-center gap-3 h-9 px-3 rounded-[var(--r-md)] text-[13px] text-[var(--text-secondary)] hover:bg-red-500/10 hover:text-red-500 transition-all group disabled:opacity-50"
+        >
+          {isSigningOut ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <LogOut className="w-4 h-4 text-[var(--text-tertiary)] group-hover:text-red-500" />
+          )}
+          Sign Out
+        </button>
       </div>
     </aside>
   );

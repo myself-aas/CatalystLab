@@ -78,21 +78,32 @@ function LoginForm() {
         handleFirestoreError(err, OperationType.GET, profilePath);
       }
 
-      if (docSnap && !docSnap.exists()) {
-        try {
-          await setDoc(doc(db, 'users', user.uid), {
-            uid: user.uid,
-            full_name: user.displayName || user.email?.split('@')[0] || 'User',
-            username: user.email?.split('@')[0] || user.uid.substring(0, 8),
-            avatar_url: user.photoURL,
+      const profileData = {
+        id: user.uid,
+        uid: user.uid,
+        full_name: user.displayName || user.email?.split('@')[0] || 'User',
+        username: user.email?.split('@')[0] || user.uid.substring(0, 8),
+        avatar_url: user.photoURL ? user.photoURL.replace(/=s\d+(-c)?$/, '=s1024-c') : null,
+        updated_at: new Date().toISOString(),
+      };
+
+      try {
+        const docRef = doc(db, 'users', user.uid);
+        if (docSnap && !docSnap.exists()) {
+          // New user: set full profile
+          await setDoc(docRef, {
+            ...profileData,
             created_at: new Date(),
             tokens_remaining: 50000,
             tokens_total: 50000,
             tokens_reset_at: new Date().toISOString()
           });
-        } catch (err) {
-          handleFirestoreError(err, OperationType.WRITE, profilePath);
+        } else {
+          // Existing user: just update profile info (name, avatar, etc.)
+          await setDoc(docRef, profileData, { merge: true });
         }
+      } catch (err) {
+        handleFirestoreError(err, OperationType.WRITE, profilePath);
       }
 
       router.push(redirectTo);

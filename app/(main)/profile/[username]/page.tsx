@@ -3,6 +3,11 @@
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
+import { EditProfileModal } from '@/components/profile/EditProfileModal';
+import { CreateMicroPostModal } from '@/components/create/CreateMicroPostModal';
+import { AddEntityModal } from '@/components/create/AddEntityModal';
+import { CreateIdeaModal } from '@/components/create/CreateIdeaModal';
+import { useAuthStore } from '@/stores/authStore';
 import { ReputationCard } from '@/components/profile/ReputationCard';
 import { SkillGraph } from '@/components/profile/SkillGraph';
 import { PostCard } from '@/components/feed/PostCard';
@@ -17,7 +22,8 @@ import {
   Zap, 
   History,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Database
 } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
@@ -106,7 +112,13 @@ const MOCK_PAPERS: Paper[] = [
 
 export default function ProfilePage() {
   const { username } = useParams();
-  const [activeTab, setActiveTab] = useState<'posts' | 'papers' | 'annotations' | 'lists' | 'ideas' | 'activity'>('posts');
+  const { user: currentUser } = useAuthStore();
+  const [activeTab, setActiveTab] = useState<'posts' | 'papers' | 'datasets' | 'annotations' | 'lists' | 'ideas' | 'activity'>('posts');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const [isAddEntityOpen, setIsAddEntityOpen] = useState(false);
+  const [addEntityType, setAddEntityType] = useState<'paper' | 'dataset'>('paper');
+  const [isIdeaModalOpen, setIsIdeaModalOpen] = useState(false);
 
   const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ['profile', username],
@@ -151,6 +163,7 @@ export default function ProfilePage() {
   const tabs = [
     { id: 'posts', name: 'Posts', icon: MessageSquare },
     { id: 'papers', name: 'Papers', icon: FileText },
+    { id: 'datasets', name: 'Datasets', icon: Database },
     { id: 'annotations', name: 'Annotations', icon: ShieldCheck },
     { id: 'lists', name: 'Lists', icon: BookOpen },
     { id: 'ideas', name: 'Ideas', icon: Zap },
@@ -166,9 +179,37 @@ export default function ProfilePage() {
     { axis: 'Research', value: 92 },
   ];
 
+  const isOwnProfile = currentUser?.uid === profile?.id || currentUser?.displayName === profile?.username;
+
   return (
     <div className="min-h-screen bg-[var(--bg-base)] pb-20">
-      <ProfileHeader profile={profile} isOwnProfile={false} />
+      <ProfileHeader 
+        profile={profile} 
+        isOwnProfile={isOwnProfile} 
+        onEditClick={() => setIsEditModalOpen(true)}
+      />
+
+      <EditProfileModal 
+        profile={profile}
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      />
+
+      <CreateMicroPostModal 
+        isOpen={isCreatePostOpen}
+        onClose={() => setIsCreatePostOpen(false)}
+      />
+
+      <AddEntityModal 
+        isOpen={isAddEntityOpen}
+        onClose={() => setIsAddEntityOpen(false)}
+        entityType={addEntityType}
+      />
+
+      <CreateIdeaModal 
+        isOpen={isIdeaModalOpen}
+        onClose={() => setIsIdeaModalOpen(false)}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -215,6 +256,17 @@ export default function ProfilePage() {
                   exit={{ opacity: 0, y: -20 }}
                   className="space-y-6"
                 >
+                  {isOwnProfile && (
+                    <div className="flex justify-end mb-4">
+                      <button 
+                        onClick={() => setIsCreatePostOpen(true)}
+                        className="px-5 py-2.5 bg-[var(--bg-surface2)] border border-[var(--border)] rounded-xl text-[13px] font-bold text-[var(--accent)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all flex items-center gap-2 shadow-sm"
+                      >
+                       + New Micro Post
+                      </button>
+                    </div>
+                  )}
+
                   {postsLoading ? (
                     <div className="flex justify-center py-12">
                       <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
@@ -237,16 +289,82 @@ export default function ProfilePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className="grid grid-cols-1 gap-6"
+                  className="space-y-6"
                 >
-                  {MOCK_PAPERS.map((paper) => (
-                    <PaperCard key={paper.id} paper={paper} />
-                  ))}
+                  {isOwnProfile && (
+                    <div className="flex justify-end mb-4">
+                      <button 
+                        onClick={() => {
+                          setAddEntityType('paper');
+                          setIsAddEntityOpen(true);
+                        }}
+                        className="px-5 py-2.5 bg-[var(--bg-surface2)] border border-[var(--border)] rounded-xl text-[13px] font-bold text-indigo-500 hover:border-indigo-500 hover:bg-indigo-500 hover:text-white transition-all flex items-center gap-2 shadow-sm"
+                      >
+                       + Add Paper via DOI
+                      </button>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-1 gap-6">
+                    {MOCK_PAPERS.map((paper) => (
+                      <PaperCard key={paper.id} paper={paper} />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {activeTab === 'datasets' && (
+                <motion.div 
+                  key="datasets"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-6"
+                >
+                  {isOwnProfile && (
+                    <div className="flex justify-end mb-4">
+                      <button 
+                        onClick={() => {
+                          setAddEntityType('dataset');
+                          setIsAddEntityOpen(true);
+                        }}
+                        className="px-5 py-2.5 bg-[var(--bg-surface2)] border border-[var(--border)] rounded-xl text-[13px] font-bold text-emerald-500 hover:border-emerald-500 hover:bg-emerald-500 hover:text-white transition-all flex items-center gap-2 shadow-sm"
+                      >
+                       + Add Dataset via DOI
+                      </button>
+                    </div>
+                  )}
+                  <div className="py-20 text-center text-[var(--text-tertiary)]">
+                     <p>No datasets yet.</p>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeTab === 'ideas' && (
+                <motion.div 
+                  key="ideas"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-6"
+                >
+                  {isOwnProfile && (
+                    <div className="flex justify-end mb-4">
+                      <button 
+                        onClick={() => setIsIdeaModalOpen(true)}
+                        className="px-5 py-2.5 bg-[var(--bg-surface2)] border border-[var(--border)] rounded-xl text-[13px] font-bold text-amber-500 hover:border-amber-500 hover:bg-amber-500 hover:text-white transition-all flex items-center gap-2 shadow-sm"
+                      >
+                       + New Idea
+                      </button>
+                    </div>
+                  )}
+                  <div className="py-20 text-center text-[var(--text-tertiary)]">
+                     <p>No ideas shared yet.</p>
+                  </div>
                 </motion.div>
               )}
 
               {/* Other tabs placeholders */}
-              {['annotations', 'lists', 'ideas', 'activity'].includes(activeTab) && (
+              {['annotations', 'lists', 'activity'].includes(activeTab) && (
                 <motion.div 
                   key={activeTab}
                   initial={{ opacity: 0, y: 20 }}

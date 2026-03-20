@@ -20,9 +20,10 @@ import { cn } from '@/lib/utils';
 interface ProfileHeaderProps {
   profile: Profile;
   isOwnProfile?: boolean;
+  onEditClick?: () => void;
 }
 
-export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
+export function ProfileHeader({ profile, isOwnProfile, onEditClick }: ProfileHeaderProps) {
   return (
     <div className="relative">
       {/* Cover */}
@@ -59,7 +60,10 @@ export function ProfileHeader({ profile, isOwnProfile }: ProfileHeaderProps) {
 
             <div className="flex flex-wrap items-center gap-3 pb-2">
               {isOwnProfile ? (
-                <button className="px-6 py-2.5 bg-[var(--bg-surface2)] border border-[var(--border)] rounded-xl text-[14px] font-bold text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition-all">
+                <button 
+                  onClick={onEditClick}
+                  className="px-6 py-2.5 bg-[var(--bg-surface2)] border border-[var(--border)] rounded-xl text-[14px] font-bold text-[var(--text-primary)] hover:bg-[var(--bg-hover)] transition-all"
+                >
                   Edit Profile
                 </button>
               ) : (

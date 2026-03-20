@@ -1,23 +1,20 @@
-import { NextResponse } from 'next/server';
-import { GoogleGenAI } from "@google/genai";
-import { checkAndDecrementTokens } from '@/lib/tokens';
+import { NextRequest, NextResponse } from 'next/server';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { verifyAndDeductTokens } from '@/lib/tokens-server';
+import { TOKEN_COSTS } from '@/lib/tokens-config';
 
-const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY! });
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY!);
 
-export async function POST(req: Request) {
-  const { draft, userId } = await req.json();
+export async function POST(req: NextRequest) {
+  const { draft } = await req.json();
 
-  if (!userId) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  // Check and decrement tokens
-  const hasTokens = await checkAndDecrementTokens(userId, 1);
-  if (!hasTokens) {
+  // Enforce tokens
+  const tokenResult = await verifyAndDeductTokens(req, TOKEN_COSTS.AI_ENHANCE);
+  if ('error' in tokenResult) {
     return NextResponse.json({ 
-      error: 'Insufficient tokens', 
-      code: 'INSUFFICIENT_TOKENS' 
-    }, { status: 402 });
+      error: tokenResult.error, 
+      code: tokenResult.status === 402 ? 'INSUFFICIENT_TOKENS' : 'AUTH_ERROR' 
+    }, { status: tokenResult.status });
   }
 
   try {
@@ -33,15 +30,18 @@ export async function POST(req: Request) {
     ${draft}
     `;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: prompt,
-      config: {
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      generationConfig: {
         responseMimeType: "application/json"
       }
     });
 
-    return NextResponse.json(JSON.parse(response.text || '{}'));
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    return NextResponse.json(JSON.parse(text || '{}'));
   } catch (error) {
     console.error('Enhancement error:', error);
     return NextResponse.json({ error: 'Enhancement failed' }, { status: 500 });

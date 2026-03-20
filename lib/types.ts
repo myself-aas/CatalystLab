@@ -27,6 +27,7 @@ export interface Profile {
   is_verified: boolean;
   created_at: string;
   updated_at: string;
+  dna_tallies?: Record<string, number>;
 }
 
 export interface Paper {
@@ -144,4 +145,41 @@ export interface Notification {
   is_read: boolean;
   created_at: string;
   actor?: Profile;
+}
+
+export interface Dataset {
+  id: string;
+  author_id: string;
+  title: string;
+  description: string | null;
+  doi: string | null;
+  url: string | null;
+  tags: string[] | null;
+  version: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Idea {
+  id: string;
+  author_id: string;
+  title: string;
+  description: string;
+  status: 'draft' | 'developing' | 'published' | 'completed';
+  tags: string[] | null;
+  likes_count: number;
+  comments_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ActivityLog {
+  id: string;
+  user_id: string;
+  action_type: 'created_post' | 'shared_paper' | 'added_dataset' | 'annotated' | 'created_list' | 'created_idea' | 'gained_follower' | 'reputation_change';
+  target_id: string | null;
+  target_type: string | null;
+  description: string;
+  points_change: number;
+  created_at: string;
 }

@@ -1,3 +1,5 @@
+import { useAuthStore } from '@/stores/authStore';
+
 export interface Paper {
   id: string;
   title: string;
@@ -12,6 +14,28 @@ export interface Paper {
   journal?: string;
 }
 
+async function fetchFromProxy(endpoint: string) {
+  const user = useAuthStore.getState().user;
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  };
+  
+  if (user) {
+    const idToken = await user.getIdToken();
+    headers['Authorization'] = `Bearer ${idToken}`;
+  }
+
+  const res = await fetch(endpoint, { headers });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    if (res.status === 402 || errorData.code === 'INSUFFICIENT_TOKENS') {
+      throw new Error('INSUFFICIENT_TOKENS');
+    }
+    throw new Error(errorData.error || `Request failed with status ${res.status}`);
+  }
+  return res;
+}
+
 function safeYear(val: any): number {
   if (!val) return 0;
   if (typeof val === 'number') return isNaN(val) ? 0 : val;
@@ -24,7 +48,7 @@ function safeYear(val: any): number {
 
 export async function searchSemanticScholar(query: string): Promise<Paper[]> {
   try {
-    const res = await fetch(`/api/research/proxy?source=ss&q=${encodeURIComponent(query)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=ss&q=${encodeURIComponent(query)}`);
     const data = await res.json();
     return (data.data || []).map((p: any) => ({
       id: p.paperId,
@@ -47,7 +71,7 @@ export async function searchSemanticScholar(query: string): Promise<Paper[]> {
 
 export async function searchOpenAlex(query: string): Promise<Paper[]> {
   try {
-    const res = await fetch(`/api/research/proxy?source=oa&q=${encodeURIComponent(query)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=oa&q=${encodeURIComponent(query)}`);
     const data = await res.json();
     return (data.results || []).map((p: any) => {
       // Reconstruct abstract
@@ -82,7 +106,7 @@ export async function searchOpenAlex(query: string): Promise<Paper[]> {
 
 export async function searchArxiv(query: string): Promise<Paper[]> {
   try {
-    const res = await fetch(`/api/research/proxy?source=arxiv&q=${encodeURIComponent(query)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=arxiv&q=${encodeURIComponent(query)}`);
     const text = await res.text();
     const parser = new DOMParser();
     const xml = parser.parseFromString(text, 'text/xml');
@@ -120,7 +144,7 @@ export async function searchPubMed(query: string): Promise<Paper[]> {
     const ids = searchData.esearchresult.idlist;
     if (!ids || ids.length === 0) return [];
 
-    const summaryRes = await fetch(`/api/research/proxy?source=pm_summary&q=${ids.join(',')}`);
+    const summaryRes = await fetchFromProxy(`/api/research/proxy?source=pm_summary&q=${ids.join(',')}`);
     const summaryData = await summaryRes.json();
     return ids.map((id: string) => {
       const p = summaryData.result[id];
@@ -143,7 +167,7 @@ export async function searchPubMed(query: string): Promise<Paper[]> {
 
 export async function searchCrossref(query: string): Promise<Paper[]> {
   try {
-    const res = await fetch(`/api/research/proxy?source=cr&q=${encodeURIComponent(query)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=cr&q=${encodeURIComponent(query)}`);
     const data = await res.json();
     return (data.message.items || []).map((p: any) => ({
       id: p.DOI,
@@ -166,7 +190,7 @@ export async function searchCrossref(query: string): Promise<Paper[]> {
 
 export async function searchEuropePMC(query: string): Promise<Paper[]> {
   try {
-    const res = await fetch(`/api/research/proxy?source=epmc&q=${encodeURIComponent(query)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=epmc&q=${encodeURIComponent(query)}`);
     const data = await res.json();
     return (data.resultList.result || []).map((p: any) => ({
       id: p.id,
@@ -188,7 +212,7 @@ export async function searchEuropePMC(query: string): Promise<Paper[]> {
 
 export async function searchDOAJ(query: string): Promise<Paper[]> {
   try {
-    const res = await fetch(`/api/research/proxy?source=doaj&q=${encodeURIComponent(query)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=doaj&q=${encodeURIComponent(query)}`);
     const data = await res.json();
     return (data.results || []).map((p: any) => ({
       id: p.bibjson?.identifier?.[0]?.id || Math.random().toString(),
@@ -210,7 +234,7 @@ export async function searchDOAJ(query: string): Promise<Paper[]> {
 
 export async function searchCore(query: string): Promise<Paper[]> {
   try {
-    const res = await fetch(`/api/research/proxy?source=core&q=${encodeURIComponent(query)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=core&q=${encodeURIComponent(query)}`);
     const data = await res.json();
     return (data.results || []).map((p: any) => ({
       id: p.id?.toString() || Math.random().toString(),
@@ -231,7 +255,7 @@ export async function searchCore(query: string): Promise<Paper[]> {
 
 export async function enrichWithUnpaywall(doi: string): Promise<string | null> {
   try {
-    const res = await fetch(`/api/research/proxy?source=unpaywall&q=${encodeURIComponent(doi)}`);
+    const res = await fetchFromProxy(`/api/research/proxy?source=unpaywall&q=${encodeURIComponent(doi)}`);
     const data = await res.json();
     return data.best_oa_location?.url_for_pdf || null;
   } catch (e) {

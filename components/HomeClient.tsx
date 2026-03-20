@@ -11,8 +11,6 @@ import {
   ChevronRight, 
   FlaskConical, 
   Check, 
-  Menu, 
-  X,
   Globe,
   Database,
   FileText,
@@ -97,11 +95,37 @@ function DemoSearch() {
   );
 }
 
+function MouseFollower() {
+  const mouseX = useRef(0);
+  const mouseY = useRef(0);
+  const [position, setPosition] = useState({ x: -100, y: -100 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.current = e.clientX;
+      mouseY.current = e.clientY;
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div 
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+      style={{
+        background: `radial-gradient(800px circle at ${position.x}px ${position.y}px, var(--accent-glow), transparent 60%)`,
+        opacity: 0.35,
+        transition: 'background 0.3s ease-out'
+      }}
+    />
+  );
+}
+
 export function HomeClient() {
   const { user, isLoading: authLoading } = useAuthStore();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeZone, setActiveZone] = useState<'all' | 'a' | 'b' | 'c'>('all');
 
   useEffect(() => {
@@ -134,6 +158,7 @@ export function HomeClient() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-canvas)] text-[var(--text-primary)] selection:bg-[var(--bg-selection)] overflow-x-hidden">
+      <MouseFollower />
       {/* CSS Dot Grid Background */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03]" 
            style={{ backgroundImage: 'radial-gradient(circle, var(--text-primary) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
@@ -142,11 +167,11 @@ export function HomeClient() {
       <nav className={cn(
         "hidden md:flex fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b",
         isScrolled 
-          ? "bg-[#17171e]/95 backdrop-blur-md border-[var(--border-faint)] py-3" 
-          : "bg-transparent border-transparent py-5"
+          ? "bg-[#17171e]/95 backdrop-blur-md border-[var(--border-faint)] py-2.5 md:py-3" 
+          : "bg-transparent border-transparent py-4 md:py-5"
       )}>
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between w-full">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 hover:opacity-80 transition-opacity">
             <div className="w-7 h-7 border-[1.5px] border-[var(--text-primary)] rounded-full flex items-center justify-center relative">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-5 h-5 border-[1.5px] border-[var(--text-primary)] rounded-full opacity-50" />
@@ -154,54 +179,24 @@ export function HomeClient() {
               <div className="w-1.5 h-1.5 bg-[var(--text-primary)] rounded-full z-10" />
             </div>
             <div className="flex items-baseline gap-0.5">
-              <span className="text-[17px] font-medium text-[var(--text-primary)]">Catalyst</span>
-              <span className="text-[17px] font-normal text-[var(--text-primary)]">Lab</span>
+              <span className="text-[16px] sm:text-[17px] font-medium text-[var(--text-primary)]">Catalyst</span>
+              <span className="text-[16px] sm:text-[17px] font-normal text-[var(--text-primary)]">Lab</span>
             </div>
-          </div>
+          </Link>
 
-          <div className="hidden lg:flex items-center gap-8 text-[13px] font-medium text-[var(--text-secondary)]">
-            <Link href="#features" className="hover:text-[var(--text-primary)] transition-colors">Features</Link>
-            <Link href="#instruments" className="hover:text-[var(--text-primary)] transition-colors">Instruments</Link>
-            <Link href="#about" className="hover:text-[var(--text-primary)] transition-colors">About</Link>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="hidden sm:block text-[13px] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Sign in</Link>
-            <Link href="/login" className="px-5 py-2 bg-[var(--accent)] text-white text-[13px] font-medium rounded-[var(--r-md)] hover:bg-[var(--accent-hover)] transition-all">
+          <div className="flex items-center gap-2.5 sm:gap-4 ml-auto">
+            <Link href="/login" className="text-[12px] sm:text-[13px] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors px-2">Sign in</Link>
+            <Link href="/login" className="px-3.5 py-1.5 sm:px-5 sm:py-2 bg-[var(--accent)] text-white text-[12px] sm:text-[13px] font-medium rounded-[var(--r-md)] hover:bg-[var(--accent-hover)] transition-all whitespace-nowrap shadow-sm">
               Get started free
             </Link>
-            <button 
-              className="lg:hidden p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="absolute top-full left-0 right-0 bg-[#17171e] border-b border-[var(--border-faint)] p-6 flex flex-col gap-6 lg:hidden"
-            >
-              <Link href="#features" onClick={() => setMobileMenuOpen(false)} className="text-[16px] font-medium text-[var(--text-primary)]">Features</Link>
-              <Link href="#instruments" onClick={() => setMobileMenuOpen(false)} className="text-[16px] font-medium text-[var(--text-primary)]">Instruments</Link>
-              <Link href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-[16px] font-medium text-[var(--text-primary)]">Pricing</Link>
-              <Link href="#about" onClick={() => setMobileMenuOpen(false)} className="text-[16px] font-medium text-[var(--text-primary)]">About</Link>
-              <div className="h-px bg-[var(--border-faint)]" />
-              <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-[16px] font-medium text-[var(--text-primary)]">Sign in</Link>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
 
       <main className="relative z-10">
         {/* SECTION 2 — HERO */}
-        <section className="pt-32 md:pt-48 pb-24 md:pb-32 px-6 max-w-7xl mx-auto text-center">
+        <section className="pt-16 md:pt-24 pb-12 md:pb-16 px-6 max-w-7xl mx-auto text-center relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -215,19 +210,18 @@ export function HomeClient() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-[36px] md:text-[52px] lg:text-[64px] font-semibold leading-[1.1] tracking-tight mb-8 text-[var(--text-primary)] max-w-4xl mx-auto"
+            className="text-[36px] md:text-[52px] lg:text-[72px] font-black leading-[1.05] tracking-tight mb-6 max-w-4xl mx-auto bg-clip-text text-transparent bg-gradient-to-b from-[var(--text-primary)] to-[var(--text-secondary)]"
           >
-            Think at the edge<br className="hidden md:block" /> of knowledge
+            Stop digging.<br className="hidden md:block" /> Start discovering.
           </motion.h1>
 
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-[16px] md:text-[18px] text-[var(--text-secondary)] max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-[17px] md:text-[20px] text-[var(--text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed font-medium"
           >
-            AI brainstorming instruments + automatic literature discovery. 
-            Write anything — CatalystLab finds the science.
+            AI brains + 9 academic sources. You write the vibes, we find the science. <span className="text-[var(--accent)] font-bold italic">Zero paywalls, 100% results.</span>
           </motion.p>
 
           <motion.div 
@@ -257,11 +251,11 @@ export function HomeClient() {
         </section>
 
         {/* SECTION 3 — LIVE DEMO */}
-        <section id="search" className="py-24 px-6 max-w-5xl mx-auto text-center border-t border-[var(--border-faint)]">
-          <div className="mb-12">
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)] mb-4 block">Try it now — no account needed</span>
-            <h2 className="text-[30px] md:text-[38px] font-semibold text-[var(--text-primary)] mb-4">Paste any research text below</h2>
-            <p className="text-[15px] text-[var(--text-secondary)]">CatalystLab will extract concepts and find related literature across 9 sources.</p>
+        <section id="search" className="py-16 px-6 max-w-5xl mx-auto text-center border-t border-[var(--border-faint)]">
+          <div className="mb-8">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)] mb-3 block">Try it now — no account needed</span>
+            <h2 className="text-[26px] md:text-[32px] font-semibold text-[var(--text-primary)] mb-3">Paste any research text below</h2>
+            <p className="text-[14px] text-[var(--text-secondary)]">CatalystLab will extract concepts and find related literature across 9 sources.</p>
           </div>
 
           <DemoSearch />
@@ -282,19 +276,17 @@ export function HomeClient() {
               </div>
             ))}
           </div>
-        </section>
-
-        {/* SECTION 5 — INSTRUMENTS SHOWCASE */}
-        <section id="instruments" className="py-32 px-6 max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)] mb-4 block">20 INSTRUMENTS · 3 ZONES</span>
-            <h2 className="text-[30px] md:text-[38px] font-semibold text-[var(--text-primary)] mb-8">Explore the thinking toolkit</h2>
+             {/* SECTION 5 — INSTRUMENTS SHOWCASE */}
+        <section id="instruments" className="py-16 px-6 max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)] mb-3 block">20 INSTRUMENTS · 3 ZONES</span>
+            <h2 className="text-[28px] md:text-[34px] font-semibold text-[var(--text-primary)] mb-6">Explore the thinking toolkit</h2>
             
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+            <div className="flex flex-wrap items-center justify-center gap-1.5 mb-10">
               <button 
                 onClick={() => setActiveZone('all')}
                 className={cn(
-                  "px-4 py-1.5 rounded-full text-[12px] font-medium transition-all border",
+                  "px-3.5 py-1 rounded-full text-[11px] font-medium transition-all border",
                   activeZone === 'all' 
                     ? "bg-[var(--bg-active)] border-[var(--border-strong)] text-[var(--text-primary)]" 
                     : "bg-transparent border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -307,7 +299,7 @@ export function HomeClient() {
                   key={key}
                   onClick={() => setActiveZone(key as any)}
                   className={cn(
-                    "px-4 py-1.5 rounded-full text-[12px] font-medium transition-all border flex items-center gap-2",
+                    "px-3.5 py-1 rounded-full text-[11px] font-medium transition-all border flex items-center gap-1.5",
                     activeZone === key 
                       ? "bg-[var(--bg-active)] border-[var(--border-strong)] text-[var(--text-primary)]" 
                       : "bg-transparent border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -319,84 +311,133 @@ export function HomeClient() {
               ))}
             </div>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {filteredInstruments.map((instrument, i) => (
-              <Link 
-                key={instrument.slug} 
-                href="/login"
-                className="group p-6 bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--r-xl)] hover:border-[var(--border-strong)] hover:bg-[var(--bg-hover)] transition-all relative overflow-hidden"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: ZONES[instrument.zone as keyof typeof ZONES].color }} />
-                    <span className="text-[10px] font-mono font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
-                      {ZONES[instrument.zone as keyof typeof ZONES].label}
-                    </span>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-[var(--text-tertiary)] opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                </div>
-                <h3 className="text-[16px] font-medium text-[var(--text-primary)] mb-2">{instrument.name}</h3>
-                <p className="text-[13px] text-[var(--text-tertiary)] leading-relaxed">{instrument.description}</p>
-              </Link>
-            ))}
-          </div>
-
+ 
+          <motion.div 
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredInstruments.map((instrument) => (
+                <motion.div
+                  key={instrument.slug}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link 
+                    href="/login"
+                    className="group block p-4 h-full bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--r-lg)] hover:border-[var(--accent)]/50 hover:bg-[var(--bg-hover)] transition-all relative overflow-hidden"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: ZONES[instrument.zone as keyof typeof ZONES].color }} />
+                        <span className="text-[9px] font-mono font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
+                          {ZONES[instrument.zone as keyof typeof ZONES].label}
+                        </span>
+                      </div>
+                      <ArrowRight className="w-3.5 h-3.5 text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
+                    </div>
+                    <h3 className="text-[14px] font-semibold text-[var(--text-primary)] mb-1.5 group-hover:text-[var(--accent)] transition-colors">{instrument.name}</h3>
+                    <p className="text-[12px] text-[var(--text-tertiary)] leading-snug line-clamp-2">{instrument.description}</p>
+                    
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  </Link>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+ 
           <div className="text-center">
-            <Link href="/login" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--accent)] text-white text-[15px] font-medium rounded-[var(--r-md)] hover:bg-[var(--accent-hover)] transition-all">
-              Explore all instruments <ArrowRight className="w-4 h-4" />
+            <Link href="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent)] text-white text-[14px] font-medium rounded-[var(--r-md)] hover:bg-[var(--accent-hover)] transition-all shadow-lg shadow-[var(--accent)]/20">
+              Explore all 20 instruments <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </section>
+        </section>
 
         {/* SECTION 6 — HOW IT WORKS */}
-        <section className="py-32 px-6 bg-[var(--bg-base)] border-y border-[var(--border-faint)]">
+        <section className="py-24 px-6 bg-[var(--bg-base)] border-y border-[var(--border-faint)] relative">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.2 }
+                }
+              }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            >
               {[
                 { step: "01", title: "Describe", desc: "Write anything from one sentence to a full paragraph describing your research intent." },
                 { step: "02", title: "Think", desc: "Choose an instrument. AI structures your research thinking and identifies hidden patterns." },
                 { step: "03", title: "Discover", desc: "Related literature from 9 academic sources appears automatically alongside your thinking." }
               ].map((item, i) => (
-                <div key={i} className="space-y-4">
-                  <div className="w-10 h-10 rounded-full bg-[var(--accent-subtle)] border border-[var(--accent)]/20 flex items-center justify-center text-[var(--accent)] font-semibold text-[14px]">
+                <motion.div 
+                  key={i} 
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 }
+                  }}
+                  whileHover={{ y: -5 }}
+                  className="group space-y-4 p-8 rounded-[var(--r-xl)] border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--bg-sunken)] transition-all duration-300"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-[var(--accent-subtle)] border border-[var(--accent)]/20 flex items-center justify-center text-[var(--accent)] font-bold text-[16px] group-hover:bg-[var(--accent)] group-hover:text-white transition-all duration-300 shadow-sm">
                     {item.step}
                   </div>
-                  <h3 className="text-[18px] font-semibold text-[var(--text-primary)]">{item.title}</h3>
+                  <h3 className="text-[20px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">{item.title}</h3>
                   <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed">
                     {item.desc}
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* SECTION 7 — 9 LITERATURE SOURCES */}
         <section className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
           <div className="text-center mb-12">
-            <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)] mb-4 block">POWERED BY 9 FREE ACADEMIC SOURCES</span>
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)] mb-4 block text-center">POWERED BY 9 FREE ACADEMIC SOURCES</span>
           </div>
           
           <div className="flex overflow-x-auto pb-8 gap-4 no-scrollbar items-center justify-start md:justify-center">
             {[
-              { id: 'SS', name: 'Semantic Scholar', color: 'var(--src-ss)' },
-              { id: 'OA', name: 'OpenAlex', color: 'var(--src-oa)' },
-              { id: 'arXiv', name: 'arXiv', color: 'var(--src-arxiv)' },
-              { id: 'PM', name: 'PubMed', color: 'var(--src-pm)' },
-              { id: 'CORE', name: 'CORE', color: 'var(--src-core)' },
-              { id: 'CR', name: 'Crossref', color: 'var(--src-cr)' },
-              { id: 'EPMC', name: 'Europe PMC', color: 'var(--src-epmc)' },
-              { id: 'DOAJ', name: 'DOAJ', color: 'var(--src-doaj)' },
-              { id: '↗', name: 'Unpaywall', color: 'var(--src-upw)' }
+              { id: 'SS', name: 'Semantic Scholar', color: 'var(--src-ss)', url: 'https://www.semanticscholar.org/' },
+              { id: 'OA', name: 'OpenAlex', color: 'var(--src-oa)', url: 'https://openalex.org/' },
+              { id: 'arXiv', name: 'arXiv', color: 'var(--src-arxiv)', url: 'https://arxiv.org/' },
+              { id: 'PM', name: 'PubMed', color: 'var(--src-pm)', url: 'https://pubmed.ncbi.nlm.nih.gov/' },
+              { id: 'CORE', name: 'CORE', color: 'var(--src-core)', url: 'https://core.ac.uk/' },
+              { id: 'CR', name: 'Crossref', color: 'var(--src-cr)', url: 'https://www.crossref.org/' },
+              { id: 'EPMC', name: 'Europe PMC', color: 'var(--src-epmc)', url: 'https://europepmc.org/' },
+              { id: 'DOAJ', name: 'DOAJ', color: 'var(--src-doaj)', url: 'https://doaj.org/' },
+              { id: '↗', name: 'Unpaywall', color: 'var(--src-upw)', url: 'https://unpaywall.org/' }
             ].map((source) => (
-              <div key={source.id} className="flex flex-col items-center gap-3 shrink-0">
-                <div className="px-4 py-1.5 rounded-full text-[11px] font-mono font-bold border" 
-                     style={{ backgroundColor: `${source.color}1a`, color: source.color, borderColor: `${source.color}33` }}>
+              <motion.a 
+                key={source.id} 
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, y: -4 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex flex-col items-center gap-3 shrink-0 group cursor-pointer"
+              >
+                <div className="px-4 py-1.5 rounded-full text-[11px] font-mono font-bold border transition-all group-hover:shadow-lg" 
+                     style={{ 
+                       backgroundColor: `${source.color}1a`, 
+                       color: source.color, 
+                       borderColor: `${source.color}33`,
+                       boxShadow: `0 0 0 transparent`
+                     }}>
                   {source.id}
                 </div>
-                <span className="text-[11px] text-[var(--text-tertiary)] whitespace-nowrap">{source.name}</span>
-              </div>
+                <span className="text-[11px] text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)] transition-colors whitespace-nowrap">{source.name}</span>
+              </motion.a>
             ))}
           </div>
           <p className="text-center text-[13px] text-[var(--text-tertiary)]">Zero paywalls. All sources are completely free.</p>
@@ -415,7 +456,6 @@ export function HomeClient() {
               <p className="text-[13px] text-[var(--text-tertiary)] leading-relaxed">
                 Think at the edge of knowledge. AI brainstorming + live literature discovery for researchers.
               </p>
-              <p className="text-[11px] text-[var(--text-tertiary)]">© 2026 CatalystLab. All rights reserved.</p>
             </div>
 
             <div>
@@ -425,7 +465,6 @@ export function HomeClient() {
                 <li><Link href="#instruments" className="hover:text-[var(--text-primary)] transition-colors">Instruments</Link></li>
                 <li><Link href="/reviews" className="hover:text-[var(--text-primary)] transition-colors">Living Reviews</Link></li>
                 <li><Link href="/reports" className="hover:text-[var(--text-primary)] transition-colors">Reports</Link></li>
-                <li><Link href="#pricing" className="hover:text-[var(--text-primary)] transition-colors">Pricing</Link></li>
               </ul>
             </div>
 
@@ -442,21 +481,21 @@ export function HomeClient() {
             <div>
               <h4 className="text-[11px] font-mono font-semibold uppercase tracking-[0.1em] text-[var(--text-primary)] mb-6">Research Sources</h4>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px] text-[var(--text-tertiary)]">
-                <span>Semantic Scholar</span>
-                <span>OpenAlex</span>
-                <span>arXiv</span>
-                <span>PubMed</span>
-                <span>CORE</span>
-                <span>Crossref</span>
-                <span>Europe PMC</span>
-                <span>DOAJ</span>
-                <span>Unpaywall</span>
+                <a href="https://www.semanticscholar.org/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">Semantic Scholar</a>
+                <a href="https://openalex.org/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">OpenAlex</a>
+                <a href="https://arxiv.org/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">arXiv</a>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">PubMed</a>
+                <a href="https://core.ac.uk/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">CORE</a>
+                <a href="https://www.crossref.org/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">Crossref</a>
+                <a href="https://europepmc.org/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">Europe PMC</a>
+                <a href="https://doaj.org/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">DOAJ</a>
+                <a href="https://unpaywall.org/" target="_blank" className="hover:text-[var(--text-primary)] transition-colors">Unpaywall</a>
               </div>
             </div>
           </div>
           
           <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-[var(--border-faint)] flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[11px] text-[var(--text-tertiary)]">Built for researchers, by researchers · Bangladesh 🇧🇩</p>
+            <p className="text-[11px] text-[var(--text-tertiary)]">© 2026 CatalystLab · Built for researchers, by researchers</p>
           </div>
         </footer>
       </main>
