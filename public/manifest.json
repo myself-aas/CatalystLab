@@ -1,0 +1,31 @@
+{
+    "name": "CatalystLab",
+    "short_name": "CatalystLab",
+    "description": "AI-powered research brainstorming and literature discovery for serious researchers.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0c0c0f",
+    "theme_color": "#0c0c0f",
+    "orientation": "portrait-primary",
+    "categories": [
+        "education",
+        "productivity",
+        "research"
+    ],
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "type": "image/svg+xml",
+            "sizes": "any",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/og-image.png",
+            "type": "image/png",
+            "sizes": "1200x630",
+            "form_factor": "wide"
+        }
+    ]
+}

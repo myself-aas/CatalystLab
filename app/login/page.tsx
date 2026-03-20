@@ -2,10 +2,10 @@
 
 import React, { useState, Suspense } from 'react';
 import { auth, db, handleFirestoreError, OperationType } from '@/lib/firebase';
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signInWithPopup, 
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
   GoogleAuthProvider,
   updateProfile
 } from 'firebase/auth';
@@ -33,7 +33,7 @@ function LoginForm() {
       if (isSignUp) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        
+
         // Create profile in Firestore
         const profilePath = `users/${user.uid}`;
         try {
@@ -198,11 +198,11 @@ function LoginForm() {
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </button>
         </p>
-        
+
         <div className="mt-6 text-center">
-           <Link href="/" className="text-sm text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]">
-             Back to Home
-           </Link>
+          <Link href="/" className="text-sm text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]">
+            Back to Home
+          </Link>
         </div>
       </div>
     </div>

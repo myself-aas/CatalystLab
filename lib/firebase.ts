@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { GithubAuthProvider } from 'firebase/auth'
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 
@@ -19,7 +20,7 @@ if (typeof window !== 'undefined') {
   console.log('- Project ID:', process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
   console.log('- Auth Domain:', process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN);
   console.log('- API Key present:', !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
-  
+
   if (!process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
     console.error('CRITICAL: Firebase API Key is missing from environment variables!');
   }

@@ -1,61 +1,186 @@
 'use client';
+
+import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/Sidebar';
 import { TopBar } from '@/components/TopBar';
 import { BottomNav } from '@/components/BottomNav';
+import {
+  Scale, BookOpen, UserCircle, AlertTriangle,
+  Cpu, CreditCard, Copyright, ShieldAlert,
+  Gavel, RefreshCw, XCircle, Mail, Zap
+} from 'lucide-react';
 
 export default function TermsPage() {
+  const [activeSection, setActiveSection] = useState('01');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll('section');
+      const scrollPosition = window.scrollY + 150;
+
+      sections.forEach((section) => {
+        if (scrollPosition >= section.offsetTop) {
+          setActiveSection(section.id);
+        }
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navItems = [
+    { id: '01', title: 'Acceptance' },
+    { id: '02', title: 'The Service' },
+    { id: '03', title: 'User Accounts' },
+    { id: '04', title: 'Acceptable Use' },
+    { id: '05', title: 'API & Third-Party' },
+    { id: '06', title: 'Payments' },
+    { id: '07', title: 'IP Rights' },
+    { id: '08', title: 'Warranties' },
+    { id: '09', title: 'Liability' },
+    { id: '10', title: 'Indemnity' },
+    { id: '11', title: 'Disputes' },
+  ];
+
   return (
-    <div className="flex min-h-screen bg-[var(--bg-canvas)]">
+    <div className="flex min-h-screen bg-[var(--bg-canvas)] text-[var(--text-primary)] font-sans">
       <Sidebar />
+
       <main className="flex-1 md:ml-[220px] pb-20 md:pb-0">
         <TopBar title="Terms of Service" />
-        <div className="max-w-3xl mx-auto p-8 markdown-body">
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-6">Terms of Service</h1>
-          <p className="text-[var(--text-tertiary)] mb-8">Effective Date: March 18, 2026</p>
-          
-          <p>These Terms of Service (&quot;Terms&quot;) govern your access to and use of CatalystLab, available at https://catalystlab.tech (the &quot;Service&quot;), operated by CatalystLab (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;).</p>
-          
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">01 Acceptance of Terms</h2>
-          <p>By accessing or using CatalystLab, you confirm that you are at least 13 years of age, have read and agreed to these Terms, and will comply with all applicable laws.</p>
-          
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">02 Description of Service</h2>
-          <p>CatalystLab is an AI-powered research brainstorming and literature discovery web application providing 20 AI instruments, automatic literature discovery, session saving, and a dedicated search interface.</p>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">03 User Accounts</h2>
-          <p>To access certain features, you must create an account and keep your credentials confidential. You are responsible for all activities under your account.</p>
+        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">04 Acceptable Use</h2>
-          <p>CatalystLab is for legitimate academic and research purposes. Prohibited uses include submitting PII without consent, reverse engineering, academic fraud, or overwhelming our infrastructure.</p>
+          {/* Sticky Navigation */}
+          <aside className="hidden lg:block w-64 sticky top-28 h-fit">
+            <div className="space-y-1 border-l border-white/10 pl-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className={`block py-2 text-sm transition-all duration-300 ${activeSection === item.id
+                      ? 'text-blue-400 font-semibold translate-x-2'
+                      : 'text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]'
+                    }`}
+                >
+                  <span className="mr-2 opacity-50 font-mono text-xs">{item.id}</span>
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          </aside>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">05 API Keys &amp; Third-Party Services</h2>
-          <p>You must provide your own Google Gemini API key. We are not responsible for third-party services (Google, Semantic Scholar, etc.).</p>
+          {/* Glassmorphic Content Container */}
+          <div className="flex-1 space-y-12 relative">
+            <header className="mb-16">
+              <h1 className="text-5xl font-black tracking-tight mb-4 bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">
+                Terms of Service
+              </h1>
+              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-[var(--text-tertiary)]">
+                <span className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                Effective: March 18, 2026
+              </div>
+            </header>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">06 Subscriptions &amp; Payments</h2>
-          <p>Payments are processed by Paddle. We offer free and paid plans. Refunds are available within 7 days of initial purchase.</p>
+            {/* 01 Acceptance */}
+            <section id="01" className="scroll-mt-32 p-8 rounded-3xl bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-2xl">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-3 text-blue-400">
+                <Scale size={24} /> 01 Acceptance of Terms
+              </h2>
+              <p className="text-[var(--text-secondary)] leading-relaxed">
+                By accessing CatalystLab, you confirm you are at least **13 years of age**, have read these Terms, and agree to comply with all applicable laws. Use of the service constitutes a binding legal agreement.
+              </p>
+            </section>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">07 Intellectual Property</h2>
-          <p>You retain ownership of your content. We do not use your content to train AI models. AI-generated outputs are provided for your use without warranty.</p>
+            {/* 02 Service */}
+            <section id="02" className="scroll-mt-32">
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-3"><Zap size={24} /> 02 Description of Service</h2>
+              <p className="text-[var(--text-secondary)] leading-relaxed">
+                CatalystLab is an AI-powered research platform providing 20+ instruments, literature discovery, and session management. We reserve the right to modify or pause features to maintain service integrity.
+              </p>
+            </section>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">08 Disclaimer of Warranties</h2>
-          <p>The Service is provided &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; without warranties of any kind.</p>
+            {/* 03 & 04 Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <section id="03" className="scroll-mt-32 p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                <h3 className="font-bold mb-3 flex items-center gap-2 text-purple-400"><UserCircle size={20} /> 03 User Accounts</h3>
+                <p className="text-sm text-[var(--text-tertiary)]">Confidentiality of credentials is your responsibility. CatalystLab is not liable for unauthorized access resulting from your failure to protect your password.</p>
+              </section>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">09 Limitation of Liability</h2>
-          <p>CatalystLab shall not be liable for indirect, incidental, or consequential damages. Our total liability is limited to the greater of the amount paid in the last 12 months or $50.</p>
+              <section id="04" className="scroll-mt-32 p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                <h3 className="font-bold mb-3 flex items-center gap-2 text-orange-400"><AlertTriangle size={20} /> 04 Acceptable Use</h3>
+                <p className="text-sm text-[var(--text-tertiary)]">Prohibited: Reverse engineering, academic fraud, submitting PII without consent, or bypassing infrastructure limits.</p>
+              </section>
+            </div>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">10 Indemnification</h2>
-          <p>You agree to indemnify CatalystLab against claims arising from your use of the Service or violation of these Terms.</p>
+            {/* 05 API Keys */}
+            <section id="05" className="scroll-mt-32 border-l-4 border-blue-500/20 pl-6 py-2">
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-3"><Cpu size={24} /> 05 API & Third-Party</h2>
+              <p className="text-[var(--text-secondary)]">
+                Users must provide their own **Google Gemini API keys**. We are not responsible for third-party billing, service availability (Google, CORE, Semantic Scholar), or data accuracy provided by these external sources.
+              </p>
+            </section>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">11 Governing Law &amp; Disputes</h2>
-          <p>These Terms are governed by the laws of Bangladesh. Disputes shall be resolved through good-faith negotiation or binding arbitration.</p>
+            {/* 06 Payments */}
+            <section id="06" className="scroll-mt-32 p-8 rounded-3xl bg-green-600/5 border border-green-500/10">
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 text-green-400"><CreditCard size={24} /> 06 Subscriptions</h2>
+              <p className="text-[var(--text-secondary)] mb-4">Payments are processed via **Paddle**. We offer a 7-day refund window for initial purchases. Plan details and pricing are subject to change with notice.</p>
+            </section>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">12 Changes to Terms</h2>
-          <p>We may update these Terms with at least 14 days&apos; notice.</p>
+            {/* 07 Intellectual Property */}
+            <section id="07" className="scroll-mt-32">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-3"><Copyright size={24} /> 07 Intellectual Property</h2>
+              <div className="bg-white/5 rounded-2xl p-6">
+                <p className="text-[var(--text-secondary)] mb-4 italic">"You own what you create."</p>
+                <p className="text-sm text-[var(--text-tertiary)]">You retain all rights to your inputs. We do NOT use your data to train AI models. CatalystLab owns the software, UI, and branding.</p>
+              </div>
+            </section>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">13 Termination</h2>
-          <p>We may terminate access for breach of Terms, legal requirements, or security risks.</p>
+            {/* 08, 09, 10 - Critical Disclaimers */}
+            <div className="space-y-6">
+              <section id="08" className="scroll-mt-32 p-6 rounded-xl bg-white/[0.01] border border-white/5">
+                <h3 className="font-bold mb-2 uppercase text-xs tracking-widest text-[var(--text-tertiary)]">08 Disclaimer of Warranties</h3>
+                <p className="text-sm text-[var(--text-secondary)]">The Service is provided **"AS IS"** and **"AS AVAILABLE"** without warranties of any kind, express or implied.</p>
+              </section>
 
-          <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">15 Contact</h2>
-          <p>For questions, contact legal@catalystlab.tech.</p>
+              <section id="09" className="scroll-mt-32 p-6 rounded-xl bg-red-900/10 border border-red-500/20">
+                <h3 className="font-bold mb-2 uppercase text-xs tracking-widest text-red-400">09 Limitation of Liability</h3>
+                <p className="text-sm text-[var(--text-secondary)]">Total liability is limited to the amount paid in the last 12 months or $50 USD. We are not liable for incidental or consequential damages.</p>
+              </section>
+
+              <section id="10" className="scroll-mt-32 p-6 rounded-xl bg-white/[0.01] border border-white/5">
+                <h3 className="font-bold mb-2 uppercase text-xs tracking-widest text-[var(--text-tertiary)]">10 Indemnification</h3>
+                <p className="text-sm text-[var(--text-secondary)]">You agree to defend and hold CatalystLab harmless from any claims arising from your breach of these terms or misuse of the platform.</p>
+              </section>
+            </div>
+
+            {/* 11 Governing Law */}
+            <section id="11" className="scroll-mt-32 p-8 rounded-3xl bg-blue-600/10 border border-blue-500/20">
+              <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 text-blue-300"><Gavel size={24} /> 11 Governing Law</h2>
+              <p className="text-[var(--text-secondary)]">
+                These terms are governed by the laws of **Bangladesh**. Disputes shall be settled through good-faith negotiation or binding arbitration in appropriate jurisdictions.
+              </p>
+            </section>
+
+            {/* Footer Sections 12-15 */}
+            <footer className="pt-12 mt-12 border-t border-white/10 grid md:grid-cols-3 gap-8">
+              <div id="12">
+                <h4 className="font-bold mb-2 flex items-center gap-2 text-sm"><RefreshCw size={16} /> 12 Changes</h4>
+                <p className="text-xs text-[var(--text-tertiary)]">14 days notice for material updates.</p>
+              </div>
+              <div id="13">
+                <h4 className="font-bold mb-2 flex items-center gap-2 text-sm"><XCircle size={16} /> 13 Termination</h4>
+                <p className="text-xs text-[var(--text-tertiary)]">Access may be revoked for breach of terms or security risk.</p>
+              </div>
+              <div id="15" className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
+                <Mail className="text-blue-400" size={20} />
+                <div>
+                  <h4 className="text-xs font-bold">15 Contact</h4>
+                  <p className="text-[10px] text-blue-400">legal@catalystlab.tech</p>
+                </div>
+              </div>
+            </footer>
+          </div>
         </div>
         <BottomNav />
       </main>
