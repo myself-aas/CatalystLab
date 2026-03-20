@@ -4,39 +4,6 @@ service cloud.firestore {
   match /databases/{database}/documents {
     
     // ===============================================================
-    // Assumed Data Model
-    // ===============================================================
-    //
-    // Collection: users
-    // Document ID: {userId}
-    // Fields:
-    //   - email: string (required)
-    //   - role: string (optional)
-    //
-    // Collection: sessions
-    // Document ID: {sessionId}
-    // Fields:
-    //   - userId: string (required) - Must match owner
-    //   - title: string (required)
-    //   - createdAt: timestamp (required)
-    //
-    // Collection: reports
-    // Document ID: {reportId}
-    // Fields:
-    //   - userId: string (required) - Must match owner
-    //   - title: string (required)
-    //   - content: string (required)
-    //   - createdAt: timestamp (required)
-    //
-    // Collection: data
-    // Document ID: {dataId}
-    // Fields:
-    //   - userId: string (required) - Must match owner
-    //   - content: string (required)
-    //
-    // ===============================================================
-
-    // ===============================================================
     // Helper Functions
     // ===============================================================
     function isAuthenticated() {
@@ -48,79 +15,90 @@ service cloud.firestore {
     }
     
     function isDocOwner() {
-      return isAuthenticated() && request.auth.uid == resource.data.userId;
-    }
-    
-    function uidUnchanged() {
-      return !('userId' in request.resource.data) || request.resource.data.userId == request.auth.uid;
-    }
-    
-    function uidNotModified() {
-      return !('userId' in request.resource.data) || request.resource.data.userId == resource.data.userId;
+      return isAuthenticated() && request.auth.uid == resource.data.user_id;
     }
 
-    function hasRequiredFields(fields) {
-      return request.resource.data.keys().hasAll(fields);
+    function isAuthor() {
+      return isAuthenticated() && request.auth.uid == resource.data.author_id;
+    }
+    
+    function isRecipient() {
+      return isAuthenticated() && request.auth.uid == resource.data.recipient_id;
     }
 
     // ===============================================================
-    // Rules
+    // Collection Rules
     // ===============================================================
     
-    // Users collection
+    // Profile/User data: Read by any authenticated user, write only by owner
+    match /profiles/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+
     match /users/{userId} {
-      allow read: if isOwner(userId);
-      allow create: if isOwner(userId) && hasRequiredFields(['email']);
-      allow update: if isOwner(userId) && (!('role' in request.resource.data) || request.resource.data.role == resource.data.role);
-      allow delete: if isOwner(userId);
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
     }
     
-    function isValidSession(data) {
-      return data.keys().hasAll(['userId', 'title', 'createdAt']) &&
-             data.keys().hasOnly(['userId', 'title', 'createdAt']) &&
-             data.userId is string && data.userId == request.auth.uid &&
-             data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
-             data.createdAt is timestamp;
-    }
-    
-    // Sessions collection
+    // Sessions: Private read/write
     match /sessions/{sessionId} {
-      allow create: if isAuthenticated() && isValidSession(request.resource.data);
-      allow read: if isDocOwner();
-      allow update: if isDocOwner() && isValidSession(request.resource.data) && uidNotModified();
-      allow delete: if isDocOwner();
+      allow read, write: if isDocOwner();
     }
     
-    function isValidReport(data) {
-      return data.keys().hasAll(['userId', 'title', 'content', 'createdAt']) &&
-             data.keys().hasOnly(['userId', 'title', 'content', 'createdAt']) &&
-             data.userId is string && data.userId == request.auth.uid &&
-             data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
-             data.content is string && data.content.size() > 0 && data.content.size() <= 5000 &&
-             data.createdAt is timestamp;
-    }
-    
-    // Reports collection
+    // Reports: Private read/write
     match /reports/{reportId} {
-      allow create: if isAuthenticated() && isValidReport(request.resource.data);
-      allow read: if isDocOwner();
-      allow update: if isDocOwner() && isValidReport(request.resource.data) && uidNotModified();
-      allow delete: if isDocOwner();
+      allow read, write: if isDocOwner();
     }
     
-    function isValidData(data) {
-      return data.keys().hasAll(['userId', 'content']) &&
-             data.keys().hasOnly(['userId', 'content']) &&
-             data.userId is string && data.userId == request.auth.uid &&
-             data.content is string && data.content.size() > 0 && data.content.size() <= 10000;
-    }
-    
-    // Data collection
+    // Data: Private read/write
     match /data/{dataId} {
-      allow create: if isAuthenticated() && isValidData(request.resource.data);
-      allow read: if isDocOwner();
-      allow update: if isDocOwner() && isValidData(request.resource.data) && uidNotModified();
-      allow delete: if isDocOwner();
+      allow read, write: if isDocOwner();
+    }
+
+    // Posts: Public read, private write
+    match /posts/{postId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.author_id == request.auth.uid;
+      allow update, delete: if isAuthor();
+    }
+
+    // Papers: Public read (cached data), no individual write
+    match /papers/{paperId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // Only updated via admin/proxy logic if needed
+    }
+
+    // Annotations: Mixed visibility
+    match /annotations/{annotationId} {
+      allow read: if isAuthenticated() && (resource.data.is_public == true || resource.data.user_id == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.user_id == request.auth.uid;
+      allow update, delete: if isDocOwner();
+    }
+
+    // Reading Lists: Mixed visibility
+    match /reading_lists/{listId} {
+      allow read: if isAuthenticated() && (resource.data.is_public == true || resource.data.owner_id == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.owner_id == request.auth.uid;
+      allow update, delete: if isAuthenticated() && resource.data.owner_id == request.auth.uid;
+    }
+
+    // Communities: Public read, private write
+    match /communities/{communityId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && resource.data.created_by == request.auth.uid;
+    }
+
+    // Notifications: Private read/write
+    match /notifications/{notificationId} {
+      allow read, update, delete: if isRecipient();
+      allow create: if isAuthenticated(); // Allow system/actors to create
+    }
+
+    // Feed Preferences: Private
+    match /feed_preferences/{userId} {
+      allow read, write: if isOwner(userId);
     }
     
     // Default deny

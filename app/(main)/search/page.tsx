@@ -3,8 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PaperCard } from '@/components/PaperCard';
 import { useApp } from '@/lib/context';
-import { searchAll } from '@/lib/research-api';
-import { Paper } from '@/lib/types';
+import { Paper, searchAll } from '@/lib/research-api';
 import { 
   Search, 
   Database, 

@@ -46,7 +46,7 @@ export default function PrivacyPage() {
           <p>We use strictly necessary cookies for authentication and localStorage for your preferences and saved sessions.</p>
 
           <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">06 Your Rights &amp; Choices</h2>
-          <p>You have rights regarding access, correction, deletion, data portability, withdrawal of consent, and opting out of analytics. Contact us at legal@nexuslab.tech.</p>
+          <p>You have rights regarding access, correction, deletion, data portability, withdrawal of consent, and opting out of analytics. Contact us at legal@catalystlab.tech.</p>
 
           <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">07 Children&apos;s Privacy</h2>
           <p>CatalystLab is not directed to individuals under the age of 13.</p>
@@ -61,7 +61,7 @@ export default function PrivacyPage() {
           <p>We may update this policy. Material changes will be notified by email and dashboard notice at least 14 days in advance.</p>
 
           <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">11 Contact</h2>
-          <p>For privacy inquiries, contact legal@nexuslab.tech.</p>
+          <p>For privacy inquiries, contact legal@catalystlab.tech.</p>
         </div>
         <BottomNav />
       </main>

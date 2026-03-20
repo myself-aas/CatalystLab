@@ -6,6 +6,7 @@ import { Session } from './constants';
 interface AppState {
   sessions: Session[];
   addSession: (session: Session) => void;
+  deleteSession: (id: string) => void;
   geminiKey: string;
   setGeminiKey: (key: string) => void;
   coreKey: string;
@@ -45,6 +46,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('nl_sessions', JSON.stringify(newSessions));
   };
 
+  const deleteSession = (id: string) => {
+    const newSessions = sessions.filter(s => s.id !== id);
+    setSessions(newSessions);
+    localStorage.setItem('nl_sessions', JSON.stringify(newSessions));
+  };
+
   const setGeminiKey = (key: string) => {
     setGeminiKeyState(key);
     localStorage.setItem('nl_gemini_key', key);
@@ -59,6 +66,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     <AppContext.Provider value={{
       sessions,
       addSession,
+      deleteSession,
       geminiKey,
       setGeminiKey,
       coreKey,

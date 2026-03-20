@@ -1,0 +1,45 @@
+type User @table {
+  displayName: String!
+  email: String!
+  role: String!
+  photoUrl: String
+  department: String
+}
+
+type Project @table {
+  name: String!
+  startDate: Date!
+  status: String!
+  description: String
+  endDate: Date
+  budget: Float
+  principalInvestigator: User
+}
+
+type Experiment @table {
+  name: String!
+  experimentDate: Date!
+  status: String!
+  objective: String
+  methodology: String
+  resultsSummary: String
+  project: Project
+  experimentLead: User
+}
+
+type Observation @table {
+  observationDate: Date!
+  value: String!
+  unit: String!
+  notes: String
+  attachmentUrl: String
+  experiment: Experiment
+}
+
+type ProjectMember @table(key: ["project", "member"]) {
+  role: String!
+  startDate: Date
+  endDate: Date
+  project: Project!
+  member: User!
+}

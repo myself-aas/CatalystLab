@@ -26,6 +26,19 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
 
+interface FeedPreferences {
+  user_id: string;
+  topic_weight: number;
+  recency_weight: number;
+  network_weight: number;
+  engagement_weight: number;
+  paper_weight: number;
+  show_ai_picks: boolean;
+  show_trending: boolean;
+  noise_filter: boolean;
+  [key: string]: any;
+}
+
 export default function AlgorithmPage() {
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -120,10 +133,10 @@ export default function AlgorithmPage() {
                     <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-300">
                       <item.icon className="w-4 h-4 text-indigo-400" /> {item.label}
                     </div>
-                    <span className="text-xs font-black text-indigo-400">{prefs?.[item.key]?.toFixed(1)}x</span>
+                    <span className="text-xs font-black text-indigo-400">{(prefs as FeedPreferences)?.[item.key]?.toFixed(1)}x</span>
                   </div>
                   <Slider 
-                    defaultValue={[prefs?.[item.key] || 1.0]} 
+                    defaultValue={[(prefs as FeedPreferences)?.[item.key] || 1.0]} 
                     max={2.0} 
                     min={0.1} 
                     step={0.1} 
@@ -156,7 +169,7 @@ export default function AlgorithmPage() {
                     <span className="text-sm font-black uppercase tracking-widest text-slate-300">{item.label}</span>
                   </div>
                   <Switch 
-                    checked={prefs?.[item.key]} 
+                    checked={(prefs as FeedPreferences)?.[item.key]} 
                     onCheckedChange={(val) => handleToggleChange(item.key, val)}
                     className="data-[state=checked]:bg-indigo-500"
                   />

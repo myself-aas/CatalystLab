@@ -16,7 +16,7 @@ export function TopBar({ title, className }: { title?: string, className?: strin
     else if (pathname.startsWith('/search')) displayTitle = 'Literature Search';
     else if (pathname.startsWith('/reviews')) displayTitle = 'Living Reviews';
     else if (pathname.startsWith('/settings')) displayTitle = 'Settings';
-    else displayTitle = 'NexusLab';
+    else displayTitle = 'CatalystLab';
   }
 
   return (

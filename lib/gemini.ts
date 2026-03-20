@@ -69,6 +69,9 @@ export async function extractConcepts(text: string) {
     }
   });
 
+  return JSON.parse(resultText);
+}
+
 export async function synthesizePapers(papers: any[]) {
   const prompt = `You are a research synthesis expert. Given these paper abstracts, return ONLY JSON:
   {
@@ -94,6 +97,9 @@ export async function synthesizePapers(papers: any[]) {
       required: ["synthesis", "keyInsights", "researchGap", "recommendedMethods"]
     }
   });
+
+  return JSON.parse(resultText);
+}
 
 export async function enhancePost(draft: string) {
   const prompt = `Improve this research post draft. Return ONLY JSON:

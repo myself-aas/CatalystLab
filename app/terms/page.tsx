@@ -55,7 +55,7 @@ export default function TermsPage() {
           <p>We may terminate access for breach of Terms, legal requirements, or security risks.</p>
 
           <h2 className="text-xl font-semibold text-[var(--text-primary)] mt-8 mb-4">15 Contact</h2>
-          <p>For questions, contact legal@nexuslab.tech.</p>
+          <p>For questions, contact legal@catalystlab.tech.</p>
         </div>
         <BottomNav />
       </main>

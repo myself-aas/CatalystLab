@@ -115,7 +115,7 @@ function LoginForm() {
             <div className="absolute inset-0 border-[1.5px] border-[var(--text-primary)] rounded-full translate-x-1 opacity-50" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-[var(--text-primary)] rounded-full" />
           </div>
-          <span className="font-medium text-[var(--text-primary)] text-[20px]">Nexus<span className="font-normal">Lab</span></span>
+          <span className="font-medium text-[var(--text-primary)] text-[20px]">Catalyst<span className="font-normal">Lab</span></span>
         </div>
 
         <h2 className="text-2xl font-semibold text-[var(--text-primary)] mb-6 text-center">

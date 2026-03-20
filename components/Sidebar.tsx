@@ -37,7 +37,7 @@ export function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 h-screen w-[220px] bg-[var(--bg-elevated)] border-r border-[var(--border-faint)] hidden lg:flex flex-col z-50">
       {/* TOP */}
-      <div className="p-6 flex items-center gap-3">
+      <Link href="/" className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div className="w-7 h-7 border-[1.5px] border-[var(--text-primary)] rounded-full flex items-center justify-center relative">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-5 h-5 border-[1.5px] border-[var(--text-primary)] rounded-full opacity-50" />
@@ -49,7 +49,7 @@ export function Sidebar() {
           <span className="text-[15px] font-normal text-[var(--text-primary)]">Lab</span>
         </div>
         <span className="px-1.5 py-0.5 bg-[var(--accent-muted)] text-[var(--accent)] text-[10px] font-medium rounded-full">beta</span>
-      </div>
+      </Link>
 
       {/* NAV */}
       <nav className="flex-1 px-3 py-2 space-y-1">

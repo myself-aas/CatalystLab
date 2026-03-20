@@ -1,5 +1,5 @@
 import { auth, db } from './firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { TOKEN_CONFIG } from './tokens-config';
 
 export async function checkTokens(): Promise<{ remaining: number; total: number; resetAt: string }> {
@@ -67,4 +67,39 @@ export function getTimeUntilReset(): string {
   const m = Math.floor((diff % 3600000) / 60000);
   const s = Math.floor((diff % 60000) / 1000);
   return `${h}h ${m}m ${s}s`;
+}
+
+export async function decrementTokensInternal(userId: string, tokensUsed: number): Promise<void> {
+  const userRef = doc(db, 'users', userId);
+  const userDoc = await getDoc(userRef);
+  if (!userDoc.exists()) throw new Error('User not found');
+  
+  const userData = userDoc.data();
+  const currentTokens = userData.tokens_remaining ?? TOKEN_CONFIG.dailyLimit;
+  const newTokens = Math.max(0, currentTokens - tokensUsed);
+  
+  await setDoc(userRef, {
+    tokens_remaining: newTokens,
+    tokens_last_used: new Date().toISOString()
+  }, { merge: true });
+}
+
+export async function checkAndDecrementTokens(userId: string, tokensRequested: number): Promise<boolean> {
+  try {
+    const userRef = doc(db, 'users', userId);
+    const userDoc = await getDoc(userRef);
+    
+    if (!userDoc.exists()) return false;
+    
+    const userData = userDoc.data();
+    const remaining = userData.tokens_remaining ?? TOKEN_CONFIG.dailyLimit;
+    
+    if (remaining < tokensRequested) return false;
+    
+    await decrementTokensInternal(userId, tokensRequested);
+    return true;
+  } catch (error) {
+    console.error('Error in checkAndDecrementTokens:', error);
+    return false;
+  }
 }

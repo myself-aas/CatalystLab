@@ -101,9 +101,9 @@ export function PostComposer({ onPostCreated }: { onPostCreated?: () => void }) 
     <div className="bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--r-xl)] p-4 shadow-sm mb-6">
       <div className="flex gap-4">
         <div className="w-10 h-10 rounded-full overflow-hidden bg-[var(--bg-overlay)] border border-[var(--border-subtle)] flex-shrink-0 relative">
-          {user?.user_metadata?.avatar_url ? (
+          {user?.photoURL ? (
             <Image 
-              src={user.user_metadata.avatar_url} 
+              src={user.photoURL} 
               alt="Avatar" 
               fill 
               className="object-cover" 
