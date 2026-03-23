@@ -1,4 +1,4 @@
-<h1>⚗️ CatalystLab</h1>
+<h1>CatalystLab</h1>
 
 <p><strong>Think at the edge of knowledge</strong></p>
 
