@@ -1,4 +1,4 @@
-<h1>CatalystLab: CatalystLab: AI-powered research brainstorming and parallel literature discovery platform</h1>
+<h1>CatalystLab: AI-powered research brainstorming and parallel literature discovery platform</h1>
 
 <p><strong>Think at the edge of knowledge</strong></p>
 
