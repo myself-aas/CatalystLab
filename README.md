@@ -431,8 +431,12 @@ If you use **CatalystLab** in your research, brainstorming process, or literatur
   publisher = {Github},
   doi = {10.5281/zenodo.19362937},
   url = {https://github.com/myself-aas/CatalystLab},
-  note = {Academic SaaS for Research Ideation}
+  keywords = {Artificial intelligence, Literature Discovery, Gemini 2.5 Flash, Open Science, Academic Search, Bibliometrics},
+  language = {enc},
+  note = {Academic SaaS for Research Ideation},
+  copyright = {MIT License}
 }
+
 ```
 ---
 
