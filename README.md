@@ -418,7 +418,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 If you use **CatalystLab** in your research, brainstorming process, or literature discovery, please cite the software as follows:
 
 ### **APA 7**
-> Shuvo, Ashif A. (2026). CatalystLab: AI-Powered Research Brainstorming and Parallel Literature Discovery Platform (v1.3.7). Zenodo. https://doi.org/10.5281/zenodo.19362937
+> Shuvo, Ashif A. (2026). CatalystLab: AI-Powered Research Brainstorming and Parallel Literature Discovery Platform (v1.3.7). Github. https://doi.org/10.5281/zenodo.19362937
 
 ### **BibTeX**
 ```bibtex
@@ -428,7 +428,7 @@ If you use **CatalystLab** in your research, brainstorming process, or literatur
   version = {1.3.7},
   year = {2026},
   month = {4},
-  publisher = {Zenodo},
+  publisher = {Github},
   doi = {10.5281/zenodo.19362937},
   url = {https://github.com/myself-aas/CatalystLab},
   note = {Academic SaaS for Research Ideation}
