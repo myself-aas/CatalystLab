@@ -393,7 +393,23 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ---
 
+## 👨‍💻 Author
+
 <div align="center">
+
+### Ashif Ahmed Shuvo
+**Machine Learning Enthusiast · AI & Food Engineering Researcher**
+
+*AI & ML expert with a B.Sc. in Food Engineering, specializing in precision and sustainable agriculture and agricultural automation. Experienced in computer vision for object detection & recognition, IoT-based smart farming solutions, and data-driven decision-making for monitoring and optimization. Passionate about integrating AI, remote sensing, and sensor-based technologies to enhance sustainable agriculture and horticulture research.*
+
+---
+
+[![GitHub](https://img.shields.io/badge/GitHub-myself--aas-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/myself-aas/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-me--aas-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/me-aas/)
+[![Email](https://img.shields.io/badge/Email-shuvo.1807016@bau.edu.bd-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:shuvo.1807016@bau.edu.bd)
+[![Phone](https://img.shields.io/badge/Phone-+8801985531180-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](tel:+8801985531180)
+
+</div>
 
 ---
 
@@ -402,19 +418,23 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 If you use **CatalystLab** in your research, brainstorming process, or literature discovery, please cite the software as follows:
 
 ### **APA 7**
-> Shuvo, A. A. (2026). CatalystLab: AI-powered research brainstorming and parallel literature discovery platform (Version 1.0.0) [Computer software]. GitHub. https://github.com/myself-aas/CatalystLab
+> Shuvo, Ashif A. (2026). CatalystLab: AI-Powered Research Brainstorming and Parallel Literature Discovery Platform (v1.3.7). Zenodo. https://doi.org/10.5281/zenodo.19362937
 
 ### **BibTeX**
 ```bibtex
-@software{aas_catalystlab_2026,
+@software{shuvo_catalystlab_2026,
   author = {Shuvo, Ashif Ahmed},
   title = {CatalystLab: AI-powered research brainstorming and parallel literature discovery platform},
-  url = {[https://github.com/myself-aas/CatalystLab](https://github.com/myself-aas/CatalystLab)},
-  version = {1.0.0},
+  version = {1.3.7},
   year = {2026},
-  month = {03}
-  publisher = {GitHub}
+  month = {4},
+  publisher = {Zenodo},
+  doi = {10.5281/zenodo.19362937},
+  url = {https://github.com/myself-aas/CatalystLab},
+  note = {Academic SaaS for Research Ideation}
 }
+```
+---
 
 Built for researchers, by researchers · Bangladesh 🇧🇩
 
