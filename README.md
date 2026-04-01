@@ -1,4 +1,4 @@
-<h1>CatalystLab</h1>
+<h1>CatalystLab: CatalystLab: AI-powered research brainstorming and parallel literature discovery platform</h1>
 
 <p><strong>Think at the edge of knowledge</strong></p>
 
@@ -394,6 +394,27 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 ---
 
 <div align="center">
+
+---
+
+## 🎓 Citation
+
+If you use **CatalystLab** in your research, brainstorming process, or literature discovery, please cite the software as follows:
+
+### **APA 7**
+> Shuvo, A. A. (2026). CatalystLab: AI-powered research brainstorming and parallel literature discovery platform (Version 1.0.0) [Computer software]. GitHub. https://github.com/myself-aas/CatalystLab
+
+### **BibTeX**
+```bibtex
+@software{aas_catalystlab_2026,
+  author = {Shuvo, Ashif Ahmed},
+  title = {CatalystLab: AI-powered research brainstorming and parallel literature discovery platform},
+  url = {[https://github.com/myself-aas/CatalystLab](https://github.com/myself-aas/CatalystLab)},
+  version = {1.0.0},
+  year = {2026},
+  month = {03}
+  publisher = {GitHub}
+}
 
 Built for researchers, by researchers · Bangladesh 🇧🇩
 
