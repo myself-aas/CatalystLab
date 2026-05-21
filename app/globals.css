@@ -1,56 +1,122 @@
 @import "tailwindcss";
 
+/**
+ * MATERIAL 3 GLOBAL STYLESHEET
+ * 
+ * Implements expressive Material 3 design system with:
+ * - Semantic color tokens
+ * - Typography scale
+ * - Elevation & shadows
+ * - Interactive state layers
+ * - Accessibility features
+ * - Dark mode optimization
+ */
+
+/* ──────────────────────────────────────────────────────────────────
+   TAILWIND FONT VARIABLES
+   ────────────────────────────────────────────────────────────────── */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+/* ──────────────────────────────────────────────────────────────────
+   ROOT CSS VARIABLES (M3 Design Tokens)
+   ────────────────────────────────────────────────────────────────── */
 :root {
-  /* ── SURFACES ────────────────────────────────────────────── */
-  --bg-canvas: #0c0c0f;
-  --bg-base: #111116;
-  --bg-elevated: #17171e;
-  --bg-overlay: #1e1e28;
-  --bg-sunken: #0a0a0d;
-  --bg-hover: #21212c;
-  --bg-active: #27273a;
-  --bg-selection: #2a2a4a;
+  color-scheme: dark;
 
-  /* ── BORDERS ─────────────────────────────────────────────── */
-  --border-faint: #18181f;
-  --border-subtle: #1f1f2a;
-  --border-default: #2c2c3c;
-  --border-strong: #3c3c52;
-  --border-focus: #5b5bf6;
+  /* ─ PRIMARY BRAND COLOR ─ */
+  --primary: #5b5bf6;
+  --primary-container: #252560;
+  --on-primary: #ffffff;
+  --on-primary-container: #e0deff;
+  --primary-hover: #6d6df8;
+  --primary-focus: #7b7bf8;
+  --primary-pressed: #5a5ae3;
 
-  /* ── TEXT ────────────────────────────────────────────────── */
-  --text-primary: #eeeef2;
-  --text-secondary: #9898b0;
-  --text-tertiary: #58586e;
-  --text-link: #7b7bf8;
+  /* ─ SECONDARY BRAND COLOR ─ */
+  --secondary: #e879f9;
+  --secondary-container: #3d0f1c;
+  --on-secondary: #ffffff;
+  --on-secondary-container: #ffe0f5;
+  --secondary-hover: #f08ef0;
+  --secondary-focus: #f09cf0;
 
-  /* ── PRIMARY ACCENT ──────────────────────────────────────── */
-  --accent: #5b5bf6;
-  --accent-hover: #6d6df8;
-  --accent-muted: #252560;
-  --accent-subtle: #18183a;
-  --accent-glow: rgba(91, 91, 246, 0.15);
+  /* ─ TERTIARY BRAND COLOR ─ */
+  --tertiary: #22d3ee;
+  --tertiary-container: #091f17;
+  --on-tertiary: #000000;
+  --on-tertiary-container: #b0ffff;
+  --tertiary-hover: #4edbe1;
+  --tertiary-focus: #22e4ee;
 
-  /* ── STATUS COLORS ───────────────────────────────────────── */
-  --emerald: #34d399;
-  --emerald-muted: #0d3828;
-  --emerald-subtle: #091f17;
-  --amber: #f59e0b;
-  --amber-muted: #3a2800;
-  --rose: #f43f5e;
-  --rose-muted: #3d0f1c;
+  /* ─ ERROR / ALERT COLOR ─ */
+  --error: #f43f5e;
+  --error-container: #3d0f1c;
+  --on-error: #ffffff;
+  --on-error-container: #ffe0e5;
+  --error-hover: #f97187;
+  --error-focus: #f55a6f;
 
-  /* ── ZONE COLORS ─────────────────────────────────────────── */
+  /* ─ SUCCESS / POSITIVE COLOR ─ */
+  --success: #34d399;
+  --success-container: #0d3828;
+  --on-success: #ffffff;
+  --on-success-container: #b0ffeb;
+  --success-hover: #5be9c1;
+  --success-focus: #4dd8b3;
+
+  /* ─ WARNING / CAUTION COLOR ─ */
+  --warning: #f59e0b;
+  --warning-container: #3a2800;
+  --on-warning: #ffffff;
+  --on-warning-container: #ffe8ce;
+  --warning-hover: #f8b239;
+  --warning-focus: #f5a625;
+
+  /* ─ SURFACE HIERARCHY ─ */
+  --surface: #0c0c0f;
+  --surface-dim: #0a0a0d;
+  --surface-bright: #1a1a24;
+  --surface-lowest: #06060a;
+  --surface-low: #111116;
+  --surface-container: #17171e;
+  --surface-container-low: #14141b;
+  --surface-container-high: #21212c;
+  --surface-container-highest: #2c2c3c;
+  --on-surface: #eeeef2;
+  --on-surface-variant: #9898b0;
+  --on-surface-dim: #999999;
+
+  /* ─ OUTLINE & BORDERS ─ */
+  --outline: #3c3c52;
+  --outline-variant: #2c2c3c;
+  --outline-focus: #5b5bf6;
+
+  /* ─ INVERSE (Modals & Overlays) ─ */
+  --inverse-surface: #f0f0f5;
+  --inverse-primary: #3c1b8e;
+  --inverse-on-surface: #000000;
+
+  /* ─ SCRIM & BACKDROP ─ */
+  --scrim: rgba(0, 0, 0, 0.6);
+  --scrim-hover: rgba(0, 0, 0, 0.5);
+  --scrim-strong: rgba(0, 0, 0, 0.8);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+
+  /* ─ STATE LAYERS (Interactive Feedback) ─ */
+  --state-hover: rgba(91, 91, 246, 0.08);
+  --state-focus: rgba(91, 91, 246, 0.12);
+  --state-pressed: rgba(91, 91, 246, 0.16);
+  --state-disabled: rgba(233, 238, 242, 0.38);
+  --state-disabled-container: rgba(233, 238, 242, 0.12);
+
+  /* ─ RESEARCH SEMANTIC COLORS ─ */
   --zone-a: #818cf8;
   --zone-b: #e879f9;
   --zone-c: #22d3ee;
 
-  /* ── SOURCE COLORS ───────────────────────────────────────── */
   --src-ss: #60a5fa;
   --src-oa: #34d399;
   --src-arxiv: #fb923c;
@@ -60,73 +126,672 @@
   --src-epmc: #14b8a6;
   --src-doaj: #4ade80;
   --src-upw: #e879f9;
+
+  /* ─ SPACING (8px base unit) ─ */
+  --spacing-xs: 2px;
+  --spacing-sm: 4px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+
+  /* ─ BORDER RADIUS (M3 Curved Style) ─ */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+  --radius-extra: 28px;
+
+  /* ─ ELEVATION SHADOWS (M3 System) ─ */
+  --shadow-1: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-2: 0px 3px 6px rgba(0, 0, 0, 0.16), 0px 3px 6px rgba(0, 0, 0, 0.23);
+  --shadow-3: 0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.23);
+  --shadow-4: 0px 15px 25px rgba(0, 0, 0, 0.15), 0px 5px 10px rgba(0, 0, 0, 0.05);
+  --shadow-5: 0px 20px 40px rgba(0, 0, 0, 0.3);
+
+  /* ─ TRANSITION DURATIONS ─ */
+  --duration-shortest: 150ms;
+  --duration-short: 200ms;
+  --duration-standard: 300ms;
+  --duration-complex: 375ms;
+
+  /* ─ EASING FUNCTIONS ─ */
+  --easing-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-emphasized-out: cubic-bezier(0, 0.55, 0.45, 1);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   HTML & BODY (Base Styles)
+   ────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background-color: var(--bg-canvas);
-  color: var(--text-primary);
+  background-color: var(--surface);
+  color: var(--on-surface);
   font-family: var(--font-sans);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0px;
   overflow-x: hidden;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
+/* ──────────────────────────────────────────────────────────────────
+   TEXT SELECTION (Material 3 Style)
+   ────────────────────────────────────────────────────────────────── */
 ::selection {
-  background-color: var(--bg-selection);
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
 }
 
-/* Custom Scrollbar */
+::-moz-selection {
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   SCROLLBAR STYLING
+   ────────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-canvas);
+  background: var(--surface-low);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-default);
-  border-radius: 4px;
+  background: var(--outline-variant);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--surface-low);
+  transition: background-color var(--duration-short) var(--easing-ease-in-out);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--border-strong);
+  background: var(--outline);
 }
 
+::-webkit-scrollbar-thumb:active {
+  background: var(--primary);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: var(--outline-variant) var(--surface-low);
+  scrollbar-width: thin;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   FOCUS STATES (Accessibility)
+   ────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--outline-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--outline-focus);
+  outline-offset: 2px;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   LINKS & ANCHORS
+   ────────────────────────────────────────────────────────────────── */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--duration-short) var(--easing-ease-in-out);
+}
+
+a:visited {
+  color: var(--secondary);
+}
+
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+a:active {
+  color: var(--primary-pressed);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   FORM ELEMENTS
+   ────────────────────────────────────────────────────────────────── */
+input,
+textarea,
+select {
+  background-color: var(--surface-container);
+  color: var(--on-surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  transition: all var(--duration-short) var(--easing-ease-in-out);
+}
+
+input:hover:not(:disabled),
+textarea:hover:not(:disabled),
+select:hover:not(:disabled) {
+  border-color: var(--outline);
+  background-color: var(--surface-container-high);
+}
+
+input:focus:not(:disabled),
+textarea:focus:not(:disabled),
+select:focus:not(:disabled) {
+  border-color: var(--primary);
+  background-color: var(--surface-container-high);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder {
+  color: var(--on-surface-variant);
+  opacity: 0.7;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   BUTTON ELEMENT (M3 Base Style)
+   ────────────────────────────────────────────────────────────────── */
+button,
+[role="button"] {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 10px 24px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+  transition: all var(--duration-short) var(--easing-ease-in-out);
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+}
+
+button:hover:not(:disabled),
+[role="button"]:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  box-shadow: var(--shadow-1);
+}
+
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  background-color: var(--primary-pressed);
+}
+
+button:disabled,
+[role="button"]:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   HEADINGS & TEXT HIERARCHY
+   ────────────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--on-surface);
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0;
+}
+
+h1 {
+  font-size: 57px;
+  line-height: 64px;
+  letter-spacing: -0.25px;
+}
+
+h2 {
+  font-size: 45px;
+  line-height: 52px;
+  letter-spacing: 0px;
+}
+
+h3 {
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: 0px;
+}
+
+h4 {
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: 0px;
+}
+
+h5 {
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 0px;
+}
+
+h6 {
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0px;
+}
+
+p {
+  color: var(--on-surface-variant);
+  margin: 0;
+}
+
+small {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+  color: var(--on-surface-dim);
+}
+
+code {
+  background-color: var(--surface-container-high);
+  color: var(--secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  background-color: var(--surface-container-high);
+  color: var(--on-surface);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   MARKDOWN CONTENT
+   ────────────────────────────────────────────────────────────────── */
 .markdown-body {
   font-size: 15px;
   line-height: 1.7;
+  color: var(--on-surface-variant);
 }
 
-.markdown-body h1, .markdown-body h2, .markdown-body h3 {
-  color: var(--text-primary);
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  color: var(--on-surface);
   font-weight: 600;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
+  margin-top: 24px;
+  margin-bottom: 16px;
 }
 
 .markdown-body p {
-  margin-bottom: 1em;
-  color: var(--text-secondary);
+  margin-bottom: 16px;
+  color: var(--on-surface-variant);
 }
 
-.markdown-body ul, .markdown-body ol {
-  margin-bottom: 1em;
-  padding-left: 1.5em;
+.markdown-body ul,
+.markdown-body ol {
+  margin-bottom: 16px;
+  padding-left: 24px;
 }
 
 .markdown-body li {
-  margin-bottom: 0.5em;
+  margin-bottom: 8px;
 }
 
-.skeleton {
-  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-hover) 50%, var(--bg-elevated) 75%);
+.markdown-body a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.markdown-body a:hover {
+  color: var(--primary-hover);
+}
+
+.markdown-body blockquote {
+  border-left: 4px solid var(--primary);
+  padding-left: 16px;
+  margin: 16px 0;
+  color: var(--on-surface-variant);
+  font-style: italic;
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--outline-variant);
+  padding: 12px;
+  text-align: left;
+}
+
+.markdown-body th {
+  background-color: var(--surface-container-high);
+  font-weight: 600;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   SKELETON LOADER
+   ────────────────────────────────────────────────────────────────── */
+.skeleton,
+.skeleton-text,
+.skeleton-avatar {
+  background: linear-gradient(
+    90deg,
+    var(--surface-container) 25%,
+    var(--surface-container-high) 50%,
+    var(--surface-container) 75%
+  );
   background-size: 200% 100%;
-  animation: skeleton-loading 1.5s infinite;
+  animation: skeleton-pulse 1.5s infinite;
+  border-radius: var(--radius-md);
 }
 
-@keyframes skeleton-loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+.skeleton-text {
+  height: 12px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   SEMANTIC COLOR CLASSES
+   ────────────────────────────────────────────────────────────────── */
+.surface-container {
+  background-color: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+}
+
+.surface-container-high {
+  background-color: var(--surface-container-high);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+}
+
+.surface-container-highest {
+  background-color: var(--surface-container-highest);
+  border: 1px solid var(--outline);
+  border-radius: var(--radius-lg);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   ELEVATION HELPERS
+   ────────────────────────────────────────────────────────────────── */
+.elevation-1 {
+  box-shadow: var(--shadow-1);
+}
+
+.elevation-2 {
+  box-shadow: var(--shadow-2);
+}
+
+.elevation-3 {
+  box-shadow: var(--shadow-3);
+}
+
+.elevation-4 {
+  box-shadow: var(--shadow-4);
+}
+
+.elevation-5 {
+  box-shadow: var(--shadow-5);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   STATE LAYER HELPERS
+   ────────────────────────────────────────────────────────────────── */
+.state-layer {
+  position: relative;
+  transition: background-color var(--duration-short) var(--easing-ease-in-out);
+}
+
+.state-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  border-radius: inherit;
+  pointer-events: none;
+  transition: background-color var(--duration-short) var(--easing-ease-in-out);
+}
+
+.state-layer:hover::before {
+  background-color: var(--state-hover);
+}
+
+.state-layer:focus-visible::before {
+  background-color: var(--state-focus);
+}
+
+.state-layer:active::before {
+  background-color: var(--state-pressed);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   ACCESSIBILITY: REDUCED MOTION
+   ────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   ACCESSIBILITY: HIGH CONTRAST MODE
+   ────────────────────────────────────────────────────────────────── */
+@media (prefers-contrast: more) {
+  :root {
+    --primary: #7b7bf8;
+    --on-surface: #ffffff;
+    --outline: #6d6df8;
+  }
+
+  button,
+  [role="button"] {
+    border: 2px solid var(--primary);
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   ACCESSIBILITY: FORCED COLORS (High Contrast Windows)
+   ────────────────────────────────────────────────────────────────── */
+@media (forced-colors: active) {
+  button,
+  [role="button"] {
+    border: 2px outset ButtonBorder;
+  }
+
+  button:active,
+  [role="button"]:active {
+    border-style: inset;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   UTILITY CLASSES FOR M3 PATTERNS
+   ────────────────────────────────────────────────────────────────── */
+
+/* Responsive Grid (M3 12-column system) */
+.grid-m3 {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 479px) {
+  .grid-m3 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .grid-m3 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .grid-m3 {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-m3 {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+/* Safe area support for notched devices */
+.safe-area-top {
+  padding-top: max(var(--spacing-lg), env(safe-area-inset-top));
+}
+
+.safe-area-bottom {
+  padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom));
+}
+
+.safe-area-left {
+  padding-left: max(var(--spacing-lg), env(safe-area-inset-left));
+}
+
+.safe-area-right {
+  padding-right: max(var(--spacing-lg), env(safe-area-inset-right));
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Container query support */
+@supports (container-type: inline-size) {
+  .container-m3 {
+    container-type: inline-size;
+  }
+
+  @container (max-width: 599px) {
+    .container-m3 {
+      --container-size: mobile;
+    }
+  }
+
+  @container (min-width: 600px) and (max-width: 839px) {
+    .container-m3 {
+      --container-size: tablet;
+    }
+  }
+
+  @container (min-width: 840px) {
+    .container-m3 {
+      --container-size: desktop;
+    }
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  a {
+    color: #0066cc;
+    text-decoration: underline;
+  }
 }
