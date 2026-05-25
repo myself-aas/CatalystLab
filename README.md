@@ -121,7 +121,7 @@ It does two things simultaneously:
 
 ---
 
-## 📡 9 Literature Sources
+## 📡 21 Literature and Dataset Sources
 
 CatalystLab queries all of these simultaneously on every instrument run:
 
@@ -228,6 +228,7 @@ CatalystLab/
 ### Prerequisites
 
 - Node.js 20+
+- typescript 
 - npm or yarn
 - A Google account (for Firebase)
 - A Gemini API key (free at [aistudio.google.com](https://aistudio.google.com))
@@ -248,7 +249,7 @@ npm install
 ### 3. Set up environment variables
 
 ```bash
-cp .env.example .env.local
+cp .env.local
 ```
 
 Fill in your values in `.env.local` (see [Environment Variables](#-environment-variables) below).
@@ -398,7 +399,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 <div align="center">
 
 ### Ashif Ahmed Shuvo
-**Machine Learning Enthusiast · AI & Food Engineering Researcher**
+**Machine Learning Enthusiast · AI & ML Researcher**
 
 *AI & ML expert with a B.Sc. in Food Engineering, specializing in precision and sustainable agriculture and agricultural automation. Experienced in computer vision for object detection & recognition, IoT-based smart farming solutions, and data-driven decision-making for monitoring and optimization. Passionate about integrating AI, remote sensing, and sensor-based technologies to enhance sustainable agriculture and horticulture research.*
 
