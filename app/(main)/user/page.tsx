@@ -6,8 +6,10 @@ import { useAuth } from '../../../components/AuthProvider';
 import { 
   Loader2, Save, User, BookOpen, Briefcase, Award, Globe, 
   MapPin, GraduationCap, Building, Trophy, Calendar, CheckCircle2,
-  Cpu, Workflow, AlertCircle, Plus, Trash2, Mail, Link as LinkIcon
+  Cpu, Workflow, AlertCircle, Plus, Trash2, Mail, Link as LinkIcon,
+  Download, FileJson, ShieldCheck, LogOut
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface EducationItem {
   id: string;
@@ -27,8 +29,9 @@ interface CareerItem {
   endYear: string;
 }
 
-export default function SettingsPage() {
-  const { user } = useAuth();
+export default function UserPage() {
+  const { user, signOut } = useAuth();
+  const router = useRouter();
   
   // Navigation Tabs matching Material 3 tab bars
   const [activeTab, setActiveTab] = useState<'profile' | 'education' | 'career' | 'scholar' | 'agents'>('profile');
@@ -239,9 +242,9 @@ export default function SettingsPage() {
       {/* Skeleton Header Card */}
       <div className="p-6 rounded-[1.25rem] bg-white border border-[#68BA7F]/20 shadow-sm flex items-center gap-6 animate-pulse">
         <div className="w-20 h-20 rounded-full bg-[#68BA7F]/20"></div>
-        <div className="space-y-3 flex-1 max-w-sm">
+        <div className="space-y-3">
           <div className="h-6 bg-[#68BA7F]/20 rounded w-48"></div>
-          <div className="h-4 bg-[#68BA7F]/10 rounded w-full"></div>
+          <div className="h-4 bg-[#68BA7F]/10 rounded w-32"></div>
         </div>
       </div>
       
@@ -272,18 +275,26 @@ export default function SettingsPage() {
       {/* Title block */}
       <div className="flex justify-between items-start gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#253D2C] tracking-tight">Catalyst Settings</h1>
-          <p className="text-sm text-[#2E6F40]/80">Configure your socio-demographic research metadata and multi-agent orchestration parameters.</p>
+          <h1 className="text-3xl font-bold text-[#253D2C] tracking-tight">{user?.displayName || 'User'} Profile & Settings</h1>
+          <p className="text-sm text-[#2E6F40]/80">Manage identity, demographics, and multi-agent orchestration.</p>
         </div>
         
-        <button 
-          onClick={handleSave} 
-          disabled={saving}
-          className="px-6 py-3 bg-[#2E6F40] hover:bg-[#253D2C] text-white rounded-[1.25rem] font-bold flex items-center gap-2 transition-all shadow-md hover:shadow-lg disabled:opacity-50 text-sm shrink-0"
-        >
-          {saving ? <Loader2 className="w-4 h-4 animate-spin"/> : <Save size={16}/>}
-          {saving ? 'Saving...' : 'Save Settings'}
-        </button>
+        <div className="flex gap-2">
+            <button 
+              onClick={handleSave} 
+              disabled={saving}
+              className="px-6 py-3 bg-[#2E6F40] hover:bg-[#253D2C] text-white rounded-[1.25rem] font-bold flex items-center gap-2 transition-all shadow-md hover:shadow-lg disabled:opacity-50 text-sm shrink-0"
+            >
+              {saving ? <Loader2 className="w-4 h-4 animate-spin"/> : <Save size={16}/>}
+              {saving ? 'Saving...' : 'Save'}
+            </button>
+            <button 
+              onClick={async () => { await signOut(); router.push('/login'); }}
+              className="px-6 py-3 bg-red-50 hover:bg-red-100 text-red-700 rounded-[1.25rem] font-bold flex items-center gap-2 transition-all shadow-md hover:shadow-lg text-sm shrink-0"
+            >
+              <LogOut size={16}/> Sign Out
+            </button>
+        </div>
       </div>
 
       {/* Save status notification block */}
@@ -298,48 +309,29 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* Material 3 Segmented Custom Tabs Bar */}
-      <div className="flex flex-wrap p-1.5 bg-white/70 border border-[#68BA7F]/20 rounded-[1.5rem] shadow-sm gap-1">
-        <button
-          onClick={() => setActiveTab('profile')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-[1.15rem] text-xs sm:text-sm font-bold tracking-tight transition-all ${
-            activeTab === 'profile' 
-              ? 'bg-[#2E6F40] text-white shadow-sm' 
-              : 'text-[#2E6F40]/80 hover:bg-[#F4F9F5] hover:text-[#253D2C]'
-          }`}
-        >
-          <User size={16} /> Demographics
-        </button>
-        <button
-          onClick={() => setActiveTab('education')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-[1.15rem] text-xs sm:text-sm font-bold tracking-tight transition-all ${
-            activeTab === 'education' 
-              ? 'bg-[#2E6F40] text-white shadow-sm' 
-              : 'text-[#2E6F40]/80 hover:bg-[#F4F9F5] hover:text-[#253D2C]'
-          }`}
-        >
-          <BookOpen size={16} /> Education
-        </button>
-        <button
-          onClick={() => setActiveTab('career')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-[1.15rem] text-xs sm:text-sm font-bold tracking-tight transition-all ${
-            activeTab === 'career' 
-              ? 'bg-[#2E6F40] text-white shadow-sm' 
-              : 'text-[#2E6F40]/80 hover:bg-[#F4F9F5] hover:text-[#253D2C]'
-          }`}
-        >
-          <Briefcase size={16} /> Career History
-        </button>
-        <button
-          onClick={() => setActiveTab('scholar')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-[1.15rem] text-xs sm:text-sm font-bold tracking-tight transition-all ${
-            activeTab === 'scholar' 
-              ? 'bg-[#2E6F40] text-white shadow-sm' 
-              : 'text-[#2E6F40]/80 hover:bg-[#F4F9F5] hover:text-[#253D2C]'
-          }`}
-        >
-          <Award size={16} /> Portfolio
-        </button>
+      {/* Material 3 Expressive Tabs Bar */}
+      <div className="flex border-b border-[#68BA7F]/20 mb-6">
+        {[
+          { id: 'profile', label: 'Demographics', icon: User },
+          { id: 'education', label: 'Education', icon: BookOpen },
+          { id: 'career', label: 'Career History', icon: Briefcase },
+          { id: 'scholar', label: 'Portfolio', icon: Award },
+          { id: 'agents', label: 'Multi-Agent Swarm', icon: Cpu },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id as any)}
+            className={`flex-1 flex justify-center items-center gap-2 py-4 text-xs sm:text-sm font-bold tracking-tight transition-all relative ${
+              activeTab === tab.id ? 'text-[#2E6F40]' : 'text-[#2e6f40]/60 hover:text-[#2E6F40]'
+            }`}
+          >
+            <tab.icon size={16} />
+            {tab.label}
+            {activeTab === tab.id && (
+              <div className="absolute bottom-0 w-full h-1 bg-[#2E6F40] rounded-t-full animate-in slide-in-from-bottom-2 duration-300" />
+            )}
+          </button>
+        ))}
       </div>
 
       {/* Main Container Card */}

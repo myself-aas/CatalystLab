@@ -1,138 +1,343 @@
 {
   "entities": {
-    "Profile": {
-      "title": "Profile",
-      "description": "User profile information.",
+    "User": {
+      "title": "User",
+      "description": "A researcher profile with academic stats and study counts.",
       "type": "object",
       "properties": {
-        "username": { "type": "string" },
-        "full_name": { "type": "string" },
-        "avatar_url": { "type": "string" },
-        "bio": { "type": "string" },
-        "institution": { "type": "string" },
-        "position": { "type": "string" },
-        "research_mode": { "type": "boolean" },
-        "reputation_score": { "type": "number" },
-        "is_verified": { "type": "boolean" },
-        "tokens_remaining": { "type": "number" },
-        "tokens_total": { "type": "number" },
-        "tokens_reset_at": { "type": "string", "format": "date-time" },
-        "created_at": { "type": "string", "format": "date-time" },
-        "updated_at": { "type": "string", "format": "date-time" }
+        "uid": {
+          "type": "string",
+          "description": "Unique identifier matching the user's Auth UID."
+        },
+        "username": {
+          "type": "string",
+          "description": "Unique alphanumeric academic profile handle."
+        },
+        "full_name": {
+          "type": "string",
+          "description": "Real or academic name of the researcher."
+        },
+        "bio": {
+          "type": "string",
+          "description": "Short summary of scientific interest."
+        },
+        "demographics": {
+          "type": "object",
+          "description": "Socio-demographic data."
+        },
+        "education": {
+          "type": "array",
+          "items": { "type": "object" },
+          "description": "Educational background."
+        },
+        "career": {
+          "type": "array",
+          "items": { "type": "object" },
+          "description": "Career history."
+        },
+        "publications": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of publications."
+        },
+        "awards": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of awards."
+        },
+        "tokens_remaining": {
+          "type": "number",
+          "description": "Academic tokens left for AI evaluations."
+        },
+        "tokens_total": {
+          "type": "number",
+          "description": "Total historical token quota allocated."
+        },
+        "tokens_reset_at": {
+          "type": "string",
+          "description": "ISO timestamp for next token quota reset."
+        },
+        "geminiApiKey": {
+          "type": "string",
+          "description": "The user's individual Gemini Api Key."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["username", "created_at"]
+      "required": ["uid", "username"]
     },
     "Session": {
       "title": "Session",
-      "description": "A research brainstorming session.",
+      "description": "A scientific study or active writing session log.",
       "type": "object",
       "properties": {
-        "uid": { "type": "string" },
-        "instrument": { "type": "string" },
-        "zone": { "type": "string" },
-        "input": { "type": "string" },
-        "output": { "type": "object" },
-        "papers": { "type": "array", "items": { "type": "object" } },
-        "timestamp": { "type": "string", "format": "date-time" },
-        "title": { "type": "string" }
+        "id": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "description": "Topic or focus of this study session."
+        },
+        "duration": {
+          "type": "number",
+          "description": "Length of the study session in minutes."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Logs compiled during this study session."
+        },
+        "paper_id": {
+          "type": "string",
+          "description": "Associated scientific paper ID, if any."
+        },
+        "instrumentName": {
+          "type": "string",
+          "description": "Name of the academic synthesis instrument."
+        },
+        "input": {
+          "type": "string",
+          "description": "The custom research context or hypothesis input."
+        },
+        "output": {
+          "type": "string",
+          "description": "Synthesized academic literature report markdown output."
+        },
+        "tldr": {
+          "type": "string",
+          "description": "An executive short summary of the research."
+        },
+        "noveltyScore": {
+          "type": "number",
+          "description": "AI-calculated novelty score from 0 to 100."
+        },
+        "googleDocUrl": {
+          "type": "string",
+          "description": "The exported direct link of the report on Google Docs."
+        },
+        "googleSheetUrl": {
+          "type": "string",
+          "description": "The exported direct link of the literature database on Google Sheets."
+        },
+        "googleFormUrl": {
+          "type": "string",
+          "description": "The dynamic generated quiz/survey assessment link on Google Forms."
+        },
+        "googleGmailRecipient": {
+          "type": "string",
+          "description": "The destination email address the academic report was sent to via Gmail."
+        },
+        "googleCalendarEventUrl": {
+          "type": "string",
+          "description": "The link or ID of the scheduled Google Calendar assessment/event."
+        },
+        "googleTaskId": {
+          "type": "string",
+          "description": "The ID of the task created in Google Tasks."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["uid", "instrument", "timestamp"]
+      "required": ["uid", "title", "duration"]
     },
     "Fragment": {
       "title": "Fragment",
-      "description": "A research fragment for the emergence engine.",
+      "description": "A research idea, citation link, or collaborative micro-note.",
       "type": "object",
       "properties": {
-        "uid": { "type": "string" },
-        "content": { "type": "string" },
-        "tags": { "type": "array", "items": { "type": "string" } },
-        "timestamp": { "type": "string", "format": "date-time" }
+        "id": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["uid", "content", "timestamp"]
+      "required": ["uid", "content"]
     },
-    "Community": {
-      "title": "Community",
-      "description": "A research community.",
+    "Post": {
+      "title": "Post",
+      "description": "An academic discussion post or publication share on the discovery feed.",
       "type": "object",
       "properties": {
-        "name": { "type": "string" },
-        "slug": { "type": "string" },
-        "description": { "type": "string" },
-        "members_count": { "type": "number" },
-        "created_at": { "type": "string", "format": "date-time" }
-      }
+        "id": {
+          "type": "string"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "The UID of the post author."
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Display name of the author."
+        },
+        "authorPhoto": {
+          "type": "string",
+          "description": "Profile picture URL of the author."
+        },
+        "content": {
+          "type": "string",
+          "description": "Textual contents of the post."
+        },
+        "attachments": {
+          "type": "array",
+          "description": "List of attached images, articles, or datasets."
+        },
+        "likes": {
+          "type": "number",
+          "description": "Count of researcher likes."
+        },
+        "commentsCount": {
+          "type": "number",
+          "description": "Count of text replies."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["authorId", "authorName", "content", "likes", "commentsCount"]
     },
-    "CommunityMember": {
-      "title": "CommunityMember",
-      "description": "A member of a community.",
+    "Blog": {
+      "title": "Blog",
+      "description": "An academic full-length blog post.",
       "type": "object",
       "properties": {
-        "community_id": { "type": "string" },
-        "user_id": { "type": "string" },
-        "created_at": { "type": "string", "format": "date-time" }
-      }
+        "id": {
+          "type": "string"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "The UID of the post author."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the blog."
+        },
+        "content": {
+          "type": "string",
+          "description": "Full-length markdown content of the blog."
+        },
+        "authorName": {
+          "type": "string",
+          "description": "The name of the author."
+        },
+        "authorAvatar": {
+          "type": "string",
+          "description": "The URL of the author's avatar."
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Tags for the blog post."
+        },
+        "reactions": {
+          "type": "object",
+          "description": "Like, dislike, insightful, sad, angry, confused, brainstorming count map."
+        },
+        "favouriteCount": {
+          "type": "number",
+          "description": "Number of users who favourited this."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["authorId", "title", "content"]
     },
-    "ReadingList": {
-      "title": "ReadingList",
-      "description": "A curated list of papers.",
+    "Comment": {
+      "title": "Comment",
+      "description": "A comment on a blog post.",
       "type": "object",
       "properties": {
-        "owner_id": { "type": "string" },
+        "id": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "content"]
+    },
+    "Template": {
+      "title": "Template",
+      "description": "A reusable blog template.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
         "title": { "type": "string" },
         "description": { "type": "string" },
-        "is_public": { "type": "boolean" },
-        "created_at": { "type": "string", "format": "date-time" }
-      }
+        "content": { "type": "string" },
+        "usageCount": { "type": "number" },
+        "authorId": { "type": "string" }
+      },
+      "required": ["title", "content", "usageCount"]
     },
-    "FeedPreferences": {
-      "title": "FeedPreferences",
-      "description": "User algorithm settings.",
+    "Draft": {
+      "title": "Draft",
+      "description": "A draft of an academic blog post.",
       "type": "object",
       "properties": {
-        "user_id": { "type": "string" },
-        "topic_weight": { "type": "number" },
-        "recency_weight": { "type": "number" },
-        "network_weight": { "type": "number" },
-        "engagement_weight": { "type": "number" },
-        "paper_weight": { "type": "number" },
-        "show_ai_picks": { "type": "boolean" },
-        "show_trending": { "type": "boolean" },
-        "noise_filter": { "type": "boolean" }
-      }
+        "id": {
+          "type": "string"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "The UID of the post author."
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["authorId", "title", "content"]
     }
   },
   "firestore": {
-    "/users/{userId}": {
-      "schema": "Profile",
-      "description": "User profiles."
+    "users": {
+      "schema": "User",
+      "description": "User profiles and token statuses."
     },
-    "/sessions/{sessionId}": {
+    "sessions": {
       "schema": "Session",
-      "description": "Research sessions."
+      "description": "Logged research study sessions."
     },
-    "/fragments/{fragmentId}": {
+    "fragments": {
       "schema": "Fragment",
-      "description": "Research fragments."
+      "description": "Logged research insight fragments and quick notes."
     },
-    "/communities/{communityId}": {
-      "schema": "Community",
-      "description": "Research communities."
+    "posts": {
+      "schema": "Post",
+      "description": "Academic social discussion and publication thread posts."
     },
-    "/community_members/{memberId}": {
-      "schema": "CommunityMember",
-      "description": "Community memberships."
+    "blogs": {
+      "schema": "Blog",
+      "description": "Full length academic blog posts."
     },
-    "/reading_lists/{listId}": {
-      "schema": "ReadingList",
-      "description": "User reading lists."
-    },
-    "/feed_preferences/{userId}": {
-      "schema": "FeedPreferences",
-      "description": "User feed algorithm preferences."
-    },
-    "/system/stats": {
-      "schema": "object",
-      "description": "Global system usage stats."
+    "drafts": {
+      "schema": "Draft",
+      "description": "Full length academic blog drafts."
     }
   }
 }

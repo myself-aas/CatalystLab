@@ -1,74 +1,64 @@
 'use client';
-
-import React, { useState } from 'react';
-import { Bell, User, LogOut, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { usePathname, useRouter } from 'next/navigation';
+import React from 'react';
+import { useAuth } from './AuthProvider';
+import { LogOut, User, Search, MessageSquare } from 'lucide-react';
+import { auth } from '../lib/firebase';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useAuthStore } from '@/stores/authStore';
 
-export function TopBar({ title, className }: { title?: string, className?: string }) {
-  const pathname = usePathname();
+export default function TopBar() {
+  const { user } = useAuth();
   const router = useRouter();
-  const { signOut } = useAuthStore();
-  const [isSigningOut, setIsSigningOut] = useState(false);
-  
+
   const handleSignOut = async () => {
-    try {
-      setIsSigningOut(true);
-      await signOut();
-      router.push('/login');
-    } catch (error) {
-      console.error('Sign Out Error:', error);
-    } finally {
-      setIsSigningOut(false);
-    }
+    await signOut(auth);
+    router.push('/');
   };
 
-  let displayTitle = title;
-  if (!displayTitle) {
-    if (pathname === '/dashboard') displayTitle = 'Dashboard';
-    else if (pathname.startsWith('/instruments')) displayTitle = 'Instruments';
-    else if (pathname.startsWith('/reports')) displayTitle = 'My Reports';
-    else if (pathname.startsWith('/search')) displayTitle = 'Literature Search';
-    else if (pathname.startsWith('/reviews')) displayTitle = 'Living Reviews';
-    else if (pathname.startsWith('/settings')) displayTitle = 'Settings';
-    else displayTitle = 'CatalystLab';
-  }
+  const triggerCmdK = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }));
+  };
 
   return (
-    <div className={cn("h-[52px] bg-[var(--bg-base)]/95 backdrop-blur-md border-b border-[var(--border-faint)] flex items-center justify-between px-6 sticky top-0 z-40", className)}>
-      <div className="text-[14px] font-medium text-[var(--text-primary)]">{displayTitle}</div>
-      
-      <div className="flex items-center gap-3">
-        {/* ⌘K Pill */}
-        <Link href="/search" className="hidden md:flex items-center gap-2 px-2.5 py-1 bg-[var(--bg-overlay)] border border-[var(--border-default)] rounded-[var(--r-sm)] hover:border-[var(--border-strong)] hover:bg-[var(--bg-hover)] transition-all cursor-pointer group">
-          <span className="text-[10px] font-mono text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]">⌘K</span>
-        </Link>
-
-        <div className="w-[1px] h-4 bg-[var(--border-faint)] mx-1 hidden md:block" />
-
-        <button className="p-2 rounded-[var(--r-md)] hover:bg-[var(--bg-hover)] text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-all relative">
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-[var(--accent)] rounded-full border border-[var(--bg-base)]" />
-        </button>
-        
-        <Link href="/profile" className="flex items-center gap-2 p-1 pl-1 pr-2 rounded-full hover:bg-[var(--bg-hover)] border border-transparent hover:border-[var(--border-subtle)] transition-all">
-          <div className="w-6 h-6 rounded-full bg-[var(--bg-sunken)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-tertiary)] overflow-hidden">
-            <User className="w-3.5 h-3.5" />
-          </div>
-          <span className="text-[12px] font-medium text-[var(--text-secondary)] hidden sm:block">Researcher</span>
-        </Link>
-
+    <header className="h-16 flex items-center justify-between px-4 sm:px-6 bg-[#f3f6f1] border-b border-[#68BA7F]/15 sticky top-0 z-20">
+      <div className="flex-1 flex items-center">
         <button 
-          onClick={handleSignOut}
-          disabled={isSigningOut}
-          className="p-2 rounded-[var(--r-md)] hover:bg-[var(--rose-muted)] text-[var(--text-tertiary)] hover:text-[var(--rose)] transition-all disabled:opacity-50"
-          title="Sign Out"
+          onClick={triggerCmdK}
+          className="hidden sm:flex items-center gap-2.5 max-w-sm px-4 py-2 rounded-full bg-white border border-[#68BA7F]/20 hover:bg-[#FAFDF6] hover:border-[#2E6F40]/40 transition-all text-[#434842]/70 text-sm w-64 group shadow-sm"
         >
-          {isSigningOut ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogOut className="w-4 h-4" />}
+          <Search className="w-4 h-4 text-[#2E6F40]/70 group-hover:text-[#2E6F40] transition-colors" />
+          <span className="flex-1 text-left select-none text-[13px] font-medium tracking-wide">Search Literature...</span>
+          <span className="text-[10px] font-mono font-semibold bg-[#CFFFDC]/40 px-2 py-0.5 rounded-full text-[#1E4D2B] transition-colors">⌘K</span>
         </button>
       </div>
-    </div>
+      <div className="flex items-center gap-4">
+        <Link href="/settings" className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-[#1E4D2B] hover:text-[#002206] transition-colors">
+            <User className="w-3.5 h-3.5" /> Settings
+        </Link>
+        <Link href="/blogs" className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-[#1E4D2B] hover:text-[#002206] transition-colors">
+            <MessageSquare className="w-3.5 h-3.5" /> Blogs
+        </Link>
+        <div className="flex items-center gap-2.5 text-sm text-[#191E1A] bg-white/50 py-1.5 pl-2 pr-3.5 rounded-full border border-[#68BA7F]/15">
+          <div className="w-7 h-7 rounded-full bg-[#C6EFCE] border border-[#68BA7F]/30 flex items-center justify-center overflow-hidden shadow-sm">
+            {user?.photoURL ? (
+              <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            ) : (
+              <User className="w-3.5 h-3.5 text-[#1E4D2B]" />
+            )}
+          </div>
+          <span className="hidden sm:inline-block font-semibold text-xs tracking-wide text-[#1E4D2B]">
+            {user?.displayName?.split(' ')[0] || user?.email?.split('@')[0] || 'Researcher'}
+          </span>
+        </div>
+        <button
+          onClick={handleSignOut}
+          className="p-2 text-[#434842] hover:text-[#002206] rounded-full hover:bg-[#C6EFCE]/40 active:scale-95 transition-all"
+          title="Sign Out"
+        >
+          <LogOut className="w-4 h-4" />
+        </button>
+      </div>
+    </header>
   );
 }

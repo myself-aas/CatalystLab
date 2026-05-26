@@ -1,5 +1,8 @@
 {
-  "name": "CatalystLab",
-  "description": "AI-powered research brainstorming and literature discovery platform.",
-  "requestFramePermissions": []
+  "name": "Academic Research Hub",
+  "description": "An interactive scientific publishing, discovery, and studying assistant powered by Firestore and Google Auth.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

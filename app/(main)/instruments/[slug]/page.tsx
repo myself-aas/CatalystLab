@@ -1,459 +1,921 @@
 'use client';
+import React, { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { Send, Loader2, BookOpen, ExternalLink, Zap, FlaskConical, Target, BrainCircuit, FileText, FileSpreadsheet, ClipboardList, Mail, Calendar, CheckSquare, Cpu, Sliders, ChevronDown, ChevronUp, Bot, Sparkles, ShieldCheck, HelpCircle } from 'lucide-react';
+import { db, handleFirestoreError, OperationType } from '../../../../lib/firebase';
+import { doc, getDoc, addDoc, collection, updateDoc } from 'firebase/firestore';
+import { exportToGoogleDoc } from '../../../../lib/googleDocs';
+import { exportToGoogleSheet } from '../../../../lib/googleSheets';
+import { createAcademicQuizForm } from '../../../../lib/googleForms';
+import { sendSynthesisEmail } from '../../../../lib/googleGmail';
+import { scheduleResearchSession } from '../../../../lib/googleCalendar';
+import { addTask } from '../../../../lib/googleTasks';
+import { useAuth } from '../../../../components/AuthProvider';
+import Markdown from 'react-markdown';
+import { ThoughtColliderWorkspace } from '../../../../components/ThoughtColliderWorkspace';
 
-import React, { use, useState, useEffect, useRef } from 'react';
-import { INSTRUMENTS, ZONES, Session } from '@/lib/constants';
-import { notFound, useRouter, useSearchParams } from 'next/navigation';
-import { LiteraturePanel } from '@/components/LiteraturePanel';
-import { Paper, searchAll } from '@/lib/research-api';
-import { getAI, MODELS } from '@/lib/gemini';
-import { motion, AnimatePresence } from 'motion/react';
-import { 
-  FlaskConical, 
-  ArrowRight, 
-  Copy, 
-  Save, 
-  Share2, 
-  Loader2, 
-  Sparkles,
-  ChevronLeft,
-  CheckCircle2,
-  AlertCircle,
-  FileText,
-  History
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useApp } from '@/lib/context';
-import { useAuthStore } from '@/stores/authStore';
-import { checkLimits, incrementUsage } from '@/lib/usageSystem';
 
-export default function InstrumentPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get('session');
-  const initialQuery = searchParams.get('q');
+
+export default function InstrumentRunPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
+  const { user } = useAuth();
   
-  const router = useRouter();
-  const { addSession, sessions } = useApp();
-  const { user } = useAuthStore();
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState('');
   
-  const instrument = INSTRUMENTS.find(i => i.slug === slug);
-
-  const [input, setInput] = useState(initialQuery || '');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [output, setOutput] = useState<any>(null);
-  const [papers, setPapers] = useState<Paper[]>([]);
-  const [keywords, setKeywords] = useState<string[]>([]);
-  const [insight, setInsight] = useState<string>('');
-  const [statusText, setStatusText] = useState('Extracting research concepts...');
-  const [error, setError] = useState<string | null>(null);
+  const [exporting, setExporting] = useState(false);
+  const [exportedUrl, setExportedUrl] = useState<string | null>(null);
+  const [exportError, setExportError] = useState('');
   
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [exportingSheet, setExportingSheet] = useState(false);
+  const [exportedSheetUrl, setExportedSheetUrl] = useState<string | null>(null);
+  const [exportSheetError, setExportSheetError] = useState('');
 
-  // Load session if ID provided
-  useEffect(() => {
-    if (sessionId) {
-      const session = sessions.find(s => s.id === sessionId);
-      if (session) {
-        setInput(session.input.text || '');
-        setOutput(session.output);
-        setPapers(session.papers || []);
-      }
-    }
-  }, [sessionId, sessions]);
+  const [exportingForm, setExportingForm] = useState(false);
+  const [exportedFormUrl, setExportedFormUrl] = useState<string | null>(null);
+  const [exportFormError, setExportFormError] = useState('');
+  
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 500)}px`;
-    }
-  }, [input]);
+  const [formProgress, setFormProgress] = useState('');
+  
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
 
-  if (!instrument) {
-    notFound();
-  }
+  const [emailing, setEmailing] = useState(false);
+  const [emailSentRecipient, setEmailSentRecipient] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState('');
+  const [emailInput, setEmailInput] = useState('');
+  const [showEmailInput, setShowEmailInput] = useState(false);
 
-  const handleRun = async () => {
-    if (!input.trim() || isGenerating) return;
-    if (!user) {
-      setError("Please sign in to run instruments.");
-      return;
-    }
+  const [scheduling, setScheduling] = useState(false);
+  const [scheduledEventUrl, setScheduledEventUrl] = useState<string | null>(null);
+  const [scheduleError, setScheduleError] = useState('');
+  const [calendarProgress, setCalendarProgress] = useState('');
 
-    setIsGenerating(true);
-    setIsSearching(true);
-    setError(null);
-    setOutput(null);
-    setPapers([]);
-    setKeywords([]);
-    setInsight('');
+  const [tasking, setTasking] = useState(false);
+  const [createdTaskId, setCreatedTaskId] = useState<string | null>(null);
+  const [taskError, setTaskError] = useState('');
+  const [taskProgress, setTaskProgress] = useState('');
 
+  const handleAddTask = async () => {
+    if (!result || !result.tldr) return;
+    setTasking(true);
+    setTaskError('');
+    setCreatedTaskId(null);
+    setTaskProgress('Authorizing tasks...');
     try {
-      // Usage check
-      const limitCheck = await checkLimits(user.uid);
-      if (!limitCheck.canRun) {
-        setError(limitCheck.reason || "Daily limit reached.");
-        setIsGenerating(false);
-        setIsSearching(false);
-        return;
+      const taskId = await addTask(slug.replace('-', ' '), result.tldr, (msg) => {
+        setTaskProgress(msg);
+      });
+      setCreatedTaskId(taskId);
+
+      if (currentSessionId) {
+        try {
+          await updateDoc(doc(db, 'sessions', currentSessionId), {
+            googleTaskId: taskId
+          });
+        } catch (dbErr) {
+          console.error('Failed to update session with Task ID:', dbErr);
+          handleFirestoreError(dbErr, OperationType.UPDATE, `sessions/${currentSessionId}`);
+        }
       }
-
-      const ai = getAI();
-      
-      // Step 1: Extract Keywords & Concepts (Parallel with main run)
-      setStatusText('Extracting research concepts...');
-      const extractionPromise = ai.models.generateContent({
-        model: MODELS.flash,
-        contents: `The user has written the following research input for the instrument "${instrument.name}":
-        """
-        ${input}
-        """
-        Extract 3 to 6 search keywords or short phrases that best represent the core research topics. These will be used to query academic databases.
-        Return ONLY a valid JSON object with this exact schema:
-        {
-          "keywords": ["keyword1", "keyword2", "keyword3"],
-          "primaryQuery": "best single search phrase for the main topic",
-          "fieldOfStudy": "detected academic field",
-          "isQuestion": true
-        }`,
-        config: { responseMimeType: "application/json" }
-      });
-
-      // Step 2: Run Instrument Brainstorming
-      setStatusText(`Thinking with ${instrument.name}...`);
-      const instrumentPrompt = `You are CatalystLab's AI research assistant. You are running the instrument "${instrument.name}" (${instrument.description}).
-      User Input: """${input}"""
-      
-      Provide a highly structured, intellectually deep brainstorming output. 
-      Return ONLY a valid JSON object. 
-      The structure should be specific to "${instrument.name}".
-      Use keys like "coreInsights", "criticalQuestions", "noveltyScore" (0-100), "recommendations", "futureDirections".
-      Be academic, precise, and creative.`;
-
-      const brainstormingPromise = ai.models.generateContent({
-        model: MODELS.flash,
-        contents: instrumentPrompt,
-        config: { responseMimeType: "application/json" }
-      });
-
-      // Wait for extraction to start searching
-      const extractionResponse = await extractionPromise;
-      const extractionData = JSON.parse(extractionResponse.text || '{}');
-      setKeywords(extractionData.keywords || []);
-      const searchQuery = extractionData.primaryQuery || input;
-
-      // Start literature search
-      setStatusText('Querying 9 academic databases...');
-      const searchPromise = searchAll(searchQuery).then(results => {
-        setPapers(results);
-        setIsSearching(false);
-        return results;
-      }).catch(err => {
-        setIsSearching(false);
-        console.error("Search failed:", err);
-        return [];
-      });
-
-      // Wait for brainstorming
-      const brainstormingResponse = await brainstormingPromise;
-      const brainstormingData = JSON.parse(brainstormingResponse.text || '{}');
-      setOutput(brainstormingData);
-
-      // Step 4: Generate Literature Insight
-      const foundPapers = await searchPromise;
-      if (foundPapers.length > 0) {
-        setStatusText('Synthesizing literature landscape...');
-        const insightResponse = await ai.models.generateContent({
-          model: MODELS.flash,
-          contents: `Given these research paper titles on the topic "${searchQuery}":
-          ${foundPapers.slice(0, 8).map(p => `- ${p.title}`).join('\n')}
-          
-          Write 1-2 sentences observing the state of this literature landscape — what's well-covered, what seems missing, or what's surprising. Be specific and useful.
-          Return only a plain text string.`
-        });
-        setInsight(insightResponse.text || '');
-      }
-
-      // Record run
-      await incrementUsage(user.uid);
-
-      // Save session
-      const session: Session = {
-        id: Math.random().toString(36).substring(7),
-        instrumentSlug: instrument.slug,
-        input: { text: input },
-        output: brainstormingData,
-        papers: foundPapers,
-        timestamp: Date.now(),
-        title: input.substring(0, 60) + (input.length > 60 ? '...' : ''),
-        zone: instrument.zone as any
-      };
-      addSession(session);
-
     } catch (err: any) {
-      console.error("Instrument Run Error:", err);
-      setError(err.message || "An unexpected error occurred. Please check your API key.");
+      console.error('Failed to create task:', err);
+      setTaskError(err.message || 'Error creating task.');
     } finally {
-      setIsGenerating(false);
-      setIsSearching(false);
+      setTasking(false);
+      setTaskProgress('');
     }
   };
 
-  const handleCopy = () => {
-    if (output) {
-      navigator.clipboard.writeText(JSON.stringify(output, null, 2));
+  const handleExport = async () => {
+    if (!result) return;
+    setExporting(true);
+    setExportError('');
+    setExportedUrl(null);
+    try {
+      const url = await exportToGoogleDoc(result, slug.replace('-', ' '));
+      setExportedUrl(url);
+
+      if (currentSessionId) {
+        try {
+          await updateDoc(doc(db, 'sessions', currentSessionId), {
+            googleDocUrl: url
+          });
+        } catch (dbErr) {
+          console.error('Failed to update session with Google Doc URL:', dbErr);
+          handleFirestoreError(dbErr, OperationType.UPDATE, `sessions/${currentSessionId}`);
+        }
+      }
+    } catch (err: any) {
+      console.error('Failed to export to Google Docs:', err);
+      setExportError(err.message || 'Error occurred during exporting. Please try again.');
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const handleExportSheet = async () => {
+    if (!result || !result.papers || result.papers.length === 0) return;
+    setExportingSheet(true);
+    setExportSheetError('');
+    setExportedSheetUrl(null);
+    try {
+      const url = await exportToGoogleSheet(result, slug.replace('-', ' '));
+      setExportedSheetUrl(url);
+
+      if (currentSessionId) {
+        try {
+          await updateDoc(doc(db, 'sessions', currentSessionId), {
+            googleSheetUrl: url
+          });
+        } catch (dbErr) {
+          console.error('Failed to update session with Google Sheet URL:', dbErr);
+          handleFirestoreError(dbErr, OperationType.UPDATE, `sessions/${currentSessionId}`);
+        }
+      }
+    } catch (err: any) {
+      console.error('Failed to export to Google Sheets:', err);
+      setExportSheetError(err.message || 'Error occurred during exporting. Please try again.');
+    } finally {
+      setExportingSheet(false);
+    }
+  };
+
+  const handleExportForm = async () => {
+    if (!result || !result.synthesis) return;
+    setExportingForm(true);
+    setExportFormError('');
+    setExportedFormUrl(null);
+    setFormProgress('Initializing evaluation setup...');
+    try {
+      const url = await createAcademicQuizForm(result.synthesis, slug.replace('-', ' '), (msg) => {
+        setFormProgress(msg);
+      });
+      setExportedFormUrl(url);
+
+      if (currentSessionId) {
+        try {
+          await updateDoc(doc(db, 'sessions', currentSessionId), {
+            googleFormUrl: url
+          });
+        } catch (dbErr) {
+          console.error('Failed to update session with Google Form URL:', dbErr);
+          handleFirestoreError(dbErr, OperationType.UPDATE, `sessions/${currentSessionId}`);
+        }
+      }
+    } catch (err: any) {
+      console.error('Failed to export to Google Forms:', err);
+      setExportFormError(err.message || 'Error occurred during dynamic questionnaire generation. Please try again.');
+    } finally {
+      setExportingForm(false);
+      setFormProgress('');
+    }
+  };
+
+  const handleSendEmail = async () => {
+    if (!result || !emailInput.trim()) return;
+    setEmailing(true);
+    setEmailError('');
+    setEmailSentRecipient(null);
+    try {
+      await sendSynthesisEmail(emailInput.trim(), result, slug.replace('-', ' '));
+      setEmailSentRecipient(emailInput.trim());
+
+      if (currentSessionId) {
+        try {
+          await updateDoc(doc(db, 'sessions', currentSessionId), {
+            googleGmailRecipient: emailInput.trim()
+          });
+        } catch (dbErr) {
+          console.error('Failed to update session with Gmail recipient:', dbErr);
+          handleFirestoreError(dbErr, OperationType.UPDATE, `sessions/${currentSessionId}`);
+        }
+      }
+      setEmailInput('');
+      setShowEmailInput(false);
+    } catch (err: any) {
+      console.error('Failed to send synthesis email:', err);
+      setEmailError(err.message || 'Error occurred during sending email. Please try again.');
+    } finally {
+      setEmailing(false);
+    }
+  };
+
+  const handleScheduleCalendar = async () => {
+    if (!result || !result.synthesis) return;
+    setScheduling(true);
+    setScheduleError('');
+    setScheduledEventUrl(null);
+    setCalendarProgress('Authorizing calendar...');
+    try {
+      const url = await scheduleResearchSession(slug.replace('-', ' '), new Date().toISOString(), (msg) => {
+        setCalendarProgress(msg);
+      });
+      setScheduledEventUrl(url);
+
+      if (currentSessionId) {
+        try {
+          await updateDoc(doc(db, 'sessions', currentSessionId), {
+            googleCalendarEventUrl: url
+          });
+        } catch (dbErr) {
+          console.error('Failed to update session with Calendar URL:', dbErr);
+          handleFirestoreError(dbErr, OperationType.UPDATE, `sessions/${currentSessionId}`);
+        }
+      }
+    } catch (err: any) {
+      console.error('Failed to schedule calendar event:', err);
+      setScheduleError(err.message || 'Error scheduling calendar event.');
+    } finally {
+      setScheduling(false);
+      setCalendarProgress('');
+    }
+  };
+
+  const handleCollideAndRun = async (serializedInput: string) => {
+    if (!user) return;
+    setLoading(true);
+    setError('');
+    setResult(null);
+    try {
+      const res = await fetch('/api/synthesize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          input: serializedInput,
+          slug: slug.replace('-', ' '),
+          modelSettings: {
+            engine: 'auto'
+          }
+        })
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to run synthesis');
+      }
+
+      const data = await res.json();
+      setResult(data);
+      setInput(serializedInput);
+      
+      try {
+        const docRef = await addDoc(collection(db, 'sessions'), {
+          uid: user.uid,
+          title: slug.replace('-', ' '),
+          duration: 0,
+          instrumentName: slug.replace('-', ' '),
+          input: serializedInput,
+          output: data.synthesis || '',
+          tldr: data.tldr || '',
+          noveltyScore: data.noveltyScore || 0,
+          createdAt: new Date()
+        });
+        setCurrentSessionId(docRef.id);
+      } catch (err) {
+        console.error('Failed to log session:', err);
+        handleFirestoreError(err, OperationType.CREATE, 'sessions');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'An error occurred during synthesis');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRun = async () => {
+    if (!input.trim() || !user) return;
+    setLoading(true);
+    
+    try {
+      const res = await fetch('/api/synthesize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          input,
+          slug: slug.replace('-', ' '),
+          modelSettings: {
+            engine: 'auto'
+          }
+        })
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to run synthesis');
+      }
+
+      const data = await res.json();
+      setResult(data);
+      
+      try {
+        const docRef = await addDoc(collection(db, 'sessions'), {
+          uid: user.uid,
+          title: slug.replace('-', ' '),
+          duration: 0,
+          instrumentName: slug.replace('-', ' '),
+          input,
+          output: data.synthesis || '',
+          tldr: data.tldr || '',
+          noveltyScore: data.noveltyScore || 0,
+          createdAt: new Date()
+        });
+        setCurrentSessionId(docRef.id);
+      } catch (err) {
+        console.error('Failed to log session:', err);
+        handleFirestoreError(err, OperationType.CREATE, 'sessions');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'An error occurred during synthesis');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex h-screen bg-[var(--bg-canvas)] overflow-hidden">
-      {/* 3-PANEL LAYOUT */}
-      <div className="flex flex-1 flex-col md:flex-row h-full">
-        
-        {/* LEFT: INPUT PANEL (35%) */}
-        <div className="w-full md:w-[35%] flex flex-col border-r border-[var(--border-faint)] bg-[var(--bg-base)] overflow-y-auto">
-          <div className="p-6 md:p-8 space-y-8">
-            <header>
-              <button 
-                onClick={() => router.push('/dashboard')}
-                className="flex items-center gap-2 text-[11px] font-mono text-[var(--text-tertiary)] hover:text-[var(--text-primary)] mb-6 transition-colors"
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-                INSTRUMENTS / {ZONES[instrument.zone as keyof typeof ZONES].label}
-              </button>
-              
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: ZONES[instrument.zone as keyof typeof ZONES].color }} />
-                <span className="text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider">
-                  {ZONES[instrument.zone as keyof typeof ZONES].label}
-                </span>
-              </div>
-              <h2 className="text-[24px] font-semibold text-[var(--text-primary)] mb-2 tracking-tight">
-                {instrument.name}
-              </h2>
-              <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed">
-                {instrument.description}
-              </p>
-            </header>
-
-            <div className="space-y-6">
+    <div className="h-full flex flex-col xl:flex-row gap-6 overflow-hidden max-h-[calc(100vh-8rem)]">
+      
+      {/* Panel 1: Input */}
+      <div className="w-full xl:w-1/4 shrink-0 flex flex-col bg-white border border-[#68BA7F]/30 rounded-[1.5rem] overflow-hidden shadow-lg">
+        <div className="p-4 border-b border-[#68BA7F]/30 bg-[#F4F9F5] flex items-center gap-2">
+          <FlaskConical className="w-4 h-4 text-[#2E6F40]" />
+          <h2 className="font-bold text-[#253D2C] uppercase text-sm tracking-widest truncate">{slug.replace('-', ' ')}</h2>
+        </div>
+        <div className="flex-1 p-4 flex flex-col gap-4 overflow-y-auto">
+          {slug === 'thought-collider' ? (
+            <div className="flex flex-col h-full space-y-4">
+              <ThoughtColliderWorkspace 
+                onCollide={(serialized) => handleCollideAndRun(serialized)}
+                loading={loading}
+              />
+            </div>
+          ) : (
+            <>
               <div className="space-y-2">
-                <div className="relative group">
-                  <textarea
-                    ref={textareaRef}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Describe your research idea, hypothesis, or problem..."
-                    className="w-full bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-lg)] p-5 text-[15px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-[var(--border-focus)] focus:ring-4 focus:ring-[var(--accent-glow)] transition-all min-h-[160px] resize-none leading-relaxed"
-                  />
-                  <div className="absolute bottom-4 right-4 flex items-center gap-3 pointer-events-none">
-                    <span className="text-[11px] font-mono text-[var(--text-tertiary)]">
-                      {input.length} chars
-                    </span>
+                <label className="text-sm font-medium text-[#253D2C]/80">Research Input</label>
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="w-full h-48 md:h-64 p-4 rounded-[1.25rem] bg-white border border-[#68BA7F]/40 text-[#253D2C] placeholder:text-[#2E6F40]/60 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 resize-none font-mono text-sm leading-relaxed shadow-lg"
+                  placeholder="Type your hypothesis, concept, or problem statement here..."
+                ></textarea>
+              </div>
+              
+              <button
+                onClick={handleRun}
+                disabled={loading || !input.trim()}
+                className="w-full py-3.5 bg-[#2E6F40] hover:bg-[#253D2C] text-[#FFFFFF] font-bold rounded-[1.25rem] flex items-center justify-center gap-2 transition-colors disabled:opacity-50 mt-auto"
+              >
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                {loading ? 'Synthesizing...' : 'Run Instrument'}
+              </button>
+            </>
+          )}
+          
+          {error && (
+            <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-[1.25rem] text-sm text-center">
+              {error}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Panel 2: Output & Analytics */}
+      <div className="w-full xl:w-2/4 flex flex-col bg-white border border-[#68BA7F]/30 rounded-[1.5rem] overflow-hidden min-h-[400px] shadow-lg">
+        <div className="p-4 border-b border-[#68BA7F]/30 bg-[#F4F9F5] flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <BrainCircuit className="w-4 h-4 text-[#2E6F40]" />
+            <h2 className="font-bold text-[#253D2C] uppercase text-sm tracking-widest">Synthesis Engine</h2>
+          </div>
+          {result && !loading && (
+            <div className="flex flex-wrap gap-2 shrink-0">
+              {/* Google Doc Export Button */}
+              <button
+                onClick={handleExport}
+                disabled={exporting}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[#68BA7F]/40 bg-white text-xs font-bold text-[#2E6F40] hover:bg-[#F4F9F5] hover:text-[#253D2C] transition-all duration-200 disabled:opacity-50 shadow-md shrink-0 animate-in fade-in"
+                title="Export this synthesis report directly to Google Docs"
+              >
+                {exporting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Exporting Doc...</span>
+                  </>
+                ) : (
+                  <>
+                    <FileText className="w-3.5 h-3.5" />
+                    <span>Export to Google Doc</span>
+                  </>
+                )}
+              </button>
+
+               {/* Google Sheets Export Button */}
+              {result.papers && result.papers.length > 0 && (
+                <button
+                  onClick={handleExportSheet}
+                  disabled={exportingSheet}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[#68BA7F]/40 bg-white text-xs font-bold text-[#2E6F40] hover:bg-[#F4F9F5] hover:text-[#253D2C] transition-all duration-200 disabled:opacity-50 shadow-md shrink-0 animate-in fade-in"
+                  title="Export reference publications directly to Google Sheets database"
+                >
+                  {exportingSheet ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Exporting Sheet...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FileSpreadsheet className="w-3.5 h-3.5" />
+                      <span>Export to Google Sheet</span>
+                    </>
+                  )}
+                </button>
+              )}
+
+              {/* Google Form Export Button */}
+              {result && (
+                <button
+                  onClick={handleExportForm}
+                  disabled={exportingForm}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[#68BA7F]/40 bg-white text-xs font-bold text-[#2E6F40] hover:bg-[#F4F9F5] hover:text-[#253D2C] transition-all duration-200 disabled:opacity-50 shadow-md shrink-0 animate-in fade-in"
+                  title="Generate dynamic peer evaluation questionnaire on Google Forms"
+                >
+                  {exportingForm ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span className="max-w-[120px] truncate">{formProgress || 'Generating Form...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <ClipboardList className="w-3.5 h-3.5" />
+                      <span>Export Peer Review Form</span>
+                    </>
+                  )}
+                </button>
+              )}
+
+              {/* Share via Gmail Button */}
+              {result && (
+                <div className="relative inline-block z-30">
+                  <button
+                    onClick={() => setShowEmailInput(!showEmailInput)}
+                    disabled={emailing}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[#68BA7F]/40 bg-white text-xs font-bold text-[#2E6F40] hover:bg-[#F4F9F5] hover:text-[#253D2C] transition-all duration-200 disabled:opacity-50 shadow-md shrink-0 animate-in fade-in"
+                    title="Send this synthesis report directly to a peer via Google Gmail"
+                  >
+                    {emailing ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Sending Email...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-3.5 h-3.5" />
+                        <span>Share via Email</span>
+                      </>
+                    )}
+                  </button>
+
+                  {showEmailInput && (
+                    <div className="absolute right-0 top-full mt-2 w-72 p-4 bg-white border border-[#68BA7F]/40 rounded-2xl shadow-xl z-50 animate-in fade-in slide-in-from-top-2 duration-200 text-left">
+                      <p className="font-bold text-[#253D2C] text-xs mb-2">Email Research Findings (Gmail)</p>
+                      <div className="space-y-3">
+                        <input
+                          type="email"
+                          placeholder="academic-peer@university.edu"
+                          value={emailInput}
+                          onChange={(e) => setEmailInput(e.target.value)}
+                          className="w-full px-3 py-1.5 text-xs text-[#253D2C] border border-[#68BA7F]/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#2E6F40] bg-[#F4F9F5]/40"
+                          autoFocus
+                        />
+                        <div className="flex justify-end gap-1.5">
+                          <button
+                            onClick={() => {
+                              setShowEmailInput(false);
+                              setEmailInput('');
+                            }}
+                            className="px-2.5 py-1 text-[11px] font-bold text-[#2E6F40]/70 hover:bg-[#F4F9F5] rounded-lg transition-colors"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={handleSendEmail}
+                            disabled={!emailInput.trim() || emailing}
+                            className="px-3 py-1 text-[11px] bg-[#2E6F40] hover:bg-[#253D2C] text-white font-bold rounded-lg transition-colors disabled:opacity-50"
+                          >
+                            Send
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Schedule Google Calendar Event Button */}
+              {result && (
+                <button
+                  onClick={handleScheduleCalendar}
+                  disabled={scheduling}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[#68BA7F]/40 bg-white text-xs font-bold text-[#2E6F40] hover:bg-[#F4F9F5] hover:text-[#253D2C] transition-all duration-200 disabled:opacity-50 shadow-md shrink-0 animate-in fade-in"
+                  title="Schedule a research session in Google Calendar"
+                >
+                  {scheduling ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span className="max-w-[120px] truncate">{calendarProgress || 'Scheduling...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>Schedule Session</span>
+                    </>
+                  )}
+                </button>
+              )}
+
+              {/* Add Google Task Button */}
+              {result && (
+                <button
+                  onClick={handleAddTask}
+                  disabled={tasking}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[#68BA7F]/40 bg-white text-xs font-bold text-[#2E6F40] hover:bg-[#F4F9F5] hover:text-[#253D2C] transition-all duration-200 disabled:opacity-50 shadow-md shrink-0 animate-in fade-in"
+                  title="Create a research follow-up task in Google Tasks"
+                >
+                  {tasking ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span className="max-w-[120px] truncate">{taskProgress || 'Creating...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckSquare className="w-3.5 h-3.5" />
+                      <span>Add Task</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="flex-1 overflow-y-auto p-6 space-y-8 text-[#253D2C]/80">
+          {/* Google Docs Export Status Notifications */}
+          {exportedUrl && (
+            <div className="p-4 bg-[#CFFFDC]/95 border border-[#68BA7F] rounded-[1.25rem] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="flex items-center gap-2 text-[#253D2C]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2E6F40] inline-block animate-pulse shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2E6F40]">Export Successful!</span> Your synthesis report is now on Google Docs.
+                </div>
+              </div>
+              <a 
+                href={exportedUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setExportedUrl(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#2E6F40] hover:bg-[#253D2C] text-white font-bold rounded-lg text-xs transition-colors shrink-0 shadow"
+              >
+                Open Google Doc <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          )}
+
+          {exportError && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-[1.25rem] text-sm flex items-center justify-between gap-4 animate-in fade-in duration-200">
+              <span>{exportError}</span>
+              <button 
+                onClick={() => setExportError('')}
+                className="text-xs underline text-red-700 hover:text-red-900 font-medium shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {/* Google Sheets Export Status Notifications */}
+          {exportedSheetUrl && (
+            <div className="p-4 bg-[#CFFFDC]/95 border border-[#68BA7F] rounded-[1.25rem] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="flex items-center gap-2 text-[#253D2C]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2E6F40] inline-block animate-pulse shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2E6F40]">Map Export Successful!</span> Your mapped literature reference database is on Google Sheets.
+                </div>
+              </div>
+              <a 
+                href={exportedSheetUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setExportedSheetUrl(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#2E6F40] hover:bg-[#253D2C] text-white font-bold rounded-lg text-xs transition-colors shrink-0 shadow"
+              >
+                Open Google Sheet <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          )}
+
+          {exportSheetError && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-[1.25rem] text-sm flex items-center justify-between gap-4 animate-in fade-in duration-200">
+              <span>{exportSheetError}</span>
+              <button 
+                onClick={() => setExportSheetError('')}
+                className="text-xs underline text-red-700 hover:text-red-900 font-medium shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {/* Google Forms Export Status Notifications */}
+          {exportedFormUrl && (
+            <div className="p-4 bg-[#CFFFDC]/95 border border-[#68BA7F] rounded-[1.25rem] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="flex items-center gap-2 text-[#253D2C]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2E6F40] inline-block animate-pulse shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2E6F40]">Form Successfully Generated!</span> Your custom peer evaluation and review questionnaire is ready on Google Forms.
+                </div>
+              </div>
+              <a 
+                href={exportedFormUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setExportedFormUrl(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#2E6F40] hover:bg-[#253D2C] text-white font-bold rounded-lg text-xs transition-colors shrink-0 shadow"
+              >
+                Open Google Form <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          )}
+
+          {exportFormError && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-[1.25rem] text-sm flex items-center justify-between gap-4 animate-in fade-in duration-200">
+              <span>{exportFormError}</span>
+              <button 
+                onClick={() => setExportFormError('')}
+                className="text-xs underline text-red-700 hover:text-red-900 font-medium shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {/* Gmail Dispatch Status Notifications */}
+          {emailSentRecipient && (
+            <div className="p-4 bg-[#CFFFDC]/95 border border-[#68BA7F] rounded-[1.25rem] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="flex items-center gap-2 text-[#253D2C]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2E6F40] inline-block animate-pulse shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2E6F40]">Email Dispatched Successfully!</span> The academic synthesis has been sent to <span className="font-mono text-[#2E6F40] bg-white/60 px-1.5 py-0.5 rounded border border-[#68BA7F]/20">{emailSentRecipient}</span>.
+                </div>
+              </div>
+              <button 
+                onClick={() => setEmailSentRecipient(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#2E6F40] hover:bg-[#253D2C] text-white font-bold rounded-lg text-xs transition-colors shrink-0 shadow"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {emailError && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-[1.25rem] text-sm flex items-center justify-between gap-4 animate-in fade-in duration-200">
+              <span>{emailError}</span>
+              <button 
+                onClick={() => setEmailError('')}
+                className="text-xs underline text-red-700 hover:text-red-900 font-medium shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {/* Calendar Scheduling Status Notifications */}
+          {scheduledEventUrl && (
+            <div className="p-4 bg-[#CFFFDC]/95 border border-[#68BA7F] rounded-[1.25rem] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="flex items-center gap-2 text-[#253D2C]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2E6F40] inline-block animate-pulse shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2E6F40]">Session Scheduled Successfully!</span> Research study session added to your primary Google Calendar.
+                </div>
+              </div>
+              <a 
+                href={scheduledEventUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setScheduledEventUrl(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#2E6F40] hover:bg-[#253D2C] text-white font-bold rounded-lg text-xs transition-colors shrink-0 shadow"
+              >
+                Open Calendar Event <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          )}
+
+          {scheduleError && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-[1.25rem] text-sm flex items-center justify-between gap-4 animate-in fade-in duration-200">
+              <span>{scheduleError}</span>
+              <button 
+                onClick={() => setScheduleError('')}
+                className="text-xs underline text-red-700 hover:text-red-900 font-medium shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+          
+          {/* Tasks Notification */}
+          {createdTaskId && (
+            <div className="p-4 bg-[#CFFFDC]/95 border border-[#68BA7F] rounded-[1.25rem] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="flex items-center gap-2 text-[#253D2C]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2E6F40] inline-block animate-pulse shrink-0" />
+                <div>
+                  <span className="font-bold text-[#2E6F40]">Task Created Successfully!</span> Research action item added to your Google Tasks.
+                </div>
+              </div>
+              <button 
+                onClick={() => setCreatedTaskId(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#2E6F40] hover:bg-[#253D2C] text-white font-bold rounded-lg text-xs transition-colors shrink-0 shadow"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {taskError && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-[1.25rem] text-sm flex items-center justify-between gap-4 animate-in fade-in duration-200">
+              <span>{taskError}</span>
+              <button 
+                onClick={() => setTaskError('')}
+                className="text-xs underline text-red-700 hover:text-red-900 font-medium shrink-0"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+          {loading ? (
+              <div className="flex flex-col text-[#2E6F40] gap-6 p-6 max-w-3xl border-t border-transparent mt-12 w-full mx-auto">
+                <div className="flex flex-col items-center justify-center gap-4 py-8 animate-pulse text-center">
+                  <Loader2 className="w-8 h-8 animate-spin" />
+                  <div className="text-sm font-mono tracking-widest uppercase">Connecting to global APIs & Synthesizing...</div>
+                </div>
+                
+                {/* Visual Feedback Skeleton Loaders */}
+                <div className="space-y-6 w-full opacity-50">
+                  {/* Skeleton Header */}
+                  <div className="space-y-4">
+                    <div className="h-8 bg-[#68BA7F]/20 rounded-md w-3/4 animate-pulse"></div>
+                    <div className="h-4 bg-[#68BA7F]/10 rounded w-1/2 animate-pulse"></div>
+                  </div>
+                  
+                  {/* Skeleton Paragraphs */}
+                  <div className="space-y-5 pt-6 border-t border-[#68BA7F]/10">
+                    <div className="space-y-3">
+                       <div className="h-4 bg-[#68BA7F]/10 rounded w-full animate-pulse"></div>
+                       <div className="h-4 bg-[#68BA7F]/10 rounded w-full animate-pulse"></div>
+                       <div className="h-4 bg-[#68BA7F]/10 rounded w-5/6 animate-pulse"></div>
+                    </div>
+                    <div className="space-y-3 pt-2">
+                       <div className="h-4 bg-[#68BA7F]/10 rounded w-full animate-pulse"></div>
+                       <div className="h-4 bg-[#68BA7F]/10 rounded w-4/5 animate-pulse"></div>
+                       <div className="h-4 bg-[#68BA7F]/10 rounded w-full animate-pulse"></div>
+                    </div>
                   </div>
                 </div>
-                <p className="text-[11px] text-[var(--text-tertiary)]">
-                  Enter one line, a paragraph, or paste your abstract.
+              </div>
+          ) : result ? (
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              
+              {/* Top Analytics */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-[#F4F9F5] border border-[#68BA7F]/30 p-4 rounded-[1.25rem] flex flex-col gap-2">
+                  <div className="text-xs font-bold text-[#2E6F40]/80 uppercase tracking-wider flex items-center gap-2">
+                    <Zap className="w-3.5 h-3.5 text-[#2E6F40]" /> Novelty Score
+                  </div>
+                  <div className="text-3xl font-bold text-[#253D2C] flex items-baseline gap-1">
+                    {result.noveltyScore} <span className="text-sm text-[#2E6F40]/70 font-normal">/ 100</span>
+                  </div>
+                  <div className="w-full bg-[#CFFFDC] h-1.5 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full ${result.noveltyScore > 80 ? 'bg-[#2E6F40]' : result.noveltyScore > 50 ? 'bg-[#68BA7F]' : 'bg-[#68BA7F]/40'}`} 
+                      style={{ width: `${result.noveltyScore}%` }}
+                    />
+                  </div>
+                </div>
+                
+                <div className="bg-[#F4F9F5] border border-[#68BA7F]/30 p-4 rounded-[1.25rem] flex flex-col gap-2 md:col-span-2">
+                  <div className="text-xs font-bold text-[#2E6F40]/80 uppercase tracking-wider flex items-center gap-2">
+                    <Target className="w-3.5 h-3.5 text-[#2E6F40]" /> Discipline Focus
+                  </div>
+                  <div className="text-sm text-[#253D2C]/80 font-mono flex flex-wrap gap-2 mt-1">
+                    {result.speciality?.split(',').slice(0, 4).map((spec: string, i: number) => (
+                      <span key={i} className="bg-[#CFFFDC] text-[#2E6F40] border border-[#68BA7F]/50 px-2 py-1 rounded text-xs">
+                        {spec.trim()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* TLDR */}
+              <div className="px-5 py-4 bg-[#CFFFDC]/40 border border-[#68BA7F]/30 rounded-[1.25rem] relative overflow-hidden">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#68BA7F]" />
+                <h3 className="text-xs font-bold text-[#2E6F40] uppercase tracking-widest mb-2">Executive TL;DR</h3>
+                <p className="text-sm text-[#253D2C]/80 leading-relaxed">
+                  {result.tldr}
                 </p>
               </div>
 
-              <button
-                onClick={handleRun}
-                disabled={isGenerating || !input.trim()}
-                className={cn(
-                  "w-full h-12 flex items-center justify-center gap-2 rounded-[var(--r-md)] text-[14px] font-medium transition-all shadow-sm",
-                  isGenerating 
-                    ? "bg-[var(--bg-hover)] text-[var(--text-tertiary)] cursor-not-allowed" 
-                    : "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] hover:-translate-y-0.5 active:scale-[0.98]"
-                )}
-              >
-                {isGenerating ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>Run {instrument.name} <ArrowRight className="w-4 h-4" /></>
-                )}
-              </button>
-
-              <div className="text-center">
-                <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-widest">⌘↵ to run</span>
+              {/* Markdown Synthesis */}
+              <div className="prose prose-indigo max-w-none prose-sm sm:prose-base prose-headings:font-bold prose-headings:text-[#253D2C] prose-p:leading-relaxed prose-p:text-[#253D2C]/80">
+                <Markdown>{result.synthesis}</Markdown>
               </div>
-
-              {error && (
-                <div className="p-4 bg-[var(--rose-muted)] border border-[var(--rose)]/20 rounded-[var(--r-lg)] flex items-start gap-3">
-                  <AlertCircle className="w-4 h-4 text-[var(--rose)] mt-0.5 flex-shrink-0" />
-                  <p className="text-[12px] text-[var(--rose)] leading-relaxed">{error}</p>
-                </div>
-              )}
-
-              {keywords.length > 0 && (
-                <div className="pt-8 border-t border-[var(--border-faint)] space-y-4">
-                  <span className="text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider block">Detected Concepts</span>
-                  <div className="flex flex-wrap gap-2">
-                    {keywords.map((kw, i) => (
-                      <span key={i} className="px-3 py-1 bg-[var(--accent-subtle)] text-[var(--accent)] text-[11px] rounded-full font-medium border border-[var(--accent)]/10">
-                        {kw}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-[#2E6F40]/70 text-center italic space-y-4">
+              <BrainCircuit className="w-12 h-12 text-[#2E6F40]/30" />
+              <p>Awaiting input to begin real-time data extraction and synthesis.</p>
+            </div>
+          )}
         </div>
-
-        {/* CENTER: AI OUTPUT PANEL (38%) */}
-        <div className="w-full md:w-[38%] flex flex-col bg-[var(--bg-base)] overflow-y-auto border-r border-[var(--border-faint)]">
-          <div className="p-6 md:p-10 min-h-full flex flex-col">
-            <AnimatePresence mode="wait">
-              {!output && !isGenerating ? (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex-1 flex flex-col items-center justify-center text-center py-20"
-                >
-                  <div className="w-14 h-14 rounded-full bg-[var(--bg-sunken)] border border-[var(--border-subtle)] flex items-center justify-center mb-6 text-[var(--text-tertiary)]">
-                    <FlaskConical className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-[17px] font-medium text-[var(--text-primary)] mb-2">Output will appear here</h3>
-                  <p className="text-[14px] text-[var(--text-secondary)] max-w-[280px] leading-relaxed">
-                    Your research literature will load automatically alongside the AI results.
-                  </p>
-                </motion.div>
-              ) : isGenerating ? (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex-1 flex flex-col items-center justify-center text-center py-20"
-                >
-                  <div className="flex gap-2 mb-8">
-                    {[0, 1, 2].map(i => (
-                      <motion.div
-                        key={i}
-                        animate={{ opacity: [0.3, 1, 0.3], scale: [0.9, 1.1, 0.9] }}
-                        transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
-                        className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]"
-                      />
-                    ))}
-                  </div>
-                  <div className="space-y-2">
-                    <span className="text-[11px] font-mono text-[var(--text-tertiary)] uppercase tracking-[0.2em] block">
-                      {statusText}
-                    </span>
-                    <p className="text-[12px] text-[var(--text-tertiary)]">This usually takes 5-10 seconds</p>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="space-y-10"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-[var(--accent)]" />
-                      <span className="text-[11px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider">Output</span>
-                    </div>
-                    <div className="flex gap-1">
-                      <button onClick={handleCopy} className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)] rounded-[var(--r-md)] transition-all" title="Copy JSON"><Copy className="w-4 h-4" /></button>
-                      <button className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)] rounded-[var(--r-md)] transition-all" title="Save Report"><Save className="w-4 h-4" /></button>
-                      <button className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-hover)] rounded-[var(--r-md)] transition-all" title="Share"><Share2 className="w-4 h-4" /></button>
-                    </div>
-                  </div>
-
-                  <div className="space-y-8">
-                    {Object.entries(output).map(([key, value]: [string, any], i) => {
-                      if (key === 'noveltyScore') {
-                        return (
-                          <div key={key} className="bg-[var(--bg-elevated)] border border-[var(--border-subtle)] rounded-[var(--r-xl)] p-6 flex items-center justify-between">
-                            <div>
-                              <h4 className="text-[11px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider mb-1">Novelty Score</h4>
-                              <p className="text-[13px] text-[var(--text-secondary)]">Estimated intellectual uniqueness</p>
-                            </div>
-                            <div className="relative w-16 h-16 flex items-center justify-center">
-                              <svg className="w-full h-full -rotate-90">
-                                <circle cx="32" cy="32" r="28" fill="none" stroke="var(--border-subtle)" strokeWidth="4" />
-                                <motion.circle 
-                                  cx="32" cy="32" r="28" fill="none" stroke="var(--accent)" strokeWidth="4" 
-                                  strokeDasharray="175.9"
-                                  initial={{ strokeDashoffset: 175.9 }}
-                                  animate={{ strokeDashoffset: 175.9 - (175.9 * (Number(value) || 0)) / 100 }}
-                                  transition={{ duration: 1.5, ease: "easeOut" }}
-                                />
-                              </svg>
-                              <span className="absolute text-[14px] font-mono font-bold text-[var(--text-primary)]">{value}</span>
-                            </div>
-                          </div>
-                        );
-                      }
-                      
-                      const isCritical = key.toLowerCase().includes('critical') || key.toLowerCase().includes('challenge');
-                      const isInsight = key.toLowerCase().includes('insight') || key.toLowerCase().includes('recommendation');
-
-                      return (
-                        <motion.div 
-                          key={key}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                          className={cn(
-                            "pl-6 py-1 border-l-2",
-                            isCritical ? "border-[var(--rose)] bg-[var(--rose-muted)]/5" : 
-                            isInsight ? "border-[var(--emerald)] bg-[var(--emerald-subtle)]/5" : 
-                            "border-[var(--accent)]"
-                          )}
-                        >
-                          <h4 className="text-[11px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider mb-3">
-                            {key.replace(/([A-Z])/g, ' $1').trim()}
-                          </h4>
-                          <div className="text-[15px] text-[var(--text-primary)] leading-relaxed prose prose-invert max-w-none">
-                            {Array.isArray(value) ? (
-                              <ul className="space-y-2 list-disc pl-4">
-                                {value.map((item, idx) => (
-                                  <li key={idx}>{typeof item === 'string' ? item : JSON.stringify(item)}</li>
-                                ))}
-                              </ul>
-                            ) : typeof value === 'object' ? (
-                              <pre className="bg-[var(--bg-sunken)] p-3 rounded-[var(--r-md)] text-[12px] font-mono overflow-x-auto">
-                                {JSON.stringify(value, null, 2)}
-                              </pre>
-                            ) : (
-                              <p>{value}</p>
-                            )}
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-
-                  <footer className="pt-12 border-t border-[var(--border-faint)] flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--emerald)]" />
-                      <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase">
-                        Gemini 2.5 Flash · {papers.length} papers found
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-mono text-[var(--text-tertiary)]">
-                      {new Date().toLocaleTimeString()}
-                    </span>
-                  </footer>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* RIGHT: LITERATURE PANEL (27%) */}
-        <div className="hidden md:block w-[27%] bg-[var(--bg-elevated)] overflow-y-auto border-l border-[var(--border-faint)]">
-          <LiteraturePanel 
-            papers={papers} 
-            isLoading={isSearching} 
-            insight={insight}
-          />
-        </div>
-
       </div>
+
+      {/* Panel 3: Literature */}
+      <div className="w-full xl:w-1/4 shrink-0 flex flex-col bg-white border border-[#68BA7F]/30 rounded-[1.5rem] overflow-hidden min-h-[400px] shadow-lg">
+        <div className="p-4 border-b border-[#68BA7F]/30 bg-[#F4F9F5] flex items-center justify-between">
+          <h2 className="font-bold text-[#253D2C] uppercase text-sm tracking-widest flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-[#2E6F40]" /> Discovery
+          </h2>
+          {result && (
+            <span className="text-[10px] bg-[#CFFFDC] text-[#2E6F40] px-2 py-1 rounded-full font-bold tracking-wider">
+              {result.papers?.length || 0} SOURCES
+            </span>
+          )}
+        </div>
+        <div className="flex-1 p-3 overflow-y-auto space-y-3">
+          {loading ? (
+            <div className="flex flex-col h-full gap-4 pt-8">
+              <div className="flex flex-col items-center justify-center text-[#2E6F40] gap-3 pb-4 animate-pulse">
+                <Loader2 className="w-6 h-6 animate-spin" />
+                <div className="text-xs font-mono tracking-wider text-center px-4 leading-relaxed">
+                  Querying arXiv, PubMed, OpenAlex, Crossref, Zenodo, DataCite, Semantic Scholar, Figshare, HDX, OpenAIRE, NASA ADS, Exa, Tavily...
+                </div>
+              </div>
+              
+              {/* Paper Skeleton List */}
+              <div className="space-y-4 opacity-60 px-2 mt-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="p-4 rounded-[1.25rem] bg-white border border-[#68BA7F]/20 animate-pulse space-y-3 shadow-sm">
+                    <div className="h-4 bg-[#68BA7F]/20 rounded-md w-5/6"></div>
+                    <div className="h-3 bg-[#68BA7F]/10 rounded w-full"></div>
+                    <div className="flex gap-2 pt-2">
+                       <div className="h-3 bg-[#68BA7F]/20 rounded-full w-16"></div>
+                       <div className="h-3 bg-[#68BA7F]/20 rounded-full w-12"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : result?.papers?.length > 0 ? (
+            result.papers.map((lit: any, idx: number) => (
+              <div key={lit.id || idx} className="p-3.5 rounded-[1.25rem] bg-[#F4F9F5] border border-[#68BA7F]/30 hover:border-[#68BA7F]/40 transition-colors space-y-3 group shadow-lg">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-sm font-bold text-[#253D2C] leading-snug group-hover:text-[#2E6F40] transition-colors line-clamp-3">
+                    [{idx+1}] {lit.title}
+                  </h3>
+                  {lit.url && (
+                    <a href={lit.url} target="_blank" rel="noreferrer" className="text-[#2E6F40]/60 hover:text-[#2E6F40] transition-colors shrink-0">
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
+                <p className="text-xs text-[#2E6F40]/80 line-clamp-2 leading-relaxed">{lit.authors}</p>
+                
+                <div className="flex items-center justify-between pt-2 border-t border-[#68BA7F]/30">
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#2E6F40]/70">
+                    <span className="bg-white p-1 rounded border border-[#68BA7F]/30">{lit.year || 'N/A'}</span>
+                    <span className="bg-white p-1 rounded text-[#2E6F40] border border-[#68BA7F]/30">{lit.source}</span>
+                  </div>
+                  {lit.citationCount > 0 && (
+                    <span className="text-[10px] font-mono text-[#2E6F40] bg-[#CFFFDC] px-1.5 py-0.5 rounded flex items-center gap-1 shrink-0">
+                      {lit.citationCount} Cites
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-full text-[#2E6F40]/70 text-center text-sm italic px-4">
+              Academic literature mapping will appear here simultaneously.
+            </div>
+          )}
+        </div>
+      </div>
+      
     </div>
   );
 }
+

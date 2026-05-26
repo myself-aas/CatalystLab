@@ -1,34 +1,42 @@
 import { NextResponse } from 'next/server';
-import { checkAndDecrementTokens } from '@/lib/tokens';
+import { orchestrateSearchSources } from '../../../lib/searchService';
+import { curateData } from '../../../lib/data-curator';
+
+export const maxDuration = 300;
 
 export async function POST(req: Request) {
-  const { query, userId } = await req.json();
-
-  if (!userId) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  // Check and decrement tokens
-  const hasTokens = await checkAndDecrementTokens(userId, 1);
-  if (!hasTokens) {
-    return NextResponse.json({ 
-      error: 'Insufficient tokens', 
-      code: 'INSUFFICIENT_TOKENS' 
-    }, { status: 402 });
-  }
-
   try {
-    // Perform academic search (Semantic Scholar, OpenAlex, etc.)
-    // This is where the fan-out search logic goes
-    // For now, returning a placeholder response
-    const results = [
-      { id: '1', title: 'Sample Paper 1', authors: ['Author A'], year: 2023, abstract: 'Abstract 1' },
-      { id: '2', title: 'Sample Paper 2', authors: ['Author B'], year: 2022, abstract: 'Abstract 2' }
-    ];
+    const { query, enabledSources, timeGate, timeGatingEnabled = false } = await req.json();
 
-    return NextResponse.json({ results });
-  } catch (error) {
-    console.error('Search error:', error);
-    return NextResponse.json({ error: 'Search failed' }, { status: 500 });
+    if (!query || typeof query !== 'string') {
+      return NextResponse.json({ error: 'Search query is required' }, { status: 400 });
+    }
+
+    const sources = Array.isArray(enabledSources) ? enabledSources : [];
+    
+    let customDate: Date | undefined = undefined;
+    if (timeGate) {
+      const parsed = new Date(timeGate);
+      if (!isNaN(parsed.getTime())) {
+        customDate = parsed;
+      }
+    }
+
+    const results = await orchestrateSearchSources(query.trim(), sources, customDate, timeGatingEnabled || !!timeGate);
+    
+    // Curate data
+    const curatedResults = curateData(results);
+    
+    // Calculate stats
+    const stats: Record<string, number> = curatedResults.reduce((acc, item) => {
+      const source = item.source || 'Unknown';
+      acc[source] = (acc[source] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return NextResponse.json({ results: curatedResults, stats });
+  } catch (err: any) {
+    console.error('Search API Route error:', err);
+    return NextResponse.json({ error: err.message || 'Error executing parallel search' }, { status: 500 });
   }
 }

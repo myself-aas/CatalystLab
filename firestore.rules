@@ -4,106 +4,189 @@ service cloud.firestore {
   match /databases/{database}/documents {
     
     // ===============================================================
-    // Helper Functions
+    // Global Security Net (Catch-All Deny)
     // ===============================================================
-    function isAuthenticated() {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ===============================================================
+    // Helper Principles / Primitives
+    // ===============================================================
+    function isSignedIn() {
       return request.auth != null;
     }
     
     function isOwner(userId) {
-      return isAuthenticated() && request.auth.uid == userId;
+      return isSignedIn() && request.auth.uid == userId;
     }
     
-    function isDocOwner() {
-      return isAuthenticated() && request.auth.uid == resource.data.user_id;
-    }
-
-    function isAuthor() {
-      return isAuthenticated() && request.auth.uid == resource.data.author_id;
+    function incoming() {
+      return request.resource.data;
     }
     
-    function isRecipient() {
-      return isAuthenticated() && request.auth.uid == resource.data.recipient_id;
+    function existing() {
+      return resource.data;
+    }
+    
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
     }
 
     // ===============================================================
-    // Collection Rules
+    // Validation Blueprints (Anti-Update-Gap Patterns)
     // ===============================================================
-    
-    // Profile/User data: Read by any authenticated user, write only by owner
-    match /profiles/{userId} {
-      allow read: if isAuthenticated();
-      allow write: if isOwner(userId);
+    function isValidUser(data) {
+      return data.uid == request.auth.uid &&
+             data.username is string && data.username.size() >= 2 && data.username.size() <= 50 &&
+             (!('full_name' in data) || (data.full_name is string && data.full_name.size() <= 200)) &&
+             (!('bio' in data) || (data.bio is string && data.bio.size() <= 1000)) &&
+             (!('tokens_remaining' in data) || (data.tokens_remaining is int || data.tokens_remaining is float)) &&
+             (!('tokens_total' in data) || (data.tokens_total is int || data.tokens_total is float)) &&
+             (!('tokens_reset_at' in data) || (data.tokens_reset_at is string)) &&
+             (!('geminiApiKey' in data) || (data.geminiApiKey is string && data.geminiApiKey.size() <= 500));
     }
 
+    function isValidSession(data) {
+      return data.uid == request.auth.uid &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 200 &&
+             (data.duration is int || data.duration is float) && data.duration >= 0 &&
+             (!('notes' in data) || (data.notes is string && data.notes.size() <= 10000)) &&
+             (!('paper_id' in data) || (data.paper_id is string && data.paper_id.size() <= 128)) &&
+             (!('instrumentName' in data) || (data.instrumentName is string && data.instrumentName.size() <= 200)) &&
+             (!('input' in data) || (data.input is string && data.input.size() <= 100000)) &&
+             (!('output' in data) || (data.output is string && data.output.size() <= 500000)) &&
+             (!('tldr' in data) || (data.tldr is string && data.tldr.size() <= 5000)) &&
+             (!('noveltyScore' in data) || (data.noveltyScore is int || data.noveltyScore is float)) &&
+             (!('googleDocUrl' in data) || (data.googleDocUrl is string && data.googleDocUrl.size() <= 2048)) &&
+             (!('googleSheetUrl' in data) || (data.googleSheetUrl is string && data.googleSheetUrl.size() <= 2048)) &&
+             (!('googleFormUrl' in data) || (data.googleFormUrl is string && data.googleFormUrl.size() <= 2048)) &&
+             (!('googleGmailRecipient' in data) || (data.googleGmailRecipient is string && data.googleGmailRecipient.size() <= 320)) &&
+             (!('googleCalendarEventUrl' in data) || (data.googleCalendarEventUrl is string && data.googleCalendarEventUrl.size() <= 2048)) &&
+             (!('googleTaskId' in data) || (data.googleTaskId is string && data.googleTaskId.size() <= 1024));
+    }
+
+    function isValidFragment(data) {
+      return data.uid == request.auth.uid &&
+             data.content is string && data.content.size() <= 50000 &&
+             (!('tags' in data) || (data.tags is list && data.tags.size() <= 20));
+    }
+
+    function isValidPost(data) {
+      return data.authorId == request.auth.uid &&
+             data.authorName is string && data.authorName.size() <= 200 &&
+             (!('authorPhoto' in data) || (data.authorPhoto == null || (data.authorPhoto is string && data.authorPhoto.size() <= 2048))) &&
+             data.content is string && data.content.size() <= 10000 &&
+             (!('attachments' in data) || (data.attachments is list && data.attachments.size() <= 10)) &&
+             data.likes is int && data.likes >= 0 &&
+             data.commentsCount is int && data.commentsCount >= 0;
+    }
+
+    function isValidBlog(data) {
+      return data.authorId == request.auth.uid &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 300 &&
+             data.content is string && data.content.size() <= 60000 &&
+             data.authorName is string &&
+             (!('authorAvatar' in data) || (data.authorAvatar == null || (data.authorAvatar is string && data.authorAvatar.size() <= 2048))) &&
+             data.createdAt is timestamp &&
+             (!('tags' in data) || (data.tags is list && data.tags.size() <= 10)) &&
+             (!('reactions' in data) || (data.reactions is map)) &&
+             (!('favouriteCount' in data) || (data.favouriteCount is int && data.favouriteCount >= 0));
+    }
+
+    function isValidDraft(data) {
+      return data.authorId == request.auth.uid &&
+             data.title is string && data.title.size() <= 300 &&
+             data.content is string && data.content.size() <= 60000;
+    }
+
+    function isValidComment(data) {
+      return data.authorId == request.auth.uid &&
+             data.authorName is string &&
+             data.content is string && data.content.size() <= 2000 &&
+             data.createdAt is timestamp;
+    }
+
+    // ===============================================================
+    // Rules Matching Collections
+    // ===============================================================
+
+    // Users collection rules
     match /users/{userId} {
-      allow read: if isAuthenticated();
-      allow write: if isOwner(userId);
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidUser(incoming()) && incoming().uid == existing().uid;
+      allow delete: if isOwner(userId);
     }
     
-    // Sessions: Private read/write
+    // Study and Research Sessions collection rules
     match /sessions/{sessionId} {
-      allow read, write: if isDocOwner();
-    }
-    
-    // Reports: Private read/write
-    match /reports/{reportId} {
-      allow read, write: if isDocOwner();
-    }
-    
-    // Data: Private read/write
-    match /data/{dataId} {
-      allow read, write: if isDocOwner();
+      allow create: if isSignedIn() && incoming().uid == request.auth.uid && isValidId(sessionId) && isValidSession(incoming());
+      allow read: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.uid == request.auth.uid && incoming().uid == request.auth.uid && isValidSession(incoming()) && incoming().uid == existing().uid;
+      allow delete: if isSignedIn() && resource.data.uid == request.auth.uid;
     }
 
-    // Posts: Public read, private write
+    // Quick research fragments and ideas collection rules
+    match /fragments/{fragmentId} {
+      allow create: if isSignedIn() && incoming().uid == request.auth.uid && isValidId(fragmentId) && isValidFragment(incoming());
+      allow read: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.uid == request.auth.uid && incoming().uid == request.auth.uid && isValidFragment(incoming()) && incoming().uid == existing().uid;
+      allow delete: if isSignedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    // Posts collection rules
     match /posts/{postId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated() && request.resource.data.author_id == request.auth.uid;
-      allow update, delete: if isAuthor();
+      allow create: if isSignedIn() && incoming().authorId == request.auth.uid && isValidPost(incoming());
+      allow read: if isSignedIn();
+      allow update: if isSignedIn() && isValidPost(incoming()) && (
+        // Case 1: Post author modifying fields
+        (resource.data.authorId == request.auth.uid && incoming().authorId == request.auth.uid) ||
+        // Case 2: Other user liking/unliking (only modifying 'likes')
+        (incoming().diff(existing()).affectedKeys().hasOnly(['likes']))
+      );
+      allow delete: if isSignedIn() && resource.data.authorId == request.auth.uid;
     }
 
-    // Papers: Public read (cached data), no individual write
-    match /papers/{paperId} {
-      allow read: if isAuthenticated();
-      allow write: if false; // Only updated via admin/proxy logic if needed
+    // Blogs collection rules
+    match /blogs/{blogId} {
+      allow create: if isSignedIn() && incoming().authorId == request.auth.uid && isValidId(blogId) && isValidBlog(incoming());
+      allow read: if isSignedIn();
+      allow update: if isSignedIn() && (
+        // Case 1: Blog author modifying content/details/tags
+        (resource.data.authorId == request.auth.uid && incoming().authorId == request.auth.uid && isValidBlog(incoming())) ||
+        // Case 2: User reacting/favouriting
+        (incoming().diff(existing()).affectedKeys().hasOnly(['reactions', 'favouriteCount']))
+      );
+      allow delete: if isSignedIn() && resource.data.authorId == request.auth.uid;
+      
+      // Sub-collection for comments
+      match /comments/{commentId} {
+          allow read: if isSignedIn();
+          allow create: if isSignedIn() && incoming().authorId == request.auth.uid && isValidId(commentId) && isValidComment(incoming());
+          allow delete: if isSignedIn() && resource.data.authorId == request.auth.uid;
+      }
     }
 
-    // Annotations: Mixed visibility
-    match /annotations/{annotationId} {
-      allow read: if isAuthenticated() && (resource.data.is_public == true || resource.data.user_id == request.auth.uid);
-      allow create: if isAuthenticated() && request.resource.data.user_id == request.auth.uid;
-      allow update, delete: if isDocOwner();
+    // Drafts collection rules
+    match /drafts/{draftId} {
+      allow create: if isSignedIn() && incoming().authorId == request.auth.uid && isValidId(draftId) && isValidDraft(incoming());
+      allow read: if isSignedIn() && resource.data.authorId == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.authorId == request.auth.uid && incoming().authorId == request.auth.uid && isValidDraft(incoming());
+      allow delete: if isSignedIn() && resource.data.authorId == request.auth.uid;
     }
 
-    // Reading Lists: Mixed visibility
-    match /reading_lists/{listId} {
-      allow read: if isAuthenticated() && (resource.data.is_public == true || resource.data.owner_id == request.auth.uid);
-      allow create: if isAuthenticated() && request.resource.data.owner_id == request.auth.uid;
-      allow update, delete: if isAuthenticated() && resource.data.owner_id == request.auth.uid;
+    // Templates collection rules
+    match /templates/{templateId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
     }
 
-    // Communities: Public read, private write
-    match /communities/{communityId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow update, delete: if isAuthenticated() && resource.data.created_by == request.auth.uid;
-    }
-
-    // Notifications: Private read/write
-    match /notifications/{notificationId} {
-      allow read, update, delete: if isRecipient();
-      allow create: if isAuthenticated(); // Allow system/actors to create
-    }
-
-    // Feed Preferences: Private
-    match /feed_preferences/{userId} {
-      allow read, write: if isOwner(userId);
-    }
-    
-    // Default deny
-    match /{document=**} {
-      allow read, write: if false;
+    // Allow reading public test document for connectivity verification
+    match /test/{docId} {
+      allow read: if true;
     }
   }
 }

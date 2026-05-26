@@ -1,217 +1,102 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Search, FlaskConical, FileText, Settings, Command, X, LayoutGrid, BookOpen, User } from 'lucide-react';
-import { INSTRUMENTS, ZONES } from '@/lib/constants';
-import { useApp } from '@/lib/context';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'motion/react';
+import { Search, Beaker, FileBox, LayoutDashboard, BookOpen, Settings, Home, UserCircle, MessageSquare } from 'lucide-react';
 
-export function CommandPalette() {
-  const [isOpen, setIsOpen] = useState(false);
+const ACTIONS = [
+  { id: 'dashboard', name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { id: 'feed', name: 'Community Feed', href: '/feed', icon: MessageSquare },
+  { id: 'study', name: 'Study Room', href: '/study', icon: Home },
+  { id: 'instruments', name: 'Instruments', href: '/instruments', icon: Beaker },
+  { id: 'discovery', name: 'Literature Search', href: '/search', icon: Search },
+  { id: 'reviews', name: 'Living Reviews', href: '/reviews', icon: BookOpen },
+  { id: 'sessions', name: 'Saved Sessions', href: '/reports', icon: FileBox },
+  { id: 'profile', name: 'Profile', href: '/profile', icon: UserCircle },
+  { id: 'settings', name: 'Settings', href: '/settings', icon: Settings },
+];
+
+export default function CommandPalette() {
+  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const { sessions } = useApp();
   const router = useRouter();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        setIsOpen(prev => !prev);
+        setOpen((open) => !open);
       }
       if (e.key === 'Escape') {
-        setIsOpen(false);
+        setOpen(false);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const filteredInstruments = INSTRUMENTS.filter(i => 
-    i.name.toLowerCase().includes(query.toLowerCase()) || 
-    i.description.toLowerCase().includes(query.toLowerCase())
-  ).slice(0, 8);
+  if (!open) return null;
 
-  const filteredSessions = sessions.filter(s => 
-    s.title.toLowerCase().includes(query.toLowerCase())
-  ).slice(0, 5);
-
-  const actions = [
-    { id: 'dashboard', label: 'Go to Dashboard', icon: LayoutGrid, href: '/dashboard' },
-    { id: 'search', label: 'Literature Search', icon: Search, href: '/search' },
-    { id: 'reports', label: 'My Reports', icon: FileText, href: '/reports' },
-    { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
-  ].filter(a => a.label.toLowerCase().includes(query.toLowerCase()));
-
-  const allResults = [
-    ...filteredInstruments.map(i => ({ type: 'instrument', ...i })),
-    ...filteredSessions.map(s => ({ type: 'session', ...s })),
-    ...actions.map(a => ({ type: 'action', ...a }))
-  ];
-
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setSelectedIndex(0);
-  };
+  const filteredActions = query === '' 
+    ? ACTIONS 
+    : ACTIONS.filter((action) => action.name.toLowerCase().includes(query.toLowerCase()));
 
   const handleSelect = (href: string) => {
-    router.push(href);
-    setIsOpen(false);
+    setOpen(false);
     setQuery('');
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setSelectedIndex(prev => (prev + 1) % allResults.length);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setSelectedIndex(prev => (prev - 1 + allResults.length) % allResults.length);
-    } else if (e.key === 'Enter') {
-      const selected = allResults[selectedIndex];
-      if (selected) {
-        if (selected.type === 'instrument') handleSelect(`/instruments/${(selected as any).slug}`);
-        else if (selected.type === 'session') handleSelect(`/instruments/${(selected as any).instrumentSlug}?session=${(selected as any).id}`);
-        else if (selected.type === 'action') handleSelect((selected as any).href);
-      }
-    }
+    router.push(href);
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[18vh] px-4">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/65 backdrop-blur-[4px]" 
-            onClick={() => setIsOpen(false)}
+    <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[20vh] bg-[#2E6F40]/30 backdrop-blur-sm px-4">
+      <div 
+        className="w-full max-w-xl bg-white border border-[#68BA7F]/30 rounded-[1.5rem] shadow-xl overflow-hidden flex flex-col relative z-10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center px-4 py-3 border-b border-[#68BA7F]/30 gap-3">
+          <Search className="w-5 h-5 text-[#2E6F40]/60" />
+          <input 
+            type="text" 
+            autoFocus 
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Type a command or search..."
+            className="flex-1 bg-transparent text-[#253D2C] placeholder-slate-400 focus:outline-none text-lg"
           />
-          
-          <motion.div 
-            initial={{ scale: 0.94, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.94, opacity: 0 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="relative w-full max-w-[560px] bg-[var(--bg-overlay)] border border-[var(--border-strong)] rounded-[var(--r-xl)] shadow-2xl overflow-hidden"
+          <button 
+            onClick={() => setOpen(false)}
+            className="text-xs bg-[#CFFFDC]/60 hover:bg-[#CFFFDC] text-[#2E6F40]/70 px-2.5 py-1 rounded-md transition-colors"
           >
-            <div className="flex items-center px-4 h-[52px] border-b border-[var(--border-default)]">
-              <Search className="w-4 h-4 text-[var(--text-tertiary)] mr-3" />
-              <input 
-                autoFocus
-                value={query}
-                onChange={handleQueryChange}
-                onKeyDown={handleKeyDown}
-                placeholder="Search instruments, reports, or actions..."
-                className="flex-1 bg-transparent border-none outline-none text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)]"
-              />
-              <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[var(--bg-sunken)] border border-[var(--border-default)] rounded-[var(--r-sm)]">
-                <span className="text-[10px] font-mono text-[var(--text-tertiary)] uppercase tracking-widest">esc</span>
-              </div>
-            </div>
-
-            <div className="max-h-[360px] overflow-y-auto p-2 scrollbar-hide">
-              {allResults.length === 0 ? (
-                <div className="py-12 text-center">
-                  <p className="text-[14px] text-[var(--text-tertiary)]">No results found for &quot;{query}&quot;</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {filteredInstruments.length > 0 && (
-                    <div>
-                      <div className="px-3 py-2 text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Instruments</div>
-                      {filteredInstruments.map((inst, i) => {
-                        const globalIndex = i;
-                        return (
-                          <button 
-                            key={inst.slug}
-                            onClick={() => handleSelect(`/instruments/${inst.slug}`)}
-                            onMouseEnter={() => setSelectedIndex(globalIndex)}
-                            className={cn(
-                              "w-full flex items-center gap-3 px-3 h-10 rounded-[var(--r-md)] transition-all group text-left",
-                              selectedIndex === globalIndex ? "bg-[var(--bg-hover)]" : "transparent"
-                            )}
-                          >
-                            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: ZONES[inst.zone as keyof typeof ZONES].color }} />
-                            <span className="text-[13px] text-[var(--text-primary)] flex-1">{inst.name}</span>
-                            <span className="text-[11px] text-[var(--text-tertiary)] font-mono opacity-0 group-hover:opacity-100 transition-opacity">Open</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {filteredSessions.length > 0 && (
-                    <div>
-                      <div className="px-3 py-2 text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Recent Sessions</div>
-                      {filteredSessions.map((session, i) => {
-                        const globalIndex = filteredInstruments.length + i;
-                        return (
-                          <button 
-                            key={session.id}
-                            onClick={() => handleSelect(`/instruments/${session.instrumentSlug}?session=${session.id}`)}
-                            onMouseEnter={() => setSelectedIndex(globalIndex)}
-                            className={cn(
-                              "w-full flex items-center gap-3 px-3 h-10 rounded-[var(--r-md)] transition-all group text-left",
-                              selectedIndex === globalIndex ? "bg-[var(--bg-hover)]" : "transparent"
-                            )}
-                          >
-                            <FileText className="w-4 h-4 text-[var(--text-tertiary)]" />
-                            <span className="text-[13px] text-[var(--text-primary)] flex-1 line-clamp-1">{session.title}</span>
-                            <span className="text-[11px] text-[var(--text-tertiary)] font-mono">{new Date(session.timestamp).toLocaleDateString()}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {actions.length > 0 && (
-                    <div>
-                      <div className="px-3 py-2 text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Actions</div>
-                      {actions.map((action, i) => {
-                        const globalIndex = filteredInstruments.length + filteredSessions.length + i;
-                        return (
-                          <button 
-                            key={action.id}
-                            onClick={() => handleSelect(action.href)}
-                            onMouseEnter={() => setSelectedIndex(globalIndex)}
-                            className={cn(
-                              "w-full flex items-center gap-3 px-3 h-10 rounded-[var(--r-md)] transition-all group text-left",
-                              selectedIndex === globalIndex ? "bg-[var(--bg-hover)]" : "transparent"
-                            )}
-                          >
-                            <action.icon className="w-4 h-4 text-[var(--text-tertiary)]" />
-                            <span className="text-[13px] text-[var(--text-primary)] flex-1">{action.label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-            
-            <div className="px-4 py-3 bg-[var(--bg-sunken)] border-t border-[var(--border-default)] flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1.5">
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-overlay)] border border-[var(--border-default)] rounded text-[9px] font-mono text-[var(--text-tertiary)]">↑↓</kbd>
-                  <span className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest">Navigate</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <kbd className="px-1.5 py-0.5 bg-[var(--bg-overlay)] border border-[var(--border-default)] rounded text-[9px] font-mono text-[var(--text-tertiary)]">↵</kbd>
-                  <span className="text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest">Select</span>
-                </div>
-              </div>
-              <div className="text-[10px] text-[var(--text-tertiary)] font-mono">
-                CatalystLab Search
-              </div>
-            </div>
-          </motion.div>
+            ESC
+          </button>
         </div>
-      )}
-    </AnimatePresence>
+
+        <div className="max-h-96 overflow-y-auto p-2">
+          {filteredActions.length === 0 ? (
+            <div className="p-8 text-center text-[#2E6F40]/70">
+              No results found for "{query}"
+            </div>
+          ) : (
+            filteredActions.map((action) => {
+              const Icon = action.icon;
+              return (
+                <button
+                  key={action.id}
+                  onClick={() => handleSelect(action.href)}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-[1.25rem] hover:bg-[#F4F9F5] text-left text-[#2E6F40]/80 hover:text-[#253D2C] transition-colors"
+                >
+                  <Icon className="w-5 h-5" />
+                  <span>{action.name}</span>
+                </button>
+              );
+            })
+          )}
+        </div>
+      </div>
+      
+      {/* Background overlay click handler */}
+      <div className="absolute inset-0" onClick={() => setOpen(false)} />
+    </div>
   );
 }

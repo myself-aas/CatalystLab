@@ -1,165 +1,96 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { LayoutGrid, FlaskConical, FileText, Search, BookOpen, Settings, User, Zap, Coins, LogOut, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useAuthStore } from '@/stores/authStore';
-import { checkTokens, getTimeUntilReset } from '@/lib/tokens';
-import { TOKEN_CONFIG } from '@/lib/tokens-config';
+import { usePathname } from 'next/navigation';
+import { BrainCircuit, Home, Beaker, FileBox, LayoutDashboard, Search, BookOpen, Settings, UserCircle, MessageSquare } from 'lucide-react';
 
-export function Sidebar() {
+const NAV_ITEMS = [
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Feed', href: '/feed', icon: MessageSquare },
+  { name: 'Study Room', href: '/study', icon: Home },
+  { name: 'Instruments', href: '/instruments', icon: Beaker },
+  { name: 'Search', href: '/search', icon: Search },
+  { name: 'Reviews', href: '/reviews', icon: BookOpen },
+  { name: 'Blogs', href: '/blogs', icon: MessageSquare },
+  { name: 'Sessions', href: '/reports', icon: FileBox },
+];
+
+export default function Sidebar() {
   const pathname = usePathname();
-  const { profile, user, signOut } = useAuthStore();
-  const [tokens, setTokens] = useState<{ remaining: number; total: number } | null>(null);
-  const [resetTime, setResetTime] = useState<string>('');
-  const [isSigningOut, setIsSigningOut] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      checkTokens().then(data => setTokens({ remaining: data.remaining, total: data.total }));
-      setResetTime(getTimeUntilReset());
-      const timer = setInterval(() => setResetTime(getTimeUntilReset()), 60000);
-      return () => clearInterval(timer);
-    }
-  }, [user, pathname]); // Refresh on navigation
-
-  const handleSignOut = async () => {
-    try {
-      setIsSigningOut(true);
-      await signOut();
-      router.push('/login');
-    } catch (error) {
-      console.error('Sign Out Error:', error);
-    } finally {
-      setIsSigningOut(false);
-    }
-  };
-
-  const navItems = [
-    { label: 'Dashboard', href: '/dashboard', icon: LayoutGrid },
-    { label: 'Instruments', href: '/instruments', icon: FlaskConical },
-    { label: 'My Reports', href: '/reports', icon: FileText },
-    { label: 'Search', href: '/search', icon: Search },
-    { label: 'Living Reviews', href: '/reviews', icon: BookOpen },
-  ];
-
-  const displayName = profile?.full_name || profile?.username || user?.email?.split('@')[0] || 'Researcher';
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-[220px] bg-[var(--bg-elevated)] border-r border-[var(--border-faint)] hidden lg:flex flex-col z-50">
-      {/* TOP */}
-      <Link href="/" className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
-        <div className="w-7 h-7 border-[1.5px] border-[var(--text-primary)] rounded-full flex items-center justify-center relative">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-5 h-5 border-[1.5px] border-[var(--text-primary)] rounded-full opacity-50" />
+    <aside className="w-[96px] flex flex-col h-full bg-[#f3f6f1] border-r border-[#68BA7F]/20 hidden md:flex items-center py-4 select-none">
+      {/* M3 Navigation Rail Header / FAB Area */}
+      <div className="mb-6 flex flex-col items-center">
+        <Link href="/dashboard" className="group flex flex-col items-center gap-1">
+          <div className="w-12 h-12 rounded-[1.25rem] bg-[#C6EFCE] text-[#002206] flex items-center justify-center border border-[#68BA7F]/30 hover:scale-105 active:scale-95 transition-all shadow-sm">
+            <BrainCircuit className="w-6 h-6 text-[#1E4D2B]" />
           </div>
-          <div className="w-1.5 h-1.5 bg-[var(--text-primary)] rounded-full z-10" />
-        </div>
-        <div className="flex items-baseline gap-0.5">
-          <span className="text-[15px] font-medium text-[var(--text-primary)]">Catalyst</span>
-          <span className="text-[15px] font-normal text-[var(--text-primary)]">Lab</span>
-        </div>
-        <span className="px-1.5 py-0.5 bg-[var(--accent-muted)] text-[var(--accent)] text-[10px] font-medium rounded-full">beta</span>
-      </Link>
+          <span className="text-[10px] uppercase tracking-wider font-extrabold text-[#1E4D2B] mt-1 text-center scale-90">
+            Catalyst
+          </span>
+        </Link>
+      </div>
 
-      {/* NAV */}
-      <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto scrollbar-hide">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+      {/* M3 Navigation Rail Destinations */}
+      <nav className="flex-1 w-full flex flex-col items-center gap-4 px-1 overflow-y-auto subtle-scrollbar">
+        {NAV_ITEMS.map((item) => {
+          const isActive = pathname.startsWith(item.href);
+          const Icon = item.icon;
           return (
             <Link
-              key={item.href}
+              key={item.name}
               href={item.href}
-              className={cn(
-                "flex items-center gap-3 h-9 px-3 rounded-[var(--r-md)] text-[13px] transition-all group relative",
-                isActive 
-                  ? "bg-[var(--bg-active)] text-[var(--text-primary)]" 
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
-              )}
+              className="w-full flex flex-col items-center group relative cursor-pointer"
             >
-              {isActive && (
-                <div className="absolute left-0 top-2 bottom-2 w-0.5 bg-[var(--accent)] rounded-full" />
-              )}
-              <item.icon className={cn("w-4 h-4", isActive ? "text-[var(--accent)]" : "text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]")} />
-              {item.label}
+              {/* M3 Active Destination Indicator (Pill) */}
+              <div
+                className={`h-8 w-14 rounded-full flex items-center justify-center transition-all duration-200 ${
+                  isActive
+                    ? 'bg-[#C6EFCE] text-[#002206] font-medium shadow-none'
+                    : 'text-[#434842] group-hover:bg-[#E0E4DB] group-hover:text-[#191E1A]'
+                }`}
+              >
+                <Icon className={`w-5 h-5 transition-transform duration-200 group-active:scale-90`} />
+              </div>
+              
+              {/* Destination Label */}
+              <span
+                className={`text-[11px] tracking-wide mt-1.5 text-center px-1 font-medium select-none truncate w-full transition-colors ${
+                  isActive ? 'text-[#1E4D2B] font-bold' : 'text-[#434842]/80 group-hover:text-[#191E1A]'
+                }`}
+              >
+                {item.name}
+              </span>
             </Link>
           );
         })}
-        
-        <div className="h-px bg-[var(--border-faint)] my-4 mx-3" />
-        
-        <Link
-          href="/settings"
-          className={cn(
-            "flex items-center gap-3 h-9 px-3 rounded-[var(--r-md)] text-[13px] transition-all group",
-            pathname === '/settings' 
-              ? "bg-[var(--bg-active)] text-[var(--text-primary)]" 
-              : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
-          )}
-        >
-          <Settings className={cn("w-4 h-4", pathname === '/settings' ? "text-[var(--accent)]" : "text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]")} />
-          Settings
-        </Link>
       </nav>
 
-      {/* TOKENS */}
-      {user && (
-        <div className="px-5 py-4">
-          <div className="bg-[var(--bg-sunken)] rounded-[var(--r-lg)] p-4 border border-[var(--border-subtle)]">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-mono font-bold text-[var(--text-tertiary)] uppercase tracking-wider">Token Balance</span>
-              <Coins className="w-3 h-3 text-[var(--accent)]" />
-            </div>
-            <div className="h-1.5 w-full bg-[var(--bg-elevated)] rounded-full overflow-hidden mb-2">
-              <div 
-                className="h-full bg-[var(--accent)] transition-all duration-500" 
-                style={{ width: `${Math.min(((tokens?.remaining || 0) / (tokens?.total || TOKEN_CONFIG.dailyLimit)) * 100, 100)}%` }}
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex justify-between items-center">
-                <span className="text-[11px] text-[var(--text-secondary)] font-mono">
-                  {tokens !== null ? tokens.remaining.toLocaleString() : '...'} / {tokens?.total.toLocaleString() || TOKEN_CONFIG.dailyLimit.toLocaleString()}
-                </span>
-              </div>
-              <span className="text-[9px] text-[var(--text-tertiary)] font-mono">Resets in {resetTime}</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* BOTTOM */}
-      <div className="p-3 border-t border-[var(--border-faint)] space-y-2">
-        <div className="flex items-center gap-3 px-2 py-1">
-          <Link href="/profile" className="w-8 h-8 rounded-full bg-[var(--bg-overlay)] border border-[var(--border-subtle)] flex items-center justify-center overflow-hidden hover:opacity-80 transition-opacity">
-            {profile?.avatar_url ? (
-              <img src={profile.avatar_url} alt="Profile" className="w-full h-full object-cover" />
-            ) : (
-              <User className="w-4 h-4 text-[var(--text-secondary)]" />
-            )}
-          </Link>
-          <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-medium text-[var(--text-primary)] truncate">{displayName}</p>
-            <span className="text-[10px] font-medium text-[var(--accent)] uppercase tracking-wider">Research Tier</span>
-          </div>
-        </div>
-        
-        <button 
-          onClick={handleSignOut}
-          disabled={isSigningOut}
-          className="w-full flex items-center gap-3 h-9 px-3 rounded-[var(--r-md)] text-[13px] text-[var(--text-secondary)] hover:bg-red-500/10 hover:text-red-500 transition-all group disabled:opacity-50"
+      {/* M3 Navigation Rail Footer Destination */}
+      <div className="mt-auto w-full flex flex-col items-center px-1">
+        <Link
+          href="/user"
+          className="w-full flex flex-col items-center group cursor-pointer"
         >
-          {isSigningOut ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <LogOut className="w-4 h-4 text-[var(--text-tertiary)] group-hover:text-red-500" />
-          )}
-          Sign Out
-        </button>
+          <div
+            className={`h-8 w-14 rounded-full flex items-center justify-center transition-all duration-200 ${
+              pathname.startsWith('/user')
+                ? 'bg-[#C6EFCE] text-[#002206] font-medium'
+                : 'text-[#434842] group-hover:bg-[#E0E4DB] group-hover:text-[#191E1A]'
+            }`}
+          >
+            <UserCircle className="w-5 h-5 transition-transform duration-200 group-active:scale-95" />
+          </div>
+          <span
+            className={`text-[11px] tracking-wide mt-1.5 text-center px-1 font-medium select-none truncate w-full transition-colors ${
+              pathname.startsWith('/user') ? 'text-[#1E4D2B] font-bold' : 'text-[#434842]/80 group-hover:text-[#191E1A]'
+            }`}
+          >
+            Profile
+          </span>
+        </Link>
       </div>
     </aside>
   );
 }
+
