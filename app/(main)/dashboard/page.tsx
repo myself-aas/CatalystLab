@@ -195,7 +195,7 @@ export default function Dashboard() {
             <Search className="w-5 h-5 text-[#2E6F40]" />
           </div>
           <h2 className="text-lg font-bold text-[#253D2C] mb-2 group-hover:text-[#2E6F40] transition-colors">Literature Search</h2>
-          <p className="text-sm text-[#2E6F40]/80">Search 9 academic sources directly</p>
+          <p className="text-sm text-[#2E6F40]/80">Search 17 academic sources directly</p>
         </Link>
         <Link href="/reports" className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/40 hover:shadow-lg transition-all group shadow-lg">
           <div className="w-10 h-10 rounded-[1.25rem] bg-[#CFFFDC] flex items-center justify-center mb-4">

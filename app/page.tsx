@@ -93,10 +93,10 @@ export default function LandingPage() {
               </div>
               <h2 className="text-3xl font-bold text-[#253D2C] tracking-tight">DISCOVER</h2>
               <p className="text-lg text-[#2E6F40]/80 leading-relaxed">
-                Every time you run an instrument, CatalystLab automatically extracts your research concepts and searches 9 free academic databases in parallel, surfacing relevant literature instantly.
+                Every time you run an instrument, CatalystLab automatically extracts your research concepts and searches 17 free academic databases in parallel, surfacing relevant literature instantly.
               </p>
               <ul className="space-y-3 pt-4">
-                {['Parallel API fan-out to 9 sources', 'AI automated search query generation', 'Session saving to Firestore', '14 citation export formats'].map(i => (
+                {['Parallel API fan-out to 17 sources', 'AI automated search query generation', 'Session saving to Firestore', '14 citation export formats'].map(i => (
                   <li key={i} className="flex items-center gap-3 text-[#253D2C]/80 font-medium">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#68BA7F]"></div>
                     {i}
@@ -154,12 +154,17 @@ export default function LandingPage() {
       <section id="sources" className="py-24 px-4 sm:px-6 bg-white border-y border-[#68BA7F]/30">
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="text-center space-y-4 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#253D2C]">Connected to 9 academic APIs</h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#253D2C]">Connected to 17 academic APIs</h2>
             <p className="text-lg text-[#2E6F40]/80">We search over 250M+ open access papers, preprints, and publications in parallel.</p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-center">
-            {['Semantic Scholar', 'OpenAlex', 'arXiv', 'PubMed', 'CORE', 'Crossref', 'Europe PMC', 'DOAJ', 'Unpaywall'].map(s => (
+            {[
+              'Semantic Scholar', 'OpenAlex', 'arXiv', 'PubMed', 
+              'CORE', 'Crossref', 'Europe PMC', 'DOAJ', 
+              'Zenodo', 'DataCite', 'Unpaywall', 'Figshare', 
+              'HDX', 'OpenAIRE', 'NASA ADS', 'Exa AI', 'Tavily'
+            ].map(s => (
               <div key={s} className="px-6 py-3 rounded-full bg-[#F4F9F5] border border-[#68BA7F]/30 text-[#253D2C]/80 font-medium shadow-lg">
                 {s}
               </div>
@@ -190,7 +195,7 @@ export default function LandingPage() {
               <div className="text-3xl font-bold text-[#253D2C]">$9<span className="text-lg text-[#2E6F40] font-normal">/mo</span></div>
               <ul className="text-sm text-[#2E6F40] space-y-2">
                 <li>Unlimited runs</li>
-                <li>All 9 sources</li>
+                <li>All 17 sources</li>
               </ul>
             </div>
             <div className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 shadow-lg space-y-4">
@@ -224,9 +229,9 @@ export default function LandingPage() {
           <div className="flex gap-6 text-sm text-[#2E6F40]/70">
             <Link href="/privacy" className="hover:text-[#253D2C] transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-[#253D2C] transition-colors">Terms</Link>
-            <a href="https://github.com/myself-aas/CatalystLab" target="_blank" rel="noreferrer" className="hover:text-[#253D2C] transition-colors flex items-center gap-1">
+            <Link href="/github" className="hover:text-[#253D2C] transition-colors flex items-center gap-1">
               GitHub <ExternalLink className="w-3 h-3" />
-            </a>
+            </Link>
           </div>
         </div>
       </footer>
