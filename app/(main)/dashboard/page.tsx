@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../components/AuthProvider';
 import { collection, query, where, getDocs, limit, orderBy } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
-import { ArrowRight, Beaker, FileBox, Search } from 'lucide-react';
+import { ArrowRight, Beaker, FileBox, Search, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from 'recharts';
 
@@ -182,220 +182,38 @@ export default function Dashboard() {
         <p className="text-[#2E6F40]/80">Ready to break through the edge of knowledge?</p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
-        <Link href="/instruments" className="p-6 rounded-[1.5rem] bg-[#CFFFDC]/40 border border-[#68BA7F]/50 hover:bg-[#CFFFDC] transition-all group shadow-lg">
-          <div className="w-10 h-10 rounded-[1.25rem] bg-[#CFFFDC] flex items-center justify-center mb-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Link href="/instruments" className="p-6 rounded-[1.5rem] bg-[#CFFFDC]/40 border border-[#68BA7F]/50 hover:bg-[#CFFFDC] transition-all group shadow-lg flex flex-col items-start">
+          <div className="w-10 h-10 rounded-[1.25rem] bg-[#CFFFDC] flex items-center justify-center mb-4 border border-[#68BA7F]/20 group-hover:border-[#68BA7F]/40 transition-colors">
             <Beaker className="w-5 h-5 text-[#2E6F40]" />
           </div>
           <h2 className="text-lg font-bold text-[#253D2C] mb-2 group-hover:text-[#2E6F40] transition-colors">Launch Instrument</h2>
-          <p className="text-sm text-[#2E6F40]/80">Pick from 21 specialized AI tools</p>
+          <p className="text-sm text-[#2E6F40]/80 leading-relaxed">Pick from 21 specialized AI tools</p>
         </Link>
-        <Link href="/search" className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/40 hover:shadow-lg transition-all group shadow-lg">
-          <div className="w-10 h-10 rounded-[1.25rem] bg-[#CFFFDC] flex items-center justify-center mb-4">
+        <Link href="/search" className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/50 hover:shadow-lg transition-all group shadow-lg flex flex-col items-start">
+          <div className="w-10 h-10 rounded-[1.25rem] bg-[#F4F9F5] flex items-center justify-center mb-4 border border-[#68BA7F]/20 group-hover:border-[#68BA7F]/40 transition-colors">
             <Search className="w-5 h-5 text-[#2E6F40]" />
           </div>
           <h2 className="text-lg font-bold text-[#253D2C] mb-2 group-hover:text-[#2E6F40] transition-colors">Literature Search</h2>
-          <p className="text-sm text-[#2E6F40]/80">Search 17 academic sources directly</p>
+          <p className="text-sm text-[#2E6F40]/80 leading-relaxed">Search 17 academic sources directly</p>
         </Link>
-        <Link href="/reports" className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/40 hover:shadow-lg transition-all group shadow-lg">
-          <div className="w-10 h-10 rounded-[1.25rem] bg-[#CFFFDC] flex items-center justify-center mb-4">
+        <Link href="/reports" className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/50 hover:shadow-lg transition-all group shadow-lg flex flex-col items-start">
+          <div className="w-10 h-10 rounded-[1.25rem] bg-[#F4F9F5] flex items-center justify-center mb-4 border border-[#68BA7F]/20 group-hover:border-[#68BA7F]/40 transition-colors">
             <FileBox className="w-5 h-5 text-[#2E6F40]" />
           </div>
           <h2 className="text-lg font-bold text-[#253D2C] mb-2 group-hover:text-[#2E6F40] transition-colors">Saved Sessions</h2>
-          <p className="text-sm text-[#2E6F40]/80">Review your past brainstorms</p>
+          <p className="text-sm text-[#2E6F40]/80 leading-relaxed">Review your past brainstorms</p>
+        </Link>
+        <Link href="/zones" className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/50 hover:shadow-lg transition-all group shadow-lg flex flex-col items-start">
+          <div className="w-10 h-10 rounded-[1.25rem] bg-[#F4F9F5] flex items-center justify-center mb-4 border border-[#68BA7F]/20 group-hover:border-[#68BA7F]/40 transition-colors">
+            <Layers className="w-5 h-5 text-[#2E6F40]" />
+          </div>
+          <h2 className="text-lg font-bold text-[#253D2C] mb-2 group-hover:text-[#2E6F40] transition-colors">Experimental Zones</h2>
+          <p className="text-sm text-[#2E6F40]/80 leading-relaxed">Adaptive M3 expressive tab views</p>
         </Link>
       </div>
 
-      {/* 30-Day Activity History Visualization */}
-      <div className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 shadow-lg space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-bold text-[#253D2C]">Research Activity Dynamics</h2>
-            <p className="text-sm text-[#2E6F40]/70">Frequency of dynamic sessions created over the last 30 days</p>
-          </div>
-          <div className="text-sm font-semibold bg-[#CFFFDC] text-[#253D2C] px-3 py-1.5 rounded-[1rem] self-start sm:self-center border border-[#68BA7F]/30">
-            Total: {chartData.reduce((acc, curr) => acc + curr.sessions, 0)} Sessions
-          </div>
-        </div>
 
-        <div className="w-full space-y-4">
-          {loading ? (
-            <div className="h-[300px] flex items-center justify-center text-[#2E6F40]/50 text-sm">
-              Analyzing research history...
-            </div>
-          ) : mounted ? (
-            <>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData} margin={{ top: 15, right: 10, left: -25, bottom: 5 }}>
-                  <defs>
-                    <linearGradient id="intensity-gradient" x1="0" y1="0" x2="1" y2="0">
-                      {chartData.map((d, i) => {
-                        const offset = `${(i / (chartData.length - 1)) * 100}%`;
-                        let stopColor = '#E4E9E5'; // Quiet state
-                        if (d.sessions === 1) stopColor = '#68BA7F'; // Moderate Study
-                        else if (d.sessions === 2) stopColor = '#2E6F40'; // Solid active
-                        else if (d.sessions >= 3) stopColor = '#EAB308'; // Peak breakthrough
-                        return (
-                          <stop key={i} offset={offset} stopColor={stopColor} />
-                        );
-                      })}
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid stroke="#68BA7F" strokeDasharray="3 3" opacity={0.15} vertical={false} />
-                  <XAxis 
-                    dataKey="date" 
-                    stroke="#2E6F40" 
-                    fontSize={11} 
-                    tickLine={false} 
-                    axisLine={false}
-                    dy={10} 
-                    opacity={0.8}
-                  />
-                  <YAxis 
-                    stroke="#2E6F40" 
-                    fontSize={11} 
-                    tickLine={false} 
-                    axisLine={false}
-                    allowDecimals={false}
-                    dx={-5}
-                    opacity={0.8}
-                  />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Line 
-                    type="monotone" 
-                    dataKey="sessions" 
-                    stroke="url(#intensity-gradient)" 
-                    strokeWidth={4.5} 
-                    dot={(props: any) => {
-                      const { cx, cy, payload } = props;
-                      let fillVal = '#E4E9E5';
-                      let strokeVal = '#B8C6BC';
-                      if (payload.sessions === 1) {
-                        fillVal = '#68BA7F';
-                        strokeVal = '#2E6F40';
-                      } else if (payload.sessions === 2) {
-                        fillVal = '#2E6F40';
-                        strokeVal = '#1B4326';
-                      } else if (payload.sessions >= 3) {
-                        fillVal = '#EAB308';
-                        strokeVal = '#A16207';
-                      }
-                      return (
-                        <circle
-                          cx={cx}
-                          cy={cy}
-                          r={4.5}
-                          stroke={strokeVal}
-                          strokeWidth={1.5}
-                          fill={fillVal}
-                          key={`dot-${payload.date}`}
-                        />
-                      );
-                    }}
-                    activeDot={(props: any) => {
-                      const { cx, cy, payload } = props;
-                      let fillVal = '#E4E9E5';
-                      let strokeVal = '#B8C6BC';
-                      if (payload.sessions === 1) {
-                        fillVal = '#68BA7F';
-                        strokeVal = '#2E6F40';
-                      } else if (payload.sessions === 2) {
-                        fillVal = '#2E6F40';
-                        strokeVal = '#1B4326';
-                      } else if (payload.sessions >= 3) {
-                        fillVal = '#EAB308';
-                        strokeVal = '#A16207';
-                      }
-                      return (
-                        <circle
-                          cx={cx}
-                          cy={cy}
-                          r={6.5}
-                          stroke={strokeVal}
-                          strokeWidth={2.5}
-                          fill={fillVal}
-                          key={`active-dot-${payload.date}`}
-                        />
-                      );
-                    }}
-                    isAnimationActive={true}
-                    animationDuration={1200}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-
-              {/* Dynamic Heatmap Legend */}
-              <div className="pt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-[#68BA7F]/10 text-xs text-[#2E6F40]/70">
-                <span className="font-semibold text-[#253D2C]/80">Research Intensity Spectrum:</span>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#E4E9E5] border border-gray-300 inline-block" />
-                  <span>Quiet Focus</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#68BA7F] inline-block" />
-                  <span>Moderate Work (1)</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#2E6F40] inline-block" />
-                  <span>Active Study (2)</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#EAB308] inline-block" />
-                  <span>Peak Discovery (3+)</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="h-[300px]" />
-          )}
-        </div>
-      </div>
-
-      {/* Instrument Usage Distribution Visualization */}
-      <div className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 shadow-lg space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-bold text-[#253D2C]">Instrument Distribution</h2>
-            <p className="text-sm text-[#2E6F40]/70">Breakdown of research sessions by methodology category</p>
-          </div>
-        </div>
-
-        <div className="w-full flex items-center justify-center h-[300px]">
-          {loading ? (
-            <div className="h-full flex items-center justify-center text-[#2E6F40]/50 text-sm">
-              Analyzing distribution...
-            </div>
-          ) : mounted && categoryData.length > 0 ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={categoryData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={70}
-                  outerRadius={100}
-                  paddingAngle={5}
-                  dataKey="value"
-                  stroke="none"
-                >
-                  {categoryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ borderRadius: '1rem', border: '1px solid rgba(104, 186, 127, 0.3)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ color: '#253D2C', fontWeight: 'bold' }}
-                />
-                <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px', color: '#2E6F40' }} />
-              </PieChart>
-            </ResponsiveContainer>
-          ) : (
-            <div className="h-[300px] flex items-center justify-center text-[#2E6F40]/50 text-sm">
-              No distribution data available yet.
-            </div>
-          )}
-        </div>
-      </div>
 
       <div className="pt-4">
         <div className="flex items-center justify-between mb-6">

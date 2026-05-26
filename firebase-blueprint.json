@@ -323,6 +323,10 @@
       "schema": "Session",
       "description": "Logged research study sessions."
     },
+    "sessions/{sessionId}/comments": {
+      "schema": "Comment",
+      "description": "Real-time discussion comments on study sessions for team members."
+    },
     "fragments": {
       "schema": "Fragment",
       "description": "Logged research insight fragments and quick notes."

@@ -1,6 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'motion/react';
+import { Fingerprint, Workflow, Network } from 'lucide-react';
 
 const INSTRUMENTS = [
   // Zone A — Idea Catalyst
@@ -32,7 +34,13 @@ const INSTRUMENTS = [
 ];
 
 export default function InstrumentsPage() {
-  const zones = Array.from(new Set(INSTRUMENTS.map(i => i.zone)));
+  const [activeZone, setActiveZone] = useState('Zone A — Idea Catalyst');
+
+  const tabs = [
+    { id: 'Zone A — Idea Catalyst', label: 'Zone A', icon: <Fingerprint className="w-4 h-4" /> },
+    { id: 'Zone B — Analytical Foundry', label: 'Zone B', icon: <Workflow className="w-4 h-4" /> },
+    { id: 'Zone C — Strategic Discovery', label: 'Zone C', icon: <Network className="w-4 h-4" /> },
+  ];
 
   return (
     <div className="max-w-6xl mx-auto space-y-12">
@@ -43,24 +51,63 @@ export default function InstrumentsPage() {
         </p>
       </div>
 
-      <div className="space-y-12">
-        {zones.map(zone => (
-          <div key={zone} className="space-y-6">
-            <h2 className="text-xl font-bold text-[#253D2C] border-b border-[#68BA7F]/30 pb-2">{zone}</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {INSTRUMENTS.filter(i => i.zone === zone).map(inst => (
-                <Link 
-                  key={inst.id} 
-                  href={`/instruments/${inst.id}`}
-                  className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/60 hover:shadow-lg hover:-translate-y-1 transition-all group block shadow-lg"
-                >
-                  <h3 className="text-lg font-bold text-[#253D2C] mb-2 group-hover:text-[#2E6F40] transition-colors">{inst.name}</h3>
-                  <p className="text-sm text-[#2E6F40]/80">{inst.desc}</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="space-y-8">
+        <div className="self-start relative bg-white/60 p-1.5 rounded-2xl inline-flex flex-wrap gap-1 border border-[#68BA7F]/20 shadow-sm backdrop-blur-md overflow-hidden overflow-x-auto max-w-full">
+          {tabs.map((tab) => {
+            const isActive = activeZone === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveZone(tab.id)}
+                className={`relative flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-[14px] text-sm font-medium transition-colors duration-300 ${
+                  isActive ? 'text-[#1E4D2B]' : 'text-[#2E6F40]/70 hover:text-[#2E6F40] hover:bg-[#68BA7F]/10'
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="m3-expressive-tab"
+                    className="absolute inset-0 bg-[#CFFFDC] rounded-[14px] shadow-sm border border-[#68BA7F]/20"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-2 whitespace-nowrap">
+                  {tab.icon}
+                  {tab.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="relative min-h-[400px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeZone}
+              initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <div className="space-y-6">
+                <h2 className="text-xl font-bold text-[#253D2C] pb-2 flex items-center gap-3 border-b border-[#68BA7F]/30 pb-2">
+                  {activeZone}
+                </h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {INSTRUMENTS.filter(i => i.zone === activeZone).map(inst => (
+                    <Link 
+                      key={inst.id} 
+                      href={`/instruments/${inst.id}`}
+                      className="p-6 rounded-[1.5rem] bg-white border border-[#68BA7F]/30 hover:border-[#68BA7F]/60 hover:shadow-lg hover:-translate-y-1 transition-all group block shadow-lg"
+                    >
+                      <h3 className="text-lg font-bold text-[#253D2C] mb-2 group-hover:text-[#2E6F40] transition-colors">{inst.name}</h3>
+                      <p className="text-sm text-[#2E6F40]/80">{inst.desc}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

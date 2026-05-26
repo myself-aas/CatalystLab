@@ -122,9 +122,16 @@ service cloud.firestore {
     // Study and Research Sessions collection rules
     match /sessions/{sessionId} {
       allow create: if isSignedIn() && incoming().uid == request.auth.uid && isValidId(sessionId) && isValidSession(incoming());
-      allow read: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow read: if isSignedIn();
       allow update: if isSignedIn() && resource.data.uid == request.auth.uid && incoming().uid == request.auth.uid && isValidSession(incoming()) && incoming().uid == existing().uid;
       allow delete: if isSignedIn() && resource.data.uid == request.auth.uid;
+      
+      // Sub-collection for session comments
+      match /comments/{commentId} {
+          allow read: if isSignedIn();
+          allow create: if isSignedIn() && incoming().authorId == request.auth.uid && isValidId(commentId) && isValidComment(incoming());
+          allow delete: if isSignedIn() && resource.data.authorId == request.auth.uid;
+      }
     }
 
     // Quick research fragments and ideas collection rules

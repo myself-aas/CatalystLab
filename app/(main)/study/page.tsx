@@ -3,13 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../components/AuthProvider';
 import { db } from '../../../lib/firebase';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, onSnapshot, addDoc, serverTimestamp, doc, deleteDoc } from 'firebase/firestore';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { Loader2, Search, Zap, Clock, BrainCircuit, FileText, FileSpreadsheet, ClipboardList, Mail, CheckSquare } from 'lucide-react';
+import { Loader2, Search, Zap, Clock, BrainCircuit, FileText, FileSpreadsheet, ClipboardList, Mail, CheckSquare, MessageCircle, Send, Trash2 } from 'lucide-react';
 import Markdown from 'react-markdown';
 
 interface Session {
   id: string;
+  uid: string;
   title: string;
   instrumentName: string;
   duration: number;
@@ -25,6 +26,113 @@ interface Session {
   createdAt: any;
 }
 
+interface Comment {
+  id: string;
+  authorId: string;
+  authorName: string;
+  content: string;
+  createdAt: any;
+}
+
+function SessionComments({ sessionId }: { sessionId: string }) {
+  const { user } = useAuth();
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(
+      collection(db, 'sessions', sessionId, 'comments'),
+      orderBy('createdAt', 'asc')
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const parsed = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Comment[];
+      setComments(parsed);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error fetching comments:", error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [sessionId]);
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newComment.trim() || !user) return;
+    try {
+      await addDoc(collection(db, 'sessions', sessionId, 'comments'), {
+        authorId: user.uid,
+        authorName: user.displayName || user.email?.split('@')[0] || 'Researcher',
+        content: newComment.trim(),
+        createdAt: serverTimestamp()
+      });
+      setNewComment('');
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
+  };
+
+  const handleDelete = async (commentId: string) => {
+    try {
+      await deleteDoc(doc(db, 'sessions', sessionId, 'comments', commentId));
+    } catch (err) {
+      console.error("Error deleting comment:", err);
+    }
+  };
+
+  return (
+    <div className="mt-4 pt-4 border-t border-[#68BA7F]/20 space-y-4">
+      <h4 className="text-xs font-bold text-[#2E6F40] uppercase tracking-widest flex items-center gap-2">
+        <MessageCircle className="w-3.5 h-3.5" /> Team Discussion
+      </h4>
+      
+      {loading ? (
+        <div className="flex justify-center p-4"><Loader2 className="w-4 h-4 animate-spin text-[#2E6F40]" /></div>
+      ) : comments.length > 0 ? (
+        <div className="space-y-3">
+          {comments.map(c => (
+             <div key={c.id} className="bg-white border border-[#68BA7F]/20 rounded-xl p-3 flex justify-between group">
+               <div>
+                 <div className="flex items-center gap-2 mb-1">
+                   <span className="font-bold text-xs text-[#253D2C]">{c.authorName}</span>
+                   <span className="text-[10px] text-[#2E6F40]/60">
+                     {c.createdAt?.toDate ? c.createdAt.toDate().toLocaleString() : ''}
+                   </span>
+                 </div>
+                 <p className="text-sm text-[#253D2C]/90">{c.content}</p>
+               </div>
+               {user?.uid === c.authorId && (
+                 <button onClick={() => handleDelete(c.id)} className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                   <Trash2 className="w-3.5 h-3.5" />
+                 </button>
+               )}
+             </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-xs text-[#2E6F40]/60 italic">No comments yet. Start the discussion!</div>
+      )}
+
+      <form onSubmit={handleSend} className="flex gap-2">
+        <input 
+          type="text" 
+          value={newComment} 
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Add a comment..." 
+          className="flex-1 bg-white border border-[#68BA7F]/40 rounded-xl px-3 py-2 text-sm text-[#253D2C] focus:outline-none focus:border-[#2E6F40] transition-colors"
+        />
+        <button type="submit" disabled={!newComment.trim()} className="bg-[#2E6F40] hover:bg-[#1E4D2B] text-white p-2 rounded-xl disabled:opacity-50 transition-colors">
+          <Send className="w-4 h-4" />
+        </button>
+      </form>
+    </div>
+  );
+}
+
 export default function StudyRoomPage() {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -37,7 +145,6 @@ export default function StudyRoomPage() {
       try {
         const q = query(
           collection(db, 'sessions'),
-          where('uid', '==', user.uid),
           orderBy('createdAt', 'desc')
         );
         const snapshot = await getDocs(q);
@@ -240,6 +347,8 @@ export default function StudyRoomPage() {
                       <p className="text-sm text-[#253D2C]/80">{session.tldr}</p>
                     </div>
                   )}
+
+                  <SessionComments sessionId={session.id} />
                 </div>
               ))
            ) : (

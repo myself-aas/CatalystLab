@@ -2,7 +2,6 @@
 import React from 'react';
 import { AuthProvider, useAuth } from '../../components/AuthProvider';
 import Sidebar from '../../components/Sidebar';
-import TopBar from '../../components/TopBar';
 import BottomNav from '../../components/BottomNav';
 import CommandPalette from '../../components/CommandPalette';
 import { useRouter } from 'next/navigation';
@@ -23,8 +22,7 @@ function ProtectedLayout({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen bg-[#FAFDF6] text-[#191E1A] overflow-hidden">
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 relative">
-        <TopBar />
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative bg-white/40">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative bg-white/40 pb-20 md:pb-8">
           <div className="max-w-[1600px] mx-auto w-full">
             {children}
           </div>

@@ -3,53 +3,49 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Beaker, Search, FileBox, MessageSquare } from 'lucide-react';
+import { MessageSquare, LayoutDashboard, Beaker, UserCircle } from 'lucide-react';
+import { motion } from 'motion/react';
 
-const ITEMS = [
-  { name: 'Home', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Feed', href: '/feed', icon: MessageSquare },
-  { name: 'Tools', href: '/instruments', icon: Beaker },
-  { name: 'Search', href: '/search', icon: Search },
-  { name: 'Sessions', href: '/reports', icon: FileBox },
+const TABS = [
+  { id: 'feed', name: 'Feed', href: '/feed', icon: MessageSquare },
+  { id: 'dashboard', name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { id: 'instruments', name: 'Instruments', href: '/instruments', icon: Beaker },
+  { id: 'profile', name: 'Profile', href: '/user', icon: UserCircle },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <div className="md:hidden border-t border-[#68BA7F]/20 bg-[#f3f6f1]/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] z-20 shadow-[0_-4px_12px_rgba(0,0,0,0.03)] selection:bg-transparent">
-      <div className="flex items-center justify-around h-16 px-2">
-        {ITEMS.map((item) => {
-          const isActive = pathname.startsWith(item.href);
-          const Icon = item.icon;
+    <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+      <nav className="flex items-center gap-1 p-1.5 bg-[#FAFDF6]/95 backdrop-blur-xl border border-[#68BA7F]/20 rounded-full shadow-[0_8px_32px_rgba(30,77,43,0.12)]">
+        {TABS.map((tab) => {
+          const isActive = pathname.startsWith(tab.href);
+          const Icon = tab.icon;
+
           return (
-            <Link 
-              key={item.href} 
-              href={item.href}
-              className="flex flex-col items-center justify-center gap-1 w-full h-full group pb-1 cursor-pointer"
+            <Link
+              key={tab.id}
+              href={tab.href}
+              className={`relative flex items-center justify-center h-14 transition-all duration-300 rounded-full ${
+                isActive ? 'w-24 text-white' : 'w-14 text-[#434842] hover:bg-[#E5F3E9]/50'
+              }`}
+              title={tab.name}
             >
-              {/* Active state indicator pill */}
-              <div
-                className={`h-7 w-12 rounded-full flex items-center justify-center transition-all duration-200 ${
-                  isActive
-                    ? 'bg-[#C6EFCE] text-[#002206]'
-                    : 'text-[#434842] group-hover:bg-[#E0E4DB]/50'
-                }`}
-              >
-                <Icon className="w-5 h-5 transition-transform duration-200 group-active:scale-90" />
+              {isActive && (
+                <motion.div
+                  layoutId="m3-bottom-nav-active-pill"
+                  className="absolute inset-0 bg-[#2E6F40] rounded-full shadow-md"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <div className="relative z-10 flex items-center justify-center">
+                <Icon className="w-6 h-6" strokeWidth={isActive ? 2.5 : 2} />
               </div>
-              <span
-                className={`text-[10px] tracking-wide font-medium transition-colors ${
-                  isActive ? 'text-[#1E4D2B] font-bold' : 'text-[#434842]/80'
-                }`}
-              >
-                {item.name}
-              </span>
             </Link>
           );
         })}
-      </div>
+      </nav>
     </div>
   );
 }
-
