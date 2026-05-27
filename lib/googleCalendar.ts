@@ -22,15 +22,22 @@ export async function getGoogleCalendarToken(): Promise<string> {
   // Request Calendar scope
   provider.addScope('https://www.googleapis.com/auth/calendar');
 
-  const result = await signInWithPopup(auth, provider);
-  const credential = GoogleAuthProvider.credentialFromResult(result);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
 
-  if (!credential?.accessToken) {
-    throw new Error('Calendar authorization was successful, but no access token was returned.');
+    if (!credential?.accessToken) {
+      throw new Error('Calendar authorization was successful, but no access token was returned.');
+    }
+
+    cachedCalendarToken = credential.accessToken;
+    return cachedCalendarToken;
+  } catch (error: any) {
+    if (error?.code === 'auth/popup-closed-by-user' || error?.message?.includes('popup-closed-by-user') || error?.code === 'auth/cancelled-popup-request') {
+      throw new Error('The Calendar authorization popup was closed before completion. Please allow popups and complete the authorization process.');
+    }
+    throw error;
   }
-
-  cachedCalendarToken = credential.accessToken;
-  return cachedCalendarToken;
 }
 
 /**

@@ -23,15 +23,22 @@ export async function getGoogleDocsToken(): Promise<string> {
   // Request read/write access to Google Docs
   provider.addScope('https://www.googleapis.com/auth/documents');
 
-  const result = await signInWithPopup(auth, provider);
-  const credential = GoogleAuthProvider.credentialFromResult(result);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
 
-  if (!credential?.accessToken) {
-    throw new Error('Google Docs authorization was successful, but no access token was returned.');
+    if (!credential?.accessToken) {
+      throw new Error('Google Docs authorization was successful, but no access token was returned.');
+    }
+
+    cachedDocToken = credential.accessToken;
+    return cachedDocToken;
+  } catch (error: any) {
+    if (error?.code === 'auth/popup-closed-by-user' || error?.message?.includes('popup-closed-by-user') || error?.code === 'auth/cancelled-popup-request') {
+      throw new Error('The Google Docs authorization popup was closed before completion. Please allow popups and complete the authorization process.');
+    }
+    throw error;
   }
-
-  cachedDocToken = credential.accessToken;
-  return cachedDocToken;
 }
 
 /**

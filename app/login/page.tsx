@@ -9,15 +9,22 @@ import Link from 'next/link';
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleGoogleLogin = async () => {
     setLoading(true);
+    setError('');
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       router.push('/dashboard');
-    } catch (error) {
-      console.error(error);
+    } catch (err: any) {
+      console.error(err);
+      if (err?.code === 'auth/popup-closed-by-user' || err?.message?.includes('popup-closed-by-user') || err?.code === 'auth/cancelled-popup-request') {
+        setError('The sign-in popup was closed before completion. Please try again.');
+      } else {
+        setError(err?.message || 'Failed to authenticate with Google. Please try again.');
+      }
       setLoading(false);
     }
   };
@@ -37,6 +44,12 @@ export default function LoginPage() {
             <h1 className="text-2xl font-bold tracking-tight text-[#253D2C]">Welcome back</h1>
             <p className="text-[#2E6F40]/80 text-sm">Sign in to your CatalystLab account</p>
           </div>
+
+          {error && (
+            <div className="bg-red-50 text-red-600 border border-red-100 rounded-xl p-3 text-xs text-center font-medium animate-fadeIn">
+              {error}
+            </div>
+          )}
 
           <button
             onClick={handleGoogleLogin}

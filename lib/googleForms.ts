@@ -23,15 +23,22 @@ export async function getGoogleFormsToken(): Promise<string> {
   // Request read/write access to Google Forms
   provider.addScope('https://www.googleapis.com/auth/forms');
 
-  const result = await signInWithPopup(auth, provider);
-  const credential = GoogleAuthProvider.credentialFromResult(result);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
 
-  if (!credential?.accessToken) {
-    throw new Error('Google Forms authorization was successful, but no access token was returned.');
+    if (!credential?.accessToken) {
+      throw new Error('Google Forms authorization was successful, but no access token was returned.');
+    }
+
+    cachedFormsToken = credential.accessToken;
+    return cachedFormsToken;
+  } catch (error: any) {
+    if (error?.code === 'auth/popup-closed-by-user' || error?.message?.includes('popup-closed-by-user') || error?.code === 'auth/cancelled-popup-request') {
+      throw new Error('The Google Forms authorization popup was closed before completion. Please allow popups and complete the authorization process.');
+    }
+    throw error;
   }
-
-  cachedFormsToken = credential.accessToken;
-  return cachedFormsToken;
 }
 
 /**
