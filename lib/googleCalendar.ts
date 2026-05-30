@@ -36,6 +36,9 @@ export async function getGoogleCalendarToken(): Promise<string> {
     if (error?.code === 'auth/popup-closed-by-user' || error?.message?.includes('popup-closed-by-user') || error?.code === 'auth/cancelled-popup-request') {
       throw new Error('The Calendar authorization popup was closed before completion. Please allow popups and complete the authorization process.');
     }
+    if (error?.code === 'auth/unauthorized-domain' || error?.message?.includes('unauthorized-domain')) {
+      throw new Error('This domain is not authorized for OAuth operations. Please add it to the Authorized Domains in the Firebase Console.');
+    }
     throw error;
   }
 }

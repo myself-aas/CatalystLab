@@ -22,6 +22,8 @@ export default function LoginPage() {
       console.error(err);
       if (err?.code === 'auth/popup-closed-by-user' || err?.message?.includes('popup-closed-by-user') || err?.code === 'auth/cancelled-popup-request') {
         setError('The sign-in popup was closed before completion. Please try again.');
+      } else if (err?.code === 'auth/unauthorized-domain' || err?.message?.includes('unauthorized-domain')) {
+        setError('This domain is not authorized for OAuth operations. Please add it to your Firebase Console under Authentication -> Settings -> Authorized domains.');
       } else {
         setError(err?.message || 'Failed to authenticate with Google. Please try again.');
       }

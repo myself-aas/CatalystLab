@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '../../../components/AuthProvider';
 import { db } from '../../../lib/firebase';
-import { collection, query, where, getDocs, orderBy, onSnapshot, addDoc, serverTimestamp, doc, deleteDoc } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, doc, deleteDoc, getDocs } from 'firebase/firestore';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { Loader2, Search, Zap, Clock, BrainCircuit, FileText, FileSpreadsheet, ClipboardList, Mail, CheckSquare, MessageCircle, Send, Trash2 } from 'lucide-react';
+import { Loader2, Search, Zap, Clock, BrainCircuit, FileText, FileSpreadsheet, ClipboardList, Mail, CheckSquare, MessageCircle, Send, Trash2, Target, Trophy, Edit2, Check, X } from 'lucide-react';
 import Markdown from 'react-markdown';
 
 interface Session {
@@ -133,6 +133,130 @@ function SessionComments({ sessionId }: { sessionId: string }) {
   );
 }
 
+function GoalWidget({ sessions, userId }: { sessions: Session[], userId: string }) {
+  const STORAGE_KEY = `catalyst_goal_${userId}`;
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [goalType, setGoalType] = useState<'daily' | 'weekly'>('daily');
+  const [goalAmount, setGoalAmount] = useState<number>(60);
+  
+  // Load from local storage
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.type) setGoalType(parsed.type);
+        if (parsed.amount) setGoalAmount(parsed.amount);
+      } catch(e) {}
+    }
+  }, [STORAGE_KEY]);
+
+  const saveGoal = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ type: goalType, amount: goalAmount }));
+    setIsEditing(false);
+  };
+
+  const progress = useMemo(() => {
+    const now = new Date();
+    if (goalType === 'daily') {
+      const todaySessions = sessions.filter(s => {
+        const d = s.createdAt?.toDate ? s.createdAt.toDate() : new Date(s.createdAt);
+        return d.toDateString() === now.toDateString();
+      });
+      return todaySessions.reduce((acc, s) => acc + (s.duration || 15), 0);
+    } else {
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const weekSessions = sessions.filter(s => {
+        const d = s.createdAt?.toDate ? s.createdAt.toDate() : new Date(s.createdAt);
+        return d >= oneWeekAgo;
+      });
+      return weekSessions.reduce((acc, s) => acc + (s.duration || 15), 0);
+    }
+  }, [sessions, goalType]);
+
+  const percentage = Math.min(Math.round((progress / goalAmount) * 100), 100);
+  const isCompleted = progress >= goalAmount;
+
+  return (
+    <div className="bg-gradient-to-br from-[#2E6F40] to-[#1E4D2B] rounded-[1.5rem] p-6 text-white shadow-lg relative overflow-hidden">
+      {/* Decorative background circle */}
+      <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+      
+      <div className="flex items-center justify-between mb-4 relative z-10">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-white/90 flex items-center gap-2">
+          <Target className="w-4 h-4 text-[#CFFFDC]" /> Study Goals
+        </h2>
+        {!isEditing && (
+          <button onClick={() => setIsEditing(true)} className="text-white/70 hover:text-white transition-colors">
+            <Edit2 className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
+      {isEditing ? (
+        <div className="space-y-4 relative z-10 bg-black/20 p-4 rounded-xl border border-white/10">
+          <div>
+            <label className="text-xs text-white/70 block mb-1">Target Type</label>
+            <select 
+              value={goalType}
+              onChange={(e) => setGoalType(e.target.value as 'daily' | 'weekly')}
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#CFFFDC]"
+            >
+              <option value="daily">Daily Target</option>
+              <option value="weekly">Weekly Target (Last 7 days)</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-white/70 block mb-1">Target Minutes</label>
+            <input 
+              type="number"
+              min="1"
+              value={goalAmount}
+              onChange={(e) => setGoalAmount(parseInt(e.target.value) || 0)}
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#CFFFDC]"
+            />
+          </div>
+          <div className="flex gap-2 justify-end mt-2">
+            <button onClick={() => setIsEditing(false)} className="px-3 py-1.5 text-xs text-white/70 hover:text-white">
+              <X className="w-4 h-4" />
+            </button>
+            <button onClick={saveGoal} className="bg-[#CFFFDC] text-[#1E4D2B] px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 hover:bg-white transition-colors">
+              <Check className="w-3.5 h-3.5" /> Save
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="relative z-10">
+          <div className="flex items-end justify-between mb-2">
+            <div>
+              <div className="text-3xl font-bold font-mono tracking-tighter">
+                {progress} <span className="text-base text-white/70 font-sans tracking-normal">/ {goalAmount} min</span>
+              </div>
+              <p className="text-xs text-[#CFFFDC] font-medium capitalize pr-2">{goalType} Progress</p>
+            </div>
+            {isCompleted && (
+              <div className="bg-[#CFFFDC]/20 text-[#CFFFDC] text-xs font-bold px-2 py-1 rounded-lg flex items-center gap-1">
+                <Trophy className="w-3.5 h-3.5" /> Reached!
+              </div>
+            )}
+          </div>
+          
+          <div className="h-3 w-full bg-black/20 rounded-full mt-4 overflow-hidden">
+            <div 
+              className={`h-full rounded-full transition-all duration-1000 ease-out ${isCompleted ? 'bg-[#CFFFDC]' : 'bg-green-400'}`}
+              style={{ width: `${percentage}%` }}
+            ></div>
+          </div>
+          <div className="mt-2 text-right text-xs font-mono text-white/70">
+            {percentage}%
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function StudyRoomPage() {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -197,8 +321,11 @@ export default function StudyRoomPage() {
 
   return (
     <div className="h-full flex flex-col xl:flex-row gap-6 max-h-[calc(100vh-8rem)]">
-      {/* Left side - Chart & Analytics */}
-      <div className="w-full xl:w-1/3 flex flex-col gap-6 overflow-y-auto">
+      {/* Left side - Chart & Analytics & Goals */}
+      <div className="w-full xl:w-1/3 flex flex-col gap-6 overflow-y-auto pr-2 pb-6">
+        
+        {user && <GoalWidget sessions={sessions} userId={user.uid} />}
+
         <div className="bg-white border border-[#68BA7F]/30 rounded-[1.5rem] p-6 flex flex-col shrink-0 shadow-lg">
           <h2 className="text-lg font-bold text-[#253D2C] uppercase tracking-widest flex items-center gap-2 mb-6">
             <Clock className="w-5 h-5 text-[#2E6F40]" />
