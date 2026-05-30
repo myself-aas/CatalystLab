@@ -1,22 +1,10 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer, enableNetwork } from 'firebase/firestore';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import firebaseConfig from '../firebase-applet-config.json';
 
 // Initialize Firebase App
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-
-if (typeof window !== 'undefined') {
-  try {
-    initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider('6Lf7hgQtAAAAACL5FXXfD9ov5kElSUZe2VVOJLer'),
-      isTokenAutoRefreshEnabled: true // Set to true to allow auto-refresh.
-    });
-  } catch (error) {
-    console.warn("App Check already initialized or failed to initialize", error);
-  }
-}
 
 // Initialize Firestore with Database ID from the config (CRITICAL - otherwise it won't connect)
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);

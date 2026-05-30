@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -22,7 +21,6 @@ export default function RootLayout({
         <main className="min-h-screen">
           {children}
         </main>
-        <Script src="https://www.google.com/recaptcha/api.js?render=6Lf7hgQtAAAAACL5FXXfD9ov5kElSUZe2VVOJLer" strategy="beforeInteractive" />
       </body>
     </html>
   );
