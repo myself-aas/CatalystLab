@@ -1,26 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { BrainCircuit, Home, Beaker, FileBox, LayoutDashboard, Search, BookOpen, Settings, UserCircle, MessageSquare, LogOut } from 'lucide-react';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
+import { motion, AnimatePresence } from 'motion/react';
+import { useAuth } from './AuthProvider';
 
 const NAV_ITEMS = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Feed', href: '/feed', icon: MessageSquare },
-  { name: 'Study Room', href: '/study', icon: Home },
   { name: 'Instruments', href: '/instruments', icon: Beaker },
-  { name: 'Search', href: '/search', icon: Search },
   { name: 'Reviews', href: '/reviews', icon: BookOpen },
-  { name: 'Blogs', href: '/blogs', icon: MessageSquare },
-  { name: 'Sessions', href: '/reports', icon: FileBox },
+  { name: 'Account', href: '/user', icon: UserCircle },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleSignOut = async () => {
     await signOut(auth);
@@ -76,61 +90,110 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* M3 Navigation Rail Footer Destination */}
-      <div className="mt-auto w-full flex flex-col items-center gap-4 px-1 pb-4">
-        <Link
-          href="/settings"
-          className="w-full flex flex-col items-center group cursor-pointer"
-        >
-          <div
-            className={`h-8 w-14 rounded-full flex items-center justify-center transition-all duration-200 ${
-              pathname.startsWith('/settings')
-                ? 'bg-[#C6EFCE] text-[#002206] font-medium'
-                : 'text-[#434842] group-hover:bg-[#E0E4DB] group-hover:text-[#191E1A]'
-            }`}
-          >
-            <Settings className="w-5 h-5 transition-transform duration-200 group-active:scale-95" />
-          </div>
-          <span
-            className={`text-[11px] tracking-wide mt-1.5 text-center px-1 font-medium select-none truncate w-full transition-colors ${
-              pathname.startsWith('/settings') ? 'text-[#1E4D2B] font-bold' : 'text-[#434842]/80 group-hover:text-[#191E1A]'
-            }`}
-          >
-            Settings
-          </span>
-        </Link>
-        <Link
-          href="/user"
-          className="w-full flex flex-col items-center group cursor-pointer"
-        >
-          <div
-            className={`h-8 w-14 rounded-full flex items-center justify-center transition-all duration-200 ${
-              pathname.startsWith('/user')
-                ? 'bg-[#C6EFCE] text-[#002206] font-medium'
-                : 'text-[#434842] group-hover:bg-[#E0E4DB] group-hover:text-[#191E1A]'
-            }`}
-          >
-            <UserCircle className="w-5 h-5 transition-transform duration-200 group-active:scale-95" />
-          </div>
-          <span
-            className={`text-[11px] tracking-wide mt-1.5 text-center px-1 font-medium select-none truncate w-full transition-colors ${
-              pathname.startsWith('/user') ? 'text-[#1E4D2B] font-bold' : 'text-[#434842]/80 group-hover:text-[#191E1A]'
-            }`}
-          >
-            Profile
-          </span>
-        </Link>
+      {/* M3 Navigation Rail Footer Destination: Merged Account Hub */}
+      <div ref={menuRef} className="mt-auto w-full flex flex-col items-center gap-2 px-1 pb-4 relative">
         <button
-          onClick={handleSignOut}
-          className="w-full flex flex-col items-center group cursor-pointer"
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="w-full flex flex-col items-center group cursor-pointer relative"
         >
-          <div className="h-8 w-14 rounded-full flex items-center justify-center transition-all duration-200 text-[#434842] group-hover:bg-red-100 group-hover:text-red-700">
-            <LogOut className="w-5 h-5 transition-transform duration-200 group-active:scale-95" />
+          {/* Active indicator is active when on profile, settings, or menu is open */}
+          <div
+            className={`h-12 w-14 rounded-full flex items-center justify-center transition-all duration-300 relative ${
+              menuOpen || pathname.startsWith('/settings') || pathname.startsWith('/user')
+                ? 'bg-[#C6EFCE] text-[#002206] ring-2 ring-[#68BA7F]/40'
+                : 'text-[#434842] group-hover:bg-[#E0E4DB] group-hover:text-[#191E1A]'
+            }`}
+          >
+            {/* Display User Photo or UserCircle */}
+            {user?.photoURL ? (
+              <div className="w-8 h-8 rounded-full overflow-hidden border border-[#68BA7F]/20 shadow-sm relative group-hover:scale-105 transition-transform">
+                <img src={user.photoURL} alt="User Avatar" className="w-full h-full object-cover animate-fadeIn" referrerPolicy="no-referrer" />
+                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-[#68BA7F] border border-white" />
+              </div>
+            ) : (
+              <div className="relative group-hover:scale-105 transition-transform">
+                <UserCircle className="w-6 h-6 text-[#1E4D2B]" />
+                <span className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-[#68BA7F] border border-white" />
+              </div>
+            )}
           </div>
-          <span className="text-[11px] tracking-wide mt-1.5 text-center px-1 font-medium select-none truncate w-full transition-colors text-[#434842]/80 group-hover:text-red-700">
-            Sign Out
+          <span
+            className={`text-[10px] uppercase tracking-wider mt-1.5 text-center px-1 font-bold select-none truncate w-full transition-colors ${
+              menuOpen || pathname.startsWith('/settings') || pathname.startsWith('/user')
+                ? 'text-[#1E4D2B]'
+                : 'text-[#434842]/80 group-hover:text-[#191E1A]'
+            }`}
+          >
+            Account
           </span>
         </button>
+
+        {/* Floating Actions Panel Menu */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: -12, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -12, scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 450, damping: 25 }}
+              className="absolute left-[84px] bottom-4 w-56 bg-white border border-[#68BA7F]/35 rounded-[1.5rem] shadow-xl p-3 z-50 flex flex-col gap-1.5 focus:outline-none"
+            >
+              {/* User Overview Section */}
+              <div className="px-2 py-1.5 flex flex-col select-none">
+                <span className="text-xs font-bold text-[#253D2C] truncate">
+                  {user?.displayName || 'Academic Researcher'}
+                </span>
+                <span className="text-[10px] text-gray-500 font-mono truncate">
+                  {user?.email || 'researcher@catalyst.edu'}
+                </span>
+              </div>
+              
+              <div className="h-px bg-[#68BA7F]/15 my-0.5" />
+
+              {/* Profile Link */}
+              <Link
+                href="/user"
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-colors cursor-pointer ${
+                  pathname.startsWith('/user')
+                    ? 'bg-[#C6EFCE]/55 text-[#002206] font-bold'
+                    : 'text-[#434842] hover:bg-[#FAFDF6] hover:text-[#1E4D2B]'
+                }`}
+              >
+                <UserCircle className="w-4 h-4 shrink-0" />
+                <span className="text-xs font-medium">Research Profile</span>
+              </Link>
+
+              {/* Settings Link */}
+              <Link
+                href="/settings"
+                onClick={() => setMenuOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-colors cursor-pointer ${
+                  pathname.startsWith('/settings')
+                    ? 'bg-[#C6EFCE]/55 text-[#002206] font-bold'
+                    : 'text-[#434842] hover:bg-[#FAFDF6] hover:text-[#1E4D2B]'
+                }`}
+              >
+                <Settings className="w-4 h-4 shrink-0" />
+                <span className="text-xs font-medium">Portal Settings</span>
+              </Link>
+
+              <div className="h-px bg-[#68BA7F]/15 my-0.5" />
+
+              {/* Sign Out Action */}
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleSignOut();
+                }}
+                className="flex items-center gap-3 px-3 py-2 w-full text-left rounded-xl transition-all cursor-pointer text-[#434842] hover:bg-red-50 hover:text-red-700"
+              >
+                <LogOut className="w-4 h-4 shrink-0 text-red-500 group-hover:text-red-700" />
+                <span className="text-xs font-semibold">Sign Out Hub</span>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </aside>
   );

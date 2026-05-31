@@ -320,9 +320,9 @@ export default function StudyRoomPage() {
   });
 
   return (
-    <div className="h-full flex flex-col xl:flex-row gap-6 max-h-[calc(100vh-8rem)]">
+    <div className="flex flex-col xl:flex-row gap-6">
       {/* Left side - Chart & Analytics & Goals */}
-      <div className="w-full xl:w-1/3 flex flex-col gap-6 overflow-y-auto pr-2 pb-6">
+      <div className="w-full xl:w-1/3 flex flex-col gap-6 pr-2 pb-6">
         
         {user && <GoalWidget sessions={sessions} userId={user.uid} />}
 
@@ -384,7 +384,7 @@ export default function StudyRoomPage() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="p-4 space-y-4">
            {loading ? (
               <div className="flex items-center justify-center h-full text-[#2E6F40]">
                 <Loader2 className="w-6 h-6 animate-spin" />

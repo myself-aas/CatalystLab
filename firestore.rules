@@ -158,7 +158,7 @@ service cloud.firestore {
     // Blogs collection rules
     match /blogs/{blogId} {
       allow create: if isSignedIn() && incoming().authorId == request.auth.uid && isValidId(blogId) && isValidBlog(incoming());
-      allow read: if isSignedIn();
+      allow read: if true;
       allow update: if isSignedIn() && (
         // Case 1: Blog author modifying content/details/tags
         (resource.data.authorId == request.auth.uid && incoming().authorId == request.auth.uid && isValidBlog(incoming())) ||
@@ -169,7 +169,7 @@ service cloud.firestore {
       
       // Sub-collection for comments
       match /comments/{commentId} {
-          allow read: if isSignedIn();
+          allow read: if true;
           allow create: if isSignedIn() && incoming().authorId == request.auth.uid && isValidId(commentId) && isValidComment(incoming());
           allow delete: if isSignedIn() && resource.data.authorId == request.auth.uid;
       }

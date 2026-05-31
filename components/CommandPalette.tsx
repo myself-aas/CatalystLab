@@ -7,12 +7,9 @@ import { Search, Beaker, FileBox, LayoutDashboard, BookOpen, Settings, Home, Use
 const ACTIONS = [
   { id: 'dashboard', name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { id: 'feed', name: 'Community Feed', href: '/feed', icon: MessageSquare },
-  { id: 'study', name: 'Study Room', href: '/study', icon: Home },
   { id: 'instruments', name: 'Instruments', href: '/instruments', icon: Beaker },
-  { id: 'discovery', name: 'Literature Search', href: '/search', icon: Search },
+  { id: 'discovery', name: 'Literature Search', href: '/dashboard?tab=search', icon: Search },
   { id: 'reviews', name: 'Living Reviews', href: '/reviews', icon: BookOpen },
-  { id: 'sessions', name: 'Saved Sessions', href: '/reports', icon: FileBox },
-  { id: 'profile', name: 'Profile', href: '/profile', icon: UserCircle },
   { id: 'settings', name: 'Settings', href: '/settings', icon: Settings },
 ];
 

@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../../components/AuthProvider';
 import { 
   Search, 
   Loader2, 
@@ -43,7 +45,16 @@ const PRESETS = [
   { name: 'Humanitarian & Crisis', list: ['HDX', 'Tavily', 'Zenodo', 'Exa AI'] }
 ];
 
-export default function DataExplorer() {
+export default function DataExplorer({ isEmbedded = false }: { isEmbedded?: boolean }) {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isEmbedded && !authLoading && user) {
+      router.replace('/dashboard?tab=search');
+    }
+  }, [isEmbedded, user, authLoading, router]);
+
   // Query & Fetch States
   const [query, setQuery] = useState('Sustainable solar hydrogen production');
   const [activeSources, setActiveSources] = useState<string[]>([]);

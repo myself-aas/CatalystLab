@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { db } from '../lib/firebase';
 import { collection, onSnapshot, addDoc, query, orderBy, serverTimestamp, doc, updateDoc, deleteDoc, increment } from 'firebase/firestore';
 import { useAuth } from './AuthProvider';
@@ -11,6 +12,7 @@ export default function BlogCard({ blog }: { blog: any }) {
   const [comments, setComments] = useState<any[]>([]);
   const [commentText, setCommentText] = useState('');
   const [showComments, setShowComments] = useState(false);
+  const [authPrompt, setAuthPrompt] = useState(false);
 
   useEffect(() => {
     const q = query(collection(db, 'blogs', blog.id, 'comments'), orderBy('createdAt', 'asc'));
@@ -33,7 +35,10 @@ export default function BlogCard({ blog }: { blog: any }) {
   };
 
   const handleReaction = async (type: string) => {
-    if (!user) return;
+    if (!user) {
+      setAuthPrompt(true);
+      return;
+    }
     const blogRef = doc(db, 'blogs', blog.id);
     await updateDoc(blogRef, {
         [`reactions.${type}`]: increment(1)
@@ -41,14 +46,17 @@ export default function BlogCard({ blog }: { blog: any }) {
   };
 
   const handleToggleFavourite = async () => {
-      if (!user) return;
+      if (!user) {
+        setAuthPrompt(true);
+        return;
+      }
       const blogRef = doc(db, 'blogs', blog.id);
       // Simplified: just increment count. For real, track who favourited.
       await updateDoc(blogRef, { favouriteCount: increment(1) });
   };
 
   return (
-    <div className="bg-white p-6 rounded-[2rem] border border-[#68BA7F]/20 shadow-sm">
+    <div className="bg-white p-6 rounded-[2rem] border border-[#68BA7F]/20 shadow-sm relative overflow-hidden">
       <div className="flex items-center gap-3 mb-4">
         {blog.authorAvatar ? (
             <img src={blog.authorAvatar} alt={blog.authorName} className="w-10 h-10 rounded-full" />
@@ -68,29 +76,52 @@ export default function BlogCard({ blog }: { blog: any }) {
       <div className="prose prose-sm max-w-none text-[#4B5563]">
         <Markdown>{blog.content}</Markdown>
       </div>
-      <p className="text-xs text-[#9CA3AF] mt-4">{blog.createdAt?.toDate().toLocaleDateString()}</p>
+      <p className="text-xs text-[#9CA3AF] mt-4">{blog.createdAt?.toDate ? blog.createdAt.toDate().toLocaleDateString() : 'Just now'}</p>
       
       <div className="flex gap-4 mt-6 pt-4 border-t border-[#68BA7F]/10">
-         <button onClick={() => handleReaction('like')} className="flex items-center gap-1 text-sm text-[#2E6F40]"><ThumbsUp size={16}/> {blog.reactions?.like || 0}</button>
-         <button onClick={handleToggleFavourite} className="flex items-center gap-1 text-sm text-[#2E6F40]"><Heart size={16}/> {blog.favouriteCount || 0}</button>
-         <button onClick={() => setShowComments(!showComments)} className="flex items-center gap-1 text-sm text-[#2E6F40]"><MessageSquare size={16}/> {comments.length}</button>
-         <button className="flex items-center gap-1 text-sm text-[#2E6F40]" onClick={() => navigator.clipboard.writeText(window.location.href)}><Share2 size={16}/> Share</button>
+         <button onClick={() => handleReaction('like')} className="flex items-center gap-1 text-sm text-[#2E6F40] cursor-pointer hover:opacity-80 transition-opacity"><ThumbsUp size={16}/> {blog.reactions?.like || 0}</button>
+         <button onClick={handleToggleFavourite} className="flex items-center gap-1 text-sm text-[#2E6F40] cursor-pointer hover:opacity-80 transition-opacity"><Heart size={16}/> {blog.favouriteCount || 0}</button>
+         <button onClick={() => setShowComments(!showComments)} className="flex items-center gap-1 text-sm text-[#2E6F40] cursor-pointer hover:opacity-80 transition-opacity"><MessageSquare size={16}/> {comments.length}</button>
+         <button className="flex items-center gap-1 text-sm text-[#2E6F40] cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigator.clipboard.writeText(window.location.href)}><Share2 size={16}/> Share</button>
       </div>
+
+      {authPrompt && (
+        <div className="mt-4 p-4 bg-[#FAFDF6] border border-[#68BA7F]/25 rounded-2xl flex items-center justify-between text-xs text-[#2E6F40] animate-fadeIn">
+          <span>You need to be signed in to react, favourite, or leave a feedback comment.</span>
+          <div className="flex items-center gap-3 shrink-0">
+            <Link href="/login" className="font-bold underline text-[#1E4D2B] hover:text-[#253D2C]">Log In</Link>
+            <button onClick={() => setAuthPrompt(false)} className="text-gray-400 hover:text-gray-600 font-bold px-1 cursor-pointer">✕</button>
+          </div>
+        </div>
+      )}
 
       {showComments && (
         <div className="mt-4 pt-4 border-t border-[#68BA7F]/10 space-y-4">
            {comments.map(comment => (
-             <div key={comment.id} className="flex gap-2">
-                <span className="font-bold text-xs text-[#2E6F40]">{comment.authorName}:</span>
-                <span className="text-sm">{comment.content}</span>
-                {comment.authorId === user?.uid && (
-                    <button onClick={() => deleteDoc(doc(db, 'blogs', blog.id, 'comments', comment.id))} className="text-red-500 hover:text-red-700 ml-auto"><Trash2 size={14}/></button>
-                )}
-             </div>
+              <div key={comment.id} className="flex gap-2">
+                 <span className="font-bold text-xs text-[#2E6F40]">{comment.authorName}:</span>
+                 <span className="text-sm">{comment.content}</span>
+                 {comment.authorId === user?.uid && (
+                     <button onClick={() => deleteDoc(doc(db, 'blogs', blog.id, 'comments', comment.id))} className="text-red-500 hover:text-red-700 ml-auto"><Trash2 size={14}/></button>
+                 )}
+              </div>
            ))}
            <div className="flex gap-2">
-               <input value={commentText} onChange={(e) => setCommentText(e.target.value)} className="flex-1 p-2 rounded-xl border border-[#68BA7F]/30 text-sm" placeholder="Add a comment..." />
-               <button onClick={handleAddComment} className="bg-[#2E6F40] p-2 rounded-xl text-white"><Send size={16}/></button>
+                <input 
+                  value={commentText} 
+                  onChange={(e) => setCommentText(e.target.value)} 
+                  onFocus={() => { if (!user) setAuthPrompt(true); }}
+                  disabled={!user}
+                  className="flex-1 p-2.5 rounded-xl border border-[#68BA7F]/30 text-xs bg-gray-50/50 disabled:cursor-not-allowed" 
+                  placeholder={user ? "Add a comment..." : "Log in to add a comment..."} 
+                />
+                <button 
+                  onClick={handleAddComment} 
+                  disabled={!user || !commentText.trim()}
+                  className="bg-[#2E6F40] p-2.5 rounded-xl text-white hover:bg-[#253D2C] disabled:bg-gray-300 disabled:text-gray-400 transition-colors"
+                >
+                  <Send size={16}/>
+                </button>
            </div>
         </div>
       )}

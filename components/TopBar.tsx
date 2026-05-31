@@ -36,7 +36,7 @@ export default function TopBar() {
         <Link href="/settings" className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-[#1E4D2B] hover:text-[#002206] transition-colors">
             <User className="w-3.5 h-3.5" /> Settings
         </Link>
-        <Link href="/blogs" className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-[#1E4D2B] hover:text-[#002206] transition-colors">
+        <Link href="/dashboard?tab=blogs" className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-[#1E4D2B] hover:text-[#002206] transition-colors">
             <MessageSquare className="w-3.5 h-3.5" /> Blogs
         </Link>
         <div className="flex items-center gap-2.5 text-sm text-[#191E1A] bg-white/50 py-1.5 pl-2 pr-3.5 rounded-full border border-[#68BA7F]/15">

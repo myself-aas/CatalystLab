@@ -340,15 +340,15 @@ export default function InstrumentRunPage() {
   };
 
   return (
-    <div className="h-full flex flex-col xl:flex-row gap-6 overflow-hidden max-h-[calc(100vh-8rem)]">
+    <div className="flex flex-col xl:flex-row gap-6">
       
       {/* Panel 1: Input */}
-      <div className="w-full xl:w-1/4 shrink-0 flex flex-col bg-white border border-[#68BA7F]/30 rounded-[1.5rem] overflow-hidden shadow-lg">
+      <div className="w-full xl:w-1/4 shrink-0 flex flex-col bg-white border border-[#68BA7F]/30 rounded-[1.5rem] overflow-hidden shadow-lg h-fit">
         <div className="p-4 border-b border-[#68BA7F]/30 bg-[#F4F9F5] flex items-center gap-2">
           <FlaskConical className="w-4 h-4 text-[#2E6F40]" />
           <h2 className="font-bold text-[#253D2C] uppercase text-sm tracking-widest truncate">{slug.replace('-', ' ')}</h2>
         </div>
-        <div className="flex-1 p-4 flex flex-col gap-4 overflow-y-auto">
+        <div className="p-4 flex flex-col gap-4">
           {slug === 'thought-collider' ? (
             <div className="flex flex-col h-full space-y-4">
               <ThoughtColliderWorkspace 
@@ -564,7 +564,7 @@ export default function InstrumentRunPage() {
             </div>
           )}
         </div>
-        <div className="flex-1 overflow-y-auto p-6 space-y-8 text-[#253D2C]/80">
+        <div className="p-6 space-y-8 text-[#253D2C]/80">
           {/* Google Docs Export Status Notifications */}
           {exportedUrl && (
             <div className="p-4 bg-[#CFFFDC]/95 border border-[#68BA7F] rounded-[1.25rem] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm shadow-md animate-in fade-in slide-in-from-top-4 duration-300">
@@ -855,7 +855,7 @@ export default function InstrumentRunPage() {
             </span>
           )}
         </div>
-        <div className="flex-1 p-3 overflow-y-auto space-y-3">
+        <div className="p-3 space-y-3">
           {loading ? (
             <div className="flex flex-col h-full gap-4 pt-8">
               <div className="flex flex-col items-center justify-center text-[#2E6F40] gap-3 pb-4 animate-pulse">

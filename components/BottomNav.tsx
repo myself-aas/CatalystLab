@@ -7,8 +7,8 @@ import { MessageSquare, LayoutDashboard, Beaker, UserCircle } from 'lucide-react
 import { motion } from 'motion/react';
 
 const TABS = [
-  { id: 'feed', name: 'Feed', href: '/feed', icon: MessageSquare },
   { id: 'dashboard', name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { id: 'feed', name: 'Feed', href: '/feed', icon: MessageSquare },
   { id: 'instruments', name: 'Instruments', href: '/instruments', icon: Beaker },
   { id: 'profile', name: 'Profile', href: '/user', icon: UserCircle },
 ];
