@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalyst Score — Free Website Health Analyzer</title>
+  <meta name="description" content="Analyze any website's SEO, security, performance, mobile-friendliness, and accessibility in seconds. Get a Catalyst Score from 0–100.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Catalyst Score</h1>
+      <p>Analyze your website's health with a single score.</p>
+    </header>
+
+    <main>
+      <form id="analyzeForm">
+        <input type="text" id="urlInput" placeholder="Enter website URL (e.g., example.com)" required>
+        <button type="submit">Analyze</button>
+      </form>
+      <div id="loading" style="display:none;">Analyzing… (may take up to 20 seconds)</div>
+      <div id="error" class="error" style="display:none;"></div>
+
+      <section class="ad-container">
+        <!-- AdSense unit goes here after approval -->
+      </section>
+
+      <section class="how-it-works">
+        <h2>What we check</h2>
+        <ul>
+          <li><strong>SEO</strong> — title tags, meta descriptions, headings, canonical URLs</li>
+          <li><strong>Security</strong> — HTTPS, security headers, mixed content</li>
+          <li><strong>Mobile</strong> — viewport config, responsive design signals</li>
+          <li><strong>Accessibility</strong> — alt text, form labels, heading structure</li>
+          <li><strong>Social</strong> — Open Graph and Twitter Card tags</li>
+          <li><strong>Performance</strong> — Core Web Vitals via Google PageSpeed Insights</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2026 Catalyst Lab</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

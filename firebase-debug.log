@@ -1,0 +1,6 @@
+[debug] [2026-08-17T18:23:00.779Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-08-17T18:23:00.783Z] > authorizing via signed-in user (shuvo.1807016@bau.edu.bd)
+[debug] [2026-08-17T18:23:00.812Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-08-17T18:23:00.812Z] > authorizing via signed-in user (shuvo.1807016@bau.edu.bd)
+[debug] [2026-08-17T18:23:00.845Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-08-17T18:23:00.845Z] > authorizing via signed-in user (shuvo.1807016@bau.edu.bd)
