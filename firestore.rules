@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    
+    // Primary Superadmins registry
+    function isSuperAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'shuvo.1807016@bau.edu.bd' ||
+        request.auth.token.email == 'shuvoasifahmed@gmail.com' ||
+        request.auth.token.email == 'asifahmedshuvo.aas@gmail.com'
+      );
+    }
+    
+    function isValidReport(data) {
+      return data.keys().hasAll(['url', 'engine', 'output', 'createdAt', 'ownerId'])
+        && data.keys().size() >= 5 && data.keys().size() <= 12
+        && data.url is string && data.url.size() <= 500
+        && data.engine is string && data.engine.size() <= 100
+        && data.output is string && data.output.size() <= 500000
+        && data.createdAt is number
+        && data.ownerId is string && data.ownerId == request.auth.uid;
+    }
+
+    function isValidBlogPost(data) {
+      return data.keys().hasAll(['title', 'slug', 'content', 'createdAt'])
+        && data.title is string && data.title.size() <= 200
+        && data.slug is string && data.slug.size() <= 200
+        && data.content is string && data.content.size() <= 50000
+        && data.createdAt is number;
+    }
+
+    function isValidMonitoredSite(data) {
+      return data.keys().hasAll(['name', 'url', 'createdAt', 'ownerId'])
+        && data.name is string && data.name.size() <= 100
+        && data.url is string && data.url.size() <= 500
+        && data.createdAt is number
+        && data.ownerId is string;
+    }
+    
+    // Reports Collection
+    match /reports/{reportId} {
+      allow get: if isValidId(reportId);
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn() 
+                    && isValidId(reportId)
+                    && isValidReport(incoming());
+      allow update: if false;
+      allow delete: if isSignedIn() && isValidId(reportId) && (existing().ownerId == request.auth.uid || isSuperAdmin());
+    }
+
+    // Blog Posts Collection (Public Read, Superadmin Write)
+    match /blogs/{blogId} {
+      allow get, list: if true;
+      allow create: if isSuperAdmin()
+                    && isValidId(blogId)
+                    && isValidBlogPost(incoming());
+      allow update: if isSuperAdmin()
+                    && isValidId(blogId)
+                    && isValidBlogPost(incoming());
+      allow delete: if isSuperAdmin()
+                    && isValidId(blogId);
+    }
+
+    // Monitored Sites Collection (Superadmin or Owner)
+    match /monitored_sites/{siteId} {
+      allow get: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn() 
+                    && isValidId(siteId)
+                    && isValidMonitoredSite(incoming());
+      allow update: if isSignedIn() 
+                    && isValidId(siteId)
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+      allow delete: if isSignedIn() 
+                    && isValidId(siteId) 
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+    }
+  }
+}

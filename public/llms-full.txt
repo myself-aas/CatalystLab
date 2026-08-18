@@ -1,0 +1,59 @@
+# CatalystLab Full System Documentation & Architecture Specification
+
+> Canonical Production Domain: https://www.catalystlab.tech/
+> System Description: Multi-Dimensional Web Health, OWASP Security, WCAG Accessibility, and AI Readiness Telemetry Platform.
+
+## 1. Overview & Capabilities
+CatalystLab is a high-precision telemetry engine designed to audit, benchmark, and monitor modern web applications across 8 specialized diagnostic dimensions:
+1. **DOM Depth & Web Health**: Analyzes total DOM nodes, maximum DOM nesting depth, bundle payloads, and HTML structure.
+2. **Global Edge Latency Radar**: Measures synthetic Time to First Byte (TTFB), DNS resolution, and TCP handshake times across 12 global edge PoPs (US East, US West, Frankfurt, London, Singapore, Tokyo, Sydney, Mumbai, São Paulo, Johannesburg, Toronto, Bahrain).
+3. **AI Search Readiness (LLMO)**: Validates `/llms.txt`, markdown indexability, and crawler access for modern AI search engines (Perplexity, SearchGPT, Gemini).
+4. **Repository & SecOps Scanner**: Inspects public GitHub repositories and web applications for exposed secrets, missing .gitignore rules, and unpinned dependencies.
+5. **Eco-Carbon Footprint Audit**: Calculates estimated carbon emissions (grams of CO2 per pageview) based on data transfer, server host green energy grid status, and device energy utilization.
+6. **WCAG 2.2 Accessibility Compliance**: Checks color contrast ratios, ARIA landmarks, form labels, and focus visibility according to ADA and WCAG 2.2 Level AA guidelines.
+7. **OWASP Top 10 Security Headers**: Validates Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), X-Content-Type-Options, X-Frame-Options, and Referrer-Policy.
+8. **Platform Migration Risk Auditor**: Scans for vendor lock-in dependencies, legacy polyfills, and breaking runtime APIs before major framework migrations.
+
+## 2. URL Sitemap & Routes
+- Homepage & Master Audit: https://www.catalystlab.tech/
+- Pricing & Subscription Tiers: https://www.catalystlab.tech/pricing
+- API & Developer Documentation: https://www.catalystlab.tech/docs
+- Technical Architecture Insights & Blogs: https://www.catalystlab.tech/blogs
+- Diagnostic Methodology: https://www.catalystlab.tech/about
+- Side-by-Side Comparison Matrix: https://www.catalystlab.tech/compare
+- Dedicated Health Analyzer: https://www.catalystlab.tech/health
+- Dedicated Edge Latency Radar: https://www.catalystlab.tech/latency
+- Dedicated AI Readiness Inspector: https://www.catalystlab.tech/ai-readiness
+- Dedicated Eco-Carbon Auditor: https://www.catalystlab.tech/eco-audit
+- Dedicated Compliance Scanner: https://www.catalystlab.tech/compliance
+- Dedicated LLMO Optimizer: https://www.catalystlab.tech/llmo
+- Public Report Dossiers: https://www.catalystlab.tech/reports/:slug
+
+## 3. Programmatic API Integration
+### cURL Scan Trigger
+```bash
+curl -X POST https://www.catalystlab.tech/api/run-engine \
+  -H "Content-Type: application/json" \
+  -d '{"engine": "all", "url": "https://example.com"}'
+```
+
+### GitHub Actions CI/CD Quality Gate
+```yaml
+name: CatalystLab Web Quality Gate
+on: [push, pull_request]
+
+jobs:
+  telemetry-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CatalystLab Diagnostic Scan
+        run: |
+          curl -f -X POST https://www.catalystlab.tech/api/run-engine \
+            -H "Content-Type: application/json" \
+            -d '{"engine":"compliance","url":"${{ secrets.STAGING_URL }}"}'
+```
+
+## 4. Subscription Tiers & SLAs
+- **Community**: Free forever, on-demand audits, public permalink dossiers, and standard rate limits.
+- **Pro**: Automated 60-minute health probes, continuous 12-PoP edge latency monitoring, PDF/JSON telemetry downloads, and webhook alerts.
+- **Enterprise**: Private subdomain scanning, custom OWASP policies, white-label PDF dossiers, dedicated edge nodes, 99.99% uptime SLA, and SSO/SAML auth.

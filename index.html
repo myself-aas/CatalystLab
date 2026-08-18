@@ -1,49 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catalyst Score — Free Website Health Analyzer</title>
-  <meta name="description" content="Analyze any website's SEO, security, performance, mobile-friendliness, and accessibility in seconds. Get a Catalyst Score from 0–100.">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>Catalyst Score</h1>
-      <p>Analyze your website's health with a single score.</p>
-    </header>
-
-    <main>
-      <form id="analyzeForm">
-        <input type="text" id="urlInput" placeholder="Enter website URL (e.g., example.com)" required>
-        <button type="submit">Analyze</button>
-      </form>
-      <div id="loading" style="display:none;">Analyzing… (may take up to 20 seconds)</div>
-      <div id="error" class="error" style="display:none;"></div>
-
-      <section class="ad-container">
-        <!-- AdSense unit goes here after approval -->
-      </section>
-
-      <section class="how-it-works">
-        <h2>What we check</h2>
-        <ul>
-          <li><strong>SEO</strong> — title tags, meta descriptions, headings, canonical URLs</li>
-          <li><strong>Security</strong> — HTTPS, security headers, mixed content</li>
-          <li><strong>Mobile</strong> — viewport config, responsive design signals</li>
-          <li><strong>Accessibility</strong> — alt text, form labels, heading structure</li>
-          <li><strong>Social</strong> — Open Graph and Twitter Card tags</li>
-          <li><strong>Performance</strong> — Core Web Vitals via Google PageSpeed Insights</li>
-        </ul>
-      </section>
-    </main>
-
-    <footer>
-      <p>© 2026 Catalyst Lab</p>
-    </footer>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>CatalystLab — Multi-Dimensional Web Health & Telemetry Platform</title>
+    <meta name="description" content="Precision web health analyzer, OWASP security scanner, WCAG accessibility auditor, repository hygiene inspector, and AI readiness radar." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="canonical" href="https://www.catalystlab.tech/" />
+    <link rel="alternate" type="application/rss+xml" title="CatalystLab Engineering & Web Telemetry RSS Feed" href="https://www.catalystlab.tech/rss.xml" />
+    <meta property="og:title" content="CatalystLab — Multi-Dimensional Web Health & Telemetry Platform" />
+    <meta property="og:description" content="Precision web health analyzer, OWASP security scanner, WCAG accessibility auditor, repository hygiene inspector, and AI readiness radar." />
+    <meta property="og:url" content="https://www.catalystlab.tech/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CatalystLab — Web Health & Telemetry Platform" />
+    <meta name="twitter:description" content="Instant multi-dimensional web health audits across 8 specialized diagnostic engines." />
+    <!-- JSON-LD Structured Data for Google SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "CatalystLab",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "description": "Multi-Dimensional Web Health, OWASP Security, WCAG Accessibility, and AI Readiness Telemetry Platform.",
+      "url": "https://www.catalystlab.tech/",
+      "author": {
+        "@type": "Organization",
+        "name": "CatalystLab Inc."
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "0",
+        "highPrice": "199",
+        "offerCount": "3"
+      }
+    }
+    </script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

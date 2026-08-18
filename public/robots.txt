@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Allow: /blogs
+Allow: /blogs/
+Allow: /pricing
+Allow: /docs
+Allow: /about
+Allow: /compare
+Allow: /report
+Allow: /reports/
+Allow: /contact
+
+Disallow: /admin
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /api/
+
+Sitemap: https://www.catalystlab.tech/sitemap.xml

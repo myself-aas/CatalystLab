@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy: #0b192c;
+  --color-brand-oxford: #0d1b2a;
+  --color-brand-slate: #415a77;
+  --color-brand-slate-hover: #33475e;
+  --color-brand-slate-light: #52718e;
+  --color-brand-periwinkle: #c5d3e8;
+  --color-brand-periwinkle-light: #d6e2f0;
+  --color-brand-offwhite: #f8fafc;
+  --color-brand-ghost: #f4f6fa;
+  --color-brand-greige: #ebe9e6;
+  --color-brand-gray: #e2e8f0;
+}
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f4f6fa;
+    color: #0b192c;
+  }
+  
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+/* Custom Scrollbar for Terminals & Dark Components */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1b2a;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(65, 90, 119, 0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(65, 90, 119, 0.8);
+}
+
+/* Print Stylesheet for Browser PDF Export */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0b192c !important;
+  }
+
+  header, footer, nav, button, .no-print {
+    display: none !important;
+  }
+
+  pre, code {
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    color: #0b192c !important;
+    background: #f8fafc !important;
+    border: 1px solid #c5d3e8 !important;
+  }
+
+  .glass-panel, .rounded-2xl, .rounded-xl {
+    background: #ffffff !important;
+    border: 1px solid #c5d3e8 !important;
+    color: #0b192c !important;
+    box-shadow: none !important;
+  }
+}
+
