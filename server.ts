@@ -148,7 +148,6 @@ async function startServer() {
   const PORT = 3000;
   const HOST = '0.0.0.0';
 
-<<<<<<< HEAD
   // Security Response Headers Hardening Middleware
   app.use((req: Request, res: Response, next) => {
     res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
@@ -163,8 +162,6 @@ async function startServer() {
     next();
   });
 
-=======
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   app.use(express.json({ limit: '10mb' }));
 
   // Python Engine Execution Endpoint
@@ -390,7 +387,6 @@ async function startServer() {
     res.json({ status: 'ok', timestamp: Date.now() });
   });
 
-<<<<<<< HEAD
   // Dynamic Embeddable Status Badge (SVG)
   app.get(['/api/badge/:domain', '/api/badge'], (req: Request, res: Response) => {
     const domain = (req.params.domain || (req.query.domain as string) || 'catalystlab.tech').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
@@ -430,7 +426,7 @@ async function startServer() {
   <rect x="40" y="40" width="1120" height="550" rx="24" stroke="#415a77" stroke-opacity="0.4" stroke-width="2"/>
   <g transform="translate(80, 90)">
     <rect width="48" height="48" rx="12" fill="#415a77" fill-opacity="0.3" stroke="#415a77" stroke-width="1.5"/>
-    <text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" fill="#c5d3e8" text-anchor="middle" font-weight="900">⚡</text>
+    <text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" fill="#c5d3e8" text-anchor="middle" font-weight="900">âš¡</text>
     <text x="64" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="800" fill="#f8fafc" letter-spacing="1">CatalystLab</text>
     <text x="240" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#c5d3e8">| TELEMETRY REPORT DOSSIER</text>
   </g>
@@ -445,14 +441,13 @@ async function startServer() {
     <text x="120" y="105" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">${score}/100 Score</text>
     <text x="24" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#c5d3e8">8 Diagnostic Engines</text>
     <rect x="350" y="0" width="320" height="180" rx="16" fill="#152238" stroke="#415a77" stroke-opacity="0.5"/>
-    <text x="374" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#c5d3e8">EDGE LATENCY (TTFB)</text>
-    <text x="374" y="110" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="900" fill="#38bdf8">${latency}</text>
+    <text x="374" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#38bdf8">${latency}</text>
     <text x="374" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#c5d3e8">12 Worldwide Edge PoPs</text>
     <rect x="700" y="0" width="340" height="180" rx="16" fill="#152238" stroke="#415a77" stroke-opacity="0.5"/>
-    <text x="724" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#c5d3e8">STANDARDS & COMPLIANCE</text>
-    <text x="724" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">✓ OWASP Top 10 Headers</text>
-    <text x="724" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">✓ WCAG 2.2 AA Audited</text>
-    <text x="724" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#34d399">✓ Verified on catalystlab.tech</text>
+    <text x="724" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#c5d3e8">STANDARDS & COMPLIANCE</text>
+    <text x="724" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">âœ“ OWASP Top 10 Headers</text>
+    <text x="724" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">âœ“ WCAG 2.2 AA Audited</text>
+    <text x="724" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#34d399">âœ“ Verified on catalystlab.tech</text>
   </g>
 </svg>`;
 
@@ -461,8 +456,6 @@ async function startServer() {
     res.send(svg);
   });
 
-=======
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   // Vite Integration
   if (process.env.NODE_ENV === 'production') {
     const distPath = path.join(__dirname, 'dist');
@@ -483,11 +476,7 @@ async function startServer() {
   }
 
   app.listen(PORT, HOST, () => {
-<<<<<<< HEAD
     console.log(`[CatalystLab] Server running at http://${HOST}:${PORT}`);
-=======
-    console.log(`⚡ CatalystLab Server running at http://${HOST}:${PORT}`);
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   });
 }
 
