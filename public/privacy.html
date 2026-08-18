@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Privacy Policy — CatalystLab Web Telemetry</title>
+  <meta name="description" content="CatalystLab privacy policy, telemetry data collection practices, security standards, and user privacy rights under GDPR and CCPA.">
+  <link rel="icon" type="image/jpeg" href="/src/assets/images/catalystlab_logo_1787003898085.jpg">
+  <link rel="apple-touch-icon" href="/src/assets/images/catalystlab_logo_1787003898085.jpg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CatalystLab">
+  <meta property="og:title" content="Privacy Policy — CatalystLab Web Telemetry">
+  <meta property="og:description" content="CatalystLab privacy policy, telemetry data collection practices, security standards, and user privacy rights under GDPR and CCPA.">
+  <meta property="og:image" content="/src/assets/images/social_preview_card_1787003910328.jpg">
+
+  <link rel="stylesheet" href="/style.css">
+  <script src="/firebase-bundle.js"></script>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="top-nav" id="topNav">
+    <div class="nav-container">
+      <a href="/index.html" class="brand-title" aria-label="CatalystLab Home">
+        <img src="/src/assets/images/catalystlab_logo_1787003898085.jpg" alt="CatalystLab Logo" class="brand-logo-img" referrerPolicy="no-referrer">
+        <span>CatalystLab</span> <span class="brand-badge">PRO</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      
+
+      <!-- Action Area -->
+      <div class="nav-actions">
+        <a href="/index.html" class="btn btn-secondary btn-sm nav-action-btn">+ New Audit</a>
+        
+        <!-- Mobile Hamburger Button -->
+        <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileNavMenu">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Slide-Down Drawer Navigation -->
+    <div class="mobile-nav-menu" id="mobileNavMenu" aria-hidden="true">
+      <div class="mobile-nav-content">
+        <div class="mobile-nav-links">
+          <div class="mobile-nav-dropdown">
+            <button class="mobile-nav-dropdown-toggle">Products <span class="dropdown-chevron">▼</span></button>
+            <div class="mobile-dropdown-menu mobile-dropdown-menu-categorized">
+              
+              <div class="dropdown-category">
+                <span class="dropdown-category-title">Core Diagnostics</span>
+                <a href="/index.html" class="mobile-nav-link mobile-dropdown-item">Website Health Analyzer</a>
+                <a href="/compare.html" class="mobile-nav-link mobile-dropdown-item">Side-by-Side Comparison Matrix</a>
+              </div>
+              
+              <div class="dropdown-category">
+                <span class="dropdown-category-title">Developer & AI Tools</span>
+                <a href="/ai-readiness.html" class="mobile-nav-link mobile-dropdown-item">AI Readiness Inspector</a>
+                <a href="/latency.html" class="mobile-nav-link mobile-dropdown-item">Global Edge Latency Radar</a>
+              </div>
+              
+              <div class="dropdown-category">
+                <span class="dropdown-category-title">Enterprise Intelligence</span>
+                <a href="/eco-audit.html" class="mobile-nav-link mobile-dropdown-item">Eco-Carbon Footprint Audit</a>
+                <a href="/repo-scanner.html" class="mobile-nav-link mobile-dropdown-item">Repository Hygiene Scanner</a>
+                <a href="/admin" class="mobile-nav-link mobile-dropdown-item">Admin Console</a>
+              </div>
+
+            </div>
+          </div>
+          <div class="mobile-nav-dropdown">
+            <button class="mobile-nav-dropdown-toggle">Services <span class="dropdown-chevron">▼</span></button>
+            <div class="mobile-dropdown-menu mobile-dropdown-menu-categorized">
+              
+              <div class="dropdown-category">
+                <span class="dropdown-category-title">Consulting & Remediation</span>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">Performance Remediation</a>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">ADA / WCAG Legal Fixes</a>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">Technical SEO Recovery</a>
+              </div>
+              
+              <div class="dropdown-category">
+                <span class="dropdown-category-title">Enterprise Engagements</span>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">Custom CI/CD Pipelines</a>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">White-Label API Access</a>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">Dedicated Security Audits</a>
+              </div>
+              
+            </div>
+          </div>
+          <div class="mobile-nav-dropdown">
+            <button class="mobile-nav-dropdown-toggle">Solutions <span class="dropdown-chevron">▼</span></button>
+            <div class="mobile-dropdown-menu mobile-dropdown-menu-categorized">
+              
+              <div class="dropdown-category">
+                <span class="dropdown-category-title">By Use Case</span>
+                <a href="/migration.html" class="mobile-nav-link mobile-dropdown-item">Platform Migrations & Replatforming</a>
+                <a href="/llmo.html" class="mobile-nav-link mobile-dropdown-item">AI Search Optimization (LLMO)</a>
+                <a href="/compliance.html" class="mobile-nav-link mobile-dropdown-item">Compliance & Risk Mitigation</a>
+              </div>
+              
+              <div class="dropdown-category">
+                <span class="dropdown-category-title">By Team</span>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">For Engineering & DevOps</a>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">For Marketing & SEO</a>
+                <a href="#" class="mobile-nav-link mobile-dropdown-item">For Digital Agencies</a>
+              </div>
+              
+            </div>
+          </div>
+          <a href="/methodology" class="mobile-nav-link">About Us</a>
+          <div class="mobile-nav-dropdown">
+            <button class="mobile-nav-dropdown-toggle">Resources <span class="dropdown-chevron">▼</span></button>
+            <div class="mobile-dropdown-menu">
+              <a href="/reports.html" class="mobile-nav-link mobile-dropdown-item">Reports</a>
+              <a href="/blogs" class="mobile-nav-link mobile-dropdown-item">Blogs</a>
+            </div>
+          </div>
+          <a href="/contact" class="mobile-nav-link">Contact</a>
+        </div>
+        
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="doc-header-hero">
+    <div class="container" style="max-width: 900px;">
+      <div class="doc-header-badge">Legal & Data Governance</div>
+      <h1 class="doc-header-title">Privacy Policy</h1>
+      <p class="doc-header-sub">
+        Transparency is fundamental to our diagnostic telemetry. Learn how CatalystLab processes diagnostic requests, safeguards telemetry data, and protects user privacy.
+      </p>
+      <div class="doc-header-meta">
+        <span>📅 Last Updated: <strong>August 17, 2026</strong></span>
+        <span>•</span>
+        <span>Version: <strong>2.4.0 (GDPR & CCPA Compliant)</strong></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="container" style="max-width: 1140px;">
+    <div class="doc-layout">
+      <!-- Sticky Navigation Sidebar -->
+      <aside class="doc-sidebar" aria-label="Privacy Policy Sections">
+        <div class="doc-nav-title">On This Page</div>
+        <ul class="doc-nav-list">
+          <li><a href="#overview" class="doc-nav-link active">1. Overview & Commitment</a></li>
+          <li><a href="#data-collection" class="doc-nav-link">2. Telemetry & Data Collected</a></li>
+          <li><a href="#how-we-use" class="doc-nav-link">3. How Information is Used</a></li>
+          <li><a href="#cookies-storage" class="doc-nav-link">4. Local Storage & Cookies</a></li>
+          <li><a href="#data-sharing" class="doc-nav-link">5. Data Sharing & Third Parties</a></li>
+          <li><a href="#gdpr-ccpa" class="doc-nav-link">6. GDPR & CCPA User Rights</a></li>
+          <li><a href="#retention" class="doc-nav-link">7. Data Retention & Erasure</a></li>
+          <li><a href="#contact-dpo" class="doc-nav-link">8. Data Protection Officer</a></li>
+        </ul>
+      </aside>
+
+      <!-- Article Content -->
+      <article class="doc-article">
+        <!-- Section 1 -->
+        <section id="overview" class="doc-section">
+          <h2 class="doc-section-title">1. Overview & Privacy Commitment</h2>
+          <p class="doc-text">
+            CatalystLab ("we", "our", or "the Platform") operates an automated, non-invasive website diagnostic and web health benchmarking engine. We are committed to maintaining the highest standards of data integrity, confidentiality, and user privacy.
+          </p>
+          <div class="callout-box info">
+            <div class="callout-title">🔒 Privacy By Design</div>
+            <div class="callout-text">
+              CatalystLab is built around <em>passive diagnostic inspection</em>. We analyze publicly accessible web pages without executing unauthorized code, injecting surveillance cookies, or extracting private credentials.
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="data-collection" class="doc-section">
+          <h2 class="doc-section-title">2. Telemetry & Information We Collect</h2>
+          <p class="doc-text">
+            When you interact with the CatalystLab platform, we collect certain technical data necessary to generate accurate 10-dimension health audits:
+          </p>
+          <ul class="doc-list">
+            <li><strong>Target URLs Submitted:</strong> The public website address submitted for diagnostic evaluation.</li>
+            <li><strong>Public DOM & HTTP Headers:</strong> Publicly reachable HTML markup, HTTP response status, SSL certificate details, and security headers (CSP, HSTS, X-Frame-Options).</li>
+            <li><strong>Audit Telemetry:</strong> Computed Lighthouse Core Web Vitals, performance timings, carbon footprint estimates, and WCAG accessibility markers.</li>
+            <li><strong>Diagnostic Email Deliveries:</strong> Email addresses provided voluntarily when requesting a dispatched PDF or HTML audit summary dossier.</li>
+            <li><strong>Operational Logs:</strong> Request timestamps, IP addresses for volumetric abuse prevention (50 scans/day/IP), and standard user-agent strings.</li>
+          </ul>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="how-we-use" class="doc-section">
+          <h2 class="doc-section-title">3. How Information is Used</h2>
+          <p class="doc-text">
+            All gathered data is strictly utilized to deliver the core service:
+          </p>
+          <ul class="doc-list">
+            <li>Generating comprehensive 10-dimension radar scores, issue breakdowns, and actionable remediation guidelines.</li>
+            <li>Providing instant versioned comparisons (e.g., comparing domain performance over time or between competitors).</li>
+            <li>Dispatching requested audit summaries to your designated email inbox.</li>
+            <li>Enforcing server-side rate limits and safeguarding the diagnostic infrastructure against denial-of-service attempts.</li>
+          </ul>
+        </section>
+
+        <!-- Compliance Grid -->
+        <div class="compliance-grid">
+          <div class="compliance-card">
+            <span class="compliance-card-icon">🚫</span>
+            <h3 class="compliance-card-title">Zero Advertising Trackers</h3>
+            <p class="compliance-card-desc">We never sell, lease, or monetize user audit data or browsing activity to ad brokers.</p>
+          </div>
+          <div class="compliance-card">
+            <span class="compliance-card-icon">🛡️</span>
+            <h3 class="compliance-card-title">End-to-End Encryption</h3>
+            <p class="compliance-card-desc">All API traffic, reports, and streaming SSE telemetry are transmitted strictly over TLS 1.3.</p>
+          </div>
+          <div class="compliance-card">
+            <span class="compliance-card-icon">⚡</span>
+            <h3 class="compliance-card-title">Ephemeral In-Memory Cache</h3>
+            <p class="compliance-card-desc">Audit snapshots are cached for 6 hours to reduce redundant upstream load, then purged.</p>
+          </div>
+        </div>
+
+        <!-- Section 4 -->
+        <section id="cookies-storage" class="doc-section">
+          <h2 class="doc-section-title">4. Local Storage & Cookie Utilization</h2>
+          <p class="doc-text">
+            CatalystLab does not use tracking or profiling cookies. We utilize standard client-side browser storage exclusively for user convenience:
+          </p>
+          <ul class="doc-list">
+            <li><strong>localStorage:</strong> Stores your recent local audit history (up to 12 items) so you can revisit past audits directly from your device. You can clear this anytime with one click in the UI.</li>
+            <li><strong>sessionStorage:</strong> Holds the active report data during page transitions between the Analyzer and Report views.</li>
+          </ul>
+          <p class="doc-text">
+            For further details, consult our dedicated <a href="/cookies" style="color: var(--primary); font-weight: 600;">Cookie & Local Storage Policy</a>.
+          </p>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="data-sharing" class="doc-section">
+          <h2 class="doc-section-title">5. Data Sharing & Third-Party Services</h2>
+          <p class="doc-text">
+            CatalystLab does not sell personal data. We interact with minimal, trusted infrastructure providers strictly to execute service functionality:
+          </p>
+          <ul class="doc-list">
+            <li><strong>Hosting & Serverless Compute:</strong> Secure cloud compute nodes hosting our diagnostic Node.js server.</li>
+            <li><strong>Diagnostic Bots:</strong> Headless Chromium engines strictly performing non-destructive DOM and Core Web Vitals measurements.</li>
+            <li><strong>Public Report Directory:</strong> Audits generated through the platform receive a unique versioned identifier and may be visible in the public directory unless marked private.</li>
+          </ul>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="gdpr-ccpa" class="doc-section">
+          <h2 class="doc-section-title">6. GDPR (EU) & CCPA (California) User Rights</h2>
+          <p class="doc-text">
+            Regardless of your geographical location, CatalystLab respects your fundamental digital rights:
+          </p>
+          <ul class="doc-list">
+            <li><strong>Right of Access:</strong> You have the right to request a full copy of telemetry records associated with your domain or email.</li>
+            <li><strong>Right to Rectification & Erasure:</strong> You may request the deletion or delisting of any public report generated for a domain you own.</li>
+            <li><strong>Right to Restrict Processing:</strong> You can request that your domain be added to our exclusion blocklist to prevent automated scans.</li>
+            <li><strong>Non-Discrimination:</strong> Exercising your privacy rights will never result in degraded service quality or penalty.</li>
+          </ul>
+        </section>
+
+        <!-- Section 7 -->
+        <section id="retention" class="doc-section">
+          <h2 class="doc-section-title">7. Data Retention & Erasure Policies</h2>
+          <p class="doc-text">
+            In-memory diagnostic caches expire automatically after 6 hours. Operational telemetry logs and rate limit IP hash tables are rotated every 24 hours. Email dispatch records older than 30 days are automatically purged.
+          </p>
+        </section>
+
+        <!-- Section 8 -->
+        <section id="contact-dpo" class="doc-section">
+          <h2 class="doc-section-title">8. Contact Our Data Protection Team</h2>
+          <p class="doc-text">
+            If you have questions regarding this Privacy Policy, wish to request report delisting, or exercise your GDPR/CCPA rights, please contact our Data Protection Officer:
+          </p>
+          <div class="callout-box security">
+            <div class="callout-title">📧 Privacy & Compliance Desk</div>
+            <div class="callout-text">
+              Email: <strong>privacy@catalystlab.tech</strong><br>
+              Inquiries Desk: <a href="/contact" style="color: var(--primary); font-weight: 600;">Contact & Support Center</a><br>
+              Typical Response Time: <strong>Within 24 business hours</strong>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer Navigation -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <!-- Brand & Health Status -->
+        <div class="footer-col footer-col-brand">
+          <a href="/index.html" class="footer-brand" aria-label="CatalystLab Home">
+            <img src="/src/assets/images/catalystlab_logo_1787003898085.jpg" alt="CatalystLab Logo" class="brand-logo-img" referrerPolicy="no-referrer">
+            <span>CatalystLab</span>
+          </a>
+          <p class="footer-description">
+            Next-generation 10-dimension web health diagnostics, Core Web Vitals telemetry, and WCAG/OWASP standards benchmarking.
+          </p>
+          <div class="footer-status-pill">
+            <span class="status-indicator-dot" aria-hidden="true"></span>
+            <span>Diagnostic Engine: Online</span>
+          </div>
+        </div>
+
+        <!-- Platform Links -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Platform</h4>
+          <ul class="footer-links">
+            <li><a href="/index.html" class="footer-link">🔍 Website Analyzer</a></li>
+            <li><a href="/compare.html" class="footer-link">⚖️ Side-by-Side Compare</a></li>
+            <li><a href="/reports.html" class="footer-link">📊 Published Audits</a></li>
+            <li><a href="/blogs" class="footer-link">📝 Architecture Blogs</a></li>
+            <li><a href="/admin" class="footer-link">⚙️ Admin Console</a></li>
+          </ul>
+        </div>
+
+        <!-- Audit Standards & Methodology -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Methodology</h4>
+          <ul class="footer-links">
+            <li><a href="/methodology" class="footer-link">📐 10-Dimension Framework</a></li>
+            <li><a href="/methodology#accessibility" class="footer-link">♿ WCAG 2.1 Criteria</a></li>
+            <li><a href="/methodology#security" class="footer-link">🛡️ OWASP SecOps Headers</a></li>
+            <li><a href="/methodology#ai_readiness" class="footer-link">🤖 AI & LLM Readiness</a></li>
+            <li><a href="/methodology#ethical" class="footer-link">🌱 Green & Ethical Web</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal & Compliance -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Legal & Trust</h4>
+          <ul class="footer-links">
+            <li><a href="/privacy" class="footer-link highlight">🔒 Privacy Policy</a></li>
+            <li><a href="/terms" class="footer-link highlight">📜 Terms & Conditions</a></li>
+            <li><a href="/cookies" class="footer-link">🍪 Cookie Policy</a></li>
+            <li><a href="/security" class="footer-link">🛡️ Security Disclosure</a></li>
+            <li><a href="/contact" class="footer-link">💬 Contact & Inquiries</a></li>
+          </ul>
+        </div>
+
+        <!-- Tools & Telemetry API -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Tools & API</h4>
+          <ul class="footer-links">
+            <li><a href="/index.html" class="footer-link">📄 PDF Health Dossiers</a></li>
+            <li><a href="/reports.html" class="footer-link">📧 Email Dispatches</a></li>
+            <li><a href="/api/reports" target="_blank" class="footer-link">🔌 Telemetry JSON API</a></li>
+            <li><a href="/contact" class="footer-link">🛠️ Report an Issue</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Row -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-main">
+          <div class="footer-copyright">
+            © 2026 CatalystLab • Powered by SOTA Web Health Telemetry. All rights reserved.
+          </div>
+          <div class="footer-actions">
+            <button type="button" class="back-to-top-btn" id="btnBackToTop" aria-label="Scroll back to top">
+              <span>↑ Top</span>
+            </button>
+          </div>
+        </div>
+        <nav class="footer-legal-nav" aria-label="Footer Legal Navigation">
+          <a href="/privacy" class="footer-legal-link">Privacy Policy</a>
+          <span style="color: #cbd5e1;">•</span>
+          <a href="/terms" class="footer-legal-link">Terms and Conditions</a>
+          <span style="color: #cbd5e1;">•</span>
+          <a href="/cookies" class="footer-legal-link">Cookie Policy</a>
+          <span style="color: #cbd5e1;">•</span>
+          <a href="/security" class="footer-legal-link">Security Posture</a>
+          <span style="color: #cbd5e1;">•</span>
+          <a href="/methodology" class="footer-legal-link">Audit Methodology</a>
+          <span style="color: #cbd5e1;">•</span>
+          <a href="/contact" class="footer-legal-link">Contact Support</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        
+        if (window.CatalystFirebase) {
+          window.CatalystFirebase.onAuthStateChanged(window.CatalystFirebase.auth, (user) => {
+            if (user) {
+              loginBtn.style.display = 'none';
+              logoutBtn.style.display = 'block';
+              userNameDisplay.style.display = 'block';
+              userNameDisplay.textContent = user.displayName || user.email;
+              window.currentUser = user;
+            } else {
+              loginBtn.style.display = 'block';
+              logoutBtn.style.display = 'none';
+              userNameDisplay.style.display = 'none';
+              window.currentUser = null;
+            }
+          });
+          
+          if(loginBtn) {
+            loginBtn.addEventListener('click', async () => {
+              try {
+                await window.CatalystFirebase.loginWithGoogle();
+              } catch (e) {
+                console.error("Login Error", e);
+                alert("Login failed. Check console.");
+              }
+            });
+          }
+          
+          if(logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+              try {
+                await window.CatalystFirebase.logout();
+              } catch (e) {
+                console.error("Logout Error", e);
+              }
+            });
+          }
+        }
+      });
+    </script>
+    
+</body>
+</html>

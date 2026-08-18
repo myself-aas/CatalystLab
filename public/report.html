@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>CatalystLab | Saved Audit Report</title>
+  <link rel="icon" type="image/jpeg" href="/src/assets/images/catalystlab_logo_1787003898085.jpg">
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="/firebase-bundle.js"></script>
+  <style>
+    .report-top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(8px);
+    }
+    .report-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .report-meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .share-banner {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body class="light-mode">
+  <!-- Top Navigation -->
+  <header class="top-nav" id="topNav">
+    <div class="nav-container">
+      <a href="/index.html" class="brand-title" aria-label="CatalystLab Home">
+        <img src="/src/assets/images/catalystlab_logo_1787003898085.jpg" alt="CatalystLab Logo" class="brand-logo-img" referrerPolicy="no-referrer">
+        <span>CatalystLab</span> <span class="brand-badge">PRO</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="desktop-nav-links" aria-label="Primary Navigation">
+        <a href="/index.html" class="nav-link">Home</a>
+        <a href="/dashboard.html" class="nav-link" style="color: #38bdf8; font-weight: 600;">Dashboard</a>
+        <a href="/compare.html" class="nav-link">Compare</a>
+        <a href="/ai-readiness.html" class="nav-link">AI Readiness</a>
+        <a href="/repo-scanner.html" class="nav-link">Repo Health</a>
+        <a href="/eco-audit.html" class="nav-link">Eco Carbon</a>
+      </nav>
+
+      <!-- Desktop & Mobile Action Area -->
+      <div class="nav-actions">
+        <div id="authContainer" style="display: flex; gap: 0.75rem; align-items: center;">
+          <a href="/dashboard.html" id="navDashboardBtn" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">📊 My Audits</a>
+          <span id="userNameDisplay" style="color: #cbd5e1; font-size: 0.85rem; display: none;"></span>
+          <button id="loginBtn" class="btn btn-outline" style="padding: 0.4rem 1rem;">Log In</button>
+          <button id="logoutBtn" class="btn btn-outline" style="padding: 0.4rem 1rem; display: none;">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container container-wide" style="margin-top: 2rem; margin-bottom: 4rem;">
+    <!-- Top Action Bar -->
+    <div class="report-top-bar">
+      <div>
+        <a href="/dashboard.html" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+          ← Back to Dashboard
+        </a>
+      </div>
+      <div class="report-actions">
+        <button id="btnCopyShare" class="btn btn-outline" style="padding: 0.4rem 0.9rem; font-size: 0.85rem;">
+          🔗 Copy Share Link
+        </button>
+        <button id="btnDownloadPdf" class="btn btn-secondary" style="padding: 0.4rem 0.9rem; font-size: 0.85rem;">
+          📄 Download PDF Report
+        </button>
+        <a href="/index.html" class="btn btn-primary" style="padding: 0.4rem 0.9rem; font-size: 0.85rem;">
+          ⚡ Run New Audit
+        </a>
+      </div>
+    </div>
+
+    <!-- Share Notification Banner -->
+    <div id="shareBanner" class="share-banner" style="display: none;">
+      <div>
+        <strong style="color: #4ade80;">✓ Shareable Permalink Active</strong>
+        <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.2rem;">
+          Anyone with this URL can view this immutable diagnostic audit record.
+        </div>
+      </div>
+      <button onclick="navigator.clipboard.writeText(window.location.href); alert('Permalink copied to clipboard!');" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+        Copy URL
+      </button>
+    </div>
+
+    <header class="page-header" style="margin-bottom: 2rem; text-align: left;">
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap;" id="reportMetaTags">
+        <span class="report-meta-tag">🔒 Firestore Verified</span>
+      </div>
+      <h1 id="reportTitle" style="font-size: 2rem; margin-bottom: 0.5rem; color: #f8fafc;">Loading Report...</h1>
+      <p id="reportMeta" style="color: #94a3b8; font-size: 0.95rem;">Fetching secure telemetry permalink from CatalystLab database.</p>
+    </header>
+
+    <main class="reports-main">
+      <section id="resultsSection" style="max-width: 1280px; margin: 0 auto;">
+        <div class="glass-panel" style="padding: 2rem;" id="reportCardContent">
+          <div id="terminalOutput">
+            <span class="loading-spinner"></span> Connecting to Firestore...
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const reportId = urlParams.get('id');
+      
+      const loginBtn = document.getElementById('loginBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const userNameDisplay = document.getElementById('userNameDisplay');
+      const navDashboardBtn = document.getElementById('navDashboardBtn');
+      const btnCopyShare = document.getElementById('btnCopyShare');
+      const btnDownloadPdf = document.getElementById('btnDownloadPdf');
+      const shareBanner = document.getElementById('shareBanner');
+      const reportMetaTags = document.getElementById('reportMetaTags');
+
+      // Auth Listener
+      if (window.CatalystFirebase) {
+        window.CatalystFirebase.onAuthStateChanged(window.CatalystFirebase.auth, (user) => {
+          if (user) {
+            window.currentUser = user;
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'block';
+            if (userNameDisplay) {
+              userNameDisplay.style.display = 'block';
+              userNameDisplay.textContent = user.displayName || user.email;
+            }
+            if (navDashboardBtn) navDashboardBtn.style.display = 'block';
+          } else {
+            window.currentUser = null;
+            if (loginBtn) loginBtn.style.display = 'block';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            if (userNameDisplay) userNameDisplay.style.display = 'none';
+          }
+        });
+
+        if (loginBtn) loginBtn.addEventListener('click', () => window.CatalystFirebase.loginWithGoogle());
+        if (logoutBtn) logoutBtn.addEventListener('click', () => window.CatalystFirebase.logout());
+      }
+
+      if (btnCopyShare) {
+        btnCopyShare.addEventListener('click', () => {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+              const orig = btnCopyShare.innerHTML;
+              btnCopyShare.innerHTML = '✓ Copied!';
+              setTimeout(() => { btnCopyShare.innerHTML = orig; }, 2500);
+            }).catch(() => {
+              prompt("Shareable link:", window.location.href);
+            });
+          } else {
+            prompt("Shareable link:", window.location.href);
+          }
+        });
+      }
+
+      if (btnDownloadPdf) {
+        btnDownloadPdf.addEventListener('click', () => {
+          const element = document.getElementById('resultsSection');
+          const opt = {
+            margin:       0.4,
+            filename:     `CatalystLab-Audit-${reportId || 'Report'}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+          };
+          
+          const originalText = btnDownloadPdf.innerHTML;
+          btnDownloadPdf.innerHTML = '<span class="loading-spinner"></span> Compiling PDF...';
+          btnDownloadPdf.disabled = true;
+          
+          html2pdf().set(opt).from(element).save().then(() => {
+            btnDownloadPdf.innerHTML = originalText;
+            btnDownloadPdf.disabled = false;
+          });
+        });
+      }
+      
+      if (!reportId) {
+        document.getElementById('reportTitle').textContent = 'Missing Report ID';
+        document.getElementById('reportMeta').textContent = 'No report ID was specified in the URL query string.';
+        document.getElementById('terminalOutput').innerHTML = '<div style="color:#f87171; padding: 1.5rem;">⚠️ Error: Missing "?id=..." parameter in URL.</div>';
+        return;
+      }
+      
+      try {
+        if (!window.CatalystFirebase) throw new Error("Firebase runtime is not initialized.");
+        
+        const report = await window.CatalystFirebase.getReport(reportId);
+        
+        let displayHost = report.url;
+        try {
+          const parsed = new URL(report.url.startsWith('http') ? report.url : 'https://' + report.url);
+          displayHost = parsed.hostname;
+        } catch(e){}
+
+        document.getElementById('reportTitle').textContent = `Audit Report: ${displayHost}`;
+        
+        const dateFormatted = report.createdAt ? new Date(report.createdAt).toLocaleString(undefined, {
+          dateStyle: 'full',
+          timeStyle: 'medium'
+        }) : 'Unknown date';
+
+        document.getElementById('reportMeta').innerHTML = `
+          <strong>Target:</strong> <a href="${report.url}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${report.url}</a> &nbsp;•&nbsp;
+          <strong>Engine:</strong> <span style="text-transform: capitalize;">${report.engine}</span> &nbsp;•&nbsp;
+          <strong>Recorded:</strong> ${dateFormatted}
+        `;
+
+        reportMetaTags.innerHTML = `
+          <span class="report-meta-tag">🔒 Firestore Verified</span>
+          <span class="report-meta-tag" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #34d399;">✓ Immutable Record</span>
+          <span class="report-meta-tag" style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3); color: #c084fc;">⚡ Engine: ${report.engine}</span>
+        `;
+
+        if (shareBanner) shareBanner.style.display = 'flex';
+        
+        // Render saved output
+        document.getElementById('terminalOutput').innerHTML = report.output;
+        
+      } catch (e) {
+        console.error("Error loading report:", e);
+        document.getElementById('reportTitle').textContent = 'Report Not Found';
+        document.getElementById('reportMeta').textContent = 'This report may have been deleted by the owner or the link is invalid.';
+        document.getElementById('terminalOutput').innerHTML = `
+          <div style="padding: 2rem; text-align: center; color: #f87171;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⚠️</div>
+            <h3 style="margin-bottom: 0.5rem; color: #f87171;">Unable to load audit report</h3>
+            <p style="color: #94a3b8; font-size: 0.9rem;">${e.message || 'Record not found in Firestore.'}</p>
+            <a href="/dashboard.html" class="btn btn-outline" style="margin-top: 1rem; display: inline-block;">Go to User Dashboard</a>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
