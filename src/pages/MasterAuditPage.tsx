@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ENGINES_MAP } from '../data/engines';
 import { TerminalOutput } from '../components/TerminalOutput';
+import { RateLimitBadge } from '../components/RateLimitBadge';
+import { RateLimitModal } from '../components/RateLimitModal';
 import { saveReport } from '../lib/firebase';
+import { exportReportToPdf } from '../utils/pdfExport';
+import { urlToDomainSlug } from '../utils/slugUtils';
+import { getRateLimitStatus, recordAuditLaunch, getVisitorDeviceId } from '../utils/rateLimiter';
 import type { EngineType } from '../types';
 import { 
   Play, 
   Download, 
   Share2, 
   CheckCircle2, 
-  AlertTriangle, 
   ExternalLink, 
   Sparkles, 
-  Lock,
-  ArrowRight
+  ArrowRight,
+  LogIn,
+  FileText,
+  AlertCircle
 } from 'lucide-react';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 interface EngineState {
   output: string;
@@ -27,13 +31,18 @@ interface EngineState {
 }
 
 export const MasterAuditPage: React.FC = () => {
-  const { user, login } = useAuth();
-  const [targetUrl, setTargetUrl] = useState('');
+  const { user, isAdmin, login } = useAuth();
+  const [searchParams] = useSearchParams();
+  const initialUrlFromQuery = searchParams.get('url') || '';
+
+  const [targetUrl, setTargetUrl] = useState(initialUrlFromQuery);
   const [isAuditing, setIsAuditing] = useState(false);
   const [savedReportId, setSavedReportId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [rateLimitModalOpen, setRateLimitModalOpen] = useState(false);
+  const [rateLimitReason, setRateLimitReason] = useState<'limit_reached' | 'info'>('info');
 
   const engineKeys = Object.keys(ENGINES_MAP) as EngineType[];
   const [engineStates, setEngineStates] = useState<Record<string, EngineState>>(() => {
@@ -44,6 +53,12 @@ export const MasterAuditPage: React.FC = () => {
     return initial;
   });
 
+  useEffect(() => {
+    if (initialUrlFromQuery) {
+      setTargetUrl(initialUrlFromQuery);
+    }
+  }, [initialUrlFromQuery]);
+
   const normalizeUrl = (input: string): string => {
     let trimmed = input.trim();
     if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
@@ -52,21 +67,16 @@ export const MasterAuditPage: React.FC = () => {
     return trimmed;
   };
 
-  const handleRunAudit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleRunAudit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!targetUrl.trim()) return;
 
-    if (!user) {
-      const proceed = confirm("Authentication Required: Sign in with Google to run the full Master 8-Engine Audit and save your results.");
-      if (proceed) {
-        try {
-          await login();
-        } catch (err) {
-          return;
-        }
-      } else {
-        return;
-      }
+    // 1. Check Rate Limit
+    const rateStatus = getRateLimitStatus(user, isAdmin);
+    if (rateStatus.isExceeded) {
+      setRateLimitReason('limit_reached');
+      setRateLimitModalOpen(true);
+      return;
     }
 
     const cleanUrl = normalizeUrl(targetUrl);
@@ -74,7 +84,14 @@ export const MasterAuditPage: React.FC = () => {
     setIsAuditing(true);
     setSavedReportId(null);
 
-    // Reset engines
+    // Record launch count
+    recordAuditLaunch(user, isAdmin);
+
+    // Generate unique batch session ID so all 8 engines count as 1 single master audit
+    const auditSessionId = `master_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const visitorId = getVisitorDeviceId();
+
+    // Reset engines to loading state
     const freshStates: Record<string, EngineState> = {};
     engineKeys.forEach((k) => {
       freshStates[k] = { output: '', loading: true };
@@ -87,9 +104,21 @@ export const MasterAuditPage: React.FC = () => {
         const response = await fetch('/api/run-engine', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: cleanUrl, engine: engineId })
+          body: JSON.stringify({ 
+            url: cleanUrl, 
+            engine: engineId,
+            userEmail: user?.email || undefined,
+            userId: user?.uid || undefined,
+            visitorId,
+            auditSessionId
+          })
         });
         const data = await response.json();
+
+        if (response.status === 429 || data.rateLimitExceeded) {
+          setRateLimitReason('limit_reached');
+          setRateLimitModalOpen(true);
+        }
         
         setEngineStates((prev) => ({
           ...prev,
@@ -118,16 +147,21 @@ export const MasterAuditPage: React.FC = () => {
     const results = await Promise.all(engineKeys.map(runSingleEngine));
     setIsAuditing(false);
 
-    // Auto-save aggregated dossier to Firestore if user logged in
+    // Auto-save aggregated dossier to Firestore if user is authenticated
     if (user) {
       setIsSaving(true);
       try {
+        let domain = cleanUrl;
+        try {
+          domain = new URL(cleanUrl).hostname;
+        } catch {}
+
         const aggregatedOutputs = results
           .map(r => `=== Engine: ${ENGINES_MAP[r.engineId]?.name || r.engineId} ===\n${r.output}\n`)
           .join('\n');
 
         const docId = await saveReport(cleanUrl, 'master-audit', aggregatedOutputs, {
-          title: `Master Audit: ${new URL(cleanUrl).hostname}`
+          title: `Master Audit: ${domain}`
         });
         setSavedReportId(docId);
       } catch (saveErr) {
@@ -144,39 +178,23 @@ export const MasterAuditPage: React.FC = () => {
 
     setIsExportingPdf(true);
     try {
-      const canvas = await html2canvas(resultsElement, {
-        scale: 1.5,
-        backgroundColor: '#020617',
-        useCORS: true
-      });
-      const imgData = canvas.toDataURL('image/jpeg', 0.9);
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210;
-      const pageHeight = 297;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      pdf.save(`CatalystLab-Audit-${new Date().toISOString().split('T')[0]}.pdf`);
+      let domain = targetUrl;
+      try {
+        domain = new URL(targetUrl.startsWith('http') ? targetUrl : `https://${targetUrl}`).hostname;
+      } catch {}
+      const safeDomain = domain.replace(/[^a-zA-Z0-9]/g, '_');
+      await exportReportToPdf('master-results-grid', `CatalystLab-MasterAudit-${safeDomain}.pdf`);
     } catch (err) {
       console.error("PDF generation failed:", err);
-      alert("Failed to compile PDF. Please try again.");
+      window.print();
     } finally {
       setIsExportingPdf(false);
     }
   };
 
-  const permalinkUrl = savedReportId ? `${window.location.origin}/report/${savedReportId}` : '';
+  const permalinkUrl = targetUrl 
+    ? `${window.location.origin}/reports/${urlToDomainSlug(targetUrl)}` 
+    : (savedReportId ? `${window.location.origin}/reports/${savedReportId}` : '');
 
   const handleCopyPermalink = () => {
     if (!permalinkUrl) return;
@@ -184,6 +202,8 @@ export const MasterAuditPage: React.FC = () => {
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2500);
   };
+
+  const hasAnyOutput = engineKeys.some(k => Boolean(engineStates[k]?.output));
 
   return (
     <div className="min-h-screen bg-slate-950 pb-20">
@@ -244,6 +264,13 @@ export const MasterAuditPage: React.FC = () => {
               </button>
             </div>
 
+            <div className="mt-4">
+              <RateLimitBadge onOpenInfo={() => {
+                setRateLimitReason('info');
+                setRateLimitModalOpen(true);
+              }} />
+            </div>
+
             <div className="mt-3 flex items-center justify-center gap-6 text-xs text-slate-500">
               <span className="flex items-center gap-1.5">✓ 8 Parallel Engines</span>
               <span className="flex items-center gap-1.5">✓ OWASP & WCAG Verified</span>
@@ -252,6 +279,13 @@ export const MasterAuditPage: React.FC = () => {
           </form>
         </div>
       </section>
+
+      {/* Rate Limit Modal */}
+      <RateLimitModal
+        isOpen={rateLimitModalOpen}
+        onClose={() => setRateLimitModalOpen(false)}
+        reason={rateLimitReason}
+      />
 
       {/* Main Results Workspace */}
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -281,7 +315,7 @@ export const MasterAuditPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleCopyPermalink}
                   className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3.5 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-800 transition-colors"
@@ -291,13 +325,40 @@ export const MasterAuditPage: React.FC = () => {
                 </button>
 
                 <Link
-                  to="/dashboard"
-                  className="flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3.5 py-2 text-xs font-bold text-slate-950 hover:bg-emerald-400 transition-colors"
+                  to={`/reports/${urlToDomainSlug(targetUrl)}`}
+                  className="flex items-center gap-1.5 rounded-lg bg-cyan-500 px-3.5 py-2 text-xs font-bold text-slate-950 hover:bg-cyan-400 transition-colors shadow-md shadow-cyan-500/20"
                 >
-                  <span>View in Dashboard</span>
+                  <FileText className="h-3.5 w-3.5" />
+                  <span>Read Article Dossier</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Not Logged In Save Invitation */}
+        {!user && !isAuditing && hasAnyOutput && (
+          <div className="mb-8 rounded-xl border border-cyan-500/30 bg-cyan-950/20 p-4 sm:p-5 backdrop-blur-md">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🔐</span>
+                <div>
+                  <h3 className="text-sm font-bold text-cyan-300">
+                    Want to save this master report to your personal dashboard?
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Sign in with Google to enable permanent Firestore history, PDF dossiers, and shareable permalinks.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => login()}
+                className="flex items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-cyan-400 transition-all shadow-md shadow-cyan-500/20 shrink-0"
+              >
+                <LogIn className="h-3.5 w-3.5" />
+                <span>Sign In with Google</span>
+              </button>
             </div>
           </div>
         )}
@@ -314,9 +375,18 @@ export const MasterAuditPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
+            {hasAnyOutput && (
+              <Link
+                to={`/reports/${urlToDomainSlug(targetUrl)}`}
+                className="flex items-center gap-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 px-3.5 py-2 text-xs font-semibold text-cyan-400 hover:bg-cyan-500/20 transition-colors"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                <span>Interactive Article View</span>
+              </Link>
+            )}
             <button
               onClick={handleExportPdf}
-              disabled={isExportingPdf || !engineKeys.some(k => engineStates[k]?.output)}
+              disabled={isExportingPdf || !hasAnyOutput}
               className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-800 disabled:opacity-40 transition-colors shadow-sm"
             >
               <Download className="h-3.5 w-3.5 text-cyan-400" />

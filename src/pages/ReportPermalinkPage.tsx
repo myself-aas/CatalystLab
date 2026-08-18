@@ -42,10 +42,14 @@ export const ReportPermalinkPage: React.FC = () => {
       try {
         setLoading(true);
         const data = await getReport(reportId);
-        setReport(data);
+        if (data) {
+          setReport(data);
+        } else {
+          setError("Audit record not found or was removed.");
+        }
       } catch (err: any) {
         console.error("Failed to load audit report:", err);
-        setError(err.message || "Audit record not found or has been deleted.");
+        setError("Audit record not found or was removed.");
       } finally {
         setLoading(false);
       }

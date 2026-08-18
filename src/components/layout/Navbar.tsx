@@ -8,11 +8,13 @@ import {
   Menu, 
   X, 
   ChevronDown, 
-  Layers
+  ShieldCheck,
+  BookOpen,
+  FileText
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const { user, login, logout, loading } = useAuth();
+  const { user, login, logout, loading, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const location = useLocation();
@@ -28,7 +30,7 @@ export const Navbar: React.FC = () => {
           to="/" 
           className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-white transition-opacity hover:opacity-90 shrink-0"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 text-sm font-bold text-white shadow-inner">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500 text-sm font-bold text-slate-950 shadow-inner">
             ⚡
           </div>
           <span>CatalystLab</span>
@@ -50,6 +52,45 @@ export const Navbar: React.FC = () => {
             Master Audit
           </Link>
 
+          {/* Admin link ONLY visible to authorized primary superadmins */}
+          {user && isAdmin && (
+            <Link
+              to="/admin"
+              className={`whitespace-nowrap shrink-0 rounded-md px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1.5 ${
+                isActive('/admin') 
+                  ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-semibold' 
+                  : 'text-cyan-400 hover:bg-slate-900 hover:text-cyan-300'
+              }`}
+            >
+              <ShieldCheck className="h-4 w-4 text-cyan-400" />
+              <span>Admin</span>
+            </Link>
+          )}
+
+          <Link
+            to="/reports"
+            className={`whitespace-nowrap shrink-0 rounded-md px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1.5 ${
+              isActive('/reports') || location.pathname.startsWith('/reports/') || location.pathname.startsWith('/report/')
+                ? 'bg-slate-800/80 text-cyan-400 font-semibold' 
+                : 'text-slate-300 hover:bg-slate-900 hover:text-white'
+            }`}
+          >
+            <FileText className="h-4 w-4 text-cyan-400" />
+            <span>Reports</span>
+          </Link>
+
+          <Link
+            to="/blogs"
+            className={`whitespace-nowrap shrink-0 rounded-md px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1.5 ${
+              isActive('/blogs') || location.pathname.startsWith('/blogs/') 
+                ? 'bg-slate-800/80 text-cyan-400 font-semibold' 
+                : 'text-slate-300 hover:bg-slate-900 hover:text-white'
+            }`}
+          >
+            <BookOpen className="h-4 w-4 text-cyan-400" />
+            <span>Blog</span>
+          </Link>
+
           <Link
             to="/dashboard"
             className={`whitespace-nowrap shrink-0 rounded-md px-3 py-2 text-sm font-medium transition-colors flex items-center gap-1.5 ${
@@ -59,7 +100,7 @@ export const Navbar: React.FC = () => {
             }`}
           >
             <LayoutDashboard className="h-4 w-4 text-cyan-400" />
-            Dashboard
+            <span>My Audits</span>
           </Link>
 
           {/* Products Dropdown */}
@@ -131,24 +172,13 @@ export const Navbar: React.FC = () => {
 
           <Link
             to="/compare"
-            className={`whitespace-nowrap shrink-0 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+            className={`whitespace-nowrap shrink-0 rounded-md px-3 py-2 text-sm font-medium transition-colors hidden xl:inline-block ${
               isActive('/compare') 
                 ? 'bg-slate-800/80 text-cyan-400' 
                 : 'text-slate-300 hover:bg-slate-900 hover:text-white'
             }`}
           >
             Compare
-          </Link>
-
-          <Link
-            to="/reports"
-            className={`whitespace-nowrap shrink-0 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-              isActive('/reports') 
-                ? 'bg-slate-800/80 text-cyan-400' 
-                : 'text-slate-300 hover:bg-slate-900 hover:text-white'
-            }`}
-          >
-            Reports
           </Link>
         </nav>
 
@@ -159,8 +189,9 @@ export const Navbar: React.FC = () => {
           ) : user ? (
             <div className="flex items-center gap-3">
               <Link 
-                to="/dashboard" 
+                to={isAdmin ? "/admin" : "/dashboard"} 
                 className="hidden sm:flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-slate-700 hover:bg-slate-800"
+                title={isAdmin ? "Superadmin Account" : "User Account"}
               >
                 {user.photoURL ? (
                   <img 
@@ -170,13 +201,20 @@ export const Navbar: React.FC = () => {
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-cyan-500 text-[10px] font-bold text-slate-950">
+                  <div className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
+                    isAdmin ? 'bg-cyan-400 text-slate-950' : 'bg-slate-700 text-white'
+                  }`}>
                     {(user.displayName || user.email || 'U')[0].toUpperCase()}
                   </div>
                 )}
-                <span className="max-w-[120px] truncate font-medium text-slate-200">
+                <span className="max-w-[110px] truncate font-medium text-slate-200">
                   {user.displayName || user.email?.split('@')[0]}
                 </span>
+                {isAdmin && (
+                  <span className="rounded bg-cyan-500/20 px-1 py-0.2 text-[10px] font-bold text-cyan-300">
+                    SA
+                  </span>
+                )}
               </Link>
 
               <button
@@ -222,6 +260,41 @@ export const Navbar: React.FC = () => {
             >
               ⚡ Master 8-Engine Audit
             </Link>
+
+            {/* Mobile Admin Link only for Superadmin */}
+            {user && isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`rounded-lg px-3 py-2 text-sm font-bold flex items-center gap-2 ${
+                  isActive('/admin') ? 'bg-cyan-500/20 text-cyan-300' : 'text-cyan-400 hover:bg-slate-900'
+                }`}
+              >
+                <ShieldCheck className="h-4 w-4 text-cyan-400" />
+                <span>Superadmin Command Center</span>
+              </Link>
+            )}
+
+            <Link
+              to="/reports"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`rounded-lg px-3 py-2 text-sm font-medium flex items-center gap-2 ${
+                isActive('/reports') || location.pathname.startsWith('/reports/') ? 'bg-slate-800 text-cyan-400 font-semibold' : 'text-slate-300 hover:bg-slate-900'
+              }`}
+            >
+              <FileText className="h-4 w-4 text-cyan-400" />
+              <span>📑 Audit Reports Directory</span>
+            </Link>
+
+            <Link
+              to="/blogs"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`rounded-lg px-3 py-2 text-sm font-medium ${
+                isActive('/blogs') ? 'bg-slate-800 text-cyan-400' : 'text-slate-300 hover:bg-slate-900'
+              }`}
+            >
+              📖 Engineering Insights & Blogs
+            </Link>
             <Link
               to="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
@@ -229,7 +302,7 @@ export const Navbar: React.FC = () => {
                 isActive('/dashboard') ? 'bg-slate-800 text-cyan-400' : 'text-slate-300 hover:bg-slate-900'
               }`}
             >
-              📊 User Dashboard
+              📊 My Audits Dashboard
             </Link>
             <Link
               to="/compare"

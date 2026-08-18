@@ -3,7 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ENGINES_MAP } from '../data/engines';
 import { TerminalOutput } from '../components/TerminalOutput';
+import { RateLimitBadge } from '../components/RateLimitBadge';
+import { RateLimitModal } from '../components/RateLimitModal';
 import { saveReport } from '../lib/firebase';
+import { urlToDomainSlug } from '../utils/slugUtils';
+import { getRateLimitStatus, recordAuditLaunch, getVisitorDeviceId } from '../utils/rateLimiter';
 import type { EngineType } from '../types';
 import { 
   Play, 
@@ -13,7 +17,8 @@ import {
   ArrowLeft, 
   ShieldCheck, 
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  FileText
 } from 'lucide-react';
 
 interface ToolPageProps {
@@ -22,12 +27,14 @@ interface ToolPageProps {
 
 export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   const meta = ENGINES_MAP[engineType];
-  const { user, login } = useAuth();
+  const { user, isAdmin, login } = useAuth();
   const [targetUrl, setTargetUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState('');
   const [savedReportId, setSavedReportId] = useState<string | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [rateLimitModalOpen, setRateLimitModalOpen] = useState(false);
+  const [rateLimitReason, setRateLimitReason] = useState<'limit_reached' | 'info'>('info');
 
   const isRepoEngine = engineType === 'repo';
 
@@ -43,6 +50,14 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     e.preventDefault();
     if (!targetUrl.trim()) return;
 
+    // Check rate limit
+    const rateStatus = getRateLimitStatus(user, isAdmin);
+    if (rateStatus.isExceeded) {
+      setRateLimitReason('limit_reached');
+      setRateLimitModalOpen(true);
+      return;
+    }
+
     let cleanUrl = targetUrl.trim();
     if (!isRepoEngine) {
       cleanUrl = normalizeUrl(cleanUrl);
@@ -53,13 +68,31 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     setOutput('');
     setSavedReportId(null);
 
+    // Record launch count
+    recordAuditLaunch(user, isAdmin);
+    const auditSessionId = `tool_${engineType}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const visitorId = getVisitorDeviceId();
+
     try {
       const response = await fetch('/api/run-engine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: cleanUrl, engine: engineType })
+        body: JSON.stringify({ 
+          url: cleanUrl, 
+          engine: engineType,
+          userEmail: user?.email || undefined,
+          userId: user?.uid || undefined,
+          visitorId,
+          auditSessionId
+        })
       });
       const data = await response.json();
+
+      if (response.status === 429 || data.rateLimitExceeded) {
+        setRateLimitReason('limit_reached');
+        setRateLimitModalOpen(true);
+      }
+
       const finalOutput = data.output || (data.error ? `Error: ${data.error}` : 'No output returned.');
       setOutput(finalOutput);
 
@@ -81,7 +114,9 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     }
   };
 
-  const permalinkUrl = savedReportId ? `${window.location.origin}/report/${savedReportId}` : '';
+  const permalinkUrl = targetUrl 
+    ? `${window.location.origin}/reports/${urlToDomainSlug(targetUrl)}` 
+    : (savedReportId ? `${window.location.origin}/reports/${savedReportId}` : '');
 
   const handleCopy = () => {
     if (!permalinkUrl) return;
@@ -155,9 +190,23 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                 )}
               </button>
             </div>
+
+            <div className="mt-4">
+              <RateLimitBadge onOpenInfo={() => {
+                setRateLimitReason('info');
+                setRateLimitModalOpen(true);
+              }} />
+            </div>
           </form>
         </div>
       </section>
+
+      {/* Rate Limit Modal */}
+      <RateLimitModal
+        isOpen={rateLimitModalOpen}
+        onClose={() => setRateLimitModalOpen(false)}
+        reason={rateLimitReason}
+      />
 
       {/* Results Section */}
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
@@ -178,7 +227,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleCopy}
                   className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-800"
@@ -186,10 +235,11 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                   {copiedLink ? 'Copied' : 'Copy Link'}
                 </button>
                 <Link
-                  to="/dashboard"
-                  className="rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-bold text-slate-950 hover:bg-emerald-400"
+                  to={`/reports/${urlToDomainSlug(targetUrl)}`}
+                  className="flex items-center gap-1 rounded-lg bg-cyan-500 px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-cyan-400"
                 >
-                  View in Dashboard →
+                  <FileText className="h-3.5 w-3.5" />
+                  <span>Read Article Dossier</span>
                 </Link>
               </div>
             </div>

@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
           {/* Col 1: Brand & Mission */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 text-lg font-bold text-white">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 text-xs font-bold text-white">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500 text-xs font-bold text-slate-950">
                 ⚡
               </div>
               <span>CatalystLab</span>
@@ -37,10 +37,10 @@ export const Footer: React.FC = () => {
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-200">Platform</h3>
             <ul className="mt-3 space-y-2 text-sm">
               <li><Link to="/" className="hover:text-cyan-400 transition-colors">Master 8-Engine Scan</Link></li>
+              <li><Link to="/blogs" className="hover:text-cyan-400 transition-colors">Technical Insights Blog</Link></li>
               <li><Link to="/dashboard" className="hover:text-cyan-400 transition-colors">User Audit Dashboard</Link></li>
               <li><Link to="/compare" className="hover:text-cyan-400 transition-colors">Side-by-Side Matrix</Link></li>
               <li><Link to="/reports" className="hover:text-cyan-400 transition-colors">Published Reports</Link></li>
-              <li><Link to="/methodology" className="hover:text-cyan-400 transition-colors">10-Dimension Audit Spec</Link></li>
             </ul>
           </div>
 

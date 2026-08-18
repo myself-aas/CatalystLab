@@ -4,12 +4,14 @@ import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { MasterAuditPage } from './pages/MasterAuditPage';
 import { UserDashboardPage } from './pages/UserDashboardPage';
-import { ReportPermalinkPage } from './pages/ReportPermalinkPage';
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { DomainReportArticlePage } from './pages/DomainReportArticlePage';
 import { ReportsDirectoryPage } from './pages/ReportsDirectoryPage';
 import { ComparePage } from './pages/ComparePage';
 import { ToolPage } from './pages/ToolPage';
 import { MethodologyPage } from './pages/MethodologyPage';
 import { BlogsPage } from './pages/BlogsPage';
+import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
 import { LegalPage } from './pages/LegalPage';
 
@@ -25,10 +27,18 @@ export const App: React.FC = () => {
           {/* User Dashboard & Reports */}
           <Route path="/dashboard" element={<UserDashboardPage />} />
           <Route path="/dashboard.html" element={<UserDashboardPage />} />
+
+          {/* Admin Command Center & Monitoring Studio */}
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin.html" element={<AdminDashboardPage />} />
+          <Route path="/admin/monitoring" element={<AdminDashboardPage />} />
+          <Route path="/admin/blogs" element={<AdminDashboardPage />} />
           
-          <Route path="/report/:id" element={<ReportPermalinkPage />} />
-          <Route path="/report" element={<ReportPermalinkPage />} />
-          <Route path="/report.html" element={<ReportPermalinkPage />} />
+          {/* Dedicated Blog-Style Audit Report Dossier Pages (Unique URL: /reports/{domain-ext}) */}
+          <Route path="/reports/:slug" element={<DomainReportArticlePage />} />
+          <Route path="/report/:id" element={<DomainReportArticlePage />} />
+          <Route path="/report" element={<ReportsDirectoryPage />} />
+          <Route path="/report.html" element={<ReportsDirectoryPage />} />
           
           <Route path="/reports" element={<ReportsDirectoryPage />} />
           <Route path="/reports.html" element={<ReportsDirectoryPage />} />
@@ -61,12 +71,14 @@ export const App: React.FC = () => {
           <Route path="/llmo" element={<ToolPage engineType="llmo" />} />
           <Route path="/llmo.html" element={<ToolPage engineType="llmo" />} />
           
-          {/* Educational & Trust Pages */}
+          {/* Educational & Blog Articles */}
           <Route path="/methodology" element={<MethodologyPage />} />
           <Route path="/methodology.html" element={<MethodologyPage />} />
           
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="/blogs.html" element={<BlogsPage />} />
+          <Route path="/blogs/:slug" element={<BlogPostPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/contact.html" element={<ContactPage />} />
