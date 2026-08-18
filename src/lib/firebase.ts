@@ -59,7 +59,7 @@ export interface FirestoreErrorInfo {
     providerInfo?: {
       providerId?: string | null;
       email?: string | null;
-    }[];;
+    }[]; 
   };
 }
 

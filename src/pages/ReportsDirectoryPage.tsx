@@ -27,11 +27,7 @@ const FEATURED_BENCHMARKS = [
     category: 'Architecture Platform',
     score: 94,
     grade: 'A+',
-<<<<<<< HEAD
-    icon: 'bolt',
-=======
-    icon: '⚡',
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
+icon: 'bolt',
     date: 'Verified Recently'
   },
   {

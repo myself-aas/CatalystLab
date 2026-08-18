@@ -4,16 +4,16 @@ import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { MasterAuditPage } from './pages/MasterAuditPage';
 import { UserDashboardPage } from './pages/UserDashboardPage';
-import { AdminDashboardPage } = require('./pages/AdminDashboardPage');
-import { DomainReportArticlePage } = require('./pages/DomainReportArticlePage');
-import { ReportsDirectoryPage } = require('./pages/ReportsDirectoryPage');
-import { ComparePage } = require('./pages/ComparePage');
-import { ToolPage } = require('./pages/ToolPage');
-import { PricingPage } = require('./pages/PricingPage');
-import { DocsPage } = require('./pages/DocsPage');
-import { BlogsPage } = require('./pages/BlogsPage');
-import { BlogPostPage } = require('./pages/BlogPostPage');
-import { ContactPage } = require('./pages/ContactPage');
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { DomainReportArticlePage } from './pages/DomainReportArticlePage';
+import { ReportsDirectoryPage } from './pages/ReportsDirectoryPage';
+import { ComparePage } from './pages/ComparePage';
+import { ToolPage } from './pages/ToolPage';
+import { PricingPage } from './pages/PricingPage';
+import { DocsPage } from './pages/DocsPage';
+import { BlogsPage } from './pages/BlogsPage';
+import { BlogPostPage } from './pages/BlogPostPage';
+import { ContactPage } from './pages/ContactPage';
 
 export const App: React.FC = () => {
   return (
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
-      <Footer />
+      <Footer />;
     </div>
   );
 };
