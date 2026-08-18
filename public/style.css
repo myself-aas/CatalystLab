@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=terminal_2');
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,12 +15,26 @@
   --bg-card: #ffffff;
   --border-color: #d6e0ea;
   --accent-greige: #c8beba;
+=======
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --border-color: #e2e8f0;
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   --success: #16a34a;
   --success-bg: #dcfce7;
   --warning: #ca8a04;
   --warning-bg: #fef9c3;
   --danger: #dc2626;
   --danger-bg: #fee2e2;
+<<<<<<< HEAD
   --info: #5882b7;
   --info-bg: #edf3fa;
   --radius-lg: 12px;
@@ -28,6 +43,16 @@
   --shadow-sm: 0 1px 2px 0 rgba(11, 23, 54, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(11, 23, 54, 0.08), 0 2px 4px -1px rgba(11, 23, 54, 0.04);
   --shadow-lg: 0 10px 15px -3px rgba(11, 23, 54, 0.1), 0 4px 6px -2px rgba(11, 23, 54, 0.05);
+=======
+  --info: #2563eb;
+  --info-bg: #dbeafe;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 }
 
 body {
@@ -82,6 +107,7 @@ body {
   border-radius: 8px;
   object-fit: cover;
   flex-shrink: 0;
+<<<<<<< HEAD
   box-shadow: 0 1px 3px rgba(11, 23, 54, 0.12);
 }
 
@@ -104,6 +130,9 @@ body {
   font-size: 20px;
   line-height: 1;
   font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+=======
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 }
 
 .brand-badge {

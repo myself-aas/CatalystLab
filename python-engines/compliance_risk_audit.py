@@ -100,6 +100,7 @@ def run_compliance_audit(url):
         else:
             print(f"  [+] PASS: Form inputs are correctly labeled for screen readers.")
             
+<<<<<<< HEAD
     print(f"\n=> [LEGAL] TOTAL IDENTIFIED LIABILITIES: {risk_count}")
     if risk_count == 0:
         print("=> [PASS] STATUS: COMPLIANT. Low legal and security risk.")
@@ -107,6 +108,15 @@ def run_compliance_audit(url):
         print("=> [WARN] STATUS: WARNING. Address missing headers or alt text to prevent audit failures.")
     else:
         print("=> [FAIL] STATUS: HIGH LIABILITY. Immediate remediation required to prevent fines or breaches.")
+=======
+    print(f"\n=> ⚖️ TOTAL IDENTIFIED LIABILITIES: {risk_count}")
+    if risk_count == 0:
+        print("=> 🟢 STATUS: COMPLIANT. Low legal and security risk.")
+    elif risk_count <= 2:
+        print("=> 🟡 STATUS: WARNING. Address missing headers or alt text to prevent audit failures.")
+    else:
+        print("=> 🔴 STATUS: HIGH LIABILITY. Immediate remediation required to prevent fines or breaches.")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

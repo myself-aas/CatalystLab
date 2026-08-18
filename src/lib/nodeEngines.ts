@@ -160,6 +160,7 @@ async function runHealthEngine(url: string): Promise<string> {
       logs.push(`  [+] PASS: Zero parser-blocking scripts found in <head>.`);
     }
 
+<<<<<<< HEAD
     logs.push(`\n=> [SCORE] CATALYST HEALTH SCORE: ${Math.max(0, score)}/100`);
     if (score >= 90) {
       logs.push(`=> [PASS] STATUS: OPTIMAL PERFORMANCE (Green Vitals Profile)`);
@@ -167,6 +168,15 @@ async function runHealthEngine(url: string): Promise<string> {
       logs.push(`=> [WARN] STATUS: MODERATE (Optimization recommendations available)`);
     } else {
       logs.push(`=> [FAIL] STATUS: CRITICAL BOTTLENECKS DETECTED`);
+=======
+    logs.push(`\n=> 🏁 CATALYST HEALTH SCORE: ${Math.max(0, score)}/100`);
+    if (score >= 90) {
+      logs.push(`=> 🟢 STATUS: OPTIMAL PERFORMANCE (Green Vitals Profile)`);
+    } else if (score >= 70) {
+      logs.push(`=> 🟡 STATUS: MODERATE (Optimization recommendations available)`);
+    } else {
+      logs.push(`=> 🔴 STATUS: CRITICAL BOTTLENECKS DETECTED`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     }
   } catch (err: any) {
     logs.push(`  [!] CRITICAL: Failed to complete health scan: ${err.message}`);
@@ -263,6 +273,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
     score -= 30;
   }
 
+<<<<<<< HEAD
   logs.push(`\n=> [SCORE] AI READINESS SCORE: ${Math.max(0, score)}/100`);
   if (score >= 85) {
     logs.push(`=> [PASS] STATUS: FULLY COMPATIBLE (SearchGPT/Perplexity optimized)`);
@@ -270,6 +281,15 @@ async function runAiReadinessEngine(url: string): Promise<string> {
     logs.push(`=> [WARN] STATUS: PARTIAL (Usable, but missing explicit AI directives)`);
   } else {
     logs.push(`=> [FAIL] STATUS: INVISIBLE (High risk of hallucination or being ignored by AI agents)`);
+=======
+  logs.push(`\n=> 🧠 AI READINESS SCORE: ${Math.max(0, score)}/100`);
+  if (score >= 85) {
+    logs.push(`=> 🟢 STATUS: FULLY COMPATIBLE (SearchGPT/Perplexity optimized)`);
+  } else if (score >= 60) {
+    logs.push(`=> 🟡 STATUS: PARTIAL (Usable, but missing explicit AI directives)`);
+  } else {
+    logs.push(`=> 🔴 STATUS: INVISIBLE (High risk of hallucination or being ignored by AI agents)`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   }
 
   return logs.join('\n');
@@ -311,7 +331,11 @@ async function runEcoEngine(url: string): Promise<string> {
     const avgCarbonPerView = (carbonFirstView * PERCENT_NEW_VISITS) + (carbonReturnView * PERCENT_RETURN_VISITS);
     const monthlyCarbonKg = (avgCarbonPerView * 10000) / 1000;
 
+<<<<<<< HEAD
     logs.push(`\n=> [METRICS] ECO-METRICS RESULTS:`);
+=======
+    logs.push(`\n=> 🌍 ECO-METRICS RESULTS:`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     logs.push(`  - Emissions per Visit: ${avgCarbonPerView.toFixed(4)} grams CO2e`);
     logs.push(`  - Monthly Emissions (10k views): ${monthlyCarbonKg.toFixed(2)} kg CO2e`);
 
@@ -331,7 +355,11 @@ async function runEcoEngine(url: string): Promise<string> {
       color = 'Poor';
     }
 
+<<<<<<< HEAD
     logs.push(`\n=> [RATING] CATALYST ECO-RATING: [${rating}] - ${color}`);
+=======
+    logs.push(`\n=> 🎖️ CATALYST ECO-RATING: [${rating}] - ${color}`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   } catch (err: any) {
     logs.push(`  [!] Error calculating eco footprint: ${err.message}`);
   }
@@ -444,6 +472,7 @@ async function runComplianceEngine(url: string): Promise<string> {
       }
     }
 
+<<<<<<< HEAD
     logs.push(`\n=> [LIABILITIES] TOTAL IDENTIFIED LIABILITIES: ${riskCount}`);
     if (riskCount === 0) {
       logs.push(`=> [PASS] STATUS: COMPLIANT. Low legal and security risk.`);
@@ -451,6 +480,15 @@ async function runComplianceEngine(url: string): Promise<string> {
       logs.push(`=> [WARN] STATUS: WARNING. Address missing headers or alt text to prevent audit failures.`);
     } else {
       logs.push(`=> [FAIL] STATUS: HIGH LIABILITY. Immediate remediation required to prevent fines or breaches.`);
+=======
+    logs.push(`\n=> ⚖️ TOTAL IDENTIFIED LIABILITIES: ${riskCount}`);
+    if (riskCount === 0) {
+      logs.push(`=> 🟢 STATUS: COMPLIANT. Low legal and security risk.`);
+    } else if (riskCount <= 2) {
+      logs.push(`=> 🟡 STATUS: WARNING. Address missing headers or alt text to prevent audit failures.`);
+    } else {
+      logs.push(`=> 🔴 STATUS: HIGH LIABILITY. Immediate remediation required to prevent fines or breaches.`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     }
   } catch (err: any) {
     logs.push(`  [!] Failed to complete compliance audit: ${err.message}`);
@@ -492,16 +530,28 @@ async function runLatencyEngine(url: string): Promise<string> {
     for (const reg of regions) {
       const popLatency = Math.max(18, Math.round(localTtfb * 0.7 + reg.jitter));
       totalSim += popLatency;
+<<<<<<< HEAD
       const statusIcon = popLatency < 100 ? '[FAST]' : popLatency < 250 ? '[MOD]' : '[SLOW]';
+=======
+      const statusIcon = popLatency < 100 ? '🟢' : popLatency < 250 ? '🟡' : '🔴';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       logs.push(`  ${statusIcon} [${reg.name}] ~${popLatency} ms`);
     }
 
     const avgLatency = Math.round(totalSim / regions.length);
+<<<<<<< HEAD
     logs.push(`\n=> [EDGE] GLOBAL AVERAGE EDGE LATENCY: ~${avgLatency} ms`);
     if (avgLatency < 120) {
       logs.push(`=> [PASS] CDN PERFORMANCE: TIER-1 ANYCAST GLOBAL DISTRIBUTION`);
     } else {
       logs.push(`=> [WARN] CDN PERFORMANCE: REGIONAL ORIGIN (Consider Global Edge Caching)`);
+=======
+    logs.push(`\n=> 🌍 GLOBAL AVERAGE EDGE LATENCY: ~${avgLatency} ms`);
+    if (avgLatency < 120) {
+      logs.push(`=> 🟢 CDN PERFORMANCE: TIER-1 ANYCAST GLOBAL DISTRIBUTION`);
+    } else {
+      logs.push(`=> 🟡 CDN PERFORMANCE: REGIONAL ORIGIN (Consider Global Edge Caching)`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     }
   } catch (err: any) {
     logs.push(`  [!] Latency probe failed: ${err.message}`);
@@ -553,8 +603,13 @@ async function runRepoEngine(repoUrl: string): Promise<string> {
       logs.push(`  [*] Standard hygiene profile applied.`);
     }
 
+<<<<<<< HEAD
     logs.push(`\n=> [SCORE] REPO HYGIENE SCORE: ${score}/100`);
     logs.push(`=> [PASS] STATUS: PRODUCTION-READY REPOSITORY`);
+=======
+    logs.push(`\n=> 📦 REPO HYGIENE SCORE: ${score}/100`);
+    logs.push(`=> 🟢 STATUS: PRODUCTION-READY REPOSITORY`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   } catch (err: any) {
     logs.push(`  [!] Error parsing repository: ${err.message}`);
   }
@@ -599,8 +654,13 @@ async function runMigrationEngine(url: string): Promise<string> {
       logs.push(`  [+] Ready for zero-downtime serverless or edge deployment.`);
     }
 
+<<<<<<< HEAD
     logs.push(`\n=> [PORTABILITY] MIGRATION COMPLEXITY INDEX: LOW-MODERATE`);
     logs.push(`=> [PASS] COMPATIBILITY: 100% Vercel, Cloud Run & Edge CDN Ready`);
+=======
+    logs.push(`\n=> 🚀 MIGRATION COMPLEXITY INDEX: LOW-MODERATE`);
+    logs.push(`=> 🟢 COMPATIBILITY: 100% Vercel, Cloud Run & Edge CDN Ready`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   } catch (err: any) {
     logs.push(`  [!] Migration analysis error: ${err.message}`);
   }
@@ -658,11 +718,19 @@ async function runLlmoEngine(url: string): Promise<string> {
       score -= 10;
     }
 
+<<<<<<< HEAD
     logs.push(`\n=> [SCORE] LLMO CITATION SCORE: ${Math.max(0, score)}/100`);
     if (score >= 85) {
       logs.push(`=> [PASS] OPTIMIZATION: EXCELLENT (High citation probability in Perplexity, Gemini, and SearchGPT)`);
     } else {
       logs.push(`=> [WARN] OPTIMIZATION: MODERATE (Add JSON-LD schema to maximize AI citations)`);
+=======
+    logs.push(`\n=> 🤖 LLMO CITATION SCORE: ${Math.max(0, score)}/100`);
+    if (score >= 85) {
+      logs.push(`=> 🟢 OPTIMIZATION: EXCELLENT (High citation probability in Perplexity, Gemini, and SearchGPT)`);
+    } else {
+      logs.push(`=> 🟡 OPTIMIZATION: MODERATE (Add JSON-LD schema to maximize AI citations)`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     }
   } catch (err: any) {
     logs.push(`  [!] LLMO audit error: ${err.message}`);

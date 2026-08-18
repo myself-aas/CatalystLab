@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { Copy, Check, Maximize2, Minimize2, Code2, Terminal, ShieldCheck, BadgeCheck } from 'lucide-react';
+=======
+import { Copy, Check, Terminal, Maximize2, Minimize2 } from 'lucide-react';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
 interface TerminalOutputProps {
   title?: string;
@@ -14,8 +18,13 @@ interface TerminalOutputProps {
 
 export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   title = 'Terminal Output',
+<<<<<<< HEAD
   engine = 'health',
   icon = 'bolt',
+=======
+  engine,
+  icon = '⚡',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   output,
   loading = false,
   statusText,
@@ -24,17 +33,24 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
+<<<<<<< HEAD
   const [activeTab, setActiveTab] = useState<'terminal' | 'remediation' | 'badge'>('terminal');
   const [snippetFramework, setSnippetFramework] = useState<'nextjs' | 'nginx' | 'caddy' | 'vercel'>('nextjs');
 
   const handleCopy = (textToCopy?: string) => {
     const text = textToCopy || (activeTab === 'remediation' ? getRemediationSnippet(snippetFramework) : activeTab === 'badge' ? getBadgeSnippet() : output);
     navigator.clipboard.writeText(text);
+=======
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(output);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     setCopied(true);
     if (onCopy) onCopy();
     setTimeout(() => setCopied(false), 2000);
   };
 
+<<<<<<< HEAD
   const getBadgeSnippet = () => {
     return `[![CatalystLab Telemetry Health](https://www.catalystlab.tech/api/badge?domain=catalystlab.tech&score=98)](https://www.catalystlab.tech/)`;
   };
@@ -52,11 +68,14 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     }
   };
 
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   const formatTerminalText = (text: string) => {
     if (!text) return null;
 
     const lines = text.split('\n');
     return lines.map((line, idx) => {
+<<<<<<< HEAD
       let colorClass = 'text-[#d6e2f0]';
 
       if (line.includes('[+] PASS:') || line.includes('STATUS: OPTIMAL') || line.includes('STATUS: EXCELLENT') || line.includes('STATUS: FULLY COMPATIBLE') || line.includes('STATUS: PRODUCTION-READY') || line.includes('STATUS: COMPLIANT')) {
@@ -69,6 +88,20 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
         colorClass = 'text-[#c5d3e8] font-semibold';
       } else if (line.startsWith('===') || line.startsWith('---')) {
         colorClass = 'text-[#415a77] font-bold';
+=======
+      let colorClass = 'text-slate-300';
+
+      if (line.includes('[+] PASS:') || line.includes('🟢 STATUS:') || line.includes('STATUS: EXCELLENT')) {
+        colorClass = 'text-emerald-400 font-medium';
+      } else if (line.includes('[-] FAIL:') || line.includes('[!] CRITICAL:') || line.includes('[!] HIGH RISK:') || line.includes('🔴 STATUS:') || line.includes('STATUS: AT RISK')) {
+        colorClass = 'text-rose-400 font-bold';
+      } else if (line.includes('[~] WARNING:') || line.includes('🟡 STATUS:') || line.includes('STATUS: FAIR')) {
+        colorClass = 'text-amber-400 font-medium';
+      } else if (line.startsWith('[sys]') || line.startsWith('[*]')) {
+        colorClass = 'text-cyan-400';
+      } else if (line.startsWith('===') || line.startsWith('---')) {
+        colorClass = 'text-slate-500 font-bold';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       }
 
       return (
@@ -80,6 +113,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   };
 
   return (
+<<<<<<< HEAD
     <div className="flex flex-col rounded-xl border border-[#415a77]/40 bg-[#0b192c] shadow-xl overflow-hidden">
       {/* Terminal Title Bar */}
       <div className="flex items-center justify-between border-b border-[#415a77]/30 bg-[#0d1b2a] px-4 py-2.5">
@@ -120,28 +154,60 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
               <span>Embed Badge</span>
             </button>
           </div>
+=======
+    <div className="flex flex-col rounded-xl border border-slate-800 bg-slate-950 shadow-xl overflow-hidden">
+      {/* Terminal Title Bar */}
+      <div className="flex items-center justify-between border-b border-slate-800/80 bg-slate-900/90 px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
+            <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
+          </div>
+          <span className="text-xs font-mono font-medium text-slate-400 flex items-center gap-1.5">
+            <span>{icon}</span>
+            <span>{title}</span>
+          </span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         </div>
 
         <div className="flex items-center gap-2">
           {loading && (
+<<<<<<< HEAD
             <span className="flex items-center gap-1.5 text-xs text-[#c5d3e8]">
               <span className="h-2 w-2 rounded-full bg-[#c5d3e8] animate-ping" />
+=======
+            <span className="flex items-center gap-1.5 text-xs text-cyan-400">
+              <span className="h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               <span className="hidden sm:inline">Executing...</span>
             </span>
           )}
 
           <button
+<<<<<<< HEAD
             onClick={() => handleCopy()}
             className="flex items-center gap-1 rounded bg-[#152238] border border-[#415a77]/40 px-2 py-1 text-xs text-[#c5d3e8] hover:bg-[#1f314d] hover:text-[#f8fafc] transition-colors"
             title="Copy current tab content"
           >
             {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-[#c5d3e8]" />}
             <span className="hidden sm:inline">{copied ? 'Copied' : 'Copy'}</span>
+=======
+            onClick={handleCopy}
+            className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+            title="Copy output"
+          >
+            {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           </button>
 
           <button
             onClick={() => setExpanded(!expanded)}
+<<<<<<< HEAD
             className="rounded p-1 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors"
+=======
+            className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             title={expanded ? "Collapse" : "Expand"}
           >
             {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
@@ -149,6 +215,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Remediation Framework Sub-header */}
       {activeTab === 'remediation' && (
         <div className="flex items-center justify-between border-b border-[#415a77]/30 bg-[#0b192c] px-4 py-2 text-xs">
@@ -223,6 +290,26 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
               </pre>
             </div>
           </div>
+=======
+      {/* Terminal Body */}
+      <div
+        className={`p-4 font-mono text-xs overflow-y-auto bg-slate-950/95 selection:bg-cyan-500/20 ${
+          expanded ? 'max-h-[600px]' : maxHeight
+        }`}
+      >
+        {loading && !output ? (
+          <div className="space-y-2 py-4">
+            <div className="text-cyan-400 flex items-center gap-2">
+              <span className="animate-spin">⏳</span>
+              <span>{statusText || 'Initializing diagnostic container and dispatching telemetry trace...'}</span>
+            </div>
+            <div className="text-slate-600 animate-pulse">Tracing socket connections, DOM depth, and headers...</div>
+          </div>
+        ) : output ? (
+          formatTerminalText(output)
+        ) : (
+          <div className="text-slate-600 italic">Awaiting target initialization...</div>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         )}
       </div>
     </div>

@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "projectId": "artful-defender-j6rpq",
   "appId": "1:37637428917:web:b3b90bbfcdc1f22dde50fc",
   "apiKey": "AIzaSyAfUhpT3RZWMQDduRNaDhpsEyLOQhnCiwg",
@@ -8,5 +9,16 @@
   "messagingSenderId": "37637428917",
   "measurementId": "",
   "oAuthClientId": "37637428917-u8jkgq5dll0vdtun0a4g049tf0m9n0uq.apps.googleusercontent.com",
+=======
+  "projectId": "catalystlabhub",
+  "appId": "1:538496738631:web:750ab5420844d31a749862",
+  "apiKey": "AIzaSyCEKst9X69ewBp3pLzL-ILHRo1kezYZkIU",
+  "authDomain": "catalystlabhub.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-catalystlab-6318f0cc-9ec3-41ff-a38f-2d22b7086f08",
+  "storageBucket": "catalystlabhub.firebasestorage.app",
+  "messagingSenderId": "538496738631",
+  "measurementId": "G-SBWC2NFQ0X",
+  "oAuthClientId": "538496738631-ug080cbsulbeku5e7ed0i0h6v7ccvaqe.apps.googleusercontent.com",
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   "recaptchaSiteKey": ""
 }

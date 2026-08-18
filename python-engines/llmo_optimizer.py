@@ -78,11 +78,19 @@ def run_llmo_workflow(url):
     else:
         print("  [-] FAIL: Missing OpenGraph tags. AI citations and summary cards will look broken.")
 
+<<<<<<< HEAD
     print(f"\n=> [AI] LLM OPTIMIZATION SCORE: {score}/{max_score}")
     if score >= 3:
         print("=> [PASS] STATUS: OPTIMIZED. Highly likely to be cited by Perplexity/ChatGPT.")
     else:
         print("=> [FAIL] STATUS: POOR. Requires structured data and DOM cleanup to rank in AI search.")
+=======
+    print(f"\n=> 🧠 LLM OPTIMIZATION SCORE: {score}/{max_score}")
+    if score >= 3:
+        print("=> 🟢 STATUS: OPTIMIZED. Highly likely to be cited by Perplexity/ChatGPT.")
+    else:
+        print("=> 🔴 STATUS: POOR. Requires structured data and DOM cleanup to rank in AI search.")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

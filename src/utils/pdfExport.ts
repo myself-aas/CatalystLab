@@ -50,7 +50,11 @@ export async function exportReportToPdf(elementId: string, filename: string = 'C
  * Generate standalone PDF directly from AuditReport data structure using browser canvas
  */
 export async function exportAuditReportDataToPdf(report: AuditReport): Promise<void> {
+<<<<<<< HEAD
   const meta = ENGINES_MAP[report.engine] || { name: report.engine, icon: 'bolt' };
+=======
+  const meta = ENGINES_MAP[report.engine] || { name: report.engine, icon: '⚡' };
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   const dateStr = report.createdAt ? new Date(report.createdAt).toLocaleString() : new Date().toLocaleString();
   
   // Create an off-screen container styled for high-resolution PDF rendering
@@ -74,15 +78,24 @@ export async function exportAuditReportDataToPdf(report: AuditReport): Promise<v
   container.innerHTML = `
     <div style="border-bottom: 2px solid #38bdf8; padding-bottom: 16px; margin-bottom: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
+<<<<<<< HEAD
         <div style="font-size: 20px; font-weight: bold; color: #f97316;">
           &gt;_ CatalystLab PRO Telemetry Dossier
+=======
+        <div style="font-size: 20px; font-weight: bold; color: #38bdf8;">
+          ⚡ CatalystLab PRO Telemetry Dossier
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         </div>
         <div style="font-size: 12px; color: #94a3b8;">
           ID: ${report.id || 'N/A'}
         </div>
       </div>
       <div style="font-size: 16px; font-weight: bold; color: #ffffff; margin-top: 8px;">
+<<<<<<< HEAD
         [${meta.name}] — ${domain}
+=======
+        ${meta.icon} ${meta.name} — ${domain}
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       </div>
       <div style="font-size: 12px; color: #64748b; margin-top: 4px;">
         Target: ${report.url} | Timestamp: ${dateStr}

@@ -148,6 +148,7 @@ async function startServer() {
   const PORT = 3000;
   const HOST = '0.0.0.0';
 
+<<<<<<< HEAD
   // Security Response Headers Hardening Middleware
   app.use((req: Request, res: Response, next) => {
     res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
@@ -162,6 +163,8 @@ async function startServer() {
     next();
   });
 
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   app.use(express.json({ limit: '10mb' }));
 
   // Python Engine Execution Endpoint
@@ -387,6 +390,7 @@ async function startServer() {
     res.json({ status: 'ok', timestamp: Date.now() });
   });
 
+<<<<<<< HEAD
   // Dynamic Embeddable Status Badge (SVG)
   app.get(['/api/badge/:domain', '/api/badge'], (req: Request, res: Response) => {
     const domain = (req.params.domain || (req.query.domain as string) || 'catalystlab.tech').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
@@ -457,6 +461,8 @@ async function startServer() {
     res.send(svg);
   });
 
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   // Vite Integration
   if (process.env.NODE_ENV === 'production') {
     const distPath = path.join(__dirname, 'dist');
@@ -477,7 +483,11 @@ async function startServer() {
   }
 
   app.listen(PORT, HOST, () => {
+<<<<<<< HEAD
     console.log(`[CatalystLab] Server running at http://${HOST}:${PORT}`);
+=======
+    console.log(`⚡ CatalystLab Server running at http://${HOST}:${PORT}`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   });
 }
 

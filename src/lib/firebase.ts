@@ -110,6 +110,7 @@ export const logout = async (): Promise<void> => {
 
 // --- REPORTS CRUD ---
 
+<<<<<<< HEAD
 export interface SaveReportParams {
   url: string;
   engine: string;
@@ -151,15 +152,35 @@ export const saveReport = async (
       score = extra.score;
     }
 
+=======
+export const saveReport = async (
+  url: string, 
+  engine: string, 
+  output: string, 
+  extra: { title?: string; score?: number } = {}
+): Promise<string> => {
+  if (!auth.currentUser) throw new Error("Must be logged in to save reports");
+  
+  const path = "reports";
+  try {
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     const reportData: Omit<AuditReport, 'id'> = {
       url: String(url || '').substring(0, 500),
       engine: String(engine || 'master-audit').substring(0, 100),
       output: String(output || '').substring(0, 500000),
+<<<<<<< HEAD
       ownerId: auth.currentUser?.uid || 'guest',
       ownerEmail: auth.currentUser?.email || '',
       createdAt: Date.now(),
       ...(title ? { title: String(title).substring(0, 200) } : {}),
       ...(typeof score === 'number' ? { score } : {})
+=======
+      ownerId: auth.currentUser.uid,
+      ownerEmail: auth.currentUser.email || '',
+      createdAt: Date.now(),
+      ...(extra.title ? { title: String(extra.title).substring(0, 200) } : {}),
+      ...(typeof extra.score === 'number' ? { score: extra.score } : {})
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     };
 
     const docRef = await addDoc(collection(db, path), reportData);
@@ -247,6 +268,7 @@ export const getAllReportsForAdmin = async (): Promise<AuditReport[]> => {
 
 export const INITIAL_SEEDED_BLOGS: BlogPost[] = [
   {
+<<<<<<< HEAD
     id: 'seed-4',
     title: 'State of Global Web Telemetry & Edge Latency Benchmark (Q3 2026)',
     slug: 'state-of-global-web-telemetry-benchmark-q3-2026',
@@ -316,6 +338,8 @@ With AI answer engines handling over 35% of high-intent technical queries, sites
     views: 1420
   },
   {
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     id: 'seed-1',
     title: 'The Modern Anatomy of Website Health in the Era of AI Search',
     slug: 'modern-website-health-ai-search',

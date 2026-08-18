@@ -5,10 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>CatalystLab — User Audit Dashboard</title>
   <meta name="description" content="Manage and review your saved website health audits, multi-dimensional scans, and repository telemetry reports.">
+<<<<<<< HEAD
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/style.css">
+=======
+  <link rel="icon" type="image/jpeg" href="/src/assets/images/catalystlab_logo_1787003898085.jpg">
+  <link rel="apple-touch-icon" href="/src/assets/images/catalystlab_logo_1787003898085.jpg">
+  <link rel="stylesheet" href="/style.css">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="/firebase-bundle.js"></script>
   <style>
@@ -444,7 +450,11 @@
   <header class="top-nav" id="topNav">
     <div class="nav-container">
       <a href="/index.html" class="brand-title" aria-label="CatalystLab Home">
+<<<<<<< HEAD
         <div class="brand-logo-icon"><span class="material-symbols-outlined">terminal_2</span></div>
+=======
+        <img src="/src/assets/images/catalystlab_logo_1787003898085.jpg" alt="CatalystLab Logo" class="brand-logo-img" referrerPolicy="no-referrer">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         <span>CatalystLab</span> <span class="brand-badge">PRO</span>
       </a>
 
@@ -461,7 +471,11 @@
       <!-- Desktop & Mobile Action Area -->
       <div class="nav-actions">
         <div id="authContainer" style="display: flex; gap: 0.75rem; align-items: center;">
+<<<<<<< HEAD
           <a href="/dashboard.html" id="navDashboardBtn" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; display: none;"><span class="material-symbols-outlined">analytics</span> My Audits</a>
+=======
+          <a href="/dashboard.html" id="navDashboardBtn" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; display: none;">📊 My Audits</a>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           <span id="userNameDisplay" style="color: #cbd5e1; font-size: 0.85rem; display: none;"></span>
           <button id="loginBtn" class="btn btn-outline" style="padding: 0.4rem 1rem;">Log In</button>
           <button id="logoutBtn" class="btn btn-outline" style="padding: 0.4rem 1rem; display: none;">Log Out</button>
@@ -475,7 +489,11 @@
 
     <!-- Auth Gated Landing (Shown when logged out) -->
     <div id="loggedOutView" class="dashboard-auth-gate" style="display: none;">
+<<<<<<< HEAD
       <div class="auth-gate-icon"><span class="material-symbols-outlined">key</span></div>
+=======
+      <div class="auth-gate-icon">🔐</div>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       <h1 class="auth-gate-title">User Audit Dashboard</h1>
       <p class="auth-gate-desc">
         Sign in with your Google Account to access your personal audit history, revisit previous website diagnostics, generate client permalinks, and manage stored performance records.
@@ -503,7 +521,11 @@
           <div class="user-details">
             <h2>
               <span id="dashUserName">User Account</span>
+<<<<<<< HEAD
               <span class="user-verified-badge"><span class="material-symbols-outlined">check</span> Google Verified</span>
+=======
+              <span class="user-verified-badge">✓ Google Verified</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </h2>
             <p id="dashUserEmail">user@example.com</p>
           </div>
@@ -523,7 +545,11 @@
             <div class="dash-metric-label">Latest Activity</div>
           </div>
           <a href="/index.html" class="btn btn-primary" style="display: flex; align-items: center; gap: 0.5rem; padding: 0 1.25rem;">
+<<<<<<< HEAD
             <span><span class="material-symbols-outlined">bolt</span></span> Run New Audit
+=======
+            <span>⚡</span> Run New Audit
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           </a>
         </div>
       </section>
@@ -531,7 +557,11 @@
       <!-- Dashboard Controls & Toolbar -->
       <section class="dashboard-toolbar">
         <div class="toolbar-search-wrap">
+<<<<<<< HEAD
           <span class="toolbar-search-icon"><span class="material-symbols-outlined">search</span></span>
+=======
+          <span class="toolbar-search-icon">🔍</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           <input type="text" id="auditSearchInput" placeholder="Search saved audits by URL or domain...">
         </div>
 
@@ -556,12 +586,21 @@
           </select>
 
           <div class="view-toggle-btns">
+<<<<<<< HEAD
             <button id="btnGridView" class="view-toggle-btn active" title="Grid View"><span class="material-symbols-outlined">check_box_outline_blank</span> Grid</button>
             <button id="btnTableView" class="view-toggle-btn" title="Table View"><span class="material-symbols-outlined">menu</span> Table</button>
           </div>
 
           <button id="btnRefreshAudits" class="btn-icon-action" title="Refresh saved audits" style="padding: 0.6rem 0.85rem;">
             <span class="material-symbols-outlined">sync</span> Refresh
+=======
+            <button id="btnGridView" class="view-toggle-btn active" title="Grid View">🔲 Grid</button>
+            <button id="btnTableView" class="view-toggle-btn" title="Table View">☰ Table</button>
+          </div>
+
+          <button id="btnRefreshAudits" class="btn-icon-action" title="Refresh saved audits" style="padding: 0.6rem 0.85rem;">
+            🔄 Refresh
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           </button>
         </div>
       </section>
@@ -574,7 +613,11 @@
 
       <!-- Empty State -->
       <div id="dashEmptyState" class="glass-panel" style="padding: 4rem 2rem; text-align: center; display: none;">
+<<<<<<< HEAD
         <div style="font-size: 3rem; margin-bottom: 1rem;"><span class="material-symbols-outlined">analytics</span></div>
+=======
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         <h3 style="font-size: 1.3rem; color: #f8fafc; margin-bottom: 0.5rem;">No saved audits found</h3>
         <p style="color: #94a3b8; max-width: 480px; margin: 0 auto 1.5rem auto; font-size: 0.9rem;">
           You haven't saved any audits yet or no records match your filter criteria. Run an audit on the homepage or specific tool to populate your dashboard.
@@ -612,7 +655,11 @@
 
   <!-- Toast Notification -->
   <div id="dashToast" class="dash-toast">
+<<<<<<< HEAD
     <span id="toastIcon"><span class="material-symbols-outlined">check</span></span>
+=======
+    <span id="toastIcon">✓</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     <span id="toastMsg">Action completed successfully</span>
   </div>
 
@@ -656,7 +703,11 @@
         const toastIcon = document.getElementById('toastIcon');
         
         toastMsg.textContent = message;
+<<<<<<< HEAD
         toastIcon.textContent = isError ? '<span class="material-symbols-outlined">warning</span>' : '<span class="material-symbols-outlined">check</span>';
+=======
+        toastIcon.textContent = isError ? '⚠️' : '✓';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         toast.style.borderColor = isError ? '#ef4444' : '#38bdf8';
         toast.classList.add('show');
         
@@ -770,7 +821,11 @@
                 <div>
                   <div class="audit-card-header">
                     <div>
+<<<<<<< HEAD
                       <h4 class="audit-domain-title"><span class="material-symbols-outlined">public</span> ${host}</h4>
+=======
+                      <h4 class="audit-domain-title">🌐 ${host}</h4>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                       <span class="audit-url-sub">${report.url}</span>
                     </div>
                     ${getEngineBadge(report.engine)}
@@ -782,6 +837,7 @@ ${previewText}
                 </div>
 
                 <div class="audit-card-footer">
+<<<<<<< HEAD
                   <span class="audit-date-stamp"><span class="material-symbols-outlined">calendar_today</span> ${dateStr}</span>
                   <div class="audit-action-btns">
                     <a href="/report.html?id=${report.id}" class="btn-icon-action" title="Open Full Report">
@@ -792,6 +848,18 @@ ${previewText}
                     </button>
                     <button class="btn-icon-action btn-icon-danger" onclick="deleteSavedAudit('${report.id}', '${host}')" title="Delete from Dashboard">
                       <span class="material-symbols-outlined">delete</span>
+=======
+                  <span class="audit-date-stamp">📅 ${dateStr}</span>
+                  <div class="audit-action-btns">
+                    <a href="/report.html?id=${report.id}" class="btn-icon-action" title="Open Full Report">
+                      👁️ View
+                    </a>
+                    <button class="btn-icon-action" onclick="copyPermalink('${report.id}')" title="Copy Share Link">
+                      🔗 Share
+                    </button>
+                    <button class="btn-icon-action btn-icon-danger" onclick="deleteSavedAudit('${report.id}', '${host}')" title="Delete from Dashboard">
+                      🗑️
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                     </button>
                   </div>
                 </div>
@@ -820,9 +888,15 @@ ${previewText}
                 <td style="color: #94a3b8; font-size: 0.8rem;">${dateStr}</td>
                 <td>
                   <div style="display: flex; gap: 0.4rem;">
+<<<<<<< HEAD
                     <a href="/report.html?id=${report.id}" class="btn-icon-action" title="Open Report"><span class="material-symbols-outlined">visibility</span> View</a>
                     <button class="btn-icon-action" onclick="copyPermalink('${report.id}')" title="Copy Share Link"><span class="material-symbols-outlined">link</span> Share</button>
                     <button class="btn-icon-action btn-icon-danger" onclick="deleteSavedAudit('${report.id}', '${host}')" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+=======
+                    <a href="/report.html?id=${report.id}" class="btn-icon-action" title="Open Report">👁️ View</a>
+                    <button class="btn-icon-action" onclick="copyPermalink('${report.id}')" title="Copy Share Link">🔗 Share</button>
+                    <button class="btn-icon-action btn-icon-danger" onclick="deleteSavedAudit('${report.id}', '${host}')" title="Delete">🗑️</button>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   </div>
                 </td>
               </tr>
@@ -853,7 +927,11 @@ ${previewText}
         const link = window.location.origin + '/report.html?id=' + reportId;
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(link).then(() => {
+<<<<<<< HEAD
             showToast("<span class="material-symbols-outlined">link</span> Permalink copied to clipboard!");
+=======
+            showToast("🔗 Permalink copied to clipboard!");
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           }).catch(() => {
             prompt("Copy this shareable link:", link);
           });
@@ -955,9 +1033,15 @@ ${previewText}
 
       if (btnRefreshAudits) {
         btnRefreshAudits.addEventListener('click', () => {
+<<<<<<< HEAD
           btnRefreshAudits.textContent = '<span class="material-symbols-outlined">progress_activity</span> Refreshing...';
           loadUserAuditHistory().finally(() => {
             btnRefreshAudits.textContent = '<span class="material-symbols-outlined">sync</span> Refresh';
+=======
+          btnRefreshAudits.textContent = '⏳ Refreshing...';
+          loadUserAuditHistory().finally(() => {
+            btnRefreshAudits.textContent = '🔄 Refresh';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           });
         });
       }

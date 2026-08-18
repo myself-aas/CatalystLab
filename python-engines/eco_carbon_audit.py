@@ -69,7 +69,11 @@ def calculate_carbon(url):
         monthly_views = 10000
         monthly_carbon_kg = (avg_carbon_per_view * monthly_views) / 1000
         
+<<<<<<< HEAD
         print(f"\n=> [GLOBAL] ECO-METRICS RESULTS:")
+=======
+        print(f"\n=> 🌍 ECO-METRICS RESULTS:")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         print(f"  - Emissions per Visit: {avg_carbon_per_view:.4f} grams CO2e")
         print(f"  - Monthly Emissions (10k views): {monthly_carbon_kg:.2f} kg CO2e")
         
@@ -85,7 +89,11 @@ def calculate_carbon(url):
         else:
             rating, color = "F", "Failing (Heavy Emitter)"
             
+<<<<<<< HEAD
         print(f"\n=> [RATING] CATALYST ECO-RATING: [{rating}] - {color}")
+=======
+        print(f"\n=> 🎖️ CATALYST ECO-RATING: [{rating}] - {color}")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         
     except Exception as e:
         print(f"  [!] Error calculating eco footprint: {e}")

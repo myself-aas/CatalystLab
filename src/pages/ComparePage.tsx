@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { TerminalOutput } from '../components/TerminalOutput';
+<<<<<<< HEAD
 import { Play, CheckCircle2, XCircle } from 'lucide-react';
 import { CustomIconSync } from '../components/common/CustomSvgs';
+=======
+import { Play, ArrowLeftRight, CheckCircle2, XCircle } from 'lucide-react';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
 export const ComparePage: React.FC = () => {
   const [urlA, setUrlA] = useState('');
@@ -52,6 +56,7 @@ export const ComparePage: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-[#f8fafc] pb-20 text-[#0b192c]">
       
       {/* Header */}
@@ -64,29 +69,58 @@ export const ComparePage: React.FC = () => {
             Side-by-Side Delta Comparison
           </h1>
           <p className="mt-2 text-sm text-[#415a77]">
+=======
+    <div className="min-h-screen bg-slate-950 pb-20">
+      
+      {/* Header */}
+      <section className="border-b border-slate-800 bg-slate-900/40 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 mb-4 border border-cyan-500/20">
+            <ArrowLeftRight className="h-6 w-6" />
+          </div>
+          <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
+            Side-by-Side Delta Comparison
+          </h1>
+          <p className="mt-2 text-sm text-slate-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             Benchmark performance, security headers, and DOM complexity between two competing websites.
           </p>
 
           <form onSubmit={handleCompare} className="mt-8 mx-auto max-w-3xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+<<<<<<< HEAD
               <div className="rounded-xl border border-[#415a77]/30 bg-[#0b192c] p-2 shadow-inner">
+=======
+              <div className="rounded-xl border border-slate-700 bg-slate-900/90 p-2">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 <input
                   type="text"
                   value={urlA}
                   onChange={(e) => setUrlA(e.target.value)}
                   placeholder="Primary URL (e.g. https://site-a.com)"
                   required
+<<<<<<< HEAD
                   className="w-full bg-transparent px-3 py-2 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
                 />
               </div>
               <div className="rounded-xl border border-[#415a77]/30 bg-[#0b192c] p-2 shadow-inner">
+=======
+                  className="w-full bg-transparent px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none"
+                />
+              </div>
+              <div className="rounded-xl border border-slate-700 bg-slate-900/90 p-2">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 <input
                   type="text"
                   value={urlB}
                   onChange={(e) => setUrlB(e.target.value)}
                   placeholder="Comparison URL (e.g. https://site-b.com)"
                   required
+<<<<<<< HEAD
                   className="w-full bg-transparent px-3 py-2 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
+=======
+                  className="w-full bg-transparent px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 />
               </div>
             </div>
@@ -94,11 +128,19 @@ export const ComparePage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
+<<<<<<< HEAD
               className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#415a77] py-3 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] disabled:opacity-50 transition-all shadow-md"
             >
               {loading ? (
                 <>
                   <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
+=======
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-cyan-500 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-400 disabled:opacity-50 transition-all shadow-lg shadow-cyan-500/20"
+            >
+              {loading ? (
+                <>
+                  <span className="animate-spin">⏳</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   <span>Benchmarking Both Targets...</span>
                 </>
               ) : (
@@ -113,11 +155,19 @@ export const ComparePage: React.FC = () => {
       </section>
 
       {/* Side-by-Side Results */}
+<<<<<<< HEAD
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <TerminalOutput
             title={`Target A: ${urlA || 'Primary Site'}`}
             icon="looks_one"
+=======
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TerminalOutput
+            title={`Target A: ${urlA || 'Primary Site'}`}
+            icon="🅰️"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             output={outputA}
             loading={loading}
             statusText="Analyzing primary target DOM & telemetry..."
@@ -125,13 +175,18 @@ export const ComparePage: React.FC = () => {
           />
           <TerminalOutput
             title={`Target B: ${urlB || 'Comparison Site'}`}
+<<<<<<< HEAD
             icon="looks_two"
+=======
+            icon="🅱️"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             output={outputB}
             loading={loading}
             statusText="Analyzing secondary target DOM & telemetry..."
             maxHeight="max-h-[600px]"
           />
         </div>
+<<<<<<< HEAD
 
         {/* Industry Competitive Architecture Matrix */}
         <section className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-10 text-[#f8fafc] shadow-2xl">
@@ -204,6 +259,8 @@ export const ComparePage: React.FC = () => {
             </table>
           </div>
         </section>
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       </main>
     </div>
   );

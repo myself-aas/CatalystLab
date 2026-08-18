@@ -92,6 +92,7 @@ def run_migration_audit(url):
     else:
         print(f"  [+] PASS: Found {len(internal_links)} internal links for crawler traversal.")
 
+<<<<<<< HEAD
     print(f"\n=> [METRICS] MIGRATION RISK FACTOR: {risk_score}/{max_risk}")
     if risk_score == 0:
         print("=> [PASS] STATUS: CLEAR FOR MIGRATION. Excellent structural hygiene.")
@@ -99,6 +100,15 @@ def run_migration_audit(url):
         print("=> [WARN] STATUS: PROCEED WITH CAUTION. Address warnings before DNS flip.")
     else:
         print("=> [FAIL] STATUS: HIGH RISK. Do not migrate. Fix critical SEO/structural errors first.")
+=======
+    print(f"\n=> 📊 MIGRATION RISK FACTOR: {risk_score}/{max_risk}")
+    if risk_score == 0:
+        print("=> 🟢 STATUS: CLEAR FOR MIGRATION. Excellent structural hygiene.")
+    elif risk_score < 40:
+        print("=> 🟡 STATUS: PROCEED WITH CAUTION. Address warnings before DNS flip.")
+    else:
+        print("=> 🔴 STATUS: HIGH RISK. Do not migrate. Fix critical SEO/structural errors first.")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

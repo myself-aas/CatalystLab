@@ -50,7 +50,11 @@ def run_latency_radar(url):
         if tls_ms < 0: tls_ms = 0
         if tcp_ms < 0: tcp_ms = 0
         
+<<<<<<< HEAD
         print(f"[POP] {r['name']} Edge Node")
+=======
+        print(f"📍 {r['name']} Edge Node")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         print(f"  |-- DNS Lookup:  {dns_ms:.1f} ms")
         print(f"  |-- TCP Connect: {tcp_ms:.1f} ms")
         print(f"  |-- TLS Handshake:{tls_ms:.1f} ms")
@@ -69,6 +73,7 @@ def run_latency_radar(url):
     max_rating = len(regions) * 2
     score_pct = (total_rating / max_rating) * 100
     
+<<<<<<< HEAD
     print(f"=> [GLOBAL] GLOBAL LATENCY SCORE: {score_pct:.0f}/100")
     if score_pct >= 80:
         print("=> [PASS] STATUS: EDGE OPTIMIZED (Global CDN active and hit ratios are high)")
@@ -76,6 +81,15 @@ def run_latency_radar(url):
         print("=> [WARN] STATUS: PARTIAL CACHE (Routing delays detected in APAC/EU)")
     else:
         print("=> [FAIL] STATUS: ORIGIN BOUND (Severe lack of edge caching. Major SEO penalty risk)")
+=======
+    print(f"=> 🌍 GLOBAL LATENCY SCORE: {score_pct:.0f}/100")
+    if score_pct >= 80:
+        print("=> 🟢 STATUS: EDGE OPTIMIZED (Global CDN active and hit ratios are high)")
+    elif score_pct >= 50:
+        print("=> 🟡 STATUS: PARTIAL CACHE (Routing delays detected in APAC/EU)")
+    else:
+        print("=> 🔴 STATUS: ORIGIN BOUND (Severe lack of edge caching. Major SEO penalty risk)")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

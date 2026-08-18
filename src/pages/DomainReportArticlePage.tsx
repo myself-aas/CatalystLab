@@ -220,9 +220,15 @@ export const DomainReportArticlePage: React.FC = () => {
       <div className="flex min-h-[75vh] items-center justify-center bg-slate-950 px-4">
         <div className="flex flex-col items-center gap-4 text-center max-w-md">
           <div className="relative">
+<<<<<<< HEAD
             <div className="h-16 w-16 animate-spin rounded-full border-4 border-orange-500 border-t-transparent shadow-lg shadow-orange-500/20" />
             <div className="absolute inset-0 flex items-center justify-center text-orange-400 font-bold">
               <span className="material-symbols-outlined text-2xl font-black">terminal_2</span>
+=======
+            <div className="h-16 w-16 animate-spin rounded-full border-4 border-cyan-500 border-t-transparent shadow-lg shadow-cyan-500/20" />
+            <div className="absolute inset-0 flex items-center justify-center text-cyan-400 text-lg font-bold">
+              ⚡
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </div>
           </div>
           <h2 className="text-xl font-bold text-white">
@@ -273,6 +279,7 @@ export const DomainReportArticlePage: React.FC = () => {
     : 'Recent Verification';
 
   return (
+<<<<<<< HEAD
     <article id="article-dossier-root" className="min-h-screen bg-[#070e24] pb-28 text-[#f8fafc] selection:bg-[#5882b7]/35 selection:text-[#f8fafc]">
       
       {/* Editorial Breadcrumbs Bar */}
@@ -284,13 +291,31 @@ export const DomainReportArticlePage: React.FC = () => {
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-[#5882b7]/40" />
             <span className="font-mono text-[#f8fafc] font-semibold truncate max-w-[200px] sm:max-w-none">
+=======
+    <article id="article-dossier-root" className="min-h-screen bg-slate-950 pb-28 text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
+      
+      {/* Editorial Breadcrumbs Bar */}
+      <div className="border-b border-slate-800/80 bg-slate-900/40 py-3 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl flex items-center justify-between text-xs text-slate-400">
+          <div className="flex items-center gap-2">
+            <Link to="/reports" className="hover:text-cyan-400 transition-colors flex items-center gap-1">
+              <span>Audit Reports</span>
+            </Link>
+            <ChevronRight className="h-3.5 w-3.5 text-slate-600" />
+            <span className="font-mono text-slate-300 font-semibold truncate max-w-[200px] sm:max-w-none">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               {canonicalDomainSlug}
             </span>
           </div>
 
           <div className="flex items-center gap-2">
+<<<<<<< HEAD
             <span className="hidden sm:inline text-[#a4b7cc]">Permalink:</span>
             <span className="font-mono text-[11px] text-[#5882b7] bg-[#070e24] px-2 py-0.5 rounded border border-[#5882b7]/30">
+=======
+            <span className="hidden sm:inline text-slate-500">Permalink:</span>
+            <span className="font-mono text-[11px] text-cyan-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               catalystlab.tech/reports/{canonicalDomainSlug}
             </span>
           </div>
@@ -298,36 +323,59 @@ export const DomainReportArticlePage: React.FC = () => {
       </div>
 
       {/* Main Blog Article Hero Header */}
+<<<<<<< HEAD
       <header className="border-b border-[#5882b7]/20 bg-gradient-to-b from-[#0b1736]/90 via-[#0b1736]/40 to-[#070e24] px-4 py-12 sm:px-6 lg:px-8">
+=======
+      <header className="border-b border-slate-800 bg-gradient-to-b from-slate-900/80 via-slate-900/30 to-slate-950 px-4 py-12 sm:px-6 lg:px-8">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         <div className="mx-auto max-w-5xl space-y-6">
           
           {/* Badge & Category */}
           <div className="flex flex-wrap items-center gap-2.5">
+<<<<<<< HEAD
             <span className="inline-flex items-center gap-1.5 rounded-md border border-[#5882b7]/40 bg-[#5882b7]/15 px-3 py-1 text-xs font-bold text-[#5882b7] uppercase tracking-wider">
               <Sparkles className="h-3.5 w-3.5 text-[#c8beba]" />
               Engineering Benchmark Dossier
             </span>
             <span className="inline-flex items-center gap-1 rounded-md border border-[#c8beba]/30 bg-[#c8beba]/10 px-2.5 py-1 text-xs font-semibold text-[#c8beba]">
+=======
+            <span className="inline-flex items-center gap-1.5 rounded-md border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-bold text-cyan-300 uppercase tracking-wider">
+              <Sparkles className="h-3.5 w-3.5" />
+              Engineering Benchmark Dossier
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               <ShieldCheck className="h-3.5 w-3.5" />
               Verified Telemetry
             </span>
           </div>
 
           {/* Article Title */}
+<<<<<<< HEAD
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#f8fafc] tracking-tight leading-tight">
             Full-Stack Performance, Security & AI Readiness Benchmark:{' '}
             <span className="text-[#5882b7]">
+=======
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+            Full-Stack Performance, Security & AI Readiness Benchmark:{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               {displayDomain}
             </span>
           </h1>
 
           {/* Subtitle / Executive Lead */}
+<<<<<<< HEAD
           <p className="text-base sm:text-lg text-[#a4b7cc] leading-relaxed max-w-4xl font-normal">
+=======
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-4xl font-normal">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             A comprehensive multi-vector telemetry benchmark inspecting DOM element depth, OWASP security headers, 
             WCAG 2.2 accessibility, SearchGPT vector chunking, global edge latency dispersion, and Sustainable Web Design carbon metrics.
           </p>
 
           {/* Metadata & Actions Bar */}
+<<<<<<< HEAD
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-4 border-t border-[#5882b7]/20">
             
             {/* Author Profile */}
@@ -342,11 +390,31 @@ export const DomainReportArticlePage: React.FC = () => {
                 <div className="flex items-center gap-3 text-xs text-[#a4b7cc] mt-0.5">
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3.5 w-3.5 text-[#a4b7cc]" />
+=======
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-4 border-t border-slate-800/80">
+            
+            {/* Author Profile */}
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold text-xl shadow-lg shadow-cyan-500/10">
+                ⚡
+              </div>
+              <div>
+                <div className="text-sm font-bold text-white flex items-center gap-2">
+                  <span>CatalystLab Automated Diagnostic Grid</span>
+                </div>
+                <div className="flex items-center gap-3 text-xs text-slate-400 mt-0.5">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3.5 w-3.5 text-slate-500" />
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                     {formattedDate}
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
+<<<<<<< HEAD
                     <Clock className="h-3.5 w-3.5 text-[#a4b7cc]" />
+=======
+                    <Clock className="h-3.5 w-3.5 text-slate-500" />
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                     ~8 min read
                   </span>
                   <span>•</span>
@@ -354,7 +422,11 @@ export const DomainReportArticlePage: React.FC = () => {
                     href={targetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+<<<<<<< HEAD
                     className="flex items-center gap-1 text-[#5882b7] hover:underline font-mono"
+=======
+                    className="flex items-center gap-1 text-cyan-400 hover:underline font-mono"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   >
                     <span>{displayDomain}</span>
                     <ExternalLink className="h-3 w-3" />
@@ -369,7 +441,11 @@ export const DomainReportArticlePage: React.FC = () => {
               <button
                 onClick={handleExportPdf}
                 disabled={isExportingPdf}
+<<<<<<< HEAD
                 className="flex items-center gap-2 rounded-xl bg-[#5882b7] px-4 py-2.5 text-xs font-bold text-[#070e24] hover:bg-[#4872a7] shadow-lg shadow-[#5882b7]/25 transition-all disabled:opacity-50"
+=======
+                className="flex items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2.5 text-xs font-bold text-slate-950 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20 transition-all disabled:opacity-50"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 title="Export PDF Benchmark Dossier"
               >
                 <Download className="h-3.5 w-3.5" />
@@ -379,10 +455,17 @@ export const DomainReportArticlePage: React.FC = () => {
               {/* Share Button */}
               <button
                 onClick={handleCopyLink}
+<<<<<<< HEAD
                 className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors"
                 title="Copy Permalink URL"
               >
                 {copied ? <Check className="h-3.5 w-3.5 text-[#c8beba]" /> : <Share2 className="h-3.5 w-3.5 text-[#5882b7]" />}
+=======
+                className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800/90 px-3.5 py-2.5 text-xs font-semibold text-slate-200 hover:bg-slate-700 hover:text-white transition-colors"
+                title="Copy Permalink URL"
+              >
+                {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Share2 className="h-3.5 w-3.5 text-cyan-400" />}
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 <span>{copied ? 'Copied' : 'Share'}</span>
               </button>
 
@@ -390,10 +473,17 @@ export const DomainReportArticlePage: React.FC = () => {
               <button
                 onClick={() => runLiveAuditForDomain(displayDomain)}
                 disabled={isAuditingLive}
+<<<<<<< HEAD
                 className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors disabled:opacity-50"
                 title="Re-run Diagnostic Telemetry"
               >
                 <RotateCw className={`h-3.5 w-3.5 text-[#a4b7cc] ${isAuditingLive ? 'animate-spin' : ''}`} />
+=======
+                className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800/90 px-3.5 py-2.5 text-xs font-semibold text-slate-200 hover:bg-slate-700 hover:text-white transition-colors disabled:opacity-50"
+                title="Re-run Diagnostic Telemetry"
+              >
+                <RotateCw className={`h-3.5 w-3.5 text-slate-400 ${isAuditingLive ? 'animate-spin' : ''}`} />
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 <span>Re-Audit</span>
               </button>
             </div>
@@ -679,7 +769,11 @@ export const DomainReportArticlePage: React.FC = () => {
             <div className="rounded-xl border border-slate-800 bg-slate-950 p-1">
               <TerminalOutput
                 title={`Telemetry Log Traces: ${displayDomain}`}
+<<<<<<< HEAD
                 icon="bolt"
+=======
+                icon="⚡"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 output={report.output}
                 maxHeight="max-h-[600px]"
               />
@@ -690,6 +784,7 @@ export const DomainReportArticlePage: React.FC = () => {
       </main>
 
       {/* Bottom Sticky Action / Share Strip */}
+<<<<<<< HEAD
       <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#5882b7]/20 bg-[#070e24]/90 backdrop-blur-xl py-3 px-4 sm:px-6">
         <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -697,6 +792,15 @@ export const DomainReportArticlePage: React.FC = () => {
               Benchmark Dossier: <span className="font-mono text-[#5882b7]">{displayDomain}</span>
             </span>
             <span className="text-xs font-mono font-bold text-[#c8beba] bg-[#c8beba]/10 px-2 py-0.5 rounded border border-[#c8beba]/30">
+=======
+      <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-800 bg-slate-950/90 backdrop-blur-xl py-3 px-4 sm:px-6">
+        <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold text-white hidden sm:inline">
+              Benchmark Dossier: <span className="font-mono text-cyan-400">{displayDomain}</span>
+            </span>
+            <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               Grade {telemetry.grade} ({telemetry.overallScore}/100)
             </span>
           </div>
@@ -705,7 +809,11 @@ export const DomainReportArticlePage: React.FC = () => {
             <button
               onClick={handleExportPdf}
               disabled={isExportingPdf}
+<<<<<<< HEAD
               className="flex items-center gap-1.5 rounded-xl bg-[#5882b7] px-4 py-2 text-xs font-bold text-[#070e24] hover:bg-[#4872a7] transition-all shadow-lg shadow-[#5882b7]/20"
+=======
+              className="flex items-center gap-1.5 rounded-xl bg-cyan-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/20"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             >
               <Download className="h-3.5 w-3.5" />
               <span>{isExportingPdf ? 'Exporting...' : 'Export PDF'}</span>
@@ -713,15 +821,25 @@ export const DomainReportArticlePage: React.FC = () => {
 
             <button
               onClick={handleCopyLink}
+<<<<<<< HEAD
               className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-xs font-semibold text-[#f8fafc] hover:bg-[#10214a] hover:text-[#f8fafc]"
             >
               {copied ? <Check className="h-3.5 w-3.5 text-[#c8beba]" /> : <Share2 className="h-3.5 w-3.5 text-[#5882b7]" />}
+=======
+              className="flex items-center gap-1 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-700 hover:text-white"
+            >
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Share2 className="h-3.5 w-3.5 text-cyan-400" />}
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               <span>{copied ? 'Copied' : 'Share'}</span>
             </button>
 
             <Link
               to="/reports"
+<<<<<<< HEAD
               className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-xs font-semibold text-[#a4b7cc] hover:bg-[#10214a] hover:text-[#f8fafc] hidden sm:flex"
+=======
+              className="flex items-center gap-1 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-700 hover:text-white hidden sm:flex"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             >
               <span>Directory</span>
             </Link>

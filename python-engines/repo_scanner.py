@@ -166,6 +166,7 @@ def run_scanner(url):
         if result:
             score, max_score = result
             pct = (score / max_score) * 100
+<<<<<<< HEAD
             print(f"\n=> [METRICS] HYGIENE SCORE: {pct:.0f}/100")
             if pct >= 80:
                 print("=> [PASS] STATUS: EXCELLENT (Enterprise-Ready)")
@@ -173,6 +174,15 @@ def run_scanner(url):
                 print("=> [WARN] STATUS: FAIR (Needs Maintenance)")
             else:
                 print("=> [FAIL] STATUS: AT RISK (Significant Tech Debt)")
+=======
+            print(f"\n=> 📊 HYGIENE SCORE: {pct:.0f}/100")
+            if pct >= 80:
+                print("=> 🟢 STATUS: EXCELLENT (Enterprise-Ready)")
+            elif pct >= 50:
+                print("=> 🟡 STATUS: FAIR (Needs Maintenance)")
+            else:
+                print("=> 🔴 STATUS: AT RISK (Significant Tech Debt)")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 
     except Exception as e:
         print(f"  [!] Network/API Exception: {e}")

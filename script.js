@@ -130,13 +130,21 @@ function renderRecentAudits() {
             <span class="grade ${gradeClass}" style="font-size:0.8rem; padding:0.15rem 0.5rem;">${audit.grade}</span>
           </div>
         </div>
+<<<<<<< HEAD
         <div class="recent-card-date">time ${formattedDate}</div>
+=======
+        <div class="recent-card-date">🕒 ${formattedDate}</div>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         <div class="recent-card-actions">
           <div style="display:flex; gap:0.4rem;">
             <button class="btn btn-secondary btn-sm btn-view-report" data-id="${escapeHtml(audit.id)}">View Report</button>
             <a href="/compare.html?urlA=${encodeURIComponent(audit.url)}" class="btn btn-secondary btn-sm">VS Compare</a>
           </div>
+<<<<<<< HEAD
           <button class="btn-icon btn-delete-audit" data-id="${escapeHtml(audit.id)}" title="Delete from history">delete</button>
+=======
+          <button class="btn-icon btn-delete-audit" data-id="${escapeHtml(audit.id)}" title="Delete from history">🗑️</button>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         </div>
       </div>
     `;
@@ -302,12 +310,20 @@ function initRecentDomainsAutocomplete() {
       dropdown.innerHTML = `
         <div class="dropdown-header">
           <div class="dropdown-header-left">
+<<<<<<< HEAD
             <span>search Recent History</span>
+=======
+            <span>🔍 Recent History</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             <span class="dropdown-badge">0 found</span>
           </div>
         </div>
         <div class="dropdown-empty">
+<<<<<<< HEAD
           <div class="dropdown-empty-icon">public</div>
+=======
+          <div class="dropdown-empty-icon">🌐</div>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           <div>No saved audits match "<strong>${escapeHtml(query)}</strong>"</div>
           <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem;">Press <kbd>Enter</kbd> or click <em>Analyze Health</em> to run a new audit.</div>
         </div>
@@ -327,7 +343,11 @@ function initRecentDomainsAutocomplete() {
     let html = `
       <div class="dropdown-header">
         <div class="dropdown-header-left">
+<<<<<<< HEAD
           <span>time ${headerTitle}</span>
+=======
+          <span>🕒 ${headerTitle}</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           <span class="dropdown-badge">${badgeText}</span>
         </div>
         ${hasHistory ? '<button type="button" class="dropdown-clear-btn" id="dropdownClearAllBtn" title="Clear all recent history">Clear History</button>' : ''}
@@ -362,7 +382,11 @@ function initRecentDomainsAutocomplete() {
               class="dropdown-favicon"
               onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-flex';"
             >
+<<<<<<< HEAD
             <span class="dropdown-favicon" style="display:none;">public</span>
+=======
+            <span class="dropdown-favicon" style="display:none;">🌐</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             
             <div class="dropdown-text-group">
               <div class="dropdown-domain">${highlightedDisplay}</div>
@@ -381,7 +405,11 @@ function initRecentDomainsAutocomplete() {
                 ${item.grade ? `<span class="dropdown-grade-pill grade-${item.grade}">${item.grade}</span>` : ''}
               </span>
             ` : ''}
+<<<<<<< HEAD
             <span class="dropdown-select-hint">Select Enter</span>
+=======
+            <span class="dropdown-select-hint">Select ↵</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             ${!item.isSample && item.id ? `
               <button 
                 type="button" 
@@ -389,7 +417,11 @@ function initRecentDomainsAutocomplete() {
                 data-delete-id="${escapeHtml(item.id)}" 
                 title="Remove from history"
                 aria-label="Remove ${escapeHtml(item.host)} from history"
+<<<<<<< HEAD
               >close</button>
+=======
+              >✕</button>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             ` : ''}
           </div>
         </li>
@@ -400,7 +432,11 @@ function initRecentDomainsAutocomplete() {
       </ul>
       <div class="dropdown-footer">
         <span><kbd>↑</kbd> <kbd>↓</kbd> Navigate</span>
+<<<<<<< HEAD
         <span><kbd>Enter</kbd> Select</span>
+=======
+        <span><kbd>↵</kbd> Select</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         <span><kbd>Esc</kbd> Dismiss</span>
       </div>
     `;
@@ -556,6 +592,7 @@ function initRecentDomainsAutocomplete() {
 // Granular Audit Progress & Real-Time Telemetry Controller
 // ============================================================
 const AUDIT_DIMENSIONS_CONFIG = [
+<<<<<<< HEAD
   { key: 'seo', name: 'SEO Architecture', icon: 'search', desc: 'Title, meta, headings & crawler indexability' },
   { key: 'security', name: 'Security & SecOps', icon: 'shield', desc: 'HTTPS, HSTS, CSP, X-Frame & TLS security' },
   { key: 'performance', name: 'Performance & Vitals', icon: 'bolt', desc: 'Core Web Vitals, LCP, CLS & load timing' },
@@ -566,6 +603,18 @@ const AUDIT_DIMENSIONS_CONFIG = [
   { key: 'web_standards', name: 'Web Standards & HTML5', icon: 'architecture', desc: 'HTML5 DOCTYPE, DOM tree depth & validity' },
   { key: 'ai_readiness', name: 'AI & LLM Readiness', icon: 'smart_toy', desc: 'llms.txt, MCP agent endpoints & schemas' },
   { key: 'ux_ecosystem', name: 'UX & Ecosystem', icon: 'auto_awesome', desc: 'PWA manifest, modern stack & resource hints' }
+=======
+  { key: 'seo', name: 'SEO Architecture', icon: '🔍', desc: 'Title, meta, headings & crawler indexability' },
+  { key: 'security', name: 'Security & SecOps', icon: '🛡️', desc: 'HTTPS, HSTS, CSP, X-Frame & TLS security' },
+  { key: 'performance', name: 'Performance & Vitals', icon: '⚡', desc: 'Core Web Vitals, LCP, CLS & load timing' },
+  { key: 'mobile', name: 'Mobile & Touch', icon: '📱', desc: 'Viewport meta, touch targets & responsiveness' },
+  { key: 'accessibility', name: 'Accessibility (WCAG)', icon: '♿', desc: 'Alt text, ARIA landmarks, contrast & labels' },
+  { key: 'social', name: 'Social Graph & OG', icon: '🌐', desc: 'Open Graph, Twitter cards & preview metadata' },
+  { key: 'ethical', name: 'Digital Ethics & Green', icon: '🌱', desc: 'Carbon footprint, sustainability & trackers' },
+  { key: 'web_standards', name: 'Web Standards & HTML5', icon: '📐', desc: 'HTML5 DOCTYPE, DOM tree depth & validity' },
+  { key: 'ai_readiness', name: 'AI & LLM Readiness', icon: '🤖', desc: 'llms.txt, MCP agent endpoints & schemas' },
+  { key: 'ux_ecosystem', name: 'UX & Ecosystem', icon: '✨', desc: 'PWA manifest, modern stack & resource hints' }
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 ];
 
 class GranularProgressController {
@@ -604,7 +653,11 @@ class GranularProgressController {
           </div>
         </div>
         <div class="dim-card-status">
+<<<<<<< HEAD
           <span class="dim-status-pill pill-pending">o Queued</span>
+=======
+          <span class="dim-status-pill pill-pending">○ Queued</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         </div>
       `;
       this.gridEl.appendChild(card);
@@ -636,7 +689,11 @@ class GranularProgressController {
       card.className = 'dimension-progress-card state-active';
       const statusEl = card.querySelector('.dim-card-status');
       if (statusEl) {
+<<<<<<< HEAD
         statusEl.innerHTML = `<span class="dim-status-pill pill-active">* Scanning...</span>`;
+=======
+        statusEl.innerHTML = `<span class="dim-status-pill pill-active">● Scanning...</span>`;
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       }
     }
     if (dim) {
@@ -656,7 +713,11 @@ class GranularProgressController {
       if (statusEl) {
         const numericScore = typeof score === 'number' ? Math.round(score) : (score || 0);
         const pillClass = numericScore >= 90 ? 'pill-pass' : (numericScore >= 70 ? 'pill-warn' : 'pill-fail');
+<<<<<<< HEAD
         const badgeIcon = numericScore >= 90 ? 'check' : (numericScore >= 70 ? '^' : 'close');
+=======
+        const badgeIcon = numericScore >= 90 ? '✓' : (numericScore >= 70 ? '▲' : '✕');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         statusEl.innerHTML = `<span class="dim-status-pill ${pillClass}">${badgeIcon} ${numericScore}/100</span>`;
       }
       if (detail) {
@@ -1278,7 +1339,11 @@ function applyReportFilters() {
 
     const expandIcon = document.createElement('span');
     expandIcon.className = 'expand-icon';
+<<<<<<< HEAD
     expandIcon.innerHTML = 'v';
+=======
+    expandIcon.innerHTML = '▼';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
     summary.appendChild(headerInfo);
     summary.appendChild(expandIcon);
@@ -1326,7 +1391,11 @@ function applyReportFilters() {
         contentDiv.appendChild(item);
       });
     } else {
+<<<<<<< HEAD
       contentDiv.innerHTML = `<p style="color:#16a34a; font-weight:600;">[OK] No matching issues for this category.</p>`;
+=======
+      contentDiv.innerHTML = `<p style="color:#16a34a; font-weight:600;">✅ No matching issues for this category.</p>`;
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     }
 
     card.appendChild(contentDiv);
@@ -1398,8 +1467,13 @@ function setupReportActions(report) {
         // Copy to clipboard
         if (navigator.clipboard) {
           navigator.clipboard.writeText(publicUrl);
+<<<<<<< HEAD
           saveBtn.textContent = '[OK] Link Copied!';
           setTimeout(() => { saveBtn.textContent = 'link Share Report Link'; }, 3000);
+=======
+          saveBtn.textContent = '✅ Link Copied!';
+          setTimeout(() => { saveBtn.textContent = '🔗 Share Report Link'; }, 3000);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         }
       } else {
         alert('This report is ready to share. Report ID: ' + report.id);
@@ -1473,7 +1547,11 @@ function buildEmailSummaryText(report, options = {}) {
         summary += `\n[${label}]\n`;
         issues.slice(0, 3).forEach(issue => {
           issueCount++;
+<<<<<<< HEAD
           const icon = issue.status === 'fail' ? 'close' : 'warning';
+=======
+          const icon = issue.status === 'fail' ? '❌' : '⚠️';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           summary += `  ${icon} ${issue.check}: ${issue.message}\n`;
           if (issue.recommendation) {
             summary += `     Fix: ${issue.recommendation}\n`;
@@ -1635,14 +1713,22 @@ function setupEmailReportModal(report) {
       const email = opts.recipient;
 
       if (!email || !email.includes('@') || !email.includes('.')) {
+<<<<<<< HEAD
         showAlert('warning Please enter a valid recipient email address (e.g. name@domain.com).', 'error');
+=======
+        showAlert('⚠️ Please enter a valid recipient email address (e.g. name@domain.com).', 'error');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         if (recipientInput) recipientInput.focus();
         return;
       }
 
       btnSendApi.disabled = true;
       const originalHtml = btnSendApi.innerHTML;
+<<<<<<< HEAD
       btnSendApi.innerHTML = 'progress_activity Sending Dispatch…';
+=======
+      btnSendApi.innerHTML = '⏳ Sending Dispatch…';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       hideAlert();
 
       try {
@@ -1668,15 +1754,24 @@ function setupEmailReportModal(report) {
         // Save last email to localStorage
         localStorage.setItem('catalyst_last_email', email);
 
+<<<<<<< HEAD
         showAlert(`[OK] Audit summary successfully delivered to <strong>${escapeHtml(email)}</strong> (ID: ${escapeHtml(data.messageId)}).`, 'success');
         btnSendApi.innerHTML = '[OK] Dispatched!';
+=======
+        showAlert(`✅ Audit summary successfully delivered to <strong>${escapeHtml(email)}</strong> (ID: ${escapeHtml(data.messageId)}).`, 'success');
+        btnSendApi.innerHTML = '✅ Dispatched!';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         setTimeout(() => {
           btnSendApi.disabled = false;
           btnSendApi.innerHTML = originalHtml;
         }, 4000);
       } catch (err) {
         console.error('Email API Error:', err);
+<<<<<<< HEAD
         showAlert(`close Delivery error: ${escapeHtml(err.message)}`, 'error');
+=======
+        showAlert(`❌ Delivery error: ${escapeHtml(err.message)}`, 'error');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         btnSendApi.disabled = false;
         btnSendApi.innerHTML = originalHtml;
       }
@@ -1697,7 +1792,11 @@ function setupEmailReportModal(report) {
         localStorage.setItem('catalyst_last_email', recipient);
       }
 
+<<<<<<< HEAD
       showAlert('mail Launching your default email application with pre-filled audit content...', 'info');
+=======
+      showAlert('✉️ Launching your default email application with pre-filled audit content...', 'info');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
       const mailtoAnchor = document.createElement('a');
       mailtoAnchor.href = mailtoUrl;
@@ -1728,14 +1827,23 @@ function setupEmailReportModal(report) {
         }
 
         const origBtnText = btnCopyText.innerHTML;
+<<<<<<< HEAD
         btnCopyText.innerHTML = '[OK] Copied!';
         showAlert('content_paste Audit summary text copied to clipboard. Ready to paste in any message or email.', 'info');
+=======
+        btnCopyText.innerHTML = '✅ Copied!';
+        showAlert('📋 Audit summary text copied to clipboard. Ready to paste in any message or email.', 'info');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         setTimeout(() => {
           btnCopyText.innerHTML = origBtnText;
         }, 3000);
       } catch (err) {
         console.error('Clipboard copy error:', err);
+<<<<<<< HEAD
         showAlert('warning Unable to access clipboard automatically.', 'error');
+=======
+        showAlert('⚠️ Unable to access clipboard automatically.', 'error');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       }
     });
   }
@@ -1747,7 +1855,11 @@ async function exportReportToPdf(report) {
   const originalText = exportBtn ? exportBtn.innerHTML : '';
   if (exportBtn) {
     exportBtn.disabled = true;
+<<<<<<< HEAD
     exportBtn.innerHTML = 'progress_activity Generating PDF…';
+=======
+    exportBtn.innerHTML = '⏳ Generating PDF…';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   }
 
   try {
@@ -1937,11 +2049,19 @@ function renderComparisonResults(reportA, reportB) {
 
   if (reportA.overall_score > reportB.overall_score) {
     ribbonA.style.display = 'block';
+<<<<<<< HEAD
     ribbonA.textContent = `emoji_events +${(reportA.overall_score - reportB.overall_score).toFixed(1)} PTS HIGHER`;
     cardA.classList.add('winner');
   } else if (reportB.overall_score > reportA.overall_score) {
     ribbonB.style.display = 'block';
     ribbonB.textContent = `emoji_events +${(reportB.overall_score - reportA.overall_score).toFixed(1)} PTS HIGHER`;
+=======
+    ribbonA.textContent = `🏆 +${(reportA.overall_score - reportB.overall_score).toFixed(1)} PTS HIGHER`;
+    cardA.classList.add('winner');
+  } else if (reportB.overall_score > reportA.overall_score) {
+    ribbonB.style.display = 'block';
+    ribbonB.textContent = `🏆 +${(reportB.overall_score - reportA.overall_score).toFixed(1)} PTS HIGHER`;
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     cardB.classList.add('winner');
   }
 
@@ -1986,8 +2106,13 @@ function setupCompareActions(reportA, reportB) {
       const compUrl = `${window.location.origin}/compare.html?urlA=${encodeURIComponent(reportA.url)}&urlB=${encodeURIComponent(reportB.url)}`;
       if (navigator.clipboard) {
         navigator.clipboard.writeText(compUrl);
+<<<<<<< HEAD
         shareBtn.textContent = '[OK] Link Copied!';
         setTimeout(() => { shareBtn.textContent = 'link Share Comparison Link'; }, 3000);
+=======
+        shareBtn.textContent = '✅ Link Copied!';
+        setTimeout(() => { shareBtn.textContent = '🔗 Share Comparison Link'; }, 3000);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       }
     };
   }
@@ -2124,8 +2249,13 @@ function setupCompareActions(reportA, reportB) {
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(text);
         const orig = btnCopyText.innerHTML;
+<<<<<<< HEAD
         btnCopyText.innerHTML = '[OK] Copied!';
         showAlert('content_paste Comparison summary copied to clipboard.', 'info');
+=======
+        btnCopyText.innerHTML = '✅ Copied!';
+        showAlert('📋 Comparison summary copied to clipboard.', 'info');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         setTimeout(() => { btnCopyText.innerHTML = orig; }, 3000);
       }
     };
@@ -2137,7 +2267,11 @@ function setupCompareActions(reportA, reportB) {
       const opts = getCompareOptions();
       const body = buildCompareText(opts);
       const mailto = `mailto:${encodeURIComponent(opts.recipient)}?subject=${encodeURIComponent(opts.subject)}&body=${encodeURIComponent(body)}`;
+<<<<<<< HEAD
       showAlert('mail Launching your mail application...', 'info');
+=======
+      showAlert('✉️ Launching your mail application...', 'info');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       const a = document.createElement('a');
       a.href = mailto;
       a.target = '_blank';
@@ -2152,14 +2286,22 @@ function setupCompareActions(reportA, reportB) {
     btnSendApi.onclick = async () => {
       const opts = getCompareOptions();
       if (!opts.recipient || !opts.recipient.includes('@')) {
+<<<<<<< HEAD
         showAlert('warning Please enter a valid recipient email address.', 'error');
+=======
+        showAlert('⚠️ Please enter a valid recipient email address.', 'error');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         if (recipientInput) recipientInput.focus();
         return;
       }
 
       btnSendApi.disabled = true;
       const orig = btnSendApi.innerHTML;
+<<<<<<< HEAD
       btnSendApi.innerHTML = 'progress_activity Sending Dispatch…';
+=======
+      btnSendApi.innerHTML = '⏳ Sending Dispatch…';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       hideAlert();
 
       try {
@@ -2216,14 +2358,23 @@ function setupCompareActions(reportA, reportB) {
         if (!res.ok) throw new Error(data.error || 'Failed to deliver comparison email.');
 
         localStorage.setItem('catalyst_last_email', opts.recipient);
+<<<<<<< HEAD
         showAlert(`[OK] Comparison successfully delivered to <strong>${escapeHtml(opts.recipient)}</strong>!`, 'success');
         btnSendApi.innerHTML = '[OK] Dispatched!';
+=======
+        showAlert(`✅ Comparison successfully delivered to <strong>${escapeHtml(opts.recipient)}</strong>!`, 'success');
+        btnSendApi.innerHTML = '✅ Dispatched!';
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         setTimeout(() => {
           btnSendApi.disabled = false;
           btnSendApi.innerHTML = orig;
         }, 4000);
       } catch (err) {
+<<<<<<< HEAD
         showAlert(`close Delivery error: ${escapeHtml(err.message)}`, 'error');
+=======
+        showAlert(`❌ Delivery error: ${escapeHtml(err.message)}`, 'error');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         btnSendApi.disabled = false;
         btnSendApi.innerHTML = orig;
       }
@@ -2357,7 +2508,11 @@ function renderComparisonBreakdown(reportA, reportB) {
         <span class="cat-score-badge ${dataA.score >= 90 ? 'score-good' : 'score-warn'}">A: ${dataA.score}</span>
         <span class="cat-score-badge ${dataB.score >= 90 ? 'score-good' : 'score-warn'}">B: ${dataB.score}</span>
       </div>
+<<<<<<< HEAD
       <span class="expand-icon">v</span>
+=======
+      <span class="expand-icon">▼</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     `;
 
     const content = document.createElement('div');
@@ -2389,7 +2544,11 @@ function renderComparisonBreakdown(reportA, reportB) {
 
 function renderFindingsList(parentEl, issues, domainUrl) {
   if (!issues || issues.length === 0) {
+<<<<<<< HEAD
     parentEl.innerHTML += `<p style="color:#16a34a; font-weight:600; font-size:0.9rem; padding:0.5rem 0;">[OK] No issues detected.</p>`;
+=======
+    parentEl.innerHTML += `<p style="color:#16a34a; font-weight:600; font-size:0.9rem; padding:0.5rem 0;">✅ No issues detected.</p>`;
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     return;
   }
 
@@ -2817,12 +2976,20 @@ document.addEventListener('DOMContentLoaded', async function () {
               <span class="grade ${gradeClass}" style="font-size:0.8rem; padding:0.15rem 0.5rem;">${report.grade}</span>
             </div>
           </div>
+<<<<<<< HEAD
           <div class="recent-card-date">time ${formattedDate}</div>
+=======
+          <div class="recent-card-date">🕒 ${formattedDate}</div>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           <div class="recent-card-actions">
             <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
               <a href="/reports/${report.id}" class="btn btn-secondary btn-sm">View Report</a>
               <a href="/compare.html?urlA=${encodeURIComponent(report.url)}" class="btn btn-secondary btn-sm">VS Compare</a>
+<<<<<<< HEAD
               <button type="button" class="btn btn-secondary btn-sm" onclick="quickEmailReport('${escapeHtml(report.id)}', '${escapeHtml(report.url)}', ${report.overall_score}, '${escapeHtml(report.grade)}')">mail Email</button>
+=======
+              <button type="button" class="btn btn-secondary btn-sm" onclick="quickEmailReport('${escapeHtml(report.id)}', '${escapeHtml(report.url)}', ${report.overall_score}, '${escapeHtml(report.grade)}')">📧 Email</button>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </div>
           </div>
         </div>
@@ -2880,9 +3047,15 @@ document.addEventListener('DOMContentLoaded', async function () {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to dispatch email');
+<<<<<<< HEAD
       alert(`[OK] Audit summary successfully emailed to ${cleanEmail}! (Message ID: ${data.messageId})`);
     } catch (err) {
       alert(`close Delivery error: ${err.message}`);
+=======
+      alert(`✅ Audit summary successfully emailed to ${cleanEmail}! (Message ID: ${data.messageId})`);
+    } catch (err) {
+      alert(`❌ Delivery error: ${err.message}`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     }
   };
 
@@ -3053,8 +3226,13 @@ document.addEventListener('DOMContentLoaded', async function () {
           <header class="blog-card-header">
             <h2 class="blog-card-title">${escapeHtml(blog.title)}</h2>
             <div class="blog-card-meta">
+<<<<<<< HEAD
               <span>user ${escapeHtml(blog.author)}</span>
               <span>time ${formattedDate}</span>
+=======
+              <span>👤 ${escapeHtml(blog.author)}</span>
+              <span>🕒 ${formattedDate}</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </div>
           </header>
           <div class="blog-card-content">

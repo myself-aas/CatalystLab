@@ -14,18 +14,26 @@ import { BlogsPage } from './pages/BlogsPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { ContactPage } from './pages/ContactPage';
 import { LegalPage } from './pages/LegalPage';
+<<<<<<< HEAD
 import { PricingPage } from './pages/PricingPage';
 import { DocsPage } from './pages/DocsPage';
 
 export const App: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col bg-[#f4f6fa] text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
+=======
+
+export const App: React.FC = () => {
+  return (
+    <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       <Navbar />
       <div className="flex-1">
         <Routes>
           <Route path="/" element={<MasterAuditPage />} />
           <Route path="/index.html" element={<Navigate to="/" replace />} />
           
+<<<<<<< HEAD
           {/* Main Navigation Pages */}
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/pricing.html" element={<PricingPage />} />
@@ -36,6 +44,8 @@ export const App: React.FC = () => {
           <Route path="/about" element={<MethodologyPage />} />
           <Route path="/about.html" element={<MethodologyPage />} />
           
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           {/* User Dashboard & Reports */}
           <Route path="/dashboard" element={<UserDashboardPage />} />
           <Route path="/dashboard.html" element={<UserDashboardPage />} />
@@ -109,4 +119,7 @@ export const App: React.FC = () => {
   );
 };
 export default App;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4

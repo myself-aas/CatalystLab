@@ -138,11 +138,16 @@ export const SiteMonitoringView: React.FC = () => {
 
       const updatedSites = await Promise.all(probePromises);
       setSites(updatedSites);
+<<<<<<< HEAD
       setFeedbackMsg({ text: `All ${sites.length} endpoints successfully probed!`, type: 'success' });
       setTimeout(() => setFeedbackMsg(null), 4000);
     } catch (err: any) {
       console.error("Probe all error:", err);
       setFeedbackMsg({ text: `Failed to probe all endpoints: ${err.message}`, type: 'error' });
+=======
+      setFeedbackMsg({ text: `Successfully probed ${sites.length} endpoints simultaneously!`, type: 'success' });
+      setTimeout(() => setFeedbackMsg(null), 4000);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     } finally {
       setProbingAll(false);
     }
@@ -150,6 +155,7 @@ export const SiteMonitoringView: React.FC = () => {
 
   const handleAddSite = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
     if (!formData.name || !formData.url) return;
 
     setSavingSite(true);
@@ -166,10 +172,28 @@ export const SiteMonitoringView: React.FC = () => {
         notes: formData.notes.trim(),
         status: 'untested',
         ownerId: 'system',
+=======
+    if (!formData.name.trim() || !formData.url.trim()) return;
+
+    setSavingSite(true);
+    try {
+      let cleanUrl = formData.url.trim();
+      if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+        cleanUrl = 'https://' + cleanUrl;
+      }
+
+      const newSite: Partial<MonitoredSite> = {
+        name: formData.name.trim(),
+        url: cleanUrl,
+        checkIntervalMinutes: Number(formData.checkIntervalMinutes) || 5,
+        notes: formData.notes.trim(),
+        status: 'untested',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         createdAt: Date.now()
       };
 
       const docId = await saveMonitoredSite(newSite);
+<<<<<<< HEAD
       setShowAddModal(false);
       setFormData({ name: '', url: '', checkIntervalMinutes: 5, notes: '' });
       await fetchSites();
@@ -180,11 +204,28 @@ export const SiteMonitoringView: React.FC = () => {
     } catch (err: any) {
       console.error("Error adding site:", err);
       alert("Failed to add monitored site: " + err.message);
+=======
+      const createdSite: MonitoredSite = {
+        ...newSite,
+        id: docId,
+        ownerId: 'admin'
+      } as MonitoredSite;
+
+      setSites((prev) => [createdSite, ...prev]);
+      setShowAddModal(false);
+      setFormData({ name: '', url: '', checkIntervalMinutes: 5, notes: '' });
+
+      // Run initial probe
+      handleProbeSite(createdSite);
+    } catch (err: any) {
+      alert(`Error saving endpoint: ${err.message}`);
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     } finally {
       setSavingSite(false);
     }
   };
 
+<<<<<<< HEAD
   const handleDeleteSite = async (id: string, name: string) => {
     if (!confirm(`Are you sure you want to remove "${name}" from continuous telemetry monitoring?`)) return;
     try {
@@ -198,6 +239,19 @@ export const SiteMonitoringView: React.FC = () => {
     }
   };
 
+=======
+  const handleDeleteSite = async (siteId: string, name: string) => {
+    if (!confirm(`Are you sure you want to stop monitoring ${name}?`)) return;
+    try {
+      await deleteMonitoredSite(siteId);
+      setSites((prev) => prev.filter((s) => s.id !== siteId));
+    } catch (err: any) {
+      alert(`Error deleting site: ${err.message}`);
+    }
+  };
+
+  // Metrics computation
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
   const healthyCount = sites.filter((s) => s.status === 'healthy').length;
   const degradedCount = sites.filter((s) => s.status === 'degraded').length;
   const downCount = sites.filter((s) => s.status === 'down').length;
@@ -207,12 +261,17 @@ export const SiteMonitoringView: React.FC = () => {
     : 0;
 
   return (
+<<<<<<< HEAD
     <div className="space-y-8 text-[#0b192c]">
+=======
+    <div className="space-y-8">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
       
       {/* Action Notification Toast */}
       {feedbackMsg && (
         <div className={`rounded-xl p-4 text-xs font-semibold flex items-center justify-between border ${
           feedbackMsg.type === 'success' 
+<<<<<<< HEAD
             ? 'bg-[#0b192c] border-[#415a77]/40 text-[#c5d3e8]' 
             : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
         }`}>
@@ -220,11 +279,19 @@ export const SiteMonitoringView: React.FC = () => {
           <button onClick={() => setFeedbackMsg(null)} className="text-[#c5d3e8] hover:text-[#f8fafc]">
             <span className="material-symbols-outlined text-sm">close</span>
           </button>
+=======
+            ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300' 
+            : 'bg-red-950/40 border-red-500/40 text-red-300'
+        }`}>
+          <span>{feedbackMsg.text}</span>
+          <button onClick={() => setFeedbackMsg(null)} className="text-slate-400 hover:text-white">✕</button>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         </div>
       )}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+<<<<<<< HEAD
         <div className="rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-5 shadow-md text-[#f8fafc]">
           <div className="flex items-center justify-between text-xs font-medium text-[#c5d3e8]">
             <span>Monitored Sites</span>
@@ -238,21 +305,46 @@ export const SiteMonitoringView: React.FC = () => {
 
         <div className="rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-5 shadow-md text-[#f8fafc]">
           <div className="flex items-center justify-between text-xs font-medium text-[#c5d3e8]">
+=======
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
+          <div className="flex items-center justify-between text-xs font-medium text-slate-400">
+            <span>Monitored Sites</span>
+            <Globe className="h-4 w-4 text-cyan-400" />
+          </div>
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl font-black text-white">{sites.length}</span>
+            <span className="text-xs text-slate-500">endpoints</span>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
+          <div className="flex items-center justify-between text-xs font-medium text-slate-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             <span>Healthy Status</span>
             <CheckCircle2 className="h-4 w-4 text-emerald-400" />
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black text-emerald-400">{healthyCount}</span>
+<<<<<<< HEAD
             <span className="text-xs text-[#c5d3e8]/70">/ {sites.length} online</span>
           </div>
         </div>
 
         <div className="rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-5 shadow-md text-[#f8fafc]">
           <div className="flex items-center justify-between text-xs font-medium text-[#c5d3e8]">
+=======
+            <span className="text-xs text-slate-500">/ {sites.length} online</span>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
+          <div className="flex items-center justify-between text-xs font-medium text-slate-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             <span>Issues / Down</span>
             <AlertTriangle className="h-4 w-4 text-amber-400" />
           </div>
           <div className="mt-2 flex items-baseline gap-2">
+<<<<<<< HEAD
             <span className={`text-2xl font-black ${downCount > 0 ? 'text-rose-400' : degradedCount > 0 ? 'text-amber-400' : 'text-[#c5d3e8]'}`}>
               {degradedCount + downCount}
             </span>
@@ -268,6 +360,23 @@ export const SiteMonitoringView: React.FC = () => {
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black text-[#c5d3e8]">{avgLatency}</span>
             <span className="text-xs text-[#c5d3e8]/70">ms TTFB</span>
+=======
+            <span className={`text-2xl font-black ${downCount > 0 ? 'text-red-400' : degradedCount > 0 ? 'text-amber-400' : 'text-slate-400'}`}>
+              {degradedCount + downCount}
+            </span>
+            <span className="text-xs text-slate-500">alerts</span>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
+          <div className="flex items-center justify-between text-xs font-medium text-slate-400">
+            <span>Average Latency</span>
+            <Zap className="h-4 w-4 text-cyan-400" />
+          </div>
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-2xl font-black text-cyan-400">{avgLatency}</span>
+            <span className="text-xs text-slate-500">ms TTFB</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           </div>
         </div>
       </div>
@@ -275,11 +384,19 @@ export const SiteMonitoringView: React.FC = () => {
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
+<<<<<<< HEAD
           <h2 className="text-lg font-bold text-[#0b192c] flex items-center gap-2">
             <Activity className="h-5 w-5 text-[#415a77]" />
             <span>Target Endpoints & Synthetic Health Radar</span>
           </h2>
           <p className="text-xs text-[#415a77] mt-0.5">
+=======
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <Activity className="h-5 w-5 text-cyan-400" />
+            <span>Target Endpoints & Synthetic Health Radar</span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-0.5">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             Continuous HTTP probes, SSL certificate validation, and real-time response latency.
           </p>
         </div>
@@ -288,15 +405,25 @@ export const SiteMonitoringView: React.FC = () => {
           <button
             onClick={handleProbeAll}
             disabled={probingAll || sites.length === 0}
+<<<<<<< HEAD
             className="flex items-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#0b192c] px-4 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#152238] disabled:opacity-50 transition-all shadow-sm"
           >
             <RefreshCw className={`h-3.5 w-3.5 text-[#c5d3e8] ${probingAll ? 'animate-spin' : ''}`} />
+=======
+            className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-xs font-semibold text-slate-200 hover:bg-slate-800 disabled:opacity-50 transition-all shadow-sm"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 text-cyan-400 ${probingAll ? 'animate-spin' : ''}`} />
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             <span>{probingAll ? 'Probing Cluster...' : 'Probe All Sites'}</span>
           </button>
 
           <button
             onClick={() => setShowAddModal(true)}
+<<<<<<< HEAD
             className="flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] transition-all shadow-md"
+=======
+            className="flex items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2.5 text-xs font-bold text-slate-950 hover:bg-cyan-400 transition-all shadow-md shadow-cyan-500/20"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           >
             <Plus className="h-3.5 w-3.5" />
             <span>Add Monitored Site</span>
@@ -305,6 +432,7 @@ export const SiteMonitoringView: React.FC = () => {
       </div>
 
       {/* Monitored Sites Table */}
+<<<<<<< HEAD
       <div className="overflow-hidden rounded-2xl border border-[#415a77]/30 bg-[#0b192c] shadow-xl text-[#f8fafc]">
         {loading ? (
           <div className="py-16 text-center text-[#c5d3e8] text-sm">
@@ -316,11 +444,28 @@ export const SiteMonitoringView: React.FC = () => {
             <Globe className="mx-auto h-8 w-8 text-[#415a77]/60 mb-3" />
             <h3 className="text-base font-bold text-[#f8fafc]">No Monitored Sites Configured</h3>
             <p className="mt-1 text-xs text-[#c5d3e8] max-w-sm mx-auto">
+=======
+      <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-xl backdrop-blur-md">
+        {loading ? (
+          <div className="py-16 text-center text-slate-500 text-sm">
+            <div className="animate-spin inline-block mb-2">⏳</div>
+            <div>Loading monitored endpoints...</div>
+          </div>
+        ) : sites.length === 0 ? (
+          <div className="py-16 text-center text-slate-400">
+            <Globe className="mx-auto h-8 w-8 text-slate-600 mb-3" />
+            <h3 className="text-base font-bold text-slate-300">No Monitored Sites Configured</h3>
+            <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               Add your primary web services, client applications, or microservice gateways for real-time uptime checks.
             </p>
             <button
               onClick={() => setShowAddModal(true)}
+<<<<<<< HEAD
               className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e]"
+=======
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-cyan-400"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Add Your First Endpoint</span>
@@ -330,7 +475,11 @@ export const SiteMonitoringView: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
+<<<<<<< HEAD
                 <tr className="border-b border-[#415a77]/30 bg-[#152238] text-[11px] font-bold uppercase tracking-wider text-[#c5d3e8]">
+=======
+                <tr className="border-b border-slate-800 bg-slate-950/60 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   <th className="py-3.5 px-4 sm:px-6">Endpoint & Host</th>
                   <th className="py-3.5 px-4">Status</th>
                   <th className="py-3.5 px-4">Latency</th>
@@ -340,6 +489,7 @@ export const SiteMonitoringView: React.FC = () => {
                   <th className="py-3.5 px-4 sm:px-6 text-right">Actions</th>
                 </tr>
               </thead>
+<<<<<<< HEAD
               <tbody className="divide-y divide-[#415a77]/20 text-xs text-[#ebe9e6]">
                 {sites.map((site) => {
                   const isCurrentlyProbing = probingId === site.id;
@@ -349,6 +499,17 @@ export const SiteMonitoringView: React.FC = () => {
                       {/* Name & URL */}
                       <td className="py-4 px-4 sm:px-6">
                         <div className="font-bold text-[#f8fafc] flex items-center gap-2">
+=======
+              <tbody className="divide-y divide-slate-800/60 text-xs">
+                {sites.map((site) => {
+                  const isCurrentlyProbing = probingId === site.id;
+                  return (
+                    <tr key={site.id} className="hover:bg-slate-800/30 transition-colors">
+                      
+                      {/* Name & URL */}
+                      <td className="py-4 px-4 sm:px-6">
+                        <div className="font-bold text-white flex items-center gap-2">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                           <span>{site.name}</span>
                         </div>
                         <div className="flex items-center gap-1.5 mt-0.5">
@@ -356,7 +517,11 @@ export const SiteMonitoringView: React.FC = () => {
                             href={site.url}
                             target="_blank"
                             rel="noreferrer"
+<<<<<<< HEAD
                             className="font-mono text-xs text-[#c5d3e8] hover:underline inline-flex items-center gap-1 max-w-[240px] truncate"
+=======
+                            className="font-mono text-xs text-cyan-400 hover:underline inline-flex items-center gap-1 max-w-[240px] truncate"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                           >
                             {site.url}
                             <ExternalLink className="h-3 w-3 shrink-0" />
@@ -367,7 +532,11 @@ export const SiteMonitoringView: React.FC = () => {
                       {/* Status */}
                       <td className="py-4 px-4 whitespace-nowrap">
                         {site.status === 'healthy' ? (
+<<<<<<< HEAD
                           <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2.5 py-1 font-semibold text-emerald-400">
+=======
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-semibold text-emerald-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                             <span>Operational</span>
                           </span>
@@ -377,12 +546,20 @@ export const SiteMonitoringView: React.FC = () => {
                             <span>Degraded</span>
                           </span>
                         ) : site.status === 'down' ? (
+<<<<<<< HEAD
                           <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-2.5 py-1 font-semibold text-rose-400">
+=======
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-1 font-semibold text-red-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                             <XCircle className="h-3 w-3" />
                             <span>Outage</span>
                           </span>
                         ) : (
+<<<<<<< HEAD
                           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#415a77]/30 bg-[#152238] px-2.5 py-1 font-semibold text-[#c5d3e8]">
+=======
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-800 px-2.5 py-1 font-semibold text-slate-400">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                             <span>Untested</span>
                           </span>
                         )}
@@ -391,11 +568,19 @@ export const SiteMonitoringView: React.FC = () => {
                       {/* Latency */}
                       <td className="py-4 px-4 font-mono font-bold whitespace-nowrap">
                         {site.responseTimeMs !== undefined ? (
+<<<<<<< HEAD
                           <span className={site.responseTimeMs < 200 ? 'text-emerald-400' : site.responseTimeMs < 600 ? 'text-[#c5d3e8]' : 'text-rose-400'}>
                             {site.responseTimeMs} ms
                           </span>
                         ) : (
                           <span className="text-[#c5d3e8]/50">—</span>
+=======
+                          <span className={site.responseTimeMs < 200 ? 'text-emerald-400' : site.responseTimeMs < 600 ? 'text-amber-400' : 'text-red-400'}>
+                            {site.responseTimeMs} ms
+                          </span>
+                        ) : (
+                          <span className="text-slate-600">—</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                         )}
                       </td>
 
@@ -404,22 +589,37 @@ export const SiteMonitoringView: React.FC = () => {
                         {site.statusCode ? (
                           <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
                             site.statusCode < 300 
+<<<<<<< HEAD
                               ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' 
                               : site.statusCode < 400 
                               ? 'bg-[#415a77]/25 text-[#c5d3e8] border border-[#415a77]/40' 
                               : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+=======
+                              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+                              : site.statusCode < 400 
+                              ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' 
+                              : 'bg-red-500/10 text-red-400 border border-red-500/20'
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                           }`}>
                             HTTP {site.statusCode}
                           </span>
                         ) : (
+<<<<<<< HEAD
                           <span className="text-[#c5d3e8]/50">—</span>
+=======
+                          <span className="text-slate-600">—</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                         )}
                       </td>
 
                       {/* SSL Certificate */}
                       <td className="py-4 px-4 whitespace-nowrap">
                         {site.sslValid ? (
+<<<<<<< HEAD
                           <span className="flex items-center gap-1.5 text-[#ebe9e6]">
+=======
+                          <span className="flex items-center gap-1.5 text-slate-300">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                             <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                             <span>{site.sslDaysRemaining ?? 90}d remaining</span>
                           </span>
@@ -432,7 +632,11 @@ export const SiteMonitoringView: React.FC = () => {
                       </td>
 
                       {/* Last Checked */}
+<<<<<<< HEAD
                       <td className="py-4 px-4 text-[#c5d3e8] whitespace-nowrap font-mono text-[11px]">
+=======
+                      <td className="py-4 px-4 text-slate-400 whitespace-nowrap font-mono text-[11px]">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                         {site.lastCheckedAt ? (
                           <span>{new Date(site.lastCheckedAt).toLocaleTimeString()}</span>
                         ) : (
@@ -446,15 +650,26 @@ export const SiteMonitoringView: React.FC = () => {
                           <button
                             onClick={() => handleProbeSite(site)}
                             disabled={isCurrentlyProbing}
+<<<<<<< HEAD
                             className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-colors"
                             title="Instant Probe"
                           >
                             <Zap className={`h-3.5 w-3.5 ${isCurrentlyProbing ? 'animate-spin text-[#c5d3e8]' : ''}`} />
+=======
+                            className="rounded-lg border border-slate-700 bg-slate-900 p-2 text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition-colors"
+                            title="Instant Probe"
+                          >
+                            <Zap className={`h-3.5 w-3.5 ${isCurrentlyProbing ? 'animate-spin text-cyan-400' : ''}`} />
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                           </button>
 
                           <button
                             onClick={() => navigate(`/?url=${encodeURIComponent(site.url)}`)}
+<<<<<<< HEAD
                             className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-colors"
+=======
+                            className="rounded-lg border border-slate-700 bg-slate-900 p-2 text-slate-300 hover:bg-slate-800 hover:text-emerald-400 transition-colors"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                             title="Run 8-Engine Master Audit"
                           >
                             <Server className="h-3.5 w-3.5" />
@@ -462,7 +677,11 @@ export const SiteMonitoringView: React.FC = () => {
 
                           <button
                             onClick={() => site.id && handleDeleteSite(site.id, site.name)}
+<<<<<<< HEAD
                             className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:border-rose-900/50 hover:bg-rose-950/40 hover:text-rose-400 transition-colors"
+=======
+                            className="rounded-lg border border-slate-700 bg-slate-900 p-2 text-slate-300 hover:border-red-900/50 hover:bg-red-950/40 hover:text-red-400 transition-colors"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                             title="Delete Endpoint"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -480,11 +699,19 @@ export const SiteMonitoringView: React.FC = () => {
 
       {/* System Infrastructure Telemetry Card */}
       {systemHealth && (
+<<<<<<< HEAD
         <div className="rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl text-[#f8fafc]">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
               <Server className="h-5 w-5 text-[#c5d3e8]" />
               <h3 className="text-base font-bold text-[#f8fafc]">Diagnostic Server & Node Runtime Telemetry</h3>
+=======
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-md">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <Server className="h-5 w-5 text-cyan-400" />
+              <h3 className="text-base font-bold text-white">Diagnostic Server & Node Runtime Telemetry</h3>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </div>
             <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-mono">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -493,6 +720,7 @@ export const SiteMonitoringView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
+<<<<<<< HEAD
             <div className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-3.5">
               <div className="text-[#c5d3e8] text-[10px] uppercase font-sans">Platform & Node</div>
               <div className="text-[#f8fafc] font-bold mt-1 truncate">{systemHealth.nodeVersion}</div>
@@ -517,6 +745,32 @@ export const SiteMonitoringView: React.FC = () => {
               <div className="text-[#c5d3e8] text-[10px] uppercase font-sans">Active Engines</div>
               <div className="text-[#f8fafc] font-bold mt-1">{systemHealth.activeEnginesCount} Engines Active</div>
               <div className="text-[11px] text-[#c5d3e8] mt-0.5">{systemHealth.totalAuditsLogged} total audits run</div>
+=======
+            <div className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-3.5">
+              <div className="text-slate-500 text-[10px] uppercase font-sans">Platform & Node</div>
+              <div className="text-white font-bold mt-1 truncate">{systemHealth.nodeVersion}</div>
+              <div className="text-[11px] text-slate-400 truncate mt-0.5">{systemHealth.platform}</div>
+            </div>
+
+            <div className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-3.5">
+              <div className="text-slate-500 text-[10px] uppercase font-sans">Server Uptime</div>
+              <div className="text-cyan-400 font-bold mt-1">
+                {Math.floor(systemHealth.uptimeSeconds / 60)}m {systemHealth.uptimeSeconds % 60}s
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">Continuous session</div>
+            </div>
+
+            <div className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-3.5">
+              <div className="text-slate-500 text-[10px] uppercase font-sans">Heap Memory Used</div>
+              <div className="text-emerald-400 font-bold mt-1">{systemHealth.memoryUsageMb.heapUsed} MB</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">/ {systemHealth.memoryUsageMb.heapTotal} MB allocated</div>
+            </div>
+
+            <div className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-3.5">
+              <div className="text-slate-500 text-[10px] uppercase font-sans">Active Engines</div>
+              <div className="text-white font-bold mt-1">{systemHealth.activeEnginesCount} Engines Active</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">{systemHealth.totalAuditsLogged} total audits run</div>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </div>
           </div>
         </div>
@@ -525,23 +779,40 @@ export const SiteMonitoringView: React.FC = () => {
       {/* Add Monitored Site Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+<<<<<<< HEAD
           <div className="w-full max-w-lg rounded-2xl border border-[#415a77]/40 bg-[#0b192c] p-6 shadow-2xl text-[#f8fafc]">
             <div className="flex items-center justify-between border-b border-[#415a77]/30 pb-4 mb-4">
               <h3 className="text-lg font-bold text-[#f8fafc] flex items-center gap-2">
                 <Globe className="h-5 w-5 text-[#c5d3e8]" />
+=======
+          <div className="w-full max-w-lg rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <Globe className="h-5 w-5 text-cyan-400" />
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 <span>Add Monitored Endpoint</span>
               </h3>
               <button
                 onClick={() => setShowAddModal(false)}
+<<<<<<< HEAD
                 className="text-[#c5d3e8] hover:text-[#f8fafc]"
               >
                 <span className="material-symbols-outlined text-base">close</span>
+=======
+                className="text-slate-400 hover:text-white"
+              >
+                ✕
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               </button>
             </div>
 
             <form onSubmit={handleAddSite} className="space-y-4">
               <div>
+<<<<<<< HEAD
                 <label className="block text-xs font-semibold text-[#c5d3e8] mb-1">
+=======
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   Service / Application Name
                 </label>
                 <input
@@ -550,12 +821,20 @@ export const SiteMonitoringView: React.FC = () => {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. HazardNet Production Gateway"
+<<<<<<< HEAD
                   className="w-full rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2.5 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/50 focus:border-[#c5d3e8] focus:outline-none"
+=======
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 />
               </div>
 
               <div>
+<<<<<<< HEAD
                 <label className="block text-xs font-semibold text-[#c5d3e8] mb-1">
+=======
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   Target Endpoint URL
                 </label>
                 <input
@@ -564,19 +843,31 @@ export const SiteMonitoringView: React.FC = () => {
                   value={formData.url}
                   onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                   placeholder="https://example.com or api.example.com/health"
+<<<<<<< HEAD
                   className="w-full rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2.5 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/50 focus:border-[#c5d3e8] focus:outline-none font-mono"
+=======
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none font-mono"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
+<<<<<<< HEAD
                   <label className="block text-xs font-semibold text-[#c5d3e8] mb-1">
+=======
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                     Probe Interval
                   </label>
                   <select
                     value={formData.checkIntervalMinutes}
                     onChange={(e) => setFormData({ ...formData, checkIntervalMinutes: Number(e.target.value) })}
+<<<<<<< HEAD
                     className="w-full rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2.5 text-sm text-[#f8fafc] focus:border-[#c5d3e8] focus:outline-none"
+=======
+                    className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   >
                     <option value={1}>Every 1 min</option>
                     <option value={5}>Every 5 mins</option>
@@ -586,18 +877,30 @@ export const SiteMonitoringView: React.FC = () => {
                 </div>
 
                 <div>
+<<<<<<< HEAD
                   <label className="block text-xs font-semibold text-[#c5d3e8] mb-1">
                     SSL Alerts
                   </label>
                   <div className="flex h-[42px] items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238]/60 px-3 text-xs text-emerald-400 font-semibold">
                     <span className="material-symbols-outlined text-sm">check</span>
                     <span>Auto-Check (TLS 1.3)</span>
+=======
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    SSL Alerts
+                  </label>
+                  <div className="flex h-[42px] items-center rounded-xl border border-slate-700 bg-slate-950/50 px-3 text-xs text-emerald-400 font-semibold">
+                    ✓ Auto-Check (TLS 1.3)
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   </div>
                 </div>
               </div>
 
               <div>
+<<<<<<< HEAD
                 <label className="block text-xs font-semibold text-[#c5d3e8] mb-1">
+=======
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   Notes / Architecture Context (Optional)
                 </label>
                 <textarea
@@ -605,6 +908,7 @@ export const SiteMonitoringView: React.FC = () => {
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   placeholder="Notes about infrastructure, staging vs prod, SLA targets..."
+<<<<<<< HEAD
                   className="w-full rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2.5 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/50 focus:border-[#c5d3e8] focus:outline-none"
                 />
               </div>
@@ -614,13 +918,28 @@ export const SiteMonitoringView: React.FC = () => {
                   type="button"
                   onClick={() => setShowAddModal(false)}
                   className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2 text-xs font-semibold text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc]"
+=======
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none"
+                />
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3 border-t border-slate-800 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="rounded-xl border border-slate-700 px-4 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-800"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingSite}
+<<<<<<< HEAD
                   className="rounded-xl bg-[#415a77] px-5 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] disabled:opacity-50 shadow-md"
+=======
+                  className="rounded-xl bg-cyan-500 px-5 py-2 text-xs font-bold text-slate-950 hover:bg-cyan-400 disabled:opacity-50"
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 >
                   {savingSite ? 'Saving...' : 'Add Endpoint'}
                 </button>

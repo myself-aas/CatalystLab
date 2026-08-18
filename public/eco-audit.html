@@ -6,7 +6,10 @@
   <title>Eco-Carbon Footprint Audit | CatalystLab</title>
   <link rel="stylesheet" href="/style.css">
   <script src="/firebase-bundle.js"></script>
+<<<<<<< HEAD
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+=======
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 </head>
 <body class="light-mode">
   <div class="container container-wide">
@@ -20,7 +23,11 @@
         <form id="ecoForm">
           <div class="form-group-row">
             <div class="url-input-container">
+<<<<<<< HEAD
               <span class="url-input-icon"><span class="material-symbols-outlined">public</span></span>
+=======
+              <span class="url-input-icon">🌍</span>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
               <input type="text" id="ecoUrl" placeholder="https://example.com" required autocomplete="off">
             </div>
             <button type="submit" class="btn btn-primary" id="analyzeBtn">Run Eco Audit</button>
@@ -31,7 +38,11 @@
       <section id="resultsSection" style="display: none; max-width: 800px; margin: 0 auto;">
         <div class="glass-panel" style="padding: 2rem;">
           <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+<<<<<<< HEAD
             <span><span class="material-symbols-outlined">eco</span></span> Environmental Impact Report
+=======
+            <span>🌱</span> Environmental Impact Report
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           </h2>
           <div style="background: #0f172a; border-radius: 8px; padding: 1.5rem; overflow-x: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
             <pre id="terminalOutput" style="color: #4ade80; font-family: monospace; font-size: 0.9rem; line-height: 1.6; margin: 0; white-space: pre-wrap;"></pre>
@@ -67,9 +78,15 @@
             .replace(/\[\+\] PASS:/g, '<span style="color: #4ade80;">[+] PASS:</span>')
             .replace(/\[-\] FAIL:/g, '<span style="color: #f87171;">[-] FAIL:</span>')
             .replace(/\[\~\] WARNING:/g, '<span style="color: #facc15;">[~] WARNING:</span>')
+<<<<<<< HEAD
             .replace(/[FAIL] STATUS:/g, '<span style="color: #f87171; font-weight:bold;">[FAIL] STATUS:</span>')
             .replace(/[PASS] STATUS:/g, '<span style="color: #4ade80; font-weight:bold;">[PASS] STATUS:</span>')
             .replace(/[WARN] STATUS:/g, '<span style="color: #facc15; font-weight:bold;">[WARN] STATUS:</span>');
+=======
+            .replace(/🔴 STATUS:/g, '<span style="color: #f87171; font-weight:bold;">🔴 STATUS:</span>')
+            .replace(/🟢 STATUS:/g, '<span style="color: #4ade80; font-weight:bold;">🟢 STATUS:</span>')
+            .replace(/🟡 STATUS:/g, '<span style="color: #facc15; font-weight:bold;">🟡 STATUS:</span>');
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             
           terminal.innerHTML = coloredOutput;
 
@@ -94,14 +111,23 @@
               banner.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
                   <div>
+<<<<<<< HEAD
                     <strong style="color: #4ade80;"><span class="material-symbols-outlined">check</span> Audit Saved to Dashboard!</strong>
+=======
+                    <strong style="color: #4ade80;">✓ Audit Saved to Dashboard!</strong>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                     <div style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.2rem;">
                       Permalink: <a href="${shareLink}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${shareLink}</a>
                     </div>
                   </div>
                   <div style="display: flex; gap: 0.5rem;">
+<<<<<<< HEAD
                     <button onclick="navigator.clipboard.writeText('${shareLink}'); alert('Copied link!');" class="btn btn-outline" style="padding: 0.35rem 0.7rem; font-size: 0.8rem;"><span class="material-symbols-outlined">link</span> Copy Link</button>
                     <a href="/dashboard.html" class="btn btn-primary" style="padding: 0.35rem 0.7rem; font-size: 0.8rem;"><span class="material-symbols-outlined">analytics</span> Dashboard</a>
+=======
+                    <button onclick="navigator.clipboard.writeText('${shareLink}'); alert('Copied link!');" class="btn btn-outline" style="padding: 0.35rem 0.7rem; font-size: 0.8rem;">🔗 Copy Link</button>
+                    <a href="/dashboard.html" class="btn btn-primary" style="padding: 0.35rem 0.7rem; font-size: 0.8rem;">📊 Dashboard</a>
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   </div>
                 </div>
               `;

@@ -95,6 +95,7 @@ def check_ai_readiness(url):
         print(f"  [!] CRITICAL: Failed to parse DOM for semantic analysis. {e}")
         score -= 30
 
+<<<<<<< HEAD
     print(f"\n=> [AI] AI READINESS SCORE: {score}/100")
     if score >= 85:
         print("=> [PASS] STATUS: FULLY COMPATIBLE (SearchGPT/Perplexity optimized)")
@@ -102,6 +103,15 @@ def check_ai_readiness(url):
         print("=> [WARN] STATUS: PARTIAL (Usable, but missing explicit AI directives)")
     else:
         print("=> [FAIL] STATUS: INVISIBLE (High risk of hallucination or being ignored by AI agents)")
+=======
+    print(f"\n=> 🧠 AI READINESS SCORE: {score}/100")
+    if score >= 85:
+        print("=> 🟢 STATUS: FULLY COMPATIBLE (SearchGPT/Perplexity optimized)")
+    elif score >= 60:
+        print("=> 🟡 STATUS: PARTIAL (Usable, but missing explicit AI directives)")
+    else:
+        print("=> 🔴 STATUS: INVISIBLE (High risk of hallucination or being ignored by AI agents)")
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

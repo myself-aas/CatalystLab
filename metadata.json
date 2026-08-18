@@ -1,7 +1,14 @@
 {
+<<<<<<< HEAD
   "name": "CatalystLab",
   "description": "Multi-dimensional website health, OWASP security, WCAG accessibility, and AI readiness telemetry platform.",
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
   ]
 }
+=======
+  "name": "Catalyst Score",
+  "description": "Free Website Health Analyzer for SEO, security, performance, mobile, and accessibility.",
+  "capabilities": []
+}
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4

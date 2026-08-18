@@ -5,7 +5,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'health',
     name: 'Website Health',
     category: 'Core',
+<<<<<<< HEAD
     icon: 'health_and_safety',
+=======
+    icon: '🩺',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#38bdf8',
     badgeClass: 'bg-sky-500/10 text-sky-400 border-sky-500/30',
     description: 'DOM complexity, TTFB, resource hints & render blocking bottlenecks.',
@@ -16,7 +20,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'latency',
     name: 'Global Edge Latency',
     category: 'Developer & AI',
+<<<<<<< HEAD
     icon: 'public',
+=======
+    icon: '🌍',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#f472b6',
     badgeClass: 'bg-pink-500/10 text-pink-400 border-pink-500/30',
     description: 'Multi-region synthetic edge latency & TTFB benchmarks.',
@@ -27,7 +35,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'ai_ready',
     name: 'AI Readiness',
     category: 'Developer & AI',
+<<<<<<< HEAD
     icon: 'psychology',
+=======
+    icon: '🧠',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#c084fc',
     badgeClass: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
     description: 'LLM crawler policy, llms.txt validation, RAG readiness & schemas.',
@@ -38,7 +50,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'repo',
     name: 'Repo Hygiene',
     category: 'Enterprise',
+<<<<<<< HEAD
     icon: 'inventory_2',
+=======
+    icon: '📦',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#4ade80',
     badgeClass: 'bg-green-500/10 text-green-400 border-green-500/30',
     description: 'GitHub/GitLab/Bitbucket security, license & branch protections.',
@@ -49,7 +65,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'eco',
     name: 'Eco Carbon Footprint',
     category: 'Enterprise',
+<<<<<<< HEAD
     icon: 'eco',
+=======
+    icon: '🌱',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#34d399',
     badgeClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
     description: 'CO2 grams per pageview, green host verification & sustainability.',
@@ -60,7 +80,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'compliance',
     name: 'Compliance & Risk',
     category: 'Enterprise',
+<<<<<<< HEAD
     icon: 'shield',
+=======
+    icon: '🛡️',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#fbbf24',
     badgeClass: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
     description: 'WCAG accessibility, GDPR cookie consent & OWASP security headers.',
@@ -71,7 +95,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'migration',
     name: 'Platform Migration',
     category: 'Core',
+<<<<<<< HEAD
     icon: 'transform',
+=======
+    icon: '🔄',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#fb923c',
     badgeClass: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
     description: 'WordPress, Shopify & Next.js re-platforming pre-flight auditor.',
@@ -82,7 +110,11 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     id: 'llmo',
     name: 'AI Search Optimization',
     category: 'Developer & AI',
+<<<<<<< HEAD
     icon: 'smart_toy',
+=======
+    icon: '🤖',
+>>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     color: '#67e8f9',
     badgeClass: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
     description: 'Generative search engine citations and Perplexity indexability.',
