@@ -463,7 +463,12 @@ async function startServer() {
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
-        hmr: { server: httpServer }
+        hmr: {
+          server: httpServer,
+          // Let the browser choose ws/wss from the page protocol while using
+          // the preview proxy's public WebSocket port.
+          clientPort: 443
+        }
       },
       appType: 'spa'
     });
