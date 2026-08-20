@@ -23,7 +23,7 @@
     "firebase": "^12.17.1",
     "firebase-admin": "^14.2.0",
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2",
+    "jspdf": "^4.2.1",
     "lucide-react": "^1.16.0",
     "motion": "^13.1.0",
     "react": "^18.3.1",
