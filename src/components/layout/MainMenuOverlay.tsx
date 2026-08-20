@@ -54,6 +54,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
     { id: 'home', label: 'Home', path: '/' },
     { id: 'pricing', label: 'Pricing', path: '/pricing' },
     { id: 'docs', label: 'Docs', path: '/docs' },
+    { id: 'api-docs', label: 'API Reference', path: '/api-docs' },
+    { id: 'playground', label: 'API Playground', path: '/playground' },
     { id: 'blogs', label: 'Blogs', path: '/blogs' },
     { id: 'about', label: 'About Us', path: '/about' },
     { id: 'contact', label: 'Contact', path: '/contact' },

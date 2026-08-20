@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   Download, Printer, Share2, RefreshCw, Save, Code, 
   Lightbulb, FileText, ExternalLink, Activity, Target, ShieldAlert,
-  ArrowRight, Check, Copy, X, Terminal, Globe, Cpu, Leaf, Server
+  ArrowRight, Check, Copy, X, Terminal, Globe, Cpu, Leaf, Server,
+  BookOpen, Compass, Sparkles, Tag, ArrowUpRight, CheckCircle2, Clock
 } from 'lucide-react';
 import { exportAuditReportDataToPdf } from '../../utils/pdfExport';
 import { ENGINES_MAP } from '../../data/engines';
 import { EngineCharts } from './EngineCharts';
 import { AuditInsights } from './AuditInsights';
-import type { EngineType } from '../../types';
+import { EngineDataTable } from './EngineDataTable';
+import { getBlogsForEngine } from '../../data/engineBlogs';
+import { getBlogPosts } from '../../lib/firebase';
+import type { EngineType, BlogPost } from '../../types';
 
 interface EngineReportDashboardProps {
   engineType: EngineType;
@@ -261,6 +265,7 @@ const generateMetrics = (url: string) => {
 export const EngineReportDashboard: React.FC<EngineReportDashboardProps> = ({
   engineType, targetUrl, output, onRelaunch, onSave, savedReportId
 }) => {
+  const navigate = useNavigate();
   const meta = ENGINES_MAP[engineType];
   const baseMetrics = generateMetrics(targetUrl);
   const parsedPythonMetrics = extractMetrics(output);
@@ -270,15 +275,42 @@ export const EngineReportDashboard: React.FC<EngineReportDashboardProps> = ({
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [apiTab, setApiTab] = useState<'curl' | 'node' | 'python'>('curl');
   const [copiedApi, setCopiedApi] = useState(false);
+  const [engineBlogs, setEngineBlogs] = useState<BlogPost[]>([]);
 
   const recommendations = ENGINE_RECOMMENDATIONS[engineType] || ENGINE_RECOMMENDATIONS.health;
   const codeSnippet = ENGINE_CODE_SNIPPETS[engineType] || ENGINE_CODE_SNIPPETS.health;
+
+  // Load relevant blogs for this specific engine
+  useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        const seeded = getBlogsForEngine(engineType);
+        // Try fetching live firestore blogs as well
+        const livePosts = await getBlogPosts();
+        if (livePosts && livePosts.length > 0) {
+          // Filter matching tags or category
+          const matching = livePosts.filter(p => 
+            p.category.toLowerCase().includes(meta.name.toLowerCase()) ||
+            p.tags.some(t => meta.name.toLowerCase().includes(t.toLowerCase())) ||
+            (meta.relevantBlogSlugs && meta.relevantBlogSlugs.includes(p.slug))
+          );
+          if (matching.length > 0) {
+            setEngineBlogs([...matching, ...seeded].slice(0, 3));
+            return;
+          }
+        }
+        setEngineBlogs(seeded);
+      } catch (err) {
+        setEngineBlogs(getBlogsForEngine(engineType));
+      }
+    };
+    loadBlogs();
+  }, [engineType, meta]);
 
   // SEO Metadata Update
   useEffect(() => {
     document.title = `${meta.name} Audit Report - ${targetUrl} | CatalystLab`;
     
-    // Update or inject meta description
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
       metaDesc = document.createElement('meta');
@@ -341,6 +373,8 @@ print(report['output'])`
     setTimeout(() => setCopiedApi(false), 2000);
   };
 
+  const docsUrl = `/docs#${meta.docsAnchor || 'overview'}`;
+
   return (
     <div className="mt-8 space-y-8" id="report-dashboard">
       
@@ -350,10 +384,18 @@ print(report['output'])`
         
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
           <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className="material-symbols-outlined text-3xl text-[#38bdf8]">{meta.icon}</span>
+              
+              {/* Category Badge */}
               <span className="text-xs font-bold uppercase tracking-widest text-[#38bdf8] bg-[#38bdf8]/10 px-3 py-1 rounded-full border border-[#38bdf8]/20">
-                Diagnostic Executive Summary
+                {meta.category} Engine
+              </span>
+
+              {/* Explicit Label tag */}
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#152238] border border-[#415a77]/50 px-3 py-1 text-xs font-mono font-bold text-[#c5d3e8]">
+                <Tag className="h-3 w-3 text-[#38bdf8]" />
+                <span>label: &#123; category: "{meta.category}", engine_name: "{meta.name}" &#125;</span>
               </span>
             </div>
             
@@ -363,7 +405,7 @@ print(report['output'])`
             
             <p className="text-sm text-[#c5d3e8] leading-relaxed mb-6">
               Automated telemetry evaluation for <strong className="text-white font-mono bg-[#152238] px-2 py-0.5 rounded border border-[#415a77]/40">{targetUrl}</strong> completed with an index rating of <span className="text-[#38bdf8] font-extrabold">{metrics.healthScore}/100</span>. 
-              Our engine identified <strong className="text-rose-400">{metrics.issues.critical} critical constraints</strong>, <strong className="text-amber-400">{metrics.issues.warning} warnings</strong>, and <strong className="text-emerald-400">{metrics.issues.info} optimized parameters</strong>.
+              Our engine identified <strong className="text-rose-400">{metrics.issues.critical} critical constraints</strong>, <strong className="text-amber-400">{metrics.issues.warning} warnings</strong>, and <strong className="text-emerald-400">{metrics.issues.info} verified optimizations</strong>.
             </p>
             
             {/* Functional Google Material 3 Action Icons */}
@@ -432,27 +474,37 @@ print(report['output'])`
         </div>
       </div>
 
-      {/* 2. Three Unique PowerBI-style Dashboards with Detailed Plot Analysis */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
+      {/* 2. Visualizations and Charts with Explanations */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-[#0b192c] flex items-center gap-2">
               <span className="material-symbols-outlined text-[#38bdf8]">monitoring</span>
-              <span>PowerBI Expressive Telemetry Dashboards</span>
+              <span>PowerBI Expressive Visualizations & Explanations</span>
             </h3>
             <p className="text-xs text-[#415a77] mt-0.5">
-              Three interactive, script-driven analytical dashboards generated by the dedicated {meta.name} diagnostic engine.
+              Three interactive visual dashboards and in-depth telemetry analysis generated by the {meta.name} engine.
             </p>
           </div>
         </div>
 
+        {/* Charts Component */}
         <EngineCharts engineType={engineType} metrics={metrics} />
         
-        {/* Automated Audit Insights Component for each Diagnostic Engine */}
+        {/* Automated Audit Insights & Visual Explanations Component */}
         <AuditInsights engineType={engineType} targetUrl={targetUrl} metrics={metrics} />
       </div>
 
-      {/* 3. Recommendations & Code Mitigation Snippets */}
+      {/* 3. Comprehensive Audit Tables (label:{category: engine_name(s)}) */}
+      <div>
+        <EngineDataTable 
+          engineType={engineType}
+          targetUrl={targetUrl}
+          metrics={metrics}
+        />
+      </div>
+
+      {/* 4. Actionable Recommendations & Code Mitigation Snippets */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Prioritized Recommendations */}
@@ -536,140 +588,241 @@ print(report['output'])`
 
       </div>
 
-      {/* 4. Detailed Docs Backlinks with Interactive API Integration */}
+      {/* 5. Backlink to Detailed Engine Documentation & API Pipeline */}
       <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 text-white shadow-2xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-[#38bdf8]">
-              <Terminal className="h-5 w-5" />
+              <BookOpen className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#f8fafc]">Automated API & Telemetry Pipeline Integration</h3>
-              <p className="text-xs text-[#c5d3e8] mt-0.5">Integrate the {meta.name} diagnostic engine directly into your CI/CD or monitoring jobs</p>
+              <h3 className="text-base font-bold text-[#f8fafc] flex items-center gap-2">
+                <span>Detailed Documentation & Specification</span>
+                <span className="text-xs text-[#38bdf8] font-mono font-normal">({meta.name})</span>
+              </h3>
+              <p className="text-xs text-[#c5d3e8] mt-0.5">
+                Comprehensive technical guide, evaluation vectors, mathematical formulas, and REST API specification for {meta.name}.
+              </p>
             </div>
           </div>
 
           <Link 
-            to={`/docs`} 
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#38bdf8] hover:text-[#7dd3fc] bg-[#152238] border border-[#415a77]/40 px-3.5 py-2 rounded-xl transition-all"
+            to={docsUrl} 
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#0b192c] bg-[#38bdf8] hover:bg-[#7dd3fc] px-4 py-2.5 rounded-xl transition-all shadow-md shadow-[#38bdf8]/20 shrink-0"
           >
-            <span>Full API Documentation</span>
+            <FileText className="h-4 w-4" />
+            <span>Read {meta.name} Documentation</span>
             <ExternalLink className="h-3.5 w-3.5" />
           </Link>
         </div>
 
-        {/* API Language Tabs */}
-        <div className="flex gap-2 mb-3">
-          {(['curl', 'node', 'python'] as const).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setApiTab(tab)}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg uppercase tracking-wider transition-colors ${
-                apiTab === tab 
-                  ? 'bg-[#38bdf8] text-[#0b192c]' 
-                  : 'bg-[#152238] text-[#c5d3e8] hover:text-white border border-[#415a77]/30'
-              }`}
-            >
-              {tab === 'curl' ? 'cURL' : tab === 'node' ? 'Node.js' : 'Python 3'}
-            </button>
-          ))}
-          <button 
-            onClick={handleCopyApi} 
-            className="ml-auto flex items-center gap-1.5 text-xs text-[#c5d3e8] hover:text-white bg-[#152238] px-3 py-1.5 rounded-lg border border-[#415a77]/30 transition-colors"
-          >
-            {copiedApi ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-            <span>{copiedApi ? 'Copied' : 'Copy'}</span>
-          </button>
-        </div>
-
-        <div className="rounded-2xl bg-[#020617] border border-[#1e293b] p-4 font-mono text-xs text-[#38bdf8] overflow-x-auto shadow-inner">
-          <pre className="whitespace-pre">{apiSnippets[apiTab]}</pre>
-        </div>
-      </div>
-
-      {/* 5. Related Reports & Blog Posts + Cross-Engine Recommendations */}
-      <div className="rounded-3xl border border-[#415a77]/30 bg-gradient-to-br from-[#152238] to-[#0b192c] p-6 sm:p-8 text-white shadow-xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
-          {/* Related Articles & Engineering Guides */}
-          <div>
-            <h4 className="text-sm font-bold text-[#f8fafc] mb-4 flex items-center gap-2">
-              <FileText className="h-4 w-4 text-[#38bdf8]" />
-              <span>Related Engineering Blogs</span>
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/blogs" className="text-xs font-semibold text-[#c5d3e8] hover:text-[#38bdf8] transition-colors block">
-                  → Optimizing Telemetry & Core Vitals for Next.js
-                </Link>
-              </li>
-              <li>
-                <Link to="/blogs" className="text-xs font-semibold text-[#c5d3e8] hover:text-[#38bdf8] transition-colors block">
-                  → Best Practices for {meta.name} in Enterprise Stacks
-                </Link>
-              </li>
-              <li>
-                <Link to="/blogs" className="text-xs font-semibold text-[#c5d3e8] hover:text-[#38bdf8] transition-colors block">
-                  → Implementing OWASP & Automated Vulnerability Gating
-                </Link>
-              </li>
-            </ul>
+        {/* Key Vectors Checked by this engine */}
+        {meta.keyVectors && meta.keyVectors.length > 0 && (
+          <div className="mb-6 p-4 rounded-2xl bg-[#152238]/60 border border-[#415a77]/30">
+            <div className="text-xs font-bold text-[#f8fafc] mb-2.5 flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-[#34d399]" />
+              <span>Key Diagnostic Vectors Documented for {meta.name}:</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              {meta.keyVectors.map((vector, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs text-[#c5d3e8] bg-[#0b192c] px-3 py-1.5 rounded-xl border border-[#415a77]/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
+                  <span className="truncate">{vector}</span>
+                </div>
+              ))}
+            </div>
           </div>
+        )}
 
-          {/* Related Domain Reports */}
-          <div>
-            <h4 className="text-sm font-bold text-[#f8fafc] mb-4 flex items-center gap-2">
-              <Globe className="h-4 w-4 text-[#34d399]" />
-              <span>Public Audit Dossiers</span>
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/reports" className="text-xs font-semibold text-[#c5d3e8] hover:text-[#34d399] transition-colors block">
-                  → View All Public Benchmark Reports
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare" className="text-xs font-semibold text-[#c5d3e8] hover:text-[#34d399] transition-colors block">
-                  → Side-by-Side Domain Performance Comparison
-                </Link>
-              </li>
-              <li>
-                <Link to="/methodology" className="text-xs font-semibold text-[#c5d3e8] hover:text-[#34d399] transition-colors block">
-                  → CatalystLab Diagnostic Methodology & Scoring
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Next Recommended Engines */}
-          <div>
-            <h4 className="text-sm font-bold text-[#f8fafc] mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-base text-[#fbbf24]">explore</span>
-              <span>Next Recommended Audits</span>
-            </h4>
-            <div className="space-y-2.5">
-              {Object.entries(ENGINES_MAP)
-                .filter(([id]) => id !== meta.id)
-                .slice(0, 2)
-                .map(([id, engine]) => (
-                  <Link 
-                    key={id}
-                    to={engine.route} 
-                    className="group flex items-center justify-between rounded-xl bg-[#0b192c] border border-[#415a77]/30 p-3 hover:border-[#38bdf8]/60 transition-all hover:bg-[#0f1f38]"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span className="material-symbols-outlined text-lg text-[#38bdf8]">{engine.icon}</span>
-                      <div>
-                        <div className="text-xs font-bold text-[#f8fafc] group-hover:text-[#38bdf8]">{engine.name}</div>
-                        <div className="text-[10px] text-[#c5d3e8] line-clamp-1">{engine.description}</div>
-                      </div>
-                    </div>
-                    <ArrowRight className="h-4 w-4 text-[#415a77] group-hover:text-[#38bdf8] group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
-                  </Link>
-                ))}
+        {/* API Code Tabs */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-xs font-bold text-[#f8fafc] flex items-center gap-2">
+              <Terminal className="h-4 w-4 text-[#38bdf8]" />
+              <span>CI/CD & Automated API Integration:</span>
+            </div>
+            <div className="flex gap-2">
+              {(['curl', 'node', 'python'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setApiTab(tab)}
+                  className={`px-2.5 py-1 text-[11px] font-bold rounded-lg uppercase tracking-wider transition-colors ${
+                    apiTab === tab 
+                      ? 'bg-[#38bdf8] text-[#0b192c]' 
+                      : 'bg-[#152238] text-[#c5d3e8] hover:text-white border border-[#415a77]/30'
+                  }`}
+                >
+                  {tab === 'curl' ? 'cURL' : tab === 'node' ? 'Node.js' : 'Python'}
+                </button>
+              ))}
+              <button 
+                onClick={handleCopyApi} 
+                className="flex items-center gap-1.5 text-xs text-[#c5d3e8] hover:text-white bg-[#152238] px-2.5 py-1 rounded-lg border border-[#415a77]/30 transition-colors"
+              >
+                {copiedApi ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                <span>{copiedApi ? 'Copied' : 'Copy'}</span>
+              </button>
             </div>
           </div>
 
+          <div className="rounded-2xl bg-[#020617] border border-[#1e293b] p-4 font-mono text-xs text-[#38bdf8] overflow-x-auto shadow-inner">
+            <pre className="whitespace-pre">{apiSnippets[apiTab]}</pre>
+          </div>
+        </div>
+      </div>
+
+      {/* 6. Display Relevant Blog Posts for this Specific Engine */}
+      <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 text-white shadow-2xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/30 text-[#c084fc]">
+              <FileText className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#f8fafc]">
+                Relevant Engineering Blog Posts for {meta.name}
+              </h3>
+              <p className="text-xs text-[#c5d3e8] mt-0.5">
+                Technical articles, architecture blueprints, and case studies written by our telemetry research guild.
+              </p>
+            </div>
+          </div>
+
+          <Link 
+            to="/blogs" 
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#38bdf8] hover:text-[#7dd3fc] bg-[#152238] border border-[#415a77]/40 px-3.5 py-2 rounded-xl transition-all self-start sm:self-auto"
+          >
+            <span>View All Blog Posts</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        {/* Blog Post Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {engineBlogs.map((post) => (
+            <Link
+              key={post.id || post.slug}
+              to={`/blogs/${post.slug}`}
+              className="group flex flex-col justify-between rounded-2xl bg-[#152238]/60 border border-[#415a77]/30 p-5 hover:border-[#38bdf8]/60 hover:bg-[#152238] transition-all shadow-lg"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#38bdf8] bg-[#38bdf8]/10 px-2.5 py-0.5 rounded-full border border-[#38bdf8]/20">
+                    {post.category}
+                  </span>
+                  <span className="text-[11px] text-[#c5d3e8] flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    <span>{post.readTime}</span>
+                  </span>
+                </div>
+
+                <h4 className="text-sm font-bold text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2 mb-2 leading-snug">
+                  {post.title}
+                </h4>
+
+                <p className="text-xs text-[#c5d3e8] line-clamp-3 leading-relaxed mb-4">
+                  {post.excerpt}
+                </p>
+              </div>
+
+              <div>
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {post.tags.slice(0, 3).map((tag, idx) => (
+                    <span key={idx} className="text-[10px] font-mono text-[#c5d3e8] bg-[#0b192c] px-2 py-0.5 rounded border border-[#415a77]/20">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-[#415a77]/30 text-xs font-bold text-[#38bdf8] group-hover:text-[#7dd3fc]">
+                  <span>Read Full Article</span>
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* 7. Next Recommended Engines for Subsequent Audits */}
+      <div className="rounded-3xl border border-[#415a77]/30 bg-gradient-to-br from-[#152238] to-[#0b192c] p-6 sm:p-8 text-white shadow-2xl">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[#fbbf24]">
+            <Compass className="h-5 w-5" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-[#f8fafc] flex items-center gap-2">
+              <span>Next Recommended Diagnostic Audits for {targetUrl}</span>
+              <span className="text-xs text-[#fbbf24] bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                Telemetry Pipeline Next Steps
+              </span>
+            </h3>
+            <p className="text-xs text-[#c5d3e8] mt-0.5">
+              Based on the results from <strong>{meta.name}</strong>, our telemetry engine recommends running these complementary probes to ensure end-to-end reliability.
+            </p>
+          </div>
+        </div>
+
+        {/* Tailored Engine Recommendation Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {meta.recommendedEngines && meta.recommendedEngines.map((rec) => {
+            const targetEngine = ENGINES_MAP[rec.engineId];
+            if (!targetEngine) return null;
+
+            return (
+              <div 
+                key={rec.engineId}
+                className="group flex flex-col justify-between rounded-2xl bg-[#0b192c] border border-[#415a77]/40 p-5 hover:border-[#38bdf8]/60 transition-all shadow-lg relative overflow-hidden"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-xl text-[#38bdf8]">{targetEngine.icon}</span>
+                      <span className="text-xs font-bold text-white">{targetEngine.name}</span>
+                    </div>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${targetEngine.badgeClass}`}>
+                      {targetEngine.category}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-[#c5d3e8] leading-relaxed mb-4">
+                    {rec.rationale}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#415a77]/30">
+                  <Link
+                    to={`${targetEngine.route}?url=${encodeURIComponent(targetUrl)}`}
+                    className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#152238] hover:bg-[#38bdf8] hover:text-[#0b192c] text-xs font-bold text-[#f8fafc] border border-[#415a77]/40 hover:border-transparent transition-all shadow-md group-hover:scale-[1.02]"
+                  >
+                    <span>Run {targetEngine.name} Scan</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* All Engine Quick Switcher Footer */}
+        <div className="mt-8 pt-6 border-t border-[#415a77]/30 flex flex-wrap items-center justify-between gap-4 text-xs text-[#c5d3e8]">
+          <span className="font-semibold">Explore all 8 dedicated diagnostic engines:</span>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(ENGINES_MAP).map(([id, engine]) => (
+              <Link
+                key={id}
+                to={`${engine.route}?url=${encodeURIComponent(targetUrl)}`}
+                className={`px-3 py-1 rounded-xl text-xs font-bold transition-all border ${
+                  id === engineType
+                    ? 'bg-[#38bdf8] text-[#0b192c] border-[#38bdf8]'
+                    : 'bg-[#0b192c] text-[#c5d3e8] hover:text-white border-[#415a77]/40 hover:border-[#38bdf8]/50'
+                }`}
+              >
+                {engine.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 

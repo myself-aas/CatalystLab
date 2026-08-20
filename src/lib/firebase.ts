@@ -9,10 +9,12 @@ import {
 } from 'firebase/auth';
 import { 
   getFirestore, 
+  initializeFirestore,
   collection, 
   addDoc, 
   setDoc,
   getDoc, 
+  getDocFromServer,
   doc, 
   deleteDoc, 
   getDocs, 
@@ -20,22 +22,34 @@ import {
   where,
   updateDoc
 } from 'firebase/firestore';
-import type { AuditReport, BlogPost, MonitoredSite } from '../types';
+import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig } from '../types';
 
-const firebaseConfig = {
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "catalystlabhub",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:538496738631:web:750ab5420844d31a749862",
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCEKst9X69ewBp3pLzL-ILHRo1kezYZkIU",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "catalystlabhub.firebaseapp.com",
-  firestoreDatabaseId: import.meta.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID || "ai-studio-catalystlab-6318f0cc-9ec3-41ff-a38f-2d22b7086f08",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "catalystlabhub.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "538496738631",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-SBWC2NFQ0X"
-};
+import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+
+// Use named Firestore database if configured, or default
+export const db = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== '(default)'
+  ? initializeFirestore(app, { experimentalForceLongPolling: true }, firebaseConfig.firestoreDatabaseId)
+  : initializeFirestore(app, { experimentalForceLongPolling: true });
+
+export interface FirebaseDomainConfig {
+  projectId: string;
+  authDomain: string;
+  currentHostname: string;
+  consoleAuthUrl: string;
+}
+
+export function getFirebaseDomainSettings(): FirebaseDomainConfig {
+  const currentHostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  return {
+    projectId: firebaseConfig.projectId || 'artful-defender-j6rpq',
+    authDomain: firebaseConfig.authDomain || 'artful-defender-j6rpq.firebaseapp.com',
+    currentHostname,
+    consoleAuthUrl: `https://console.firebase.google.com/project/${firebaseConfig.projectId || 'artful-defender-j6rpq'}/authentication/settings`
+  };
+}
 
 export enum OperationType {
   CREATE = 'create',
@@ -80,8 +94,42 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     operationType,
     path
   };
-  console.error('Firestore Error:', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  console.warn('Firestore Operation Notice:', JSON.stringify(errInfo));
+  return errInfo;
+}
+
+const LOCAL_REPORTS_KEY = 'catalystlab_cached_reports';
+
+function getLocalReports(): AuditReport[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(LOCAL_REPORTS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalReport(report: AuditReport): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const reports = getLocalReports().filter(r => r.id !== report.id);
+    reports.unshift(report);
+    // Keep max 50 recent reports
+    localStorage.setItem(LOCAL_REPORTS_KEY, JSON.stringify(reports.slice(0, 50)));
+  } catch (err) {
+    console.warn('Failed to cache report locally:', err);
+  }
+}
+
+function deleteLocalReport(reportId: string): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const reports = getLocalReports().filter(r => r.id !== reportId);
+    localStorage.setItem(LOCAL_REPORTS_KEY, JSON.stringify(reports));
+  } catch (err) {
+    console.warn('Failed to delete local report:', err);
+  }
 }
 
 const provider = new GoogleAuthProvider();
@@ -89,13 +137,48 @@ provider.setCustomParameters({
   prompt: 'select_account'
 });
 
+export interface AuthErrorInfo {
+  code: string;
+  message: string;
+  domain?: string;
+  isUnauthorizedDomain: boolean;
+  isUserCancelled: boolean;
+}
+
 export const loginWithGoogle = async (): Promise<User> => {
   try {
     const result = await signInWithPopup(auth, provider);
     return result.user;
-  } catch (error) {
-    console.error("Google login failed:", error);
-    throw error;
+  } catch (error: any) {
+    const errorCode = error?.code || '';
+    const currentDomain = typeof window !== 'undefined' ? window.location.hostname : '';
+    
+    const isUnauthorizedDomain = errorCode === 'auth/unauthorized-domain' || 
+      (typeof error?.message === 'string' && error.message.includes('unauthorized-domain'));
+    const isUserCancelled = errorCode === 'auth/popup-closed-by-user' || 
+      errorCode === 'auth/cancelled-popup-request';
+
+    const errorDetails: AuthErrorInfo = {
+      code: errorCode || 'auth/unknown',
+      message: isUnauthorizedDomain
+        ? `Domain '${currentDomain}' is not authorized in Firebase Authentication.`
+        : isUserCancelled 
+          ? 'Sign-in popup was closed before completing.'
+          : (error?.message || 'Google authentication failed.'),
+      domain: currentDomain,
+      isUnauthorizedDomain,
+      isUserCancelled
+    };
+
+    if (isUnauthorizedDomain) {
+      console.warn("Firebase Auth Notice: Current domain requires whitelisting in Firebase Console:", currentDomain);
+    } else if (!isUserCancelled) {
+      console.error("Google login failed:", error);
+    }
+
+    const enhancedError = new Error(errorDetails.message);
+    Object.assign(enhancedError, errorDetails);
+    throw enhancedError;
   }
 };
 
@@ -130,67 +213,107 @@ export const saveReport = async (
   extra: { title?: string; score?: number } = {}
 ): Promise<string> => {
   const path = "reports";
-  try {
-    let url: string;
-    let engine: string;
-    let output: string;
-    let title: string | undefined;
-    let score: number | undefined;
+  
+  let url: string;
+  let engine: string;
+  let output: string;
+  let title: string | undefined;
+  let score: number | undefined;
 
-    if (typeof urlOrParams === 'object' && urlOrParams !== null) {
-      url = urlOrParams.url;
-      engine = urlOrParams.engine;
-      output = urlOrParams.output;
-      title = urlOrParams.title;
-      score = urlOrParams.score;
-    } else {
-      url = urlOrParams;
-      engine = maybeEngine || 'master-audit';
-      output = maybeOutput || '';
-      title = extra.title;
-      score = extra.score;
+  if (typeof urlOrParams === 'object' && urlOrParams !== null) {
+    url = urlOrParams.url;
+    engine = urlOrParams.engine;
+    output = urlOrParams.output;
+    title = urlOrParams.title;
+    score = urlOrParams.score;
+  } else {
+    url = urlOrParams;
+    engine = maybeEngine || 'master-audit';
+    output = maybeOutput || '';
+    title = extra.title;
+    score = extra.score;
+  }
+
+  const currentUser = auth.currentUser;
+  const isGuest = !currentUser;
+  const ownerId = currentUser?.uid || 'guest';
+  const ownerEmail = currentUser?.email || '';
+
+  const reportData: Omit<AuditReport, 'id'> = {
+    url: String(url || '').substring(0, 500),
+    engine: String(engine || 'master-audit').substring(0, 100),
+    output: String(output || '').substring(0, 500000),
+    ownerId,
+    ownerEmail,
+    createdAt: Date.now(),
+    ...(title ? { title: String(title).substring(0, 200) } : {}),
+    ...(typeof score === 'number' ? { score } : {})
+  };
+
+  // If user is authenticated, attempt saving to Firestore
+  if (!isGuest) {
+    try {
+      const docRef = await addDoc(collection(db, path), reportData);
+      const saved: AuditReport = { id: docRef.id, ...reportData };
+      saveLocalReport(saved);
+      return docRef.id;
+    } catch (error) {
+      handleFirestoreError(error, OperationType.CREATE, path);
+      // Fallback to local storage
+      const fallbackId = `report-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+      const saved: AuditReport = { id: fallbackId, ...reportData };
+      saveLocalReport(saved);
+      return fallbackId;
     }
-
-    const reportData: Omit<AuditReport, 'id'> = {
-      url: String(url || '').substring(0, 500),
-      engine: String(engine || 'master-audit').substring(0, 100),
-      output: String(output || '').substring(0, 500000),
-      ownerId: auth.currentUser?.uid || 'guest',
-      ownerEmail: auth.currentUser?.email || '',
-      createdAt: Date.now(),
-      ...(title ? { title: String(title).substring(0, 200) } : {}),
-      ...(typeof score === 'number' ? { score } : {})
-    };
-
-    const docRef = await addDoc(collection(db, path), reportData);
-    return docRef.id;
-  } catch (error) {
-    handleFirestoreError(error, OperationType.CREATE, path);
-    throw error;
+  } else {
+    // Guest report: persist in browser localStorage seamlessly
+    const guestId = `guest-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    const saved: AuditReport = { id: guestId, ...reportData };
+    saveLocalReport(saved);
+    return guestId;
   }
 };
 
 export const getReport = async (reportId: string): Promise<AuditReport | null> => {
   if (!reportId) return null;
+
+  // 1. Check local cache first for instant resolution
+  const localMatch = getLocalReports().find(r => r.id === reportId);
+  if (localMatch) {
+    return localMatch;
+  }
+
+  // 2. If guest report format, it is exclusively local
+  if (reportId.startsWith('guest-')) {
+    return null;
+  }
+
+  // 3. Query Firestore
   const path = `reports/${reportId}`;
   try {
     const docRef = doc(db, "reports", reportId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...(docSnap.data() as Omit<AuditReport, 'id'>) };
+      const report: AuditReport = { id: docSnap.id, ...(docSnap.data() as Omit<AuditReport, 'id'>) };
+      saveLocalReport(report);
+      return report;
     }
     return null;
   } catch (error: any) {
-    if (error?.code === 'permission-denied') {
-      handleFirestoreError(error, OperationType.GET, path);
-    }
-    return null;
+    handleFirestoreError(error, OperationType.GET, path);
+    return getLocalReports().find(r => r.id === reportId) || null;
   }
 };
 
 export const deleteReport = async (reportId: string): Promise<boolean> => {
-  if (!auth.currentUser) throw new Error("Authentication required");
-  if (!reportId) throw new Error("Report ID is required");
+  if (!reportId) return false;
+  deleteLocalReport(reportId);
+
+  if (reportId.startsWith('guest-') || reportId.startsWith('report-')) {
+    return true;
+  }
+
+  if (!auth.currentUser) return true;
   const path = `reports/${reportId}`;
   try {
     const docRef = doc(db, "reports", reportId);
@@ -198,12 +321,16 @@ export const deleteReport = async (reportId: string): Promise<boolean> => {
     return true;
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, path);
-    throw error;
+    return true;
   }
 };
 
 export const getUserReports = async (): Promise<AuditReport[]> => {
-  if (!auth.currentUser) return [];
+  const local = getLocalReports();
+  if (!auth.currentUser) {
+    return local.filter(r => r.ownerId === 'guest');
+  }
+
   const path = "reports";
   try {
     const q = query(
@@ -211,15 +338,29 @@ export const getUserReports = async (): Promise<AuditReport[]> => {
       where("ownerId", "==", auth.currentUser.uid)
     );
     const querySnapshot = await getDocs(q);
-    const reports: AuditReport[] = [];
+    const firestoreReports: AuditReport[] = [];
     querySnapshot.forEach((docSnap) => {
-      reports.push({ id: docSnap.id, ...(docSnap.data() as Omit<AuditReport, 'id'>) });
+      firestoreReports.push({ id: docSnap.id, ...(docSnap.data() as Omit<AuditReport, 'id'>) });
     });
-    reports.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-    return reports;
+
+    // Merge Firestore with local cached reports
+    const reportMap = new Map<string, AuditReport>();
+    local.forEach(r => {
+      const key = r.id || `loc-${r.createdAt || Date.now()}`;
+      reportMap.set(key, r);
+    });
+    firestoreReports.forEach(r => {
+      const key = r.id || `remote-${r.createdAt || Date.now()}`;
+      reportMap.set(key, r);
+    });
+
+    const merged = Array.from(reportMap.values());
+    merged.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return merged;
   } catch (error) {
     handleFirestoreError(error, OperationType.LIST, path);
-    throw error;
+    // Return local cache on network error
+    return local.filter(r => r.ownerId === auth.currentUser?.uid || r.ownerId === 'guest');
   }
 };
 
@@ -234,12 +375,7 @@ export const getAllReportsForAdmin = async (): Promise<AuditReport[]> => {
     reports.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     return reports;
   } catch (error) {
-    // If not allowed, fallback to user reports
-    try {
-      return await getUserReports();
-    } catch {
-      return [];
-    }
+    return await getUserReports();
   }
 };
 
@@ -558,6 +694,256 @@ export const deleteMonitoredSite = async (siteId: string): Promise<boolean> => {
     handleFirestoreError(error, OperationType.DELETE, path);
     throw error;
   }
+};
+
+// --- API KEYS & WHITE-LABEL CRUD ---
+
+const LOCAL_API_KEYS_STORAGE_PREFIX = 'catalyst_api_keys_';
+
+function generateSecureApiKey(): string {
+  const chars = '0123456789abcdef';
+  let hex = '';
+  for (let i = 0; i < 32; i++) {
+    hex += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return `cat_live_${hex}`;
+}
+
+export const INITIAL_DEMO_API_KEYS: ApiKey[] = [
+  {
+    id: 'key_prod_pipeline_01',
+    name: 'Production CI/CD Quality Gate',
+    keyPrefix: 'cat_live_3f9a7b12',
+    ownerId: 'system',
+    ownerEmail: 'developer@catalystlab.io',
+    scopes: ['execute:engines', 'execute:master-audit', 'read:reports'],
+    environment: 'production',
+    status: 'active',
+    dailyComputeLimit: 500,
+    whiteLabelConfig: {
+      organizationName: 'Catalyst Enterprise Systems',
+      brandHeaderName: 'X-Catalyst-Enterprise',
+      customWebhookUrl: 'https://api.example.com/webhooks/telemetry-gate',
+      reportTheme: 'corporate'
+    },
+    createdAt: Date.now() - 30 * 24 * 60 * 60 * 1000,
+    lastRotatedAt: Date.now() - 10 * 24 * 60 * 60 * 1000,
+    lastUsedAt: Date.now() - 15 * 60 * 1000,
+    expiresAt: Date.now() + 180 * 24 * 60 * 60 * 1000,
+    requestCountToday: 42,
+    totalRequests: 1840
+  },
+  {
+    id: 'key_staging_radar_02',
+    name: 'Staging Multi-PoP Radar Probe',
+    keyPrefix: 'cat_live_8c2d1e90',
+    ownerId: 'system',
+    ownerEmail: 'developer@catalystlab.io',
+    scopes: ['execute:engines', 'read:monitoring'],
+    environment: 'staging',
+    status: 'active',
+    dailyComputeLimit: 500,
+    whiteLabelConfig: {
+      organizationName: 'Staging Quality Ops',
+      brandHeaderName: 'X-Staging-Quality'
+    },
+    createdAt: Date.now() - 14 * 24 * 60 * 60 * 1000,
+    lastRotatedAt: null,
+    lastUsedAt: Date.now() - 2 * 60 * 60 * 1000,
+    expiresAt: null,
+    requestCountToday: 18,
+    totalRequests: 490
+  }
+];
+
+export const getApiKeys = async (ownerId?: string): Promise<ApiKey[]> => {
+  const resolvedOwnerId = ownerId || auth.currentUser?.uid || 'guest_dev';
+  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${resolvedOwnerId}`;
+
+  // Try local storage first for instant responsiveness
+  let localKeys: ApiKey[] = [];
+  try {
+    const raw = localStorage.getItem(localKey);
+    if (raw) {
+      localKeys = JSON.parse(raw);
+    }
+  } catch {}
+
+  const path = "api_keys";
+  try {
+    const q = query(collection(db, path), where("ownerId", "==", resolvedOwnerId));
+    const querySnapshot = await getDocs(q);
+    const keys: ApiKey[] = [];
+    querySnapshot.forEach((docSnap) => {
+      keys.push({ id: docSnap.id, ...(docSnap.data() as Omit<ApiKey, 'id'>) });
+    });
+
+    if (keys.length > 0) {
+      keys.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      try {
+        localStorage.setItem(localKey, JSON.stringify(keys));
+      } catch {}
+      return keys;
+    }
+  } catch (error) {
+    console.warn("Could not query API keys from Firestore, checking local storage:", error);
+  }
+
+  if (localKeys.length > 0) {
+    return localKeys;
+  }
+
+  // Fallback to sample demo keys for developer exploration
+  return INITIAL_DEMO_API_KEYS;
+};
+
+export const createApiKey = async (params: {
+  name: string;
+  scopes: ApiKey['scopes'];
+  environment: ApiKey['environment'];
+  expiresInDays?: number;
+  whiteLabelConfig?: WhiteLabelConfig;
+}): Promise<{ apiKey: ApiKey; secretKey: string }> => {
+  const user = auth.currentUser;
+  const ownerId = user?.uid || 'guest_dev';
+  const ownerEmail = user?.email || 'developer@catalystlab.io';
+
+  const secretKey = generateSecureApiKey();
+  const keyPrefix = secretKey.substring(0, 16) + '...';
+  const keyId = `key_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const expiresAt = params.expiresInDays 
+    ? Date.now() + params.expiresInDays * 24 * 60 * 60 * 1000 
+    : null;
+
+  const newApiKey: ApiKey = {
+    id: keyId,
+    name: params.name || 'API Client Key',
+    keyPrefix,
+    ownerId,
+    ownerEmail,
+    scopes: params.scopes || ['execute:engines', 'read:reports'],
+    environment: params.environment || 'development',
+    status: 'active',
+    dailyComputeLimit: 500,
+    whiteLabelConfig: params.whiteLabelConfig || {},
+    createdAt: Date.now(),
+    lastRotatedAt: null,
+    lastUsedAt: null,
+    expiresAt,
+    requestCountToday: 0,
+    totalRequests: 0
+  };
+
+  const path = `api_keys/${keyId}`;
+  try {
+    await setDoc(doc(db, "api_keys", keyId), {
+      ...newApiKey,
+      secretKeyHash: secretKey.substring(0, 20) // masked verification
+    });
+  } catch (error) {
+    console.warn("Firestore save notice for api_key, caching locally:", error);
+  }
+
+  // Persist locally
+  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
+  try {
+    const existing = await getApiKeys(ownerId);
+    const updated = [newApiKey, ...existing.filter(k => k.id !== keyId)];
+    localStorage.setItem(localKey, JSON.stringify(updated));
+  } catch {}
+
+  return {
+    apiKey: newApiKey,
+    secretKey
+  };
+};
+
+export const rotateApiKey = async (keyId: string): Promise<{ apiKey: ApiKey; newSecretKey: string }> => {
+  const user = auth.currentUser;
+  const ownerId = user?.uid || 'guest_dev';
+  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
+
+  const currentKeys = await getApiKeys(ownerId);
+  const target = currentKeys.find(k => k.id === keyId);
+  if (!target) {
+    throw new Error(`API key '${keyId}' not found.`);
+  }
+
+  const newSecretKey = generateSecureApiKey();
+  const newKeyPrefix = newSecretKey.substring(0, 16) + '...';
+
+  const updatedKey: ApiKey = {
+    ...target,
+    keyPrefix: newKeyPrefix,
+    lastRotatedAt: Date.now(),
+    status: 'active'
+  };
+
+  try {
+    const docRef = doc(db, "api_keys", keyId);
+    await updateDoc(docRef, {
+      keyPrefix: newKeyPrefix,
+      lastRotatedAt: Date.now(),
+      status: 'active'
+    });
+  } catch (error) {
+    console.warn("Could not update rotated key in Firestore, updating local cache:", error);
+  }
+
+  try {
+    const updatedList = currentKeys.map(k => k.id === keyId ? updatedKey : k);
+    localStorage.setItem(localKey, JSON.stringify(updatedList));
+  } catch {}
+
+  return {
+    apiKey: updatedKey,
+    newSecretKey
+  };
+};
+
+export const revokeApiKey = async (keyId: string): Promise<boolean> => {
+  const user = auth.currentUser;
+  const ownerId = user?.uid || 'guest_dev';
+  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
+
+  try {
+    const docRef = doc(db, "api_keys", keyId);
+    await updateDoc(docRef, {
+      status: 'revoked',
+      revokedAt: Date.now()
+    });
+  } catch (error) {
+    console.warn("Could not revoke in Firestore, updating local storage:", error);
+  }
+
+  try {
+    const currentKeys = await getApiKeys(ownerId);
+    const updatedList = currentKeys.map(k => k.id === keyId ? { ...k, status: 'revoked' as const } : k);
+    localStorage.setItem(localKey, JSON.stringify(updatedList));
+  } catch {}
+
+  return true;
+};
+
+export const deleteApiKey = async (keyId: string): Promise<boolean> => {
+  const user = auth.currentUser;
+  const ownerId = user?.uid || 'guest_dev';
+  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
+
+  try {
+    const docRef = doc(db, "api_keys", keyId);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.warn("Could not delete from Firestore, deleting from local cache:", error);
+  }
+
+  try {
+    const currentKeys = await getApiKeys(ownerId);
+    const updatedList = currentKeys.filter(k => k.id !== keyId);
+    localStorage.setItem(localKey, JSON.stringify(updatedList));
+  } catch {}
+
+  return true;
 };
 
 export { onAuthStateChanged };

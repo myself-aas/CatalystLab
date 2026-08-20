@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ENGINES_MAP } from '../data/engines';
@@ -21,7 +21,10 @@ import {
   ArrowRight,
   FileText,
   Activity,
-  Code
+  Code,
+  Tag,
+  Compass,
+  BookOpen
 } from 'lucide-react';
 
 interface ToolPageProps {
@@ -30,7 +33,9 @@ interface ToolPageProps {
 
 export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   const meta = ENGINES_MAP[engineType];
+  const location = useLocation();
   const { user, isAdmin, login } = useAuth();
+  
   const [targetUrl, setTargetUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState('');
@@ -41,6 +46,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   const [viewMode, setViewMode] = useState<'dashboard' | 'terminal'>('dashboard');
 
   const isRepoEngine = engineType === 'repo';
+  const autoLaunchedRef = useRef(false);
 
   const normalizeUrl = (input: string): string => {
     let trimmed = input.trim();
@@ -49,6 +55,20 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     }
     return trimmed;
   };
+
+  // Inspect URL search params for quick testing / cross-engine runs
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const queryUrl = searchParams.get('url');
+    if (queryUrl && queryUrl !== targetUrl) {
+      setTargetUrl(queryUrl);
+      if (!autoLaunchedRef.current && !output && !loading) {
+        autoLaunchedRef.current = true;
+        // Trigger auto-scan
+        triggerAudit(queryUrl);
+      }
+    }
+  }, [location.search, engineType]);
 
   const handleManualSave = async () => {
     if (!user || savedReportId || !output) return;
@@ -74,9 +94,8 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     }
   };
 
-  const handleSubmit = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    if (!targetUrl.trim()) return;
+  const triggerAudit = async (rawUrl: string) => {
+    if (!rawUrl.trim()) return;
 
     // Check rate limit
     const rateStatus = getRateLimitStatus(user, isAdmin);
@@ -86,7 +105,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       return;
     }
 
-    let cleanUrl = targetUrl.trim();
+    let cleanUrl = rawUrl.trim();
     if (!isRepoEngine) {
       cleanUrl = normalizeUrl(cleanUrl);
       setTargetUrl(cleanUrl);
@@ -152,6 +171,11 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     }
   };
 
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    triggerAudit(targetUrl);
+  };
+
   const permalinkUrl = targetUrl 
     ? `${window.location.origin}/reports/${urlToDomainSlug(targetUrl)}` 
     : (savedReportId ? `${window.location.origin}/reports/${savedReportId}` : '');
@@ -169,23 +193,45 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       {/* Header Banner */}
       <section className="border-b border-[#e2e8f0] bg-white px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#415a77] hover:text-[#0b192c] mb-6 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Back to Master Audit</span>
-          </Link>
+          
+          <div className="flex items-center justify-between mb-6">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span>Back to Master Audit</span>
+            </Link>
 
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b192c] text-[#c5d3e8] text-3xl shadow-lg mb-4 border border-[#415a77]/40">
-            <span className="material-symbols-outlined text-3xl">{meta.icon}</span>
+            <Link
+              to={`/docs#${meta.docsAnchor || 'overview'}`}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#38bdf8] hover:text-[#0b192c] transition-colors"
+            >
+              <BookOpen className="h-4 w-4" />
+              <span>Engine Documentation</span>
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          </div>
+
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0b192c] text-[#38bdf8] text-3xl shadow-xl mb-4 border border-[#415a77]/40">
+            <span className="material-symbols-outlined text-4xl">{meta.icon}</span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+            <span className={`text-xs font-bold px-3 py-1 rounded-full border ${meta.badgeClass}`}>
+              {meta.category} Category
+            </span>
+            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#415a77] bg-[#f1f5f9] px-3 py-1 rounded-full border border-[#e2e8f0]">
+              <Tag className="h-3 w-3 text-[#38bdf8]" />
+              <span>label: &#123; category: "{meta.category}", engine_name: "{meta.name}" &#125;</span>
+            </span>
           </div>
 
           <h1 className="text-3xl font-extrabold text-[#0b192c] sm:text-4xl">
-            {meta.name}
+            {meta.name} Engine
           </h1>
 
-          <p className="mx-auto mt-3 max-w-xl text-sm text-[#415a77]">
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-[#415a77] leading-relaxed">
             {meta.description}
           </p>
 
@@ -213,7 +259,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-6 py-3 text-sm font-bold text-white hover:bg-[#33475e] disabled:opacity-50 shrink-0 shadow-md transition-all"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-6 py-3 text-sm font-bold text-[#38bdf8] hover:bg-[#152238] disabled:opacity-50 shrink-0 shadow-md transition-all active:scale-95"
               >
                 {loading ? (
                   <>
@@ -223,11 +269,31 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                 ) : (
                   <>
                     <Play className="h-4 w-4 fill-current" />
-                    <span>Run Diagnostic</span>
+                    <span>Run Scan</span>
                   </>
                 )}
               </button>
             </div>
+
+            {/* Quick Sample Targets */}
+            {meta.sampleTargets && meta.sampleTargets.length > 0 && (
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs text-[#415a77]">
+                <span className="font-semibold text-[11px] text-[#64748b]">Try Sample Target:</span>
+                {meta.sampleTargets.map((sample, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      setTargetUrl(sample);
+                      triggerAudit(sample);
+                    }}
+                    className="rounded-lg bg-[#f1f5f9] hover:bg-[#e2e8f0] px-2.5 py-1 font-mono text-[11px] text-[#0b192c] border border-[#cbd5e1] transition-colors"
+                  >
+                    {sample.replace('https://', '')}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div className="mt-4">
               <RateLimitBadge onOpenInfo={() => {
@@ -295,7 +361,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               }`}
             >
               <Activity className="h-4 w-4" />
-              Executive Dashboard
+              Executive Visual Dashboard
             </button>
             <button
               onClick={() => setViewMode('terminal')}

@@ -18,7 +18,15 @@ export interface AuditReport {
   ownerId: string;
   ownerEmail?: string;
   title?: string;
+  summary?: string;
   score?: number;
+  auditSessionId?: string;
+  visitorId?: string;
+}
+
+export interface EngineRecommendation {
+  engineId: EngineType;
+  rationale: string;
 }
 
 export interface EngineMeta {
@@ -31,6 +39,11 @@ export interface EngineMeta {
   description: string;
   pythonScript: string;
   route: string;
+  docsAnchor?: string;
+  keyVectors?: string[];
+  sampleTargets?: string[];
+  recommendedEngines?: EngineRecommendation[];
+  relevantBlogSlugs?: string[];
 }
 
 export interface EngineExecutionResult {
@@ -106,3 +119,74 @@ export interface SystemHealthStats {
   platform: string;
   timestamp: number;
 }
+
+export type ApiKeyScope = 
+  | 'execute:engines'
+  | 'execute:master-audit'
+  | 'read:reports'
+  | 'read:monitoring'
+  | 'manage:webhooks';
+
+export type ApiKeyEnvironment = 'production' | 'staging' | 'development';
+
+export interface WhiteLabelConfig {
+  organizationName?: string;
+  brandHeaderName?: string;
+  customWebhookUrl?: string;
+  allowedOrigins?: string[];
+  reportTheme?: 'light' | 'dark' | 'corporate';
+}
+
+export interface ApiKey {
+  id: string;
+  name: string;
+  keyPrefix: string; // e.g. cat_live_9f83...
+  secretKey?: string; // only available immediately upon creation or rotation
+  ownerId: string;
+  ownerEmail: string;
+  scopes: ApiKeyScope[];
+  environment: ApiKeyEnvironment;
+  status: 'active' | 'revoked' | 'expired';
+  dailyComputeLimit: number; // 500 units by default for Pro API
+  whiteLabelConfig?: WhiteLabelConfig;
+  createdAt: number;
+  lastRotatedAt?: number | null;
+  lastUsedAt?: number | null;
+  expiresAt?: number | null;
+  requestCountToday?: number;
+  totalRequests?: number;
+}
+
+export interface PlaygroundHistoryItem {
+  id: string;
+  timestamp: number;
+  endpoint: string;
+  method: 'POST' | 'GET';
+  engine?: string;
+  targetUrl: string;
+  statusCode: number;
+  latencyMs: number;
+  payloadSizeKb: number;
+  costCharged: number;
+  success: boolean;
+  rateLimitRemaining?: number;
+  rateLimitTier?: string;
+  requestPayload: any;
+  responsePayload: any;
+  responseHeaders: Record<string, string>;
+}
+
+export interface RateLimitThresholdAlertInfo {
+  isApproaching: boolean;
+  isHit: boolean;
+  remainingUnits: number;
+  totalUnits: number;
+  percentageRemaining: number;
+  resetsInFormatted: string;
+  tier: string;
+  tierLabel: string;
+  isUnlimited: boolean;
+  burstRemaining?: number;
+  isBurstExceeded?: boolean;
+}
+

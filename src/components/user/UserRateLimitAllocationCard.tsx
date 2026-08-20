@@ -1,0 +1,373 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { 
+  fetchServerRateLimitStatus, 
+  getRateLimitStatus, 
+  RateLimitStatus, 
+  MASTER_AUDIT_COST, 
+  SINGLE_ENGINE_COST 
+} from '../../utils/rateLimiter';
+import { 
+  Gauge, 
+  Clock, 
+  Zap, 
+  ShieldCheck, 
+  RefreshCw, 
+  Cpu, 
+  CheckCircle2, 
+  AlertCircle, 
+  Layers, 
+  Sparkles, 
+  Terminal, 
+  Copy, 
+  Check, 
+  Info,
+  Sliders
+} from 'lucide-react';
+
+export const UserRateLimitAllocationCard: React.FC = () => {
+  const { user, isAdmin } = useAuth();
+  const [status, setStatus] = useState<RateLimitStatus>(() => getRateLimitStatus(user, isAdmin));
+  const [loading, setLoading] = useState(false);
+  const [testingUnit, setTestingUnit] = useState<number | null>(null);
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string; remaining?: number } | null>(null);
+  const [copiedCurl, setCopiedCurl] = useState(false);
+
+  const loadStatus = async () => {
+    setLoading(true);
+    try {
+      const serverStatus = await fetchServerRateLimitStatus(user);
+      if (serverStatus) {
+        setStatus(serverStatus);
+      } else {
+        setStatus(getRateLimitStatus(user, isAdmin));
+      }
+    } catch {
+      setStatus(getRateLimitStatus(user, isAdmin));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadStatus();
+    const handleUpdate = (e: CustomEvent<RateLimitStatus>) => {
+      if (e.detail) setStatus(e.detail);
+    };
+    window.addEventListener('catalyst-rate-limit-updated' as any, handleUpdate);
+    return () => {
+      window.removeEventListener('catalyst-rate-limit-updated' as any, handleUpdate);
+    };
+  }, [user, isAdmin]);
+
+  const handleSimulateCheck = async (cost: number) => {
+    setTestingUnit(cost);
+    setTestResult(null);
+    try {
+      const res = await fetch('/api/rate-limit/status', {
+        headers: {
+          'x-user-email': user?.email || '',
+          'x-user-id': user?.uid || ''
+        }
+      });
+      const data = await res.json();
+      if (data.success) {
+        const canExecute = data.isUnlimited || data.unitsRemaining >= cost;
+        if (canExecute) {
+          setTestResult({
+            success: true,
+            message: `Quota Verification Passed: ${cost} unit(s) available for immediate execution.`,
+            remaining: data.unitsRemaining
+          });
+        } else {
+          setTestResult({
+            success: false,
+            message: `Rate Limit Restricted: Required ${cost} unit(s), but only ${data.unitsRemaining} unit(s) remain today. Resets in ${data.formattedResetTime}.`,
+            remaining: data.unitsRemaining
+          });
+        }
+      }
+    } catch (err: any) {
+      setTestResult({
+        success: false,
+        message: `Network error verifying rate limits: ${err.message}`
+      });
+    } finally {
+      setTestingUnit(null);
+    }
+  };
+
+  const curlExample = `curl -X POST https://catalystlab.ai/api/run-engine \\
+  -H "Content-Type: application/json" \\
+  -H "x-user-email: ${user?.email || 'developer@example.com'}" \\
+  -d '{"url": "https://example.com", "engine": "health"}' -i`;
+
+  const handleCopyCurl = () => {
+    navigator.clipboard.writeText(curlExample);
+    setCopiedCurl(true);
+    setTimeout(() => setCopiedCurl(false), 2000);
+  };
+
+  const percentRemaining = status.isUnlimited 
+    ? 100 
+    : status.limit 
+      ? Math.max(0, Math.min(100, Math.round((status.remaining / status.limit) * 100))) 
+      : 0;
+
+  return (
+    <div className="space-y-6">
+      {/* Top Resource Allocation Banner */}
+      <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 sm:p-8 shadow-sm">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#e2e8f0]">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#415a77]/10 text-[#415a77]">
+                <Cpu className="h-4 w-4" />
+              </span>
+              <h3 className="text-xl font-bold text-[#0b192c]">Daily Compute Quota & Allocation</h3>
+              <span className="rounded-md bg-[#f1f5f9] border border-[#e2e8f0] px-2.5 py-0.5 text-xs font-bold text-[#415a77] uppercase tracking-wider">
+                {status.tierLabel}
+              </span>
+            </div>
+            <p className="text-sm text-[#415a77]">
+              Fair-share GPU & worker concurrency middleware with sliding burst regulation and zero-loss multi-engine deduplication.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={loadStatus}
+              disabled={loading}
+              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm disabled:opacity-50"
+            >
+              <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
+              <span>Refresh Ledger</span>
+            </button>
+            <div className="flex items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-2 text-xs font-bold text-emerald-700">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>Middleware Active</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress & Detailed Gauges */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+          
+          {/* Main Units Meter */}
+          <div className="md:col-span-1 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-bold text-[#415a77] uppercase tracking-wider">Units Remaining</span>
+                <span className="text-xs font-mono font-bold text-[#0b192c]">
+                  {status.isUnlimited ? '∞ Unlimited' : `${status.remaining} / ${status.limit} Units`}
+                </span>
+              </div>
+
+              {/* Visual Progress Bar */}
+              <div className="h-3.5 w-full overflow-hidden rounded-full bg-slate-200 p-0.5">
+                <div 
+                  className={`h-full rounded-full transition-all duration-700 ${
+                    percentRemaining > 40 ? 'bg-[#415a77]' : percentRemaining > 15 ? 'bg-amber-500' : 'bg-rose-500'
+                  }`}
+                  style={{ width: `${percentRemaining}%` }}
+                />
+              </div>
+
+              <div className="flex items-center justify-between mt-2 text-[11px] text-[#415a77]">
+                <span>{status.used} Units Used Today</span>
+                <span>{percentRemaining}% Available</span>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
+              <span className="text-[#415a77] flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5 text-[#415a77]" />
+                Daily Reset In:
+              </span>
+              <span className="font-mono font-bold text-[#0b192c] bg-white px-2 py-0.5 rounded border border-slate-200">
+                {status.formattedResetTime} (Midnight UTC)
+              </span>
+            </div>
+          </div>
+
+          {/* Breakdown by Scan Types */}
+          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            {/* Master Audits Box */}
+            <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="flex items-center gap-1.5 text-xs font-bold text-[#0b192c]">
+                  <Sparkles className="h-4 w-4 text-[#415a77]" />
+                  Master Audits (All 8 Engines)
+                </span>
+                <span className="rounded bg-[#415a77]/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                  {MASTER_AUDIT_COST} Units / Run
+                </span>
+              </div>
+              <div className="mt-3">
+                <div className="text-2xl font-black text-[#0b192c]">
+                  {status.isUnlimited ? '∞' : status.masterRemaining} <span className="text-xs font-normal text-[#415a77]">available today</span>
+                </div>
+                <p className="mt-1 text-[11px] text-[#415a77] leading-relaxed">
+                  Triggers all 8 telemetry scanners concurrently. Deduplicated session keys ensure zero double-billing.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+                <span className="text-[11px] text-[#415a77]">Total Limit: {status.isUnlimited ? '∞' : `${status.masterLimit} / day`}</span>
+                <button
+                  onClick={() => handleSimulateCheck(MASTER_AUDIT_COST)}
+                  disabled={testingUnit !== null}
+                  className="text-[11px] font-bold text-[#415a77] hover:underline"
+                >
+                  Verify Master Quota →
+                </button>
+              </div>
+            </div>
+
+            {/* Single Engines Box */}
+            <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="flex items-center gap-1.5 text-xs font-bold text-[#0b192c]">
+                  <Layers className="h-4 w-4 text-[#415a77]" />
+                  Single Diagnostic Engines
+                </span>
+                <span className="rounded bg-[#415a77]/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                  {SINGLE_ENGINE_COST} Unit / Run
+                </span>
+              </div>
+              <div className="mt-3">
+                <div className="text-2xl font-black text-[#0b192c]">
+                  {status.isUnlimited ? '∞' : status.singleRemaining} <span className="text-xs font-normal text-[#415a77]">available today</span>
+                </div>
+                <p className="mt-1 text-[11px] text-[#415a77] leading-relaxed">
+                  Individual scans for DOM Health, Edge TTFB Latency, /llms.txt AI crawler parity, SecOps, or ESG Carbon.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+                <span className="text-[11px] text-[#415a77]">Total Limit: {status.isUnlimited ? '∞' : `${status.singleLimit} / day`}</span>
+                <button
+                  onClick={() => handleSimulateCheck(SINGLE_ENGINE_COST)}
+                  disabled={testingUnit !== null}
+                  className="text-[11px] font-bold text-[#415a77] hover:underline"
+                >
+                  Verify Single Quota →
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Live Test Feedback Banner */}
+        {testResult && (
+          <div className={`mt-6 rounded-xl p-4 text-xs flex items-start gap-3 border animate-fade-in ${
+            testResult.success 
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+              : 'bg-rose-50 border-rose-200 text-rose-800'
+          }`}>
+            {testResult.success ? (
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" />
+            ) : (
+              <AlertCircle className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+            )}
+            <div className="flex-1">
+              <span className="font-bold">{testResult.success ? 'Success: ' : 'Notice: '}</span>
+              {testResult.message}
+            </div>
+            <button 
+              onClick={() => setTestResult(null)}
+              className="text-xs font-bold underline opacity-70 hover:opacity-100"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Middleware Architecture & Header Inspector */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Rate Limiting Rules & Headers */}
+        <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <ShieldCheck className="h-5 w-5 text-[#415a77]" />
+              <h4 className="text-base font-bold text-[#0b192c]">HTTP Rate Limiting Standards</h4>
+            </div>
+            <p className="text-xs text-[#415a77] mb-4 leading-relaxed">
+              CatalystLab complies with IETF RateLimit Header specifications. Every response from <code className="text-[#0b192c] font-mono font-bold bg-[#f1f5f9] px-1.5 py-0.5 rounded">/api/run-engine</code> and <code className="text-[#0b192c] font-mono font-bold bg-[#f1f5f9] px-1.5 py-0.5 rounded">/api/v1/*</code> includes the following real-time rate headers:
+            </p>
+
+            <div className="space-y-2 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-4 text-xs font-mono">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#415a77]">X-RateLimit-Limit:</span>
+                <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'unlimited' : status.limit}</span>
+              </div>
+              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#415a77]">X-RateLimit-Remaining:</span>
+                <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'unlimited' : status.remaining}</span>
+              </div>
+              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#415a77]">X-RateLimit-Used:</span>
+                <span className="font-bold text-[#0b192c]">{status.used}</span>
+              </div>
+              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <span className="text-[#415a77]">X-RateLimit-Tier:</span>
+                <span className="font-bold text-[#0b192c]">{status.tier}</span>
+              </div>
+              <div className="flex items-center justify-between pt-0.5">
+                <span className="text-[#415a77]">RateLimit-Policy:</span>
+                <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'none' : `${status.limit};w=86400`}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5 pt-4 border-t border-[#e2e8f0] flex items-center gap-2 text-[11px] text-[#415a77]">
+            <Info className="h-4 w-4 text-[#415a77] shrink-0" />
+            <span>Burst regulator allows up to 45 requests/min for registered developer accounts.</span>
+          </div>
+        </div>
+
+        {/* Developer Integration & cURL */}
+        <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Terminal className="h-5 w-5 text-[#415a77]" />
+                <h4 className="text-base font-bold text-[#0b192c]">CI/CD & CLI Header Inspection</h4>
+              </div>
+              <button
+                onClick={handleCopyCurl}
+                className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition-colors"
+              >
+                {copiedCurl ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                <span>{copiedCurl ? 'Copied' : 'Copy cURL'}</span>
+              </button>
+            </div>
+            <p className="text-xs text-[#415a77] mb-3 leading-relaxed">
+              Inspect rate limit response headers directly from your terminal or continuous integration test workflows:
+            </p>
+
+            <pre className="rounded-xl bg-[#0b192c] p-4 text-[11px] font-mono text-emerald-400 overflow-x-auto leading-relaxed border border-slate-800">
+              <code>{curlExample}</code>
+            </pre>
+          </div>
+
+          <div className="mt-5 pt-4 border-t border-[#e2e8f0] flex items-center justify-between text-xs">
+            <span className="text-[#415a77]">Need a dedicated Pro API key?</span>
+            <a 
+              href="/api-docs" 
+              className="font-bold text-[#415a77] hover:text-[#0b192c] transition-colors"
+            >
+              Explore API Catalog & Keys →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};

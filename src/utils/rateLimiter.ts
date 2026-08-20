@@ -20,7 +20,7 @@ export const MASTER_AUDIT_COST = 10;
 export const SINGLE_ENGINE_COST = 1;
 
 export interface RateLimitStatus {
-  tier: 'superadmin' | 'user' | 'visitor';
+  tier: 'superadmin' | 'user' | 'visitor' | 'api_pro';
   tierLabel: string;
   limit: number | null; // Total units limit
   used: number;         // Total units used
@@ -36,6 +36,9 @@ export interface RateLimitStatus {
   resetHoursRemaining: number;
   resetMinutesRemaining: number;
   formattedResetTime: string;
+  resetAtUtc?: string;
+  burstLimit?: number;
+  burstRemaining?: number;
 }
 
 // Generate or retrieve a persistent client ID for visitors
@@ -126,7 +129,7 @@ export function getRateLimitStatus(user: User | null, isAdmin: boolean, subscrip
   let limit = VISITOR_DAILY_LIMIT;
   if (isAuthUser) {
     if (subscriptionType === 'pro') {
-      limit = 500; // Example custom tier
+      limit = 500;
     } else {
       limit = USER_DAILY_LIMIT;
     }
@@ -168,6 +171,58 @@ export function getRateLimitStatus(user: User | null, isAdmin: boolean, subscrip
   };
 }
 
+// Fetch live server rate limit status
+export async function fetchServerRateLimitStatus(user: User | null): Promise<RateLimitStatus | null> {
+  try {
+    const visitorId = getVisitorDeviceId();
+    const headers: Record<string, string> = {
+      'x-visitor-id': visitorId
+    };
+    if (user?.email) headers['x-user-email'] = user.email;
+    if (user?.uid) headers['x-user-id'] = user.uid;
+
+    const res = await fetch('/api/rate-limit/status', { headers });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data.success) return null;
+
+    const status: RateLimitStatus = {
+      tier: data.tier,
+      tierLabel: data.tierLabel,
+      limit: data.dailyLimit,
+      used: data.unitsUsed,
+      remaining: data.unitsRemaining,
+      masterLimit: data.dailyLimit ? Math.floor(data.dailyLimit / MASTER_AUDIT_COST) : Infinity,
+      singleLimit: data.dailyLimit ? Math.floor(data.dailyLimit / SINGLE_ENGINE_COST) : Infinity,
+      masterRemaining: data.masterAuditsRemaining,
+      singleRemaining: data.singleEnginesRemaining,
+      isUnlimited: data.isUnlimited,
+      isExceeded: data.isExceeded,
+      isMasterExceeded: !data.isUnlimited && (data.unitsRemaining < MASTER_AUDIT_COST),
+      isSingleExceeded: !data.isUnlimited && (data.unitsRemaining < SINGLE_ENGINE_COST),
+      resetHoursRemaining: Math.floor(data.resetInSeconds / 3600),
+      resetMinutesRemaining: Math.floor((data.resetInSeconds % 3600) / 60),
+      formattedResetTime: data.formattedResetTime,
+      resetAtUtc: data.resetAt,
+      burstLimit: data.burstLimit,
+      burstRemaining: data.burstRemaining
+    };
+
+    // Update local cache
+    if (!data.isUnlimited) {
+      const dateKey = getCurrentDateKey();
+      const identifier = user ? `usr_${user.uid}` : `vis_${visitorId}`;
+      localStorage.setItem(`catalyst_rate_limit_${dateKey}_${identifier}`, String(data.unitsUsed));
+      window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: status }));
+    }
+
+    return status;
+  } catch (err) {
+    console.warn("Failed to fetch rate limit from server, using local fallback", err);
+    return null;
+  }
+}
+
 // Record an audit launch & increment usage
 export function recordAuditLaunch(user: User | null, isAdmin: boolean, auditType: 'master' | 'single' = 'master'): { allowed: boolean; status: RateLimitStatus } {
   const currentStatus = getRateLimitStatus(user, isAdmin);
@@ -194,5 +249,35 @@ export function recordAuditLaunch(user: User | null, isAdmin: boolean, auditType
   }
 
   const updatedStatus = getRateLimitStatus(user, isAdmin);
+  window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
   return { allowed: true, status: updatedStatus };
 }
+
+// Record arbitrary unit deduction from API playground or custom client execution
+export function recordClientRequestAttempt(cost: number, user: User | null, isAdmin: boolean): { allowed: boolean; status: RateLimitStatus } {
+  const currentStatus = getRateLimitStatus(user, isAdmin);
+
+  if (currentStatus.isUnlimited) {
+    return { allowed: true, status: currentStatus };
+  }
+
+  if (currentStatus.remaining < cost) {
+    return { allowed: false, status: currentStatus };
+  }
+
+  const dateKey = getCurrentDateKey();
+  const identifier = user ? `usr_${user.uid}` : `vis_${getVisitorDeviceId()}`;
+  const storageKey = `catalyst_rate_limit_${dateKey}_${identifier}`;
+
+  const newUsed = currentStatus.used + cost;
+  try {
+    localStorage.setItem(storageKey, String(newUsed));
+  } catch (err) {
+    console.warn("Could not persist rate limit count to localStorage:", err);
+  }
+
+  const updatedStatus = getRateLimitStatus(user, isAdmin);
+  window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
+  return { allowed: true, status: updatedStatus };
+}
+

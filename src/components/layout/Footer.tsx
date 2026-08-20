@@ -33,7 +33,8 @@ export const Footer: React.FC = () => {
             <ul className="mt-3 space-y-2 text-sm">
               <li><Link to="/" className="hover:text-[#f8fafc] transition-colors">Home</Link></li>
               <li><Link to="/pricing" className="hover:text-[#f8fafc] transition-colors">Pricing & Plans</Link></li>
-              <li><Link to="/docs" className="hover:text-[#f8fafc] transition-colors">API & Specs (Docs)</Link></li>
+              <li><Link to="/docs" className="hover:text-[#f8fafc] transition-colors">Documentation</Link></li>
+              <li><Link to="/api-docs" className="hover:text-[#f8fafc] transition-colors flex items-center gap-1.5 font-medium text-[#38bdf8]"><span>API & Playground</span></Link></li>
               <li><Link to="/blogs" className="hover:text-[#f8fafc] transition-colors">Blogs</Link></li>
               <li><Link to="/about" className="hover:text-[#f8fafc] transition-colors">About Us</Link></li>
               <li><Link to="/reports" className="hover:text-[#f8fafc] transition-colors">Audit Reports</Link></li>

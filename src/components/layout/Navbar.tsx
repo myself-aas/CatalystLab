@@ -98,6 +98,18 @@ export const Navbar: React.FC = () => {
             </Link>
 
             <Link
+              to="/api-docs"
+              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all flex items-center gap-1 ${
+                isActive('/api-docs') || isActive('/api-reference') || isActive('/playground')
+                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
+                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
+              }`}
+            >
+              <span>API Reference</span>
+              <span className="rounded bg-[#38bdf8]/20 px-1 py-0.2 text-[10px] font-mono text-[#0b192c]">v2.4</span>
+            </Link>
+
+            <Link
               to="/blogs"
               className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all ${
                 isActive('/blogs') || location.pathname.startsWith('/blog/') || location.pathname.startsWith('/blogs/')

@@ -4,6 +4,7 @@ import { AnimatePresence } from 'motion/react';
 import { PageTransition } from './components/common/LazyAnimate';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { AuthDomainModal } from './components/auth/AuthDomainModal';
 import { MasterAuditPage } from './pages/MasterAuditPage';
 import { UserDashboardPage } from './pages/UserDashboardPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
@@ -21,6 +22,8 @@ import { CookiePolicyPage } from './pages/CookiePolicyPage';
 import { SecurityPage } from './pages/SecurityPage';
 import { PricingPage } from './pages/PricingPage';
 import { DocsPage } from './pages/DocsPage';
+import { ApiDocsPage } from './pages/ApiDocsPage';
+import { PlaygroundPage } from './pages/PlaygroundPage';
 
 export const App: React.FC = () => {
   const location = useLocation();
@@ -42,12 +45,23 @@ export const App: React.FC = () => {
               <Route path="/docs" element={<DocsPage />} />
               <Route path="/docs.html" element={<DocsPage />} />
 
+              {/* Comprehensive API Reference & Test Playground */}
+              <Route path="/api-docs" element={<ApiDocsPage />} />
+              <Route path="/api-docs.html" element={<ApiDocsPage />} />
+              <Route path="/api-reference" element={<ApiDocsPage />} />
+              <Route path="/api-reference.html" element={<ApiDocsPage />} />
+              <Route path="/developer/api" element={<ApiDocsPage />} />
+              <Route path="/playground" element={<PlaygroundPage />} />
+              <Route path="/playground.html" element={<PlaygroundPage />} />
+
               <Route path="/about" element={<MethodologyPage />} />
               <Route path="/about.html" element={<MethodologyPage />} />
               
               {/* User Dashboard & Reports */}
               <Route path="/dashboard" element={<UserDashboardPage />} />
               <Route path="/dashboard.html" element={<UserDashboardPage />} />
+              <Route path="/user-dashboard" element={<UserDashboardPage />} />
+              <Route path="/user-dashboard.html" element={<UserDashboardPage />} />
 
               {/* Admin Command Center & Monitoring Studio */}
               <Route path="/admin" element={<AdminDashboardPage />} />
@@ -125,6 +139,7 @@ export const App: React.FC = () => {
         </AnimatePresence>
       </div>
       <Footer />
+      <AuthDomainModal />
     </div>
   );
 };

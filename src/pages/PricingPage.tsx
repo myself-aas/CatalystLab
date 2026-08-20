@@ -39,7 +39,7 @@ export const PricingPage: React.FC = () => {
       highlighted: true,
       features: [
         'Everything in Community, plus:',
-        'Automated 60-Minute Health Probes',
+        'Automated 180-Minute Health Probes',
         'Continuous Edge Latency Radar (12 PoPs)',
         'Full PDF & JSON Telemetry Dossiers',
         'LLMO Citation & Perplexity Visibility',

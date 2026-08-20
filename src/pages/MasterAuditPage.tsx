@@ -149,8 +149,19 @@ export const MasterAuditPage: React.FC = () => {
           try {
             const res = await fetch('/api/run-engine', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ url: cleanUrl, engine: key }),
+              headers: { 
+                'Content-Type': 'application/json',
+                'x-audit-session': auditSessionId,
+                'x-visitor-id': visitorId
+              },
+              body: JSON.stringify({ 
+                url: cleanUrl, 
+                engine: key,
+                auditSessionId,
+                visitorId,
+                userEmail: user?.email || undefined,
+                userId: user?.uid || undefined
+              }),
             });
             const data = await res.json();
             const out = data.output || (data.error ? `Diagnostic Error: ${data.error}` : 'No telemetry returned.');
@@ -420,6 +431,175 @@ export const MasterAuditPage: React.FC = () => {
         onClose={() => setRateLimitModalOpen(false)}
         reason={rateLimitReason}
       />
+
+      {/* Capabilities Overview (Empty State) */}
+      {!hasAnyOutput && !isAuditing && (
+        <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+          <LazyReveal direction="up" delay={0.1}>
+            <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-[#0b192c] sm:text-3xl">Platform Capabilities</h2>
+              <p className="mt-2 text-[#415a77] text-sm">Everything you need to audit, optimize, and secure your digital engineering assets.</p>
+            </div>
+          </LazyReveal>
+
+          <LazyStaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
+            <LazyStaggerItem className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-10 w-10 rounded-xl bg-[#0b192c] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#00d95a]">rocket_launch</span>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b192c] mb-2">Unlimited On-Demand 8-Engine Scans</h3>
+              <p className="text-xs text-[#415a77] leading-relaxed">Execute synchronous multi-PoP probes across our entire suite of 8 diagnostic engines without restrictive daily limits for community users.</p>
+            </LazyStaggerItem>
+
+            <LazyStaggerItem className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-10 w-10 rounded-xl bg-[#0b192c] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#00d95a]">account_tree</span>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b192c] mb-2">Website Health & DOM Depth Analysis</h3>
+              <p className="text-xs text-[#415a77] leading-relaxed">Evaluate DOM tree node counts, maximum DOM depth, and Core Web Vitals telemetry targeting optimal LCP and CLS thresholds.</p>
+            </LazyStaggerItem>
+
+            <LazyStaggerItem className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-10 w-10 rounded-xl bg-[#0b192c] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#00d95a]">security</span>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b192c] mb-2">OWASP SecOps Security Posture Check</h3>
+              <p className="text-xs text-[#415a77] leading-relaxed">Verify HSTS, CSP, and X-Frame-Options headers to instantly validate resistance against clickjacking and cross-site scripting (XSS).</p>
+            </LazyStaggerItem>
+
+            <LazyStaggerItem className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-10 w-10 rounded-xl bg-[#0b192c] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#00d95a]">smart_toy</span>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b192c] mb-2">AI & LLM Readiness Inspector (/llms.txt)</h3>
+              <p className="text-xs text-[#415a77] leading-relaxed">Ensure your architecture is prepared for ClaudeBot and GPTBot by parsing your /llms.txt manifests and indexing protocols.</p>
+            </LazyStaggerItem>
+
+            <LazyStaggerItem className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-10 w-10 rounded-xl bg-[#0b192c] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#00d95a]">code_blocks</span>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b192c] mb-2">Repository Hygiene Git Scanner</h3>
+              <p className="text-xs text-[#415a77] leading-relaxed">Analyze GitHub and GitLab repositories for open-source licenses, SECURITY.md policies, and healthy commit velocity.</p>
+            </LazyStaggerItem>
+
+            <LazyStaggerItem className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div className="h-10 w-10 rounded-xl bg-[#0b192c] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#00d95a]">share</span>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b192c] mb-2">Instant Public Shareable URLs</h3>
+              <p className="text-xs text-[#415a77] leading-relaxed">Generate beautiful, immutable web dossiers and PDF exports. Share diagnostic permalinks securely with your clients and engineering team.</p>
+            </LazyStaggerItem>
+          </LazyStaggerContainer>
+
+          <LazyReveal direction="up" delay={0.2}>
+            <div className="mt-12 text-center mb-8">
+              <h2 className="text-xl font-bold text-[#0b192c]">Everything in Community, plus:</h2>
+              <p className="mt-1 text-[#415a77] text-xs">Unlock Pro Telemetry features tailored for fast-growing products.</p>
+            </div>
+          </LazyReveal>
+
+          <LazyStaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" staggerDelay={0.05}>
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Automated 180-Minute Health Probes</h4>
+              <p className="text-[11px] text-[#64748b]">Scheduled cron monitoring for uptime and SLA verification.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Continuous Edge Latency Radar (12 PoPs)</h4>
+              <p className="text-[11px] text-[#64748b]">Global network routing diagnostics from 12 distinct edge locations.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Full PDF & JSON Telemetry Dossiers</h4>
+              <p className="text-[11px] text-[#64748b]">Exportable artifacts suitable for executive and technical compliance reviews.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">LLMO Citation & Perplexity Visibility</h4>
+              <p className="text-[11px] text-[#64748b]">Check index placement and brand citation probability across major LLMs.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Eco-Carbon Hosting Certification</h4>
+              <p className="text-[11px] text-[#64748b]">Validate hosting center environmental sustainability standards.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Webhook Alerts (Slack, Discord, Email)</h4>
+              <p className="text-[11px] text-[#64748b]">Instant multi-channel notifications when thresholds are breached.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Historical Trend Analysis (90 Days)</h4>
+              <p className="text-[11px] text-[#64748b]">Rich charting for latency and performance metrics over 3 months.</p>
+            </LazyStaggerItem>
+
+            <LazyStaggerItem className="rounded-xl border border-transparent bg-gradient-to-br from-sky-400 to-[#c5d3e8] p-4 text-center flex flex-col justify-center items-center shadow-md">
+              <h4 className="text-xs font-extrabold text-[#0b192c] mb-1">Upgrade to Pro</h4>
+              <p className="text-[11px] text-[#0b192c]/80 font-medium">Starting at $24/month</p>
+            </LazyStaggerItem>
+          </LazyStaggerContainer>
+
+          <LazyReveal direction="up" delay={0.3}>
+            <div className="mt-12 text-center mb-8">
+              <h2 className="text-xl font-bold text-[#0b192c]">Everything in Pro, plus:</h2>
+              <p className="mt-1 text-[#415a77] text-xs">Dedicated Enterprise Suite for CI/CD pipelines & SLA.</p>
+            </div>
+          </LazyReveal>
+
+          <LazyStaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" staggerDelay={0.05}>
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Private Subdomain & Internal IP Scanning</h4>
+              <p className="text-[11px] text-[#64748b]">Audit internal staging environments and private networks.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Automated CI/CD GitHub Actions & GitLab Runners</h4>
+              <p className="text-[11px] text-[#64748b]">Native pipeline integration to block deployments on failed checks.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Custom OWASP Compliance Policies</h4>
+              <p className="text-[11px] text-[#64748b]">Enforce specialized security compliance rules across your org.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">White-Label Audit Reports with Custom Branding</h4>
+              <p className="text-[11px] text-[#64748b]">Generate client-facing PDF dossiers with your agency's logo.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">Dedicated High-Frequency Edge Nodes</h4>
+              <p className="text-[11px] text-[#64748b]">Priority execution queues mapped to premium tier endpoints.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">99.99% Uptime SLA & Dedicated Architect</h4>
+              <p className="text-[11px] text-[#64748b]">Guaranteed uptime backed by our engineering team.</p>
+            </LazyStaggerItem>
+            
+            <LazyStaggerItem className="rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-4 text-center">
+              <h4 className="text-xs font-bold text-[#0b192c] mb-1">SSO / SAML Authentication & Team RBAC</h4>
+              <p className="text-[11px] text-[#64748b]">Secure corporate identity integration and granular access controls.</p>
+            </LazyStaggerItem>
+
+            <LazyStaggerItem className="rounded-xl border border-transparent bg-gradient-to-br from-[#0b192c] to-[#152238] p-4 text-center flex flex-col justify-center items-center shadow-md">
+              <h4 className="text-xs font-extrabold text-[#c5d3e8] mb-1">Contact Enterprise</h4>
+              <p className="text-[11px] text-white/70 font-medium">Custom Scaling</p>
+            </LazyStaggerItem>
+          </LazyStaggerContainer>
+          
+          <LazyReveal direction="up" delay={0.4}>
+            <div className="mt-10 flex justify-center">
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-[#cbd5e1] bg-white px-5 py-2.5 text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors shadow-sm">
+                <span className="material-symbols-outlined text-base">code</span>
+                Community Support via GitHub
+              </a>
+            </div>
+          </LazyReveal>
+        </section>
+      )}
 
       {/* Main Results Workspace */}
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

@@ -44,6 +44,17 @@ service cloud.firestore {
         && data.createdAt is number
         && data.ownerId is string;
     }
+
+    function isValidApiKey(data) {
+      return data.keys().hasAll(['name', 'keyPrefix', 'ownerId', 'scopes', 'environment', 'status', 'createdAt'])
+        && data.name is string && data.name.size() <= 100
+        && data.keyPrefix is string && data.keyPrefix.size() <= 50
+        && data.ownerId is string && data.ownerId == request.auth.uid
+        && data.scopes is list && data.scopes.size() <= 10
+        && data.environment is string
+        && data.status in ['active', 'revoked', 'expired']
+        && data.createdAt is number;
+    }
     
     // Reports Collection
     match /reports/{reportId} {
@@ -54,6 +65,21 @@ service cloud.firestore {
                     && isValidReport(incoming());
       allow update: if false;
       allow delete: if isSignedIn() && isValidId(reportId) && (existing().ownerId == request.auth.uid || isSuperAdmin());
+    }
+
+    // API Keys Collection (Owner or Superadmin)
+    match /api_keys/{keyId} {
+      allow get: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn() 
+                    && isValidId(keyId)
+                    && isValidApiKey(incoming());
+      allow update: if isSignedIn() 
+                    && isValidId(keyId)
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+      allow delete: if isSignedIn() 
+                    && isValidId(keyId) 
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
     }
 
     // Blog Posts Collection (Public Read, Superadmin Write)
