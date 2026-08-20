@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>CatalystLab Engineering &amp; Web Telemetry Insights</title>
+  <link>https://www.catalystlab.tech/blogs</link>
+  <description>Technical deep dives into website health, global edge latency, OWASP security headers, WCAG 2.2 accessibility, and AI search readiness (/llms.txt).</description>
+  <language>en-us</language>
+  <lastBuildDate>Tue, 18 Aug 2026 15:00:00 GMT</lastBuildDate>
+  <atom:link href="https://www.catalystlab.tech/rss.xml" rel="self" type="application/rss+xml" />
+
+  <item>
+    <title>Demystifying OWASP Top 10 Security Headers in Modern Cloud Stacks</title>
+    <link>https://www.catalystlab.tech/blogs/demystifying-owasp-top-10-security-headers</link>
+    <guid>https://www.catalystlab.tech/blogs/demystifying-owasp-top-10-security-headers</guid>
+    <pubDate>Tue, 18 Aug 2026 12:00:00 GMT</pubDate>
+    <description>A comprehensive engineering guide to configuring Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), and permissions policies for zero-trust web architectures.</description>
+  </item>
+
+  <item>
+    <title>How to Structure /llms.txt to Rank in SearchGPT and Perplexity AI</title>
+    <link>https://www.catalystlab.tech/blogs/how-to-structure-llms-txt-for-ai-search</link>
+    <guid>https://www.catalystlab.tech/blogs/how-to-structure-llms-txt-for-ai-search</guid>
+    <pubDate>Thu, 13 Aug 2026 14:30:00 GMT</pubDate>
+    <description>Step-by-step implementation guide for LLMO (Large Language Model Optimization), markdown content trees, and AI crawler discoverability.</description>
+  </item>
+
+  <item>
+    <title>Global Edge Latency Radar: Benchmarking 12 Worldwide PoPs</title>
+    <link>https://www.catalystlab.tech/blogs/measuring-global-edge-latency-across-12-pops</link>
+    <guid>https://www.catalystlab.tech/blogs/measuring-global-edge-latency-across-12-pops</guid>
+    <pubDate>Tue, 08 Aug 2026 10:00:00 GMT</pubDate>
+    <description>Evaluating Time to First Byte (TTFB), DNS propagation, and TLS handshake overhead across North America, Europe, Asia-Pacific, and Latin America.</description>
+  </item>
+
+  <item>
+    <title>Automating WCAG 2.2 AA Accessibility Audits in Continuous Delivery</title>
+    <link>https://www.catalystlab.tech/blogs/automating-wcag-2-2-aa-accessibility-audits</link>
+    <guid>https://www.catalystlab.tech/blogs/automating-wcag-2-2-aa-accessibility-audits</guid>
+    <pubDate>Sat, 01 Aug 2026 09:00:00 GMT</pubDate>
+    <description>Integrating automated accessibility quality gates into GitHub Actions and CI/CD pipelines to guarantee ADA and European Accessibility Act compliance.</description>
+  </item>
+</channel>
+</rss>
