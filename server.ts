@@ -448,6 +448,10 @@ async function startServer() {
     res.json({ status: 'ok', timestamp: Date.now() });
   });
 
+  // Use one HTTP server for Express and Vite so Vite can attach its HMR WebSocket
+  // upgrade handler in middleware mode.
+  const httpServer = http.createServer(app);
+
   // Vite Integration
   if (process.env.NODE_ENV === 'production') {
     const distPath = path.join(__dirname, 'dist');
@@ -457,17 +461,16 @@ async function startServer() {
     });
   } else {
     const vite = await createViteServer({
-      server: { 
+      server: {
         middlewareMode: true,
-        host: '0.0.0.0',
-        port: 3000
+        hmr: { server: httpServer }
       },
       appType: 'spa'
     });
     app.use(vite.middlewares);
   }
 
-  app.listen(PORT, HOST, () => {
+  httpServer.listen(PORT, HOST, () => {
     console.log(`[CatalystLab] Server running at http://${HOST}:${PORT}`);
   });
 }
