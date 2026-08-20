@@ -1,38 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import type { BlogPost } from '../types';
 import { getBlogPostBySlug, getBlogPosts } from '../lib/firebase';
 import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
 import { 
-  ArrowLeft, 
   Calendar, 
   Clock, 
+  ArrowLeft, 
   Share2, 
-  Check, 
-  BookOpen, 
   Tag, 
-  User as UserIcon,
-  ExternalLink
+  BookOpen, 
+  Check, 
+  ArrowRight,
+  ExternalLink,
+  ChevronRight,
+  FileText,
+  Sparkles,
+  Search,
+  CheckCircle2
 } from 'lucide-react';
+import { SEOHead } from '../components/common/SEOHead';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { GlobalSearchModal } from '../components/common/GlobalSearchModal';
 
 export const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   useEffect(() => {
     const load = async () => {
       if (!slug) return;
       setLoading(true);
       try {
-        const found = await getBlogPostBySlug(slug);
-        setPost(found);
+        const data = await getBlogPostBySlug(slug);
+        setPost(data);
 
-        // Fetch related
-        const all = await getBlogPosts();
-        setRelatedPosts(all.filter((p) => (p.slug !== slug && p.id !== slug)).slice(0, 2));
+        // Fetch related posts
+        const allPosts = await getBlogPosts();
+        const related = allPosts
+          .filter((p) => p.id !== data?.id && p.status !== 'archived')
+          .slice(0, 3);
+        setRelatedPosts(related);
       } catch (err) {
         console.error("Error loading blog post:", err);
       } finally {
@@ -40,360 +53,266 @@ export const BlogPostPage: React.FC = () => {
       }
     };
     load();
+    window.scrollTo(0, 0);
   }, [slug]);
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   if (loading) {
     return (
-<<<<<<< HEAD
-      <div className="min-h-screen bg-[#f8fafc] py-24 text-center text-[#415a77]">
-        <span className="material-symbols-outlined text-3xl animate-spin text-[#415a77] mb-3 inline-block">progress_activity</span>
-        <div className="text-sm font-semibold">Loading technical article...</div>
-=======
-      <div className="min-h-screen bg-slate-950 py-24 text-center text-slate-500">
-        <div className="animate-spin inline-block mb-3 text-2xl">⏳</div>
-        <div className="text-sm">Loading technical article...</div>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
+      <div className="flex min-h-[70vh] flex-col items-center justify-center bg-[#f8fafc] text-[#415a77]">
+        <span className="material-symbols-outlined text-4xl animate-spin text-[#415a77] mb-3">progress_activity</span>
+        <p className="text-sm font-semibold">Loading technical briefing...</p>
       </div>
     );
   }
 
   if (!post) {
     return (
-<<<<<<< HEAD
-      <div className="min-h-screen bg-[#f8fafc] py-24 px-4 text-center text-[#0b192c]">
-        <BookOpen className="mx-auto h-12 w-12 text-[#415a77] mb-4" />
+      <div className="mx-auto max-w-3xl px-4 py-24 text-center">
         <h1 className="text-2xl font-bold text-[#0b192c]">Article Not Found</h1>
-        <p className="mt-2 text-sm text-[#415a77]">The requested article could not be located or was removed.</p>
+        <p className="mt-2 text-sm text-[#415a77]">
+          The engineering article you are looking for has been moved or does not exist.
+        </p>
         <Link
           to="/blogs"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] shadow-md"
-=======
-      <div className="min-h-screen bg-slate-950 py-24 px-4 text-center">
-        <BookOpen className="mx-auto h-12 w-12 text-slate-600 mb-4" />
-        <h1 className="text-2xl font-bold text-white">Article Not Found</h1>
-        <p className="mt-2 text-sm text-slate-400">The requested article could not be located or was removed.</p>
-        <Link
-          to="/blogs"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-2.5 text-xs font-bold text-slate-950 hover:bg-cyan-400"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#0b192c] px-4 py-2 text-xs font-semibold text-white hover:bg-[#152238]"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to All Articles</span>
         </Link>
       </div>
     );
   }
 
+  const publishedDate = post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  }) : 'Recently Published';
+
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#0b192c]">
-      {/* Dynamic TechArticle JSON-LD Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "TechArticle",
-                "@id": `https://www.catalystlab.tech/blogs/${post.slug || post.id}#article`,
-                "isPartOf": {
-                  "@type": "WebSite",
-                  "@id": "https://www.catalystlab.tech/#website",
-                  "name": "CatalystLab",
-                  "url": "https://www.catalystlab.tech/"
-                },
-                "headline": post.title,
-                "description": post.excerpt || post.title,
-                "inLanguage": "en-US",
-                "mainEntityOfPage": `https://www.catalystlab.tech/blogs/${post.slug || post.id}`,
-                "datePublished": new Date(post.createdAt).toISOString(),
-                "dateModified": new Date(post.updatedAt || post.createdAt).toISOString(),
-                "author": {
-                  "@type": "Person",
-                  "name": post.authorName,
-                  "email": post.authorEmail
-                },
-                "publisher": {
-                  "@type": "Organization",
-                  "name": "CatalystLab Inc.",
-                  "url": "https://www.catalystlab.tech/"
-                },
-                "articleSection": post.category,
-                "keywords": (post.tags || []).join(', ')
-              },
-              {
-                "@type": "BreadcrumbList",
-                "@id": `https://www.catalystlab.tech/blogs/${post.slug || post.id}#breadcrumbs`,
-                "itemListElement": [
-                  {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Home",
-                    "item": "https://www.catalystlab.tech/"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Architecture Insights",
-                    "item": "https://www.catalystlab.tech/blogs"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 3,
-                    "name": post.title,
-                    "item": `https://www.catalystlab.tech/blogs/${post.slug || post.id}`
-                  }
-                ]
-              }
-            ]
-          })
+    <div className="min-h-screen bg-[#f8fafc] text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
+      <SEOHead
+        title={post.title}
+        description={post.excerpt || `Read ${post.title} on CatalystLab Developer Blog.`}
+        keywords={['CatalystLab', post.category || 'Engineering', ...(post.tags || [])]}
+        canonicalUrl={`https://www.catalystlab.tech/blog/${post.slug || post.id}`}
+        ogType="article"
+        author={post.authorName || 'CatalystLab Telemetry Team'}
+        publishedTime={post.createdAt ? new Date(post.createdAt).toISOString() : undefined}
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: post.title,
+          description: post.excerpt,
+          author: {
+            '@type': 'Person',
+            name: post.authorName || 'CatalystLab Telemetry Team'
+          },
+          datePublished: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://www.catalystlab.tech/blog/${post.slug || post.id}`
+          }
         }}
       />
-      
-      {/* Top Breadcrumb Header */}
-      <div className="border-b border-[#ebe9e6] bg-[#f4f6fa] py-4 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl flex items-center justify-between">
-          <Link
-            to="/blogs"
-            className="inline-flex items-center gap-2 text-xs font-bold text-[#415a77] hover:text-[#0b192c] transition-colors"
-=======
-    <div className="min-h-screen bg-slate-950 pb-24">
-      
-      {/* Top Breadcrumb Header */}
-      <div className="border-b border-slate-800 bg-slate-900/40 py-4 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl flex items-center justify-between">
-          <Link
-            to="/blogs"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-cyan-400 transition-colors"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            <span>Back to Insights</span>
-          </Link>
 
+      {/* Top Header & Breadcrumbs */}
+      <div className="border-b border-[#e2e8f0] bg-white sticky top-16 z-20 shadow-xs">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { label: 'Developer Blog', href: '/blogs' },
+              { label: post.title }
+            ]}
+          />
           <button
-            onClick={handleShare}
-<<<<<<< HEAD
-            className="inline-flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-xs font-bold text-[#f8fafc] hover:bg-[#152238] transition-colors shadow-sm"
+            onClick={() => setSearchModalOpen(true)}
+            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-2.5 py-1 text-xs text-[#64748b] hover:text-[#0b192c]"
           >
-            {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Share2 className="h-3.5 w-3.5 text-[#c5d3e8]" />}
-            <span>{copied ? 'Link Copied' : 'Share Article'}</span>
-=======
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-colors"
-          >
-            {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Share2 className="h-3.5 w-3.5 text-cyan-400" />}
-            <span>{copied ? 'Link Copied' : 'Share'}</span>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
+            <Search className="h-3 w-3" />
+            <span className="hidden sm:inline">Search</span>
           </button>
         </div>
       </div>
 
-<<<<<<< HEAD
-      {/* Article Container in a clean, elevated dark card */}
-      <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-        <article className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-12 shadow-2xl text-[#f8fafc]">
+      {/* Main Split Layout */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          {/* Category & Meta */}
-          <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-[#c5d3e8] mb-4">
-            <span className="rounded-md bg-[#415a77]/30 px-2.5 py-0.5 font-bold font-sans text-[#c5d3e8] border border-[#415a77]/50">
-              {post.category}
-            </span>
-            <span className="flex items-center gap-1">
-              <Calendar className="h-3 w-3 text-[#c5d3e8]" />
-              <span>{new Date(post.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3 text-[#c5d3e8]" />
-              <span>{post.readTime}</span>
-            </span>
-          </div>
+          {/* Main Article Stream (col-span-8) */}
+          <main className="lg:col-span-8">
+            <article className="rounded-2xl border border-[#e2e8f0] bg-white p-6 sm:p-10 shadow-xs">
+              
+              {/* Meta & Category */}
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-xs font-semibold text-sky-800">
+                  {post.category || 'Architecture'}
+                </span>
+                <span className="text-xs text-[#64748b] flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  <span>{post.readTime || '5 min read'}</span>
+                </span>
+              </div>
 
-          {/* Title */}
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#f8fafc] leading-tight">
-            {post.title}
-          </h1>
+              {/* Title */}
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0b192c] tracking-tight leading-tight mb-4">
+                {post.title}
+              </h1>
 
-          {/* Excerpt Lead */}
-          {post.excerpt && (
-            <p className="mt-5 text-base sm:text-lg text-[#ebe9e6] font-medium leading-relaxed border-l-4 border-[#415a77] pl-4 py-2 bg-[#152238] rounded-r-xl">
-              {post.excerpt}
-            </p>
-          )}
+              {/* Author & Byline */}
+              <div className="flex items-center justify-between border-y border-[#f1f5f9] py-3.5 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b192c] text-xs font-bold text-white shadow-xs">
+                    {(post.authorName || 'C')[0]}
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#0b192c]">
+                      {post.authorName || 'CatalystLab Telemetry Team'}
+                    </div>
+                    <div className="text-[11px] text-[#64748b]">{publishedDate}</div>
+                  </div>
+                </div>
 
-          {/* Author Card */}
-          <div className="mt-8 flex items-center gap-3 border-y border-[#415a77]/30 py-4">
-            {post.authorAvatar ? (
-              <img
-                src={post.authorAvatar}
-                alt={post.authorName}
-                className="h-10 w-10 rounded-full object-cover border border-[#415a77]/50"
-                referrerPolicy="no-referrer"
-              />
-            ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#152238] text-[#c5d3e8] font-bold text-sm border border-[#415a77]/40">
-                <UserIcon className="h-5 w-5" />
+                {/* Share Link Button */}
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs font-semibold text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-all"
+                  title="Copy link to article"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5 text-emerald-600" />
+                      <span className="text-emerald-600">Copied Link</span>
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="h-3.5 w-3.5" />
+                      <span>Share</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Excerpt Lead */}
+              {post.excerpt && (
+                <div className="mb-8 rounded-xl border-l-4 border-[#0b192c] bg-[#f8fafc] p-4 text-sm font-medium text-[#415a77] leading-relaxed">
+                  {post.excerpt}
+                </div>
+              )}
+
+              {/* Markdown Content */}
+              <div className="prose prose-slate max-w-none text-sm leading-relaxed text-[#0b192c]">
+                <MarkdownRenderer content={post.content} />
+              </div>
+
+              {/* Tags Footer */}
+              {post.tags && post.tags.length > 0 && (
+                <div className="mt-10 border-t border-[#f1f5f9] pt-6">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-xs font-bold text-[#415a77] mr-1">Tags:</span>
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-md bg-[#f1f5f9] px-2.5 py-1 text-xs text-[#415a77]"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+          </main>
+
+          {/* Dedicated Google Developers Sidebar (col-span-4) */}
+          <aside className="lg:col-span-4 space-y-6">
+            
+            {/* Author Profile Box */}
+            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-xs">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#415a77] mb-3">
+                About the Author
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0b192c] text-sm font-bold text-white shadow-xs">
+                  {(post.authorName || 'C')[0]}
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-[#0b192c]">
+                    {post.authorName || 'CatalystLab Telemetry Team'}
+                  </div>
+                  <div className="text-xs text-[#64748b]">
+                    Web Infrastructure & AI Systems
+                  </div>
+                </div>
+              </div>
+              <p className="mt-3 text-xs text-[#64748b] leading-relaxed">
+                Specialized in distributed performance telemetry, edge latency benchmarking, and zero-trust web architectures.
+              </p>
+            </div>
+
+            {/* Related Articles Box */}
+            {relatedPosts.length > 0 && (
+              <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-xs space-y-4">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c]">
+                  Related Stories
+                </div>
+                <div className="divide-y divide-[#f1f5f9] space-y-3 pt-1">
+                  {relatedPosts.map((r) => (
+                    <div key={r.id} className="pt-3 first:pt-0">
+                      <Link
+                        to={`/blog/${r.slug || r.id}`}
+                        className="group block space-y-1"
+                      >
+                        <h4 className="text-xs font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors line-clamp-2">
+                          {r.title}
+                        </h4>
+                        <div className="text-[11px] text-[#64748b] flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          <span>{r.readTime || '5 min read'}</span>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
-            <div>
-              <div className="text-sm font-bold text-[#f8fafc]">{post.authorName}</div>
-              <div className="text-xs text-[#c5d3e8] font-mono">{post.authorEmail}</div>
-            </div>
-          </div>
 
-          {/* Article Body */}
-          <div className="mt-10 text-[#ebe9e6]">
-            <MarkdownRenderer content={post.content} />
-          </div>
-
-          {/* Tags */}
-          <div className="mt-12 border-t border-[#415a77]/30 pt-6">
-            <div className="text-xs font-semibold text-[#c5d3e8] uppercase tracking-wider mb-2">
-              Keywords & Topics
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              {(post.tags || []).map((t) => (
-                <span
-                  key={t}
-                  className="rounded-lg bg-[#152238] px-3 py-1 text-xs font-mono text-[#c5d3e8] border border-[#415a77]/30"
-                >
-                  #{t}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Related Articles */}
-          {relatedPosts.length > 0 && (
-            <div className="mt-16 border-t border-[#415a77]/30 pt-10">
-              <h3 className="text-lg font-bold text-[#f8fafc] mb-4">Further Investigations</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {relatedPosts.map((rel) => (
-                  <Link
-                    key={rel.id || rel.slug}
-                    to={`/blogs/${rel.slug || rel.id}`}
-                    className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-4 hover:border-[#c5d3e8] hover:bg-[#1e2f4a] transition-all"
-                  >
-                    <div className="text-[10px] font-bold text-[#c5d3e8] uppercase font-mono mb-1">
-                      {rel.category}
-                    </div>
-                    <h4 className="text-sm font-bold text-[#f8fafc] hover:underline line-clamp-2">
-                      {rel.title}
-                    </h4>
-                  </Link>
-                ))}
+            {/* Developer Documentation Callout */}
+            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-xs space-y-3">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c]">
+                Technical Reference
               </div>
-            </div>
-          )}
-
-        </article>
-      </div>
-=======
-      {/* Article Container */}
-      <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-        
-        {/* Category & Meta */}
-        <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-500 mb-4">
-          <span className="rounded-md bg-cyan-500/10 px-2.5 py-0.5 font-bold font-sans text-cyan-400 border border-cyan-500/20">
-            {post.category}
-          </span>
-          <span className="flex items-center gap-1">
-            <Calendar className="h-3 w-3" />
-            <span>{new Date(post.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-          </span>
-          <span>•</span>
-          <span className="flex items-center gap-1">
-            <Clock className="h-3 w-3" />
-            <span>{post.readTime}</span>
-          </span>
-        </div>
-
-        {/* Title */}
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-          {post.title}
-        </h1>
-
-        {/* Excerpt Lead */}
-        {post.excerpt && (
-          <p className="mt-5 text-base sm:text-lg text-slate-300 font-medium leading-relaxed border-l-2 border-cyan-500 pl-4 py-1 bg-slate-900/30 rounded-r-xl">
-            {post.excerpt}
-          </p>
-        )}
-
-        {/* Author Card */}
-        <div className="mt-8 flex items-center gap-3 border-y border-slate-800 py-4">
-          {post.authorAvatar ? (
-            <img
-              src={post.authorAvatar}
-              alt={post.authorName}
-              className="h-10 w-10 rounded-full object-cover border border-slate-700"
-              referrerPolicy="no-referrer"
-            />
-          ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/10 text-cyan-400 font-bold text-sm border border-cyan-500/20">
-              <UserIcon className="h-5 w-5" />
-            </div>
-          )}
-          <div>
-            <div className="text-sm font-bold text-white">{post.authorName}</div>
-            <div className="text-xs text-slate-400 font-mono">{post.authorEmail}</div>
-          </div>
-        </div>
-
-        {/* Article Body */}
-        <div className="mt-10">
-          <MarkdownRenderer content={post.content} />
-        </div>
-
-        {/* Tags */}
-        <div className="mt-12 border-t border-slate-800 pt-6">
-          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-            Keywords & Topics
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            {(post.tags || []).map((t) => (
-              <span
-                key={t}
-                className="rounded-lg bg-slate-900 px-3 py-1 text-xs font-mono text-cyan-300 border border-slate-800"
+              <p className="text-xs text-[#64748b]">
+                Explore our full technical documentation, cURL snippets, and telemetry metric definitions.
+              </p>
+              <Link
+                to="/docs"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0b192c] hover:text-sky-700 transition-colors"
               >
-                #{t}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Related Articles */}
-        {relatedPosts.length > 0 && (
-          <div className="mt-16 border-t border-slate-800 pt-10">
-            <h3 className="text-lg font-bold text-white mb-4">Further Investigations</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {relatedPosts.map((rel) => (
-                <Link
-                  key={rel.id || rel.slug}
-                  to={`/blogs/${rel.slug || rel.id}`}
-                  className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 hover:border-cyan-500/40 transition-all"
-                >
-                  <div className="text-[10px] font-bold text-cyan-400 uppercase font-mono mb-1">
-                    {rel.category}
-                  </div>
-                  <h4 className="text-sm font-bold text-white hover:underline line-clamp-2">
-                    {rel.title}
-                  </h4>
-                </Link>
-              ))}
+                <span>Open Documentation</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
-          </div>
-        )}
 
-      </article>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
+          </aside>
+
+        </div>
+      </div>
+
+      {/* Global Search Modal */}
+      <GlobalSearchModal
+        isOpen={searchModalOpen}
+        onClose={() => setSearchModalOpen(false)}
+      />
     </div>
   );
 };
+export default BlogPostPage;

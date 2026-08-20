@@ -54,6 +54,7 @@ export interface BlogPost {
   status: 'published' | 'draft' | 'archived';
   readTime: string;
   coverImage?: string;
+  featured?: boolean;
   createdAt: number;
   updatedAt?: number;
   views?: number;

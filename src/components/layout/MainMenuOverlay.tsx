@@ -49,11 +49,12 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 
   if (!isOpen) return null;
 
-  // The 5 Main Menu Items strictly corresponding to user specifications
+  // The Main Menu Items strictly corresponding to user specifications
   const mainMenuItems = [
     { id: 'home', label: 'Home', path: '/' },
     { id: 'pricing', label: 'Pricing', path: '/pricing' },
     { id: 'docs', label: 'Docs', path: '/docs' },
+    { id: 'blogs', label: 'Blogs', path: '/blogs' },
     { id: 'about', label: 'About Us', path: '/about' },
     { id: 'contact', label: 'Contact', path: '/contact' },
   ];

@@ -4,6 +4,7 @@ interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   showText?: boolean;
   showBadge?: boolean;
+  badgeText?: string;
   className?: string;
   darkText?: boolean;
 }
@@ -11,7 +12,8 @@ interface BrandLogoProps {
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   showText = true,
-  showBadge = true,
+  showBadge = false,
+  badgeText,
   className = '',
   darkText = false,
 }) => {
@@ -62,9 +64,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         </span>
       )}
 
-      {showBadge && (
+      {showBadge && badgeText && (
         <span className={`rounded bg-[#415a77]/15 font-bold text-[#415a77] border border-[#415a77]/30 ${current.badge}`}>
-          PRO
+          {badgeText}
         </span>
       )}
     </div>

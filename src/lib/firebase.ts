@@ -59,7 +59,7 @@ export interface FirestoreErrorInfo {
     providerInfo?: {
       providerId?: string | null;
       email?: string | null;
-    }[]; 
+    }[];
   };
 }
 
@@ -118,58 +118,82 @@ export interface SaveReportParams {
   summary?: string;
   score?: number;
   userId?: string;
-  visitorId?: string;
+  userEmail?: string;
   auditSessionId?: string;
+  visitorId?: string;
 }
 
-export const saveReport = async (params: SaveReportParams): Promise<string> => {
-  const path = `reports/${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+export const saveReport = async (
+  urlOrParams: string | SaveReportParams, 
+  maybeEngine?: string, 
+  maybeOutput?: string, 
+  extra: { title?: string; score?: number } = {}
+): Promise<string> => {
+  const path = "reports";
   try {
-    const docRef = doc(db, "reports", path);
-    await setDoc(docRef, {
-      ...params,
-      timestamp: Date.now(),
-      createdAt: new Date().toISOString()
-    });
-    return path;
+    let url: string;
+    let engine: string;
+    let output: string;
+    let title: string | undefined;
+    let score: number | undefined;
+
+    if (typeof urlOrParams === 'object' && urlOrParams !== null) {
+      url = urlOrParams.url;
+      engine = urlOrParams.engine;
+      output = urlOrParams.output;
+      title = urlOrParams.title;
+      score = urlOrParams.score;
+    } else {
+      url = urlOrParams;
+      engine = maybeEngine || 'master-audit';
+      output = maybeOutput || '';
+      title = extra.title;
+      score = extra.score;
+    }
+
+    const reportData: Omit<AuditReport, 'id'> = {
+      url: String(url || '').substring(0, 500),
+      engine: String(engine || 'master-audit').substring(0, 100),
+      output: String(output || '').substring(0, 500000),
+      ownerId: auth.currentUser?.uid || 'guest',
+      ownerEmail: auth.currentUser?.email || '',
+      createdAt: Date.now(),
+      ...(title ? { title: String(title).substring(0, 200) } : {}),
+      ...(typeof score === 'number' ? { score } : {})
+    };
+
+    const docRef = await addDoc(collection(db, path), reportData);
+    return docRef.id;
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, path);
     throw error;
   }
 };
 
-export const getReport = async (id: string): Promise<AuditReport | null> => {
+export const getReport = async (reportId: string): Promise<AuditReport | null> => {
+  if (!reportId) return null;
+  const path = `reports/${reportId}`;
   try {
-    const docRef = doc(db, "reports", id);
+    const docRef = doc(db, "reports", reportId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return docSnap.data() as AuditReport;
+      return { id: docSnap.id, ...(docSnap.data() as Omit<AuditReport, 'id'>) };
     }
     return null;
-  } catch (error) {
-    handleFirestoreError(error, OperationType.GET, id);
-    throw error;
+  } catch (error: any) {
+    if (error?.code === 'permission-denied') {
+      handleFirestoreError(error, OperationType.GET, path);
+    }
+    return null;
   }
 };
 
-export const updateReport = async (id: string, data: Partial<AuditReport>): Promise<void> => {
-  const path = `reports/${id}`;
+export const deleteReport = async (reportId: string): Promise<boolean> => {
+  if (!auth.currentUser) throw new Error("Authentication required");
+  if (!reportId) throw new Error("Report ID is required");
+  const path = `reports/${reportId}`;
   try {
-    const docRef = doc(db, "reports", id);
-    await updateDoc(docRef, {
-      ...data,
-      updatedAt: new Date().toISOString()
-    });
-  } catch (error) {
-    handleFirestoreError(error, OperationType.UPDATE, path);
-    throw error;
-  }
-};
-
-export const deleteReport = async (id: string): Promise<boolean> => {
-  const path = `reports/${id}`;
-  try {
-    const docRef = doc(db, "reports", id);
+    const docRef = doc(db, "reports", reportId);
     await deleteDoc(docRef);
     return true;
   } catch (error) {
@@ -178,67 +202,348 @@ export const deleteReport = async (id: string): Promise<boolean> => {
   }
 };
 
-export const getReports = async (limit = 50): Promise<AuditReport[]> => {
+export const getUserReports = async (): Promise<AuditReport[]> => {
+  if (!auth.currentUser) return [];
+  const path = "reports";
   try {
-    const q = query(collection(db, "reports"), orderBy("timestamp", "desc"), limit(limit));
+    const q = query(
+      collection(db, path), 
+      where("ownerId", "==", auth.currentUser.uid)
+    );
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => doc.data() as AuditReport);
+    const reports: AuditReport[] = [];
+    querySnapshot.forEach((docSnap) => {
+      reports.push({ id: docSnap.id, ...(docSnap.data() as Omit<AuditReport, 'id'>) });
+    });
+    reports.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return reports;
   } catch (error) {
-    handleFirestoreError(error, OperationType.LIST, null);
+    handleFirestoreError(error, OperationType.LIST, path);
+    throw error;
+  }
+};
+
+export const getAllReportsForAdmin = async (): Promise<AuditReport[]> => {
+  const path = "reports";
+  try {
+    const querySnapshot = await getDocs(collection(db, path));
+    const reports: AuditReport[] = [];
+    querySnapshot.forEach((docSnap) => {
+      reports.push({ id: docSnap.id, ...(docSnap.data() as Omit<AuditReport, 'id'>) });
+    });
+    reports.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return reports;
+  } catch (error) {
+    // If not allowed, fallback to user reports
+    try {
+      return await getUserReports();
+    } catch {
+      return [];
+    }
+  }
+};
+
+// --- BLOG POSTS CRUD ---
+
+export const INITIAL_SEEDED_BLOGS: BlogPost[] = [
+  {
+    id: 'seed-1',
+    title: 'The Modern Anatomy of Website Health in the Era of AI Search',
+    slug: 'modern-website-health-ai-search',
+    excerpt: 'Why traditional SEO is yielding ground to structured RAG indexing and how llms.txt standardizes generative search ingestion.',
+    content: `## The Paradigm Shift: From Keywords to Vector Embeddings
+
+In 2026, web crawlers are no longer simple heuristic indexers—they are autonomous LLM retrieval agents powering Perplexity, ChatGPT Search, and Gemini.
+
+### The 3 Pillars of AI Search Optimization (LLMO)
+1. **The \`/llms.txt\` Standard**: Providing clear markdown directives for AI crawlers drastically minimizes token waste and eliminates synthetic hallucinations.
+2. **Schema.org Structured Microdata**: JSON-LD payload graphs establish semantic entity relationships that vector databases can easily parse.
+3. **Semantic Purity & Content-to-HTML Ratio**: Sites with over 90% nested DOM boilerplates suffer severe chunking degradation during RAG extraction.
+
+\`\`\`json
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Modern Website Health for LLMs",
+  "author": "CatalystLab SecOps Team"
+}
+\`\`\`
+
+By ensuring your DOM maintains high semantic density and proper headings hierarchy, you ensure your platform is cited as a primary source by next-generation search bots.`,
+    category: 'AI & LLMO',
+    tags: ['LLMO', 'AI Search', 'RAG', 'llms.txt', 'SEO'],
+    authorName: 'CatalystLab Engineering',
+    authorEmail: 'shuvo.1807016@bau.edu.bd',
+    status: 'published',
+    readTime: '6 min read',
+    createdAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
+    updatedAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
+    views: 428
+  },
+  {
+    id: 'seed-2',
+    title: 'Decimating TTFB with Multi-Region Edge Workers & Smart Routing',
+    slug: 'decimating-ttfb-edge-workers',
+    excerpt: 'A deep-dive into synthetic edge latency telemetry across Tokyo, Frankfurt, Virginia, and Sydney points of presence.',
+    content: `## The Geography of Milliseconds
+
+Time To First Byte (TTFB) is the single highest predictor of bounce rates for modern interactive web applications. When packets must traverse trans-Pacific fiber lines, round-trip latency often exceeds 220ms before JavaScript execution even begins.
+
+### Global Radar Telemetry Results:
+- **US East (Virginia)**: ~57ms
+- **US West (Oregon)**: ~86ms
+- **EU Central (Frankfurt)**: ~108ms
+- **AP Northeast (Tokyo)**: ~178ms
+- **AP Southeast (Sydney)**: ~223ms
+
+### Edge Acceleration Architecture:
+1. **CDN Edge Caching**: Keep static assets and pre-rendered HTML within 15ms of end users.
+2. **TLS Session Resumption**: Zero-RTT handshakes on TLS 1.3 prevent redundant cryptographic negotiation.
+3. **HTTP/3 QUIC Multiplexing**: Eliminate head-of-line blocking across lossy mobile networks.`,
+    category: 'Edge Latency',
+    tags: ['Edge', 'TTFB', 'Performance', 'CDN', 'Infrastructure'],
+    authorName: 'CatalystLab DevOps',
+    authorEmail: 'shuvo.1807016@bau.edu.bd',
+    status: 'published',
+    readTime: '8 min read',
+    createdAt: Date.now() - 10 * 24 * 60 * 60 * 1000,
+    updatedAt: Date.now() - 10 * 24 * 60 * 60 * 1000,
+    views: 892
+  },
+  {
+    id: 'seed-3',
+    title: 'Automating Git Repository SecOps & Hygiene Verification',
+    slug: 'automating-git-secops-hygiene',
+    excerpt: 'How automated branch protection, license checks, and SECURITY.md audits prevent catastrophic supply-chain leaks.',
+    content: `## Securing the Modern Software Supply Chain
+
+A high percentage of security breaches begin not in production firewalls, but in misconfigured public repositories with exposed secrets, stale dependencies, and missing vulnerability disclosure policies.
+
+### The 6 Essential Repository Hygiene Checks:
+1. **License Declaration**: Mitigates open-source copyright liabilities.
+2. **SECURITY.md Policy**: Establishes a responsible vulnerability reporting pipeline.
+3. **Branch Protection Rules**: Mandates code reviews and status checks before staging merges.
+4. **Automated Secret Scanning**: Pre-commit hooks to block exposed API keys.
+5. **Dependency Audit (Dependabot/Snyk)**: Proactive CVE patching.
+6. **Code of Conduct & Contributing Guides**: Standardizes OSS maintenance workflows.`,
+    category: 'SecOps',
+    tags: ['Git', 'SecOps', 'Security', 'DevSecOps'],
+    authorName: 'CatalystLab SecOps',
+    authorEmail: 'shuvo.1807016@bau.edu.bd',
+    status: 'published',
+    readTime: '5 min read',
+    createdAt: Date.now() - 18 * 24 * 60 * 60 * 1000,
+    updatedAt: Date.now() - 18 * 24 * 60 * 60 * 1000,
+    views: 615
+  }
+];
+
+export const getBlogPosts = async (): Promise<BlogPost[]> => {
+  const path = "blogs";
+  try {
+    const querySnapshot = await getDocs(collection(db, path));
+    const posts: BlogPost[] = [];
+    querySnapshot.forEach((docSnap) => {
+      posts.push({ id: docSnap.id, ...(docSnap.data() as Omit<BlogPost, 'id'>) });
+    });
+    
+    if (posts.length === 0) {
+      return INITIAL_SEEDED_BLOGS;
+    }
+    
+    posts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return posts;
+  } catch (error) {
+    console.warn("Could not fetch blogs from Firestore, using initial dataset:", error);
+    return INITIAL_SEEDED_BLOGS;
+  }
+};
+
+export const getUserBlogPosts = async (email: string): Promise<BlogPost[]> => {
+  if (!email) return [];
+  const path = "blogs";
+  try {
+    const q = query(collection(db, path), where("authorEmail", "==", email));
+    const querySnapshot = await getDocs(q);
+    const posts: BlogPost[] = [];
+    querySnapshot.forEach((docSnap) => {
+      posts.push({ id: docSnap.id, ...(docSnap.data() as Omit<BlogPost, 'id'>) });
+    });
+    
+    if (posts.length === 0) {
+      return INITIAL_SEEDED_BLOGS.filter(post => post.authorEmail === email);
+    }
+    
+    posts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return posts;
+  } catch (error) {
+    console.warn("Could not fetch user blogs from Firestore, using initial dataset:", error);
+    return INITIAL_SEEDED_BLOGS.filter(post => post.authorEmail === email);
+  }
+};
+
+export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> => {
+  if (!slug) return null;
+  const path = "blogs";
+  try {
+    const q = query(collection(db, path), where("slug", "==", slug));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const docSnap = querySnapshot.docs[0];
+      return { id: docSnap.id, ...(docSnap.data() as Omit<BlogPost, 'id'>) };
+    }
+  } catch (err) {
+    console.warn("Error querying blog by slug:", err);
+  }
+  // Fallback to seed
+  const found = INITIAL_SEEDED_BLOGS.find(p => p.slug === slug || p.id === slug);
+  return found || null;
+};
+
+export const saveBlogPost = async (post: Partial<BlogPost>): Promise<string> => {
+  const path = "blogs";
+  try {
+    const user = auth.currentUser;
+    const isNew = !post.id || post.id.startsWith('seed-');
+    const slug = (post.slug || post.title || 'untitled-post')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .substring(0, 150);
+
+    const postPayload: Omit<BlogPost, 'id'> = {
+      title: String(post.title || 'Untitled Post').substring(0, 200),
+      slug,
+      excerpt: String(post.excerpt || '').substring(0, 500),
+      content: String(post.content || '').substring(0, 50000),
+      category: String(post.category || 'Engineering').substring(0, 100),
+      tags: Array.isArray(post.tags) ? post.tags.slice(0, 10) : ['General'],
+      authorName: post.authorName || user?.displayName || 'CatalystLab Admin',
+      authorEmail: post.authorEmail || user?.email || 'admin@catalystlab.io',
+      authorAvatar: post.authorAvatar || user?.photoURL || '',
+      status: post.status || 'published',
+      readTime: post.readTime || `${Math.max(1, Math.ceil((post.content?.length || 500) / 750))} min read`,
+      coverImage: post.coverImage || '',
+      createdAt: post.createdAt || Date.now(),
+      updatedAt: Date.now(),
+      views: post.views || 0
+    };
+
+    if (!isNew && post.id) {
+      const docRef = doc(db, path, post.id);
+      await updateDoc(docRef, postPayload as any);
+      return post.id;
+    } else {
+      const docRef = await addDoc(collection(db, path), postPayload);
+      return docRef.id;
+    }
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    throw error;
+  }
+};
+
+export const deleteBlogPost = async (postId: string): Promise<boolean> => {
+  const path = `blogs/${postId}`;
+  try {
+    const docRef = doc(db, "blogs", postId);
+    await deleteDoc(docRef);
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
     throw error;
   }
 };
 
 // --- MONITORED SITES CRUD ---
 
-export interface SaveMonitoredSiteParams {
-  url: string;
-  frequency: string; // hourly, daily, weekly
-  alertThreshold: number;
-  userId: string;
-  active?: boolean;
-}
-
-export const saveMonitoredSite = async (params: SaveMonitoredSiteParams): Promise<string> => {
-  const path = `monitored_sites/${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  try {
-    const docRef = doc(db, "monitored_sites", path);
-    await setDoc(docRef, {
-      ...params,
-      timestamp: Date.now(),
-      createdAt: new Date().toISOString()
-    });
-    return path;
-  } catch (error) {
-    handleFirestoreError(error, OperationType.CREATE, path);
-    throw error;
+export const INITIAL_MONITORED_SITES: MonitoredSite[] = [
+  {
+    id: 'site-hazardnet',
+    name: 'HazardNet Live Production',
+    url: 'https://hazardnet.live',
+    checkIntervalMinutes: 5,
+    status: 'healthy',
+    lastCheckedAt: Date.now() - 3 * 60 * 1000,
+    responseTimeMs: 145,
+    statusCode: 200,
+    sslDaysRemaining: 88,
+    sslValid: true,
+    uptimePercentage: 99.98,
+    createdAt: Date.now() - 7 * 24 * 60 * 60 * 1000,
+    ownerId: 'system',
+    notes: 'Main threat intelligence and hazard monitoring production frontend.'
+  },
+  {
+    id: 'site-catalyst-api',
+    name: 'Catalyst Diagnostic Engine Cluster',
+    url: 'https://ais-dev-2z7dtoomnl7nm53osnbyys-329537149747.asia-east1.run.app/api/health',
+    checkIntervalMinutes: 1,
+    status: 'healthy',
+    lastCheckedAt: Date.now() - 1 * 60 * 1000,
+    responseTimeMs: 48,
+    statusCode: 200,
+    sslDaysRemaining: 90,
+    sslValid: true,
+    uptimePercentage: 100.0,
+    createdAt: Date.now() - 14 * 24 * 60 * 60 * 1000,
+    ownerId: 'system',
+    notes: 'Edge API gateway hosting 8 Python telemetry engines.'
   }
-};
+];
 
-export const getMonitoredSite = async (id: string): Promise<MonitoredSite | null> => {
+export const getMonitoredSites = async (): Promise<MonitoredSite[]> => {
+  const path = "monitored_sites";
   try {
-    const docRef = doc(db, "monitored_sites", id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data() as MonitoredSite;
+    const querySnapshot = await getDocs(collection(db, path));
+    const sites: MonitoredSite[] = [];
+    querySnapshot.forEach((docSnap) => {
+      sites.push({ id: docSnap.id, ...(docSnap.data() as Omit<MonitoredSite, 'id'>) });
+    });
+    if (sites.length === 0) {
+      return INITIAL_MONITORED_SITES;
     }
-    return null;
+    sites.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return sites;
   } catch (error) {
-    handleFirestoreError(error, OperationType.GET, id);
-    throw error;
+    console.warn("Could not fetch monitored sites from Firestore, using initial set:", error);
+    return INITIAL_MONITORED_SITES;
   }
 };
 
-export const updateMonitoredSite = async (id: string, data: Partial<MonitoredSite>): Promise<void> => {
-  const path = `monitored_sites/${id}`;
+export const saveMonitoredSite = async (site: Partial<MonitoredSite>): Promise<string> => {
+  const path = "monitored_sites";
   try {
-    const docRef = doc(db, "monitored_sites", id);
-    await updateDoc(docRef, {
-      ...data,
-      updatedAt: new Date().toISOString()
-    });
+    const user = auth.currentUser;
+    const isNew = !site.id || site.id.startsWith('site-');
+
+    const sitePayload: Omit<MonitoredSite, 'id'> = {
+      name: String(site.name || 'Monitored Endpoint').substring(0, 100),
+      url: String(site.url || '').substring(0, 500),
+      checkIntervalMinutes: site.checkIntervalMinutes || 5,
+      status: site.status || 'untested',
+      lastCheckedAt: site.lastCheckedAt || Date.now(),
+      responseTimeMs: site.responseTimeMs || 0,
+      statusCode: site.statusCode || 0,
+      sslDaysRemaining: site.sslDaysRemaining || 0,
+      sslValid: typeof site.sslValid === 'boolean' ? site.sslValid : true,
+      uptimePercentage: site.uptimePercentage || 99.9,
+      createdAt: site.createdAt || Date.now(),
+      ownerId: user?.uid || 'admin',
+      notes: site.notes ? String(site.notes).substring(0, 500) : ''
+    };
+
+    if (!isNew && site.id) {
+      const docRef = doc(db, path, site.id);
+      await updateDoc(docRef, sitePayload as any);
+      return site.id;
+    } else {
+      const docRef = await addDoc(collection(db, path), sitePayload);
+      return docRef.id;
+    }
   } catch (error) {
-    handleFirestoreError(error, OperationType.UPDATE, path);
+    handleFirestoreError(error, OperationType.WRITE, path);
     throw error;
   }
 };
@@ -251,99 +556,6 @@ export const deleteMonitoredSite = async (siteId: string): Promise<boolean> => {
     return true;
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, path);
-    throw error;
-  }
-};
-
-export const getMonitoredSites = async (userId: string): Promise<MonitoredSite[]> => {
-  try {
-    const q = query(collection(db, "monitored_sites"), where("userId", "==", userId));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => doc.data() as MonitoredSite);
-  } catch (error) {
-    handleFirestoreError(error, OperationType.LIST, null);
-    throw error;
-  }
-};
-
-// --- BLOG POSTS CRUD ---
-
-export interface SaveBlogPostParams {
-  title: string;
-  content: string;
-  excerpt: string;
-  author: string;
-  tags: string[];
-  published: boolean;
-  slug: string;
-};
-
-export const saveBlogPost = async (params: SaveBlogPostParams): Promise<string> => {
-  const path = `blog_posts/${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  try {
-    const docRef = doc(db, "blog_posts", path);
-    await setDoc(docRef, {
-      ...params,
-      timestamp: Date.now(),
-      createdAt: new Date().toISOString()
-    });
-    return path;
-  } catch (error) {
-    handleFirestoreError(error, OperationType.CREATE, path);
-    throw error;
-  }
-};
-
-export const getBlogPost = async (id: string): Promise<BlogPost | null> => {
-  try {
-    const docRef = doc(db, "blog_posts", id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data() as BlogPost;
-    }
-    return null;
-  } catch (error) {
-    handleFirestoreError(error, OperationType.GET, id);
-    throw error;
-  }
-};
-
-export const updateBlogPost = async (id: string, data: Partial<BlogPost>): Promise<void> => {
-  const path = `blog_posts/${id}`;
-  try {
-    const docRef = doc(db, "blog_posts", id);
-    await updateDoc(docRef, {
-      ...data,
-      updatedAt: new Date().toISOString()
-    });
-  } catch (error) {
-    handleFirestoreError(error, OperationType.UPDATE, path);
-    throw error;
-  }
-};
-
-export const deleteBlogPost = async (id: string): Promise<boolean> => {
-  const path = `blog_posts/${id}`;
-  try {
-    const docRef = doc(db, "blog_posts", id);
-    await deleteDoc(docRef);
-    return true;
-  } catch (error) {
-    handleFirestoreError(error, OperationType.DELETE, path);
-    throw error;
-  }
-};
-
-export const getBlogPosts = async (limit = 10, publishedOnly = true): Promise<BlogPost[]> => {
-  try {
-    let q = query(collection(db, "blog_posts"), orderBy("timestamp", "desc"), limit(limit));
-    if (publishedOnly) {
-      q = query(q, where("published", "==", true));
-    }
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => doc.data() as BlogPost);
-  } catch (error) {
-    handleFirestoreError(error, OperationType.LIST, null);
     throw error;
   }
 };

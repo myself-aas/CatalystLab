@@ -16,6 +16,34 @@ const app = express();
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
+// Security Headers Middleware (OWASP Hardening & Injection Prevention)
+app.use((req, res, next) => {
+  res.setHeader(
+    'Strict-Transport-Security',
+    'max-age=63072000; includeSubDomains; preload'
+  );
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  const cspDirectives = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.googleapis.com https://*.gstatic.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.gstatic.com",
+    "font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com",
+    "img-src 'self' data: blob: https: http:",
+    "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.cloudfunctions.net https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.catalystlab.tech https://*.run.app ws: wss:",
+    "frame-src 'self' https://*.firebaseapp.com https://*.google.com",
+    "frame-ancestors 'self' https://*.google.com https://*.googleusercontent.com https://*.run.app https://ai.studio *",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "upgrade-insecure-requests"
+  ].join('; ');
+  res.setHeader('Content-Security-Policy', cspDirectives);
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  next();
+});
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname));
@@ -716,7 +744,6 @@ async function runAnalysisWithProgress(normalized, onProgress = () => {}) {
   }
 
   // 1. Immediate In-Memory Static Checks (Fast pass)
-<<<<<<< HEAD
   onProgress({ type: 'dimension_start', dimension: 'security', name: 'Security & SecOps', icon: 'shield', message: 'Auditing HTTPS, TLS, CSP, HSTS, and frame protections...' });
   const secRes = checkSecurity($, fetchResult.headers, fetchResult.finalUrl);
   markDimensionDone('security', 'Security & SecOps', 'shield', secRes, 'Evaluated HTTPS, HSTS, CSP, X-Frame-Options, X-Content-Type-Options');
@@ -728,24 +755,10 @@ async function runAnalysisWithProgress(normalized, onProgress = () => {}) {
   onProgress({ type: 'dimension_start', dimension: 'social', name: 'Social Graph & OG', icon: 'public', message: 'Inspecting Open Graph, Twitter Cards, and preview assets...' });
   const socRes = checkSocial($, fetchResult.headers, fetchResult.finalUrl);
   markDimensionDone('social', 'Social Graph & OG', 'public', socRes, 'Evaluated og:title, og:image, og:description, twitter:card preview tags');
-=======
-  onProgress({ type: 'dimension_start', dimension: 'security', name: 'Security & SecOps', icon: '🛡️', message: 'Auditing HTTPS, TLS, CSP, HSTS, and frame protections...' });
-  const secRes = checkSecurity($, fetchResult.headers, fetchResult.finalUrl);
-  markDimensionDone('security', 'Security & SecOps', '🛡️', secRes, 'Evaluated HTTPS, HSTS, CSP, X-Frame-Options, X-Content-Type-Options');
-
-  onProgress({ type: 'dimension_start', dimension: 'mobile', name: 'Mobile & Touch', icon: '📱', message: 'Checking viewport meta tags, tap targets, and layout responsiveness...' });
-  const mobRes = checkMobile($, fetchResult.headers, fetchResult.finalUrl);
-  markDimensionDone('mobile', 'Mobile & Touch', '📱', mobRes, 'Evaluated viewport tags, touch target spacing, responsive layout rules');
-
-  onProgress({ type: 'dimension_start', dimension: 'social', name: 'Social Graph & OG', icon: '🌐', message: 'Inspecting Open Graph, Twitter Cards, and preview assets...' });
-  const socRes = checkSocial($, fetchResult.headers, fetchResult.finalUrl);
-  markDimensionDone('social', 'Social Graph & OG', '🌐', socRes, 'Evaluated og:title, og:image, og:description, twitter:card preview tags');
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
   // 2. Parallel Deep Scanners (PageSpeed & Python Sub-engines)
   const tasks = [
     (async () => {
-<<<<<<< HEAD
       onProgress({ type: 'dimension_start', dimension: 'seo', name: 'SEO Architecture', icon: 'search', message: 'Analyzing title tags, meta descriptions, headings, and crawler indexability...' });
       const pagespeedData = await getPagespeedData(normalized);
       
@@ -783,45 +796,6 @@ async function runAnalysisWithProgress(normalized, onProgress = () => {}) {
       const uxEcosystemData = await getUxEcosystemData(normalized);
       const uxRes = checkUxEcosystem($, fetchResult.headers, fetchResult.finalUrl, uxEcosystemData);
       markDimensionDone('ux_ecosystem', 'UX & Ecosystem', 'auto_awesome', uxRes, 'Evaluated PWA installability, modern framework signatures, preconnect hints');
-=======
-      onProgress({ type: 'dimension_start', dimension: 'seo', name: 'SEO Architecture', icon: '🔍', message: 'Analyzing title tags, meta descriptions, headings, and crawler indexability...' });
-      const pagespeedData = await getPagespeedData(normalized);
-      
-      const seoRes = checkSeo($, fetchResult.headers, fetchResult.finalUrl, pagespeedData);
-      markDimensionDone('seo', 'SEO Architecture', '🔍', seoRes, 'Evaluated title tags, meta descriptions, H1 hierarchy, canonical tags');
-
-      onProgress({ type: 'dimension_start', dimension: 'accessibility', name: 'Accessibility (WCAG)', icon: '♿', message: 'Evaluating image alt text, ARIA landmarks, form labels, and color contrast...' });
-      const a11yRes = checkAccessibility($, fetchResult.headers, fetchResult.finalUrl, pagespeedData);
-      markDimensionDone('accessibility', 'Accessibility (WCAG)', '♿', a11yRes, 'Evaluated image alt tags, form labels, ARIA landmarks, heading order');
-
-      onProgress({ type: 'dimension_start', dimension: 'performance', name: 'Performance & Vitals', icon: '⚡', message: 'Measuring Core Web Vitals (LCP, FID, CLS) and render timing...' });
-      const perfRes = checkPerformance(pagespeedData);
-      markDimensionDone('performance', 'Performance & Vitals', '⚡', perfRes, 'Evaluated FCP, LCP, CLS, Total Blocking Time, and resource weights');
-    })(),
-    (async () => {
-      onProgress({ type: 'dimension_start', dimension: 'ethical', name: 'Digital Ethics & Green', icon: '🌱', message: 'Evaluating carbon footprint, sustainability, and privacy tracker mitigation...' });
-      const ethicalData = await getEthicalPrinciplesData(normalized);
-      const ethRes = checkEthical($, fetchResult.headers, fetchResult.finalUrl, ethicalData);
-      markDimensionDone('ethical', 'Digital Ethics & Green', '🌱', ethRes, 'Evaluated W3C ethical web principles, carbon footprint, tracker mitigation');
-    })(),
-    (async () => {
-      onProgress({ type: 'dimension_start', dimension: 'web_standards', name: 'Web Standards & HTML5', icon: '📐', message: 'Checking HTML5 DOCTYPE validity, DOM depth, and deprecated markup...' });
-      const webStandardsData = await getWebStandardsData(normalized);
-      const wsRes = checkWebStandards($, fetchResult.headers, fetchResult.finalUrl, webStandardsData);
-      markDimensionDone('web_standards', 'Web Standards & HTML5', '📐', wsRes, 'Evaluated DOCTYPE validity, DOM tree depth, obsolete tags removal');
-    })(),
-    (async () => {
-      onProgress({ type: 'dimension_start', dimension: 'ai_readiness', name: 'AI & LLM Readiness', icon: '🤖', message: 'Scanning for Model Context Protocol, llms.txt, JSON-LD context density...' });
-      const aiReadinessData = await getAiReadinessData(normalized);
-      const aiRes = checkAiReadiness($, fetchResult.headers, fetchResult.finalUrl, aiReadinessData);
-      markDimensionDone('ai_readiness', 'AI & LLM Readiness', '🤖', aiRes, 'Evaluated llms.txt discovery, MCP agent endpoints, semantic context');
-    })(),
-    (async () => {
-      onProgress({ type: 'dimension_start', dimension: 'ux_ecosystem', name: 'UX & Ecosystem', icon: '✨', message: 'Auditing PWA manifest, modern stack signatures, and resource hints...' });
-      const uxEcosystemData = await getUxEcosystemData(normalized);
-      const uxRes = checkUxEcosystem($, fetchResult.headers, fetchResult.finalUrl, uxEcosystemData);
-      markDimensionDone('ux_ecosystem', 'UX & Ecosystem', '✨', uxRes, 'Evaluated PWA installability, modern framework signatures, preconnect hints');
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
     })()
   ];
 
@@ -1023,11 +997,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
   const overallScore = report.overall_score !== undefined ? report.overall_score : '--';
   const grade = report.grade || '--';
   const timestamp = report.timestamp ? new Date(report.timestamp).toUTCString() : new Date().toUTCString();
-<<<<<<< HEAD
   const reportUrl = report.id ? `https://www.catalystlab.tech/reports/${report.id}` : url;
-=======
-  const reportUrl = report.id ? `https://catalystlab.dev/reports/${report.id}` : url;
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
 
   let gradeBg = '#6366f1';
   if (grade === 'A') gradeBg = '#10b981';
@@ -1088,11 +1058,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
         text += `\n[${label}]\n`;
         issues.slice(0, 3).forEach(issue => {
           totalCriticals++;
-<<<<<<< HEAD
           const icon = issue.status === 'fail' ? 'close' : 'warning';
-=======
-          const icon = issue.status === 'fail' ? '❌' : '⚠️';
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           text += `  ${icon} ${issue.check}: ${issue.message}\n`;
           if (issue.recommendation) {
             text += `     -> Fix: ${issue.recommendation}\n`;
@@ -1107,7 +1073,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
   }
 
   text += `\n====================================================\n`;
-  text += `Report generated by CatalystLab Pro Telemetry Engine\n`;
+  text += `Report generated by CatalystLab Telemetry Engine\n`;
   text += `Visit: ${reportUrl}\n`;
   text += `====================================================\n`;
 
@@ -1167,11 +1133,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
                 <strong style="font-size: 13px; color: #0f172a;">${issue.check}</strong>
               </div>
               <div style="font-size: 12px; color: #475569; margin-left: 2px;">${issue.message}</div>
-<<<<<<< HEAD
               ${issue.recommendation ? `<div style="font-size: 11px; color: #4f46e5; margin-top: 3px; font-weight: 600;">lightbulb Fix: ${issue.recommendation}</div>` : ''}
-=======
-              ${issue.recommendation ? `<div style="font-size: 11px; color: #4f46e5; margin-top: 3px; font-weight: 600;">💡 Fix: ${issue.recommendation}</div>` : ''}
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </div>
           `;
         });
@@ -1182,11 +1144,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
     if (findingsList) {
       htmlKeyFindings = `
         <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid #e2e8f0;">
-<<<<<<< HEAD
           <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 700; color: #0f172a;">error Key Action Items & Priority Findings</h3>
-=======
-          <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 700; color: #0f172a;">🚨 Key Action Items & Priority Findings</h3>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           ${findingsList}
         </div>
       `;
@@ -1229,11 +1187,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
             <td>
               <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Audited Target</div>
               <div style="font-size: 16px; font-weight: 800; color: #0f172a; word-break: break-all; margin-top: 2px;">${url}</div>
-<<<<<<< HEAD
               <div style="font-size: 12px; color: #64748b; margin-top: 3px;">time ${timestamp}</div>
-=======
-              <div style="font-size: 12px; color: #64748b; margin-top: 3px;">🕒 ${timestamp}</div>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             </td>
             <td style="text-align: right; width: 120px;">
               <div style="display: inline-block; text-align: center;">
@@ -1256,11 +1210,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
 
         <!-- 10-Dimension Breakdown Table -->
         <div style="margin-top: 22px;">
-<<<<<<< HEAD
           <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 700; color: #0f172a;">analytics 10-Dimension Audit Breakdown</h3>
-=======
-          <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 700; color: #0f172a;">📊 10-Dimension Audit Breakdown</h3>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; width: 100%;">
             <tbody>
               ${htmlRows}
@@ -1273,11 +1223,7 @@ function generateEmailContent({ report, recipient, note, subject, includeDetails
         <!-- CTA Button -->
         <div style="text-align: center; margin-top: 26px; padding-top: 18px; border-top: 1px solid #e2e8f0;">
           <a href="${reportUrl}" style="display: inline-block; background: #4f46e5; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 11px 22px; border-radius: 8px; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);">
-<<<<<<< HEAD
             rocket_launch View Interactive Report Online
-=======
-            🚀 View Interactive Report Online
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           </a>
           <div style="font-size: 11px; color: #94a3b8; margin-top: 6px;">Explore interactive radar charts, filtering tools, and comparative benchmarks</div>
         </div>

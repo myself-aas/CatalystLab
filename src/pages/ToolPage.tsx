@@ -5,6 +5,7 @@ import { ENGINES_MAP } from '../data/engines';
 import { TerminalOutput } from '../components/TerminalOutput';
 import { RateLimitBadge } from '../components/RateLimitBadge';
 import { RateLimitModal } from '../components/RateLimitModal';
+import { EngineReportDashboard } from '../components/tool/EngineReportDashboard';
 import { saveReport } from '../lib/firebase';
 import { urlToDomainSlug } from '../utils/slugUtils';
 import { getRateLimitStatus, recordAuditLaunch, getVisitorDeviceId } from '../utils/rateLimiter';
@@ -18,7 +19,9 @@ import {
   ShieldCheck, 
   Sparkles,
   ArrowRight,
-  FileText
+  FileText,
+  Activity,
+  Code
 } from 'lucide-react';
 
 interface ToolPageProps {
@@ -35,6 +38,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   const [copiedLink, setCopiedLink] = useState(false);
   const [rateLimitModalOpen, setRateLimitModalOpen] = useState(false);
   const [rateLimitReason, setRateLimitReason] = useState<'limit_reached' | 'info'>('info');
+  const [viewMode, setViewMode] = useState<'dashboard' | 'terminal'>('dashboard');
 
   const isRepoEngine = engineType === 'repo';
 
@@ -46,13 +50,37 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     return trimmed;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleManualSave = async () => {
+    if (!user || savedReportId || !output) return;
+    try {
+      const auditSessionId = `tool_${engineType}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+      const visitorId = getVisitorDeviceId();
+      const cleanUrl = isRepoEngine ? targetUrl.trim() : normalizeUrl(targetUrl.trim());
+      const docId = await saveReport({
+        url: cleanUrl,
+        engine: engineType,
+        title: `${meta.name}: ${cleanUrl}`,
+        output,
+        summary: `Automated ${meta.name} diagnostic run for ${cleanUrl}`,
+        score: 92,
+        userId: user.uid,
+        userEmail: user.email || undefined,
+        auditSessionId,
+        visitorId
+      });
+      setSavedReportId(docId);
+    } catch (saveErr) {
+      console.error("Firestore manual save error:", saveErr);
+    }
+  };
+
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!targetUrl.trim()) return;
 
     // Check rate limit
     const rateStatus = getRateLimitStatus(user, isAdmin);
-    if (rateStatus.isExceeded) {
+    if (rateStatus.isSingleExceeded) {
       setRateLimitReason('limit_reached');
       setRateLimitModalOpen(true);
       return;
@@ -67,9 +95,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     setLoading(true);
     setOutput('');
     setSavedReportId(null);
+    setViewMode('dashboard');
 
     // Record launch count
-    recordAuditLaunch(user, isAdmin);
+    recordAuditLaunch(user, isAdmin, 'single');
     const auditSessionId = `tool_${engineType}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     const visitorId = getVisitorDeviceId();
 
@@ -99,7 +128,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       // Auto-save if user authenticated
       if (user && data.success) {
         try {
-<<<<<<< HEAD
           const docId = await saveReport({
             url: cleanUrl,
             engine: engineType,
@@ -111,10 +139,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
             userEmail: user.email || undefined,
             auditSessionId,
             visitorId
-=======
-          const docId = await saveReport(cleanUrl, engineType, finalOutput, {
-            title: `${meta.name}: ${cleanUrl}`
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           });
           setSavedReportId(docId);
         } catch (saveErr) {
@@ -140,7 +164,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   };
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen bg-[#f8fafc] pb-20 text-[#0b192c] selection:bg-[#c5d3e8] selection:text-[#0b192c]">
       
       {/* Header Banner */}
@@ -149,22 +172,11 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           <Link
             to="/"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#415a77] hover:text-[#0b192c] mb-6 transition-colors"
-=======
-    <div className="min-h-screen bg-slate-950 pb-20">
-      
-      {/* Header Banner */}
-      <section className="border-b border-slate-800 bg-slate-900/40 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white mb-6"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Master Audit</span>
           </Link>
 
-<<<<<<< HEAD
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0b192c] text-[#c5d3e8] text-3xl shadow-lg mb-4 border border-[#415a77]/40">
             <span className="material-symbols-outlined text-3xl">{meta.icon}</span>
           </div>
@@ -174,33 +186,15 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           </h1>
 
           <p className="mx-auto mt-3 max-w-xl text-sm text-[#415a77]">
-=======
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-800 text-3xl shadow-lg mb-4 border border-slate-700">
-            {meta.icon}
-          </div>
-
-          <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
-            {meta.name}
-          </h1>
-
-          <p className="mx-auto mt-3 max-w-xl text-sm text-slate-400">
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             {meta.description}
           </p>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="mt-8 mx-auto max-w-xl">
-<<<<<<< HEAD
             <div className="flex flex-col sm:flex-row gap-3 rounded-2xl border border-[#415a77]/30 bg-white p-2 shadow-xl">
               <div className="relative flex-1">
                 <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#415a77]">
                   <span className="material-symbols-outlined text-base">{meta.icon}</span>
-=======
-            <div className="flex flex-col sm:flex-row gap-3 rounded-2xl border border-slate-700 bg-slate-900/90 p-2 shadow-2xl backdrop-blur-xl">
-              <div className="relative flex-1">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
-                  {meta.icon}
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 </span>
                 <input
                   type="text"
@@ -212,30 +206,18 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                       : "https://example.com"
                   }
                   required
-<<<<<<< HEAD
                   className="w-full rounded-xl bg-transparent py-3 pl-10 pr-4 text-sm text-[#0b192c] placeholder:text-[#415a77]/60 focus:outline-none font-mono"
-=======
-                  className="w-full rounded-xl bg-transparent py-3 pl-10 pr-4 text-sm text-white placeholder:text-slate-500 focus:outline-none"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-<<<<<<< HEAD
                 className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-6 py-3 text-sm font-bold text-white hover:bg-[#33475e] disabled:opacity-50 shrink-0 shadow-md transition-all"
               >
                 {loading ? (
                   <>
                     <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
-=======
-                className="flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-400 disabled:opacity-50 shrink-0 shadow-lg shadow-cyan-500/20 transition-all"
-              >
-                {loading ? (
-                  <>
-                    <span className="animate-spin">⏳</span>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                     <span>Scanning...</span>
                   </>
                 ) : (
@@ -265,11 +247,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       />
 
       {/* Results Section */}
-      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         
         {/* Saved Permalink Banner */}
         {savedReportId && (
-<<<<<<< HEAD
           <div className="mb-6 rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-4 sm:p-5 shadow-lg text-[#f8fafc]">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3">
@@ -280,18 +261,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                   </h3>
                   <div className="text-xs text-[#c5d3e8] mt-0.5">
                     Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-white underline">{permalinkUrl}</a>
-=======
-          <div className="mb-6 rounded-xl border border-emerald-500/40 bg-emerald-950/30 p-4 sm:p-5 backdrop-blur-md">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="text-sm font-bold text-emerald-300">
-                    Audit Saved to Your User Dashboard!
-                  </h3>
-                  <div className="text-xs text-slate-400 mt-0.5">
-                    Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-cyan-400 underline">{permalinkUrl}</a>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                   </div>
                 </div>
               </div>
@@ -299,21 +268,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleCopy}
-<<<<<<< HEAD
                   className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#1f314d] transition-colors"
-=======
-                  className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-slate-800"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 >
                   {copiedLink ? 'Copied' : 'Copy Link'}
                 </button>
                 <Link
                   to={`/reports/${urlToDomainSlug(targetUrl)}`}
-<<<<<<< HEAD
                   className="flex items-center gap-1 rounded-xl bg-[#415a77] px-3.5 py-2 text-xs font-bold text-white hover:bg-[#33475e] transition-colors shadow-md"
-=======
-                  className="flex items-center gap-1 rounded-lg bg-cyan-500 px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-cyan-400"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
                 >
                   <FileText className="h-3.5 w-3.5" />
                   <span>Read Article Dossier</span>
@@ -323,24 +284,61 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           </div>
         )}
 
-        {/* Terminal output */}
-        <TerminalOutput
-          title={`${meta.name} Console Output`}
-          icon={meta.icon}
-<<<<<<< HEAD
-          engine={meta.id}
-=======
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-          output={output}
-          loading={loading}
-          statusText={`Executing ${meta.pythonScript} in Python runtime...`}
-          maxHeight="max-h-[600px]"
-        />
+        {(output || loading) && (
+          <div className="mt-8 flex gap-4 border-b border-[#e2e8f0]">
+            <button
+              onClick={() => setViewMode('dashboard')}
+              className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${
+                viewMode === 'dashboard'
+                  ? 'border-[#0b192c] text-[#0b192c]'
+                  : 'border-transparent text-[#415a77] hover:text-[#0b192c]'
+              }`}
+            >
+              <Activity className="h-4 w-4" />
+              Executive Dashboard
+            </button>
+            <button
+              onClick={() => setViewMode('terminal')}
+              className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${
+                viewMode === 'terminal'
+                  ? 'border-[#0b192c] text-[#0b192c]'
+                  : 'border-transparent text-[#415a77] hover:text-[#0b192c]'
+              }`}
+            >
+              <Code className="h-4 w-4" />
+              Raw Terminal Output
+            </button>
+          </div>
+        )}
+
+        {viewMode === 'dashboard' && output && !loading && !output.startsWith('[!] Error') && (
+          <EngineReportDashboard 
+            engineType={engineType}
+            targetUrl={targetUrl}
+            output={output}
+            onRelaunch={() => handleSubmit()}
+            onSave={handleManualSave}
+            savedReportId={savedReportId}
+          />
+        )}
+
+        {(viewMode === 'terminal' || loading || output.startsWith('[!] Error')) && (
+          <div className="mt-8">
+            <TerminalOutput
+              title={`${meta.name} Console Output`}
+              icon={meta.icon}
+              engine={meta.id}
+              output={output}
+              loading={loading}
+              statusText={`Executing ${meta.pythonScript} in Python runtime...`}
+              maxHeight="max-h-[600px]"
+            />
+          </div>
+        )}
 
         {/* Auth prompt if not logged in */}
-        {!user && !loading && output && (
-<<<<<<< HEAD
-          <div className="mt-6 rounded-2xl border border-[#415a77]/30 bg-white p-5 text-center shadow-md">
+        {!user && !loading && output && !output.startsWith('[!] Error') && (
+          <div className="mt-6 rounded-2xl border border-[#415a77]/30 bg-white p-5 text-center shadow-md max-w-4xl mx-auto">
             <p className="text-xs text-[#415a77] flex items-center justify-center gap-1.5">
               <span className="material-symbols-outlined text-base text-amber-500">lightbulb</span>
               <span><strong>Want to save this report to your history?</strong> Sign in with Google to enable permanent cloud storage and permalinks.</span>
@@ -348,15 +346,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
             <button
               onClick={() => login()}
               className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] border border-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] transition-colors shadow-md"
-=======
-          <div className="mt-6 rounded-xl border border-slate-800 bg-slate-900/50 p-4 text-center">
-            <p className="text-xs text-slate-400">
-              💡 <strong>Want to save this report to your history?</strong> Sign in with Google to enable permanent cloud storage and permalinks.
-            </p>
-            <button
-              onClick={() => login()}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 px-3 py-1.5 text-xs font-semibold text-cyan-400 hover:bg-cyan-500/20"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
             >
               Sign In with Google
             </button>

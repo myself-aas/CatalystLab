@@ -148,21 +148,82 @@ async function startServer() {
   const PORT = 3000;
   const HOST = '0.0.0.0';
 
-  // Security Response Headers Hardening Middleware
+  // Security Headers Middleware (OWASP Hardening & Injection Prevention)
   app.use((req: Request, res: Response, next) => {
-    res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+    // 1. Strict-Transport-Security (HSTS) with preload and subdomains (2 years / 63072000s)
+    res.setHeader(
+      'Strict-Transport-Security',
+      'max-age=63072000; includeSubDomains; preload'
+    );
+
+    // 2. Prevent MIME type sniffing
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+
+    // 3. Robust Content-Security-Policy (CSP) to mitigate XSS and data injection
+    const cspDirectives = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.googleapis.com https://*.gstatic.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.gstatic.com",
+      "font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com",
+      "img-src 'self' data: blob: https: http:",
+      "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.cloudfunctions.net https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.catalystlab.tech https://*.run.app ws: wss:",
+      "frame-src 'self' https://*.firebaseapp.com https://*.google.com",
+      "frame-ancestors 'self' https://*.google.com https://*.googleusercontent.com https://*.run.app https://ai.studio *",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "upgrade-insecure-requests"
+    ].join('; ');
+    res.setHeader('Content-Security-Policy', cspDirectives);
+
+    // 4. Defense-in-depth headers
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-    res.setHeader(
-      'Content-Security-Policy',
-      "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https: blob:; connect-src 'self' https: wss:; font-src 'self' https: data:; frame-ancestors 'self';"
-    );
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+
     next();
   });
 
   app.use(express.json({ limit: '10mb' }));
+
+  // Pre-flight check endpoint for URL connectivity
+  app.post('/api/check-url', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { url } = req.body;
+      if (!url || typeof url !== 'string') {
+        res.status(400).json({ reachable: false, error: 'Target URL is required.' });
+        return;
+      }
+      
+      const parsedUrl = new URL(url);
+      const isHttps = parsedUrl.protocol === 'https:';
+      const client = isHttps ? https : http;
+
+      const reqOptions = {
+        method: 'HEAD',
+        timeout: 4000,
+        rejectUnauthorized: false // We just want to know if it's reachable, not strictly if cert is valid (though we could)
+      };
+
+      const request = client.request(parsedUrl, reqOptions, (response) => {
+        // If we get a response, it's reachable (even if it's a 4xx or 5xx, the server responded)
+        res.json({ reachable: true, status: response.statusCode });
+      });
+
+      request.on('error', (err) => {
+        res.json({ reachable: false, error: err.message });
+      });
+
+      request.on('timeout', () => {
+        request.destroy();
+        res.json({ reachable: false, error: 'Timeout' });
+      });
+
+      request.end();
+    } catch (e: any) {
+      res.json({ reachable: false, error: e.message });
+    }
+  });
 
   // Python Engine Execution Endpoint
   app.post('/api/run-engine', async (req: Request, res: Response): Promise<void> => {
@@ -385,75 +446,6 @@ async function startServer() {
   // Health check
   app.get('/api/health', (req: Request, res: Response) => {
     res.json({ status: 'ok', timestamp: Date.now() });
-  });
-
-  // Dynamic Embeddable Status Badge (SVG)
-  app.get(['/api/badge/:domain', '/api/badge'], (req: Request, res: Response) => {
-    const domain = (req.params.domain || (req.query.domain as string) || 'catalystlab.tech').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-    const score = Math.min(100, Math.max(50, parseInt((req.query.score as string) || '98', 10)));
-    const grade = score >= 90 ? 'A+' : score >= 80 ? 'A' : score >= 70 ? 'B' : 'C';
-    const color = score >= 90 ? '#10b981' : score >= 80 ? '#0ea5e9' : score >= 70 ? '#f59e0b' : '#f43f5e';
-    
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="28" viewBox="0 0 220 28" fill="none" role="img" aria-label="CatalystLab Health Score: ${score}/100 (${grade})">
-  <rect width="220" height="28" rx="6" fill="#0b192c"/>
-  <rect x="0.5" y="0.5" width="219" height="27" rx="5.5" stroke="#415a77" stroke-opacity="0.4"/>
-  <text x="12" y="18" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">CATALYSTLAB</text>
-  <rect x="135" y="4" width="79" height="20" rx="4" fill="${color}" fill-opacity="0.2" stroke="${color}" stroke-opacity="0.6"/>
-  <text x="174.5" y="18" fill="${color}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" text-anchor="middle">${score}/100 ${grade}</text>
-</svg>`;
-
-    res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-    res.send(svg);
-  });
-
-  // Dynamic OpenGraph Social Image Generator (1200x630 SVG)
-  app.get('/api/og', (req: Request, res: Response) => {
-    const domain = ((req.query.domain as string) || (req.query.url as string) || 'https://www.catalystlab.tech/').replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-    const score = parseInt((req.query.score as string) || '98', 10);
-    const grade = score >= 90 ? 'A+' : score >= 80 ? 'A' : 'B';
-    const latency = (req.query.latency as string) || '14ms';
-
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
-  <rect width="1200" height="630" fill="#0b192c"/>
-  <defs>
-    <radialGradient id="ogGlow" cx="0.5" cy="0" r="0.8" fx="0.5" fy="0">
-      <stop offset="0%" stop-color="#415a77" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#0b192c" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#ogGlow)"/>
-  <rect x="40" y="40" width="1120" height="550" rx="24" stroke="#415a77" stroke-opacity="0.4" stroke-width="2"/>
-  <g transform="translate(80, 90)">
-    <rect width="48" height="48" rx="12" fill="#415a77" fill-opacity="0.3" stroke="#415a77" stroke-width="1.5"/>
-    <text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" fill="#c5d3e8" text-anchor="middle" font-weight="900">âš¡</text>
-    <text x="64" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="800" fill="#f8fafc" letter-spacing="1">CatalystLab</text>
-    <text x="240" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#c5d3e8">| TELEMETRY REPORT DOSSIER</text>
-  </g>
-  <g transform="translate(80, 200)">
-    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="600" fill="#c5d3e8" letter-spacing="2">TARGET HOST AUDITED</text>
-    <text x="0" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="800" fill="#ffffff">${domain}</text>
-  </g>
-  <g transform="translate(80, 340)">
-    <rect x="0" y="0" width="320" height="180" rx="16" fill="#152238" stroke="#415a77" stroke-opacity="0.5"/>
-    <text x="24" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#c5d3e8">HEALTH GRADE</text>
-    <text x="24" y="110" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="900" fill="#10b981">${grade}</text>
-    <text x="120" y="105" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" fill="#f8fafc">${score}/100 Score</text>
-    <text x="24" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#c5d3e8">8 Diagnostic Engines</text>
-    <rect x="350" y="0" width="320" height="180" rx="16" fill="#152238" stroke="#415a77" stroke-opacity="0.5"/>
-    <text x="374" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#38bdf8">${latency}</text>
-    <text x="374" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#c5d3e8">12 Worldwide Edge PoPs</text>
-    <rect x="700" y="0" width="340" height="180" rx="16" fill="#152238" stroke="#415a77" stroke-opacity="0.5"/>
-    <text x="724" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#c5d3e8">STANDARDS & COMPLIANCE</text>
-    <text x="724" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">âœ“ OWASP Top 10 Headers</text>
-    <text x="724" y="125" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#f8fafc">âœ“ WCAG 2.2 AA Audited</text>
-    <text x="724" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Segoe VI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#34d399">âœ“ Verified on catalystlab.tech</text>
-  </g>
-</svg>`;
-
-    res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
-    res.send(svg);
   });
 
   // Vite Integration

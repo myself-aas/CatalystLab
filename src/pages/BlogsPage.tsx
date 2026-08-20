@@ -4,37 +4,32 @@ import type { BlogPost } from '../types';
 import { getBlogPosts } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { 
-  BookOpen, 
   ArrowRight, 
-  Search, 
-  Tag, 
-  Clock, 
-  Calendar, 
-  Sparkles,
-  Shield,
-  Layers,
+  Image as ImageIcon,
+  Play,
+  Star,
+  User as UserIcon,
+  Search,
+  BookOpen,
   Settings
 } from 'lucide-react';
+import { SEOHead } from '../components/common/SEOHead';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 export const BlogsPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('Popular');
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
       try {
         const data = await getBlogPosts();
-<<<<<<< HEAD
-        // Show all blogs to all visitors (except archived)
         const visible = data.filter((p) => p.status !== 'archived');
-=======
-        // Only show published to general public, or all if admin
-        const visible = data.filter((p) => p.status === 'published' || isAdmin);
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         setPosts(visible);
       } catch (err) {
         console.error("Error loading blog posts:", err);
@@ -45,243 +40,296 @@ export const BlogsPage: React.FC = () => {
     load();
   }, [isAdmin]);
 
-  const categories = ['All', ...Array.from(new Set(posts.map((p) => p.category).filter(Boolean)))];
+  const featuredPost = posts.find((p) => p.featured) || posts[0];
+  const listPosts = posts.filter((p) => p.id !== featuredPost?.id).slice(0, 3);
 
-  const filteredPosts = posts.filter((p) => {
-    const matchesSearch = 
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (p.tags || []).some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (subscribeEmail) {
+      setSubscribed(true);
+      setSubscribeEmail('');
+    }
+  };
 
-    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const categories = ['Popular', 'AI & LLM', 'Performance', 'SecOps', 'Edge Latency', 'Architecture'];
+
+  const getFormatDate = (timestamp: number | undefined) => {
+    if (!timestamp) return 'Aug 10, 2024';
+    return new Date(timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-[#f8fafc] pb-20 text-[#0b192c]">
-      
-      {/* Hero Banner */}
-      <section className="border-b border-[#ebe9e6] bg-[#f4f6fa] px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#415a77]/15 text-[#415a77] mb-4 border border-[#415a77]/30 shadow-sm">
-            <BookOpen className="h-6 w-6" />
-          </div>
-          
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#0b192c] sm:text-5xl">
-            Architecture & Telemetry Insights
-          </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-[#415a77]">
-=======
-    <div className="min-h-screen bg-slate-950 pb-20">
-      
-      {/* Hero Banner */}
-      <section className="border-b border-slate-800 bg-radial-[at_top] from-slate-900 to-slate-950 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 mb-4 border border-cyan-500/20 shadow-inner">
-            <BookOpen className="h-6 w-6" />
-          </div>
-          
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Architecture & Telemetry Insights
-          </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-slate-400">
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-            Deep technical investigations into AI search vectorization, synthetic edge latency, OWASP compliance, and zero-trust web infrastructure.
-          </p>
+    <div className="min-h-screen bg-[#f8fafc] text-[#0b192c] overflow-x-hidden">
+      <SEOHead
+        title="Engineering Insights & Telemetry Articles"
+        description="Discover engineering updates, telemetry benchmarks, and architecture best practices from the CatalystLab team."
+        keywords={['CatalystLab blog', 'engineering blog', 'web health insights']}
+        canonicalUrl="https://www.catalystlab.tech/blogs"
+      />
 
-          {/* Admin quick access - Only visible to Primary Superadmins */}
+      {/* Header and Breadcrumbs */}
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 pt-6">
+        <div className="flex items-center justify-between mb-8">
+          <Breadcrumbs items={[{ label: 'Engineering Blog' }]} />
           {user && isAdmin && (
-            <div className="mt-6 flex justify-center">
-              <Link
-                to="/admin"
-<<<<<<< HEAD
-                className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/40 bg-[#0b192c] px-4 py-1.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#152238] transition-colors shadow-sm"
-              >
-                <Settings className="h-3.5 w-3.5 text-[#c5d3e8]" />
-                <span>Open Superadmin Studio to Create New Articles</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#c5d3e8]" />
-=======
-                className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/20 transition-colors"
-              >
-                <Settings className="h-3.5 w-3.5" />
-                <span>Open Superadmin Studio to Create New Articles</span>
-                <ArrowRight className="h-3.5 w-3.5" />
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-              </Link>
-            </div>
+            <Link
+              to="/admin"
+              className="inline-flex items-center gap-2 rounded-full border border-[#0b192c] bg-[#0b192c] px-4 py-1.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors"
+            >
+              <Settings className="h-3.5 w-3.5" />
+              <span>Admin</span>
+            </Link>
           )}
-        </div>
-      </section>
-
-      {/* Filter and Search Bar */}
-<<<<<<< HEAD
-      <div className="border-b border-[#ebe9e6] bg-[#f8fafc]/95 px-4 py-4 backdrop-blur-md sticky top-16 z-30 shadow-sm">
-=======
-      <div className="border-b border-slate-800 bg-slate-950/80 px-4 py-4 backdrop-blur-md sticky top-16 z-30">
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-        <div className="mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-3">
-          
-          {/* Categories */}
-          <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
-                  selectedCategory === cat
-<<<<<<< HEAD
-                    ? 'bg-[#0b192c] text-[#f8fafc] font-bold shadow-sm'
-                    : 'bg-[#ebe9e6] text-[#0b192c] hover:bg-[#c5d3e8] border border-[#ebe9e6]'
-=======
-                    ? 'bg-cyan-500 text-slate-950'
-                    : 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800'
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Search input */}
-          <div className="relative w-full sm:w-72">
-<<<<<<< HEAD
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#415a77]" />
-=======
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search guides, tags, keywords..."
-<<<<<<< HEAD
-              className="w-full rounded-xl border border-[#415a77]/30 bg-[#f4f6fa] py-1.5 pl-9 pr-3 text-xs text-[#0b192c] placeholder:text-[#415a77]/60 focus:border-[#415a77] focus:outline-none"
-=======
-              className="w-full rounded-xl border border-slate-800 bg-slate-900 py-1.5 pl-9 pr-3 text-xs text-white placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-            />
-          </div>
-
         </div>
       </div>
 
-      {/* Blog Cards List */}
-      <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 space-y-6">
-        {loading ? (
-<<<<<<< HEAD
-          <div className="py-20 text-center text-[#415a77] text-sm">
-            <span className="material-symbols-outlined text-2xl animate-spin text-[#415a77] mb-2 inline-block">progress_activity</span>
-            <div>Loading technical articles...</div>
+      <main className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 space-y-28">
+        
+        {/* 1. Hero Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mt-4">
+          <div className="lg:col-span-5 space-y-6">
+            <h1 className="text-[40px] sm:text-[52px] lg:text-[64px] font-extrabold text-[#0b192c] tracking-tight leading-[1.1]">
+              Discover the <br /> Web's Hidden <br /> Telemetry
+            </h1>
+            <p className="text-[#415a77] text-sm sm:text-base leading-relaxed max-w-sm">
+              Find the unique benchmarks and hidden metrics that ignite unforgettable web experiences. From rare performance bottlenecks to remarkable edge destinations.
+            </p>
+            <button className="rounded-full bg-[#0b192c] px-7 py-3.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors shadow-sm tracking-wide">
+              Read our latest
+            </button>
           </div>
-        ) : filteredPosts.length === 0 ? (
-          <div className="py-20 text-center rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-8 text-[#f8fafc]">
-            <BookOpen className="mx-auto h-8 w-8 text-[#c5d3e8] mb-3" />
-            <h3 className="text-base font-bold text-[#f8fafc]">No Articles Found</h3>
-            <p className="mt-1 text-xs text-[#c5d3e8]">Try changing your search query or category filter.</p>
-=======
-          <div className="py-20 text-center text-slate-500 text-sm">
-            <div className="animate-spin inline-block mb-2">⏳</div>
-            <div>Loading technical articles...</div>
+          
+          <div className="lg:col-span-7 relative h-[400px] sm:h-[500px]">
+            {/* Gray map silhouette background would go here, using a subtle gradient placeholder */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent to-slate-100/50 rounded-full blur-3xl opacity-50 -z-10" />
+            
+            {/* Image masonry blocks simulating the wireframe layout */}
+            <div className="absolute right-[5%] top-[5%] w-[45%] h-[40%] bg-[#cbd5e1] rounded-3xl flex items-center justify-center shadow-sm">
+               <ImageIcon className="h-8 w-8 text-[#94a3b8]" />
+            </div>
+            
+            <div className="absolute left-[15%] top-[10%] w-[35%] h-[55%] bg-[#e2e8f0] rounded-3xl flex items-center justify-center shadow-sm">
+               <ImageIcon className="h-8 w-8 text-[#94a3b8]" />
+            </div>
+
+            <div className="absolute right-[10%] bottom-[15%] w-[30%] h-[35%] bg-[#e2e8f0] rounded-3xl flex items-center justify-center shadow-sm">
+               <ImageIcon className="h-6 w-6 text-[#94a3b8]" />
+            </div>
+
+            <div className="absolute left-[30%] bottom-[5%] w-[25%] h-[25%] bg-[#cbd5e1] rounded-3xl flex items-center justify-center shadow-sm">
+               <ImageIcon className="h-6 w-6 text-[#94a3b8]" />
+            </div>
           </div>
-        ) : filteredPosts.length === 0 ? (
-          <div className="py-20 text-center rounded-2xl border border-slate-800 bg-slate-900/40 p-8">
-            <BookOpen className="mx-auto h-8 w-8 text-slate-600 mb-3" />
-            <h3 className="text-base font-bold text-slate-300">No Articles Found</h3>
-            <p className="mt-1 text-xs text-slate-500">Try changing your search query or category filter.</p>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-          </div>
-        ) : (
-          filteredPosts.map((post) => (
-            <article
-              key={post.id || post.slug}
-<<<<<<< HEAD
-              className="group rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 hover:border-[#415a77]/60 transition-all shadow-xl text-[#f8fafc]"
-            >
-              <div className="flex flex-wrap items-center gap-3 text-xs text-[#c5d3e8] font-mono mb-3">
-                <span className="rounded-md bg-[#415a77]/30 px-2.5 py-0.5 font-bold text-[#c5d3e8] border border-[#415a77]/50 font-sans">
-                  {post.category}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Calendar className="h-3 w-3 text-[#c5d3e8]" />
-=======
-              className="group rounded-2xl border border-slate-800 bg-slate-900/40 p-6 sm:p-8 hover:border-cyan-500/40 hover:bg-slate-900/80 transition-all shadow-lg"
-            >
-              <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-mono mb-3">
-                <span className="rounded-md bg-cyan-500/10 px-2.5 py-0.5 font-bold text-cyan-400 border border-cyan-500/20 font-sans">
-                  {post.category}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Calendar className="h-3 w-3" />
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-                  <span>{new Date(post.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-<<<<<<< HEAD
-                  <Clock className="h-3 w-3 text-[#c5d3e8]" />
-=======
-                  <Clock className="h-3 w-3" />
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-                  <span>{post.readTime}</span>
+        </section>
+
+        {/* 2. Top Topics (Destinations) */}
+        <section>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <h2 className="text-[28px] font-extrabold text-[#0b192c]">Top Topics</h2>
+              <div className="mt-4 flex items-center gap-6 text-xs font-semibold text-[#64748b] overflow-x-auto pb-2 scrollbar-hide">
+                {categories.map((cat) => (
+                  <span 
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`whitespace-nowrap cursor-pointer transition-colors ${selectedCategory === cat ? 'text-[#0b192c] border-b-2 border-[#0b192c] pb-1' : 'hover:text-[#0b192c]'}`}
+                  >
+                    {cat}
+                  </span>
+                ))}
+                <span className="whitespace-nowrap cursor-pointer hover:text-[#0b192c] flex items-center gap-1">
+                  More <ArrowRight className="h-3 w-3" />
                 </span>
               </div>
+            </div>
+            <button className="shrink-0 rounded-full border border-[#cbd5e1] px-5 py-2 text-[11px] font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
+              Explore all topics
+            </button>
+          </div>
 
-<<<<<<< HEAD
-              <h2 className="text-xl sm:text-2xl font-bold text-[#f8fafc] group-hover:text-[#c5d3e8] transition-colors">
-=======
-              <h2 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-                <Link to={`/blogs/${post.slug || post.id}`}>
-                  {post.title}
-                </Link>
-              </h2>
-
-<<<<<<< HEAD
-              <p className="mt-3 text-sm text-[#ebe9e6] leading-relaxed line-clamp-3">
-                {post.excerpt}
-              </p>
-
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#415a77]/30 pt-4">
-=======
-              <p className="mt-3 text-sm text-slate-400 leading-relaxed line-clamp-3">
-                {post.excerpt}
-              </p>
-
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-slate-800/80 pt-4">
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {(post.tags || []).map((tag) => (
-                    <span
-                      key={tag}
-<<<<<<< HEAD
-                      className="rounded-md bg-[#152238] px-2 py-0.5 text-[11px] font-mono text-[#c5d3e8] border border-[#415a77]/30"
-=======
-                      className="rounded-md bg-slate-950 px-2 py-0.5 text-[11px] font-mono text-slate-400 border border-slate-800"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-                    >
-                      #{tag}
-                    </span>
-                  ))}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { title: 'Edge Routing Analytics', subtitle: 'Global Network' },
+              { title: 'Core Web Vitals', subtitle: 'Performance' },
+              { title: 'Content Security Policy', subtitle: 'SecOps' },
+              { title: 'AI Crawler Indexing', subtitle: 'LLMs' }
+            ].map((item, idx) => (
+              <div key={idx} className="group cursor-pointer">
+                <div className="aspect-[3/4] rounded-[32px] bg-[#cbd5e1] flex items-center justify-center mb-4 transition-transform group-hover:scale-[1.02]">
+                  <ImageIcon className="h-8 w-8 text-[#94a3b8]" />
                 </div>
-
-                <Link
-                  to={`/blogs/${post.slug || post.id}`}
-<<<<<<< HEAD
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#c5d3e8] group-hover:text-[#f8fafc] transition-colors"
-=======
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors"
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
-                >
-                  <span>Read Article</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                </Link>
+                <h3 className="text-sm font-bold text-[#0b192c] leading-tight group-hover:text-[#415a77] transition-colors">{item.title}</h3>
+                <p className="text-[11px] text-[#64748b] mt-1.5">{item.subtitle}</p>
               </div>
-            </article>
-          ))
-        )}
+            ))}
+          </div>
+        </section>
+
+        {/* 3. Latest Stories */}
+        <section>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-[28px] font-extrabold text-[#0b192c]">Latest Stories</h2>
+            <button className="hidden sm:block rounded-full border border-[#cbd5e1] px-5 py-2 text-[11px] font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
+              Read more articles
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+            {/* Featured Post (Left) */}
+            <div className="lg:col-span-7 group cursor-pointer">
+              <Link to={featuredPost ? `/blog/${featuredPost.slug || featuredPost.id}` : '#'}>
+                <div className="aspect-[4/3] rounded-[32px] bg-[#cbd5e1] flex items-center justify-center mb-6 overflow-hidden transition-transform group-hover:scale-[1.01]">
+                   <ImageIcon className="h-12 w-12 text-[#94a3b8]" />
+                </div>
+                <div className="text-[10px] font-bold text-[#64748b] uppercase tracking-widest mb-3">
+                  {featuredPost?.category || 'Engineering'}
+                </div>
+                <h3 className="text-[26px] font-extrabold text-[#0b192c] leading-tight mb-3 group-hover:text-[#415a77] transition-colors">
+                  {featuredPost ? featuredPost.title : 'Deep dive into rendering patterns: 10 strategies for React'}
+                </h3>
+                <div className="text-[11px] text-[#64748b] mb-4">
+                  {getFormatDate(featuredPost?.createdAt)} • {featuredPost?.readTime || '4 min read'}
+                </div>
+                <p className="text-sm text-[#415a77] leading-relaxed line-clamp-3">
+                  {featuredPost ? featuredPost.excerpt : 'It seems that in frontend engineering, almost any problem can be solved with a combination of memoization, lazy loading, and suspense. After all, speed matters...'}
+                </p>
+              </Link>
+            </div>
+
+            {/* List Posts (Right) */}
+            <div className="lg:col-span-5 flex flex-col gap-8 justify-center">
+              {listPosts.length > 0 ? listPosts.map((item, idx) => (
+                <Link key={idx} to={`/blog/${item.slug || item.id}`} className="flex gap-5 group cursor-pointer items-center">
+                  <div className="w-28 h-28 shrink-0 rounded-3xl bg-[#cbd5e1] flex items-center justify-center transition-transform group-hover:scale-[1.03]">
+                     <ImageIcon className="h-6 w-6 text-[#94a3b8]" />
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <div className="text-[9px] font-bold text-[#64748b] uppercase tracking-widest mb-1.5">{item.category || 'Guide'}</div>
+                    <h4 className="text-sm font-bold text-[#0b192c] leading-snug group-hover:text-[#415a77] transition-colors line-clamp-3">
+                      {item.title}
+                    </h4>
+                    <div className="text-[10px] text-[#64748b] mt-2">{getFormatDate(item.createdAt)} • {item.readTime || '5 min read'}</div>
+                  </div>
+                </Link>
+              )) : (
+                [
+                  { cat: 'Architecture', title: '15 Cloud Architectures You\'ll Love: Best patterns in 2024' },
+                  { cat: 'SecOps', title: '10 incredible security headers your app needs immediately' },
+                  { cat: 'Performance', title: 'Visiting Web Vitals on a Budget: Affordable optimization tricks' }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-5 group cursor-pointer items-center">
+                    <div className="w-28 h-28 shrink-0 rounded-3xl bg-[#cbd5e1] flex items-center justify-center transition-transform group-hover:scale-[1.03]">
+                       <ImageIcon className="h-6 w-6 text-[#94a3b8]" />
+                    </div>
+                    <div className="flex flex-col justify-center">
+                      <div className="text-[9px] font-bold text-[#64748b] uppercase tracking-widest mb-1.5">{item.cat}</div>
+                      <h4 className="text-sm font-bold text-[#0b192c] leading-snug group-hover:text-[#415a77] transition-colors line-clamp-3">
+                        {item.title}
+                      </h4>
+                      <div className="text-[10px] text-[#64748b] mt-2">Aug 15, 2024 • 5 min read</div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+          <button className="mt-8 sm:hidden w-full rounded-full border border-[#cbd5e1] px-5 py-3 text-[11px] font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
+            Read more articles
+          </button>
+        </section>
+
+        {/* 4. Trekker's Highlights (Engineer's Highlights) */}
+        <section>
+          <div className="flex items-center justify-between mb-10">
+            <h2 className="text-[28px] font-extrabold text-[#0b192c]">Engineer's Highlights</h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            {/* Text & Testimonial */}
+            <div className="lg:col-span-4 flex flex-col justify-center pr-4">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 w-10 rounded-full bg-[#cbd5e1] flex items-center justify-center overflow-hidden">
+                   <UserIcon className="h-5 w-5 text-[#94a3b8]" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-[#0b192c]">Maria Angelica</div>
+                  <div className="text-[10px] text-[#64748b]">Senior Frontend Architect</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-1 mb-4">
+                {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="h-3.5 w-3.5 fill-[#0b192c] text-[#0b192c]" />)}
+              </div>
+              <h3 className="text-[22px] font-extrabold text-[#0b192c] mb-4 leading-tight">
+                An Unforgettable Journey Through Telemetry
+              </h3>
+              <p className="text-[13px] text-[#415a77] leading-relaxed mb-6">
+                Thanks to CatalystLab, my trip through web performance was truly magical. Their expert probes and insider insights led me to hidden DOM bottlenecks and must-see latency issues I would have missed otherwise. The suggested optimizations made fixing our robust CI/CD pipelines effortless.
+              </p>
+            </div>
+
+            {/* Video / Highlight Image Blocks */}
+            <div className="lg:col-span-8 flex flex-col sm:flex-row gap-6">
+              <div className="flex-1 aspect-[3/4] sm:aspect-auto sm:h-[400px] rounded-[32px] bg-[#e2e8f0] flex flex-col justify-end p-6 relative overflow-hidden group cursor-pointer shadow-sm">
+                <div className="absolute inset-0 flex items-center justify-center transition-transform group-hover:scale-105">
+                  <ImageIcon className="h-10 w-10 text-[#94a3b8]" />
+                </div>
+              </div>
+              
+              <div className="flex-1 aspect-[3/4] sm:aspect-auto sm:h-[400px] rounded-[32px] bg-[#cbd5e1] flex flex-col justify-end p-6 relative overflow-hidden group cursor-pointer shadow-sm">
+                <div className="absolute inset-0 flex items-center justify-center transition-transform group-hover:scale-105">
+                   <div className="h-14 w-14 rounded-full bg-white/50 backdrop-blur-md flex items-center justify-center shadow-sm">
+                     <Play className="h-5 w-5 fill-[#0b192c] text-[#0b192c] ml-1" />
+                   </div>
+                </div>
+                <div className="relative z-10 p-2">
+                  <div className="text-[13px] font-bold text-white leading-tight">Sunset from Edge Latency Probe</div>
+                  <button className="mt-3 rounded-full border border-white/50 bg-white/20 backdrop-blur-md px-4 py-2 text-[10px] font-bold text-white hover:bg-white hover:text-[#0b192c] transition-colors tracking-wide">
+                    See more highlights
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
+
+      {/* 5. Newsletter Full Width */}
+      <section className="bg-[#94a3b8] py-24 px-4 mt-24">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-[32px] sm:text-[40px] font-extrabold text-white mb-10 leading-tight">
+            Get Your Developer Inspiration <br className="hidden sm:block" /> Straight to Your Inbox
+          </h2>
+          
+          {subscribed ? (
+             <div className="rounded-full bg-white/20 backdrop-blur-sm px-6 py-4 text-sm font-bold text-white border border-white/30 transition-all">
+               Thanks for subscribing to our technical updates!
+             </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="email"
+                required
+                value={subscribeEmail}
+                onChange={(e) => setSubscribeEmail(e.target.value)}
+                placeholder="Email address"
+                className="flex-1 rounded-full px-6 py-4 text-sm bg-white border-0 focus:outline-none focus:ring-2 focus:ring-[#0b192c] text-[#0b192c] placeholder:text-[#94a3b8]"
+              />
+              <button 
+                type="submit"
+                className="rounded-full bg-[#0b192c] px-10 py-4 text-sm font-bold text-white hover:bg-[#152238] transition-colors shadow-sm whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
+          )}
+          <p className="text-[11px] text-white/80 mt-6 max-w-sm mx-auto leading-relaxed">
+            Subscribe to receive telemetry newsletters and exclusive developer updates. Read our <Link to="/privacy" className="underline font-semibold hover:text-white transition-colors">Privacy Policy</Link>.
+          </p>
+        </div>
+      </section>
+
     </div>
   );
 };
+export default BlogsPage;

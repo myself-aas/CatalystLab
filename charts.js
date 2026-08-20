@@ -463,13 +463,8 @@
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
           <div style="font-weight:700; color:#cbd5e1; margin-bottom:3px;">${pt.title}</div>
-<<<<<<< HEAD
           <div style="color:#818cf8;">* ${hostA}: <strong>${pt.score}/100</strong></div>
           <div style="color:#34d399;">* ${hostB}: <strong>${ptB.score}/100</strong></div>
-=======
-          <div style="color:#818cf8;">● ${hostA}: <strong>${pt.score}/100</strong></div>
-          <div style="color:#34d399;">● ${hostB}: <strong>${ptB.score}/100</strong></div>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         `;
         const svgRect = svg.getBoundingClientRect();
         tooltip.style.left = `${(pt.x / size) * svgRect.width}px`;
@@ -502,13 +497,8 @@
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
           <div style="font-weight:700; color:#cbd5e1; margin-bottom:3px;">${pt.title}</div>
-<<<<<<< HEAD
           <div style="color:#818cf8;">* ${hostA}: <strong>${ptA.score}/100</strong></div>
           <div style="color:#34d399;">* ${hostB}: <strong>${pt.score}/100</strong></div>
-=======
-          <div style="color:#818cf8;">● ${hostA}: <strong>${ptA.score}/100</strong></div>
-          <div style="color:#34d399;">● ${hostB}: <strong>${pt.score}/100</strong></div>
->>>>>>> 27f0589ba0205dcb9d45199d494f95d0965f28b4
         `;
         const svgRect = svg.getBoundingClientRect();
         tooltip.style.left = `${(pt.x / size) * svgRect.width}px`;
