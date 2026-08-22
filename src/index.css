@@ -1,24 +1,59 @@
 @import "tailwindcss";
 
+:root {
+  /* =========================================
+     PRIMITIVE TOKENS (Raw values)
+     ========================================= */
+  --blue-900: #0b192c;
+  --blue-950: #0d1b2a;
+  --slate-500: #52718e;
+  --slate-600: #415a77;
+  --slate-700: #33475e;
+  --periwinkle-200: #d6e2f0;
+  --periwinkle-300: #c5d3e8;
+  --gray-50: #f8fafc;
+  --gray-100: #f4f6fa;
+  --gray-200: #e2e8f0;
+  --greige-200: #ebe9e6;
+
+  /* =========================================
+     SEMANTIC TOKENS (Purpose aliases)
+     ========================================= */
+  --color-background: var(--gray-100);
+  --color-foreground: var(--blue-900);
+  --color-surface: #ffffff;
+  --color-primary: var(--slate-600);
+  --color-primary-hover: var(--slate-700);
+  --color-muted: var(--slate-500);
+  --color-border: var(--periwinkle-300);
+
+  /* =========================================
+     COMPONENT TOKENS (Component-specific)
+     ========================================= */
+  --button-bg: var(--color-primary);
+  --button-text: var(--gray-50);
+  --slide-bg: var(--color-surface);
+}
+
 @theme {
-  --color-brand-navy: #0b192c;
-  --color-brand-oxford: #0d1b2a;
-  --color-brand-slate: #415a77;
-  --color-brand-slate-hover: #33475e;
-  --color-brand-slate-light: #52718e;
-  --color-brand-periwinkle: #c5d3e8;
-  --color-brand-periwinkle-light: #d6e2f0;
-  --color-brand-offwhite: #f8fafc;
-  --color-brand-ghost: #f4f6fa;
-  --color-brand-greige: #ebe9e6;
-  --color-brand-gray: #e2e8f0;
+  --color-brand-navy: var(--blue-900);
+  --color-brand-oxford: var(--blue-950);
+  --color-brand-slate: var(--slate-600);
+  --color-brand-slate-hover: var(--slate-700);
+  --color-brand-slate-light: var(--slate-500);
+  --color-brand-periwinkle: var(--periwinkle-300);
+  --color-brand-periwinkle-light: var(--periwinkle-200);
+  --color-brand-offwhite: var(--gray-50);
+  --color-brand-ghost: var(--gray-100);
+  --color-brand-greige: var(--greige-200);
+  --color-brand-gray: var(--gray-200);
 }
 
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: #f4f6fa;
-    color: #0b192c;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
   
   code, pre, .font-mono {
@@ -40,6 +75,15 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(65, 90, 119, 0.8);
+}
+
+/* Hide scrollbar for clean horizontal carousel reels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Print Stylesheet for Browser PDF Export */

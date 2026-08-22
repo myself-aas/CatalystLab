@@ -91,7 +91,7 @@ export const ReportPermalinkPage: React.FC = () => {
       <div className="flex min-h-[70vh] items-center justify-center bg-[#f8fafc]">
         <div className="flex flex-col items-center gap-3">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#415a77] border-t-transparent" />
-          <span className="text-xs text-[#415a77] font-mono">Retrieving immutable audit dossier from Firestore...</span>
+          <span className="text-sm text-[#415a77] font-mono">Retrieving immutable audit dossier from Firestore...</span>
         </div>
       </div>
     );
@@ -105,17 +105,17 @@ export const ReportPermalinkPage: React.FC = () => {
             <AlertCircle className="h-6 w-6" />
           </div>
           <h2 className="text-xl font-bold text-[#f8fafc]">Report Not Found</h2>
-          <p className="mt-2 text-xs text-[#c5d3e8]">{error || "The requested audit dossier does not exist."}</p>
+          <p className="mt-2 text-sm text-[#c5d3e8]">{error || "The requested audit dossier does not exist."}</p>
           <div className="mt-6 flex justify-center gap-3">
             <Link
               to="/dashboard"
-              className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#1f314d]"
+              className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1f314d]"
             >
               Go to Dashboard
             </Link>
             <Link
               to="/"
-              className="rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e]"
+              className="rounded-xl bg-[#415a77] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e]"
             >
               Run New Audit
             </Link>
@@ -146,7 +146,7 @@ export const ReportPermalinkPage: React.FC = () => {
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <Link
             to="/dashboard"
-            className="flex items-center gap-1.5 text-xs font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors"
+            className="flex items-center gap-1.5 text-sm font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Dashboard</span>
@@ -155,7 +155,7 @@ export const ReportPermalinkPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-xs font-medium text-[#c5d3e8] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-sm font-medium text-[#c5d3e8] hover:text-white transition-colors"
               title="Copy Share Link"
             >
               {copied ? <Check className="h-3.5 w-3.5 text-[#c5d3e8]" /> : <Share2 className="h-3.5 w-3.5 text-[#c5d3e8]" />}
@@ -164,7 +164,7 @@ export const ReportPermalinkPage: React.FC = () => {
 
             <button
               onClick={handleBrowserPrint}
-              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-xs font-medium text-[#c5d3e8] hover:text-white transition-colors"
+              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-sm font-medium text-[#c5d3e8] hover:text-white transition-colors"
               title="Print via Browser Utility"
             >
               <Printer className="h-3.5 w-3.5 text-[#c5d3e8]" />
@@ -174,7 +174,7 @@ export const ReportPermalinkPage: React.FC = () => {
             <button
               onClick={handleExportPdf}
               disabled={isExportingPdf}
-              className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-1.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors disabled:opacity-50 shadow-md"
+              className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-1.5 text-sm font-bold text-white hover:bg-[#152238] transition-colors disabled:opacity-50 shadow-md"
               title="Export Current Audit Results as PDF"
             >
               <Download className="h-3.5 w-3.5 text-[#c5d3e8]" />
@@ -193,10 +193,10 @@ export const ReportPermalinkPage: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <span className="material-symbols-outlined text-2xl text-[#c5d3e8]">{meta.icon}</span>
-                <span className={`text-[11px] uppercase font-bold px-2.5 py-0.5 rounded-lg border ${meta.badgeClass}`}>
+                <span className={`text-sm uppercase font-bold px-2.5 py-0.5 rounded-lg border ${meta.badgeClass}`}>
                   {meta.name}
                 </span>
-                <span className="flex items-center gap-1 rounded-lg bg-[#152238] px-2.5 py-0.5 text-[10px] text-[#c5d3e8] font-mono border border-[#415a77]/40">
+                <span className="flex items-center gap-1 rounded-lg bg-[#152238] px-2.5 py-0.5 text-xs text-[#c5d3e8] font-mono border border-[#415a77]/40">
                   <ShieldCheck className="h-3 w-3 text-[#c5d3e8]" />
                   Immutable Permalink
                 </span>
@@ -206,7 +206,7 @@ export const ReportPermalinkPage: React.FC = () => {
                 {report.url}
               </h1>
 
-              <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-[#c5d3e8]">
+              <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-[#c5d3e8]">
                 <span className="flex items-center gap-1">
                   <Calendar className="h-3.5 w-3.5 text-[#c5d3e8]" />
                   {formattedDate}
@@ -225,7 +225,7 @@ export const ReportPermalinkPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-2">
               <Link
                 to={`/?url=${encodeURIComponent(report.url)}`}
-                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#1f314d] transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1f314d] transition-colors"
               >
                 <RotateCw className="h-3.5 w-3.5 text-[#c5d3e8]" />
                 <span>Re-run Audit</span>

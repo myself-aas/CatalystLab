@@ -1,0 +1,74 @@
+name: "CatalystLab 8-Stage Autonomous SDLC Audit"
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # Run continuous weekly health audit every Monday at 00:00 UTC
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target production or staging URL to audit'
+        required: true
+        default: 'https://catalystlab.tech'
+
+jobs:
+  catalyst-audit:
+    name: "Execute CatalystLab 8-Catalyst Quality Gate"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python Audit Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Run Catalyst 1: PAR (Planning, Architecture & Requirements)
+        run: |
+          TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
+          python3 python-engines/platform_migration_audit.py "$TARGET"
+
+      - name: Run Catalyst 2: Code Quality & Static SecOps
+        run: |
+          python3 python-engines/repo_scanner.py "https://github.com/${{ github.repository }}"
+
+      - name: Run Catalyst 3: Build & Eco-Carbon Efficiency
+        run: |
+          TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
+          python3 python-engines/eco_carbon_audit.py "$TARGET"
+
+      - name: Run Catalyst 4: Testing & Core Web Vitals
+        run: |
+          TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
+          python3 python-engines/website_health.py "$TARGET"
+
+      - name: Run Catalyst 5: Release & Edge Delivery Latency
+        run: |
+          TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
+          python3 python-engines/edge_latency.py "$TARGET"
+
+      - name: Run Catalyst 6: DevSecOps & Security Compliance
+        run: |
+          TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
+          python3 python-engines/compliance_risk_audit.py "$TARGET"
+
+      - name: Run Catalyst 7: Live Operations & AI Readiness
+        run: |
+          TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
+          python3 python-engines/ai_readiness.py "$TARGET"
+
+      - name: Run Catalyst 8: Continuous Evolution & LLMO Search
+        run: |
+          TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
+          python3 python-engines/llmo_optimizer.py "$TARGET"

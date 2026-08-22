@@ -228,7 +228,7 @@ export const DomainReportArticlePage: React.FC = () => {
           <h2 className="text-xl font-bold text-white">
             {isAuditingLive ? 'Compiling Benchmark Dossier...' : 'Retrieving Audit Record...'}
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-sm text-slate-400">
             {isAuditingLive 
               ? `Executing 8 specialized diagnostic engines across DOM depth, OWASP headers, WCAG accessibility, and edge latency for ${displayDomain}...`
               : 'Formatting telemetry figures, interactive charts, and architectural takeaways...'}
@@ -246,18 +246,18 @@ export const DomainReportArticlePage: React.FC = () => {
             <AlertTriangle className="h-6 w-6" />
           </div>
           <h2 className="text-2xl font-bold text-white">Benchmark Report Unavailable</h2>
-          <p className="mt-2 text-sm text-slate-400">{error || 'Could not locate telemetry for this domain.'}</p>
+          <p className="mt-2 text-base text-slate-400">{error || 'Could not locate telemetry for this domain.'}</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <button
               onClick={() => runLiveAuditForDomain(displayDomain)}
-              className="flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-2.5 text-xs font-bold text-slate-950 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20"
+              className="flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20"
             >
               <RotateCw className="h-4 w-4" />
               <span>Retry Diagnostic Audit</span>
             </button>
             <Link
               to="/reports"
-              className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-6 py-2.5 text-xs font-semibold text-slate-300 hover:bg-slate-700"
+              className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-6 py-2.5 text-sm font-semibold text-slate-300 hover:bg-slate-700"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Browse All Reports</span>
@@ -274,40 +274,17 @@ export const DomainReportArticlePage: React.FC = () => {
 
   return (
     <article id="article-dossier-root" className="min-h-screen bg-[#070e24] pb-28 text-[#f8fafc] selection:bg-[#5882b7]/35 selection:text-[#f8fafc]">
-      
-      {/* Editorial Breadcrumbs Bar */}
-      <div className="border-b border-[#5882b7]/20 bg-[#0b1736]/40 py-3 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl flex items-center justify-between text-xs text-[#a4b7cc]">
-          <div className="flex items-center gap-2">
-            <Link to="/reports" className="hover:text-[#5882b7] transition-colors flex items-center gap-1">
-              <span>Audit Reports</span>
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-[#5882b7]/40" />
-            <span className="font-mono text-[#f8fafc] font-semibold truncate max-w-[200px] sm:max-w-none">
-              {canonicalDomainSlug}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:inline text-[#a4b7cc]">Permalink:</span>
-            <span className="font-mono text-[11px] text-[#5882b7] bg-[#070e24] px-2 py-0.5 rounded border border-[#5882b7]/30">
-              catalystlab.tech/reports/{canonicalDomainSlug}
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* Main Blog Article Hero Header */}
       <header className="border-b border-[#5882b7]/20 bg-gradient-to-b from-[#0b1736]/90 via-[#0b1736]/40 to-[#070e24] px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl space-y-6">
           
           {/* Badge & Category */}
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-[#5882b7]/40 bg-[#5882b7]/15 px-3 py-1 text-xs font-bold text-[#5882b7] uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 rounded-md border border-[#5882b7]/40 bg-[#5882b7]/15 px-3 py-1 text-sm font-bold text-[#5882b7] uppercase tracking-wider">
               <Sparkles className="h-3.5 w-3.5 text-[#c8beba]" />
               Engineering Benchmark Dossier
             </span>
-            <span className="inline-flex items-center gap-1 rounded-md border border-[#c8beba]/30 bg-[#c8beba]/10 px-2.5 py-1 text-xs font-semibold text-[#c8beba]">
+            <span className="inline-flex items-center gap-1 rounded-md border border-[#c8beba]/30 bg-[#c8beba]/10 px-2.5 py-1 text-sm font-semibold text-[#c8beba]">
               <ShieldCheck className="h-3.5 w-3.5" />
               Verified Telemetry
             </span>
@@ -336,10 +313,10 @@ export const DomainReportArticlePage: React.FC = () => {
                 <span className="material-symbols-outlined text-2xl font-black">terminal_2</span>
               </div>
               <div>
-                <div className="text-sm font-bold text-[#f8fafc] flex items-center gap-2">
+                <div className="text-base font-bold text-[#f8fafc] flex items-center gap-2">
                   <span>CatalystLab Automated Diagnostic Grid</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-[#a4b7cc] mt-0.5">
+                <div className="flex items-center gap-3 text-sm text-[#a4b7cc] mt-0.5">
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3.5 w-3.5 text-[#a4b7cc]" />
                     {formattedDate}
@@ -369,7 +346,7 @@ export const DomainReportArticlePage: React.FC = () => {
               <button
                 onClick={handleExportPdf}
                 disabled={isExportingPdf}
-                className="flex items-center gap-2 rounded-xl bg-[#5882b7] px-4 py-2.5 text-xs font-bold text-[#070e24] hover:bg-[#4872a7] shadow-lg shadow-[#5882b7]/25 transition-all disabled:opacity-50"
+                className="flex items-center gap-2 rounded-xl bg-[#5882b7] px-4 py-2.5 text-sm font-bold text-[#070e24] hover:bg-[#4872a7] shadow-lg shadow-[#5882b7]/25 transition-all disabled:opacity-50"
                 title="Export PDF Benchmark Dossier"
               >
                 <Download className="h-3.5 w-3.5" />
@@ -379,7 +356,7 @@ export const DomainReportArticlePage: React.FC = () => {
               {/* Share Button */}
               <button
                 onClick={handleCopyLink}
-                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors"
                 title="Copy Permalink URL"
               >
                 {copied ? <Check className="h-3.5 w-3.5 text-[#c8beba]" /> : <Share2 className="h-3.5 w-3.5 text-[#5882b7]" />}
@@ -390,7 +367,7 @@ export const DomainReportArticlePage: React.FC = () => {
               <button
                 onClick={() => runLiveAuditForDomain(displayDomain)}
                 disabled={isAuditingLive}
-                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors disabled:opacity-50"
                 title="Re-run Diagnostic Telemetry"
               >
                 <RotateCw className={`h-3.5 w-3.5 text-[#a4b7cc] ${isAuditingLive ? 'animate-spin' : ''}`} />
@@ -410,12 +387,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-sm font-bold font-mono">
                 01
               </span>
               <span>Executive Telemetry Summary & Vitals Radar</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Below is the aggregated telemetry signature for <strong className="text-white">{displayDomain}</strong>. 
               The global composite score of <strong className="text-cyan-400">{telemetry.overallScore}/100</strong> represents 
               a weighted average across all 8 diagnostic vectors.
@@ -429,12 +406,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-sm font-bold font-mono">
                 02
               </span>
               <span>Core DOM Depth, Node Count & Payload Weight</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Excessive DOM elements and deep subtree nesting directly degrade First Contentful Paint (FCP) and Time to Interactive (TTI). 
               Modern browser layout engines must recalculate bounding rects whenever nodes exceed 1,500 elements.
             </p>
@@ -453,12 +430,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-sm font-bold font-mono">
                 03
               </span>
               <span>OWASP Top 10 Security Headers & Protocol Matrix</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Zero-Trust HTTP response headers prevent malicious third-party scripts from executing unauthorized API calls, 
               iframe clickjacking, and protocol downgrade attacks.
             </p>
@@ -479,12 +456,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-sm font-bold font-mono">
                 04
               </span>
               <span>WCAG 2.2 Accessibility & ADA Legal Liability Index</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Website accessibility compliance is both a legal mandate under ADA Title III and a core UX metric. 
               Screen readers require descriptive image alt tags and labeled form controls to navigate interactive interfaces.
             </p>
@@ -504,12 +481,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-sm font-bold font-mono">
                 05
               </span>
               <span>Autonomous AI Agent & LLM Crawler Readiness</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               With SearchGPT, Perplexity, and Gemini replacing traditional search queries, sites must provide structured 
               plain-text endpoints (`/llms.txt`), clear heading hierarchies, and explicit crawler directives to avoid hallucinations.
             </p>
@@ -530,12 +507,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-sm font-bold font-mono">
                 06
               </span>
               <span>Global Edge Latency & Multi-Region POP Radar</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Edge routing and TLS session resumption determine user latency globally. The probe below measures 
               origin TTFB and calculates multi-region dispersion across North America, Europe, Asia, and South America.
             </p>
@@ -553,12 +530,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-sm font-bold font-mono">
                 07
               </span>
               <span>Sustainable Web Design (SWD) Eco-Carbon Footprint</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Digital carbon emissions stem from data transfer across network routers, data centers, and client device screens. 
               The Sustainable Web Design model quantifies kilowatt-hours and grams CO2e per visit.
             </p>
@@ -578,12 +555,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 text-sm font-bold font-mono">
                 08
               </span>
               <span>LLMO (LLM Search Optimization) & Semantic Citation Scorecard</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Ensuring JSON-LD schema blocks, OpenGraph social cards, and canonical links are fully declared allows 
               large language models to accurately attribute quotes, pricing, and brand data.
             </p>
@@ -603,12 +580,12 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-4 pt-4 border-t border-slate-800/60">
           <div className="space-y-2">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-bold font-mono">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-sm font-bold font-mono">
                 09
               </span>
               <span>Architectural Takeaways & Remediation Roadmap</span>
             </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-base text-slate-300 leading-relaxed">
               Recommended prioritization matrix for software engineering teams to resolve detected performance bottlenecks, 
               security liabilities, and indexing blind spots.
             </p>
@@ -616,11 +593,11 @@ export const DomainReportArticlePage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="rounded-xl border border-cyan-500/30 bg-cyan-950/20 p-5 space-y-3">
-              <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm uppercase tracking-wider">
                 <Flame className="h-4 w-4" />
                 <span>Priority 1: Instant Wins</span>
               </div>
-              <ul className="text-xs text-slate-300 space-y-2 list-disc list-inside">
+              <ul className="text-sm text-slate-300 space-y-2 list-disc list-inside">
                 <li>Deploy missing OWASP headers via edge CDN (HSTS, CSP, X-Frame-Options).</li>
                 <li>Add explicit `alt` attributes to all unlabeled image assets.</li>
                 <li>Enable Brotli/Gzip text compression on all static text assets.</li>
@@ -628,11 +605,11 @@ export const DomainReportArticlePage: React.FC = () => {
             </div>
 
             <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-5 space-y-3">
-              <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-sm uppercase tracking-wider">
                 <Zap className="h-4 w-4" />
                 <span>Priority 2: AI & SEO Optimization</span>
               </div>
-              <ul className="text-xs text-slate-300 space-y-2 list-disc list-inside">
+              <ul className="text-sm text-slate-300 space-y-2 list-disc list-inside">
                 <li>Create `/llms.txt` plain-text API directory for autonomous crawlers.</li>
                 <li>Implement JSON-LD Schema.org markup for entity recognition.</li>
                 <li>Ensure explicit `robots.txt` directives for GPTBot and ClaudeBot.</li>
@@ -640,11 +617,11 @@ export const DomainReportArticlePage: React.FC = () => {
             </div>
 
             <div className="rounded-xl border border-indigo-500/30 bg-indigo-950/20 p-5 space-y-3">
-              <div className="flex items-center gap-2 text-indigo-400 font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm uppercase tracking-wider">
                 <Server className="h-4 w-4" />
                 <span>Priority 3: Architecture & Edge</span>
               </div>
-              <ul className="text-xs text-slate-300 space-y-2 list-disc list-inside">
+              <ul className="text-sm text-slate-300 space-y-2 list-disc list-inside">
                 <li>Migrate legacy PNG/JPEG media to next-gen WebP/AVIF formats.</li>
                 <li>Flatten DOM nesting hierarchy to stay under 800 total elements.</li>
                 <li>Utilize Anycast Global Edge caching to minimize origin TTFB.</li>
@@ -661,14 +638,14 @@ export const DomainReportArticlePage: React.FC = () => {
                 <Terminal className="h-4 w-4 text-cyan-400" />
                 <span>Raw Diagnostic Engine Console Output</span>
               </h3>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-sm text-slate-400 mt-0.5">
                 Inspect raw telemetry traces generated by CatalystLab backend engines.
               </p>
             </div>
 
             <button
               onClick={() => setShowRawTerminal(!showRawTerminal)}
-              className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-700 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-700 hover:text-white transition-colors"
             >
               <Terminal className="h-3.5 w-3.5 text-cyan-400" />
               <span>{showRawTerminal ? 'Collapse Console' : 'Expand Raw Output'}</span>
@@ -693,10 +670,10 @@ export const DomainReportArticlePage: React.FC = () => {
       <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-[#5882b7]/20 bg-[#070e24]/90 backdrop-blur-xl py-3 px-4 sm:px-6">
         <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-[#f8fafc] hidden sm:inline">
+            <span className="text-sm font-bold text-[#f8fafc] hidden sm:inline">
               Benchmark Dossier: <span className="font-mono text-[#5882b7]">{displayDomain}</span>
             </span>
-            <span className="text-xs font-mono font-bold text-[#c8beba] bg-[#c8beba]/10 px-2 py-0.5 rounded border border-[#c8beba]/30">
+            <span className="text-sm font-mono font-bold text-[#c8beba] bg-[#c8beba]/10 px-2 py-0.5 rounded border border-[#c8beba]/30">
               Grade {telemetry.grade} ({telemetry.overallScore}/100)
             </span>
           </div>
@@ -705,7 +682,7 @@ export const DomainReportArticlePage: React.FC = () => {
             <button
               onClick={handleExportPdf}
               disabled={isExportingPdf}
-              className="flex items-center gap-1.5 rounded-xl bg-[#5882b7] px-4 py-2 text-xs font-bold text-[#070e24] hover:bg-[#4872a7] transition-all shadow-lg shadow-[#5882b7]/20"
+              className="flex items-center gap-1.5 rounded-xl bg-[#5882b7] px-4 py-2 text-sm font-bold text-[#070e24] hover:bg-[#4872a7] transition-all shadow-lg shadow-[#5882b7]/20"
             >
               <Download className="h-3.5 w-3.5" />
               <span>{isExportingPdf ? 'Exporting...' : 'Export PDF'}</span>
@@ -713,7 +690,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
             <button
               onClick={handleCopyLink}
-              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-xs font-semibold text-[#f8fafc] hover:bg-[#10214a] hover:text-[#f8fafc]"
+              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] hover:text-[#f8fafc]"
             >
               {copied ? <Check className="h-3.5 w-3.5 text-[#c8beba]" /> : <Share2 className="h-3.5 w-3.5 text-[#5882b7]" />}
               <span>{copied ? 'Copied' : 'Share'}</span>
@@ -721,7 +698,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
             <Link
               to="/reports"
-              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-xs font-semibold text-[#a4b7cc] hover:bg-[#10214a] hover:text-[#f8fafc] hidden sm:flex"
+              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-sm font-semibold text-[#a4b7cc] hover:bg-[#10214a] hover:text-[#f8fafc] hidden sm:flex"
             >
               <span>Directory</span>
             </Link>

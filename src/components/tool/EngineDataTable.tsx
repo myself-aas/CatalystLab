@@ -14,7 +14,7 @@ import {
   Tag,
   ArrowUpDown
 } from 'lucide-react';
-import type { EngineType } from '../../types';
+import type { CoreEngineType, EngineType } from '../../types';
 import { ENGINES_MAP } from '../../data/engines';
 
 interface EngineDataTableProps {
@@ -44,7 +44,7 @@ export interface TelemetryVectorRow {
 }
 
 // Complete vector assertions for all 8 engines
-export const ENGINE_TABLE_DATA: Record<EngineType, TelemetryVectorRow[]> = {
+export const ENGINE_TABLE_DATA: Record<CoreEngineType, TelemetryVectorRow[]> = {
   health: [
     {
       id: 'dom-depth',
@@ -612,7 +612,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
   const [methodologyExpanded, setMethodologyExpanded] = useState(false);
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
 
-  const rawRows = ENGINE_TABLE_DATA[engineType] || ENGINE_TABLE_DATA.health;
+  const rawRows = (ENGINE_TABLE_DATA as Record<string, TelemetryVectorRow[]>)[engineType] || ENGINE_TABLE_DATA.health;
 
   // Filter and search logic
   const filteredRows = useMemo(() => {

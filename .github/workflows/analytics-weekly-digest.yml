@@ -1,0 +1,41 @@
+name: "Weekly Telemetry Email Dossier Dispatch (Mailgun GSDP)"
+
+on:
+  schedule:
+    # Runs every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  weekly-digest:
+    name: "Compile & Dispatch Weekly Email Dossiers"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "Set up Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: "Install Dependencies"
+        run: npm ci --prefer-offline --no-audit
+
+      - name: "Compile Stats & Dispatch Weekly Dossiers via Mailgun"
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+          MAILGUN_HOST: ${{ secrets.MAILGUN_HOST }}
+          MAILGUN_FROM_EMAIL: ${{ secrets.MAILGUN_FROM_EMAIL }}
+          MAILGUN_FROM_NAME: "CatalystLab Telemetry Intelligence"
+          DIGEST_RECIPIENT_EMAIL: ${{ secrets.DIGEST_RECIPIENT_EMAIL || secrets.ALERT_EMAIL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          MONITORED_DOMAINS: ${{ secrets.MONITORED_DOMAINS || 'catalystlab.tech' }}
+        run: npm run cron:weekly-digest

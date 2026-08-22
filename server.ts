@@ -12,26 +12,52 @@ import os from 'os';
 import geoip from 'geoip-lite';
 import { UAParser } from 'ua-parser-js';
 import { runNativeEngine } from './src/lib/nodeEngines';
-import { initAnalyticsDB, queueEvent, generateVisitorId } from './src/lib/analyticsEngine';
+import { initAnalyticsDB, getDbInstance, queueEvent, generateVisitorId, getAnalyticsStats, detectTrafficAnomalies, checkMongoDBHealth, getBatchMetrics } from './src/lib/analyticsEngine';
+import { generateWeeklyReportHtml, generateAnomalyAlertHtml, sendEmailViaMailgun, AnalyticsWeeklyData, AnomalyAlertData } from './src/lib/emailService';
+import { sendSlackWebhook, sendDiscordWebhook, WebhookPayloadData } from './src/lib/webhookService';
 import 'dotenv/config';
 
 const execAsync = promisify(exec);
 
 const ENGINE_SCRIPT_MAP: Record<string, string> = {
-  health: 'website_health.py',
-  latency: 'edge_latency.py',
-  ai_ready: 'ai_readiness.py',
-  repo: 'repo_scanner.py',
-  eco: 'eco_carbon_audit.py',
-  compliance: 'compliance_risk_audit.py',
+  // Phase 1: Planning & Architecture
   migration: 'platform_migration_audit.py',
-  llmo: 'llmo_optimizer.py'
+  planning_arch: 'platform_migration_audit.py',
+  
+  // Phase 2: Code Quality & Repo
+  repo: 'repo_scanner.py',
+  code_quality: 'repo_scanner.py',
+  
+  // Phase 3: Build & Asset Efficiency
+  eco: 'eco_carbon_audit.py',
+  build_eco: 'eco_carbon_audit.py',
+  
+  // Phase 4: Testing & Core Web Vitals
+  health: 'website_health.py',
+  testing_vitals: 'website_health.py',
+  
+  // Phase 5: Release & Edge Delivery
+  latency: 'edge_latency.py',
+  release_edge: 'edge_latency.py',
+  
+  // Phase 6: Deployment & DevSecOps
+  compliance: 'compliance_risk_audit.py',
+  devsecops_compliance: 'compliance_risk_audit.py',
+  
+  // Phase 7: Live Operations & AI Readiness
+  ai_ready: 'ai_readiness.py',
+  operations_ai_ready: 'ai_readiness.py',
+  
+  // Phase 8: Continuous Evolution & LLMO
+  llmo: 'llmo_optimizer.py',
+  evolution_llmo: 'llmo_optimizer.py'
 };
 
 const SUPERADMIN_EMAILS = [
   'shuvo.1807016@bau.edu.bd',
   'shuvoasifahmed@gmail.com',
-  'asifahmedshuvo.aas@gmail.com'
+  'asifahmedshuvo.aas@gmail.com',
+  'asifahmedshuvo.aa9@gmail.com'
 ];
 
 export const VISITOR_DAILY_UNITS = 20;
@@ -447,22 +473,76 @@ async function startServer() {
   app.use(express.json({ limit: '10mb' }));
 
   // ==========================================
-  // TELEMETRY INGESTION PIPELINE (First-Party)
+  // PHASE 3: FIRST-PARTY PROXY STRATEGY (Ad-Blocker Proof)
   // ==========================================
-  app.post('/api/telemetry/event', express.json(), (req: Request, res: Response): void => {
-    // 1. Bot Filtering Check (Block Datacenter/AI Crawlers before DB)
-    const userAgent = req.headers['user-agent'] || '';
-    const botRegex = /bot|crawler|spider|crawling|chatgpt|claude|perplexity|headless|lighthouse/i;
-    if (botRegex.test(userAgent)) {
-      res.status(200).send('Ignored'); // Silently drop bot traffic
+
+  // Step 1: Serve the Tracking Script as a First-Party Asset (<1KB Vanilla JS)
+  const serveTelemetryScript = (req: Request, res: Response) => {
+    const scriptPath = path.join(process.cwd(), 'public', 'telemetry.js');
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.sendFile(scriptPath);
+  };
+
+  app.get('/telemetry.js', serveTelemetryScript);
+  app.get('/js/telemetry.js', serveTelemetryScript);
+  app.get('/stats/js', serveTelemetryScript);
+  app.get('/stats/script.js', serveTelemetryScript);
+  app.get('/api/telemetry.js', serveTelemetryScript);
+
+  // Step 2: First-Party API Ingestion (Catch encrypted/beaconed payload, filter bots, batch in-memory)
+  const handleTelemetryEvent = (req: Request, res: Response): void => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+
+    // 1. Comprehensive Bot & Crawler Filtering Check (Block Datacenter/AI Crawlers before DB)
+    const userAgent = (req.headers['user-agent'] as string) || '';
+    const purposeHeader = (req.headers['purpose'] || req.headers['sec-purpose'] || req.headers['x-purpose'] || '') as string;
+    const isPrefetch = purposeHeader.toLowerCase().includes('preview') || req.headers['x-moz'] === 'prefetch';
+
+    const botRegex = /bot|crawler|spider|crawling|chatgpt|claude|perplexity|headless|lighthouse|ahrefs|semrush|petalbot|curl|wget|python|go-http|phantom|selenium|puppeteer|googlebot|bingbot|yandex|baidu|slurp|duckduckbot|facebookexternalhit|whatsapp|telegrambot|twitterbot|slackbot|discordbot/i;
+    
+    if (!userAgent || isPrefetch || botRegex.test(userAgent)) {
+      res.status(200).json({ status: 'ignored', reason: 'bot_or_prefetch_traffic' }); // Silently drop bot traffic without processing load
       return;
     }
 
-    const { domain, url, pathname, referrer, name } = req.body;
+    // Support direct JSON object, array of events, and stringified beacon payloads
+    let rawBody = req.body;
+    if (typeof rawBody === 'string') {
+      try {
+        rawBody = JSON.parse(rawBody);
+      } catch {
+        rawBody = {};
+      }
+    }
 
-    // 2. Local Zero-Cost Geo-IP Resolution
-    // Resolves securely behind Cloudflare/Heroku proxy headers
-    const rawIp = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '').split(',')[0].trim();
+    // Normalize events array (supports single event, array of events, or { events: [...] })
+    let eventsList: any[] = [];
+    if (Array.isArray(rawBody)) {
+      eventsList = rawBody;
+    } else if (rawBody && Array.isArray(rawBody.events)) {
+      eventsList = rawBody.events;
+    } else if (rawBody && typeof rawBody === 'object' && Object.keys(rawBody).length > 0) {
+      eventsList = [rawBody];
+    }
+
+    if (eventsList.length === 0) {
+      res.status(200).json({ status: 'ignored', reason: 'empty_payload' });
+      return;
+    }
+
+    // 2. Local Zero-Cost Geo-IP Resolution (Behind Cloudflare/Vercel proxy headers)
+    const rawIp = (
+      (req.headers['cf-connecting-ip'] as string) ||
+      (req.headers['x-forwarded-for'] as string) ||
+      (req.headers['x-real-ip'] as string) ||
+      req.socket.remoteAddress ||
+      ''
+    ).split(',')[0].trim();
+
     const geo = geoip.lookup(rawIp);
     const country = geo ? geo.country : 'Unknown';
     const city = geo ? geo.city : 'Unknown';
@@ -473,37 +553,595 @@ async function startServer() {
     const os = parser.getOS().name || 'Unknown';
     const device = parser.getDevice().type || 'desktop';
 
-    // 4. Cookieless Privacy Hashing (Daily Salt Rotation)
-    const visitor_id = generateVisitorId(rawIp, userAgent, domain || 'unknown');
-    const currentHour = new Date().toISOString().substring(0, 13);
-    const session_id = generateVisitorId(rawIp, userAgent + currentHour, domain || 'unknown');
+    let processedCount = 0;
 
-    let source = 'Direct';
-    if (referrer) {
-      try {
-        source = new URL(referrer).hostname;
-      } catch (e) { }
+    for (const item of eventsList) {
+      if (!item || typeof item !== 'object') continue;
+
+      const domain = item.domain || (item.url ? (() => { try { return new URL(item.url).hostname; } catch { return 'unknown'; } })() : 'unknown');
+      const cleanDomain = domain.replace(/^www\./, '');
+
+      // 4. Cookieless Privacy Hashing (Daily Salt Rotation - 100% GDPR/ePrivacy Compliant)
+      const visitor_id = item.visitor_id || generateVisitorId(rawIp, userAgent, cleanDomain);
+      const currentHour = new Date().toISOString().substring(0, 13);
+      const session_id = item.session_id || generateVisitorId(rawIp, userAgent + currentHour, cleanDomain);
+
+      let source = 'Direct';
+      if (item.referrer) {
+        try {
+          source = new URL(item.referrer).hostname;
+        } catch (e) {
+          source = String(item.referrer);
+        }
+      }
+
+      // 5. In-Memory Batching Queue (Flushes every 3 seconds or 500 events to MongoDB)
+      queueEvent({
+        domain: cleanDomain,
+        name: item.name || 'pageview',
+        url: item.url || `https://${cleanDomain}${item.pathname || '/'}`,
+        pathname: item.pathname || '/',
+        referrer: item.referrer || null,
+        browser,
+        os,
+        device,
+        country,
+        city,
+        source,
+        visitor_id,
+        session_id,
+        props: item.props || undefined,
+        vitals: item.vitals || undefined,
+        timestamp: item.timestamp || undefined
+      });
+
+      processedCount++;
     }
 
-    // 5. In-Memory Queue (Zero DB Load Per-Request)
-    queueEvent({
-      domain,
-      name,
-      url,
-      pathname,
-      referrer,
-      browser,
-      os,
-      device,
-      country,
-      city,
-      source,
-      visitor_id,
-      session_id
-    });
-
     // 6. Asynchronous Edge Response
-    res.status(202).send('Accepted');
+    res.status(202).json({ success: true, processed: processedCount });
+  };
+
+  // Support JSON, text, and array bodies for sendBeacon and fetch
+  const telemetryBodyParsers = express.json({ type: ['application/json', 'text/plain', 'text/json'], limit: '10mb' });
+
+  // Handle CORS OPTIONS preflight
+  const handleTelemetryOptions = (req: Request, res: Response) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    res.status(204).end();
+  };
+
+  app.options('/api/telemetry/event', handleTelemetryOptions);
+  app.options('/api/event', handleTelemetryOptions);
+  app.options('/stats/event', handleTelemetryOptions);
+  app.options('/api/stats/event', handleTelemetryOptions);
+
+  app.post('/api/telemetry/event', telemetryBodyParsers, handleTelemetryEvent);
+  app.post('/api/event', telemetryBodyParsers, handleTelemetryEvent);
+  app.post('/stats/event', telemetryBodyParsers, handleTelemetryEvent);
+  app.post('/api/stats/event', telemetryBodyParsers, handleTelemetryEvent);
+
+  // ==========================================
+  // PHASE 5: ZERO-COST ANALYTICAL QUERY PIPELINES
+  // ==========================================
+
+  // Query zero-cost MongoDB time-series aggregations (Cookieless Visitors, Bounce Rate, Session Time)
+  app.get('/api/analytics/stats', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const domain = (req.query.domain as string) || 'all';
+      const timeframe = ((req.query.timeframe as string) || '7d') as '24h' | '7d' | '30d' | 'all';
+
+      const stats = await getAnalyticsStats({ domain, timeframe });
+      res.json({
+        success: true,
+        stats
+      });
+    } catch (err: any) {
+      console.error('Error in /api/analytics/stats:', err);
+      res.status(500).json({ success: false, error: err.message || 'Failed to query analytics telemetry.' });
+    }
+  });
+
+  // Live Real-Time Active Visitors Pulse
+  app.get('/api/analytics/realtime', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const domain = (req.query.domain as string) || 'all';
+      const stats = await getAnalyticsStats({ domain, timeframe: '24h' });
+      res.json({
+        success: true,
+        domain,
+        activeVisitorsNow: stats.activeVisitorsNow,
+        todayUniqueVisitors: stats.uniqueVisitors,
+        todayPageviews: stats.totalPageviews,
+        timestamp: Date.now()
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Execute Anomaly Detection Check across domains
+  app.post('/api/analytics/anomalies/check', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { domain = 'all', notify = false, alertEmail, slackWebhookUrl, discordWebhookUrl } = req.body;
+      const result = await detectTrafficAnomalies(domain);
+
+      let notificationsDispatched = { email: false, slack: false, discord: false };
+
+      if (notify && result.hasAnomaly && result.type && result.type !== 'healthy') {
+        const anomalyData: AnomalyAlertData = {
+          domain: domain === 'all' ? 'all-monitored-domains' : domain,
+          anomalyType: result.type,
+          metricName: 'Hourly Ingestion Volume',
+          currentValue: `${result.currentHourCount} reqs`,
+          baselineValue: `${result.baselineHourlyAvg} reqs`,
+          deviationPercentage: result.deviationPercent,
+          timestamp: result.timestamp,
+          recommendedAction: result.recommendedAction,
+          radarUrl: `https://www.catalystlab.tech/dashboard?tab=analytics`
+        };
+
+        if (alertEmail) {
+          const emailHtml = generateAnomalyAlertHtml(anomalyData);
+          const emailRes = await sendEmailViaMailgun({
+            to: alertEmail,
+            subject: `[CatalystLab Alert] ${result.type === 'traffic_spike' ? 'Traffic Surge' : 'Traffic Drop'} on ${domain}`,
+            html: emailHtml
+          });
+          notificationsDispatched.email = emailRes.success;
+        }
+
+        if (slackWebhookUrl) {
+          const slackRes = await sendSlackWebhook(slackWebhookUrl, {
+            event: result.type === 'traffic_spike' ? 'anomaly_spike' : 'anomaly_drop',
+            domain,
+            title: result.type === 'traffic_spike' ? 'Traffic Surge Detected' : 'Traffic Drop Detected',
+            summary: `Observed ${result.currentHourCount} reqs/hr vs baseline ${result.baselineHourlyAvg} reqs/hr (${result.deviationPercent > 0 ? '+' : ''}${result.deviationPercent.toFixed(1)}%).`,
+            severity: result.type === 'traffic_spike' ? 'warning' : 'critical',
+            metrics: [
+              { label: 'Current Volume', value: `${result.currentHourCount} reqs/hr` },
+              { label: 'Baseline', value: `${result.baselineHourlyAvg} reqs/hr` },
+              { label: 'Deviation', value: `${result.deviationPercent.toFixed(1)}%` }
+            ]
+          });
+          notificationsDispatched.slack = slackRes.success;
+        }
+
+        if (discordWebhookUrl) {
+          const discordRes = await sendDiscordWebhook(discordWebhookUrl, {
+            event: result.type === 'traffic_spike' ? 'anomaly_spike' : 'anomaly_drop',
+            domain,
+            title: result.type === 'traffic_spike' ? 'Traffic Surge Detected' : 'Traffic Drop Detected',
+            summary: `Observed ${result.currentHourCount} reqs/hr vs baseline ${result.baselineHourlyAvg} reqs/hr (${result.deviationPercent > 0 ? '+' : ''}${result.deviationPercent.toFixed(1)}%).`,
+            severity: result.type === 'traffic_spike' ? 'warning' : 'critical',
+            metrics: [
+              { label: 'Current Volume', value: result.currentHourCount },
+              { label: 'Baseline', value: result.baselineHourlyAvg }
+            ]
+          });
+          notificationsDispatched.discord = discordRes.success;
+        }
+      }
+
+      res.json({
+        success: true,
+        domain,
+        anomaly: result,
+        notificationsDispatched
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // ==========================================
+  // PHASE 4: NOTIFICATIONS, MAILGUN & WEBHOOKS
+  // ==========================================
+
+  // Dispatch Weekly Email Dossier via Mailgun
+  app.post('/api/notifications/email/weekly-digest', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { domain = 'catalystlab.tech', recipientEmail, configOverride } = req.body;
+
+      if (!recipientEmail) {
+        res.status(400).json({ success: false, error: 'recipientEmail is required.' });
+        return;
+      }
+
+      const stats = await getAnalyticsStats({ domain, timeframe: '7d' });
+      const now = new Date();
+      const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+      const weeklyData: AnalyticsWeeklyData = {
+        domain,
+        startDate: lastWeek.toISOString().split('T')[0],
+        endDate: now.toISOString().split('T')[0],
+        uniqueVisitors: stats.uniqueVisitors,
+        totalPageviews: stats.totalPageviews,
+        bounceRate: stats.bounceRate,
+        avgSessionDurationFormatted: stats.avgSessionDurationFormatted,
+        topPages: stats.topPages,
+        topSources: stats.sources.map(s => ({ source: s.name, count: s.count, percentage: s.value })),
+        topCountries: stats.countries,
+        healthScore: 94,
+        carbonEmissionsGrams: 0.18,
+        complianceGrade: 'Grade A+ (OWASP / WCAG Compliant)'
+      };
+
+      const html = generateWeeklyReportHtml(weeklyData);
+      const emailResult = await sendEmailViaMailgun({
+        to: recipientEmail,
+        subject: `📊 CatalystLab Weekly Telemetry Dossier: ${domain}`,
+        html,
+        configOverride
+      });
+
+      res.json({
+        success: emailResult.success,
+        messageId: emailResult.messageId,
+        mock: emailResult.mock,
+        error: emailResult.error,
+        sentTo: recipientEmail,
+        timestamp: Date.now()
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Dispatch Instant Anomaly Alert Email via Mailgun
+  app.post('/api/notifications/email/anomaly-alert', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const {
+        domain = 'catalystlab.tech',
+        recipientEmail,
+        anomalyType = 'traffic_spike',
+        currentValue = '1,420 reqs/hr',
+        baselineValue = '480 reqs/hr',
+        deviationPercentage = 195.8,
+        recommendedAction = 'Inspect upstream CDN hit ratio, origin server CPU load, and backlink traffic.'
+      } = req.body;
+
+      if (!recipientEmail) {
+        res.status(400).json({ success: false, error: 'recipientEmail is required.' });
+        return;
+      }
+
+      const alertData: AnomalyAlertData = {
+        domain,
+        anomalyType,
+        metricName: 'Traffic Ingestion Volume',
+        currentValue,
+        baselineValue,
+        deviationPercentage,
+        timestamp: new Date().toISOString(),
+        recommendedAction,
+        radarUrl: `https://www.catalystlab.tech/dashboard?tab=analytics&domain=${encodeURIComponent(domain)}`
+      };
+
+      const html = generateAnomalyAlertHtml(alertData);
+      const emailResult = await sendEmailViaMailgun({
+        to: recipientEmail,
+        subject: `🚨 [Catalyst Alert] ${anomalyType.replace('_', ' ').toUpperCase()} on ${domain}`,
+        html
+      });
+
+      res.json({
+        success: emailResult.success,
+        messageId: emailResult.messageId,
+        mock: emailResult.mock,
+        error: emailResult.error,
+        sentTo: recipientEmail
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Test Email Verification Endpoint
+  app.post('/api/notifications/email/send-test', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { recipientEmail, configOverride } = req.body;
+      if (!recipientEmail) {
+        res.status(400).json({ success: false, error: 'recipientEmail is required.' });
+        return;
+      }
+
+      const testHtml = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: 20px auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+          <h2 style="color: #0b192c; margin-top: 0;">CatalystLab Mailgun Test Dispatch</h2>
+          <p style="color: #415a77;">This is a test notification confirming that your Mailgun API pipeline is operational under the GitHub Student Developer Pack.</p>
+          <div style="background: #f8fafc; border-left: 4px solid #10b981; padding: 12px 16px; margin: 16px 0; font-family: monospace; font-size: 13px;">
+            Status: CONNECTED<br/>
+            Timestamp: ${new Date().toISOString()}<br/>
+            Quota: 20,000 Free Emails / Month
+          </div>
+          <p style="color: #64748b; font-size: 12px; margin-bottom: 0;">CatalystLab Multi-Dimensional Telemetry Platform</p>
+        </div>
+      `;
+
+      const result = await sendEmailViaMailgun({
+        to: recipientEmail,
+        subject: '✅ CatalystLab Mailgun Connection Test',
+        html: testHtml,
+        configOverride
+      });
+
+      res.json({
+        success: result.success,
+        messageId: result.messageId,
+        mock: result.mock,
+        error: result.error,
+        recipientEmail
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Get HTML Preview of Weekly Digest or Anomaly Alert
+  app.get('/api/notifications/email/preview-html', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const type = (req.query.type as string) || 'weekly';
+      const domain = (req.query.domain as string) || 'catalystlab.tech';
+
+      if (type === 'anomaly') {
+        const html = generateAnomalyAlertHtml({
+          domain,
+          anomalyType: 'traffic_spike',
+          metricName: 'Traffic Ingestion Volume',
+          currentValue: '5,820 reqs/hr',
+          baselineValue: '1,450 reqs/hr',
+          deviationPercentage: 301.4,
+          timestamp: new Date().toISOString(),
+          recommendedAction: 'Verify CDN edge caching hit ratio, inspect origin CPU load, and check for viral backlink surge.',
+          radarUrl: 'https://www.catalystlab.tech/dashboard'
+        });
+        res.setHeader('Content-Type', 'text/html');
+        res.send(html);
+        return;
+      }
+
+      const stats = await getAnalyticsStats({ domain, timeframe: '7d' });
+      const now = new Date();
+      const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+      const html = generateWeeklyReportHtml({
+        domain,
+        startDate: lastWeek.toISOString().split('T')[0],
+        endDate: now.toISOString().split('T')[0],
+        uniqueVisitors: stats.uniqueVisitors,
+        totalPageviews: stats.totalPageviews,
+        bounceRate: stats.bounceRate,
+        avgSessionDurationFormatted: stats.avgSessionDurationFormatted,
+        topPages: stats.topPages,
+        topSources: stats.sources.map(s => ({ source: s.name, count: s.count, percentage: s.value })),
+        topCountries: stats.countries,
+        healthScore: 94,
+        carbonEmissionsGrams: 0.18,
+        complianceGrade: 'Grade A+ (100% Pass)'
+      });
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (err: any) {
+      res.status(500).send(`Error generating email preview: ${err.message}`);
+    }
+  });
+
+  // Generic Webhook Dispatcher
+  app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { slackWebhookUrl, discordWebhookUrl, payload } = req.body;
+      const results: Record<string, any> = {};
+
+      if (slackWebhookUrl) {
+        results.slack = await sendSlackWebhook(slackWebhookUrl, payload);
+      }
+      if (discordWebhookUrl) {
+        results.discord = await sendDiscordWebhook(discordWebhookUrl, payload);
+      }
+
+      res.json({
+        success: true,
+        results
+      });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Test Slack Webhook
+  app.post('/api/notifications/webhook/test-slack', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { webhookUrl, domain = 'catalystlab.tech' } = req.body;
+      if (!webhookUrl) {
+        res.status(400).json({ success: false, error: 'webhookUrl is required.' });
+        return;
+      }
+
+      const result = await sendSlackWebhook(webhookUrl, {
+        event: 'health_audit_complete',
+        domain,
+        title: 'Slack Webhook Verification Test',
+        summary: 'CatalystLab Slack Webhook pipeline successfully tested and verified.',
+        severity: 'success',
+        metrics: [
+          { label: 'Integration', value: 'Slack Block Kit' },
+          { label: 'Status', value: 'Active / Connected' },
+          { label: 'Latency', value: '< 50ms' }
+        ],
+        actionUrl: 'https://www.catalystlab.tech/dashboard',
+        timestamp: Date.now()
+      });
+
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Test Discord Webhook
+  app.post('/api/notifications/webhook/test-discord', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { webhookUrl, domain = 'catalystlab.tech' } = req.body;
+      if (!webhookUrl) {
+        res.status(400).json({ success: false, error: 'webhookUrl is required.' });
+        return;
+      }
+
+      const result = await sendDiscordWebhook(webhookUrl, {
+        event: 'health_audit_complete',
+        domain,
+        title: 'Discord Webhook Verification Test',
+        summary: 'CatalystLab Discord Embed Webhook pipeline successfully tested and verified.',
+        severity: 'success',
+        metrics: [
+          { label: 'Integration', value: 'Discord Rich Embed' },
+          { label: 'Status', value: 'Active / Connected' },
+          { label: 'Zero-Cost Compute', value: 'Native Fetch' }
+        ],
+        actionUrl: 'https://www.catalystlab.tech/dashboard',
+        timestamp: Date.now()
+      });
+
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // ==========================================
+  // PHASE 6: MONGODB DOCUMENT STATE SYNC ENGINE
+  // ==========================================
+
+  // Full State Reconciliation Query (Initial Load & Sync)
+  app.get('/api/state/sync', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const ownerId = (req.query.ownerId as string) || 'usr_default';
+      const db = getDbInstance() || await initAnalyticsDB();
+
+      if (!db) {
+        // Fallback default structure
+        res.json({
+          success: true,
+          mode: 'in_memory_fallback',
+          state: {
+            domains: [],
+            goals: [],
+            alerts: [],
+            userPreferences: null,
+            auditRecords: []
+          }
+        });
+        return;
+      }
+
+      const [domains, goals, alerts, preferences, auditRecords] = await Promise.all([
+        db.collection('domains').find({ ownerId }).sort({ createdAt: -1 }).toArray().catch(() => []),
+        db.collection('goals').find({ ownerId }).sort({ createdAt: -1 }).toArray().catch(() => []),
+        db.collection('alerts').find({ ownerId }).sort({ createdAt: -1 }).toArray().catch(() => []),
+        db.collection('user_preferences').findOne({ ownerId }).catch(() => null),
+        db.collection('audit_results').find({ ownerId }).sort({ createdAt: -1 }).limit(25).toArray().catch(() => [])
+      ]);
+
+      res.json({
+        success: true,
+        mode: 'mongodb_atlas',
+        timestamp: Date.now(),
+        state: {
+          domains,
+          goals,
+          alerts,
+          userPreferences: preferences,
+          auditRecords
+        }
+      });
+    } catch (err: any) {
+      console.error('[State Sync GET] Error querying MongoDB state:', err);
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Atomic Optimistic State Mutation Persistence (Insert, Update, Delete, Upsert)
+  app.post('/api/state/sync', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { collection, actionType, documentId, payload, timestamp } = req.body;
+      const clientMutationId = (req.headers['x-client-mutation-id'] as string) || `mut_${Date.now()}`;
+
+      if (!collection || !actionType || !documentId) {
+        res.status(400).json({ success: false, error: 'collection, actionType, and documentId are required.' });
+        return;
+      }
+
+      const allowedCollections = ['domains', 'goals', 'alerts', 'user_preferences', 'audit_results', 'monitored_sites'];
+      if (!allowedCollections.includes(collection)) {
+        res.status(400).json({ success: false, error: `Invalid collection '${collection}'.` });
+        return;
+      }
+
+      const db = getDbInstance() || await initAnalyticsDB();
+      if (!db) {
+        // Fallback response for in-memory mode
+        res.json({
+          success: true,
+          mode: 'in_memory_simulated',
+          mutationId: clientMutationId,
+          actionType,
+          documentId,
+          document: payload
+        });
+        return;
+      }
+
+      const col = db.collection(collection);
+      let resultDocument = payload;
+
+      if (actionType === 'insert') {
+        const docToInsert = { ...payload, id: documentId, createdAt: timestamp || Date.now() };
+        delete (docToInsert as any)._id; // prevent duplicate key if already present
+        await col.updateOne({ id: documentId }, { $set: docToInsert }, { upsert: true });
+        resultDocument = docToInsert;
+      } else if (actionType === 'update' || actionType === 'upsert') {
+        const updatePayload = { ...payload, updatedAt: timestamp || Date.now() };
+        delete (updatePayload as any)._id;
+        await col.updateOne({ id: documentId }, { $set: updatePayload }, { upsert: true });
+        resultDocument = updatePayload;
+      } else if (actionType === 'delete') {
+        await col.deleteOne({ id: documentId });
+        resultDocument = { id: documentId, deleted: true };
+      }
+
+      res.json({
+        success: true,
+        mode: 'mongodb_atlas',
+        mutationId: clientMutationId,
+        collection,
+        actionType,
+        documentId,
+        document: resultDocument,
+        persistedAt: Date.now()
+      });
+    } catch (err: any) {
+      console.error('[State Sync POST] Error executing mutation on MongoDB:', err);
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Delete document route
+  app.delete('/api/state/sync/:collection/:id', async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { collection, id } = req.params;
+      const db = getDbInstance() || await initAnalyticsDB();
+      if (db) {
+        await db.collection(collection).deleteOne({ id });
+      }
+      res.json({ success: true, collection, id, deleted: true });
+    } catch (err: any) {
+      res.status(500).json({ success: false, error: err.message });
+    }
   });
 
   // Rate Limit Status Query Endpoint
@@ -1282,8 +1920,9 @@ async function startServer() {
   });
 
   // 9. System Health & Probe Aliases
-  app.get('/api/v1/system/health', (req: Request, res: Response) => {
+  app.get('/api/v1/system/health', async (req: Request, res: Response) => {
     const memory = process.memoryUsage();
+    const mongoStatus = await checkMongoDBHealth();
     res.json({
       status: 'operational',
       uptimeSeconds: Math.floor((Date.now() - serverStartTime) / 1000),
@@ -1294,9 +1933,29 @@ async function startServer() {
       },
       activeEnginesCount: Object.keys(ENGINE_SCRIPT_MAP).length,
       totalAuditsLogged: totalAuditsExecuted,
+      database: {
+        type: 'MongoDB Atlas',
+        connected: mongoStatus.connected,
+        databaseName: mongoStatus.database,
+        pingLatencyMs: mongoStatus.pingMs,
+        totalAnalyticsEvents: mongoStatus.totalEventsCount,
+        connectionUri: mongoStatus.uriMasked,
+        error: mongoStatus.error
+      },
       nodeVersion: process.version,
       platform: `${os.type()} ${os.release()} (${os.arch()})`,
       timestamp: Date.now()
+    });
+  });
+
+  // Dedicated MongoDB & Ingestion Worker Status Route
+  app.get('/api/v1/database/mongodb/status', async (req: Request, res: Response) => {
+    const status = await checkMongoDBHealth();
+    const batchMetrics = getBatchMetrics();
+    res.json({
+      success: true,
+      ...status,
+      ingestionBatching: batchMetrics
     });
   });
 

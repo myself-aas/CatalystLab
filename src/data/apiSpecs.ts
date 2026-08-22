@@ -791,7 +791,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
               schedule: '0 0 * * * (Daily at Midnight UTC)',
               engines: ['health', 'latency', 'compliance'],
               alertThreshold: { minScore: 85, maxTtfbMs: 300 },
-              webhookUrl: 'https://hooks.slack.com/services/T00/B00/XXXX',
+              webhookUrl: '',
               active: true,
               lastRunStatus: 'passed',
               lastRunAt: 1771459200000

@@ -24,19 +24,19 @@ export const LegalPage: React.FC = () => {
     <div className="min-h-screen bg-[#f8fafc] pb-20 text-[#0b192c] selection:bg-[#c5d3e8] selection:text-[#0b192c]">
       <section className="border-b border-[#e2e8f0] bg-white px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-xs font-semibold text-[#415a77]">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-sm font-semibold text-[#415a77]">
             <ShieldCheck className="h-3.5 w-3.5" />
             <span>Compliance & Legal Standards</span>
           </div>
           <h1 className="text-3xl font-extrabold text-[#0b192c] sm:text-4xl">{title}</h1>
-          <p className="mt-1 text-xs text-[#415a77]">Last updated: August 2026</p>
+          <p className="mt-1 text-sm text-[#415a77]">Last updated: August 2026</p>
         </div>
       </section>
 
       <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="space-y-4 rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-8 text-sm leading-relaxed text-[#f8fafc] shadow-2xl sm:p-10">
+        <div className="space-y-4 rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-8 text-base leading-relaxed text-[#f8fafc] shadow-2xl sm:p-10">
           <p className="text-base text-[#f8fafc]">{content}</p>
-          <p className="text-xs text-[#c5d3e8]">
+          <p className="text-sm text-[#c5d3e8]">
             For questions or requests regarding data retention or legal compliance, please refer to our{' '}
             <Link to="/contact" className="font-semibold text-[#c5d3e8] underline hover:text-white">Contact Support</Link> portal.
           </p>

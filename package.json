@@ -6,6 +6,8 @@
     "dev": "tsx server.ts",
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
+    "cron:anomaly": "tsx scripts/cron/anomaly_detection.ts",
+    "cron:weekly-digest": "tsx scripts/cron/weekly_digest.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
@@ -22,6 +24,7 @@
     "express": "^4.19.2",
     "firebase": "^12.17.1",
     "firebase-admin": "^14.2.0",
+    "framer-motion": "^13.1.0",
     "geoip-lite": "^2.0.3",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
@@ -33,12 +36,13 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.28.0",
     "recharts": "^3.10.1",
-    "tailwind-merge": "^2.6.0",
+    "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "ua-parser-js": "^2.0.10",
-    "vite": "^6.0.3"
+    "vite": "^6.0.3",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@types/geoip-lite": "^1.4.4",

@@ -9,7 +9,18 @@ import {
   FileText, 
   ShieldCheck, 
   Sparkles,
-  LayoutDashboard
+  LayoutDashboard,
+  GitBranch,
+  Terminal,
+  Leaf,
+  Globe,
+  Cpu,
+  ChevronDown,
+  ChevronRight,
+  Radio,
+  Code2,
+  BookOpen,
+  ArrowRight
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { BrandLogo } from '../common/BrandLogo';
@@ -22,7 +33,9 @@ interface MainMenuOverlayProps {
 export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
   const { user, isAdmin, login, logout } = useAuth();
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const [expandedServices, setExpandedServices] = useState(true);
+  const [expandedResources, setExpandedResources] = useState(true);
 
   // Close on Escape key press
   useEffect(() => {
@@ -49,33 +62,25 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 
   if (!isOpen) return null;
 
-  // The Main Menu Items strictly corresponding to user specifications
-  const mainMenuItems = [
-    { id: 'home', label: 'Home', path: '/' },
-    { id: 'pricing', label: 'Pricing', path: '/pricing' },
-    { id: 'docs', label: 'Docs', path: '/docs' },
-    { id: 'api-docs', label: 'API Reference', path: '/api-docs' },
-    { id: 'playground', label: 'API Playground', path: '/playground' },
-    { id: 'blogs', label: 'Blogs', path: '/blogs' },
-    { id: 'about', label: 'About Us', path: '/about' },
-    { id: 'contact', label: 'Contact', path: '/contact' },
-  ];
-
   const isCurrentActive = (path: string) => {
-    if (path === '/' && location.pathname === '/') return true;
+    if (path === '/' && (location.pathname === '/' || location.pathname === '/index.html')) return true;
+    if (path === '/about' && (location.pathname === '/about' || location.pathname === '/methodology')) return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
     return false;
   };
 
+  const isServicesActive = location.pathname.startsWith('/pricing') || location.pathname.startsWith('/products') || location.pathname.startsWith('/plugins');
+  const isResourcesActive = location.pathname.startsWith('/docs') || location.pathname.startsWith('/api') || location.pathname.startsWith('/playground') || location.pathname.startsWith('/blogs');
+
   const engines = [
-    { name: 'Website Health', path: '/health', icon: 'health_and_safety' },
-    { name: 'AI Readiness', path: '/ai-readiness', icon: 'psychology' },
-    { name: 'Repo Hygiene', path: '/repo-scanner', icon: 'inventory_2' },
-    { name: 'Edge Latency', path: '/latency', icon: 'public' },
-    { name: 'Eco Carbon', path: '/eco-audit', icon: 'eco' },
-    { name: 'Compliance & Risk', path: '/compliance', icon: 'shield' },
-    { name: 'Security Posture', path: '/security', icon: 'lock' },
-    { name: 'LLMO Optimizer', path: '/llmo', icon: 'bolt' },
+    { name: 'PAR (Phase 1)', path: '/migration', icon: GitBranch },
+    { name: 'Code Quality', path: '/repo-scanner', icon: Terminal },
+    { name: 'Build & Eco', path: '/eco-audit', icon: Leaf },
+    { name: 'Testing & Vitals', path: '/health', icon: Activity },
+    { name: 'Edge Latency', path: '/latency', icon: Globe },
+    { name: 'DevSecOps', path: '/compliance', icon: ShieldCheck },
+    { name: 'AI Readiness', path: '/ai-readiness', icon: Cpu },
+    { name: 'LLMO Search', path: '/llmo', icon: Sparkles },
   ];
 
   return (
@@ -87,7 +92,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
       aria-label="Main Navigation Menu"
     >
       {/* Top Header Bar inside Overlay */}
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6 sm:px-8">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6 sm:px-8 shrink-0">
         <Link 
           to="/" 
           onClick={onClose}
@@ -104,7 +109,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 
           <button
             onClick={onClose}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#415a77]/40 bg-[#0d1b2a] text-[#c5d3e8] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#f8fafc] hover:scale-105 active:scale-95 shadow-sm"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#415a77]/40 bg-[#0d1b2a] text-[#c5d3e8] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#f8fafc] hover:scale-105 active:scale-95 shadow-sm cursor-pointer"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />
@@ -112,58 +117,356 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
         </div>
       </div>
 
-      {/* Center Main Navigation Body: Exact High-Craft Design from User Reference */}
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 py-8 sm:px-12 lg:px-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* Center Main Navigation Body */}
+      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 py-6 sm:px-12 lg:px-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start lg:items-center">
           
-          {/* Primary High-Impact Typography Menu */}
+          {/* Primary Structured Navigation Menu */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <nav className="flex flex-col space-y-3 sm:space-y-4 md:space-y-5" aria-label="Main Menu">
-              {mainMenuItems.map((item) => {
-                const active = isCurrentActive(item.path);
-                const isHovered = hoveredItem === item.id;
-                const isHighlighted = isHovered || (hoveredItem === null && active);
-
-                return (
-                  <Link
-                    key={item.id}
-                    to={item.path}
-                    onClick={onClose}
-                    onMouseEnter={() => setHoveredItem(item.id)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                    className="group relative flex items-center transition-all duration-150 py-1"
+            <nav className="flex flex-col space-y-4 sm:space-y-6" aria-label="Main Menu">
+              
+              {/* 1. Home */}
+              <div 
+                onMouseEnter={() => setHoveredSection('home')}
+                onMouseLeave={() => setHoveredSection(null)}
+              >
+                <Link
+                  to="/"
+                  onClick={onClose}
+                  className="group relative flex items-center transition-all duration-150 py-1"
+                >
+                  <div 
+                    className={`flex items-center transition-all duration-200 ${
+                      isCurrentActive('/') 
+                        ? 'opacity-100 translate-x-0 w-8 sm:w-10 mr-2' 
+                        : 'opacity-0 -translate-x-4 w-0 mr-0 overflow-hidden'
+                    }`}
                   >
-                    {/* Active/Hover Arrow - Palette Steel Blue */}
+                    <span className="text-[#415a77] font-extrabold text-2xl sm:text-4xl select-none">
+                      →
+                    </span>
+                  </div>
+                  <span 
+                    className={`text-3xl sm:text-4xl md:text-5xl font-bold sm:font-extrabold tracking-tight transition-colors duration-150 ${
+                      isCurrentActive('/') 
+                        ? 'text-[#c5d3e8]' 
+                        : 'text-[#f8fafc] hover:text-[#c5d3e8]'
+                    }`}
+                  >
+                    Home
+                  </span>
+                </Link>
+              </div>
+
+              {/* 2. Services (Pricing & Products) */}
+              <div 
+                className="flex flex-col space-y-2"
+                onMouseEnter={() => setHoveredSection('services')}
+                onMouseLeave={() => setHoveredSection(null)}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
                     <div 
                       className={`flex items-center transition-all duration-200 ${
-                        isHighlighted 
-                          ? 'opacity-100 translate-x-0 w-8 sm:w-10 md:w-12 mr-2' 
+                        isServicesActive 
+                          ? 'opacity-100 translate-x-0 w-8 sm:w-10 mr-2' 
                           : 'opacity-0 -translate-x-4 w-0 mr-0 overflow-hidden'
                       }`}
                     >
-                      <span className="text-[#415a77] font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl select-none">
+                      <span className="text-[#415a77] font-extrabold text-2xl sm:text-4xl select-none">
                         →
                       </span>
                     </div>
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-bold sm:font-extrabold tracking-tight text-[#f8fafc]">
+                      Services
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setExpandedServices(!expandedServices)}
+                    className="p-1.5 rounded-lg text-[#8ea8c3] hover:text-white hover:bg-[#152238] transition-colors"
+                    aria-label="Toggle Services sub-menu"
+                  >
+                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${expandedServices ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
 
-                    {/* Menu Item Label */}
-                    <span 
-                      className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold sm:font-extrabold tracking-tight transition-colors duration-150 ${
-                        isHighlighted 
-                          ? 'text-[#c5d3e8] translate-x-1 sm:translate-x-2' 
-                          : 'text-[#f8fafc] hover:text-[#c5d3e8]'
+                {expandedServices && (
+                  <div className="flex flex-col space-y-2 sm:space-y-3 pt-2 pl-6 sm:pl-10">
+                    <Link
+                      to="/pricing"
+                      onClick={onClose}
+                      className="group relative flex items-center transition-all duration-150 py-0.5"
+                    >
+                      <div 
+                        className={`flex items-center transition-all duration-200 ${
+                          isCurrentActive('/pricing') 
+                            ? 'opacity-100 translate-x-0 w-6 sm:w-8 mr-2' 
+                            : 'opacity-0 -translate-x-3 w-0 mr-0 overflow-hidden'
+                        }`}
+                      >
+                        <span className="text-[#415a77] font-extrabold text-xl sm:text-2xl select-none">
+                          →
+                        </span>
+                      </div>
+                      <span 
+                        className={`text-xl sm:text-2xl md:text-3xl font-semibold sm:font-bold tracking-tight transition-colors duration-150 ${
+                          isCurrentActive('/pricing') 
+                            ? 'text-[#c5d3e8]' 
+                            : 'text-[#c5d3e8]/75 hover:text-[#f8fafc]'
+                        }`}
+                      >
+                        Pricing
+                      </span>
+                    </Link>
+
+                    <Link
+                      to="/products"
+                      onClick={onClose}
+                      className="group relative flex items-center transition-all duration-150 py-0.5"
+                    >
+                      <div 
+                        className={`flex items-center transition-all duration-200 ${
+                          isCurrentActive('/products') || isCurrentActive('/plugins')
+                            ? 'opacity-100 translate-x-0 w-6 sm:w-8 mr-2' 
+                            : 'opacity-0 -translate-x-3 w-0 mr-0 overflow-hidden'
+                        }`}
+                      >
+                        <span className="text-[#415a77] font-extrabold text-xl sm:text-2xl select-none">
+                          →
+                        </span>
+                      </div>
+                      <span 
+                        className={`text-xl sm:text-2xl md:text-3xl font-semibold sm:font-bold tracking-tight transition-colors duration-150 ${
+                          isCurrentActive('/products') || isCurrentActive('/plugins')
+                            ? 'text-[#c5d3e8]' 
+                            : 'text-[#c5d3e8]/75 hover:text-[#f8fafc]'
+                        }`}
+                      >
+                        Products
+                      </span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* 3. Resources [Docs, API (Reference, Playground), Blogs] */}
+              <div 
+                className="flex flex-col space-y-2"
+                onMouseEnter={() => setHoveredSection('resources')}
+                onMouseLeave={() => setHoveredSection(null)}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div 
+                      className={`flex items-center transition-all duration-200 ${
+                        isResourcesActive 
+                          ? 'opacity-100 translate-x-0 w-8 sm:w-10 mr-2' 
+                          : 'opacity-0 -translate-x-4 w-0 mr-0 overflow-hidden'
                       }`}
                     >
-                      {item.label}
+                      <span className="text-[#415a77] font-extrabold text-2xl sm:text-4xl select-none">
+                        →
+                      </span>
+                    </div>
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-bold sm:font-extrabold tracking-tight text-[#f8fafc]">
+                      Resources
                     </span>
-                  </Link>
-                );
-              })}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setExpandedResources(!expandedResources)}
+                    className="p-1.5 rounded-lg text-[#8ea8c3] hover:text-white hover:bg-[#152238] transition-colors"
+                    aria-label="Toggle Resources sub-menu"
+                  >
+                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${expandedResources ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
+
+                {expandedResources && (
+                  <div className="flex flex-col space-y-2 sm:space-y-3 pt-2 pl-6 sm:pl-10">
+                    <Link
+                      to="/docs"
+                      onClick={onClose}
+                      className="group relative flex items-center transition-all duration-150 py-0.5"
+                    >
+                      <div 
+                        className={`flex items-center transition-all duration-200 ${
+                          isCurrentActive('/docs') 
+                            ? 'opacity-100 translate-x-0 w-6 sm:w-8 mr-2' 
+                            : 'opacity-0 -translate-x-3 w-0 mr-0 overflow-hidden'
+                        }`}
+                      >
+                        <span className="text-[#415a77] font-extrabold text-xl sm:text-2xl select-none">
+                          →
+                        </span>
+                      </div>
+                      <span 
+                        className={`text-xl sm:text-2xl md:text-3xl font-semibold sm:font-bold tracking-tight transition-colors duration-150 ${
+                          isCurrentActive('/docs') 
+                            ? 'text-[#c5d3e8]' 
+                            : 'text-[#c5d3e8]/75 hover:text-[#f8fafc]'
+                        }`}
+                      >
+                        Docs
+                      </span>
+                    </Link>
+
+                    <Link
+                      to="/api-reference"
+                      onClick={onClose}
+                      className="group relative flex items-center transition-all duration-150 py-0.5"
+                    >
+                      <div 
+                        className={`flex items-center transition-all duration-200 ${
+                          isCurrentActive('/api-reference') || isCurrentActive('/api-docs')
+                            ? 'opacity-100 translate-x-0 w-6 sm:w-8 mr-2' 
+                            : 'opacity-0 -translate-x-3 w-0 mr-0 overflow-hidden'
+                        }`}
+                      >
+                        <span className="text-[#415a77] font-extrabold text-xl sm:text-2xl select-none">
+                          →
+                        </span>
+                      </div>
+                      <span 
+                        className={`text-xl sm:text-2xl md:text-3xl font-semibold sm:font-bold tracking-tight transition-colors duration-150 ${
+                          isCurrentActive('/api-reference') || isCurrentActive('/api-docs')
+                            ? 'text-[#c5d3e8]' 
+                            : 'text-[#c5d3e8]/75 hover:text-[#f8fafc]'
+                        }`}
+                      >
+                        API Reference
+                      </span>
+                    </Link>
+
+                    <Link
+                      to="/playground"
+                      onClick={onClose}
+                      className="group relative flex items-center transition-all duration-150 py-0.5"
+                    >
+                      <div 
+                        className={`flex items-center transition-all duration-200 ${
+                          isCurrentActive('/playground') 
+                            ? 'opacity-100 translate-x-0 w-6 sm:w-8 mr-2' 
+                            : 'opacity-0 -translate-x-3 w-0 mr-0 overflow-hidden'
+                        }`}
+                      >
+                        <span className="text-[#415a77] font-extrabold text-xl sm:text-2xl select-none">
+                          →
+                        </span>
+                      </div>
+                      <span 
+                        className={`text-xl sm:text-2xl md:text-3xl font-semibold sm:font-bold tracking-tight transition-colors duration-150 ${
+                          isCurrentActive('/playground') 
+                            ? 'text-[#c5d3e8]' 
+                            : 'text-[#c5d3e8]/75 hover:text-[#f8fafc]'
+                        }`}
+                      >
+                        Playground
+                      </span>
+                    </Link>
+
+                    <Link
+                      to="/blogs"
+                      onClick={onClose}
+                      className="group relative flex items-center transition-all duration-150 py-0.5"
+                    >
+                      <div 
+                        className={`flex items-center transition-all duration-200 ${
+                          isCurrentActive('/blogs') 
+                            ? 'opacity-100 translate-x-0 w-6 sm:w-8 mr-2' 
+                            : 'opacity-0 -translate-x-3 w-0 mr-0 overflow-hidden'
+                        }`}
+                      >
+                        <span className="text-[#415a77] font-extrabold text-xl sm:text-2xl select-none">
+                          →
+                        </span>
+                      </div>
+                      <span 
+                        className={`text-xl sm:text-2xl md:text-3xl font-semibold sm:font-bold tracking-tight transition-colors duration-150 ${
+                          isCurrentActive('/blogs') 
+                            ? 'text-[#c5d3e8]' 
+                            : 'text-[#c5d3e8]/75 hover:text-[#f8fafc]'
+                        }`}
+                      >
+                        Blogs
+                      </span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* 4. About Us */}
+              <div 
+                onMouseEnter={() => setHoveredSection('about')}
+                onMouseLeave={() => setHoveredSection(null)}
+              >
+                <Link
+                  to="/about"
+                  onClick={onClose}
+                  className="group relative flex items-center transition-all duration-150 py-1"
+                >
+                  <div 
+                    className={`flex items-center transition-all duration-200 ${
+                      isCurrentActive('/about') 
+                        ? 'opacity-100 translate-x-0 w-8 sm:w-10 mr-2' 
+                        : 'opacity-0 -translate-x-4 w-0 mr-0 overflow-hidden'
+                    }`}
+                  >
+                    <span className="text-[#415a77] font-extrabold text-2xl sm:text-4xl select-none">
+                      →
+                    </span>
+                  </div>
+                  <span 
+                    className={`text-3xl sm:text-4xl md:text-5xl font-bold sm:font-extrabold tracking-tight transition-colors duration-150 ${
+                      isCurrentActive('/about') 
+                        ? 'text-[#c5d3e8]' 
+                        : 'text-[#f8fafc] hover:text-[#c5d3e8]'
+                    }`}
+                  >
+                    About Us
+                  </span>
+                </Link>
+              </div>
+
+              {/* 5. Contact */}
+              <div 
+                onMouseEnter={() => setHoveredSection('contact')}
+                onMouseLeave={() => setHoveredSection(null)}
+              >
+                <Link
+                  to="/contact"
+                  onClick={onClose}
+                  className="group relative flex items-center transition-all duration-150 py-1"
+                >
+                  <div 
+                    className={`flex items-center transition-all duration-200 ${
+                      isCurrentActive('/contact') 
+                        ? 'opacity-100 translate-x-0 w-8 sm:w-10 mr-2' 
+                        : 'opacity-0 -translate-x-4 w-0 mr-0 overflow-hidden'
+                    }`}
+                  >
+                    <span className="text-[#415a77] font-extrabold text-2xl sm:text-4xl select-none">
+                      →
+                    </span>
+                  </div>
+                  <span 
+                    className={`text-3xl sm:text-4xl md:text-5xl font-bold sm:font-extrabold tracking-tight transition-colors duration-150 ${
+                      isCurrentActive('/contact') 
+                        ? 'text-[#c5d3e8]' 
+                        : 'text-[#f8fafc] hover:text-[#c5d3e8]'
+                    }`}
+                  >
+                    Contact
+                  </span>
+                </Link>
+              </div>
+
             </nav>
           </div>
 
-          {/* Secondary Telemetry & Engine Hub (Palette-harmonized Dark Card) */}
-          <div className="lg:col-span-5 flex flex-col space-y-6 rounded-2xl border border-[#415a77]/30 bg-[#0d1b2a] p-6 sm:p-8 backdrop-blur-xl shadow-xl">
+          {/* Secondary Telemetry & Engine Hub Card */}
+          <div className="lg:col-span-5 flex flex-col space-y-5 rounded-2xl border border-[#415a77]/30 bg-[#0d1b2a] p-6 sm:p-7 backdrop-blur-xl shadow-xl">
             
             {/* Quick Diagnostic Engines Grid */}
             <div>
@@ -182,17 +485,20 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                {engines.map((eng) => (
-                  <Link
-                    key={eng.name}
-                    to={eng.path}
-                    onClick={onClose}
-                    className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/60 px-3 py-2 text-xs font-medium text-[#f8fafc] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#c5d3e8]"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#415a77]">{eng.icon}</span>
-                    <span className="truncate">{eng.name}</span>
-                  </Link>
-                ))}
+                {engines.map((eng) => {
+                  const Icon = eng.icon;
+                  return (
+                    <Link
+                      key={eng.name}
+                      to={eng.path}
+                      onClick={onClose}
+                      className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/60 px-3 py-2 text-xs font-medium text-[#f8fafc] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#c5d3e8]"
+                    >
+                      <Icon className="h-4 w-4 text-[#415a77] shrink-0" />
+                      <span className="truncate">{eng.name}</span>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
@@ -221,12 +527,12 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 </Link>
 
                 <Link
-                  to="/blogs"
+                  to="/products"
                   onClick={onClose}
                   className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8]"
                 >
-                  <Sparkles className="h-4 w-4 text-[#c5d3e8]" />
-                  <span>Tech Blogs</span>
+                  <Radio className="h-4 w-4 text-[#38bdf8]" />
+                  <span>Domain Watchdog</span>
                 </Link>
 
                 <Link
@@ -241,29 +547,29 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             </div>
 
             {/* User Account / Auth Status in Menu */}
-            <div className="border-t border-[#415a77]/30 pt-4 flex items-center justify-between">
+            <div className="border-t border-[#415a77]/30 pt-4">
               {user ? (
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-2.5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#152238]/60 border border-[#415a77]/30 rounded-xl p-3">
+                  <div className="flex items-center gap-3">
                     {user.photoURL ? (
                       <img 
                         src={user.photoURL} 
                         alt="User" 
-                        className="h-7 w-7 rounded-full object-cover border border-[#415a77]/40" 
+                        className="h-9 w-9 rounded-full object-cover border border-[#415a77]/50 shadow-sm" 
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#415a77] text-xs font-bold text-[#f8fafc]">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#415a77] text-sm font-bold text-[#f8fafc] shadow-sm">
                         {(user.displayName || user.email || 'U')[0].toUpperCase()}
                       </div>
                     )}
-                    <div>
-                      <div className="text-xs font-bold text-[#f8fafc] max-w-[120px] truncate">
+                    <div className="min-w-0">
+                      <div className="text-xs font-bold text-[#f8fafc] truncate max-w-[160px]">
                         {user.displayName || user.email?.split('@')[0]}
                       </div>
-                      {isAdmin && (
-                        <div className="text-[10px] text-[#c5d3e8] font-semibold">Superadmin</div>
-                      )}
+                      <div className="text-[10px] text-[#c5d3e8] font-mono truncate max-w-[160px]">
+                        {isAdmin ? 'Superadmin • ' : ''}{user.email}
+                      </div>
                     </div>
                   </div>
 
@@ -272,9 +578,9 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       <Link
                         to="/admin"
                         onClick={onClose}
-                        className="flex items-center gap-1 rounded-lg border border-[#415a77]/40 bg-[#152238] px-2.5 py-1.5 text-xs font-bold text-[#c5d3e8] hover:bg-[#415a77]/30 hover:text-white"
+                        className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/40 bg-[#0d1b2a] px-2.5 py-1.5 text-xs font-bold text-[#38bdf8] hover:bg-[#415a77]/30 hover:text-white transition-colors"
                       >
-                        <ShieldCheck className="h-3.5 w-3.5 text-[#415a77]" />
+                        <ShieldCheck className="h-3.5 w-3.5" />
                         <span>Admin</span>
                       </Link>
                     )}
@@ -283,10 +589,11 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         logout();
                         onClose();
                       }}
-                      className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-1.5 text-[#c5d3e8] hover:text-red-400 hover:bg-red-950/30"
-                      title="Log Out"
+                      className="flex items-center gap-1.5 rounded-lg border border-red-500/30 bg-red-950/30 px-3 py-1.5 text-xs font-semibold text-red-300 hover:text-white hover:bg-red-900/50 hover:border-red-500/50 transition-colors cursor-pointer"
+                      title="Sign Out"
                     >
                       <LogOut className="h-3.5 w-3.5" />
+                      <span>Sign Out</span>
                     </button>
                   </div>
                 </div>
@@ -295,7 +602,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   onClick={() => {
                     login();
                   }}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#415a77] py-2.5 text-xs font-bold text-white hover:bg-[#33475e] transition-all shadow-md"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#415a77] py-2.5 text-xs font-bold text-white hover:bg-[#33475e] transition-all shadow-md cursor-pointer"
                 >
                   <LogIn className="h-4 w-4" />
                   <span>Sign In with Google Account</span>
@@ -309,7 +616,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
       </div>
 
       {/* Bottom Footer Bar inside Overlay */}
-      <div className="mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-[#415a77]/30 px-6 py-5 text-xs text-[#c5d3e8] sm:px-8 gap-3">
+      <div className="mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-[#415a77]/30 px-6 py-4 text-xs text-[#c5d3e8] sm:px-8 gap-3 shrink-0">
         <div className="flex items-center gap-4 flex-wrap">
           <Link to="/privacy" onClick={onClose} className="hover:text-[#f8fafc] transition-colors">Privacy</Link>
           <Link to="/terms" onClick={onClose} className="hover:text-[#f8fafc] transition-colors">Terms</Link>
@@ -325,4 +632,5 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
     </div>
   );
 };
+
 export default MainMenuOverlay;

@@ -10,12 +10,26 @@ service cloud.firestore {
     function isSignedIn() { return request.auth != null; }
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
     
-    // Primary Superadmins registry
+    // Primary Superadmins registry & Custom Claim verification
     function isSuperAdmin() {
       return isSignedIn() && (
+        request.auth.token.role == 'superadmin' ||
+        request.auth.token.superadmin == true ||
         request.auth.token.email == 'shuvo.1807016@bau.edu.bd' ||
         request.auth.token.email == 'shuvoasifahmed@gmail.com' ||
-        request.auth.token.email == 'asifahmedshuvo.aas@gmail.com'
+        request.auth.token.email == 'asifahmedshuvo.aas@gmail.com' ||
+        request.auth.token.email == 'asifahmedshuvo.aa9@gmail.com'
+      );
+    }
+
+    function hasSuperAdminClaim() {
+      return isSignedIn() && (
+        request.auth.token.role == 'superadmin' ||
+        request.auth.token.superadmin == true ||
+        request.auth.token.email == 'shuvo.1807016@bau.edu.bd' ||
+        request.auth.token.email == 'shuvoasifahmed@gmail.com' ||
+        request.auth.token.email == 'asifahmedshuvo.aas@gmail.com' ||
+        request.auth.token.email == 'asifahmedshuvo.aa9@gmail.com'
       );
     }
     
@@ -26,7 +40,7 @@ service cloud.firestore {
         && data.engine is string && data.engine.size() <= 100
         && data.output is string && data.output.size() <= 500000
         && data.createdAt is number
-        && data.ownerId is string && data.ownerId == request.auth.uid;
+        && data.ownerId is string && (data.ownerId == request.auth.uid || data.ownerId == 'guest');
     }
 
     function isValidBlogPost(data) {
@@ -35,6 +49,13 @@ service cloud.firestore {
         && data.slug is string && data.slug.size() <= 200
         && data.content is string && data.content.size() <= 50000
         && data.createdAt is number;
+    }
+
+    function isValidAuditLog(data) {
+      return data.keys().hasAll(['action', 'status', 'timestamp'])
+        && data.action is string && data.action.size() <= 150
+        && data.status in ['healthy', 'warning', 'critical', 'info', 'success']
+        && data.timestamp is number;
     }
 
     function isValidMonitoredSite(data) {
@@ -55,6 +76,13 @@ service cloud.firestore {
         && data.status in ['active', 'revoked', 'expired']
         && data.createdAt is number;
     }
+
+    function isValidContactInquiry(data) {
+      return data.keys().hasAll(['email', 'createdAt'])
+        && data.keys().size() >= 2 && data.keys().size() <= 10
+        && data.email is string && data.email.size() <= 256
+        && data.createdAt is number;
+    }
     
     // Reports Collection
     match /reports/{reportId} {
@@ -67,6 +95,41 @@ service cloud.firestore {
       allow delete: if isSignedIn() && isValidId(reportId) && (existing().ownerId == request.auth.uid || isSuperAdmin());
     }
 
+    // Audit Logs Collection (Live System Health telemetry)
+    match /audit_logs/{logId} {
+      allow get, list: if isSignedIn() && (isSuperAdmin() || resource.data.ownerId == request.auth.uid);
+      allow create: if isSignedIn() 
+                    && isValidId(logId) 
+                    && isValidAuditLog(incoming());
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // Blog Posts Collection (Public Read, Only users with 'role: superadmin' claim can create, update, or delete)
+    match /blogPosts/{blogPostId} {
+      allow get, list: if true;
+      allow create: if hasSuperAdminClaim()
+                    && isValidId(blogPostId)
+                    && isValidBlogPost(incoming());
+      allow update: if hasSuperAdminClaim()
+                    && isValidId(blogPostId)
+                    && isValidBlogPost(incoming());
+      allow delete: if hasSuperAdminClaim()
+                    && isValidId(blogPostId);
+    }
+
+    // Blogs Collection alias
+    match /blogs/{blogId} {
+      allow get, list: if true;
+      allow create: if hasSuperAdminClaim()
+                    && isValidId(blogId)
+                    && isValidBlogPost(incoming());
+      allow update: if hasSuperAdminClaim()
+                    && isValidId(blogId)
+                    && isValidBlogPost(incoming());
+      allow delete: if hasSuperAdminClaim()
+                    && isValidId(blogId);
+    }
+
     // API Keys Collection (Owner or Superadmin)
     match /api_keys/{keyId} {
       allow get: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
@@ -75,24 +138,11 @@ service cloud.firestore {
                     && isValidId(keyId)
                     && isValidApiKey(incoming());
       allow update: if isSignedIn() 
-                    && isValidId(keyId)
+                    && isValidId(keyId) 
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
       allow delete: if isSignedIn() 
                     && isValidId(keyId) 
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
-    }
-
-    // Blog Posts Collection (Public Read, Superadmin Write)
-    match /blogs/{blogId} {
-      allow get, list: if true;
-      allow create: if isSuperAdmin()
-                    && isValidId(blogId)
-                    && isValidBlogPost(incoming());
-      allow update: if isSuperAdmin()
-                    && isValidId(blogId)
-                    && isValidBlogPost(incoming());
-      allow delete: if isSuperAdmin()
-                    && isValidId(blogId);
     }
 
     // Monitored Sites Collection (Superadmin or Owner)
@@ -108,6 +158,19 @@ service cloud.firestore {
       allow delete: if isSignedIn() 
                     && isValidId(siteId) 
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
+    }
+
+    // Contact Inquiries & Email Leads (Guest & User create, Admin management)
+    match /contact_inquiries/{inquiryId} {
+      allow get, list: if isSignedIn() && isSuperAdmin();
+      allow create: if isValidId(inquiryId)
+                    && isValidContactInquiry(incoming());
+      allow update, delete: if isSignedIn() && isSuperAdmin();
+    }
+
+    // Test collection for initial connectivity verification
+    match /test/{testId} {
+      allow get: if isValidId(testId);
     }
   }
 }

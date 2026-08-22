@@ -1,108 +1,168 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, CheckCircle, Zap, Code, Heart, Sparkles, ArrowRight } from 'lucide-react';
+import { ChevronRight, ArrowRight } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { LazyReveal, LazyStaggerContainer, LazyStaggerItem } from '../components/common/LazyAnimate';
+import heroImage from '../assets/images/about_us_hero_1787216854874.jpg';
+import dnaServersImage from '../assets/images/dna_servers_1787216887436.jpg';
 
 export const MethodologyPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#0b192c] selection:bg-[#c5d3e8] selection:text-[#0b192c]">
+    <div className="min-h-screen bg-[#111111] text-[#f8fafc] font-sans selection:bg-rose-500/30 selection:text-white">
       <SEOHead
-        title="Diagnostic Methodology & Evaluation Standards"
-        description="Explore the scientific principles, telemetry tolerances, and 10-dimension evaluation framework powering CatalystLab's automated web quality engines."
-        keywords={['CatalystLab methodology', 'audit standards', 'telemetry tolerances', 'Core Web Vitals measurement', 'OWASP evaluation framework']}
+        title="About Us & Core Philosophy"
+        description="CatalystLab is a team of digital architects building the next generation of web infrastructure tools."
+        keywords={['CatalystLab about', 'team', 'philosophy', 'web infrastructure']}
         canonicalUrl="https://www.catalystlab.tech/about"
       />
 
-      <section className="border-b border-[#e2e8f0] bg-white px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-6">
-            <Breadcrumbs
-              items={[
-                { label: 'About Us' },
-                { label: 'Audit Methodology' }
-              ]}
-            />
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-xs font-semibold text-[#415a77] mb-4">
-              <Shield className="h-3.5 w-3.5 text-[#415a77]" />
-              <span>Audit Standard & Technical Specification</span>
+      {/* Hero Section */}
+      <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img src={heroImage} alt="Abstract laboratory" className="w-full h-full object-cover opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#111111]/80 to-[#111111]"></div>
+        </div>
+        
+        <div className="relative z-10 text-center px-4 mt-20">
+          <LazyReveal direction="up">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-4">About Us</h1>
+            <div className="flex items-center justify-center gap-2 text-base text-gray-400 font-medium">
+              <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              <ChevronRight className="w-4 h-4" />
+              <span className="text-rose-500">About Us</span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#0b192c]">
-              The 10-Dimension Audit Framework
-            </h1>
-            <p className="mt-4 text-sm sm:text-base text-[#415a77] max-w-2xl mx-auto">
-              CatalystLab evaluates digital properties against strict W3C standards, OWASP SecOps guidelines, Google Core Web Vitals, and emerging LLM indexing protocols.
+            <p className="mt-6 max-w-2xl mx-auto text-gray-300 leading-relaxed">
+              We are a collective of digital architects, engineers, and researchers dedicated to pushing the boundaries of web performance, security, and scalability.
             </p>
+          </LazyReveal>
+        </div>
+      </section>
+
+      {/* Philosophy Section - "Perfection In Engineering" */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <LazyReveal direction="left">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+              Perfection In <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500">Engineering</span>
+            </h2>
+          </LazyReveal>
+          
+          <LazyReveal direction="right">
+            <p className="text-gray-400 leading-relaxed mb-6">
+              Our core philosophy is rooted in the synthesis of organic growth and rigorous digital architecture. We build systems that don't just scale—they evolve. CatalystLab is designed to map, monitor, and mend your web infrastructure with biological precision.
+            </p>
+            <Link to="/docs" className="inline-flex items-center gap-2 text-base font-bold text-white hover:text-rose-400 transition-colors group">
+              Learn More 
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </LazyReveal>
+        </div>
+
+        {/* 3 Image Grid */}
+        <LazyStaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16" staggerDelay={0.1}>
+          <LazyStaggerItem>
+            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-900 border border-white/10 group relative">
+              <img src={dnaServersImage} alt="Servers" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <span className="text-base font-bold tracking-wider text-rose-400 uppercase">Infrastructure</span>
+              </div>
+            </div>
+          </LazyStaggerItem>
+          <LazyStaggerItem>
+            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-900 border border-white/10 group relative">
+              <img src={heroImage} alt="Abstract" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <span className="text-base font-bold tracking-wider text-orange-400 uppercase">Analysis</span>
+              </div>
+            </div>
+          </LazyStaggerItem>
+          <LazyStaggerItem>
+            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-900 border border-white/10 flex items-center justify-center p-8 text-center group">
+               <div className="space-y-4">
+                 <div className="w-12 h-12 mx-auto rounded-full border border-rose-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                   <div className="w-8 h-8 rounded-full bg-rose-500/20 animate-pulse"></div>
+                 </div>
+                 <h3 className="text-lg font-bold">Continuous Evolution</h3>
+                 <p className="text-sm text-gray-500">Adapting to the ever-changing digital landscape.</p>
+               </div>
+            </div>
+          </LazyStaggerItem>
+        </LazyStaggerContainer>
+      </section>
+
+      {/* Latest Technology Section */}
+      <section className="py-24 bg-[#161616] border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <LazyReveal direction="right" className="order-2 lg:order-1 relative">
+               <div className="aspect-square max-w-md mx-auto relative rounded-sm overflow-hidden">
+                 <img src={dnaServersImage} alt="Technology" className="w-full h-full object-cover opacity-60" />
+                 <div className="absolute inset-0 border-2 border-rose-500/20 mix-blend-overlay"></div>
+               </div>
+               {/* Decorative elements */}
+               <div className="absolute -bottom-6 -right-6 w-32 h-32 border-b-2 border-r-2 border-orange-500/50"></div>
+               <div className="absolute -top-6 -left-6 w-24 h-24 border-t-2 border-l-2 border-rose-500/50"></div>
+            </LazyReveal>
+
+            <LazyReveal direction="left" className="order-1 lg:order-2">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                Using The Latest <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500">Technology</span>
+              </h2>
+              <p className="text-gray-400 leading-relaxed mb-8">
+                We leverage state-of-the-art diagnostic engines, synthetic edge routing, and generative AI indexability checks to provide a comprehensive, 8-dimensional view of your application's health.
+              </p>
+              <Link to="/pricing" className="inline-flex items-center justify-center px-8 py-3 text-base font-bold bg-white text-black rounded-sm hover:bg-gray-200 transition-colors shadow-lg shadow-white/10 active:scale-95">
+                Get Started
+              </Link>
+            </LazyReveal>
           </div>
         </div>
       </section>
 
-      <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 space-y-6">
-        
-        <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 shadow-2xl text-[#f8fafc]">
-          <h2 className="text-xl font-bold text-[#f8fafc] flex items-center gap-2">
-            <span className="text-[#c5d3e8] font-mono">01.</span>
-            <span>DOM Complexity & Core Web Vitals</span>
+      {/* Stats Row */}
+      <section className="py-20 border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <LazyStaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center" staggerDelay={0.1}>
+            <LazyStaggerItem>
+              <div className="text-5xl font-black mb-2">8+</div>
+              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">SDLC Engines</div>
+            </LazyStaggerItem>
+            <LazyStaggerItem>
+              <div className="text-5xl font-black mb-2">12M+</div>
+              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">Nodes Scanned</div>
+            </LazyStaggerItem>
+            <LazyStaggerItem>
+              <div className="text-5xl font-black mb-2">99.9%</div>
+              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">Uptime SLA</div>
+            </LazyStaggerItem>
+            <LazyStaggerItem>
+              <div className="text-5xl font-black mb-2">12</div>
+              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">Global Edge PoPs</div>
+            </LazyStaggerItem>
+          </LazyStaggerContainer>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-32 relative overflow-hidden bg-black flex items-center justify-center text-center">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-900/20 via-black to-black"></div>
+        <LazyReveal direction="up" className="relative z-10 max-w-2xl px-4">
+          <h2 className="text-4xl font-bold mb-4">
+            Join Our <span className="text-orange-400">Newsletter</span>
           </h2>
-          <p className="mt-3 text-sm text-[#c5d3e8] leading-relaxed">
-            Evaluates DOM tree node counts, maximum DOM depth (targeting ≤32 levels), resource hints (<code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">preconnect</code>, <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">dns-prefetch</code>), and script deferral patterns to maximize Largest Contentful Paint (LCP) and minimize Cumulative Layout Shift (CLS).
+          <p className="text-gray-400 mb-8 text-base">
+            Stay updated with the latest advancements in web architecture, OWASP security trends, and our newest Catalyst releases.
           </p>
-        </div>
-
-        <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 shadow-2xl text-[#f8fafc]">
-          <h2 className="text-xl font-bold text-[#f8fafc] flex items-center gap-2">
-            <span className="text-[#c5d3e8] font-mono">02.</span>
-            <span>OWASP SecOps Security Posture</span>
-          </h2>
-          <p className="mt-3 text-sm text-[#c5d3e8] leading-relaxed">
-            Verifies essential cryptographic defense headers: <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">Strict-Transport-Security (HSTS)</code>, <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">Content-Security-Policy (CSP)</code>, <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">X-Content-Type-Options: nosniff</code>, and <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">X-Frame-Options</code> to block clickjacking and cross-site scripting (XSS).
-          </p>
-        </div>
-
-        <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 shadow-2xl text-[#f8fafc]">
-          <h2 className="text-xl font-bold text-[#f8fafc] flex items-center gap-2">
-            <span className="text-[#c5d3e8] font-mono">03.</span>
-            <span>AI Readiness & LLM Crawlability</span>
-          </h2>
-          <p className="mt-3 text-sm text-[#c5d3e8] leading-relaxed">
-            Inspects the presence and formatting of <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">/llms.txt</code> and <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">/llms-full.txt</code>, checks <code className="text-[#c5d3e8] font-mono bg-[#152238] px-1.5 py-0.5 rounded border border-[#415a77]/40">robots.txt</code> permissions for GPTBot, ClaudeBot, and PerplexityBot, and audits structured JSON-LD schemas.
-          </p>
-        </div>
-
-        <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 shadow-2xl text-[#f8fafc]">
-          <h2 className="text-xl font-bold text-[#f8fafc] flex items-center gap-2">
-            <span className="text-[#c5d3e8] font-mono">04.</span>
-            <span>Repository Hygiene & Developer SecOps</span>
-          </h2>
-          <p className="mt-3 text-sm text-[#c5d3e8] leading-relaxed">
-            Evaluates GitHub/GitLab repository architecture, open-source license declarations, SECURITY.md triage policies, and commit velocity.
-          </p>
-        </div>
-
-        <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 shadow-2xl text-[#f8fafc]">
-          <h2 className="text-xl font-bold text-[#f8fafc] flex items-center gap-2">
-            <span className="text-[#c5d3e8] font-mono">05.</span>
-            <span>Global Edge Latency & Multi-PoP TTFB</span>
-          </h2>
-          <p className="mt-3 text-sm text-[#c5d3e8] leading-relaxed">
-            Dispatches synthetic HTTP probes from 12 global edge locations to evaluate DNS lookup duration, TLS 1.3 handshake negotiation, and origin Time-To-First-Byte.
-          </p>
-        </div>
-
-        <div className="mt-12 text-center">
-          <Link
-            to="/docs"
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#0b192c] px-6 py-3.5 text-xs font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-md active:scale-98"
-          >
-            <span>Read Complete Developer Documentation</span>
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-      </main>
+          <div className="flex justify-center">
+            <Link to="/contact" className="px-8 py-3 text-base font-bold border border-white/20 hover:bg-white/5 transition-colors rounded-sm text-gray-200">
+              Subscribe Now
+            </Link>
+          </div>
+        </LazyReveal>
+      </section>
+      
     </div>
   );
 };

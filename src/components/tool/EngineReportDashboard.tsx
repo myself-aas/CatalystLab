@@ -13,7 +13,7 @@ import { AuditInsights } from './AuditInsights';
 import { EngineDataTable } from './EngineDataTable';
 import { getBlogsForEngine } from '../../data/engineBlogs';
 import { getBlogPosts } from '../../lib/firebase';
-import type { EngineType, BlogPost } from '../../types';
+import type { CoreEngineType, EngineType, BlogPost } from '../../types';
 
 interface EngineReportDashboardProps {
   engineType: EngineType;
@@ -25,7 +25,7 @@ interface EngineReportDashboardProps {
 }
 
 // Engine-specific code mitigation snippets
-const ENGINE_CODE_SNIPPETS: Record<EngineType, { title: string; filename: string; code: string; language: string }> = {
+const ENGINE_CODE_SNIPPETS: Record<string, { title: string; filename: string; code: string; language: string }> = {
   health: {
     title: 'NGINX Compression & Cache Policy',
     filename: 'nginx.conf',
@@ -187,7 +187,7 @@ export default defineCatalystConfig({
 };
 
 // Engine-specific recommendations
-const ENGINE_RECOMMENDATIONS: Record<EngineType, Array<{ title: string; text: string; level: 'critical' | 'warning' | 'info' }>> = {
+const ENGINE_RECOMMENDATIONS: Record<string, Array<{ title: string; text: string; level: 'critical' | 'warning' | 'info' }>> = {
   'master-audit': [
     { title: 'Remediate High-Priority Security Headers', text: 'Enforce HSTS and Content-Security-Policy across all public ingress points.', level: 'critical' },
     { title: 'Optimize Global CDN Edge Caching', text: 'Configure Anycast CDN caching and early hints to drop TTFB below 80ms worldwide.', level: 'warning' },
@@ -384,32 +384,47 @@ print(report['output'])`
         
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
           <div className="max-w-3xl">
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="material-symbols-outlined text-3xl text-[#38bdf8]">{meta.icon}</span>
+            <div className="flex flex-col sm:flex-row gap-6 items-start">
+              {meta.image && (
+                <div className="shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-[#415a77]/50 shadow-lg relative">
+                  <img 
+                    src={meta.image} 
+                    alt={meta.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-[#0b192c]/10 ring-1 ring-inset ring-white/10 rounded-2xl mix-blend-overlay"></div>
+                </div>
+              )}
               
-              {/* Category Badge */}
-              <span className="text-xs font-bold uppercase tracking-widest text-[#38bdf8] bg-[#38bdf8]/10 px-3 py-1 rounded-full border border-[#38bdf8]/20">
-                {meta.category} Engine
-              </span>
+              <div>
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  <span className="material-symbols-outlined text-3xl text-[#38bdf8]">{meta.icon}</span>
+                  
+                  {/* Category Badge */}
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#38bdf8] bg-[#38bdf8]/10 px-3 py-1 rounded-full border border-[#38bdf8]/20">
+                    {meta.category} Engine
+                  </span>
 
-              {/* Explicit Label tag */}
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#152238] border border-[#415a77]/50 px-3 py-1 text-xs font-mono font-bold text-[#c5d3e8]">
-                <Tag className="h-3 w-3 text-[#38bdf8]" />
-                <span>label: &#123; category: "{meta.category}", engine_name: "{meta.name}" &#125;</span>
-              </span>
+                  {/* Explicit Label tag */}
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#152238] border border-[#415a77]/50 px-3 py-1 text-xs font-mono font-bold text-[#c5d3e8]">
+                    <Tag className="h-3 w-3 text-[#38bdf8]" />
+                    <span>label: &#123; category: "{meta.category}", engine_name: "{meta.name}" &#125;</span>
+                  </span>
+                </div>
+                
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] mb-3">
+                  {meta.name} Audit Report
+                </h2>
+                
+                <p className="text-sm text-[#c5d3e8] leading-relaxed mb-6">
+                  Automated telemetry evaluation for <strong className="text-white font-mono bg-[#152238] px-2 py-0.5 rounded border border-[#415a77]/40">{targetUrl}</strong> completed with an index rating of <span className="text-[#38bdf8] font-extrabold">{metrics.healthScore}/100</span>. 
+                  Our engine identified <strong className="text-rose-400">{metrics.issues.critical} critical constraints</strong>, <strong className="text-amber-400">{metrics.issues.warning} warnings</strong>, and <strong className="text-emerald-400">{metrics.issues.info} verified optimizations</strong>.
+                </p>
+              </div>
             </div>
             
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] mb-3">
-              {meta.name} Audit Report
-            </h2>
-            
-            <p className="text-sm text-[#c5d3e8] leading-relaxed mb-6">
-              Automated telemetry evaluation for <strong className="text-white font-mono bg-[#152238] px-2 py-0.5 rounded border border-[#415a77]/40">{targetUrl}</strong> completed with an index rating of <span className="text-[#38bdf8] font-extrabold">{metrics.healthScore}/100</span>. 
-              Our engine identified <strong className="text-rose-400">{metrics.issues.critical} critical constraints</strong>, <strong className="text-amber-400">{metrics.issues.warning} warnings</strong>, and <strong className="text-emerald-400">{metrics.issues.info} verified optimizations</strong>.
-            </p>
-            
             {/* Functional Google Material 3 Action Icons */}
-            <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex flex-wrap items-center gap-2.5 mt-6">
               <button 
                 onClick={onSave} 
                 disabled={!!savedReportId} 

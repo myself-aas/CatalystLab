@@ -14,7 +14,6 @@ import {
   Settings
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 export const BlogsPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
@@ -67,21 +66,20 @@ export const BlogsPage: React.FC = () => {
         canonicalUrl="https://www.catalystlab.tech/blogs"
       />
 
-      {/* Header and Breadcrumbs */}
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 pt-6">
-        <div className="flex items-center justify-between mb-8">
-          <Breadcrumbs items={[{ label: 'Engineering Blog' }]} />
-          {user && isAdmin && (
+      {/* Admin Action Bar (if admin) */}
+      {user && isAdmin && (
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+          <div className="flex justify-end">
             <Link
               to="/admin"
-              className="inline-flex items-center gap-2 rounded-full border border-[#0b192c] bg-[#0b192c] px-4 py-1.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-[#0b192c] bg-[#0b192c] px-4 py-1.5 text-sm font-bold text-white hover:bg-[#152238] transition-colors"
             >
               <Settings className="h-3.5 w-3.5" />
-              <span>Admin</span>
+              <span>Admin Dashboard</span>
             </Link>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
       <main className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 space-y-28">
         
@@ -91,10 +89,10 @@ export const BlogsPage: React.FC = () => {
             <h1 className="text-[40px] sm:text-[52px] lg:text-[64px] font-extrabold text-[#0b192c] tracking-tight leading-[1.1]">
               Discover the <br /> Web's Hidden <br /> Telemetry
             </h1>
-            <p className="text-[#415a77] text-sm sm:text-base leading-relaxed max-w-sm">
+            <p className="text-[#415a77] text-base sm:text-base leading-relaxed max-w-sm">
               Find the unique benchmarks and hidden metrics that ignite unforgettable web experiences. From rare performance bottlenecks to remarkable edge destinations.
             </p>
-            <button className="rounded-full bg-[#0b192c] px-7 py-3.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors shadow-sm tracking-wide">
+            <button className="rounded-full bg-[#0b192c] px-7 py-3.5 text-sm font-bold text-white hover:bg-[#152238] transition-colors shadow-sm tracking-wide">
               Read our latest
             </button>
           </div>
@@ -124,42 +122,65 @@ export const BlogsPage: React.FC = () => {
 
         {/* 2. Top Topics (Destinations) */}
         <section>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-[#e2e8f0] pb-5">
             <div>
-              <h2 className="text-[28px] font-extrabold text-[#0b192c]">Top Topics</h2>
-              <div className="mt-4 flex items-center gap-6 text-xs font-semibold text-[#64748b] overflow-x-auto pb-2 scrollbar-hide">
-                {categories.map((cat) => (
-                  <span 
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`whitespace-nowrap cursor-pointer transition-colors ${selectedCategory === cat ? 'text-[#0b192c] border-b-2 border-[#0b192c] pb-1' : 'hover:text-[#0b192c]'}`}
-                  >
-                    {cat}
-                  </span>
-                ))}
-                <span className="whitespace-nowrap cursor-pointer hover:text-[#0b192c] flex items-center gap-1">
-                  More <ArrowRight className="h-3 w-3" />
-                </span>
-              </div>
+              <h2 className="text-[28px] font-extrabold text-[#0b192c]">Top Topics & Research Areas</h2>
+              <p className="text-sm text-[#64748b] mt-1">
+                Explore deep dives by domain or select a specific topic below:
+              </p>
             </div>
-            <button className="shrink-0 rounded-full border border-[#cbd5e1] px-5 py-2 text-[11px] font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
-              Explore all topics
-            </button>
+
+            {/* Dropdown topic selector + Explore All Topics Button (No Tabviews) */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2">
+                <label htmlFor="topic-selector" className="text-xs font-bold text-[#0b192c] uppercase tracking-wider">
+                  Filter Topic:
+                </label>
+                <select
+                  id="topic-selector"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-semibold text-[#0b192c] shadow-2xs focus:border-[#38bdf8] focus:outline-none cursor-pointer"
+                >
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat} {cat === 'Popular' ? '🔥' : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedCategory !== 'Popular' && (
+                <button
+                  onClick={() => setSelectedCategory('Popular')}
+                  className="rounded-xl border border-[#e2e8f0] bg-[#f1f5f9] px-3 py-2 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition cursor-pointer"
+                >
+                  Reset Filter
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { title: 'Edge Routing Analytics', subtitle: 'Global Network' },
-              { title: 'Core Web Vitals', subtitle: 'Performance' },
-              { title: 'Content Security Policy', subtitle: 'SecOps' },
-              { title: 'AI Crawler Indexing', subtitle: 'LLMs' }
+              { title: 'Edge Routing Analytics', subtitle: 'Global Network', category: 'Edge Latency' },
+              { title: 'Core Web Vitals', subtitle: 'Performance', category: 'Performance' },
+              { title: 'Content Security Policy', subtitle: 'SecOps', category: 'SecOps' },
+              { title: 'AI Crawler Indexing', subtitle: 'LLMs', category: 'AI & LLM' }
             ].map((item, idx) => (
-              <div key={idx} className="group cursor-pointer">
-                <div className="aspect-[3/4] rounded-[32px] bg-[#cbd5e1] flex items-center justify-center mb-4 transition-transform group-hover:scale-[1.02]">
+              <div 
+                key={idx} 
+                onClick={() => setSelectedCategory(item.category)}
+                className="group cursor-pointer rounded-2xl border border-transparent hover:border-[#cbd5e1] p-2 transition-all hover:bg-white/60"
+              >
+                <div className="aspect-[3/4] rounded-[28px] bg-[#cbd5e1] flex items-center justify-center mb-4 transition-transform group-hover:scale-[1.02] shadow-2xs">
                   <ImageIcon className="h-8 w-8 text-[#94a3b8]" />
                 </div>
-                <h3 className="text-sm font-bold text-[#0b192c] leading-tight group-hover:text-[#415a77] transition-colors">{item.title}</h3>
-                <p className="text-[11px] text-[#64748b] mt-1.5">{item.subtitle}</p>
+                <h3 className="text-base font-bold text-[#0b192c] leading-tight group-hover:text-[#3b82f6] transition-colors">{item.title}</h3>
+                <p className="text-xs font-semibold text-[#64748b] mt-1.5 flex items-center justify-between">
+                  <span>{item.subtitle}</span>
+                  <span className="text-[10px] text-[#3b82f6] font-bold opacity-0 group-hover:opacity-100 transition-opacity">Filter &rarr;</span>
+                </p>
               </div>
             ))}
           </div>
@@ -169,7 +190,7 @@ export const BlogsPage: React.FC = () => {
         <section>
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-[28px] font-extrabold text-[#0b192c]">Latest Stories</h2>
-            <button className="hidden sm:block rounded-full border border-[#cbd5e1] px-5 py-2 text-[11px] font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
+            <button className="hidden sm:block rounded-full border border-[#cbd5e1] px-5 py-2 text-sm font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
               Read more articles
             </button>
           </div>
@@ -181,16 +202,16 @@ export const BlogsPage: React.FC = () => {
                 <div className="aspect-[4/3] rounded-[32px] bg-[#cbd5e1] flex items-center justify-center mb-6 overflow-hidden transition-transform group-hover:scale-[1.01]">
                    <ImageIcon className="h-12 w-12 text-[#94a3b8]" />
                 </div>
-                <div className="text-[10px] font-bold text-[#64748b] uppercase tracking-widest mb-3">
+                <div className="text-xs font-bold text-[#64748b] uppercase tracking-widest mb-3">
                   {featuredPost?.category || 'Engineering'}
                 </div>
                 <h3 className="text-[26px] font-extrabold text-[#0b192c] leading-tight mb-3 group-hover:text-[#415a77] transition-colors">
                   {featuredPost ? featuredPost.title : 'Deep dive into rendering patterns: 10 strategies for React'}
                 </h3>
-                <div className="text-[11px] text-[#64748b] mb-4">
+                <div className="text-sm text-[#64748b] mb-4">
                   {getFormatDate(featuredPost?.createdAt)} • {featuredPost?.readTime || '4 min read'}
                 </div>
-                <p className="text-sm text-[#415a77] leading-relaxed line-clamp-3">
+                <p className="text-base text-[#415a77] leading-relaxed line-clamp-3">
                   {featuredPost ? featuredPost.excerpt : 'It seems that in frontend engineering, almost any problem can be solved with a combination of memoization, lazy loading, and suspense. After all, speed matters...'}
                 </p>
               </Link>
@@ -204,11 +225,11 @@ export const BlogsPage: React.FC = () => {
                      <ImageIcon className="h-6 w-6 text-[#94a3b8]" />
                   </div>
                   <div className="flex flex-col justify-center">
-                    <div className="text-[9px] font-bold text-[#64748b] uppercase tracking-widest mb-1.5">{item.category || 'Guide'}</div>
-                    <h4 className="text-sm font-bold text-[#0b192c] leading-snug group-hover:text-[#415a77] transition-colors line-clamp-3">
+                    <div className="text-xs font-bold text-[#64748b] uppercase tracking-widest mb-1.5">{item.category || 'Guide'}</div>
+                    <h4 className="text-base font-bold text-[#0b192c] leading-snug group-hover:text-[#415a77] transition-colors line-clamp-3">
                       {item.title}
                     </h4>
-                    <div className="text-[10px] text-[#64748b] mt-2">{getFormatDate(item.createdAt)} • {item.readTime || '5 min read'}</div>
+                    <div className="text-xs text-[#64748b] mt-2">{getFormatDate(item.createdAt)} • {item.readTime || '5 min read'}</div>
                   </div>
                 </Link>
               )) : (
@@ -222,18 +243,18 @@ export const BlogsPage: React.FC = () => {
                        <ImageIcon className="h-6 w-6 text-[#94a3b8]" />
                     </div>
                     <div className="flex flex-col justify-center">
-                      <div className="text-[9px] font-bold text-[#64748b] uppercase tracking-widest mb-1.5">{item.cat}</div>
-                      <h4 className="text-sm font-bold text-[#0b192c] leading-snug group-hover:text-[#415a77] transition-colors line-clamp-3">
+                      <div className="text-xs font-bold text-[#64748b] uppercase tracking-widest mb-1.5">{item.cat}</div>
+                      <h4 className="text-base font-bold text-[#0b192c] leading-snug group-hover:text-[#415a77] transition-colors line-clamp-3">
                         {item.title}
                       </h4>
-                      <div className="text-[10px] text-[#64748b] mt-2">Aug 15, 2024 • 5 min read</div>
+                      <div className="text-xs text-[#64748b] mt-2">Aug 15, 2024 • 5 min read</div>
                     </div>
                   </div>
                 ))
               )}
             </div>
           </div>
-          <button className="mt-8 sm:hidden w-full rounded-full border border-[#cbd5e1] px-5 py-3 text-[11px] font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
+          <button className="mt-8 sm:hidden w-full rounded-full border border-[#cbd5e1] px-5 py-3 text-sm font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors tracking-wide">
             Read more articles
           </button>
         </section>
@@ -252,8 +273,8 @@ export const BlogsPage: React.FC = () => {
                    <UserIcon className="h-5 w-5 text-[#94a3b8]" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#0b192c]">Maria Angelica</div>
-                  <div className="text-[10px] text-[#64748b]">Senior Frontend Architect</div>
+                  <div className="text-sm font-bold text-[#0b192c]">Maria Angelica</div>
+                  <div className="text-xs text-[#64748b]">Senior Frontend Architect</div>
                 </div>
               </div>
               <div className="flex items-center gap-1 mb-4">
@@ -283,7 +304,7 @@ export const BlogsPage: React.FC = () => {
                 </div>
                 <div className="relative z-10 p-2">
                   <div className="text-[13px] font-bold text-white leading-tight">Sunset from Edge Latency Probe</div>
-                  <button className="mt-3 rounded-full border border-white/50 bg-white/20 backdrop-blur-md px-4 py-2 text-[10px] font-bold text-white hover:bg-white hover:text-[#0b192c] transition-colors tracking-wide">
+                  <button className="mt-3 rounded-full border border-white/50 bg-white/20 backdrop-blur-md px-4 py-2 text-xs font-bold text-white hover:bg-white hover:text-[#0b192c] transition-colors tracking-wide">
                     See more highlights
                   </button>
                 </div>
@@ -302,7 +323,7 @@ export const BlogsPage: React.FC = () => {
           </h2>
           
           {subscribed ? (
-             <div className="rounded-full bg-white/20 backdrop-blur-sm px-6 py-4 text-sm font-bold text-white border border-white/30 transition-all">
+             <div className="rounded-full bg-white/20 backdrop-blur-sm px-6 py-4 text-base font-bold text-white border border-white/30 transition-all">
                Thanks for subscribing to our technical updates!
              </div>
           ) : (
@@ -313,17 +334,17 @@ export const BlogsPage: React.FC = () => {
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
                 placeholder="Email address"
-                className="flex-1 rounded-full px-6 py-4 text-sm bg-white border-0 focus:outline-none focus:ring-2 focus:ring-[#0b192c] text-[#0b192c] placeholder:text-[#94a3b8]"
+                className="flex-1 rounded-full px-6 py-4 text-base bg-white border-0 focus:outline-none focus:ring-2 focus:ring-[#0b192c] text-[#0b192c] placeholder:text-[#94a3b8]"
               />
               <button 
                 type="submit"
-                className="rounded-full bg-[#0b192c] px-10 py-4 text-sm font-bold text-white hover:bg-[#152238] transition-colors shadow-sm whitespace-nowrap"
+                className="rounded-full bg-[#0b192c] px-10 py-4 text-base font-bold text-white hover:bg-[#152238] transition-colors shadow-sm whitespace-nowrap"
               >
                 Subscribe
               </button>
             </form>
           )}
-          <p className="text-[11px] text-white/80 mt-6 max-w-sm mx-auto leading-relaxed">
+          <p className="text-sm text-white/80 mt-6 max-w-sm mx-auto leading-relaxed">
             Subscribe to receive telemetry newsletters and exclusive developer updates. Read our <Link to="/privacy" className="underline font-semibold hover:text-white transition-colors">Privacy Policy</Link>.
           </p>
         </div>

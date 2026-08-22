@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Check, Shield, Sparkles, Server, ArrowRight, HelpCircle } from 'lucide-react';
 import { LazyReveal, LazyStaggerContainer, LazyStaggerItem } from '../components/common/LazyAnimate';
 import { SEOHead } from '../components/common/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 export const PricingPage: React.FC = () => {
   const [annual, setAnnual] = useState(true);
@@ -104,16 +103,8 @@ export const PricingPage: React.FC = () => {
       {/* Hero Header */}
       <section className="relative overflow-hidden border-b border-[#ebe9e6] bg-[#f4f6fa] py-14 sm:py-16">
         <LazyReveal direction="down" className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-6">
-            <Breadcrumbs
-              items={[
-                { label: 'Pricing Plans' }
-              ]}
-            />
-          </div>
-
           <div className="text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-xs font-bold text-[#415a77] mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-sm font-bold text-[#415a77] mb-6">
               <Sparkles className="h-3.5 w-3.5 text-[#415a77]" />
               <span>Transparent, Scalable Engineering Pricing</span>
             </div>
@@ -128,7 +119,7 @@ export const PricingPage: React.FC = () => {
 
           {/* Billing Toggle */}
           <div className="mt-8 flex items-center justify-center gap-3">
-            <span className={`text-sm font-bold ${!annual ? 'text-[#0b192c]' : 'text-[#415a77]'}`}>
+            <span className={`text-base font-bold ${!annual ? 'text-[#0b192c]' : 'text-[#415a77]'}`}>
               Monthly
             </span>
             <button
@@ -143,10 +134,10 @@ export const PricingPage: React.FC = () => {
               />
             </button>
             <div className="flex items-center gap-1.5">
-              <span className={`text-sm font-bold ${annual ? 'text-[#0b192c]' : 'text-[#415a77]'}`}>
+              <span className={`text-base font-bold ${annual ? 'text-[#0b192c]' : 'text-[#415a77]'}`}>
                 Annual
               </span>
-              <span className="rounded-full bg-[#415a77]/15 px-2 py-0.5 text-[11px] font-bold text-[#415a77] border border-[#415a77]/30">
+              <span className="rounded-full bg-[#415a77]/15 px-2 py-0.5 text-sm font-bold text-[#415a77] border border-[#415a77]/30">
                 Save 20%
               </span>
             </div>
@@ -171,7 +162,7 @@ export const PricingPage: React.FC = () => {
                 {plan.badge && (
                   <div className="absolute -top-3.5 left-8">
                     <span
-                      className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-extrabold tracking-wide uppercase shadow-md ${
+                      className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-sm font-extrabold tracking-wide uppercase shadow-md ${
                         plan.highlighted
                           ? 'bg-gradient-to-r from-sky-400 to-[#c5d3e8] text-[#0b192c]'
                           : 'border border-[#415a77]/50 bg-[#152238] text-[#c5d3e8]'
@@ -187,29 +178,29 @@ export const PricingPage: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <h3 className="text-2xl font-extrabold text-[#f8fafc] tracking-tight">{plan.name}</h3>
                   </div>
-                  <p className="mt-2 text-xs text-[#94a3b8] leading-relaxed min-h-[32px]">{plan.tagline}</p>
+                  <p className="mt-2 text-sm text-[#94a3b8] leading-relaxed min-h-[32px]">{plan.tagline}</p>
 
                   <div className="mt-6 flex items-baseline gap-1.5">
                     <span className="text-4xl font-extrabold text-[#f8fafc] sm:text-5xl tracking-tight">
                       ${price}
                     </span>
-                    <span className="text-sm font-medium text-[#94a3b8]">
+                    <span className="text-base font-medium text-[#94a3b8]">
                       {plan.priceMonthly === 0 ? 'free forever' : '/ month'}
                     </span>
                   </div>
                   {annual && plan.priceMonthly > 0 ? (
-                    <p className="mt-1 text-xs text-sky-300 font-semibold">Billed annually (${price * 12}/yr)</p>
+                    <p className="mt-1 text-sm text-sky-300 font-semibold">Billed annually (${price * 12}/yr)</p>
                   ) : (
                     <div className="h-4 mt-1" />
                   )}
 
                   <div className="mt-8 border-t border-[#415a77]/25 pt-6">
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#93c5fd]">
+                    <p className="text-sm font-bold uppercase tracking-wider text-[#93c5fd]">
                       Included Capabilities:
                     </p>
                     <ul className="mt-4 space-y-3.5">
                       {plan.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-sm text-[#e2e8f0]">
+                        <li key={idx} className="flex items-start gap-3 text-base text-[#e2e8f0]">
                           <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#152238] border border-[#415a77]/40 text-[#93c5fd] mt-0.5">
                             <Check className="h-3 w-3 stroke-[3]" />
                           </div>
@@ -223,7 +214,7 @@ export const PricingPage: React.FC = () => {
                 <div className="mt-8 pt-6 border-t border-[#415a77]/20">
                   <Link
                     to={plan.ctaLink}
-                    className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-bold transition-all duration-200 shadow-md active:scale-98 ${
+                    className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-base font-bold transition-all duration-200 shadow-md active:scale-98 ${
                       plan.highlighted
                         ? 'bg-sky-500 text-[#07111e] hover:bg-sky-400 font-extrabold shadow-sky-500/20'
                         : 'border border-[#415a77]/40 bg-[#152238] text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#415a77]/70'
@@ -238,15 +229,117 @@ export const PricingPage: React.FC = () => {
           })}
         </LazyStaggerContainer>
 
+        {/* Mental Health / Understanding Banner Style Section */}
+        <LazyReveal direction="up" className="mt-20 relative overflow-hidden rounded-3xl bg-[#0b192c] text-white">
+          {/* Abstract dark tech background */}
+          <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-sky-900/40 to-blue-900/40"></div>
+          
+          <div className="relative z-10 py-16 px-6 sm:px-12 text-center max-w-4xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 leading-tight">
+              You Need to Understand That <br /> Enterprise Scale Can be <span className="text-sky-400">Streamlined</span>
+            </h2>
+            <p className="text-base sm:text-base text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Etiam posuere sapien ut luctus vehicula. Aenean non auctor arcu, et tempus arcu. Integer tristique volutpat posuere. Aenean ac lectus ultrices, lacinia leo a, volutpat eros curabitur.
+            </p>
+            <Link to="/contact" className="inline-block bg-[#f8fafc] text-[#0b192c] font-bold px-8 py-3.5 rounded-full hover:bg-sky-50 transition-colors shadow-xl">
+              CONSULTATION NOW
+            </Link>
+          </div>
+        </LazyReveal>
+
+        {/* Make An Appointment / Contact Form Section */}
+        <LazyReveal direction="up" className="mt-10 mb-20 relative z-20 max-w-6xl mx-auto bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] p-8 sm:p-12 border border-gray-100 flex flex-col lg:flex-row gap-12">
+          
+          {/* Form side */}
+          <div className="flex-1 space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-600 uppercase">Your Name</label>
+                <input type="text" placeholder="Full Name" className="w-full bg-white border border-gray-200 rounded-full px-5 py-3 text-base focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-600 uppercase">Your Email</label>
+                <input type="email" placeholder="Email Address" className="w-full bg-white border border-gray-200 rounded-full px-5 py-3 text-base focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-gray-600 uppercase">Your Phone</label>
+              <input type="tel" placeholder="Phone Number" className="w-full bg-white border border-gray-200 rounded-full px-5 py-3 text-base focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400" />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-600 uppercase">Select Services</label>
+                <select className="w-full bg-white border border-gray-200 rounded-full px-5 py-3 text-base text-gray-500 appearance-none focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400">
+                  <option>Select Services -</option>
+                  <option>Enterprise Telemetry</option>
+                  <option>Dedicated Edge Node</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-600 uppercase">Select Date</label>
+                <input type="date" className="w-full bg-white border border-gray-200 rounded-full px-5 py-3 text-base text-gray-500 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400" />
+              </div>
+            </div>
+
+            <button className="w-full sm:w-auto bg-[#c89269] text-white font-bold px-8 py-3.5 rounded-full hover:bg-[#b07d56] transition-colors shadow-lg mt-4 text-base">
+              BOOK AN APPOINTMENT
+            </button>
+          </div>
+
+          {/* Info Side */}
+          <div className="flex-1 lg:pl-12 lg:border-l border-gray-100">
+            <h4 className="text-base font-bold text-[#c89269] uppercase tracking-wider mb-2">Appointment</h4>
+            <h3 className="text-3xl font-extrabold text-[#0b192c] mb-6">Make An Appointment</h3>
+            <p className="text-base text-gray-500 mb-10 leading-relaxed">
+              Nullam fermentum ullamcorper diam sit amet porta. Etiam ac enim velit. Ut ut mi sed turpis accumsan sagittis ac eu magna. Etiam ac nisl lorem et. Morbi at velit nisl. Donec ut felis libero donec tincidunt.
+            </p>
+
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-orange-50 text-[#c89269] flex items-center justify-center shrink-0">
+                  <HelpCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h5 className="text-base font-bold text-[#0b192c]">Customer Service</h5>
+                  <p className="text-sm text-gray-500">+123-234-1234</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-orange-50 text-[#c89269] flex items-center justify-center shrink-0">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h5 className="text-base font-bold text-[#0b192c]">Clinic Address</h5>
+                  <p className="text-sm text-gray-500">99 Roving St., Big City, PKU 23456</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-orange-50 text-[#c89269] flex items-center justify-center shrink-0">
+                  <Check className="w-5 h-5" />
+                </div>
+                <div>
+                  <h5 className="text-base font-bold text-[#0b192c]">Opening Hours</h5>
+                  <p className="text-sm text-gray-500">Monday - Saturday ( 09.00 - 21.00 )<br/>Sunday ( Closed )</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </LazyReveal>
+
         {/* Capabilities, Restrictions & Routing Matrix */}
         <LazyReveal direction="up" className="mt-20">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0b192c]">Capabilities, Restrictions & Routing Matrix</h2>
-            <p className="mt-2 text-sm text-[#415a77]">Detailed architectural breakdown of telemetry features, application routes, and tier-based resource limits.</p>
+            <p className="mt-2 text-base text-[#415a77]">Detailed architectural breakdown of telemetry features, application routes, and tier-based resource limits.</p>
           </div>
 
           <div className="overflow-x-auto rounded-2xl border border-[#415a77]/30 bg-[#0b192c] shadow-2xl">
-            <table className="w-full text-left border-collapse text-xs text-[#f8fafc]">
+            <table className="w-full text-left border-collapse text-sm text-[#f8fafc]">
               <thead>
                 <tr className="border-b border-[#415a77]/40 bg-[#152238] text-[#c5d3e8] uppercase font-semibold">
                   <th className="p-4">Telemetry Capability / Feature</th>
@@ -354,18 +447,18 @@ export const PricingPage: React.FC = () => {
         {/* Enterprise Callout Banner */}
         <LazyReveal direction="up" className="mt-16 rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl text-[#f8fafc]">
           <div>
-            <div className="flex items-center gap-2 text-[#c5d3e8] font-bold text-sm mb-1">
+            <div className="flex items-center gap-2 text-[#c5d3e8] font-bold text-base mb-1">
               <Server className="h-4 w-4" />
               <span>Custom Enterprise Infrastructure</span>
             </div>
             <h3 className="text-2xl font-bold text-[#f8fafc]">Need On-Premises or Private Cloud Telemetry?</h3>
-            <p className="mt-2 text-sm text-[#ebe9e6] max-w-2xl">
+            <p className="mt-2 text-base text-[#ebe9e6] max-w-2xl">
               We deploy containerized CatalystLab audit runners directly into your VPC (GCP, AWS, Azure, or Kubernetes) with air-gapped security compliance.
             </p>
           </div>
           <Link
             to="/contact"
-            className="shrink-0 rounded-xl bg-[#415a77] px-6 py-3 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] transition-colors shadow-md"
+            className="shrink-0 rounded-xl bg-[#415a77] px-6 py-3 text-base font-bold text-[#f8fafc] hover:bg-[#52718e] transition-colors shadow-md"
           >
             Speak with Engineering
           </Link>
@@ -375,7 +468,7 @@ export const PricingPage: React.FC = () => {
         <div className="mt-20">
           <LazyReveal direction="down" className="text-center">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0b192c]">Frequently Asked Questions</h2>
-            <p className="mt-2 text-sm text-[#415a77]">Everything you need to know about CatalystLab telemetry plans.</p>
+            <p className="mt-2 text-base text-[#415a77]">Everything you need to know about CatalystLab telemetry plans.</p>
           </LazyReveal>
 
           <LazyStaggerContainer className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto" staggerDelay={0.08}>
@@ -385,7 +478,7 @@ export const PricingPage: React.FC = () => {
                   <HelpCircle className="h-4 w-4 text-[#c5d3e8] shrink-0 mt-1" />
                   <span>{faq.q}</span>
                 </h4>
-                <p className="mt-3 text-sm text-[#ebe9e6] leading-relaxed">{faq.a}</p>
+                <p className="mt-3 text-base text-[#ebe9e6] leading-relaxed">{faq.a}</p>
               </LazyStaggerItem>
             ))}
           </LazyStaggerContainer>

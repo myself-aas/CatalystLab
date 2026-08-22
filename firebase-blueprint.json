@@ -59,6 +59,55 @@
         "ownerId": { "type": "string", "description": "UID of the owner or admin", "maxLength": 128 }
       },
       "required": ["name", "url", "createdAt", "ownerId"]
+    },
+    "ApiKey": {
+      "title": "API Key",
+      "description": "API credentials and white-label access tokens for programmatic integrations.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Key identifier or client name", "maxLength": 100 },
+        "keyPrefix": { "type": "string", "description": "Masked key prefix for display", "maxLength": 50 },
+        "ownerId": { "type": "string", "description": "UID of the user who owns the key", "maxLength": 128 },
+        "scopes": { "type": "array", "description": "Permission scopes" },
+        "environment": { "type": "string", "description": "Deployment environment" },
+        "status": { "type": "string", "description": "Key status", "enum": ["active", "revoked", "expired"] },
+        "createdAt": { "type": "number", "description": "Creation timestamp in milliseconds" }
+      },
+      "required": ["name", "keyPrefix", "ownerId", "scopes", "environment", "status", "createdAt"]
+    },
+    "ContactInquiry": {
+      "title": "Contact Inquiry & Email Lead",
+      "description": "User email submissions, contact requests, and newsletter lead captures.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Email address of the user", "maxLength": 256 },
+        "name": { "type": "string", "description": "Optional name of the user or company", "maxLength": 150 },
+        "message": { "type": "string", "description": "Optional inquiry notes or message", "maxLength": 2000 },
+        "source": { "type": "string", "description": "Source origin of the lead e.g. get-in-touch-popup, footer-touch", "maxLength": 100 },
+        "company": { "type": "string", "description": "Optional organization or domain name", "maxLength": 200 },
+        "status": { "type": "string", "description": "Status of the inquiry", "enum": ["new", "contacted", "resolved", "archived"] },
+        "createdAt": { "type": "number", "description": "Creation timestamp in milliseconds" },
+        "ownerId": { "type": "string", "description": "UID or guest identifier", "maxLength": 128 }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "Audit Log",
+      "description": "System health, engine execution telemetry, and administrative audit trails.",
+      "type": "object",
+      "properties": {
+        "action": { "type": "string", "description": "Diagnostic action or audit name", "maxLength": 150 },
+        "status": { "type": "string", "description": "Health status", "enum": ["healthy", "warning", "critical", "info", "success"] },
+        "engine": { "type": "string", "description": "Associated diagnostic engine", "maxLength": 100 },
+        "target": { "type": "string", "description": "Target hostname or service", "maxLength": 500 },
+        "executionTimeMs": { "type": "number", "description": "Execution latency in milliseconds" },
+        "statusCode": { "type": "number", "description": "HTTP status or return code" },
+        "details": { "type": "string", "description": "Audit details or error synopsis", "maxLength": 2000 },
+        "timestamp": { "type": "number", "description": "Timestamp in milliseconds" },
+        "ownerId": { "type": "string", "description": "UID of the actor", "maxLength": 128 },
+        "userEmail": { "type": "string", "description": "Email of the actor", "maxLength": 256 }
+      },
+      "required": ["action", "status", "timestamp"]
     }
   },
   "firestore": {
@@ -70,9 +119,25 @@
       "schema": "BlogPost",
       "description": "Technical insights and engineering articles."
     },
+    "blogPosts/{blogPostId}": {
+      "schema": "BlogPost",
+      "description": "Technical insights and blog posts protected with superadmin claims."
+    },
+    "audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Live status telemetry and system audit logs."
+    },
     "monitored_sites/{siteId}": {
       "schema": "MonitoredSite",
       "description": "Configured endpoints for continuous uptime and latency telemetry."
+    },
+    "api_keys/{keyId}": {
+      "schema": "ApiKey",
+      "description": "API keys and white-label configuration records."
+    },
+    "contact_inquiries/{inquiryId}": {
+      "schema": "ContactInquiry",
+      "description": "Stores user inquiries, emails, and contact form submissions."
     }
   }
 }

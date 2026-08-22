@@ -54,16 +54,22 @@ export const UserDashboardPage: React.FC = () => {
   const { user, login, isAdmin, loading: authLoading, loginWithLocalSession, setShowDomainModal } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState<'analytics' | 'audits' | 'rate-limits' | 'api-keys' | 'monitoring' | 'blogs'>('analytics');
 
-  // Check URL query parameters for initial tab
-  useEffect(() => {
+  const getActiveView = (): 'analytics' | 'audits' | 'rate-limits' | 'api-keys' | 'monitoring' | 'blogs' => {
+    if (location.pathname.endsWith('/audits')) return 'audits';
+    if (location.pathname.endsWith('/rate-limits')) return 'rate-limits';
+    if (location.pathname.endsWith('/api-keys')) return 'api-keys';
+    if (location.pathname.endsWith('/monitoring')) return 'monitoring';
+    if (location.pathname.endsWith('/blogs')) return 'blogs';
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
     if (tabParam && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs'].includes(tabParam)) {
-      setActiveTab(tabParam as any);
+      return tabParam as any;
     }
-  }, [location.search]);
+    return 'analytics';
+  };
+
+  const activeTab = getActiveView();
 
   const [reports, setReports] = useState<AuditReport[]>([]);
   const [loading, setLoading] = useState(true);
@@ -206,7 +212,7 @@ export const UserDashboardPage: React.FC = () => {
       <div className="flex min-h-[60vh] items-center justify-center bg-[#f8fafc]">
         <div className="flex flex-col items-center gap-3">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#415a77] border-t-transparent" />
-          <span className="text-sm text-[#415a77]">Synchronizing user telemetry...</span>
+          <span className="text-base text-[#415a77]">Synchronizing user telemetry...</span>
         </div>
       </div>
     );
@@ -220,13 +226,13 @@ export const UserDashboardPage: React.FC = () => {
             <LogIn className="h-7 w-7 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-[#f8fafc]">Developer Access Required</h2>
-          <p className="mt-2 text-sm text-[#c5d3e8] leading-relaxed">
+          <p className="mt-2 text-base text-[#c5d3e8] leading-relaxed">
             Sign in with Google to access your persistent audit dossiers, real-time rate limit allocations, domain uptime monitoring, and technical research articles.
           </p>
           
           <button
             onClick={() => login()}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#415a77] px-6 py-3.5 text-sm font-bold text-white transition-all hover:bg-[#33475e] shadow-md hover:shadow-lg"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#415a77] px-6 py-3.5 text-base font-bold text-white transition-all hover:bg-[#33475e] shadow-md hover:shadow-lg"
           >
             <LogIn className="h-4 w-4" />
             <span>Sign In with Google</span>
@@ -239,7 +245,7 @@ export const UserDashboardPage: React.FC = () => {
                 displayName: 'CatalystLab Developer',
                 isAdmin: false
               })}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#38bdf8]/40 bg-[#152238] px-4 py-2 text-xs font-bold text-[#38bdf8] hover:bg-[#1a2d48] transition-all shadow-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#38bdf8]/40 bg-[#152238] px-4 py-2 text-sm font-bold text-[#38bdf8] hover:bg-[#1a2d48] transition-all shadow-sm"
             >
               <Sparkles className="h-3.5 w-3.5 text-[#38bdf8]" />
               <span>Activate Preview Developer Session</span>
@@ -247,7 +253,7 @@ export const UserDashboardPage: React.FC = () => {
 
             <button
               onClick={() => setShowDomainModal(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#152238] px-3.5 py-2 text-xs font-semibold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors"
             >
               <span>Domain Helper</span>
             </button>
@@ -285,11 +291,11 @@ export const UserDashboardPage: React.FC = () => {
                   <h1 className="text-xl sm:text-2xl font-bold text-[#0b192c]">
                     {getGreeting()}, {userName}!
                   </h1>
-                  <span className="rounded-md bg-[#f1f5f9] border border-[#e2e8f0] px-2.5 py-0.5 text-[11px] font-bold text-[#415a77] uppercase tracking-wider">
+                  <span className="rounded-md bg-[#f1f5f9] border border-[#e2e8f0] px-2.5 py-0.5 text-sm font-bold text-[#415a77] uppercase tracking-wider">
                     {rateStatus.tierLabel}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-3 mt-1 text-xs text-[#415a77]">
+                <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-[#415a77]">
                   <span className="font-mono">{user.email}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
@@ -297,7 +303,7 @@ export const UserDashboardPage: React.FC = () => {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    All 8 Engines Operational
+                    All 8 SDLC Catalysts Operational
                   </span>
                 </div>
               </div>
@@ -307,14 +313,14 @@ export const UserDashboardPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/master-audit"
-                className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-xs font-bold text-white transition-all hover:bg-[#1b2a47] shadow-md hover:shadow-lg"
+                className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-[#1b2a47] shadow-md hover:shadow-lg"
               >
                 <Sparkles className="h-4 w-4 text-[#c5d3e8]" />
                 <span>Run Master Audit</span>
               </Link>
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2.5 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm"
+                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2.5 text-sm font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm"
               >
                 <FileText className="h-4 w-4 text-[#415a77]" />
                 <span>API Reference</span>
@@ -330,16 +336,16 @@ export const UserDashboardPage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           
           {/* Card 1: Daily Resource Allocation */}
-          <div 
-            onClick={() => setActiveTab('rate-limits')}
+          <Link 
+            to="/dashboard/rate-limits"
             className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
                 <Cpu className="h-4 w-4 text-[#415a77]" />
                 Compute Quota
               </span>
-              <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
+              <span className="text-sm font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
                 {rateStatus.formattedResetTime}
               </span>
             </div>
@@ -347,32 +353,32 @@ export const UserDashboardPage: React.FC = () => {
             <div className="my-3">
               <div className="text-2xl font-black text-[#0b192c] font-mono">
                 {rateStatus.isUnlimited ? 'Unlimited' : `${rateStatus.remaining} / ${rateStatus.limit}`}
-                <span className="text-xs font-normal text-[#415a77] font-sans ml-1.5">Units</span>
+                <span className="text-sm font-normal text-[#415a77] font-sans ml-1.5">Units</span>
               </div>
-              <p className="text-[11px] text-[#415a77] mt-1">
+              <p className="text-sm text-[#415a77] mt-1">
                 {rateStatus.isUnlimited 
                   ? 'Zero throttling applied' 
                   : `${rateStatus.masterRemaining} Master or ${rateStatus.singleRemaining} Single audits remain`}
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-[11px] font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
               <span>Inspect Allocations</span>
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </div>
-          </div>
+          </Link>
 
           {/* Card 2: Saved Dossiers */}
-          <div 
-            onClick={() => setActiveTab('audits')}
+          <Link 
+            to="/dashboard/audits"
             className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
                 <FileText className="h-4 w-4 text-[#415a77]" />
                 Saved Reports
               </span>
-              <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              <span className="flex items-center gap-1 text-sm font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                 <CheckCircle2 className="h-3 w-3" />
                 Synced
               </span>
@@ -381,30 +387,30 @@ export const UserDashboardPage: React.FC = () => {
             <div className="my-3">
               <div className="text-2xl font-black text-[#0b192c] font-mono">
                 {totalAudits}
-                <span className="text-xs font-normal text-[#415a77] font-sans ml-1.5">Dossiers</span>
+                <span className="text-sm font-normal text-[#415a77] font-sans ml-1.5">Dossiers</span>
               </div>
-              <p className="text-[11px] text-[#415a77] mt-1">
+              <p className="text-sm text-[#415a77] mt-1">
                 Permanent Firestore telemetry records with PDF export
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-[11px] font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
               <span>View All Reports</span>
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </div>
-          </div>
+          </Link>
 
           {/* Card 3: Average Benchmark Score */}
-          <div 
-            onClick={() => setActiveTab('analytics')}
+          <Link 
+            to="/dashboard"
             className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
                 <Activity className="h-4 w-4 text-[#415a77]" />
                 System Health
               </span>
-              <span className={`text-[11px] font-bold px-2 py-0.5 rounded border ${
+              <span className={`text-sm font-bold px-2 py-0.5 rounded border ${
                 avgScore >= 90 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-blue-50 text-blue-700 border-blue-200'
               }`}>
                 Grade {avgScore >= 90 ? 'A+' : 'A'}
@@ -414,30 +420,30 @@ export const UserDashboardPage: React.FC = () => {
             <div className="my-3">
               <div className="text-2xl font-black text-[#0b192c] font-mono">
                 {avgScore}
-                <span className="text-xs font-normal text-[#415a77] font-sans ml-1">/ 100</span>
+                <span className="text-sm font-normal text-[#415a77] font-sans ml-1">/ 100</span>
               </div>
-              <p className="text-[11px] text-[#415a77] mt-1">
+              <p className="text-sm text-[#415a77] mt-1">
                 Composite benchmark across all audited domains
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#e2e8f0] flex items-center justify-between text-[11px] font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="pt-3 border-t border-[#e2e8f0] flex items-center justify-between text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
               <span>View Full Analytics</span>
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </div>
-          </div>
+          </Link>
 
           {/* Card 4: Monitored Endpoints */}
-          <div 
-            onClick={() => setActiveTab('monitoring')}
+          <Link 
+            to="/dashboard/monitoring"
             className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
                 <Globe className="h-4 w-4 text-[#415a77]" />
                 Monitored Hosts
               </span>
-              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
+              <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
                 <ShieldCheck className="h-3 w-3" />
                 100% SSL
               </span>
@@ -446,29 +452,29 @@ export const UserDashboardPage: React.FC = () => {
             <div className="my-3">
               <div className="text-2xl font-black text-[#0b192c] font-mono">
                 {uniqueDomains}
-                <span className="text-xs font-normal text-[#415a77] font-sans ml-1.5">Domains</span>
+                <span className="text-sm font-normal text-[#415a77] font-sans ml-1.5">Domains</span>
               </div>
-              <p className="text-[11px] text-[#415a77] mt-1">
+              <p className="text-sm text-[#415a77] mt-1">
                 Real-time TTFB radar & certificate expiry alerts
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-[11px] font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
               <span>Open Monitoring Radar</span>
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </div>
-          </div>
+          </Link>
 
         </div>
       </section>
 
-      {/* Main Tabs Navigation */}
+      {/* Main Navigation Links with Dedicated URLs */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
         <div className="flex flex-wrap items-center gap-2 border-b border-[#e2e8f0] pb-4">
           
-          <button
-            onClick={() => setActiveTab('analytics')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
+          <Link
+            to="/dashboard"
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
               activeTab === 'analytics'
                 ? 'bg-[#0b192c] text-white shadow-md'
                 : 'bg-white text-[#415a77] hover:bg-[#f1f5f9] border border-[#e2e8f0]'
@@ -476,11 +482,11 @@ export const UserDashboardPage: React.FC = () => {
           >
             <Activity className="h-4 w-4 text-emerald-500" />
             <span>Real-Time Analytics</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => setActiveTab('audits')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
+          <Link
+            to="/dashboard/audits"
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
               activeTab === 'audits'
                 ? 'bg-[#0b192c] text-white shadow-md'
                 : 'bg-white text-[#415a77] hover:bg-[#f1f5f9] border border-[#e2e8f0]'
@@ -488,16 +494,16 @@ export const UserDashboardPage: React.FC = () => {
           >
             <FileText className="h-4 w-4" />
             <span>Audit Reports & Dossiers</span>
-            <span className={`ml-1 rounded-full px-2 py-0.5 text-[10px] font-mono ${
+            <span className={`ml-1 rounded-full px-2 py-0.5 text-xs font-mono ${
               activeTab === 'audits' ? 'bg-white/20 text-white' : 'bg-[#f1f5f9] text-[#415a77]'
             }`}>
               {reports.length}
             </span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => setActiveTab('rate-limits')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
+          <Link
+            to="/dashboard/rate-limits"
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
               activeTab === 'rate-limits'
                 ? 'bg-[#0b192c] text-white shadow-md'
                 : 'bg-white text-[#415a77] hover:bg-[#f1f5f9] border border-[#e2e8f0]'
@@ -505,11 +511,11 @@ export const UserDashboardPage: React.FC = () => {
           >
             <Cpu className="h-4 w-4" />
             <span>Rate Limits & Resource Allocation</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => setActiveTab('api-keys')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
+          <Link
+            to="/dashboard/api-keys"
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
               activeTab === 'api-keys'
                 ? 'bg-[#0b192c] text-white shadow-md'
                 : 'bg-white text-[#415a77] hover:bg-[#f1f5f9] border border-[#e2e8f0]'
@@ -517,11 +523,11 @@ export const UserDashboardPage: React.FC = () => {
           >
             <Key className="h-4 w-4 text-amber-500" />
             <span>API Keys & White-Label</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => setActiveTab('monitoring')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
+          <Link
+            to="/dashboard/monitoring"
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
               activeTab === 'monitoring'
                 ? 'bg-[#0b192c] text-white shadow-md'
                 : 'bg-white text-[#415a77] hover:bg-[#f1f5f9] border border-[#e2e8f0]'
@@ -529,11 +535,11 @@ export const UserDashboardPage: React.FC = () => {
           >
             <Activity className="h-4 w-4" />
             <span>Domain Health & Latency Radar</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => setActiveTab('blogs')}
-            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
+          <Link
+            to="/dashboard/blogs"
+            className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold transition-all ${
               activeTab === 'blogs'
                 ? 'bg-[#0b192c] text-white shadow-md'
                 : 'bg-white text-[#415a77] hover:bg-[#f1f5f9] border border-[#e2e8f0]'
@@ -541,7 +547,7 @@ export const UserDashboardPage: React.FC = () => {
           >
             <BookOpen className="h-4 w-4" />
             <span>My Technical Articles</span>
-          </button>
+          </Link>
 
         </div>
       </section>
@@ -569,25 +575,27 @@ export const UserDashboardPage: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search audited domain, engine, or keywords..."
-                  className="w-full rounded-xl border border-[#415a77]/30 bg-[#f8fafc] pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#0b192c] placeholder:text-[#415a77]/50 focus:border-[#0b192c] focus:outline-none focus:ring-1 focus:ring-[#0b192c]"
+                  className="w-full rounded-xl border border-[#415a77]/30 bg-[#f8fafc] pl-10 pr-4 py-2.5 text-sm sm:text-base text-[#0b192c] placeholder:text-[#415a77]/50 focus:border-[#0b192c] focus:outline-none focus:ring-1 focus:ring-[#0b192c]"
                 />
               </div>
 
               {/* Engine Selector Dropdown */}
               <div className="flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#415a77]">
+                <div className="flex items-center gap-1.5 text-sm font-bold text-[#415a77]">
                   <Filter className="h-3.5 w-3.5" />
-                  <span>Engine:</span>
+                  <span>Catalyst:</span>
                 </div>
                 <select
                   value={selectedEngine}
                   onChange={(e) => setSelectedEngine(e.target.value)}
-                  className="rounded-xl border border-[#415a77]/30 bg-[#f8fafc] px-3.5 py-2 text-xs font-bold text-[#0b192c] focus:outline-none"
+                  className="rounded-xl border border-[#415a77]/30 bg-[#f8fafc] px-3.5 py-2 text-sm font-bold text-[#0b192c] focus:outline-none"
                 >
-                  <option value="all">All Engines</option>
+                  <option value="all">All Catalysts</option>
                   <option value="master">Master Audit (All 8)</option>
                   {Object.entries(ENGINES_MAP).map(([key, item]) => (
-                    <option key={key} value={key}>{item.name}</option>
+                    <option key={key} value={key}>
+                      {item.shortCode ? `[${item.shortCode}] ` : ''}{item.name}
+                    </option>
                   ))}
                 </select>
 
@@ -595,7 +603,7 @@ export const UserDashboardPage: React.FC = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="rounded-xl border border-[#415a77]/30 bg-[#f8fafc] px-3.5 py-2 text-xs font-bold text-[#0b192c] focus:outline-none"
+                  className="rounded-xl border border-[#415a77]/30 bg-[#f8fafc] px-3.5 py-2 text-sm font-bold text-[#0b192c] focus:outline-none"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
@@ -631,7 +639,7 @@ export const UserDashboardPage: React.FC = () => {
 
             {/* Reports List / Grid */}
             {loading ? (
-              <div className="py-20 text-center text-[#415a77] text-sm">
+              <div className="py-20 text-center text-[#415a77] text-base">
                 <RotateCw className="mx-auto h-8 w-8 animate-spin text-[#415a77] mb-3" />
                 <div>Fetching telemetry dossier records...</div>
               </div>
@@ -639,7 +647,7 @@ export const UserDashboardPage: React.FC = () => {
               <div className="rounded-3xl border border-[#415a77]/20 bg-white p-12 text-center shadow-sm">
                 <FileText className="mx-auto h-12 w-12 text-[#415a77]/30 mb-4" />
                 <h3 className="text-base font-bold text-[#0b192c]">No Reports Found</h3>
-                <p className="mt-1 max-w-sm mx-auto text-xs text-[#415a77]">
+                <p className="mt-1 max-w-sm mx-auto text-sm text-[#415a77]">
                   {searchQuery || selectedEngine !== 'all' 
                     ? "No reports match your active search filters. Try clearing the search query."
                     : "You haven't run any audits yet. Launch your first Master Audit to generate a permanent dossier."}
@@ -647,7 +655,7 @@ export const UserDashboardPage: React.FC = () => {
                 <div className="mt-6">
                   <Link
                     to="/master-audit"
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-xs font-bold text-white hover:bg-[#33475e] transition-all shadow-md"
+                    className="inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#33475e] transition-all shadow-md"
                   >
                     <Sparkles className="h-4 w-4" />
                     <span>Run Master Audit</span>
@@ -662,7 +670,7 @@ export const UserDashboardPage: React.FC = () => {
                   const domain = extractDomainFromUrl(report.url);
                   const isMaster = report.engine === 'all' || report.engine === 'master';
                   const engineMeta = isMaster 
-                    ? { name: 'Master Multi-Engine Audit', icon: 'auto_awesome' } 
+                    ? { name: 'Master Multi-Catalyst Audit', icon: 'auto_awesome' } 
                     : ENGINES_MAP[report.engine] || { name: report.engine, icon: 'analytics' };
 
                   return (
@@ -679,10 +687,10 @@ export const UserDashboardPage: React.FC = () => {
                               <Globe className="h-4 w-4" />
                             </div>
                             <div className="min-w-0">
-                              <h4 className="text-sm font-bold text-[#0b192c] truncate group-hover:text-[#415a77] transition-colors">
+                              <h4 className="text-base font-bold text-[#0b192c] truncate group-hover:text-[#415a77] transition-colors">
                                 {domain}
                               </h4>
-                              <span className="text-[11px] text-[#415a77] font-mono flex items-center gap-1">
+                              <span className="text-sm text-[#415a77] font-mono flex items-center gap-1">
                                 <Calendar className="h-3 w-3" />
                                 {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
                               </span>
@@ -690,7 +698,7 @@ export const UserDashboardPage: React.FC = () => {
                           </div>
 
                           {/* Score Pill */}
-                          <div className={`px-2 py-1 rounded-lg text-xs font-bold font-mono border ${
+                          <div className={`px-2 py-1 rounded-lg text-sm font-bold font-mono border ${
                             (report.score || 90) >= 90
                               ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                               : (report.score || 90) >= 75
@@ -703,11 +711,11 @@ export const UserDashboardPage: React.FC = () => {
 
                         {/* Middle Content */}
                         <div className="py-3.5 space-y-2">
-                          <div className="inline-flex items-center gap-1.5 rounded-md bg-[#f8fafc] border border-[#e2e8f0] px-2.5 py-1 text-[11px] font-bold text-[#415a77]">
+                          <div className="inline-flex items-center gap-1.5 rounded-md bg-[#f8fafc] border border-[#e2e8f0] px-2.5 py-1 text-sm font-bold text-[#415a77]">
                             <Sparkles className="h-3 w-3 text-[#415a77]" />
                             <span>{engineMeta.name}</span>
                           </div>
-                          <p className="text-xs text-[#415a77] line-clamp-2 leading-relaxed">
+                          <p className="text-sm text-[#415a77] line-clamp-2 leading-relaxed">
                             {report.summary || report.title || `Telemetry audit evaluated for ${report.url}`}
                           </p>
                         </div>
@@ -741,7 +749,7 @@ export const UserDashboardPage: React.FC = () => {
                           </button>
                         </div>
 
-                        <span className="text-xs font-bold text-[#415a77] group-hover:text-[#0b192c] flex items-center gap-1">
+                        <span className="text-sm font-bold text-[#415a77] group-hover:text-[#0b192c] flex items-center gap-1">
                           <span>Read Dossier</span>
                           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                         </span>
@@ -754,7 +762,7 @@ export const UserDashboardPage: React.FC = () => {
 
               /* TABLE VIEW */
               <div className="overflow-hidden rounded-2xl border border-[#415a77]/20 bg-white shadow-sm">
-                <table className="w-full text-left text-xs">
+                <table className="w-full text-left text-sm">
                   <thead className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[#415a77] uppercase tracking-wider font-bold">
                     <tr>
                       <th className="px-5 py-3.5">Target Domain</th>
@@ -783,12 +791,12 @@ export const UserDashboardPage: React.FC = () => {
                             </div>
                           </td>
                           <td className="px-5 py-4 text-[#415a77]">
-                            <span className="rounded bg-[#f1f5f9] px-2 py-0.5 font-bold text-[11px] border border-[#e2e8f0]">
+                            <span className="rounded bg-[#f1f5f9] px-2 py-0.5 font-bold text-sm border border-[#e2e8f0]">
                               {engineName}
                             </span>
                           </td>
                           <td className="px-5 py-4 font-mono font-bold">
-                            <span className={`px-2 py-0.5 rounded text-[11px] border ${
+                            <span className={`px-2 py-0.5 rounded text-sm border ${
                               (report.score || 90) >= 90
                                 ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                                 : 'bg-blue-50 text-blue-700 border-blue-200'

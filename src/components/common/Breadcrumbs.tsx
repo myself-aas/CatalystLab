@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
+import { resolveBreadcrumbs } from '../layout/GlobalBreadcrumb';
 
 export interface BreadcrumbItem {
   label: string;
@@ -8,11 +9,24 @@ export interface BreadcrumbItem {
 }
 
 interface BreadcrumbsProps {
-  items: BreadcrumbItem[];
+  items?: BreadcrumbItem[];
   className?: string;
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
+  const location = useLocation();
+
+  // If items are not provided, resolve dynamically from the current location
+  const resolvedItems: BreadcrumbItem[] = items || (() => {
+    const meta = resolveBreadcrumbs(location.pathname, location.search);
+    if (!meta) return [];
+    return meta.crumbs.map(c => ({ label: c.label, href: c.href }));
+  })();
+
+  if (resolvedItems.length === 0) {
+    return null;
+  }
+
   // Generate structured data for Google Search BreadcrumbList schema
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -24,7 +38,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' 
         name: 'Home',
         item: 'https://www.catalystlab.tech/',
       },
-      ...items.map((item, idx) => ({
+      ...resolvedItems.map((item, idx) => ({
         '@type': 'ListItem',
         position: idx + 2,
         name: item.label,
@@ -36,7 +50,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' 
   return (
     <nav 
       aria-label="Breadcrumb" 
-      className={`flex items-center text-xs text-[#64748b] ${className}`}
+      className={`flex items-center text-sm text-[#64748b] ${className}`}
     >
       <script
         type="application/ld+json"
@@ -49,13 +63,13 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' 
             className="flex items-center gap-1 text-[#64748b] hover:text-[#0b192c] transition-colors font-medium"
             title="CatalystLab Home"
           >
-            <Home className="h-3 w-3" />
+            <Home className="h-3.5 w-3.5" />
             <span className="sr-only">Home</span>
           </Link>
         </li>
 
-        {items.map((item, index) => {
-          const isLast = index === items.length - 1;
+        {resolvedItems.map((item, index) => {
+          const isLast = index === resolvedItems.length - 1;
           return (
             <li key={index} className="flex items-center gap-1.5">
               <ChevronRight className="h-3 w-3 text-[#94a3b8] shrink-0" aria-hidden="true" />

@@ -102,14 +102,14 @@ export const ApiDocsPage: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl space-y-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b192c] px-3 py-1 text-xs font-bold text-[#38bdf8]">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b192c] px-3 py-1 text-sm font-bold text-[#38bdf8]">
                   <Terminal className="h-3.5 w-3.5" />
                   REST API v2.4.0
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#e2e8f0] px-3 py-1 text-xs font-semibold text-[#415a77]">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#e2e8f0] px-3 py-1 text-sm font-semibold text-[#415a77]">
                   OpenAPI 3.1 Specification
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800">
+                <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-sm font-bold text-green-800">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Zero-Mock Production Verified
                 </span>
@@ -130,7 +130,7 @@ export const ApiDocsPage: React.FC = () => {
                   const el = document.getElementById('api-playground-section');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-xs font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238]"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-sm font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238]"
               >
                 <Play className="h-4 w-4" />
                 <span>Open API Playground</span>
@@ -139,7 +139,7 @@ export const ApiDocsPage: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={downloadOpenApi}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-xs font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition"
                 >
                   <Download className="h-3.5 w-3.5 text-[#3b82f6]" />
                   <span>OpenAPI Spec</span>
@@ -147,7 +147,7 @@ export const ApiDocsPage: React.FC = () => {
 
                 <button
                   onClick={downloadPostman}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-xs font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition"
                 >
                   <FileJson className="h-3.5 w-3.5 text-[#f97316]" />
                   <span>Postman v2.1</span>
@@ -171,7 +171,7 @@ export const ApiDocsPage: React.FC = () => {
                 <Zap className="h-5 w-5 text-[#38bdf8]" />
                 Interactive API Playground & Verification Sandbox
               </h2>
-              <p className="text-xs text-[#415a77]">
+              <p className="text-sm text-[#415a77]">
                 Execute live HTTP requests against local or production sandboxes and inspect real response headers, timing, and schemas.
               </p>
             </div>
@@ -193,7 +193,7 @@ export const ApiDocsPage: React.FC = () => {
                 <Layers className="h-5 w-5 text-[#3b82f6]" />
                 Complete Endpoint Reference Catalog
               </h2>
-              <p className="text-xs text-[#415a77]">
+              <p className="text-sm text-[#415a77]">
                 Browse comprehensive request parameters, expected response schemas, and multi-language code snippets.
               </p>
             </div>
@@ -206,7 +206,7 @@ export const ApiDocsPage: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search endpoints, tags, or paths..."
-                className="w-full rounded-xl border border-[#cbd5e1] bg-white py-2 pl-9 pr-4 text-xs font-semibold text-[#0b192c] shadow-sm focus:border-[#38bdf8] focus:outline-none"
+                className="w-full rounded-xl border border-[#cbd5e1] bg-white py-2 pl-9 pr-4 text-sm font-semibold text-[#0b192c] shadow-sm focus:border-[#38bdf8] focus:outline-none"
               />
             </div>
           </div>
@@ -215,7 +215,7 @@ export const ApiDocsPage: React.FC = () => {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedCategory('All')}
-              className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full px-4 py-1.5 text-sm font-bold transition ${
                 selectedCategory === 'All'
                   ? 'bg-[#0b192c] text-white shadow-sm'
                   : 'bg-white border border-[#e2e8f0] text-[#415a77] hover:bg-[#f8fafc]'
@@ -230,7 +230,7 @@ export const ApiDocsPage: React.FC = () => {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+                  className={`rounded-full px-3.5 py-1.5 text-sm font-bold transition ${
                     selectedCategory === category
                       ? 'bg-[#0b192c] text-white shadow-sm'
                       : 'bg-white border border-[#e2e8f0] text-[#415a77] hover:bg-[#f8fafc]'
@@ -263,7 +263,7 @@ export const ApiDocsPage: React.FC = () => {
                     className="flex flex-wrap items-center justify-between gap-4 p-5 cursor-pointer select-none"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <span className={`rounded-lg px-2.5 py-1 text-xs font-mono font-bold uppercase text-white shadow-sm ${
+                      <span className={`rounded-lg px-2.5 py-1 text-sm font-mono font-bold uppercase text-white shadow-sm ${
                         ep.method === 'POST' ? 'bg-[#3b82f6]' :
                         ep.method === 'GET' ? 'bg-[#10b981]' :
                         ep.method === 'DELETE' ? 'bg-[#ef4444]' : 'bg-[#f59e0b]'
@@ -271,17 +271,17 @@ export const ApiDocsPage: React.FC = () => {
                         {ep.method}
                       </span>
 
-                      <span className="font-mono text-sm font-bold text-[#0b192c] truncate">
+                      <span className="font-mono text-base font-bold text-[#0b192c] truncate">
                         {ep.path}
                       </span>
 
-                      <span className="hidden md:inline-block text-xs text-[#64748b] truncate">
+                      <span className="hidden md:inline-block text-sm text-[#64748b] truncate">
                         — {ep.summary}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <span className="hidden sm:inline-block rounded-md bg-[#f1f5f9] px-2.5 py-1 text-[11px] font-semibold text-[#415a77]">
+                      <span className="hidden sm:inline-block rounded-md bg-[#f1f5f9] px-2.5 py-1 text-sm font-semibold text-[#415a77]">
                         {ep.category}
                       </span>
 
@@ -290,7 +290,7 @@ export const ApiDocsPage: React.FC = () => {
                           e.stopPropagation();
                           scrollToPlayground(ep.id);
                         }}
-                        className="flex items-center gap-1 rounded-lg border border-[#e2e8f0] bg-white px-2.5 py-1 text-xs font-bold text-[#0b192c] hover:bg-[#0b192c] hover:text-[#38bdf8] transition shadow-sm"
+                        className="flex items-center gap-1 rounded-lg border border-[#e2e8f0] bg-white px-2.5 py-1 text-sm font-bold text-[#0b192c] hover:bg-[#0b192c] hover:text-[#38bdf8] transition shadow-sm"
                         title="Test in Playground"
                       >
                         <Play className="h-3 w-3" />
@@ -311,11 +311,11 @@ export const ApiDocsPage: React.FC = () => {
                       
                       {/* Description & Rate Limit info */}
                       <div className="space-y-2">
-                        <p className="text-sm text-[#0b192c] leading-relaxed">
+                        <p className="text-base text-[#0b192c] leading-relaxed">
                           {ep.description}
                         </p>
                         
-                        <div className="flex flex-wrap gap-2 text-xs">
+                        <div className="flex flex-wrap gap-2 text-sm">
                           <div className="rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-[#415a77]">
                             <strong className="text-[#0b192c]">Authentication:</strong> {ep.auth}
                           </div>
@@ -323,7 +323,7 @@ export const ApiDocsPage: React.FC = () => {
                             <strong className="text-[#0b192c]">Rate Limiting:</strong> {ep.rateLimit}
                           </div>
                           {ep.tags.map(t => (
-                            <span key={t} className="rounded-lg bg-[#e2e8f0]/60 px-2.5 py-1.5 text-[11px] font-mono text-[#415a77]">
+                            <span key={t} className="rounded-lg bg-[#e2e8f0]/60 px-2.5 py-1.5 text-sm font-mono text-[#415a77]">
                               #{t}
                             </span>
                           ))}
@@ -333,11 +333,11 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Request Parameters (Path & Query) */}
                       {ep.parameters && ep.parameters.length > 0 && (
                         <div className="space-y-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-[#415a77]">
+                          <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
                             Request Parameters
                           </h4>
                           <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white">
-                            <table className="w-full text-left text-xs">
+                            <table className="w-full text-left text-sm">
                               <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77]">
                                 <tr>
                                   <th className="px-4 py-2 font-bold">Parameter</th>
@@ -372,10 +372,10 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Request Body Specification */}
                       {ep.requestBody && (
                         <div className="space-y-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-[#415a77]">
+                          <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
                             Request Body Schema ({ep.requestBody.contentType})
                           </h4>
-                          <div className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-4 text-xs font-mono text-[#38bdf8]">
+                          <div className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-4 text-sm font-mono text-[#38bdf8]">
                             <pre>{JSON.stringify(ep.requestBody.defaultPayload, null, 2)}</pre>
                           </div>
                         </div>
@@ -383,14 +383,14 @@ export const ApiDocsPage: React.FC = () => {
 
                       {/* Expected Response Schemas (200, 400, 429) */}
                       <div className="space-y-3">
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-[#415a77]">
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
                           Response Schemas & Examples
                         </h4>
                         
                         <div className="space-y-3">
                           {ep.responses.map((resp) => (
                             <div key={resp.status} className="rounded-xl border border-[#e2e8f0] bg-white overflow-hidden">
-                              <div className="flex items-center justify-between border-b border-[#e2e8f0] bg-[#f8fafc] px-4 py-2 text-xs">
+                              <div className="flex items-center justify-between border-b border-[#e2e8f0] bg-[#f8fafc] px-4 py-2 text-sm">
                                 <div className="flex items-center gap-2">
                                   <span className={`font-mono font-bold rounded-md px-2 py-0.5 ${
                                     resp.status === 200 || resp.status === 201 ? 'bg-green-100 text-green-800' :
@@ -402,13 +402,13 @@ export const ApiDocsPage: React.FC = () => {
                                 </div>
                                 <button
                                   onClick={() => handleCopy(`${ep.id}-${resp.status}`, JSON.stringify(resp.example, null, 2))}
-                                  className="text-[#3b82f6] hover:underline flex items-center gap-1 text-[11px]"
+                                  className="text-[#3b82f6] hover:underline flex items-center gap-1 text-sm"
                                 >
                                   {copiedMap[`${ep.id}-${resp.status}`] ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
                                   <span>{copiedMap[`${ep.id}-${resp.status}`] ? 'Copied' : 'Copy JSON'}</span>
                                 </button>
                               </div>
-                              <pre className="p-4 font-mono text-xs text-[#0b192c] bg-white overflow-x-auto max-h-64">
+                              <pre className="p-4 font-mono text-sm text-[#0b192c] bg-white overflow-x-auto max-h-64">
                                 <code>{JSON.stringify(resp.example, null, 2)}</code>
                               </pre>
                             </div>
@@ -419,34 +419,34 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Multi-Language Code Snippets */}
                       <div className="space-y-3 pt-2">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-[#415a77]">
+                          <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
                             Client Implementation Snippet
                           </h4>
 
-                          <div className="flex items-center gap-1 rounded-lg border border-[#e2e8f0] bg-[#f1f5f9] p-1">
-                            {(['curl', 'javascript', 'python', 'go', 'rust', 'php'] as const).map((l) => (
-                              <button
-                                key={l}
-                                onClick={() => setActiveCodeTab(prev => ({ ...prev, [ep.id]: l }))}
-                                className={`rounded-md px-2 py-0.5 text-[11px] font-bold uppercase transition ${
-                                  lang === l
-                                    ? 'bg-[#0b192c] text-[#38bdf8] shadow-sm'
-                                    : 'text-[#415a77] hover:text-[#0b192c]'
-                                }`}
-                              >
-                                {l}
-                              </button>
-                            ))}
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-[#64748b] font-medium">Format:</span>
+                            <select
+                              value={lang}
+                              onChange={(e) => setActiveCodeTab(prev => ({ ...prev, [ep.id]: e.target.value as any }))}
+                              className="rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-xs font-semibold text-[#0b192c] focus:border-[#38bdf8] focus:outline-none"
+                            >
+                              <option value="curl">cURL</option>
+                              <option value="javascript">JavaScript / Node.js</option>
+                              <option value="python">Python</option>
+                              <option value="go">Go</option>
+                              <option value="rust">Rust</option>
+                              <option value="php">PHP</option>
+                            </select>
                           </div>
                         </div>
 
                         <div className="relative">
-                          <pre className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-4 font-mono text-xs text-[#38bdf8] overflow-x-auto selection:bg-[#38bdf8]/30">
+                          <pre className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-4 font-mono text-sm text-[#38bdf8] overflow-x-auto selection:bg-[#38bdf8]/30">
                             <code>{generateCodeSnippet(ep, lang)}</code>
                           </pre>
                           <button
                             onClick={() => handleCopy(`${ep.id}-code`, generateCodeSnippet(ep, lang))}
-                            className="absolute top-3 right-3 rounded-lg border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-xs text-[#38bdf8] hover:bg-[#1f314d] transition flex items-center gap-1"
+                            className="absolute top-3 right-3 rounded-lg border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-sm text-[#38bdf8] hover:bg-[#1f314d] transition flex items-center gap-1"
                           >
                             {copiedMap[`${ep.id}-code`] ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
                             <span>{copiedMap[`${ep.id}-code`] ? 'Copied' : 'Copy'}</span>
@@ -476,15 +476,15 @@ export const ApiDocsPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-base font-bold text-[#0b192c]">Sliding Rate Limiter & Quota Tiers</h3>
-                <p className="text-xs text-[#415a77]">High-precision sliding window enforcement</p>
+                <p className="text-sm text-[#415a77]">High-precision sliding window enforcement</p>
               </div>
             </div>
 
-            <p className="text-xs text-[#415a77] leading-relaxed">
+            <p className="text-sm text-[#415a77] leading-relaxed">
               CatalystLab protects infrastructure using sliding token bucket rate limits per client IP or authenticated Firebase UID. Daily quotas reset at 00:00:00 UTC.
             </p>
 
-            <div className="space-y-2 text-xs">
+            <div className="space-y-2 text-sm">
               <div className="flex items-center justify-between rounded-lg bg-[#f8fafc] p-2.5 font-mono">
                 <span className="font-semibold text-[#0b192c]">Anonymous Visitor</span>
                 <span className="text-[#3b82f6]">5 audits / day</span>
@@ -508,15 +508,15 @@ export const ApiDocsPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-base font-bold text-[#0b192c]">OWASP Security & Response Headers</h3>
-                <p className="text-xs text-[#415a77]">Enterprise telemetry security posture</p>
+                <p className="text-sm text-[#415a77]">Enterprise telemetry security posture</p>
               </div>
             </div>
 
-            <p className="text-xs text-[#415a77] leading-relaxed">
+            <p className="text-sm text-[#415a77] leading-relaxed">
               Every API gateway response enforces strict transport security, anti-sniffing, and frame ancestor validation headers.
             </p>
 
-            <div className="space-y-2 text-xs font-mono">
+            <div className="space-y-2 text-sm font-mono">
               <div className="rounded-lg bg-[#0b192c] p-2 text-[#38bdf8]">
                 Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
               </div>

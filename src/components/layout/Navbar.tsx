@@ -2,35 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
-  LogOut, 
-  LogIn, 
   ChevronDown, 
   FileText,
-  Search,
-  Command
+  Menu,
+  ShieldCheck,
+  GitBranch,
+  Terminal,
+  Leaf,
+  Activity,
+  Globe,
+  Cpu,
+  Sparkles
 } from 'lucide-react';
 import { MainMenuOverlay } from './MainMenuOverlay';
-import { GlobalSearchModal } from '../common/GlobalSearchModal';
+import { NavbarSearch } from './NavbarSearch';
 import { BrandLogo } from '../common/BrandLogo';
-import { CustomIconShieldAlt } from '../common/CustomSvgs';
 
 export const Navbar: React.FC = () => {
-  const { user, login, logout, loading, isAdmin } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [menuOverlayOpen, setMenuOverlayOpen] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
-  // Listen for Cmd+K / Ctrl+K shortcut globally
+  // Listen for scroll to toggle header background & text color
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setSearchModalOpen(true);
+    const handleScroll = () => {
+      if (window.scrollY > 40) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const isActive = (path: string) => {
@@ -48,7 +54,11 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-[#e2e8f0] bg-[#f8fafc]/95 backdrop-blur-md">
+      <header className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm text-gray-900' 
+          : 'bg-[#0b192c]/90 backdrop-blur-xl border-b border-[#415a77]/40 shadow-[0_4px_30px_rgba(11,25,44,0.4)] text-white'
+      }`}>
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           
           {/* Zone 1: Brand Title */}
@@ -58,7 +68,7 @@ export const Navbar: React.FC = () => {
               className="transition-opacity hover:opacity-90 shrink-0"
               aria-label="CatalystLab Home"
             >
-              <BrandLogo size="md" darkText={true} />
+              <BrandLogo size="md" darkText={isScrolled} />
             </Link>
           </div>
 
@@ -68,64 +78,91 @@ export const Navbar: React.FC = () => {
               to="/"
               className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all ${
                 isActive('/') 
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
+                  ? (isScrolled ? 'text-[#0b192c] font-bold bg-gray-100' : 'text-white font-bold bg-[#415a77]/40') 
+                  : (isScrolled ? 'text-gray-700 hover:text-[#0b192c] hover:bg-gray-100' : 'text-[#c5d3e8] hover:text-white hover:bg-[#415a77]/20')
               }`}
             >
               Home
             </Link>
 
-            <Link
-              to="/pricing"
-              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all ${
-                isActive('/pricing') 
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
-              }`}
-            >
-              Pricing
-            </Link>
+            {/* Services Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setServicesOpen(!servicesOpen)}
+                onBlur={() => setTimeout(() => setServicesOpen(false), 200)}
+                className={`flex items-center gap-1 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all cursor-pointer ${
+                  isScrolled ? 'text-gray-700 hover:text-[#0b192c] hover:bg-gray-100' : 'text-[#c5d3e8] hover:bg-[#415a77]/20 hover:text-white'
+                }`}
+              >
+                <span>Services</span>
+                <ChevronDown className={`h-3.5 w-3.5 ${isScrolled ? 'text-gray-500' : 'text-[#c5d3e8]'}`} />
+              </button>
+              {servicesOpen && (
+                <div className="absolute left-0 mt-2 w-44 rounded-xl border border-gray-200 bg-white p-1.5 shadow-xl z-50 text-gray-900">
+                  <Link
+                    to="/pricing"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                  >
+                    Pricing
+                  </Link>
+                  <Link
+                    to="/products"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                  >
+                    Products
+                  </Link>
+                </div>
+              )}
+            </div>
 
-            <Link
-              to="/docs"
-              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all ${
-                isActive('/docs') 
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
-              }`}
-            >
-              Docs
-            </Link>
-
-            <Link
-              to="/api-docs"
-              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all flex items-center gap-1 ${
-                isActive('/api-docs') || isActive('/api-reference') || isActive('/playground')
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
-              }`}
-            >
-              <span>API Reference</span>
-              <span className="rounded bg-[#38bdf8]/20 px-1 py-0.2 text-[10px] font-mono text-[#0b192c]">v2.4</span>
-            </Link>
-
-            <Link
-              to="/blogs"
-              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all ${
-                isActive('/blogs') || location.pathname.startsWith('/blog/') || location.pathname.startsWith('/blogs/')
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
-              }`}
-            >
-              Blogs
-            </Link>
+            {/* Resources Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setResourcesOpen(!resourcesOpen)}
+                onBlur={() => setTimeout(() => setResourcesOpen(false), 200)}
+                className={`flex items-center gap-1 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all cursor-pointer ${
+                  isScrolled ? 'text-gray-700 hover:text-[#0b192c] hover:bg-gray-100' : 'text-[#c5d3e8] hover:bg-[#415a77]/20 hover:text-white'
+                }`}
+              >
+                <span>Resources</span>
+                <ChevronDown className={`h-3.5 w-3.5 ${isScrolled ? 'text-gray-500' : 'text-[#c5d3e8]'}`} />
+              </button>
+              {resourcesOpen && (
+                <div className="absolute left-0 mt-2 w-48 rounded-xl border border-gray-200 bg-white p-1.5 shadow-xl z-50 text-gray-900">
+                  <Link
+                    to="/docs"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                  >
+                    Docs
+                  </Link>
+                  <Link
+                    to="/api-reference"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                  >
+                    API Reference
+                  </Link>
+                  <Link
+                    to="/playground"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                  >
+                    Playground
+                  </Link>
+                  <Link
+                    to="/blogs"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                  >
+                    Blogs
+                  </Link>
+                </div>
+              )}
+            </div>
 
             <Link
               to="/about"
               className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all ${
                 isActive('/about') 
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
+                  ? (isScrolled ? 'text-[#0b192c] font-bold bg-gray-100' : 'text-white font-bold bg-[#415a77]/40') 
+                  : (isScrolled ? 'text-gray-700 hover:text-[#0b192c] hover:bg-gray-100' : 'text-[#c5d3e8] hover:text-white hover:bg-[#415a77]/20')
               }`}
             >
               About Us
@@ -135,100 +172,11 @@ export const Navbar: React.FC = () => {
               to="/contact"
               className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all ${
                 isActive('/contact') 
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
+                  ? (isScrolled ? 'text-[#0b192c] font-bold bg-gray-100' : 'text-white font-bold bg-[#415a77]/40') 
+                  : (isScrolled ? 'text-gray-700 hover:text-[#0b192c] hover:bg-gray-100' : 'text-[#c5d3e8] hover:text-white hover:bg-[#415a77]/20')
               }`}
             >
               Contact
-            </Link>
-
-            {/* Engines Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setProductsOpen(!productsOpen)}
-                onBlur={() => setTimeout(() => setProductsOpen(false), 200)}
-                className="flex items-center gap-1 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold text-[#415a77] transition-all hover:bg-[#e2e8f0]/60 hover:text-[#0b192c]"
-              >
-                <span>Engines</span>
-                <ChevronDown className="h-3.5 w-3.5 text-[#415a77]" />
-              </button>
-
-              {productsOpen && (
-                <div className="absolute left-0 mt-2 w-64 rounded-xl border border-[#415a77]/30 bg-[#0b192c] p-2 shadow-2xl backdrop-blur-lg z-50">
-                  <Link
-                    to="/health"
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[#f8fafc] hover:bg-[#152238]"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#38bdf8]">health_and_safety</span>
-                    <div>
-                      <div className="font-medium text-[#f8fafc]">Website Health</div>
-                      <div className="text-xs text-[#c5d3e8]">DOM & Web Vitals</div>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/ai-readiness"
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[#f8fafc] hover:bg-[#152238]"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#c084fc]">psychology</span>
-                    <div>
-                      <div className="font-medium text-[#f8fafc]">AI Readiness</div>
-                      <div className="text-xs text-[#c5d3e8]">llms.txt & Crawlers</div>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/repo-scanner"
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[#f8fafc] hover:bg-[#152238]"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#4ade80]">inventory_2</span>
-                    <div>
-                      <div className="font-medium text-[#f8fafc]">Repo Hygiene</div>
-                      <div className="text-xs text-[#c5d3e8]">Git Security Audit</div>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/latency"
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[#f8fafc] hover:bg-[#152238]"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#f472b6]">public</span>
-                    <div>
-                      <div className="font-medium text-[#f8fafc]">Edge Latency</div>
-                      <div className="text-xs text-[#c5d3e8]">Global TTFB Radar</div>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/eco-audit"
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[#f8fafc] hover:bg-[#152238]"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#34d399]">eco</span>
-                    <div>
-                      <div className="font-medium text-[#f8fafc]">Eco Carbon</div>
-                      <div className="text-xs text-[#c5d3e8]">Green Hosting & CO2</div>
-                    </div>
-                  </Link>
-                  <Link
-                    to="/compliance"
-                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[#f8fafc] hover:bg-[#152238]"
-                  >
-                    <span className="material-symbols-outlined text-base text-[#fbbf24]">shield</span>
-                    <div>
-                      <div className="font-medium text-[#f8fafc]">Compliance & Risk</div>
-                      <div className="text-xs text-[#c5d3e8]">WCAG & OWASP</div>
-                    </div>
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            <Link
-              to="/reports"
-              className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                isActive('/reports') || location.pathname.startsWith('/reports/') || location.pathname.startsWith('/report/')
-                  ? 'text-[#0b192c] font-bold bg-[#e2e8f0]' 
-                  : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#e2e8f0]/60'
-              }`}
-            >
-              <FileText className="h-4 w-4 text-[#415a77]" />
-              <span>Reports</span>
             </Link>
 
             {/* Admin link ONLY visible to authorized superadmins */}
@@ -237,94 +185,35 @@ export const Navbar: React.FC = () => {
                 to="/admin"
                 className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all flex items-center gap-1.5 ${
                   isActive('/admin') 
-                    ? 'bg-[#0b192c] text-[#f8fafc] font-bold' 
-                    : 'text-[#415a77] hover:bg-[#e2e8f0]/60 hover:text-[#0b192c]'
+                    ? 'bg-[#0b192c] text-white font-bold' 
+                    : (isScrolled ? 'text-gray-700 hover:bg-gray-100 hover:text-[#0b192c]' : 'text-[#c5d3e8] hover:bg-[#415a77]/20 hover:text-white')
                 }`}
               >
-                <CustomIconShieldAlt className="h-4 w-4 text-[#415a77]" />
+                <ShieldCheck className="h-3.5 w-3.5 text-[#38bdf8]" />
                 <span>Admin</span>
               </Link>
             )}
           </nav>
 
-          {/* Zone 3: Global Search + Main Menu Trigger + Auth Controls */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Global Search Trigger Button */}
-            <button
-              onClick={() => setSearchModalOpen(true)}
-              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-2.5 py-1.5 text-xs text-[#64748b] hover:border-[#cbd5e1] hover:text-[#0b192c] transition-all shadow-xs group"
-              aria-label="Search Documentation & Articles"
-              title="Search documentation and articles (Cmd+K / Ctrl+K)"
-            >
-              <Search className="h-3.5 w-3.5 text-[#415a77] group-hover:text-[#0b192c]" />
-              <span className="hidden sm:inline font-medium">Search...</span>
-              <kbd className="hidden md:inline-flex items-center rounded border border-[#e2e8f0] bg-[#f8fafc] px-1.5 py-0.2 text-[10px] font-mono text-[#94a3b8]">
-                ⌘K
-              </kbd>
-            </button>
+          {/* Zone 3: Search Icon and Hamburger Menu */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Inline Expandable Navbar Search with Typing Suggestions */}
+            <NavbarSearch isScrolled={isScrolled} />
 
-            {/* Prominent High-Impact Menu Trigger - Dark Button */}
+            {/* Main Menu Trigger (Hamburger Menu) */}
             <button
+              type="button"
               onClick={() => setMenuOverlayOpen(true)}
-              className="flex items-center justify-center rounded-xl bg-[#0b192c] p-2 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-semibold text-[#f8fafc] transition-all hover:bg-[#1a2d48] hover:text-[#38bdf8] border border-[#415a77]/40 active:scale-95 shadow-sm group"
-              aria-label="Open Full Main Menu"
+              className={`p-2 rounded-lg transition-colors active:scale-95 cursor-pointer flex items-center justify-center ${
+                isScrolled
+                  ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  : 'text-[#c5d3e8] hover:text-white hover:bg-white/10'
+              }`}
+              aria-label="Open Full Navigation Menu"
               title="Open Navigation Menu"
             >
-              <span className="material-symbols-outlined text-[20px] leading-none text-[#f8fafc] group-hover:text-[#38bdf8] transition-colors">
-                menu_open
-              </span>
+              <Menu className="h-4 w-4" />
             </button>
-
-            {loading ? (
-              <div className="h-9 w-20 animate-pulse rounded-lg bg-[#e2e8f0]" />
-            ) : user ? (
-              <div className="flex items-center gap-2">
-                <Link 
-                  to={isAdmin ? "/admin" : "/dashboard"} 
-                  className="hidden sm:flex items-center gap-2 rounded-lg border border-[#415a77]/30 bg-[#0b192c] px-3 py-1.5 text-xs text-[#c5d3e8] transition-colors hover:bg-[#1a2d48] shadow-sm"
-                  title={isAdmin ? "Superadmin Account" : "User Account"}
-                >
-                  {user.photoURL ? (
-                    <img 
-                      src={user.photoURL} 
-                      alt={user.displayName || 'User'} 
-                      className="h-5 w-5 rounded-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <div className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
-                      isAdmin ? 'bg-[#415a77] text-[#f8fafc]' : 'bg-[#152238] text-[#f8fafc]'
-                    }`}>
-                      {(user.displayName || user.email || 'U')[0].toUpperCase()}
-                    </div>
-                  )}
-                  <span className="max-w-[90px] truncate font-medium text-[#f8fafc]">
-                    {user.displayName || user.email?.split('@')[0]}
-                  </span>
-                  {isAdmin && (
-                    <span className="rounded bg-[#415a77]/30 px-1 py-0.2 text-[10px] font-bold text-[#c5d3e8]">
-                      SA
-                    </span>
-                  )}
-                </Link>
-
-                <button
-                  onClick={() => logout()}
-                  className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/30 bg-[#0b192c] px-2.5 py-1.5 text-xs font-medium text-[#c5d3e8] transition-colors hover:border-red-500/50 hover:bg-red-950/30 hover:text-red-300 shadow-sm"
-                  title="Log Out"
-                >
-                  <LogOut className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => login()}
-                className="hidden sm:flex items-center gap-1.5 rounded-lg bg-[#0b192c] px-3.5 py-1.5 text-xs font-semibold text-[#f8fafc] transition-colors hover:bg-[#1a2d48] border border-[#415a77]/40 shadow-sm"
-              >
-                <LogIn className="h-3.5 w-3.5 text-[#c5d3e8]" />
-                <span>Log In</span>
-              </button>
-            )}
           </div>
         </div>
       </header>
@@ -334,13 +223,8 @@ export const Navbar: React.FC = () => {
         isOpen={menuOverlayOpen} 
         onClose={() => setMenuOverlayOpen(false)} 
       />
-
-      {/* Global Site Search Modal */}
-      <GlobalSearchModal
-        isOpen={searchModalOpen}
-        onClose={() => setSearchModalOpen(false)}
-      />
     </>
   );
 };
 
+export default Navbar;

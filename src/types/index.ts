@@ -1,4 +1,4 @@
-export type EngineType = 
+export type CoreEngineType = 
   | 'master-audit'
   | 'health' 
   | 'latency' 
@@ -8,6 +8,18 @@ export type EngineType =
   | 'compliance' 
   | 'migration' 
   | 'llmo';
+
+export type SdlcCatalystType =
+  | 'planning_arch'
+  | 'code_quality'
+  | 'build_eco'
+  | 'testing_vitals'
+  | 'release_edge'
+  | 'devsecops_compliance'
+  | 'operations_ai_ready'
+  | 'evolution_llmo';
+
+export type EngineType = CoreEngineType | SdlcCatalystType;
 
 export interface AuditReport {
   id?: string;
@@ -32,6 +44,13 @@ export interface EngineRecommendation {
 export interface EngineMeta {
   id: EngineType;
   name: string;
+  shortCode?: string;
+  catalystName?: string;
+  sdlcPhase: string;
+  sdlcPhaseNumber: number;
+  lifecycleFocus?: string;
+  departmentReplaced?: string;
+  expertCountReplaced?: number;
   category: 'Core' | 'Developer & AI' | 'Enterprise';
   icon: string;
   color: string;
@@ -40,7 +59,10 @@ export interface EngineMeta {
   pythonScript: string;
   route: string;
   docsAnchor?: string;
+  image?: string;
   keyVectors?: string[];
+  stateOfTheArtCapabilities?: string[];
+  autonomousActions?: string[];
   sampleTargets?: string[];
   recommendedEngines?: EngineRecommendation[];
   relevantBlogSlugs?: string[];
@@ -188,5 +210,17 @@ export interface RateLimitThresholdAlertInfo {
   isUnlimited: boolean;
   burstRemaining?: number;
   isBurstExceeded?: boolean;
+}
+
+export interface ContactInquiry {
+  id?: string;
+  email: string;
+  name?: string;
+  message?: string;
+  source?: string;
+  company?: string;
+  status?: 'new' | 'contacted' | 'resolved' | 'archived';
+  createdAt: number;
+  ownerId?: string;
 }
 

@@ -513,11 +513,11 @@ func main() {
                   <h1 className="text-xl sm:text-2xl font-bold text-[#0b192c]">
                     Engine Test Playground
                   </h1>
-                  <span className="rounded-md bg-[#0b192c]/5 border border-[#0b192c]/10 px-2 py-0.5 text-[11px] font-mono font-bold text-[#0b192c]">
+                  <span className="rounded-md bg-[#0b192c]/5 border border-[#0b192c]/10 px-2 py-0.5 text-sm font-mono font-bold text-[#0b192c]">
                     {endpointPath}
                   </span>
                 </div>
-                <p className="text-xs text-[#415a77] mt-0.5">
+                <p className="text-sm text-[#415a77] mt-0.5">
                   Interactive REST test harness for single diagnostic engines and composite master audits.
                 </p>
               </div>
@@ -527,7 +527,7 @@ func main() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors"
               >
                 <Key className="h-4 w-4 text-amber-500" />
                 <span>API Keys & White-Label</span>
@@ -535,7 +535,7 @@ func main() {
               
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-3.5 py-2 text-xs font-semibold text-[#415a77] hover:bg-[#f8fafc] transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-3.5 py-2 text-sm font-semibold text-[#415a77] hover:bg-[#f8fafc] transition-colors"
               >
                 <FileJson className="h-4 w-4 text-blue-600" />
                 <span>OpenAPI Docs</span>
@@ -564,7 +564,7 @@ func main() {
               <button
                 key={eng.id}
                 onClick={() => handleEngineChange(eng.id)}
-                className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold whitespace-nowrap transition-all border shrink-0 ${
+                className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-bold whitespace-nowrap transition-all border shrink-0 ${
                   isSelected
                     ? 'border-[#0b192c] bg-[#0b192c] text-white shadow-md'
                     : 'border-[#e2e8f0] bg-white text-[#415a77] hover:bg-[#f1f5f9] hover:border-[#cbd5e1]'
@@ -574,7 +574,7 @@ func main() {
                   eng.id === 'master' ? 'bg-amber-400' : 'bg-emerald-400'
                 }`} />
                 <span>{eng.name}</span>
-                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md ${
+                <span className={`text-xs font-mono px-1.5 py-0.5 rounded-md ${
                   isSelected ? 'bg-white/20 text-white' : 'bg-[#f1f5f9] text-[#64748b]'
                 }`}>
                   {eng.cost} {eng.cost === 1 ? 'unit' : 'units'}
@@ -596,7 +596,7 @@ func main() {
               <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-3">
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal className="h-4 w-4 text-[#0b192c]" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#0b192c]">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-[#0b192c]">
                     Request Payload Builder
                   </h3>
                 </div>
@@ -604,7 +604,7 @@ func main() {
                 <div className="flex items-center gap-1 bg-[#f1f5f9] p-0.5 rounded-lg border border-[#e2e8f0]">
                   <button
                     onClick={() => setBuilderMode('visual')}
-                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors ${
+                    className={`px-2.5 py-1 text-sm font-bold rounded-md transition-colors ${
                       builderMode === 'visual'
                         ? 'bg-white text-[#0b192c] shadow-xs'
                         : 'text-[#64748b] hover:text-[#0b192c]'
@@ -614,7 +614,7 @@ func main() {
                   </button>
                   <button
                     onClick={() => setBuilderMode('json')}
-                    className={`px-2.5 py-1 text-[11px] font-bold rounded-md transition-colors ${
+                    className={`px-2.5 py-1 text-sm font-bold rounded-md transition-colors ${
                       builderMode === 'json'
                         ? 'bg-white text-[#0b192c] shadow-xs'
                         : 'text-[#64748b] hover:text-[#0b192c]'
@@ -626,17 +626,17 @@ func main() {
               </div>
 
               {/* Endpoint Banner Info */}
-              <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-3 text-xs space-y-1">
+              <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-3 text-sm space-y-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 font-bold text-[#0b192c]">
-                    <span className="rounded bg-blue-600 px-1.5 py-0.5 text-[10px] font-mono text-white">POST</span>
+                    <span className="rounded bg-blue-600 px-1.5 py-0.5 text-xs font-mono text-white">POST</span>
                     <span>{endpointPath}</span>
                   </div>
-                  <span className="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
+                  <span className="text-sm font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
                     Cost: {activeEngine.cost} Unit
                   </span>
                 </div>
-                <p className="text-[11px] text-[#64748b] leading-relaxed">
+                <p className="text-sm text-[#64748b] leading-relaxed">
                   {activeEngine.description}
                 </p>
               </div>
@@ -647,7 +647,7 @@ func main() {
                   
                   {/* Target URL Input */}
                   <div>
-                    <label className="block text-xs font-bold text-[#0b192c] mb-1">
+                    <label className="block text-sm font-bold text-[#0b192c] mb-1">
                       Target Domain / URL <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
@@ -657,7 +657,7 @@ func main() {
                         value={targetUrl}
                         onChange={(e) => setTargetUrl(e.target.value)}
                         placeholder="https://example.com"
-                        className="w-full rounded-xl border border-[#cbd5e1] pl-9 pr-3 py-2 text-xs font-mono text-[#0b192c] focus:border-[#0b192c] focus:outline-none"
+                        className="w-full rounded-xl border border-[#cbd5e1] pl-9 pr-3 py-2 text-sm font-mono text-[#0b192c] focus:border-[#0b192c] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -665,13 +665,13 @@ func main() {
                   {/* Engine Parameter (if single engine) */}
                   {!isMaster && (
                     <div>
-                      <label className="block text-xs font-bold text-[#0b192c] mb-1">
+                      <label className="block text-sm font-bold text-[#0b192c] mb-1">
                         Diagnostic Engine
                       </label>
                       <select
                         value={selectedEngineId}
                         onChange={(e) => handleEngineChange(e.target.value)}
-                        className="w-full rounded-xl border border-[#cbd5e1] px-3 py-2 text-xs text-[#0b192c] focus:outline-none"
+                        className="w-full rounded-xl border border-[#cbd5e1] px-3 py-2 text-sm text-[#0b192c] focus:outline-none"
                       >
                         {ENGINE_OPTIONS.filter(e => e.id !== 'master').map((opt) => (
                           <option key={opt.id} value={opt.id}>
@@ -685,7 +685,7 @@ func main() {
                   {/* Region selection for Latency / Master */}
                   {(selectedEngineId === 'latency' || isMaster) && (
                     <div>
-                      <label className="block text-xs font-bold text-[#0b192c] mb-1.5">
+                      <label className="block text-sm font-bold text-[#0b192c] mb-1.5">
                         Global Edge PoP Regions
                       </label>
                       <div className="grid grid-cols-3 gap-2">
@@ -707,7 +707,7 @@ func main() {
                                   active ? prev.filter(r => r !== reg.id) : [...prev, reg.id]
                                 );
                               }}
-                              className={`rounded-lg border px-2 py-1.5 text-[11px] font-mono text-center transition-colors ${
+                              className={`rounded-lg border px-2 py-1.5 text-sm font-mono text-center transition-colors ${
                                 active
                                   ? 'border-blue-600 bg-blue-50 text-blue-800 font-bold'
                                   : 'border-[#e2e8f0] bg-[#f8fafc] text-[#64748b]'
@@ -724,8 +724,8 @@ func main() {
                   {/* Force Fresh Cache Bypass */}
                   <div className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
                     <div>
-                      <div className="text-xs font-bold text-[#0b192c]">Bypass Server Cache (forceFresh)</div>
-                      <div className="text-[10px] text-[#64748b]">Forces a live DNS/HTTP probe bypass</div>
+                      <div className="text-sm font-bold text-[#0b192c]">Bypass Server Cache (forceFresh)</div>
+                      <div className="text-xs text-[#64748b]">Forces a live DNS/HTTP probe bypass</div>
                     </div>
                     <input
                       type="checkbox"
@@ -737,7 +737,7 @@ func main() {
 
                   {/* White-Label Custom Header Header */}
                   <div>
-                    <label className="block text-xs font-bold text-[#0b192c] mb-1">
+                    <label className="block text-sm font-bold text-[#0b192c] mb-1">
                       White-Label Custom Brand Tag
                     </label>
                     <input
@@ -745,7 +745,7 @@ func main() {
                       placeholder="e.g. Acme Telemetry Enterprise"
                       value={customBrandHeader}
                       onChange={(e) => setCustomBrandHeader(e.target.value)}
-                      className="w-full rounded-xl border border-[#cbd5e1] px-3 py-1.5 text-xs text-[#0b192c]"
+                      className="w-full rounded-xl border border-[#cbd5e1] px-3 py-1.5 text-sm text-[#0b192c]"
                     />
                   </div>
 
@@ -753,7 +753,7 @@ func main() {
               ) : (
                 /* RAW JSON EDITOR */
                 <div>
-                  <div className="flex items-center justify-between text-xs text-[#64748b] mb-1.5 font-mono">
+                  <div className="flex items-center justify-between text-sm text-[#64748b] mb-1.5 font-mono">
                     <span>payload.json</span>
                     <button
                       type="button"
@@ -763,7 +763,7 @@ func main() {
                           setRawJsonPayload(JSON.stringify(parsed, null, 2));
                         } catch {}
                       }}
-                      className="text-blue-600 hover:underline text-[11px]"
+                      className="text-blue-600 hover:underline text-sm"
                     >
                       Prettify JSON
                     </button>
@@ -772,7 +772,7 @@ func main() {
                     rows={9}
                     value={rawJsonPayload}
                     onChange={(e) => setRawJsonPayload(e.target.value)}
-                    className="w-full rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-3 text-xs font-mono text-emerald-400 focus:outline-none focus:border-blue-500"
+                    className="w-full rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-3 text-sm font-mono text-emerald-400 focus:outline-none focus:border-blue-500"
                     placeholder="{\n  &quot;engine&quot;: &quot;health&quot;,\n  &quot;url&quot;: &quot;https://example.com&quot;\n}"
                   />
                 </div>
@@ -781,11 +781,11 @@ func main() {
               {/* AUTHENTICATION & HEADER ACCORDION */}
               <div className="border-t border-[#f1f5f9] pt-3.5 space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#0b192c]">
+                  <div className="flex items-center gap-1.5 text-sm font-bold text-[#0b192c]">
                     <Key className="h-3.5 w-3.5 text-amber-500" />
                     <span>Authentication Headers</span>
                   </div>
-                  <div className="flex items-center gap-1 text-[11px]">
+                  <div className="flex items-center gap-1 text-sm">
                     <button
                       type="button"
                       onClick={() => setAuthMode('session')}
@@ -809,7 +809,7 @@ func main() {
                       <select
                         value={selectedApiKey}
                         onChange={(e) => setSelectedApiKey(e.target.value)}
-                        className="w-full rounded-xl border border-[#cbd5e1] px-3 py-1.5 text-xs font-mono text-[#0b192c]"
+                        className="w-full rounded-xl border border-[#cbd5e1] px-3 py-1.5 text-sm font-mono text-[#0b192c]"
                       >
                         {userApiKeys.map((k) => (
                           <option key={k.id} value={k.keyPrefix.replace('...', '')}>
@@ -818,7 +818,7 @@ func main() {
                         ))}
                       </select>
                     ) : (
-                      <div className="flex items-center justify-between rounded-xl bg-amber-50 border border-amber-200 p-2.5 text-xs text-amber-900">
+                      <div className="flex items-center justify-between rounded-xl bg-amber-50 border border-amber-200 p-2.5 text-sm text-amber-900">
                         <span>No saved keys found.</span>
                         <Link to="/user-dashboard?tab=api-keys" className="font-bold underline">
                           Generate Key
@@ -827,7 +827,7 @@ func main() {
                     )}
                   </div>
                 ) : (
-                  <div className="text-[11px] text-[#64748b]">
+                  <div className="text-sm text-[#64748b]">
                     Executing under active user context: <strong className="text-[#0b192c]">{user?.email || 'Anonymous Client'}</strong> ({rateStatus.tierLabel})
                   </div>
                 )}
@@ -839,7 +839,7 @@ func main() {
                   type="button"
                   onClick={handleRunEngine}
                   disabled={executing || (rateStatus.remaining <= 0 && !isAdmin)}
-                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold text-white shadow-md transition-all active:scale-98 ${
+                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white shadow-md transition-all active:scale-98 ${
                     rateStatus.remaining <= 0 && !isAdmin
                       ? 'bg-rose-600 hover:bg-rose-700 cursor-not-allowed opacity-80'
                       : 'bg-[#0b192c] hover:bg-[#152238]'
@@ -870,13 +870,13 @@ func main() {
             {history.length > 0 && (
               <div className="rounded-2xl border border-[#e2e8f0] bg-white p-4 shadow-sm">
                 <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-2.5 mb-2">
-                  <div className="flex items-center gap-2 text-xs font-bold text-[#0b192c]">
+                  <div className="flex items-center gap-2 text-sm font-bold text-[#0b192c]">
                     <History className="h-3.5 w-3.5 text-[#415a77]" />
                     <span>Recent Session Probes ({history.length})</span>
                   </div>
                   <button
                     onClick={() => setHistory([])}
-                    className="text-[11px] text-[#94a3b8] hover:text-[#0b192c]"
+                    className="text-sm text-[#94a3b8] hover:text-[#0b192c]"
                   >
                     Clear
                   </button>
@@ -887,10 +887,10 @@ func main() {
                     <div
                       key={item.id}
                       onClick={() => handleLoadFromHistory(item)}
-                      className="flex items-center justify-between p-2 rounded-lg hover:bg-[#f8fafc] border border-transparent hover:border-[#e2e8f0] cursor-pointer transition-colors text-xs"
+                      className="flex items-center justify-between p-2 rounded-lg hover:bg-[#f8fafc] border border-transparent hover:border-[#e2e8f0] cursor-pointer transition-colors text-sm"
                     >
                       <div className="flex items-center gap-2 overflow-hidden">
-                        <span className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${
+                        <span className={`text-xs font-mono font-bold px-1.5 py-0.5 rounded ${
                           item.status === 200 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                         }`}>
                           {item.status}
@@ -898,7 +898,7 @@ func main() {
                         <span className="font-semibold text-[#0b192c] truncate">{item.engine}</span>
                       </div>
 
-                      <div className="flex items-center gap-2 shrink-0 font-mono text-[11px] text-[#64748b]">
+                      <div className="flex items-center gap-2 shrink-0 font-mono text-sm text-[#64748b]">
                         <span>{item.latencyMs}ms</span>
                         <RotateCcw className="h-3 w-3 text-[#94a3b8]" />
                       </div>
@@ -920,14 +920,14 @@ func main() {
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5">
                     <Server className="h-4 w-4 text-[#415a77]" />
-                    <span className="text-xs font-bold text-[#0b192c] uppercase tracking-wider">
+                    <span className="text-sm font-bold text-[#0b192c] uppercase tracking-wider">
                       Response Inspector
                     </span>
                   </div>
 
                   {responseStatus !== null && (
                     <div className="flex items-center gap-2 ml-2">
-                      <span className={`rounded-md px-2 py-0.5 text-xs font-mono font-bold ${
+                      <span className={`rounded-md px-2 py-0.5 text-sm font-mono font-bold ${
                         responseStatus === 200 
                           ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                           : responseStatus === 429
@@ -938,14 +938,14 @@ func main() {
                       </span>
 
                       {responseTimeMs !== null && (
-                        <span className="flex items-center gap-1 text-[11px] font-mono text-[#64748b]">
+                        <span className="flex items-center gap-1 text-sm font-mono text-[#64748b]">
                           <Clock className="h-3 w-3" />
                           {responseTimeMs} ms
                         </span>
                       )}
 
                       {responseSizeKb !== null && (
-                        <span className="text-[11px] font-mono text-[#64748b]">
+                        <span className="text-sm font-mono text-[#64748b]">
                           • {responseSizeKb} KB
                         </span>
                       )}
@@ -959,7 +959,7 @@ func main() {
                     <button
                       key={tab}
                       onClick={() => setInspectorTab(tab)}
-                      className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors capitalize ${
+                      className={`px-3 py-1 text-sm font-bold rounded-lg transition-colors capitalize ${
                         inspectorTab === tab
                           ? 'bg-[#0b192c] text-white shadow-xs'
                           : 'text-[#64748b] hover:text-[#0b192c] hover:bg-[#f1f5f9]'
@@ -977,16 +977,16 @@ func main() {
                 {executing ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
                     <div className="h-10 w-10 animate-spin rounded-full border-3 border-[#0b192c] border-t-transparent mb-3" />
-                    <h4 className="text-sm font-bold text-[#0b192c]">Dispatching Probe to CatalystLab Engines</h4>
-                    <p className="text-xs text-[#64748b] mt-1 max-w-sm">
+                    <h4 className="text-base font-bold text-[#0b192c]">Dispatching Probe to CatalystLab Engines</h4>
+                    <p className="text-sm text-[#64748b] mt-1 max-w-sm">
                       Executing SSL handshake, network latency, and security headers diagnostics...
                     </p>
                   </div>
                 ) : !responsePayload && responseStatus === null ? (
                   <div className="flex flex-col items-center justify-center py-24 text-center">
                     <Terminal className="h-12 w-12 text-[#cbd5e1] mb-3" />
-                    <h4 className="text-sm font-bold text-[#0b192c]">Ready for Engine Execution</h4>
-                    <p className="text-xs text-[#64748b] mt-1 max-w-sm">
+                    <h4 className="text-base font-bold text-[#0b192c]">Ready for Engine Execution</h4>
+                    <p className="text-sm text-[#64748b] mt-1 max-w-sm">
                       Configure your payload on the left and click <strong>Dispatch Request</strong> to inspect real-time JSON responses and telemetry.
                     </p>
                   </div>
@@ -1001,20 +1001,20 @@ func main() {
                           <div className="rounded-2xl bg-gradient-to-br from-[#0b192c] to-[#1e293b] p-5 text-white shadow-md">
                             <div className="flex items-center justify-between">
                               <div>
-                                <span className="text-[11px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
+                                <span className="text-sm font-mono text-emerald-400 font-bold uppercase tracking-wider">
                                   Diagnostic Score
                                 </span>
                                 <div className="text-3xl font-black font-mono mt-0.5">
                                   {responsePayload?.score ?? responsePayload?.output?.score ?? 95}
-                                  <span className="text-sm font-normal text-[#94a3b8]"> / 100</span>
+                                  <span className="text-base font-normal text-[#94a3b8]"> / 100</span>
                                 </div>
                               </div>
 
                               <div className="text-right">
-                                <div className="text-xs font-bold text-white">
+                                <div className="text-sm font-bold text-white">
                                   {responsePayload?.engine || selectedEngineId.toUpperCase()} ENGINE
                                 </div>
-                                <div className="text-[11px] text-[#94a3b8] font-mono mt-0.5">
+                                <div className="text-sm text-[#94a3b8] font-mono mt-0.5">
                                   {targetUrl}
                                 </div>
                               </div>
@@ -1024,14 +1024,14 @@ func main() {
 
                         {/* Rate Limit Remaining Callout in Output */}
                         {responsePayload?.rateLimit && (
-                          <div className="rounded-xl border border-emerald-500/30 bg-emerald-50/60 p-3.5 text-xs text-emerald-900 flex items-center justify-between">
+                          <div className="rounded-xl border border-emerald-500/30 bg-emerald-50/60 p-3.5 text-sm text-emerald-900 flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <Zap className="h-4 w-4 text-emerald-600" />
                               <span>
                                 Daily Units Remaining: <strong>{responsePayload.rateLimit.remaining} / {responsePayload.rateLimit.limit}</strong>
                               </span>
                             </div>
-                            <span className="font-mono text-[11px] text-emerald-700">
+                            <span className="font-mono text-sm text-emerald-700">
                               Resets in {responsePayload.rateLimit.resetInSeconds}s
                             </span>
                           </div>
@@ -1039,18 +1039,18 @@ func main() {
 
                         {/* Telemetry Output Summary */}
                         <div className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-4">
-                          <h4 className="text-xs font-bold text-[#0b192c] uppercase tracking-wider mb-2">
+                          <h4 className="text-sm font-bold text-[#0b192c] uppercase tracking-wider mb-2">
                             Parsed Output Summary
                           </h4>
 
                           {responsePayload?.output ? (
-                            <div className="space-y-2 text-xs">
+                            <div className="space-y-2 text-sm">
                               {Object.entries(responsePayload.output).map(([key, val]) => {
                                 if (typeof val === 'object' && val !== null) {
                                   return (
                                     <div key={key} className="border-b border-[#e2e8f0] pb-2">
                                       <span className="font-mono font-bold text-[#0b192c]">{key}:</span>
-                                      <pre className="mt-1 rounded bg-white p-2 text-[11px] font-mono text-[#334155] overflow-x-auto border border-[#e2e8f0]">
+                                      <pre className="mt-1 rounded bg-white p-2 text-sm font-mono text-[#334155] overflow-x-auto border border-[#e2e8f0]">
                                         {JSON.stringify(val, null, 2)}
                                       </pre>
                                     </div>
@@ -1065,7 +1065,7 @@ func main() {
                               })}
                             </div>
                           ) : (
-                            <pre className="rounded bg-white p-3 text-xs font-mono text-[#334155] border border-[#e2e8f0]">
+                            <pre className="rounded bg-white p-3 text-sm font-mono text-[#334155] border border-[#e2e8f0]">
                               {JSON.stringify(responsePayload, null, 2)}
                             </pre>
                           )}
@@ -1078,7 +1078,7 @@ func main() {
                     {inspectorTab === 'json' && (
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-mono text-[#64748b]">
+                          <span className="text-sm font-mono text-[#64748b]">
                             Content-Type: application/json
                           </span>
                           <button
@@ -1087,7 +1087,7 @@ func main() {
                               setCopiedResponse(true);
                               setTimeout(() => setCopiedResponse(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc]"
+                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc]"
                           >
                             {copiedResponse ? (
                               <>
@@ -1103,7 +1103,7 @@ func main() {
                           </button>
                         </div>
 
-                        <div className="rounded-xl bg-[#0b192c] p-4 text-xs font-mono text-emerald-400 overflow-x-auto border border-[#1e293b] shadow-inner max-h-[480px]">
+                        <div className="rounded-xl bg-[#0b192c] p-4 text-sm font-mono text-emerald-400 overflow-x-auto border border-[#1e293b] shadow-inner max-h-[480px]">
                           <pre>{JSON.stringify(responsePayload, null, 2)}</pre>
                         </div>
                       </div>
@@ -1112,12 +1112,12 @@ func main() {
                     {/* TAB 3: RESPONSE HEADERS */}
                     {inspectorTab === 'headers' && (
                       <div className="space-y-3">
-                        <div className="text-xs font-bold text-[#0b192c] mb-2">
+                        <div className="text-sm font-bold text-[#0b192c] mb-2">
                           HTTP Response Headers
                         </div>
                         <div className="rounded-xl border border-[#e2e8f0] overflow-hidden">
-                          <table className="w-full text-left text-xs">
-                            <thead className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[11px] font-bold text-[#415a77]">
+                          <table className="w-full text-left text-sm">
+                            <thead className="bg-[#f8fafc] border-b border-[#e2e8f0] text-sm font-bold text-[#415a77]">
                               <tr>
                                 <th className="px-4 py-2.5">Header Name</th>
                                 <th className="px-4 py-2.5">Value</th>
@@ -1153,7 +1153,7 @@ func main() {
                               <button
                                 key={lang}
                                 onClick={() => setCodeSnippetLang(lang)}
-                                className={`px-2.5 py-1 text-xs font-bold uppercase font-mono rounded-lg transition-colors ${
+                                className={`px-2.5 py-1 text-sm font-bold uppercase font-mono rounded-lg transition-colors ${
                                   codeSnippetLang === lang
                                     ? 'bg-[#0b192c] text-white shadow-xs'
                                     : 'bg-[#f1f5f9] text-[#64748b] hover:text-[#0b192c]'
@@ -1170,7 +1170,7 @@ func main() {
                               setCopiedSnippet(true);
                               setTimeout(() => setCopiedSnippet(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc]"
+                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc]"
                           >
                             {copiedSnippet ? (
                               <>
@@ -1186,7 +1186,7 @@ func main() {
                           </button>
                         </div>
 
-                        <div className="rounded-xl bg-[#0b192c] p-4 text-xs font-mono text-[#f8fafc] overflow-x-auto border border-[#1e293b] shadow-inner max-h-[480px]">
+                        <div className="rounded-xl bg-[#0b192c] p-4 text-sm font-mono text-[#f8fafc] overflow-x-auto border border-[#1e293b] shadow-inner max-h-[480px]">
                           <pre>{getCodeSnippet()}</pre>
                         </div>
                       </div>

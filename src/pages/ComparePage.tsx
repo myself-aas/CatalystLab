@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TerminalOutput } from '../components/TerminalOutput';
-import { Play, CheckCircle2, XCircle } from 'lucide-react';
+import { Play, CheckCircle2, XCircle, RotateCw } from 'lucide-react';
 import { CustomIconSync } from '../components/common/CustomSvgs';
 
 export const ComparePage: React.FC = () => {
@@ -63,7 +63,7 @@ export const ComparePage: React.FC = () => {
           <h1 className="text-3xl font-extrabold text-[#0b192c] sm:text-4xl">
             Side-by-Side Delta Comparison
           </h1>
-          <p className="mt-2 text-sm text-[#415a77]">
+          <p className="mt-2 text-base text-[#415a77]">
             Benchmark performance, security headers, and DOM complexity between two competing websites.
           </p>
 
@@ -76,7 +76,7 @@ export const ComparePage: React.FC = () => {
                   onChange={(e) => setUrlA(e.target.value)}
                   placeholder="Primary URL (e.g. https://site-a.com)"
                   required
-                  className="w-full bg-transparent px-3 py-2 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
+                  className="w-full bg-transparent px-3 py-2 text-base text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
                 />
               </div>
               <div className="rounded-xl border border-[#415a77]/30 bg-[#0b192c] p-2 shadow-inner">
@@ -86,7 +86,7 @@ export const ComparePage: React.FC = () => {
                   onChange={(e) => setUrlB(e.target.value)}
                   placeholder="Comparison URL (e.g. https://site-b.com)"
                   required
-                  className="w-full bg-transparent px-3 py-2 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
+                  className="w-full bg-transparent px-3 py-2 text-base text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
                 />
               </div>
             </div>
@@ -94,11 +94,11 @@ export const ComparePage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#415a77] py-3 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] disabled:opacity-50 transition-all shadow-md"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#415a77] py-3 text-base font-bold text-[#f8fafc] hover:bg-[#52718e] disabled:opacity-50 transition-all shadow-md"
             >
               {loading ? (
                 <>
-                  <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
+                  <RotateCw className="h-4 w-4 animate-spin text-[#38bdf8]" />
                   <span>Benchmarking Both Targets...</span>
                 </>
               ) : (
@@ -136,19 +136,19 @@ export const ComparePage: React.FC = () => {
         {/* Industry Competitive Architecture Matrix */}
         <section className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-10 text-[#f8fafc] shadow-2xl">
           <div className="text-center max-w-3xl mx-auto mb-8">
-            <span className="rounded-md bg-[#415a77]/30 px-3 py-1 text-xs font-bold text-[#c5d3e8] border border-[#415a77]/50 font-mono">
+            <span className="rounded-md bg-[#415a77]/30 px-3 py-1 text-sm font-bold text-[#c5d3e8] border border-[#415a77]/50 font-mono">
               COMPETITIVE BENCHMARK
             </span>
             <h2 className="text-2xl font-extrabold text-[#f8fafc] sm:text-3xl mt-3">
               CatalystLab vs. Legacy Telemetry Tools
             </h2>
-            <p className="mt-2 text-xs text-[#c5d3e8]">
+            <p className="mt-2 text-sm text-[#c5d3e8]">
               Comparing architectural capabilities across modern web health, OWASP security, AI readiness, and edge latency.
             </p>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-sm border-collapse">
               <thead>
                 <tr className="border-b border-[#415a77]/40 text-[#c5d3e8] font-mono">
                   <th className="py-3 px-4">Feature / Telemetry Dimension</th>
@@ -162,7 +162,7 @@ export const ComparePage: React.FC = () => {
               <tbody className="divide-y divide-[#415a77]/20 text-[#ebe9e6]">
                 <tr className="hover:bg-[#152238]/30 transition-colors">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Multi-Engine Unified Audit (8 Engines)</td>
-                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-sm align-middle">check_circle</span> Yes (Full Suite)</td>
+                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (Full Suite)</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">Lighthouse Only</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">Performance Only</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">Headers Only</td>
@@ -170,35 +170,35 @@ export const ComparePage: React.FC = () => {
                 </tr>
                 <tr className="hover:bg-[#152238]/30 transition-colors">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Instant Shareable Permalink</td>
-                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-sm align-middle">check_circle</span> Yes (/reports/:slug)</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (/reports/:slug)</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                 </tr>
                 <tr className="hover:bg-[#152238]/30 transition-colors">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">AI Search Readiness (/llms.txt)</td>
-                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-sm align-middle">check_circle</span> Yes (LLMO Radar)</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (LLMO Radar)</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                 </tr>
                 <tr className="hover:bg-[#152238]/30 transition-colors">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Continuous Edge Latency Radar (12 PoPs)</td>
-                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-sm align-middle">check_circle</span> Yes (Global)</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (Global)</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">Single Region</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                 </tr>
                 <tr className="hover:bg-[#152238]/30 transition-colors">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Full PDF & JSON Telemetry Dossiers</td>
-                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-sm align-middle">check_circle</span> Yes (Instant Export)</td>
+                  <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (Instant Export)</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">JSON Only</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">Paid PDF</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
-                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-sm align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
+                  <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                 </tr>
               </tbody>
             </table>

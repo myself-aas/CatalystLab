@@ -27,23 +27,31 @@ export async function runNativeEngine(rawUrl: string, engine: string): Promise<s
 
   switch (engine) {
     case 'health':
+    case 'testing_vitals':
       return runHealthEngine(targetUrl);
     case 'ai_ready':
+    case 'operations_ai_ready':
       return runAiReadinessEngine(targetUrl);
     case 'eco':
+    case 'build_eco':
       return runEcoEngine(targetUrl);
     case 'compliance':
+    case 'devsecops_compliance':
       return runComplianceEngine(targetUrl);
     case 'latency':
+    case 'release_edge':
       return runLatencyEngine(targetUrl);
     case 'repo':
+    case 'code_quality':
       return runRepoEngine(targetUrl);
     case 'migration':
+    case 'planning_arch':
       return runMigrationEngine(targetUrl);
     case 'llmo':
+    case 'evolution_llmo':
       return runLlmoEngine(targetUrl);
     default:
-      throw new Error(`Unknown engine '${engine}'.`);
+      throw new Error(`Unknown catalyst '${engine}'.`);
   }
 }
 

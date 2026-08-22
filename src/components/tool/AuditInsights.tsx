@@ -14,7 +14,6 @@ interface AuditInsightsProps {
 
 export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, targetUrl, metrics }) => {
   const meta = ENGINES_MAP[engineType] || { name: 'Diagnostic', icon: 'analytics' };
-  const [activeTab, setActiveTab] = useState<'executive' | 'chart1' | 'chart2' | 'chart3'>('executive');
 
   const score = metrics.healthScore || 85;
   const issues = metrics.issues || { critical: 0, warning: 1, info: 2 };
@@ -241,181 +240,123 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-1.5 bg-[#152238] border border-[#415a77]/40 p-1.5 rounded-2xl shrink-0">
-          <button
-            onClick={() => setActiveTab('executive')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'executive' 
-                ? 'bg-[#38bdf8] text-[#0b192c] shadow-md' 
-                : 'text-[#c5d3e8] hover:text-white'
-            }`}
-          >
-            Executive Summary
-          </button>
-          <button
-            onClick={() => setActiveTab('chart1')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'chart1' 
-                ? 'bg-[#38bdf8] text-[#0b192c] shadow-md' 
-                : 'text-[#c5d3e8] hover:text-white'
-            }`}
-          >
-            Chart 1 Insights
-          </button>
-          <button
-            onClick={() => setActiveTab('chart2')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'chart2' 
-                ? 'bg-[#38bdf8] text-[#0b192c] shadow-md' 
-                : 'text-[#c5d3e8] hover:text-white'
-            }`}
-          >
-            Chart 2 Insights
-          </button>
-          <button
-            onClick={() => setActiveTab('chart3')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              activeTab === 'chart3' 
-                ? 'bg-[#38bdf8] text-[#0b192c] shadow-md' 
-                : 'text-[#c5d3e8] hover:text-white'
-            }`}
-          >
-            Chart 3 Insights
-          </button>
+      </div>
+
+      {/* 1. Executive Telemetry Synthesis */}
+      <div className="space-y-4">
+        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30">
+          <h4 className="text-sm font-bold text-[#38bdf8] mb-2 flex items-center gap-2">
+            <Activity className="h-4 w-4" />
+            <span>Executive Telemetry Synthesis</span>
+          </h4>
+          <p className="text-xs sm:text-sm text-[#cbd5e1] leading-relaxed">
+            {getExecutiveSummary()}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/30">
+              <AlertTriangle className="h-4 w-4" />
+            </div>
+            <div>
+              <div className="text-xs text-[#c5d3e8]">Critical Constraints</div>
+              <div className="text-lg font-bold text-rose-400">{issues.critical} Items Flagged</div>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30">
+              <TrendingUp className="h-4 w-4" />
+            </div>
+            <div>
+              <div className="text-xs text-[#c5d3e8]">Performance Warnings</div>
+              <div className="text-lg font-bold text-amber-400">{issues.warning} Warnings</div>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              <ShieldCheck className="h-4 w-4" />
+            </div>
+            <div>
+              <div className="text-xs text-[#c5d3e8]">Optimized Parameters</div>
+              <div className="text-lg font-bold text-emerald-400">{issues.info} Verified</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Content Body */}
-      <div className="space-y-4">
-        {activeTab === 'executive' && (
-          <div className="space-y-4 animate-fadeIn">
-            <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30">
-              <h4 className="text-sm font-bold text-[#38bdf8] mb-2 flex items-center gap-2">
-                <Activity className="h-4 w-4" />
-                <span>Executive Telemetry Synthesis</span>
+      {/* 2. Structured Telemetry & Chart Breakdowns (Stacked Grid, No Tabviews) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-2">
+        {/* Chart 1 Insight Card */}
+        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
+                <BarChart3 className="h-4 w-4" />
+                <span>{chartData.chart1.title}</span>
               </h4>
-              <p className="text-xs sm:text-sm text-[#cbd5e1] leading-relaxed">
-                {getExecutiveSummary()}
-              </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/30">
-                  <AlertTriangle className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-xs text-[#c5d3e8]">Critical Constraints</div>
-                  <div className="text-lg font-bold text-rose-400">{issues.critical} Items Flagged</div>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                  <TrendingUp className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-xs text-[#c5d3e8]">Performance Warnings</div>
-                  <div className="text-lg font-bold text-amber-400">{issues.warning} Warnings</div>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                  <ShieldCheck className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-xs text-[#c5d3e8]">Optimized Parameters</div>
-                  <div className="text-lg font-bold text-emerald-400">{issues.info} Verified</div>
-                </div>
-              </div>
+            <div className="space-y-2 text-xs text-[#cbd5e1] leading-relaxed">
+              <p><strong>Finding:</strong> {chartData.chart1.keyFinding}</p>
+              <p className="text-[#94a3b8]">{chartData.chart1.summary}</p>
             </div>
           </div>
-        )}
-
-        {activeTab === 'chart1' && (
-          <div className="space-y-4 animate-fadeIn">
-            <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-2">
-                  <BarChart3 className="h-4 w-4" />
-                  <span>{chartData.chart1.title}</span>
-                </h4>
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30">
-                  Interactive PowerBI Plot 1
-                </span>
-              </div>
-              
-              <div className="space-y-2 text-xs sm:text-sm text-[#cbd5e1] leading-relaxed">
-                <p><strong>Overview:</strong> {chartData.chart1.summary}</p>
-                <p><strong>Key Telemetry Finding:</strong> <span className="text-slate-200">{chartData.chart1.keyFinding}</span></p>
-                <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2.5 mt-3">
-                  <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white">Recommended Engineering Action:</strong>{' '}
-                    <span className="text-[#94a3b8]">{chartData.chart1.recommendation}</span>
-                  </div>
-                </div>
-              </div>
+          <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
+            <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-white block">Action:</strong>
+              <span className="text-[#94a3b8]">{chartData.chart1.recommendation}</span>
             </div>
           </div>
-        )}
+        </div>
 
-        {activeTab === 'chart2' && (
-          <div className="space-y-4 animate-fadeIn">
-            <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-2">
-                  <Layers className="h-4 w-4" />
-                  <span>{chartData.chart2.title}</span>
-                </h4>
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                  Interactive PowerBI Plot 2
-                </span>
-              </div>
-              
-              <div className="space-y-2 text-xs sm:text-sm text-[#cbd5e1] leading-relaxed">
-                <p><strong>Overview:</strong> {chartData.chart2.summary}</p>
-                <p><strong>Key Telemetry Finding:</strong> <span className="text-slate-200">{chartData.chart2.keyFinding}</span></p>
-                <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2.5 mt-3">
-                  <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white">Recommended Engineering Action:</strong>{' '}
-                    <span className="text-[#94a3b8]">{chartData.chart2.recommendation}</span>
-                  </div>
-                </div>
-              </div>
+        {/* Chart 2 Insight Card */}
+        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
+                <Layers className="h-4 w-4" />
+                <span>{chartData.chart2.title}</span>
+              </h4>
+            </div>
+            <div className="space-y-2 text-xs text-[#cbd5e1] leading-relaxed">
+              <p><strong>Finding:</strong> {chartData.chart2.keyFinding}</p>
+              <p className="text-[#94a3b8]">{chartData.chart2.summary}</p>
             </div>
           </div>
-        )}
-
-        {activeTab === 'chart3' && (
-          <div className="space-y-4 animate-fadeIn">
-            <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-2">
-                  <Activity className="h-4 w-4" />
-                  <span>{chartData.chart3.title}</span>
-                </h4>
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/30">
-                  Interactive PowerBI Plot 3
-                </span>
-              </div>
-              
-              <div className="space-y-2 text-xs sm:text-sm text-[#cbd5e1] leading-relaxed">
-                <p><strong>Overview:</strong> {chartData.chart3.summary}</p>
-                <p><strong>Key Telemetry Finding:</strong> <span className="text-slate-200">{chartData.chart3.keyFinding}</span></p>
-                <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2.5 mt-3">
-                  <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-white">Recommended Engineering Action:</strong>{' '}
-                    <span className="text-[#94a3b8]">{chartData.chart3.recommendation}</span>
-                  </div>
-                </div>
-              </div>
+          <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
+            <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-white block">Action:</strong>
+              <span className="text-[#94a3b8]">{chartData.chart2.recommendation}</span>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Chart 3 Insight Card */}
+        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
+                <Activity className="h-4 w-4" />
+                <span>{chartData.chart3.title}</span>
+              </h4>
+            </div>
+            <div className="space-y-2 text-xs text-[#cbd5e1] leading-relaxed">
+              <p><strong>Finding:</strong> {chartData.chart3.keyFinding}</p>
+              <p className="text-[#94a3b8]">{chartData.chart3.summary}</p>
+            </div>
+          </div>
+          <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
+            <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-white block">Action:</strong>
+              <span className="text-[#94a3b8]">{chartData.chart3.recommendation}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

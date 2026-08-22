@@ -1,6 +1,6 @@
 import type { BlogPost, EngineType } from '../types';
 
-export const ENGINE_SEEDED_BLOGS: Record<EngineType, BlogPost[]> = {
+export const ENGINE_SEEDED_BLOGS: Record<string, BlogPost[]> = {
   health: [
     {
       id: 'blog-health-1',

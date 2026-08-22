@@ -20,8 +20,6 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
-import { GlobalSearchModal } from '../components/common/GlobalSearchModal';
 
 export const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -30,7 +28,6 @@ export const BlogPostPage: React.FC = () => {
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -68,7 +65,7 @@ export const BlogPostPage: React.FC = () => {
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center bg-[#f8fafc] text-[#415a77]">
         <span className="material-symbols-outlined text-4xl animate-spin text-[#415a77] mb-3">progress_activity</span>
-        <p className="text-sm font-semibold">Loading technical briefing...</p>
+        <p className="text-base font-semibold">Loading technical briefing...</p>
       </div>
     );
   }
@@ -77,12 +74,12 @@ export const BlogPostPage: React.FC = () => {
     return (
       <div className="mx-auto max-w-3xl px-4 py-24 text-center">
         <h1 className="text-2xl font-bold text-[#0b192c]">Article Not Found</h1>
-        <p className="mt-2 text-sm text-[#415a77]">
+        <p className="mt-2 text-base text-[#415a77]">
           The engineering article you are looking for has been moved or does not exist.
         </p>
         <Link
           to="/blogs"
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#0b192c] px-4 py-2 text-xs font-semibold text-white hover:bg-[#152238]"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#0b192c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152238]"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to All Articles</span>
@@ -124,25 +121,6 @@ export const BlogPostPage: React.FC = () => {
         }}
       />
 
-      {/* Top Header & Breadcrumbs */}
-      <div className="border-b border-[#e2e8f0] bg-white sticky top-16 z-20 shadow-xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { label: 'Developer Blog', href: '/blogs' },
-              { label: post.title }
-            ]}
-          />
-          <button
-            onClick={() => setSearchModalOpen(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-2.5 py-1 text-xs text-[#64748b] hover:text-[#0b192c]"
-          >
-            <Search className="h-3 w-3" />
-            <span className="hidden sm:inline">Search</span>
-          </button>
-        </div>
-      </div>
-
       {/* Main Split Layout */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -153,10 +131,10 @@ export const BlogPostPage: React.FC = () => {
               
               {/* Meta & Category */}
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-xs font-semibold text-sky-800">
+                <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-sm font-semibold text-sky-800">
                   {post.category || 'Architecture'}
                 </span>
-                <span className="text-xs text-[#64748b] flex items-center gap-1">
+                <span className="text-sm text-[#64748b] flex items-center gap-1">
                   <Clock className="h-3 w-3" />
                   <span>{post.readTime || '5 min read'}</span>
                 </span>
@@ -170,21 +148,21 @@ export const BlogPostPage: React.FC = () => {
               {/* Author & Byline */}
               <div className="flex items-center justify-between border-y border-[#f1f5f9] py-3.5 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b192c] text-xs font-bold text-white shadow-xs">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b192c] text-sm font-bold text-white shadow-xs">
                     {(post.authorName || 'C')[0]}
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-[#0b192c]">
+                    <div className="text-sm font-bold text-[#0b192c]">
                       {post.authorName || 'CatalystLab Telemetry Team'}
                     </div>
-                    <div className="text-[11px] text-[#64748b]">{publishedDate}</div>
+                    <div className="text-sm text-[#64748b]">{publishedDate}</div>
                   </div>
                 </div>
 
                 {/* Share Link Button */}
                 <button
                   onClick={handleShare}
-                  className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs font-semibold text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-all"
+                  className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-sm font-semibold text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-all"
                   title="Copy link to article"
                 >
                   {copied ? (
@@ -203,13 +181,13 @@ export const BlogPostPage: React.FC = () => {
 
               {/* Excerpt Lead */}
               {post.excerpt && (
-                <div className="mb-8 rounded-xl border-l-4 border-[#0b192c] bg-[#f8fafc] p-4 text-sm font-medium text-[#415a77] leading-relaxed">
+                <div className="mb-8 rounded-xl border-l-4 border-[#0b192c] bg-[#f8fafc] p-4 text-base font-medium text-[#415a77] leading-relaxed">
                   {post.excerpt}
                 </div>
               )}
 
               {/* Markdown Content */}
-              <div className="prose prose-slate max-w-none text-sm leading-relaxed text-[#0b192c]">
+              <div className="prose prose-slate max-w-none text-base leading-relaxed text-[#0b192c]">
                 <MarkdownRenderer content={post.content} />
               </div>
 
@@ -217,11 +195,11 @@ export const BlogPostPage: React.FC = () => {
               {post.tags && post.tags.length > 0 && (
                 <div className="mt-10 border-t border-[#f1f5f9] pt-6">
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="text-xs font-bold text-[#415a77] mr-1">Tags:</span>
+                    <span className="text-sm font-bold text-[#415a77] mr-1">Tags:</span>
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-md bg-[#f1f5f9] px-2.5 py-1 text-xs text-[#415a77]"
+                        className="rounded-md bg-[#f1f5f9] px-2.5 py-1 text-sm text-[#415a77]"
                       >
                         #{tag}
                       </span>
@@ -237,23 +215,23 @@ export const BlogPostPage: React.FC = () => {
             
             {/* Author Profile Box */}
             <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-xs">
-              <div className="text-xs font-bold uppercase tracking-wider text-[#415a77] mb-3">
+              <div className="text-sm font-bold uppercase tracking-wider text-[#415a77] mb-3">
                 About the Author
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0b192c] text-sm font-bold text-white shadow-xs">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0b192c] text-base font-bold text-white shadow-xs">
                   {(post.authorName || 'C')[0]}
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-[#0b192c]">
+                  <div className="text-base font-bold text-[#0b192c]">
                     {post.authorName || 'CatalystLab Telemetry Team'}
                   </div>
-                  <div className="text-xs text-[#64748b]">
+                  <div className="text-sm text-[#64748b]">
                     Web Infrastructure & AI Systems
                   </div>
                 </div>
               </div>
-              <p className="mt-3 text-xs text-[#64748b] leading-relaxed">
+              <p className="mt-3 text-sm text-[#64748b] leading-relaxed">
                 Specialized in distributed performance telemetry, edge latency benchmarking, and zero-trust web architectures.
               </p>
             </div>
@@ -261,7 +239,7 @@ export const BlogPostPage: React.FC = () => {
             {/* Related Articles Box */}
             {relatedPosts.length > 0 && (
               <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-xs space-y-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c]">
+                <div className="text-sm font-bold uppercase tracking-wider text-[#0b192c]">
                   Related Stories
                 </div>
                 <div className="divide-y divide-[#f1f5f9] space-y-3 pt-1">
@@ -271,10 +249,10 @@ export const BlogPostPage: React.FC = () => {
                         to={`/blog/${r.slug || r.id}`}
                         className="group block space-y-1"
                       >
-                        <h4 className="text-xs font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors line-clamp-2">
+                        <h4 className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors line-clamp-2">
                           {r.title}
                         </h4>
-                        <div className="text-[11px] text-[#64748b] flex items-center gap-1">
+                        <div className="text-sm text-[#64748b] flex items-center gap-1">
                           <Clock className="h-3 w-3" />
                           <span>{r.readTime || '5 min read'}</span>
                         </div>
@@ -287,15 +265,15 @@ export const BlogPostPage: React.FC = () => {
 
             {/* Developer Documentation Callout */}
             <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-xs space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c]">
+              <div className="text-sm font-bold uppercase tracking-wider text-[#0b192c]">
                 Technical Reference
               </div>
-              <p className="text-xs text-[#64748b]">
+              <p className="text-sm text-[#64748b]">
                 Explore our full technical documentation, cURL snippets, and telemetry metric definitions.
               </p>
               <Link
                 to="/docs"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0b192c] hover:text-sky-700 transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#0b192c] hover:text-sky-700 transition-colors"
               >
                 <span>Open Documentation</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -306,12 +284,6 @@ export const BlogPostPage: React.FC = () => {
 
         </div>
       </div>
-
-      {/* Global Search Modal */}
-      <GlobalSearchModal
-        isOpen={searchModalOpen}
-        onClose={() => setSearchModalOpen(false)}
-      />
     </div>
   );
 };

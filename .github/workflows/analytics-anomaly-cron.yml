@@ -1,0 +1,40 @@
+name: "Hourly Traffic Anomaly Detection (Zero-Cost CRON)"
+
+on:
+  schedule:
+    # Runs every hour at minute 0 (24 times/day)
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  anomaly-detection:
+    name: "Run Hourly Anomaly Radar & Alert Pipeline"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "Set up Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: "Install Dependencies"
+        run: npm ci --prefer-offline --no-audit
+
+      - name: "Execute Anomaly Detection Probe"
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+          MAILGUN_HOST: ${{ secrets.MAILGUN_HOST }}
+          MAILGUN_FROM_EMAIL: ${{ secrets.MAILGUN_FROM_EMAIL }}
+          ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          MONITORED_DOMAINS: ${{ secrets.MONITORED_DOMAINS || 'catalystlab.tech' }}
+        run: npm run cron:anomaly
