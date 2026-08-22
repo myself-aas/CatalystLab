@@ -27,7 +27,7 @@
     "framer-motion": "^13.1.0",
     "geoip-lite": "^2.0.3",
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2",
+    "jspdf": "^4.2.1",
     "lucide-react": "^1.16.0",
     "mongodb": "^7.5.0",
     "motion": "^13.1.0",
