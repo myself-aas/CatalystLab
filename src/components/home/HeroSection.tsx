@@ -1,3 +1,4 @@
+import { EngineInput } from "../common/EngineInput";
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
@@ -84,37 +85,14 @@ export const HeroSection: React.FC = () => {
 
             <LazyReveal direction="up" delay={0.2}>
               <div className="mt-5">
-                <form 
-                  onSubmit={(e) => { e.preventDefault(); if (isValidUrlFormat(heroUrl)) navigate(`/launch-audit?url=${encodeURIComponent(activeDisplayTarget)}`); }}
-                  className="flex flex-col sm:flex-row gap-3 max-w-xl"
-                >
-                  <div className="relative flex-1 group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Search className="h-5 w-5 text-brand-slate" />
-                    </div>
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      id="hero-audit-url-input"
-                      value={heroUrl}
-                      onChange={handleInputChange}
-                      placeholder="Enter target domain (e.g. stripe.com)"
-                      className="block w-full pl-11 pr-4 py-3.5 bg-brand-oxford border border-brand-slate/60 rounded-xl text-white placeholder-brand-slate-light font-mono text-base focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all shadow-sm"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      autoCapitalize="off"
-                      spellCheck="false"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={!isValidUrlFormat(heroUrl) && heroUrl.length > 0}
-                    className="flex items-center justify-center gap-2 bg-brand-periwinkle hover:bg-white text-brand-navy px-8 py-3.5 rounded-xl font-bold font-mono text-base transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed shrink-0 cursor-pointer"
-                  >
-                    <span>Run Audit</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </form>
+                <EngineInput 
+                  value={heroUrl}
+                  onChange={setHeroUrl}
+                  onSubmit={(e: React.FormEvent) => { e.preventDefault(); if (isValidUrlFormat(heroUrl)) navigate(`/launch-audit?url=${encodeURIComponent(activeDisplayTarget)}`); }}
+                  buttonText="Run Audit"
+                  placeholder="@catalystlab-search: (https://"
+                  disabled={!isValidUrlFormat(heroUrl) && heroUrl.length > 0}
+                />
                 
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-sm font-mono text-brand-slate-light">
                   <span>Try:</span>

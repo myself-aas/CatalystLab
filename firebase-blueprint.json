@@ -108,9 +108,31 @@
         "userEmail": { "type": "string", "description": "Email of the actor", "maxLength": 256 }
       },
       "required": ["action", "status", "timestamp"]
+    },
+    "UserSubscription": {
+      "title": "User Subscription",
+      "description": "User subscription plan, 7-day free trial status, quota limits, and billing details.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user", "maxLength": 128 },
+        "userEmail": { "type": "string", "description": "User email address", "maxLength": 256 },
+        "planId": { "type": "string", "description": "Plan identifier", "enum": ["free", "starter", "pro", "team", "enterprise"] },
+        "billingCycle": { "type": "string", "description": "Billing cadence", "enum": ["monthly", "annual"] },
+        "status": { "type": "string", "description": "Subscription status", "enum": ["active", "trialing", "canceled", "past_due"] },
+        "trialStartedAt": { "type": "number", "description": "Trial start timestamp in ms" },
+        "trialEndsAt": { "type": "number", "description": "Trial end timestamp in ms" },
+        "trialUsed": { "type": "boolean", "description": "Whether user has consumed their free trial" },
+        "createdAt": { "type": "number", "description": "Subscription creation timestamp in ms" },
+        "updatedAt": { "type": "number", "description": "Last updated timestamp in ms" }
+      },
+      "required": ["userId", "planId", "status", "createdAt", "updatedAt"]
     }
   },
   "firestore": {
+    "user_subscriptions/{userId}": {
+      "schema": "UserSubscription",
+      "description": "User subscription tier and 7-day free trial state records."
+    },
     "reports/{reportId}": {
       "schema": "Report",
       "description": "Stores saved audit reports associated with users and permalinks."

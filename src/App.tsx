@@ -4,6 +4,8 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
 import { Navbar } from "./components/layout/Navbar";
+import { TrialBanner } from "./components/common/TrialBanner";
+import { TrialActivationModal } from "./components/common/TrialActivationModal";
 import { GlobalBreadcrumb } from "./components/layout/GlobalBreadcrumb";
 import { Footer } from "./components/layout/Footer";
 import { AuthDomainModal } from "./components/auth/AuthDomainModal";
@@ -86,6 +88,7 @@ export const App: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col bg-[#f4f6fa] text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
       <ScrollToTop />
+      <TrialBanner />
       <Navbar />
       <GlobalBreadcrumb />
       <div className="flex-1">
@@ -331,6 +334,7 @@ export const App: React.FC = () => {
       </div>
       <Footer />
       <AuthDomainModal />
+      <TrialActivationModal />
       <NewsletterModal />
       <GetInTouchEmailModal
         isOpen={isGetInTouchOpen}

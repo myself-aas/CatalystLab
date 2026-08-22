@@ -1,3 +1,4 @@
+import { EngineInput } from "../common/EngineInput";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LazyReveal } from '../common/LazyAnimate';
@@ -39,24 +40,15 @@ export const FinalCTA: React.FC = () => {
             </p>
 
             {/* Quick Audit Launch Form */}
-            <form onSubmit={handleLaunch} className="max-w-xl mx-auto mb-3">
-              <div className="flex flex-col sm:flex-row items-center gap-2 p-1.5 bg-brand-navy border border-brand-slate/60 rounded-2xl shadow-inner focus-within:border-[#38bdf8] transition-all">
-                <input
-                  type="text"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://your-domain.com"
-                  className="w-full bg-transparent px-4 py-2 text-sm sm:text-base font-mono text-white placeholder-[#8ea8c3] focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-brand-periwinkle hover:bg-white text-brand-navy px-5 py-2.5 rounded-xl text-sm font-mono font-bold transition-all shadow-md active:scale-95 shrink-0 cursor-pointer"
-                >
-                  <span>Launch Scan</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            </form>
+            <div className="max-w-xl mx-auto mb-3">
+              <EngineInput 
+                value={url}
+                onChange={setUrl}
+                onSubmit={handleLaunch}
+                buttonText="Launch Scan"
+                placeholder="@catalystlab-search: (https://"
+              />
+            </div>
 
             {/* Sample Targets Pill Bar */}
             <div className="flex flex-wrap items-center justify-center gap-2 mb-6 text-sm font-mono text-[#8ea8c3]">

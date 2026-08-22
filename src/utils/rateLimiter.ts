@@ -1,11 +1,14 @@
 /**
  * Rate Limiter for CatalystLab Master Audits & Diagnostic Engines
  * 
- * Rules:
- * 1. Primary Superadmins: No rate limits (unlimited / day)
- * 2. Authenticated Users: 5 master audits/day OR 50 single engine audits/day (Total 50 units)
- * 3. Subscription Users: Calculable based on tier (extendable)
- * 4. Visitors / Guests: 2 master audits/day OR 20 single engine audits/day (Total 20 units)
+ * 5 Tier Architecture + 7-Day Free Trial:
+ * 1. Primary Superadmins: Unlimited / day
+ * 2. Visitor / Guest: 20 units/day (2 Master Audits or 20 Single Engines)
+ * 3. Free / Community: 50 units/day (5 Master Audits or 50 Single Engines)
+ * 4. Starter ($9/mo or 7-day trial): 150 units/day (15 Master Audits or 150 Single Engines)
+ * 5. Pro ($19/mo or 7-day trial): 500 units/day (50 Master Audits or 500 Single Engines)
+ * 6. Team ($49/mo or 7-day trial): 1,500 units/day (150 Master Audits or 1500 Single Engines)
+ * 7. Enterprise ($99/mo or 7-day trial): 5,000 units/day (500 Master Audits or 5000 Single Engines)
  * 
  * 1 Master Audit = 10 Units
  * 1 Single Engine Audit = 1 Unit
@@ -13,15 +16,24 @@
 
 import type { User } from '../lib/firebase';
 import { SUPERADMIN_EMAILS } from '../context/AuthContext';
+import { SubscriptionPlanId } from '../types';
 
 export const VISITOR_DAILY_LIMIT = 20;
-export const USER_DAILY_LIMIT = 50;
+export const FREE_DAILY_LIMIT = 50;
+export const STARTER_DAILY_LIMIT = 150;
+export const PRO_DAILY_LIMIT = 500;
+export const TEAM_DAILY_LIMIT = 1500;
+export const ENTERPRISE_DAILY_LIMIT = 5000;
+
 export const MASTER_AUDIT_COST = 10;
 export const SINGLE_ENGINE_COST = 1;
 
 export interface RateLimitStatus {
-  tier: 'superadmin' | 'user' | 'visitor' | 'api_pro';
+  tier: 'superadmin' | 'visitor' | 'free' | 'starter' | 'pro' | 'team' | 'enterprise';
   tierLabel: string;
+  subscriptionPlan: SubscriptionPlanId;
+  isTrialActive: boolean;
+  trialDaysRemaining: number;
   limit: number | null; // Total units limit
   used: number;         // Total units used
   remaining: number;    // Total units remaining
@@ -79,7 +91,7 @@ function getTimeUntilMidnight(): { hours: number; minutes: number; formatted: st
   return { hours, minutes, formatted };
 }
 
-// Read current count for today
+// Read current unit usage count for today
 export function getAuditUsageToday(user: User | null, isAdmin: boolean): number {
   if (isAdmin) return 0;
   
@@ -95,8 +107,31 @@ export function getAuditUsageToday(user: User | null, isAdmin: boolean): number 
   }
 }
 
-// Check rate limit status
-export function getRateLimitStatus(user: User | null, isAdmin: boolean, subscriptionType: string = 'free'): RateLimitStatus {
+// Helper to determine plan limit in units
+export function getPlanDailyLimit(planId: SubscriptionPlanId): number {
+  switch (planId) {
+    case 'enterprise':
+      return ENTERPRISE_DAILY_LIMIT;
+    case 'team':
+      return TEAM_DAILY_LIMIT;
+    case 'pro':
+      return PRO_DAILY_LIMIT;
+    case 'starter':
+      return STARTER_DAILY_LIMIT;
+    case 'free':
+    default:
+      return FREE_DAILY_LIMIT;
+  }
+}
+
+// Check rate limit status based on user, subscription, and trial info
+export function getRateLimitStatus(
+  user: User | null, 
+  isAdmin: boolean, 
+  planId: SubscriptionPlanId = 'free',
+  isTrial: boolean = false,
+  trialDaysLeft: number = 0
+): RateLimitStatus {
   const { hours, minutes, formatted } = getTimeUntilMidnight();
 
   const userEmail = user?.email?.toLowerCase() || '';
@@ -106,6 +141,9 @@ export function getRateLimitStatus(user: User | null, isAdmin: boolean, subscrip
     return {
       tier: 'superadmin',
       tierLabel: 'Primary Superadmin',
+      subscriptionPlan: 'enterprise',
+      isTrialActive: false,
+      trialDaysRemaining: 0,
       limit: null,
       used: 0,
       remaining: Infinity,
@@ -125,19 +163,34 @@ export function getRateLimitStatus(user: User | null, isAdmin: boolean, subscrip
 
   const isAuthUser = Boolean(user);
   
-  // Calculate limits based on subscription types (Future-proofed)
   let limit = VISITOR_DAILY_LIMIT;
+  let tier: RateLimitStatus['tier'] = 'visitor';
+  let tierLabel = 'Guest Visitor';
+
   if (isAuthUser) {
-    if (subscriptionType === 'pro') {
-      limit = 500;
-    } else {
-      limit = USER_DAILY_LIMIT;
+    limit = getPlanDailyLimit(planId);
+    tier = planId;
+    
+    switch (planId) {
+      case 'enterprise':
+        tierLabel = isTrial ? `Enterprise (Trial: ${trialDaysLeft}d left)` : 'Enterprise Tier';
+        break;
+      case 'team':
+        tierLabel = isTrial ? `Team (Trial: ${trialDaysLeft}d left)` : 'Team Tier';
+        break;
+      case 'pro':
+        tierLabel = isTrial ? `Pro (Trial: ${trialDaysLeft}d left)` : 'Professional Tier';
+        break;
+      case 'starter':
+        tierLabel = isTrial ? `Starter (Trial: ${trialDaysLeft}d left)` : 'Starter Tier';
+        break;
+      case 'free':
+      default:
+        tierLabel = 'Community Tier';
+        break;
     }
   }
 
-  const tier = isAuthUser ? 'user' : 'visitor';
-  const tierLabel = isAuthUser ? 'Registered User' : 'Guest Visitor';
-  
   const used = getAuditUsageToday(user, false);
   const remaining = Math.max(0, limit - used);
   
@@ -154,6 +207,9 @@ export function getRateLimitStatus(user: User | null, isAdmin: boolean, subscrip
   return {
     tier,
     tierLabel,
+    subscriptionPlan: planId,
+    isTrialActive: isTrial,
+    trialDaysRemaining: trialDaysLeft,
     limit,
     used,
     remaining,
@@ -172,11 +228,17 @@ export function getRateLimitStatus(user: User | null, isAdmin: boolean, subscrip
 }
 
 // Fetch live server rate limit status
-export async function fetchServerRateLimitStatus(user: User | null): Promise<RateLimitStatus | null> {
+export async function fetchServerRateLimitStatus(
+  user: User | null,
+  planId: SubscriptionPlanId = 'free',
+  isTrial: boolean = false
+): Promise<RateLimitStatus | null> {
   try {
     const visitorId = getVisitorDeviceId();
     const headers: Record<string, string> = {
-      'x-visitor-id': visitorId
+      'x-visitor-id': visitorId,
+      'x-subscription-plan': planId,
+      'x-trial-active': isTrial ? 'true' : 'false'
     };
     if (user?.email) headers['x-user-email'] = user.email;
     if (user?.uid) headers['x-user-id'] = user.uid;
@@ -189,6 +251,9 @@ export async function fetchServerRateLimitStatus(user: User | null): Promise<Rat
     const status: RateLimitStatus = {
       tier: data.tier,
       tierLabel: data.tierLabel,
+      subscriptionPlan: data.subscriptionPlan || planId,
+      isTrialActive: Boolean(data.isTrialActive),
+      trialDaysRemaining: data.trialDaysRemaining || 0,
       limit: data.dailyLimit,
       used: data.unitsUsed,
       remaining: data.unitsRemaining,
@@ -224,8 +289,15 @@ export async function fetchServerRateLimitStatus(user: User | null): Promise<Rat
 }
 
 // Record an audit launch & increment usage
-export function recordAuditLaunch(user: User | null, isAdmin: boolean, auditType: 'master' | 'single' = 'master'): { allowed: boolean; status: RateLimitStatus } {
-  const currentStatus = getRateLimitStatus(user, isAdmin);
+export function recordAuditLaunch(
+  user: User | null, 
+  isAdmin: boolean, 
+  auditType: 'master' | 'single' = 'master',
+  planId: SubscriptionPlanId = 'free',
+  isTrial: boolean = false,
+  trialDaysLeft: number = 0
+): { allowed: boolean; status: RateLimitStatus } {
+  const currentStatus = getRateLimitStatus(user, isAdmin, planId, isTrial, trialDaysLeft);
 
   if (currentStatus.isUnlimited) {
     return { allowed: true, status: currentStatus };
@@ -248,14 +320,21 @@ export function recordAuditLaunch(user: User | null, isAdmin: boolean, auditType
     console.warn("Could not persist rate limit count to localStorage:", err);
   }
 
-  const updatedStatus = getRateLimitStatus(user, isAdmin);
+  const updatedStatus = getRateLimitStatus(user, isAdmin, planId, isTrial, trialDaysLeft);
   window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
   return { allowed: true, status: updatedStatus };
 }
 
 // Record arbitrary unit deduction from API playground or custom client execution
-export function recordClientRequestAttempt(cost: number, user: User | null, isAdmin: boolean): { allowed: boolean; status: RateLimitStatus } {
-  const currentStatus = getRateLimitStatus(user, isAdmin);
+export function recordClientRequestAttempt(
+  cost: number, 
+  user: User | null, 
+  isAdmin: boolean,
+  planId: SubscriptionPlanId = 'free',
+  isTrial: boolean = false,
+  trialDaysLeft: number = 0
+): { allowed: boolean; status: RateLimitStatus } {
+  const currentStatus = getRateLimitStatus(user, isAdmin, planId, isTrial, trialDaysLeft);
 
   if (currentStatus.isUnlimited) {
     return { allowed: true, status: currentStatus };
@@ -276,8 +355,7 @@ export function recordClientRequestAttempt(cost: number, user: User | null, isAd
     console.warn("Could not persist rate limit count to localStorage:", err);
   }
 
-  const updatedStatus = getRateLimitStatus(user, isAdmin);
+  const updatedStatus = getRateLimitStatus(user, isAdmin, planId, isTrial, trialDaysLeft);
   window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
   return { allowed: true, status: updatedStatus };
 }
-

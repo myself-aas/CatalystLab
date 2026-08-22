@@ -318,6 +318,17 @@ export const ENGINE_TABLE_DATA: Record<CoreEngineType, TelemetryVectorRow[]> = {
       impact: 'High',
       explanation: 'Blocks developers from accidentally committing AWS credentials, API keys, or database passwords into git history.',
       remediation: 'Install pre-commit hooks running gitleaks protect --staged to intercept leaked tokens.'
+    },
+    {
+      id: 'passive-dns-subdomains',
+      category: 'Attack Surface',
+      vector: 'Passive DNS & Subdomain Enumeration',
+      observed: '8 Active Subdomain Hosts Discovered',
+      benchmark: 'Documented & Hardened Inventory',
+      status: 'pass',
+      impact: 'High',
+      explanation: 'Continuous passive DNS and Certificate Transparency log monitoring catalogs all internet-facing endpoints and cloud infrastructure assets.',
+      remediation: 'Audit shadow subdomains, decommission orphaned DNS CNAME records, and enforce centralized edge WAF routing.'
     }
   ],
 
@@ -380,6 +391,28 @@ export const ENGINE_TABLE_DATA: Record<CoreEngineType, TelemetryVectorRow[]> = {
   ],
 
   compliance: [
+    {
+      id: 'email-spoofing-risk',
+      category: 'Mail Integrity & OSINT',
+      vector: 'Email Spoofing Defense (SPF & DMARC)',
+      observed: 'SPF (v=spf1) & DMARC (v=DMARC1) Active',
+      benchmark: 'Low Risk (Both Protocols Enforced)',
+      status: 'pass',
+      impact: 'High',
+      explanation: 'SPF and DMARC cryptographic records prevent threat actors and malicious spammers from impersonating your domain in spear-phishing campaigns.',
+      remediation: 'Publish valid TXT records for "v=spf1 include:_spf.google.com ~all" and "_dmarc.<domain>" with "v=DMARC1; p=reject;".'
+    },
+    {
+      id: 'ssl-expiration-cipher',
+      category: 'Cryptographic Security',
+      vector: 'TLS/SSL Expiration & Cipher Suite',
+      observed: 'TLSv1.3 (TLS_AES_256_GCM_SHA384) • 84 Days Remaining',
+      benchmark: 'Valid (>30 Days) + Modern TLS 1.3',
+      status: 'pass',
+      impact: 'High',
+      explanation: 'Audits live SSL/TLS certificate expiration date, root issuer authority, and modern authenticated encryption cipher suites to prevent connection outages and downgrade attacks.',
+      remediation: 'Configure automated ACME SSL certificate renewals via Let\'s Encrypt or Certbot at least 30 days before expiration.'
+    },
     {
       id: 'hsts-preload',
       category: 'Cryptographic Security',

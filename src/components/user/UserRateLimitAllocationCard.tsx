@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useSubscription } from '../../context/SubscriptionContext';
+import { SUBSCRIPTION_PLANS } from '../../data/pricingData';
+import { SubscriptionPlanId } from '../../types';
 import { 
   fetchServerRateLimitStatus, 
   getRateLimitStatus, 
@@ -22,11 +25,15 @@ import {
   Copy, 
   Check, 
   Info,
-  Sliders
+  Sliders,
+  ArrowRight,
+  CreditCard
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const UserRateLimitAllocationCard: React.FC = () => {
   const { user, isAdmin } = useAuth();
+  const { planId, isTrialActive, trialDaysRemaining, openTrialModal, currentPlan } = useSubscription();
   const [status, setStatus] = useState<RateLimitStatus>(() => getRateLimitStatus(user, isAdmin));
   const [loading, setLoading] = useState(false);
   const [testingUnit, setTestingUnit] = useState<number | null>(null);
@@ -367,6 +374,98 @@ export const UserRateLimitAllocationCard: React.FC = () => {
           </div>
         </div>
 
+      </div>
+
+      {/* 5-Tier Subscription Plans & 7-Day Free Trial Tier Management */}
+      <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 sm:p-8 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#e2e8f0]">
+          <div>
+            <div className="flex items-center gap-2">
+              <CreditCard className="h-5 w-5 text-[#415a77]" />
+              <h4 className="text-lg font-bold text-[#0b192c]">Subscription &amp; Compute Tier</h4>
+              {isTrialActive && (
+                <span className="rounded-full bg-emerald-100 text-emerald-700 px-2.5 py-0.5 text-xs font-bold border border-emerald-300 flex items-center gap-1">
+                  <Zap className="h-3 w-3" /> 7-Day Trial ({trialDaysRemaining}d remaining)
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-[#415a77] mt-1">
+              Current active plan: <strong className="text-[#0b192c] uppercase">{currentPlan.name}</strong> ({currentPlan.dailyComputeUnits} units/day). Upgrade anytime or activate a 7-day free trial without a credit card.
+            </p>
+          </div>
+
+          <Link
+            to="/pricing"
+            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#1a2e4c] transition-all shadow-sm"
+          >
+            <span>View Full Pricing Matrix</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        {/* 5 Plans Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 pt-6">
+          {(['free', 'starter', 'pro', 'team', 'enterprise'] as SubscriptionPlanId[]).map((tierKey) => {
+            const item = SUBSCRIPTION_PLANS[tierKey];
+            const isCurrent = planId === tierKey;
+
+            return (
+              <div 
+                key={tierKey}
+                className={`rounded-xl p-4 border flex flex-col justify-between transition-all ${
+                  isCurrent 
+                    ? 'border-brand-cyan bg-sky-50/50 shadow-md ring-1 ring-brand-cyan/50' 
+                    : 'border-[#e2e8f0] bg-[#f8fafc] hover:border-slate-400'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-sm text-[#0b192c]">{item.name}</span>
+                    {isCurrent && (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                        ACTIVE
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-2 text-xl font-black text-[#0b192c]">
+                    ${item.priceMonthly}<span className="text-xs font-normal text-slate-500">/mo</span>
+                  </div>
+                  <div className="mt-1 text-xs font-bold text-emerald-700">
+                    {item.dailyComputeUnits} units / day
+                  </div>
+                  <p className="mt-2 text-[11px] text-[#415a77] line-clamp-2">
+                    {item.tagline}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-200">
+                  {isCurrent ? (
+                    <button 
+                      disabled 
+                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white opacity-90 cursor-default"
+                    >
+                      Current Tier
+                    </button>
+                  ) : tierKey === 'free' ? (
+                    <Link
+                      to="/pricing"
+                      className="block text-center w-full py-1.5 rounded-lg text-xs font-bold border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors"
+                    >
+                      Free Plan
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => openTrialModal(tierKey)}
+                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-brand-cyan text-brand-navy hover:bg-brand-cyan/90 transition-colors shadow-xs cursor-pointer"
+                    >
+                      7-Day Free Trial
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

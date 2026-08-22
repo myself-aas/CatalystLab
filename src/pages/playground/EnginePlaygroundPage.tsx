@@ -1,3 +1,4 @@
+import { EngineInput } from "../../components/common/EngineInput";
 import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams, Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -341,24 +342,12 @@ func main() {
                 </div>
               </div>
 
-              <form onSubmit={handleRunTest} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Target URL */}
-                  <div className="md:col-span-2 space-y-1.5">
-                    <label className="text-xs font-bold text-gray-700">Target URL / Git Repository:</label>
-                    <input
-                      type="text"
-                      value={targetUrl}
-                      onChange={(e) => setTargetUrl(e.target.value)}
-                      placeholder="https://example.com"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-xs font-mono text-gray-900 placeholder-gray-400 focus:border-sky-500 focus:outline-none"
-                      required
-                    />
+              <div className="space-y-4">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-xs text-gray-500">
+                    Remaining Quota: <strong className="text-gray-900">{rateStatus.isUnlimited ? "Unlimited" : rateStatus.remaining}</strong> scans
                   </div>
-
-                  {/* API Key Selector */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-700">API Key (Optional):</label>
+                  <div className="w-full sm:w-1/3">
                     {apiKeys.length > 0 ? (
                       <select
                         value={selectedApiKey}
@@ -386,30 +375,16 @@ func main() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                  <div className="text-xs text-gray-500">
-                    Remaining Quota: <strong className="text-gray-900">{rateStatus.isUnlimited ? 'Unlimited' : rateStatus.remaining}</strong> scans
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-6 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#152238] disabled:opacity-50 transition-all cursor-pointer"
-                  >
-                    {loading ? (
-                      <>
-                        <RotateCw className="h-4 w-4 animate-spin text-amber-400" />
-                        <span>Executing Microagent...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play className="h-4 w-4 text-emerald-400 fill-emerald-400" />
-                        <span>Send Request</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
+                <EngineInput 
+                  value={targetUrl}
+                  onChange={setTargetUrl}
+                  onSubmit={handleRunTest}
+                  isLoading={loading}
+                  buttonText="Send Request"
+                  loadingText="Executing Microagent..."
+                  placeholder="@catalystlab-search: (https://"
+                />
+              </div>
             </section>
 
             {/* Execution Telemetry & Terminal Output */}

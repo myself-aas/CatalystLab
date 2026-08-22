@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GlobalFaqSection, FaqCategory } from '../components/common/GlobalFaqSection';
 import { 
   Mail, 
   Send, 
@@ -63,22 +64,65 @@ export const ContactPage: React.FC = () => {
     }
   ];
 
-  const faqs = [
+  const faqCategories: FaqCategory[] = [
     {
-      q: "Why did my scan timeout or return a 403 Forbidden header?",
-      a: "Some edge firewalls (like Cloudflare or AWS WAF in strict mode) block synthetic HTTP crawlers. You can whitelist CatalystLab's public worker user-agent 'CatalystLab-Telemetry-Pro/2.8' or configure a temporary bypass token."
+      id: 'troubleshooting',
+      label: 'Diagnostic Troubleshooting',
+      description: 'Resolve firewall blocks, 403 status codes, timeout issues, and SPA hydration flags.',
+      iconName: 'cpu',
+      items: [
+        {
+          question: 'Why did my scan timeout or return a 403 Forbidden status code?',
+          badge: 'WAF & Firewall',
+          answer: 'Some edge firewalls (such as Cloudflare Under Attack Mode, AWS WAF, or Fastly) block synthetic automated HTTP probes. You can whitelist our public worker user-agent string "CatalystLab-Telemetry-Pro/2.8" or add our static egress IP ranges to your firewall allowlist.'
+        },
+        {
+          question: 'How can I export audit reports to PDF dossiers or share permanent links?',
+          badge: 'Export & Share',
+          answer: 'From any report dossier page (/reports/{domain}), click "Export Dossier PDF" to generate an off-screen rendered vector report with full radar diagrams, or click "Copy Permalink" to share the authenticated diagnostic view.'
+        },
+        {
+          question: 'Why does my React or Next.js app report DOM hydration warnings?',
+          badge: 'SSR Hydration',
+          answer: 'This indicates that server-rendered HTML markup differed from the client initial render output, causing client-side CPU blocking time. Review mismatched browser-only variables (such as window, localStorage, or Math.random()) in your component renders.'
+        }
+      ]
     },
     {
-      q: "How can I export audit reports to PDF or share permanent links?",
-      a: "From any report dossier page (/reports/{domain}), click 'Export Dossier PDF' to generate an off-screen rendered whitepaper with radar diagrams, or click 'Copy Permalink' to share the live URL."
+      id: 'api-support',
+      label: 'API & CI/CD Support',
+      description: 'API key provisioning, rate limit increases, CLI setup, and webhook delivery troubleshooting.',
+      iconName: 'terminal',
+      items: [
+        {
+          question: 'Can I run automated scans across multiple repositories via API and CLI?',
+          badge: 'Automation',
+          answer: 'Yes. Pro and Enterprise subscribers receive programmatic API keys to trigger headless audits via CI/CD pipelines (GitHub Actions, GitLab CI, Bitbucket) with webhook notifications delivered directly to Slack or Discord.'
+        },
+        {
+          question: 'How do I request an increase in API rate limits or concurrent probe capacity?',
+          badge: 'Rate Quota',
+          answer: 'Submit a ticket under the "Enterprise & Dedicated Engines" department with your expected monthly audit volume and concurrency requirements. We typically activate increased quotas within 2 hours.'
+        }
+      ]
     },
     {
-      q: "Can I run automated scans across multiple repositories via API?",
-      a: "Yes. Pro and Enterprise subscribers receive programmatic API keys to trigger headless audits via CI/CD pipelines (GitHub Actions, GitLab CI) with webhook callbacks."
-    },
-    {
-      q: "What is your typical support response time?",
-      a: "Our global telemetry engineering rotation responds within 2 to 4 hours during business hours. High priority production blocker tickets are triaged within 30 minutes."
+      id: 'response-sla',
+      label: 'SLA & Response Times',
+      description: 'Support response guarantees, escalation channels, and critical bug triage.',
+      iconName: 'shield',
+      items: [
+        {
+          question: 'What is your typical support response time?',
+          badge: 'SLA Guarantees',
+          answer: 'Our global telemetry engineering rotation responds within 2 to 4 hours during business hours. High priority production blocker tickets are triaged within 30 minutes 24/7/365.'
+        },
+        {
+          question: 'Do you have a dedicated emergency channel for Enterprise outages?',
+          badge: 'Enterprise Hotline',
+          answer: 'Yes. Enterprise Suite customers are assigned a dedicated private Slack/Teams channel and a 24/7 emergency hotline for direct phone escalation with our principal engineers.'
+        }
+      ]
     }
   ];
 
@@ -347,36 +391,12 @@ export const ContactPage: React.FC = () => {
 
         {/* Quick Resolution Knowledge Base Accordion */}
         <LazyReveal direction="up">
-          <div className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm">
-            <div className="flex items-center gap-2 mb-6">
-              <HelpCircle className="h-5 w-5 text-[#415a77]" />
-              <h3 className="text-lg font-bold text-[#0b192c]">Instant Answers & Diagnostic Troubleshooting</h3>
-            </div>
-
-            <div className="space-y-3">
-              {faqs.map((faq, idx) => {
-                const isOpen = openFaq === idx;
-                return (
-                  <div
-                    key={idx}
-                    className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] overflow-hidden transition-colors"
-                  >
-                    <button
-                      onClick={() => setOpenFaq(isOpen ? null : idx)}
-                      className="w-full flex items-center justify-between p-4 text-left text-sm font-bold text-[#0b192c] hover:bg-[#f4f6fa] transition-colors"
-                    >
-                      <span>{faq.q}</span>
-                      {isOpen ? <ChevronUp className="h-4 w-4 text-[#415a77]" /> : <ChevronDown className="h-4 w-4 text-[#415a77]" />}
-                    </button>
-                    {isOpen && (
-                      <div className="p-4 pt-0 text-sm text-[#415a77] leading-relaxed border-t border-[#e2e8f0]/60">
-                        {faq.a}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+          <div className="rounded-3xl border border-[#e2e8f0] bg-white overflow-hidden shadow-sm">
+            <GlobalFaqSection 
+              categories={faqCategories}
+              title="Instant Answers & Diagnostic Troubleshooting"
+              subtitle="Quick solutions to common technical issues, API configurations, and SLA questions."
+            />
           </div>
         </LazyReveal>
 

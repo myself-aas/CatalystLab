@@ -1,3 +1,4 @@
+import { EngineInput } from "../components/common/EngineInput";
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -46,7 +47,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
   const initialUrlFromQuery = searchParams.get('url') || '';
 
   const [targetUrl, setTargetUrl] = useState(initialUrlFromQuery);
-  const [urlStatus, setUrlStatus] = useState<'idle' | 'validating' | 'invalid' | 'unreachable' | 'valid'>('idle');
+  const [urlStatus, setUrlStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid' | 'unreachable'>('idle');
   const [isAuditing, setIsAuditing] = useState(false);
   const [savedReportId, setSavedReportId] = useState<string | null>(null);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
@@ -123,7 +124,6 @@ export const MasterAuditExecutionPage: React.FC = () => {
           throw new Error('Invalid host');
         }
       } catch {
-        setUrlStatus('invalid');
         return;
       }
       
@@ -288,57 +288,17 @@ export const MasterAuditExecutionPage: React.FC = () => {
           </p>
 
           {/* Master Audit Execution Form */}
-          <div className="pt-4">
-            <form onSubmit={handleRunAudit} className="max-w-3xl mx-auto">
-              <div className={`relative flex flex-col sm:flex-row items-center bg-[#0d1b2a] border rounded-2xl p-2.5 shadow-2xl transition-all duration-300 ${commandBlink ? 'border-[#c5d3e8] bg-[#415a77]/20 shadow-[0_0_35px_rgba(197,211,232,0.3)] animate-pulse' : 'border-[#415a77]/40 hover:border-[#415a77] focus-within:border-[#c5d3e8]'}`}>
-                
-                <div className="flex-1 w-full flex items-center gap-2.5 px-3 py-2 bg-[#0b192c] rounded-xl border border-[#415a77]/30">
-                  <Terminal className="text-[#c5d3e8] h-4 w-4 shrink-0" />
-                  <span className="text-sm font-mono text-[#c5d3e8] font-semibold select-none hidden sm:inline">@catalystlab:</span>
-                  <input
-                    id="master-audit-execution-url-input"
-                    type="text"
-                    value={targetUrl}
-                    onChange={(e) => { triggerHaptic(12); setTargetUrl(e.target.value); }}
-                    placeholder={typedPlaceholder || "https://example.com"}
-                    required
-                    className="flex-1 bg-transparent text-base font-mono text-white placeholder:text-[#52718e] focus:outline-none focus:ring-0 selection:bg-[#415a77]/40 caret-[#c5d3e8]"
-                  />
-                  <div className="shrink-0 flex items-center pr-1">
-                    {urlStatus === 'validating' && (
-                      <span className="text-sm font-mono text-yellow-400 animate-pulse">checking...</span>
-                    )}
-                    {urlStatus === 'invalid' && (
-                      <span className="text-sm font-mono text-red-400">invalid</span>
-                    )}
-                    {urlStatus === 'valid' && (
-                      <span className="text-sm font-mono text-[#c5d3e8]">ready</span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 shrink-0">
-                  <button
-                    type="submit"
-                    disabled={isAuditing || urlStatus === 'invalid'}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#c5d3e8] hover:bg-white text-[#0b192c] px-6 py-3 rounded-xl text-sm font-mono font-bold transition-all disabled:opacity-50 shadow-[0_0_25px_rgba(197,211,232,0.3)] active:scale-95 cursor-pointer"
-                  >
-                    {isAuditing ? (
-                      <>
-                        <RotateCw className="h-4 w-4 animate-spin text-[#0b192c]" />
-                        <span>Executing Pipeline ({completedCount}/8)...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play className="h-4 w-4 fill-current text-[#0b192c]" />
-                        <span>Start Master Audit</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-              </div>
-            </form>
+          <div className="pt-4 max-w-2xl mx-auto flex justify-center w-full">
+            <EngineInput 
+              value={targetUrl}
+              onChange={(val) => { triggerHaptic(12); setTargetUrl(val); }}
+              onSubmit={handleRunAudit}
+              isLoading={isAuditing}
+              buttonText="Start Master Audit"
+              loadingText={`Executing Pipeline (${completedCount}/8)...`}
+              placeholder={typedPlaceholder || "@catalystlab-search: (https://"}
+              disabled={false}
+            />
           </div>
         </div>
       </section>

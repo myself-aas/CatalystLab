@@ -1,6 +1,8 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getRateLimitStatus, VISITOR_DAILY_LIMIT, USER_DAILY_LIMIT } from '../utils/rateLimiter';
+import { useSubscription } from '../context/SubscriptionContext';
+import { getRateLimitStatus, VISITOR_DAILY_LIMIT, FREE_DAILY_LIMIT } from '../utils/rateLimiter';
+import { SUBSCRIPTION_PLANS } from '../data/pricingData';
 import { 
   X, 
   Zap, 
@@ -9,8 +11,11 @@ import {
   Globe, 
   Clock, 
   LogIn, 
-  AlertTriangle
+  AlertTriangle,
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface RateLimitModalProps {
   isOpen: boolean;
@@ -24,6 +29,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
   reason = 'info' 
 }) => {
   const { user, isAdmin, login } = useAuth();
+  const { openTrialModal, isTrialActive, trialDaysRemaining, planId } = useSubscription();
   const status = getRateLimitStatus(user, isAdmin);
 
   if (!isOpen) return null;
@@ -35,7 +41,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors"
+          className="absolute right-4 top-4 rounded-lg p-1.5 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors cursor-pointer"
         >
           <X className="h-5 w-5" />
         </button>
@@ -53,7 +59,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
             <h3 className="text-lg font-bold text-[#f8fafc]">
               {(status.isMasterExceeded || status.isSingleExceeded)
                 ? `${status.tierLabel} Limit Reached` 
-                : 'Audit Rate Limit & Quota Matrix'}
+                : 'Audit Rate Limit & Compute Quota'}
             </h3>
             <p className="text-xs text-[#c5d3e8] mt-0.5">
               CatalystLab Precision Telemetry Engine Allocation
@@ -73,74 +79,88 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
             </div>
             <p className="text-[#c5d3e8]">
               {user 
-                ? 'You have used all your daily allocation of 5 master audits (or 50 single engine audits). Your quota will automatically replenish at midnight.'
-                : 'You have used all your complimentary guest allocation of 2 master audits (or 20 single engines). Sign in with Google to immediately unlock more limits per day.'}
+                ? `You have reached your daily quota on the ${status.tierLabel} tier (${status.limit} units). Start a 7-day free trial on Pro ($19/mo) or Team ($49/mo) with zero credit card required to instantly unlock higher limits!`
+                : 'You have used all your complimentary guest allocation of 2 master audits (or 20 single engines). Sign in with Google to immediately unlock 50 compute units/day for free.'}
             </p>
           </div>
         )}
 
-        {/* Tier Breakdown Cards */}
-        <div className="space-y-3 mb-6">
-          
-          {/* Superadmin Tier */}
-          <div className={`rounded-xl border p-3.5 transition-colors ${
-            status.tier === 'superadmin' 
-              ? 'border-[#c5d3e8]/60 bg-[#152238] shadow-md' 
-              : 'border-[#415a77]/30 bg-[#0d1b2a]'
-          }`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <Crown className="h-4 w-4 text-[#c5d3e8]" />
-                <span className="text-xs font-bold text-[#f8fafc]">1. Primary Superadmins</span>
-              </div>
-              <span className="rounded-md bg-[#415a77]/40 border border-[#415a77]/60 px-2 py-0.5 text-[10px] font-mono font-bold text-[#f8fafc]">
-                Unlimited Audits
-              </span>
+        {/* Active Trial Notice */}
+        {isTrialActive && (
+          <div className="mb-4 rounded-xl border border-emerald-500/40 bg-emerald-950/30 p-3 text-xs flex items-center justify-between text-emerald-200">
+            <div className="flex items-center gap-2 font-bold">
+              <Sparkles className="h-4 w-4 text-emerald-400" />
+              <span>7-Day Free Trial Active ({trialDaysRemaining} days left)</span>
             </div>
-            <p className="text-[11px] text-[#c5d3e8] mt-1 pl-6">
-              No rate limits. Dedicated priority engine queuing across all 8 diagnostic containers.
-            </p>
+            <span className="font-mono text-[11px] uppercase bg-emerald-900/60 px-2 py-0.5 rounded border border-emerald-600">
+              {planId} Tier
+            </span>
           </div>
+        )}
 
-          {/* Registered Users Tier */}
-          <div className={`rounded-xl border p-3.5 transition-colors ${
-            status.tier === 'user' 
-              ? 'border-[#415a77] bg-[#152238] shadow-md' 
+        {/* Tier Breakdown Cards */}
+        <div className="space-y-2.5 mb-6 max-h-[260px] overflow-y-auto pr-1">
+          
+          {/* Free Tier */}
+          <div className={`rounded-xl border p-3 transition-colors ${
+            status.tier === 'free' 
+              ? 'border-brand-cyan/60 bg-[#152238] shadow-sm' 
               : 'border-[#415a77]/30 bg-[#0d1b2a]'
           }`}>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 <UserIcon className="h-4 w-4 text-[#c5d3e8]" />
-                <span className="text-xs font-bold text-[#f8fafc]">2. Registered Users</span>
+                <span className="text-xs font-bold text-[#f8fafc]">1. Community (Free)</span>
               </div>
               <span className="rounded-md bg-[#415a77]/40 border border-[#415a77]/60 px-2 py-0.5 text-[10px] font-mono font-bold text-[#c5d3e8]">
-                {USER_DAILY_LIMIT} Units / Day
+                {FREE_DAILY_LIMIT} Units / Day
               </span>
             </div>
             <p className="text-[11px] text-[#c5d3e8] mt-1 pl-6">
-              5 Master Audits (or 50 Single Engines). Saved Firestore audit history and downloadable PDF dossiers.
+              5 Master Audits or 50 Single Engines. 25 CI/CD runs/month.
             </p>
           </div>
 
-          {/* Guest Visitors Tier */}
-          <div className={`rounded-xl border p-3.5 transition-colors ${
-            status.tier === 'visitor' 
-              ? 'border-[#415a77] bg-[#152238] shadow-md' 
+          {/* Starter ($9) / Pro ($19) Tier with 7-day trial trigger */}
+          <div className={`rounded-xl border p-3 transition-colors ${
+            status.tier === 'pro' || status.tier === 'starter'
+              ? 'border-brand-cyan bg-[#152238] shadow-sm' 
               : 'border-[#415a77]/30 bg-[#0d1b2a]'
           }`}>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <Globe className="h-4 w-4 text-[#c5d3e8]" />
-                <span className="text-xs font-bold text-[#f8fafc]">3. Public Visitors</span>
+              <div className="flex items-center gap-2">
+                <Zap className="h-4 w-4 text-cyan-400" />
+                <span className="text-xs font-bold text-[#f8fafc]">2. Starter ($9) &amp; Pro ($19)</span>
               </div>
-              <span className="rounded-md bg-[#0d1b2a] border border-[#415a77]/40 px-2 py-0.5 text-[10px] font-mono font-bold text-[#c5d3e8]">
-                {VISITOR_DAILY_LIMIT} Units / Day
+              <span className="rounded-md bg-cyan-950 border border-cyan-500/40 px-2 py-0.5 text-[10px] font-mono font-bold text-cyan-300">
+                150 - 500 Units / Day
               </span>
             </div>
             <p className="text-[11px] text-[#c5d3e8] mt-1 pl-6">
-              2 Master Audits (or 20 Single Engines). Instant diagnostic scans with live telemetry feedback.
+              15 - 50 Master Audits, 100 - 500 CI/CD runs, continuous 42-PoP radar tracking.
             </p>
           </div>
+
+          {/* Team ($49) & Enterprise ($99) */}
+          <div className={`rounded-xl border p-3 transition-colors ${
+            status.tier === 'team' || status.tier === 'enterprise' || status.tier === 'superadmin'
+              ? 'border-indigo-500/60 bg-[#152238] shadow-sm' 
+              : 'border-[#415a77]/30 bg-[#0d1b2a]'
+          }`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Crown className="h-4 w-4 text-indigo-300" />
+                <span className="text-xs font-bold text-[#f8fafc]">3. Team ($49) &amp; Enterprise ($99)</span>
+              </div>
+              <span className="rounded-md bg-indigo-950 border border-indigo-500/40 px-2 py-0.5 text-[10px] font-mono font-bold text-indigo-300">
+                1,500 - 5,000 Units / Day
+              </span>
+            </div>
+            <p className="text-[11px] text-[#c5d3e8] mt-1 pl-6">
+              Multi-seat workspaces, unlimited CI/CD pipelines, dedicated runners, private SLA.
+            </p>
+          </div>
+
         </div>
 
         {/* Action Footer */}
@@ -158,18 +178,31 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                   } catch {}
                 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-4 py-2 text-xs font-bold text-white hover:bg-[#33475e] transition-all shadow-md"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer"
               >
                 <LogIn className="h-3.5 w-3.5" />
-                <span>Sign In for {USER_DAILY_LIMIT} Units</span>
+                <span>Sign In for 50 Units Free</span>
               </button>
             ) : (
-              <button
-                onClick={onClose}
-                className="w-full sm:w-auto rounded-xl bg-[#152238] border border-[#415a77]/40 px-4 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#0d1b2a] transition-colors"
-              >
-                Acknowledge
-              </button>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  onClick={() => {
+                    onClose();
+                    openTrialModal('pro');
+                  }}
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer"
+                >
+                  <span>Start 7-Day Trial</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+                <Link
+                  to="/pricing"
+                  onClick={onClose}
+                  className="rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#0d1b2a] transition-colors text-center"
+                >
+                  Plans
+                </Link>
+              </div>
             )}
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GlobalFaqSection, FaqCategory } from '../common/GlobalFaqSection';
 import { 
   ShieldCheck, 
   Database, 
@@ -56,22 +57,65 @@ export const PrivacySection: React.FC = () => {
     setTimeout(() => setDeletionRequested(false), 5000);
   };
 
-  const faqs = [
+  const faqCategories: FaqCategory[] = [
     {
-      q: "Do you ever sell or rent domain audit telemetry to third parties?",
-      a: "Never. CatalystLab has a strict Zero-Monetization-of-Data policy. Telemetry dossiers and audit reports generated through our engines are only accessible by you (and public visitors if you generate a public benchmark report)."
+      id: 'retention',
+      label: 'Data Retention & Ownership',
+      description: 'Zero monetization guarantee, ephemeral scan purging, and automated retention windows.',
+      iconName: 'lock',
+      items: [
+        {
+          question: "Do you ever sell or rent domain audit telemetry to third parties?",
+          badge: "Zero-Monetization",
+          answer: "Never. CatalystLab enforces a strict Zero-Monetization-of-Data policy. Telemetry dossiers and audit reports generated through our engines are only accessible by you (and public visitors if you generate a public benchmark report). We never sell data to advertisers or brokers."
+        },
+        {
+          question: "How long is diagnostic telemetry retained in the CatalystLab database?",
+          badge: "Purge Schedule",
+          answer: "Unsaved ephemeral scans are cleared from memory within 1 hour. Saved reports associated with your authenticated account are retained until you explicitly delete them from your User Dashboard or request a full cryptographic purge."
+        },
+        {
+          question: "Can I request immediate permanent deletion of all stored audits?",
+          badge: "GDPR Article 17",
+          answer: "Yes. Under GDPR Right to Erasure, you can click 'Request Cryptographic Data Purge' in your privacy settings or email privacy@catalystlab.tech to permanently erase all records within 24 hours."
+        }
+      ]
     },
     {
-      q: "How long is diagnostic data retained in the CatalystLab database?",
-      a: "Unsaved ephemeral scans are cleared from memory within 1 hour. Saved reports associated with your authenticated Google account are retained until you explicitly delete them from your User Dashboard or request full purge."
+      id: 'compliance',
+      label: 'GDPR & Regulatory Compliance',
+      description: 'International data transfers, EU data residency, CCPA, and Data Processing Agreements.',
+      iconName: 'shield',
+      items: [
+        {
+          question: "Is CatalystLab compliant with GDPR, CCPA, and European data residency rules?",
+          badge: "SOC 2 & GDPR",
+          answer: "Yes. All diagnostic requests are routed through strict regional HTTPS proxies, and user telemetry is stored in Firestore with enterprise AES-256 encryption at rest and TLS 1.3 in transit."
+        },
+        {
+          question: "Can Enterprise customers sign a bespoke Data Processing Agreement (DPA)?",
+          badge: "Enterprise DPA",
+          answer: "Yes. We offer standard contractual clauses (SCCs) and custom DPAs for enterprise clients. Contact legal@catalystlab.tech for execution."
+        }
+      ]
     },
     {
-      q: "Is CatalystLab compliant with GDPR, CCPA, and European data residency rules?",
-      a: "Yes. All diagnostic requests are routed through strict regional HTTPS proxies, and user telemetry is stored in Firestore with enterprise AES-256 encryption at rest and TLS 1.3 in transit."
-    },
-    {
-      q: "What subprocessors and cloud providers process scanning workloads?",
-      a: "We use Google Cloud Run (containerized diagnostic workers), Firebase Authentication (session tokens), and Google Vertex AI (for generative architecture summaries). All subprocessors adhere to ISO/IEC 27001 and SOC 2 Type II certifications."
+      id: 'infrastructure',
+      label: 'Subprocessors & Cloud Security',
+      description: 'Certified cloud providers, AI processing boundaries, and encryption standards.',
+      iconName: 'cpu',
+      items: [
+        {
+          question: "What subprocessors and cloud providers process scanning workloads?",
+          badge: "Cloud Infrastructure",
+          answer: "We use Google Cloud Run (containerized diagnostic workers), Firebase Authentication (session tokens), and Google Vertex AI (for generative architecture summaries). All subprocessors adhere to ISO/IEC 27001 and SOC 2 Type II certifications."
+        },
+        {
+          question: "Does Google Vertex AI train on my proprietary website code or audit payloads?",
+          badge: "Zero Model Training",
+          answer: "No. Our enterprise agreement with Google Cloud Vertex AI guarantees zero customer data retention for model training or foundation model fine-tuning. Your audit context remains isolated and transient."
+        }
+      ]
     }
   ];
 
@@ -331,36 +375,12 @@ export const PrivacySection: React.FC = () => {
 
       {/* Privacy FAQ Accordion */}
       <LazyReveal direction="up">
-        <div className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
-            <HelpCircle className="h-5 w-5 text-[#415a77]" />
-            <h3 className="text-lg font-bold text-[#0b192c]">Frequently Asked Privacy Questions</h3>
-          </div>
-
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
-              return (
-                <div
-                  key={idx}
-                  className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] overflow-hidden transition-colors"
-                >
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between p-4 text-left text-xs font-bold text-[#0b192c] hover:bg-[#f4f6fa] transition-colors"
-                  >
-                    <span>{faq.q}</span>
-                    {isOpen ? <ChevronUp className="h-4 w-4 text-[#415a77]" /> : <ChevronDown className="h-4 w-4 text-[#415a77]" />}
-                  </button>
-                  {isOpen && (
-                    <div className="p-4 pt-0 text-xs text-[#415a77] leading-relaxed border-t border-[#e2e8f0]/60">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+        <div className="rounded-3xl border border-[#e2e8f0] bg-white overflow-hidden shadow-sm">
+          <GlobalFaqSection 
+            categories={faqCategories}
+            title="Frequently Asked Privacy Questions"
+            subtitle="Answers regarding data retention, GDPR compliance, encryption, and telemetry handling."
+          />
         </div>
       </LazyReveal>
     </div>

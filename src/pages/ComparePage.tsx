@@ -1,3 +1,4 @@
+import { CompareEngineInput } from "../components/common/CompareEngineInput";
 import React, { useState } from 'react';
 import { TerminalOutput } from '../components/TerminalOutput';
 import { Play, CheckCircle2, XCircle, RotateCw } from 'lucide-react';
@@ -67,48 +68,16 @@ export const ComparePage: React.FC = () => {
             Benchmark performance, security headers, and DOM complexity between two competing websites.
           </p>
 
-          <form onSubmit={handleCompare} className="mt-8 mx-auto max-w-3xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-              <div className="rounded-xl border border-[#415a77]/30 bg-[#0b192c] p-2 shadow-inner">
-                <input
-                  type="text"
-                  value={urlA}
-                  onChange={(e) => setUrlA(e.target.value)}
-                  placeholder="Primary URL (e.g. https://site-a.com)"
-                  required
-                  className="w-full bg-transparent px-3 py-2 text-base text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
-                />
-              </div>
-              <div className="rounded-xl border border-[#415a77]/30 bg-[#0b192c] p-2 shadow-inner">
-                <input
-                  type="text"
-                  value={urlB}
-                  onChange={(e) => setUrlB(e.target.value)}
-                  placeholder="Comparison URL (e.g. https://site-b.com)"
-                  required
-                  className="w-full bg-transparent px-3 py-2 text-base text-[#f8fafc] placeholder:text-[#c5d3e8]/60 focus:outline-none font-mono"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#415a77] py-3 text-base font-bold text-[#f8fafc] hover:bg-[#52718e] disabled:opacity-50 transition-all shadow-md"
-            >
-              {loading ? (
-                <>
-                  <RotateCw className="h-4 w-4 animate-spin text-[#38bdf8]" />
-                  <span>Benchmarking Both Targets...</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-4 w-4 fill-current" />
-                  <span>Execute Comparative Benchmark</span>
-                </>
-              )}
-            </button>
-          </form>
+          <div className="mt-8 mx-auto max-w-3xl">
+            <CompareEngineInput 
+              urlA={urlA}
+              setUrlA={setUrlA}
+              urlB={urlB}
+              setUrlB={setUrlB}
+              onSubmit={handleCompare}
+              isLoading={loading}
+            />
+          </div>
         </div>
       </section>
 

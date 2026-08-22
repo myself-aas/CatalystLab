@@ -1,3 +1,4 @@
+import { EngineInput } from "../components/common/EngineInput";
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -252,72 +253,17 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           </p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="mt-8 mx-auto max-w-xl">
-            <div className="flex flex-col sm:flex-row gap-3 rounded-2xl border border-[#415a77]/30 bg-white p-2 shadow-xl">
-              <div className="relative flex-1">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#415a77]">
-                  <span className="material-symbols-outlined text-base">{meta.icon}</span>
-                </span>
-                <input
-                  type="text"
-                  value={targetUrl}
-                  onChange={(e) => setTargetUrl(e.target.value)}
-                  placeholder={
-                    isRepoEngine 
-                      ? "https://github.com/owner/repo or gitlab.com/..." 
-                      : "https://example.com"
-                  }
-                  required
-                  className="w-full rounded-xl bg-transparent py-3 pl-10 pr-4 text-base text-[#0b192c] placeholder:text-[#415a77]/60 focus:outline-none font-mono"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-6 py-3 text-base font-bold text-[#38bdf8] hover:bg-[#152238] disabled:opacity-50 shrink-0 shadow-md transition-all active:scale-95"
-              >
-                {loading ? (
-                  <>
-                    <span className="material-symbols-outlined text-base animate-spin">progress_activity</span>
-                    <span>Scanning...</span>
-                  </>
-                ) : (
-                  <>
-                    <Play className="h-4 w-4 fill-current" />
-                    <span>Run Scan</span>
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* Quick Sample Targets */}
-            {meta.sampleTargets && meta.sampleTargets.length > 0 && (
-              <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-sm text-[#415a77]">
-                <span className="font-semibold text-sm text-[#64748b]">Try Sample Target:</span>
-                {meta.sampleTargets.map((sample, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => {
-                      setTargetUrl(sample);
-                      triggerAudit(sample);
-                    }}
-                    className="rounded-lg bg-[#f1f5f9] hover:bg-[#e2e8f0] px-2.5 py-1 font-mono text-sm text-[#0b192c] border border-[#cbd5e1] transition-colors"
-                  >
-                    {sample.replace('https://', '')}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-4">
-              <RateLimitBadge onOpenInfo={() => {
-                setRateLimitReason('info');
-                setRateLimitModalOpen(true);
-              }} />
-            </div>
-          </form>
+          <div className="mt-8 mx-auto max-w-xl">
+            <EngineInput 
+              value={targetUrl}
+              onChange={setTargetUrl}
+              onSubmit={handleSubmit}
+              isLoading={loading}
+              buttonText="Run Scan"
+              loadingText="Scanning..."
+              placeholder={isRepoEngine ? "@catalystlab-search: (https://github.com/..." : "@catalystlab-search: (https://..."}
+            />
+          </div>
         </div>
       </section>
 

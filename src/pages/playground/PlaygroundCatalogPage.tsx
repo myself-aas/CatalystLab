@@ -1,3 +1,4 @@
+import { EngineInput } from "../../components/common/EngineInput";
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
@@ -97,19 +98,8 @@ export const PlaygroundCatalogPage: React.FC = () => {
                 </p>
               </div>
 
-              <form onSubmit={handleLaunchQuickTest} className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    value={quickUrl}
-                    onChange={(e) => setQuickUrl(e.target.value)}
-                    placeholder="Enter target URL (e.g. https://example.com)"
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-mono text-gray-900 placeholder-gray-400 focus:border-sky-500 focus:outline-none"
-                    required
-                  />
-                </div>
-
-                <div className="w-full sm:w-60">
+              <div className="space-y-3 max-w-2xl mx-auto">
+                <div className="w-full">
                   <select
                     value={selectedEngine}
                     onChange={(e) => setSelectedEngine(e.target.value)}
@@ -122,15 +112,14 @@ export const PlaygroundCatalogPage: React.FC = () => {
                     ))}
                   </select>
                 </div>
-
-                <button
-                  type="submit"
-                  className="rounded-xl bg-[#0b192c] px-6 py-3 text-sm font-bold text-white hover:bg-[#152238] transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer shrink-0"
-                >
-                  <Terminal className="h-4 w-4 text-emerald-400" />
-                  <span>Launch Console</span>
-                </button>
-              </form>
+                <EngineInput 
+                  value={quickUrl}
+                  onChange={setQuickUrl}
+                  onSubmit={handleLaunchQuickTest}
+                  buttonText="Launch Console"
+                  placeholder="@catalystlab-search: (https://"
+                />
+              </div>
             </section>
 
             {/* Diagnostic Engines Sandbox Catalog */}

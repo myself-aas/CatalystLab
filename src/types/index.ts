@@ -224,3 +224,94 @@ export interface ContactInquiry {
   ownerId?: string;
 }
 
+export type SubscriptionPlanId = 'free' | 'starter' | 'pro' | 'team' | 'enterprise';
+
+export interface PlanFeature {
+  text: string;
+  included: boolean;
+  tooltip?: string;
+  badge?: string;
+}
+
+export interface SubscriptionPlan {
+  id: SubscriptionPlanId;
+  name: string;
+  tagline: string;
+  badge?: string;
+  popular?: boolean;
+  priceMonthly: number;
+  priceAnnualMonthly: number;
+  annualBillingTotal: number;
+  annualSavingsPercent: number;
+  hasFreeTrial: boolean;
+  trialDays: number;
+  dailyComputeUnits: number;
+  masterAuditsPerDay: number;
+  singleEngineAuditsPerDay: number;
+  ciRunsPerMonth: number;
+  ciParallelConcurrency: number;
+  monitoredSitesQuota: number;
+  probeFrequencyMinutes: number;
+  telemetryRetentionDays: number;
+  teamSeats: number;
+  features: PlanFeature[];
+  restrictions: string[];
+  ctaText: string;
+  ctaTextTrial: string;
+}
+
+export interface UserSubscription {
+  id?: string;
+  ownerId: string;
+  ownerEmail?: string;
+  planId: SubscriptionPlanId;
+  status: 'active' | 'trialing' | 'expired' | 'canceled';
+  billingCycle: 'monthly' | 'annual';
+  trialStartedAt?: number | null;
+  trialEndsAt?: number | null;
+  createdAt: number;
+  updatedAt?: number;
+}
+
+export type SpoofingRiskLevel = 'Low Risk' | 'Medium Risk' | 'High Risk';
+export type ProtectionStatus = 'Configured' | 'Missing Protection';
+export type SslValidationAlert = 'Secure' | 'Warning: Expiring Soon' | 'Critical: Expired/Missing';
+
+export interface SslStatusInfo {
+  is_expired: boolean;
+  days_until_expiration: number;
+  encryption_algorithm: string;
+  validation_alert: SslValidationAlert;
+  issuer?: string;
+  valid_from?: string;
+  valid_to?: string;
+  protocol?: string;
+}
+
+export interface SecurityDiagnosticProfile {
+  spf_status: ProtectionStatus;
+  dmarc_status: ProtectionStatus;
+  spoofing_risk_level: SpoofingRiskLevel;
+  ssl_status: SslStatusInfo;
+  pipeline_summary: string;
+  hosting_ecosystem?: string;
+}
+
+export interface SubdomainDiscoveryRecord {
+  subdomain: string;
+  ip?: string;
+  cname?: string;
+  status: 'active' | 'unresolved' | 'wildcard';
+  type: 'A' | 'CNAME' | 'AAAA' | 'TXT';
+  discovered_at: string;
+  cloud_provider?: string;
+}
+
+export interface InfrastructureGrowthSummary {
+  total_discovered: number;
+  active_hosts: number;
+  cloud_providers: string[];
+  expansion_rate: string;
+  discovery_source: string;
+}
+

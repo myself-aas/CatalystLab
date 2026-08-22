@@ -61,7 +61,11 @@ const SUPERADMIN_EMAILS = [
 ];
 
 export const VISITOR_DAILY_UNITS = 20;
-export const USER_DAILY_UNITS = 50;
+export const FREE_USER_DAILY_UNITS = 50;
+export const STARTER_DAILY_UNITS = 150;
+export const PRO_DAILY_UNITS = 500;
+export const TEAM_DAILY_UNITS = 1500;
+export const ENTERPRISE_DAILY_UNITS = 5000;
 export const PRO_API_DAILY_UNITS = 500;
 export const MASTER_AUDIT_COST = 10;
 export const SINGLE_ENGINE_COST = 1;
@@ -70,12 +74,14 @@ export const BURST_WINDOW_MS = 60 * 1000;
 export const VISITOR_BURST_MAX = 15;
 export const USER_BURST_MAX = 45;
 
+export type RateLimitTier = 'superadmin' | 'enterprise' | 'team' | 'pro' | 'starter' | 'free' | 'visitor' | 'api_pro';
+
 interface RateLimitRecord {
   unitsUsed: number;
   sessionCostMap: Map<string, number>;
   requestTimestamps: number[];
   lastUpdated: number;
-  tier: 'superadmin' | 'user' | 'visitor' | 'api_pro';
+  tier: RateLimitTier;
 }
 
 // In-memory rate limit ledger: Map<dateKey_identifier, RateLimitRecord>
@@ -97,8 +103,10 @@ function getUtcMidnight(): { dateKey: string; resetAt: Date; resetInSeconds: num
 
 function resolveClientIdentity(req: Request): {
   identifier: string;
-  tier: 'superadmin' | 'user' | 'visitor' | 'api_pro';
+  tier: RateLimitTier;
   tierLabel: string;
+  subscriptionPlan: string;
+  isTrialActive: boolean;
   limit: number | null;
   burstMax: number;
   cleanEmail?: string;
@@ -112,6 +120,11 @@ function resolveClientIdentity(req: Request): {
   const rawVisitorId = (req.body?.visitorId || req.headers['x-visitor-id'] || req.query?.visitorId || '') as string;
   const rawSessionId = (req.body?.auditSessionId || req.headers['x-audit-session'] || req.query?.auditSessionId || '') as string;
   const apiKey = (req.headers['x-api-key'] || req.headers['authorization']?.replace('Bearer ', '')) as string;
+  
+  const rawPlan = (req.body?.subscriptionPlan || req.headers['x-subscription-plan'] || req.query?.subscriptionPlan || 'free') as string;
+  const rawTrial = req.body?.isTrialActive || req.headers['x-trial-active'] || req.query?.isTrialActive;
+  const isTrialActive = rawTrial === true || rawTrial === 'true';
+  const plan = rawPlan.toLowerCase().trim();
 
   const cleanEmail = rawEmail.toLowerCase().trim();
   const isSuperadmin = Boolean(cleanEmail && SUPERADMIN_EMAILS.includes(cleanEmail));
@@ -121,6 +134,8 @@ function resolveClientIdentity(req: Request): {
       identifier: `superadmin_${cleanEmail}`,
       tier: 'superadmin',
       tierLabel: 'Primary Superadmin',
+      subscriptionPlan: 'enterprise',
+      isTrialActive: false,
       limit: null,
       burstMax: Infinity,
       cleanEmail,
@@ -135,6 +150,8 @@ function resolveClientIdentity(req: Request): {
       identifier: `key_${apiKey.substring(0, 16)}`,
       tier: 'api_pro',
       tierLabel: 'Developer API Key',
+      subscriptionPlan: 'pro',
+      isTrialActive: false,
       limit: PRO_API_DAILY_UNITS,
       burstMax: 120,
       cleanEmail,
@@ -145,12 +162,41 @@ function resolveClientIdentity(req: Request): {
   }
 
   if (rawUserId || cleanEmail) {
+    let limit = FREE_USER_DAILY_UNITS;
+    let tier: RateLimitTier = 'free';
+    let tierLabel = 'Community User';
+    let burstMax = USER_BURST_MAX;
+
+    if (plan === 'enterprise') {
+      limit = ENTERPRISE_DAILY_UNITS;
+      tier = 'enterprise';
+      tierLabel = isTrialActive ? 'Enterprise (7-Day Trial)' : 'Enterprise Tier';
+      burstMax = 500;
+    } else if (plan === 'team') {
+      limit = TEAM_DAILY_UNITS;
+      tier = 'team';
+      tierLabel = isTrialActive ? 'Team (7-Day Trial)' : 'Team Tier';
+      burstMax = 300;
+    } else if (plan === 'pro') {
+      limit = PRO_DAILY_UNITS;
+      tier = 'pro';
+      tierLabel = isTrialActive ? 'Pro (7-Day Trial)' : 'Professional Tier';
+      burstMax = 120;
+    } else if (plan === 'starter') {
+      limit = STARTER_DAILY_UNITS;
+      tier = 'starter';
+      tierLabel = isTrialActive ? 'Starter (7-Day Trial)' : 'Starter Tier';
+      burstMax = 60;
+    }
+
     return {
       identifier: `user_${rawUserId || cleanEmail}`,
-      tier: 'user',
-      tierLabel: 'Registered User',
-      limit: USER_DAILY_UNITS,
-      burstMax: USER_BURST_MAX,
+      tier,
+      tierLabel,
+      subscriptionPlan: plan,
+      isTrialActive,
+      limit,
+      burstMax,
       cleanEmail,
       userId: rawUserId,
       visitorId: rawVisitorId,
@@ -162,6 +208,8 @@ function resolveClientIdentity(req: Request): {
     identifier: `vis_${rawVisitorId || ip}`,
     tier: 'visitor',
     tierLabel: 'Guest Visitor',
+    subscriptionPlan: 'visitor',
+    isTrialActive: false,
     limit: VISITOR_DAILY_UNITS,
     burstMax: VISITOR_BURST_MAX,
     cleanEmail: undefined,
@@ -171,7 +219,7 @@ function resolveClientIdentity(req: Request): {
   };
 }
 
-function getOrCreateRateLimitRecord(key: string, tier: 'superadmin' | 'user' | 'visitor' | 'api_pro'): RateLimitRecord {
+function getOrCreateRateLimitRecord(key: string, tier: RateLimitTier): RateLimitRecord {
   if (!dailyRateLimitStore.has(key)) {
     dailyRateLimitStore.set(key, {
       unitsUsed: 0,
@@ -271,7 +319,7 @@ export function evaluateAndChargeRateLimit(
     }
   }
 
-  const limit = identity.limit || USER_DAILY_UNITS;
+  const limit = identity.limit || FREE_USER_DAILY_UNITS;
   const projectedUsed = record.unitsUsed + costToCharge;
 
   // 3. Quota Exceeded Check
@@ -283,9 +331,11 @@ export function evaluateAndChargeRateLimit(
     res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
     res.setHeader('X-RateLimit-Tier', identity.tier);
 
-    const errorMessage = identity.tier === 'user'
-      ? `Daily compute quota exhausted (${limit} units / 5 Master Audits / 50 Single Engines). Resets at midnight UTC.`
-      : `Daily visitor limit exhausted (${limit} units / 2 Master Audits / 20 Single Engines). Sign in with Google to unlock 50 units/day.`;
+    const errorMessage = identity.tier === 'free'
+      ? `Daily compute quota exhausted (${limit} units / 5 Master Audits / 50 Single Engines). Resets at midnight UTC. Upgrade your plan or activate a 7-day free trial at /pricing.`
+      : identity.tier === 'visitor'
+      ? `Daily visitor limit exhausted (${limit} units / 2 Master Audits / 20 Single Engines). Sign in with Google to unlock 50 units/day.`
+      : `Daily quota limit exhausted (${limit} units) for ${identity.tierLabel}. Resets at midnight UTC.`;
 
     return {
       allowed: false,
@@ -1175,7 +1225,7 @@ async function startServer() {
     const storeKey = `${dateKey}_${identity.identifier}`;
     const record = dailyRateLimitStore.get(storeKey);
     const unitsUsed = record ? record.unitsUsed : 0;
-    const limit = identity.limit || USER_DAILY_UNITS;
+    const limit = identity.limit || FREE_USER_DAILY_UNITS;
     const unitsRemaining = Math.max(0, limit - unitsUsed);
 
     const now = Date.now();
@@ -1186,6 +1236,8 @@ async function startServer() {
       success: true,
       tier: identity.tier,
       tierLabel: identity.tierLabel,
+      subscriptionPlan: identity.subscriptionPlan,
+      isTrialActive: identity.isTrialActive,
       dailyLimit: limit,
       unitsUsed,
       unitsRemaining,
@@ -1200,6 +1252,123 @@ async function startServer() {
       formattedResetTime,
       isUnlimited: false,
       isExceeded: unitsRemaining <= 0
+    });
+  });
+
+  // 5-Tier Subscription Plans & Free Trial API
+  app.get('/api/plans', (_req: Request, res: Response): void => {
+    res.json({
+      success: true,
+      trialDurationDays: 7,
+      trialRequiresCreditCard: false,
+      plans: [
+        {
+          id: 'free',
+          name: 'Free Community',
+          tagline: 'Essential developer diagnostics & baseline audits',
+          monthlyPrice: 0,
+          annualPrice: 0,
+          dailyUnits: 50,
+          monthlyAudits: 150,
+          burstLimitPerMin: 45,
+          maxConcurrentEngines: 8,
+          trialAvailable: false,
+          features: [
+            '50 daily compute units (5 full audits/day)',
+            'All 8 zero-overhead diagnostic engines',
+            'Full JSON / Markdown / CSV export',
+            'Standard edge latency & carbon metrics',
+            'Community documentation & GitHub issues'
+          ]
+        },
+        {
+          id: 'starter',
+          name: 'Starter Pro',
+          tagline: 'Ideal for indie hackers, freelancing engineers & single projects',
+          monthlyPrice: 9,
+          annualPrice: 7,
+          dailyUnits: 150,
+          monthlyAudits: 450,
+          burstLimitPerMin: 60,
+          maxConcurrentEngines: 8,
+          trialAvailable: true,
+          badge: 'Most Popular for Solo Devs',
+          features: [
+            '150 daily compute units (15 full audits/day)',
+            '7-day free trial (no credit card required)',
+            '3 Monitored domain slots with hourly tracking',
+            'Automated Weekly Email Dossier digests',
+            'Slack & Discord anomaly webhook alerts',
+            'Custom PDF executive audit summaries'
+          ]
+        },
+        {
+          id: 'pro',
+          name: 'Professional Team',
+          tagline: 'High-speed observability for growing engineering teams',
+          monthlyPrice: 19,
+          annualPrice: 15,
+          dailyUnits: 500,
+          monthlyAudits: 1500,
+          burstLimitPerMin: 120,
+          maxConcurrentEngines: 8,
+          trialAvailable: true,
+          badge: 'Recommended',
+          features: [
+            '500 daily compute units (50 full audits/day)',
+            '7-day free trial (no credit card required)',
+            '10 Monitored domain slots with continuous health scans',
+            'CI/CD GitHub Actions & GitLab Webhook integrations',
+            'Full REST API access (cat_live_ developer tokens)',
+            'Multi-region edge latency probes across 6 continents',
+            'Custom threshold anomaly triggers & priority routing'
+          ]
+        },
+        {
+          id: 'team',
+          name: 'Scale & Growth',
+          tagline: 'Continuous DevSecOps pipelines & team-wide multi-cloud monitoring',
+          monthlyPrice: 49,
+          annualPrice: 39,
+          dailyUnits: 1500,
+          monthlyAudits: 4500,
+          burstLimitPerMin: 300,
+          maxConcurrentEngines: 8,
+          trialAvailable: true,
+          badge: 'High Performance',
+          features: [
+            '1,500 daily compute units (150 full audits/day)',
+            '7-day free trial (no credit card required)',
+            '30 Monitored domain slots with 15-minute intervals',
+            'Advanced LLMO prompt token benchmarking & cache tracing',
+            'Custom compliance rule suites (SOC2 / GDPR / HIPAA)',
+            'Unlimited team seat invitations & shared audit vaults',
+            'Priority queue execution with zero latency buffering'
+          ]
+        },
+        {
+          id: 'enterprise',
+          name: 'Enterprise Apex',
+          tagline: 'Mission-critical enterprise governance, unlimited scale & dedicated support',
+          monthlyPrice: 99,
+          annualPrice: 79,
+          dailyUnits: 5000,
+          monthlyAudits: 15000,
+          burstLimitPerMin: 500,
+          maxConcurrentEngines: 8,
+          trialAvailable: true,
+          badge: 'Enterprise SLA',
+          features: [
+            '5,000 daily compute units (500 full audits/day)',
+            '7-day free trial (no credit card required)',
+            'Unlimited monitored domains & subdomains',
+            'Custom on-premise runner support & VPC peering',
+            '99.99% uptime SLA & dedicated solution engineer',
+            'Role-based access control (RBAC) & SAML/SSO integration',
+            'Quarterly architectural review & bespoke engine rules'
+          ]
+        }
+      ]
     });
   });
 
@@ -1267,23 +1436,8 @@ async function startServer() {
       // Validate URL / repo safety
       const safeUrl = url.trim().replace(/(["\\$`])/g, '\\$1');
 
-      // Execute Python script with graceful fallback to Native TypeScript engine
-      let output: string | null = null;
-      try {
-        const command = `python3 "${scriptPath}" "${safeUrl}"`;
-        const { stdout, stderr } = await execAsync(command, {
-          timeout: 40000,
-          maxBuffer: 1024 * 1024 * 5
-        });
-        output = stdout || stderr;
-      } catch (pythonErr) {
-        // Fallback to Native Engine if python fails
-        output = null;
-      }
-
-      if (!output || output.trim() === '') {
-        output = await runNativeEngine(url, engine);
-      }
+      // Execute Native TypeScript engine directly
+      const output = await runNativeEngine(url, engine);
 
       res.json({
         success: true,
@@ -1507,17 +1661,7 @@ async function startServer() {
       const scriptPath = path.join(process.cwd(), 'python-engines', scriptName);
       const safeUrl = url.trim().replace(/(["\\$`])/g, '\\$1');
 
-      let output: string | null = null;
-      try {
-        const { stdout, stderr } = await execAsync(`python3 "${scriptPath}" "${safeUrl}"`, { timeout: 40000 });
-        output = stdout || stderr;
-      } catch {
-        output = null;
-      }
-
-      if (!output || output.trim() === '') {
-        output = await runNativeEngine(url, engine);
-      }
+      const output = await runNativeEngine(url, engine);
 
       res.json({
         success: true,
@@ -1556,16 +1700,7 @@ async function startServer() {
       await Promise.allSettled(
         enginesToRun.map(async (eng) => {
           try {
-            const scriptPath = path.join(process.cwd(), 'python-engines', ENGINE_SCRIPT_MAP[eng]);
-            const safeUrl = url.trim().replace(/(["\\$`])/g, '\\$1');
-            let out: string | null = null;
-            try {
-              const { stdout, stderr } = await execAsync(`python3 "${scriptPath}" "${safeUrl}"`, { timeout: 15000 });
-              out = stdout || stderr;
-            } catch {
-              out = null;
-            }
-            if (!out) out = await runNativeEngine(url, eng);
+            const out = await runNativeEngine(url, eng);
             results[eng] = { status: 'completed', preview: out ? out.slice(0, 300) : 'Completed' };
           } catch (err: any) {
             results[eng] = { status: 'error', error: err.message };
@@ -1692,7 +1827,7 @@ async function startServer() {
     const storeKey = `${getUtcMidnight().dateKey}_${identity.identifier}`;
     const record = dailyRateLimitStore.get(storeKey);
     const unitsUsed = record ? record.unitsUsed : 0;
-    const limit = identity.limit || USER_DAILY_UNITS;
+    const limit = identity.limit || FREE_USER_DAILY_UNITS;
     const unitsRemaining = identity.tier === 'superadmin' ? Infinity : Math.max(0, limit - unitsUsed);
 
     res.json({
@@ -1720,7 +1855,7 @@ async function startServer() {
     const storeKey = `${getUtcMidnight().dateKey}_${identity.identifier}`;
     const record = dailyRateLimitStore.get(storeKey);
     const unitsUsed = record ? record.unitsUsed : 0;
-    const limit = identity.limit || USER_DAILY_UNITS;
+    const limit = identity.limit || FREE_USER_DAILY_UNITS;
     const unitsRemaining = identity.tier === 'superadmin' ? Infinity : Math.max(0, limit - unitsUsed);
 
     res.json({
@@ -1988,6 +2123,18 @@ async function startServer() {
   // Use one HTTP server for Express and Vite so Vite can attach its HMR WebSocket
   // upgrade handler in middleware mode.
   const httpServer = http.createServer(app);
+
+  // CRITICAL route-level fallback: Handle database queries failing gracefully when MongoDB is offline:
+  app.use((err: any, req: Request, res: Response, next: express.NextFunction) => {
+    if (err.name === 'MongooseError' || err.name === 'MongoNetworkError' || err.message?.includes('buffering timed out') || err.message?.includes('Mongo')) {
+      console.warn('[AI Studio] Database offline — returning mock empty response');
+      if (req.method === 'GET') {
+        return res.json(req.path.endsWith('s') || req.path.endsWith('s/') ? [] : {});
+      }
+      return res.status(503).json({ error: 'Service temporarily unavailable (database offline)' });
+    }
+    next(err);
+  });
 
   // Vite Integration
   if (process.env.NODE_ENV === 'production') {

@@ -27,7 +27,7 @@ import {
   limit,
   onSnapshot
 } from 'firebase/firestore';
-import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry } from '../types';
+import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry, UserSubscription, SubscriptionPlanId } from '../types';
 
 import firebaseConfig from '../../firebase-applet-config.json';
 
@@ -1261,6 +1261,121 @@ export const getContactInquiriesForAdmin = async (): Promise<ContactInquiry[]> =
     console.warn("Could not query contact_inquiries from Firestore:", err);
   }
   return getLocalInquiries();
+};
+
+/* =========================================================================
+ * User Subscription & 7-Day Free Trial Management (5 Tiers Architecture)
+ * ========================================================================= */
+
+const LOCAL_SUB_PREFIX = 'catalyst_user_subscription_';
+
+export function getLocalSubscription(userId: string): UserSubscription | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(LOCAL_SUB_PREFIX + userId);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveLocalSubscription(subscription: UserSubscription): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(LOCAL_SUB_PREFIX + subscription.ownerId, JSON.stringify(subscription));
+  } catch (err) {
+    console.warn('Failed to cache subscription locally:', err);
+  }
+}
+
+export const getUserSubscription = async (userId: string): Promise<UserSubscription | null> => {
+  if (!userId) return null;
+  const path = `user_subscriptions/${userId}`;
+  
+  try {
+    const docRef = doc(db, 'user_subscriptions', userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data() as UserSubscription;
+      const sub = { ...data, id: docSnap.id };
+      saveLocalSubscription(sub);
+      return sub;
+    }
+  } catch (err) {
+    handleFirestoreError(err, OperationType.GET, path);
+  }
+
+  return getLocalSubscription(userId);
+};
+
+export const startUserTrial = async (
+  userId: string,
+  userEmail: string,
+  planId: SubscriptionPlanId = 'pro'
+): Promise<UserSubscription> => {
+  const path = `user_subscriptions/${userId}`;
+  const now = Date.now();
+  const trialDurationMs = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
+  const trialEndsAt = now + trialDurationMs;
+
+  const subscription: UserSubscription = {
+    id: userId,
+    ownerId: userId,
+    ownerEmail: userEmail,
+    planId: planId === 'free' ? 'pro' : planId,
+    status: 'trialing',
+    billingCycle: 'monthly',
+    trialStartedAt: now,
+    trialEndsAt,
+    createdAt: now,
+    updatedAt: now
+  };
+
+  try {
+    const docRef = doc(db, 'user_subscriptions', userId);
+    await setDoc(docRef, subscription, { merge: true });
+  } catch (err) {
+    handleFirestoreError(err, OperationType.WRITE, path);
+  }
+
+  saveLocalSubscription(subscription);
+  return subscription;
+};
+
+export const changeUserSubscription = async (
+  userId: string,
+  userEmail: string,
+  planId: SubscriptionPlanId,
+  billingCycle: 'monthly' | 'annual' = 'monthly'
+): Promise<UserSubscription> => {
+  const path = `user_subscriptions/${userId}`;
+  const now = Date.now();
+
+  const current = getLocalSubscription(userId);
+  const isTrial = current?.status === 'trialing' && current?.trialEndsAt && current.trialEndsAt > now;
+
+  const subscription: UserSubscription = {
+    id: userId,
+    ownerId: userId,
+    ownerEmail: userEmail,
+    planId,
+    status: planId === 'free' ? 'active' : (isTrial ? 'trialing' : 'active'),
+    billingCycle,
+    trialStartedAt: current?.trialStartedAt || null,
+    trialEndsAt: current?.trialEndsAt || null,
+    createdAt: current?.createdAt || now,
+    updatedAt: now
+  };
+
+  try {
+    const docRef = doc(db, 'user_subscriptions', userId);
+    await setDoc(docRef, subscription, { merge: true });
+  } catch (err) {
+    handleFirestoreError(err, OperationType.WRITE, path);
+  }
+
+  saveLocalSubscription(subscription);
+  return subscription;
 };
 
 

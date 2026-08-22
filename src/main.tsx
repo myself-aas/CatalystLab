@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { SubscriptionProvider } from './context/SubscriptionContext';
 import App from './App';
 import './index.css';
 
@@ -12,7 +13,9 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <SubscriptionProvider>
+          <App />
+        </SubscriptionProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

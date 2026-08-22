@@ -4,6 +4,7 @@ import { SocialProof } from '../components/home/SocialProof';
 import { FeaturedAuditMetrics } from '../components/home/FeaturedAuditMetrics';
 import { HowItWorks } from '../components/home/HowItWorks';
 import { ArchitectureComparator } from '../components/home/ArchitectureComparator';
+import { LatestBlogsSection } from '../components/home/LatestBlogsSection';
 import { FaqAccordion } from '../components/home/FaqAccordion';
 import { FinalCTA } from '../components/home/FinalCTA';
 import { openGetInTouchModal } from '../components/common/GetInTouchEmailModal';
@@ -28,6 +29,7 @@ export const MasterAuditPage: React.FC = () => {
       <FeaturedAuditMetrics />
       <HowItWorks />
       <ArchitectureComparator />
+      <LatestBlogsSection />
       <FaqAccordion />
       <FinalCTA />
     </div>

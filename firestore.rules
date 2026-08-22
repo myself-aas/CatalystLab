@@ -83,6 +83,26 @@ service cloud.firestore {
         && data.email is string && data.email.size() <= 256
         && data.createdAt is number;
     }
+
+    function isValidUserSubscription(data) {
+      return data.keys().hasAll(['userId', 'planId', 'status', 'createdAt', 'updatedAt'])
+        && data.userId is string && data.userId == request.auth.uid
+        && data.planId in ['free', 'starter', 'pro', 'team', 'enterprise']
+        && data.status in ['active', 'trialing', 'canceled', 'past_due']
+        && data.createdAt is number
+        && data.updatedAt is number;
+    }
+
+    // User Subscriptions Collection (Owner or Superadmin)
+    match /user_subscriptions/{userId} {
+      allow get: if isSignedIn() && (request.auth.uid == userId || isSuperAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow create, update: if isSignedIn()
+                    && isValidId(userId)
+                    && request.auth.uid == userId
+                    && isValidUserSubscription(incoming());
+      allow delete: if isSignedIn() && isSuperAdmin();
+    }
     
     // Reports Collection
     match /reports/{reportId} {

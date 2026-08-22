@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Copy, Check, Maximize2, Minimize2, Terminal, CircleDot } from 'lucide-react';
+import { Copy, Check, Maximize2, Minimize2, Terminal, CircleDot, Activity, ShieldCheck } from 'lucide-react';
+import { RiskSslGaugeChart } from './charts/RiskSslGaugeChart';
 
 interface TerminalOutputProps {
   title?: string;
@@ -24,6 +25,9 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [showGauges, setShowGauges] = useState(true);
+
+  const isComplianceEngine = engine === 'compliance' || engine === 'devsecops_compliance' || title.toLowerCase().includes('compliance');
 
   const handleCopy = () => {
     if (!output) return;
@@ -122,6 +126,21 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
           <div className="h-3.5 w-px bg-[#415a77]/30 mx-0.5" />
 
+          {isComplianceEngine && (
+            <button
+              onClick={() => setShowGauges(!showGauges)}
+              className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-medium transition-all active:scale-95 ${
+                showGauges
+                  ? 'border-sky-500/50 bg-sky-500/20 text-sky-300'
+                  : 'border-[#415a77]/30 bg-[#152238]/70 text-[#c5d3e8] hover:text-[#f8fafc]'
+              }`}
+              title="Toggle D3.js Risk & SSL Gauges"
+            >
+              <Activity className="h-3 w-3 text-sky-400" />
+              <span className="hidden sm:inline">D3 Gauges</span>
+            </button>
+          )}
+
           <button
             onClick={handleCopy}
             disabled={!output}
@@ -152,6 +171,13 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Embedded D3.js Gauges for Compliance & Risk */}
+      {isComplianceEngine && showGauges && (
+        <div className="border-b border-[#415a77]/25 p-3 bg-[#081628]/95">
+          <RiskSslGaugeChart rawOutput={output} compact />
+        </div>
+      )}
 
       {/* Terminal Body */}
       <div
