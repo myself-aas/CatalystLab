@@ -38,7 +38,7 @@ export const SystemOverviewDoc: React.FC = () => {
           <div className="flex items-start gap-3">
             <Info className="h-5 w-5 text-sky-700 shrink-0 mt-0.5" />
             <div className="space-y-2">
-              <h3 className="font-bold text-sky-950 text-base">Zero Client-Script Execution Model</h3>
+              <h2 className="font-bold text-sky-950 text-base">Zero Client-Script Execution Model</h2>
               <p className="leading-relaxed">
                 Unlike traditional headless browser clusters (Puppeteer / Playwright) that load and execute unvetted client-side JavaScript—introducing security vulnerabilities, crypto-mining risks, and high memory overhead—CatalystLab utilizes high-speed non-evaluating streaming HTTP/TLS socket timing probes, Abstract Syntax Tree (AST) HTML parsers, and DNS anycast radars.
               </p>
@@ -119,7 +119,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">Platform Migration & System Blueprint</td>
                 <td className="py-2 px-3 text-xs font-mono">Firebase + Mongo Schemas</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/synthshift" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/synthshift" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
@@ -127,7 +127,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">Git Repository SecOps & Hygiene</td>
                 <td className="py-2 px-3 text-xs font-mono">License, SECURITY.md, CI</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/gitlygase" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/gitlygase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
@@ -135,7 +135,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">Sustainable Web Carbon Footprint</td>
                 <td className="py-2 px-3 text-xs font-mono">SWD v4 (g CO2 / view)</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/ecoholo" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/ecoholo" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
@@ -143,7 +143,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">Core Web Vitals & DOM Tree Depth</td>
                 <td className="py-2 px-3 text-xs font-mono">Tree Depth, Total Nodes</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/vitalzyme" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/vitalzyme" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
@@ -151,7 +151,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">Multi-PoP Global Edge Latency</td>
                 <td className="py-2 px-3 text-xs font-mono">12-Region Synthetic TTFB</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/edgevmax" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/edgevmax" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
@@ -159,7 +159,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">OWASP Security & Compliance</td>
                 <td className="py-2 px-3 text-xs font-mono">HSTS, CSP, WCAG 2.2 AA</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/riskprotease" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/riskprotease" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
@@ -167,7 +167,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">AI Readiness & llms.txt Discovery</td>
                 <td className="py-2 px-3 text-xs font-mono">GPTBot, JSON-LD Schemas</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/llm-kinase" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/llm-kinase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
@@ -175,7 +175,7 @@ export const SystemOverviewDoc: React.FC = () => {
                 <td className="py-2 px-3 text-[#415a77]">AI Search Engine Optimization (LLMO)</td>
                 <td className="py-2 px-3 text-xs font-mono">RAG Density, E-E-A-T Index</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/allostersearch" className="text-sky-700 hover:underline font-bold text-xs">Explore Docs →</Link>
+                  <Link to="/docs/allostersearch" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
                 </td>
               </tr>
             </tbody>
@@ -189,9 +189,9 @@ export const SystemOverviewDoc: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
           <Link
             to="/docs/architecture"
-            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group"
+            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>Full-Stack Architecture</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
@@ -200,9 +200,9 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/api"
-            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group"
+            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>REST API Spec</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
@@ -211,9 +211,9 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/synthshift"
-            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group"
+            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>Engine Deep-Dives</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>

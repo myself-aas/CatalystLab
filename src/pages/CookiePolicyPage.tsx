@@ -36,7 +36,7 @@ export const CookiePolicyPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-3">
               <Link
                 to="/privacy"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ShieldCheck className="h-4 w-4 text-sky-300" />
                 <span>View Full Privacy Policy</span>

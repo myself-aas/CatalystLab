@@ -3,7 +3,7 @@ import crypto from 'crypto';
 
 let client: MongoClient | null = null;
 let db: Db | null = null;
-let eventQueue: any[] = [];
+let eventQueue: unknown[] = [];
 const BATCH_SIZE = 500;
 let totalBatchesFlushed = 0;
 let totalEventsIngested = 0;
@@ -23,7 +23,7 @@ export function generateVisitorId(ip: string, userAgent: string, domain: string)
   return crypto.createHash('sha256').update(`${ip}-${userAgent}-${domain}-${salt}`).digest('hex');
 }
 
-export const DEFAULT_MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://shuvo1807016_db_user:Vgyqz02uLgaytq3V@catalystlab.rhmy0mh.mongodb.net/?appName=Catalystlab";
+export const DEFAULT_MONGODB_URI = process.env.MONGODB_URI || "";
 
 let mongoConnectionStatus: {
   connected: boolean;
@@ -104,7 +104,7 @@ export async function initAnalyticsDB(): Promise<Db | null> {
 
     console.log(`[MongoDB] Successfully connected to MongoDB Atlas database "${dbName}" (${pingMs}ms latency).`);
     return db;
-  } catch (err: any) {
+  } catch (err: unknown) {
     mongoConnectionStatus = {
       connected: false,
       database: 'catalyst_analytics',
@@ -133,7 +133,7 @@ export async function checkMongoDBHealth(): Promise<{
   if (!db || !client) {
     try {
       await initAnalyticsDB();
-    } catch {}
+    } catch (e) { console.error("Ignored error:", e); }
   }
 
   if (!db || !client) {
@@ -155,7 +155,7 @@ export async function checkMongoDBHealth(): Promise<{
     let totalEvents = 0;
     try {
       totalEvents = await db.collection('events').countDocuments({});
-    } catch {}
+    } catch (e) { console.error("Ignored error:", e); }
 
     mongoConnectionStatus.connected = true;
     mongoConnectionStatus.lastPingMs = pingMs;

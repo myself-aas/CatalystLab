@@ -41,7 +41,7 @@ export const ComparePage: React.FC = () => {
         });
         const data = await res.json();
         return data.output || data.error || 'Done';
-      } catch (err: any) {
+      } catch (err: unknown) {
         return `[!] Error: ${err.message}`;
       }
     };
@@ -129,7 +129,7 @@ export const ComparePage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#415a77]/20 text-[#ebe9e6]">
-                <tr className="hover:bg-[#152238]/30 transition-colors">
+                <tr className="hover:bg-[#152238]/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Multi-Engine Unified Audit (8 Engines)</td>
                   <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (Full Suite)</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">Lighthouse Only</td>
@@ -137,7 +137,7 @@ export const ComparePage: React.FC = () => {
                   <td className="py-3 px-4 text-[#c5d3e8]/70">Headers Only</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">A11y Only</td>
                 </tr>
-                <tr className="hover:bg-[#152238]/30 transition-colors">
+                <tr className="hover:bg-[#152238]/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Instant Shareable Permalink</td>
                   <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (/reports/:slug)</td>
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
@@ -145,7 +145,7 @@ export const ComparePage: React.FC = () => {
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                 </tr>
-                <tr className="hover:bg-[#152238]/30 transition-colors">
+                <tr className="hover:bg-[#152238]/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">AI Search Readiness (/llms.txt)</td>
                   <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (LLMO Radar)</td>
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
@@ -153,7 +153,7 @@ export const ComparePage: React.FC = () => {
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                 </tr>
-                <tr className="hover:bg-[#152238]/30 transition-colors">
+                <tr className="hover:bg-[#152238]/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Continuous Edge Latency Radar (12 PoPs)</td>
                   <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (Global)</td>
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
@@ -161,7 +161,7 @@ export const ComparePage: React.FC = () => {
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                   <td className="py-3 px-4 text-rose-400"><span className="material-symbols-outlined text-base align-middle">cancel</span> No</td>
                 </tr>
-                <tr className="hover:bg-[#152238]/30 transition-colors">
+                <tr className="hover:bg-[#152238]/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <td className="py-3 px-4 font-semibold text-[#f8fafc]">Full PDF & JSON Telemetry Dossiers</td>
                   <td className="py-3 px-4 text-emerald-400 font-bold bg-[#152238]/40"><span className="material-symbols-outlined text-base align-middle">check_circle</span> Yes (Instant Export)</td>
                   <td className="py-3 px-4 text-[#c5d3e8]/70">JSON Only</td>

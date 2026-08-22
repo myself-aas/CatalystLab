@@ -62,7 +62,7 @@ export const ApiCategoryPage: React.FC = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono text-gray-500">
-              <Link to="/api-reference" className="hover:text-gray-900 transition-colors">
+              <Link to="/api-reference" className="hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 API Reference
               </Link>
               <span>/</span>
@@ -82,14 +82,14 @@ export const ApiCategoryPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/api-reference"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>All Categories</span>
                 </Link>
                 <Link
                   to="/playground"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-3.5 py-2 text-xs font-bold text-white hover:bg-[#152238] transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-3.5 py-2 text-xs font-bold text-white hover:bg-[#152238] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Terminal className="h-3.5 w-3.5 text-emerald-400" />
                   <span>Open Playground</span>
@@ -149,7 +149,7 @@ export const ApiCategoryPage: React.FC = () => {
                       {ep.engineId && (
                         <Link
                           to={`/playground/${ep.engineId}`}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-colors shrink-0 self-start lg:self-auto"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-colors shrink-0 self-start lg:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           <Terminal className="h-3.5 w-3.5 text-emerald-600" />
                           <span>Test in Playground</span>
@@ -180,7 +180,7 @@ export const ApiCategoryPage: React.FC = () => {
                           Query / Path Parameters
                         </h3>
                         <div className="overflow-x-auto rounded-2xl border border-gray-200">
-                          <table className="w-full text-left text-xs">
+                          <table className="w-full text-left text-xs" aria-label="Query parameters">
                             <thead className="bg-gray-50 border-b border-gray-200 text-gray-600 font-mono">
                               <tr>
                                 <th className="p-3">Parameter</th>
@@ -192,7 +192,7 @@ export const ApiCategoryPage: React.FC = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-100 font-mono text-gray-700">
                               {ep.parameters.map((p) => (
-                                <tr key={p.name} className="hover:bg-gray-50/50">
+                                <tr key={p.name} className="hover:bg-gray-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                                   <td className="p-3 font-bold text-[#0b192c]">{p.name}</td>
                                   <td className="p-3 text-sky-700">{p.type}</td>
                                   <td className="p-3 text-gray-500">{p.in}</td>
@@ -259,7 +259,7 @@ export const ApiCategoryPage: React.FC = () => {
 
                           <button
                             onClick={() => handleCopy(ep.id, snippet)}
-                            className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer ml-1"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           >
                             {copiedMap[ep.id] ? (
                               <>

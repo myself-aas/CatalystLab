@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useRoleSecurity } from '../context/RoleSecurityContext';
+import { RoleContentGate } from '../components/common/RoleContentGate';
 import { getUserReports, deleteReport } from '../lib/firebase';
 import { ENGINES_MAP } from '../data/engines';
 import { urlToDomainSlug, extractDomainFromUrl } from '../utils/slugUtils';
@@ -48,14 +50,19 @@ import { UserRateLimitAllocationCard } from '../components/user/UserRateLimitAll
 import { UserDomainMonitoringRadar } from '../components/user/UserDomainMonitoringRadar';
 import { UserAnalyticsDashboard } from '../components/user/UserAnalyticsDashboard';
 import { UserApiKeyManagementView } from '../components/user/UserApiKeyManagementView';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 export const UserDashboardPage: React.FC = () => {
   const { user, login, isAdmin, loading: authLoading, loginWithLocalSession, setShowDomainModal } = useAuth();
+  const { effectiveRole, roleConfig, hasPermission } = useRoleSecurity();
   const navigate = useNavigate();
   const location = useLocation();
+  const { tab } = useParams<{ tab: string }>();
 
   const getActiveView = (): 'analytics' | 'audits' | 'rate-limits' | 'api-keys' | 'monitoring' | 'blogs' => {
+    if (tab && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs'].includes(tab)) {
+      return tab as any;
+    }
     if (location.pathname.endsWith('/audits')) return 'audits';
     if (location.pathname.endsWith('/rate-limits')) return 'rate-limits';
     if (location.pathname.endsWith('/api-keys')) return 'api-keys';
@@ -230,13 +237,22 @@ export const UserDashboardPage: React.FC = () => {
             Sign in with Google to access your persistent audit dossiers, real-time rate limit allocations, domain uptime monitoring, and technical research articles.
           </p>
           
-          <button
-            onClick={() => login()}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#415a77] px-6 py-3.5 text-base font-bold text-white transition-all hover:bg-[#33475e] shadow-md hover:shadow-lg"
-          >
-            <LogIn className="h-4 w-4" />
-            <span>Sign In with Google</span>
-          </button>
+          <div className="mt-6 space-y-3">
+            <Link
+              to="/login?redirect=/dashboard"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3.5 text-base font-extrabold text-[#0b192c] transition-all hover:opacity-95 shadow-md hover:shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            >
+              <LogIn className="h-4 w-4" />
+              <span>Sign In with Email, Gmail, or GitHub</span>
+            </Link>
+
+            <Link
+              to="/signup?redirect=/dashboard"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-400/40 bg-[#152238] px-6 py-2.5 text-sm font-bold text-cyan-300 hover:bg-[#1e304d] hover:text-white transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            >
+              <span>Create Free Developer Account &rarr;</span>
+            </Link>
+          </div>
 
           <div className="mt-4 pt-4 border-t border-[#415a77]/30 flex flex-col sm:flex-row items-center justify-center gap-2">
             <button
@@ -245,7 +261,7 @@ export const UserDashboardPage: React.FC = () => {
                 displayName: 'CatalystLab Developer',
                 isAdmin: false
               })}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#38bdf8]/40 bg-[#152238] px-4 py-2 text-sm font-bold text-[#38bdf8] hover:bg-[#1a2d48] transition-all shadow-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#38bdf8]/40 bg-[#152238] px-4 py-2 text-sm font-bold text-[#38bdf8] hover:bg-[#1a2d48] transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Sparkles className="h-3.5 w-3.5 text-[#38bdf8]" />
               <span>Activate Preview Developer Session</span>
@@ -253,7 +269,7 @@ export const UserDashboardPage: React.FC = () => {
 
             <button
               onClick={() => setShowDomainModal(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <span>Domain Helper</span>
             </button>
@@ -274,7 +290,7 @@ export const UserDashboardPage: React.FC = () => {
             {/* User Greeting & Status */}
             <div className="flex items-center gap-4">
               {user.photoURL ? (
-                <img 
+                <img alt="Visual asset" 
                   src={user.photoURL} 
                   alt={user.displayName || 'Avatar'} 
                   referrerPolicy="no-referrer"
@@ -291,8 +307,8 @@ export const UserDashboardPage: React.FC = () => {
                   <h1 className="text-xl sm:text-2xl font-bold text-[#0b192c]">
                     {getGreeting()}, {userName}!
                   </h1>
-                  <span className="rounded-md bg-[#f1f5f9] border border-[#e2e8f0] px-2.5 py-0.5 text-sm font-bold text-[#415a77] uppercase tracking-wider">
-                    {rateStatus.tierLabel}
+                  <span className={`rounded-md border px-2.5 py-0.5 text-xs font-mono font-bold uppercase tracking-wider ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
+                    {roleConfig.displayName}
                   </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-[#415a77]">
@@ -313,14 +329,14 @@ export const UserDashboardPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/master-audit"
-                className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-[#1b2a47] shadow-md hover:shadow-lg"
+                className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-[#1b2a47] shadow-md hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Sparkles className="h-4 w-4 text-[#c5d3e8]" />
                 <span>Run Master Audit</span>
               </Link>
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2.5 text-sm font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm"
+                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2.5 text-sm font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <FileText className="h-4 w-4 text-[#415a77]" />
                 <span>API Reference</span>
@@ -338,7 +354,7 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 1: Daily Resource Allocation */}
           <Link 
             to="/dashboard/rate-limits"
-            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
+            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
@@ -362,16 +378,16 @@ export const UserDashboardPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>Inspect Allocations</span>
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
             </div>
           </Link>
 
           {/* Card 2: Saved Dossiers */}
           <Link 
             to="/dashboard/audits"
-            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
+            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
@@ -394,16 +410,16 @@ export const UserDashboardPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>View All Reports</span>
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
             </div>
           </Link>
 
           {/* Card 3: Average Benchmark Score */}
           <Link 
             to="/dashboard"
-            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
+            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
@@ -427,16 +443,16 @@ export const UserDashboardPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#e2e8f0] flex items-center justify-between text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="pt-3 border-t border-[#e2e8f0] flex items-center justify-between text-sm font-bold text-[#415a77] group-hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>View Full Analytics</span>
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
             </div>
           </Link>
 
           {/* Card 4: Monitored Endpoints */}
           <Link 
             to="/dashboard/monitoring"
-            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
+            className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-[#415a77] uppercase tracking-wider flex items-center gap-1.5">
@@ -459,9 +475,9 @@ export const UserDashboardPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c]">
+            <div className="flex items-center justify-between pt-3 border-t border-[#e2e8f0] text-sm font-bold text-[#415a77] group-hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>Open Monitoring Radar</span>
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
             </div>
           </Link>
 
@@ -646,7 +662,7 @@ export const UserDashboardPage: React.FC = () => {
             ) : filteredReports.length === 0 ? (
               <div className="rounded-3xl border border-[#415a77]/20 bg-white p-12 text-center shadow-sm">
                 <FileText className="mx-auto h-12 w-12 text-[#415a77]/30 mb-4" />
-                <h3 className="text-base font-bold text-[#0b192c]">No Reports Found</h3>
+                <h2 className="text-base font-bold text-[#0b192c]">No Reports Found</h2>
                 <p className="mt-1 max-w-sm mx-auto text-sm text-[#415a77]">
                   {searchQuery || selectedEngine !== 'all' 
                     ? "No reports match your active search filters. Try clearing the search query."
@@ -655,7 +671,7 @@ export const UserDashboardPage: React.FC = () => {
                 <div className="mt-6">
                   <Link
                     to="/master-audit"
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#33475e] transition-all shadow-md"
+                    className="inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#33475e] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <Sparkles className="h-4 w-4" />
                     <span>Run Master Audit</span>
@@ -677,7 +693,7 @@ export const UserDashboardPage: React.FC = () => {
                     <div
                       key={report.id}
                       onClick={() => handleNavigateToReport(report)}
-                      className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between"
+                      className="group cursor-pointer rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/60 hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <div>
                         {/* Top Card Bar */}
@@ -687,7 +703,7 @@ export const UserDashboardPage: React.FC = () => {
                               <Globe className="h-4 w-4" />
                             </div>
                             <div className="min-w-0">
-                              <h4 className="text-base font-bold text-[#0b192c] truncate group-hover:text-[#415a77] transition-colors">
+                              <h4 className="text-base font-bold text-[#0b192c] truncate group-hover:text-[#415a77] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                                 {domain}
                               </h4>
                               <span className="text-sm text-[#415a77] font-mono flex items-center gap-1">
@@ -727,14 +743,14 @@ export const UserDashboardPage: React.FC = () => {
                           <button
                             onClick={(e) => handleDirectExportPdf(report, e)}
                             disabled={exportingId === report.id}
-                            className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors"
+                            className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Export PDF"
                           >
                             <Download className={`h-4 w-4 ${exportingId === report.id ? 'animate-bounce' : ''}`} />
                           </button>
                           <button
                             onClick={(e) => handleCopyLink(report, e)}
-                            className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors"
+                            className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Copy Permalink"
                           >
                             {copiedId === report.id ? <Check className="h-4 w-4 text-emerald-600" /> : <Share2 className="h-4 w-4" />}
@@ -742,16 +758,16 @@ export const UserDashboardPage: React.FC = () => {
                           <button
                             onClick={(e) => handleDelete(report.id!, e)}
                             disabled={deletingId === report.id}
-                            className="p-1.5 rounded-lg text-[#415a77] hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                            className="p-1.5 rounded-lg text-[#415a77] hover:bg-rose-50 hover:text-rose-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Delete Report"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
 
-                        <span className="text-sm font-bold text-[#415a77] group-hover:text-[#0b192c] flex items-center gap-1">
+                        <span className="text-sm font-bold text-[#415a77] group-hover:text-[#0b192c] flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           <span>Read Dossier</span>
-                          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                         </span>
                       </div>
                     </div>
@@ -762,7 +778,7 @@ export const UserDashboardPage: React.FC = () => {
 
               /* TABLE VIEW */
               <div className="overflow-hidden rounded-2xl border border-[#415a77]/20 bg-white shadow-sm">
-                <table className="w-full text-left text-sm">
+                <table className="w-full text-left text-sm" aria-label="Audit reports list">
                   <thead className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[#415a77] uppercase tracking-wider font-bold">
                     <tr>
                       <th className="px-5 py-3.5">Target Domain</th>
@@ -782,7 +798,7 @@ export const UserDashboardPage: React.FC = () => {
                         <tr 
                           key={report.id}
                           onClick={() => handleNavigateToReport(report)}
-                          className="hover:bg-[#f8fafc] cursor-pointer transition-colors"
+                          className="hover:bg-[#f8fafc] cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           <td className="px-5 py-4 font-bold text-[#0b192c]">
                             <div className="flex items-center gap-2">
@@ -807,25 +823,25 @@ export const UserDashboardPage: React.FC = () => {
                           <td className="px-5 py-4 text-[#415a77] font-mono">
                             {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
                           </td>
-                          <td className="px-5 py-4 text-right" onClick={(e) => e.stopPropagation()}>
+                          <td className="px-5 py-4 text-right" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') e.stopPropagation(); }}>
                             <div className="flex items-center justify-end gap-1.5">
                               <button
                                 onClick={(e) => handleDirectExportPdf(report, e)}
-                                className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c]"
+                                className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                                 title="Export PDF"
                               >
                                 <Download className="h-3.5 w-3.5" />
                               </button>
                               <button
                                 onClick={(e) => handleCopyLink(report, e)}
-                                className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c]"
+                                className="p-1.5 rounded-lg text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                                 title="Copy Link"
                               >
                                 {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Share2 className="h-3.5 w-3.5" />}
                               </button>
                               <button
                                 onClick={(e) => handleDelete(report.id!, e)}
-                                className="p-1.5 rounded-lg text-[#415a77] hover:bg-rose-50 hover:text-rose-600"
+                                className="p-1.5 rounded-lg text-[#415a77] hover:bg-rose-50 hover:text-rose-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                                 title="Delete"
                               >
                                 <Trash2 className="h-3.5 w-3.5" />
@@ -855,12 +871,16 @@ export const UserDashboardPage: React.FC = () => {
 
         {/* TAB 4: BLOGS & RESEARCH */}
         {activeTab === 'blogs' && (
-          <UserBlogManagementView />
+          <RoleContentGate requiredPermission="feature:write_blogs" minPlan="Pro" mode="blur">
+            <UserBlogManagementView />
+          </RoleContentGate>
         )}
 
         {/* TAB 5: API KEYS & WHITE-LABEL ACCESS */}
         {activeTab === 'api-keys' && (
-          <UserApiKeyManagementView />
+          <RoleContentGate requiredPermission="feature:api_access" minPlan="Pro" mode="blur">
+            <UserApiKeyManagementView />
+          </RoleContentGate>
         )}
 
       </section>

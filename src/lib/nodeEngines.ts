@@ -1,3 +1,4 @@
+const HTTP_TIMEOUT_MS = 10000;
 import * as cheerio from 'cheerio';
 import { URL } from 'url';
 import { getEmailSecurityProfile, getSslCertificateInfo, enumerateSubdomains } from './securityAudit';
@@ -74,7 +75,7 @@ async function runHealthEngine(url: string): Promise<string> {
         'User-Agent': 'CatalystLab-HealthScanner/2.0',
         'Accept-Encoding': 'gzip, deflate, br'
       },
-      signal: AbortSignal.timeout(12000)
+      signal: AbortSignal.timeout(HTTP_TIMEOUT_MS)
     });
 
     fetchTime = Math.round(performance.now() - startTime);
@@ -183,7 +184,7 @@ async function runHealthEngine(url: string): Promise<string> {
     } else {
       logs.push(`=> [FAIL] STATUS: CRITICAL BOTTLENECKS DETECTED`);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] CRITICAL: Failed to complete health scan: ${err.message}`);
   }
 
@@ -230,7 +231,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   // Check llms.txt
   try {
-    const resLlms = await fetch(`${baseUrl}/llms.txt`, { signal: AbortSignal.timeout(5000) });
+    const resLlms = await fetch(`${baseUrl}/llms.txt`, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     if (resLlms.status === 200) {
       logs.push(`  [+] PASS: /llms.txt found. Explicit LLM instructions provided.`);
       llmsFound = true;
@@ -245,17 +246,17 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   // Check AI plugin manifest
   try {
-    const resPlugin = await fetch(`${baseUrl}/.well-known/ai-plugin.json`, { signal: AbortSignal.timeout(4000) });
+    const resPlugin = await fetch(`${baseUrl}/.well-known/ai-plugin.json`, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     if (resPlugin.status === 200) {
       logs.push(`  [+] PASS: /.well-known/ai-plugin.json found. App acts as an AI tool/agent.`);
     } else {
       logs.push(`  [~] WARNING: /.well-known/ai-plugin.json missing (Optional, but limits ecosystem discoverability).`);
     }
-  } catch {}
+  } catch (e) { console.error("Ignored error:", e); }
 
   logs.push(`\n[*] 2. Checking robots.txt for AI Bot Directives...`);
   try {
-    const resRobots = await fetch(`${baseUrl}/robots.txt`, { signal: AbortSignal.timeout(5000) });
+    const resRobots = await fetch(`${baseUrl}/robots.txt`, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     if (resRobots.status === 200) {
       robotsFound = true;
       const robotsTxt = (await resRobots.text()).toLowerCase();
@@ -276,7 +277,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   logs.push(`\n[*] 3. Evaluating DOM Semantic Purity & Chunking...`);
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 
@@ -303,7 +304,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
       logs.push(`  [-] FAIL: No headings found. LLMs cannot determine hierarchy.`);
       score -= 15;
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] CRITICAL: Failed to parse DOM for semantic analysis. ${err.message}`);
     score -= 30;
   }
@@ -357,7 +358,7 @@ async function runEcoEngine(url: string): Promise<string> {
   let totalMb = 1.2;
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     const htmlText = await res.text();
     const htmlBytes = Buffer.byteLength(htmlText, 'utf8');
     const $ = cheerio.load(htmlText);
@@ -406,7 +407,7 @@ async function runEcoEngine(url: string): Promise<string> {
     }
 
     logs.push(`\n=> [RATING] CATALYST ECO-RATING: [${rating}] - ${color}`);
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] Error calculating eco footprint: ${err.message}`);
   }
 
@@ -442,10 +443,10 @@ async function runComplianceEngine(url: string): Promise<string> {
   logs.push(`Target: ${url}\n`);
 
   let riskCount = 0;
-  let secProfile: any = null;
+  let secProfile: unknown = null;
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 
@@ -563,7 +564,7 @@ async function runComplianceEngine(url: string): Promise<string> {
     } else {
       logs.push(`=> [FAIL] STATUS: HIGH LIABILITY. Critical remediation required for compliance & email security.`);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] Failed to complete compliance audit: ${err.message}`);
   }
 
@@ -618,7 +619,7 @@ async function runLatencyEngine(url: string): Promise<string> {
 
   try {
     const startTime = performance.now();
-    const res = await fetch(url, { method: 'HEAD', signal: AbortSignal.timeout(8000) });
+    const res = await fetch(url, { method: 'HEAD', signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     localTtfb = Math.round(performance.now() - startTime);
 
     logs.push(`[*] 1. Direct Edge Probe & Handshake:`);
@@ -653,7 +654,7 @@ async function runLatencyEngine(url: string): Promise<string> {
     } else {
       logs.push(`=> [WARN] CDN PERFORMANCE: REGIONAL ORIGIN (Consider Global Edge Caching)`);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] Latency probe failed: ${err.message}`);
   }
 
@@ -723,7 +724,7 @@ async function runRepoEngine(repoUrl: string): Promise<string> {
       logs.push(`  [+] Target recognized as generic Git source.`);
       logs.push(`  [*] Standard hygiene profile applied.`);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] Error parsing repository: ${err.message}`);
   }
 
@@ -783,7 +784,7 @@ async function runMigrationEngine(url: string): Promise<string> {
   let detectedStack = 'Static / Custom Web App';
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 
@@ -814,7 +815,7 @@ async function runMigrationEngine(url: string): Promise<string> {
 
     logs.push(`\n=> [PORTABILITY] MIGRATION COMPLEXITY INDEX: LOW-MODERATE`);
     logs.push(`=> [PASS] COMPATIBILITY: 100% Vercel, Cloud Run & Edge CDN Ready`);
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] Migration analysis error: ${err.message}`);
   }
 
@@ -853,7 +854,7 @@ async function runLlmoEngine(url: string): Promise<string> {
   let jsonLdCount = 0;
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 
@@ -901,7 +902,7 @@ async function runLlmoEngine(url: string): Promise<string> {
     } else {
       logs.push(`=> [WARN] OPTIMIZATION: MODERATE (Add JSON-LD schema to maximize AI citations)`);
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     logs.push(`  [!] LLMO audit error: ${err.message}`);
   }
 

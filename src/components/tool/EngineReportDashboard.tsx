@@ -387,7 +387,7 @@ print(report['output'])`
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               {meta.image && (
                 <div className="shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-[#415a77]/50 shadow-lg relative">
-                  <img 
+                  <img alt="Visual asset" 
                     src={meta.image} 
                     alt={meta.name}
                     className="w-full h-full object-cover"
@@ -428,7 +428,7 @@ print(report['output'])`
               <button 
                 onClick={onSave} 
                 disabled={!!savedReportId} 
-                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all disabled:opacity-50 shadow-sm"
+                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all disabled:opacity-50 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Save report to user account history"
               >
                 <Save className="h-4 w-4 text-[#38bdf8]" /> 
@@ -437,7 +437,7 @@ print(report['output'])`
 
               <button 
                 onClick={handleExportPdf} 
-                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm"
+                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Export comprehensive PDF dossier"
               >
                 <Download className="h-4 w-4 text-[#34d399]" /> 
@@ -446,7 +446,7 @@ print(report['output'])`
 
               <button 
                 onClick={handlePrint} 
-                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm"
+                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Print report format"
               >
                 <Printer className="h-4 w-4 text-[#a78bfa]" /> 
@@ -455,7 +455,7 @@ print(report['output'])`
 
               <button 
                 onClick={() => setShareModalOpen(true)} 
-                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm"
+                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Share report on social media"
               >
                 <Share2 className="h-4 w-4 text-[#fbbf24]" /> 
@@ -464,7 +464,7 @@ print(report['output'])`
 
               <button 
                 onClick={onRelaunch} 
-                className="flex items-center gap-2 rounded-xl bg-[#38bdf8] text-[#0b192c] px-4 py-2.5 text-xs font-bold hover:bg-[#7dd3fc] transition-all ml-auto shadow-lg shadow-[#38bdf8]/20 active:scale-95"
+                className="flex items-center gap-2 rounded-xl bg-[#38bdf8] text-[#0b192c] px-4 py-2.5 text-xs font-bold hover:bg-[#7dd3fc] transition-all ml-auto shadow-lg shadow-[#38bdf8]/20 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Relaunch diagnostic probe"
               >
                 <RefreshCw className="h-4 w-4" /> 
@@ -554,7 +554,7 @@ print(report['output'])`
 
           <div className="mt-6 pt-4 border-t border-[#415a77]/30 flex items-center justify-between text-xs text-[#c5d3e8]">
             <span>Need enterprise remediation assistance?</span>
-            <Link to="/contact" className="font-bold text-[#38bdf8] hover:text-[#7dd3fc] transition-colors flex items-center gap-1">
+            <Link to="/contact" className="font-bold text-[#38bdf8] hover:text-[#7dd3fc] transition-colors flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <span>Contact Engineers</span>
               <ArrowRight className="h-3 w-3" />
             </Link>
@@ -593,7 +593,7 @@ print(report['output'])`
               onClick={() => {
                 navigator.clipboard.writeText(codeSnippet.code);
               }}
-              className="text-xs font-bold text-[#38bdf8] hover:text-[#7dd3fc] transition-colors flex items-center gap-1"
+              className="text-xs font-bold text-[#38bdf8] hover:text-[#7dd3fc] transition-colors flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Copy className="h-3.5 w-3.5" />
               <span>Copy Snippet</span>
@@ -623,7 +623,7 @@ print(report['output'])`
 
           <Link 
             to={docsUrl} 
-            className="inline-flex items-center gap-2 text-xs font-bold text-[#0b192c] bg-[#38bdf8] hover:bg-[#7dd3fc] px-4 py-2.5 rounded-xl transition-all shadow-md shadow-[#38bdf8]/20 shrink-0"
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#0b192c] bg-[#38bdf8] hover:bg-[#7dd3fc] px-4 py-2.5 rounded-xl transition-all shadow-md shadow-[#38bdf8]/20 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <FileText className="h-4 w-4" />
             <span>Read {meta.name} Documentation</span>
@@ -672,7 +672,7 @@ print(report['output'])`
               ))}
               <button 
                 onClick={handleCopyApi} 
-                className="flex items-center gap-1.5 text-xs text-[#c5d3e8] hover:text-white bg-[#152238] px-2.5 py-1 rounded-lg border border-[#415a77]/30 transition-colors"
+                className="flex items-center gap-1.5 text-xs text-[#c5d3e8] hover:text-white bg-[#152238] px-2.5 py-1 rounded-lg border border-[#415a77]/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {copiedApi ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
                 <span>{copiedApi ? 'Copied' : 'Copy'}</span>
@@ -705,7 +705,7 @@ print(report['output'])`
 
           <Link 
             to="/blogs" 
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#38bdf8] hover:text-[#7dd3fc] bg-[#152238] border border-[#415a77]/40 px-3.5 py-2 rounded-xl transition-all self-start sm:self-auto"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#38bdf8] hover:text-[#7dd3fc] bg-[#152238] border border-[#415a77]/40 px-3.5 py-2 rounded-xl transition-all self-start sm:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span>View All Blog Posts</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -718,7 +718,7 @@ print(report['output'])`
             <Link
               key={post.id || post.slug}
               to={`/blogs/${post.slug}`}
-              className="group flex flex-col justify-between rounded-2xl bg-[#152238]/60 border border-[#415a77]/30 p-5 hover:border-[#38bdf8]/60 hover:bg-[#152238] transition-all shadow-lg"
+              className="group flex flex-col justify-between rounded-2xl bg-[#152238]/60 border border-[#415a77]/30 p-5 hover:border-[#38bdf8]/60 hover:bg-[#152238] transition-all shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -731,7 +731,7 @@ print(report['output'])`
                   </span>
                 </div>
 
-                <h4 className="text-sm font-bold text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2 mb-2 leading-snug">
+                <h4 className="text-sm font-bold text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2 mb-2 leading-snug focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   {post.title}
                 </h4>
 
@@ -750,9 +750,9 @@ print(report['output'])`
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-[#415a77]/30 text-xs font-bold text-[#38bdf8] group-hover:text-[#7dd3fc]">
+                <div className="flex items-center justify-between pt-3 border-t border-[#415a77]/30 text-xs font-bold text-[#38bdf8] group-hover:text-[#7dd3fc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Read Full Article</span>
-                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                 </div>
               </div>
             </Link>
@@ -788,7 +788,7 @@ print(report['output'])`
             return (
               <div 
                 key={rec.engineId}
-                className="group flex flex-col justify-between rounded-2xl bg-[#0b192c] border border-[#415a77]/40 p-5 hover:border-[#38bdf8]/60 transition-all shadow-lg relative overflow-hidden"
+                className="group flex flex-col justify-between rounded-2xl bg-[#0b192c] border border-[#415a77]/40 p-5 hover:border-[#38bdf8]/60 transition-all shadow-lg relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -809,7 +809,7 @@ print(report['output'])`
                 <div className="pt-3 border-t border-[#415a77]/30">
                   <Link
                     to={`${targetEngine.route}?url=${encodeURIComponent(targetUrl)}`}
-                    className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#152238] hover:bg-[#38bdf8] hover:text-[#0b192c] text-xs font-bold text-[#f8fafc] border border-[#415a77]/40 hover:border-transparent transition-all shadow-md group-hover:scale-[1.02]"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-[#152238] hover:bg-[#38bdf8] hover:text-[#0b192c] text-xs font-bold text-[#f8fafc] border border-[#415a77]/40 hover:border-transparent transition-all shadow-md group-hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Run {targetEngine.name} Scan</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -847,7 +847,7 @@ print(report['output'])`
           <div className="rounded-3xl border border-[#415a77]/40 bg-[#0b192c] p-6 sm:p-8 max-w-lg w-full text-white shadow-2xl relative">
             <button 
               onClick={() => setShareModalOpen(false)}
-              className="absolute top-5 right-5 text-[#c5d3e8] hover:text-white p-1 rounded-lg hover:bg-[#152238] transition-colors"
+              className="absolute top-5 right-5 text-[#c5d3e8] hover:text-white p-1 rounded-lg hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <X className="h-5 w-5" />
             </button>
@@ -880,7 +880,7 @@ print(report['output'])`
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-sky-400 text-xs font-bold text-white transition-colors"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-sky-400 text-xs font-bold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>X (Twitter)</span>
               </a>
@@ -889,7 +889,7 @@ print(report['output'])`
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-blue-400 text-xs font-bold text-white transition-colors"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-blue-400 text-xs font-bold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>LinkedIn</span>
               </a>
@@ -898,7 +898,7 @@ print(report['output'])`
                 href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-emerald-400 text-xs font-bold text-white transition-colors"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-emerald-400 text-xs font-bold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>WhatsApp</span>
               </a>
@@ -907,7 +907,7 @@ print(report['output'])`
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-indigo-400 text-xs font-bold text-white transition-colors"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-indigo-400 text-xs font-bold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Facebook</span>
               </a>
@@ -916,14 +916,14 @@ print(report['output'])`
                 href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-cyan-400 text-xs font-bold text-white transition-colors"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#152238] border border-[#415a77]/40 hover:bg-[#1e2f4a] hover:border-cyan-400 text-xs font-bold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Telegram</span>
               </a>
 
               <button
                 onClick={handleCopyLink}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#38bdf8] text-[#0b192c] font-bold text-xs hover:bg-[#7dd3fc] transition-colors"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#38bdf8] text-[#0b192c] font-bold text-xs hover:bg-[#7dd3fc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {copiedLink ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 <span>{copiedLink ? 'Copied' : 'Copy Link'}</span>
@@ -933,7 +933,7 @@ print(report['output'])`
             <div className="flex items-center justify-end">
               <button
                 onClick={() => setShareModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-[#152238] text-xs font-bold text-[#c5d3e8] hover:text-white transition-colors"
+                className="px-4 py-2 rounded-xl bg-[#152238] text-xs font-bold text-[#c5d3e8] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Close
               </button>

@@ -115,7 +115,7 @@ export const CookiePreferenceCenter: React.FC = () => {
 
             <button
               onClick={handleSave}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {saved ? <Check className="h-4 w-4 text-emerald-400" /> : <ShieldCheck className="h-4 w-4 text-sky-300" />}
               <span>{saved ? 'Preferences Saved!' : 'Save My Preferences'}</span>
@@ -148,7 +148,7 @@ export const CookiePreferenceCenter: React.FC = () => {
             </div>
 
             {/* Telemetry Cache (Toggle) */}
-            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 flex items-start justify-between gap-4 hover:border-[#415a77]/40 transition-colors">
+            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 flex items-start justify-between gap-4 hover:border-[#415a77]/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Zap className="h-4 w-4 text-sky-600" />
@@ -181,7 +181,7 @@ export const CookiePreferenceCenter: React.FC = () => {
             </div>
 
             {/* Performance Analytics (Toggle) */}
-            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 flex items-start justify-between gap-4 hover:border-[#415a77]/40 transition-colors">
+            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 flex items-start justify-between gap-4 hover:border-[#415a77]/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Globe className="h-4 w-4 text-amber-600" />
@@ -237,7 +237,7 @@ export const CookiePreferenceCenter: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-[#e2e8f0] text-[#415a77]">
                 {cookieList.map((item, idx) => (
-                  <tr key={idx} className="hover:bg-[#f8fafc]/50 transition-colors">
+                  <tr key={idx} className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     <td className="py-3.5 px-4 font-mono font-bold text-[#0b192c]">{item.name}</td>
                     <td className="py-3.5 px-4">
                       <span className="rounded-md bg-[#f4f6fa] border border-[#e2e8f0] px-2 py-0.5 text-[11px] font-semibold text-[#0b192c]">

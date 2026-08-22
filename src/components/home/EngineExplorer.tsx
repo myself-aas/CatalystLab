@@ -82,7 +82,7 @@ export const EngineExplorer: React.FC = () => {
               type="button"
               onClick={() => scroll('left')}
               aria-label="Scroll engines left"
-              className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all"
+              className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -93,7 +93,7 @@ export const EngineExplorer: React.FC = () => {
               type="button"
               onClick={() => scroll('right')}
               aria-label="Scroll engines right"
-              className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all"
+              className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -152,10 +152,10 @@ export const EngineExplorer: React.FC = () => {
                     <div>
                       {engine.image && (
                         <div className="w-full h-24 mb-3 overflow-hidden rounded-lg border border-brand-slate/40 relative">
-                          <img 
+                          <img alt="Visual asset" 
                             src={engine.image} 
                             alt={`${engine.catalystName || engine.name} visualization`}
-                            className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+                            className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           />
                         </div>
                       )}
@@ -214,7 +214,7 @@ export const EngineExplorer: React.FC = () => {
                 <div className="flex gap-4">
                   {activeEngine.image && (
                     <div className="hidden sm:block shrink-0 w-24 h-24 rounded-2xl overflow-hidden border border-brand-slate/50 shadow-lg relative">
-                      <img 
+                      <img alt="Visual asset" 
                         src={activeEngine.image} 
                         alt={activeEngine.name}
                         className="w-full h-full object-cover"
@@ -257,7 +257,7 @@ export const EngineExplorer: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-2.5 pt-2">
                   <Link
                     to={activeEngine.route}
-                    className="inline-flex items-center gap-1.5 bg-brand-periwinkle hover:bg-white text-brand-navy px-4 py-2 rounded-xl text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer"
+                    className="inline-flex items-center gap-1.5 bg-brand-periwinkle hover:bg-white text-brand-navy px-4 py-2 rounded-xl text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Launch {activeEngine.name} Engine</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -265,7 +265,7 @@ export const EngineExplorer: React.FC = () => {
 
                   <Link
                     to={`/docs#${activeEngine.docsAnchor || activeEngine.id}`}
-                    className="inline-flex items-center gap-1.5 bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/40 px-3.5 py-2 rounded-xl text-sm font-mono transition-all"
+                    className="inline-flex items-center gap-1.5 bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/40 px-3.5 py-2 rounded-xl text-sm font-mono transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <Code2 className="h-3.5 w-3.5 text-[#8ea8c3]" />
                     <span>View Docs</span>

@@ -156,7 +156,7 @@ export const createAlertsSlice: StateCreator<
         return { success: Boolean(data.success), message: data.success ? 'Mailgun test dispatch succeeded' : 'Failed to send test email' };
       }
       return { success: true, message: 'Webhook simulated successfully' };
-    } catch (e: any) {
+    } catch (e: unknown) {
       return { success: false, message: e.message || 'Dispatch error' };
     }
   }

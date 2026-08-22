@@ -173,7 +173,7 @@ export async function sendSlackWebhook(webhookUrl: string, data: WebhookPayloadD
       statusCode: response.status,
       responseTimeMs: elapsed
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       success: false,
       destination: 'slack',
@@ -226,7 +226,7 @@ export async function sendDiscordWebhook(webhookUrl: string, data: WebhookPayloa
       statusCode: response.status,
       responseTimeMs: elapsed
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       success: false,
       destination: 'discord',

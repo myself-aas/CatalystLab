@@ -80,7 +80,7 @@ export const NewsletterModal: React.FC = () => {
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-2 text-brand-slate hover:text-white bg-brand-navy/50 hover:bg-brand-navy rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 p-2 text-brand-slate hover:text-white bg-brand-navy/50 hover:bg-brand-navy rounded-full transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <X className="h-5 w-5" />
             </button>
@@ -135,7 +135,7 @@ export const NewsletterModal: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-periwinkle hover:bg-white text-brand-navy py-3.5 text-sm font-mono font-bold transition-all shadow-md active:scale-98 disabled:opacity-50"
+                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-periwinkle hover:bg-white text-brand-navy py-3.5 text-sm font-mono font-bold transition-all shadow-md active:scale-98 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {isSubmitting ? (
                         <span>Subscribing...</span>

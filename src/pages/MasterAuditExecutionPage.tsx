@@ -77,7 +77,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
   const triggerHaptic = (pattern: number | number[] = 12) => {
     try {
       if (navigator.vibrate) navigator.vibrate(pattern);
-    } catch (e) {}
+    } catch (e) { console.error("Ignored error:", e); }
   };
 
   const [engineStates, setEngineStates] = useState<Record<string, EngineState>>(() => {
@@ -186,7 +186,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
     setEngineStates(freshStates);
 
     try {
-      const results = await Promise.all(
+      const settledResults = await Promise.allSettled(
         engineKeys.map(async (key) => {
           try {
             const res = await fetch('/api/run-engine', {
@@ -205,7 +205,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
               [key]: { output: outputText, loading: false, success: true }
             }));
             return { engine: key, output: outputText, success: true };
-          } catch (err: any) {
+          } catch (err: unknown) {
             const errText = `Error executing ${key}: ${err.message || 'Unknown error'}`;
             setEngineStates(prev => ({
               ...prev,
@@ -215,6 +215,8 @@ export const MasterAuditExecutionPage: React.FC = () => {
           }
         })
       );
+      
+      const results = settledResults.map(r => r.status === 'fulfilled' ? r.value : null).filter(Boolean);
 
       const combinedResults: Record<string, string> = {};
       results.forEach(r => {
@@ -323,7 +325,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
                       href={permalinkUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-1.5 inline-flex items-center gap-1 text-sm text-[#c5d3e8] underline hover:text-white font-mono break-all"
+                      className="mt-1.5 inline-flex items-center gap-1 text-sm text-[#c5d3e8] underline hover:text-white font-mono break-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {permalinkUrl}
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -334,7 +336,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-2 shrink-0">
                   <button
                     onClick={handleCopyPermalink}
-                    className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/50 bg-[#0b192c] px-3.5 py-2 text-sm font-semibold text-white hover:bg-[#132742] transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/50 bg-[#0b192c] px-3.5 py-2 text-sm font-semibold text-white hover:bg-[#132742] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <Share2 className="h-4 w-4 text-[#c5d3e8]" />
                     <span>{copiedLink ? 'Copied!' : 'Copy Link'}</span>
@@ -342,7 +344,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
 
                   <Link
                     to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                    className="flex items-center gap-1.5 rounded-lg bg-[#c5d3e8] text-[#0b192c] px-3.5 py-2 text-sm font-bold hover:bg-white transition-colors shadow-md"
+                    className="flex items-center gap-1.5 rounded-lg bg-[#c5d3e8] text-[#0b192c] px-3.5 py-2 text-sm font-bold hover:bg-white transition-colors shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Read Article Dossier</span>
                     <ArrowRight className="h-4 w-4" />
@@ -439,7 +441,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 <button
                   onClick={handleExportPdf}
                   disabled={isExportingPdf || !hasAnyOutput}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/50 bg-[#0b192c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#132742] disabled:opacity-40 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/50 bg-[#0b192c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#132742] disabled:opacity-40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Download className="h-4 w-4 text-[#c5d3e8]" />
                   <span>{isExportingPdf ? 'Compiling PDF...' : 'Export PDF Report'}</span>

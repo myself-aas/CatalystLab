@@ -36,7 +36,7 @@ export const TermsPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <LifeBuoy className="h-4 w-4 text-sky-300" />
                 <span>Enterprise Terms & Inquiries</span>
@@ -63,14 +63,14 @@ export const TermsPage: React.FC = () => {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-extrabold text-[#07111e] hover:bg-sky-400 transition-all shadow-md active:scale-98"
+              className="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-extrabold text-[#07111e] hover:bg-sky-400 transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <LifeBuoy className="h-4 w-4" />
               <span>Contact Legal & Sales</span>
             </Link>
             <Link
               to="/privacy"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#152238] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#1f314d] transition-all"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#152238] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#1f314d] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <FileText className="h-4 w-4 text-sky-300" />
               <span>Privacy Policy</span>

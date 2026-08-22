@@ -214,7 +214,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
         }
         setResponseSizeKb(Number((new Blob([text]).size / 1024).toFixed(2)));
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       const elapsed = Math.round(performance.now() - startTime);
       setResponseTimeMs(elapsed);
       setResponseStatus(500);
@@ -293,7 +293,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           } : item));
           if (res.status === 429) passedCount++;
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         const latency = Math.round(performance.now() - start);
         setSuiteResults(prev => prev.map((item, idx) => idx === i ? {
           ...item,
@@ -366,7 +366,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={downloadOpenApiJson}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] shadow-sm transition hover:bg-[#f1f5f9]"
+            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] shadow-sm transition hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Download OpenAPI 3.1 JSON Specification"
           >
             <Download className="h-3.5 w-3.5 text-[#3b82f6]" />
@@ -375,7 +375,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
           <button
             onClick={downloadPostman}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] shadow-sm transition hover:bg-[#f1f5f9]"
+            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] shadow-sm transition hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Export Postman Collection v2.1"
           >
             <FileJson className="h-3.5 w-3.5 text-[#f97316]" />
@@ -435,7 +435,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
             <button
               onClick={executeApiCall}
               disabled={loading}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-xs font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238] disabled:opacity-50 active:scale-95 whitespace-nowrap"
+              className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-xs font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238] disabled:opacity-50 active:scale-95 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {loading ? (
                 <>
@@ -518,14 +518,14 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                           setRequestBodyText(JSON.stringify(currentEndpoint.requestBody.defaultPayload, null, 2));
                         }
                       }}
-                      className="text-[#3b82f6] hover:underline cursor-pointer"
+                      className="text-[#3b82f6] hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Reset Example
                     </button>
                   )}
                   <button
                     onClick={formatBodyJson}
-                    className="text-[#415a77] hover:text-[#0b192c] font-mono cursor-pointer"
+                    className="text-[#415a77] hover:text-[#0b192c] font-mono cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Format JSON
                   </button>
@@ -642,7 +642,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       setCopiedSnippet(true);
                       setTimeout(() => setCopiedSnippet(false), 2000);
                     }}
-                    className="flex items-center gap-1 text-xs font-semibold text-[#3b82f6] hover:underline cursor-pointer"
+                    className="flex items-center gap-1 text-xs font-semibold text-[#3b82f6] hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedSnippet ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedSnippet ? 'Copied' : 'Copy'}</span>
@@ -704,7 +704,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                     setCopiedResponse(true);
                     setTimeout(() => setCopiedResponse(false), 2000);
                   }}
-                  className="flex items-center gap-1 text-[#3b82f6] hover:underline"
+                  className="flex items-center gap-1 text-[#3b82f6] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {copiedResponse ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
                   <span>{copiedResponse ? 'Copied' : 'Copy'}</span>
@@ -754,7 +754,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       }, null, 2));
                     }
                   }}
-                  className="rounded-md border border-[#cbd5e1] bg-white px-2.5 py-1 text-[11px] font-mono text-[#0b192c] hover:bg-[#f1f5f9] transition"
+                  className="rounded-md border border-[#cbd5e1] bg-white px-2.5 py-1 text-[11px] font-mono text-[#0b192c] hover:bg-[#f1f5f9] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {preset.name}
                 </button>
@@ -784,7 +784,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           <button
             onClick={runFullVerificationSuite}
             disabled={runningSuite}
-            className="flex items-center gap-2 rounded-xl bg-[#10b981] px-5 py-2.5 text-xs font-bold text-white shadow-md transition hover:bg-[#059669] disabled:opacity-50 active:scale-95 whitespace-nowrap"
+            className="flex items-center gap-2 rounded-xl bg-[#10b981] px-5 py-2.5 text-xs font-bold text-white shadow-md transition hover:bg-[#059669] disabled:opacity-50 active:scale-95 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             {runningSuite ? (
               <>

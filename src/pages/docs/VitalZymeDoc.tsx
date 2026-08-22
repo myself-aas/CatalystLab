@@ -47,7 +47,7 @@ export function analyzeDomTree(html: string) {
   let maxDepth = 0;
   let totalElements = 0;
 
-  function traverse(node: any, currentDepth: number) {
+  function traverse(node: unknown, currentDepth: number) {
     if (!node || node.type !== 'tag') return;
     totalElements++;
     if (currentDepth > maxDepth) maxDepth = currentDepth;

@@ -107,7 +107,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
 
       setInquiryId(id);
       setSubmitted(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to submit email inquiry:', err);
       setErrorMessage('Could not complete submission. Please verify your connection.');
     } finally {
@@ -155,7 +155,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-5 right-5 rounded-full p-2 text-slate-400 hover:bg-[#162a45] hover:text-white transition-colors cursor-pointer"
+              className="absolute top-5 right-5 rounded-full p-2 text-slate-400 hover:bg-[#162a45] hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               aria-label="Close Pop-up"
             >
               <X className="h-5 w-5" />
@@ -186,7 +186,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="w-full rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-98 cursor-pointer"
+                    className="w-full rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-98 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Done & Close
                   </button>
@@ -319,7 +319,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-98 disabled:opacity-50 cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-98 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {isSubmitting ? (
                       <>

@@ -47,7 +47,7 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = ({ teleme
           return (
             <div
               key={dim.name}
-              className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-4 transition-all hover:border-[#415a77]/60"
+              className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-4 transition-all hover:border-[#415a77]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <div className="flex items-center justify-between gap-2 mb-3">
                 <span

@@ -120,7 +120,7 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title 
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 rounded-md border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-sm font-medium text-[#c5d3e8] hover:bg-[#1f314d] hover:text-[#f8fafc] transition-all cursor-pointer"
+          className="flex items-center gap-1.5 rounded-md border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-sm font-medium text-[#c5d3e8] hover:bg-[#1f314d] hover:text-[#f8fafc] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           title="Copy code"
         >
           {copied ? (
@@ -252,7 +252,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#415a77] hover:bg-[#f1f5f9] cursor-pointer"
+              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#415a77] hover:bg-[#f1f5f9] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               aria-label="Toggle docs navigation"
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -266,7 +266,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
-              className="flex items-center gap-2 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs sm:text-sm text-[#64748b] hover:border-[#cbd5e1] hover:text-[#0b192c] transition-colors cursor-pointer"
+              className="flex items-center gap-2 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs sm:text-sm text-[#64748b] hover:border-[#cbd5e1] hover:text-[#0b192c] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Search documentation (Cmd+K)"
             >
               <Search className="h-3.5 w-3.5 text-[#415a77]" />
@@ -338,7 +338,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               <div className="pt-4 border-t border-[#e2e8f0] space-y-2">
                 <Link
                   to="/blogs"
-                  className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-4 w-4 text-[#415a77]" />
@@ -348,7 +348,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 </Link>
                 <Link
                   to="/contact"
-                  className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <div className="flex items-center gap-2">
                     <HelpCircle className="h-4 w-4 text-[#415a77]" />
@@ -369,13 +369,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               {prevItem ? (
                 <Link
                   to={prevItem.path}
-                  className="flex flex-col gap-1 rounded-xl border border-[#e2e8f0] bg-white p-4 text-left transition-all hover:border-[#cbd5e1] hover:bg-[#f8fafc] shadow-xs group"
+                  className="flex flex-col gap-1 rounded-xl border border-[#e2e8f0] bg-white p-4 text-left transition-all hover:border-[#cbd5e1] hover:bg-[#f8fafc] shadow-xs group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span className="text-xs font-semibold text-[#64748b] flex items-center gap-1">
-                    <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
+                    <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                     <span>Previous</span>
                   </span>
-                  <span className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors truncate">
+                  <span className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     {prevItem.title}
                   </span>
                 </Link>
@@ -384,13 +384,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               {nextItem ? (
                 <Link
                   to={nextItem.path}
-                  className="flex flex-col items-end gap-1 rounded-xl border border-[#e2e8f0] bg-white p-4 text-right transition-all hover:border-[#cbd5e1] hover:bg-[#f8fafc] shadow-xs group sm:col-start-2"
+                  className="flex flex-col items-end gap-1 rounded-xl border border-[#e2e8f0] bg-white p-4 text-right transition-all hover:border-[#cbd5e1] hover:bg-[#f8fafc] shadow-xs group sm:col-start-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span className="text-xs font-semibold text-[#64748b] flex items-center gap-1">
                     <span>Next</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                   </span>
-                  <span className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors truncate">
+                  <span className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     {nextItem.title}
                   </span>
                 </Link>
@@ -466,11 +466,11 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 </ul>
 
                 <div className="pt-4 border-t border-[#e2e8f0] space-y-2 text-xs text-[#64748b]">
-                  <Link to="/blogs" className="flex items-center gap-1.5 hover:text-[#0b192c] transition-colors">
+                  <Link to="/blogs" className="flex items-center gap-1.5 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     <FileText className="h-3.5 w-3.5 text-[#415a77]" />
                     <span>Developer Blog</span>
                   </Link>
-                  <Link to="/contact" className="flex items-center gap-1.5 hover:text-[#0b192c] transition-colors">
+                  <Link to="/contact" className="flex items-center gap-1.5 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     <ShieldCheck className="h-3.5 w-3.5 text-[#415a77]" />
                     <span>Developer Support</span>
                   </Link>

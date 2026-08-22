@@ -97,7 +97,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
           <button
             type="button"
             onClick={fetchInquiries}
-            className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-gray-50 px-3 py-2 text-xs font-mono font-semibold text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-gray-50 px-3 py-2 text-xs font-mono font-semibold text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -107,7 +107,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
             type="button"
             onClick={exportCSV}
             disabled={inquiries.length === 0}
-            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] text-white px-3.5 py-2 text-xs font-mono font-bold hover:bg-[#162a45] transition-all disabled:opacity-50 cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] text-white px-3.5 py-2 text-xs font-mono font-bold hover:bg-[#162a45] transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export CSV</span>
@@ -168,14 +168,14 @@ export const ContactInquiriesAdminView: React.FC = () => {
         ) : (
           <div className="divide-y divide-gray-100">
             {filteredInquiries.map((item) => (
-              <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-gray-50/80 transition-colors">
+              <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-gray-50/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
                     <span className="font-mono text-sm font-bold text-gray-900">{item.email}</span>
                     <button
                       type="button"
                       onClick={() => handleCopy(item.email, item.id || String(item.createdAt))}
-                      className="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer"
+                      className="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       title="Copy email"
                     >
                       {copiedId === (item.id || String(item.createdAt)) ? (

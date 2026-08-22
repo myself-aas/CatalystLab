@@ -178,21 +178,21 @@ export default {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <a 
               href="#domain-configurator"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] px-5 py-3 text-sm font-bold transition-all shadow-md active:scale-95"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] px-5 py-3 text-sm font-bold transition-all shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Sliders className="h-4 w-4 text-[#0b192c]" />
               <span>Configure Domain Monitor</span>
             </a>
             <Link
               to="/dashboard?tab=monitoring"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#415a77]/80 bg-[#152238] hover:bg-[#1f314f] text-white px-5 py-3 text-sm font-semibold transition-all shadow-sm"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#415a77]/80 bg-[#152238] hover:bg-[#1f314f] text-white px-5 py-3 text-sm font-semibold transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Activity className="h-4 w-4 text-[#38bdf8]" />
               <span>View Monitored Domains in Dashboard</span>
             </Link>
             <Link
               to="/api-docs"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#415a77]/40 hover:border-[#415a77] text-[#c5d3e8] hover:text-white px-4 py-3 text-sm font-mono transition-all"
+              className="inline-flex items-center gap-2 rounded-xl border border-[#415a77]/40 hover:border-[#415a77] text-[#c5d3e8] hover:text-white px-4 py-3 text-sm font-mono transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Code2 className="h-4 w-4" />
               <span>API Integration Docs →</span>
@@ -270,7 +270,7 @@ export default {
             
             {/* Product 1: Custom Domain Automated Watchdog */}
             {(selectedCategory === 'all' || selectedCategory === 'monitoring') && (
-              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50">
+              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-[#0b192c] border border-sky-100">
@@ -303,7 +303,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">Tier: Developer / Pro</span>
                   <a
                     href="#domain-configurator"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77]"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Configure Now</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -314,7 +314,7 @@ export default {
 
             {/* Product 2: GitHub & GitLab Actions Quality Gate */}
             {(selectedCategory === 'all' || selectedCategory === 'cicd') && (
-              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50">
+              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600 border border-orange-100">
@@ -347,7 +347,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">Action: @catalystlab/action</span>
                   <a
                     href="#integration-code"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77]"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>View YAML</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -358,7 +358,7 @@ export default {
 
             {/* Product 3: Vercel, Netlify & Webhook Integrator */}
             {(selectedCategory === 'all' || selectedCategory === 'webhooks') && (
-              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50">
+              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
@@ -391,7 +391,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">Format: REST / JSON</span>
                   <Link
                     to="/api-docs"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77]"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Read API Specs</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -402,7 +402,7 @@ export default {
 
             {/* Product 4: Cloudflare & Edge Worker Plugin */}
             {(selectedCategory === 'all' || selectedCategory === 'webhooks') && (
-              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50">
+              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
@@ -435,7 +435,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">Size: &lt; 1KB bundled</span>
                   <a
                     href="#integration-code"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77]"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>View Worker Code</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -446,7 +446,7 @@ export default {
 
             {/* Product 5: Slack, Discord & PagerDuty Alerts */}
             {(selectedCategory === 'all' || selectedCategory === 'monitoring') && (
-              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50">
+              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
@@ -479,7 +479,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">Channels: Slack, Discord, PagerDuty</span>
                   <a
                     href="#domain-configurator"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77]"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Setup Alerts</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -490,7 +490,7 @@ export default {
 
             {/* Product 6: Node.js & Python SDK Watchdog */}
             {(selectedCategory === 'all' || selectedCategory === 'monitoring' || selectedCategory === 'cicd') && (
-              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50">
+              <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-[#415a77]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100">
@@ -523,7 +523,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">npm i @catalystlab/sdk</span>
                   <Link
                     to="/playground"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77]"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0b192c] hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Test in Playground</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -697,7 +697,7 @@ export default {
                 </div>
                 <button
                   onClick={() => copyToClipboard(generateConfigJson(), 'config-json')}
-                  className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/60 bg-[#152238] hover:bg-[#1f314f] text-[#f8fafc] px-3 py-1 text-xs font-mono transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/60 bg-[#152238] hover:bg-[#1f314f] text-[#f8fafc] px-3 py-1 text-xs font-mono transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {copiedSnippet === 'config-json' ? (
                     <>
@@ -725,7 +725,7 @@ export default {
                 </div>
                 <Link
                   to={`/dashboard?tab=monitoring&domain=${encodeURIComponent(targetDomain)}`}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#38bdf8] hover:bg-[#0284c7] text-[#0b192c] font-bold px-4 py-2 text-xs transition-all shadow-md active:scale-95"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#38bdf8] hover:bg-[#0284c7] text-[#0b192c] font-bold px-4 py-2 text-xs transition-all shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <PlusCircle className="h-3.5 w-3.5 text-[#0b192c]" />
                   <span>Add to My Dashboard</span>
@@ -763,7 +763,7 @@ export default {
                   </div>
                   <button
                     onClick={() => copyToClipboard(sampleGithubActionYaml, 'gh-yaml')}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#152238] hover:bg-[#1f314f] text-xs font-mono text-[#c5d3e8] border border-[#415a77]/40 cursor-pointer"
+                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#152238] hover:bg-[#1f314f] text-xs font-mono text-[#c5d3e8] border border-[#415a77]/40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedSnippet === 'gh-yaml' ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
                     <span>{copiedSnippet === 'gh-yaml' ? 'Copied' : 'Copy'}</span>
@@ -788,7 +788,7 @@ export default {
                   </div>
                   <button
                     onClick={() => copyToClipboard(sampleCloudflareWorker, 'cf-worker')}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#152238] hover:bg-[#1f314f] text-xs font-mono text-[#c5d3e8] border border-[#415a77]/40 cursor-pointer"
+                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#152238] hover:bg-[#1f314f] text-xs font-mono text-[#c5d3e8] border border-[#415a77]/40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedSnippet === 'cf-worker' ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
                     <span>{copiedSnippet === 'cf-worker' ? 'Copied' : 'Copy'}</span>
@@ -825,14 +825,14 @@ export default {
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <Link
                 to="/pricing"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-gray-100 text-[#0b192c] font-bold px-6 py-3.5 text-sm transition-all shadow-md active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-gray-100 text-[#0b192c] font-bold px-6 py-3.5 text-sm transition-all shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>View Enterprise Pricing</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#415a77] bg-[#152238] hover:bg-[#1f314f] text-[#c5d3e8] hover:text-white px-5 py-3.5 text-sm font-semibold transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#415a77] bg-[#152238] hover:bg-[#1f314f] text-[#c5d3e8] hover:text-white px-5 py-3.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Contact Engineering</span>
               </Link>

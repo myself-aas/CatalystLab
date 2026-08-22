@@ -343,7 +343,7 @@ export async function sendEmailViaMailgun(options: {
       success: true,
       messageId: responseData.id || `mg_${Date.now()}`
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Mailgun dispatch failed:', err);
     return {
       success: false,

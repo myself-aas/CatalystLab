@@ -130,7 +130,7 @@ export const ApiDocsPage: React.FC = () => {
                   const el = document.getElementById('api-playground-section');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-sm font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238]"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-sm font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Play className="h-4 w-4" />
                 <span>Open API Playground</span>
@@ -139,7 +139,7 @@ export const ApiDocsPage: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={downloadOpenApi}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Download className="h-3.5 w-3.5 text-[#3b82f6]" />
                   <span>OpenAPI Spec</span>
@@ -147,7 +147,7 @@ export const ApiDocsPage: React.FC = () => {
 
                 <button
                   onClick={downloadPostman}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <FileJson className="h-3.5 w-3.5 text-[#f97316]" />
                   <span>Postman v2.1</span>
@@ -290,7 +290,7 @@ export const ApiDocsPage: React.FC = () => {
                           e.stopPropagation();
                           scrollToPlayground(ep.id);
                         }}
-                        className="flex items-center gap-1 rounded-lg border border-[#e2e8f0] bg-white px-2.5 py-1 text-sm font-bold text-[#0b192c] hover:bg-[#0b192c] hover:text-[#38bdf8] transition shadow-sm"
+                        className="flex items-center gap-1 rounded-lg border border-[#e2e8f0] bg-white px-2.5 py-1 text-sm font-bold text-[#0b192c] hover:bg-[#0b192c] hover:text-[#38bdf8] transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         title="Test in Playground"
                       >
                         <Play className="h-3 w-3" />
@@ -402,7 +402,7 @@ export const ApiDocsPage: React.FC = () => {
                                 </div>
                                 <button
                                   onClick={() => handleCopy(`${ep.id}-${resp.status}`, JSON.stringify(resp.example, null, 2))}
-                                  className="text-[#3b82f6] hover:underline flex items-center gap-1 text-sm"
+                                  className="text-[#3b82f6] hover:underline flex items-center gap-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                                 >
                                   {copiedMap[`${ep.id}-${resp.status}`] ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
                                   <span>{copiedMap[`${ep.id}-${resp.status}`] ? 'Copied' : 'Copy JSON'}</span>
@@ -446,7 +446,7 @@ export const ApiDocsPage: React.FC = () => {
                           </pre>
                           <button
                             onClick={() => handleCopy(`${ep.id}-code`, generateCodeSnippet(ep, lang))}
-                            className="absolute top-3 right-3 rounded-lg border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-sm text-[#38bdf8] hover:bg-[#1f314d] transition flex items-center gap-1"
+                            className="absolute top-3 right-3 rounded-lg border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-sm text-[#38bdf8] hover:bg-[#1f314d] transition flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           >
                             {copiedMap[`${ep.id}-code`] ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
                             <span>{copiedMap[`${ep.id}-code`] ? 'Copied' : 'Copy'}</span>

@@ -204,7 +204,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3.5 p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors"
+                    className="absolute right-3.5 p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     aria-label="Clear search"
                   >
                     <X className="h-4 w-4" />
@@ -229,7 +229,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
               </div>
               <button
                 onClick={() => setSearchQuery('')}
-                className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Clear filter
               </button>
@@ -245,13 +245,13 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                 <div className="mt-5 flex items-center justify-center gap-3">
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="px-4 py-2 text-xs font-bold bg-white border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors shadow-sm"
+                    className="px-4 py-2 text-xs font-bold bg-white border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     View All Categories
                   </button>
                   <Link
                     to={contactLink}
-                    className="px-4 py-2 text-xs font-bold bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+                    className="px-4 py-2 text-xs font-bold bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Ask a Question
                   </Link>
@@ -410,7 +410,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   </p>
                   <Link
                     to="/docs"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Browse Engineering Docs</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -445,13 +445,13 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => handleExpandAll(activeCategory?.items.length || 0)}
-                      className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+                      className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Expand all
                     </button>
                     <button
                       onClick={handleCollapseAll}
-                      className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+                      className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Collapse all
                     </button>
@@ -541,13 +541,13 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   <div className="flex items-center gap-3 shrink-0 flex-wrap">
                     <Link
                       to="/docs"
-                      className="inline-flex items-center justify-center px-5 py-2.5 bg-white/10 hover:bg-white/15 text-white border border-white/20 rounded-xl font-bold text-xs sm:text-sm transition-colors"
+                      className="inline-flex items-center justify-center px-5 py-2.5 bg-white/10 hover:bg-white/15 text-white border border-white/20 rounded-xl font-bold text-xs sm:text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Read Documentation
                     </Link>
                     <Link
                       to={contactLink}
-                      className="inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md active:scale-95"
+                      className="inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {contactActionText}
                     </Link>

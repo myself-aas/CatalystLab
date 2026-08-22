@@ -455,7 +455,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-1.5 text-sm font-mono text-brand-slate-hover hover:text-slate-900 bg-white border border-brand-gray py-1.5 px-3 rounded-xl shadow-sm hover:bg-brand-offwhite transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-sm font-mono text-brand-slate-hover hover:text-slate-900 bg-white border border-brand-gray py-1.5 px-3 rounded-xl shadow-sm hover:bg-brand-offwhite transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
               >
@@ -572,11 +572,11 @@ export const FeaturedAuditMetrics: React.FC = () => {
               return (
                 <div
                   key={metric.id}
-                  className="w-[300px] sm:w-[330px] flex-shrink-0 flex flex-col justify-between bg-white border border-brand-gray/90 hover:border-brand-slate/30 rounded-2xl p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-navy/5 group relative overflow-hidden"
+                  className="w-[300px] sm:w-[330px] flex-shrink-0 flex flex-col justify-between bg-white border border-brand-gray/90 hover:border-brand-slate/30 rounded-2xl p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-navy/5 group relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {/* Subtle top accent gradient line */}
                   <div 
-                    className="absolute top-0 inset-x-0 h-1 bg-brand-navy opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-0 inset-x-0 h-1 bg-brand-navy opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   />
 
                   {/* Header: Phase badge & Score */}
@@ -594,14 +594,14 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     {/* Title and Icon */}
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <h3 className="text-base sm:text-lg font-bold font-sans text-brand-navy group-hover:text-sky-700 transition-colors leading-tight">
+                        <h3 className="text-base sm:text-lg font-bold font-sans text-brand-navy group-hover:text-sky-700 transition-colors leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           {metric.title}
                         </h3>
                         <p className="text-sm font-mono text-brand-slate-light mt-1">
                           {metric.engineName}
                         </p>
                       </div>
-                      <div className="w-10 h-10 rounded-xl bg-brand-ghost border border-brand-gray flex items-center justify-center text-brand-navy shrink-0 group-hover:bg-brand-navy group-hover:text-white transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-brand-ghost border border-brand-gray flex items-center justify-center text-brand-navy shrink-0 group-hover:bg-brand-navy group-hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                         <IconComponent className="h-5 w-5" />
                       </div>
                     </div>
@@ -626,10 +626,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                   <div className="pt-4 mt-4 border-t border-brand-greige">
                     <Link
                       to={metric.route}
-                      className="w-full flex items-center justify-center gap-2 bg-brand-navy hover:bg-[#1b2a4a] text-white py-2.5 px-4 rounded-xl font-mono text-sm font-bold transition-all shadow-sm active:scale-[0.98] group-hover:shadow-md cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 bg-brand-navy hover:bg-[#1b2a4a] text-white py-2.5 px-4 rounded-xl font-mono text-sm font-bold transition-all shadow-sm active:scale-[0.98] group-hover:shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <span>Run Vector Audit</span>
-                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                     </Link>
                   </div>
 
@@ -668,7 +668,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setInspectedMetric(null)}
-                className="absolute top-5 right-5 p-2 rounded-xl bg-brand-ghost border border-brand-gray text-brand-slate hover:text-brand-navy hover:bg-slate-200 transition-colors cursor-pointer"
+                className="absolute top-5 right-5 p-2 rounded-xl bg-brand-ghost border border-brand-gray text-brand-slate hover:text-brand-navy hover:bg-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 aria-label="Close modal"
               >
                 <X className="h-4 w-4" />
@@ -715,7 +715,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => copyCli(inspectedMetric.telemetryDetails.cliCommand)}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-sm transition-colors shrink-0 cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-sm transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedCli ? (
                       <>
@@ -753,13 +753,13 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setInspectedMetric(null)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-brand-gray text-sm font-mono text-brand-slate-hover hover:bg-brand-ghost transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-brand-gray text-sm font-mono text-brand-slate-hover hover:bg-brand-ghost transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Dismiss
                 </button>
                 <Link
                   to={inspectedMetric.route}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-navy hover:bg-[#152238] text-white px-6 py-2.5 rounded-xl text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-navy hover:bg-[#152238] text-white px-6 py-2.5 rounded-xl text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span>Launch {inspectedMetric.engineName}</span>
                   <ArrowRight className="h-4 w-4" />

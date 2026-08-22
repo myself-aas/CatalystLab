@@ -794,7 +794,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
 
       {/* 3. The Interactive Data Table */}
       <div className="overflow-x-auto rounded-2xl border border-[#415a77]/30 bg-[#071322] shadow-inner">
-        <table className="w-full text-left text-xs">
+        <table className="w-full text-left text-xs" aria-label="Audit findings data table">
           <thead className="border-b border-[#415a77]/30 bg-[#0f1f38] text-[#c5d3e8] font-bold uppercase tracking-wider text-[11px]">
             <tr>
               <th className="py-3.5 px-4">Evaluation Vector & Category</th>
@@ -812,7 +812,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
                 <React.Fragment key={row.id}>
                   <tr 
                     onClick={() => toggleRow(row.id)}
-                    className="hover:bg-[#152238]/70 transition-colors cursor-pointer group"
+                    className="hover:bg-[#152238]/70 transition-colors cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {/* Vector & Category */}
                     <td className="py-3.5 px-4 font-semibold text-white">
@@ -821,7 +821,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
                           row.status === 'pass' ? 'bg-emerald-400' : row.status === 'warning' ? 'bg-amber-400' : 'bg-rose-400'
                         }`} />
                         <div>
-                          <div className="font-bold text-[#f8fafc] group-hover:text-[#38bdf8] transition-colors">{row.vector}</div>
+                          <div className="font-bold text-[#f8fafc] group-hover:text-[#38bdf8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">{row.vector}</div>
                           <div className="text-[10px] text-[#c5d3e8] font-normal">{row.category}</div>
                         </div>
                       </div>
@@ -873,7 +873,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
                     </td>
 
                     {/* Expand Trigger */}
-                    <td className="py-3.5 px-4 text-right text-[#c5d3e8] group-hover:text-white">
+                    <td className="py-3.5 px-4 text-right text-[#c5d3e8] group-hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <button className="inline-flex items-center gap-1 text-[11px] font-bold text-[#38bdf8]">
                         <span>{isExpanded ? 'Hide' : 'Explain'}</span>
                         {isExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
@@ -930,7 +930,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
       <div className="rounded-2xl bg-[#152238]/60 border border-[#415a77]/40 p-4">
         <button
           onClick={() => setMethodologyExpanded(!methodologyExpanded)}
-          className="flex w-full items-center justify-between text-xs font-bold text-[#f8fafc] hover:text-[#38bdf8] transition-colors"
+          className="flex w-full items-center justify-between text-xs font-bold text-[#f8fafc] hover:text-[#38bdf8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-[#38bdf8]" />

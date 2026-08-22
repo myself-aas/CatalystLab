@@ -101,7 +101,7 @@ export const HeroSection: React.FC = () => {
                       key={domain}
                       type="button"
                       onClick={() => selectQuickSample(domain)}
-                      className="px-2.5 py-1 rounded-md bg-brand-oxford border border-brand-slate/40 hover:border-sky-400/50 hover:text-brand-periwinkle transition-colors cursor-pointer"
+                      className="px-2.5 py-1 rounded-md bg-brand-oxford border border-brand-slate/40 hover:border-sky-400/50 hover:text-brand-periwinkle transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {domain}
                     </button>

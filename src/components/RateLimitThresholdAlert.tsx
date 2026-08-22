@@ -94,7 +94,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
           </div>
           <button
             onClick={handleRefresh}
-            className="text-[#c5d3e8] hover:text-[#f8fafc] p-1.5 rounded-lg hover:bg-[#152238] transition-colors"
+            className="text-[#c5d3e8] hover:text-[#f8fafc] p-1.5 rounded-lg hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Refresh quota status"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />
@@ -170,7 +170,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {!user ? (
               <button
                 onClick={() => login()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-xs font-bold text-white hover:from-blue-500 hover:to-indigo-500 transition-all shadow-md active:scale-98"
+                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-xs font-bold text-white hover:from-blue-500 hover:to-indigo-500 transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In (+30 Units/Day)</span>
@@ -178,7 +178,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             ) : (
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-98"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Key className="h-4 w-4 text-amber-300" />
                 <span>Get Pro API Key (500/day)</span>
@@ -188,7 +188,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {onOpenRateLimitModal && (
               <button
                 onClick={onOpenRateLimitModal}
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2.5 text-xs font-semibold text-[#c5d3e8] hover:text-white hover:bg-[#1f2f48] transition-colors"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2.5 text-xs font-semibold text-[#c5d3e8] hover:text-white hover:bg-[#1f2f48] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Info className="h-3.5 w-3.5" />
                 <span>Tier Details</span>
@@ -257,7 +257,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {!user ? (
               <button
                 onClick={() => login()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-98"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In (+30 Units/Day)</span>
@@ -265,7 +265,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             ) : (
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-[#152238] px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-[#1f2f48] transition-all shadow-sm active:scale-98"
+                className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-[#152238] px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-[#1f2f48] transition-all shadow-sm active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Key className="h-4 w-4 text-amber-400" />
                 <span>Pro API Keys (500/day)</span>
@@ -274,7 +274,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
 
             <button
               onClick={handleRefresh}
-              className="flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-3 py-2.5 text-xs font-semibold text-[#c5d3e8] hover:text-white transition-colors"
+              className="flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-3 py-2.5 text-xs font-semibold text-[#c5d3e8] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Sync status with server"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />
@@ -311,14 +311,14 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
           {!user && (
             <button
               onClick={() => login()}
-              className="rounded-lg bg-[#415a77] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#52718e] transition-colors"
+              className="rounded-lg bg-[#415a77] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#52718e] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Sign In (50 Units/Day)
             </button>
           )}
           <button
             onClick={handleRefresh}
-            className="text-[#8ea8c3] hover:text-white p-1 rounded-md transition-colors"
+            className="text-[#8ea8c3] hover:text-white p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Refresh quota count"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />

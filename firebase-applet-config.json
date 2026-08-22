@@ -1,12 +1,12 @@
 {
-  "projectId": "resonant-alloy-p8chg",
-  "appId": "1:251234321209:web:09cf7c6931d7a9e8005ee8",
-  "apiKey": "AIzaSyCo55ZL5abhLPRC2H9_yWbTfajbYrpD6JE",
-  "authDomain": "resonant-alloy-p8chg.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-catalystlab-0b689805-6a29-4f84-81ab-112dd325b329",
-  "storageBucket": "resonant-alloy-p8chg.firebasestorage.app",
-  "messagingSenderId": "251234321209",
-  "measurementId": "",
-  "oAuthClientId": "251234321209-khe69mflotclaej6sr7079tslruiesnp.apps.googleusercontent.com",
+  "projectId": "catalystlabhub",
+  "appId": "1:538496738631:web:750ab5420844d31a749862",
+  "apiKey": "AIzaSyCEKst9X69ewBp3pLzL-ILHRo1kezYZkIU",
+  "authDomain": "catalystlabhub.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-catalystlab-3f711290-8b8c-407a-987c-1b002db866b4",
+  "storageBucket": "catalystlabhub.firebasestorage.app",
+  "messagingSenderId": "538496738631",
+  "measurementId": "G-SBWC2NFQ0X",
+  "oAuthClientId": "538496738631-ug080cbsulbeku5e7ed0i0h6v7ccvaqe.apps.googleusercontent.com",
   "recaptchaSiteKey": ""
 }

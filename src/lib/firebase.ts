@@ -2,7 +2,12 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { 
   getAuth, 
   GoogleAuthProvider, 
+  GithubAuthProvider,
   signInWithPopup, 
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  updateProfile,
   signOut, 
   onAuthStateChanged,
   type User
@@ -28,6 +33,7 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry, UserSubscription, SubscriptionPlanId } from '../types';
+import { calculateReadingTime } from '../utils/readingTime';
 
 import firebaseConfig from '../../firebase-applet-config.json';
 
@@ -53,6 +59,17 @@ try {
 
 export const db = firestoreInstance;
 
+async function testConnection() {
+  try {
+    await getDocFromServer(doc(db, 'test', 'connection'));
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('the client is offline')) {
+      console.error('Please check your Firebase configuration.');
+    }
+  }
+}
+testConnection();
+
 export interface FirebaseDomainConfig {
   projectId: string;
   authDomain: string;
@@ -63,10 +80,10 @@ export interface FirebaseDomainConfig {
 export function getFirebaseDomainSettings(): FirebaseDomainConfig {
   const currentHostname = typeof window !== 'undefined' ? window.location.hostname : '';
   return {
-    projectId: firebaseConfig.projectId || 'artful-defender-j6rpq',
-    authDomain: firebaseConfig.authDomain || 'artful-defender-j6rpq.firebaseapp.com',
+    projectId: firebaseConfig.projectId || 'catalystlabhub',
+    authDomain: firebaseConfig.authDomain || 'catalystlabhub.firebaseapp.com',
     currentHostname,
-    consoleAuthUrl: `https://console.firebase.google.com/project/${firebaseConfig.projectId || 'artful-defender-j6rpq'}/authentication/settings`
+    consoleAuthUrl: `https://console.firebase.google.com/project/${firebaseConfig.projectId || 'catalystlabhub'}/authentication/settings`
   };
 }
 
@@ -151,10 +168,14 @@ function deleteLocalReport(reportId: string): void {
   }
 }
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
+
+const githubProvider = new GithubAuthProvider();
+githubProvider.addScope('read:user');
+githubProvider.addScope('user:email');
 
 export interface AuthErrorInfo {
   code: string;
@@ -164,37 +185,120 @@ export interface AuthErrorInfo {
   isUserCancelled: boolean;
 }
 
+const AUTH_ERROR_MESSAGES: Record<string, string> = {
+  'auth/user-not-found': 'No account found with this email address.',
+  'auth/wrong-password': 'Incorrect password. Please verify and try again.',
+  'auth/invalid-credential': 'Invalid email or password. Please verify your credentials.',
+  'auth/email-already-in-use': 'An account already exists with this email address. Please sign in instead.',
+  'auth/weak-password': 'Password should be at least 6 characters long.',
+  'auth/invalid-email': 'Please provide a valid email address.',
+  'auth/account-exists-with-different-credential': 'An account already exists with this email address using a different login method (e.g., Google or GitHub).',
+  'auth/too-many-requests': 'Too many failed login attempts. Please wait a moment or reset your password.',
+};
+
+export function formatAuthError(error: unknown): AuthErrorInfo {
+  const errorCode = error?.code || '';
+  const currentDomain = typeof window !== 'undefined' ? window.location.hostname : '';
+  
+  const isUnauthorizedDomain = errorCode === 'auth/unauthorized-domain' || 
+    (typeof error?.message === 'string' && error.message.includes('unauthorized-domain'));
+  const isUserCancelled = errorCode === 'auth/popup-closed-by-user' || 
+    errorCode === 'auth/cancelled-popup-request';
+
+  let friendlyMessage = error?.message || 'Authentication failed.';
+
+  if (isUnauthorizedDomain) {
+    friendlyMessage = `Domain '${currentDomain}' is not authorized in Firebase Authentication settings.`;
+  } else if (isUserCancelled) {
+    friendlyMessage = 'Sign-in window was closed before completion.';
+  } else if (AUTH_ERROR_MESSAGES[errorCode]) {
+    friendlyMessage = AUTH_ERROR_MESSAGES[errorCode];
+  }
+
+  return {
+    code: errorCode || 'auth/unknown',
+    message: friendlyMessage,
+    domain: currentDomain,
+    isUnauthorizedDomain,
+    isUserCancelled
+  };
+}
+
 export const loginWithGoogle = async (): Promise<User> => {
   try {
-    const result = await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, googleProvider);
     return result.user;
-  } catch (error: any) {
-    const errorCode = error?.code || '';
-    const currentDomain = typeof window !== 'undefined' ? window.location.hostname : '';
-    
-    const isUnauthorizedDomain = errorCode === 'auth/unauthorized-domain' || 
-      (typeof error?.message === 'string' && error.message.includes('unauthorized-domain'));
-    const isUserCancelled = errorCode === 'auth/popup-closed-by-user' || 
-      errorCode === 'auth/cancelled-popup-request';
-
-    const errorDetails: AuthErrorInfo = {
-      code: errorCode || 'auth/unknown',
-      message: isUnauthorizedDomain
-        ? `Domain '${currentDomain}' is not authorized in Firebase Authentication.`
-        : isUserCancelled 
-          ? 'Sign-in popup was closed before completing.'
-          : (error?.message || 'Google authentication failed.'),
-      domain: currentDomain,
-      isUnauthorizedDomain,
-      isUserCancelled
-    };
-
-    if (isUnauthorizedDomain) {
-      console.warn("Firebase Auth Notice: Current domain requires whitelisting in Firebase Console:", currentDomain);
-    } else if (!isUserCancelled) {
+  } catch (error: unknown) {
+    const errorDetails = formatAuthError(error);
+    if (errorDetails.isUnauthorizedDomain) {
+      console.warn("Firebase Auth Notice: Domain requires whitelisting:", errorDetails.domain);
+    } else if (!errorDetails.isUserCancelled) {
       console.error("Google login failed:", error);
     }
+    const enhancedError = new Error(errorDetails.message);
+    Object.assign(enhancedError, errorDetails);
+    throw enhancedError;
+  }
+};
 
+export const loginWithGithub = async (): Promise<User> => {
+  try {
+    const result = await signInWithPopup(auth, githubProvider);
+    return result.user;
+  } catch (error: unknown) {
+    const errorDetails = formatAuthError(error);
+    if (errorDetails.isUnauthorizedDomain) {
+      console.warn("Firebase Auth Notice: Domain requires whitelisting:", errorDetails.domain);
+    } else if (!errorDetails.isUserCancelled) {
+      console.error("GitHub login failed:", error);
+    }
+    const enhancedError = new Error(errorDetails.message);
+    Object.assign(enhancedError, errorDetails);
+    throw enhancedError;
+  }
+};
+
+export const loginWithEmail = async (email: string, password: string): Promise<User> => {
+  try {
+    const result = await signInWithEmailAndPassword(auth, email.trim(), password);
+    return result.user;
+  } catch (error: unknown) {
+    const errorDetails = formatAuthError(error);
+    console.error("Email login failed:", error);
+    const enhancedError = new Error(errorDetails.message);
+    Object.assign(enhancedError, errorDetails);
+    throw enhancedError;
+  }
+};
+
+export const signUpWithEmail = async (email: string, password: string, displayName?: string): Promise<User> => {
+  try {
+    const result = await createUserWithEmailAndPassword(auth, email.trim(), password);
+    if (displayName && displayName.trim()) {
+      try {
+        await updateProfile(result.user, {
+          displayName: displayName.trim()
+        });
+      } catch (profileErr) {
+        console.warn("Could not update user display name:", profileErr);
+      }
+    }
+    return result.user;
+  } catch (error: unknown) {
+    const errorDetails = formatAuthError(error);
+    console.error("Email sign up failed:", error);
+    const enhancedError = new Error(errorDetails.message);
+    Object.assign(enhancedError, errorDetails);
+    throw enhancedError;
+  }
+};
+
+export const sendPasswordReset = async (email: string): Promise<void> => {
+  try {
+    await sendPasswordResetEmail(auth, email.trim());
+  } catch (error: unknown) {
+    const errorDetails = formatAuthError(error);
+    console.error("Password reset failed:", error);
     const enhancedError = new Error(errorDetails.message);
     Object.assign(enhancedError, errorDetails);
     throw enhancedError;
@@ -318,7 +422,7 @@ export const getReport = async (reportId: string): Promise<AuditReport | null> =
       return report;
     }
     return null;
-  } catch (error: any) {
+  } catch (error: unknown) {
     handleFirestoreError(error, OperationType.GET, path);
     return getLocalReports().find(r => r.id === reportId) || null;
   }
@@ -555,6 +659,29 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
   return found || null;
 };
 
+export const getBlogPostById = async (idOrSlug: string): Promise<BlogPost | null> => {
+  if (!idOrSlug) return null;
+  const path = "blogs";
+  try {
+    // 1. Try direct doc ID lookup
+    const docRef = doc(db, path, idOrSlug);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...(docSnap.data() as Omit<BlogPost, 'id'>) };
+    }
+  } catch (err) {
+    // Non-fatal, try fallback
+  }
+
+  // 2. Try querying by slug
+  const bySlug = await getBlogPostBySlug(idOrSlug);
+  if (bySlug) return bySlug;
+
+  // 3. Check seeded blogs by id or slug
+  const found = INITIAL_SEEDED_BLOGS.find(p => p.id === idOrSlug || p.slug === idOrSlug);
+  return found || null;
+};
+
 export const saveBlogPost = async (post: Partial<BlogPost>): Promise<string> => {
   const path = "blogs";
   try {
@@ -578,7 +705,7 @@ export const saveBlogPost = async (post: Partial<BlogPost>): Promise<string> => 
       authorEmail: post.authorEmail || user?.email || 'admin@catalystlab.io',
       authorAvatar: post.authorAvatar || user?.photoURL || '',
       status: post.status || 'published',
-      readTime: post.readTime || `${Math.max(1, Math.ceil((post.content?.length || 500) / 750))} min read`,
+      readTime: post.readTime || calculateReadingTime(post.content || '', post.excerpt || '').readTime,
       coverImage: post.coverImage || '',
       createdAt: post.createdAt || Date.now(),
       updatedAt: Date.now(),
@@ -590,13 +717,13 @@ export const saveBlogPost = async (post: Partial<BlogPost>): Promise<string> => 
       await updateDoc(docRef, postPayload as any);
       try {
         await setDoc(doc(db, "blogPosts", post.id), postPayload as any, { merge: true });
-      } catch {}
+      } catch (e) { console.error("Ignored error:", e); }
       return post.id;
     } else {
       const docRef = await addDoc(collection(db, path), postPayload);
       try {
         await setDoc(doc(db, "blogPosts", docRef.id), postPayload as any);
-      } catch {}
+      } catch (e) { console.error("Ignored error:", e); }
       return docRef.id;
     }
   } catch (error) {
@@ -612,7 +739,7 @@ export const deleteBlogPost = async (postId: string): Promise<boolean> => {
     await deleteDoc(docRef);
     try {
       await deleteDoc(doc(db, "blogPosts", postId));
-    } catch {}
+    } catch (e) { console.error("Ignored error:", e); }
     return true;
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, path);
@@ -795,7 +922,7 @@ export const getApiKeys = async (ownerId?: string): Promise<ApiKey[]> => {
     if (raw) {
       localKeys = JSON.parse(raw);
     }
-  } catch {}
+  } catch (e) { console.error("Ignored error:", e); }
 
   const path = "api_keys";
   try {
@@ -810,7 +937,7 @@ export const getApiKeys = async (ownerId?: string): Promise<ApiKey[]> => {
       keys.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
       try {
         localStorage.setItem(localKey, JSON.stringify(keys));
-      } catch {}
+      } catch (e) { console.error("Ignored error:", e); }
       return keys;
     }
   } catch (error) {
@@ -878,7 +1005,7 @@ export const createApiKey = async (params: {
     const existing = await getApiKeys(ownerId);
     const updated = [newApiKey, ...existing.filter(k => k.id !== keyId)];
     localStorage.setItem(localKey, JSON.stringify(updated));
-  } catch {}
+  } catch (e) { console.error("Ignored error:", e); }
 
   return {
     apiKey: newApiKey,
@@ -921,7 +1048,7 @@ export const rotateApiKey = async (keyId: string): Promise<{ apiKey: ApiKey; new
   try {
     const updatedList = currentKeys.map(k => k.id === keyId ? updatedKey : k);
     localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch {}
+  } catch (e) { console.error("Ignored error:", e); }
 
   return {
     apiKey: updatedKey,
@@ -948,7 +1075,7 @@ export const revokeApiKey = async (keyId: string): Promise<boolean> => {
     const currentKeys = await getApiKeys(ownerId);
     const updatedList = currentKeys.map(k => k.id === keyId ? { ...k, status: 'revoked' as const } : k);
     localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch {}
+  } catch (e) { console.error("Ignored error:", e); }
 
   return true;
 };
@@ -969,7 +1096,7 @@ export const deleteApiKey = async (keyId: string): Promise<boolean> => {
     const currentKeys = await getApiKeys(ownerId);
     const updatedList = currentKeys.filter(k => k.id !== keyId);
     localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch {}
+  } catch (e) { console.error("Ignored error:", e); }
 
   return true;
 };
@@ -1113,7 +1240,7 @@ export const getFirestoreAuditLogs = async (limitCount = 30): Promise<FirestoreA
         return derived;
       }
     }
-  } catch {}
+  } catch (e) { console.error("Ignored error:", e); }
 
   return INITIAL_AUDIT_LOGS;
 };

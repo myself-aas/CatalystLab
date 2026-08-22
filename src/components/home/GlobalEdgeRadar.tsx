@@ -121,7 +121,7 @@ export const GlobalEdgeRadar: React.FC = () => {
               type="button"
               onClick={triggerGlobalPing}
               disabled={isPinging}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-periwinkle text-brand-navy hover:bg-white text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-periwinkle text-brand-navy hover:bg-white text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <RefreshCw className={`h-3 w-3 ${isPinging ? 'animate-spin' : ''}`} />
               <span>{isPinging ? 'Pinging...' : 'Ping All 12 PoPs'}</span>
@@ -151,7 +151,7 @@ export const GlobalEdgeRadar: React.FC = () => {
                 type="button"
                 onClick={() => scroll('left')}
                 aria-label="Scroll PoP nodes left"
-                className="p-1.5 rounded-xl bg-brand-navy hover:bg-[#162a45] text-brand-periwinkle border border-brand-slate/50 shadow-sm active:scale-95 cursor-pointer transition-all"
+                className="p-1.5 rounded-xl bg-brand-navy hover:bg-[#162a45] text-brand-periwinkle border border-brand-slate/50 shadow-sm active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
               </button>
@@ -159,7 +159,7 @@ export const GlobalEdgeRadar: React.FC = () => {
                 type="button"
                 onClick={() => scroll('right')}
                 aria-label="Scroll PoP nodes right"
-                className="p-1.5 rounded-xl bg-brand-navy hover:bg-[#162a45] text-brand-periwinkle border border-brand-slate/50 shadow-sm active:scale-95 cursor-pointer transition-all"
+                className="p-1.5 rounded-xl bg-brand-navy hover:bg-[#162a45] text-brand-periwinkle border border-brand-slate/50 shadow-sm active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ChevronRight className="h-3.5 w-3.5" />
               </button>
@@ -243,7 +243,7 @@ export const GlobalEdgeRadar: React.FC = () => {
 
           <Link
             to="/edge"
-            className="inline-flex items-center gap-1.5 bg-brand-periwinkle hover:bg-white text-brand-navy px-4 py-2 rounded-xl text-sm font-mono font-bold transition-all shadow-sm active:scale-95 shrink-0"
+            className="inline-flex items-center gap-1.5 bg-brand-periwinkle hover:bg-white text-brand-navy px-4 py-2 rounded-xl text-sm font-mono font-bold transition-all shadow-sm active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span>Launch EdgeVmax Engine</span>
             <ArrowRight className="h-3.5 w-3.5" />

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SubscriptionProvider } from './context/SubscriptionContext';
+import { RoleSecurityProvider } from './context/RoleSecurityContext';
 import App from './App';
 import './index.css';
 
@@ -14,7 +15,9 @@ ReactDOM.createRoot(rootElement).render(
     <BrowserRouter>
       <AuthProvider>
         <SubscriptionProvider>
-          <App />
+          <RoleSecurityProvider>
+            <App />
+          </RoleSecurityProvider>
         </SubscriptionProvider>
       </AuthProvider>
     </BrowserRouter>

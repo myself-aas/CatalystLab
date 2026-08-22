@@ -96,7 +96,7 @@ export const useAppStore = create<AppState>()(
           });
           if (!res.ok) throw new Error(`Retry failed: ${res.statusText}`);
           set({ syncStatus: 'synced', lastSyncedAt: Date.now() });
-        } catch (err: any) {
+        } catch (err: unknown) {
           set((s) => ({
             syncStatus: 'error',
             lastError: err?.message,
@@ -130,7 +130,7 @@ export const useAppStore = create<AppState>()(
         } else {
           set({ syncStatus: 'idle' });
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         set({
           syncStatus: 'error',
           lastError: err?.message || 'Failed to sync with MongoDB'

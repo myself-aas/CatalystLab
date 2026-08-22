@@ -1,169 +1,252 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronRight, ArrowRight, Zap, Clock, ShieldCheck, Lock, Terminal, Globe, Award, CheckCircle2 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { LazyReveal, LazyStaggerContainer, LazyStaggerItem } from '../components/common/LazyAnimate';
-import heroImage from '../assets/images/about_us_hero_1787216854874.jpg';
-import dnaServersImage from '../assets/images/dna_servers_1787216887436.jpg';
 
 export const MethodologyPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#111111] text-[#f8fafc] font-sans selection:bg-rose-500/30 selection:text-white">
+    <div className="min-h-screen bg-[#f8fafc] text-[#0b192c] font-sans selection:bg-cyan-500/25 selection:text-cyan-900">
       <SEOHead
-        title="About Us & Core Philosophy"
-        description="CatalystLab is a team of digital architects building the next generation of web infrastructure tools."
-        keywords={['CatalystLab about', 'team', 'philosophy', 'web infrastructure']}
+        title="About Us & Philosophy — CatalystLab"
+        description="Learn about CatalystLab, our vision, mission, partners, and why thousands of engineering teams trust our multi-dimensional web health platform."
+        keywords={['CatalystLab about us', 'web telemetry mission', 'vision', 'partners', 'why choose us']}
         canonicalUrl="https://www.catalystlab.tech/about"
       />
 
-      {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+      {/* Hero Banner with Professional Image */}
+      <section className="relative w-full h-[55vh] min-h-[420px] bg-[#0b192c] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={heroImage} alt="Abstract laboratory" className="w-full h-full object-cover opacity-40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#111111]/80 to-[#111111]"></div>
+          <img alt="Visual asset" 
+            src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1800" 
+            alt="Professional using digital device" 
+            className="w-full h-full object-cover opacity-45 mix-blend-overlay"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0b192c]/60 via-[#0b192c]/40 to-[#f8fafc]"></div>
         </div>
-        
-        <div className="relative z-10 text-center px-4 mt-20">
-          <LazyReveal direction="up">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-4">About Us</h1>
-            <div className="flex items-center justify-center gap-2 text-base text-gray-400 font-medium">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <ChevronRight className="w-4 h-4" />
-              <span className="text-rose-500">About Us</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-end pb-12">
+          <div className="flex items-center gap-2 text-sm font-semibold text-cyan-600 mb-2">
+            <Link to="/" className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Home</Link>
+            <ChevronRight className="w-4 h-4 text-slate-400" />
+            <span className="text-slate-600">About Us</span>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-[#0b192c]">
+            About CatalystLab
+          </h1>
+          <p className="mt-3 max-w-xl text-lg text-slate-700 font-medium">
+            Building the gold standard in multi-dimensional web health, OWASP security, and digital telemetry infrastructure.
+          </p>
+        </div>
+      </section>
+
+      {/* Who We Are Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <LazyReveal direction="left" className="space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-600 text-xs font-bold uppercase tracking-wider">
+              <span>🔥</span> What We Do
             </div>
-            <p className="mt-6 max-w-2xl mx-auto text-gray-300 leading-relaxed">
-              We are a collective of digital architects, engineers, and researchers dedicated to pushing the boundaries of web performance, security, and scalability.
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#0b192c] leading-tight">
+              Who We Are
+            </h2>
+            <p className="text-slate-700 text-base md:text-lg leading-relaxed">
+              CatalystLab is a fast, reliable and user-friendly platform for managing web utility bills, security audits, and financial intelligence services.
             </p>
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+              At CatalystLab, we are committed to simplifying how utility and web assets are managed whilst providing an easy way for electricity, data, airtime and cable subscriptions, alongside robust enterprise security telemetry.
+            </p>
+            <div>
+              <Link 
+                to="/pricing" 
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/20 active:scale-95 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+              </Link>
+            </div>
+          </LazyReveal>
+
+          <LazyReveal direction="right">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 aspect-[4/3] bg-slate-100">
+              <img alt="Visual asset" 
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1000" 
+                alt="Professional working on laptop" 
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+            </div>
           </LazyReveal>
         </div>
       </section>
 
-      {/* Philosophy Section - "Perfection In Engineering" */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <LazyReveal direction="left">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-              Perfection In <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500">Engineering</span>
-            </h2>
-          </LazyReveal>
-          
-          <LazyReveal direction="right">
-            <p className="text-gray-400 leading-relaxed mb-6">
-              Our core philosophy is rooted in the synthesis of organic growth and rigorous digital architecture. We build systems that don't just scale—they evolve. CatalystLab is designed to map, monitor, and mend your web infrastructure with biological precision.
-            </p>
-            <Link to="/docs" className="inline-flex items-center gap-2 text-base font-bold text-white hover:text-rose-400 transition-colors group">
-              Learn More 
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </LazyReveal>
-        </div>
+      {/* Vision and Mission Section */}
+      <section className="py-20 bg-white border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <LazyReveal direction="left" className="order-2 lg:order-1">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 aspect-[4/3] bg-slate-100">
+                <img alt="Visual asset" 
+                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1000" 
+                  alt="Engineer analyzing metrics" 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                />
+              </div>
+            </LazyReveal>
 
-        {/* 3 Image Grid */}
-        <LazyStaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16" staggerDelay={0.1}>
-          <LazyStaggerItem>
-            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-900 border border-white/10 group relative">
-              <img src={dnaServersImage} alt="Servers" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <span className="text-base font-bold tracking-wider text-rose-400 uppercase">Infrastructure</span>
+            <LazyReveal direction="right" className="order-1 lg:order-2 space-y-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-600 text-xs font-bold uppercase tracking-wider">
+                <span>🔥</span> What Drives Us
               </div>
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#0b192c]">
+                Vision and Mission
+              </h2>
+
+              <div className="space-y-6">
+                <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                  <h3 className="text-xl font-bold text-[#0b192c] mb-2 flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    Vision
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                    To become the world's most trusted technology company for digital utility management and bill payment leveraging on technological innovation to drive excellence.
+                  </p>
+                </div>
+
+                <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                  <h3 className="text-xl font-bold text-[#0b192c] mb-2 flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>
+                    Mission
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                    Empowering users with innovative digital solutions for utility management and bill payment whilst ensuring convenience, efficiency and an exceptional customer service.
+                  </p>
+                </div>
+              </div>
+            </LazyReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Partners Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <LazyReveal direction="up" className="space-y-4 mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-600 text-xs font-bold uppercase tracking-wider">
+            <span>🔥</span> Who We Collaborate With
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0b192c]">
+            Our Partners
+          </h2>
+          <p className="text-slate-600 max-w-xl mx-auto">
+            We work alongside industry-leading financial, utility, and cloud infrastructure partners to guarantee seamless service delivery.
+          </p>
+        </LazyReveal>
+
+        <LazyStaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center" staggerDelay={0.08}>
+          <LazyStaggerItem>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <span className="text-xl font-black text-slate-800 tracking-tight">paga</span>
             </div>
           </LazyStaggerItem>
           <LazyStaggerItem>
-            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-900 border border-white/10 group relative">
-              <img src={heroImage} alt="Abstract" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <span className="text-base font-bold tracking-wider text-orange-400 uppercase">Analysis</span>
-              </div>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <span className="text-xl font-bold text-orange-600 flex items-center gap-1">⚡ Ikeja</span>
             </div>
           </LazyStaggerItem>
           <LazyStaggerItem>
-            <div className="aspect-[4/3] rounded-sm overflow-hidden bg-gray-900 border border-white/10 flex items-center justify-center p-8 text-center group">
-               <div className="space-y-4">
-                 <div className="w-12 h-12 mx-auto rounded-full border border-rose-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                   <div className="w-8 h-8 rounded-full bg-rose-500/20 animate-pulse"></div>
-                 </div>
-                 <h3 className="text-lg font-bold">Continuous Evolution</h3>
-                 <p className="text-sm text-gray-500">Adapting to the ever-changing digital landscape.</p>
-               </div>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <span className="text-lg font-black text-blue-900 tracking-wider">EKEDC</span>
+            </div>
+          </LazyStaggerItem>
+          <LazyStaggerItem>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <span className="text-lg font-black text-indigo-900 tracking-wider">AEDC</span>
+            </div>
+          </LazyStaggerItem>
+          <LazyStaggerItem>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <span className="text-lg font-bold text-slate-700">Cloudflare</span>
+            </div>
+          </LazyStaggerItem>
+          <LazyStaggerItem>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex items-center justify-center h-24 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <span className="text-lg font-bold text-cyan-700">Stripe</span>
             </div>
           </LazyStaggerItem>
         </LazyStaggerContainer>
       </section>
 
-      {/* Latest Technology Section */}
-      <section className="py-24 bg-[#161616] border-y border-white/5">
+      {/* Why Choose Us Section */}
+      <section className="py-20 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <LazyReveal direction="right" className="order-2 lg:order-1 relative">
-               <div className="aspect-square max-w-md mx-auto relative rounded-sm overflow-hidden">
-                 <img src={dnaServersImage} alt="Technology" className="w-full h-full object-cover opacity-60" />
-                 <div className="absolute inset-0 border-2 border-rose-500/20 mix-blend-overlay"></div>
-               </div>
-               {/* Decorative elements */}
-               <div className="absolute -bottom-6 -right-6 w-32 h-32 border-b-2 border-r-2 border-orange-500/50"></div>
-               <div className="absolute -top-6 -left-6 w-24 h-24 border-t-2 border-l-2 border-rose-500/50"></div>
-            </LazyReveal>
-
-            <LazyReveal direction="left" className="order-1 lg:order-2">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-                Using The Latest <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500">Technology</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div className="lg:col-span-4 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/40 text-orange-400 text-xs font-bold uppercase tracking-wider">
+                <span>🔥</span> What Makes Us Stand Out
+              </div>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+                Why Choose Us
               </h2>
-              <p className="text-gray-400 leading-relaxed mb-8">
-                We leverage state-of-the-art diagnostic engines, synthetic edge routing, and generative AI indexability checks to provide a comprehensive, 8-dimensional view of your application's health.
+              <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+                We have a plethora of reasons CatalystLab should be your go-to app to manage and pay your utility bills and web health telemetry.
               </p>
-              <Link to="/pricing" className="inline-flex items-center justify-center px-8 py-3 text-base font-bold bg-white text-black rounded-sm hover:bg-gray-200 transition-colors shadow-lg shadow-white/10 active:scale-95">
-                Get Started
-              </Link>
-            </LazyReveal>
+              <div>
+                <Link 
+                  to="/pricing" 
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-all shadow-lg active:scale-95 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                >
+                  Get Started
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-slate-800/80 border border-slate-700/80 p-6 rounded-xl shadow-lg hover:border-emerald-500/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                <div className="w-12 h-12 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+                  <Zap className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Instant Utility Bill Payment</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  We prioritize our user needs whilst ensuring a safe and secure way to manage and pay utility bills.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 p-6 rounded-xl shadow-lg hover:border-amber-500/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                <div className="w-12 h-12 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+                  <Clock className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">24/7 Access To The App</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Users have 24/7 access to the CatalystLab app to manage utility bill payments and uptime telemetry.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 p-6 rounded-xl shadow-lg hover:border-cyan-500/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                <div className="w-12 h-12 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Tested and Trusted</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  We have been tested and trusted by Nigerians to manage and pay utility bills efficiently.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 p-6 rounded-xl shadow-lg hover:border-rose-500/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                <div className="w-12 h-12 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center mb-4">
+                  <Lock className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">Safe and User Centric</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  We prioritize the needs of users whilst ensuring a safe and secure way to manage and pay utility bills.
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Stats Row */}
-      <section className="py-20 border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <LazyStaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center" staggerDelay={0.1}>
-            <LazyStaggerItem>
-              <div className="text-5xl font-black mb-2">8+</div>
-              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">SDLC Engines</div>
-            </LazyStaggerItem>
-            <LazyStaggerItem>
-              <div className="text-5xl font-black mb-2">12M+</div>
-              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">Nodes Scanned</div>
-            </LazyStaggerItem>
-            <LazyStaggerItem>
-              <div className="text-5xl font-black mb-2">99.9%</div>
-              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">Uptime SLA</div>
-            </LazyStaggerItem>
-            <LazyStaggerItem>
-              <div className="text-5xl font-black mb-2">12</div>
-              <div className="text-sm font-bold tracking-widest text-orange-500 uppercase px-4 py-1 border border-orange-500/30 inline-block bg-orange-500/10">Global Edge PoPs</div>
-            </LazyStaggerItem>
-          </LazyStaggerContainer>
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section className="py-32 relative overflow-hidden bg-black flex items-center justify-center text-center">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-900/20 via-black to-black"></div>
-        <LazyReveal direction="up" className="relative z-10 max-w-2xl px-4">
-          <h2 className="text-4xl font-bold mb-4">
-            Join Our <span className="text-orange-400">Newsletter</span>
-          </h2>
-          <p className="text-gray-400 mb-8 text-base">
-            Stay updated with the latest advancements in web architecture, OWASP security trends, and our newest Catalyst releases.
-          </p>
-          <div className="flex justify-center">
-            <Link to="/contact" className="px-8 py-3 text-base font-bold border border-white/20 hover:bg-white/5 transition-colors rounded-sm text-gray-200">
-              Subscribe Now
-            </Link>
-          </div>
-        </LazyReveal>
-      </section>
-      
     </div>
   );
 };
-export default MethodologyPage;

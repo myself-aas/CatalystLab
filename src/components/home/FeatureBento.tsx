@@ -161,21 +161,21 @@ export const FeatureBento: React.FC = () => {
               <button
                 type="button"
                 onClick={() => applyPreset('saas')}
-                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors"
+                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 SaaS
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('ecommerce')}
-                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors"
+                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 E-Commerce
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('content')}
-                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors"
+                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Media
               </button>
@@ -187,7 +187,7 @@ export const FeatureBento: React.FC = () => {
                 type="button"
                 onClick={() => scroll('left')}
                 aria-label="Scroll left in telemetry deck"
-                className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all"
+                className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -198,7 +198,7 @@ export const FeatureBento: React.FC = () => {
                 type="button"
                 onClick={() => scroll('right')}
                 aria-label="Scroll right in telemetry deck"
-                className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all"
+                className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -223,7 +223,7 @@ export const FeatureBento: React.FC = () => {
           >
             
             {/* Card 1: OWASP Security Transport Header Sandbox */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-[#38bdf8]/50 transition-all">
+            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-[#38bdf8]/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
@@ -276,7 +276,7 @@ export const FeatureBento: React.FC = () => {
 
               <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
                 <span className="text-[#8ea8c3] text-sm">Strict CSP + HSTS Preload</span>
-                <Link to="/risk" className="text-[#38bdf8] hover:text-white flex items-center gap-1 font-bold">
+                <Link to="/risk" className="text-[#38bdf8] hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Run RiskProtease</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
@@ -284,7 +284,7 @@ export const FeatureBento: React.FC = () => {
             </div>
 
             {/* Card 2: Live DOM Recursion & Render-Tree Inspector */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-[#38bdf8]/50 transition-all">
+            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-[#38bdf8]/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
@@ -333,7 +333,7 @@ export const FeatureBento: React.FC = () => {
 
               <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
                 <span className="text-[#8ea8c3] text-sm">W3C Baseline: ≤ 8 Levels</span>
-                <Link to="/vital" className="text-[#38bdf8] hover:text-white flex items-center gap-1 font-bold">
+                <Link to="/vital" className="text-[#38bdf8] hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Inspect DOM</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
@@ -341,7 +341,7 @@ export const FeatureBento: React.FC = () => {
             </div>
 
             {/* Card 3: Sustainable Web Design (SWD) Carbon Calculator */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-emerald-500/50 transition-all">
+            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-emerald-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
@@ -387,7 +387,7 @@ export const FeatureBento: React.FC = () => {
 
               <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
                 <span className="text-[#8ea8c3] text-sm">Green Web Foundation</span>
-                <Link to="/eco" className="text-emerald-400 hover:text-white flex items-center gap-1 font-bold">
+                <Link to="/eco" className="text-emerald-400 hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Run EcoHolo</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
@@ -395,7 +395,7 @@ export const FeatureBento: React.FC = () => {
             </div>
 
             {/* Card 4: Generative Engine Optimization (LLMO) & AI Search Citation Index */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-purple-500/50 transition-all">
+            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-purple-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
@@ -442,7 +442,7 @@ export const FeatureBento: React.FC = () => {
 
               <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
                 <span className="text-[#8ea8c3] text-sm">RAG Vector Chunk Ready</span>
-                <Link to="/ai-readiness" className="text-purple-400 hover:text-white flex items-center gap-1 font-bold">
+                <Link to="/ai-readiness" className="text-purple-400 hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Audit AI Readiness</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
@@ -450,7 +450,7 @@ export const FeatureBento: React.FC = () => {
             </div>
 
             {/* Card 5: HTTP/3 & QUIC 0-RTT Protocol Prober */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-sky-500/50 transition-all">
+            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-sky-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
@@ -465,7 +465,7 @@ export const FeatureBento: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setQuicEnabled(!quicEnabled)}
-                    className="text-sm font-mono text-sky-300 bg-sky-950/50 px-2 py-0.5 rounded border border-sky-500/40 font-bold hover:bg-sky-900 cursor-pointer"
+                    className="text-sm font-mono text-sky-300 bg-sky-950/50 px-2 py-0.5 rounded border border-sky-500/40 font-bold hover:bg-sky-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {quicEnabled ? 'QUIC Active' : 'HTTP/1.1'}
                   </button>
@@ -491,7 +491,7 @@ export const FeatureBento: React.FC = () => {
 
               <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
                 <span className="text-[#8ea8c3] text-sm">42 Global Anycast PoPs</span>
-                <Link to="/edge" className="text-sky-400 hover:text-white flex items-center gap-1 font-bold">
+                <Link to="/edge" className="text-sky-400 hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Probe Edge PoPs</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>

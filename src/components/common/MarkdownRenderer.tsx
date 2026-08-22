@@ -71,7 +71,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
             href={linkMatch[2]}
             target="_blank"
             rel="noreferrer"
-            className="text-[#415a77] underline font-medium hover:text-[#0b192c]"
+            className="text-[#415a77] underline font-medium hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             {linkMatch[1]}
           </a>

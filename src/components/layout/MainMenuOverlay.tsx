@@ -4,25 +4,27 @@ import {
   X, 
   LogIn, 
   LogOut, 
+  UserPlus,
   Activity, 
   Scale, 
   FileText, 
   ShieldCheck, 
-  Sparkles,
-  LayoutDashboard,
-  GitBranch,
-  Terminal,
-  Leaf,
-  Globe,
-  Cpu,
-  ChevronDown,
-  ChevronRight,
-  Radio,
-  Code2,
-  BookOpen,
-  ArrowRight
+  Sparkles, 
+  LayoutDashboard, 
+  GitBranch, 
+  Terminal, 
+  Leaf, 
+  Globe, 
+  Cpu, 
+  ChevronDown, 
+  ChevronRight, 
+  Radio, 
+  Code2, 
+  BookOpen, 
+  ArrowRight 
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useRoleSecurity } from '../../context/RoleSecurityContext';
 import { BrandLogo } from '../common/BrandLogo';
 
 interface MainMenuOverlayProps {
@@ -32,7 +34,8 @@ interface MainMenuOverlayProps {
 
 export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
-  const { user, isAdmin, login, logout } = useAuth();
+  const { user, login, logout } = useAuth();
+  const { effectiveRole, hasPermission, roleConfig } = useRoleSecurity();
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
   const [expandedServices, setExpandedServices] = useState(true);
   const [expandedResources, setExpandedResources] = useState(true);
@@ -96,7 +99,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
         <Link 
           to="/" 
           onClick={onClose}
-          className="transition-opacity hover:opacity-90"
+          className="transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           aria-label="CatalystLab Home"
         >
           <BrandLogo size="md" />
@@ -109,7 +112,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 
           <button
             onClick={onClose}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#415a77]/40 bg-[#0d1b2a] text-[#c5d3e8] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#f8fafc] hover:scale-105 active:scale-95 shadow-sm cursor-pointer"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[#415a77]/40 bg-[#0d1b2a] text-[#c5d3e8] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#f8fafc] hover:scale-105 active:scale-95 shadow-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />
@@ -184,7 +187,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <button
                     type="button"
                     onClick={() => setExpandedServices(!expandedServices)}
-                    className="p-1.5 rounded-lg text-[#8ea8c3] hover:text-white hover:bg-[#152238] transition-colors"
+                    className="p-1.5 rounded-lg text-[#8ea8c3] hover:text-white hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     aria-label="Toggle Services sub-menu"
                   >
                     <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${expandedServices ? 'rotate-180' : ''}`} />
@@ -276,7 +279,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <button
                     type="button"
                     onClick={() => setExpandedResources(!expandedResources)}
-                    className="p-1.5 rounded-lg text-[#8ea8c3] hover:text-white hover:bg-[#152238] transition-colors"
+                    className="p-1.5 rounded-lg text-[#8ea8c3] hover:text-white hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     aria-label="Toggle Resources sub-menu"
                   >
                     <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${expandedResources ? 'rotate-180' : ''}`} />
@@ -478,7 +481,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link 
                   to="/docs" 
                   onClick={onClose}
-                  className="text-[11px] font-semibold text-[#c5d3e8] hover:text-white transition-colors"
+                  className="text-[11px] font-semibold text-[#c5d3e8] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   View Docs →
                 </Link>
@@ -492,7 +495,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       key={eng.name}
                       to={eng.path}
                       onClick={onClose}
-                      className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/60 px-3 py-2 text-xs font-medium text-[#f8fafc] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#c5d3e8]"
+                      className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/60 px-3 py-2 text-xs font-medium text-[#f8fafc] transition-all hover:border-[#415a77] hover:bg-[#152238] hover:text-[#c5d3e8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <Icon className="h-4 w-4 text-[#415a77] shrink-0" />
                       <span className="truncate">{eng.name}</span>
@@ -511,7 +514,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/compare"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8]"
+                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Scale className="h-4 w-4 text-[#415a77]" />
                   <span>Side-by-Side</span>
@@ -520,7 +523,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/reports"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8]"
+                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <FileText className="h-4 w-4 text-[#415a77]" />
                   <span>Audit Reports</span>
@@ -529,7 +532,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/products"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8]"
+                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Radio className="h-4 w-4 text-[#38bdf8]" />
                   <span>Domain Watchdog</span>
@@ -538,7 +541,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/dashboard"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8]"
+                  className="flex items-center gap-2 rounded-xl border border-[#415a77]/20 bg-[#152238]/50 p-2.5 text-[#f8fafc] hover:border-[#415a77] hover:text-[#c5d3e8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <LayoutDashboard className="h-4 w-4 text-[#415a77]" />
                   <span>My Dashboard</span>
@@ -552,7 +555,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#152238]/60 border border-[#415a77]/30 rounded-xl p-3">
                   <div className="flex items-center gap-3">
                     {user.photoURL ? (
-                      <img 
+                      <img alt="Visual asset" 
                         src={user.photoURL} 
                         alt="User" 
                         className="h-9 w-9 rounded-full object-cover border border-[#415a77]/50 shadow-sm" 
@@ -564,21 +567,24 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       </div>
                     )}
                     <div className="min-w-0">
-                      <div className="text-xs font-bold text-[#f8fafc] truncate max-w-[160px]">
-                        {user.displayName || user.email?.split('@')[0]}
+                      <div className="text-xs font-bold text-[#f8fafc] truncate max-w-[160px] flex items-center gap-1.5">
+                        <span className="truncate">{user.displayName || user.email?.split('@')[0]}</span>
+                        <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border uppercase ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
+                          {roleConfig.shortLabel}
+                        </span>
                       </div>
                       <div className="text-[10px] text-[#c5d3e8] font-mono truncate max-w-[160px]">
-                        {isAdmin ? 'Superadmin • ' : ''}{user.email}
+                        {user.email}
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {isAdmin && (
+                    {hasPermission('page:view_admin') && (
                       <Link
                         to="/admin"
                         onClick={onClose}
-                        className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/40 bg-[#0d1b2a] px-2.5 py-1.5 text-xs font-bold text-[#38bdf8] hover:bg-[#415a77]/30 hover:text-white transition-colors"
+                        className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/40 bg-[#0d1b2a] px-2.5 py-1.5 text-xs font-bold text-[#38bdf8] hover:bg-[#415a77]/30 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         <ShieldCheck className="h-3.5 w-3.5" />
                         <span>Admin</span>
@@ -589,7 +595,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         logout();
                         onClose();
                       }}
-                      className="flex items-center gap-1.5 rounded-lg border border-red-500/30 bg-red-950/30 px-3 py-1.5 text-xs font-semibold text-red-300 hover:text-white hover:bg-red-900/50 hover:border-red-500/50 transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 rounded-lg border border-red-500/30 bg-red-950/30 px-3 py-1.5 text-xs font-semibold text-red-300 hover:text-white hover:bg-red-900/50 hover:border-red-500/50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       title="Sign Out"
                     >
                       <LogOut className="h-3.5 w-3.5" />
@@ -598,15 +604,24 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   </div>
                 </div>
               ) : (
-                <button
-                  onClick={() => {
-                    login();
-                  }}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#415a77] py-2.5 text-xs font-bold text-white hover:bg-[#33475e] transition-all shadow-md cursor-pointer"
-                >
-                  <LogIn className="h-4 w-4" />
-                  <span>Sign In with Google Account</span>
-                </button>
+                <div className="flex flex-col sm:flex-row items-center gap-2">
+                  <Link
+                    to="/login"
+                    onClick={onClose}
+                    className="flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/50 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e304d] hover:border-cyan-400/50 transition-all shadow-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  >
+                    <LogIn className="h-4 w-4 text-cyan-400" />
+                    <span>Sign In</span>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    onClick={onClose}
+                    className="flex flex-1 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-2.5 text-xs font-bold text-white hover:from-cyan-400 hover:to-blue-500 transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  >
+                    <UserPlus className="h-4 w-4" />
+                    <span>Create Account</span>
+                  </Link>
+                </div>
               )}
             </div>
 
@@ -618,11 +633,11 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
       {/* Bottom Footer Bar inside Overlay */}
       <div className="mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-[#415a77]/30 px-6 py-4 text-xs text-[#c5d3e8] sm:px-8 gap-3 shrink-0">
         <div className="flex items-center gap-4 flex-wrap">
-          <Link to="/privacy" onClick={onClose} className="hover:text-[#f8fafc] transition-colors">Privacy</Link>
-          <Link to="/terms" onClick={onClose} className="hover:text-[#f8fafc] transition-colors">Terms</Link>
-          <Link to="/cookies" onClick={onClose} className="hover:text-[#f8fafc] transition-colors">Cookies</Link>
-          <Link to="/security" onClick={onClose} className="hover:text-[#f8fafc] transition-colors">SecOps</Link>
-          <Link to="/methodology" onClick={onClose} className="hover:text-[#f8fafc] transition-colors">Audit Methodology</Link>
+          <Link to="/privacy" onClick={onClose} className="hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Privacy</Link>
+          <Link to="/terms" onClick={onClose} className="hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Terms</Link>
+          <Link to="/cookies" onClick={onClose} className="hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Cookies</Link>
+          <Link to="/security" onClick={onClose} className="hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">SecOps</Link>
+          <Link to="/methodology" onClick={onClose} className="hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Audit Methodology</Link>
         </div>
 
         <div>

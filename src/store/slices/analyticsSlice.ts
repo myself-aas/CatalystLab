@@ -57,6 +57,10 @@ export const createAnalyticsSlice: StateCreator<
     try {
       const res = await fetch(`/api/analytics/stats?domain=${encodeURIComponent(activeDomain || 'all')}&timeframe=${timeframe}`);
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error(`Expected JSON but received ${contentType}`);
+      }
       const data = await res.json();
 
       if (data.success && data.stats) {
@@ -74,7 +78,7 @@ export const createAnalyticsSlice: StateCreator<
         set({ analyticsLoading: false });
       }
     } catch (err) {
-      console.error('[Zustand AnalyticsSlice] Failed to fetch stats:', err);
+      console.warn('[Zustand AnalyticsSlice] Telemetry stats fallback notice:', err);
       set({ analyticsLoading: false });
     }
   },
@@ -84,15 +88,17 @@ export const createAnalyticsSlice: StateCreator<
     set({ realtimePulseLoading: true });
     try {
       const res = await fetch(`/api/analytics/realtime?domain=${encodeURIComponent(activeDomain || 'all')}`);
-      if (res.ok) {
+      if (res.ok && (res.headers.get('content-type') || '').includes('application/json')) {
         const data = await res.json();
         if (data.success && typeof data.activeVisitorsNow === 'number') {
           set({
             activeVisitorsNow: data.activeVisitorsNow,
             realtimePulseLoading: false
           });
+          return;
         }
       }
+      set({ realtimePulseLoading: false });
     } catch (err) {
       set({ realtimePulseLoading: false });
     }

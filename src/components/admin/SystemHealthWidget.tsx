@@ -71,7 +71,7 @@ export const SystemHealthWidget: React.FC = () => {
             });
           }
         }
-      } catch {}
+      } catch (e) { console.error("Ignored error:", e); }
     } catch (err) {
       console.warn("Error fetching Firestore audit logs:", err);
     } finally {
@@ -141,7 +141,7 @@ export const SystemHealthWidget: React.FC = () => {
       setTimeout(() => {
         setLivePingStatus({ active: false, message: '' });
       }, 4000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setLivePingStatus({
         active: false,
         message: `Diagnostic test warning: ${err?.message || 'Logged with fallback'}`
@@ -207,7 +207,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2 text-xs font-semibold text-[#c5d3e8] hover:text-[#f8fafc] hover:bg-[#1e2f4a] transition-all disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2 text-xs font-semibold text-[#c5d3e8] hover:text-[#f8fafc] hover:bg-[#1e2f4a] transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Sync latest Firestore audit logs"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? 'animate-spin text-cyan-400' : ''}`} />
@@ -217,7 +217,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleRunDiagnosticAudit}
               disabled={runningDiagnostic}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 text-xs font-bold text-white hover:from-cyan-500 hover:to-blue-500 transition-all shadow-md active:scale-95 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 text-xs font-bold text-white hover:from-cyan-500 hover:to-blue-500 transition-all shadow-md active:scale-95 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Play className={`h-3.5 w-3.5 ${runningDiagnostic ? 'animate-spin' : ''}`} />
               <span>{runningDiagnostic ? 'Probing Engines...' : 'Run Diagnostics'}</span>
@@ -402,7 +402,7 @@ export const SystemHealthWidget: React.FC = () => {
               return (
                 <div
                   key={log.id || `log-${index}`}
-                  className="rounded-xl border border-[#415a77]/30 bg-[#152238]/60 hover:bg-[#152238] transition-all overflow-hidden"
+                  className="rounded-xl border border-[#415a77]/30 bg-[#152238]/60 hover:bg-[#152238] transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <div 
                     onClick={() => setExpandedLogId(isExpanded ? null : (log.id || `log-${index}`))}

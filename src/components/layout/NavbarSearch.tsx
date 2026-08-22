@@ -367,6 +367,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
             <input
               ref={inputRef}
               type="text"
+              aria-label="Search CatalystLab"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -518,7 +519,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                       setIsOpen(false);
                       navigate(`/docs?search=${encodeURIComponent(query)}`);
                     }}
-                    className="mt-2 text-[11px] text-[#38bdf8] hover:underline flex items-center justify-center gap-1 mx-auto"
+                    className="mt-2 text-[11px] text-[#38bdf8] hover:underline flex items-center justify-center gap-1 mx-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Search full documentation</span>
                     <ArrowRight className="h-3 w-3" />
@@ -538,7 +539,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[0])}
-                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer"
+                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Health
                 </button>
@@ -546,7 +547,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[1])}
-                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer"
+                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   llms.txt
                 </button>
@@ -554,7 +555,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[2])}
-                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer"
+                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   OWASP
                 </button>
@@ -562,7 +563,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[11])}
-                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer"
+                  className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[#38bdf8] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   API
                 </button>

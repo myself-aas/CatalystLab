@@ -57,10 +57,10 @@ export const SocialProof: React.FC = () => {
               return (
                 <div 
                   key={idx}
-                  className="bg-brand-offwhite border border-brand-periwinkle-light rounded-[24px] p-5 shadow-sm flex flex-col justify-between space-y-2 hover:border-brand-slate/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-navy/5 transition-all duration-300 group"
+                  className="bg-brand-offwhite border border-brand-periwinkle-light rounded-[24px] p-5 shadow-sm flex flex-col justify-between space-y-2 hover:border-brand-slate/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-navy/5 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-3xl sm:text-4xl font-black font-mono text-brand-navy tracking-tight group-hover:scale-105 transition-transform duration-300">
+                    <span className="text-3xl sm:text-4xl font-black font-mono text-brand-navy tracking-tight group-hover:scale-105 transition-transform duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       {stat.value}
                     </span>
                     <div className={`p-2.5 rounded-xl bg-brand-ghost border border-brand-periwinkle-light ${stat.color} group-hover:bg-white transition-colors`}>

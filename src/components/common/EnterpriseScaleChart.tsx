@@ -98,7 +98,7 @@ export const EnterpriseScaleChart: React.FC = () => {
             type="button"
             onClick={triggerSimulation}
             disabled={simulationActive}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#c5d3e8] text-[#0b192c] hover:bg-white text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#c5d3e8] text-[#0b192c] hover:bg-white text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Sparkles className={`h-3.5 w-3.5 text-[#0b192c] ${simulationActive ? 'animate-spin' : ''}`} />
             <span>{simulationActive ? 'Simulating SLA Load...' : 'Simulate Enterprise Load'}</span>
@@ -169,7 +169,7 @@ export const EnterpriseScaleChart: React.FC = () => {
               <div className="pt-2 flex flex-wrap items-center gap-3 text-sm font-mono">
                 <Link
                   to="/launch-audit"
-                  className="inline-flex items-center gap-1.5 bg-[#c5d3e8] hover:bg-white text-[#0b192c] px-3.5 py-1.5 rounded-xl font-bold transition-all shadow-sm active:scale-95"
+                  className="inline-flex items-center gap-1.5 bg-[#c5d3e8] hover:bg-white text-[#0b192c] px-3.5 py-1.5 rounded-xl font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span>Audit Infrastructure SLA</span>
                   <ArrowRight className="h-3.5 w-3.5" />

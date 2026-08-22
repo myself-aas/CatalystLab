@@ -5,6 +5,7 @@ import type { BlogPost } from '../../types';
 import { getBlogPosts } from '../../lib/firebase';
 import { ENGINE_SEEDED_BLOGS } from '../../data/engineBlogs';
 import { getBlogCoverImage } from '../../utils/blogImageMap';
+import { getArticleReadingTime } from '../../utils/readingTime';
 import { 
   ArrowRight, 
   Clock, 
@@ -62,7 +63,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
       if (saved) {
         setBookmarkedIds(new Set(JSON.parse(saved)));
       }
-    } catch {}
+    } catch (e) { console.error("Ignored error:", e); }
   }, []);
 
   const toggleBookmark = (id: string, e: React.MouseEvent) => {
@@ -77,7 +78,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
       }
       try {
         localStorage.setItem('catalyst_bookmarked_blogs', JSON.stringify(Array.from(next)));
-      } catch {}
+      } catch (e) { console.error("Ignored error:", e); }
       return next;
     });
   };
@@ -243,10 +244,10 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               <Link
                 to="/blogs"
                 id="view-all-blogs-btn"
-                className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 px-6 py-3 text-sm font-bold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-[1.03] hover:border-cyan-400/50 group cursor-pointer"
+                className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 px-6 py-3 text-sm font-bold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-[1.03] hover:border-cyan-400/50 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>View all blogs</span>
-                <ArrowRight className="h-4 w-4 text-cyan-400 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="h-4 w-4 text-cyan-400 transition-transform duration-300 group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
               </Link>
             </div>
           )}
@@ -317,14 +318,14 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="lg:col-span-5 group relative rounded-[28px] border border-white/10 bg-[#122238]/80 hover:bg-[#152740]/90 p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/40"
+              className="lg:col-span-5 group relative rounded-[28px] border border-white/10 bg-[#122238]/80 hover:bg-[#152740]/90 p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {/* Card Image Container */}
               <div className="relative w-full aspect-[16/10] sm:aspect-[16/10] rounded-2xl overflow-hidden bg-slate-800">
-                <img 
+                <img alt="Visual asset" 
                   src={getBlogCoverImage(heroPost)} 
                   alt={heroPost.title}
-                  className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0e1b2e]/90 via-transparent to-black/30" />
@@ -344,7 +345,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <button
                     onClick={(e) => handleShare(heroPost.slug || heroPost.id || '', e)}
                     title="Share Article Link"
-                    className="h-8 w-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer"
+                    className="h-8 w-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedSlug === (heroPost.slug || heroPost.id) ? (
                       <Check className="h-3.5 w-3.5 text-green-400" />
@@ -355,7 +356,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <button
                     onClick={(e) => toggleBookmark(heroPost.id || heroPost.slug, e)}
                     title={bookmarkedIds.has(heroPost.id || heroPost.slug) ? "Remove Bookmark" : "Save Article"}
-                    className="h-8 w-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer"
+                    className="h-8 w-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
                       <BookmarkCheck className="h-4 w-4 text-cyan-400 fill-cyan-400" />
@@ -376,8 +377,8 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5 text-slate-400" />
-                      {heroPost.readTime || '5 min read'}
+                      <Clock className="h-3.5 w-3.5 text-cyan-400" />
+                      {getArticleReadingTime(heroPost)}
                     </span>
                     {heroPost.views && (
                       <>
@@ -391,7 +392,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   </div>
 
                   <Link to={`/blog/${heroPost.slug || heroPost.id}`}>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug tracking-tight">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       {heroPost.title}
                     </h3>
                   </Link>
@@ -416,13 +417,13 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setPreviewPost(heroPost)}
-                      className="rounded-full bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1.5 text-xs font-semibold text-slate-200 transition-colors cursor-pointer"
+                      className="rounded-full bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1.5 text-xs font-semibold text-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Quick Peek
                     </button>
                     <Link
                       to={`/blog/${heroPost.slug || heroPost.id}`}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 px-4 py-1.5 text-xs font-bold text-[#0b192c] transition-all hover:scale-105 shadow-sm"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 px-4 py-1.5 text-xs font-bold text-[#0b192c] transition-all hover:scale-105 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <span>Read</span>
                       <ArrowRight className="h-3.5 w-3.5" />
@@ -446,15 +447,15 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.3, delay: idx * 0.05 }}
-                    className="group relative rounded-2xl border border-white/10 bg-[#122238]/70 hover:bg-[#152740]/90 p-3.5 sm:p-4 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-xl hover:shadow-cyan-950/30 hover:-translate-y-1"
+                    className="group relative rounded-2xl border border-white/10 bg-[#122238]/70 hover:bg-[#152740]/90 p-3.5 sm:p-4 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-xl hover:shadow-cyan-950/30 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <div>
                       {/* Compact Thumbnail Container */}
                       <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-slate-800 mb-3">
-                        <img 
+                        <img alt="Visual asset" 
                           src={getBlogCoverImage(post)} 
                           alt={post.title}
-                          className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+                          className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           loading="lazy"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0e1b2e]/80 via-transparent to-black/20" />
@@ -470,7 +471,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                         <button
                           onClick={(e) => toggleBookmark(post.id || post.slug, e)}
                           title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer"
+                          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           {isBookmarked ? (
                             <BookmarkCheck className="h-3.5 w-3.5 text-cyan-400 fill-cyan-400" />
@@ -482,7 +483,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
 
                       {/* Title & Excerpt */}
                       <Link to={`/blog/${post.slug || post.id}`}>
-                        <h4 className="text-[15px] font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug line-clamp-2">
+                        <h4 className="text-[15px] font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           {post.title}
                         </h4>
                       </Link>
@@ -500,22 +501,22 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                           {formatDate(post.createdAt)}
                         </span>
                         <span>•</span>
-                        <span className="text-[11px] text-slate-400">{post.readTime || '4 min'}</span>
+                        <span className="text-[11px] text-cyan-400">{getArticleReadingTime(post)}</span>
                       </div>
 
                       <div className="flex items-center gap-1.5">
                         <button
                           onClick={() => setPreviewPost(post)}
-                          className="text-[11px] text-slate-300 hover:text-cyan-300 font-semibold transition-colors cursor-pointer"
+                          className="text-[11px] text-slate-300 hover:text-cyan-300 font-semibold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           Peek
                         </button>
                         <Link 
                           to={`/blog/${post.slug || post.id}`}
-                          className="h-6 w-6 rounded-full bg-white/10 group-hover:bg-cyan-400 group-hover:text-[#0b192c] flex items-center justify-center text-slate-300 transition-all"
+                          className="h-6 w-6 rounded-full bg-white/10 group-hover:bg-cyan-400 group-hover:text-[#0b192c] flex items-center justify-center text-slate-300 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           aria-label={`Read article: ${post.title}`}
                         >
-                          <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                          <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                         </Link>
                       </div>
                     </div>
@@ -535,29 +536,29 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               </div>
 
               {/* Partner Brand Logos Grid (Matching uploaded layout) */}
-              <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
+              <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 opacity-75 grayscale hover:grayscale-0 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 {/* Cloudflare */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm">
+                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span className="text-orange-400 font-black text-base">●</span> Cloudflare
                 </div>
                 {/* Google Cloud */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm">
+                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span className="text-blue-400 font-black text-base">■</span> Google Cloud
                 </div>
                 {/* Fastly */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm">
+                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span className="text-red-400 font-black text-base">▲</span> Fastly
                 </div>
                 {/* AWS */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm">
+                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span className="text-amber-400 font-black text-base">◆</span> AWS
                 </div>
                 {/* Vercel */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm">
+                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span className="text-white font-black text-base">▲</span> Vercel
                 </div>
                 {/* Next.js */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm">
+                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span className="text-cyan-400 font-black text-base">N</span> Next.js
                 </div>
               </div>
@@ -580,7 +581,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               {/* Close Button */}
               <button
                 onClick={() => setPreviewPost(null)}
-                className="absolute top-5 right-5 h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-5 right-5 h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -599,7 +600,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               </h3>
 
               <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden mb-4 bg-slate-800">
-                <img 
+                <img alt="Visual asset" 
                   src={getBlogCoverImage(previewPost)} 
                   alt={previewPost.title} 
                   className="w-full h-full object-cover"
@@ -630,14 +631,14 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setPreviewPost(null)}
-                    className="rounded-full px-5 py-2 text-xs font-bold text-slate-300 hover:text-white transition-colors cursor-pointer"
+                    className="rounded-full px-5 py-2 text-xs font-bold text-slate-300 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Close Preview
                   </button>
                   <Link
                     to={`/blog/${previewPost.slug || previewPost.id}`}
                     onClick={() => setPreviewPost(null)}
-                    className="inline-flex items-center gap-2 rounded-full bg-cyan-400 hover:bg-cyan-300 px-6 py-2.5 text-xs font-extrabold text-[#0b192c] transition-all hover:scale-105 shadow-md"
+                    className="inline-flex items-center gap-2 rounded-full bg-cyan-400 hover:bg-cyan-300 px-6 py-2.5 text-xs font-extrabold text-[#0b192c] transition-all hover:scale-105 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Read Full Article</span>
                     <ArrowRight className="h-3.5 w-3.5" />

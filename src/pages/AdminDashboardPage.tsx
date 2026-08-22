@@ -70,7 +70,7 @@ export const AdminDashboardPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 to="/"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#152238] px-5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1e2f4a] transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#152238] px-5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1e2f4a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <span>Back to Home</span>
@@ -79,7 +79,7 @@ export const AdminDashboardPage: React.FC = () => {
               {user ? (
                 <button
                   onClick={() => logout().then(() => login())}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] transition-all shadow-md"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <LogIn className="h-3.5 w-3.5" />
                   <span>Switch Superadmin Account</span>
@@ -87,7 +87,7 @@ export const AdminDashboardPage: React.FC = () => {
               ) : (
                 <button
                   onClick={() => login()}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] transition-all shadow-md"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <LogIn className="h-3.5 w-3.5" />
                   <span>Sign In with Google</span>
@@ -103,7 +103,7 @@ export const AdminDashboardPage: React.FC = () => {
                   displayName: 'Asif Ahmed Shuvo (Superadmin)',
                   isAdmin: true
                 })}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-4 py-2 text-sm font-bold text-emerald-300 hover:bg-emerald-900/40 transition-all shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-4 py-2 text-sm font-bold text-emerald-300 hover:bg-emerald-900/40 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Activate Preview Superadmin Session</span>
@@ -111,7 +111,7 @@ export const AdminDashboardPage: React.FC = () => {
 
               <button
                 onClick={() => setShowDomainModal(true)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Domain Auth Helper</span>
               </button>

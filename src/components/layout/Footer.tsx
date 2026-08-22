@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
           
           {/* Column 1: Brand, Mission & CLI Snippet (Spans 4 columns on large screens) */}
           <div className="sm:col-span-2 lg:col-span-4 space-y-4">
-            <Link to="/" className="inline-block transition-opacity hover:opacity-90">
+            <Link to="/" className="inline-block transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <BrandLogo size="md" />
             </Link>
             
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={copyCliCommand}
-                  className="flex items-center gap-1 px-2 py-0.5 rounded bg-[#070b12] hover:bg-[#162035] text-[11px] text-slate-300 hover:text-white border border-slate-700/60 transition-colors cursor-pointer shrink-0"
+                  className="flex items-center gap-1 px-2 py-0.5 rounded bg-[#070b12] hover:bg-[#162035] text-[11px] text-slate-300 hover:text-white border border-slate-700/60 transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   title="Copy CLI command"
                 >
                   {copiedCli ? (
@@ -91,37 +91,37 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
               <li>
-                <Link to="/" className="hover:text-white transition-colors block py-0.5">Home</Link>
+                <Link to="/" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Home</Link>
               </li>
               <li>
-                <Link to="/launch-audit" className="hover:text-white transition-colors block py-0.5 text-white font-medium flex items-center gap-1">
+                <Link to="/launch-audit" className="hover:text-white transition-colors block py-0.5 text-white font-medium flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Launch Master Audit</span>
                   <span className="text-[10px] bg-[#38bdf8]/20 text-[#38bdf8] px-1 rounded font-mono">Instant</span>
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="hover:text-white transition-colors block py-0.5">Pricing &amp; Plans</Link>
+                <Link to="/pricing" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Pricing &amp; Plans</Link>
               </li>
               <li>
-                <Link to="/products" className="hover:text-white transition-colors block py-0.5 text-[#38bdf8] flex items-center justify-between">
+                <Link to="/products" className="hover:text-white transition-colors block py-0.5 text-[#38bdf8] flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>Products &amp; Plugins</span>
                   <span className="text-[10px] bg-[#38bdf8]/20 text-[#38bdf8] px-1 rounded font-mono">Watchdog</span>
                 </Link>
               </li>
               <li>
-                <Link to="/compare" className="hover:text-white transition-colors block py-0.5">Side-by-Side Compare</Link>
+                <Link to="/compare" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Side-by-Side Compare</Link>
               </li>
               <li>
-                <Link to="/reports" className="hover:text-white transition-colors block py-0.5">Audit Reports Directory</Link>
+                <Link to="/reports" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Audit Reports Directory</Link>
               </li>
               <li>
-                <Link to="/blogs" className="hover:text-white transition-colors block py-0.5">Engineering Blogs</Link>
+                <Link to="/blogs" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Engineering Blogs</Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-white transition-colors block py-0.5">About Us & Team</Link>
+                <Link to="/about" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">About Us & Team</Link>
               </li>
               <li>
-                <Link to="/dashboard" className="hover:text-white transition-colors block py-0.5">User Dashboard</Link>
+                <Link to="/dashboard" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">User Dashboard</Link>
               </li>
             </ul>
           </div>
@@ -134,49 +134,49 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
               <li>
-                <Link to="/health" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/health" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>VitalZyme (Web Vitals)</span>
                   <span className="text-[10px] text-slate-400 font-mono">DOM/TTFB</span>
                 </Link>
               </li>
               <li>
-                <Link to="/ai-readiness" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/ai-readiness" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>LLM-Kinase (AI Readiness)</span>
                   <span className="text-[10px] text-[#c084fc] font-mono">llms.txt</span>
                 </Link>
               </li>
               <li>
-                <Link to="/repo-scanner" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/repo-scanner" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>GitLygase (Repo Hygiene)</span>
                   <span className="text-[10px] text-[#34d399] font-mono">SecOps</span>
                 </Link>
               </li>
               <li>
-                <Link to="/latency" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/latency" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>EdgeVmax (Latency Radar)</span>
                   <span className="text-[10px] text-[#38bdf8] font-mono">42 PoPs</span>
                 </Link>
               </li>
               <li>
-                <Link to="/eco-audit" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/eco-audit" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>EcoHolo (Carbon Audit)</span>
                   <span className="text-[10px] text-[#4ade80] font-mono">CO2e</span>
                 </Link>
               </li>
               <li>
-                <Link to="/compliance" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/compliance" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>RiskProtease (OWASP SecOps)</span>
                   <span className="text-[10px] text-[#f59e0b] font-mono">Headers</span>
                 </Link>
               </li>
               <li>
-                <Link to="/migration" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/migration" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>SynthShift (Architecture PAR)</span>
                   <span className="text-[10px] text-orange-400 font-mono">Phase 1</span>
                 </Link>
               </li>
               <li>
-                <Link to="/llmo" className="hover:text-white transition-colors flex items-center justify-between py-0.5">
+                <Link to="/llmo" className="hover:text-white transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>AllosterSearch (LLMO Search)</span>
                   <span className="text-[10px] text-cyan-400 font-mono">GEO</span>
                 </Link>
@@ -192,37 +192,37 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
               <li>
-                <Link to="/api-docs" className="hover:text-[#38bdf8] transition-colors flex items-center gap-1.5 font-medium text-[#38bdf8] py-0.5">
+                <Link to="/api-docs" className="hover:text-[#38bdf8] transition-colors flex items-center gap-1.5 font-medium text-[#38bdf8] py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <span>REST API Reference</span>
                   <span className="text-[10px] bg-[#38bdf8]/20 px-1 py-0.2 rounded font-mono">v2.4</span>
                 </Link>
               </li>
               <li>
-                <Link to="/playground" className="hover:text-white transition-colors flex items-center gap-1.5 py-0.5">
+                <Link to="/playground" className="hover:text-white transition-colors flex items-center gap-1.5 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <Sparkles className="h-3 w-3 text-cyan-400" />
                   <span>Interactive API Playground</span>
                 </Link>
               </li>
               <li>
-                <Link to="/docs" className="hover:text-white transition-colors block py-0.5">Documentation & Guides</Link>
+                <Link to="/docs" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Documentation & Guides</Link>
               </li>
               <li>
-                <Link to="/methodology" className="hover:text-white transition-colors block py-0.5">Audit Methodology & Weights</Link>
+                <Link to="/methodology" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Audit Methodology & Weights</Link>
               </li>
               <li className="pt-2 border-t border-slate-800/80">
-                <Link to="/privacy" className="hover:text-white transition-colors block py-0.5">Privacy Policy (GDPR / CCPA)</Link>
+                <Link to="/privacy" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Privacy Policy (GDPR / CCPA)</Link>
               </li>
               <li>
-                <Link to="/terms" className="hover:text-white transition-colors block py-0.5">Terms of Service</Link>
+                <Link to="/terms" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Terms of Service</Link>
               </li>
               <li>
-                <Link to="/cookies" className="hover:text-white transition-colors block py-0.5">Cookie Preferences</Link>
+                <Link to="/cookies" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Cookie Preferences</Link>
               </li>
               <li>
-                <Link to="/security" className="hover:text-white transition-colors block py-0.5">Security & Vulnerability Disclosure</Link>
+                <Link to="/security" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Security & Vulnerability Disclosure</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-white transition-colors block py-0.5">Contact Support & SLA</Link>
+                <Link to="/contact" className="hover:text-white transition-colors block py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Contact Support & SLA</Link>
               </li>
             </ul>
           </div>
@@ -241,7 +241,7 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-[#0d1322] px-3.5 py-2 text-xs font-mono text-slate-300 transition-all hover:border-[#38bdf8] hover:text-white hover:bg-[#131b2e] shadow-sm cursor-pointer active:scale-95"
+            className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-[#0d1322] px-3.5 py-2 text-xs font-mono text-slate-300 transition-all hover:border-[#38bdf8] hover:text-white hover:bg-[#131b2e] shadow-sm cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Scroll back to top"
           >
             <ArrowUp className="h-3.5 w-3.5 text-[#38bdf8]" />

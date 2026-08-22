@@ -145,7 +145,7 @@ export const ContactPage: React.FC = () => {
       });
       setTicketId(generatedTicket);
       setSubmitted(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.warn("Contact inquiry submission warning:", err);
       // Fallback: gracefully present ticket ID to user
       setTicketId(generatedTicket);
@@ -218,7 +218,7 @@ export const ContactPage: React.FC = () => {
                     setSubmitted(false);
                     setMessage('');
                   }}
-                  className="mt-4 rounded-xl bg-[#0b192c] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#152238] transition-all shadow-md active:scale-98"
+                  className="mt-4 rounded-xl bg-[#0b192c] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#152238] transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Submit Another Inquiry
                 </button>
@@ -370,7 +370,7 @@ export const ContactPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] py-4 text-sm font-bold text-white hover:bg-[#152238] transition-all shadow-md active:scale-98 disabled:opacity-60 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] py-4 text-sm font-bold text-white hover:bg-[#152238] transition-all shadow-md active:scale-98 disabled:opacity-60 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {isSubmitting ? (
                     <>

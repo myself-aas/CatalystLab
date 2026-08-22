@@ -36,7 +36,7 @@ export const ApiReferenceDoc: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Link
             to="/api-docs"
-            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-sky-400 hover:bg-[#152238] transition shadow-xs"
+            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-sky-400 hover:bg-[#152238] transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Code2 className="h-4 w-4" />
             <span>Interactive API Studio</span>
@@ -44,7 +44,7 @@ export const ApiReferenceDoc: React.FC = () => {
 
           <Link
             to="/playground"
-            className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#0b192c] hover:bg-[#f8fafc] transition shadow-xs"
+            className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#0b192c] hover:bg-[#f8fafc] transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Play className="h-4 w-4 text-emerald-600" />
             <span>Live API Playground</span>

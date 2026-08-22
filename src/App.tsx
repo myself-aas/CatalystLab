@@ -13,6 +13,8 @@ import {
   GetInTouchEmailModal,
   type GetInTouchModalEventDetail,
 } from "./components/common/GetInTouchEmailModal";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { RoleSimulatorFloatingBar } from "./components/common/RoleSimulatorFloatingBar";
 import { MasterAuditPage } from "./pages/MasterAuditPage";
 import { MasterAuditExecutionPage } from "./pages/MasterAuditExecutionPage";
 import { UserDashboardPage } from "./pages/UserDashboardPage";
@@ -25,6 +27,7 @@ import { ToolPage } from "./pages/ToolPage";
 import { MethodologyPage } from "./pages/MethodologyPage";
 import { BlogsPage } from "./pages/BlogsPage";
 import { BlogPostPage } from "./pages/BlogPostPage";
+import { BlogEditorPage } from "./pages/BlogEditorPage";
 import { ContactPage } from "./pages/ContactPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { TermsPage } from "./pages/TermsPage";
@@ -51,6 +54,8 @@ import { ApiReferenceDoc } from "./pages/docs/ApiReferenceDoc";
 import { CicdDevOpsDoc } from "./pages/docs/CicdDevOpsDoc";
 import { ApiDocsPage } from "./pages/ApiDocsPage";
 import { PlaygroundPage } from "./pages/PlaygroundPage";
+import { LoginPage } from "./pages/LoginPage";
+import { SignUpPage } from "./pages/SignUpPage";
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -87,11 +92,17 @@ export const App: React.FC = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#f4f6fa] text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-[#07111e] focus:text-cyan-400 focus:font-bold focus:outline-none focus:ring-2 focus:ring-cyan-400"
+      >
+        Skip to main content
+      </a>
       <ScrollToTop />
       <TrialBanner />
       <Navbar />
       <GlobalBreadcrumb />
-      <div className="flex-1">
+      <main id="main-content" className="flex-1">
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname} className="min-h-full">
             <Routes location={location} key={location.pathname}>
@@ -118,6 +129,16 @@ export const App: React.FC = () => {
                 path="/master-audit.html"
                 element={<MasterAuditExecutionPage />}
               />
+
+              {/* Authentication: Sign In & Registration Suite */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login.html" element={<LoginPage />} />
+              <Route path="/signin" element={<LoginPage />} />
+              <Route path="/signin.html" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/signup.html" element={<SignUpPage />} />
+              <Route path="/register" element={<SignUpPage />} />
+              <Route path="/register.html" element={<SignUpPage />} />
 
               {/* Services: Pricing & Products */}
               <Route path="/pricing" element={<PricingPage />} />
@@ -172,13 +193,46 @@ export const App: React.FC = () => {
               <Route path="/about" element={<MethodologyPage />} />
               <Route path="/about.html" element={<MethodologyPage />} />
 
-              {/* User Dashboard & Reports */}
-              <Route path="/dashboard" element={<UserDashboardPage />} />
-              <Route path="/dashboard.html" element={<UserDashboardPage />} />
-              <Route path="/user-dashboard" element={<UserDashboardPage />} />
+              {/* User Dashboard & Reports (Protected) */}
+              <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute requiredPermission="page:view_dashboard">
+                    <UserDashboardPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/dashboard/:tab" 
+                element={
+                  <ProtectedRoute requiredPermission="page:view_dashboard">
+                    <UserDashboardPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/dashboard.html" 
+                element={
+                  <ProtectedRoute requiredPermission="page:view_dashboard">
+                    <UserDashboardPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/user-dashboard" 
+                element={
+                  <ProtectedRoute requiredPermission="page:view_dashboard">
+                    <UserDashboardPage />
+                  </ProtectedRoute>
+                } 
+              />
               <Route
                 path="/user-dashboard.html"
-                element={<UserDashboardPage />}
+                element={
+                  <ProtectedRoute requiredPermission="page:view_dashboard">
+                    <UserDashboardPage />
+                  </ProtectedRoute>
+                }
               />
 
               {/* Admin Command Center & Monitoring Studio (Protected by AdminRoute with Superadmin Custom Claim Check) */}
@@ -213,6 +267,56 @@ export const App: React.FC = () => {
                     <AdminDashboardPage />
                   </AdminRoute>
                 }
+              />
+              <Route
+                path="/admin/blogs/create"
+                element={
+                  <AdminRoute>
+                    <BlogEditorPage />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blogs/new"
+                element={
+                  <AdminRoute>
+                    <BlogEditorPage />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/blogs/edit/:id"
+                element={
+                  <AdminRoute>
+                    <BlogEditorPage />
+                  </AdminRoute>
+                }
+              />
+
+              {/* User Dashboard Blog Editor Routes (Protected: Requires Pro or higher permissions) */}
+              <Route 
+                path="/dashboard/blogs/create" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/dashboard/blogs/new" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/dashboard/blogs/edit/:id" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
               />
 
               {/* Dedicated Blog-Style Audit Report Dossier Pages (Unique URL: /reports/{domain-ext}) */}
@@ -304,6 +408,56 @@ export const App: React.FC = () => {
               <Route path="/methodology" element={<MethodologyPage />} />
               <Route path="/methodology.html" element={<MethodologyPage />} />
 
+              {/* Dedicated Blog Creation & Editing Studio Pages (Protected: Requires Pro or higher) */}
+              <Route 
+                path="/blogs/create" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/blogs/new" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/blogs/edit/:id" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/blog/create" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/blog/new" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/blog/edit/:id" 
+                element={
+                  <ProtectedRoute requiredPermission="feature:write_blogs" minPlan="Pro">
+                    <BlogEditorPage />
+                  </ProtectedRoute>
+                } 
+              />
+
               <Route path="/blogs" element={<BlogsPage />} />
               <Route path="/blogs.html" element={<BlogsPage />} />
               <Route path="/blogs/:slug" element={<BlogPostPage />} />
@@ -331,8 +485,9 @@ export const App: React.FC = () => {
             </Routes>
           </PageTransition>
         </AnimatePresence>
-      </div>
+      </main>
       <Footer />
+      <RoleSimulatorFloatingBar />
       <AuthDomainModal />
       <TrialActivationModal />
       <NewsletterModal />

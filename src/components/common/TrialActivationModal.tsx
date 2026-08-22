@@ -76,7 +76,7 @@ export const TrialActivationModal: React.FC = () => {
         {/* Close Button */}
         <button 
           onClick={closeTrialModal}
-          className="absolute top-5 right-5 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
+          className="absolute top-5 right-5 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           aria-label="Close Modal"
         >
           <X className="w-5 h-5" />
@@ -181,7 +181,7 @@ export const TrialActivationModal: React.FC = () => {
               <button
                 type="button"
                 onClick={closeTrialModal}
-                className="w-1/2 sm:w-auto px-4 py-2.5 text-xs font-semibold text-slate-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
+                className="w-1/2 sm:w-auto px-4 py-2.5 text-xs font-semibold text-slate-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Cancel
               </button>

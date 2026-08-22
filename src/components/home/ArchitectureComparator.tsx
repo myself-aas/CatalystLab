@@ -102,7 +102,7 @@ export const ArchitectureComparator: React.FC = () => {
                   {comparisonItems.map((item, idx) => {
                     const Icon = item.icon;
                     return (
-                      <tr key={idx} className="hover:bg-brand-ghost/50 transition-colors group">
+                      <tr key={idx} className="hover:bg-brand-ghost/50 transition-colors group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                         
                         {/* Column 1: Dimension & Icon */}
                         <td className="py-3 px-4">
@@ -111,7 +111,7 @@ export const ArchitectureComparator: React.FC = () => {
                               <Icon className="h-5 w-5" />
                             </div>
                             <div>
-                              <div className="font-bold text-brand-navy text-base group-hover:text-sky-700 transition-colors">
+                              <div className="font-bold text-brand-navy text-base group-hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                                 {item.dimension}
                               </div>
                               <div className="text-sm text-brand-slate font-mono mt-1">
@@ -175,7 +175,7 @@ export const ArchitectureComparator: React.FC = () => {
         <div className="mt-12 text-center">
           <Link
             to="/launch-audit"
-            className="inline-flex items-center gap-2 bg-brand-navy hover:bg-brand-slate-hover text-white px-8 py-3.5 rounded-xl text-base font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-2 bg-brand-navy hover:bg-brand-slate-hover text-white px-8 py-3.5 rounded-xl text-base font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span>Audit Your Architecture</span>
             <ArrowRight className="h-4 w-4" />

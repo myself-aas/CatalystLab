@@ -91,7 +91,7 @@ export const HowItWorks: React.FC = () => {
               type="button"
               onClick={() => scroll('left')}
               aria-label="Scroll steps left"
-              className="p-3 rounded-xl bg-brand-oxford hover:bg-brand-slate text-brand-periwinkle border border-brand-slate/40 transition-colors cursor-pointer"
+              className="p-3 rounded-xl bg-brand-oxford hover:bg-brand-slate text-brand-periwinkle border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -102,7 +102,7 @@ export const HowItWorks: React.FC = () => {
               type="button"
               onClick={() => scroll('right')}
               aria-label="Scroll steps right"
-              className="p-3 rounded-xl bg-brand-oxford hover:bg-brand-slate text-brand-periwinkle border border-brand-slate/40 transition-colors cursor-pointer"
+              className="p-3 rounded-xl bg-brand-oxford hover:bg-brand-slate text-brand-periwinkle border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
@@ -123,7 +123,7 @@ export const HowItWorks: React.FC = () => {
             return (
               <div
                 key={step.number}
-                className="w-[300px] sm:w-[340px] shrink-0 snap-start bg-brand-oxford border border-brand-slate/30 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between hover:border-brand-slate/60 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 space-y-4"
+                className="w-[300px] sm:w-[340px] shrink-0 snap-start bg-brand-oxford border border-brand-slate/30 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between hover:border-brand-slate/60 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 space-y-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -154,7 +154,7 @@ export const HowItWorks: React.FC = () => {
                   </span>
                   <Link
                     to="/launch-audit"
-                    className="text-sky-400 hover:text-white font-bold flex items-center gap-1.5 transition-colors"
+                    className="text-sky-400 hover:text-white font-bold flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>Run Scan</span>
                     <ArrowRight className="h-4 w-4" />

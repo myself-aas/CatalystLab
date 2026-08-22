@@ -136,19 +136,19 @@ export const PlaygroundCatalogPage: React.FC = () => {
                     <Link
                       key={engine.id}
                       to={`/playground/${engine.id}`}
-                      className="group rounded-3xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md hover:border-[#415a77]/40 transition-all flex flex-col justify-between"
+                      className="group rounded-3xl border border-[#e2e8f0] bg-white p-6 shadow-sm hover:shadow-md hover:border-[#415a77]/40 transition-all flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 border border-sky-100 text-[#0b192c]">
-                            <Icon className="h-5 w-5 text-[#415a77] group-hover:scale-110 transition-transform" />
+                            <Icon className="h-5 w-5 text-[#415a77] group-hover:scale-110 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                           </div>
                           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-gray-100 text-gray-700">
                             {engine.category}
                           </span>
                         </div>
 
-                        <h3 className="text-lg font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors">
+                        <h3 className="text-lg font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           {engine.name}
                         </h3>
                         <p className="text-xs text-gray-600 mt-2 line-clamp-2">
@@ -160,7 +160,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
                         <span className="font-mono text-gray-500">
                           Cost: <strong>{engine.cost} scan credit</strong>
                         </span>
-                        <span className="font-bold text-sky-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                        <span className="font-bold text-sky-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           <span>Open Console</span>
                           <ArrowRight className="h-3.5 w-3.5" />
                         </span>

@@ -106,7 +106,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   };
 
   return (
-    <div className="flex flex-col rounded-2xl border border-[#415a77]/30 bg-[#0b192c] shadow-xl overflow-hidden hover:border-[#415a77]/60 transition-all duration-300 group">
+    <div className="flex flex-col rounded-2xl border border-[#415a77]/30 bg-[#0b192c] shadow-xl overflow-hidden hover:border-[#415a77]/60 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
       {/* Terminal Title Bar */}
       <div className="flex items-center justify-between border-b border-[#415a77]/25 bg-[#091524] px-4 py-3 select-none">
         <div className="flex items-center gap-3">
@@ -144,7 +144,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           <button
             onClick={handleCopy}
             disabled={!output}
-            className="flex items-center gap-1 rounded-lg border border-[#415a77]/30 bg-[#152238]/70 px-2 py-1 text-[11px] font-medium text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-[#f8fafc] disabled:opacity-40 transition-all active:scale-95"
+            className="flex items-center gap-1 rounded-lg border border-[#415a77]/30 bg-[#152238]/70 px-2 py-1 text-[11px] font-medium text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-[#f8fafc] disabled:opacity-40 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Copy output"
             aria-label="Copy terminal output"
           >
@@ -163,7 +163,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
           <button
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg border border-[#415a77]/30 bg-[#152238]/70 p-1 text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-all active:scale-95"
+            className="rounded-lg border border-[#415a77]/30 bg-[#152238]/70 p-1 text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title={expanded ? "Collapse console" : "Expand console"}
             aria-label={expanded ? "Collapse console" : "Expand console"}
           >

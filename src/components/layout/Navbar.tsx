@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useRoleSecurity } from '../../context/RoleSecurityContext';
 import { 
   ChevronDown, 
   FileText,
@@ -12,14 +13,20 @@ import {
   Activity,
   Globe,
   Cpu,
-  Sparkles
+  Sparkles,
+  LayoutDashboard,
+  Crown,
+  LogIn,
+  UserPlus,
+  User as UserIcon
 } from 'lucide-react';
 import { MainMenuOverlay } from './MainMenuOverlay';
 import { NavbarSearch } from './NavbarSearch';
 import { BrandLogo } from '../common/BrandLogo';
 
 export const Navbar: React.FC = () => {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
+  const { effectiveRole, hasPermission, roleConfig } = useRoleSecurity();
   const [menuOverlayOpen, setMenuOverlayOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
@@ -65,7 +72,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-6">
             <Link 
               to="/" 
-              className="transition-opacity hover:opacity-90 shrink-0"
+              className="transition-opacity hover:opacity-90 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               aria-label="CatalystLab Home"
             >
               <BrandLogo size="md" darkText={isScrolled} />
@@ -101,13 +108,13 @@ export const Navbar: React.FC = () => {
                 <div className="absolute left-0 mt-2 w-44 rounded-xl border border-gray-200 bg-white p-1.5 shadow-xl z-50 text-gray-900">
                   <Link
                     to="/pricing"
-                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Pricing
                   </Link>
                   <Link
                     to="/products"
-                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Products
                   </Link>
@@ -131,25 +138,25 @@ export const Navbar: React.FC = () => {
                 <div className="absolute left-0 mt-2 w-48 rounded-xl border border-gray-200 bg-white p-1.5 shadow-xl z-50 text-gray-900">
                   <Link
                     to="/docs"
-                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Docs
                   </Link>
                   <Link
                     to="/api-reference"
-                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     API Reference
                   </Link>
                   <Link
                     to="/playground"
-                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Playground
                   </Link>
                   <Link
                     to="/blogs"
-                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors"
+                    className="flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Blogs
                   </Link>
@@ -180,7 +187,7 @@ export const Navbar: React.FC = () => {
             </Link>
 
             {/* Admin link ONLY visible to authorized superadmins */}
-            {user && isAdmin && (
+            {hasPermission('page:view_admin') && (
               <Link
                 to="/admin"
                 className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-all flex items-center gap-1.5 ${
@@ -195,16 +202,57 @@ export const Navbar: React.FC = () => {
             )}
           </nav>
 
-          {/* Zone 3: Search Icon and Hamburger Menu */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Zone 3: Search Icon, Auth Buttons, and Hamburger Menu */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Inline Expandable Navbar Search with Typing Suggestions */}
             <NavbarSearch isScrolled={isScrolled} />
+
+            {/* Auth Actions */}
+            {user ? (
+              <Link
+                to="/dashboard"
+                className={`hidden sm:flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all border ${
+                  isScrolled
+                    ? 'border-gray-200 bg-gray-50 text-gray-800 hover:bg-gray-100 hover:border-gray-300'
+                    : 'border-[#415a77]/50 bg-[#152238]/70 text-[#c5d3e8] hover:bg-[#1e304d] hover:text-white'
+                }`}
+                title="Go to User Dashboard"
+              >
+                <LayoutDashboard className="h-3.5 w-3.5 text-cyan-400" />
+                <span className="max-w-[100px] truncate">{user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Dashboard'}</span>
+                <span className={`text-[9px] font-mono px-1 py-0.2 rounded border uppercase font-bold ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
+                  {roleConfig.shortLabel}
+                </span>
+              </Link>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <Link
+                  to="/login"
+                  className={`hidden sm:inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all ${
+                    isScrolled
+                      ? 'text-gray-700 hover:text-[#0b192c] hover:bg-gray-100'
+                      : 'text-[#c5d3e8] hover:text-white hover:bg-[#415a77]/20'
+                  }`}
+                >
+                  <LogIn className="h-3.5 w-3.5" />
+                  <span>Log In</span>
+                </Link>
+
+                <Link
+                  to="/signup"
+                  className="hidden md:inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:from-cyan-400 hover:to-blue-500 active:scale-95 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                >
+                  <UserPlus className="h-3.5 w-3.5" />
+                  <span>Sign Up</span>
+                </Link>
+              </div>
+            )}
 
             {/* Main Menu Trigger (Hamburger Menu) */}
             <button
               type="button"
               onClick={() => setMenuOverlayOpen(true)}
-              className={`p-2 rounded-lg transition-colors active:scale-95 cursor-pointer flex items-center justify-center ${
+              className={`h-11 w-11 p-2 rounded-lg transition-colors active:scale-95 cursor-pointer flex items-center justify-center ${
                 isScrolled
                   ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                   : 'text-[#c5d3e8] hover:text-white hover:bg-white/10'

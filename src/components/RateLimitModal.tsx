@@ -41,7 +41,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors cursor-pointer"
+          className="absolute right-4 top-4 rounded-lg p-1.5 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           <X className="h-5 w-5" />
         </button>
@@ -176,9 +176,9 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                   try {
                     await login();
                     onClose();
-                  } catch {}
+                  } catch (e) { console.error("Ignored error:", e); }
                 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <LogIn className="h-3.5 w-3.5" />
                 <span>Sign In for 50 Units Free</span>
@@ -190,7 +190,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                     openTrialModal('pro');
                   }}
-                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer"
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span>Start 7-Day Trial</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -198,7 +198,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <Link
                   to="/pricing"
                   onClick={onClose}
-                  className="rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#0d1b2a] transition-colors text-center"
+                  className="rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#0d1b2a] transition-colors text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Plans
                 </Link>

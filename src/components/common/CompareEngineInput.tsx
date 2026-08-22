@@ -54,7 +54,7 @@ export const CompareEngineInput: React.FC<CompareEngineInputProps> = ({
         <button 
           type="submit" 
           disabled={isLoading}
-          className="flex items-center justify-center gap-2.5 w-full py-3.5 sm:py-4 rounded-2xl bg-[#c5d3e8] hover:bg-white hover:shadow-md disabled:bg-[#415a77]/50 disabled:text-slate-400 text-[#0b192c] font-mono font-bold text-sm sm:text-base transition-all active:scale-[0.98] cursor-pointer shrink-0"
+          className="flex items-center justify-center gap-2.5 w-full py-3.5 sm:py-4 rounded-2xl bg-[#c5d3e8] hover:bg-white hover:shadow-md disabled:bg-[#415a77]/50 disabled:text-slate-400 text-[#0b192c] font-mono font-bold text-sm sm:text-base transition-all active:scale-[0.98] cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           {isLoading ? (
             <RotateCw className="h-5 w-5 animate-spin" />

@@ -47,7 +47,7 @@ export const ReportPermalinkPage: React.FC = () => {
         } else {
           setError("Audit record not found or was removed.");
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to load audit report:", err);
         setError("Audit record not found or was removed.");
       } finally {
@@ -71,7 +71,7 @@ export const ReportPermalinkPage: React.FC = () => {
       let domain = report?.url || 'domain';
       try {
         domain = new URL(report?.url.startsWith('http') ? report!.url : `https://${report!.url}`).hostname;
-      } catch {}
+      } catch (e) { console.error("Ignored error:", e); }
       const safeDomain = domain.replace(/[^a-zA-Z0-9]/g, '_');
       await exportReportToPdf('report-dossier-content', `CatalystLab-${safeDomain}-${report?.engine || 'audit'}.pdf`);
     } catch (err) {
@@ -109,13 +109,13 @@ export const ReportPermalinkPage: React.FC = () => {
           <div className="mt-6 flex justify-center gap-3">
             <Link
               to="/dashboard"
-              className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1f314d]"
+              className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1f314d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Go to Dashboard
             </Link>
             <Link
               to="/"
-              className="rounded-xl bg-[#415a77] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e]"
+              className="rounded-xl bg-[#415a77] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#52718e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Run New Audit
             </Link>
@@ -146,7 +146,7 @@ export const ReportPermalinkPage: React.FC = () => {
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <Link
             to="/dashboard"
-            className="flex items-center gap-1.5 text-sm font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors"
+            className="flex items-center gap-1.5 text-sm font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Dashboard</span>
@@ -155,7 +155,7 @@ export const ReportPermalinkPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-sm font-medium text-[#c5d3e8] hover:text-white transition-colors"
+              className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-sm font-medium text-[#c5d3e8] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Copy Share Link"
             >
               {copied ? <Check className="h-3.5 w-3.5 text-[#c5d3e8]" /> : <Share2 className="h-3.5 w-3.5 text-[#c5d3e8]" />}
@@ -164,7 +164,7 @@ export const ReportPermalinkPage: React.FC = () => {
 
             <button
               onClick={handleBrowserPrint}
-              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-sm font-medium text-[#c5d3e8] hover:text-white transition-colors"
+              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-[#0b192c] px-3.5 py-1.5 text-sm font-medium text-[#c5d3e8] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Print via Browser Utility"
             >
               <Printer className="h-3.5 w-3.5 text-[#c5d3e8]" />
@@ -174,7 +174,7 @@ export const ReportPermalinkPage: React.FC = () => {
             <button
               onClick={handleExportPdf}
               disabled={isExportingPdf}
-              className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-1.5 text-sm font-bold text-white hover:bg-[#152238] transition-colors disabled:opacity-50 shadow-md"
+              className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-1.5 text-sm font-bold text-white hover:bg-[#152238] transition-colors disabled:opacity-50 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Export Current Audit Results as PDF"
             >
               <Download className="h-3.5 w-3.5 text-[#c5d3e8]" />
@@ -225,7 +225,7 @@ export const ReportPermalinkPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-2">
               <Link
                 to={`/?url=${encodeURIComponent(report.url)}`}
-                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1f314d] transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#1f314d] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <RotateCw className="h-3.5 w-3.5 text-[#c5d3e8]" />
                 <span>Re-run Audit</span>

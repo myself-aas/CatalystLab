@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -152,7 +153,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           message: `Server returned HTTP ${res.status}`
         });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setPingTestStatus({
         loading: false,
         success: false,
@@ -180,13 +181,20 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
     setLoading(true);
     try {
       const res = await fetch(`/api/analytics/stats?domain=${encodeURIComponent(selectedDomain)}&timeframe=${timeframe}`);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error(`Expected application/json but received ${contentType}`);
+      }
       const data = await res.json();
       if (data.success && data.stats) {
         setStats(data.stats);
         setRealtimeVisitors(data.stats.activeVisitorsNow || 38);
       }
     } catch (e) {
-      console.error('Failed to fetch analytics:', e);
+      console.warn('[Analytics Dashboard] Telemetry query fallback notice:', e);
     } finally {
       setLoading(false);
     }
@@ -201,9 +209,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
     const pulseInterval = setInterval(async () => {
       try {
         const res = await fetch(`/api/analytics/realtime?domain=${encodeURIComponent(selectedDomain)}`);
-        const data = await res.json();
-        if (data.success && typeof data.activeVisitorsNow === 'number') {
-          setRealtimeVisitors(data.activeVisitorsNow);
+        if (res.ok && (res.headers.get('content-type') || '').includes('application/json')) {
+          const data = await res.json();
+          if (data.success && typeof data.activeVisitorsNow === 'number') {
+            setRealtimeVisitors(data.activeVisitorsNow);
+          }
         }
       } catch (e) {
         // quiet fallback
@@ -259,7 +269,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           message: data.error || 'Failed to dispatch email.'
         });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setDispatchStatus({ loading: false, type: 'email', success: false, message: err.message });
     }
   };
@@ -285,7 +295,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           ? `Slack Block Kit payload delivered successfully (${data.responseTimeMs || 25}ms).`
           : `Slack dispatch failed: ${data.error || 'Check webhook URL'}`
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setDispatchStatus({ loading: false, type: 'slack', success: false, message: err.message });
     }
   };
@@ -311,7 +321,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           ? `Discord Rich Embed delivered successfully (${data.responseTimeMs || 20}ms).`
           : `Discord dispatch failed: ${data.error || 'Check webhook URL'}`
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setDispatchStatus({ loading: false, type: 'discord', success: false, message: err.message });
     }
   };
@@ -364,7 +374,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             : `All traffic within standard 24h baseline (+${data.anomaly?.deviationPercent?.toFixed(1) || '0'}%). No anomaly triggered.`
         });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setDispatchStatus({ loading: false, type: 'anomaly', success: false, message: err.message });
     }
   };
@@ -378,7 +388,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           <div className="flex items-center gap-2">
             <Activity className="h-5 w-5 text-[#415a77]" />
             <h2 className="text-lg font-bold text-[#0b192c]">Plausible-Style Zero-Cost Telemetry & Alerts</h2>
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-[#c5d3e8]/30 text-[#0b192c] uppercase">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-white uppercase">
               Phase 4 & 5
             </span>
           </div>
@@ -427,7 +437,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           <button
             onClick={fetchStats}
             title="Refresh telemetry queries"
-            className="p-1.5 text-[#415a77] hover:text-[#0b192c] hover:bg-[#f1f5f9] rounded-lg border border-[#e2e8f0] transition-colors"
+            className="p-1.5 text-[#415a77] hover:text-[#0b192c] hover:bg-[#f1f5f9] rounded-lg border border-[#e2e8f0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
@@ -469,7 +479,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             
             {/* 1. Cookieless Unique Visitors */}
-            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-1">
@@ -495,7 +505,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             </div>
 
             {/* 2. Total Pageviews */}
-            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-[10px] font-bold text-[#415a77] uppercase tracking-wider">Total Pageviews</p>
@@ -516,7 +526,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             </div>
 
             {/* 3. Bounce Rate (Sessions with event count === 1) */}
-            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-1">
@@ -542,7 +552,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             </div>
 
             {/* 4. Avg Session Duration ($subtract max - min) */}
-            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-1">
@@ -704,7 +714,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   </thead>
                   <tbody className="divide-y divide-[#f1f5f9]">
                     {(stats?.topPages || []).map((p, idx) => (
-                      <tr key={idx} className="hover:bg-[#f8fafc]">
+                      <tr key={idx} className="hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                         <td className="py-2.5 font-mono font-bold text-[#0b192c]">
                           {p.pathname}
                         </td>
@@ -753,7 +763,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 <button
                   onClick={handleSendTestPing}
                   disabled={pingTestStatus.loading}
-                  className="px-4 py-2 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-2"
+                  className="px-4 py-2 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Send className={`h-3.5 w-3.5 ${pingTestStatus.loading ? 'animate-pulse' : ''}`} />
                   {pingTestStatus.loading ? 'Dispatching Ping...' : 'Send Live Test Ping'}
@@ -772,7 +782,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   {pingTestStatus.success ? <CheckCircle className="h-4 w-4 text-emerald-600" /> : <AlertTriangle className="h-4 w-4 text-rose-600" />}
                   <span>{pingTestStatus.message}</span>
                 </div>
-                <button onClick={() => setPingTestStatus({ loading: false })} className="text-gray-400 hover:text-gray-600">
+                <button onClick={() => setPingTestStatus({ loading: false })} className="text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   <X className="h-3.5 w-3.5" />
                 </button>
               </div>
@@ -884,7 +894,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                       <span className="text-xs font-bold text-[#0b192c]">Direct First-Party Tracking Script Tag</span>
                       <button
                         onClick={() => handleCopy(`<script defer data-domain="${targetDomain || 'example.com'}" src="https://catalystlab.tech/telemetry.js"></script>`, 'direct-html')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'direct-html' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'direct-html' ? 'Copied!' : 'Copy Script Tag'}
@@ -926,7 +936,7 @@ async function handleRequest(request) {
   }
   return fetch(request);
 }`, 'cf-worker')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'cf-worker' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'cf-worker' ? 'Copied!' : 'Copy Worker Code'}
@@ -984,7 +994,7 @@ async function handleRequest(request) {
     }
   ]
 }`, 'vercel-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'vercel-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'vercel-config' ? 'Copied!' : 'Copy vercel.json'}
@@ -1036,7 +1046,7 @@ module.exports = {
     ];
   },
 };`, 'next-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'next-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'next-config' ? 'Copied!' : 'Copy next.config.js'}
@@ -1088,7 +1098,7 @@ module.exports = {
   to = "https://catalystlab.tech/api/telemetry/event"
   status = 200
   force = true`, 'netlify-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'netlify-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'netlify-config' ? 'Copied!' : 'Copy Netlify Config'}
@@ -1141,7 +1151,7 @@ location = /stats/api/event {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_ssl_server_name on;
 }`, 'nginx-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'nginx-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'nginx-config' ? 'Copied!' : 'Copy Nginx Block'}
@@ -1188,7 +1198,7 @@ location = /stats/api/event {
   RewriteRule ^stats/js$ https://catalystlab.tech/telemetry.js [P,L]
   RewriteRule ^stats/api/event$ https://catalystlab.tech/api/telemetry/event [P,L]
 </IfModule>`, 'apache-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'apache-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'apache-config' ? 'Copied!' : 'Copy .htaccess'}
@@ -1234,7 +1244,7 @@ location = /stats/api/event {
                 {dispatchStatus.success ? <CheckCircle className="h-4 w-4 text-emerald-600" /> : <AlertTriangle className="h-4 w-4 text-rose-600" />}
                 <span>{dispatchStatus.message}</span>
               </div>
-              <button onClick={() => setDispatchStatus({ loading: false })} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setDispatchStatus({ loading: false })} className="text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <X className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -1260,14 +1270,14 @@ location = /stats/api/event {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleOpenPreview('weekly')}
-                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Eye className="h-3.5 w-3.5 text-[#415a77]" />
                   Preview Weekly Dossier
                 </button>
                 <button
                   onClick={() => handleOpenPreview('anomaly')}
-                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Eye className="h-3.5 w-3.5 text-rose-600" />
                   Preview Spike Alert
@@ -1295,7 +1305,7 @@ location = /stats/api/event {
                   <button
                     onClick={handleSendMailgunDigest}
                     disabled={dispatchStatus.loading}
-                    className="px-4 py-2 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <Send className="h-3.5 w-3.5" />
                     Dispatch Test Weekly Dossier
@@ -1361,7 +1371,7 @@ location = /stats/api/event {
                 <button
                   onClick={handleTestSlack}
                   disabled={dispatchStatus.loading}
-                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Send className="h-3 w-3 text-[#4A154B]" />
                   Test Slack Webhook Dispatch
@@ -1393,7 +1403,7 @@ location = /stats/api/event {
                 <button
                   onClick={handleTestDiscord}
                   disabled={dispatchStatus.loading}
-                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Send className="h-3 w-3 text-[#5865F2]" />
                   Test Discord Webhook Dispatch
@@ -1415,14 +1425,14 @@ location = /stats/api/event {
                 <button
                   onClick={() => handleRunAnomalyCheck(false)}
                   disabled={dispatchStatus.loading}
-                  className="px-3.5 py-1.5 rounded-lg border border-[#e2e8f0] bg-white text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors"
+                  className="px-3.5 py-1.5 rounded-lg border border-[#e2e8f0] bg-white text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Run Baseline Check
                 </button>
                 <button
                   onClick={() => handleRunAnomalyCheck(true)}
                   disabled={dispatchStatus.loading}
-                  className="px-3.5 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 transition-colors flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Zap className="h-3.5 w-3.5" />
                   Simulate Traffic Surge (+304%)
@@ -1474,7 +1484,7 @@ jobs:
       - run: python3 python-engines/compliance_risk_audit.py "https://${targetDomain || 'catalystlab.tech'}"
       - run: python3 python-engines/ai_readiness.py "https://${targetDomain || 'catalystlab.tech'}"
       - run: python3 python-engines/llmo_optimizer.py "https://${targetDomain || 'catalystlab.tech'}"`, 'github-workflow-audit')}
-                  className="px-3 py-1.5 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-1.5"
+                  className="px-3 py-1.5 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {copiedKey === 'github-workflow-audit' ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
                   <span>{copiedKey === 'github-workflow-audit' ? 'Copied Workflow!' : 'Copy GitHub Workflow'}</span>
@@ -1538,14 +1548,14 @@ jobs:
               <div className="flex flex-row sm:flex-col gap-3 shrink-0">
                 <button
                   onClick={() => setActiveSubTab('par-blueprint')}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs transition-all shadow-md active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs transition-all shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Layers className="h-3.5 w-3.5" />
                   <span>Explore PAR Blueprint</span>
                 </button>
                 <Link
                   to="/master-audit"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-[#0b192c] font-extrabold text-xs transition-all shadow-lg active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-[#0b192c] font-extrabold text-xs transition-all shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Play className="h-3.5 w-3.5" />
                   <span>Run 8-Stage Master Audit</span>
@@ -1592,7 +1602,7 @@ jobs:
                 {/* Image side (Right) */}
                 <div className="absolute top-0 right-0 bottom-0 w-full sm:w-[55%] pointer-events-none">
                   <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-[#0b192c] via-[#0b192c]/80 to-transparent z-10"></div>
-                  <img src={bgImage} alt="Background" className="w-full h-full object-cover" />
+                  <img  src={bgImage} alt="Background" className="w-full h-full object-cover" />
                 </div>
 
                 {/* Content side (Left) */}
@@ -1633,14 +1643,14 @@ jobs:
                     <div className="flex items-center gap-4">
                       <Link
                         to={`/docs#${catalyst.docsAnchor || 'overview'}`}
-                        className="text-[11px] font-bold text-gray-400 hover:text-white flex items-center gap-1 transition-colors uppercase tracking-wider"
+                        className="text-[11px] font-bold text-gray-400 hover:text-white flex items-center gap-1 transition-colors uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         <span>Read Specs</span>
                       </Link>
                       {catalyst.shortCode === 'SYNTH' && (
                         <button
                           onClick={() => setActiveSubTab('par-blueprint')}
-                          className="text-[11px] font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors uppercase tracking-wider"
+                          className="text-[11px] font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           <span>Blueprint</span>
                         </button>
@@ -1649,7 +1659,7 @@ jobs:
 
                     <Link
                       to={`${catalyst.route}${selectedDomain !== 'all' ? `?url=${encodeURIComponent('https://' + selectedDomain)}` : ''}`}
-                      className="bg-white text-[#0b192c] hover:bg-sky-50 transition-colors font-bold py-2.5 px-6 rounded-full text-xs shadow-lg inline-flex items-center gap-2 active:scale-95 shrink-0"
+                      className="bg-white text-[#0b192c] hover:bg-sky-50 transition-colors font-bold py-2.5 px-6 rounded-full text-xs shadow-lg inline-flex items-center gap-2 active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <span>Launch Catalyst</span>
                       <Play className="h-3 w-3 fill-current" />
@@ -1685,14 +1695,14 @@ jobs:
               <div className="flex items-center gap-3">
                 <Link
                   to="/migration"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs transition-all shadow-md"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Play className="h-3.5 w-3.5" />
                   <span>Run Live PAR Audit</span>
                 </Link>
                 <Link
                   to="/docs#par-technical-blueprint"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span>Docs Specs</span>
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -1759,7 +1769,7 @@ jobs:
 │   +------------------+         +------------------+                    │
 │                                                                        │
 └────────────────────────────────────────────────────────────────────────┘`, 'par-ascii-arch')}
-                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'par-ascii-arch' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedKey === 'par-ascii-arch' ? 'Copied' : 'Copy ASCII Diagram'}</span>
@@ -1888,7 +1898,7 @@ const ProjectSchema = new Schema<IProject>(
 ProjectSchema.index({ workspaceId: 1, sdlcStatus: 1 });
 
 export const Project = mongoose.models.Project || mongoose.model<IProject>('Project', ProjectSchema);`, 'par-project-schema')}
-                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1"
+                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {copiedKey === 'par-project-schema' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                       <span>{copiedKey === 'par-project-schema' ? 'Copied' : 'Copy'}</span>
@@ -1974,7 +1984,7 @@ const TaskSchema = new Schema<ITask>(
 TaskSchema.index({ projectId: 1, lifecyclePhase: 1, slaDeadline: 1 });
 
 export const Task = mongoose.models.Task || mongoose.model<ITask>('Task', TaskSchema);`, 'par-task-schema')}
-                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1"
+                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {copiedKey === 'par-task-schema' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                       <span>{copiedKey === 'par-task-schema' ? 'Copied' : 'Copy'}</span>
@@ -2068,7 +2078,7 @@ TaskSchema.index({ projectId: 1, lifecyclePhase: 1, slaDeadline: 1 });`}
     { $sort: { totalEstimatedHours: -1 } }
   ]);
 }`, 'par-agg-pipeline')}
-                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'par-agg-pipeline' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedKey === 'par-agg-pipeline' ? 'Copied' : 'Copy Aggregation Code'}</span>
@@ -2174,7 +2184,7 @@ Key Technical Specifications to Produce:
 2. MongoDB aggregation pipeline for real-time team workload and capacity calculations.
 3. Firebase Auth token validation middleware for Express/Node.js.
 4. Step-by-step implementation sequence with zero external dependency bloat.`, 'par-ai-prompt')}
-                      className="px-3.5 py-1.5 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-1.5 shadow-sm"
+                      className="px-3.5 py-1.5 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-1.5 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {copiedKey === 'par-ai-prompt' ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
                       <span>{copiedKey === 'par-ai-prompt' ? 'Prompt Copied!' : 'Copy AI Studio Prompt'}</span>
@@ -2331,7 +2341,7 @@ Key Technical Specifications to Produce:
               </div>
               <button
                 onClick={() => setPreviewModalOpen(false)}
-                className="p-1 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors"
+                className="p-1 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -2346,7 +2356,7 @@ Key Technical Specifications to Produce:
               ) : (
                 <div 
                   className="bg-white rounded-xl shadow-sm overflow-hidden max-w-[640px] mx-auto"
-                  dangerouslySetInnerHTML={{ __html: previewHtml }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(previewHtml) }}
                 />
               )}
             </div>
@@ -2354,7 +2364,7 @@ Key Technical Specifications to Produce:
             <div className="p-3 border-t border-[#e2e8f0] bg-white flex justify-end gap-2 text-xs">
               <button
                 onClick={() => setPreviewModalOpen(false)}
-                className="px-4 py-1.5 rounded-lg border border-[#e2e8f0] text-[#415a77] font-bold hover:bg-[#f8fafc]"
+                className="px-4 py-1.5 rounded-lg border border-[#e2e8f0] text-[#415a77] font-bold hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Close Preview
               </button>

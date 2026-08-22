@@ -142,7 +142,7 @@ taskSchema.index({ projectId: 1, status: 1, assigneeId: 1 });`}
               setCopiedPrompt(true);
               setTimeout(() => setCopiedPrompt(false), 2000);
             }}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] hover:bg-[#f1f5f9] cursor-pointer"
+            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] hover:bg-[#f1f5f9] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             {copiedPrompt ? (
               <>

@@ -541,7 +541,7 @@ export const GlobalBreadcrumb: React.FC = () => {
           {parentHref && crumbs.length > 1 && (
             <button
               onClick={() => navigate(parentHref)}
-              className="mr-1 inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] hover:border-[#cbd5e1] hover:bg-[#e2e8f0] hover:text-[#0b192c] transition-colors shrink-0 cursor-pointer"
+              className="mr-1 inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] hover:border-[#cbd5e1] hover:bg-[#e2e8f0] hover:text-[#0b192c] transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Navigate Up One Level"
               aria-label="Navigate Up One Level"
             >
@@ -565,7 +565,7 @@ export const GlobalBreadcrumb: React.FC = () => {
               <li className="flex items-center shrink-0">
                 <Link
                   to="/"
-                  className="flex items-center gap-1 text-[#415a77] hover:text-[#0b192c] hover:underline font-medium transition-colors"
+                  className="flex items-center gap-1 text-[#415a77] hover:text-[#0b192c] hover:underline font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   title="CatalystLab Platform Home"
                 >
                   <Home className="h-3.5 w-3.5 text-[#415a77]" />
@@ -585,7 +585,7 @@ export const GlobalBreadcrumb: React.FC = () => {
                     {crumb.href && !isLast ? (
                       <Link
                         to={crumb.href}
-                        className="flex items-center gap-1 font-medium text-[#415a77] hover:text-[#0b192c] hover:underline transition-colors whitespace-nowrap"
+                        className="flex items-center gap-1 font-medium text-[#415a77] hover:text-[#0b192c] hover:underline transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {CrumbIcon && <CrumbIcon className="h-3 w-3" />}
                         <span>{crumb.label}</span>
@@ -611,7 +611,7 @@ export const GlobalBreadcrumb: React.FC = () => {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleCopyLink}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-2.5 py-1 text-xs font-semibold text-[#415a77] hover:border-[#cbd5e1] hover:bg-white hover:text-[#0b192c] transition-all cursor-pointer shadow-2xs"
+            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-2.5 py-1 text-xs font-semibold text-[#415a77] hover:border-[#cbd5e1] hover:bg-white hover:text-[#0b192c] transition-all cursor-pointer shadow-2xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Copy Page Link"
           >
             {copied ? (

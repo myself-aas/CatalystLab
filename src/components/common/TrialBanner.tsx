@@ -27,7 +27,7 @@ export const TrialBanner: React.FC = () => {
           <div className="flex items-center gap-3">
             <Link
               to="/pricing"
-              className="inline-flex items-center gap-1 font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+              className="inline-flex items-center gap-1 font-semibold text-emerald-400 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               View Plan Features <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -37,30 +37,7 @@ export const TrialBanner: React.FC = () => {
     );
   }
 
-  // If user is on Free tier, offer a subtle banner to start 7-day trial
-  return (
-    <div 
-      id="catalyst-start-trial-banner"
-      className="w-full bg-brand-surface/90 border-b border-brand-border/60 px-4 py-1.5 text-xs text-slate-300"
-    >
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan font-medium border border-brand-cyan/20">
-            <Sparkles className="w-3 h-3" /> Special Offer
-          </span>
-          <span className="text-slate-300">
-            Try any Pro or Team plan free for 7 days. No credit card required.
-          </span>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => openTrialModal('pro')}
-          className="inline-flex items-center gap-1 font-semibold text-brand-cyan hover:text-white transition-colors"
-        >
-          Start 7-Day Free Trial <ArrowRight className="w-3 h-3" />
-        </button>
-      </div>
-    </div>
-  );
+  // If no trial active, do not display the promotional top banner
+  return null;
 };
+

@@ -158,7 +158,7 @@ export const EnginePlaygroundPage: React.FC = () => {
       // Record client rate attempt
       recordClientRequestAttempt(requiredCost, user, isAdmin);
       setRateStatus(getRateLimitStatus(user, isAdmin));
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Playground execution error:', err);
       setErrorMsg(err.message || 'Execution failed. Please check network connectivity.');
       setOutput(prev => `${prev}\n[ERROR] Execution failed: ${err.message}`);
@@ -253,13 +253,13 @@ func main() {
           <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-[#0b192c]">Rate Limit Exceeded</h3>
-              <button onClick={() => setRateLimitAlertOpen(false)} className="text-gray-400 hover:text-gray-600">✕</button>
+              <button onClick={() => setRateLimitAlertOpen(false)} className="text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">✕</button>
             </div>
             <RateLimitThresholdAlert currentStatus={rateStatus} />
             <div className="flex justify-end">
               <button
                 onClick={() => setRateLimitAlertOpen(false)}
-                className="rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238]"
+                className="rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Close
               </button>
@@ -273,7 +273,7 @@ func main() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono text-gray-500">
-              <Link to="/playground" className="hover:text-gray-900 transition-colors">
+              <Link to="/playground" className="hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 Playground
               </Link>
               <span>/</span>
@@ -298,14 +298,14 @@ func main() {
               <div className="flex items-center gap-3">
                 <Link
                   to="/playground"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>All Consoles</span>
                 </Link>
                 <Link
                   to="/api-reference/category/engines"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-50 border border-sky-200 px-3.5 py-2 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-50 border border-sky-200 px-3.5 py-2 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Code2 className="h-3.5 w-3.5 text-sky-600" />
                   <span>API Docs</span>
@@ -367,7 +367,7 @@ func main() {
                     ) : (
                       <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-3 py-2 text-[11px] text-gray-500 flex items-center justify-between">
                         <span>No saved API keys</span>
-                        <Link to="/dashboard" className="text-sky-700 font-bold hover:underline">
+                        <Link to="/dashboard" className="text-sky-700 font-bold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           Create
                         </Link>
                       </div>
@@ -444,7 +444,7 @@ func main() {
 
                   <button
                     onClick={() => handleCopy('json', JSON.stringify(jsonResponse, null, 2))}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'json' ? (
                       <>
@@ -494,7 +494,7 @@ func main() {
 
                   <button
                     onClick={() => handleCopy('code', codeSnippet)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer ml-1"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'code' ? (
                       <>

@@ -94,7 +94,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
           });
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setTestResult({
         success: false,
         message: `Network error verifying rate limits: ${err.message}`
@@ -145,7 +145,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             <button
               onClick={loadStatus}
               disabled={loading}
-              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm disabled:opacity-50"
+              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
@@ -227,7 +227,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                 <button
                   onClick={() => handleSimulateCheck(MASTER_AUDIT_COST)}
                   disabled={testingUnit !== null}
-                  className="text-[11px] font-bold text-[#415a77] hover:underline"
+                  className="text-[11px] font-bold text-[#415a77] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Verify Master Quota →
                 </button>
@@ -258,7 +258,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                 <button
                   onClick={() => handleSimulateCheck(SINGLE_ENGINE_COST)}
                   disabled={testingUnit !== null}
-                  className="text-[11px] font-bold text-[#415a77] hover:underline"
+                  className="text-[11px] font-bold text-[#415a77] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Verify Single Quota →
                 </button>
@@ -286,7 +286,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             </div>
             <button 
               onClick={() => setTestResult(null)}
-              className="text-xs font-bold underline opacity-70 hover:opacity-100"
+              className="text-xs font-bold underline opacity-70 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Dismiss
             </button>
@@ -348,7 +348,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               </div>
               <button
                 onClick={handleCopyCurl}
-                className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition-colors"
+                className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {copiedCurl ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>{copiedCurl ? 'Copied' : 'Copy cURL'}</span>
@@ -367,7 +367,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             <span className="text-[#415a77]">Need a dedicated Pro API key?</span>
             <a 
               href="/api-docs" 
-              className="font-bold text-[#415a77] hover:text-[#0b192c] transition-colors"
+              className="font-bold text-[#415a77] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Explore API Catalog & Keys →
             </a>
@@ -396,7 +396,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
 
           <Link
             to="/pricing"
-            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#1a2e4c] transition-all shadow-sm"
+            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#1a2e4c] transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span>View Full Pricing Matrix</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -449,14 +449,14 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   ) : tierKey === 'free' ? (
                     <Link
                       to="/pricing"
-                      className="block text-center w-full py-1.5 rounded-lg text-xs font-bold border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors"
+                      className="block text-center w-full py-1.5 rounded-lg text-xs font-bold border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Free Plan
                     </Link>
                   ) : (
                     <button
                       onClick={() => openTrialModal(tierKey)}
-                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-brand-cyan text-brand-navy hover:bg-brand-cyan/90 transition-colors shadow-xs cursor-pointer"
+                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-brand-cyan text-brand-navy hover:bg-brand-cyan/90 transition-colors shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       7-Day Free Trial
                     </button>

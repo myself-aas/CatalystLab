@@ -64,7 +64,7 @@ export const AuthDomainModal: React.FC = () => {
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute right-4 top-4 rounded-xl p-1.5 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors"
+          className="absolute right-4 top-4 rounded-xl p-1.5 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           aria-label="Close dialog"
         >
           <X className="h-5 w-5" />
@@ -134,7 +134,7 @@ export const AuthDomainModal: React.FC = () => {
                 href={domainConfig.consoleAuthUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="font-bold text-[#38bdf8] hover:underline inline-flex items-center gap-0.5"
+                className="font-bold text-[#38bdf8] hover:underline inline-flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Firebase Console Settings <ExternalLink className="h-3 w-3 inline" />
               </a> (Project: <code className="text-[#f8fafc]">{domainConfig.projectId}</code>).
@@ -157,7 +157,7 @@ export const AuthDomainModal: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={handleSignInAsSuperadmin}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-98"
+              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
               <span>Sign In as Superadmin</span>
@@ -165,7 +165,7 @@ export const AuthDomainModal: React.FC = () => {
 
             <button
               onClick={handleSignInAsDeveloper}
-              className="flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/50 bg-[#152238] px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1a2d48] transition-all active:scale-98"
+              className="flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/50 bg-[#152238] px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1a2d48] transition-all active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <UserCheck className="h-4 w-4 text-[#38bdf8]" />
               <span>Sign In as Developer</span>
@@ -179,7 +179,7 @@ export const AuthDomainModal: React.FC = () => {
             href={domainConfig.consoleAuthUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-[#c5d3e8] hover:text-white transition-colors flex items-center gap-1 font-semibold"
+            className="text-[#c5d3e8] hover:text-white transition-colors flex items-center gap-1 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span>Open Firebase Settings</span>
             <ExternalLink className="h-3.5 w-3.5" />
@@ -187,7 +187,7 @@ export const AuthDomainModal: React.FC = () => {
 
           <button
             onClick={handleClose}
-            className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#0d1b2a] transition-colors"
+            className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#0d1b2a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             Continue as Guest
           </button>

@@ -58,7 +58,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, subtitle, icon, badge, ana
   };
 
   return (
-    <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-5 sm:p-6 flex flex-col justify-between shadow-xl transition-all hover:border-[#415a77]/60">
+    <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-5 sm:p-6 flex flex-col justify-between shadow-xl transition-all hover:border-[#415a77]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
       <div>
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-2">
@@ -88,7 +88,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, subtitle, icon, badge, ana
       <div className="border-t border-[#415a77]/30 pt-3.5 mt-2">
         <button 
           onClick={() => setShowAnalysis(!showAnalysis)}
-          className="flex items-center justify-between w-full text-xs font-bold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors py-1"
+          className="flex items-center justify-between w-full text-xs font-bold text-[#c5d3e8] hover:text-[#f8fafc] transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           <span className="flex items-center gap-1.5 text-xs text-[#38bdf8]">
             <Info className="h-3.5 w-3.5" />
@@ -415,7 +415,7 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
               ).map((sub: any, idx: number) => (
                 <div
                   key={idx}
-                  className="flex flex-col p-2.5 rounded-xl border border-[#415a77]/25 bg-[#081628] hover:border-sky-500/40 transition-colors"
+                  className="flex flex-col p-2.5 rounded-xl border border-[#415a77]/25 bg-[#081628] hover:border-sky-500/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <div className="flex items-center justify-between text-xs font-mono font-medium text-[#f8fafc] truncate">
                     <span className="truncate">{sub.subdomain}</span>

@@ -257,11 +257,13 @@ export function evaluateAndChargeRateLimit(
 
   // Superadmin bypass
   if (identity.tier === 'superadmin') {
-    res.setHeader('X-RateLimit-Limit', 'unlimited');
-    res.setHeader('X-RateLimit-Remaining', 'unlimited');
-    res.setHeader('X-RateLimit-Used', '0');
-    res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
-    res.setHeader('X-RateLimit-Tier', identity.tier);
+    if (!res.headersSent) {
+      res.setHeader('X-RateLimit-Limit', 'unlimited');
+      res.setHeader('X-RateLimit-Remaining', 'unlimited');
+      res.setHeader('X-RateLimit-Used', '0');
+      res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
+      res.setHeader('X-RateLimit-Tier', identity.tier);
+    }
     return {
       allowed: true,
       tier: identity.tier,
@@ -282,12 +284,14 @@ export function evaluateAndChargeRateLimit(
   // 1. Burst Rate Limiting Check (Sliding 60s Window)
   record.requestTimestamps = record.requestTimestamps.filter(t => now - t < BURST_WINDOW_MS);
   if (record.requestTimestamps.length >= identity.burstMax) {
-    res.setHeader('Retry-After', '10');
-    res.setHeader('X-RateLimit-Limit', String(identity.limit));
-    res.setHeader('X-RateLimit-Remaining', String(Math.max(0, (identity.limit || 0) - record.unitsUsed)));
-    res.setHeader('X-RateLimit-Used', String(record.unitsUsed));
-    res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
-    res.setHeader('X-RateLimit-Tier', identity.tier);
+    if (!res.headersSent) {
+      res.setHeader('Retry-After', '10');
+      res.setHeader('X-RateLimit-Limit', String(identity.limit));
+      res.setHeader('X-RateLimit-Remaining', String(Math.max(0, (identity.limit || 0) - record.unitsUsed)));
+      res.setHeader('X-RateLimit-Used', String(record.unitsUsed));
+      res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
+      res.setHeader('X-RateLimit-Tier', identity.tier);
+    }
 
     return {
       allowed: false,
@@ -324,12 +328,14 @@ export function evaluateAndChargeRateLimit(
 
   // 3. Quota Exceeded Check
   if (projectedUsed > limit) {
-    res.setHeader('Retry-After', String(resetInSeconds));
-    res.setHeader('X-RateLimit-Limit', String(limit));
-    res.setHeader('X-RateLimit-Remaining', '0');
-    res.setHeader('X-RateLimit-Used', String(record.unitsUsed));
-    res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
-    res.setHeader('X-RateLimit-Tier', identity.tier);
+    if (!res.headersSent) {
+      res.setHeader('Retry-After', String(resetInSeconds));
+      res.setHeader('X-RateLimit-Limit', String(limit));
+      res.setHeader('X-RateLimit-Remaining', '0');
+      res.setHeader('X-RateLimit-Used', String(record.unitsUsed));
+      res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
+      res.setHeader('X-RateLimit-Tier', identity.tier);
+    }
 
     const errorMessage = identity.tier === 'free'
       ? `Daily compute quota exhausted (${limit} units / 5 Master Audits / 50 Single Engines). Resets at midnight UTC. Upgrade your plan or activate a 7-day free trial at /pricing.`
@@ -364,12 +370,14 @@ export function evaluateAndChargeRateLimit(
   const remaining = Math.max(0, limit - record.unitsUsed);
 
   // Set Standard HTTP Rate Limit Headers
-  res.setHeader('X-RateLimit-Limit', String(limit));
-  res.setHeader('X-RateLimit-Remaining', String(remaining));
-  res.setHeader('X-RateLimit-Used', String(record.unitsUsed));
-  res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
-  res.setHeader('X-RateLimit-Tier', identity.tier);
-  res.setHeader('RateLimit-Policy', `${limit};w=86400`);
+  if (!res.headersSent) {
+    res.setHeader('X-RateLimit-Limit', String(limit));
+    res.setHeader('X-RateLimit-Remaining', String(remaining));
+    res.setHeader('X-RateLimit-Used', String(record.unitsUsed));
+    res.setHeader('X-RateLimit-Reset', Math.floor(resetAt.getTime() / 1000).toString());
+    res.setHeader('X-RateLimit-Tier', identity.tier);
+    res.setHeader('RateLimit-Policy', `${limit};w=86400`);
+  }
 
   return {
     allowed: true,
@@ -429,6 +437,13 @@ let totalAuditsExecuted = 0;
 // Helper to check SSL certificate days remaining
 function getSslDetails(hostname: string, port = 443): Promise<{ valid: boolean; daysRemaining?: number; issuer?: string }> {
   return new Promise((resolve) => {
+    let resolved = false;
+    const safeResolve = (result: { valid: boolean; daysRemaining?: number; issuer?: string }) => {
+      if (resolved) return;
+      resolved = true;
+      resolve(result);
+    };
+
     try {
       const socket = tls.connect(
         {
@@ -446,7 +461,7 @@ function getSslDetails(hostname: string, port = 443): Promise<{ valid: boolean; 
               const diffTime = validTo.getTime() - now.getTime();
               const daysRemaining = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
               socket.destroy();
-              resolve({
+              safeResolve({
                 valid: daysRemaining > 0,
                 daysRemaining,
                 issuer: typeof cert.issuer === 'object' && cert.issuer !== null
@@ -459,21 +474,21 @@ function getSslDetails(hostname: string, port = 443): Promise<{ valid: boolean; 
             // fallback
           }
           socket.destroy();
-          resolve({ valid: true });
+          safeResolve({ valid: true });
         }
       );
 
       socket.on('error', () => {
         socket.destroy();
-        resolve({ valid: false, daysRemaining: 0 });
+        safeResolve({ valid: false, daysRemaining: 0 });
       });
 
       socket.on('timeout', () => {
         socket.destroy();
-        resolve({ valid: false, daysRemaining: 0 });
+        safeResolve({ valid: false, daysRemaining: 0 });
       });
     } catch {
-      resolve({ valid: false });
+      safeResolve({ valid: false });
     }
   });
 }
@@ -1377,7 +1392,9 @@ async function startServer() {
     try {
       const { url } = req.body;
       if (!url || typeof url !== 'string') {
-        res.status(400).json({ reachable: false, error: 'Target URL is required.' });
+        if (!res.headersSent) {
+          res.status(400).json({ reachable: false, error: 'Target URL is required.' });
+        }
         return;
       }
       
@@ -1392,21 +1409,26 @@ async function startServer() {
       };
 
       const request = client.request(parsedUrl, reqOptions, (response) => {
+        if (res.headersSent) return;
         res.json({ reachable: true, status: response.statusCode });
       });
 
       request.on('error', (err) => {
+        if (res.headersSent) return;
         res.json({ reachable: false, error: err.message });
       });
 
       request.on('timeout', () => {
         request.destroy();
+        if (res.headersSent) return;
         res.json({ reachable: false, error: 'Timeout' });
       });
 
       request.end();
     } catch (e: any) {
-      res.json({ reachable: false, error: e.message });
+      if (!res.headersSent) {
+        res.json({ reachable: false, error: e.message });
+      }
     }
   });
 
@@ -2120,12 +2142,21 @@ async function startServer() {
     });
   });
 
-  // Use one HTTP server for Express and Vite so Vite can attach its HMR WebSocket
-  // upgrade handler in middleware mode.
-  const httpServer = http.createServer(app);
+  // API 404 catch-all — ensures unhandled /api/* or /stats/* or /telemetry/* requests ALWAYS return JSON and NEVER HTML SPA fallback
+  app.all(['/api/*', '/stats/*', '/telemetry/*'], (req: Request, res: Response) => {
+    if (!res.headersSent) {
+      res.status(404).json({
+        success: false,
+        error: `API endpoint '${req.method} ${req.path}' not found.`
+      });
+    }
+  });
 
   // CRITICAL route-level fallback: Handle database queries failing gracefully when MongoDB is offline:
   app.use((err: any, req: Request, res: Response, next: express.NextFunction) => {
+    if (res.headersSent) {
+      return next(err);
+    }
     if (err.name === 'MongooseError' || err.name === 'MongoNetworkError' || err.message?.includes('buffering timed out') || err.message?.includes('Mongo')) {
       console.warn('[AI Studio] Database offline — returning mock empty response');
       if (req.method === 'GET') {
@@ -2135,6 +2166,10 @@ async function startServer() {
     }
     next(err);
   });
+
+  // Use one HTTP server for Express and Vite so Vite can attach its HMR WebSocket
+  // upgrade handler in middleware mode.
+  const httpServer = http.createServer(app);
 
   // Vite Integration
   if (process.env.NODE_ENV === 'production') {

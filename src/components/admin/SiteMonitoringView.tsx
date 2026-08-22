@@ -100,7 +100,7 @@ export const SiteMonitoringView: React.FC = () => {
         type: 'success'
       });
       setTimeout(() => setFeedbackMsg(null), 4000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Probe error:", err);
       setFeedbackMsg({ text: `Probe failed: ${err.message}`, type: 'error' });
     } finally {
@@ -136,11 +136,12 @@ export const SiteMonitoringView: React.FC = () => {
         }
       });
 
-      const updatedSites = await Promise.all(probePromises);
+      const settledSites = await Promise.allSettled(probePromises);
+      const updatedSites = settledSites.map((r, i) => r.status === 'fulfilled' ? r.value : sites[i]);
       setSites(updatedSites);
       setFeedbackMsg({ text: `All ${sites.length} endpoints successfully probed!`, type: 'success' });
       setTimeout(() => setFeedbackMsg(null), 4000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Probe all error:", err);
       setFeedbackMsg({ text: `Failed to probe all endpoints: ${err.message}`, type: 'error' });
     } finally {
@@ -177,7 +178,7 @@ export const SiteMonitoringView: React.FC = () => {
       // Trigger initial probe automatically
       const createdSite: MonitoredSite = { ...newSite, id: docId };
       handleProbeSite(createdSite);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error adding site:", err);
       alert("Failed to add monitored site: " + err.message);
     } finally {
@@ -192,7 +193,7 @@ export const SiteMonitoringView: React.FC = () => {
       setSites((prev) => prev.filter((s) => s.id !== id));
       setFeedbackMsg({ text: `Removed ${name} from radar.`, type: 'success' });
       setTimeout(() => setFeedbackMsg(null), 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to delete site:", err);
       alert("Failed to delete monitored site.");
     }
@@ -217,7 +218,7 @@ export const SiteMonitoringView: React.FC = () => {
             : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
         }`}>
           <span>{feedbackMsg.text}</span>
-          <button onClick={() => setFeedbackMsg(null)} className="text-[#c5d3e8] hover:text-[#f8fafc]">
+          <button onClick={() => setFeedbackMsg(null)} className="text-[#c5d3e8] hover:text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
             <span className="material-symbols-outlined text-sm">close</span>
           </button>
         </div>
@@ -288,7 +289,7 @@ export const SiteMonitoringView: React.FC = () => {
           <button
             onClick={handleProbeAll}
             disabled={probingAll || sites.length === 0}
-            className="flex items-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#0b192c] px-4 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#152238] disabled:opacity-50 transition-all shadow-sm"
+            className="flex items-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#0b192c] px-4 py-2.5 text-xs font-semibold text-[#f8fafc] hover:bg-[#152238] disabled:opacity-50 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <RefreshCw className={`h-3.5 w-3.5 text-[#c5d3e8] ${probingAll ? 'animate-spin' : ''}`} />
             <span>{probingAll ? 'Probing Cluster...' : 'Probe All Sites'}</span>
@@ -296,7 +297,7 @@ export const SiteMonitoringView: React.FC = () => {
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] transition-all shadow-md"
+            className="flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Plus className="h-3.5 w-3.5" />
             <span>Add Monitored Site</span>
@@ -320,7 +321,7 @@ export const SiteMonitoringView: React.FC = () => {
             </p>
             <button
               onClick={() => setShowAddModal(true)}
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e]"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Add Your First Endpoint</span>
@@ -344,7 +345,7 @@ export const SiteMonitoringView: React.FC = () => {
                 {sites.map((site) => {
                   const isCurrentlyProbing = probingId === site.id;
                   return (
-                    <tr key={site.id} className="hover:bg-[#152238]/60 transition-colors">
+                    <tr key={site.id} className="hover:bg-[#152238]/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       
                       {/* Name & URL */}
                       <td className="py-4 px-4 sm:px-6">
@@ -356,7 +357,7 @@ export const SiteMonitoringView: React.FC = () => {
                             href={site.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="font-mono text-xs text-[#c5d3e8] hover:underline inline-flex items-center gap-1 max-w-[240px] truncate"
+                            className="font-mono text-xs text-[#c5d3e8] hover:underline inline-flex items-center gap-1 max-w-[240px] truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           >
                             {site.url}
                             <ExternalLink className="h-3 w-3 shrink-0" />
@@ -446,7 +447,7 @@ export const SiteMonitoringView: React.FC = () => {
                           <button
                             onClick={() => handleProbeSite(site)}
                             disabled={isCurrentlyProbing}
-                            className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-colors"
+                            className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Instant Probe"
                           >
                             <Zap className={`h-3.5 w-3.5 ${isCurrentlyProbing ? 'animate-spin text-[#c5d3e8]' : ''}`} />
@@ -454,7 +455,7 @@ export const SiteMonitoringView: React.FC = () => {
 
                           <button
                             onClick={() => navigate(`/?url=${encodeURIComponent(site.url)}`)}
-                            className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-colors"
+                            className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Run 8-Engine Master Audit"
                           >
                             <Server className="h-3.5 w-3.5" />
@@ -462,7 +463,7 @@ export const SiteMonitoringView: React.FC = () => {
 
                           <button
                             onClick={() => site.id && handleDeleteSite(site.id, site.name)}
-                            className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:border-rose-900/50 hover:bg-rose-950/40 hover:text-rose-400 transition-colors"
+                            className="rounded-lg border border-[#415a77]/30 bg-[#152238] p-2 text-[#c5d3e8] hover:border-rose-900/50 hover:bg-rose-950/40 hover:text-rose-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Delete Endpoint"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -533,7 +534,7 @@ export const SiteMonitoringView: React.FC = () => {
               </h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-[#c5d3e8] hover:text-[#f8fafc]"
+                className="text-[#c5d3e8] hover:text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span className="material-symbols-outlined text-base">close</span>
               </button>
@@ -613,14 +614,14 @@ export const SiteMonitoringView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2 text-xs font-semibold text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc]"
+                  className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2 text-xs font-semibold text-[#c5d3e8] hover:bg-[#1e2f4a] hover:text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingSite}
-                  className="rounded-xl bg-[#415a77] px-5 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] disabled:opacity-50 shadow-md"
+                  className="rounded-xl bg-[#415a77] px-5 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#52718e] disabled:opacity-50 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {savingSite ? 'Saving...' : 'Add Endpoint'}
                 </button>

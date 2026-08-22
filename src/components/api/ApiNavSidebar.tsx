@@ -67,7 +67,7 @@ export const ApiNavSidebar: React.FC = () => {
 
           <Link
             to="/playground"
-            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors mt-2"
+            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="flex items-center gap-2">
               <Terminal className="h-4 w-4 text-emerald-600" />
@@ -122,21 +122,21 @@ export const ApiNavSidebar: React.FC = () => {
         <nav className="space-y-1 text-xs">
           <Link
             to="/docs/rate-limiting"
-            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-gray-600 hover:text-[#0b192c] hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-gray-600 hover:text-[#0b192c] hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <ShieldCheck className="h-3.5 w-3.5 text-[#415a77]" />
             <span>Rate Limiting & Tier Quotas</span>
           </Link>
           <Link
             to="/docs/orchestrator"
-            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-gray-600 hover:text-[#0b192c] hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-gray-600 hover:text-[#0b192c] hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Layers className="h-3.5 w-3.5 text-[#415a77]" />
             <span>Orchestrator Architecture</span>
           </Link>
           <Link
             to="/docs/cicd"
-            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-gray-600 hover:text-[#0b192c] hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-gray-600 hover:text-[#0b192c] hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Terminal className="h-3.5 w-3.5 text-[#415a77]" />
             <span>CI/CD & GitHub Actions</span>

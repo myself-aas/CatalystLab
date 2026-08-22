@@ -164,7 +164,7 @@ async function executeMongoMutation<TState>(
 
     if (onSuccess) onSuccess(data.document || mutation.payload);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     const state = get() as any;
     console.error(`[MongoDB Optimistic Sync] Mutation ${mutation.id} rejected:`, error);
 

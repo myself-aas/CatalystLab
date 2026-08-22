@@ -24,11 +24,13 @@ import {
   ShieldCheck,
   Leaf,
   Cpu,
-  Star
+  Star,
+  Plus
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { LatestBlogsSection } from '../components/home/LatestBlogsSection';
 import { getBlogCoverImage } from '../utils/blogImageMap';
+import { getArticleReadingTime } from '../utils/readingTime';
 import synthshiftImg from '../assets/images/synthshift_migration_1787420135413.jpg';
 import vitalzymeImg from '../assets/images/vitalzyme_health_1787420174357.jpg';
 import edgevmaxImg from '../assets/images/edgevmax_latency_1787420187566.jpg';
@@ -50,7 +52,7 @@ export const BlogsPage: React.FC = () => {
     try {
       const saved = localStorage.getItem('catalyst_bookmarked_blogs');
       if (saved) setBookmarkedIds(new Set(JSON.parse(saved)));
-    } catch {}
+    } catch (e) { console.error("Ignored error:", e); }
   }, []);
 
   const toggleBookmark = (id: string, e: React.MouseEvent) => {
@@ -62,7 +64,7 @@ export const BlogsPage: React.FC = () => {
       else next.add(id);
       try {
         localStorage.setItem('catalyst_bookmarked_blogs', JSON.stringify(Array.from(next)));
-      } catch {}
+      } catch (e) { console.error("Ignored error:", e); }
       return next;
     });
   };
@@ -181,20 +183,33 @@ export const BlogsPage: React.FC = () => {
       />
 
       {/* Admin Quick Access Bar */}
-      {user && isAdmin && (
+      {user && (
         <div className="border-b border-cyan-500/20 bg-cyan-950/40 backdrop-blur-md">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold text-cyan-300">
               <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
-              <span>Admin Mode Active — You have editing & publishing permissions</span>
+              <span>
+                {isAdmin ? 'Admin Mode Active — You have publishing and editing privileges' : 'Author Access Active'}
+              </span>
             </div>
-            <Link
-              to="/admin"
-              className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-500/20 px-4 py-1 text-xs font-bold text-cyan-300 hover:bg-cyan-500/30 transition-colors"
-            >
-              <Settings className="h-3 w-3" />
-              <span>Blog CMS Dashboard</span>
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                to="/blogs/create"
+                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-sky-500 px-4 py-1 text-xs font-extrabold text-[#07111e] hover:from-cyan-400 hover:to-sky-400 transition-all shadow-md shadow-cyan-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              >
+                <Plus className="h-3 w-3 stroke-[3]" />
+                <span>Write Article</span>
+              </Link>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/40 bg-cyan-500/20 px-3.5 py-1 text-xs font-bold text-cyan-300 hover:bg-cyan-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                >
+                  <Settings className="h-3 w-3" />
+                  <span>CMS Studio</span>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -258,7 +273,7 @@ export const BlogsPage: React.FC = () => {
               {searchQuery && (
                 <button 
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   ✕
                 </button>
@@ -308,15 +323,15 @@ export const BlogsPage: React.FC = () => {
               return (
                 <article
                   key={post.slug || post.id}
-                  className="group relative rounded-3xl border border-white/10 bg-[#0d1c30]/70 hover:bg-[#11243d]/90 p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/40 hover:-translate-y-1.5"
+                  className="group relative rounded-3xl border border-white/10 bg-[#0d1c30]/70 hover:bg-[#11243d]/90 p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/40 hover:-translate-y-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <div>
                     {/* Thumbnail Image */}
                     <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-800 mb-4">
-                      <img 
+                      <img alt="Visual asset" 
                         src={getBlogCoverImage(post)} 
                         alt={post.title}
-                        className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+                        className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0d1c30]/90 via-transparent to-black/20" />
@@ -333,7 +348,7 @@ export const BlogsPage: React.FC = () => {
                         <button
                           onClick={(e) => handleShare(post.slug || post.id || '', e)}
                           title="Copy Link"
-                          className="h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer"
+                          className="h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           {copiedSlug === (post.slug || post.id) ? (
                             <Check className="h-3 w-3 text-green-400" />
@@ -344,7 +359,7 @@ export const BlogsPage: React.FC = () => {
                         <button
                           onClick={(e) => toggleBookmark(post.id || post.slug, e)}
                           title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer"
+                          className="h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           {isBookmarked ? (
                             <BookmarkCheck className="h-3.5 w-3.5 text-cyan-400 fill-cyan-400" />
@@ -363,8 +378,8 @@ export const BlogsPage: React.FC = () => {
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1 text-[11px]">
-                        <Clock className="h-3 w-3 text-slate-400" />
-                        {post.readTime || '5 min'}
+                        <Clock className="h-3 w-3 text-cyan-400" />
+                        {getArticleReadingTime(post)}
                       </span>
                       {post.views && (
                         <>
@@ -376,7 +391,7 @@ export const BlogsPage: React.FC = () => {
 
                     {/* Title */}
                     <Link to={`/blog/${post.slug || post.id}`}>
-                      <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug line-clamp-2">
+                      <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                         {post.title}
                       </h3>
                     </Link>
@@ -414,7 +429,7 @@ export const BlogsPage: React.FC = () => {
 
                     <Link
                       to={`/blog/${post.slug || post.id}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-300 hover:text-cyan-200 transition-colors group-hover:translate-x-1 duration-200"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-300 hover:text-cyan-200 transition-colors group-hover:translate-x-1 duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <span>Read article</span>
                       <ArrowRight className="h-3.5 w-3.5" />
@@ -431,7 +446,7 @@ export const BlogsPage: React.FC = () => {
             <p className="text-xs text-slate-400 mt-1">Try resetting your search query or choosing "All" topics.</p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedTopic('All'); }}
-              className="mt-4 rounded-full bg-cyan-400 px-5 py-2 text-xs font-bold text-[#07111e] hover:bg-cyan-300 transition-all cursor-pointer"
+              className="mt-4 rounded-full bg-cyan-400 px-5 py-2 text-xs font-bold text-[#07111e] hover:bg-cyan-300 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Reset Filters
             </button>
@@ -481,16 +496,16 @@ export const BlogsPage: React.FC = () => {
               {/* Card 1 */}
               <Link 
                 to="/blog/optimizing-dom-depth-nextjs"
-                className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-800 border border-white/10 hover:border-cyan-400/40 transition-all hover:scale-[1.02] shadow-lg"
+                className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-800 border border-white/10 hover:border-cyan-400/40 transition-all hover:scale-[1.02] shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
-                <img 
+                <img alt="Visual asset" 
                   src={vitalzymeImg} 
                   alt="DOM Health Telemetry" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                   <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider mb-1">Telemetry Spotlight</span>
-                  <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors line-clamp-2">
+                  <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     Optimizing DOM Depth & Eliminating Hydration Freezes
                   </h4>
                 </div>
@@ -499,16 +514,16 @@ export const BlogsPage: React.FC = () => {
               {/* Card 2 */}
               <Link 
                 to="/blog/decimating-ttfb-edge-workers"
-                className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-800 border border-white/10 hover:border-cyan-400/40 transition-all hover:scale-[1.02] shadow-lg"
+                className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-800 border border-white/10 hover:border-cyan-400/40 transition-all hover:scale-[1.02] shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
-                <img 
+                <img alt="Visual asset" 
                   src={edgevmaxImg} 
                   alt="Edge Latency Benchmarks" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                   <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider mb-1">Edge Latency</span>
-                  <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors line-clamp-2">
+                  <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     Sub-20ms Anycast Routing & Worker Invalidation
                   </h4>
                 </div>
@@ -552,7 +567,7 @@ export const BlogsPage: React.FC = () => {
               />
               <button 
                 type="submit"
-                className="rounded-full bg-cyan-400 hover:bg-cyan-300 px-8 py-3.5 text-sm font-extrabold text-[#07111e] transition-all hover:scale-105 shadow-md whitespace-nowrap cursor-pointer"
+                className="rounded-full bg-cyan-400 hover:bg-cyan-300 px-8 py-3.5 text-sm font-extrabold text-[#07111e] transition-all hover:scale-105 shadow-md whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Subscribe
               </button>
@@ -560,7 +575,7 @@ export const BlogsPage: React.FC = () => {
           )}
 
           <p className="text-xs text-slate-400">
-            By subscribing, you agree to our <Link to="/privacy" className="underline hover:text-cyan-300">Privacy Policy</Link>. Unsubscribe at any time with one click.
+            By subscribing, you agree to our <Link to="/privacy" className="underline hover:text-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Privacy Policy</Link>. Unsubscribe at any time with one click.
           </p>
         </div>
       </section>

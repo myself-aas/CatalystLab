@@ -154,7 +154,7 @@ export const ReportsDirectoryPage: React.FC = () => {
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 to="/"
-                className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-3 text-sm font-bold text-white hover:bg-[#152238] shadow-md transition-all"
+                className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-3 text-sm font-bold text-white hover:bg-[#152238] shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Zap className="h-4 w-4 fill-current text-[#c5d3e8]" />
                 <span>Run New Audit</span>
@@ -181,7 +181,7 @@ export const ReportsDirectoryPage: React.FC = () => {
 
               <button
                 type="submit"
-                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#33475e] transition-colors shrink-0 shadow-md"
+                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#33475e] transition-colors shrink-0 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Open Dossier</span>
                 <ArrowRight className="h-3.5 w-3.5 text-[#c5d3e8]" />
@@ -216,7 +216,7 @@ export const ReportsDirectoryPage: React.FC = () => {
                 </span>
                 <span>Your Saved Audit Reports ({filteredUserReports.length})</span>
               </h2>
-              <Link to="/dashboard" className="text-sm text-[#415a77] font-semibold hover:underline flex items-center gap-1">
+              <Link to="/dashboard" className="text-sm text-[#415a77] font-semibold hover:underline flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <span>Manage in Dashboard</span>
                 <ArrowRight className="h-3 w-3" />
               </Link>
@@ -232,10 +232,10 @@ export const ReportsDirectoryPage: React.FC = () => {
                   <Link
                     key={r.id || domainSlug}
                     to={`/reports/${domainSlug}`}
-                    className="group relative rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl hover:border-[#415a77]/70 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block text-[#f8fafc]"
+                    className="group relative rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl hover:border-[#415a77]/70 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <div className="flex items-center justify-between gap-2 mb-3.5">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#152238] text-sky-300 border border-[#415a77]/40 text-base group-hover:scale-105 transition-transform">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#152238] text-sky-300 border border-[#415a77]/40 text-base group-hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                         <Activity className="h-4 w-4" />
                       </span>
                       <span className="text-xs uppercase font-bold text-sky-300 bg-[#152238] px-2.5 py-1 rounded-full border border-sky-500/30 font-mono tracking-wider">
@@ -243,7 +243,7 @@ export const ReportsDirectoryPage: React.FC = () => {
                       </span>
                     </div>
 
-                    <div className="font-bold text-base text-[#f8fafc] group-hover:text-sky-300 transition-colors truncate">
+                    <div className="font-bold text-base text-[#f8fafc] group-hover:text-sky-300 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       {domainName}
                     </div>
                     <div className="font-mono text-sm text-[#94a3b8] truncate mt-0.5">
@@ -252,9 +252,9 @@ export const ReportsDirectoryPage: React.FC = () => {
 
                     <div className="flex items-center justify-between pt-3.5 mt-4 border-t border-[#415a77]/25 text-sm text-[#94a3b8]">
                       <span>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'Recent'}</span>
-                      <span className="flex items-center gap-1 font-bold text-sky-300 group-hover:text-white transition-colors">
+                      <span className="flex items-center gap-1 font-bold text-sky-300 group-hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                         <span>View Dossier</span>
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                       </span>
                     </div>
                   </Link>
@@ -288,11 +288,11 @@ export const ReportsDirectoryPage: React.FC = () => {
                 <Link
                   key={item.domain}
                   to={`/reports/${slug}`}
-                  className="group relative rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl hover:border-[#415a77]/70 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block text-[#f8fafc]"
+                  className="group relative rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl hover:border-[#415a77]/70 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <div className="flex items-center justify-between gap-2 mb-3.5">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#152238] text-white border border-[#415a77]/40 text-base group-hover:scale-105 transition-transform">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#152238] text-white border border-[#415a77]/40 text-base group-hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                         <Icon className="h-4 w-4 text-sky-300" />
                       </span>
                       <span className="text-xs uppercase font-bold text-[#94a3b8] bg-[#152238] px-2.5 py-1 rounded-full border border-[#415a77]/40 tracking-wide">
@@ -308,7 +308,7 @@ export const ReportsDirectoryPage: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="font-bold text-base text-[#f8fafc] group-hover:text-sky-300 transition-colors truncate">
+                  <div className="font-bold text-base text-[#f8fafc] group-hover:text-sky-300 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                     {item.domain}
                   </div>
                   <p className="text-sm text-[#94a3b8] mt-1.5 line-clamp-2 leading-relaxed">
@@ -317,9 +317,9 @@ export const ReportsDirectoryPage: React.FC = () => {
 
                   <div className="flex items-center justify-between pt-3.5 mt-4 border-t border-[#415a77]/25 text-sm text-[#94a3b8]">
                     <span className="font-mono text-sm font-semibold text-sky-300">{item.score}/100 Score</span>
-                    <span className="flex items-center gap-1 font-bold text-sky-300 group-hover:text-white transition-colors">
+                    <span className="flex items-center gap-1 font-bold text-sky-300 group-hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <span>Explore Benchmark</span>
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                     </span>
                   </div>
                 </Link>
@@ -340,7 +340,7 @@ export const ReportsDirectoryPage: React.FC = () => {
             </p>
             <button
               onClick={() => login()}
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-6 py-3 text-sm font-bold text-[#f8fafc] hover:bg-[#33475e] shadow-md transition-all"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-6 py-3 text-sm font-bold text-[#f8fafc] hover:bg-[#33475e] shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Sign In with Google
             </button>

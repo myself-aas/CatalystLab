@@ -109,7 +109,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = ({
             <div
               key={cat.name}
               style={{ width: `${Math.max(2, cat.pct)}%`, backgroundColor: cat.color }}
-              className="h-full first:rounded-l-lg last:rounded-r-lg transition-all hover:opacity-80 relative group"
+              className="h-full first:rounded-l-lg last:rounded-r-lg transition-all hover:opacity-80 relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title={`${cat.name}: ${cat.count} nodes (${cat.pct}%)`}
             />
           ))}

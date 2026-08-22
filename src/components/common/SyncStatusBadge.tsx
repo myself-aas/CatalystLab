@@ -45,7 +45,7 @@ export const SyncStatusBadge: React.FC = () => {
           {failedMutations.length > 0 && (
             <button
               onClick={() => retryFailedMutations()}
-              className="ml-1 px-1.5 py-0.5 bg-red-500/20 hover:bg-red-500/30 rounded text-xs text-red-300 font-semibold cursor-pointer"
+              className="ml-1 px-1.5 py-0.5 bg-red-500/20 hover:bg-red-500/30 rounded text-xs text-red-300 font-semibold cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Retry ({failedMutations.length})
             </button>

@@ -170,7 +170,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
             <button
               onClick={handleCopyPgp}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#152238] px-4 py-2 text-xs font-bold text-sky-300 border border-sky-500/30 hover:bg-sky-500 hover:text-[#07111e] transition-all"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#152238] px-4 py-2 text-xs font-bold text-sky-300 border border-sky-500/30 hover:bg-sky-500 hover:text-[#07111e] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {pgpCopied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
               <span>{pgpCopied ? 'PGP Block Copied!' : 'Copy Public Key'}</span>
@@ -208,7 +208,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
               </p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="mt-4 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] transition-colors"
+                className="mt-4 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Submit Another Report
               </button>
@@ -313,7 +313,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] py-3.5 text-xs font-bold text-white hover:bg-[#152238] transition-all shadow-md active:scale-98"
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] py-3.5 text-xs font-bold text-white hover:bg-[#152238] transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Send className="h-4 w-4 text-sky-300" />
                 <span>Transmit Encrypted Security Report</span>

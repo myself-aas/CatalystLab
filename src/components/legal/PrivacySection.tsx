@@ -228,28 +228,28 @@ export const PrivacySection: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#e2e8f0] text-[#415a77]">
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors">
+                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <td className="py-3.5 px-4 font-bold text-[#0b192c]">Target URLs</td>
                       <td className="py-3.5 px-4 font-mono text-[11px]">Domain name & endpoint paths entered</td>
                       <td className="py-3.5 px-4">Dispatch HTTP probes and calculate response times</td>
                       <td className="py-3.5 px-4">Ephemeral (1 hr) or Saved in User DB</td>
                       <td className="py-3.5 px-4 font-semibold text-emerald-600">None (Isolated)</td>
                     </tr>
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors">
+                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <td className="py-3.5 px-4 font-bold text-[#0b192c]">HTTP Headers</td>
                       <td className="py-3.5 px-4 font-mono text-[11px]">HSTS, CSP, X-Frame, CORS headers</td>
                       <td className="py-3.5 px-4">OWASP compliance scoring and vulnerability audit</td>
                       <td className="py-3.5 px-4">Retained with report dossier</td>
                       <td className="py-3.5 px-4 font-semibold text-emerald-600">None</td>
                     </tr>
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors">
+                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <td className="py-3.5 px-4 font-bold text-[#0b192c]">User Credentials</td>
                       <td className="py-3.5 px-4 font-mono text-[11px]">Google OAuth ID, Email, Display Name</td>
                       <td className="py-3.5 px-4">Authenticate and isolate private reports</td>
                       <td className="py-3.5 px-4">Until account deletion</td>
                       <td className="py-3.5 px-4 text-[#0b192c]">Firebase Auth (Google)</td>
                     </tr>
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors">
+                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <td className="py-3.5 px-4 font-bold text-[#0b192c]">Telemetry Logs</td>
                       <td className="py-3.5 px-4 font-mono text-[11px]">DNS lookup latency, TLS handshake ms</td>
                       <td className="py-3.5 px-4">Render synthetic latency charts & global radar</td>
@@ -290,7 +290,7 @@ export const PrivacySection: React.FC = () => {
                   <div className="mt-5">
                     <button
                       onClick={handleExportData}
-                      className="inline-flex items-center gap-2 rounded-xl bg-[#152238] px-4 py-2.5 text-xs font-bold text-sky-300 border border-sky-500/30 hover:bg-sky-500 hover:text-[#07111e] transition-all"
+                      className="inline-flex items-center gap-2 rounded-xl bg-[#152238] px-4 py-2.5 text-xs font-bold text-sky-300 border border-sky-500/30 hover:bg-sky-500 hover:text-[#07111e] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {exported ? <CheckCircle className="h-3.5 w-3.5 text-emerald-400" /> : <Download className="h-3.5 w-3.5" />}
                       <span>{exported ? 'Data Archive Exported!' : 'Download Telemetry Package'}</span>
@@ -318,7 +318,7 @@ export const PrivacySection: React.FC = () => {
                     ) : (
                       <button
                         onClick={handleRequestDeletion}
-                        className="inline-flex items-center gap-2 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2.5 text-xs font-bold text-rose-300 hover:bg-rose-500 hover:text-white transition-all"
+                        className="inline-flex items-center gap-2 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2.5 text-xs font-bold text-rose-300 hover:bg-rose-500 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                         <span>Initiate Telemetry Purge</span>

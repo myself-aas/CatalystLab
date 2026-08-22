@@ -88,7 +88,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       if (data.length > 0 && !selectedSnippetKey) {
         setSelectedSnippetKey(data[0]);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error loading API keys:", err);
       setError("Failed to load API keys.");
     } finally {
@@ -132,7 +132,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       setFormScopes(['execute:engines', 'execute:master-audit', 'read:reports']);
 
       await loadKeys();
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert("Error generating API key: " + err.message);
     } finally {
       setActionLoading(false);
@@ -149,7 +149,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       setKeyToRotate(null);
       setShowSecretModal(true);
       await loadKeys();
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert("Error rotating API key: " + err.message);
     } finally {
       setActionLoading(false);
@@ -163,7 +163,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       await revokeApiKey(keyToRevoke.id);
       setKeyToRevoke(null);
       await loadKeys();
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert("Error revoking key: " + err.message);
     } finally {
       setActionLoading(false);
@@ -177,7 +177,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       await deleteApiKey(keyToDelete.id);
       setKeyToDelete(null);
       await loadKeys();
-    } catch (err: any) {
+    } catch (err: unknown) {
       alert("Error deleting key: " + err.message);
     } finally {
       setActionLoading(false);
@@ -304,7 +304,7 @@ func main() {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             to="/playground"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Terminal className="h-4 w-4 text-blue-600" />
             <span>Open API Playground</span>
@@ -312,7 +312,7 @@ func main() {
 
           <button
             onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-md transition-all active:scale-98"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-md transition-all active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Plus className="h-4 w-4 text-amber-300" />
             <span>Generate New API Key</span>
@@ -381,7 +381,7 @@ func main() {
             </p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-sm"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Plus className="h-4 w-4 text-amber-300" />
               <span>Create First Key</span>
@@ -460,7 +460,7 @@ func main() {
                           <span>{apiKey.keyPrefix}</span>
                           <button
                             onClick={() => copyToClipboard(apiKey.keyPrefix.replace('...', ''), apiKey.id)}
-                            className="text-[#64748b] hover:text-[#0b192c] transition-colors ml-1 p-0.5"
+                            className="text-[#64748b] hover:text-[#0b192c] transition-colors ml-1 p-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Copy Key Prefix"
                           >
                             {copiedKeyId === apiKey.id ? (
@@ -521,7 +521,7 @@ func main() {
                       {!isRevoked && (
                         <button
                           onClick={() => setKeyToRotate(apiKey)}
-                          className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 hover:bg-amber-100 transition-colors flex items-center gap-1.5"
+                          className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800 hover:bg-amber-100 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           title="Rotate this API Key with zero downtime"
                         >
                           <RotateCw className="h-3.5 w-3.5 text-amber-600" />
@@ -532,7 +532,7 @@ func main() {
                       {!isRevoked ? (
                         <button
                           onClick={() => setKeyToRevoke(apiKey)}
-                          className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-100 transition-colors flex items-center gap-1.5"
+                          className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-100 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           title="Revoke this API Key immediately"
                         >
                           <ShieldAlert className="h-3.5 w-3.5 text-rose-600" />
@@ -541,7 +541,7 @@ func main() {
                       ) : (
                         <button
                           onClick={() => setKeyToDelete(apiKey)}
-                          className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors flex items-center gap-1.5"
+                          className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           title="Delete key record"
                         >
                           <Trash2 className="h-3.5 w-3.5 text-slate-500" />
@@ -594,7 +594,7 @@ func main() {
                   setCopiedCodeSnippet(true);
                   setTimeout(() => setCopiedCodeSnippet(false), 2000);
                 }}
-                className="flex items-center gap-1.5 rounded-lg border border-[#cbd5e1] bg-white px-3 py-1 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm ml-2"
+                className="flex items-center gap-1.5 rounded-lg border border-[#cbd5e1] bg-white px-3 py-1 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {copiedCodeSnippet ? (
                   <>
@@ -633,7 +633,7 @@ func main() {
               </div>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="text-[#94a3b8] hover:text-[#0b192c] p-1 rounded-lg transition-colors"
+                className="text-[#94a3b8] hover:text-[#0b192c] p-1 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -700,7 +700,7 @@ func main() {
                     return (
                       <label 
                         key={scope.id} 
-                        className="flex items-start gap-2.5 cursor-pointer hover:bg-white p-1.5 rounded-lg transition-colors"
+                        className="flex items-start gap-2.5 cursor-pointer hover:bg-white p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         <input
                           type="checkbox"
@@ -774,7 +774,7 @@ func main() {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9]"
+                  className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Cancel
                 </button>
@@ -782,7 +782,7 @@ func main() {
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-md disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-md disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {actionLoading ? (
                     <>
@@ -825,7 +825,7 @@ func main() {
                 <button
                   type="button"
                   onClick={() => setShowMaskedSecret(!showMaskedSecret)}
-                  className="text-amber-800 hover:text-amber-950 flex items-center gap-1 text-[11px]"
+                  className="text-amber-800 hover:text-amber-950 flex items-center gap-1 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {showMaskedSecret ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                   <span>{showMaskedSecret ? 'Hide' : 'Reveal'}</span>
@@ -838,7 +838,7 @@ func main() {
                 </div>
                 <button
                   onClick={() => copyToClipboard(revealedSecretKey)}
-                  className="flex items-center gap-1 rounded-lg bg-[#0b192c] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors shrink-0 shadow-sm"
+                  className="flex items-center gap-1 rounded-lg bg-[#0b192c] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors shrink-0 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {copiedSecret ? (
                     <>
@@ -869,7 +869,7 @@ func main() {
                   setShowSecretModal(false);
                   setRevealedSecretKey(null);
                 }}
-                className="rounded-xl bg-[#0b192c] px-6 py-2.5 text-xs font-bold text-white hover:bg-[#152238] shadow-md transition-colors"
+                className="rounded-xl bg-[#0b192c] px-6 py-2.5 text-xs font-bold text-white hover:bg-[#152238] shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 I have safely stored my key
               </button>
@@ -899,14 +899,14 @@ func main() {
             <div className="mt-5 flex items-center justify-end gap-3">
               <button
                 onClick={() => setKeyToRotate(null)}
-                className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9]"
+                className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Cancel
               </button>
               <button
                 onClick={handleRotateConfirm}
                 disabled={actionLoading}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-xs font-bold text-white hover:bg-amber-700 shadow-md"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-xs font-bold text-white hover:bg-amber-700 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {actionLoading ? <RotateCw className="h-4 w-4 animate-spin" /> : <RotateCw className="h-4 w-4" />}
                 <span>Confirm Rotation</span>
@@ -937,14 +937,14 @@ func main() {
             <div className="mt-5 flex items-center justify-end gap-3">
               <button
                 onClick={() => setKeyToRevoke(null)}
-                className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9]"
+                className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Cancel
               </button>
               <button
                 onClick={handleRevokeConfirm}
                 disabled={actionLoading}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-white hover:bg-rose-700 shadow-md"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-white hover:bg-rose-700 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {actionLoading ? <RotateCw className="h-4 w-4 animate-spin" /> : <ShieldAlert className="h-4 w-4" />}
                 <span>Revoke Key Now</span>
@@ -975,14 +975,14 @@ func main() {
             <div className="mt-5 flex items-center justify-end gap-3">
               <button
                 onClick={() => setKeyToDelete(null)}
-                className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9]"
+                className="rounded-xl border border-[#cbd5e1] px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteConfirm}
                 disabled={actionLoading}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800 px-4 py-2 text-xs font-bold text-white hover:bg-slate-900 shadow-md"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800 px-4 py-2 text-xs font-bold text-white hover:bg-slate-900 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {actionLoading ? <RotateCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
                 <span>Delete Record</span>

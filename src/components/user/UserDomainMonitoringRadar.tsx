@@ -121,7 +121,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
         <div className="mt-6">
           <Link
             to="/master-audit"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-6 py-2.5 text-xs font-bold text-white hover:bg-[#33475e] shadow-md transition-all"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-6 py-2.5 text-xs font-bold text-white hover:bg-[#33475e] shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Zap className="h-4 w-4" />
             <span>Launch First Master Audit</span>
@@ -150,7 +150,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
 
         <Link
           to="/master-audit"
-          className="flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2 text-xs font-bold text-white hover:bg-[#33475e] shadow-md transition-all shrink-0"
+          className="flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2 text-xs font-bold text-white hover:bg-[#33475e] shadow-md transition-all shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           <Play className="h-3.5 w-3.5" />
           <span>Audit New Target</span>
@@ -162,7 +162,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
         {domains.map((item) => (
           <div
             key={item.domain}
-            className="rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/50 hover:shadow-md flex flex-col justify-between"
+            className="rounded-2xl border border-[#415a77]/20 bg-white p-5 shadow-sm transition-all hover:border-[#415a77]/50 hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div>
               {/* Domain Card Header */}
@@ -172,7 +172,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                     {item.domain.substring(0, 2)}
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-sm font-bold text-[#0b192c] truncate hover:text-[#415a77]">
+                    <h4 className="text-sm font-bold text-[#0b192c] truncate hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <a href={item.url} target="_blank" rel="noreferrer" className="flex items-center gap-1">
                         <span>{item.domain}</span>
                         <ExternalLink className="h-3 w-3 opacity-40 shrink-0" />
@@ -232,7 +232,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
               <button
                 onClick={() => handleProbeDomain(item)}
                 disabled={probingDomain === item.domain}
-                className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <RefreshCw className={`h-3.5 w-3.5 ${probingDomain === item.domain ? 'animate-spin text-[#0b192c]' : ''}`} />
                 <span>{probingDomain === item.domain ? 'Pinging...' : 'Ping Radar'}</span>
@@ -240,7 +240,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
 
               <Link
                 to={`/master-audit?target=${encodeURIComponent(item.url)}`}
-                className="flex items-center gap-1 rounded-lg bg-[#415a77] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#33475e] transition-colors shadow-sm"
+                className="flex items-center gap-1 rounded-lg bg-[#415a77] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#33475e] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Re-Audit</span>
                 <ArrowUpRight className="h-3.5 w-3.5" />

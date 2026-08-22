@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import type { BlogPost } from '../types';
 import { getBlogPostBySlug, getBlogPosts } from '../lib/firebase';
+import { useAuth } from '../context/AuthContext';
 import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
+import { getBlogCoverImage } from '../utils/blogImageMap';
+import { getArticleReadingTime } from '../utils/readingTime';
 import { 
   Calendar, 
   Clock, 
@@ -17,13 +20,15 @@ import {
   FileText,
   Sparkles,
   Search,
-  CheckCircle2
+  CheckCircle2,
+  Edit3
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { user, isAdmin } = useAuth();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,7 +84,7 @@ export const BlogPostPage: React.FC = () => {
         </p>
         <Link
           to="/blogs"
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#0b192c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152238]"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#0b192c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to All Articles</span>
@@ -134,16 +139,25 @@ export const BlogPostPage: React.FC = () => {
                 <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-sm font-semibold text-sky-800">
                   {post.category || 'Architecture'}
                 </span>
-                <span className="text-sm text-[#64748b] flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  <span>{post.readTime || '5 min read'}</span>
+                <span className="text-sm text-[#64748b] flex items-center gap-1 font-medium">
+                  <Clock className="h-3 w-3 text-sky-600" />
+                  <span>{getArticleReadingTime(post)}</span>
                 </span>
               </div>
 
               {/* Title */}
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0b192c] tracking-tight leading-tight mb-4">
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0b192c] tracking-tight leading-tight mb-6">
                 {post.title}
               </h1>
+
+              {/* Hero / Cover Image Banner */}
+              <div className="mb-8 rounded-2xl overflow-hidden shadow-md border border-[#e2e8f0] aspect-[16/9] bg-slate-100">
+                <img alt="Visual asset" 
+                  src={getBlogCoverImage(post)} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                />
+              </div>
 
               {/* Author & Byline */}
               <div className="flex items-center justify-between border-y border-[#f1f5f9] py-3.5 mb-8">
@@ -159,24 +173,38 @@ export const BlogPostPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Share Link Button */}
-                <button
-                  onClick={handleShare}
-                  className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-sm font-semibold text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-all"
-                  title="Copy link to article"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-3.5 w-3.5 text-emerald-600" />
-                      <span className="text-emerald-600">Copied Link</span>
-                    </>
-                  ) : (
-                    <>
-                      <Share2 className="h-3.5 w-3.5" />
-                      <span>Share</span>
-                    </>
+                {/* Actions: Edit (if permitted) & Share */}
+                <div className="flex items-center gap-2">
+                  {user && (isAdmin || user.email === post.authorEmail) && (
+                    <Link
+                      to={`/blogs/edit/${post.id || post.slug}`}
+                      className="flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-50 px-3 py-1.5 text-sm font-semibold text-cyan-800 hover:bg-cyan-100 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      title="Edit this article in dedicated studio"
+                    >
+                      <Edit3 className="h-3.5 w-3.5" />
+                      <span>Edit Article</span>
+                    </Link>
                   )}
-                </button>
+
+                  {/* Share Link Button */}
+                  <button
+                    onClick={handleShare}
+                    className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-sm font-semibold text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    title="Copy link to article"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-emerald-600" />
+                        <span className="text-emerald-600">Copied Link</span>
+                      </>
+                    ) : (
+                      <>
+                        <Share2 className="h-3.5 w-3.5" />
+                        <span>Share</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
 
               {/* Excerpt Lead */}
@@ -249,12 +277,12 @@ export const BlogPostPage: React.FC = () => {
                         to={`/blog/${r.slug || r.id}`}
                         className="group block space-y-1"
                       >
-                        <h4 className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors line-clamp-2">
+                        <h4 className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           {r.title}
                         </h4>
                         <div className="text-sm text-[#64748b] flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          <span>{r.readTime || '5 min read'}</span>
+                          <Clock className="h-3 w-3 text-sky-600" />
+                          <span>{getArticleReadingTime(r)}</span>
                         </div>
                       </Link>
                     </div>
@@ -273,7 +301,7 @@ export const BlogPostPage: React.FC = () => {
               </p>
               <Link
                 to="/docs"
-                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#0b192c] hover:text-sky-700 transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#0b192c] hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Open Documentation</span>
                 <ArrowRight className="h-3.5 w-3.5" />

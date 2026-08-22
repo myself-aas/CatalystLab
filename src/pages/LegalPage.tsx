@@ -38,7 +38,7 @@ export const LegalPage: React.FC = () => {
           <p className="text-base text-[#f8fafc]">{content}</p>
           <p className="text-sm text-[#c5d3e8]">
             For questions or requests regarding data retention or legal compliance, please refer to our{' '}
-            <Link to="/contact" className="font-semibold text-[#c5d3e8] underline hover:text-white">Contact Support</Link> portal.
+            <Link to="/contact" className="font-semibold text-[#c5d3e8] underline hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Contact Support</Link> portal.
           </p>
         </div>
       </main>

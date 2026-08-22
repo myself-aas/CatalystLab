@@ -77,7 +77,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
     try {
       const engineKeys = Object.keys(ENGINES_MAP);
-      const responses = await Promise.all(
+      const settledResponses = await Promise.allSettled(
         engineKeys.map(async (engineKey) => {
           try {
             const res = await fetch('/api/run-engine', {
@@ -90,7 +90,7 @@ export const DomainReportArticlePage: React.FC = () => {
               engine: engineKey,
               output: data.output || (data.error ? `Error: ${data.error}` : 'No output')
             };
-          } catch (e: any) {
+          } catch (e: unknown) {
             return {
               engine: engineKey,
               output: `Diagnostic error: ${e.message}`
@@ -98,6 +98,7 @@ export const DomainReportArticlePage: React.FC = () => {
           }
         })
       );
+      const responses = settledResponses.map(r => r.status === 'fulfilled' ? r.value : { engine: 'unknown', output: 'Task rejected' });
 
       const aggregatedOutput = responses
         .map(r => `=== Engine: ${ENGINES_MAP[r.engine]?.name || r.engine} ===\n${r.output}\n`)
@@ -128,7 +129,7 @@ export const DomainReportArticlePage: React.FC = () => {
           console.error("Auto-saving generated report failed:", saveErr);
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Live audit execution failed:", err);
       setError(err.message || 'Failed to complete diagnostic scan for domain.');
     } finally {
@@ -175,7 +176,7 @@ export const DomainReportArticlePage: React.FC = () => {
         setReport(fallbackReport);
         setTelemetry(benchmark.telemetry);
         setLoading(false);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to load audit article:", err);
         const reconstructedDomain = slugToDisplayDomain(reportIdentifier);
         const benchmark = generateDomainBenchmarkTelemetry(reconstructedDomain);
@@ -250,14 +251,14 @@ export const DomainReportArticlePage: React.FC = () => {
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <button
               onClick={() => runLiveAuditForDomain(displayDomain)}
-              className="flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20"
+              className="flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <RotateCw className="h-4 w-4" />
               <span>Retry Diagnostic Audit</span>
             </button>
             <Link
               to="/reports"
-              className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-6 py-2.5 text-sm font-semibold text-slate-300 hover:bg-slate-700"
+              className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-6 py-2.5 text-sm font-semibold text-slate-300 hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Browse All Reports</span>
@@ -331,7 +332,7 @@ export const DomainReportArticlePage: React.FC = () => {
                     href={targetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-[#5882b7] hover:underline font-mono"
+                    className="flex items-center gap-1 text-[#5882b7] hover:underline font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <span>{displayDomain}</span>
                     <ExternalLink className="h-3 w-3" />
@@ -346,7 +347,7 @@ export const DomainReportArticlePage: React.FC = () => {
               <button
                 onClick={handleExportPdf}
                 disabled={isExportingPdf}
-                className="flex items-center gap-2 rounded-xl bg-[#5882b7] px-4 py-2.5 text-sm font-bold text-[#070e24] hover:bg-[#4872a7] shadow-lg shadow-[#5882b7]/25 transition-all disabled:opacity-50"
+                className="flex items-center gap-2 rounded-xl bg-[#5882b7] px-4 py-2.5 text-sm font-bold text-[#070e24] hover:bg-[#4872a7] shadow-lg shadow-[#5882b7]/25 transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Export PDF Benchmark Dossier"
               >
                 <Download className="h-3.5 w-3.5" />
@@ -356,7 +357,7 @@ export const DomainReportArticlePage: React.FC = () => {
               {/* Share Button */}
               <button
                 onClick={handleCopyLink}
-                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Copy Permalink URL"
               >
                 {copied ? <Check className="h-3.5 w-3.5 text-[#c8beba]" /> : <Share2 className="h-3.5 w-3.5 text-[#5882b7]" />}
@@ -367,7 +368,7 @@ export const DomainReportArticlePage: React.FC = () => {
               <button
                 onClick={() => runLiveAuditForDomain(displayDomain)}
                 disabled={isAuditingLive}
-                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3.5 py-2.5 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Re-run Diagnostic Telemetry"
               >
                 <RotateCw className={`h-3.5 w-3.5 text-[#a4b7cc] ${isAuditingLive ? 'animate-spin' : ''}`} />
@@ -645,7 +646,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
             <button
               onClick={() => setShowRawTerminal(!showRawTerminal)}
-              className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-700 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-sm font-semibold text-slate-200 hover:bg-slate-700 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Terminal className="h-3.5 w-3.5 text-cyan-400" />
               <span>{showRawTerminal ? 'Collapse Console' : 'Expand Raw Output'}</span>
@@ -682,7 +683,7 @@ export const DomainReportArticlePage: React.FC = () => {
             <button
               onClick={handleExportPdf}
               disabled={isExportingPdf}
-              className="flex items-center gap-1.5 rounded-xl bg-[#5882b7] px-4 py-2 text-sm font-bold text-[#070e24] hover:bg-[#4872a7] transition-all shadow-lg shadow-[#5882b7]/20"
+              className="flex items-center gap-1.5 rounded-xl bg-[#5882b7] px-4 py-2 text-sm font-bold text-[#070e24] hover:bg-[#4872a7] transition-all shadow-lg shadow-[#5882b7]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Download className="h-3.5 w-3.5" />
               <span>{isExportingPdf ? 'Exporting...' : 'Export PDF'}</span>
@@ -690,7 +691,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
             <button
               onClick={handleCopyLink}
-              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] hover:text-[#f8fafc]"
+              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-sm font-semibold text-[#f8fafc] hover:bg-[#10214a] hover:text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {copied ? <Check className="h-3.5 w-3.5 text-[#c8beba]" /> : <Share2 className="h-3.5 w-3.5 text-[#5882b7]" />}
               <span>{copied ? 'Copied' : 'Share'}</span>
@@ -698,7 +699,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
             <Link
               to="/reports"
-              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-sm font-semibold text-[#a4b7cc] hover:bg-[#10214a] hover:text-[#f8fafc] hidden sm:flex"
+              className="flex items-center gap-1 rounded-xl border border-[#5882b7]/30 bg-[#0b1736] px-3 py-2 text-sm font-semibold text-[#a4b7cc] hover:bg-[#10214a] hover:text-[#f8fafc] hidden sm:flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <span>Directory</span>
             </Link>

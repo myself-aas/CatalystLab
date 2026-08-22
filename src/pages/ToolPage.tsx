@@ -165,7 +165,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           console.error("Firestore auto-save error:", saveErr);
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setOutput(`[!] Error: Network communication failure (${err.message}).`);
     } finally {
       setLoading(false);
@@ -198,7 +198,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           <div className="flex items-center justify-between mb-6">
             <Link
               to="/"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back to Master Audit</span>
@@ -206,7 +206,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
             <Link
               to={`/docs#${meta.docsAnchor || 'overview'}`}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#38bdf8] hover:text-[#0b192c] transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#38bdf8] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <BookOpen className="h-4 w-4" />
               <span>Engine Documentation</span>
@@ -217,7 +217,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           <div className="flex flex-col items-center mb-4">
             {meta.image ? (
               <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 rounded-2xl overflow-hidden shadow-lg border border-[#e2e8f0]">
-                <img 
+                <img alt="Visual asset" 
                   src={meta.image} 
                   alt={meta.name}
                   className="w-full h-full object-cover"
@@ -296,13 +296,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleCopy}
-                  className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-white hover:bg-[#1f314d] transition-colors"
+                  className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-white hover:bg-[#1f314d] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {copiedLink ? 'Copied' : 'Copy Link'}
                 </button>
                 <Link
                   to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                  className="flex items-center gap-1 rounded-xl bg-[#415a77] px-3.5 py-2 text-sm font-bold text-white hover:bg-[#33475e] transition-colors shadow-md"
+                  className="flex items-center gap-1 rounded-xl bg-[#415a77] px-3.5 py-2 text-sm font-bold text-white hover:bg-[#33475e] transition-colors shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <FileText className="h-3.5 w-3.5" />
                   <span>Read Article Dossier</span>
@@ -373,7 +373,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
             </p>
             <button
               onClick={() => login()}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] border border-[#0b192c] px-4 py-2 text-sm font-bold text-white hover:bg-[#152238] transition-colors shadow-md"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] border border-[#0b192c] px-4 py-2 text-sm font-bold text-white hover:bg-[#152238] transition-colors shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Sign In with Google
             </button>

@@ -2,10 +2,15 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { 
   auth, 
   onAuthStateChanged, 
-  loginWithGoogle, 
+  loginWithGoogle as fbLoginWithGoogle,
+  loginWithGithub as fbLoginWithGithub,
+  loginWithEmail as fbLoginWithEmail,
+  signUpWithEmail as fbSignUpWithEmail,
+  sendPasswordReset as fbSendPasswordReset,
   logout as fbLogout, 
   type User,
-  type AuthErrorInfo 
+  type AuthErrorInfo,
+  formatAuthError
 } from '../lib/firebase';
 
 export const SUPERADMIN_EMAILS = [
@@ -33,6 +38,11 @@ interface AuthContextType {
   showDomainModal: boolean;
   setShowDomainModal: (open: boolean) => void;
   login: () => Promise<User | null>;
+  loginWithGoogle: () => Promise<User | null>;
+  loginWithGithub: () => Promise<User | null>;
+  loginWithEmail: (email: string, pass: string) => Promise<User | null>;
+  signUpWithEmail: (email: string, pass: string, name?: string) => Promise<User | null>;
+  sendPasswordReset: (email: string) => Promise<void>;
   loginWithLocalSession: (params?: LocalSessionParams) => void;
   logout: () => Promise<void>;
   clearAuthError: () => void;
@@ -49,6 +59,11 @@ const AuthContext = createContext<AuthContextType>({
   showDomainModal: false,
   setShowDomainModal: () => {},
   login: async () => null,
+  loginWithGoogle: async () => null,
+  loginWithGithub: async () => null,
+  loginWithEmail: async () => null,
+  signUpWithEmail: async () => null,
+  sendPasswordReset: async () => {},
   loginWithLocalSession: () => {},
   logout: async () => {},
   clearAuthError: () => {},
@@ -111,7 +126,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await checkUserClaims(currentUser);
         try {
           localStorage.removeItem(LOCAL_SESSION_KEY);
-        } catch {}
+        } catch (e) { console.error("Ignored error:", e); }
       } else {
         // Check for local preview session fallback
         const local = getStoredLocalSession();
@@ -144,38 +159,79 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const login = async (): Promise<User | null> => {
+  const handleAuthError = (error: unknown) => {
+    const errorInfo: AuthErrorInfo = formatAuthError(error);
+    setAuthError(errorInfo);
+    if (errorInfo.isUnauthorizedDomain) {
+      setShowDomainModal(true);
+    }
+    return errorInfo;
+  };
+
+  const loginWithGoogle = async (): Promise<User | null> => {
     setAuthError(null);
     try {
-      const loggedUser = await loginWithGoogle();
+      const loggedUser = await fbLoginWithGoogle();
       setUser(loggedUser);
       await checkUserClaims(loggedUser);
       return loggedUser;
-    } catch (error: any) {
-      const isUnauthorized = error?.isUnauthorizedDomain || 
-        error?.code === 'auth/unauthorized-domain' ||
-        (typeof error?.message === 'string' && error.message.includes('unauthorized-domain'));
-      
-      const isCancelled = error?.isUserCancelled || 
-        error?.code === 'auth/popup-closed-by-user' ||
-        error?.code === 'auth/cancelled-popup-request';
-
-      const errorInfo: AuthErrorInfo = {
-        code: error?.code || 'auth/error',
-        message: error?.message || 'Authentication failed',
-        domain: error?.domain || (typeof window !== 'undefined' ? window.location.hostname : ''),
-        isUnauthorizedDomain: Boolean(isUnauthorized),
-        isUserCancelled: Boolean(isCancelled)
-      };
-
-      setAuthError(errorInfo);
-
-      if (isUnauthorized) {
-        setShowDomainModal(true);
-      }
-
+    } catch (error: unknown) {
+      handleAuthError(error);
       return null;
     }
+  };
+
+  const loginWithGithub = async (): Promise<User | null> => {
+    setAuthError(null);
+    try {
+      const loggedUser = await fbLoginWithGithub();
+      setUser(loggedUser);
+      await checkUserClaims(loggedUser);
+      return loggedUser;
+    } catch (error: unknown) {
+      handleAuthError(error);
+      return null;
+    }
+  };
+
+  const loginWithEmail = async (email: string, pass: string): Promise<User | null> => {
+    setAuthError(null);
+    try {
+      const loggedUser = await fbLoginWithEmail(email, pass);
+      setUser(loggedUser);
+      await checkUserClaims(loggedUser);
+      return loggedUser;
+    } catch (error: unknown) {
+      handleAuthError(error);
+      return null;
+    }
+  };
+
+  const signUpWithEmail = async (email: string, pass: string, name?: string): Promise<User | null> => {
+    setAuthError(null);
+    try {
+      const loggedUser = await fbSignUpWithEmail(email, pass, name);
+      setUser(loggedUser);
+      await checkUserClaims(loggedUser);
+      return loggedUser;
+    } catch (error: unknown) {
+      handleAuthError(error);
+      return null;
+    }
+  };
+
+  const sendPasswordReset = async (email: string): Promise<void> => {
+    setAuthError(null);
+    try {
+      await fbSendPasswordReset(email);
+    } catch (error: unknown) {
+      handleAuthError(error);
+      throw error;
+    }
+  };
+
+  const login = async (): Promise<User | null> => {
+    return loginWithGoogle();
   };
 
   const loginWithLocalSession = (params?: LocalSessionParams) => {
@@ -214,7 +270,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     try {
       localStorage.removeItem(LOCAL_SESSION_KEY);
-    } catch {}
+    } catch (e) { console.error("Ignored error:", e); }
     
     try {
       await fbLogout();
@@ -246,6 +302,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       showDomainModal,
       setShowDomainModal,
       login, 
+      loginWithGoogle,
+      loginWithGithub,
+      loginWithEmail,
+      signUpWithEmail,
+      sendPasswordReset,
       loginWithLocalSession,
       logout,
       clearAuthError,

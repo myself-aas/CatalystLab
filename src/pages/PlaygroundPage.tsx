@@ -186,7 +186,7 @@ interface ExecutionHistoryItem {
   latencyMs: number;
   cost: number;
   payload: any;
-  response: any;
+  response: unknown;
 }
 
 export const PlaygroundPage: React.FC = () => {
@@ -399,7 +399,7 @@ export const PlaygroundPage: React.FC = () => {
       };
       setHistory(prev => [historyItem, ...prev.slice(0, 19)]);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       const elapsed = Math.round(performance.now() - startTime);
       setResponseTimeMs(elapsed);
       setResponseStatus(500);
@@ -513,7 +513,7 @@ func main() {
                   <h1 className="text-xl sm:text-2xl font-bold text-[#0b192c]">
                     Engine Test Playground
                   </h1>
-                  <span className="rounded-md bg-[#0b192c]/5 border border-[#0b192c]/10 px-2 py-0.5 text-sm font-mono font-bold text-[#0b192c]">
+                  <span className="rounded-md bg-slate-200 border-none px-2 py-0.5 text-sm font-mono font-bold text-slate-900">
                     {endpointPath}
                   </span>
                 </div>
@@ -527,7 +527,7 @@ func main() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Key className="h-4 w-4 text-amber-500" />
                 <span>API Keys & White-Label</span>
@@ -535,7 +535,7 @@ func main() {
               
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-3.5 py-2 text-sm font-semibold text-[#415a77] hover:bg-[#f8fafc] transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-3.5 py-2 text-sm font-semibold text-[#415a77] hover:bg-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <FileJson className="h-4 w-4 text-blue-600" />
                 <span>OpenAPI Docs</span>
@@ -761,9 +761,9 @@ func main() {
                         try {
                           const parsed = JSON.parse(rawJsonPayload);
                           setRawJsonPayload(JSON.stringify(parsed, null, 2));
-                        } catch {}
+                        } catch (e) { console.error("Ignored error:", e); }
                       }}
-                      className="text-blue-600 hover:underline text-sm"
+                      className="text-blue-600 hover:underline text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Prettify JSON
                     </button>
@@ -876,7 +876,7 @@ func main() {
                   </div>
                   <button
                     onClick={() => setHistory([])}
-                    className="text-sm text-[#94a3b8] hover:text-[#0b192c]"
+                    className="text-sm text-[#94a3b8] hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Clear
                   </button>
@@ -887,7 +887,7 @@ func main() {
                     <div
                       key={item.id}
                       onClick={() => handleLoadFromHistory(item)}
-                      className="flex items-center justify-between p-2 rounded-lg hover:bg-[#f8fafc] border border-transparent hover:border-[#e2e8f0] cursor-pointer transition-colors text-sm"
+                      className="flex items-center justify-between p-2 rounded-lg hover:bg-[#f8fafc] border border-transparent hover:border-[#e2e8f0] cursor-pointer transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <div className="flex items-center gap-2 overflow-hidden">
                         <span className={`text-xs font-mono font-bold px-1.5 py-0.5 rounded ${
@@ -1087,7 +1087,7 @@ func main() {
                               setCopiedResponse(true);
                               setTimeout(() => setCopiedResponse(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc]"
+                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           >
                             {copiedResponse ? (
                               <>
@@ -1126,7 +1126,7 @@ func main() {
                             <tbody className="divide-y divide-[#f1f5f9] font-mono">
                               {Object.entries(responseHeaders).length > 0 ? (
                                 Object.entries(responseHeaders).map(([key, val]) => (
-                                  <tr key={key} className="hover:bg-[#fafafa]">
+                                  <tr key={key} className="hover:bg-[#fafafa] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                                     <td className="px-4 py-2 text-[#0b192c] font-semibold">{key}</td>
                                     <td className="px-4 py-2 text-[#415a77] break-all">{val}</td>
                                   </tr>
@@ -1170,7 +1170,7 @@ func main() {
                               setCopiedSnippet(true);
                               setTimeout(() => setCopiedSnippet(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc]"
+                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           >
                             {copiedSnippet ? (
                               <>

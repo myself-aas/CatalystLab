@@ -153,7 +153,7 @@ export const Testimonials: React.FC = () => {
                 type="button"
                 onClick={() => scroll('left')}
                 aria-label="Scroll testimonials left"
-                className="p-2 rounded-xl bg-white hover:bg-[#f0f4fa] text-brand-navy border border-brand-periwinkle shadow-xs active:scale-95 cursor-pointer transition-all"
+                className="p-2 rounded-xl bg-white hover:bg-[#f0f4fa] text-brand-navy border border-brand-periwinkle shadow-xs active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -161,7 +161,7 @@ export const Testimonials: React.FC = () => {
                 type="button"
                 onClick={() => scroll('right')}
                 aria-label="Scroll testimonials right"
-                className="p-2 rounded-xl bg-white hover:bg-[#f0f4fa] text-brand-navy border border-brand-periwinkle shadow-xs active:scale-95 cursor-pointer transition-all"
+                className="p-2 rounded-xl bg-white hover:bg-[#f0f4fa] text-brand-navy border border-brand-periwinkle shadow-xs active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -184,7 +184,7 @@ export const Testimonials: React.FC = () => {
             {filteredTestimonials.map((t) => (
               <div
                 key={t.id}
-                className="w-[290px] sm:w-[340px] lg:w-[360px] shrink-0 snap-start bg-white border border-brand-periwinkle rounded-3xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                className="w-[290px] sm:w-[340px] lg:w-[360px] shrink-0 snap-start bg-white border border-brand-periwinkle rounded-3xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">

@@ -58,7 +58,7 @@ export const FinalCTA: React.FC = () => {
                   key={item.label}
                   type="button"
                   onClick={() => setUrl(item.url)}
-                  className="px-2.5 py-0.5 rounded-lg bg-brand-navy hover:bg-[#162a45] hover:text-[#38bdf8] border border-brand-slate/40 text-sm transition-colors cursor-pointer"
+                  className="px-2.5 py-0.5 rounded-lg bg-brand-navy hover:bg-[#162a45] hover:text-[#38bdf8] border border-brand-slate/40 text-sm transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {item.label}
                 </button>
