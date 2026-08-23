@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="relative z-20 border-t border-gray-200 bg-[#fafafa] text-gray-800">
+    <footer id="main-footer" className="relative z-20 border-t border-border bg-muted/30 text-foreground">
       {/* Main Multi-Column Footer Menu */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">

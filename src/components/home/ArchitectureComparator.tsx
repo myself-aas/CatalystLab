@@ -85,6 +85,7 @@ export const ArchitectureComparator: React.FC = () => {
         {/* Responsive Table View Comparison */}
         <LazyReveal direction="up" delay={0.1}>
           <div className="bg-white border border-zinc-200 rounded-3xl shadow-sm overflow-hidden">
+            <p className="sr-only">Swipe horizontally on smaller screens to view the full benchmark table.</p>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -129,7 +130,7 @@ export const ArchitectureComparator: React.FC = () => {
                         {/* Legacy */}
                         <td className="py-4 px-6 text-zinc-600">
                           <div className="flex items-start gap-3">
-                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-400">
+                            <span aria-hidden="true" className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700">
                               <X className="h-3 w-3" />
                             </span>
                             <span className="leading-relaxed">
@@ -139,7 +140,7 @@ export const ArchitectureComparator: React.FC = () => {
                         </td>
 
                         {/* CatalystLab Pipeline */}
-                        <td className="py-4 px-6 text-zinc-950 font-medium">
+                        <td className="py-4 px-6 text-emerald-800 font-medium">
                           <div className="flex items-start gap-3">
                             <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
                               <Check className="h-3 w-3" />

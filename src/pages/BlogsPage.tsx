@@ -275,11 +275,14 @@ export const BlogsPage: React.FC = () => {
                 className="w-full rounded-xl border border-gray-200 bg-white pl-9 pr-7 py-1.5 text-xs text-black placeholder:text-gray-500 focus:border-gray-200 focus:outline-none transition-colors font-mono"
               />
               {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-500 hover:text-white"
-                >
-                  ✕
+                  <button 
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    aria-label="Clear search"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-xs text-gray-500 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                  >
+                    <X className="h-3.5 w-3.5" aria-hidden="true" />
+
                 </button>
               )}
             </div>
@@ -304,8 +307,10 @@ export const BlogsPage: React.FC = () => {
             return (
               <button
                 key={topic}
+                type="button"
                 onClick={() => setSelectedTopic(topic)}
-                className={`shrink-0 rounded-lg px-3 py-1 text-xs font-semibold transition-all cursor-pointer font-mono ${
+                aria-pressed={isActive}
+                className={`min-h-10 shrink-0 rounded-lg px-3 py-1 text-xs font-semibold transition-all cursor-pointer font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate ${
                   isActive
                     ? 'bg-black text-white border border-brand-periwinkle/30 shadow-sm'
                     : 'bg-white border border-gray-200 text-gray-600 hover:text-white'
@@ -520,7 +525,7 @@ export const BlogsPage: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-black/40 to-transparent p-3.5 flex flex-col justify-end">
                   <span className="text-[10px] font-bold text-accent-cyan uppercase tracking-wider mb-0.5">Telemetry Spotlight</span>
-                  <h4 className="text-xs font-bold text-black group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
+                  <h4 className="text-xs font-bold text-white group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
                     Optimizing DOM Depth &amp; Eliminating Hydration Freezes
                   </h4>
                 </div>
@@ -539,7 +544,7 @@ export const BlogsPage: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-black/40 to-transparent p-3.5 flex flex-col justify-end">
                   <span className="text-[10px] font-bold text-accent-cyan uppercase tracking-wider mb-0.5">Edge Latency</span>
-                  <h4 className="text-xs font-bold text-black group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
+                  <h4 className="text-xs font-bold text-white group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
                     Sub-20ms Anycast Routing &amp; Worker Invalidation
                   </h4>
                 </div>
