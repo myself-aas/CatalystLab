@@ -29,8 +29,9 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
         type="button"
         onClick={() => setDropdownOpen(!dropdownOpen)}
         className="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-950 dark:hover:text-white transition-all active:scale-95 shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 dark:focus-visible:ring-zinc-100"
-        aria-label="Toggle theme"
+        aria-label={`Theme: ${theme}. Choose display theme`}
         aria-expanded={dropdownOpen}
+        aria-haspopup="menu"
         title={`Current theme: ${theme} (${resolvedTheme})`}
       >
         {resolvedTheme === 'dark' ? (
@@ -41,8 +42,8 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
       </button>
 
       {dropdownOpen && (
-        <div className="absolute right-0 mt-2 w-36 origin-top-right rounded-2xl border border-zinc-200/90 dark:border-zinc-800/90 bg-white/95 dark:bg-zinc-900/95 p-1.5 shadow-[0_10px_38px_rgba(0,0,0,0.12)] backdrop-blur-xl z-50 animate-in fade-in zoom-in-95 duration-100">
-          <div className="space-y-0.5">
+        <div role="menu" aria-label="Theme options" className="absolute right-0 mt-2 w-40 origin-top-right rounded-2xl border border-zinc-200/90 dark:border-zinc-800/90 bg-white/95 dark:bg-zinc-900/95 p-1.5 shadow-[0_10px_38px_rgba(0,0,0,0.12)] backdrop-blur-xl z-50 animate-in fade-in zoom-in-95 duration-100">
+          <div className="flex flex-col gap-0.5">
             {options.map((opt) => (
               <button
                 key={opt.value}

@@ -112,7 +112,8 @@ export const HeroSection: React.FC = () => {
                       key={domain}
                       type="button"
                       onClick={() => selectQuickSample(domain)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100/80 hover:bg-zinc-200/80 text-zinc-700 hover:text-zinc-950 border border-zinc-200/60 font-mono text-xs transition-all duration-150 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
+                      aria-label={`Use ${domain} as the audit target`}
+                      className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-zinc-200/60 bg-zinc-100/80 px-3 text-xs font-mono text-zinc-700 transition-all duration-150 hover:bg-zinc-200/80 hover:text-zinc-950 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
                       <span>{domain}</span>
@@ -217,7 +218,7 @@ export const HeroSection: React.FC = () => {
                     <div className="bg-zinc-950/90 backdrop-blur-md p-4 rounded-2xl border border-zinc-900 font-mono text-[10px] sm:text-[11px] space-y-2 h-[100px] overflow-hidden flex flex-col justify-end shadow-inner">
                       {simulationLog.map((log, idx) => (
                         <div key={idx} className="text-zinc-300 truncate flex items-center gap-2 opacity-90">
-                          <span className="text-zinc-600 shrink-0">❯</span>
+                          <span aria-hidden="true" className="text-zinc-600 shrink-0">&gt;</span>
                           <span className="truncate">{log}</span>
                         </div>
                       ))}

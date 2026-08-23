@@ -91,7 +91,8 @@ export const EngineExplorer: React.FC = () => {
               type="button"
               onClick={() => scroll('left')}
               aria-label="Scroll engines left"
-              className="p-2.5 rounded-full bg-white hover:bg-zinc-50 text-zinc-600 border border-zinc-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+              disabled={activeEngineIndex === 0}
+              className="min-h-11 min-w-11 rounded-full bg-white text-zinc-600 border border-zinc-200 shadow-sm transition-colors hover:bg-zinc-50 active:scale-95 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -102,7 +103,8 @@ export const EngineExplorer: React.FC = () => {
               type="button"
               onClick={() => scroll('right')}
               aria-label="Scroll engines right"
-              className="p-2.5 rounded-full bg-white hover:bg-zinc-50 text-zinc-600 border border-zinc-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+              disabled={activeEngineIndex === 0}
+              className="min-h-11 min-w-11 rounded-full bg-white text-zinc-600 border border-zinc-200 shadow-sm transition-colors hover:bg-zinc-50 active:scale-95 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -126,10 +128,12 @@ export const EngineExplorer: React.FC = () => {
               const IconComp = getEngineIcon(engine.id);
 
               return (
-                <div
+                <button
+                  type="button"
                   key={engine.id}
                   onClick={() => selectEngine(engine, idx)}
-                  className={`w-[280px] sm:w-[310px] shrink-0 snap-start p-4.5 rounded-2xl border transition-all duration-150 cursor-pointer flex flex-col justify-between ${
+                  aria-pressed={isSelected}
+                  className={`w-[280px] sm:w-[310px] shrink-0 snap-start p-4.5 rounded-2xl border text-left transition-all duration-150 cursor-pointer flex flex-col justify-between ${
                     isSelected
                       ? 'bg-zinc-50 border-zinc-950 shadow-md ring-1 ring-zinc-950/20'
                       : 'bg-white border-zinc-200 hover:border-zinc-300'
@@ -151,7 +155,7 @@ export const EngineExplorer: React.FC = () => {
                   <div className="mt-4 text-xs text-zinc-500 font-mono">
                     {engine.keyVectors?.length || 0} Telemetry Vectors
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>

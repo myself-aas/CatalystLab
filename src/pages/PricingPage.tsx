@@ -226,8 +226,10 @@ export const PricingPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setAnnual(!annual)}
-                className="relative h-7 w-14 rounded-full bg-white p-1 transition-colors border border-gray-200 focus:outline-none focus:ring-2 focus:ring-accent-cyan/40 cursor-pointer"
-                aria-label="Toggle annual billing"
+                role="switch"
+                aria-checked={annual}
+                className="relative h-7 w-14 rounded-full bg-white p-1 transition-colors border border-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan/60 cursor-pointer"
+                aria-label={`Billing cycle: ${annual ? 'annual' : 'monthly'}. Toggle to switch`}
               >
                 <div
                   className={`h-5 w-5 rounded-full transition-transform shadow-md ${
@@ -308,7 +310,7 @@ export const PricingPage: React.FC = () => {
 
                     <div>
                       <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-black text-black tracking-tight">{plan.name}</h3>
+                        <h3 className="text-lg font-black text-white tracking-tight">{plan.name}</h3>
                       </div>
                       <p className="mt-1.5 text-xs text-gray-600 leading-relaxed min-h-[36px]">{plan.tagline}</p>
 

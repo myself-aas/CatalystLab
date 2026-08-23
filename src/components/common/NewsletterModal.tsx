@@ -12,13 +12,13 @@ export const NewsletterModal: React.FC = () => {
   const [hasDismissed, setHasDismissed] = useState(false);
 
   useEffect(() => {
-    // Show modal after 5 seconds if not dismissed
+    // Give visitors time to orient themselves before showing a non-critical prompt.
     const timer = setTimeout(() => {
       const dismissed = localStorage.getItem('catalystlab_newsletter_dismissed');
       if (!dismissed) {
         setIsOpen(true);
       }
-    }, 5000);
+    }, 15000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -71,6 +71,9 @@ export const NewsletterModal: React.FC = () => {
 
           {/* Modal Content */}
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="newsletter-modal-title"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -94,7 +97,8 @@ export const NewsletterModal: React.FC = () => {
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
                     <CheckCircle2 className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-white tracking-tight">You're on the list!</h3>
+                  <h3 className="text-xl font-bold text-white tracking-tight">                      You&apos;re on the list!
+</h3>
                   <p className="text-gray-500 text-sm">
                     Keep an eye on your inbox for the latest performance insights and updates.
                   </p>
@@ -106,7 +110,7 @@ export const NewsletterModal: React.FC = () => {
                     <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-gradient-to-r from-brand-periwinkle via-brand-slate to-brand-periwinkle-light text-primary mb-4">
                       <Sparkles className="h-6 w-6" />
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-black text-primary tracking-tight mb-2">
+                    <h3 id="newsletter-modal-title" className="text-xl sm:text-2xl font-black text-primary tracking-tight mb-2">
                       Join the CatalystLab Newsletter
                     </h3>
                     <p className="text-sm text-muted leading-relaxed">
