@@ -3,6 +3,10 @@ import * as cheerio from 'cheerio';
 import { URL } from 'url';
 import { getEmailSecurityProfile, getSslCertificateInfo, enumerateSubdomains } from './securityAudit';
 
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
 export interface DiagnosticResult {
   success: boolean;
   engine: string;
@@ -185,7 +189,7 @@ async function runHealthEngine(url: string): Promise<string> {
       logs.push(`=> [FAIL] STATUS: CRITICAL BOTTLENECKS DETECTED`);
     }
   } catch (err: unknown) {
-    logs.push(`  [!] CRITICAL: Failed to complete health scan: ${err.message}`);
+    logs.push(`  [!] CRITICAL: Failed to complete health scan: ${getErrorMessage(err)}`);
   }
 
   const finalScore = Math.max(20, Math.min(99, score));
@@ -305,7 +309,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
       score -= 15;
     }
   } catch (err: unknown) {
-    logs.push(`  [!] CRITICAL: Failed to parse DOM for semantic analysis. ${err.message}`);
+    logs.push(`  [!] CRITICAL: Failed to parse DOM for semantic analysis. ${getErrorMessage(err)}`);
     score -= 30;
   }
 
@@ -408,7 +412,7 @@ async function runEcoEngine(url: string): Promise<string> {
 
     logs.push(`\n=> [RATING] CATALYST ECO-RATING: [${rating}] - ${color}`);
   } catch (err: unknown) {
-    logs.push(`  [!] Error calculating eco footprint: ${err.message}`);
+    logs.push(`  [!] Error calculating eco footprint: ${getErrorMessage(err)}`);
   }
 
   const score = Math.max(30, Math.min(98, Math.round(100 - avgCarbonPerView * 35)));
@@ -565,7 +569,7 @@ async function runComplianceEngine(url: string): Promise<string> {
       logs.push(`=> [FAIL] STATUS: HIGH LIABILITY. Critical remediation required for compliance & email security.`);
     }
   } catch (err: unknown) {
-    logs.push(`  [!] Failed to complete compliance audit: ${err.message}`);
+    logs.push(`  [!] Failed to complete compliance audit: ${getErrorMessage(err)}`);
   }
 
   const score = Math.max(30, Math.min(99, 100 - riskCount * 10));
@@ -655,7 +659,7 @@ async function runLatencyEngine(url: string): Promise<string> {
       logs.push(`=> [WARN] CDN PERFORMANCE: REGIONAL ORIGIN (Consider Global Edge Caching)`);
     }
   } catch (err: unknown) {
-    logs.push(`  [!] Latency probe failed: ${err.message}`);
+    logs.push(`  [!] Latency probe failed: ${getErrorMessage(err)}`);
   }
 
   const score = Math.max(40, Math.min(99, Math.round(100 - avgLatency * 0.25)));
@@ -725,7 +729,7 @@ async function runRepoEngine(repoUrl: string): Promise<string> {
       logs.push(`  [*] Standard hygiene profile applied.`);
     }
   } catch (err: unknown) {
-    logs.push(`  [!] Error parsing repository: ${err.message}`);
+    logs.push(`  [!] Error parsing repository: ${getErrorMessage(err)}`);
   }
 
   // 4. Passive DNS Subdomain Enumeration & Infrastructure Footprint Growth
@@ -816,7 +820,7 @@ async function runMigrationEngine(url: string): Promise<string> {
     logs.push(`\n=> [PORTABILITY] MIGRATION COMPLEXITY INDEX: LOW-MODERATE`);
     logs.push(`=> [PASS] COMPATIBILITY: 100% Vercel, Cloud Run & Edge CDN Ready`);
   } catch (err: unknown) {
-    logs.push(`  [!] Migration analysis error: ${err.message}`);
+    logs.push(`  [!] Migration analysis error: ${getErrorMessage(err)}`);
   }
 
   const telemetryMetrics = {
@@ -903,7 +907,7 @@ async function runLlmoEngine(url: string): Promise<string> {
       logs.push(`=> [WARN] OPTIMIZATION: MODERATE (Add JSON-LD schema to maximize AI citations)`);
     }
   } catch (err: unknown) {
-    logs.push(`  [!] LLMO audit error: ${err.message}`);
+    logs.push(`  [!] LLMO audit error: ${getErrorMessage(err)}`);
   }
 
   const finalScore = Math.max(30, Math.min(99, score));
