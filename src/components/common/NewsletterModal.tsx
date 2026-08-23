@@ -12,13 +12,13 @@ export const NewsletterModal: React.FC = () => {
   const [hasDismissed, setHasDismissed] = useState(false);
 
   useEffect(() => {
-    // Give visitors time to orient themselves before showing a non-critical prompt.
+    // Give visitors ample time (45s) to explore before showing a discreet prompt.
     const timer = setTimeout(() => {
       const dismissed = localStorage.getItem('catalystlab_newsletter_dismissed');
       if (!dismissed) {
         setIsOpen(true);
       }
-    }, 15000);
+    }, 45000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -59,33 +59,25 @@ export const NewsletterModal: React.FC = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleClose}
-            className="absolute inset-0 bg-white/80 backdrop-blur-sm"
-          />
-
-          {/* Modal Content */}
+        <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full p-4 sm:p-0 pointer-events-auto">
+          {/* Floating Card Content */}
           <motion.div
             role="dialog"
             aria-modal="true"
             aria-labelledby="newsletter-modal-title"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md bg-surface-muted border border-gray-200 rounded-3xl shadow-2xl shadow-black/50 overflow-hidden"
+            className="relative w-full bg-white border border-gray-200 rounded-3xl shadow-2xl shadow-black/15 overflow-hidden"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-2 text-brand-slate hover:text-white bg-white/50 hover:bg-white rounded-full transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="absolute top-4 right-4 p-2 text-gray-500 hover:text-black bg-gray-100 hover:bg-gray-200 rounded-full transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
+              aria-label="Close"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
 
             {/* Header Accent */}

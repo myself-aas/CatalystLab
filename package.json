@@ -4,10 +4,9 @@
   "version": "2.4.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "server": "tsx server.ts",
+    "dev": "tsx server.ts",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "start": "node dist/server.cjs",
     "test": "vitest run",
     "lint": "eslint ."
   },
@@ -56,6 +55,7 @@
     "@eslint/js": "^9.20.0",
     "@types/geoip-lite": "^1.4.4",
     "@types/ua-parser-js": "^0.7.39",
+    "esbuild": "^0.28.2",
     "eslint": "^9.20.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",

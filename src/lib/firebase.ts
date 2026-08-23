@@ -58,7 +58,7 @@ try {
 
 
 export const db = firestoreInstance;
-setLogLevel('error'); // Suppress noisy offline/unavailable SDK warnings
+setLogLevel('silent'); // Suppress noisy offline/unavailable SDK warnings
 
 async function testConnection() {
   try {

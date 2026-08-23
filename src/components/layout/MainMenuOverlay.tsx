@@ -85,17 +85,17 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
   return (
     <div 
       id="main-menu-overlay" 
-      className="mobile-nav-menu fixed inset-0 z-[99999] flex flex-col bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-[#f9a825] selection:text-black overflow-y-auto"
+      className="mobile-nav-menu fixed inset-0 z-[99999] flex flex-col bg-white text-zinc-900 selection:bg-primary selection:text-foreground overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-label="Main Navigation Menu"
     >
       {/* Top Header Bar inside Overlay */}
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-8 shrink-0 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md z-[100000]">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-8 shrink-0 border-b border-zinc-200 sticky top-0 bg-white/95 backdrop-blur-md z-[100000]">
         <Link 
           to="/" 
           onClick={onClose}
-          className="transition-opacity hover:opacity-90"
+          className="transition-opacity hover:opacity-90 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           aria-label="CatalystLab Home"
         >
           <BrandLogo size="md" />
@@ -104,13 +104,13 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
         <div className="flex items-center gap-3">
           <ThemeToggle />
 
-          <span className="hidden sm:inline-block text-xs text-zinc-400 dark:text-zinc-500 font-mono">
-            PRESS <kbd className="rounded border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 text-zinc-800 dark:text-zinc-200 font-bold">ESC</kbd> TO CLOSE
+          <span className="hidden sm:inline-block text-xs text-zinc-500 font-mono">
+            PRESS <kbd className="rounded border border-zinc-300 bg-zinc-100 px-1.5 py-0.5 text-zinc-800 font-bold">ESC</kbd> TO CLOSE
           </span>
 
           <button
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer shadow-xs"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-800 transition-colors hover:bg-zinc-200 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />
@@ -119,19 +119,19 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
       </div>
 
       {/* Center Main Navigation Body */}
-      <div className="mx-auto flex w-full max-w-7xl flex-col px-6 py-8 sm:px-12 lg:px-16 my-auto z-[99999]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      <div className="mx-auto flex w-full max-w-7xl flex-col px-6 py-12 sm:px-12 lg:px-16 z-[99999]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           
           {/* Primary Structured Navigation Menu */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <nav className="mobile-nav-links flex flex-col space-y-4 text-black" aria-label="Main Menu">
+            <nav className="mobile-nav-links flex flex-col space-y-5 text-black" aria-label="Main Menu">
               
               {/* 1. Home */}
               <div>
                 <Link
                   to="/"
                   onClick={onClose}
-                  className="group relative flex items-center transition-colors py-1"
+                  className="group relative flex items-center transition-colors py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <div 
                     className={`flex items-center transition-all duration-150 ${
@@ -140,15 +140,15 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                     }`}
                   >
-                    <span className="text-[#f9a825] font-bold text-xl select-none">
+                    <span className="text-primary font-black text-2xl select-none">
                       →
                     </span>
                   </div>
                   <span 
-                    className={`text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight transition-colors ${
+                    className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight transition-colors ${
                       isCurrentActive('/') 
-                        ? 'text-black font-black' 
-                        : 'text-gray-700 hover:text-black'
+                        ? 'text-black' 
+                        : 'text-zinc-700 hover:text-black'
                     }`}
                   >
                     Home
@@ -157,7 +157,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
               </div>
 
               {/* 2. Services */}
-              <div className="flex flex-col space-y-1.5">
+              <div className="flex flex-col space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div 
@@ -167,77 +167,77 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                           : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                       }`}
                     >
-                      <span className="text-[#f9a825] font-bold text-xl select-none">
+                      <span className="text-primary font-black text-2xl select-none">
                         →
                       </span>
                     </div>
-                    <span className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-black">
                       Services
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setExpandedServices(!expandedServices)}
-                    className="p-1 rounded-lg text-gray-500 hover:text-black hover:bg-gray-100 transition-colors cursor-pointer"
+                    className="p-2.5 rounded-xl text-zinc-600 hover:text-black hover:bg-zinc-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
                     aria-label="Toggle Services sub-menu"
                   >
-                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedServices ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`h-6 w-6 transition-transform duration-200 ${expandedServices ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
 
                 {expandedServices && (
-                  <div className="flex flex-col space-y-1.5 pt-1 pl-6">
+                  <div className="flex flex-col space-y-2.5 pt-2 pl-6 border-l-2 border-zinc-200 ml-2">
                     <Link
                       to="/pricing"
                       onClick={onClose}
-                      className="group relative flex items-center transition-colors py-0.5"
+                      className="group relative flex items-center transition-colors py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                       <div 
                         className={`flex items-center transition-all duration-150 ${
                           isCurrentActive('/pricing') 
-                            ? 'opacity-100 translate-x-0 w-5 mr-1.5' 
+                            ? 'opacity-100 translate-x-0 w-5 mr-2' 
                             : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                         }`}
                       >
-                        <span className="text-[#f9a825] font-bold text-sm select-none">
+                        <span className="text-primary font-bold text-lg select-none">
                           →
                         </span>
                       </div>
                       <span 
-                        className={`text-lg sm:text-xl font-bold font-mono tracking-tight transition-colors ${
+                        className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/pricing') 
-                            ? 'text-black' 
-                            : 'text-gray-600 hover:text-black'
+                            ? 'text-black font-extrabold' 
+                            : 'text-zinc-700 hover:text-black'
                         }`}
                       >
-                        Pricing
+                        Pricing Plans
                       </span>
                     </Link>
 
                     <Link
                       to="/products"
                       onClick={onClose}
-                      className="group relative flex items-center transition-colors py-0.5"
+                      className="group relative flex items-center transition-colors py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                       <div 
                         className={`flex items-center transition-all duration-150 ${
                           isCurrentActive('/products') || isCurrentActive('/plugins')
-                            ? 'opacity-100 translate-x-0 w-5 mr-1.5' 
+                            ? 'opacity-100 translate-x-0 w-5 mr-2' 
                             : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                         }`}
                       >
-                        <span className="text-[#f9a825] font-bold text-sm select-none">
+                        <span className="text-primary font-bold text-lg select-none">
                           →
                         </span>
                       </div>
                       <span 
-                        className={`text-lg sm:text-xl font-bold font-mono tracking-tight transition-colors ${
+                        className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/products') || isCurrentActive('/plugins')
-                            ? 'text-black' 
-                            : 'text-gray-600 hover:text-black'
+                            ? 'text-black font-extrabold' 
+                            : 'text-zinc-700 hover:text-black'
                         }`}
                       >
-                        Products
+                        Products & Plugins
                       </span>
                     </Link>
                   </div>
@@ -245,7 +245,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
               </div>
 
               {/* 3. Resources */}
-              <div className="flex flex-col space-y-1.5">
+              <div className="flex flex-col space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div 
@@ -255,74 +255,74 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                           : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                       }`}
                     >
-                      <span className="text-[#f9a825] font-bold text-xl select-none">
+                      <span className="text-primary font-black text-2xl select-none">
                         →
                       </span>
                     </div>
-                    <span className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-black">
                       Resources
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setExpandedResources(!expandedResources)}
-                    className="p-1 rounded-lg text-gray-500 hover:text-black hover:bg-gray-100 transition-colors cursor-pointer"
+                    className="p-2.5 rounded-xl text-zinc-600 hover:text-black hover:bg-zinc-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
                     aria-label="Toggle Resources sub-menu"
                   >
-                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedResources ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`h-6 w-6 transition-transform duration-200 ${expandedResources ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
 
                 {expandedResources && (
-                  <div className="flex flex-col space-y-1.5 pt-1 pl-6">
+                  <div className="flex flex-col space-y-2.5 pt-2 pl-6 border-l-2 border-zinc-200 ml-2">
                     <Link
                       to="/docs"
                       onClick={onClose}
-                      className="group relative flex items-center transition-colors py-0.5"
+                      className="group relative flex items-center transition-colors py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                       <div 
                         className={`flex items-center transition-all duration-150 ${
                           isCurrentActive('/docs') 
-                            ? 'opacity-100 translate-x-0 w-5 mr-1.5' 
+                            ? 'opacity-100 translate-x-0 w-5 mr-2' 
                             : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                         }`}
                       >
-                        <span className="text-[#f9a825] font-bold text-sm select-none">
+                        <span className="text-primary font-bold text-lg select-none">
                           →
                         </span>
                       </div>
                       <span 
-                        className={`text-lg sm:text-xl font-bold font-mono tracking-tight transition-colors ${
+                        className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/docs') 
-                            ? 'text-black' 
-                            : 'text-gray-600 hover:text-black'
+                            ? 'text-black font-extrabold' 
+                            : 'text-zinc-700 hover:text-black'
                         }`}
                       >
-                        Docs
+                        Documentation
                       </span>
                     </Link>
 
                     <Link
                       to="/api-reference"
                       onClick={onClose}
-                      className="group relative flex items-center transition-colors py-0.5"
+                      className="group relative flex items-center transition-colors py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                       <div 
                         className={`flex items-center transition-all duration-150 ${
                           isCurrentActive('/api-reference') || isCurrentActive('/api-docs')
-                            ? 'opacity-100 translate-x-0 w-5 mr-1.5' 
+                            ? 'opacity-100 translate-x-0 w-5 mr-2' 
                             : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                         }`}
                       >
-                        <span className="text-[#f9a825] font-bold text-sm select-none">
+                        <span className="text-primary font-bold text-lg select-none">
                           →
                         </span>
                       </div>
                       <span 
-                        className={`text-lg sm:text-xl font-bold font-mono tracking-tight transition-colors ${
+                        className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/api-reference') || isCurrentActive('/api-docs')
-                            ? 'text-black' 
-                            : 'text-gray-600 hover:text-black'
+                            ? 'text-black font-extrabold' 
+                            : 'text-zinc-700 hover:text-black'
                         }`}
                       >
                         API Reference
@@ -332,54 +332,54 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                     <Link
                       to="/playground"
                       onClick={onClose}
-                      className="group relative flex items-center transition-colors py-0.5"
+                      className="group relative flex items-center transition-colors py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                       <div 
                         className={`flex items-center transition-all duration-150 ${
                           isCurrentActive('/playground') 
-                            ? 'opacity-100 translate-x-0 w-5 mr-1.5' 
+                            ? 'opacity-100 translate-x-0 w-5 mr-2' 
                             : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                         }`}
                       >
-                        <span className="text-[#f9a825] font-bold text-sm select-none">
+                        <span className="text-primary font-bold text-lg select-none">
                           →
                         </span>
                       </div>
                       <span 
-                        className={`text-lg sm:text-xl font-bold font-mono tracking-tight transition-colors ${
+                        className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/playground') 
-                            ? 'text-black' 
-                            : 'text-gray-600 hover:text-black'
+                            ? 'text-black font-extrabold' 
+                            : 'text-zinc-700 hover:text-black'
                         }`}
                       >
-                        Playground
+                        Interactive Playground
                       </span>
                     </Link>
 
                     <Link
                       to="/blogs"
                       onClick={onClose}
-                      className="group relative flex items-center transition-colors py-0.5"
+                      className="group relative flex items-center transition-colors py-1.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
                       <div 
                         className={`flex items-center transition-all duration-150 ${
                           isCurrentActive('/blogs') 
-                            ? 'opacity-100 translate-x-0 w-5 mr-1.5' 
+                            ? 'opacity-100 translate-x-0 w-5 mr-2' 
                             : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                         }`}
                       >
-                        <span className="text-[#f9a825] font-bold text-sm select-none">
+                        <span className="text-primary font-bold text-lg select-none">
                           →
                         </span>
                       </div>
                       <span 
-                        className={`text-lg sm:text-xl font-bold font-mono tracking-tight transition-colors ${
+                        className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/blogs') 
-                            ? 'text-black' 
-                            : 'text-gray-600 hover:text-black'
+                            ? 'text-black font-extrabold' 
+                            : 'text-zinc-700 hover:text-black'
                         }`}
                       >
-                        Blogs
+                        Engineering Blogs
                       </span>
                     </Link>
                   </div>
@@ -391,7 +391,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/about"
                   onClick={onClose}
-                  className="group relative flex items-center transition-colors py-1"
+                  className="group relative flex items-center transition-colors py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <div 
                     className={`flex items-center transition-all duration-150 ${
@@ -400,15 +400,15 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                     }`}
                   >
-                    <span className="text-[#f9a825] font-bold text-xl select-none">
+                    <span className="text-primary font-black text-2xl select-none">
                       →
                     </span>
                   </div>
                   <span 
-                    className={`text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight transition-colors ${
+                    className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight transition-colors ${
                       isCurrentActive('/about') 
-                        ? 'text-black font-black' 
-                        : 'text-gray-700 hover:text-black'
+                        ? 'text-black' 
+                        : 'text-zinc-700 hover:text-black'
                     }`}
                   >
                     About Us
@@ -421,7 +421,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/contact"
                   onClick={onClose}
-                  className="group relative flex items-center transition-colors py-1"
+                  className="group relative flex items-center transition-colors py-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
                   <div 
                     className={`flex items-center transition-all duration-150 ${
@@ -430,15 +430,15 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         : 'opacity-0 -translate-x-2 w-0 mr-0 overflow-hidden'
                     }`}
                   >
-                    <span className="text-[#f9a825] font-bold text-xl select-none">
+                    <span className="text-primary font-black text-2xl select-none">
                       →
                     </span>
                   </div>
                   <span 
-                    className={`text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight transition-colors ${
+                    className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight transition-colors ${
                       isCurrentActive('/contact') 
-                        ? 'text-black font-black' 
-                        : 'text-gray-700 hover:text-black'
+                        ? 'text-black' 
+                        : 'text-zinc-700 hover:text-black'
                     }`}
                   >
                     Contact
@@ -450,19 +450,19 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           </div>
 
           {/* Secondary Telemetry & Engine Hub Card */}
-          <div className="lg:col-span-5 flex flex-col space-y-4 rounded-xl border border-gray-200 bg-[#fafafa] p-5 sm:p-6 shadow-md font-mono">
+          <div className="lg:col-span-5 flex flex-col space-y-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-5 sm:p-6 shadow-md font-mono">
             
             {/* Quick Diagnostic Engines Grid */}
             <div>
               <div className="flex items-center justify-between mb-2.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-black flex items-center gap-1.5">
-                  <Activity className="h-3.5 w-3.5 text-[#f9a825]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
+                  <Activity className="h-3.5 w-3.5 text-primary" />
                   <span>8 Diagnostic Engines</span>
                 </span>
                 <Link 
                   to="/docs" 
                   onClick={onClose}
-                  className="text-[11px] font-semibold text-[#d08305] hover:text-black transition-colors"
+                  className="text-[11px] font-semibold text-primary hover:underline transition-colors"
                 >
                   View Docs →
                 </Link>
@@ -476,10 +476,10 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       key={eng.name}
                       to={eng.path}
                       onClick={onClose}
-                      className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs text-black transition-colors hover:border-[#f9a825] hover:bg-[#fffbf2] shadow-2xs"
+                      className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 transition-colors hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs"
                     >
-                      <Icon className="h-3.5 w-3.5 text-[#f9a825] shrink-0" />
-                      <span className="truncate">{eng.name}</span>
+                      <Icon className="h-4 w-4 text-primary shrink-0" />
+                      <span className="truncate font-medium">{eng.name}</span>
                     </Link>
                   );
                 })}
@@ -487,87 +487,87 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             </div>
 
             {/* Quick Tools & Insights */}
-            <div className="border-t border-gray-200 pt-3">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500 block mb-2">
+            <div className="border-t border-zinc-200 dark:border-zinc-800 pt-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block mb-2">
                 Platform Intelligence
               </span>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <Link
                   to="/compare"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-2 text-black hover:border-[#f9a825] hover:bg-[#fffbf2] shadow-2xs"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
                 >
-                  <Scale className="h-3.5 w-3.5 text-[#f9a825]" />
-                  <span>Side-by-Side</span>
+                  <Scale className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <span className="truncate">Side-by-Side</span>
                 </Link>
 
                 <Link
                   to="/reports"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-2 text-black hover:border-[#f9a825] hover:bg-[#fffbf2] shadow-2xs"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
                 >
-                  <FileText className="h-3.5 w-3.5 text-[#f9a825]" />
-                  <span>Audit Reports</span>
+                  <FileText className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <span className="truncate">Audit Reports</span>
                 </Link>
 
                 <Link
                   to="/products"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-2 text-black hover:border-[#f9a825] hover:bg-[#fffbf2] shadow-2xs"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
                 >
-                  <Radio className="h-3.5 w-3.5 text-[#f9a825]" />
-                  <span>Domain Watchdog</span>
+                  <Radio className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <span className="truncate">Domain Watchdog</span>
                 </Link>
 
                 <Link
                   to="/dashboard"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-2 text-black hover:border-[#f9a825] hover:bg-[#fffbf2] shadow-2xs"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
                 >
-                  <LayoutDashboard className="h-3.5 w-3.5 text-[#f9a825]" />
-                  <span>My Dashboard</span>
+                  <LayoutDashboard className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <span className="truncate">My Dashboard</span>
                 </Link>
               </div>
             </div>
 
             {/* User Account / Auth Status in Menu */}
-            <div className="border-t border-gray-200 pt-3">
+            <div className="border-t border-zinc-200 dark:border-zinc-800 pt-3">
               {user ? (
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-gray-200 rounded-xl p-3 shadow-2xs">
-                  <div className="flex items-center gap-2.5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl p-3.5 shadow-2xs">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     {user.photoURL ? (
                       <img 
                         src={user.photoURL} 
                         alt="User profile avatar" 
-                        className="h-8 w-8 rounded-lg object-cover border border-gray-200" 
+                        className="h-9 w-9 rounded-lg object-cover border border-zinc-200 dark:border-zinc-700 shrink-0" 
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-xs font-bold text-white">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900 dark:bg-zinc-100 text-xs font-bold text-white dark:text-zinc-900 shrink-0">
                         {(user.displayName || user.email || 'U')[0].toUpperCase()}
                       </div>
                     )}
                     <div className="min-w-0">
-                      <div className="text-xs font-bold text-black truncate max-w-[150px] flex items-center gap-1">
+                      <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 truncate flex items-center gap-1.5">
                         <span className="truncate">{user.displayName || user.email?.split('@')[0]}</span>
                         <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded border uppercase ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
                           {roleConfig.shortLabel}
                         </span>
                       </div>
-                      <div className="text-[10px] text-gray-500 truncate max-w-[150px]">
+                      <div className="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">
                         {user.email}
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     {hasPermission('page:view_admin') && (
                       <Link
                         to="/admin"
                         onClick={onClose}
-                        className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-bold text-black hover:bg-gray-100"
+                        className="flex items-center gap-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-3 py-1.5 text-xs font-bold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                       >
-                        <ShieldCheck className="h-3 w-3 text-[#f9a825]" />
+                        <ShieldCheck className="h-3 w-3 text-primary" />
                         <span>Admin</span>
                       </Link>
                     )}
@@ -576,7 +576,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         logout();
                         onClose();
                       }}
-                      className="flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700 hover:bg-red-100 cursor-pointer"
+                      className="flex items-center gap-1 rounded-lg border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/40 px-3 py-1.5 text-xs font-semibold text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 cursor-pointer"
                       title="Sign Out"
                     >
                       <LogOut className="h-3 w-3" />
@@ -589,15 +589,15 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <Link
                     to="/login"
                     onClick={onClose}
-                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-lg bg-white border border-gray-300 py-2 text-xs font-bold text-black hover:bg-gray-50 shadow-2xs"
+                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 py-2.5 text-xs font-bold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900 shadow-2xs"
                   >
-                    <LogIn className="h-3.5 w-3.5 text-[#f9a825]" />
+                    <LogIn className="h-3.5 w-3.5 text-primary" />
                     <span>Sign In</span>
                   </Link>
                   <Link
                     to="/signup"
                     onClick={onClose}
-                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-lg bg-black hover:bg-[#f9a825] hover:text-black border border-black py-2 text-xs font-bold text-white shadow-xs"
+                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-primary hover:text-zinc-900 dark:hover:bg-primary dark:hover:text-zinc-900 border border-transparent py-2.5 text-xs font-bold text-white dark:text-zinc-900 shadow-xs transition-colors"
                   >
                     <UserPlus className="h-3.5 w-3.5" />
                     <span>Create Account</span>
@@ -612,13 +612,13 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
       </div>
 
       {/* Bottom Footer Bar inside Overlay */}
-      <div className="mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-gray-200 px-6 py-3.5 text-xs font-mono text-gray-500 sm:px-8 gap-2 shrink-0">
+      <div className="mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-zinc-200 dark:border-zinc-800 px-6 py-4 text-xs font-mono text-zinc-500 dark:text-zinc-400 sm:px-8 gap-3 shrink-0">
         <div className="flex items-center gap-4 flex-wrap">
-          <Link to="/privacy" onClick={onClose} className="hover:text-black transition-colors">Privacy</Link>
-          <Link to="/terms" onClick={onClose} className="hover:text-black transition-colors">Terms</Link>
-          <Link to="/cookies" onClick={onClose} className="hover:text-black transition-colors">Cookies</Link>
-          <Link to="/security" onClick={onClose} className="hover:text-black transition-colors">SecOps</Link>
-          <Link to="/methodology" onClick={onClose} className="hover:text-black transition-colors">Audit Methodology</Link>
+          <Link to="/privacy" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Privacy</Link>
+          <Link to="/terms" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Terms</Link>
+          <Link to="/cookies" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Cookies</Link>
+          <Link to="/security" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">SecOps</Link>
+          <Link to="/methodology" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Audit Methodology</Link>
         </div>
 
         <div>
@@ -630,3 +630,4 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 };
 
 export default MainMenuOverlay;
+
