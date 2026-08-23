@@ -105,16 +105,17 @@ export const HeroSection: React.FC = () => {
                 />
                 
                 {/* Presets */}
-                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-                  <span className="text-zinc-400 font-medium">Presets:</span>
-                  {['catalystlab.tech', 'stripe.com', 'github.com'].map((domain) => (
+                <div className="mt-5 flex flex-wrap items-center gap-2 text-xs sm:text-sm">
+                  <span className="text-zinc-400 font-medium text-xs uppercase tracking-wider select-none mr-1">Presets:</span>
+                  {['catalystlab.tech', 'stripe.com', 'github.com', 'vercel.com'].map((domain) => (
                     <button
                       key={domain}
                       type="button"
                       onClick={() => selectQuickSample(domain)}
-                      className="text-zinc-500 font-medium hover:text-zinc-950 transition-colors cursor-pointer focus-visible:outline-none"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100/80 hover:bg-zinc-200/80 text-zinc-700 hover:text-zinc-950 border border-zinc-200/60 font-mono text-xs transition-all duration-150 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
                     >
-                      {domain}
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+                      <span>{domain}</span>
                     </button>
                   ))}
                 </div>

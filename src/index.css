@@ -76,6 +76,23 @@
   --slide-bg: #ffffff;
 }
 
+html.dark, [data-theme="dark"] {
+  --color-background: #09090b;
+  --color-foreground: #f4f4f5;
+  --color-surface: #121215;
+  --color-surface-panel: #18181b;
+  --color-surface-muted: #1e1e24;
+  --color-surface-subtle: #141417;
+  --color-border: #27272a;
+  --color-border-subtle: #27272a;
+  --color-border-strong: #3f3f46;
+  --color-muted: #a1a1aa;
+  --button-bg: #f4f4f5;
+  --button-text: #09090b;
+  --button-hover: #f9a825;
+  --slide-bg: #18181b;
+}
+
 @theme {
   --color-surface-dark: #f0f0f0;
   --color-surface-panel: #ffffff;
@@ -119,6 +136,12 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: #ffffff;
     color: #111111;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  html.dark {
+    background-color: #09090b;
+    color: #f4f4f5;
   }
 
   body {
@@ -128,7 +151,14 @@
     line-height: 1.65;
     font-size: 1rem;
     font-weight: 450;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
+
+  html.dark body {
+    background-color: #09090b;
+    color: #e4e4e7;
+  }
+  
   
 
   /* Initial app load soft fade-in */

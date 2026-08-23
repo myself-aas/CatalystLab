@@ -27,7 +27,7 @@ export const MasterAuditPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white bg-cyber-grid text-black font-sans selection:bg-black selection:text-white relative">
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-amber-500 selection:text-white relative">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(56,189,248,0.03),transparent_70%)] pointer-events-none" />
       <div className="relative z-10">
         <SEOHead
@@ -44,16 +44,16 @@ export const MasterAuditPage: React.FC = () => {
           bgImage="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80"
           overlayOpacity={0.88}
           height="min-h-[360px]"
-          className="my-12 border-y border-gray-200"
+          className="my-12 border-y border-zinc-200 dark:border-zinc-800"
         >
           <div className="max-w-4xl mx-auto px-6 text-center space-y-4">
-            <span className="inline-flex items-center gap-2 rounded-full bg-black text-white px-4 py-1 text-xs font-mono font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-4 py-1 text-xs font-mono font-bold uppercase tracking-wider">
               Global Edge Telemetry Parallax
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-black font-sans tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 font-sans tracking-tight">
               Synchronous Multi-Region Diagnostics at Light Speed
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 font-sans max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 font-sans max-w-2xl mx-auto">
               Real-time telemetry feeds streaming continuously across 42 global edge points. Zero-latency code analysis, deep AST security checks, and automated compliance auditing.
             </p>
           </div>

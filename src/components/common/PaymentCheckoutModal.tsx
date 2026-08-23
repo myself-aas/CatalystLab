@@ -32,7 +32,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
   if (!isOpen) return null;
 
   const plan = SUBSCRIPTION_PLANS[selectedPlan] || SUBSCRIPTION_PLANS.pro;
-  const price = billingCycle === 'annual' ? plan.priceAnnual : plan.priceMonthly;
+  const price = billingCycle === 'annual' ? plan.annualBillingTotal : plan.priceMonthly;
 
   const handleStartCheckout = async () => {
     setLoading(true);
@@ -166,7 +166,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
               {paidTiers.map((tierKey) => {
                 const tierItem = SUBSCRIPTION_PLANS[tierKey];
                 const isSelected = selectedPlan === tierKey;
-                const tierPrice = billingCycle === 'annual' ? tierItem.priceAnnual : tierItem.priceMonthly;
+                const tierPrice = billingCycle === 'annual' ? tierItem.annualBillingTotal : tierItem.priceMonthly;
                 return (
                   <button
                     key={tierKey}

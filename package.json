@@ -1,17 +1,19 @@
 {
-  "name": "catalyst-score",
+  "name": "catalystlab",
   "private": true,
+  "version": "2.4.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx server.ts",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
-    "start": "node dist/server.cjs",
-    "cron:anomaly": "tsx scripts/cron/anomaly_detection.ts",
-    "cron:weekly-digest": "tsx scripts/cron/weekly_digest.ts",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "tsx server.ts",
     "test": "vitest run",
-    "lint": "eslint src/"
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@relume_io/relume-tailwind": "^1.3.0",
+    "@relume_io/relume-ui": "^1.3.1",
     "@tailwindcss/vite": "^4.0.0",
     "@types/d3": "^7.4.3",
     "@types/dompurify": "^3.2.0",
@@ -51,14 +53,13 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.20.0",
     "@types/geoip-lite": "^1.4.4",
     "@types/ua-parser-js": "^0.7.39",
-    "eslint": "^10.9.0",
+    "eslint": "^9.20.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "typescript-eslint": "^8.67.0",
-    "vitest": "^4.1.11"
+    "eslint-plugin-react": "^7.37.4",
+    "typescript-eslint": "^8.24.0",
+    "vitest": "^3.0.5"
   }
 }

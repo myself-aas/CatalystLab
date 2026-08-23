@@ -117,16 +117,16 @@ export const App: React.FC = () => {
   return (
     <>
       <ParticlesComponent />
-      <div className="flex min-h-screen flex-col bg-transparent text-black selection:bg-[#f9a825]/25 selection:text-black animate-app-fade-in relative z-10">
+      <div className="flex min-h-screen flex-col bg-transparent text-zinc-900 dark:text-zinc-100 selection:bg-[#f9a825]/25 selection:text-zinc-900 dark:selection:text-white animate-app-fade-in relative z-10">
         <a 
           href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-[#f9a825] focus:font-bold focus:outline-none focus:ring-2 focus:ring-[#f9a825]"
-      >
-        Skip to main content
-      </a>
-      <ScrollToTop />
-      <TrialBanner />
-      <Navbar />
+          className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white dark:focus:bg-zinc-900 focus:text-amber-500 focus:font-bold focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-br-xl shadow-lg"
+        >
+          Skip to main content
+        </a>
+        <ScrollToTop />
+        <TrialBanner />
+        <Navbar />
       {location.pathname !== '/' && location.pathname !== '/index.html' && <DynamicBanner />}
       <GlobalBreadcrumb />
       <main id="main-content" className="flex-1">

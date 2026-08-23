@@ -75,7 +75,7 @@ export const NewsletterModal: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md bg-gray-100 border border-gray-200 rounded-3xl shadow-2xl shadow-black/50 overflow-hidden"
+            className="relative w-full max-w-md bg-surface-muted border border-gray-200 rounded-3xl shadow-2xl shadow-black/50 overflow-hidden"
           >
             {/* Close Button */}
             <button
@@ -103,13 +103,13 @@ export const NewsletterModal: React.FC = () => {
                 <>
                   {/* Icon & Title */}
                   <div className="mb-6">
-                    <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#38bdf8]/10 text-[#38bdf8] mb-4 border border-[#38bdf8]/20">
+                    <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-gradient-to-r from-brand-periwinkle via-brand-slate to-brand-periwinkle-light text-primary mb-4">
                       <Sparkles className="h-6 w-6" />
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight mb-2">
+                    <h3 className="text-xl sm:text-2xl font-black text-primary tracking-tight mb-2">
                       Join the CatalystLab Newsletter
                     </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed">
+                    <p className="text-sm text-muted leading-relaxed">
                       Get exclusive insights on web performance, zero-day vulnerabilities, and architectural patterns sent directly to your inbox.
                     </p>
                   </div>

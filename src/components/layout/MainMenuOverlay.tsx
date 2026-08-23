@@ -22,6 +22,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useRoleSecurity } from '../../context/RoleSecurityContext';
 import { BrandLogo } from '../common/BrandLogo';
+import { ThemeToggle } from './ThemeToggle';
 
 interface MainMenuOverlayProps {
   isOpen: boolean;
@@ -84,13 +85,13 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
   return (
     <div 
       id="main-menu-overlay" 
-      className="mobile-nav-menu fixed inset-0 z-[99999] flex flex-col bg-white text-black selection:bg-[#f9a825] selection:text-black overflow-y-auto"
+      className="mobile-nav-menu fixed inset-0 z-[99999] flex flex-col bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-[#f9a825] selection:text-black overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-label="Main Navigation Menu"
     >
       {/* Top Header Bar inside Overlay */}
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-8 shrink-0 border-b border-gray-200 sticky top-0 bg-white/98 backdrop-blur-md z-[100000]">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-8 shrink-0 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md z-[100000]">
         <Link 
           to="/" 
           onClick={onClose}
@@ -100,14 +101,16 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           <BrandLogo size="md" />
         </Link>
 
-        <div className="flex items-center gap-4">
-          <span className="hidden sm:inline-block text-xs text-gray-500 font-mono">
-            PRESS <kbd className="rounded border border-gray-300 bg-gray-100 px-1.5 py-0.5 text-gray-800 font-bold">ESC</kbd> TO CLOSE
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+
+          <span className="hidden sm:inline-block text-xs text-zinc-400 dark:text-zinc-500 font-mono">
+            PRESS <kbd className="rounded border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 text-zinc-800 dark:text-zinc-200 font-bold">ESC</kbd> TO CLOSE
           </span>
 
           <button
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-300 bg-gray-100 text-black transition-colors hover:bg-gray-200 cursor-pointer shadow-xs"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer shadow-xs"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />

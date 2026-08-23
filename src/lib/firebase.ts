@@ -354,7 +354,7 @@ export const saveReport = async (
     title = urlOrParams.title;
     score = urlOrParams.score;
   } else {
-    url = urlOrParams;
+    url = urlOrParams as string;
     engine = maybeEngine || 'master-audit';
     output = maybeOutput || '';
     title = extra.title;
