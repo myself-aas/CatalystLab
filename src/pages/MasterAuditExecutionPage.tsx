@@ -275,7 +275,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
       {/* Dedicated Master Audit Launcher Header */}
       <section className="relative overflow-hidden border-b border-gray-200 bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-bold text-accent-cyan">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-bold text-accent-amber-strong">
             <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-ping" />
             <span>Dedicated Master Audit Execution Hub</span>
           </div>
@@ -322,7 +322,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
                       href={permalinkUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-1 inline-flex items-center gap-1 text-xs text-accent-cyan underline hover:text-white break-all"
+                      className="mt-1 inline-flex items-center gap-1 text-xs text-accent-amber-strong underline hover:text-white break-all"
                     >
                       {permalinkUrl}
                       <ExternalLink className="h-3 w-3" />
@@ -335,7 +335,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
                     onClick={handleCopyPermalink}
                     className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-bold text-black hover:bg-gray-50 transition-colors cursor-pointer"
                   >
-                    <Share2 className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Share2 className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>{copiedLink ? 'Copied!' : 'Copy Link'}</span>
                   </button>
 
@@ -357,7 +357,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
           <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-xl space-y-3.5">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <Activity className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+                <Activity className="h-3.5 w-3.5 text-accent-amber-strong animate-pulse" />
                 <h3 className="text-xs font-bold uppercase tracking-wider text-black">
                   8-Stage Telemetry Pipeline Execution Status
                 </h3>
@@ -425,7 +425,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
             
             <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-3.5 rounded-2xl border border-gray-200">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-accent-cyan">
+                <div className="w-8 h-8 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-accent-amber-strong">
                   <Activity className="h-4 w-4" />
                 </div>
                 <div>
@@ -440,7 +440,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
                   disabled={isExportingPdf || !hasAnyOutput}
                   className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3.5 py-1.5 text-xs font-bold text-black hover:bg-gray-50 disabled:opacity-40 transition-colors cursor-pointer"
                 >
-                  <Download className="h-3.5 w-3.5 text-accent-cyan" />
+                  <Download className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <span>{isExportingPdf ? 'Compiling PDF...' : 'Export PDF Report'}</span>
                 </button>
               </div>
@@ -470,7 +470,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
               </div>
 
               <div className="text-xs text-gray-500">
-                Active Engine: <span className="text-accent-cyan font-bold">{ENGINES_MAP[activeEngineTab].name}</span>
+                Active Engine: <span className="text-accent-amber-strong font-bold">{ENGINES_MAP[activeEngineTab].name}</span>
               </div>
             </div>
 

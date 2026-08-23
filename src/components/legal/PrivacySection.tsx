@@ -119,7 +119,7 @@ export const PrivacySection: React.FC = () => {
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-5">
             <div>
-              <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
+              <div className="flex items-center gap-2 text-xs text-accent-amber-strong mb-1">
                 <span className="h-2 w-2 rounded-full bg-accent-emerald animate-pulse" />
                 <span>SPEC-V2.8 • GDPR &amp; CCPA CERTIFIED</span>
               </div>
@@ -141,7 +141,7 @@ export const PrivacySection: React.FC = () => {
                     : 'text-brand-periwinkle hover:text-white'
                 }`}
               >
-                <Sparkles className="h-3 w-3 text-accent-cyan" />
+                <Sparkles className="h-3 w-3 text-accent-amber-strong" />
                 <span>Plain English</span>
               </button>
               <button
@@ -161,7 +161,7 @@ export const PrivacySection: React.FC = () => {
           {/* Quick Pillars */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-4">
-              <div className="flex items-center gap-1.5 text-accent-cyan font-bold text-xs uppercase mb-1">
+              <div className="flex items-center gap-1.5 text-accent-amber-strong font-bold text-xs uppercase mb-1">
                 <EyeOff className="h-3.5 w-3.5" />
                 <span>Zero Data Sales</span>
               </div>
@@ -200,7 +200,7 @@ export const PrivacySection: React.FC = () => {
           <LazyReveal direction="up">
             <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl">
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-oxford text-accent-cyan border border-brand-slate/40">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-oxford text-accent-amber-strong border border-brand-slate/40">
                   <Server className="h-3.5 w-3.5" />
                 </span>
                 <h3 className="text-base font-bold text-black font-sans">Data Collection &amp; Flow Matrix</h3>
@@ -240,7 +240,7 @@ export const PrivacySection: React.FC = () => {
                       <td className="py-3 px-3 text-[11px]">Google OAuth ID, Email, Display Name</td>
                       <td className="py-3 px-3">Authenticate and isolate private reports</td>
                       <td className="py-3 px-3">Until account deletion</td>
-                      <td className="py-3 px-3 text-accent-cyan">Firebase Auth (Google)</td>
+                      <td className="py-3 px-3 text-accent-amber-strong">Firebase Auth (Google)</td>
                     </tr>
                     <tr className="hover:bg-gray-50 transition-colors">
                       <td className="py-3 px-3 font-bold text-black">Telemetry Logs</td>
@@ -259,7 +259,7 @@ export const PrivacySection: React.FC = () => {
           <LazyReveal direction="up">
             <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-oxford text-accent-cyan border border-brand-slate/40">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-oxford text-accent-amber-strong border border-brand-slate/40">
                   <Key className="h-3.5 w-3.5" />
                 </span>
                 <h3 className="text-base font-bold text-black font-sans">Your GDPR &amp; CCPA Self-Service Controls</h3>
@@ -273,7 +273,7 @@ export const PrivacySection: React.FC = () => {
                 <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-4 flex flex-col justify-between space-y-3">
                   <div>
                     <h4 className="text-xs font-bold text-black flex items-center gap-1.5">
-                      <Download className="h-3.5 w-3.5 text-accent-cyan" />
+                      <Download className="h-3.5 w-3.5 text-accent-amber-strong" />
                       <span>Export Diagnostic Archive (JSON)</span>
                     </h4>
                     <p className="text-xs text-brand-periwinkle mt-1 leading-relaxed font-sans">
@@ -285,7 +285,7 @@ export const PrivacySection: React.FC = () => {
                       onClick={handleExportData}
                       className="inline-flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
                     >
-                      {exported ? <CheckCircle className="h-3.5 w-3.5 text-accent-emerald" /> : <Download className="h-3.5 w-3.5 text-accent-cyan" />}
+                      {exported ? <CheckCircle className="h-3.5 w-3.5 text-accent-emerald" /> : <Download className="h-3.5 w-3.5 text-accent-amber-strong" />}
                       <span>{exported ? 'Data Archive Exported!' : 'Download Telemetry Package'}</span>
                     </button>
                   </div>
@@ -332,7 +332,7 @@ export const PrivacySection: React.FC = () => {
                 1. Scope of Telemetry &amp; Diagnostics Processing
               </h3>
               <p className="text-brand-periwinkle font-sans">
-                CatalystLab (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates synthetic diagnostic suites, security header scanners, and edge latency benchmarks. This Privacy Policy governs the processing of technical data submitted when invoking diagnostic endpoints through <code className="text-accent-cyan bg-brand-oxford px-1 py-0.5 rounded">catalystlab.tech</code>.
+                CatalystLab (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates synthetic diagnostic suites, security header scanners, and edge latency benchmarks. This Privacy Policy governs the processing of technical data submitted when invoking diagnostic endpoints through <code className="text-accent-amber-strong bg-brand-oxford px-1 py-0.5 rounded">catalystlab.tech</code>.
               </p>
             </section>
 
@@ -359,7 +359,7 @@ export const PrivacySection: React.FC = () => {
                 4. Data Protection Officer &amp; Privacy Inquiries
               </h3>
               <p className="text-brand-periwinkle font-sans">
-                For legal notices, data subject requests, or regulatory inquiries, contact our Data Protection Officer directly at <a href="mailto:privacy@catalystlab.tech" className="text-accent-cyan font-bold underline">privacy@catalystlab.tech</a>.
+                For legal notices, data subject requests, or regulatory inquiries, contact our Data Protection Officer directly at <a href="mailto:privacy@catalystlab.tech" className="text-accent-amber-strong font-bold underline">privacy@catalystlab.tech</a>.
               </p>
             </section>
           </div>

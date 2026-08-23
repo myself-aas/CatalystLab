@@ -108,20 +108,20 @@ export const Testimonials: React.FC = () => {
   };
 
   return (
-    <section className="py-14 sm:py-20 border-b border-gray-200 relative overflow-hidden bg-brand-deep">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="ds-section ds-surface-alt relative overflow-hidden">
+      <div className="ds-page-shell">
         
         {/* Header with Navigation Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div className="ds-section-head-row">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="ds-eyebrow ds-eyebrow-pill mb-3">
               <ShieldCheck className="h-3.5 w-3.5" />
               <span>Production Proven</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
+            <h2 className="ds-h2 text-black">
               Trusted by Leading Platform & AI Engineers
             </h2>
-            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+            <p className="ds-lede mt-3">
               Real telemetry outcomes from engineering teams enforcing sub-second edge speeds, zero-trust headers, and autonomous AI search ingestion.
             </p>
           </div>
@@ -185,7 +185,7 @@ export const Testimonials: React.FC = () => {
                         <Star key={i} className="h-3 w-3 fill-accent-amber text-accent-amber" />
                       ))}
                     </div>
-                    <span className="text-[10px] font-mono text-accent-cyan bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30 font-bold">
+                    <span className="text-[10px] font-mono text-accent-amber-strong bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30 font-bold">
                       {t.verifiedBadge}
                     </span>
                   </div>

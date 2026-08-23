@@ -66,7 +66,7 @@ export const ComparePage: React.FC = () => {
       {/* Header */}
       <section className="border-b border-gray-200 bg-gray-100 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-white text-accent-cyan mb-4 border border-gray-200 shadow-sm">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-white text-accent-amber-strong mb-4 border border-gray-200 shadow-sm">
             <CustomIconSync className="h-6 w-6" />
           </div>
           <h1 className="text-3xl font-extrabold text-black sm:text-4xl tracking-tight">
@@ -130,7 +130,7 @@ export const ComparePage: React.FC = () => {
         {/* Industry Competitive Architecture Matrix */}
         <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 text-black shadow-xl font-mono">
           <div className="text-center max-w-3xl mx-auto mb-7">
-            <span className="rounded-md bg-gray-100 px-2.5 py-1 text-xs font-bold text-accent-cyan border border-gray-200 uppercase tracking-wider">
+            <span className="rounded-md bg-gray-100 px-2.5 py-1 text-xs font-bold text-accent-amber-strong border border-gray-200 uppercase tracking-wider">
               COMPETITIVE BENCHMARK
             </span>
             <h2 className="text-xl font-extrabold text-black sm:text-2xl mt-2.5">

@@ -126,7 +126,7 @@ export const ReportPermalinkPage: React.FC = () => {
   const meta = ENGINES_MAP[report.engine] || {
     name: report.engine,
     icon: 'bolt',
-    badgeClass: 'bg-gray-100 text-accent-cyan border-gray-200'
+    badgeClass: 'bg-gray-100 text-accent-amber-strong border-gray-200'
   };
 
   const formattedDate = report.createdAt
@@ -161,7 +161,7 @@ export const ReportPermalinkPage: React.FC = () => {
               className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-white hover:bg-gray-50 transition-colors cursor-pointer"
               title="Copy Share Link"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-accent-emerald" /> : <Share2 className="h-3.5 w-3.5 text-accent-cyan" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-accent-emerald" /> : <Share2 className="h-3.5 w-3.5 text-accent-amber-strong" />}
               <span>{copied ? 'Copied' : 'Share'}</span>
             </button>
 
@@ -180,7 +180,7 @@ export const ReportPermalinkPage: React.FC = () => {
               className="flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3.5 py-1.5 text-xs font-bold text-white transition-colors disabled:opacity-50 shadow-sm cursor-pointer"
               title="Export Current Audit Results as PDF"
             >
-              <Download className="h-3.5 w-3.5 text-accent-cyan" />
+              <Download className="h-3.5 w-3.5 text-accent-amber-strong" />
               <span>{isExportingPdf ? 'Exporting PDF...' : 'Export PDF'}</span>
             </button>
           </div>
@@ -195,7 +195,7 @@ export const ReportPermalinkPage: React.FC = () => {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <span className="text-xs uppercase font-bold px-2 py-0.5 rounded border bg-gray-100 text-accent-cyan border-gray-200">
+                <span className="text-xs uppercase font-bold px-2 py-0.5 rounded border bg-gray-100 text-accent-amber-strong border-gray-200">
                   {meta.name}
                 </span>
                 <span className="flex items-center gap-1 rounded bg-gray-100 px-2 py-0.5 text-[11px] text-gray-500 border border-gray-200">
@@ -229,7 +229,7 @@ export const ReportPermalinkPage: React.FC = () => {
                 to={`/master-audit?url=${encodeURIComponent(report.url)}`}
                 className="flex items-center gap-1.5 rounded-xl border border-gray-200 bg-gray-100 px-3.5 py-2 text-xs font-bold text-black hover:bg-gray-50 transition-colors"
               >
-                <RotateCw className="h-3 w-3 text-accent-cyan" />
+                <RotateCw className="h-3 w-3 text-accent-amber-strong" />
                 <span>Re-run Audit</span>
               </Link>
             </div>

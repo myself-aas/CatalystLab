@@ -91,13 +91,13 @@ export const GlobalEdgeRadar: React.FC = () => {
 
   return (
     <section className="py-14 lg:py-18 bg-gray-100/70 backdrop-blur-sm text-black relative overflow-hidden border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="ds-page-shell">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <LazyReveal direction="up">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs sm:text-sm font-mono text-gray-600 mb-3 shadow-sm">
-              <Radio className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+              <Radio className="h-3.5 w-3.5 text-accent-amber-strong animate-pulse" />
               <span>Phase 5 • EdgeVmax Network Probe</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-black">
@@ -116,7 +116,7 @@ export const GlobalEdgeRadar: React.FC = () => {
               disabled={isPinging}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-black hover:bg-black-hover text-white text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer disabled:opacity-50 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${isPinging ? 'animate-spin text-accent-cyan' : ''}`} />
+              <RefreshCw className={`h-3.5 w-3.5 ${isPinging ? 'animate-spin text-accent-amber-strong' : ''}`} />
               <span>{isPinging ? 'Pinging PoPs...' : 'Ping All 12 PoPs'}</span>
             </button>
 
@@ -195,7 +195,7 @@ export const GlobalEdgeRadar: React.FC = () => {
                         isGood 
                           ? 'bg-emerald-950/40 text-accent-emerald border-emerald-500/30'
                           : isFair
-                          ? 'bg-cyan-950/40 text-accent-cyan border-cyan-500/30'
+                          ? 'bg-cyan-950/40 text-accent-amber-strong border-cyan-500/30'
                           : 'bg-amber-950/40 text-accent-amber border-amber-500/30'
                       }`}>
                         {liveLatency} ms
@@ -212,7 +212,7 @@ export const GlobalEdgeRadar: React.FC = () => {
 
                   <div className="pt-2.5 border-t border-gray-200 flex items-center justify-between text-[11px] font-mono text-gray-500 mt-3">
                     <span className="truncate">{reg.ip}</span>
-                    <span className={`font-bold ${isSelected ? 'text-accent-cyan' : 'text-gray-600'}`}>
+                    <span className={`font-bold ${isSelected ? 'text-accent-amber-strong' : 'text-gray-600'}`}>
                       {isSelected ? '● Active' : 'Select'}
                     </span>
                   </div>
@@ -238,7 +238,7 @@ export const GlobalEdgeRadar: React.FC = () => {
               <div className="lg:col-span-8 space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-100 border border-gray-200 text-xs font-mono text-gray-600">
-                    <Globe2 className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Globe2 className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>Anycast PoP: {selectedRegion.location}</span>
                   </div>
                   <span className="text-xs font-mono text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg border border-gray-200">
@@ -249,7 +249,7 @@ export const GlobalEdgeRadar: React.FC = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
                   <div className="bg-gray-100 p-3 rounded-xl border border-gray-200">
                     <div className="text-[10px] font-mono text-gray-500 uppercase">Synthesized TTFB</div>
-                    <div className="text-xl font-bold font-mono text-accent-cyan mt-0.5 metric-tabular">
+                    <div className="text-xl font-bold font-mono text-accent-amber-strong mt-0.5 metric-tabular">
                       {latencyJitter[selectedRegion.id] || selectedRegion.baseLatency}ms
                     </div>
                   </div>

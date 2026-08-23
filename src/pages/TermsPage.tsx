@@ -19,8 +19,8 @@ export const TermsPage: React.FC = () => {
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
-                <Scale className="h-3.5 w-3.5 text-accent-cyan" />
+              <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong uppercase tracking-wider">
+                <Scale className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Operating Standards &amp; Guidelines</span>
               </div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black tracking-tight font-sans">
@@ -37,7 +37,7 @@ export const TermsPage: React.FC = () => {
                 to="/contact"
                 className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3.5 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
-                <LifeBuoy className="h-3.5 w-3.5 text-accent-cyan" />
+                <LifeBuoy className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Enterprise Inquiries</span>
                 <ArrowRight className="h-3 w-3 text-gray-500" />
               </Link>
@@ -64,14 +64,14 @@ export const TermsPage: React.FC = () => {
               to="/contact"
               className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
             >
-              <LifeBuoy className="h-3.5 w-3.5 text-accent-cyan" />
+              <LifeBuoy className="h-3.5 w-3.5 text-accent-amber-strong" />
               <span>Contact Legal &amp; Sales</span>
             </Link>
             <Link
               to="/privacy"
               className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-2 text-xs font-bold text-black hover:bg-gray-50 transition-all"
             >
-              <FileText className="h-3.5 w-3.5 text-accent-cyan" />
+              <FileText className="h-3.5 w-3.5 text-accent-amber-strong" />
               <span>Privacy Policy</span>
             </Link>
           </div>

@@ -220,7 +220,7 @@ export const UserDashboardPage: React.FC = () => {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 bg-white text-black">
         <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-2xl text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-accent-cyan mb-4 border border-gray-200">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-accent-amber-strong mb-4 border border-gray-200">
             <LogIn className="h-6 w-6" />
           </div>
           <h2 className="text-xl font-extrabold text-black">Developer Access Required</h2>
@@ -252,7 +252,7 @@ export const UserDashboardPage: React.FC = () => {
                 displayName: 'CatalystLab Developer',
                 isAdmin: false
               })}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-bold text-accent-cyan hover:bg-gray-50 transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-bold text-accent-amber-strong hover:bg-gray-50 transition-all cursor-pointer"
             >
               <Sparkles className="h-3.5 w-3.5" />
               <span>Preview Developer Session</span>
@@ -327,7 +327,7 @@ export const UserDashboardPage: React.FC = () => {
                 to="/master-audit"
                 className="flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
-                <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+                <Sparkles className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Run Master Audit</span>
               </Link>
               <Link
@@ -353,7 +353,7 @@ export const UserDashboardPage: React.FC = () => {
             className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-accent-amber-strong uppercase tracking-wider flex items-center gap-1.5">
                 <Cpu className="h-3.5 w-3.5" />
                 Compute Quota
               </span>
@@ -386,7 +386,7 @@ export const UserDashboardPage: React.FC = () => {
             className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-accent-amber-strong uppercase tracking-wider flex items-center gap-1.5">
                 <FileText className="h-3.5 w-3.5" />
                 Saved Reports
               </span>
@@ -418,7 +418,7 @@ export const UserDashboardPage: React.FC = () => {
             className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-accent-amber-strong uppercase tracking-wider flex items-center gap-1.5">
                 <Activity className="h-3.5 w-3.5" />
                 System Health
               </span>
@@ -451,7 +451,7 @@ export const UserDashboardPage: React.FC = () => {
             className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-accent-amber-strong uppercase tracking-wider flex items-center gap-1.5">
                 <Globe className="h-3.5 w-3.5" />
                 Monitored Hosts
               </span>
@@ -504,7 +504,7 @@ export const UserDashboardPage: React.FC = () => {
                 : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
-            <FileText className="h-3.5 w-3.5 text-accent-cyan" />
+            <FileText className="h-3.5 w-3.5 text-accent-amber-strong" />
             <span>Audit Reports &amp; Dossiers</span>
             <span className={`ml-1 rounded px-1.5 py-0.2 text-[10px] ${
               activeTab === 'audits' ? 'bg-gray-100 text-black' : 'bg-gray-100 text-gray-500'
@@ -521,7 +521,7 @@ export const UserDashboardPage: React.FC = () => {
                 : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
-            <Cpu className="h-3.5 w-3.5 text-accent-cyan" />
+            <Cpu className="h-3.5 w-3.5 text-accent-amber-strong" />
             <span>Rate Limits</span>
           </Link>
 
@@ -545,7 +545,7 @@ export const UserDashboardPage: React.FC = () => {
                 : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
-            <Activity className="h-3.5 w-3.5 text-accent-cyan" />
+            <Activity className="h-3.5 w-3.5 text-accent-amber-strong" />
             <span>Domain Health Radar</span>
           </Link>
 
@@ -557,7 +557,7 @@ export const UserDashboardPage: React.FC = () => {
                 : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
-            <BookOpen className="h-3.5 w-3.5 text-accent-cyan" />
+            <BookOpen className="h-3.5 w-3.5 text-accent-amber-strong" />
             <span>My Technical Articles</span>
           </Link>
 
@@ -652,7 +652,7 @@ export const UserDashboardPage: React.FC = () => {
             {/* Reports List / Grid */}
             {loading ? (
               <div className="py-16 text-center text-gray-600 font-mono text-xs">
-                <RotateCw className="mx-auto h-6 w-6 animate-spin text-accent-cyan mb-2.5" />
+                <RotateCw className="mx-auto h-6 w-6 animate-spin text-accent-amber-strong mb-2.5" />
                 <div>Fetching telemetry dossier records...</div>
               </div>
             ) : filteredReports.length === 0 ? (
@@ -669,7 +669,7 @@ export const UserDashboardPage: React.FC = () => {
                     to="/master-audit"
                     className="inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
                   >
-                    <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Sparkles className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>Run Master Audit</span>
                   </Link>
                 </div>
@@ -695,11 +695,11 @@ export const UserDashboardPage: React.FC = () => {
                         {/* Top Card Bar */}
                         <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-gray-200">
                           <div className="flex items-center gap-2 min-w-0">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 border border-gray-200 text-accent-cyan shrink-0">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 border border-gray-200 text-accent-amber-strong shrink-0">
                               <Globe className="h-3.5 w-3.5" />
                             </div>
                             <div className="min-w-0">
-                              <h4 className="text-xs font-bold text-black truncate group-hover:text-accent-cyan transition-colors">
+                              <h4 className="text-xs font-bold text-black truncate group-hover:text-accent-amber-strong transition-colors">
                                 {domain}
                               </h4>
                               <span className="text-[10px] text-gray-500 flex items-center gap-1">
@@ -724,7 +724,7 @@ export const UserDashboardPage: React.FC = () => {
                         {/* Middle Content */}
                         <div className="py-3 space-y-1.5">
                           <div className="inline-flex items-center gap-1 rounded bg-gray-100 border border-gray-200 px-2 py-0.5 text-[10px] font-bold text-gray-600">
-                            <Sparkles className="h-2.5 w-2.5 text-accent-cyan" />
+                            <Sparkles className="h-2.5 w-2.5 text-accent-amber-strong" />
                             <span>{engineMeta.name}</span>
                           </div>
                           <p className="text-[11px] text-gray-600 line-clamp-2 leading-relaxed font-sans">
@@ -798,7 +798,7 @@ export const UserDashboardPage: React.FC = () => {
                         >
                           <td className="px-4 py-3 font-bold text-black">
                             <div className="flex items-center gap-2">
-                              <Globe className="h-3.5 w-3.5 text-accent-cyan" />
+                              <Globe className="h-3.5 w-3.5 text-accent-amber-strong" />
                               <span>{domain}</span>
                             </div>
                           </td>

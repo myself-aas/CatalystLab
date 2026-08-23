@@ -98,7 +98,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
         <div className="p-6 sm:p-8">
           {/* Header Badge & Title */}
           <div className="flex items-center gap-3 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-full bg-cyan-950/40 text-accent-cyan border border-accent-cyan/30">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-full bg-cyan-950/40 text-accent-amber-strong border border-accent-cyan/30">
               <Lock className="w-3.5 h-3.5" /> Secure Checkout
             </span>
             <span className="inline-flex items-center gap-1 text-xs text-gray-600">
@@ -107,7 +107,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-black mt-1">
-            Upgrade to <span className="text-accent-cyan">{plan.name}</span>
+            Upgrade to <span className="text-accent-amber-strong">{plan.name}</span>
           </h2>
           <p className="text-sm text-gray-600 mt-1 leading-relaxed">
             Choose your preferred global payment gateway below for secure instant access.
@@ -130,11 +130,11 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
               >
                 <div>
                   <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <CreditCard className="w-4 h-4 text-accent-cyan" /> 2Checkout (Verifone)
+                    <CreditCard className="w-4 h-4 text-accent-amber-strong" /> 2Checkout (Verifone)
                   </div>
                   <div className="text-[11px] text-gray-600 mt-0.5">Global Primary Gateway</div>
                 </div>
-                {gateway === '2checkout' && <Check className="w-4 h-4 text-accent-cyan shrink-0" />}
+                {gateway === '2checkout' && <Check className="w-4 h-4 text-accent-amber-strong shrink-0" />}
               </button>
 
               <button
@@ -227,11 +227,11 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
             </div>
             <div className="flex items-center justify-between text-xs font-semibold text-gray-600">
               <span>Gateway Engine</span>
-              <span className="text-accent-cyan font-mono font-bold uppercase">{gateway === 'dodopay' ? 'Dodo Payments (Backup)' : '2Checkout (Verifone)'}</span>
+              <span className="text-accent-amber-strong font-mono font-bold uppercase">{gateway === 'dodopay' ? 'Dodo Payments (Backup)' : '2Checkout (Verifone)'}</span>
             </div>
             <div className="pt-2 border-t border-gray-200 flex items-center justify-between text-sm font-bold text-white">
               <span>Total Due Today</span>
-              <span className="text-accent-cyan font-mono text-base">${price}.00 USD</span>
+              <span className="text-accent-amber-strong font-mono text-base">${price}.00 USD</span>
             </div>
           </div>
 
@@ -245,7 +245,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
           {checkoutUrl && loading && (
             <div className="mt-4 p-3 rounded-lg bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-300 flex items-center justify-between">
               <span className="flex items-center gap-2">
-                <RefreshCw className="w-4 h-4 animate-spin text-accent-cyan" />
+                <RefreshCw className="w-4 h-4 animate-spin text-accent-amber-strong" />
                 <span>Redirecting to {gateway === 'dodopay' ? 'Dodo Payments' : '2Checkout'} Sandbox Gateway...</span>
               </span>
               <a href={checkoutUrl} target="_blank" rel="noreferrer" className="text-white underline flex items-center gap-1 font-mono">
@@ -279,7 +279,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
               >
                 {loading ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin text-accent-cyan" />
+                    <RefreshCw className="w-4 h-4 animate-spin text-accent-amber-strong" />
                     <span>Processing Payment...</span>
                   </>
                 ) : success ? (
@@ -289,7 +289,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                   </>
                 ) : (
                   <>
-                    <CreditCard className="w-4 h-4 text-accent-cyan" />
+                    <CreditCard className="w-4 h-4 text-accent-amber-strong" />
                     <span>Pay ${price} via {gateway === 'dodopay' ? 'DodoPay' : '2Checkout'}</span>
                   </>
                 )}

@@ -61,7 +61,7 @@ export const TermsSection: React.FC = () => {
       {/* Terms Header Card */}
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
-          <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
+          <div className="flex items-center gap-2 text-xs text-accent-amber-strong mb-1">
             <Scale className="h-4 w-4" />
             <span>OPERATING AGREEMENT • REV 2026.8</span>
           </div>
@@ -74,7 +74,7 @@ export const TermsSection: React.FC = () => {
 
           <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-brand-slate/30 pt-4 text-xs text-brand-slate-light">
             <span className="flex items-center gap-1">
-              <Award className="h-3.5 w-3.5 text-accent-cyan" />
+              <Award className="h-3.5 w-3.5 text-accent-amber-strong" />
               <span>Report Ownership: 100% User Retained</span>
             </span>
             <span>•</span>
@@ -90,7 +90,7 @@ export const TermsSection: React.FC = () => {
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl">
           <div className="flex items-center gap-2 mb-1.5">
-            <ShieldAlert className="h-4 w-4 text-accent-cyan" />
+            <ShieldAlert className="h-4 w-4 text-accent-amber-strong" />
             <h3 className="text-base font-bold text-black font-sans">Ethical Use &amp; Scanning Authorization Matrix</h3>
           </div>
           <p className="text-xs text-brand-periwinkle mb-5 font-sans">
@@ -138,7 +138,7 @@ export const TermsSection: React.FC = () => {
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-5">
             <div>
-              <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
+              <div className="flex items-center gap-2 text-xs text-accent-amber-strong mb-1">
                 <Zap className="h-3.5 w-3.5" />
                 <span>SLA &amp; UPTIME COMMITMENT</span>
               </div>
@@ -166,7 +166,7 @@ export const TermsSection: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5">
               <span className="text-[10px] uppercase font-bold text-brand-slate-light">Availability SLA</span>
-              <div className="text-base font-extrabold text-accent-cyan mt-0.5">
+              <div className="text-base font-extrabold text-accent-amber-strong mt-0.5">
                 {slaTiers[activeTier].availability}
               </div>
             </div>

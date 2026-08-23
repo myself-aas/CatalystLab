@@ -129,7 +129,7 @@ export default {
         <div className="relative mx-auto max-w-7xl">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-mono text-gray-600">
-              <Radio className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+              <Radio className="h-3.5 w-3.5 text-accent-amber-strong animate-pulse" />
               <span>Products &amp; Continuous Telemetry</span>
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-accent-emerald/40 bg-emerald-950/40 px-3 py-1 text-xs font-mono text-accent-emerald font-bold">
@@ -150,14 +150,14 @@ export default {
               href="#domain-configurator"
               className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover text-white px-5 py-2.5 text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
-              <Sliders className="h-4 w-4 text-accent-cyan" />
+              <Sliders className="h-4 w-4 text-accent-amber-strong" />
               <span>Configure Domain Monitor</span>
             </a>
             <Link
               to="/dashboard?tab=monitoring"
               className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 hover:text-white px-5 py-2.5 text-xs sm:text-sm font-mono transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
-              <Activity className="h-4 w-4 text-accent-cyan" />
+              <Activity className="h-4 w-4 text-accent-amber-strong" />
               <span>View Monitored Domains</span>
             </Link>
             <Link
@@ -199,7 +199,7 @@ export default {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <div className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1.5 mb-1">
-                <Layers className="h-4 w-4 text-accent-cyan" />
+                <Layers className="h-4 w-4 text-accent-amber-strong" />
                 <span>Integration Suite</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
@@ -263,10 +263,10 @@ export default {
               <div className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-lg hover:border-gray-200 transition-all">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-accent-cyan border border-gray-200">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-accent-amber-strong border border-gray-200">
                       <Radio className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold bg-cyan-950/40 text-accent-cyan border border-cyan-500/30 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] font-mono font-bold bg-cyan-950/40 text-accent-amber-strong border border-cyan-500/30 px-2 py-0.5 rounded-md">
                       Automated Cron
                     </span>
                   </div>
@@ -293,7 +293,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">Tier: Dev / Pro</span>
                   <a
                     href="#domain-configurator"
-                    className="inline-flex items-center gap-1 text-xs font-bold font-mono text-accent-cyan hover:underline"
+                    className="inline-flex items-center gap-1 text-xs font-bold font-mono text-accent-amber-strong hover:underline"
                   >
                     <span>Configure Now</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -337,7 +337,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">catalystlab/audit-action@v2</span>
                   <a
                     href="#integration-code"
-                    className="inline-flex items-center gap-1 text-xs font-bold font-mono text-accent-cyan hover:underline"
+                    className="inline-flex items-center gap-1 text-xs font-bold font-mono text-accent-amber-strong hover:underline"
                   >
                     <span>View YAML</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -381,7 +381,7 @@ export default {
                   <span className="text-xs font-mono text-gray-500">Edge Middleware</span>
                   <a
                     href="#integration-code"
-                    className="inline-flex items-center gap-1 text-xs font-bold font-mono text-accent-cyan hover:underline"
+                    className="inline-flex items-center gap-1 text-xs font-bold font-mono text-accent-amber-strong hover:underline"
                   >
                     <span>View Worker</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -397,7 +397,7 @@ export default {
         <section id="domain-configurator" className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-xl">
           <div className="max-w-3xl mb-8">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 text-xs font-mono mb-2">
-              <Sliders className="h-3.5 w-3.5 text-accent-cyan" />
+              <Sliders className="h-3.5 w-3.5 text-accent-amber-strong" />
               <span>Interactive Config Studio</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
@@ -490,7 +490,7 @@ export default {
                             : 'border-gray-200 bg-gray-100/50 text-gray-500 hover:bg-gray-100'
                         }`}
                       >
-                        <Icon className={`h-4 w-4 shrink-0 ${isEnabled ? 'text-accent-cyan' : 'text-gray-500'}`} />
+                        <Icon className={`h-4 w-4 shrink-0 ${isEnabled ? 'text-accent-amber-strong' : 'text-gray-500'}`} />
                         <div className="truncate">
                           <div className="text-xs font-bold font-mono truncate">{engine.label}</div>
                           <div className="text-[10px] font-mono text-gray-500 truncate">
@@ -585,7 +585,7 @@ export default {
                   to={`/dashboard?tab=monitoring&domain=${encodeURIComponent(targetDomain)}`}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover text-white font-mono font-bold px-4 py-2 text-xs transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
                 >
-                  <PlusCircle className="h-3.5 w-3.5 text-accent-cyan" />
+                  <PlusCircle className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <span>Add to My Dashboard</span>
                 </Link>
               </div>
@@ -598,7 +598,7 @@ export default {
         <section id="integration-code">
           <div className="mb-6">
             <div className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1.5 mb-1">
-              <Code2 className="h-4 w-4 text-accent-cyan" />
+              <Code2 className="h-4 w-4 text-accent-amber-strong" />
               <span>Developer Integrations</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
@@ -641,7 +641,7 @@ export default {
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-black">
-                    <Globe className="h-4 w-4 text-accent-cyan" />
+                    <Globe className="h-4 w-4 text-accent-amber-strong" />
                     <span>Cloudflare Worker / Edge Interceptor</span>
                   </div>
                   <button
@@ -668,7 +668,7 @@ export default {
         <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-10 text-white shadow-xl">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center lg:text-left max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-accent-cyan/40 bg-gray-100 px-3 py-1 text-xs font-mono text-accent-cyan">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-accent-cyan/40 bg-gray-100 px-3 py-1 text-xs font-mono text-accent-amber-strong">
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>Enterprise Custom Domain Networks</span>
               </div>

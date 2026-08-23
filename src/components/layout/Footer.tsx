@@ -27,10 +27,10 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="relative z-20 border-t border-border bg-muted/30 text-foreground">
+    <footer id="main-footer" className="relative z-20 border-t border-border bg-surface-muted text-foreground">
       {/* Main Multi-Column Footer Menu */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
+      <div className="ds-page-shell ds-section-tight">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-12">
           
           {/* Column 1: Brand, Mission & CLI Snippet */}
           <div className="sm:col-span-2 lg:col-span-4 space-y-4">
@@ -224,7 +224,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar: Copyright, Sync, and Back to Top */}
-        <div className="mt-12 flex flex-col items-center justify-between border-t border-gray-200 pt-6 sm:flex-row gap-4">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
           <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
             <p className="text-xs text-gray-500 font-mono">
               &copy; 2026 CatalystLab. Enterprise Telemetry &amp; Automated Web Quality Intelligence.

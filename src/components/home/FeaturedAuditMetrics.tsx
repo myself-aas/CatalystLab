@@ -193,7 +193,7 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '16.2ms',
     highlightLabel: 'Global Avg TTFB',
     score: '42/42',
-    scoreColor: 'text-accent-cyan bg-cyan-950/40 border-cyan-500/30',
+    scoreColor: 'text-accent-amber-strong bg-cyan-950/40 border-cyan-500/30',
     badge: 'HTTP/3 QUIC',
     description: 'Parallel synthetic routing across 42 global edge points of presence verifying TLS 1.3 0-RTT handshakes.',
     icon: Globe2,
@@ -409,15 +409,15 @@ export const FeaturedAuditMetrics: React.FC = () => {
   const currentCategory = categories.find((c) => c.id === selectedCategory) || categories[0];
 
   return (
-    <section className="py-12 lg:py-16 bg-gray-100/70 backdrop-blur-sm border-b border-gray-200 text-black relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="ds-section bg-white text-black relative overflow-hidden">
+      <div className="ds-page-shell">
         
         {/* Header & Controls */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-gray-200">
           
           <div className="space-y-2 max-w-2xl text-left">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs font-mono text-gray-600 shadow-sm">
-              <Activity className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+              <Activity className="h-3.5 w-3.5 text-accent-amber-strong animate-pulse" />
               <span>Continuous SDLC Observability • 8 Vector Metrics</span>
             </div>
             
@@ -443,7 +443,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
               >
                 <span className="text-gray-500">Filter:</span>
                 <span className="font-semibold text-black">{currentCategory.label}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-accent-cyan transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-3.5 w-3.5 text-accent-amber-strong transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Dropdown Menu */}
@@ -477,7 +477,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
                           }`}
                         >
                           <span>{cat.label}</span>
-                          <span className={`text-[10px] ${isSelected ? 'text-accent-cyan' : 'text-gray-500'}`}>
+                          <span className={`text-[10px] ${isSelected ? 'text-accent-amber-strong' : 'text-gray-500'}`}>
                             {cat.count}
                           </span>
                         </button>
@@ -565,14 +565,14 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     {/* Title and Icon */}
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <h3 className="text-sm sm:text-base font-bold text-black group-hover:text-accent-cyan transition-colors leading-tight">
+                        <h3 className="text-sm sm:text-base font-bold text-black group-hover:text-accent-amber-strong transition-colors leading-tight">
                           {metric.title}
                         </h3>
                         <p className="text-[11px] font-mono text-gray-500 mt-0.5">
                           {metric.engineName}
                         </p>
                       </div>
-                      <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-accent-cyan shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-accent-amber-strong shrink-0">
                         <IconComponent className="h-4 w-4" />
                       </div>
                     </div>
@@ -648,7 +648,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
               </button>
 
               <div className="space-y-1.5 pr-10">
-                <div className="flex items-center gap-2 text-xs font-mono text-accent-cyan">
+                <div className="flex items-center gap-2 text-xs font-mono text-accent-amber-strong">
                   <span className="h-2 w-2 rounded-full bg-accent-cyan animate-pulse" />
                   <span>{inspectedMetric.phase}</span>
                 </div>
@@ -675,7 +675,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
               <div className="space-y-1.5">
                 <div className="text-xs font-mono text-gray-500 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
-                    <Terminal className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Terminal className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>Run Synthetic Vector Probe via Terminal</span>
                   </span>
                   <span className="text-[10px] text-gray-500">Node.js / CI CLI</span>

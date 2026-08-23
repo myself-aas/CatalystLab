@@ -176,7 +176,7 @@ export const BlogsPage: React.FC = () => {
       {user && (
         <div className="border-b border-gray-200 bg-gray-100">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-accent-cyan">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-accent-amber-strong">
               <Sparkles className="h-3 w-3" />
               <span>
                 {isAdmin ? 'Admin Mode Active — Publishing & editing privileges enabled' : 'Author Access Active'}
@@ -207,7 +207,7 @@ export const BlogsPage: React.FC = () => {
       {/* Hero Header Section */}
       <section className="border-b border-gray-200 bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center space-y-3">
-          <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong uppercase tracking-wider">
             <BookOpen className="h-3 w-3" />
             <span>CatalystLab Engineering Publications</span>
           </div>
@@ -345,7 +345,7 @@ export const BlogsPage: React.FC = () => {
                       
                       {/* Category Pill Tag */}
                       <div className="absolute top-2.5 left-2.5">
-                        <span className="rounded-md bg-white/90 border border-gray-200 px-2.5 py-0.5 text-[10px] font-bold text-accent-cyan shadow-sm">
+                        <span className="rounded-md bg-white/90 border border-gray-200 px-2.5 py-0.5 text-[10px] font-bold text-accent-amber-strong shadow-sm">
                           {post.category || 'Engineering'}
                         </span>
                       </div>
@@ -369,7 +369,7 @@ export const BlogsPage: React.FC = () => {
                           className="h-6 w-6 rounded-lg bg-white/80 hover:bg-white border border-gray-200 flex items-center justify-center text-black transition-all cursor-pointer"
                         >
                           {isBookmarked ? (
-                            <BookmarkCheck className="h-3 w-3 text-accent-cyan fill-accent-cyan" />
+                            <BookmarkCheck className="h-3 w-3 text-accent-amber-strong fill-accent-cyan" />
                           ) : (
                             <Bookmark className="h-3 w-3 text-gray-600" />
                           )}
@@ -380,12 +380,12 @@ export const BlogsPage: React.FC = () => {
                     {/* Metadata line */}
                     <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                       <span className="flex items-center gap-1 text-[10px]">
-                        <Calendar className="h-2.5 w-2.5 text-accent-cyan" />
+                        <Calendar className="h-2.5 w-2.5 text-accent-amber-strong" />
                         {formatDate(post.createdAt)}
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1 text-[10px]">
-                        <Clock className="h-2.5 w-2.5 text-accent-cyan" />
+                        <Clock className="h-2.5 w-2.5 text-accent-amber-strong" />
                         {getArticleReadingTime(post)}
                       </span>
                       {post.views && (
@@ -398,7 +398,7 @@ export const BlogsPage: React.FC = () => {
 
                     {/* Title */}
                     <Link to={`/blog/${post.slug || post.id}`}>
-                      <h3 className="text-sm font-bold text-black group-hover:text-accent-cyan transition-colors leading-snug line-clamp-2 font-sans">
+                      <h3 className="text-sm font-bold text-black group-hover:text-accent-amber-strong transition-colors leading-snug line-clamp-2 font-sans">
                         {post.title}
                       </h3>
                     </Link>
@@ -445,7 +445,7 @@ export const BlogsPage: React.FC = () => {
 
                     <Link
                       to={`/blog/${post.slug || post.id}`}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-accent-cyan hover:underline transition-all"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-accent-amber-strong hover:underline transition-all"
                     >
                       <span>Read</span>
                       <ArrowRight className="h-3 w-3" />
@@ -475,7 +475,7 @@ export const BlogsPage: React.FC = () => {
             
             {/* Left Narrative */}
             <div className="lg:col-span-5 space-y-3">
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-accent-cyan">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-accent-amber-strong">
                 <Sparkles className="h-3.5 w-3.5" /> Engineer&apos;s Field Highlights
               </div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-black leading-tight font-sans">
@@ -524,8 +524,8 @@ export const BlogsPage: React.FC = () => {
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-black/40 to-transparent p-3.5 flex flex-col justify-end">
-                  <span className="text-[10px] font-bold text-accent-cyan uppercase tracking-wider mb-0.5">Telemetry Spotlight</span>
-                  <h4 className="text-xs font-bold text-white group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
+                  <span className="text-[10px] font-bold text-accent-amber-strong uppercase tracking-wider mb-0.5">Telemetry Spotlight</span>
+                  <h4 className="text-xs font-bold text-white group-hover:text-accent-amber-strong transition-colors line-clamp-2 font-sans">
                     Optimizing DOM Depth &amp; Eliminating Hydration Freezes
                   </h4>
                 </div>
@@ -543,8 +543,8 @@ export const BlogsPage: React.FC = () => {
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-black/40 to-transparent p-3.5 flex flex-col justify-end">
-                  <span className="text-[10px] font-bold text-accent-cyan uppercase tracking-wider mb-0.5">Edge Latency</span>
-                  <h4 className="text-xs font-bold text-white group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
+                  <span className="text-[10px] font-bold text-accent-amber-strong uppercase tracking-wider mb-0.5">Edge Latency</span>
+                  <h4 className="text-xs font-bold text-white group-hover:text-accent-amber-strong transition-colors line-clamp-2 font-sans">
                     Sub-20ms Anycast Routing &amp; Worker Invalidation
                   </h4>
                 </div>
@@ -559,7 +559,7 @@ export const BlogsPage: React.FC = () => {
       {/* 4. NEWSLETTER SUBSCRIPTION SECTION */}
       <section className="border-t border-gray-200 bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan">
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong">
             <Sparkles className="h-3 w-3" />
             <span>Weekly Engineering Telemetry Digest</span>
           </div>

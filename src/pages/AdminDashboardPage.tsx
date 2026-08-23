@@ -29,7 +29,7 @@ export const AdminDashboardPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-white py-24 text-center text-gray-600 font-mono">
-        <RefreshCw className="h-6 w-6 animate-spin text-accent-cyan mx-auto mb-3" />
+        <RefreshCw className="h-6 w-6 animate-spin text-accent-amber-strong mx-auto mb-3" />
         <div className="text-sm font-semibold">Verifying superadmin authorization...</div>
       </div>
     );
@@ -44,7 +44,7 @@ export const AdminDashboardPage: React.FC = () => {
           description="The CatalystLab Command Center and Infrastructure Radar are strictly restricted to authorized Primary Superadmins."
         />
         <div className="mx-auto max-w-lg rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 text-center shadow-2xl text-black">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-gray-100 text-accent-cyan border border-gray-200 mb-5 shadow-inner">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-gray-100 text-accent-amber-strong border border-gray-200 mb-5 shadow-inner">
             <Lock className="h-7 w-7" />
           </div>
 
@@ -86,7 +86,7 @@ export const AdminDashboardPage: React.FC = () => {
                   onClick={() => logout().then(() => login())}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-xs cursor-pointer whitespace-nowrap"
                 >
-                  <LogIn className="h-3.5 w-3.5 text-accent-cyan" />
+                  <LogIn className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <span>Switch Superadmin</span>
                 </button>
               ) : (
@@ -94,7 +94,7 @@ export const AdminDashboardPage: React.FC = () => {
                   onClick={() => login()}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-xs cursor-pointer whitespace-nowrap"
                 >
-                  <LogIn className="h-3.5 w-3.5 text-accent-cyan" />
+                  <LogIn className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <span>Sign In with Google</span>
                 </button>
               )}
@@ -141,7 +141,7 @@ export const AdminDashboardPage: React.FC = () => {
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
-              <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-semibold text-accent-cyan mb-1 font-sans">
+              <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-semibold text-accent-amber-strong mb-1 font-sans">
                 <ShieldCheck className="h-3.5 w-3.5" />
                 <span>Primary Superadmin Command Center</span>
               </div>
@@ -158,7 +158,7 @@ export const AdminDashboardPage: React.FC = () => {
               <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs">
                 <div className="h-2 w-2 rounded-full bg-accent-emerald animate-pulse" />
                 <span className="text-black font-mono text-[11px] truncate max-w-[180px]">{user.email}</span>
-                <span className="rounded bg-white border border-gray-200 px-1.5 py-0.5 font-bold text-accent-cyan text-[10px]">
+                <span className="rounded bg-white border border-gray-200 px-1.5 py-0.5 font-bold text-accent-amber-strong text-[10px]">
                   SUPERADMIN
                 </span>
               </div>
@@ -171,7 +171,7 @@ export const AdminDashboardPage: React.FC = () => {
               to="/admin/monitoring"
               className={`flex items-center gap-1.5 border-b-2 px-3 py-2 text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer ${
                 isMonitoring
-                  ? 'border-accent-cyan text-accent-cyan'
+                  ? 'border-accent-cyan text-accent-amber-strong'
                   : 'border-transparent text-gray-600 hover:text-white'
               }`}
             >
@@ -183,7 +183,7 @@ export const AdminDashboardPage: React.FC = () => {
               to="/admin/blogs"
               className={`flex items-center gap-1.5 border-b-2 px-3 py-2 text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer ${
                 isBlogs
-                  ? 'border-accent-cyan text-accent-cyan'
+                  ? 'border-accent-cyan text-accent-amber-strong'
                   : 'border-transparent text-gray-600 hover:text-white'
               }`}
             >
@@ -195,7 +195,7 @@ export const AdminDashboardPage: React.FC = () => {
               to="/admin/inquiries"
               className={`flex items-center gap-1.5 border-b-2 px-3 py-2 text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer ${
                 isInquiries
-                  ? 'border-accent-cyan text-accent-cyan'
+                  ? 'border-accent-cyan text-accent-amber-strong'
                   : 'border-transparent text-gray-600 hover:text-white'
               }`}
             >

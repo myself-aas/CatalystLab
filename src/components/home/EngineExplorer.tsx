@@ -71,8 +71,8 @@ export const EngineExplorer: React.FC = () => {
   const ActiveIcon = getEngineIcon(activeEngine.id);
 
   return (
-    <section className="py-24 bg-white text-zinc-950 relative overflow-hidden border-b border-zinc-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="ds-section ds-surface-alt text-zinc-950 relative overflow-hidden">
+      <div className="ds-page-shell">
         
         {/* Section Header & Carousel Navigation */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">

@@ -158,7 +158,7 @@ export const ContactPage: React.FC = () => {
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs font-mono font-bold text-accent-cyan uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs font-mono font-bold text-accent-amber-strong uppercase tracking-wider mb-3">
                 <LifeBuoy className="h-3.5 w-3.5" />
                 <span>CatalystLab Engineering Support</span>
               </div>
@@ -217,7 +217,7 @@ export const ContactPage: React.FC = () => {
                 
                 {/* 1. Department Selection */}
                 <div>
-                  <label className="block text-xs font-bold text-accent-cyan uppercase tracking-wider mb-2.5">
+                  <label className="block text-xs font-bold text-accent-amber-strong uppercase tracking-wider mb-2.5">
                     1. Select Inquiry Topic / Routing
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -236,7 +236,7 @@ export const ContactPage: React.FC = () => {
                           }`}
                         >
                           <div className={`p-2 rounded-lg shrink-0 ${
-                            isSelected ? 'bg-white text-accent-cyan' : 'bg-white text-gray-600'
+                            isSelected ? 'bg-white text-accent-amber-strong' : 'bg-white text-gray-600'
                           }`}>
                             <Icon className="h-4 w-4" />
                           </div>
@@ -256,7 +256,7 @@ export const ContactPage: React.FC = () => {
 
                 {/* 2. Priority Level */}
                 <div>
-                  <label className="block text-xs font-bold text-accent-cyan uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-accent-amber-strong uppercase tracking-wider mb-2">
                     2. Urgency &amp; Priority Level
                   </label>
                   <div className="flex flex-wrap items-center gap-2">
@@ -363,12 +363,12 @@ export const ContactPage: React.FC = () => {
                 >
                   {isSubmitting ? (
                     <>
-                      <RotateCw className="h-4 w-4 text-accent-cyan animate-spin" />
+                      <RotateCw className="h-4 w-4 text-accent-amber-strong animate-spin" />
                       <span>Transmitting Support Ticket...</span>
                     </>
                   ) : (
                     <>
-                      <Send className="h-4 w-4 text-accent-cyan" />
+                      <Send className="h-4 w-4 text-accent-amber-strong" />
                       <span>Submit Support Request</span>
                     </>
                   )}
@@ -393,7 +393,7 @@ export const ContactPage: React.FC = () => {
         <LazyReveal direction="up">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 font-mono">
             <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-xl space-y-1.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-accent-cyan border border-gray-200 mb-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-accent-amber-strong border border-gray-200 mb-2">
                 <Mail className="h-4 w-4" />
               </div>
               <h4 className="text-xs font-bold text-black">Direct Email Hotline</h4>

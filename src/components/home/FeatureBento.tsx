@@ -89,7 +89,7 @@ export const FeatureBento: React.FC = () => {
 
   return (
     <section className="py-16 lg:py-24 bg-white text-zinc-950 relative border-b border-zinc-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="ds-page-shell">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">

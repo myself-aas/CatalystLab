@@ -750,12 +750,12 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           >
             {runningSuite ? (
               <>
-                <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
+                <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-amber-strong" />
                 <span>Running Suite ({suiteProgress}%)...</span>
               </>
             ) : (
               <>
-                <Zap className="h-3.5 w-3.5 text-accent-cyan" />
+                <Zap className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Run API Verification Suite</span>
               </>
             )}
@@ -795,7 +795,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                 >
                   <div className="truncate mr-2">
                     <div className="font-semibold text-black truncate text-[11px] font-sans">{item.summary}</div>
-                    <div className="font-mono text-[10px] text-accent-cyan truncate">{item.path}</div>
+                    <div className="font-mono text-[10px] text-accent-amber-strong truncate">{item.path}</div>
                   </div>
 
                   <div className="shrink-0 flex items-center gap-1">
@@ -810,7 +810,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       </span>
                     )}
                     {item.status === 'running' && (
-                      <RefreshCw className="h-3 w-3 animate-spin text-accent-cyan" />
+                      <RefreshCw className="h-3 w-3 animate-spin text-accent-amber-strong" />
                     )}
                     {item.status === 'pending' && (
                       <span className="text-[10px] text-brand-slate-light">Queued</span>

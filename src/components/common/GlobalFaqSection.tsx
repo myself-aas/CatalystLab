@@ -169,19 +169,19 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
   return (
     <section 
       id="faq-section"
-      className="bg-gray-100 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 font-sans text-black border-b border-gray-200"
+      className="ds-section ds-surface-alt font-sans text-black"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="ds-page-shell">
         {/* Header */}
-        <div className="text-center mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-gray-200 text-accent-cyan text-xs font-mono font-bold uppercase tracking-wider mb-3">
+        <div className="ds-section-head ds-section-head-center">
+          <div className="ds-eyebrow ds-eyebrow-pill mb-3">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Knowledge Base &amp; Diagnostic FAQ</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black tracking-tight">
+          <h2 className="ds-h2 text-black">
             {title}
           </h2>
-          <p className="text-gray-600 mt-2 max-w-2xl mx-auto text-xs sm:text-sm leading-relaxed">
+          <p className="ds-lede mt-3">
             {subtitle}
           </p>
 
@@ -219,13 +219,13 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                 <span className="text-xs font-mono font-bold text-black">
                   Search Results for &ldquo;{searchQuery}&rdquo;
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-cyan-950/60 text-accent-cyan border border-cyan-500/30 text-[10px] font-mono font-bold">
+                <span className="px-2 py-0.5 rounded-full bg-cyan-950/60 text-accent-amber-strong border border-cyan-500/30 text-[10px] font-mono font-bold">
                   {searchResults.length} match{searchResults.length === 1 ? '' : 'es'}
                 </span>
               </div>
               <button
                 onClick={() => setSearchQuery('')}
-                className="text-xs font-mono text-accent-cyan hover:underline transition-colors"
+                className="text-xs font-mono text-accent-amber-strong hover:underline transition-colors"
               >
                 Clear filter
               </button>
@@ -268,7 +268,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                               {res.categoryLabel}
                             </span>
                             {res.item.badge && (
-                              <span className="px-2 py-0.5 rounded bg-cyan-950/40 text-accent-cyan border border-cyan-500/30 text-[10px] font-mono font-bold">
+                              <span className="px-2 py-0.5 rounded bg-cyan-950/40 text-accent-amber-strong border border-cyan-500/30 text-[10px] font-mono font-bold">
                                 {res.item.badge}
                               </span>
                             )}
@@ -353,7 +353,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                       <div className="flex items-center gap-2.5 min-w-0 pr-2">
                         <div className={`flex items-center justify-center w-7 h-7 rounded-lg transition-colors ${
                           isActive 
-                            ? 'bg-gray-100 text-accent-cyan border border-gray-200' 
+                            ? 'bg-gray-100 text-accent-amber-strong border border-gray-200' 
                             : 'bg-white border border-gray-200 text-gray-500 group-hover:text-white'
                         }`}>
                           {getCategoryIcon(cat.iconName || cat.id)}
@@ -374,7 +374,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
 
                 {/* Quick docs highlight box */}
                 <div className="mt-3 p-4 rounded-xl bg-white border border-gray-200 space-y-2">
-                  <div className="flex items-center gap-1.5 text-accent-cyan font-mono font-bold text-xs uppercase tracking-wide">
+                  <div className="flex items-center gap-1.5 text-accent-amber-strong font-mono font-bold text-xs uppercase tracking-wide">
                     <BookOpen className="h-3.5 w-3.5" />
                     <span>Technical Architecture</span>
                   </div>
@@ -383,7 +383,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   </p>
                   <Link
                     to="/docs"
-                    className="inline-flex items-center gap-1 text-xs font-mono font-bold text-accent-cyan hover:underline transition-colors"
+                    className="inline-flex items-center gap-1 text-xs font-mono font-bold text-accent-amber-strong hover:underline transition-colors"
                   >
                     <span>Browse Engineering Docs</span>
                     <ArrowRight className="h-3 w-3" />
@@ -397,7 +397,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                 <div className="bg-white rounded-xl p-4 sm:p-5 border border-gray-200 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono">
                   <div>
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-gray-100 border border-gray-200 text-accent-cyan">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-gray-100 border border-gray-200 text-accent-amber-strong">
                         {getCategoryIcon(activeCategory?.iconName || activeCategory?.id)}
                       </div>
                       <h3 className="text-sm sm:text-base font-bold text-black">
@@ -448,7 +448,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                         >
                           <div className="space-y-1 pr-2">
                             {item.badge && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded bg-cyan-950/40 border border-cyan-500/30 text-accent-cyan text-[10px] font-mono font-bold mb-1">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded bg-cyan-950/40 border border-cyan-500/30 text-accent-amber-strong text-[10px] font-mono font-bold mb-1">
                                 {item.badge}
                               </span>
                             )}
@@ -490,7 +490,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   <div className="space-y-1">
                     <div className="flex items-center gap-1.5">
                       <CheckCircle2 className="h-3.5 w-3.5 text-accent-emerald" />
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-accent-cyan">Direct Engineering Support</span>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-accent-amber-strong">Direct Engineering Support</span>
                     </div>
                     <h4 className="font-extrabold text-black text-sm sm:text-base">
                       Still have questions about CatalystLab?

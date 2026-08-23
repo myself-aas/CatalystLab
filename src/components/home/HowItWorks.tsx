@@ -71,20 +71,18 @@ export const HowItWorks: React.FC = () => {
   };
 
   return (
-    <section className="py-14 lg:py-18 bg-transparent text-black relative overflow-hidden border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="ds-section bg-white text-black relative overflow-hidden">
+      <div className="ds-page-shell">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div className="ds-section-head-row">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs font-mono text-gray-600 mb-3 shadow-sm">
-              <Network className="h-3.5 w-3.5 text-accent-cyan" />
+            <div className="ds-eyebrow ds-eyebrow-pill mb-3">
+              <Network className="h-3.5 w-3.5 text-accent-amber-strong" />
               <span>Telemetry Execution Pipeline</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-black">
-              Execution Workflow
-            </h2>
-            <p className="text-xs sm:text-sm text-gray-600 max-w-xl mt-1.5 leading-relaxed">
+            <h2 className="ds-h2 text-black">Execution Workflow</h2>
+            <p className="ds-lede mt-3">
               Four synchronous stages from anycast edge DNS resolution to complete remediation code patches.
             </p>
           </LazyReveal>
@@ -117,7 +115,7 @@ export const HowItWorks: React.FC = () => {
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 pt-1 scroll-smooth"
+          className="ds-scroll-row no-scrollbar scroll-smooth"
           tabIndex={0}
           role="region"
           aria-label="Pipeline execution workflow steps"
@@ -127,11 +125,11 @@ export const HowItWorks: React.FC = () => {
             return (
               <div
                 key={step.number}
-                className="w-[280px] sm:w-[310px] shrink-0 snap-start bg-white border border-gray-200 rounded-2xl p-5 flex flex-col justify-between hover:border-gray-200 transition-all space-y-4 shadow-lg"
+                className="ds-card ds-card-interactive w-[280px] sm:w-[310px] shrink-0 p-5 flex flex-col justify-between space-y-4"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="p-2.5 rounded-xl bg-gray-100 border border-gray-200 text-accent-cyan">
+                    <div className="p-2.5 rounded-xl bg-gray-100 border border-gray-200 text-accent-amber-strong">
                       <Icon className="h-5 w-5" />
                     </div>
                     <span className="text-[10px] font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-200 uppercase tracking-wider">
@@ -156,7 +154,7 @@ export const HowItWorks: React.FC = () => {
                   </span>
                   <Link
                     to="/playground"
-                    className="text-accent-cyan hover:underline font-bold flex items-center gap-1 transition-colors"
+                    className="text-accent-amber-strong hover:underline font-bold flex items-center gap-1 transition-colors"
                   >
                     <span>Run Scan</span>
                     <ArrowRight className="h-3 w-3" />

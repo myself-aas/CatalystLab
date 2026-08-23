@@ -71,31 +71,31 @@ export const HeroSection: React.FC = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-zinc-50/50 via-white to-white py-16 lg:py-28 border-b border-zinc-200">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <section className="ds-section relative overflow-hidden bg-gradient-to-b from-zinc-50/60 via-white to-white">
+      <div className="ds-page-shell">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
           
           {/* LEFT COLUMN */}
-          <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center text-left">
+          <div className="lg:col-span-7 flex flex-col justify-center text-left">
             <LazyReveal direction="up" delay={0.1}>
               {/* Clora-inspired Pill Badge */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100 px-3.5 py-1 text-xs font-mono font-medium text-zinc-800 shadow-2xs mb-6 w-fit">
+              <div className="ds-eyebrow ds-eyebrow-pill mb-6 w-fit">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>✦ NEXT-GEN TELEMETRY & AUDIT OS</span>
+                <span>Next-gen telemetry &amp; audit OS</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05] text-zinc-950">
+              <h1 className="ds-display text-zinc-950">
                 Precision Telemetry. <br className="hidden sm:block" />
                 Autonomous Auditing.
               </h1>
               
-              <p className="mt-6 text-base sm:text-lg text-zinc-600 max-w-xl leading-relaxed">
+              <p className="ds-lede mt-5">
                 Execute enterprise-grade diagnostic micro-engines on any domain. Audit Web Vitals, OWASP transport security, and LLM discoverability in under 2 seconds.
               </p>
             </LazyReveal>
 
             <LazyReveal direction="up" delay={0.2}>
-              <div className="mt-10 max-w-xl">
+              <div className="mt-8 max-w-xl">
                 <EngineInput 
                   value={heroUrl}
                   onChange={setHeroUrl}
@@ -112,14 +112,14 @@ export const HeroSection: React.FC = () => {
                 
                 {/* Presets */}
                 <div className="mt-5 flex flex-wrap items-center gap-2 text-xs sm:text-sm">
-                  <span className="text-zinc-500 font-medium text-xs uppercase tracking-wider select-none mr-1">Presets:</span>
+                  <span className="ds-eyebrow select-none mr-1">Presets</span>
                   {['catalystlab.tech', 'stripe.com', 'github.com', 'vercel.com'].map((domain) => (
                     <button
                       key={domain}
                       type="button"
                       onClick={() => selectQuickSample(domain)}
                       aria-label={`Use ${domain} as the audit target`}
-                      className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-100/80 px-3 text-xs font-mono text-zinc-700 transition-all duration-150 hover:bg-zinc-200 hover:text-zinc-950 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
+                      className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 text-xs font-mono text-zinc-700 transition-all duration-150 hover:border-zinc-400 hover:bg-zinc-50 hover:text-zinc-950 active:scale-95 cursor-pointer"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       <span>{domain}</span>
@@ -131,7 +131,7 @@ export const HeroSection: React.FC = () => {
           </div>
 
           {/* RIGHT COLUMN (Unsplash Banner + Glass Card) */}
-          <div className="lg:col-span-6 xl:col-span-5 relative w-full h-[500px] lg:h-[650px] rounded-3xl overflow-hidden shadow-xl border border-zinc-200/80">
+          <div className="lg:col-span-5 relative w-full min-h-[26rem] rounded-3xl overflow-hidden shadow-xl border border-zinc-200/80">
             {/* Background Image */}
             <img 
               src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200" 
@@ -142,7 +142,7 @@ export const HeroSection: React.FC = () => {
             {/* Overlay for contrast */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/70 via-white/30 to-transparent mix-blend-overlay pointer-events-none" />
 
-            <LazyReveal direction="scale" delay={0.3} className="absolute inset-0 flex items-center justify-center p-4 sm:p-8">
+            <LazyReveal direction="scale" delay={0.3} className="relative flex h-full items-center justify-center p-4 sm:p-6">
               <div className="liquid-glass-web-approx rounded-3xl p-5 sm:p-6 w-full max-w-sm text-left shadow-2xl border border-white/80 bg-white/90 backdrop-blur-xl">
                 
                 {/* Header */}

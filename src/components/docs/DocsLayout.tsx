@@ -242,7 +242,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           {/* Quick Search */}
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 rounded-lg border border-brand-slate/40 bg-white px-3 py-1.5 text-xs text-brand-slate-light">
-              <Search className="h-3.5 w-3.5 text-accent-cyan" />
+              <Search className="h-3.5 w-3.5 text-accent-amber-strong" />
               <span className="hidden sm:inline">Telemetry Documentation Index</span>
               <kbd className="rounded border border-brand-slate/40 bg-brand-oxford px-1.5 py-0.2 text-[10px] text-brand-periwinkle">v2.4</kbd>
             </div>
@@ -258,7 +258,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <aside className={`lg:col-span-3 lg:block ${mobileMenuOpen ? 'block fixed inset-x-4 top-32 z-40 max-h-[75vh] overflow-y-auto rounded-2xl border border-brand-slate/40 bg-white p-5 shadow-2xl' : 'hidden'}`}>
             <div className="sticky top-28 space-y-5 font-mono">
               <div className="pb-3 border-b border-brand-slate/30">
-                <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-amber-strong">
                   Documentation Index
                 </div>
                 <div className="text-xs text-brand-slate-light mt-0.5">v2.4 Spec</div>
@@ -299,7 +299,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                             }`}
                           >
                             <span className="truncate">{item.title}</span>
-                            {isCurrent && <ChevronRight className="h-3 w-3 text-accent-cyan shrink-0 ml-1" />}
+                            {isCurrent && <ChevronRight className="h-3 w-3 text-accent-amber-strong shrink-0 ml-1" />}
                           </Link>
                         </li>
                       );
@@ -314,7 +314,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-white p-2.5 text-xs text-brand-periwinkle hover:bg-gray-50 hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-3.5 w-3.5 text-accent-cyan" />
+                    <BookOpen className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span className="font-semibold">Developer Blog</span>
                   </div>
                   <ArrowRight className="h-3 w-3" />
@@ -324,7 +324,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-white p-2.5 text-xs text-brand-periwinkle hover:bg-gray-50 hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <HelpCircle className="h-3.5 w-3.5 text-accent-cyan" />
+                    <HelpCircle className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span className="font-semibold">Developer Support</span>
                   </div>
                   <ArrowRight className="h-3 w-3" />
@@ -350,7 +350,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-1" />
                     <span>Previous</span>
                   </span>
-                  <span className="text-xs font-bold text-black group-hover:text-accent-cyan transition-colors truncate">
+                  <span className="text-xs font-bold text-black group-hover:text-accent-amber-strong transition-colors truncate">
                     {prevItem.title}
                   </span>
                 </Link>
@@ -365,7 +365,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     <span>Next</span>
                     <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                   </span>
-                  <span className="text-xs font-bold text-black group-hover:text-accent-cyan transition-colors truncate">
+                  <span className="text-xs font-bold text-black group-hover:text-accent-amber-strong transition-colors truncate">
                     {nextItem.title}
                   </span>
                 </Link>
@@ -417,7 +417,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           {toc.length > 0 && (
             <aside className="hidden lg:col-span-2 lg:block font-mono">
               <div className="sticky top-28 space-y-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-amber-strong">
                   On This Page
                 </div>
                 <ul className="space-y-1.5 text-xs border-l border-brand-slate/30 pl-3 max-h-[calc(100vh-180px)] overflow-y-auto">
@@ -429,7 +429,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                           onClick={() => scrollToTocSection(item.id)}
                           className={`text-left transition-colors hover:text-white truncate block w-full py-0.5 cursor-pointer ${
                             isCurrent
-                              ? 'font-bold text-accent-cyan border-l-2 -ml-[13px] pl-2.5 border-accent-cyan'
+                              ? 'font-bold text-accent-amber-strong border-l-2 -ml-[13px] pl-2.5 border-accent-cyan'
                               : 'text-brand-slate-light'
                           }`}
                         >
@@ -442,11 +442,11 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
                 <div className="pt-4 border-t border-brand-slate/30 space-y-2 text-xs text-brand-slate-light">
                   <Link to="/blogs" className="flex items-center gap-1.5 hover:text-white transition-colors">
-                    <FileText className="h-3.5 w-3.5 text-accent-cyan" />
+                    <FileText className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>Developer Blog</span>
                   </Link>
                   <Link to="/contact" className="flex items-center gap-1.5 hover:text-white transition-colors">
-                    <ShieldCheck className="h-3.5 w-3.5 text-accent-cyan" />
+                    <ShieldCheck className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>Developer Support</span>
                   </Link>
                 </div>

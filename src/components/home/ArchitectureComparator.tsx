@@ -67,8 +67,8 @@ export const ArchitectureComparator: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-zinc-50 text-zinc-950 relative overflow-hidden border-b border-zinc-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="ds-section ds-surface-alt text-zinc-950 relative overflow-hidden">
+      <div className="ds-page-shell">
         
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">

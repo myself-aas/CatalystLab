@@ -201,7 +201,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   return (
     <section 
       id="latest-blogs-section"
-      className={`relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-gray-200 ${className}`}
+      className={`ds-section ds-page-shell relative overflow-hidden bg-white ${className}`}
       aria-label="Latest engineering news and articles"
     >
       <div className="relative rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 lg:p-10 shadow-xl">
@@ -210,8 +210,8 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-gray-200">
           <div className="space-y-2 max-w-2xl">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 px-3.5 py-1 text-xs font-mono font-semibold text-accent-cyan tracking-wide">
-                <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+              <div className="ds-eyebrow ds-eyebrow-pill">
+                <Sparkles className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>{badgeText}</span>
               </div>
             )}
@@ -231,7 +231,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 hover:bg-gray-50 px-5 py-2.5 text-xs font-mono font-bold text-black transition-colors"
               >
                 <span>View all blogs</span>
-                <ArrowRight className="h-3.5 w-3.5 text-accent-cyan" />
+                <ArrowRight className="h-3.5 w-3.5 text-accent-amber-strong" />
               </Link>
             </div>
           )}
@@ -325,7 +325,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                     className="h-7 w-7 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors hover:bg-gray-100 cursor-pointer"
                   >
                     {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
-                      <BookmarkCheck className="h-3.5 w-3.5 text-accent-cyan fill-accent-cyan" />
+                      <BookmarkCheck className="h-3.5 w-3.5 text-accent-amber-strong fill-accent-cyan" />
                     ) : (
                       <Bookmark className="h-3.5 w-3.5 text-gray-600" />
                     )}
@@ -337,18 +337,18 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <div>
                   <div className="flex items-center gap-2 text-xs font-mono text-gray-500 mb-2">
                     <span className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3 text-accent-cyan" />
+                      <Calendar className="h-3 w-3 text-accent-amber-strong" />
                       {formatDate(heroPost.createdAt)}
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3 text-accent-cyan" />
+                      <Clock className="h-3 w-3 text-accent-amber-strong" />
                       {getArticleReadingTime(heroPost)}
                     </span>
                   </div>
 
                   <Link to={`/blog/${heroPost.slug || heroPost.id}`}>
-                    <h3 className="text-base sm:text-lg font-bold text-black group-hover:text-accent-cyan transition-colors leading-snug">
+                    <h3 className="text-base sm:text-lg font-bold text-black group-hover:text-accent-amber-strong transition-colors leading-snug">
                       {heroPost.title}
                     </h3>
                   </Link>
@@ -368,7 +368,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="h-7 w-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-accent-cyan font-mono font-bold text-xs">
+                      <div className="h-7 w-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-accent-amber-strong font-mono font-bold text-xs">
                         {heroPost.authorName ? heroPost.authorName.charAt(0) : 'C'}
                       </div>
                     )}
@@ -429,7 +429,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                           className="absolute top-2 right-2 h-6 w-6 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors cursor-pointer"
                         >
                           {isBookmarked ? (
-                            <BookmarkCheck className="h-3 w-3 text-accent-cyan fill-accent-cyan" />
+                            <BookmarkCheck className="h-3 w-3 text-accent-amber-strong fill-accent-cyan" />
                           ) : (
                             <Bookmark className="h-3 w-3 text-gray-600" />
                           )}
@@ -437,7 +437,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                       </div>
 
                       <Link to={`/blog/${post.slug || post.id}`}>
-                        <h4 className="text-xs sm:text-sm font-bold text-black group-hover:text-accent-cyan transition-colors leading-snug line-clamp-2">
+                        <h4 className="text-xs sm:text-sm font-bold text-black group-hover:text-accent-amber-strong transition-colors leading-snug line-clamp-2">
                           {post.title}
                         </h4>
                       </Link>
@@ -449,7 +449,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
 
                     <div className="mt-3 pt-2.5 border-t border-gray-200 flex items-center justify-between text-xs font-mono text-gray-500">
                       <div className="flex items-center gap-1 text-[10px]">
-                        <Calendar className="h-3 w-3 text-accent-cyan" />
+                        <Calendar className="h-3 w-3 text-accent-amber-strong" />
                         <span>{formatDate(post.createdAt)}</span>
                       </div>
 
@@ -489,7 +489,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <span className="text-accent-amber font-black">●</span> Cloudflare
                 </span>
                 <span className="flex items-center gap-1 font-bold text-black">
-                  <span className="text-accent-cyan font-black">■</span> Google Cloud
+                  <span className="text-accent-amber-strong font-black">■</span> Google Cloud
                 </span>
                 <span className="flex items-center gap-1 font-bold text-black">
                   <span className="text-accent-rose font-black">▲</span> Fastly
@@ -525,7 +525,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               </button>
 
               <div className="flex items-center gap-2 mb-3">
-                <span className="rounded bg-cyan-950/60 text-accent-cyan border border-cyan-500/30 px-2.5 py-0.5 text-xs font-bold">
+                <span className="rounded bg-cyan-950/60 text-accent-amber-strong border border-cyan-500/30 px-2.5 py-0.5 text-xs font-bold">
                   {previewPost.category}
                 </span>
                 <span className="text-xs text-gray-500">

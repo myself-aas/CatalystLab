@@ -28,15 +28,15 @@ export const FinalCTA: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-white text-zinc-950 relative overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="ds-section bg-white text-zinc-950 relative overflow-hidden">
+      <div className="ds-page-shell ds-page-shell-narrow">
         <LazyReveal direction="up">
-          <div className="bg-zinc-50 border border-zinc-200 rounded-3xl p-8 sm:p-12 lg:p-16 text-center relative overflow-hidden">
+          <div className="ds-card relative overflow-hidden rounded-3xl bg-zinc-50 p-8 text-center sm:p-12 lg:p-16">
             
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-zinc-950 tracking-tight mb-4 max-w-2xl mx-auto leading-tight">
+            <h2 className="ds-h2 mx-auto mb-4 max-w-2xl text-zinc-950">
               Ready to Audit Your Architecture?
             </h2>
-            <p className="text-base sm:text-lg text-zinc-600 max-w-xl mx-auto mb-10 leading-relaxed">
+            <p className="ds-lede mx-auto mb-10">
               Launch all 8 diagnostic engines synchronously. Audit Core Web Vitals, transport security, and AI search discoverability in seconds.
             </p>
 

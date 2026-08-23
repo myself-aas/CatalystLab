@@ -59,18 +59,18 @@ export const Navbar: React.FC = () => {
   };
 
   const groupIsActive = (key: Exclude<MenuKey, null>) => menuItems[key].some((item) => isActive(item.to));
-  const navLinkClass = (active: boolean) => `inline-flex min-h-10 items-center rounded-lg px-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${active ? 'bg-primary/12 text-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`;
+  const navLinkClass = 'ds-nav-link';
 
   return (
     <>
-      <header className={`sticky top-0 z-50 border-b transition-all duration-200 ${isScrolled ? 'border-border bg-background/95 shadow-sm backdrop-blur-xl' : 'border-transparent bg-background/80 backdrop-blur-md'}`}>
-        <div className="mx-auto flex min-h-16 max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
+      <header className={`sticky top-0 z-50 border-b transition-all duration-200 ${isScrolled ? 'border-border bg-background shadow-sm' : 'border-transparent bg-background/85 backdrop-blur-md'}`}>
+        <div className={`ds-page-shell flex items-center justify-between gap-4 transition-all duration-200 ${isScrolled ? 'min-h-14' : 'min-h-16'}`}>
           <Link to="/" className="shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="CatalystLab home">
             <BrandLogo size="md" />
           </Link>
 
           <nav ref={navRef} className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
-            <Link to="/" className={navLinkClass(isActive('/'))}>Home</Link>
+            <Link to="/" className={navLinkClass} data-active={isActive('/')} aria-current={isActive('/') ? 'page' : undefined}>Home</Link>
             {(Object.keys(menuItems) as Array<Exclude<MenuKey, null>>).map((key) => {
               const isOpen = openMenu === key;
               const label = key === 'services' ? 'Services' : 'Resources';
@@ -78,7 +78,8 @@ export const Navbar: React.FC = () => {
                 <div key={key} className="relative">
                   <button
                     type="button"
-                    className={`${navLinkClass(isOpen || groupIsActive(key))} gap-1.5`}
+                    className={`${navLinkClass} gap-1.5`}
+                    data-active={isOpen || groupIsActive(key)}
                     aria-expanded={isOpen}
                     aria-haspopup="true"
                     onClick={() => setOpenMenu(isOpen ? null : key)}
@@ -87,7 +88,7 @@ export const Navbar: React.FC = () => {
                     <ChevronDown aria-hidden="true" className={`size-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {isOpen && (
-                    <div role="menu" aria-label={`${label} menu`} className="absolute left-0 top-full mt-2 w-72 rounded-xl border border-border bg-surface-panel p-2 shadow-xl">
+                    <div role="menu" aria-label={`${label} menu`} className="ds-card absolute left-0 top-full z-10 mt-2 w-72 p-2 shadow-xl">
                       {menuItems[key].map((item) => (
                         <Link key={item.to} to={item.to} role="menuitem" className="flex min-h-14 flex-col justify-center rounded-lg px-3 py-2 transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                           <span className="text-sm font-semibold text-foreground">{item.label}</span>
@@ -99,24 +100,24 @@ export const Navbar: React.FC = () => {
                 </div>
               );
             })}
-            <Link to="/about" className={navLinkClass(isActive('/about'))}>About</Link>
-            <Link to="/contact" className={navLinkClass(isActive('/contact'))}>Contact</Link>
-            {hasPermission('page:view_admin') && <Link to="/admin" className={`${navLinkClass(isActive('/admin'))} gap-1.5`}><ShieldCheck aria-hidden="true" className="size-4" />Admin</Link>}
+            <Link to="/about" className={navLinkClass} data-active={isActive('/about')} aria-current={isActive('/about') ? 'page' : undefined}>About</Link>
+            <Link to="/contact" className={navLinkClass} data-active={isActive('/contact')} aria-current={isActive('/contact') ? 'page' : undefined}>Contact</Link>
+            {hasPermission('page:view_admin') && <Link to="/admin" className={`${navLinkClass} gap-1.5`} data-active={isActive('/admin')}><ShieldCheck aria-hidden="true" className="size-4" />Admin</Link>}
           </nav>
 
           <div className="flex shrink-0 items-center gap-2">
             <NavbarSearch isScrolled={isScrolled} />
             <ThemeToggle />
             {user ? (
-              <Link to="/dashboard" className="hidden min-h-10 items-center gap-2 rounded-lg border border-border bg-surface-panel px-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:flex" aria-label="Open dashboard">
+              <Link to="/dashboard" className="ds-card hidden min-h-10 items-center gap-2 px-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted sm:flex" aria-label="Open dashboard">
                 <LayoutDashboard aria-hidden="true" className="size-4 text-muted-foreground" />
                 <span className="max-w-24 truncate">{user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Dashboard'}</span>
                 <span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] uppercase text-muted-foreground">{roleConfig.shortLabel}</span>
               </Link>
             ) : (
               <div className="hidden items-center gap-1 sm:flex">
-                <Link to="/login" className={navLinkClass(false)}>Log in</Link>
-                <Link to="/signup" className="inline-flex min-h-10 items-center rounded-lg bg-foreground px-4 text-sm font-semibold text-background transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">Sign up</Link>
+                <Link to="/login" className={navLinkClass}>Log in</Link>
+                <Link to="/signup" className="btn-solid-primary min-h-10 px-4 text-sm">Sign up</Link>
               </div>
             )}
             <button type="button" onClick={() => setMenuOverlayOpen(true)} className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:hidden" aria-label="Open navigation menu">

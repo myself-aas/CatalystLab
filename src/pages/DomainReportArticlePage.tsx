@@ -271,8 +271,8 @@ export const DomainReportArticlePage: React.FC = () => {
           
           {/* Badge & Category */}
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
-              <Sparkles className="h-3 w-3 text-accent-cyan" />
+            <span className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong uppercase tracking-wider">
+              <Sparkles className="h-3 w-3 text-accent-amber-strong" />
               Engineering Benchmark Dossier
             </span>
             <span className="inline-flex items-center gap-1 rounded-md border border-gray-200 bg-white px-2 py-0.5 text-xs font-semibold text-gray-600">
@@ -284,7 +284,7 @@ export const DomainReportArticlePage: React.FC = () => {
           {/* Article Title */}
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black tracking-tight leading-tight font-sans">
             Full-Stack Performance, Security &amp; AI Readiness Benchmark:{' '}
-            <span className="text-accent-cyan">
+            <span className="text-accent-amber-strong">
               {displayDomain}
             </span>
           </h1>
@@ -300,7 +300,7 @@ export const DomainReportArticlePage: React.FC = () => {
             
             {/* Author Profile */}
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-gray-200 text-accent-cyan font-bold text-sm shadow-sm">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-gray-200 text-accent-amber-strong font-bold text-sm shadow-sm">
                 <Terminal className="h-4 w-4" />
               </div>
               <div>
@@ -322,7 +322,7 @@ export const DomainReportArticlePage: React.FC = () => {
                     href={targetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-accent-cyan hover:underline"
+                    className="flex items-center gap-1 text-accent-amber-strong hover:underline"
                   >
                     <span>{displayDomain}</span>
                     <ExternalLink className="h-2.5 w-2.5" />
@@ -339,7 +339,7 @@ export const DomainReportArticlePage: React.FC = () => {
                 className="flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-all disabled:opacity-50 cursor-pointer"
                 title="Export PDF Benchmark Dossier"
               >
-                <Download className="h-3 w-3 text-accent-cyan" />
+                <Download className="h-3 w-3 text-accent-amber-strong" />
                 <span>{isExportingPdf ? 'Exporting PDF...' : 'Export PDF'}</span>
               </button>
 
@@ -348,7 +348,7 @@ export const DomainReportArticlePage: React.FC = () => {
                 className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-black hover:bg-gray-50 transition-colors cursor-pointer"
                 title="Copy Permalink URL"
               >
-                {copied ? <Check className="h-3 w-3 text-accent-emerald" /> : <Share2 className="h-3 w-3 text-accent-cyan" />}
+                {copied ? <Check className="h-3 w-3 text-accent-emerald" /> : <Share2 className="h-3 w-3 text-accent-amber-strong" />}
                 <span>{copied ? 'Copied' : 'Share'}</span>
               </button>
 
@@ -358,7 +358,7 @@ export const DomainReportArticlePage: React.FC = () => {
                 className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-black hover:bg-gray-50 transition-colors disabled:opacity-50 cursor-pointer"
                 title="Re-run Diagnostic Telemetry"
               >
-                <RotateCw className={`h-3 w-3 text-accent-cyan ${isAuditingLive ? 'animate-spin' : ''}`} />
+                <RotateCw className={`h-3 w-3 text-accent-amber-strong ${isAuditingLive ? 'animate-spin' : ''}`} />
                 <span>Re-Audit</span>
               </button>
             </div>
@@ -375,14 +375,14 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-3">
           <div className="space-y-1">
             <h2 className="text-base sm:text-lg font-bold text-black flex items-center gap-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-cyan border border-gray-200 text-xs font-bold">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-amber-strong border border-gray-200 text-xs font-bold">
                 01
               </span>
               <span>Executive Telemetry Summary &amp; Vitals Radar</span>
             </h2>
             <p className="text-xs text-gray-600 font-sans leading-relaxed">
               Below is the aggregated telemetry signature for <strong className="text-black">{displayDomain}</strong>. 
-              The global composite score of <strong className="text-accent-cyan">{telemetry.overallScore}/100</strong> represents 
+              The global composite score of <strong className="text-accent-amber-strong">{telemetry.overallScore}/100</strong> represents 
               a weighted average across all 8 diagnostic vectors.
             </p>
           </div>
@@ -394,7 +394,7 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-3 pt-4 border-t border-gray-200">
           <div className="space-y-1">
             <h2 className="text-base sm:text-lg font-bold text-black flex items-center gap-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-cyan border border-gray-200 text-xs font-bold">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-amber-strong border border-gray-200 text-xs font-bold">
                 02
               </span>
               <span>Core DOM Depth, Node Count &amp; Payload Weight</span>
@@ -444,7 +444,7 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-3 pt-4 border-t border-gray-200">
           <div className="space-y-1">
             <h2 className="text-base sm:text-lg font-bold text-black flex items-center gap-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-cyan border border-gray-200 text-xs font-bold">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-amber-strong border border-gray-200 text-xs font-bold">
                 04
               </span>
               <span>WCAG 2.2 Accessibility &amp; Legal Index</span>
@@ -469,7 +469,7 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-3 pt-4 border-t border-gray-200">
           <div className="space-y-1">
             <h2 className="text-base sm:text-lg font-bold text-black flex items-center gap-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-cyan border border-gray-200 text-xs font-bold">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-amber-strong border border-gray-200 text-xs font-bold">
                 05
               </span>
               <span>Autonomous AI Agent &amp; LLM Crawler Readiness</span>
@@ -543,7 +543,7 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-3 pt-4 border-t border-gray-200">
           <div className="space-y-1">
             <h2 className="text-base sm:text-lg font-bold text-black flex items-center gap-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-cyan border border-gray-200 text-xs font-bold">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-amber-strong border border-gray-200 text-xs font-bold">
                 08
               </span>
               <span>LLMO &amp; Semantic Citation Scorecard</span>
@@ -568,7 +568,7 @@ export const DomainReportArticlePage: React.FC = () => {
         <section className="space-y-3 pt-4 border-t border-gray-200">
           <div className="space-y-1">
             <h2 className="text-base sm:text-lg font-bold text-black flex items-center gap-2">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-cyan border border-gray-200 text-xs font-bold">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-amber-strong border border-gray-200 text-xs font-bold">
                 09
               </span>
               <span>Architectural Takeaways &amp; Remediation Roadmap</span>
@@ -581,7 +581,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="rounded-xl border border-gray-200 bg-white p-4 space-y-2.5">
-              <div className="flex items-center gap-1.5 text-accent-cyan font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-1.5 text-accent-amber-strong font-bold text-xs uppercase tracking-wider">
                 <Flame className="h-3.5 w-3.5" />
                 <span>Priority 1: Instant Wins</span>
               </div>
@@ -623,7 +623,7 @@ export const DomainReportArticlePage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-xs font-bold text-black flex items-center gap-1.5">
-                <Terminal className="h-3.5 w-3.5 text-accent-cyan" />
+                <Terminal className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Raw Diagnostic Engine Console Output</span>
               </h3>
               <p className="text-[11px] text-gray-500 mt-0.5">
@@ -635,7 +635,7 @@ export const DomainReportArticlePage: React.FC = () => {
               onClick={() => setShowRawTerminal(!showRawTerminal)}
               className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-black hover:bg-gray-50 transition-colors cursor-pointer"
             >
-              <Terminal className="h-3 w-3 text-accent-cyan" />
+              <Terminal className="h-3 w-3 text-accent-amber-strong" />
               <span>{showRawTerminal ? 'Collapse Console' : 'Expand Raw Output'}</span>
             </button>
           </div>
@@ -659,9 +659,9 @@ export const DomainReportArticlePage: React.FC = () => {
         <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <span className="text-xs font-bold text-black hidden sm:inline">
-              Benchmark Dossier: <span className="text-accent-cyan">{displayDomain}</span>
+              Benchmark Dossier: <span className="text-accent-amber-strong">{displayDomain}</span>
             </span>
-            <span className="text-xs font-bold text-accent-cyan bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
+            <span className="text-xs font-bold text-accent-amber-strong bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
               Grade {telemetry.grade} ({telemetry.overallScore}/100)
             </span>
           </div>
@@ -672,7 +672,7 @@ export const DomainReportArticlePage: React.FC = () => {
               disabled={isExportingPdf}
               className="flex items-center gap-1 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-all cursor-pointer"
             >
-              <Download className="h-3 w-3 text-accent-cyan" />
+              <Download className="h-3 w-3 text-accent-amber-strong" />
               <span>{isExportingPdf ? 'Exporting...' : 'Export PDF'}</span>
             </button>
 
@@ -680,7 +680,7 @@ export const DomainReportArticlePage: React.FC = () => {
               onClick={handleCopyLink}
               className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-black hover:bg-gray-50 cursor-pointer"
             >
-              {copied ? <Check className="h-3 w-3 text-accent-emerald" /> : <Share2 className="h-3 w-3 text-accent-cyan" />}
+              {copied ? <Check className="h-3 w-3 text-accent-emerald" /> : <Share2 className="h-3 w-3 text-accent-amber-strong" />}
               <span>{copied ? 'Copied' : 'Share'}</span>
             </button>
 

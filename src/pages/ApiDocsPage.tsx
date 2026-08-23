@@ -102,7 +102,7 @@ export const ApiDocsPage: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl space-y-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong uppercase tracking-wider">
                   <Terminal className="h-3.5 w-3.5" />
                   REST API v2.4.0
                 </span>
@@ -132,7 +132,7 @@ export const ApiDocsPage: React.FC = () => {
                 }}
                 className="flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all cursor-pointer whitespace-nowrap"
               >
-                <Play className="h-3.5 w-3.5 text-accent-cyan" />
+                <Play className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Open API Playground</span>
               </button>
 
@@ -141,7 +141,7 @@ export const ApiDocsPage: React.FC = () => {
                   onClick={downloadOpenApi}
                   className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-bold text-black hover:bg-gray-50 transition-all cursor-pointer whitespace-nowrap shadow-sm"
                 >
-                  <Download className="h-3.5 w-3.5 text-accent-cyan" />
+                  <Download className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <span>OpenAPI 3.1</span>
                 </button>
 
@@ -167,7 +167,7 @@ export const ApiDocsPage: React.FC = () => {
         <section id="api-playground-section" className="space-y-4">
           <div className="space-y-1">
             <h2 className="text-lg sm:text-xl font-extrabold text-black flex items-center gap-2 font-sans">
-              <Zap className="h-4 w-4 text-accent-cyan" />
+              <Zap className="h-4 w-4 text-accent-amber-strong" />
               <span>Interactive API Playground &amp; Sandbox</span>
             </h2>
             <p className="text-xs text-gray-600 font-sans">
@@ -188,7 +188,7 @@ export const ApiDocsPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-4">
             <div className="space-y-1">
               <h2 className="text-lg sm:text-xl font-extrabold text-black flex items-center gap-2 font-sans">
-                <Layers className="h-4 w-4 text-accent-cyan" />
+                <Layers className="h-4 w-4 text-accent-amber-strong" />
                 <span>Endpoint Reference Catalog</span>
               </h2>
               <p className="text-xs text-gray-600 font-sans">
@@ -292,7 +292,7 @@ export const ApiDocsPage: React.FC = () => {
                         className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-bold text-black hover:bg-black hover:text-white transition-all shadow-xs cursor-pointer"
                         title="Test in Playground"
                       >
-                        <Play className="h-3 w-3 text-accent-cyan" />
+                        <Play className="h-3 w-3 text-accent-amber-strong" />
                         <span>Test</span>
                       </button>
 
@@ -316,7 +316,7 @@ export const ApiDocsPage: React.FC = () => {
                         
                         <div className="flex flex-wrap gap-2 text-xs">
                           <div className="rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-gray-600 flex items-center gap-1.5">
-                            <Lock className="h-3 w-3 text-accent-cyan" />
+                            <Lock className="h-3 w-3 text-accent-amber-strong" />
                             <strong className="text-black">Auth:</strong> {ep.auth}
                           </div>
                           <div className="rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-gray-600 flex items-center gap-1.5">
@@ -334,7 +334,7 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Request Parameters (Path & Query) */}
                       {ep.parameters && ep.parameters.length > 0 && (
                         <div className="space-y-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-amber-strong font-sans">
                             Request Parameters
                           </h4>
                           <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
@@ -351,7 +351,7 @@ export const ApiDocsPage: React.FC = () => {
                               <tbody className="divide-y divide-brand-slate/20 text-gray-600">
                                 {ep.parameters.map((p) => (
                                   <tr key={p.name} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-3 py-2 font-bold text-accent-cyan">{p.name}</td>
+                                    <td className="px-3 py-2 font-bold text-accent-amber-strong">{p.name}</td>
                                     <td className="px-3 py-2 text-gray-500">{p.in}</td>
                                     <td className="px-3 py-2 text-accent-emerald">{p.type}</td>
                                     <td className="px-3 py-2">
@@ -373,10 +373,10 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Request Body Specification */}
                       {ep.requestBody && (
                         <div className="space-y-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-amber-strong font-sans">
                             Request Body Schema ({ep.requestBody.contentType})
                           </h4>
-                          <div className="rounded-xl border border-gray-200 bg-white p-3 text-xs font-mono text-accent-cyan overflow-x-auto">
+                          <div className="rounded-xl border border-gray-200 bg-white p-3 text-xs font-mono text-accent-amber-strong overflow-x-auto">
                             <pre>{JSON.stringify(ep.requestBody.defaultPayload, null, 2)}</pre>
                           </div>
                         </div>
@@ -384,7 +384,7 @@ export const ApiDocsPage: React.FC = () => {
 
                       {/* Expected Response Schemas (200, 400, 429) */}
                       <div className="space-y-2.5">
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-accent-amber-strong font-sans">
                           Response Schemas &amp; Examples
                         </h4>
                         
@@ -404,7 +404,7 @@ export const ApiDocsPage: React.FC = () => {
                                 </div>
                                 <button
                                   onClick={() => handleCopy(`${ep.id}-${resp.status}`, JSON.stringify(resp.example, null, 2))}
-                                  className="text-accent-cyan hover:text-white flex items-center gap-1 text-[11px] font-mono transition-colors cursor-pointer"
+                                  className="text-accent-amber-strong hover:text-white flex items-center gap-1 text-[11px] font-mono transition-colors cursor-pointer"
                                 >
                                   {copiedMap[`${ep.id}-${resp.status}`] ? <Check className="h-3 w-3 text-accent-emerald" /> : <Copy className="h-3 w-3" />}
                                   <span>{copiedMap[`${ep.id}-${resp.status}`] ? 'Copied' : 'Copy JSON'}</span>
@@ -421,7 +421,7 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Multi-Language Code Snippets */}
                       <div className="space-y-2.5 pt-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-amber-strong font-sans">
                             Client Implementation Snippet
                           </h4>
 
@@ -443,7 +443,7 @@ export const ApiDocsPage: React.FC = () => {
                         </div>
 
                         <div className="relative">
-                          <pre className="rounded-xl border border-gray-200 bg-white p-3.5 font-mono text-xs text-accent-cyan overflow-x-auto">
+                          <pre className="rounded-xl border border-gray-200 bg-white p-3.5 font-mono text-xs text-accent-amber-strong overflow-x-auto">
                             <code>{generateCodeSnippet(ep, lang)}</code>
                           </pre>
                           <button
@@ -473,7 +473,7 @@ export const ApiDocsPage: React.FC = () => {
           {/* Rate Limiting & Quota Architecture */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 space-y-3.5 shadow-xl">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100 border border-gray-200 text-accent-cyan">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100 border border-gray-200 text-accent-amber-strong">
                 <Activity className="h-4 w-4" />
               </div>
               <div>
@@ -489,11 +489,11 @@ export const ApiDocsPage: React.FC = () => {
             <div className="space-y-2 text-xs font-mono">
               <div className="flex items-center justify-between rounded-xl bg-gray-100 border border-gray-200 p-2.5">
                 <span className="font-semibold text-black">Anonymous Visitor</span>
-                <span className="text-accent-cyan">5 audits / day</span>
+                <span className="text-accent-amber-strong">5 audits / day</span>
               </div>
               <div className="flex items-center justify-between rounded-xl bg-gray-100 border border-gray-200 p-2.5">
                 <span className="font-semibold text-black">Authenticated User (Google SSO)</span>
-                <span className="text-accent-cyan">10 audits / day</span>
+                <span className="text-accent-amber-strong">10 audits / day</span>
               </div>
               <div className="flex items-center justify-between rounded-xl bg-gray-100 border border-gray-200 p-2.5">
                 <span className="font-semibold text-black">Enterprise &amp; Superadmin</span>
@@ -519,13 +519,13 @@ export const ApiDocsPage: React.FC = () => {
             </p>
 
             <div className="space-y-1.5 text-xs font-mono">
-              <div className="rounded-lg bg-white border border-gray-200 p-2 text-accent-cyan text-[11px] overflow-x-auto">
+              <div className="rounded-lg bg-white border border-gray-200 p-2 text-accent-amber-strong text-[11px] overflow-x-auto">
                 Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
               </div>
-              <div className="rounded-lg bg-white border border-gray-200 p-2 text-accent-cyan text-[11px] overflow-x-auto">
+              <div className="rounded-lg bg-white border border-gray-200 p-2 text-accent-amber-strong text-[11px] overflow-x-auto">
                 X-Content-Type-Options: nosniff
               </div>
-              <div className="rounded-lg bg-white border border-gray-200 p-2 text-accent-cyan text-[11px] overflow-x-auto">
+              <div className="rounded-lg bg-white border border-gray-200 p-2 text-accent-amber-strong text-[11px] overflow-x-auto">
                 Referrer-Policy: strict-origin-when-cross-origin
               </div>
             </div>

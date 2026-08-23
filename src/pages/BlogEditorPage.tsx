@@ -633,12 +633,12 @@ export const BlogEditorPage: React.FC = () => {
             >
               {saving ? (
                 <>
-                  <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-amber-strong" />
                   <span>Saving...</span>
                 </>
               ) : (
                 <>
-                  <Send className="h-3.5 w-3.5 text-accent-cyan" />
+                  <Send className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <span>{isCreateMode ? 'Publish Article' : 'Save Changes'}</span>
                 </>
               )}
@@ -1103,12 +1103,12 @@ export const BlogEditorPage: React.FC = () => {
               >
                 {saving ? (
                   <>
-                    <RefreshCw className="h-4 w-4 animate-spin text-accent-cyan" />
+                    <RefreshCw className="h-4 w-4 animate-spin text-accent-amber-strong" />
                     <span>Synchronizing...</span>
                   </>
                 ) : (
                   <>
-                    <Save className="h-4 w-4 text-accent-cyan" />
+                    <Save className="h-4 w-4 text-accent-amber-strong" />
                     <span>{isCreateMode ? 'Publish Article Now' : 'Save Article Changes'}</span>
                   </>
                 )}

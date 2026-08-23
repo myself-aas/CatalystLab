@@ -83,7 +83,7 @@ export const CookiePreferenceCenter: React.FC = () => {
       {/* Policy Banner */}
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
-          <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
+          <div className="flex items-center gap-2 text-xs text-accent-amber-strong mb-1">
             <Cookie className="h-4 w-4" />
             <span>TRANSPARENT PRIVACY TOKENS • STRICT OPT-IN</span>
           </div>
@@ -102,7 +102,7 @@ export const CookiePreferenceCenter: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-5">
             <div>
               <h3 className="text-base font-bold text-black flex items-center gap-2 font-sans">
-                <Sliders className="h-4 w-4 text-accent-cyan" />
+                <Sliders className="h-4 w-4 text-accent-amber-strong" />
                 <span>Interactive Cookie Preference Center</span>
               </h3>
               <p className="text-xs text-brand-periwinkle mt-0.5 font-sans">
@@ -114,7 +114,7 @@ export const CookiePreferenceCenter: React.FC = () => {
               onClick={handleSave}
               className="inline-flex items-center gap-1.5 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm cursor-pointer"
             >
-              {saved ? <Check className="h-3.5 w-3.5 text-accent-emerald" /> : <ShieldCheck className="h-3.5 w-3.5 text-accent-cyan" />}
+              {saved ? <Check className="h-3.5 w-3.5 text-accent-emerald" /> : <ShieldCheck className="h-3.5 w-3.5 text-accent-amber-strong" />}
               <span>{saved ? 'Preferences Saved!' : 'Save My Preferences'}</span>
             </button>
           </div>
@@ -148,9 +148,9 @@ export const CookiePreferenceCenter: React.FC = () => {
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-4 flex items-start justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Zap className="h-3.5 w-3.5 text-accent-cyan" />
+                  <Zap className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <span className="font-bold text-xs text-black font-sans">Diagnostic Telemetry Cache</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-cyan/40 bg-white text-accent-cyan">
+                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-cyan/40 bg-white text-accent-amber-strong">
                     Recommended
                   </span>
                 </div>
@@ -237,7 +237,7 @@ export const CookiePreferenceCenter: React.FC = () => {
               <tbody className="divide-y divide-brand-slate/20 text-brand-periwinkle">
                 {cookieList.map((item, idx) => (
                   <tr key={idx} className="hover:bg-gray-50 transition-colors">
-                    <td className="py-3 px-3 font-bold text-accent-cyan">{item.name}</td>
+                    <td className="py-3 px-3 font-bold text-accent-amber-strong">{item.name}</td>
                     <td className="py-3 px-3">
                       <span className="rounded bg-brand-oxford border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-black">
                         {item.category}
@@ -283,7 +283,7 @@ export const CookiePreferenceCenter: React.FC = () => {
           </div>
 
           <div className="mt-5 rounded-xl border border-brand-slate/40 bg-brand-oxford p-4">
-            <span className="text-[10px] uppercase font-bold text-accent-cyan">Instructions for {activeBrowser.toUpperCase()}:</span>
+            <span className="text-[10px] uppercase font-bold text-accent-amber-strong">Instructions for {activeBrowser.toUpperCase()}:</span>
             <p className="text-xs text-brand-periwinkle mt-1.5 font-sans leading-relaxed">
               {browserInstructions[activeBrowser]}
             </p>

@@ -91,9 +91,9 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-brand-slate/30 pt-5">
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5">
-              <span className="text-[10px] uppercase font-bold text-accent-cyan">Target Triage Time</span>
+              <span className="text-[10px] uppercase font-bold text-accent-amber-strong">Target Triage Time</span>
               <div className="text-base font-bold text-black mt-0.5 flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-accent-cyan" />
+                <Clock className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>&lt; 2 Hours</span>
               </div>
             </div>
@@ -121,7 +121,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl">
           <div className="flex items-center gap-2 mb-1.5">
-            <AlertOctagon className="h-4 w-4 text-accent-cyan" />
+            <AlertOctagon className="h-4 w-4 text-accent-amber-strong" />
             <h3 className="text-base font-bold text-black font-sans">Severity Classification &amp; Resolution SLAs</h3>
           </div>
           <p className="text-xs text-brand-periwinkle mb-5 font-sans">
@@ -154,7 +154,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-4">
             <div>
-              <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
+              <div className="flex items-center gap-2 text-xs text-accent-amber-strong mb-1">
                 <Key className="h-3.5 w-3.5" />
                 <span>ENCRYPTED COMMUNICATIONS</span>
               </div>
@@ -166,7 +166,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
             <button
               onClick={handleCopyPgp}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand-oxford px-3 py-1.5 text-xs font-bold text-accent-cyan border border-brand-slate/40 hover:bg-gray-50 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand-oxford px-3 py-1.5 text-xs font-bold text-accent-amber-strong border border-brand-slate/40 hover:bg-gray-50 transition-colors cursor-pointer"
             >
               {pgpCopied ? <Check className="h-3 w-3 text-accent-emerald" /> : <Copy className="h-3 w-3" />}
               <span>{pgpCopied ? 'PGP Block Copied!' : 'Copy Public Key'}</span>
@@ -188,7 +188,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl">
           <div className="flex items-center gap-2 mb-1.5">
-            <Send className="h-4 w-4 text-accent-cyan" />
+            <Send className="h-4 w-4 text-accent-amber-strong" />
             <h3 className="text-base font-bold text-black font-sans">Submit Coordinated Vulnerability Report</h3>
           </div>
           <p className="text-xs text-brand-periwinkle mb-5 font-sans">
@@ -311,7 +311,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                 type="submit"
                 className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-2.5 text-xs font-bold text-white transition-all shadow-sm cursor-pointer"
               >
-                <Send className="h-3.5 w-3.5 text-accent-cyan" />
+                <Send className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Transmit Encrypted Security Report</span>
               </button>
             </form>

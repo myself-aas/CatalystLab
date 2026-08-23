@@ -481,7 +481,7 @@ func main() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             
             <div className="flex items-center gap-3.5">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white border border-gray-200 text-accent-cyan shadow-sm">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white border border-gray-200 text-accent-amber-strong shadow-sm">
                 <Terminal className="h-5 w-5" />
               </div>
               <div>
@@ -489,7 +489,7 @@ func main() {
                   <h1 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">
                     Engine Test Playground
                   </h1>
-                  <span className="rounded-md bg-black/40 border border-brand-periwinkle/30 px-2 py-0.5 text-xs font-mono font-bold text-accent-cyan">
+                  <span className="rounded-md bg-black/40 border border-brand-periwinkle/30 px-2 py-0.5 text-xs font-mono font-bold text-accent-amber-strong">
                     {endpointPath}
                   </span>
                 </div>
@@ -513,7 +513,7 @@ func main() {
                 to="/api-docs"
                 className="flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-bold text-gray-600 hover:bg-gray-50 hover:text-white transition-all shadow-sm"
               >
-                <FileJson className="h-3.5 w-3.5 text-accent-cyan" />
+                <FileJson className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>OpenAPI Docs</span>
               </Link>
             </div>
@@ -571,7 +571,7 @@ func main() {
               {/* Header & Mode Switch */}
               <div className="flex items-center justify-between border-b border-gray-200 pb-2.5">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="h-3.5 w-3.5 text-accent-cyan" />
+                  <SlidersHorizontal className="h-3.5 w-3.5 text-accent-amber-strong" />
                   <h3 className="text-xs font-bold uppercase tracking-wider text-black">
                     Request Payload Builder
                   </h3>
@@ -739,7 +739,7 @@ func main() {
                           setRawJsonPayload(JSON.stringify(parsed, null, 2));
                         } catch (e) { console.error("Ignored error:", e); }
                       }}
-                      className="text-accent-cyan hover:underline cursor-pointer"
+                      className="text-accent-amber-strong hover:underline cursor-pointer"
                     >
                       Prettify JSON
                     </button>
@@ -823,7 +823,7 @@ func main() {
                 >
                   {executing ? (
                     <>
-                      <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-amber-strong" />
                       <span>Executing Diagnostic Engine...</span>
                     </>
                   ) : rateStatus.remaining <= 0 && !isAdmin ? (
@@ -847,7 +847,7 @@ func main() {
               <div className="rounded-2xl border border-gray-200 bg-white p-3.5 shadow-sm">
                 <div className="flex items-center justify-between border-b border-gray-200 pb-2 mb-2">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-black">
-                    <History className="h-3.5 w-3.5 text-accent-cyan" />
+                    <History className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>Recent Session Probes ({history.length})</span>
                   </div>
                   <button
@@ -895,7 +895,7 @@ func main() {
               <div className="border-b border-gray-200 bg-gray-100 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5">
-                    <Server className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Server className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span className="text-xs font-bold text-black uppercase tracking-wider">
                       Response Inspector
                     </span>
@@ -1015,7 +1015,7 @@ func main() {
 
                         {/* Telemetry Output Summary */}
                         <div className="rounded-xl border border-gray-200 bg-gray-100 p-3.5">
-                          <h4 className="text-xs font-bold text-accent-cyan uppercase tracking-wider mb-2">
+                          <h4 className="text-xs font-bold text-accent-amber-strong uppercase tracking-wider mb-2">
                             Parsed Output Summary
                           </h4>
 
@@ -1103,7 +1103,7 @@ func main() {
                               {Object.entries(responseHeaders).length > 0 ? (
                                 Object.entries(responseHeaders).map(([key, val]) => (
                                   <tr key={key} className="hover:bg-gray-50">
-                                    <td className="px-3.5 py-1.5 text-accent-cyan font-semibold">{key}</td>
+                                    <td className="px-3.5 py-1.5 text-accent-amber-strong font-semibold">{key}</td>
                                     <td className="px-3.5 py-1.5 text-black break-all">{val}</td>
                                   </tr>
                                 ))

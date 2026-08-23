@@ -200,7 +200,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
             <Link
               to={`/docs#${meta.docsAnchor || 'overview'}`}
-              className="inline-flex items-center gap-1 text-xs font-bold text-accent-cyan hover:underline transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-bold text-accent-amber-strong hover:underline transition-colors"
             >
               <BookOpen className="h-3.5 w-3.5" />
               <span>Engine Documentation</span>
@@ -219,14 +219,14 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                 />
               </div>
             ) : (
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-accent-cyan text-2xl shadow-lg mb-3 border border-gray-200">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-accent-amber-strong text-2xl shadow-lg mb-3 border border-gray-200">
                 <span className="material-symbols-outlined text-3xl">{meta.icon}</span>
               </div>
             )}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded border border-gray-200 bg-white text-accent-cyan">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded border border-gray-200 bg-white text-accent-amber-strong">
               {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-bold text-accent-emerald bg-gray-100 px-2.5 py-0.5 rounded border border-gray-200">
@@ -234,7 +234,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               <span>Replaces: {meta.departmentReplaced}</span>
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-gray-600 bg-white px-2.5 py-0.5 rounded border border-gray-200">
-              <Code className="h-3 w-3 text-accent-cyan" />
+              <Code className="h-3 w-3 text-accent-amber-strong" />
               <span>runtime: Python 3.11 ({meta.pythonScript})</span>
             </span>
           </div>
@@ -283,7 +283,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                     Audit Saved to Your User Dashboard!
                   </h3>
                   <div className="text-xs text-gray-600 mt-0.5">
-                    Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-accent-cyan underline">{permalinkUrl}</a>
+                    Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-accent-amber-strong underline">{permalinkUrl}</a>
                   </div>
                 </div>
               </div>
@@ -299,7 +299,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                   to={`/reports/${urlToDomainSlug(targetUrl)}`}
                   className="flex items-center gap-1 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
                 >
-                  <FileText className="h-3 w-3 text-accent-cyan" />
+                  <FileText className="h-3 w-3 text-accent-amber-strong" />
                   <span>Read Article Dossier</span>
                 </Link>
               </div>

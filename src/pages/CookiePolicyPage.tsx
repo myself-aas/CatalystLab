@@ -19,8 +19,8 @@ export const CookiePolicyPage: React.FC = () => {
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
-                <Cookie className="h-3.5 w-3.5 text-accent-cyan" />
+              <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong uppercase tracking-wider">
+                <Cookie className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Transparent Consent Architecture</span>
               </div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black tracking-tight font-sans">

@@ -20,11 +20,11 @@ export const MethodologyPage: React.FC = () => {
           <div className="flex items-center gap-2 text-xs font-bold text-gray-600">
             <Link to="/" className="hover:text-white">Home</Link>
             <ChevronRight className="w-3.5 h-3.5 text-gray-500" />
-            <span className="text-accent-cyan">Methodology &amp; Philosophy</span>
+            <span className="text-accent-amber-strong">Methodology &amp; Philosophy</span>
           </div>
           
-          <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
-            <Sparkles className="h-3 w-3 text-accent-cyan" />
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong uppercase tracking-wider">
+            <Sparkles className="h-3 w-3 text-accent-amber-strong" />
             Engineering Standard
           </div>
 
@@ -41,7 +41,7 @@ export const MethodologyPage: React.FC = () => {
       <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <LazyReveal direction="left" className="space-y-4 font-sans">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded border border-gray-200 bg-white text-accent-cyan text-xs font-mono font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded border border-gray-200 bg-white text-accent-amber-strong text-xs font-mono font-bold uppercase tracking-wider">
               <Terminal className="h-3 w-3" />
               <span>Core Mission</span>
             </div>
@@ -69,7 +69,7 @@ export const MethodologyPage: React.FC = () => {
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-xl space-y-4 font-mono">
               <div className="flex items-center justify-between border-b border-gray-200 pb-3">
                 <span className="text-xs font-bold text-black flex items-center gap-2">
-                  <Activity className="h-4 w-4 text-accent-cyan" />
+                  <Activity className="h-4 w-4 text-accent-amber-strong" />
                   Telemetry Benchmark Engine v4.2
                 </span>
                 <span className="text-[10px] text-accent-emerald bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
@@ -83,7 +83,7 @@ export const MethodologyPage: React.FC = () => {
                 </div>
                 <div className="flex justify-between py-1 border-b border-gray-200">
                   <span>Audit Duration:</span>
-                  <strong className="text-accent-cyan">&lt; 4.8 Seconds Global</strong>
+                  <strong className="text-accent-amber-strong">&lt; 4.8 Seconds Global</strong>
                 </div>
                 <div className="flex justify-between py-1 border-b border-gray-200">
                   <span>Compliance Standards:</span>
@@ -131,7 +131,7 @@ export const MethodologyPage: React.FC = () => {
       {/* Why Choose Us Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded border border-gray-200 bg-white text-accent-cyan text-xs font-mono font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded border border-gray-200 bg-white text-accent-amber-strong text-xs font-mono font-bold uppercase tracking-wider">
             <Cpu className="h-3 w-3" />
             <span>Why CatalystLab</span>
           </div>
@@ -145,7 +145,7 @@ export const MethodologyPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="rounded-2xl border border-gray-200 bg-white p-5 space-y-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 text-accent-cyan flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 text-accent-amber-strong flex items-center justify-center">
               <Zap className="w-4 h-4" />
             </div>
             <h3 className="text-sm font-bold text-black font-sans">Instant Multi-Engine Execution</h3>
@@ -175,7 +175,7 @@ export const MethodologyPage: React.FC = () => {
           </div>
 
           <div className="rounded-2xl border border-gray-200 bg-white p-5 space-y-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 text-accent-cyan flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 text-accent-amber-strong flex items-center justify-center">
               <Lock className="w-4 h-4" />
             </div>
             <h3 className="text-sm font-bold text-black font-sans">Privacy-First Architecture</h3>

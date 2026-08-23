@@ -36,7 +36,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'Edge Anycast',
       metric: '18ms TTFB',
       detail: '42 Global Edge PoPs',
-      bgClass: 'bg-white border-accent-cyan/40 text-accent-cyan',
+      bgClass: 'bg-white border-accent-cyan/40 text-accent-amber-strong',
       badge: 'DNS & Latency'
     },
     {
@@ -68,15 +68,15 @@ export const SevenDayTrialSection: React.FC = () => {
   return (
     <section 
       id="7-day-free-trial-section"
-      className="relative overflow-hidden bg-gray-100/70 backdrop-blur-sm py-16 sm:py-20 border-b border-gray-200 text-black"
+      className="ds-section relative overflow-hidden bg-white text-black"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="ds-page-shell relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
           {/* LEFT COLUMN */}
           <LazyReveal direction="left" className="lg:col-span-5 space-y-5">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] text-accent-cyan uppercase">
+              <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] text-accent-amber-strong uppercase">
                 AUDIT. AUTOMATE. OPTIMIZE.
               </span>
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse" />
@@ -108,7 +108,7 @@ export const SevenDayTrialSection: React.FC = () => {
                   className="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 px-5 py-3 text-xs sm:text-sm font-mono font-semibold text-gray-600 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
                 >
                   <span>Compare Plans</span>
-                  <ArrowRight className="h-3.5 w-3.5 text-accent-cyan" />
+                  <ArrowRight className="h-3.5 w-3.5 text-accent-amber-strong" />
                 </Link>
               </div>
 
@@ -121,19 +121,19 @@ export const SevenDayTrialSection: React.FC = () => {
             {/* Feature Checkpoints */}
             <div className="grid grid-cols-2 gap-2.5 pt-4 border-t border-gray-200 text-xs font-mono text-gray-600">
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5 text-accent-cyan shrink-0" />
+                <Check className="h-3.5 w-3.5 text-accent-amber-strong shrink-0" />
                 <span>8 Parallel Engines</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5 text-accent-cyan shrink-0" />
+                <Check className="h-3.5 w-3.5 text-accent-amber-strong shrink-0" />
                 <span>5,000 Units/Day Quota</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5 text-accent-cyan shrink-0" />
+                <Check className="h-3.5 w-3.5 text-accent-amber-strong shrink-0" />
                 <span>Automated 6h Cron Audits</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5 text-accent-cyan shrink-0" />
+                <Check className="h-3.5 w-3.5 text-accent-amber-strong shrink-0" />
                 <span>Instant API &amp; Webhooks</span>
               </div>
             </div>
@@ -165,7 +165,7 @@ export const SevenDayTrialSection: React.FC = () => {
               <div className="w-full sm:w-[65%] rounded-xl border border-gray-200 bg-gray-100 p-3.5 mb-4 font-mono">
                 <div className="flex items-center justify-between border-b border-gray-200 pb-2 mb-2">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-black">
-                    <Calendar className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Calendar className="h-3.5 w-3.5 text-accent-amber-strong" />
                     <span>Continuous Cron Log</span>
                   </div>
                   <span className="text-[10px] text-accent-emerald bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded">
@@ -180,7 +180,7 @@ export const SevenDayTrialSection: React.FC = () => {
                   </div>
                   <div className="flex items-center justify-between p-1.5 rounded bg-white border border-gray-200">
                     <span className="text-gray-500">12:00 PM • OWASP Transport</span>
-                    <span className="text-accent-cyan font-bold">Grade A+</span>
+                    <span className="text-accent-amber-strong font-bold">Grade A+</span>
                   </div>
                   <div className="flex items-center justify-between p-1.5 rounded bg-white border border-gray-200">
                     <span className="text-gray-500">02:00 PM • AI Search RAG</span>
@@ -268,7 +268,7 @@ export const SevenDayTrialSection: React.FC = () => {
 
                   <div className="flex-1 rounded-lg bg-white border border-gray-200 p-2.5 text-xs">
                     <div className="flex items-center justify-between text-[11px] text-gray-600 mb-2">
-                      <span className="truncate max-w-[140px] text-accent-cyan font-bold">
+                      <span className="truncate max-w-[140px] text-accent-amber-strong font-bold">
                         https://catalystlab.tech
                       </span>
                       <span className="text-accent-emerald bg-emerald-950/60 px-2 py-0.5 rounded text-[10px] font-bold border border-emerald-500/30">
@@ -287,7 +287,7 @@ export const SevenDayTrialSection: React.FC = () => {
                       </div>
                       <div className="bg-gray-100 p-1.5 rounded border border-gray-200">
                         <div className="text-[9px] text-gray-500">QUOTA</div>
-                        <div className="text-xs font-bold text-accent-cyan">5k/day</div>
+                        <div className="text-xs font-bold text-accent-amber-strong">5k/day</div>
                       </div>
                     </div>
                   </div>

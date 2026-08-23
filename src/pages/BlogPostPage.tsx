@@ -59,7 +59,7 @@ export const BlogPostPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center bg-white text-gray-600 font-mono">
-        <span className="material-symbols-outlined text-3xl animate-spin text-accent-cyan mb-2">progress_activity</span>
+        <span className="material-symbols-outlined text-3xl animate-spin text-accent-amber-strong mb-2">progress_activity</span>
         <p className="text-xs font-bold">Loading technical briefing...</p>
       </div>
     );
@@ -126,11 +126,11 @@ export const BlogPostPage: React.FC = () => {
               
               {/* Meta & Category */}
               <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className="rounded-md border border-gray-200 bg-gray-100 px-2.5 py-0.5 text-xs font-bold text-accent-cyan">
+                <span className="rounded-md border border-gray-200 bg-gray-100 px-2.5 py-0.5 text-xs font-bold text-accent-amber-strong">
                   {post.category || 'Architecture'}
                 </span>
                 <span className="text-xs text-gray-500 flex items-center gap-1">
-                  <Clock className="h-3 w-3 text-accent-cyan" />
+                  <Clock className="h-3 w-3 text-accent-amber-strong" />
                   <span>{getArticleReadingTime(post)}</span>
                 </span>
               </div>
@@ -178,7 +178,7 @@ export const BlogPostPage: React.FC = () => {
                   {user && (isAdmin || user.email === post.authorEmail) && (
                     <Link
                       to={`/blogs/edit/${post.id || post.slug}`}
-                      className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-bold text-accent-cyan hover:bg-gray-50 transition-all"
+                      className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-bold text-accent-amber-strong hover:bg-gray-50 transition-all"
                       title="Edit this article in dedicated studio"
                     >
                       <Edit3 className="h-3 w-3" />
@@ -227,7 +227,7 @@ export const BlogPostPage: React.FC = () => {
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded bg-gray-100 border border-gray-200 px-2 py-0.5 text-[10px] text-accent-cyan"
+                        className="rounded bg-gray-100 border border-gray-200 px-2 py-0.5 text-[10px] text-accent-amber-strong"
                       >
                         #{tag}
                       </span>
@@ -243,7 +243,7 @@ export const BlogPostPage: React.FC = () => {
             
             {/* Author Profile Box */}
             <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xl space-y-2.5">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-accent-cyan">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-accent-amber-strong">
                 About the Author
               </div>
               <div className="flex items-center gap-2.5">
@@ -267,7 +267,7 @@ export const BlogPostPage: React.FC = () => {
             {/* Related Articles Box */}
             {relatedPosts.length > 0 && (
               <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xl space-y-3">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-accent-cyan">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-accent-amber-strong">
                   Related Stories
                 </div>
                 <div className="divide-y divide-brand-slate/30 space-y-2.5 pt-1">
@@ -277,11 +277,11 @@ export const BlogPostPage: React.FC = () => {
                         to={`/blog/${r.slug || r.id}`}
                         className="group block space-y-1"
                       >
-                        <h4 className="text-xs font-bold text-black group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
+                        <h4 className="text-xs font-bold text-black group-hover:text-accent-amber-strong transition-colors line-clamp-2 font-sans">
                           {r.title}
                         </h4>
                         <div className="text-[10px] text-gray-500 flex items-center gap-1">
-                          <Clock className="h-2.5 w-2.5 text-accent-cyan" />
+                          <Clock className="h-2.5 w-2.5 text-accent-amber-strong" />
                           <span>{getArticleReadingTime(r)}</span>
                         </div>
                       </Link>
@@ -293,7 +293,7 @@ export const BlogPostPage: React.FC = () => {
 
             {/* Developer Documentation Callout */}
             <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xl space-y-2.5">
-              <div className="text-[10px] font-bold uppercase tracking-wider text-accent-cyan">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-accent-amber-strong">
                 Technical Reference
               </div>
               <p className="text-xs text-gray-600 font-sans">
@@ -301,7 +301,7 @@ export const BlogPostPage: React.FC = () => {
               </p>
               <Link
                 to="/docs"
-                className="inline-flex items-center gap-1 text-xs font-bold text-accent-cyan hover:underline transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-bold text-accent-amber-strong hover:underline transition-colors"
               >
                 <span>Open Documentation</span>
                 <ArrowRight className="h-3 w-3" />

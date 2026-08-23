@@ -117,7 +117,7 @@ export const PricingPage: React.FC = () => {
       <section className="relative overflow-hidden border-b border-gray-200 bg-gray-100 py-16 sm:py-20">
         <LazyReveal direction="down" className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-1 text-xs sm:text-sm font-mono text-gray-600 mb-6 shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+            <Sparkles className="h-3.5 w-3.5 text-accent-amber-strong" />
             <span>Role-Based Access Control &amp; 5-Tier Telemetry Architecture</span>
           </div>
 
@@ -125,14 +125,14 @@ export const PricingPage: React.FC = () => {
             Precision Web Health &amp; Telemetry Plans
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-gray-600 leading-relaxed">
-            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-accent-cyan font-semibold">7-day free trial with zero credit card requirements</strong>.
+            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-accent-amber-strong font-semibold">7-day free trial with zero credit card requirements</strong>.
           </p>
 
           {/* Interactive Role Preview Switcher Bar */}
           <div className="mt-8 mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-4 shadow-xl text-left">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
               <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-accent-cyan" />
+                <Eye className="h-4 w-4 text-accent-amber-strong" />
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-gray-600">
                   Preview Platform As Role:
                 </span>
@@ -337,7 +337,7 @@ export const PricingPage: React.FC = () => {
                       {/* Compute Quota Box */}
                       <div className="mt-4 p-3 rounded-xl bg-gray-100 border border-gray-200 text-xs">
                         <div className="flex items-center justify-between font-bold text-black">
-                          <span className="flex items-center gap-1 text-accent-cyan font-mono">
+                          <span className="flex items-center gap-1 text-accent-amber-strong font-mono">
                             <Cpu className="w-3.5 h-3.5" /> Quota
                           </span>
                           <span className="text-accent-emerald font-mono">
@@ -358,7 +358,7 @@ export const PricingPage: React.FC = () => {
                         <ul className="space-y-2">
                           {plan.features.map((feature, idx) => (
                             <li key={idx} className="flex items-start gap-2 text-xs text-gray-600">
-                              <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gray-100 text-accent-cyan mt-0.5 border border-gray-200">
+                              <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-gray-100 text-accent-amber-strong mt-0.5 border border-gray-200">
                                 <Check className="h-2.5 w-2.5 stroke-[3]" />
                               </div>
                               <span className="leading-snug">{feature.text}</span>
@@ -379,7 +379,7 @@ export const PricingPage: React.FC = () => {
                         </div>
                       ) : ctaInfo.variant === 'current' ? (
                         <div className="rounded-xl border border-accent-cyan/40 bg-cyan-950/20 p-2.5 text-center">
-                          <span className="text-xs font-bold text-accent-cyan flex items-center justify-center gap-1 font-mono">
+                          <span className="text-xs font-bold text-accent-amber-strong flex items-center justify-center gap-1 font-mono">
                             <CheckCircle2 className="h-3.5 w-3.5" />
                             <span>{ctaInfo.label}</span>
                           </span>
@@ -411,7 +411,7 @@ export const PricingPage: React.FC = () => {
                             onClick={() => {
                               window.dispatchEvent(new CustomEvent('catalyst:open-payment-checkout', { detail: { planId: key } }));
                             }}
-                            className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-[11px] font-bold font-mono transition-all duration-150 bg-white hover:bg-black/30 text-accent-cyan border border-gray-200 cursor-pointer"
+                            className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-[11px] font-bold font-mono transition-all duration-150 bg-white hover:bg-black/30 text-accent-amber-strong border border-gray-200 cursor-pointer"
                           >
                             <span>Buy Now (2Checkout / DodoPay)</span>
                           </button>
@@ -444,7 +444,7 @@ export const PricingPage: React.FC = () => {
 
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="p-4 rounded-xl bg-gray-100 border border-gray-200 space-y-1.5">
-                    <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-white border border-gray-200 text-accent-cyan font-mono font-extrabold text-xs">
+                    <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-white border border-gray-200 text-accent-amber-strong font-mono font-extrabold text-xs">
                       1
                     </div>
                     <h4 className="text-sm font-bold text-black">Sign In with Google</h4>
@@ -482,7 +482,7 @@ export const PricingPage: React.FC = () => {
         {activeTab === 'matrix' && (
           <div className="space-y-6">
             <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent-cyan/40 bg-white px-3.5 py-1 text-xs font-mono font-bold text-accent-cyan mb-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-accent-cyan/40 bg-white px-3.5 py-1 text-xs font-mono font-bold text-accent-amber-strong mb-2">
                 <Shield className="h-3.5 w-3.5" />
                 <span>Frontend &amp; Firestore Security Architecture</span>
               </div>
@@ -501,7 +501,7 @@ export const PricingPage: React.FC = () => {
                     <th className="p-3.5">Platform Capability / Route</th>
                     <th className="p-3.5 text-center">Guest / Anon</th>
                     <th className="p-3.5 text-center">Free Dev</th>
-                    <th className="p-3.5 text-center text-accent-cyan bg-cyan-950/20">Pro Member</th>
+                    <th className="p-3.5 text-center text-accent-amber-strong bg-cyan-950/20">Pro Member</th>
                     <th className="p-3.5 text-center">Team Lead</th>
                     <th className="p-3.5 text-center">Enterprise</th>
                     <th className="p-3.5 text-center text-accent-amber bg-amber-950/20">Superadmin</th>
@@ -512,7 +512,7 @@ export const PricingPage: React.FC = () => {
                     <td className="p-3.5 font-bold text-white">Daily Compute Quota</td>
                     <td className="p-3.5 text-center font-mono">20 units</td>
                     <td className="p-3.5 text-center font-mono">50 units</td>
-                    <td className="p-3.5 text-center font-mono text-accent-cyan font-bold bg-cyan-950/20">500 units</td>
+                    <td className="p-3.5 text-center font-mono text-accent-amber-strong font-bold bg-cyan-950/20">500 units</td>
                     <td className="p-3.5 text-center font-mono font-bold">1,500 units</td>
                     <td className="p-3.5 text-center font-mono font-bold text-accent-purple">5,000 units</td>
                     <td className="p-3.5 text-center font-mono font-bold text-accent-amber bg-amber-950/20">Unlimited (∞)</td>
@@ -542,7 +542,7 @@ export const PricingPage: React.FC = () => {
                     <td className="p-3.5 font-bold text-white">Domain Watchdog Monitoring Quota</td>
                     <td className="p-3.5 text-center text-gray-500">0 slots</td>
                     <td className="p-3.5 text-center">1 domain</td>
-                    <td className="p-3.5 text-center text-accent-cyan font-bold bg-cyan-950/20">20 domains</td>
+                    <td className="p-3.5 text-center text-accent-amber-strong font-bold bg-cyan-950/20">20 domains</td>
                     <td className="p-3.5 text-center font-bold">50 domains</td>
                     <td className="p-3.5 text-center font-bold text-accent-purple">Unlimited</td>
                     <td className="p-3.5 text-center font-bold text-accent-amber bg-amber-950/20">Unlimited</td>
@@ -597,7 +597,7 @@ export const PricingPage: React.FC = () => {
         {activeTab === 'simulator' && (
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent-cyan/40 bg-white px-3.5 py-1 text-xs font-mono font-bold text-accent-cyan mb-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-accent-cyan/40 bg-white px-3.5 py-1 text-xs font-mono font-bold text-accent-amber-strong mb-2">
                 <Sliders className="h-3.5 w-3.5" />
                 <span>Value Delta &amp; ROI Calculator</span>
               </div>
@@ -626,7 +626,7 @@ export const PricingPage: React.FC = () => {
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-sm text-black">{plan.name}</span>
-                      <span className="text-xs font-mono font-bold text-accent-cyan">${plan.priceMonthly}/mo</span>
+                      <span className="text-xs font-mono font-bold text-accent-amber-strong">${plan.priceMonthly}/mo</span>
                     </div>
                     <div className="mt-1.5 text-xs font-mono text-accent-emerald font-bold">
                       {plan.dailyComputeUnits} units/day
@@ -649,7 +649,7 @@ export const PricingPage: React.FC = () => {
                     {/* Multiplier */}
                     <div className="p-3 space-y-1.5">
                       <span className="text-xs font-mono uppercase font-bold text-gray-500 tracking-wider">Compute Boost</span>
-                      <div className="text-3xl sm:text-4xl font-black font-mono text-accent-cyan metric-tabular">
+                      <div className="text-3xl sm:text-4xl font-black font-mono text-accent-amber-strong metric-tabular">
                         {unitMultiplier > 1 ? `${unitMultiplier}x` : '1x'}
                       </div>
                       <p className="text-xs text-gray-600">
@@ -702,7 +702,7 @@ export const PricingPage: React.FC = () => {
         {/* Enterprise & Private Cloud Banner */}
         <LazyReveal direction="up" className="mt-14 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl text-black">
           <div className="space-y-1.5 max-w-2xl">
-            <div className="flex items-center gap-2 text-accent-cyan font-mono font-bold text-xs uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-accent-amber-strong font-mono font-bold text-xs uppercase tracking-wider">
               <Server className="h-4 w-4" />
               <span>Custom Enterprise Infrastructure</span>
             </div>

@@ -36,7 +36,7 @@ export const SecurityPage: React.FC = () => {
                 href="mailto:security@catalystlab.tech"
                 className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3.5 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
-                <Key className="h-3.5 w-3.5 text-accent-cyan" />
+                <Key className="h-3.5 w-3.5 text-accent-amber-strong" />
                 <span>Email Security Team</span>
                 <ArrowRight className="h-3 w-3 text-gray-500" />
               </a>

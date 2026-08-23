@@ -39,15 +39,15 @@ export const SocialProof: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-24 bg-white border-b border-zinc-200 text-zinc-950 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="ds-section ds-surface-alt text-zinc-950 relative overflow-hidden">
+      <div className="ds-page-shell">
         
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="ds-section-head ds-section-head-center">
           <LazyReveal direction="up">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-zinc-950 leading-tight">
+            <h2 className="ds-h2 text-zinc-950">
               High-Frequency Diagnostic Mesh Built for Scale
             </h2>
-            <p className="text-base sm:text-lg text-zinc-600 mt-4 leading-relaxed">
+            <p className="ds-lede mt-4">
               Continuous multi-tenant telemetry validated against international engineering protocols.
             </p>
           </LazyReveal>
@@ -60,7 +60,7 @@ export const SocialProof: React.FC = () => {
               return (
                 <div 
                   key={idx}
-                  className="bg-zinc-50 border border-zinc-200 rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-4 hover:bg-zinc-100 transition-colors"
+                  className="ds-card ds-card-interactive flex flex-col justify-between space-y-4 p-6 sm:p-8"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-4xl sm:text-5xl font-bold text-zinc-950 tracking-tight">
@@ -86,10 +86,8 @@ export const SocialProof: React.FC = () => {
 
         {/* Enterprise Compliance Strip */}
         <LazyReveal direction="up" delay={0.2}>
-          <div className="mt-16 pt-8 border-t border-zinc-200 flex flex-wrap items-center justify-center gap-6 sm:gap-8">
-            <span className="text-zinc-500 font-bold uppercase tracking-wider text-xs">
-              Validated Standards
-            </span>
+          <div className="mt-12 pt-8 border-t border-zinc-200 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            <span className="ds-eyebrow">Validated Standards</span>
             {enterpriseBadges.map((badge, idx) => (
               <div key={idx} className="flex items-center gap-2 text-zinc-700 font-medium text-sm">
                 <Check className="h-4 w-4 text-zinc-400 shrink-0" />
