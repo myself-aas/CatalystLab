@@ -52,10 +52,10 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.05)] border-b border-zinc-200/80 dark:border-zinc-800/80 text-zinc-950 dark:text-zinc-100' 
-          : 'bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-transparent text-zinc-950 dark:text-zinc-100'
+      <header className={`sticky top-0 z-50 border-b transition-all duration-300 ${
+        isScrolled
+          ? 'border-border bg-background/95 shadow-sm backdrop-blur-md'
+          : 'border-transparent bg-background/80 backdrop-blur-md'
       }`}>
         <div className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between px-6 lg:px-12">
           

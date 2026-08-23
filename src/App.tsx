@@ -117,10 +117,10 @@ export const App: React.FC = () => {
   return (
     <>
       <ParticlesComponent />
-      <div className="flex min-h-screen flex-col bg-transparent text-zinc-900 dark:text-zinc-100 selection:bg-[#f9a825]/25 selection:text-zinc-900 dark:selection:text-white animate-app-fade-in relative z-10">
+      <div className="relative z-10 flex min-h-screen flex-col bg-background text-foreground selection:bg-primary/25 selection:text-foreground animate-app-fade-in">
         <a 
           href="#main-content" 
-          className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white dark:focus:bg-zinc-900 focus:text-amber-500 focus:font-bold focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-br-xl shadow-lg"
+          className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary"
         >
           Skip to main content
         </a>
