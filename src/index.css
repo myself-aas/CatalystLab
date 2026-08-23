@@ -77,20 +77,21 @@
 }
 
 html.dark, [data-theme="dark"] {
-  --color-background: #09090b;
-  --color-foreground: #f4f4f5;
-  --color-surface: #121215;
-  --color-surface-panel: #18181b;
-  --color-surface-muted: #1e1e24;
-  --color-surface-subtle: #141417;
-  --color-border: #27272a;
-  --color-border-subtle: #27272a;
-  --color-border-strong: #3f3f46;
-  --color-muted: #a1a1aa;
-  --button-bg: #f4f4f5;
-  --button-text: #09090b;
-  --button-hover: #f9a825;
-  --slide-bg: #18181b;
+  /* The product canvas is intentionally white in every theme. */
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-surface: #ffffff;
+  --color-surface-panel: #ffffff;
+  --color-surface-muted: #ffffff;
+  --color-surface-subtle: #ffffff;
+  --color-border: #e5e5e5;
+  --color-border-subtle: #e5e5e5;
+  --color-border-strong: #b4b4b4;
+  --color-muted: #595959;
+  --button-bg: #000000;
+  --button-text: #ffffff;
+  --button-hover: #000000;
+  --slide-bg: #ffffff;
 }
 
 @theme {
@@ -190,6 +191,28 @@ html.dark, [data-theme="dark"] {
     text-wrap: pretty;
     color: #474747;
   }
+}
+
+/* Homepage: intentionally flat, monochrome canvas with no decorative layers. */
+.homepage-minimal,
+.homepage-minimal * {
+  background-image: none !important;
+}
+
+.homepage-minimal [class*="bg-"] {
+  background-color: #ffffff !important;
+}
+
+.homepage-minimal [class*="text-"] {
+  color: #000000 !important;
+}
+
+.homepage-minimal [class*="border-"] {
+  border-color: #e5e5e5 !important;
+}
+
+.homepage-minimal [class*="shadow"] {
+  box-shadow: none !important;
 }
 
 /* =========================================
@@ -376,24 +399,6 @@ html.dark, [data-theme="dark"] {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-/* Technical Grid Pattern Background */
-.bg-cyber-grid {
-  background-image: 
-    linear-gradient(to right, rgba(180, 180, 180, 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(180, 180, 180, 0.12) 1px, transparent 1px);
-  background-size: 32px 32px;
-  background-position: center top;
-}
-
-/* Subtle Warm Orange Grid */
-.bg-amber-grid {
-  background-image: 
-    linear-gradient(to right, rgba(249, 168, 37, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(249, 168, 37, 0.08) 1px, transparent 1px);
-  background-size: 32px 32px;
-  background-position: center top;
 }
 
 /* Print Stylesheet for Browser PDF Export */

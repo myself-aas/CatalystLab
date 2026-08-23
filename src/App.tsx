@@ -65,8 +65,6 @@ const PlaygroundPage = React.lazy(() => import("./pages/PlaygroundPage").then(m 
 const LoginPage = React.lazy(() => import("./pages/LoginPage").then(m => ({ default: m.LoginPage })));
 const SignUpPage = React.lazy(() => import("./pages/SignUpPage").then(m => ({ default: m.SignUpPage })));
 
-import ParticlesComponent from "./components/ui/particles-bg";
-
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
 
@@ -116,8 +114,7 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <ParticlesComponent />
-      <div className="relative z-10 flex min-h-screen flex-col bg-background text-foreground selection:bg-primary/25 selection:text-foreground animate-app-fade-in">
+      <div className="flex min-h-screen flex-col bg-white text-black selection:bg-black/10 selection:text-black animate-app-fade-in">
         <a 
           href="#main-content" 
           className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary"
