@@ -15,6 +15,7 @@ import {
 import { 
   getFirestore, 
   initializeFirestore,
+  setLogLevel,
   persistentLocalCache,
   persistentMultipleTabManager,
   collection, 
@@ -49,15 +50,15 @@ let firestoreInstance;
 try {
   firestoreInstance = initializeFirestore(app, {
     experimentalForceLongPolling: true,
-    localCache: persistentLocalCache({
-      tabManager: persistentMultipleTabManager()
-    })
+    experimentalAutoDetectLongPolling: true,
   }, databaseId);
 } catch {
   firestoreInstance = databaseId ? getFirestore(app, databaseId) : getFirestore(app);
 }
 
+
 export const db = firestoreInstance;
+setLogLevel('error'); // Suppress noisy offline/unavailable SDK warnings
 
 async function testConnection() {
   try {
@@ -196,7 +197,7 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
   'auth/too-many-requests': 'Too many failed login attempts. Please wait a moment or reset your password.',
 };
 
-export function formatAuthError(error: unknown): AuthErrorInfo {
+export function formatAuthError(error: any): AuthErrorInfo {
   const errorCode = error?.code || '';
   const currentDomain = typeof window !== 'undefined' ? window.location.hostname : '';
   

@@ -11,15 +11,11 @@ import {
   CheckCircle2, 
   Sparkles, 
   KeyRound,
-  Cpu,
-  Layers,
   Terminal,
   RotateCw,
-  ExternalLink,
-  Shield,
-  HelpCircle
+  Shield
 } from 'lucide-react';
-import { useAuth, SUPERADMIN_EMAILS } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { BrandLogo } from '../components/common/BrandLogo';
 import { SEOHead } from '../components/common/SEOHead';
 
@@ -178,7 +174,7 @@ export const LoginPage: React.FC = () => {
   const activeErrorMessage = localMessage?.type === 'error' ? localMessage.text : authError?.message;
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-[#07111e] text-white selection:bg-cyan-500 selection:text-[#07111e] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-brand-navy text-brand-offwhite selection:bg-brand-slate selection:text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <SEOHead
         title="Sign In to CatalystLab | Access Diagnostic Telemetry & API Tokens"
         description="Sign in to your CatalystLab account using Email, Google (Gmail), or GitHub to manage web health dossiers, REST API keys, and automated site monitoring."
@@ -186,21 +182,17 @@ export const LoginPage: React.FC = () => {
         canonicalUrl="https://www.catalystlab.tech/login"
       />
 
-      {/* Atmospheric Background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-cyan-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-[400px] h-[250px] bg-blue-600/5 blur-[100px] pointer-events-none" />
-
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         {/* Brand Logo & Header */}
         <div className="flex flex-col items-center text-center">
-          <Link to="/" className="inline-block transition-transform hover:scale-105 active:scale-95 mb-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+          <Link to="/" className="inline-block transition-transform hover:scale-105 mb-4" aria-label="Home">
             <BrandLogo size="lg" />
           </Link>
           
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-brand-offwhite">
             {isResetMode ? 'Reset your password' : 'Sign in to CatalystLab'}
           </h1>
-          <p className="mt-2 text-xs sm:text-sm text-slate-400 max-w-sm">
+          <p className="mt-2 text-xs sm:text-sm text-brand-periwinkle max-w-sm">
             {isResetMode
               ? 'Enter your registered email address and we will dispatch a secure reset link.'
               : 'Precision web diagnostics, continuous watchdog monitoring, and developer API keys.'}
@@ -208,21 +200,21 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Card Container */}
-        <div className="mt-8 rounded-2xl border border-brand-border/80 bg-[#0c1a2c] p-6 sm:p-8 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl">
+        <div className="mt-7 rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-2xl">
           
           {/* Error / Feedback Alert Banner */}
           {activeErrorMessage && (
-            <div className="mb-6 rounded-xl border border-red-500/30 bg-red-950/40 p-4 text-xs text-red-200 animate-in fade-in duration-200">
+            <div className="mb-5 rounded-xl border border-rose-500/40 bg-rose-950/40 p-3.5 text-xs text-rose-200">
               <div className="flex items-start gap-2.5">
-                <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-                <div className="flex-1 space-y-1.5">
-                  <p className="font-semibold text-red-200 leading-snug">{activeErrorMessage}</p>
+                <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                <div className="flex-1 space-y-1">
+                  <p className="font-semibold text-rose-200 leading-snug">{activeErrorMessage}</p>
                   {authError?.isUnauthorizedDomain && (
-                    <div className="pt-1 flex items-center gap-2">
+                    <div className="pt-1">
                       <button
                         type="button"
                         onClick={() => setShowDomainModal(true)}
-                        className="font-bold underline text-red-300 hover:text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="font-bold underline text-rose-300 hover:text-white cursor-pointer"
                       >
                         Whitelist domain &lsquo;{authError.domain}&rsquo; in Firebase
                       </button>
@@ -235,8 +227,8 @@ export const LoginPage: React.FC = () => {
 
           {/* Success Banner */}
           {localMessage?.type === 'success' && (
-            <div className="mb-6 rounded-xl border border-emerald-500/30 bg-emerald-950/40 p-4 text-xs text-emerald-200 animate-in fade-in duration-200">
-              <div className="flex items-start gap-2.5">
+            <div className="mb-5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3.5 text-xs text-emerald-200">
+              <div className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
                 <p className="font-medium text-emerald-200 leading-snug">{localMessage.text}</p>
               </div>
@@ -244,18 +236,18 @@ export const LoginPage: React.FC = () => {
           )}
 
           {!isResetMode ? (
-            <div className="space-y-6">
+            <div className="space-y-5">
               {/* 1-Click Social Sign-in Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {/* Google / Gmail Auth Button */}
                 <button
                   type="button"
                   onClick={handleGoogleLogin}
                   disabled={isSubmitting}
-                  className="flex items-center justify-center gap-2.5 rounded-xl border border-slate-700 bg-[#13243a] px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-[#1a314f] hover:border-cyan-500/40 active:scale-98 disabled:opacity-60 cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford px-3.5 py-2.5 text-xs font-mono font-bold text-brand-offwhite transition-colors hover:bg-surface-subtle hover:text-white disabled:opacity-60 cursor-pointer shadow-sm"
                 >
                   {authMethod === 'google' ? (
-                    <RotateCw className="h-4 w-4 animate-spin text-cyan-400" />
+                    <RotateCw className="h-4 w-4 animate-spin text-accent-cyan" />
                   ) : (
                     <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
                       <path
@@ -284,10 +276,10 @@ export const LoginPage: React.FC = () => {
                   type="button"
                   onClick={handleGithubLogin}
                   disabled={isSubmitting}
-                  className="flex items-center justify-center gap-2.5 rounded-xl border border-slate-700 bg-[#13243a] px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-[#1a314f] hover:border-cyan-500/40 active:scale-98 disabled:opacity-60 cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford px-3.5 py-2.5 text-xs font-mono font-bold text-brand-offwhite transition-colors hover:bg-surface-subtle hover:text-white disabled:opacity-60 cursor-pointer shadow-sm"
                 >
                   {authMethod === 'github' ? (
-                    <RotateCw className="h-4 w-4 animate-spin text-cyan-400" />
+                    <RotateCw className="h-4 w-4 animate-spin text-accent-cyan" />
                   ) : (
                     <svg className="h-4 w-4 shrink-0 fill-current" viewBox="0 0 24 24">
                       <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -299,20 +291,20 @@ export const LoginPage: React.FC = () => {
 
               {/* Or Divider */}
               <div className="relative flex items-center justify-center">
-                <div className="w-full border-t border-slate-700/80" />
-                <span className="bg-[#0c1a2c] px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                <div className="w-full border-t border-brand-slate/30" />
+                <span className="bg-surface-panel px-3 text-[10px] font-mono font-semibold text-brand-slate-light uppercase tracking-wider">
                   or continue with email
                 </span>
               </div>
 
               {/* Email & Password Form */}
-              <form onSubmit={handleEmailLogin} className="space-y-4">
+              <form onSubmit={handleEmailLogin} className="space-y-3.5">
                 <div>
-                  <label htmlFor="email" className="block text-xs font-bold text-slate-300 mb-1.5">
+                  <label htmlFor="email" className="block text-xs font-mono font-bold text-brand-periwinkle mb-1">
                     Email address
                   </label>
                   <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-brand-slate-light">
                       <Mail className="h-4 w-4" />
                     </div>
                     <input
@@ -324,26 +316,26 @@ export const LoginPage: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@company.com"
-                      className="block w-full rounded-xl border border-slate-700 bg-[#081322] pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-colors"
+                      className="block w-full rounded-xl border border-brand-slate/40 bg-brand-oxford pl-9 pr-3.5 py-2 text-xs font-mono text-brand-offwhite placeholder-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label htmlFor="password" className="block text-xs font-bold text-slate-300">
+                  <div className="flex items-center justify-between mb-1">
+                    <label htmlFor="password" className="block text-xs font-mono font-bold text-brand-periwinkle">
                       Password
                     </label>
                     <button
                       type="button"
                       onClick={() => setIsResetMode(true)}
-                      className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="text-xs font-mono text-accent-cyan hover:underline cursor-pointer"
                     >
                       Forgot password?
                     </button>
                   </div>
                   <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-brand-slate-light">
                       <Lock className="h-4 w-4" />
                     </div>
                     <input
@@ -355,12 +347,12 @@ export const LoginPage: React.FC = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••••••"
-                      className="block w-full rounded-xl border border-slate-700 bg-[#081322] pl-10 pr-10 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-colors"
+                      className="block w-full rounded-xl border border-brand-slate/40 bg-brand-oxford pl-9 pr-9 py-2 text-xs font-mono text-brand-offwhite placeholder-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-brand-slate-light hover:text-white transition-colors cursor-pointer"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -368,23 +360,22 @@ export const LoginPage: React.FC = () => {
                   </div>
                 </div>
 
-                <fieldset className="flex items-center justify-between text-xs text-slate-400 pt-1">
-                  <legend className="sr-only">Login Options</legend>
+                <div className="flex items-center justify-between text-xs font-mono text-brand-slate-light pt-0.5">
                   <label className="flex items-center gap-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="h-4 w-4 rounded border-slate-700 bg-[#081322] text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0"
+                      className="h-3.5 w-3.5 rounded border-brand-slate/40 bg-brand-oxford text-brand-slate focus:ring-0"
                     />
                     <span>Remember me on this device</span>
                   </label>
-                </fieldset>
+                </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 py-3 text-xs sm:text-sm font-extrabold text-[#07111e] shadow-lg shadow-cyan-500/20 hover:opacity-95 active:scale-98 transition-all disabled:opacity-60 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-2.5 text-xs font-mono font-bold text-white shadow-md transition-all disabled:opacity-60 cursor-pointer"
                 >
                   {authMethod === 'email' && isSubmitting ? (
                     <RotateCw className="h-4 w-4 animate-spin" />
@@ -399,13 +390,13 @@ export const LoginPage: React.FC = () => {
             </div>
           ) : (
             /* Reset Password Form */
-            <form onSubmit={handlePasswordReset} className="space-y-4 animate-in fade-in duration-200">
+            <form onSubmit={handlePasswordReset} className="space-y-3.5">
               <div>
-                <label htmlFor="reset-email" className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label htmlFor="reset-email" className="block text-xs font-mono font-bold text-brand-periwinkle mb-1">
                   Account Email address
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-brand-slate-light">
                     <Mail className="h-4 w-4" />
                   </div>
                   <input
@@ -415,7 +406,7 @@ export const LoginPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@company.com"
-                    className="block w-full rounded-xl border border-slate-700 bg-[#081322] pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-colors"
+                    className="block w-full rounded-xl border border-brand-slate/40 bg-brand-oxford pl-9 pr-3.5 py-2 text-xs font-mono text-brand-offwhite placeholder-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -423,7 +414,7 @@ export const LoginPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-400 py-2.5 text-xs sm:text-sm font-extrabold text-[#07111e] shadow-md hover:bg-cyan-300 active:scale-98 transition-all disabled:opacity-60 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-2.5 text-xs font-mono font-bold text-white shadow-md transition-all disabled:opacity-60 cursor-pointer"
               >
                 {isSubmitting ? (
                   <RotateCw className="h-4 w-4 animate-spin" />
@@ -435,11 +426,11 @@ export const LoginPage: React.FC = () => {
                 )}
               </button>
 
-              <div className="text-center pt-2">
+              <div className="text-center pt-1">
                 <button
                   type="button"
                   onClick={() => setIsResetMode(false)}
-                  className="text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="text-xs font-mono text-brand-slate-light hover:text-white transition-colors cursor-pointer"
                 >
                   &larr; Back to sign in
                 </button>
@@ -447,28 +438,28 @@ export const LoginPage: React.FC = () => {
             </form>
           )}
 
-          {/* Sandbox Developer Demo Bypass (Useful in preview sandboxes) */}
-          <div className="mt-6 pt-5 border-t border-slate-700/60">
-            <div className="flex items-center justify-between text-[11px] text-slate-400 mb-2.5">
-              <span className="flex items-center gap-1 font-semibold text-slate-300">
-                <Terminal className="h-3 w-3 text-cyan-400" />
+          {/* Sandbox Developer Demo Bypass */}
+          <div className="mt-5 pt-4 border-t border-brand-slate/30">
+            <div className="flex items-center justify-between text-[11px] font-mono text-brand-slate-light mb-2">
+              <span className="flex items-center gap-1 font-semibold text-brand-periwinkle">
+                <Terminal className="h-3 w-3 text-accent-cyan" />
                 <span>Instant Developer Preview:</span>
               </span>
-              <span className="text-[10px] text-slate-500">1-click sandbox session</span>
+              <span className="text-[10px]">1-click sandbox session</span>
             </div>
             
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 font-mono">
               <button
                 type="button"
                 onClick={() => handleSandboxLogin('pro')}
-                className="rounded-lg border border-slate-700/70 bg-[#081322] px-2.5 py-1.5 text-[11px] font-bold text-slate-300 hover:bg-[#13243a] hover:text-white hover:border-slate-500 transition-all text-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-lg border border-brand-slate/40 bg-brand-oxford px-2.5 py-1.5 text-[11px] font-bold text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-colors text-center cursor-pointer"
               >
                 Dev User Preview
               </button>
               <button
                 type="button"
                 onClick={() => handleSandboxLogin('superadmin')}
-                className="rounded-lg border border-amber-500/30 bg-amber-950/20 px-2.5 py-1.5 text-[11px] font-bold text-amber-300 hover:bg-amber-900/40 hover:text-white hover:border-amber-500/60 transition-all text-center cursor-pointer flex items-center justify-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-lg border border-amber-500/30 bg-amber-950/30 px-2.5 py-1.5 text-[11px] font-bold text-amber-300 hover:bg-amber-900/40 hover:text-white transition-colors text-center cursor-pointer flex items-center justify-center gap-1"
               >
                 <Shield className="h-3 w-3" />
                 <span>Superadmin</span>
@@ -478,25 +469,25 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Switch to Sign Up */}
-        <div className="mt-6 text-center text-xs text-slate-400">
+        <div className="mt-5 text-center text-xs font-mono text-brand-slate-light">
           <span>Don&rsquo;t have a CatalystLab account yet? </span>
           <Link
             to={`/signup${location.search}`}
-            className="font-bold text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="font-bold text-accent-cyan hover:underline ml-1"
           >
             Create free account &rarr;
           </Link>
         </div>
 
         {/* Trust & Compliance Badge */}
-        <div className="mt-8 flex items-center justify-center gap-4 text-[11px] text-slate-500">
+        <div className="mt-6 flex items-center justify-center gap-4 text-[11px] font-mono text-brand-slate-light">
           <div className="flex items-center gap-1">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+            <ShieldCheck className="h-3.5 w-3.5 text-accent-emerald" />
             <span>256-Bit TLS Encryption</span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+            <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
             <span>50 Free Units Daily</span>
           </div>
         </div>

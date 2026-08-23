@@ -9,17 +9,13 @@ import {
   ArrowRight, 
   ShieldCheck, 
   AlertCircle, 
-  CheckCircle2, 
   Sparkles, 
   KeyRound,
-  Cpu,
   Layers,
   Terminal,
   RotateCw,
   Check,
-  X,
-  Zap,
-  Globe
+  Zap
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { BrandLogo } from '../components/common/BrandLogo';
@@ -176,7 +172,7 @@ export const SignUpPage: React.FC = () => {
   const activeErrorMessage = localError || authError?.message;
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-[#07111e] text-white selection:bg-cyan-500 selection:text-[#07111e] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-brand-navy text-brand-offwhite selection:bg-brand-slate selection:text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <SEOHead
         title="Sign Up for CatalystLab | Free Developer Telemetry & Forensic Audit Account"
         description="Create your free CatalystLab account to run 8 specialized web diagnostic engines, obtain REST API tokens, and monitor production sites with automated watchdogs."
@@ -184,66 +180,62 @@ export const SignUpPage: React.FC = () => {
         canonicalUrl="https://www.catalystlab.tech/signup"
       />
 
-      {/* Atmospheric Background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-cyan-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-[400px] h-[250px] bg-blue-600/5 blur-[100px] pointer-events-none" />
-
       <div className="sm:mx-auto sm:w-full sm:max-w-xl relative z-10">
         
         {/* Brand Logo & Header */}
         <div className="flex flex-col items-center text-center">
-          <Link to="/" className="inline-block transition-transform hover:scale-105 active:scale-95 mb-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+          <Link to="/" className="inline-block transition-transform hover:scale-105 mb-4" aria-label="Home">
             <BrandLogo size="lg" />
           </Link>
           
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-brand-offwhite">
             Create your CatalystLab account
           </h1>
-          <p className="mt-2 text-xs sm:text-sm text-slate-400 max-w-md">
+          <p className="mt-2 text-xs sm:text-sm text-brand-periwinkle max-w-md">
             Unlock 50 free daily diagnostic units, continuous health monitoring, and instant REST API access keys.
           </p>
         </div>
 
         {/* Feature Highlights Grid */}
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-          <div className="rounded-xl border border-slate-800 bg-[#0b1728]/80 p-2.5">
-            <Zap className="h-4 w-4 text-cyan-400 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-200">50 Free Units</div>
-            <div className="text-[9px] text-slate-400">Refreshed daily</div>
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
+          <div className="rounded-xl border border-brand-slate/40 bg-surface-panel p-2.5">
+            <Zap className="h-4 w-4 text-accent-cyan mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-brand-offwhite">50 Free Units</div>
+            <div className="text-[9px] text-brand-slate-light">Refreshed daily</div>
           </div>
-          <div className="rounded-xl border border-slate-800 bg-[#0b1728]/80 p-2.5">
-            <Layers className="h-4 w-4 text-blue-400 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-200">8 Engines</div>
-            <div className="text-[9px] text-slate-400">Deep telemetry</div>
+          <div className="rounded-xl border border-brand-slate/40 bg-surface-panel p-2.5">
+            <Layers className="h-4 w-4 text-brand-periwinkle mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-brand-offwhite">8 Engines</div>
+            <div className="text-[9px] text-brand-slate-light">Deep telemetry</div>
           </div>
-          <div className="rounded-xl border border-slate-800 bg-[#0b1728]/80 p-2.5">
-            <KeyRound className="h-4 w-4 text-emerald-400 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-200">REST API</div>
-            <div className="text-[9px] text-slate-400">CI/CD hooks</div>
+          <div className="rounded-xl border border-brand-slate/40 bg-surface-panel p-2.5">
+            <KeyRound className="h-4 w-4 text-accent-emerald mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-brand-offwhite">REST API</div>
+            <div className="text-[9px] text-brand-slate-light">CI/CD hooks</div>
           </div>
-          <div className="rounded-xl border border-slate-800 bg-[#0b1728]/80 p-2.5">
-            <ShieldCheck className="h-4 w-4 text-amber-400 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-200">Zero Risk</div>
-            <div className="text-[9px] text-slate-400">No card required</div>
+          <div className="rounded-xl border border-brand-slate/40 bg-surface-panel p-2.5">
+            <ShieldCheck className="h-4 w-4 text-accent-amber mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-brand-offwhite">Zero Risk</div>
+            <div className="text-[9px] text-brand-slate-light">No card required</div>
           </div>
         </div>
 
         {/* Card Container */}
-        <div className="mt-6 rounded-2xl border border-brand-border/80 bg-[#0c1a2c] p-6 sm:p-8 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl">
+        <div className="mt-5 rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-2xl">
           
           {/* Error Alert Banner */}
           {activeErrorMessage && (
-            <div className="mb-6 rounded-xl border border-red-500/30 bg-red-950/40 p-4 text-xs text-red-200 animate-in fade-in duration-200">
+            <div className="mb-5 rounded-xl border border-rose-500/40 bg-rose-950/40 p-3.5 text-xs text-rose-200">
               <div className="flex items-start gap-2.5">
-                <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-                <div className="flex-1 space-y-1.5">
-                  <p className="font-semibold text-red-200 leading-snug">{activeErrorMessage}</p>
+                <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                <div className="flex-1 space-y-1">
+                  <p className="font-semibold text-rose-200 leading-snug">{activeErrorMessage}</p>
                   {authError?.isUnauthorizedDomain && (
-                    <div className="pt-1 flex items-center gap-2">
+                    <div className="pt-1">
                       <button
                         type="button"
                         onClick={() => setShowDomainModal(true)}
-                        className="font-bold underline text-red-300 hover:text-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="font-bold underline text-rose-300 hover:text-white cursor-pointer"
                       >
                         Whitelist domain &lsquo;{authError.domain}&rsquo; in Firebase
                       </button>
@@ -254,18 +246,18 @@ export const SignUpPage: React.FC = () => {
             </div>
           )}
 
-          <div className="space-y-6">
+          <div className="space-y-5">
             {/* 1-Click Social Sign-Up Buttons */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {/* Google / Gmail Auth Button */}
               <button
                 type="button"
                 onClick={handleGoogleSignUp}
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-2.5 rounded-xl border border-slate-700 bg-[#13243a] px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-[#1a314f] hover:border-cyan-500/40 active:scale-98 disabled:opacity-60 cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford px-3.5 py-2.5 text-xs font-mono font-bold text-brand-offwhite transition-colors hover:bg-surface-subtle hover:text-white disabled:opacity-60 cursor-pointer shadow-sm"
               >
                 {authMethod === 'google' ? (
-                  <RotateCw className="h-4 w-4 animate-spin text-cyan-400" />
+                  <RotateCw className="h-4 w-4 animate-spin text-accent-cyan" />
                 ) : (
                   <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
                     <path
@@ -294,10 +286,10 @@ export const SignUpPage: React.FC = () => {
                 type="button"
                 onClick={handleGithubSignUp}
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-2.5 rounded-xl border border-slate-700 bg-[#13243a] px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-[#1a314f] hover:border-cyan-500/40 active:scale-98 disabled:opacity-60 cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford px-3.5 py-2.5 text-xs font-mono font-bold text-brand-offwhite transition-colors hover:bg-surface-subtle hover:text-white disabled:opacity-60 cursor-pointer shadow-sm"
               >
                 {authMethod === 'github' ? (
-                  <RotateCw className="h-4 w-4 animate-spin text-cyan-400" />
+                  <RotateCw className="h-4 w-4 animate-spin text-accent-cyan" />
                 ) : (
                   <svg className="h-4 w-4 shrink-0 fill-current" viewBox="0 0 24 24">
                     <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -309,20 +301,20 @@ export const SignUpPage: React.FC = () => {
 
             {/* Or Divider */}
             <div className="relative flex items-center justify-center">
-              <div className="w-full border-t border-slate-700/80" />
-              <span className="bg-[#0c1a2c] px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+              <div className="w-full border-t border-brand-slate/30" />
+              <span className="bg-surface-panel px-3 text-[10px] font-mono font-semibold text-brand-slate-light uppercase tracking-wider">
                 or register with email
               </span>
             </div>
 
             {/* Email Registration Form */}
-            <form onSubmit={handleEmailSignUp} className="space-y-4">
+            <form onSubmit={handleEmailSignUp} className="space-y-3.5">
               <div>
-                <label htmlFor="fullName" className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label htmlFor="fullName" className="block text-xs font-mono font-bold text-brand-periwinkle mb-1">
                   Full Name / Handle
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-brand-slate-light">
                     <UserIcon className="h-4 w-4" />
                   </div>
                   <input
@@ -333,17 +325,17 @@ export const SignUpPage: React.FC = () => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Alex Mercer"
-                    className="block w-full rounded-xl border border-slate-700 bg-[#081322] pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-colors"
+                    className="block w-full rounded-xl border border-brand-slate/40 bg-brand-oxford pl-9 pr-3.5 py-2 text-xs font-mono text-brand-offwhite placeholder-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label htmlFor="email" className="block text-xs font-mono font-bold text-brand-periwinkle mb-1">
                   Work or Personal Email
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-brand-slate-light">
                     <Mail className="h-4 w-4" />
                   </div>
                   <input
@@ -355,17 +347,17 @@ export const SignUpPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="alex@company.com"
-                    className="block w-full rounded-xl border border-slate-700 bg-[#081322] pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-colors"
+                    className="block w-full rounded-xl border border-brand-slate/40 bg-brand-oxford pl-9 pr-3.5 py-2 text-xs font-mono text-brand-offwhite placeholder-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label htmlFor="password" className="block text-xs font-mono font-bold text-brand-periwinkle mb-1">
                   Create Password
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-brand-slate-light">
                     <Lock className="h-4 w-4" />
                   </div>
                   <input
@@ -377,12 +369,12 @@ export const SignUpPage: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="At least 8 characters"
-                    className="block w-full rounded-xl border border-slate-700 bg-[#081322] pl-10 pr-10 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-colors"
+                    className="block w-full rounded-xl border border-brand-slate/40 bg-brand-oxford pl-9 pr-9 py-2 text-xs font-mono text-brand-offwhite placeholder-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-brand-slate-light hover:text-white transition-colors cursor-pointer"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -391,32 +383,32 @@ export const SignUpPage: React.FC = () => {
 
                 {/* Password Strength Indicator */}
                 {password.length > 0 && (
-                  <div className="mt-2.5 space-y-1.5">
-                    <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div className="mt-2 space-y-1">
+                    <div className="h-1.5 w-full bg-brand-oxford rounded-full overflow-hidden border border-brand-slate/30">
                       <div 
                         className={`h-full transition-all duration-300 ${
-                          strengthScore <= 25 ? 'bg-red-500 w-1/4' :
+                          strengthScore <= 25 ? 'bg-rose-500 w-1/4' :
                           strengthScore <= 50 ? 'bg-amber-500 w-2/4' :
                           strengthScore <= 75 ? 'bg-blue-400 w-3/4' :
-                          'bg-emerald-400 w-full'
+                          'bg-accent-emerald w-full'
                         }`}
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-[10px]">
-                      <div className={`flex items-center gap-1 ${passwordCriteria.minLength ? 'text-emerald-400' : 'text-slate-500'}`}>
-                        {passwordCriteria.minLength ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />}
+                    <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px] font-mono">
+                      <div className={`flex items-center gap-1 ${passwordCriteria.minLength ? 'text-accent-emerald' : 'text-brand-slate-light'}`}>
+                        {passwordCriteria.minLength ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-brand-slate" />}
                         <span>8+ characters</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasUppercase ? 'text-emerald-400' : 'text-slate-500'}`}>
-                        {passwordCriteria.hasUppercase ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasUppercase ? 'text-accent-emerald' : 'text-brand-slate-light'}`}>
+                        {passwordCriteria.hasUppercase ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-brand-slate" />}
                         <span>Uppercase letter</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasNumber ? 'text-emerald-400' : 'text-slate-500'}`}>
-                        {passwordCriteria.hasNumber ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasNumber ? 'text-accent-emerald' : 'text-brand-slate-light'}`}>
+                        {passwordCriteria.hasNumber ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-brand-slate" />}
                         <span>Number</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasSpecial ? 'text-emerald-400' : 'text-slate-500'}`}>
-                        {passwordCriteria.hasSpecial ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasSpecial ? 'text-accent-emerald' : 'text-brand-slate-light'}`}>
+                        {passwordCriteria.hasSpecial ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-brand-slate" />}
                         <span>Special character</span>
                       </div>
                     </div>
@@ -425,11 +417,11 @@ export const SignUpPage: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label htmlFor="confirmPassword" className="block text-xs font-mono font-bold text-brand-periwinkle mb-1">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-brand-slate-light">
                     <Lock className="h-4 w-4" />
                   </div>
                   <input
@@ -442,43 +434,42 @@ export const SignUpPage: React.FC = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Repeat password"
                     className={`block w-full rounded-xl border ${
-                      !passwordsMatch ? 'border-red-500 bg-red-950/20' : 'border-slate-700 bg-[#081322]'
-                    } pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-colors`}
+                      !passwordsMatch ? 'border-rose-500 bg-rose-950/20' : 'border-brand-slate/40 bg-brand-oxford'
+                    } pl-9 pr-3.5 py-2 text-xs font-mono text-brand-offwhite placeholder-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors`}
                   />
                 </div>
                 {!passwordsMatch && confirmPassword && (
-                  <p className="mt-1 text-[11px] text-red-400">Passwords do not match.</p>
+                  <p className="mt-1 text-[11px] font-mono text-rose-400">Passwords do not match.</p>
                 )}
               </div>
 
-              <fieldset className="pt-1">
-                <legend className="sr-only">Terms and Conditions</legend>
-                <label className="flex items-start gap-2 cursor-pointer select-none text-xs text-slate-300">
+              <div className="pt-0.5">
+                <label className="flex items-start gap-2 cursor-pointer select-none text-xs font-mono text-brand-periwinkle">
                   <input
                     type="checkbox"
                     checked={agreeTerms}
                     onChange={(e) => setAgreeTerms(e.target.checked)}
                     required
-                    className="h-4 w-4 mt-0.5 rounded border-slate-700 bg-[#081322] text-cyan-500 focus:ring-cyan-400 focus:ring-offset-0"
+                    className="h-3.5 w-3.5 mt-0.5 rounded border-brand-slate/40 bg-brand-oxford text-brand-slate focus:ring-0"
                   />
                   <span>
                     I agree to the{' '}
-                    <Link to="/terms" target="_blank" className="text-cyan-400 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                    <Link to="/terms" target="_blank" className="text-accent-cyan hover:underline">
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link to="/privacy" target="_blank" className="text-cyan-400 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                    <Link to="/privacy" target="_blank" className="text-accent-cyan hover:underline">
                       Privacy Policy
                     </Link>
                     .
                   </span>
                 </label>
-              </fieldset>
+              </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting || !agreeTerms || (!passwordsMatch && Boolean(confirmPassword))}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 py-3 text-xs sm:text-sm font-extrabold text-[#07111e] shadow-lg shadow-cyan-500/20 hover:opacity-95 active:scale-98 transition-all disabled:opacity-60 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-2.5 text-xs font-mono font-bold text-white shadow-md transition-all disabled:opacity-60 cursor-pointer"
               >
                 {authMethod === 'email' && isSubmitting ? (
                   <RotateCw className="h-4 w-4 animate-spin" />
@@ -492,18 +483,18 @@ export const SignUpPage: React.FC = () => {
             </form>
           </div>
 
-          {/* Sandbox Developer Demo Bypass (Useful in preview sandboxes) */}
-          <div className="mt-6 pt-5 border-t border-slate-700/60">
-            <div className="flex items-center justify-between text-[11px] text-slate-400 mb-2">
-              <span className="flex items-center gap-1 font-semibold text-slate-300">
-                <Terminal className="h-3 w-3 text-cyan-400" />
+          {/* Sandbox Developer Demo Bypass */}
+          <div className="mt-5 pt-4 border-t border-brand-slate/30">
+            <div className="flex items-center justify-between text-[11px] font-mono text-brand-slate-light mb-2">
+              <span className="flex items-center gap-1 font-semibold text-brand-periwinkle">
+                <Terminal className="h-3 w-3 text-accent-cyan" />
                 <span>Instant Sandbox Onboarding:</span>
               </span>
             </div>
             <button
               type="button"
               onClick={handleSandboxSignUp}
-              className="w-full rounded-lg border border-slate-700/70 bg-[#081322] px-3 py-1.5 text-[11px] font-bold text-slate-300 hover:bg-[#13243a] hover:text-white hover:border-slate-500 transition-all text-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-[11px] font-mono font-bold text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-colors text-center cursor-pointer"
             >
               Test Onboarding in Sandbox Mode (1-Click)
             </button>
@@ -511,25 +502,25 @@ export const SignUpPage: React.FC = () => {
         </div>
 
         {/* Switch to Sign In */}
-        <div className="mt-6 text-center text-xs text-slate-400">
+        <div className="mt-5 text-center text-xs font-mono text-brand-slate-light">
           <span>Already have a CatalystLab account? </span>
           <Link
             to={`/login${location.search}`}
-            className="font-bold text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="font-bold text-accent-cyan hover:underline ml-1"
           >
             Sign in &rarr;
           </Link>
         </div>
 
         {/* Trust & Compliance Badge */}
-        <div className="mt-8 flex items-center justify-center gap-4 text-[11px] text-slate-500">
+        <div className="mt-6 flex items-center justify-center gap-4 text-[11px] font-mono text-brand-slate-light">
           <div className="flex items-center gap-1">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-            <span>SOC2 Type II & GDPR Compliant</span>
+            <ShieldCheck className="h-3.5 w-3.5 text-accent-emerald" />
+            <span>SOC2 Type II &amp; GDPR Compliant</span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+            <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
             <span>No Credit Card Needed</span>
           </div>
         </div>

@@ -8,23 +8,16 @@ import {
   Download, 
   Trash2, 
   CheckCircle, 
-  Info, 
   Sparkles, 
   Server, 
-  Key, 
-  HelpCircle,
-  Clock,
-  Globe,
-  ChevronDown,
-  ChevronUp
+  Key 
 } from 'lucide-react';
-import { LazyReveal, LazyStaggerContainer, LazyStaggerItem } from '../common/LazyAnimate';
+import { LazyReveal } from '../common/LazyAnimate';
 
 export const PrivacySection: React.FC = () => {
   const [mode, setMode] = useState<'summary' | 'full'>('summary');
   const [exported, setExported] = useState(false);
   const [deletionRequested, setDeletionRequested] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleExportData = () => {
     const mockData = {
@@ -120,79 +113,79 @@ export const PrivacySection: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8 font-mono">
       {/* Policy Header / Summary Switcher */}
       <LazyReveal direction="up">
-        <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 text-[#f8fafc] shadow-xl">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#415a77]/25 pb-6">
+        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-5">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-sky-300 mb-1">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>SPEC-V2.8 • GDPR & CCPA CERTIFIED</span>
+              <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
+                <span className="h-2 w-2 rounded-full bg-accent-emerald animate-pulse" />
+                <span>SPEC-V2.8 • GDPR &amp; CCPA CERTIFIED</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#f8fafc]">
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-brand-offwhite font-sans">
                 CatalystLab Privacy Architecture
               </h2>
-              <p className="mt-1 text-xs text-[#94a3b8]">
+              <p className="mt-1 text-xs text-brand-slate-light font-sans">
                 Effective Date: August 19, 2026 • Certified for Zero Third-Party Data Brokering
               </p>
             </div>
 
             {/* Mode Switcher */}
-            <div className="flex items-center rounded-2xl bg-[#152238] p-1.5 border border-[#415a77]/40">
+            <div className="flex items-center rounded-xl bg-brand-oxford p-1 border border-brand-slate/40">
               <button
                 onClick={() => setMode('summary')}
-                className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                   mode === 'summary'
-                    ? 'bg-sky-500 text-[#07111e] shadow-sm'
-                    : 'text-[#94a3b8] hover:text-white'
+                    ? 'bg-brand-slate text-white border border-brand-periwinkle/30 shadow-sm'
+                    : 'text-brand-periwinkle hover:text-white'
                 }`}
               >
-                <Sparkles className="h-3.5 w-3.5" />
+                <Sparkles className="h-3 w-3 text-accent-cyan" />
                 <span>Plain English</span>
               </button>
               <button
                 onClick={() => setMode('full')}
-                className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
                   mode === 'full'
-                    ? 'bg-sky-500 text-[#07111e] shadow-sm'
-                    : 'text-[#94a3b8] hover:text-white'
+                    ? 'bg-brand-slate text-white border border-brand-periwinkle/30 shadow-sm'
+                    : 'text-brand-periwinkle hover:text-white'
                 }`}
               >
-                <ShieldCheck className="h-3.5 w-3.5" />
+                <ShieldCheck className="h-3 w-3 text-accent-emerald" />
                 <span>Legal Clauses</span>
               </button>
             </div>
           </div>
 
           {/* Quick Pillars */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-            <div className="rounded-2xl border border-[#415a77]/25 bg-[#091524] p-4">
-              <div className="flex items-center gap-2 text-sky-300 font-bold text-xs uppercase mb-1">
-                <EyeOff className="h-4 w-4" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+            <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-4">
+              <div className="flex items-center gap-1.5 text-accent-cyan font-bold text-xs uppercase mb-1">
+                <EyeOff className="h-3.5 w-3.5" />
                 <span>Zero Data Sales</span>
               </div>
-              <p className="text-xs text-[#cbd5e1] leading-relaxed">
+              <p className="text-xs text-brand-periwinkle leading-relaxed font-sans">
                 We never monetize, broker, or train public AI models on your private diagnostic logs or internal endpoints.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#415a77]/25 bg-[#091524] p-4">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase mb-1">
-                <Lock className="h-4 w-4" />
+            <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-4">
+              <div className="flex items-center gap-1.5 text-accent-emerald font-bold text-xs uppercase mb-1">
+                <Lock className="h-3.5 w-3.5" />
                 <span>End-to-End Encryption</span>
               </div>
-              <p className="text-xs text-[#cbd5e1] leading-relaxed">
+              <p className="text-xs text-brand-periwinkle leading-relaxed font-sans">
                 All network diagnostics are secured via TLS 1.3 with AES-256 encrypted database columns in Firestore.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#415a77]/25 bg-[#091524] p-4">
-              <div className="flex items-center gap-2 text-amber-300 font-bold text-xs uppercase mb-1">
-                <Database className="h-4 w-4" />
+            <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-4">
+              <div className="flex items-center gap-1.5 text-accent-amber font-bold text-xs uppercase mb-1">
+                <Database className="h-3.5 w-3.5" />
                 <span>Right to Purge</span>
               </div>
-              <p className="text-xs text-[#cbd5e1] leading-relaxed">
+              <p className="text-xs text-brand-periwinkle leading-relaxed font-sans">
                 One-click complete purge of all historic reports, domain scans, and audit traces anytime from your portal.
               </p>
             </div>
@@ -202,59 +195,59 @@ export const PrivacySection: React.FC = () => {
 
       {/* Mode 1: Plain English Interactive View */}
       {mode === 'summary' ? (
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Data Flow & Collection Explorer */}
           <LazyReveal direction="up">
-            <div className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#415a77]/10 text-[#415a77]">
-                  <Server className="h-4 w-4" />
+            <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-xl">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-oxford text-accent-cyan border border-brand-slate/40">
+                  <Server className="h-3.5 w-3.5" />
                 </span>
-                <h3 className="text-lg font-bold text-[#0b192c]">Data Collection & Flow Matrix</h3>
+                <h3 className="text-base font-bold text-brand-offwhite font-sans">Data Collection &amp; Flow Matrix</h3>
               </div>
-              <p className="text-xs text-[#415a77] mb-6">
+              <p className="text-xs text-brand-periwinkle mb-5 font-sans">
                 Transparent accounting of exactly what metadata our 8 diagnostic engines process during a scan.
               </p>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs border-collapse">
+                <table className="w-full text-left text-xs border-collapse font-mono">
                   <thead>
-                    <tr className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#0b192c] font-bold">
-                      <th className="py-3 px-4 rounded-l-xl">Data Category</th>
-                      <th className="py-3 px-4">What We Collect</th>
-                      <th className="py-3 px-4">Purpose</th>
-                      <th className="py-3 px-4">Retention Period</th>
-                      <th className="py-3 px-4 rounded-r-xl">Third-Party Access</th>
+                    <tr className="border-b border-brand-slate/30 bg-brand-oxford text-brand-offwhite font-bold">
+                      <th className="py-2.5 px-3 rounded-l-lg">Data Category</th>
+                      <th className="py-2.5 px-3">What We Collect</th>
+                      <th className="py-2.5 px-3">Purpose</th>
+                      <th className="py-2.5 px-3">Retention Period</th>
+                      <th className="py-2.5 px-3 rounded-r-lg">Third-Party Access</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#e2e8f0] text-[#415a77]">
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                      <td className="py-3.5 px-4 font-bold text-[#0b192c]">Target URLs</td>
-                      <td className="py-3.5 px-4 font-mono text-[11px]">Domain name & endpoint paths entered</td>
-                      <td className="py-3.5 px-4">Dispatch HTTP probes and calculate response times</td>
-                      <td className="py-3.5 px-4">Ephemeral (1 hr) or Saved in User DB</td>
-                      <td className="py-3.5 px-4 font-semibold text-emerald-600">None (Isolated)</td>
+                  <tbody className="divide-y divide-brand-slate/20 text-brand-periwinkle">
+                    <tr className="hover:bg-surface-subtle transition-colors">
+                      <td className="py-3 px-3 font-bold text-brand-offwhite">Target URLs</td>
+                      <td className="py-3 px-3 text-[11px]">Domain name &amp; endpoint paths entered</td>
+                      <td className="py-3 px-3">Dispatch HTTP probes and calculate response times</td>
+                      <td className="py-3 px-3">Ephemeral (1 hr) or Saved in User DB</td>
+                      <td className="py-3 px-3 font-semibold text-accent-emerald">None (Isolated)</td>
                     </tr>
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                      <td className="py-3.5 px-4 font-bold text-[#0b192c]">HTTP Headers</td>
-                      <td className="py-3.5 px-4 font-mono text-[11px]">HSTS, CSP, X-Frame, CORS headers</td>
-                      <td className="py-3.5 px-4">OWASP compliance scoring and vulnerability audit</td>
-                      <td className="py-3.5 px-4">Retained with report dossier</td>
-                      <td className="py-3.5 px-4 font-semibold text-emerald-600">None</td>
+                    <tr className="hover:bg-surface-subtle transition-colors">
+                      <td className="py-3 px-3 font-bold text-brand-offwhite">HTTP Headers</td>
+                      <td className="py-3 px-3 text-[11px]">HSTS, CSP, X-Frame, CORS headers</td>
+                      <td className="py-3 px-3">OWASP compliance scoring and vulnerability audit</td>
+                      <td className="py-3 px-3">Retained with report dossier</td>
+                      <td className="py-3 px-3 font-semibold text-accent-emerald">None</td>
                     </tr>
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                      <td className="py-3.5 px-4 font-bold text-[#0b192c]">User Credentials</td>
-                      <td className="py-3.5 px-4 font-mono text-[11px]">Google OAuth ID, Email, Display Name</td>
-                      <td className="py-3.5 px-4">Authenticate and isolate private reports</td>
-                      <td className="py-3.5 px-4">Until account deletion</td>
-                      <td className="py-3.5 px-4 text-[#0b192c]">Firebase Auth (Google)</td>
+                    <tr className="hover:bg-surface-subtle transition-colors">
+                      <td className="py-3 px-3 font-bold text-brand-offwhite">User Credentials</td>
+                      <td className="py-3 px-3 text-[11px]">Google OAuth ID, Email, Display Name</td>
+                      <td className="py-3 px-3">Authenticate and isolate private reports</td>
+                      <td className="py-3 px-3">Until account deletion</td>
+                      <td className="py-3 px-3 text-accent-cyan">Firebase Auth (Google)</td>
                     </tr>
-                    <tr className="hover:bg-[#f8fafc]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                      <td className="py-3.5 px-4 font-bold text-[#0b192c]">Telemetry Logs</td>
-                      <td className="py-3.5 px-4 font-mono text-[11px]">DNS lookup latency, TLS handshake ms</td>
-                      <td className="py-3.5 px-4">Render synthetic latency charts & global radar</td>
-                      <td className="py-3.5 px-4">30 days aggregate cache</td>
-                      <td className="py-3.5 px-4 font-semibold text-emerald-600">None</td>
+                    <tr className="hover:bg-surface-subtle transition-colors">
+                      <td className="py-3 px-3 font-bold text-brand-offwhite">Telemetry Logs</td>
+                      <td className="py-3 px-3 text-[11px]">DNS lookup latency, TLS handshake ms</td>
+                      <td className="py-3 px-3">Render synthetic latency charts &amp; global radar</td>
+                      <td className="py-3 px-3">30 days aggregate cache</td>
+                      <td className="py-3 px-3 font-semibold text-accent-emerald">None</td>
                     </tr>
                   </tbody>
                 </table>
@@ -264,61 +257,61 @@ export const PrivacySection: React.FC = () => {
 
           {/* Interactive Self-Service Data Rights Center */}
           <LazyReveal direction="up">
-            <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 text-[#f8fafc] shadow-xl">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#152238] text-sky-300 border border-[#415a77]/40">
-                  <Key className="h-4 w-4" />
+            <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-oxford text-accent-cyan border border-brand-slate/40">
+                  <Key className="h-3.5 w-3.5" />
                 </span>
-                <h3 className="text-lg font-bold text-[#f8fafc]">Your GDPR & CCPA Self-Service Controls</h3>
+                <h3 className="text-base font-bold text-brand-offwhite font-sans">Your GDPR &amp; CCPA Self-Service Controls</h3>
               </div>
-              <p className="text-xs text-[#94a3b8] mb-6">
+              <p className="text-xs text-brand-periwinkle mb-5 font-sans">
                 Exercise your data rights with instant machine-readable exports and automated removal commands.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Export Card */}
-                <div className="rounded-2xl border border-[#415a77]/30 bg-[#091524] p-5 flex flex-col justify-between">
+                <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-4 flex flex-col justify-between space-y-3">
                   <div>
-                    <h4 className="text-sm font-bold text-[#f8fafc] flex items-center gap-2">
-                      <Download className="h-4 w-4 text-sky-300" />
+                    <h4 className="text-xs font-bold text-brand-offwhite flex items-center gap-1.5">
+                      <Download className="h-3.5 w-3.5 text-accent-cyan" />
                       <span>Export Diagnostic Archive (JSON)</span>
                     </h4>
-                    <p className="text-xs text-[#94a3b8] mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-periwinkle mt-1 leading-relaxed font-sans">
                       Download a structured, machine-readable JSON package of all telemetry logs, saved audit dossiers, and profile preferences.
                     </p>
                   </div>
-                  <div className="mt-5">
+                  <div>
                     <button
                       onClick={handleExportData}
-                      className="inline-flex items-center gap-2 rounded-xl bg-[#152238] px-4 py-2.5 text-xs font-bold text-sky-300 border border-sky-500/30 hover:bg-sky-500 hover:text-[#07111e] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
                     >
-                      {exported ? <CheckCircle className="h-3.5 w-3.5 text-emerald-400" /> : <Download className="h-3.5 w-3.5" />}
+                      {exported ? <CheckCircle className="h-3.5 w-3.5 text-accent-emerald" /> : <Download className="h-3.5 w-3.5 text-accent-cyan" />}
                       <span>{exported ? 'Data Archive Exported!' : 'Download Telemetry Package'}</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Deletion Card */}
-                <div className="rounded-2xl border border-rose-500/30 bg-[#091524] p-5 flex flex-col justify-between">
+                <div className="rounded-xl border border-rose-500/30 bg-brand-oxford p-4 flex flex-col justify-between space-y-3">
                   <div>
-                    <h4 className="text-sm font-bold text-rose-300 flex items-center gap-2">
-                      <Trash2 className="h-4 w-4 text-rose-400" />
+                    <h4 className="text-xs font-bold text-rose-300 flex items-center gap-1.5">
+                      <Trash2 className="h-3.5 w-3.5 text-rose-400" />
                       <span>Request Full Telemetry Purge</span>
                     </h4>
-                    <p className="text-xs text-[#94a3b8] mt-1.5 leading-relaxed">
+                    <p className="text-xs text-brand-periwinkle mt-1 leading-relaxed font-sans">
                       Permanently wipe all saved domain reports, synthetic latency charts, and user account metadata from our Firestore cluster.
                     </p>
                   </div>
-                  <div className="mt-5">
+                  <div>
                     {deletionRequested ? (
-                      <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-2.5 text-xs text-emerald-300 flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 shrink-0 text-emerald-400" />
+                      <div className="rounded-lg border border-accent-emerald/30 bg-brand-navy p-2 text-xs text-accent-emerald flex items-center gap-1.5">
+                        <CheckCircle className="h-3.5 w-3.5 shrink-0" />
                         <span>Purge command registered. All records cleared upon session end.</span>
                       </div>
                     ) : (
                       <button
                         onClick={handleRequestDeletion}
-                        className="inline-flex items-center gap-2 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2.5 text-xs font-bold text-rose-300 hover:bg-rose-500 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-rose-500/40 bg-rose-950/30 px-3 py-1.5 text-xs font-bold text-rose-300 hover:bg-rose-900/40 transition-colors cursor-pointer"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                         <span>Initiate Telemetry Purge</span>
@@ -333,40 +326,40 @@ export const PrivacySection: React.FC = () => {
       ) : (
         /* Mode 2: Full Legal Clauses Specification */
         <LazyReveal direction="up">
-          <div className="rounded-3xl border border-[#e2e8f0] bg-white p-8 sm:p-10 text-sm text-[#0b192c] space-y-8 shadow-sm leading-relaxed">
-            <section className="space-y-3">
-              <h3 className="text-lg font-bold text-[#0b192c] border-b border-[#e2e8f0] pb-2">
-                1. Scope of Telemetry & Diagnostics Processing
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-xs text-brand-offwhite space-y-6 shadow-xl leading-relaxed">
+            <section className="space-y-2">
+              <h3 className="text-sm font-bold text-brand-offwhite border-b border-brand-slate/30 pb-1.5 font-sans">
+                1. Scope of Telemetry &amp; Diagnostics Processing
               </h3>
-              <p className="text-xs text-[#415a77]">
-                CatalystLab ("we", "us", or "our") operates synthetic diagnostic suites, security header scanners, and edge latency benchmarks. This Privacy Policy governs the processing of technical data submitted when invoking diagnostic endpoints through <code className="font-mono text-[#0b192c] bg-[#f4f6fa] px-1 py-0.5 rounded">catalystlab.tech</code>.
+              <p className="text-brand-periwinkle font-sans">
+                CatalystLab (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates synthetic diagnostic suites, security header scanners, and edge latency benchmarks. This Privacy Policy governs the processing of technical data submitted when invoking diagnostic endpoints through <code className="text-accent-cyan bg-brand-oxford px-1 py-0.5 rounded">catalystlab.tech</code>.
               </p>
             </section>
 
-            <section className="space-y-3">
-              <h3 className="text-lg font-bold text-[#0b192c] border-b border-[#e2e8f0] pb-2">
+            <section className="space-y-2">
+              <h3 className="text-sm font-bold text-brand-offwhite border-b border-brand-slate/30 pb-1.5 font-sans">
                 2. Legal Basis for Processing under GDPR (Article 6)
               </h3>
-              <p className="text-xs text-[#415a77]">
+              <p className="text-brand-periwinkle font-sans">
                 We process diagnostic data on the following bases: (a) Performance of a contract when you request an on-demand audit; (b) Legitimate interests in securing our container infrastructure against automated denial of service; (c) Explicit user consent for authenticated report archiving and PDF generation.
               </p>
             </section>
 
-            <section className="space-y-3">
-              <h3 className="text-lg font-bold text-[#0b192c] border-b border-[#e2e8f0] pb-2">
-                3. Subprocessors & International Transfers
+            <section className="space-y-2">
+              <h3 className="text-sm font-bold text-brand-offwhite border-b border-brand-slate/30 pb-1.5 font-sans">
+                3. Subprocessors &amp; International Transfers
               </h3>
-              <p className="text-xs text-[#415a77]">
+              <p className="text-brand-periwinkle font-sans">
                 Diagnostic requests are processed through Google Cloud infrastructure. All transfers of EU personal data are governed by standard contractual clauses (SCCs) and ISO 27001 audited data centers with automated encryption in transit and at rest.
               </p>
             </section>
 
-            <section className="space-y-3">
-              <h3 className="text-lg font-bold text-[#0b192c] border-b border-[#e2e8f0] pb-2">
-                4. Data Protection Officer & Privacy Inquiries
+            <section className="space-y-2">
+              <h3 className="text-sm font-bold text-brand-offwhite border-b border-brand-slate/30 pb-1.5 font-sans">
+                4. Data Protection Officer &amp; Privacy Inquiries
               </h3>
-              <p className="text-xs text-[#415a77]">
-                For legal notices, data subject requests, or regulatory inquiries, contact our Data Protection Officer directly at <a href="mailto:privacy@catalystlab.tech" className="text-[#0b192c] font-bold underline">privacy@catalystlab.tech</a>.
+              <p className="text-brand-periwinkle font-sans">
+                For legal notices, data subject requests, or regulatory inquiries, contact our Data Protection Officer directly at <a href="mailto:privacy@catalystlab.tech" className="text-accent-cyan font-bold underline">privacy@catalystlab.tech</a>.
               </p>
             </section>
           </div>
@@ -375,7 +368,7 @@ export const PrivacySection: React.FC = () => {
 
       {/* Privacy FAQ Accordion */}
       <LazyReveal direction="up">
-        <div className="rounded-3xl border border-[#e2e8f0] bg-white overflow-hidden shadow-sm">
+        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel overflow-hidden shadow-xl">
           <GlobalFaqSection 
             categories={faqCategories}
             title="Frequently Asked Privacy Questions"

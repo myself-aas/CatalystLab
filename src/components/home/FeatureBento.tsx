@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { LazyReveal } from '../common/LazyAnimate';
 import { 
   ShieldCheck, 
@@ -7,26 +6,16 @@ import {
   Leaf, 
   Bot, 
   Zap, 
-  Code2, 
   Sparkles,
   ArrowRight,
   ChevronLeft,
-  ChevronRight,
-  TrendingDown,
-  Lock,
-  Globe2,
-  Cpu,
-  Flame,
-  CheckCircle2,
-  Radio,
-  Sliders
+  ChevronRight
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const FeatureBento: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('all');
 
   // Card 1: Interactive OWASP Header Simulator
   const [activeHeaders, setActiveHeaders] = useState<Record<string, boolean>>({
@@ -104,7 +93,7 @@ export const FeatureBento: React.FC = () => {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 460;
+      const scrollAmount = 420;
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -114,7 +103,7 @@ export const FeatureBento: React.FC = () => {
 
   const scrollToIndex = (index: number) => {
     if (scrollContainerRef.current) {
-      const cardWidth = 460;
+      const cardWidth = 420;
       scrollContainerRef.current.scrollTo({
         left: index * cardWidth,
         behavior: 'smooth'
@@ -126,79 +115,76 @@ export const FeatureBento: React.FC = () => {
   const handleScrollEvent = () => {
     if (scrollContainerRef.current) {
       const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const cardWidth = 460;
+      const cardWidth = 420;
       const newIndex = Math.round(scrollLeft / cardWidth);
       setActiveCardIndex(Math.min(4, Math.max(0, newIndex)));
     }
   };
 
   return (
-    <section className="py-14 lg:py-16 bg-gradient-to-b from-brand-navy via-[#0e2138] to-[#0d1b2a] text-white relative overflow-hidden border-b border-brand-slate/30">
-      {/* Background Lighting Elements */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(65,90,119,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(65,90,119,0.08)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] opacity-40 pointer-events-none" />
-
+    <section className="py-14 lg:py-18 bg-transparent text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header & Horizontal Nav Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/60 bg-brand-navy px-3.5 py-1 text-sm font-mono text-brand-periwinkle mb-2 shadow-[0_0_20px_rgba(65,90,119,0.2)]">
-              <Sparkles className="h-3.5 w-3.5 text-[#38bdf8]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs sm:text-sm font-mono text-brand-periwinkle mb-3 shadow-sm">
+              <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
               <span>Interactive Telemetry Sandboxes</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
               Deep Architectural Telemetry Deck
             </h2>
-            <p className="text-sm sm:text-base text-brand-periwinkle max-w-xl mt-1 leading-relaxed">
-              Swipe or scroll horizontally through live diagnostic sandboxes to inspect security headers, DOM render-blocking bottlenecks, carbon budgets, and generative AI search indexing.
+            <p className="text-sm sm:text-base text-brand-periwinkle max-w-xl mt-1.5 leading-relaxed">
+              Interact with live diagnostic sandboxes to inspect security headers, DOM render-blocking bottlenecks, carbon budgets, and generative AI search indexing.
             </p>
           </LazyReveal>
 
           {/* Quick Presets & Carousel Arrow Controls */}
           <div className="flex flex-wrap items-center gap-3">
             {/* Presets */}
-            <div className="hidden sm:flex items-center gap-1.5 bg-brand-navy p-1 rounded-xl border border-brand-slate/40">
+            <div className="hidden sm:flex items-center gap-1 bg-surface-panel p-1 rounded-xl border border-brand-slate/40">
               <button
                 type="button"
                 onClick={() => applyPreset('saas')}
-                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="px-2.5 py-1 rounded-lg hover:bg-surface-subtle text-xs font-mono text-brand-periwinkle hover:text-white cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
               >
                 SaaS
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('ecommerce')}
-                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="px-2.5 py-1 rounded-lg hover:bg-surface-subtle text-xs font-mono text-brand-periwinkle hover:text-white cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
               >
                 E-Commerce
               </button>
               <button
                 type="button"
                 onClick={() => applyPreset('content')}
-                className="px-2.5 py-1 rounded-lg hover:bg-[#162a45] text-sm font-mono text-brand-periwinkle cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="px-2.5 py-1 rounded-lg hover:bg-surface-subtle text-xs font-mono text-brand-periwinkle hover:text-white cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
               >
                 Media
               </button>
             </div>
 
             {/* Carousel Arrows */}
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => scroll('left')}
                 aria-label="Scroll left in telemetry deck"
-                className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-sm active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <span className="text-sm font-mono text-[#8ea8c3] px-1 font-semibold">
+              <span className="text-xs font-mono text-brand-periwinkle px-1 font-semibold">
                 {activeCardIndex + 1} / 5
               </span>
               <button
                 type="button"
                 onClick={() => scroll('right')}
                 aria-label="Scroll right in telemetry deck"
-                className="p-2.5 rounded-xl bg-brand-oxford hover:bg-[#162a45] text-brand-periwinkle hover:text-white border border-brand-slate/50 shadow-md active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-sm active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -206,52 +192,47 @@ export const FeatureBento: React.FC = () => {
           </div>
         </div>
 
-        {/* =========================================================================
-            HORIZONTAL SCROLLING CAROUSEL REEL
-        ========================================================================= */}
-        <div className="relative">
-          {/* Subtle Right Gradient Hint */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-brand-navy to-transparent pointer-events-none z-10 hidden md:block" />
-
+        {/* Carousel Reel */}
+        <div className="relative mb-6">
           <div
             ref={scrollContainerRef}
             onScroll={handleScrollEvent}
-            className="flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 pt-1 scroll-smooth"
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2 pt-1 scroll-smooth"
             tabIndex={0}
             role="region"
             aria-label="Telemetry sandboxes horizontal reel"
           >
             
             {/* Card 1: OWASP Security Transport Header Sandbox */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-[#38bdf8]/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            <div className="w-[300px] sm:w-[380px] lg:w-[410px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between hover:border-brand-slate transition-all">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-brand-slate/30 border border-brand-slate/50 text-[#38bdf8]">
+                    <div className="p-2 rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan">
                       <ShieldCheck className="h-4 w-4" />
                     </div>
                     <div>
-                      <span className="text-xs font-mono text-[#8ea8c3] uppercase tracking-wider">Phase 6 • RiskProtease</span>
-                      <h3 className="text-base font-bold text-white leading-tight">OWASP Transport Security</h3>
+                      <span className="text-[10px] font-mono text-brand-slate-light uppercase tracking-wider">Phase 6 • RiskProtease</span>
+                      <h3 className="text-sm sm:text-base font-bold text-brand-offwhite leading-tight">OWASP Transport Security</h3>
                     </div>
                   </div>
-                  <span className={`text-sm font-mono font-black px-2 py-0.5 rounded-lg border ${
+                  <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${
                     securityGrade === 'A+'
-                      ? 'bg-emerald-950/60 text-emerald-300 border-emerald-500/40'
+                      ? 'bg-emerald-950/60 text-accent-emerald border-emerald-500/40'
                       : securityGrade === 'B'
-                      ? 'bg-amber-950/60 text-amber-300 border-amber-500/40'
-                      : 'bg-rose-950/60 text-rose-300 border-rose-500/40'
+                      ? 'bg-amber-950/60 text-accent-amber border-amber-500/40'
+                      : 'bg-rose-950/60 text-accent-rose border-rose-500/40'
                   }`}>
                     {securityGrade} ({activeCount}/6 Strict)
                   </span>
                 </div>
 
-                <p className="text-sm text-brand-periwinkle mb-4 leading-relaxed">
+                <p className="text-xs text-brand-periwinkle mb-3 leading-relaxed">
                   Click headers to simulate response header defenses against transport attack vectors.
                 </p>
 
                 {/* Interactive Header Toggles */}
-                <div className="grid grid-cols-2 gap-2 font-mono text-sm mb-4">
+                <div className="grid grid-cols-2 gap-1.5 font-mono text-xs mb-3">
                   {Object.entries(activeHeaders).map(([header, enabled]) => (
                     <button
                       key={header}
@@ -259,13 +240,13 @@ export const FeatureBento: React.FC = () => {
                       onClick={() => toggleHeader(header)}
                       className={`flex items-center justify-between p-2 rounded-xl border text-left transition-all cursor-pointer ${
                         enabled
-                          ? 'bg-[#162a45] border-[#38bdf8]/50 text-white shadow-xs'
-                          : 'bg-brand-navy border-brand-slate/30 text-[#8ea8c3] hover:border-brand-slate'
+                          ? 'bg-brand-oxford border-accent-cyan/50 text-white'
+                          : 'bg-brand-oxford/50 border-brand-slate/30 text-brand-slate-light'
                       }`}
                     >
-                      <span className="truncate text-xs">{header.replace('Content-', '').replace('Transport-', '')}</span>
-                      <span className={`h-3.5 w-3.5 rounded flex items-center justify-center text-xs shrink-0 ml-1 font-bold ${
-                        enabled ? 'bg-[#38bdf8] text-brand-navy' : 'bg-brand-slate/30 text-[#8ea8c3]'
+                      <span className="truncate text-[11px]">{header.replace('Content-', '').replace('Transport-', '')}</span>
+                      <span className={`h-3.5 w-3.5 rounded flex items-center justify-center text-[10px] shrink-0 ml-1 font-bold ${
+                        enabled ? 'bg-accent-cyan text-brand-navy' : 'bg-brand-slate/30 text-brand-slate-light'
                       }`}>
                         {enabled ? '✓' : '×'}
                       </span>
@@ -274,42 +255,42 @@ export const FeatureBento: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
-                <span className="text-[#8ea8c3] text-sm">Strict CSP + HSTS Preload</span>
-                <Link to="/risk" className="text-[#38bdf8] hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono">
+                <span className="text-brand-slate-light">Strict CSP + HSTS</span>
+                <Link to="/compliance" className="text-accent-cyan hover:underline flex items-center gap-1 font-bold">
                   <span>Run RiskProtease</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
             </div>
 
-            {/* Card 2: Live DOM Recursion & Render-Tree Inspector */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-[#38bdf8]/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            {/* Card 2: DOM Depth & Render-Tree Inspector */}
+            <div className="w-[300px] sm:w-[380px] lg:w-[410px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between hover:border-brand-slate transition-all">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-brand-slate/30 border border-brand-slate/50 text-[#38bdf8]">
+                    <div className="p-2 rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan">
                       <Layers className="h-4 w-4" />
                     </div>
                     <div>
-                      <span className="text-xs font-mono text-[#8ea8c3] uppercase tracking-wider">Phase 4 • VitalZyme</span>
-                      <h3 className="text-base font-bold text-white leading-tight">DOM Depth & Render-Tree</h3>
+                      <span className="text-[10px] font-mono text-brand-slate-light uppercase tracking-wider">Phase 4 • VitalZyme</span>
+                      <h3 className="text-sm sm:text-base font-bold text-brand-offwhite leading-tight">DOM Depth &amp; Render-Tree</h3>
                     </div>
                   </div>
-                  <span className="text-sm font-mono text-[#38bdf8] bg-brand-navy px-2 py-0.5 rounded border border-brand-slate/30 font-bold">
+                  <span className="text-xs font-mono text-accent-cyan bg-brand-oxford px-2 py-0.5 rounded border border-brand-slate/30 font-bold">
                     {domDepth} Levels
                   </span>
                 </div>
 
-                <p className="text-sm text-brand-periwinkle mb-4 leading-relaxed">
+                <p className="text-xs text-brand-periwinkle mb-3 leading-relaxed">
                   Excessive DOM nesting triggers layout thrashing and delays client first-paint.
                 </p>
 
                 {/* Slider */}
-                <div className="space-y-3 bg-brand-navy p-3.5 rounded-2xl border border-brand-slate/30 mb-4">
-                  <div className="flex items-center justify-between text-sm font-mono">
-                    <span className="text-[#8ea8c3]">Nesting Depth:</span>
-                    <span className="text-[#38bdf8] font-bold">{domDepth} Levels (Target ≤ 8)</span>
+                <div className="space-y-2.5 bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 mb-3">
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-brand-slate-light">Nesting Depth:</span>
+                    <span className="text-accent-cyan font-bold">{domDepth} Levels (Target ≤ 8)</span>
                   </div>
                   <input
                     type="range"
@@ -317,56 +298,56 @@ export const FeatureBento: React.FC = () => {
                     max="32"
                     value={domDepth}
                     onChange={(e) => setDomDepth(Number(e.target.value))}
-                    className="w-full accent-[#38bdf8] cursor-pointer"
+                    className="w-full accent-cyan-400 cursor-pointer"
                   />
                   
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-brand-slate/20 font-mono text-xs">
+                  <div className="grid grid-cols-2 gap-2 pt-1.5 border-t border-brand-slate/20 font-mono text-[11px]">
                     <div className="text-brand-periwinkle">
                       Est. Nodes: <span className="text-white font-bold">{estimatedNodes}</span>
                     </div>
                     <div className="text-brand-periwinkle text-right">
-                      Main Thread: <span className="text-[#34d399] font-bold">~{renderTimeMs}ms</span>
+                      Main Thread: <span className="text-accent-emerald font-bold">~{renderTimeMs}ms</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
-                <span className="text-[#8ea8c3] text-sm">W3C Baseline: ≤ 8 Levels</span>
-                <Link to="/vital" className="text-[#38bdf8] hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono">
+                <span className="text-brand-slate-light">W3C Target: ≤ 8</span>
+                <Link to="/health" className="text-accent-cyan hover:underline flex items-center gap-1 font-bold">
                   <span>Inspect DOM</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
             </div>
 
-            {/* Card 3: Sustainable Web Design (SWD) Carbon Calculator */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-emerald-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            {/* Card 3: SWD Carbon Budget */}
+            <div className="w-[300px] sm:w-[380px] lg:w-[410px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between hover:border-brand-slate transition-all">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-400">
+                    <div className="p-2 rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-emerald">
                       <Leaf className="h-4 w-4" />
                     </div>
                     <div>
-                      <span className="text-xs font-mono text-[#8ea8c3] uppercase tracking-wider">Phase 3 • EcoHolo</span>
-                      <h3 className="text-base font-bold text-white leading-tight">SWD Carbon Budget</h3>
+                      <span className="text-[10px] font-mono text-brand-slate-light uppercase tracking-wider">Phase 3 • EcoHolo</span>
+                      <h3 className="text-sm sm:text-base font-bold text-brand-offwhite leading-tight">SWD Carbon Budget</h3>
                     </div>
                   </div>
-                  <span className="text-sm font-mono text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500/40 font-bold">
+                  <span className="text-xs font-mono text-accent-emerald bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500/40 font-bold">
                     A+ Green
                   </span>
                 </div>
 
-                <p className="text-sm text-brand-periwinkle mb-4 leading-relaxed">
+                <p className="text-xs text-brand-periwinkle mb-3 leading-relaxed">
                   Estimate annual emissions savings with Brotli + AVIF payload optimizations.
                 </p>
 
                 {/* Traffic Slider */}
-                <div className="space-y-3 bg-brand-navy p-3.5 rounded-2xl border border-brand-slate/30 mb-4">
-                  <div className="flex items-center justify-between text-sm font-mono">
-                    <span className="text-[#8ea8c3]">Monthly Traffic:</span>
-                    <span className="text-emerald-400 font-bold">{(monthlyTraffic / 1000).toLocaleString()}k visits</span>
+                <div className="space-y-2.5 bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 mb-3">
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-brand-slate-light">Monthly Traffic:</span>
+                    <span className="text-accent-emerald font-bold">{(monthlyTraffic / 1000).toLocaleString()}k visits</span>
                   </div>
                   <input
                     type="range"
@@ -378,120 +359,120 @@ export const FeatureBento: React.FC = () => {
                     className="w-full accent-emerald-400 cursor-pointer"
                   />
 
-                  <div className="p-2 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-sm font-mono flex items-center justify-between">
-                    <span className="text-emerald-300">Annual CO2 Prevented:</span>
-                    <span className="text-emerald-400 font-bold font-mono">{(Number(co2SavedKg) * 12).toFixed(0)} kg CO2e</span>
+                  <div className="p-2 rounded-lg bg-emerald-950/30 border border-emerald-500/30 text-xs font-mono flex items-center justify-between">
+                    <span className="text-emerald-300">Annual CO2 Saved:</span>
+                    <span className="text-accent-emerald font-bold font-mono">{(Number(co2SavedKg) * 12).toFixed(0)} kg CO2e</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
-                <span className="text-[#8ea8c3] text-sm">Green Web Foundation</span>
-                <Link to="/eco" className="text-emerald-400 hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono">
+                <span className="text-brand-slate-light">Green Web Model</span>
+                <Link to="/eco-audit" className="text-accent-emerald hover:underline flex items-center gap-1 font-bold">
                   <span>Run EcoHolo</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
             </div>
 
-            {/* Card 4: Generative Engine Optimization (LLMO) & AI Search Citation Index */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-purple-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            {/* Card 4: AI LLMO Ingestion */}
+            <div className="w-[300px] sm:w-[380px] lg:w-[410px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between hover:border-brand-slate transition-all">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-purple-950/50 border border-purple-500/40 text-purple-400">
+                    <div className="p-2 rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-purple">
                       <Bot className="h-4 w-4" />
                     </div>
                     <div>
-                      <span className="text-xs font-mono text-[#8ea8c3] uppercase tracking-wider">Phase 7 & 8 • LLMO</span>
-                      <h3 className="text-base font-bold text-white leading-tight">AI LLMO Ingestion</h3>
+                      <span className="text-[10px] font-mono text-brand-slate-light uppercase tracking-wider">Phase 7 &amp; 8 • LLMO</span>
+                      <h3 className="text-sm sm:text-base font-bold text-brand-offwhite leading-tight">AI LLMO Ingestion</h3>
                     </div>
                   </div>
-                  <span className="text-sm font-mono text-purple-300 bg-purple-950/50 px-2 py-0.5 rounded border border-purple-500/40 font-bold">
+                  <span className="text-xs font-mono text-accent-purple bg-purple-950/50 px-2 py-0.5 rounded border border-purple-500/40 font-bold">
                     98.4% Citations
                   </span>
                 </div>
 
-                <p className="text-sm text-brand-periwinkle mb-4 leading-relaxed">
-                  Perplexity, SearchGPT & Claude rely on structured JSON-LD & <code className="text-purple-300">/llms.txt</code> manifests.
+                <p className="text-xs text-brand-periwinkle mb-3 leading-relaxed">
+                  Perplexity, SearchGPT &amp; Claude rely on structured JSON-LD &amp; <code className="text-accent-purple">/llms.txt</code> manifests.
                 </p>
 
                 {/* Vector Check Matrix */}
-                <div className="grid grid-cols-2 gap-2 text-sm font-mono mb-4">
-                  <div className="p-2.5 rounded-xl bg-brand-navy border border-brand-slate/30 space-y-0.5">
-                    <div className="text-purple-300 font-bold flex items-center gap-1">
+                <div className="grid grid-cols-2 gap-2 text-xs font-mono mb-3">
+                  <div className="p-2.5 rounded-xl bg-brand-oxford border border-brand-slate/30 space-y-0.5">
+                    <div className="text-accent-purple font-bold flex items-center gap-1">
                       <span>✓</span>
                       <span>/llms.txt Found</span>
                     </div>
-                    <div className="text-xs text-[#8ea8c3]">
-                      24,000 clean tokens
+                    <div className="text-[10px] text-brand-slate-light">
+                      24k clean tokens
                     </div>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-brand-navy border border-brand-slate/30 space-y-0.5">
-                    <div className="text-purple-300 font-bold flex items-center gap-1">
+                  <div className="p-2.5 rounded-xl bg-brand-oxford border border-brand-slate/30 space-y-0.5">
+                    <div className="text-accent-purple font-bold flex items-center gap-1">
                       <span>✓</span>
                       <span>JSON-LD Schema</span>
                     </div>
-                    <div className="text-xs text-[#8ea8c3]">
+                    <div className="text-[10px] text-brand-slate-light">
                       Entity graph verified
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
-                <span className="text-[#8ea8c3] text-sm">RAG Vector Chunk Ready</span>
-                <Link to="/ai-readiness" className="text-purple-400 hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono">
+                <span className="text-brand-slate-light">RAG Ready</span>
+                <Link to="/ai-readiness" className="text-accent-purple hover:underline flex items-center gap-1 font-bold">
                   <span>Audit AI Readiness</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
             </div>
 
-            {/* Card 5: HTTP/3 & QUIC 0-RTT Protocol Prober */}
-            <div className="w-[310px] sm:w-[420px] lg:w-[460px] shrink-0 snap-start bg-brand-oxford/95 backdrop-blur-md border border-brand-slate/60 rounded-3xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-sky-500/50 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            {/* Card 5: HTTP/3 QUIC Protocol */}
+            <div className="w-[300px] sm:w-[380px] lg:w-[410px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between hover:border-brand-slate transition-all">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-sky-950/50 border border-sky-500/40 text-sky-400">
+                    <div className="p-2 rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan">
                       <Zap className="h-4 w-4" />
                     </div>
                     <div>
-                      <span className="text-xs font-mono text-[#8ea8c3] uppercase tracking-wider">Phase 5 • EdgeVmax</span>
-                      <h3 className="text-base font-bold text-white leading-tight">HTTP/3 QUIC Protocol</h3>
+                      <span className="text-[10px] font-mono text-brand-slate-light uppercase tracking-wider">Phase 5 • EdgeVmax</span>
+                      <h3 className="text-sm sm:text-base font-bold text-brand-offwhite leading-tight">HTTP/3 QUIC Protocol</h3>
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setQuicEnabled(!quicEnabled)}
-                    className="text-sm font-mono text-sky-300 bg-sky-950/50 px-2 py-0.5 rounded border border-sky-500/40 font-bold hover:bg-sky-900 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="text-xs font-mono text-accent-cyan bg-brand-oxford px-2 py-0.5 rounded border border-brand-slate/40 font-bold hover:bg-surface-subtle cursor-pointer"
                   >
                     {quicEnabled ? 'QUIC Active' : 'HTTP/1.1'}
                   </button>
                 </div>
 
-                <p className="text-sm text-brand-periwinkle mb-4 leading-relaxed">
+                <p className="text-xs text-brand-periwinkle mb-3 leading-relaxed">
                   RFC 9114 UDP multiplexing reduces TLS handshakes to zero round trips on repeat requests.
                 </p>
 
-                <div className="bg-brand-navy p-3.5 rounded-2xl border border-brand-slate/30 space-y-2 font-mono text-sm mb-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[#8ea8c3]">Measured TTFB:</span>
-                    <span className={`font-bold ${quicEnabled ? 'text-[#34d399]' : 'text-rose-400'}`}>
+                <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 space-y-1.5 font-mono text-xs mb-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-brand-slate-light">Measured TTFB:</span>
+                    <span className={`font-bold ${quicEnabled ? 'text-accent-emerald' : 'text-accent-rose'}`}>
                       {quicTtfb}ms {quicEnabled ? '(Optimal Edge)' : '(High Latency)'}
                     </span>
                   </div>
-                  <div className="text-xs text-brand-periwinkle pt-1 border-t border-brand-slate/20 flex items-center justify-between">
+                  <div className="text-[11px] text-brand-periwinkle pt-1 border-t border-brand-slate/20 flex items-center justify-between">
                     <span>Handshake Protocol:</span>
-                    <span className="text-sky-300">{quicHandshake}</span>
+                    <span className="text-accent-cyan">{quicHandshake}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono">
-                <span className="text-[#8ea8c3] text-sm">42 Global Anycast PoPs</span>
-                <Link to="/edge" className="text-sky-400 hover:text-white flex items-center gap-1 font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono">
+                <span className="text-brand-slate-light">42 Anycast PoPs</span>
+                <Link to="/latency" className="text-accent-cyan hover:underline flex items-center gap-1 font-bold">
                   <span>Probe Edge PoPs</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
@@ -501,18 +482,18 @@ export const FeatureBento: React.FC = () => {
           </div>
         </div>
 
-        {/* Carousel Indicators (Dots) */}
-        <div className="flex items-center justify-center gap-1.5 mt-5">
+        {/* Carousel Indicators */}
+        <div className="flex items-center justify-center gap-1.5">
           {[0, 1, 2, 3, 4].map((idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => scrollToIndex(idx)}
               aria-label={`Go to slide ${idx + 1}`}
-              className={`h-2 rounded-full transition-all cursor-pointer ${
+              className={`h-1.5 rounded-full transition-all cursor-pointer ${
                 activeCardIndex === idx 
-                  ? 'w-7 bg-[#38bdf8]' 
-                  : 'w-2 bg-brand-slate/40 hover:bg-brand-slate'
+                  ? 'w-6 bg-accent-cyan' 
+                  : 'w-1.5 bg-brand-slate/40 hover:bg-brand-slate'
               }`}
             />
           ))}

@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Lock, LifeBuoy, ArrowRight, Sparkles } from 'lucide-react';
+import { Shield, Lock, LifeBuoy, ArrowRight } from 'lucide-react';
 import { PrivacySection } from '../components/legal/PrivacySection';
-import { LazyReveal } from '../components/common/LazyAnimate';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const PrivacyPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
+    <div className="min-h-screen bg-brand-navy pb-24 text-brand-offwhite font-mono selection:bg-brand-slate selection:text-white">
       <SEOHead
         title="Privacy Policy & Data Protection Architecture"
         description="Learn how CatalystLab processes diagnostic URLs, telemetry traces, and developer authentication with strict zero-monetization guarantees and GDPR compliance."
@@ -16,18 +15,18 @@ export const PrivacyPage: React.FC = () => {
       />
 
       {/* Dedicated Hero Header */}
-      <section className="border-b border-[#e2e8f0] bg-white px-4 py-12 sm:px-6 lg:px-8">
+      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-sm font-bold text-[#415a77] uppercase tracking-wider mb-3">
-                <Shield className="h-3.5 w-3.5 text-[#415a77]" />
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
+                <Shield className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>CatalystLab Privacy Architecture</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0b192c] tracking-tight">
-                Privacy Policy & Data Security
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-offwhite tracking-tight font-sans">
+                Privacy Policy &amp; Data Security
               </h1>
-              <p className="mt-2 text-base text-[#415a77] max-w-2xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-brand-periwinkle max-w-2xl leading-relaxed font-sans">
                 How CatalystLab handles diagnostic traces, telemetry data, and authenticated Google accounts with strict zero-monetization guarantees and full GDPR/CCPA compliance.
               </p>
             </div>
@@ -36,11 +35,11 @@ export const PrivacyPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3.5 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
-                <LifeBuoy className="h-4 w-4 text-sky-300" />
+                <LifeBuoy className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>Contact Privacy Team</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#94a3b8]" />
+                <ArrowRight className="h-3 w-3 text-brand-slate-light" />
               </Link>
             </div>
           </div>
@@ -48,31 +47,31 @@ export const PrivacyPage: React.FC = () => {
       </section>
 
       {/* Main Content */}
-      <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         <PrivacySection />
 
         {/* Global Trust Footer Card */}
-        <div className="mt-14 rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-8 text-center text-[#f8fafc] shadow-xl">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#152238] border border-[#415a77]/40 text-sky-300 mb-3 shadow-md">
-            <Lock className="h-6 w-6" />
+        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 text-center text-brand-offwhite shadow-xl space-y-3">
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan shadow-sm">
+            <Lock className="h-5 w-5" />
           </div>
-          <h3 className="text-xl font-bold text-[#f8fafc]">Questions About Data Protection?</h3>
-          <p className="mt-2 text-sm text-[#cbd5e1] max-w-lg mx-auto leading-relaxed">
+          <h3 className="text-base font-bold text-brand-offwhite font-sans">Questions About Data Protection?</h3>
+          <p className="text-xs text-brand-periwinkle max-w-lg mx-auto leading-relaxed font-sans">
             Our Data Protection Officer and compliance engineers are available to review custom Data Processing Agreements (DPAs) and answer privacy inquiries.
           </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-extrabold text-[#07111e] hover:bg-sky-400 transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
             >
-              <LifeBuoy className="h-4 w-4" />
+              <LifeBuoy className="h-3.5 w-3.5 text-accent-cyan" />
               <span>Contact Compliance Team</span>
             </Link>
             <Link
               to="/security"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#152238] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#1f314d] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford px-4 py-2 text-xs font-bold text-brand-offwhite hover:bg-surface-subtle transition-all"
             >
-              <Shield className="h-4 w-4 text-emerald-400" />
+              <Shield className="h-3.5 w-3.5 text-accent-emerald" />
               <span>Security Disclosure</span>
             </Link>
           </div>
@@ -81,4 +80,5 @@ export const PrivacyPage: React.FC = () => {
     </div>
   );
 };
+
 export default PrivacyPage;

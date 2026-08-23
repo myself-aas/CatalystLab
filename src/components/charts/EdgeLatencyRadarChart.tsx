@@ -29,29 +29,29 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = ({
   const totalRoundTrip = dnsTime + tlsTime + ttfbWaitTime + downloadTime;
 
   return (
-    <div className="rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl space-y-6 text-[#f8fafc]">
+    <div className="rounded-2xl border border-brand-slate/30 bg-brand-navy p-6 shadow-xl space-y-6 text-brand-offwhite">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#415a77]/25 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/25 pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#415a77]/25 text-[#c5d3e8] border border-[#415a77]/40">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-slate/25 text-brand-periwinkle border border-brand-slate/40">
               <Activity className="h-4 w-4" />
             </span>
-            <h3 className="text-base font-bold text-[#f8fafc]">
+            <h3 className="text-base font-bold text-brand-offwhite">
               Global Edge Latency & Multi-POP Radar
             </h3>
           </div>
-          <p className="text-xs text-[#c5d3e8] mt-1">
+          <p className="text-xs text-brand-periwinkle mt-1">
             Measures anycast routing speed, DNS resolution, TLS handshakes, and TTFB across 6 global continents.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <div className="text-xs font-semibold text-[#c5d3e8]">Global Average</div>
-            <div className="text-xl font-black text-[#c5d3e8] font-mono">~{globalAverageMs} ms</div>
+            <div className="text-xs font-semibold text-brand-periwinkle">Global Average</div>
+            <div className="text-xl font-black text-brand-periwinkle font-mono">~{globalAverageMs} ms</div>
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#415a77]/25 text-[#c5d3e8] border border-[#415a77]/40">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-slate/25 text-brand-periwinkle border border-brand-slate/40">
             <Globe className="h-6 w-6" />
           </div>
         </div>
@@ -59,9 +59,9 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = ({
 
       {/* Global POP Latency Bars */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between text-xs text-[#c5d3e8] mb-1">
-          <span className="font-semibold text-[#f8fafc]">Multi-Region Point of Presence (POP) Dispersion</span>
-          <span className="font-mono text-[11px] text-[#c5d3e8]">{infrastructure}</span>
+        <div className="flex items-center justify-between text-xs text-brand-periwinkle mb-1">
+          <span className="font-semibold text-brand-offwhite">Multi-Region Point of Presence (POP) Dispersion</span>
+          <span className="font-mono text-[11px] text-brand-periwinkle">{infrastructure}</span>
         </div>
 
         <div className="space-y-2.5">
@@ -71,22 +71,22 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = ({
             const isModerate = pop.latencyMs >= 60 && pop.latencyMs < 120;
 
             return (
-              <div key={pop.location} className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-3">
+              <div key={pop.location} className="rounded-xl border border-brand-slate/30 bg-surface-panel p-3">
                 <div className="flex items-center justify-between text-xs mb-1.5">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full" style={{
-                      backgroundColor: isFast ? '#10b981' : isModerate ? '#c5d3e8' : '#f43f5e'
+                      backgroundColor: isFast ? '#10b981' : isModerate ? 'var(--periwinkle-300)' : '#f43f5e'
                     }} />
-                    <span className="font-bold text-[#f8fafc]">{pop.region}</span>
-                    <span className="text-[#c5d3e8] font-mono text-[11px]">({pop.location})</span>
+                    <span className="font-bold text-brand-offwhite">{pop.region}</span>
+                    <span className="text-brand-periwinkle font-mono text-[11px]">({pop.location})</span>
                   </div>
-                  <span className="font-mono font-bold text-[#f8fafc]">{pop.latencyMs} ms</span>
+                  <span className="font-mono font-bold text-brand-offwhite">{pop.latencyMs} ms</span>
                 </div>
 
-                <div className="h-2 w-full rounded-full bg-[#0b192c] overflow-hidden border border-[#415a77]/20">
+                <div className="h-2 w-full rounded-full bg-brand-navy overflow-hidden border border-brand-slate/20">
                   <div
                     className={`h-full rounded-full transition-all duration-700 ${
-                      isFast ? 'bg-emerald-400' : isModerate ? 'bg-[#c5d3e8]' : 'bg-rose-500'
+                      isFast ? 'bg-emerald-400' : isModerate ? 'bg-brand-periwinkle' : 'bg-rose-500'
                     }`}
                     style={{ width: `${barWidth}%` }}
                   />
@@ -98,31 +98,31 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = ({
       </div>
 
       {/* Connection Lifecycle Waterfall */}
-      <div className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-4 space-y-3">
-        <div className="flex items-center justify-between text-xs font-bold text-[#f8fafc]">
+      <div className="rounded-xl border border-brand-slate/30 bg-surface-panel p-4 space-y-3">
+        <div className="flex items-center justify-between text-xs font-bold text-brand-offwhite">
           <span>Connection Phase Waterfall (Origin TTFB ~{originTtfbMs}ms)</span>
-          <span className="font-mono text-[#c5d3e8]">Total: ~{totalRoundTrip}ms</span>
+          <span className="font-mono text-brand-periwinkle">Total: ~{totalRoundTrip}ms</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-          <div className="rounded-lg bg-[#0b192c] p-2.5 border border-[#415a77]/30">
-            <div className="text-[10px] text-[#c5d3e8] uppercase font-mono">1. DNS Resolution</div>
-            <div className="text-sm font-bold text-[#c5d3e8] font-mono mt-0.5">{dnsTime} ms</div>
+          <div className="rounded-lg bg-brand-navy p-2.5 border border-brand-slate/30">
+            <div className="text-[10px] text-brand-periwinkle uppercase font-mono">1. DNS Resolution</div>
+            <div className="text-sm font-bold text-brand-periwinkle font-mono mt-0.5">{dnsTime} ms</div>
           </div>
 
-          <div className="rounded-lg bg-[#0b192c] p-2.5 border border-[#415a77]/30">
-            <div className="text-[10px] text-[#c5d3e8] uppercase font-mono">2. TLS Handshake</div>
-            <div className="text-sm font-bold text-[#ebe9e6] font-mono mt-0.5">{tlsTime} ms</div>
+          <div className="rounded-lg bg-brand-navy p-2.5 border border-brand-slate/30">
+            <div className="text-[10px] text-brand-periwinkle uppercase font-mono">2. TLS Handshake</div>
+            <div className="text-sm font-bold text-brand-greige font-mono mt-0.5">{tlsTime} ms</div>
           </div>
 
-          <div className="rounded-lg bg-[#0b192c] p-2.5 border border-[#415a77]/30">
-            <div className="text-[10px] text-[#c5d3e8] uppercase font-mono">3. Server Processing</div>
+          <div className="rounded-lg bg-brand-navy p-2.5 border border-brand-slate/30">
+            <div className="text-[10px] text-brand-periwinkle uppercase font-mono">3. Server Processing</div>
             <div className="text-sm font-bold text-emerald-400 font-mono mt-0.5">{ttfbWaitTime} ms</div>
           </div>
 
-          <div className="rounded-lg bg-[#0b192c] p-2.5 border border-[#415a77]/30">
-            <div className="text-[10px] text-[#c5d3e8] uppercase font-mono">4. Content Stream</div>
-            <div className="text-sm font-bold text-[#f8fafc] font-mono mt-0.5">{downloadTime} ms</div>
+          <div className="rounded-lg bg-brand-navy p-2.5 border border-brand-slate/30">
+            <div className="text-[10px] text-brand-periwinkle uppercase font-mono">4. Content Stream</div>
+            <div className="text-sm font-bold text-brand-offwhite font-mono mt-0.5">{downloadTime} ms</div>
           </div>
         </div>
       </div>

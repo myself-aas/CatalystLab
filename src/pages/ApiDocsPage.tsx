@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import { 
-  Code2, 
   Terminal, 
   Download, 
   FileJson, 
@@ -11,34 +9,29 @@ import {
   ShieldCheck, 
   Zap, 
   Layers, 
-  ExternalLink, 
   ChevronRight, 
   ChevronDown, 
   Play, 
-  Server, 
   Activity, 
-  Cpu, 
-  Flame, 
-  Key, 
-  Database,
-  ArrowRight
+  Lock,
+  Server
 } from 'lucide-react';
 import { 
   API_ENDPOINTS, 
   API_CATEGORIES, 
-  ApiEndpointSpec, 
   generateCodeSnippet, 
   generateOpenApiSpec, 
   generatePostmanCollection 
 } from '../data/apiSpecs';
 import { ApiPlayground } from '../components/api/ApiPlayground';
+import { SEOHead } from '../components/common/SEOHead';
+import { LazyReveal } from '../components/common/LazyAnimate';
 
 export const ApiDocsPage: React.FC = () => {
-  const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [expandedEndpointId, setExpandedEndpointId] = useState<string | null>(API_ENDPOINTS[0].id);
-  const [playgroundEndpointId, setPlaygroundEndpointId] = useState<string>(API_ENDPOINTS[0].id);
+  const [expandedEndpointId, setExpandedEndpointId] = useState<string | null>(API_ENDPOINTS[0]?.id || null);
+  const [playgroundEndpointId, setPlaygroundEndpointId] = useState<string>(API_ENDPOINTS[0]?.id || '');
   
   const [activeCodeTab, setActiveCodeTab] = useState<Record<string, 'curl' | 'javascript' | 'python' | 'go' | 'rust' | 'php'>>({});
   const [copiedMap, setCopiedMap] = useState<Record<string, boolean>>({});
@@ -95,30 +88,37 @@ export const ApiDocsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa] text-[#0b192c]">
+    <div className="min-h-screen bg-brand-navy text-brand-offwhite font-mono selection:bg-brand-slate selection:text-white">
+      <SEOHead
+        title="REST API Documentation & Telemetry Reference — CatalystLab"
+        description="Comprehensive programmatic OpenAPI 3.1 specification for all 8 CatalystLab diagnostic engines, master audit orchestration, and CI/CD quality gates."
+        keywords={['CatalystLab API', 'telemetry REST API', 'OpenAPI 3.1', 'web diagnostics API', 'CI/CD performance gate API']}
+        canonicalUrl="https://www.catalystlab.tech/api-docs"
+      />
+
       {/* Top Banner Hero */}
-      <div className="border-b border-[#e2e8f0] bg-white pt-12 pb-14">
+      <section className="border-b border-brand-slate/30 bg-brand-oxford pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-3xl space-y-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0b192c] px-3 py-1 text-sm font-bold text-[#38bdf8]">
+                <span className="inline-flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
                   <Terminal className="h-3.5 w-3.5" />
                   REST API v2.4.0
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#e2e8f0] px-3 py-1 text-sm font-semibold text-[#415a77]">
-                  OpenAPI 3.1 Specification
+                <span className="inline-flex items-center gap-1 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-0.5 text-xs font-semibold text-brand-periwinkle">
+                  OpenAPI 3.1 Spec
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-sm font-bold text-green-800">
+                <span className="inline-flex items-center gap-1 rounded-md border border-accent-emerald/40 bg-surface-panel px-2.5 py-0.5 text-xs font-bold text-accent-emerald">
                   <ShieldCheck className="h-3.5 w-3.5" />
-                  Zero-Mock Production Verified
+                  Production Ready
                 </span>
               </div>
 
-              <h1 className="text-3xl font-extrabold tracking-tight text-[#0b192c] sm:text-4xl">
-                CatalystLab API Documentation & Telemetry Reference
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-brand-offwhite font-sans">
+                REST API Documentation &amp; Telemetry Reference
               </h1>
-              <p className="text-base text-[#415a77] leading-relaxed">
+              <p className="text-xs sm:text-sm text-brand-periwinkle leading-relaxed font-sans">
                 Programmatic REST endpoints for all 8 diagnostic engines, parallel master audit orchestration, domain permalink dossiers, CI/CD quality gates, webhook dispatchers, and live telemetry sockets.
               </p>
             </div>
@@ -130,51 +130,49 @@ export const ApiDocsPage: React.FC = () => {
                   const el = document.getElementById('api-playground-section');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-sm font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all cursor-pointer whitespace-nowrap"
               >
-                <Play className="h-4 w-4" />
+                <Play className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>Open API Playground</span>
               </button>
 
               <div className="flex gap-2">
                 <button
                   onClick={downloadOpenApi}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3 py-2 text-xs font-bold text-brand-offwhite hover:bg-surface-subtle transition-all cursor-pointer whitespace-nowrap shadow-sm"
                 >
-                  <Download className="h-3.5 w-3.5 text-[#3b82f6]" />
-                  <span>OpenAPI Spec</span>
+                  <Download className="h-3.5 w-3.5 text-accent-cyan" />
+                  <span>OpenAPI 3.1</span>
                 </button>
 
                 <button
                   onClick={downloadPostman}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-[#cbd5e1] bg-white px-3.5 py-2 text-sm font-bold text-[#0b192c] shadow-sm hover:bg-[#f8fafc] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3 py-2 text-xs font-bold text-brand-offwhite hover:bg-surface-subtle transition-all cursor-pointer whitespace-nowrap shadow-sm"
                 >
-                  <FileJson className="h-3.5 w-3.5 text-[#f97316]" />
+                  <FileJson className="h-3.5 w-3.5 text-accent-amber" />
                   <span>Postman v2.1</span>
                 </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Main Container */}
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-12">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
         
         {/* ========================================================================= */}
         {/* SECTION 1: EMBEDDED API TEST PLAYGROUND */}
         {/* ========================================================================= */}
         <section id="api-playground-section" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-extrabold text-[#0b192c] flex items-center gap-2">
-                <Zap className="h-5 w-5 text-[#38bdf8]" />
-                Interactive API Playground & Verification Sandbox
-              </h2>
-              <p className="text-sm text-[#415a77]">
-                Execute live HTTP requests against local or production sandboxes and inspect real response headers, timing, and schemas.
-              </p>
-            </div>
+          <div className="space-y-1">
+            <h2 className="text-lg sm:text-xl font-extrabold text-brand-offwhite flex items-center gap-2 font-sans">
+              <Zap className="h-4 w-4 text-accent-cyan" />
+              <span>Interactive API Playground &amp; Sandbox</span>
+            </h2>
+            <p className="text-xs text-brand-periwinkle font-sans">
+              Execute live HTTP requests against local or production sandboxes and inspect real response headers, timing, and schemas.
+            </p>
           </div>
 
           <ApiPlayground 
@@ -186,42 +184,42 @@ export const ApiDocsPage: React.FC = () => {
         {/* ========================================================================= */}
         {/* SECTION 2: ENDPOINT CATALOGUE & INTERACTIVE SPECIFICATION EXPLORER */}
         {/* ========================================================================= */}
-        <section className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e2e8f0] pb-4">
-            <div>
-              <h2 className="text-xl font-extrabold text-[#0b192c] flex items-center gap-2">
-                <Layers className="h-5 w-5 text-[#3b82f6]" />
-                Complete Endpoint Reference Catalog
+        <section className="space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-4">
+            <div className="space-y-1">
+              <h2 className="text-lg sm:text-xl font-extrabold text-brand-offwhite flex items-center gap-2 font-sans">
+                <Layers className="h-4 w-4 text-accent-cyan" />
+                <span>Endpoint Reference Catalog</span>
               </h2>
-              <p className="text-sm text-[#415a77]">
+              <p className="text-xs text-brand-periwinkle font-sans">
                 Browse comprehensive request parameters, expected response schemas, and multi-language code snippets.
               </p>
             </div>
 
             {/* Search Input */}
             <div className="relative w-full sm:w-72">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-[#94a3b8]" />
+              <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-brand-slate-light" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search endpoints, tags, or paths..."
-                className="w-full rounded-xl border border-[#cbd5e1] bg-white py-2 pl-9 pr-4 text-sm font-semibold text-[#0b192c] shadow-sm focus:border-[#38bdf8] focus:outline-none"
+                placeholder="Search endpoints or paths..."
+                className="w-full rounded-xl border border-brand-slate/40 bg-surface-panel py-1.5 pl-9 pr-4 text-xs font-mono text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
             <button
               onClick={() => setSelectedCategory('All')}
-              className={`rounded-full px-4 py-1.5 text-sm font-bold transition ${
+              className={`rounded-lg px-3 py-1 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 selectedCategory === 'All'
-                  ? 'bg-[#0b192c] text-white shadow-sm'
-                  : 'bg-white border border-[#e2e8f0] text-[#415a77] hover:bg-[#f8fafc]'
+                  ? 'bg-brand-slate text-white border border-brand-periwinkle/30 shadow-sm'
+                  : 'bg-surface-panel border border-brand-slate/40 text-brand-periwinkle hover:text-white'
               }`}
             >
-              All Endpoints ({API_ENDPOINTS.length})
+              All ({API_ENDPOINTS.length})
             </button>
 
             {API_CATEGORIES.map((category) => {
@@ -230,10 +228,10 @@ export const ApiDocsPage: React.FC = () => {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full px-3.5 py-1.5 text-sm font-bold transition ${
+                  className={`rounded-lg px-3 py-1 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                     selectedCategory === category
-                      ? 'bg-[#0b192c] text-white shadow-sm'
-                      : 'bg-white border border-[#e2e8f0] text-[#415a77] hover:bg-[#f8fafc]'
+                      ? 'bg-brand-slate text-white border border-brand-periwinkle/30 shadow-sm'
+                      : 'bg-surface-panel border border-brand-slate/40 text-brand-periwinkle hover:text-white'
                   }`}
                 >
                   {category} ({count})
@@ -243,7 +241,7 @@ export const ApiDocsPage: React.FC = () => {
           </div>
 
           {/* Endpoints List */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {filteredEndpoints.map((ep) => {
               const isExpanded = expandedEndpointId === ep.id;
               const lang = activeCodeTab[ep.id] || 'curl';
@@ -253,35 +251,36 @@ export const ApiDocsPage: React.FC = () => {
                   key={ep.id}
                   className={`rounded-2xl border transition-all ${
                     isExpanded 
-                      ? 'border-[#0b192c]/40 bg-white shadow-lg ring-1 ring-[#0b192c]/10' 
-                      : 'border-[#e2e8f0] bg-white hover:border-[#cbd5e1] shadow-sm'
+                      ? 'border-brand-periwinkle/40 bg-surface-panel shadow-xl' 
+                      : 'border-brand-slate/40 bg-surface-panel hover:border-brand-slate shadow-sm'
                   }`}
                 >
                   {/* Collapsed Header Bar */}
                   <div 
                     onClick={() => setExpandedEndpointId(isExpanded ? null : ep.id)}
-                    className="flex flex-wrap items-center justify-between gap-4 p-5 cursor-pointer select-none"
+                    className="flex flex-wrap items-center justify-between gap-3 p-4 cursor-pointer select-none"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <span className={`rounded-lg px-2.5 py-1 text-sm font-mono font-bold uppercase text-white shadow-sm ${
-                        ep.method === 'POST' ? 'bg-[#3b82f6]' :
-                        ep.method === 'GET' ? 'bg-[#10b981]' :
-                        ep.method === 'DELETE' ? 'bg-[#ef4444]' : 'bg-[#f59e0b]'
+                      <span className={`rounded-md px-2 py-0.5 text-xs font-mono font-bold uppercase shadow-xs ${
+                        ep.method === 'POST' ? 'bg-brand-slate border border-brand-periwinkle/30 text-white' :
+                        ep.method === 'GET' ? 'bg-emerald-950/70 border border-emerald-500/40 text-accent-emerald' :
+                        ep.method === 'DELETE' ? 'bg-rose-950/70 border border-rose-500/40 text-rose-400' : 
+                        'bg-amber-950/70 border border-amber-500/40 text-accent-amber'
                       }`}>
                         {ep.method}
                       </span>
 
-                      <span className="font-mono text-base font-bold text-[#0b192c] truncate">
+                      <span className="font-mono text-xs sm:text-sm font-bold text-brand-offwhite truncate">
                         {ep.path}
                       </span>
 
-                      <span className="hidden md:inline-block text-sm text-[#64748b] truncate">
+                      <span className="hidden md:inline-block text-xs text-brand-periwinkle truncate">
                         — {ep.summary}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <span className="hidden sm:inline-block rounded-md bg-[#f1f5f9] px-2.5 py-1 text-sm font-semibold text-[#415a77]">
+                    <div className="flex items-center gap-2">
+                      <span className="hidden sm:inline-block rounded-md bg-brand-oxford border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-brand-slate-light">
                         {ep.category}
                       </span>
 
@@ -290,40 +289,42 @@ export const ApiDocsPage: React.FC = () => {
                           e.stopPropagation();
                           scrollToPlayground(ep.id);
                         }}
-                        className="flex items-center gap-1 rounded-lg border border-[#e2e8f0] bg-white px-2.5 py-1 text-sm font-bold text-[#0b192c] hover:bg-[#0b192c] hover:text-[#38bdf8] transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="flex items-center gap-1 rounded-lg border border-brand-slate/40 bg-brand-oxford px-2.5 py-1 text-xs font-bold text-brand-offwhite hover:bg-brand-slate hover:text-white transition-all shadow-xs cursor-pointer"
                         title="Test in Playground"
                       >
-                        <Play className="h-3 w-3" />
+                        <Play className="h-3 w-3 text-accent-cyan" />
                         <span>Test</span>
                       </button>
 
                       {isExpanded ? (
-                        <ChevronDown className="h-5 w-5 text-[#64748b]" />
+                        <ChevronDown className="h-4 w-4 text-brand-slate-light" />
                       ) : (
-                        <ChevronRight className="h-5 w-5 text-[#64748b]" />
+                        <ChevronRight className="h-4 w-4 text-brand-slate-light" />
                       )}
                     </div>
                   </div>
 
                   {/* Expanded Detail Panel */}
                   {isExpanded && (
-                    <div className="border-t border-[#e2e8f0] p-6 space-y-6 bg-[#f8fafc]/50 rounded-b-2xl">
+                    <div className="border-t border-brand-slate/30 p-5 sm:p-6 space-y-5 bg-brand-oxford/70 rounded-b-2xl">
                       
                       {/* Description & Rate Limit info */}
                       <div className="space-y-2">
-                        <p className="text-base text-[#0b192c] leading-relaxed">
+                        <p className="text-xs sm:text-sm text-brand-offwhite leading-relaxed font-sans">
                           {ep.description}
                         </p>
                         
-                        <div className="flex flex-wrap gap-2 text-sm">
-                          <div className="rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-[#415a77]">
-                            <strong className="text-[#0b192c]">Authentication:</strong> {ep.auth}
+                        <div className="flex flex-wrap gap-2 text-xs">
+                          <div className="rounded-lg border border-brand-slate/40 bg-surface-panel px-2.5 py-1 text-brand-periwinkle flex items-center gap-1.5">
+                            <Lock className="h-3 w-3 text-accent-cyan" />
+                            <strong className="text-brand-offwhite">Auth:</strong> {ep.auth}
                           </div>
-                          <div className="rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-[#415a77]">
-                            <strong className="text-[#0b192c]">Rate Limiting:</strong> {ep.rateLimit}
+                          <div className="rounded-lg border border-brand-slate/40 bg-surface-panel px-2.5 py-1 text-brand-periwinkle flex items-center gap-1.5">
+                            <Activity className="h-3 w-3 text-accent-amber" />
+                            <strong className="text-brand-offwhite">Rate Limit:</strong> {ep.rateLimit}
                           </div>
                           {ep.tags.map(t => (
-                            <span key={t} className="rounded-lg bg-[#e2e8f0]/60 px-2.5 py-1.5 text-sm font-mono text-[#415a77]">
+                            <span key={t} className="rounded-lg bg-surface-panel border border-brand-slate/40 px-2 py-1 text-[11px] font-mono text-brand-periwinkle">
                               #{t}
                             </span>
                           ))}
@@ -333,34 +334,34 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Request Parameters (Path & Query) */}
                       {ep.parameters && ep.parameters.length > 0 && (
                         <div className="space-y-2">
-                          <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
                             Request Parameters
                           </h4>
-                          <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white">
-                            <table className="w-full text-left text-sm">
-                              <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77]">
+                          <div className="overflow-x-auto rounded-xl border border-brand-slate/40 bg-surface-panel">
+                            <table className="w-full text-left text-xs font-mono">
+                              <thead className="border-b border-brand-slate/30 bg-brand-oxford text-brand-offwhite font-bold">
                                 <tr>
-                                  <th className="px-4 py-2 font-bold">Parameter</th>
-                                  <th className="px-4 py-2 font-bold">In</th>
-                                  <th className="px-4 py-2 font-bold">Type</th>
-                                  <th className="px-4 py-2 font-bold">Required</th>
-                                  <th className="px-4 py-2 font-bold">Description</th>
+                                  <th className="px-3 py-2">Parameter</th>
+                                  <th className="px-3 py-2">In</th>
+                                  <th className="px-3 py-2">Type</th>
+                                  <th className="px-3 py-2">Required</th>
+                                  <th className="px-3 py-2">Description</th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-[#e2e8f0]">
+                              <tbody className="divide-y divide-brand-slate/20 text-brand-periwinkle">
                                 {ep.parameters.map((p) => (
-                                  <tr key={p.name}>
-                                    <td className="px-4 py-2.5 font-mono font-bold text-[#0b192c]">{p.name}</td>
-                                    <td className="px-4 py-2.5 font-mono text-[#64748b]">{p.in}</td>
-                                    <td className="px-4 py-2.5 font-mono text-[#3b82f6]">{p.type}</td>
-                                    <td className="px-4 py-2.5">
+                                  <tr key={p.name} className="hover:bg-surface-subtle transition-colors">
+                                    <td className="px-3 py-2 font-bold text-accent-cyan">{p.name}</td>
+                                    <td className="px-3 py-2 text-brand-slate-light">{p.in}</td>
+                                    <td className="px-3 py-2 text-accent-emerald">{p.type}</td>
+                                    <td className="px-3 py-2">
                                       {p.required ? (
-                                        <span className="font-bold text-red-600">required</span>
+                                        <span className="font-bold text-rose-400">required</span>
                                       ) : (
-                                        <span className="text-[#94a3b8]">optional</span>
+                                        <span className="text-brand-slate-light">optional</span>
                                       )}
                                     </td>
-                                    <td className="px-4 py-2.5 text-[#415a77]">{p.description}</td>
+                                    <td className="px-3 py-2 font-sans text-xs text-brand-offwhite">{p.description}</td>
                                   </tr>
                                 ))}
                               </tbody>
@@ -372,43 +373,44 @@ export const ApiDocsPage: React.FC = () => {
                       {/* Request Body Specification */}
                       {ep.requestBody && (
                         <div className="space-y-2">
-                          <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
                             Request Body Schema ({ep.requestBody.contentType})
                           </h4>
-                          <div className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-4 text-sm font-mono text-[#38bdf8]">
+                          <div className="rounded-xl border border-brand-slate/40 bg-brand-navy p-3 text-xs font-mono text-accent-cyan overflow-x-auto">
                             <pre>{JSON.stringify(ep.requestBody.defaultPayload, null, 2)}</pre>
                           </div>
                         </div>
                       )}
 
                       {/* Expected Response Schemas (200, 400, 429) */}
-                      <div className="space-y-3">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
-                          Response Schemas & Examples
+                      <div className="space-y-2.5">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
+                          Response Schemas &amp; Examples
                         </h4>
                         
-                        <div className="space-y-3">
+                        <div className="space-y-2.5">
                           {ep.responses.map((resp) => (
-                            <div key={resp.status} className="rounded-xl border border-[#e2e8f0] bg-white overflow-hidden">
-                              <div className="flex items-center justify-between border-b border-[#e2e8f0] bg-[#f8fafc] px-4 py-2 text-sm">
+                            <div key={resp.status} className="rounded-xl border border-brand-slate/40 bg-surface-panel overflow-hidden">
+                              <div className="flex items-center justify-between border-b border-brand-slate/30 bg-brand-oxford px-3 py-1.5 text-xs">
                                 <div className="flex items-center gap-2">
-                                  <span className={`font-mono font-bold rounded-md px-2 py-0.5 ${
-                                    resp.status === 200 || resp.status === 201 ? 'bg-green-100 text-green-800' :
-                                    resp.status === 429 ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'
+                                  <span className={`font-mono font-bold rounded px-1.5 py-0.5 text-[10px] ${
+                                    resp.status === 200 || resp.status === 201 ? 'bg-emerald-950/80 text-accent-emerald border border-emerald-500/40' :
+                                    resp.status === 429 ? 'bg-amber-950/80 text-accent-amber border border-amber-500/40' : 
+                                    'bg-rose-950/80 text-rose-400 border border-rose-500/40'
                                   }`}>
                                     HTTP {resp.status}
                                   </span>
-                                  <span className="font-semibold text-[#0b192c]">{resp.description}</span>
+                                  <span className="font-semibold text-brand-offwhite text-xs font-sans">{resp.description}</span>
                                 </div>
                                 <button
                                   onClick={() => handleCopy(`${ep.id}-${resp.status}`, JSON.stringify(resp.example, null, 2))}
-                                  className="text-[#3b82f6] hover:underline flex items-center gap-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                                  className="text-accent-cyan hover:text-white flex items-center gap-1 text-[11px] font-mono transition-colors cursor-pointer"
                                 >
-                                  {copiedMap[`${ep.id}-${resp.status}`] ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
+                                  {copiedMap[`${ep.id}-${resp.status}`] ? <Check className="h-3 w-3 text-accent-emerald" /> : <Copy className="h-3 w-3" />}
                                   <span>{copiedMap[`${ep.id}-${resp.status}`] ? 'Copied' : 'Copy JSON'}</span>
                                 </button>
                               </div>
-                              <pre className="p-4 font-mono text-sm text-[#0b192c] bg-white overflow-x-auto max-h-64">
+                              <pre className="p-3 font-mono text-xs text-brand-offwhite bg-brand-navy/80 overflow-x-auto max-h-60">
                                 <code>{JSON.stringify(resp.example, null, 2)}</code>
                               </pre>
                             </div>
@@ -417,18 +419,18 @@ export const ApiDocsPage: React.FC = () => {
                       </div>
 
                       {/* Multi-Language Code Snippets */}
-                      <div className="space-y-3 pt-2">
+                      <div className="space-y-2.5 pt-1">
                         <div className="flex flex-wrap items-center justify-between gap-2">
-                          <h4 className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-accent-cyan font-sans">
                             Client Implementation Snippet
                           </h4>
 
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-[#64748b] font-medium">Format:</span>
+                            <span className="text-[11px] text-brand-slate-light font-mono">Language:</span>
                             <select
                               value={lang}
                               onChange={(e) => setActiveCodeTab(prev => ({ ...prev, [ep.id]: e.target.value as any }))}
-                              className="rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-xs font-semibold text-[#0b192c] focus:border-[#38bdf8] focus:outline-none"
+                              className="rounded-lg border border-brand-slate/40 bg-surface-panel px-2 py-1 text-xs font-semibold text-brand-offwhite focus:border-brand-slate focus:outline-none cursor-pointer font-mono"
                             >
                               <option value="curl">cURL</option>
                               <option value="javascript">JavaScript / Node.js</option>
@@ -441,14 +443,14 @@ export const ApiDocsPage: React.FC = () => {
                         </div>
 
                         <div className="relative">
-                          <pre className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-4 font-mono text-sm text-[#38bdf8] overflow-x-auto selection:bg-[#38bdf8]/30">
+                          <pre className="rounded-xl border border-brand-slate/40 bg-brand-navy p-3.5 font-mono text-xs text-accent-cyan overflow-x-auto">
                             <code>{generateCodeSnippet(ep, lang)}</code>
                           </pre>
                           <button
                             onClick={() => handleCopy(`${ep.id}-code`, generateCodeSnippet(ep, lang))}
-                            className="absolute top-3 right-3 rounded-lg border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-sm text-[#38bdf8] hover:bg-[#1f314d] transition flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                            className="absolute top-2.5 right-2.5 rounded-lg border border-brand-slate/40 bg-surface-panel px-2.5 py-1 text-xs text-brand-offwhite hover:bg-surface-subtle transition flex items-center gap-1 cursor-pointer font-mono"
                           >
-                            {copiedMap[`${ep.id}-code`] ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
+                            {copiedMap[`${ep.id}-code`] ? <Check className="h-3 w-3 text-accent-emerald" /> : <Copy className="h-3 w-3" />}
                             <span>{copiedMap[`${ep.id}-code`] ? 'Copied' : 'Copy'}</span>
                           </button>
                         </div>
@@ -464,66 +466,66 @@ export const ApiDocsPage: React.FC = () => {
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 3: ARCHITECTURE, AUTHENTICATION & CI/CD GATING GUIDES */}
+        {/* SECTION 3: ARCHITECTURE, AUTHENTICATION & SECURITY HEADERS */}
         {/* ========================================================================= */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-[#e2e8f0] pt-10">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-brand-slate/30 pt-8">
           
           {/* Rate Limiting & Quota Architecture */}
-          <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 space-y-4 shadow-sm">
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-5 sm:p-6 space-y-3.5 shadow-xl">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#3b82f6]">
-                <Activity className="h-5 w-5" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan">
+                <Activity className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[#0b192c]">Sliding Rate Limiter & Quota Tiers</h3>
-                <p className="text-sm text-[#415a77]">High-precision sliding window enforcement</p>
+                <h3 className="text-sm sm:text-base font-bold text-brand-offwhite font-sans">Sliding Rate Limiter &amp; Quota Tiers</h3>
+                <p className="text-xs text-brand-periwinkle font-sans">High-precision sliding window enforcement</p>
               </div>
             </div>
 
-            <p className="text-sm text-[#415a77] leading-relaxed">
+            <p className="text-xs text-brand-periwinkle leading-relaxed font-sans">
               CatalystLab protects infrastructure using sliding token bucket rate limits per client IP or authenticated Firebase UID. Daily quotas reset at 00:00:00 UTC.
             </p>
 
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center justify-between rounded-lg bg-[#f8fafc] p-2.5 font-mono">
-                <span className="font-semibold text-[#0b192c]">Anonymous Visitor</span>
-                <span className="text-[#3b82f6]">5 audits / day</span>
+            <div className="space-y-2 text-xs font-mono">
+              <div className="flex items-center justify-between rounded-xl bg-brand-oxford border border-brand-slate/30 p-2.5">
+                <span className="font-semibold text-brand-offwhite">Anonymous Visitor</span>
+                <span className="text-accent-cyan">5 audits / day</span>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-[#f8fafc] p-2.5 font-mono">
-                <span className="font-semibold text-[#0b192c]">Authenticated User (Google SSO)</span>
-                <span className="text-[#3b82f6]">10 audits / day</span>
+              <div className="flex items-center justify-between rounded-xl bg-brand-oxford border border-brand-slate/30 p-2.5">
+                <span className="font-semibold text-brand-offwhite">Authenticated User (Google SSO)</span>
+                <span className="text-accent-cyan">10 audits / day</span>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-[#f8fafc] p-2.5 font-mono">
-                <span className="font-semibold text-[#0b192c]">Enterprise & Superadmin</span>
-                <span className="text-green-600 font-bold">Unlimited Scans</span>
+              <div className="flex items-center justify-between rounded-xl bg-brand-oxford border border-brand-slate/30 p-2.5">
+                <span className="font-semibold text-brand-offwhite">Enterprise &amp; Superadmin</span>
+                <span className="text-accent-emerald font-bold">Unlimited Scans</span>
               </div>
             </div>
           </div>
 
           {/* OWASP Security & Defense in Depth */}
-          <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 space-y-4 shadow-sm">
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-5 sm:p-6 space-y-3.5 shadow-xl">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-[#10b981]">
-                <ShieldCheck className="h-5 w-5" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-emerald">
+                <ShieldCheck className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[#0b192c]">OWASP Security & Response Headers</h3>
-                <p className="text-sm text-[#415a77]">Enterprise telemetry security posture</p>
+                <h3 className="text-sm sm:text-base font-bold text-brand-offwhite font-sans">OWASP Security &amp; Response Headers</h3>
+                <p className="text-xs text-brand-periwinkle font-sans">Enterprise telemetry security posture</p>
               </div>
             </div>
 
-            <p className="text-sm text-[#415a77] leading-relaxed">
+            <p className="text-xs text-brand-periwinkle leading-relaxed font-sans">
               Every API gateway response enforces strict transport security, anti-sniffing, and frame ancestor validation headers.
             </p>
 
-            <div className="space-y-2 text-sm font-mono">
-              <div className="rounded-lg bg-[#0b192c] p-2 text-[#38bdf8]">
+            <div className="space-y-1.5 text-xs font-mono">
+              <div className="rounded-lg bg-brand-navy border border-brand-slate/30 p-2 text-accent-cyan text-[11px] overflow-x-auto">
                 Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
               </div>
-              <div className="rounded-lg bg-[#0b192c] p-2 text-[#38bdf8]">
+              <div className="rounded-lg bg-brand-navy border border-brand-slate/30 p-2 text-accent-cyan text-[11px] overflow-x-auto">
                 X-Content-Type-Options: nosniff
               </div>
-              <div className="rounded-lg bg-[#0b192c] p-2 text-[#38bdf8]">
+              <div className="rounded-lg bg-brand-navy border border-brand-slate/30 p-2 text-accent-cyan text-[11px] overflow-x-auto">
                 Referrer-Policy: strict-origin-when-cross-origin
               </div>
             </div>
@@ -531,7 +533,7 @@ export const ApiDocsPage: React.FC = () => {
 
         </section>
 
-      </div>
+      </main>
     </div>
   );
 };

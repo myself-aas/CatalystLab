@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Cookie, Sliders, LifeBuoy, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Cookie, ArrowRight, ShieldCheck } from 'lucide-react';
 import { CookiePreferenceCenter } from '../components/legal/CookiePreferenceCenter';
-import { LazyReveal } from '../components/common/LazyAnimate';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const CookiePolicyPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
+    <div className="min-h-screen bg-brand-navy pb-24 text-brand-offwhite font-mono selection:bg-brand-slate selection:text-white">
       <SEOHead
         title="Cookie Policy & Preference Manager"
         description="Configure your cookie preferences and learn about CatalystLab's minimal session telemetry and zero third-party advertising tracking policies."
@@ -16,18 +15,18 @@ export const CookiePolicyPage: React.FC = () => {
       />
 
       {/* Dedicated Hero Header */}
-      <section className="border-b border-[#e2e8f0] bg-white px-4 py-12 sm:px-6 lg:px-8">
+      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-sm font-bold text-[#415a77] uppercase tracking-wider mb-3">
-                <Cookie className="h-3.5 w-3.5 text-[#415a77]" />
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
+                <Cookie className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>Transparent Consent Architecture</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0b192c] tracking-tight">
-                Cookie Policy & Consent Manager
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-offwhite tracking-tight font-sans">
+                Cookie Policy &amp; Consent Manager
               </h1>
-              <p className="mt-2 text-base text-[#415a77] max-w-2xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-brand-periwinkle max-w-2xl leading-relaxed font-sans">
                 Full transparency into session tokens, local telemetry storage, and granular client-side controls. We do not use third-party advertising cookies.
               </p>
             </div>
@@ -36,11 +35,11 @@ export const CookiePolicyPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-3">
               <Link
                 to="/privacy"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#152238] transition-all shadow-sm active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3.5 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
-                <ShieldCheck className="h-4 w-4 text-sky-300" />
+                <ShieldCheck className="h-3.5 w-3.5 text-accent-emerald" />
                 <span>View Full Privacy Policy</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#94a3b8]" />
+                <ArrowRight className="h-3 w-3 text-brand-slate-light" />
               </Link>
             </div>
           </div>
@@ -48,10 +47,11 @@ export const CookiePolicyPage: React.FC = () => {
       </section>
 
       {/* Main Content */}
-      <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         <CookiePreferenceCenter />
       </main>
     </div>
   );
 };
+
 export default CookiePolicyPage;

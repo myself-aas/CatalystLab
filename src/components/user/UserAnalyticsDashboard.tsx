@@ -1530,7 +1530,7 @@ jobs:
       {activeSubTab === 'sdlc-catalysts' && (
         <div className="space-y-6">
           {/* Executive Overview Banner */}
-          <div className="rounded-2xl border border-[#0b192c] bg-gradient-to-br from-[#0b192c] to-[#152238] p-6 text-white shadow-xl">
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 text-brand-offwhite shadow-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-bold mb-3">
@@ -1677,7 +1677,7 @@ jobs:
         <div className="space-y-6">
           
           {/* Header Banner */}
-          <div className="rounded-2xl border border-orange-200 bg-gradient-to-br from-[#0b192c] via-[#152238] to-[#1e293b] p-6 text-white shadow-xl">
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 text-brand-offwhite shadow-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-300 text-xs font-bold mb-3">

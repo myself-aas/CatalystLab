@@ -1,43 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   BookOpen, 
-  Terminal, 
-  Code, 
-  Cpu, 
-  ShieldCheck, 
-  Globe, 
-  Leaf, 
-  Zap, 
   ArrowRight, 
   ArrowLeft,
-  ExternalLink,
-  Search,
-  Check,
-  Copy,
-  ChevronRight,
-  Sparkles,
-  Layers,
-  FileText,
-  Shield,
-  ThumbsUp,
-  ThumbsDown,
-  Info,
-  CheckCircle2,
-  Menu,
-  X,
-  HelpCircle,
-  Activity,
-  Server,
-  Key,
-  Database,
-  Lock,
-  GitBranch,
-  SearchCode,
-  Gauge,
-  Workflow,
-  Sliders,
-  Play
+  Search, 
+  Check, 
+  Copy, 
+  ChevronRight, 
+  FileText, 
+  ShieldCheck, 
+  ThumbsUp, 
+  ThumbsDown, 
+  CheckCircle2, 
+  Menu, 
+  X, 
+  HelpCircle
 } from 'lucide-react';
 import { SEOHead } from '../common/SEOHead';
 
@@ -110,33 +88,33 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title 
   };
 
   return (
-    <div className="my-4 overflow-hidden rounded-xl border border-[#415a77]/30 bg-[#0b192c] shadow-md">
-      <div className="flex items-center justify-between border-b border-[#415a77]/25 bg-[#091524] px-4 py-2 text-sm">
+    <div className="my-4 overflow-hidden rounded-xl border border-brand-slate/40 bg-brand-navy shadow-md font-mono">
+      <div className="flex items-center justify-between border-b border-brand-slate/30 bg-brand-oxford px-4 py-2 text-xs">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
-          <span className="ml-2 font-mono text-sm font-semibold text-[#c5d3e8]">{title || language}</span>
+          <span className="h-2 w-2 rounded-full bg-rose-500/80" />
+          <span className="h-2 w-2 rounded-full bg-amber-400/80" />
+          <span className="h-2 w-2 rounded-full bg-emerald-500/80" />
+          <span className="ml-2 font-semibold text-brand-offwhite">{title || language}</span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 rounded-md border border-[#415a77]/40 bg-[#152238] px-2.5 py-1 text-sm font-medium text-[#c5d3e8] hover:bg-[#1f314d] hover:text-[#f8fafc] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          className="flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-1 text-xs font-medium text-brand-periwinkle hover:text-white hover:bg-surface-subtle transition-all cursor-pointer"
           title="Copy code"
         >
           {copied ? (
             <>
-              <Check className="h-3 w-3 text-emerald-400" />
-              <span className="text-emerald-400">Copied</span>
+              <Check className="h-3 w-3 text-accent-emerald" />
+              <span className="text-accent-emerald">Copied</span>
             </>
           ) : (
             <>
-              <Copy className="h-3 w-3 text-[#c5d3e8]" />
+              <Copy className="h-3 w-3 text-brand-slate-light" />
               <span>Copy</span>
             </>
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto p-4 font-mono text-sm leading-relaxed text-[#f8fafc] bg-[#050d18]">
+      <pre className="overflow-x-auto p-4 text-xs leading-relaxed text-brand-offwhite bg-brand-navy/90">
         <code>{code}</code>
       </pre>
     </div>
@@ -164,7 +142,6 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   children,
 }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState<'yes' | 'no' | null>(null);
@@ -218,7 +195,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
+    <div className="min-h-screen bg-brand-navy text-brand-offwhite selection:bg-brand-slate selection:text-white">
       <SEOHead
         title={`${title} | CatalystLab Documentation`}
         description={description}
@@ -247,32 +224,28 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
       />
 
       {/* Docs Toolbar with Mobile Menu Toggle and Global Search */}
-      <div className="border-b border-[#e2e8f0] bg-white sticky top-16 z-30 shadow-xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
+      <div className="border-b border-brand-slate/30 bg-brand-oxford/90 backdrop-blur sticky top-16 z-30 font-mono">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#415a77] hover:bg-[#f1f5f9] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-brand-slate/40 text-brand-periwinkle hover:text-white hover:bg-surface-subtle cursor-pointer"
               aria-label="Toggle docs navigation"
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#415a77] lg:hidden">
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand-slate-light lg:hidden">
               Docs Navigation
             </span>
           </div>
 
           {/* Quick Search */}
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
-              className="flex items-center gap-2 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs sm:text-sm text-[#64748b] hover:border-[#cbd5e1] hover:text-[#0b192c] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
-              title="Search documentation (Cmd+K)"
-            >
-              <Search className="h-3.5 w-3.5 text-[#415a77]" />
-              <span className="hidden sm:inline">Search documentation...</span>
-              <kbd className="rounded border border-[#e2e8f0] bg-white px-1.5 py-0.2 text-xs font-mono text-[#94a3b8]">⌘K</kbd>
-            </button>
+            <div className="flex items-center gap-2 rounded-lg border border-brand-slate/40 bg-surface-panel px-3 py-1.5 text-xs text-brand-slate-light">
+              <Search className="h-3.5 w-3.5 text-accent-cyan" />
+              <span className="hidden sm:inline">Telemetry Documentation Index</span>
+              <kbd className="rounded border border-brand-slate/40 bg-brand-oxford px-1.5 py-0.2 text-[10px] text-brand-periwinkle">v2.4</kbd>
+            </div>
           </div>
         </div>
       </div>
@@ -282,33 +255,33 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Left Column: Sticky Navigation Sidebar */}
-          <aside className={`lg:col-span-3 lg:block ${mobileMenuOpen ? 'block fixed inset-x-4 top-32 z-40 max-h-[75vh] overflow-y-auto rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-2xl' : 'hidden'}`}>
-            <div className="sticky top-28 space-y-6">
-              <div className="pb-3 border-b border-[#e2e8f0]">
-                <div className="text-sm font-bold uppercase tracking-wider text-[#415a77]">
+          <aside className={`lg:col-span-3 lg:block ${mobileMenuOpen ? 'block fixed inset-x-4 top-32 z-40 max-h-[75vh] overflow-y-auto rounded-2xl border border-brand-slate/40 bg-surface-panel p-5 shadow-2xl' : 'hidden'}`}>
+            <div className="sticky top-28 space-y-5 font-mono">
+              <div className="pb-3 border-b border-brand-slate/30">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan">
                   Documentation Index
                 </div>
-                <div className="text-sm text-[#64748b] mt-0.5">v2.4 Telemetry Specification</div>
+                <div className="text-xs text-brand-slate-light mt-0.5">v2.4 Spec</div>
                 
                 {/* Search in sidebar */}
                 <div className="mt-3 relative">
-                  <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-[#94a3b8]" />
+                  <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-brand-slate-light" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Filter topics..."
-                    className="w-full rounded-lg border border-[#e2e8f0] bg-[#f8fafc] py-1.5 pl-8 pr-3 text-xs text-[#0b192c] placeholder:text-[#94a3b8] focus:border-[#415a77] focus:bg-white focus:outline-none"
+                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford py-1.5 pl-8 pr-3 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
                   />
                 </div>
               </div>
 
               {filteredNav.map((group) => (
-                <div key={group.group} className="space-y-2">
-                  <div className="text-xs font-bold text-[#0b192c] uppercase tracking-wider">
+                <div key={group.group} className="space-y-1.5">
+                  <div className="text-[11px] font-bold text-brand-periwinkle uppercase tracking-wider">
                     {group.group}
                   </div>
-                  <ul className="space-y-1 border-l-2 border-[#e2e8f0] pl-2.5">
+                  <ul className="space-y-0.5 border-l-2 border-brand-slate/30 pl-2.5">
                     {group.items.map((item) => {
                       const isCurrent = 
                         item.path === currentPath ||
@@ -319,14 +292,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                           <Link
                             to={item.path}
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`w-full text-left text-sm py-1.5 px-2 rounded-md transition-all flex items-center justify-between ${
+                            className={`w-full text-left text-xs py-1 px-2 rounded-md transition-all flex items-center justify-between ${
                               isCurrent
-                                ? 'bg-[#0b192c] text-white font-bold shadow-xs'
-                                : 'text-[#415a77] hover:text-[#0b192c] hover:bg-[#f1f5f9]'
+                                ? 'bg-brand-slate text-white font-bold shadow-xs'
+                                : 'text-brand-slate-light hover:text-white hover:bg-surface-subtle'
                             }`}
                           >
                             <span className="truncate">{item.title}</span>
-                            {isCurrent && <ChevronRight className="h-3 w-3 text-white shrink-0 ml-1" />}
+                            {isCurrent && <ChevronRight className="h-3 w-3 text-accent-cyan shrink-0 ml-1" />}
                           </Link>
                         </li>
                       );
@@ -335,47 +308,49 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 </div>
               ))}
 
-              <div className="pt-4 border-t border-[#e2e8f0] space-y-2">
+              <div className="pt-3 border-t border-brand-slate/30 space-y-1.5">
                 <Link
                   to="/blogs"
-                  className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-surface-panel p-2.5 text-xs text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4 text-[#415a77]" />
+                    <BookOpen className="h-3.5 w-3.5 text-accent-cyan" />
                     <span className="font-semibold">Developer Blog</span>
                   </div>
-                  <ArrowRight className="h-3.5 w-3.5" />
+                  <ArrowRight className="h-3 w-3" />
                 </Link>
                 <Link
                   to="/contact"
-                  className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3 text-sm text-[#415a77] hover:bg-[#f1f5f9] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-surface-panel p-2.5 text-xs text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <HelpCircle className="h-4 w-4 text-[#415a77]" />
+                    <HelpCircle className="h-3.5 w-3.5 text-accent-cyan" />
                     <span className="font-semibold">Developer Support</span>
                   </div>
-                  <ArrowRight className="h-3.5 w-3.5" />
+                  <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
             </div>
           </aside>
 
           {/* Center Column: Documentation Content */}
-          <main className={`${toc.length > 0 ? 'lg:col-span-7' : 'lg:col-span-9'} space-y-12`}>
-            {children}
+          <main className={`${toc.length > 0 ? 'lg:col-span-7' : 'lg:col-span-9'} space-y-10`}>
+            <div className="docs-content text-brand-offwhite">
+              {children}
+            </div>
 
             {/* Pagination Controls: Previous & Next Page */}
-            <div className="pt-8 border-t border-[#e2e8f0] grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="pt-6 border-t border-brand-slate/30 grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
               {prevItem ? (
                 <Link
                   to={prevItem.path}
-                  className="flex flex-col gap-1 rounded-xl border border-[#e2e8f0] bg-white p-4 text-left transition-all hover:border-[#cbd5e1] hover:bg-[#f8fafc] shadow-xs group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex flex-col gap-1 rounded-xl border border-brand-slate/40 bg-surface-panel p-3.5 text-left transition-all hover:bg-surface-subtle shadow-xs group"
                 >
-                  <span className="text-xs font-semibold text-[#64748b] flex items-center gap-1">
-                    <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                  <span className="text-xs font-semibold text-brand-slate-light flex items-center gap-1">
+                    <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-1" />
                     <span>Previous</span>
                   </span>
-                  <span className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                  <span className="text-xs font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors truncate">
                     {prevItem.title}
                   </span>
                 </Link>
@@ -384,13 +359,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               {nextItem ? (
                 <Link
                   to={nextItem.path}
-                  className="flex flex-col items-end gap-1 rounded-xl border border-[#e2e8f0] bg-white p-4 text-right transition-all hover:border-[#cbd5e1] hover:bg-[#f8fafc] shadow-xs group sm:col-start-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex flex-col items-end gap-1 rounded-xl border border-brand-slate/40 bg-surface-panel p-3.5 text-right transition-all hover:bg-surface-subtle shadow-xs group sm:col-start-2"
                 >
-                  <span className="text-xs font-semibold text-[#64748b] flex items-center gap-1">
+                  <span className="text-xs font-semibold text-brand-slate-light flex items-center gap-1">
                     <span>Next</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                    <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                   </span>
-                  <span className="text-sm font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                  <span className="text-xs font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors truncate">
                     {nextItem.title}
                   </span>
                 </Link>
@@ -398,19 +373,19 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             </div>
 
             {/* Helpful Feedback Box */}
-            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-xs">
+            <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-5 shadow-xs font-mono">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <div className="text-base font-bold text-[#0b192c]">Was this documentation helpful?</div>
-                  <div className="text-sm text-[#64748b] mt-0.5">Let us know how we can improve our developer guides.</div>
+                  <div className="text-sm font-bold text-brand-offwhite">Was this documentation helpful?</div>
+                  <div className="text-xs text-brand-slate-light mt-0.5">Let us know how we can improve our developer guides.</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setFeedbackGiven('yes')}
-                    className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-semibold transition-all cursor-pointer ${
+                    className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                       feedbackGiven === 'yes'
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                        : 'border-[#e2e8f0] bg-white text-[#415a77] hover:bg-[#f1f5f9]'
+                        ? 'border-emerald-500 bg-emerald-950/40 text-emerald-300'
+                        : 'border-brand-slate/40 bg-brand-oxford text-brand-periwinkle hover:bg-surface-subtle hover:text-white'
                     }`}
                   >
                     <ThumbsUp className="h-3.5 w-3.5" />
@@ -418,10 +393,10 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   </button>
                   <button
                     onClick={() => setFeedbackGiven('no')}
-                    className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-semibold transition-all cursor-pointer ${
+                    className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                       feedbackGiven === 'no'
-                        ? 'border-rose-500 bg-rose-50 text-rose-700'
-                        : 'border-[#e2e8f0] bg-white text-[#415a77] hover:bg-[#f1f5f9]'
+                        ? 'border-rose-500 bg-rose-950/40 text-rose-300'
+                        : 'border-brand-slate/40 bg-brand-oxford text-brand-periwinkle hover:bg-surface-subtle hover:text-white'
                     }`}
                   >
                     <ThumbsDown className="h-3.5 w-3.5" />
@@ -430,7 +405,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 </div>
               </div>
               {feedbackGiven && (
-                <div className="mt-3 text-sm text-emerald-700 font-medium flex items-center gap-1.5">
+                <div className="mt-3 text-xs text-accent-emerald font-medium flex items-center gap-1.5">
                   <CheckCircle2 className="h-3.5 w-3.5" />
                   <span>Thank you for your feedback! Our telemetry engineering team reviews updates weekly.</span>
                 </div>
@@ -440,22 +415,22 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
           {/* Right Column: "On This Page" Sticky Table of Contents */}
           {toc.length > 0 && (
-            <aside className="hidden lg:col-span-2 lg:block">
+            <aside className="hidden lg:col-span-2 lg:block font-mono">
               <div className="sticky top-28 space-y-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c]">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan">
                   On This Page
                 </div>
-                <ul className="space-y-1.5 text-xs border-l border-[#e2e8f0] pl-3 max-h-[calc(100vh-180px)] overflow-y-auto">
+                <ul className="space-y-1.5 text-xs border-l border-brand-slate/30 pl-3 max-h-[calc(100vh-180px)] overflow-y-auto">
                   {toc.map((item) => {
                     const isCurrent = activeTocId === item.id;
                     return (
                       <li key={item.id}>
                         <button
                           onClick={() => scrollToTocSection(item.id)}
-                          className={`text-left transition-colors hover:text-[#0b192c] truncate block w-full py-0.5 cursor-pointer ${
+                          className={`text-left transition-colors hover:text-white truncate block w-full py-0.5 cursor-pointer ${
                             isCurrent
-                              ? 'font-bold text-[#0b192c] border-l-2 -ml-[13px] pl-2.5 border-[#0b192c]'
-                              : 'text-[#64748b]'
+                              ? 'font-bold text-accent-cyan border-l-2 -ml-[13px] pl-2.5 border-accent-cyan'
+                              : 'text-brand-slate-light'
                           }`}
                         >
                           {item.title}
@@ -465,13 +440,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   })}
                 </ul>
 
-                <div className="pt-4 border-t border-[#e2e8f0] space-y-2 text-xs text-[#64748b]">
-                  <Link to="/blogs" className="flex items-center gap-1.5 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                    <FileText className="h-3.5 w-3.5 text-[#415a77]" />
+                <div className="pt-4 border-t border-brand-slate/30 space-y-2 text-xs text-brand-slate-light">
+                  <Link to="/blogs" className="flex items-center gap-1.5 hover:text-white transition-colors">
+                    <FileText className="h-3.5 w-3.5 text-accent-cyan" />
                     <span>Developer Blog</span>
                   </Link>
-                  <Link to="/contact" className="flex items-center gap-1.5 hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                    <ShieldCheck className="h-3.5 w-3.5 text-[#415a77]" />
+                  <Link to="/contact" className="flex items-center gap-1.5 hover:text-white transition-colors">
+                    <ShieldCheck className="h-3.5 w-3.5 text-accent-cyan" />
                     <span>Developer Support</span>
                   </Link>
                 </div>
@@ -484,3 +459,5 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
     </div>
   );
 };
+
+export default DocsLayout;

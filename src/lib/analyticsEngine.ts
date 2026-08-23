@@ -3,7 +3,7 @@ import crypto from 'crypto';
 
 let client: MongoClient | null = null;
 let db: Db | null = null;
-let eventQueue: unknown[] = [];
+let eventQueue: any[] = [];
 const BATCH_SIZE = 500;
 let totalBatchesFlushed = 0;
 let totalEventsIngested = 0;

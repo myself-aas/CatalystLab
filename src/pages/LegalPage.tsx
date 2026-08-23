@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
+import { SEOHead } from '../components/common/SEOHead';
 
 export const LegalPage: React.FC = () => {
   const location = useLocation();
@@ -17,31 +18,38 @@ export const LegalPage: React.FC = () => {
     content = 'CatalystLab utilizes essential authentication cookies via Firebase Auth to persist your login session across tab reloads and generate secure diagnostic dossiers.';
   } else if (path.includes('security')) {
     title = 'Security Disclosure';
-    content = 'We prioritize application security. If you discover a vulnerability in our scanning engines or API endpoints, please contact security@catalystlab.io for coordinated disclosure.';
+    content = 'We prioritize application security. If you discover a vulnerability in our scanning engines or API endpoints, please contact security@catalystlab.tech for coordinated disclosure.';
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-20 text-[#0b192c] selection:bg-[#c5d3e8] selection:text-[#0b192c]">
-      <section className="border-b border-[#e2e8f0] bg-white px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3.5 py-1 text-sm font-semibold text-[#415a77]">
+    <div className="min-h-screen bg-brand-navy pb-20 text-brand-offwhite font-mono selection:bg-brand-slate selection:text-white">
+      <SEOHead
+        title={`${title} — CatalystLab`}
+        description={content}
+        canonicalUrl={`https://www.catalystlab.tech${path}`}
+      />
+      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl space-y-2">
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
             <ShieldCheck className="h-3.5 w-3.5" />
-            <span>Compliance & Legal Standards</span>
+            <span>Compliance &amp; Legal Standards</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-[#0b192c] sm:text-4xl">{title}</h1>
-          <p className="mt-1 text-sm text-[#415a77]">Last updated: August 2026</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-offwhite font-sans">{title}</h1>
+          <p className="text-xs text-brand-slate-light font-sans">Last updated: August 2026</p>
         </div>
       </section>
 
-      <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="space-y-4 rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-8 text-base leading-relaxed text-[#f8fafc] shadow-2xl sm:p-10">
-          <p className="text-base text-[#f8fafc]">{content}</p>
-          <p className="text-sm text-[#c5d3e8]">
+      <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="space-y-4 rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 text-xs sm:text-sm leading-relaxed text-brand-offwhite shadow-xl sm:p-8 font-sans">
+          <p className="text-brand-offwhite leading-relaxed">{content}</p>
+          <p className="text-xs text-brand-periwinkle pt-2 border-t border-brand-slate/30">
             For questions or requests regarding data retention or legal compliance, please refer to our{' '}
-            <Link to="/contact" className="font-semibold text-[#c5d3e8] underline hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Contact Support</Link> portal.
+            <Link to="/contact" className="font-semibold text-accent-cyan underline hover:text-white">Contact Support</Link> portal.
           </p>
         </div>
       </main>
     </div>
   );
 };
+
+export default LegalPage;

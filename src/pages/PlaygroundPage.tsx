@@ -5,51 +5,29 @@ import {
   getRateLimitStatus, 
   fetchServerRateLimitStatus, 
   recordClientRequestAttempt, 
-  RateLimitStatus, 
-  MASTER_AUDIT_COST, 
-  SINGLE_ENGINE_COST 
+  RateLimitStatus
 } from '../utils/rateLimiter';
 import { getApiKeys } from '../lib/firebase';
 import { ApiKey } from '../types';
 import { 
   Play, 
-  Send, 
   Copy, 
   Check, 
   RefreshCw, 
-  Download, 
-  Code2, 
-  ShieldCheck, 
-  Zap, 
-  AlertCircle, 
   Server, 
-  Layers, 
-  CheckCircle2, 
-  XCircle, 
   Clock, 
-  Sliders, 
   FileJson,
   Key,
-  ExternalLink,
-  ChevronRight,
   Terminal,
-  Activity,
-  Sparkles,
   Globe,
-  Lock,
-  Search,
-  Cpu,
-  Bookmark,
   History,
   RotateCcw,
   SlidersHorizontal,
   Flame,
-  HelpCircle,
-  Eye,
-  Info,
-  CheckCircle
+  Zap
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SEOHead } from '../components/common/SEOHead';
 
 interface EngineOption {
   id: string;
@@ -186,11 +164,11 @@ interface ExecutionHistoryItem {
   latencyMs: number;
   cost: number;
   payload: any;
-  response: unknown;
+  response: any;
 }
 
 export const PlaygroundPage: React.FC = () => {
-  const { user, isAdmin, login } = useAuth();
+  const { user, isAdmin } = useAuth();
   
   // Rate limiting & user keys state
   const [rateStatus, setRateStatus] = useState<RateLimitStatus>(() => getRateLimitStatus(user, isAdmin));
@@ -204,8 +182,8 @@ export const PlaygroundPage: React.FC = () => {
   // Visual Builder Parameters
   const [forceFresh, setForceFresh] = useState<boolean>(false);
   const [selectedRegions, setSelectedRegions] = useState<string[]>(['iad', 'fra', 'sin']);
-  const [timeoutMs, setTimeoutMs] = useState<number>(10000);
-  const [userAgentType, setUserAgentType] = useState<'desktop' | 'mobile' | 'catalystbot'>('desktop');
+  const [timeoutMs] = useState<number>(10000);
+  const [userAgentType] = useState<'desktop' | 'mobile' | 'catalystbot'>('desktop');
   const [customBrandHeader, setCustomBrandHeader] = useState<string>('');
   
   // Raw JSON editor text
@@ -214,8 +192,8 @@ export const PlaygroundPage: React.FC = () => {
   // Authentication setup
   const [authMode, setAuthMode] = useState<'session' | 'apiKey' | 'custom'>('session');
   const [selectedApiKey, setSelectedApiKey] = useState<string>('');
-  const [customHeaderKey, setCustomHeaderKey] = useState<string>('');
-  const [customHeaderVal, setCustomHeaderVal] = useState<string>('');
+  const [customHeaderKey] = useState<string>('');
+  const [customHeaderVal] = useState<string>('');
   
   // Execution & Response states
   const [executing, setExecuting] = useState<boolean>(false);
@@ -304,10 +282,9 @@ export const PlaygroundPage: React.FC = () => {
     setResponseSizeKb(null);
 
     const startTime = performance.now();
-    let computedCost = activeEngine.cost;
+    const computedCost = activeEngine.cost;
 
     try {
-      // Build request body
       let bodyData: any = {};
       if (builderMode === 'json') {
         try {
@@ -337,7 +314,6 @@ export const PlaygroundPage: React.FC = () => {
             };
       }
 
-      // Headers construction
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -364,26 +340,22 @@ export const PlaygroundPage: React.FC = () => {
       setResponseStatus(res.status);
       setResponseStatusText(res.statusText || (res.status === 200 ? 'OK' : 'Error'));
 
-      // Extract response headers
       const resHeaders: Record<string, string> = {};
       res.headers.forEach((val, key) => {
         resHeaders[key] = val;
       });
       setResponseHeaders(resHeaders);
 
-      // Parse JSON output
       const data = await res.json();
       setResponsePayload(data);
 
       const size = new Blob([JSON.stringify(data)]).size;
       setResponseSizeKb(Number((size / 1024).toFixed(2)));
 
-      // Record client-side rate limit charge if authenticated
       recordClientRequestAttempt(computedCost, user, isAdmin);
       const updatedStatus = getRateLimitStatus(user, isAdmin);
       setRateStatus(updatedStatus);
 
-      // Add to local history
       const historyItem: ExecutionHistoryItem = {
         id: `exec_${Date.now()}`,
         timestamp: Date.now(),
@@ -399,7 +371,7 @@ export const PlaygroundPage: React.FC = () => {
       };
       setHistory(prev => [historyItem, ...prev.slice(0, 19)]);
 
-    } catch (err: unknown) {
+    } catch (err: any) {
       const elapsed = Math.round(performance.now() - startTime);
       setResponseTimeMs(elapsed);
       setResponseStatus(500);
@@ -414,7 +386,6 @@ export const PlaygroundPage: React.FC = () => {
     }
   };
 
-  // Replay historical request
   const handleLoadFromHistory = (item: ExecutionHistoryItem) => {
     const matchedEngine = ENGINE_OPTIONS.find(e => e.name === item.engine) || ENGINE_OPTIONS[0];
     setSelectedEngineId(matchedEngine.id);
@@ -426,7 +397,6 @@ export const PlaygroundPage: React.FC = () => {
     setResponsePayload(item.response);
   };
 
-  // Generate Code Snippet
   const getCodeSnippet = () => {
     const keyHeader = authMode === 'apiKey' && selectedApiKey ? ` \\\n  -H "X-API-Key: ${selectedApiKey}"` : '';
     const bodyStr = rawJsonPayload || JSON.stringify({ engine: selectedEngineId, url: targetUrl }, null, 2);
@@ -497,47 +467,53 @@ func main() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#0b192c] selection:bg-[#c5d3e8] selection:text-[#0b192c]">
+    <div className="min-h-screen bg-brand-navy pb-24 text-brand-offwhite selection:bg-brand-slate selection:text-white">
+      <SEOHead
+        title="Live REST API Playground"
+        description="Interactive REST test harness for single diagnostic engines and composite master audits."
+        keywords={['API playground', 'REST test harness', 'audit API', 'telemetry endpoint']}
+        canonicalUrl="https://www.catalystlab.tech/playground"
+      />
       
       {/* Top Header Hero */}
-      <section className="border-b border-[#e2e8f0] bg-white px-4 py-8 sm:px-6 lg:px-8">
+      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-7 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             
             <div className="flex items-center gap-3.5">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0b192c] text-white shadow-md">
-                <Terminal className="h-6 w-6 text-amber-300" />
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-surface-panel border border-brand-slate/40 text-accent-cyan shadow-sm">
+                <Terminal className="h-5 w-5" />
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-xl sm:text-2xl font-bold text-[#0b192c]">
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-brand-offwhite tracking-tight">
                     Engine Test Playground
                   </h1>
-                  <span className="rounded-md bg-slate-200 border-none px-2 py-0.5 text-sm font-mono font-bold text-slate-900">
+                  <span className="rounded-md bg-brand-slate/40 border border-brand-periwinkle/30 px-2 py-0.5 text-xs font-mono font-bold text-accent-cyan">
                     {endpointPath}
                   </span>
                 </div>
-                <p className="text-sm text-[#415a77] mt-0.5">
+                <p className="text-xs text-brand-periwinkle mt-0.5 font-mono">
                   Interactive REST test harness for single diagnostic engines and composite master audits.
                 </p>
               </div>
             </div>
 
             {/* Quick Links */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5 font-mono">
               <Link
-                to="/user-dashboard?tab=api-keys"
-                className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                to="/dashboard?tab=api-keys"
+                className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3.5 py-1.5 text-xs font-bold text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-all shadow-sm"
               >
-                <Key className="h-4 w-4 text-amber-500" />
-                <span>API Keys & White-Label</span>
+                <Key className="h-3.5 w-3.5 text-accent-amber" />
+                <span>API Keys &amp; White-Label</span>
               </Link>
               
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-3.5 py-2 text-sm font-semibold text-[#415a77] hover:bg-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3.5 py-1.5 text-xs font-bold text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-all shadow-sm"
               >
-                <FileJson className="h-4 w-4 text-blue-600" />
+                <FileJson className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>OpenAPI Docs</span>
               </Link>
             </div>
@@ -547,9 +523,9 @@ func main() {
       </section>
 
       {/* Main Container */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6 space-y-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-5 space-y-5">
 
-        {/* 1. VISUAL NOTIFICATION: RATE LIMIT THRESHOLD ALERT */}
+        {/* Rate Limit Alert Component */}
         <RateLimitThresholdAlert 
           currentStatus={rateStatus} 
           endpointPath={endpointPath}
@@ -557,25 +533,25 @@ func main() {
         />
 
         {/* Engine Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin font-mono">
           {ENGINE_OPTIONS.map((eng) => {
             const isSelected = selectedEngineId === eng.id;
             return (
               <button
                 key={eng.id}
                 onClick={() => handleEngineChange(eng.id)}
-                className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-bold whitespace-nowrap transition-all border shrink-0 ${
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-bold whitespace-nowrap transition-all border shrink-0 cursor-pointer ${
                   isSelected
-                    ? 'border-[#0b192c] bg-[#0b192c] text-white shadow-md'
-                    : 'border-[#e2e8f0] bg-white text-[#415a77] hover:bg-[#f1f5f9] hover:border-[#cbd5e1]'
+                    ? 'border-brand-slate bg-brand-slate text-white shadow-sm'
+                    : 'border-brand-slate/30 bg-surface-panel text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
                 }`}
               >
                 <span className={`h-2 w-2 rounded-full ${
-                  eng.id === 'master' ? 'bg-amber-400' : 'bg-emerald-400'
+                  eng.id === 'master' ? 'bg-accent-amber' : 'bg-accent-emerald'
                 }`} />
                 <span>{eng.name}</span>
-                <span className={`text-xs font-mono px-1.5 py-0.5 rounded-md ${
-                  isSelected ? 'bg-white/20 text-white' : 'bg-[#f1f5f9] text-[#64748b]'
+                <span className={`text-[10px] px-1 py-0.2 rounded ${
+                  isSelected ? 'bg-white/20 text-white' : 'bg-brand-oxford text-brand-slate-light'
                 }`}>
                   {eng.cost} {eng.cost === 1 ? 'unit' : 'units'}
                 </span>
@@ -585,39 +561,39 @@ func main() {
         </div>
 
         {/* 2-Column Split: Request Builder & Response Inspector */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
-          {/* LEFT COLUMN: REQUEST PAYLOAD BUILDER (5 Columns) */}
-          <div className="lg:col-span-5 space-y-5">
+          {/* LEFT COLUMN: REQUEST PAYLOAD BUILDER */}
+          <div className="lg:col-span-5 space-y-4 font-mono">
             
-            <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-sm space-y-4">
+            <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-4 shadow-xl space-y-3.5">
               
               {/* Header & Mode Switch */}
-              <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-3">
+              <div className="flex items-center justify-between border-b border-brand-slate/30 pb-2.5">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="h-4 w-4 text-[#0b192c]" />
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-[#0b192c]">
+                  <SlidersHorizontal className="h-3.5 w-3.5 text-accent-cyan" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-brand-offwhite">
                     Request Payload Builder
                   </h3>
                 </div>
 
-                <div className="flex items-center gap-1 bg-[#f1f5f9] p-0.5 rounded-lg border border-[#e2e8f0]">
+                <div className="flex items-center gap-1 bg-brand-oxford p-0.5 rounded-lg border border-brand-slate/40">
                   <button
                     onClick={() => setBuilderMode('visual')}
-                    className={`px-2.5 py-1 text-sm font-bold rounded-md transition-colors ${
+                    className={`px-2 py-0.5 text-xs font-bold rounded transition-colors cursor-pointer ${
                       builderMode === 'visual'
-                        ? 'bg-white text-[#0b192c] shadow-xs'
-                        : 'text-[#64748b] hover:text-[#0b192c]'
+                        ? 'bg-brand-slate text-white shadow-xs'
+                        : 'text-brand-slate-light hover:text-white'
                     }`}
                   >
-                    Visual Form
+                    Visual
                   </button>
                   <button
                     onClick={() => setBuilderMode('json')}
-                    className={`px-2.5 py-1 text-sm font-bold rounded-md transition-colors ${
+                    className={`px-2 py-0.5 text-xs font-bold rounded transition-colors cursor-pointer ${
                       builderMode === 'json'
-                        ? 'bg-white text-[#0b192c] shadow-xs'
-                        : 'text-[#64748b] hover:text-[#0b192c]'
+                        ? 'bg-brand-slate text-white shadow-xs'
+                        : 'text-brand-slate-light hover:text-white'
                     }`}
                   >
                     Raw JSON
@@ -626,38 +602,38 @@ func main() {
               </div>
 
               {/* Endpoint Banner Info */}
-              <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-3 text-sm space-y-1">
+              <div className="rounded-xl bg-brand-oxford border border-brand-slate/30 p-2.5 text-xs space-y-1">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 font-bold text-[#0b192c]">
-                    <span className="rounded bg-blue-600 px-1.5 py-0.5 text-xs font-mono text-white">POST</span>
+                  <div className="flex items-center gap-1.5 font-bold text-brand-offwhite">
+                    <span className="rounded bg-brand-slate px-1.5 py-0.2 text-[10px] text-white">POST</span>
                     <span>{endpointPath}</span>
                   </div>
-                  <span className="text-sm font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-bold text-accent-amber bg-amber-950/40 border border-amber-500/30 px-1.5 py-0.5 rounded">
                     Cost: {activeEngine.cost} Unit
                   </span>
                 </div>
-                <p className="text-sm text-[#64748b] leading-relaxed">
+                <p className="text-[11px] text-brand-periwinkle leading-relaxed font-sans">
                   {activeEngine.description}
                 </p>
               </div>
 
               {/* VISUAL BUILDER CONTROLS */}
               {builderMode === 'visual' ? (
-                <div className="space-y-3.5">
+                <div className="space-y-3">
                   
                   {/* Target URL Input */}
                   <div>
-                    <label className="block text-sm font-bold text-[#0b192c] mb-1">
-                      Target Domain / URL <span className="text-rose-500">*</span>
+                    <label className="block text-xs font-bold text-brand-periwinkle mb-1">
+                      Target Domain / URL <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative">
-                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94a3b8]" />
+                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-brand-slate-light" />
                       <input
                         type="url"
                         value={targetUrl}
                         onChange={(e) => setTargetUrl(e.target.value)}
                         placeholder="https://example.com"
-                        className="w-full rounded-xl border border-[#cbd5e1] pl-9 pr-3 py-2 text-sm font-mono text-[#0b192c] focus:border-[#0b192c] focus:outline-none"
+                        className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford pl-8 pr-3 py-1.5 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
                       />
                     </div>
                   </div>
@@ -665,13 +641,13 @@ func main() {
                   {/* Engine Parameter (if single engine) */}
                   {!isMaster && (
                     <div>
-                      <label className="block text-sm font-bold text-[#0b192c] mb-1">
+                      <label className="block text-xs font-bold text-brand-periwinkle mb-1">
                         Diagnostic Engine
                       </label>
                       <select
                         value={selectedEngineId}
                         onChange={(e) => handleEngineChange(e.target.value)}
-                        className="w-full rounded-xl border border-[#cbd5e1] px-3 py-2 text-sm text-[#0b192c] focus:outline-none"
+                        className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-brand-offwhite focus:outline-none"
                       >
                         {ENGINE_OPTIONS.filter(e => e.id !== 'master').map((opt) => (
                           <option key={opt.id} value={opt.id}>
@@ -685,10 +661,10 @@ func main() {
                   {/* Region selection for Latency / Master */}
                   {(selectedEngineId === 'latency' || isMaster) && (
                     <div>
-                      <label className="block text-sm font-bold text-[#0b192c] mb-1.5">
+                      <label className="block text-xs font-bold text-brand-periwinkle mb-1">
                         Global Edge PoP Regions
                       </label>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-3 gap-1.5">
                         {[
                           { id: 'iad', label: 'US East (IAD)' },
                           { id: 'fra', label: 'Europe (FRA)' },
@@ -707,10 +683,10 @@ func main() {
                                   active ? prev.filter(r => r !== reg.id) : [...prev, reg.id]
                                 );
                               }}
-                              className={`rounded-lg border px-2 py-1.5 text-sm font-mono text-center transition-colors ${
+                              className={`rounded-lg border px-1.5 py-1 text-[11px] text-center transition-colors cursor-pointer ${
                                 active
-                                  ? 'border-blue-600 bg-blue-50 text-blue-800 font-bold'
-                                  : 'border-[#e2e8f0] bg-[#f8fafc] text-[#64748b]'
+                                  ? 'border-brand-slate bg-brand-slate text-white font-bold'
+                                  : 'border-brand-slate/30 bg-brand-oxford text-brand-slate-light hover:text-white'
                               }`}
                             >
                               {reg.label}
@@ -722,22 +698,22 @@ func main() {
                   )}
 
                   {/* Force Fresh Cache Bypass */}
-                  <div className="flex items-center justify-between rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
+                  <div className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-brand-oxford p-2.5">
                     <div>
-                      <div className="text-sm font-bold text-[#0b192c]">Bypass Server Cache (forceFresh)</div>
-                      <div className="text-xs text-[#64748b]">Forces a live DNS/HTTP probe bypass</div>
+                      <div className="text-xs font-bold text-brand-offwhite">Bypass Server Cache (forceFresh)</div>
+                      <div className="text-[10px] text-brand-slate-light font-sans">Forces a live DNS/HTTP probe bypass</div>
                     </div>
                     <input
                       type="checkbox"
                       checked={forceFresh}
                       onChange={(e) => setForceFresh(e.target.checked)}
-                      className="h-4 w-4 rounded border-slate-300 text-[#0b192c]"
+                      className="h-3.5 w-3.5 rounded border-brand-slate/40 bg-surface-panel text-brand-slate focus:ring-0"
                     />
                   </div>
 
                   {/* White-Label Custom Header Header */}
                   <div>
-                    <label className="block text-sm font-bold text-[#0b192c] mb-1">
+                    <label className="block text-xs font-bold text-brand-periwinkle mb-1">
                       White-Label Custom Brand Tag
                     </label>
                     <input
@@ -745,7 +721,7 @@ func main() {
                       placeholder="e.g. Acme Telemetry Enterprise"
                       value={customBrandHeader}
                       onChange={(e) => setCustomBrandHeader(e.target.value)}
-                      className="w-full rounded-xl border border-[#cbd5e1] px-3 py-1.5 text-sm text-[#0b192c]"
+                      className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
                     />
                   </div>
 
@@ -753,7 +729,7 @@ func main() {
               ) : (
                 /* RAW JSON EDITOR */
                 <div>
-                  <div className="flex items-center justify-between text-sm text-[#64748b] mb-1.5 font-mono">
+                  <div className="flex items-center justify-between text-xs text-brand-slate-light mb-1">
                     <span>payload.json</span>
                     <button
                       type="button"
@@ -763,40 +739,40 @@ func main() {
                           setRawJsonPayload(JSON.stringify(parsed, null, 2));
                         } catch (e) { console.error("Ignored error:", e); }
                       }}
-                      className="text-blue-600 hover:underline text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="text-accent-cyan hover:underline cursor-pointer"
                     >
                       Prettify JSON
                     </button>
                   </div>
                   <textarea
-                    rows={9}
+                    rows={8}
                     value={rawJsonPayload}
                     onChange={(e) => setRawJsonPayload(e.target.value)}
-                    className="w-full rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-3 text-sm font-mono text-emerald-400 focus:outline-none focus:border-blue-500"
+                    className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford p-3 text-xs font-mono text-accent-emerald focus:outline-none focus:border-brand-slate"
                     placeholder="{\n  &quot;engine&quot;: &quot;health&quot;,\n  &quot;url&quot;: &quot;https://example.com&quot;\n}"
                   />
                 </div>
               )}
 
               {/* AUTHENTICATION & HEADER ACCORDION */}
-              <div className="border-t border-[#f1f5f9] pt-3.5 space-y-2.5">
+              <div className="border-t border-brand-slate/30 pt-3 space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-sm font-bold text-[#0b192c]">
-                    <Key className="h-3.5 w-3.5 text-amber-500" />
-                    <span>Authentication Headers</span>
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-brand-offwhite">
+                    <Key className="h-3 w-3 text-accent-amber" />
+                    <span>Auth Headers</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm">
+                  <div className="flex items-center gap-1 text-xs">
                     <button
                       type="button"
                       onClick={() => setAuthMode('session')}
-                      className={`px-2 py-0.5 rounded ${authMode === 'session' ? 'bg-[#0b192c] text-white font-bold' : 'text-[#64748b]'}`}
+                      className={`px-2 py-0.5 rounded cursor-pointer ${authMode === 'session' ? 'bg-brand-slate text-white font-bold' : 'text-brand-slate-light'}`}
                     >
                       Session
                     </button>
                     <button
                       type="button"
                       onClick={() => setAuthMode('apiKey')}
-                      className={`px-2 py-0.5 rounded ${authMode === 'apiKey' ? 'bg-[#0b192c] text-white font-bold' : 'text-[#64748b]'}`}
+                      className={`px-2 py-0.5 rounded cursor-pointer ${authMode === 'apiKey' ? 'bg-brand-slate text-white font-bold' : 'text-brand-slate-light'}`}
                     >
                       API Key
                     </button>
@@ -809,7 +785,7 @@ func main() {
                       <select
                         value={selectedApiKey}
                         onChange={(e) => setSelectedApiKey(e.target.value)}
-                        className="w-full rounded-xl border border-[#cbd5e1] px-3 py-1.5 text-sm font-mono text-[#0b192c]"
+                        className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-brand-offwhite"
                       >
                         {userApiKeys.map((k) => (
                           <option key={k.id} value={k.keyPrefix.replace('...', '')}>
@@ -818,46 +794,46 @@ func main() {
                         ))}
                       </select>
                     ) : (
-                      <div className="flex items-center justify-between rounded-xl bg-amber-50 border border-amber-200 p-2.5 text-sm text-amber-900">
+                      <div className="flex items-center justify-between rounded-xl bg-amber-950/40 border border-amber-500/30 p-2 text-xs text-amber-300">
                         <span>No saved keys found.</span>
-                        <Link to="/user-dashboard?tab=api-keys" className="font-bold underline">
+                        <Link to="/dashboard?tab=api-keys" className="font-bold underline">
                           Generate Key
                         </Link>
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className="text-sm text-[#64748b]">
-                    Executing under active user context: <strong className="text-[#0b192c]">{user?.email || 'Anonymous Client'}</strong> ({rateStatus.tierLabel})
+                  <div className="text-[11px] text-brand-slate-light">
+                    Executing context: <strong className="text-brand-offwhite">{user?.email || 'Anonymous Client'}</strong> ({rateStatus.tierLabel})
                   </div>
                 )}
               </div>
 
               {/* EXECUTE BUTTON */}
-              <div className="pt-2">
+              <div className="pt-1">
                 <button
                   type="button"
                   onClick={handleRunEngine}
                   disabled={executing || (rateStatus.remaining <= 0 && !isAdmin)}
-                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white shadow-md transition-all active:scale-98 ${
+                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-white shadow-md transition-all active:scale-98 cursor-pointer ${
                     rateStatus.remaining <= 0 && !isAdmin
-                      ? 'bg-rose-600 hover:bg-rose-700 cursor-not-allowed opacity-80'
-                      : 'bg-[#0b192c] hover:bg-[#152238]'
+                      ? 'bg-rose-900 border border-rose-500/40 cursor-not-allowed opacity-80'
+                      : 'bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30'
                   }`}
                 >
                   {executing ? (
                     <>
-                      <RefreshCw className="h-4 w-4 animate-spin text-amber-300" />
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
                       <span>Executing Diagnostic Engine...</span>
                     </>
                   ) : rateStatus.remaining <= 0 && !isAdmin ? (
                     <>
-                      <Flame className="h-4 w-4 text-amber-300" />
+                      <Flame className="h-3.5 w-3.5 text-amber-300" />
                       <span>Rate Limit Exceeded (0 Units Left)</span>
                     </>
                   ) : (
                     <>
-                      <Play className="h-4 w-4 text-emerald-400 fill-emerald-400" />
+                      <Play className="h-3.5 w-3.5 text-accent-emerald fill-accent-emerald" />
                       <span>Dispatch Request ({activeEngine.cost} Unit)</span>
                     </>
                   )}
@@ -868,39 +844,39 @@ func main() {
 
             {/* Quick Historical Requests Log */}
             {history.length > 0 && (
-              <div className="rounded-2xl border border-[#e2e8f0] bg-white p-4 shadow-sm">
-                <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-2.5 mb-2">
-                  <div className="flex items-center gap-2 text-sm font-bold text-[#0b192c]">
-                    <History className="h-3.5 w-3.5 text-[#415a77]" />
+              <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-3.5 shadow-sm">
+                <div className="flex items-center justify-between border-b border-brand-slate/30 pb-2 mb-2">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-brand-offwhite">
+                    <History className="h-3.5 w-3.5 text-accent-cyan" />
                     <span>Recent Session Probes ({history.length})</span>
                   </div>
                   <button
                     onClick={() => setHistory([])}
-                    className="text-sm text-[#94a3b8] hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="text-[11px] text-brand-slate-light hover:text-white cursor-pointer"
                   >
                     Clear
                   </button>
                 </div>
 
-                <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                <div className="space-y-1 max-h-44 overflow-y-auto">
                   {history.map((item) => (
                     <div
                       key={item.id}
                       onClick={() => handleLoadFromHistory(item)}
-                      className="flex items-center justify-between p-2 rounded-lg hover:bg-[#f8fafc] border border-transparent hover:border-[#e2e8f0] cursor-pointer transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="flex items-center justify-between p-1.5 rounded-lg hover:bg-surface-subtle border border-transparent hover:border-brand-slate/30 cursor-pointer transition-colors text-xs"
                     >
-                      <div className="flex items-center gap-2 overflow-hidden">
-                        <span className={`text-xs font-mono font-bold px-1.5 py-0.5 rounded ${
-                          item.status === 200 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                      <div className="flex items-center gap-1.5 overflow-hidden">
+                        <span className={`text-[10px] font-mono font-bold px-1 py-0.2 rounded ${
+                          item.status === 200 ? 'bg-emerald-950/40 text-accent-emerald border border-emerald-500/30' : 'bg-rose-950/40 text-rose-300 border border-rose-500/30'
                         }`}>
                           {item.status}
                         </span>
-                        <span className="font-semibold text-[#0b192c] truncate">{item.engine}</span>
+                        <span className="font-semibold text-brand-offwhite truncate">{item.engine}</span>
                       </div>
 
-                      <div className="flex items-center gap-2 shrink-0 font-mono text-sm text-[#64748b]">
+                      <div className="flex items-center gap-1.5 shrink-0 text-brand-slate-light">
                         <span>{item.latencyMs}ms</span>
-                        <RotateCcw className="h-3 w-3 text-[#94a3b8]" />
+                        <RotateCcw className="h-3 w-3" />
                       </div>
                     </div>
                   ))}
@@ -910,43 +886,43 @@ func main() {
 
           </div>
 
-          {/* RIGHT COLUMN: RESPONSE INSPECTOR (7 Columns) */}
-          <div className="lg:col-span-7 space-y-4">
+          {/* RIGHT COLUMN: RESPONSE INSPECTOR */}
+          <div className="lg:col-span-7 space-y-4 font-mono">
             
-            <div className="rounded-2xl border border-[#e2e8f0] bg-white overflow-hidden shadow-sm flex flex-col min-h-[580px]">
+            <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel overflow-hidden shadow-xl flex flex-col min-h-[560px]">
               
               {/* Response Inspector Tab Header */}
-              <div className="border-b border-[#e2e8f0] bg-[#f8fafc] px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+              <div className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5">
-                    <Server className="h-4 w-4 text-[#415a77]" />
-                    <span className="text-sm font-bold text-[#0b192c] uppercase tracking-wider">
+                    <Server className="h-3.5 w-3.5 text-accent-cyan" />
+                    <span className="text-xs font-bold text-brand-offwhite uppercase tracking-wider">
                       Response Inspector
                     </span>
                   </div>
 
                   {responseStatus !== null && (
-                    <div className="flex items-center gap-2 ml-2">
-                      <span className={`rounded-md px-2 py-0.5 text-sm font-mono font-bold ${
+                    <div className="flex items-center gap-1.5 ml-2">
+                      <span className={`rounded px-1.5 py-0.2 text-[10px] font-bold ${
                         responseStatus === 200 
-                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                          ? 'bg-emerald-950/40 text-accent-emerald border border-emerald-500/30'
                           : responseStatus === 429
-                          ? 'bg-rose-100 text-rose-800 border border-rose-300'
-                          : 'bg-amber-100 text-amber-800 border border-amber-300'
+                          ? 'bg-rose-950/40 text-rose-300 border border-rose-500/30'
+                          : 'bg-amber-950/40 text-amber-300 border border-amber-500/30'
                       }`}>
                         {responseStatus} {responseStatusText}
                       </span>
 
                       {responseTimeMs !== null && (
-                        <span className="flex items-center gap-1 text-sm font-mono text-[#64748b]">
-                          <Clock className="h-3 w-3" />
-                          {responseTimeMs} ms
+                        <span className="flex items-center gap-0.5 text-[10px] text-brand-slate-light">
+                          <Clock className="h-2.5 w-2.5" />
+                          {responseTimeMs}ms
                         </span>
                       )}
 
                       {responseSizeKb !== null && (
-                        <span className="text-sm font-mono text-[#64748b]">
-                          • {responseSizeKb} KB
+                        <span className="text-[10px] text-brand-slate-light">
+                          • {responseSizeKb}KB
                         </span>
                       )}
                     </div>
@@ -959,10 +935,10 @@ func main() {
                     <button
                       key={tab}
                       onClick={() => setInspectorTab(tab)}
-                      className={`px-3 py-1 text-sm font-bold rounded-lg transition-colors capitalize ${
+                      className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors capitalize cursor-pointer ${
                         inspectorTab === tab
-                          ? 'bg-[#0b192c] text-white shadow-xs'
-                          : 'text-[#64748b] hover:text-[#0b192c] hover:bg-[#f1f5f9]'
+                          ? 'bg-brand-slate text-white shadow-xs'
+                          : 'text-brand-slate-light hover:text-white hover:bg-surface-subtle'
                       }`}
                     >
                       {tab === 'snippets' ? 'SDK Snippet' : tab}
@@ -972,49 +948,49 @@ func main() {
               </div>
 
               {/* Response Inspector Body Area */}
-              <div className="flex-1 p-5 overflow-auto">
+              <div className="flex-1 p-4 overflow-auto">
                 
                 {executing ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <div className="h-10 w-10 animate-spin rounded-full border-3 border-[#0b192c] border-t-transparent mb-3" />
-                    <h4 className="text-base font-bold text-[#0b192c]">Dispatching Probe to CatalystLab Engines</h4>
-                    <p className="text-sm text-[#64748b] mt-1 max-w-sm">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-slate border-t-accent-cyan mb-3" />
+                    <h4 className="text-sm font-bold text-brand-offwhite">Dispatching Probe to CatalystLab Engines</h4>
+                    <p className="text-xs text-brand-periwinkle mt-1 max-w-sm font-sans">
                       Executing SSL handshake, network latency, and security headers diagnostics...
                     </p>
                   </div>
                 ) : !responsePayload && responseStatus === null ? (
                   <div className="flex flex-col items-center justify-center py-24 text-center">
-                    <Terminal className="h-12 w-12 text-[#cbd5e1] mb-3" />
-                    <h4 className="text-base font-bold text-[#0b192c]">Ready for Engine Execution</h4>
-                    <p className="text-sm text-[#64748b] mt-1 max-w-sm">
-                      Configure your payload on the left and click <strong>Dispatch Request</strong> to inspect real-time JSON responses and telemetry.
+                    <Terminal className="h-10 w-10 text-brand-slate-light mb-3" />
+                    <h4 className="text-sm font-bold text-brand-offwhite">Ready for Engine Execution</h4>
+                    <p className="text-xs text-brand-periwinkle mt-1 max-w-sm font-sans">
+                      Configure your payload on the left and click <strong className="text-brand-offwhite">Dispatch Request</strong> to inspect real-time JSON responses and telemetry.
                     </p>
                   </div>
                 ) : (
                   <>
                     {/* TAB 1: VISUAL TELEMETRY CARD */}
                     {inspectorTab === 'visual' && (
-                      <div className="space-y-4">
+                      <div className="space-y-3.5">
                         
                         {/* Score & Health Header */}
                         {responsePayload?.score !== undefined || responsePayload?.output?.score !== undefined ? (
-                          <div className="rounded-2xl bg-gradient-to-br from-[#0b192c] to-[#1e293b] p-5 text-white shadow-md">
+                          <div className="rounded-xl bg-brand-oxford border border-brand-slate/40 p-4 text-brand-offwhite shadow-md">
                             <div className="flex items-center justify-between">
                               <div>
-                                <span className="text-sm font-mono text-emerald-400 font-bold uppercase tracking-wider">
+                                <span className="text-xs text-accent-emerald font-bold uppercase tracking-wider">
                                   Diagnostic Score
                                 </span>
-                                <div className="text-3xl font-black font-mono mt-0.5">
+                                <div className="text-2xl font-black mt-0.5">
                                   {responsePayload?.score ?? responsePayload?.output?.score ?? 95}
-                                  <span className="text-base font-normal text-[#94a3b8]"> / 100</span>
+                                  <span className="text-xs font-normal text-brand-slate-light"> / 100</span>
                                 </div>
                               </div>
 
                               <div className="text-right">
-                                <div className="text-sm font-bold text-white">
+                                <div className="text-xs font-bold text-brand-offwhite">
                                   {responsePayload?.engine || selectedEngineId.toUpperCase()} ENGINE
                                 </div>
-                                <div className="text-sm text-[#94a3b8] font-mono mt-0.5">
+                                <div className="text-[11px] text-brand-slate-light mt-0.5 truncate max-w-xs">
                                   {targetUrl}
                                 </div>
                               </div>
@@ -1024,48 +1000,48 @@ func main() {
 
                         {/* Rate Limit Remaining Callout in Output */}
                         {responsePayload?.rateLimit && (
-                          <div className="rounded-xl border border-emerald-500/30 bg-emerald-50/60 p-3.5 text-sm text-emerald-900 flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Zap className="h-4 w-4 text-emerald-600" />
+                          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/40 p-3 text-xs text-emerald-300 flex items-center justify-between">
+                            <div className="flex items-center gap-1.5">
+                              <Zap className="h-3.5 w-3.5 text-accent-emerald" />
                               <span>
                                 Daily Units Remaining: <strong>{responsePayload.rateLimit.remaining} / {responsePayload.rateLimit.limit}</strong>
                               </span>
                             </div>
-                            <span className="font-mono text-sm text-emerald-700">
+                            <span className="text-[11px] text-accent-emerald">
                               Resets in {responsePayload.rateLimit.resetInSeconds}s
                             </span>
                           </div>
                         )}
 
                         {/* Telemetry Output Summary */}
-                        <div className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-4">
-                          <h4 className="text-sm font-bold text-[#0b192c] uppercase tracking-wider mb-2">
+                        <div className="rounded-xl border border-brand-slate/30 bg-brand-oxford p-3.5">
+                          <h4 className="text-xs font-bold text-accent-cyan uppercase tracking-wider mb-2">
                             Parsed Output Summary
                           </h4>
 
                           {responsePayload?.output ? (
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-2 text-xs">
                               {Object.entries(responsePayload.output).map(([key, val]) => {
                                 if (typeof val === 'object' && val !== null) {
                                   return (
-                                    <div key={key} className="border-b border-[#e2e8f0] pb-2">
-                                      <span className="font-mono font-bold text-[#0b192c]">{key}:</span>
-                                      <pre className="mt-1 rounded bg-white p-2 text-sm font-mono text-[#334155] overflow-x-auto border border-[#e2e8f0]">
+                                    <div key={key} className="border-b border-brand-slate/30 pb-2">
+                                      <span className="font-bold text-brand-offwhite">{key}:</span>
+                                      <pre className="mt-1 rounded bg-brand-navy p-2 text-xs font-mono text-brand-periwinkle overflow-x-auto border border-brand-slate/40">
                                         {JSON.stringify(val, null, 2)}
                                       </pre>
                                     </div>
                                   );
                                 }
                                 return (
-                                  <div key={key} className="flex items-center justify-between border-b border-[#f1f5f9] pb-1">
-                                    <span className="font-mono text-[#64748b]">{key}</span>
-                                    <span className="font-mono font-bold text-[#0b192c]">{String(val)}</span>
+                                  <div key={key} className="flex items-center justify-between border-b border-brand-slate/30 pb-1">
+                                    <span className="text-brand-slate-light">{key}</span>
+                                    <span className="font-bold text-brand-offwhite">{String(val)}</span>
                                   </div>
                                 );
                               })}
                             </div>
                           ) : (
-                            <pre className="rounded bg-white p-3 text-sm font-mono text-[#334155] border border-[#e2e8f0]">
+                            <pre className="rounded bg-brand-navy p-3 text-xs font-mono text-brand-periwinkle border border-brand-slate/40">
                               {JSON.stringify(responsePayload, null, 2)}
                             </pre>
                           )}
@@ -1076,9 +1052,9 @@ func main() {
 
                     {/* TAB 2: STRUCTURED JSON VIEWER */}
                     {inspectorTab === 'json' && (
-                      <div className="space-y-3">
+                      <div className="space-y-2.5">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-mono text-[#64748b]">
+                          <span className="text-xs text-brand-slate-light">
                             Content-Type: application/json
                           </span>
                           <button
@@ -1087,23 +1063,23 @@ func main() {
                               setCopiedResponse(true);
                               setTimeout(() => setCopiedResponse(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                            className="flex items-center gap-1 rounded-lg border border-brand-slate/40 bg-brand-oxford px-2.5 py-1 text-xs font-semibold text-brand-offwhite hover:bg-surface-subtle cursor-pointer"
                           >
                             {copiedResponse ? (
                               <>
-                                <Check className="h-3.5 w-3.5 text-emerald-600" />
-                                <span className="text-emerald-700">Copied</span>
+                                <Check className="h-3 w-3 text-accent-emerald" />
+                                <span className="text-accent-emerald">Copied</span>
                               </>
                             ) : (
                               <>
-                                <Copy className="h-3.5 w-3.5 text-[#64748b]" />
+                                <Copy className="h-3 w-3 text-brand-slate-light" />
                                 <span>Copy JSON</span>
                               </>
                             )}
                           </button>
                         </div>
 
-                        <div className="rounded-xl bg-[#0b192c] p-4 text-sm font-mono text-emerald-400 overflow-x-auto border border-[#1e293b] shadow-inner max-h-[480px]">
+                        <div className="rounded-xl bg-brand-navy p-3.5 text-xs font-mono text-accent-emerald overflow-x-auto border border-brand-slate/40 shadow-inner max-h-[440px]">
                           <pre>{JSON.stringify(responsePayload, null, 2)}</pre>
                         </div>
                       </div>
@@ -1111,29 +1087,29 @@ func main() {
 
                     {/* TAB 3: RESPONSE HEADERS */}
                     {inspectorTab === 'headers' && (
-                      <div className="space-y-3">
-                        <div className="text-sm font-bold text-[#0b192c] mb-2">
+                      <div className="space-y-2.5">
+                        <div className="text-xs font-bold text-brand-offwhite mb-1.5">
                           HTTP Response Headers
                         </div>
-                        <div className="rounded-xl border border-[#e2e8f0] overflow-hidden">
-                          <table className="w-full text-left text-sm">
-                            <thead className="bg-[#f8fafc] border-b border-[#e2e8f0] text-sm font-bold text-[#415a77]">
+                        <div className="rounded-xl border border-brand-slate/30 overflow-hidden bg-brand-navy">
+                          <table className="w-full text-left text-xs">
+                            <thead className="bg-brand-oxford border-b border-brand-slate/30 text-xs font-bold text-brand-periwinkle">
                               <tr>
-                                <th className="px-4 py-2.5">Header Name</th>
-                                <th className="px-4 py-2.5">Value</th>
+                                <th className="px-3.5 py-2">Header Name</th>
+                                <th className="px-3.5 py-2">Value</th>
                               </tr>
                             </thead>
-                            <tbody className="divide-y divide-[#f1f5f9] font-mono">
+                            <tbody className="divide-y divide-brand-slate/30">
                               {Object.entries(responseHeaders).length > 0 ? (
                                 Object.entries(responseHeaders).map(([key, val]) => (
-                                  <tr key={key} className="hover:bg-[#fafafa] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                                    <td className="px-4 py-2 text-[#0b192c] font-semibold">{key}</td>
-                                    <td className="px-4 py-2 text-[#415a77] break-all">{val}</td>
+                                  <tr key={key} className="hover:bg-surface-subtle">
+                                    <td className="px-3.5 py-1.5 text-accent-cyan font-semibold">{key}</td>
+                                    <td className="px-3.5 py-1.5 text-brand-offwhite break-all">{val}</td>
                                   </tr>
                                 ))
                               ) : (
                                 <tr>
-                                  <td colSpan={2} className="px-4 py-4 text-center text-[#94a3b8]">
+                                  <td colSpan={2} className="px-3.5 py-3 text-center text-brand-slate-light">
                                     No custom headers returned.
                                   </td>
                                 </tr>
@@ -1146,17 +1122,17 @@ func main() {
 
                     {/* TAB 4: CLIENT CODE SNIPPETS */}
                     {inspectorTab === 'snippets' && (
-                      <div className="space-y-3">
+                      <div className="space-y-2.5">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1">
                             {(['curl', 'javascript', 'python', 'go'] as const).map((lang) => (
                               <button
                                 key={lang}
                                 onClick={() => setCodeSnippetLang(lang)}
-                                className={`px-2.5 py-1 text-sm font-bold uppercase font-mono rounded-lg transition-colors ${
+                                className={`px-2 py-0.5 text-xs font-bold uppercase rounded transition-colors cursor-pointer ${
                                   codeSnippetLang === lang
-                                    ? 'bg-[#0b192c] text-white shadow-xs'
-                                    : 'bg-[#f1f5f9] text-[#64748b] hover:text-[#0b192c]'
+                                    ? 'bg-brand-slate text-white shadow-xs'
+                                    : 'bg-brand-oxford text-brand-slate-light hover:text-white'
                                 }`}
                               >
                                 {lang}
@@ -1170,23 +1146,23 @@ func main() {
                               setCopiedSnippet(true);
                               setTimeout(() => setCopiedSnippet(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-[#cbd5e1] bg-white px-2.5 py-1 text-sm font-semibold text-[#0b192c] hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                            className="flex items-center gap-1 rounded-lg border border-brand-slate/40 bg-brand-oxford px-2.5 py-1 text-xs font-semibold text-brand-offwhite hover:bg-surface-subtle cursor-pointer"
                           >
                             {copiedSnippet ? (
                               <>
-                                <Check className="h-3.5 w-3.5 text-emerald-600" />
-                                <span className="text-emerald-700">Copied</span>
+                                <Check className="h-3 w-3 text-accent-emerald" />
+                                <span className="text-accent-emerald">Copied</span>
                               </>
                             ) : (
                               <>
-                                <Copy className="h-3.5 w-3.5 text-[#64748b]" />
+                                <Copy className="h-3 w-3 text-brand-slate-light" />
                                 <span>Copy Snippet</span>
                               </>
                             )}
                           </button>
                         </div>
 
-                        <div className="rounded-xl bg-[#0b192c] p-4 text-sm font-mono text-[#f8fafc] overflow-x-auto border border-[#1e293b] shadow-inner max-h-[480px]">
+                        <div className="rounded-xl bg-brand-navy p-3.5 text-xs font-mono text-brand-offwhite overflow-x-auto border border-brand-slate/40 shadow-inner max-h-[440px]">
                           <pre>{getCodeSnippet()}</pre>
                         </div>
                       </div>

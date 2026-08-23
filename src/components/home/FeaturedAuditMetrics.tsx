@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useMotionValue, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { 
   Zap, 
@@ -15,12 +15,7 @@ import {
   ChevronRight, 
   ChevronDown,
   Sparkles, 
-  CheckCircle2, 
   Activity, 
-  TrendingDown, 
-  Gauge, 
-  Sliders, 
-  ExternalLink,
   X,
   Copy,
   Check
@@ -62,12 +57,12 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '18ms',
     highlightLabel: 'Edge TTFB (Optimal)',
     score: '99.4',
-    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
     badge: 'Top 1% Global',
     description: 'Sub-second Largest Contentful Paint with zero layout shift and instantaneous edge response times.',
     icon: Zap,
     accentColor: '#38bdf8',
-    route: '/vital',
+    route: '/health',
     vectors: [
       { name: 'TTFB (Time to First Byte)', value: '18ms', status: 'optimal' },
       { name: 'LCP (Largest Contentful Paint)', value: '0.62s', status: 'optimal' },
@@ -96,12 +91,12 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '6 / 6',
     highlightLabel: 'Hardened Headers',
     score: 'A+',
-    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
     badge: 'Zero Leaks',
     description: 'Strict Content-Security-Policy, 2-year HSTS preloading, SRI hash validation, and automated secret shields.',
     icon: ShieldCheck,
     accentColor: '#34d399',
-    route: '/risk',
+    route: '/compliance',
     vectors: [
       { name: 'Content-Security-Policy', value: 'Enforced', status: 'pass' },
       { name: 'Strict-Transport-Security', value: '2 Years + Preload', status: 'pass' },
@@ -130,12 +125,12 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '0.08g',
     highlightLabel: 'CO2e / Pageview',
     score: 'A+',
-    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
     badge: 'Green Certified',
     description: 'SWD v4 scientific carbon accounting measuring energy intensity, edge cache hits, and green CDN routing.',
     icon: Leaf,
     accentColor: '#4ade80',
-    route: '/eco',
+    route: '/eco-audit',
     vectors: [
       { name: 'Carbon Emission / View', value: '0.08 gCO2e', status: 'optimal' },
       { name: 'Initial Payload Transfer', value: '124 KB', status: 'optimal' },
@@ -164,7 +159,7 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '24.5k',
     highlightLabel: 'Indexed Token Budget',
     score: '96.8',
-    scoreColor: 'text-sky-700 bg-sky-50 border-sky-200',
+    scoreColor: 'text-accent-purple bg-purple-950/40 border-purple-500/30',
     badge: '/llms.txt Active',
     description: 'Comprehensive /llms.txt validation and Schema.org knowledge graph parsing for autonomous agents.',
     icon: Bot,
@@ -198,12 +193,12 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '16.2ms',
     highlightLabel: 'Global Avg TTFB',
     score: '42/42',
-    scoreColor: 'text-sky-700 bg-sky-50 border-sky-200',
+    scoreColor: 'text-accent-cyan bg-cyan-950/40 border-cyan-500/30',
     badge: 'HTTP/3 QUIC',
     description: 'Parallel synthetic routing across 42 global edge points of presence verifying TLS 1.3 0-RTT handshakes.',
     icon: Globe2,
     accentColor: '#38bdf8',
-    route: '/edge',
+    route: '/latency',
     vectors: [
       { name: 'Americas Anycast (IAD / SFO)', value: '11.4ms', status: 'optimal' },
       { name: 'EMEA Anycast (LHR / FRA)', value: '14.8ms', status: 'optimal' },
@@ -232,7 +227,7 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '100%',
     highlightLabel: 'Route Hierarchy Parity',
     score: '100',
-    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
     badge: '0 Loops',
     description: 'Full AST route topology diffing, OpenGraph metadata retention, and 301 permanent redirect tree integrity.',
     icon: Layers,
@@ -266,7 +261,7 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '0 CVEs',
     highlightLabel: 'Vulnerability Index',
     score: '99.2',
-    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
     badge: 'Clean Build',
     description: 'Static dependency vulnerability scanning, mandatory branch protection rules, and open-source license governance.',
     icon: GitBranch,
@@ -300,7 +295,7 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     highlightValue: '8 Entities',
     highlightLabel: 'Validated Graph Nodes',
     score: '97.5',
-    scoreColor: 'text-sky-700 bg-sky-50 border-sky-200',
+    scoreColor: 'text-accent-purple bg-purple-950/40 border-purple-500/30',
     badge: 'SGE Ready',
     description: 'Schema.org JSON-LD entity graph validation enabling rich search snippets and generative AI engine comprehension.',
     icon: Sparkles,
@@ -338,11 +333,9 @@ export const FeaturedAuditMetrics: React.FC = () => {
   const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
   const [maxDragWidth, setMaxDragWidth] = useState<number>(1800);
   
-  // Interactive Inspector Modal State
   const [inspectedMetric, setInspectedMetric] = useState<AuditMetricItem | null>(null);
   const [copiedCli, setCopiedCli] = useState<boolean>(false);
 
-  // Close dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -353,12 +346,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Filter metrics
   const filteredMetrics = selectedCategory === 'all' 
     ? FEATURED_AUDIT_METRICS 
     : FEATURED_AUDIT_METRICS.filter((m) => m.category === selectedCategory);
 
-  // Calculate drag bounds
   const updateDragBounds = () => {
     if (sliderRef.current && containerRef.current) {
       const scrollWidth = sliderRef.current.scrollWidth;
@@ -374,10 +365,8 @@ export const FeaturedAuditMetrics: React.FC = () => {
     return () => window.removeEventListener('resize', updateDragBounds);
   }, [filteredMetrics]);
 
-  // Framer motion drag X coordinate value
   const dragX = useMotionValue(0);
 
-  // Update progress bar and scroll arrows on drag
   const handleDrag = () => {
     const currentX = dragX.get();
     if (maxDragWidth > 0) {
@@ -388,10 +377,9 @@ export const FeaturedAuditMetrics: React.FC = () => {
     }
   };
 
-  // Programmatic Scroll Buttons with Smooth Animation
   const scrollStep = (direction: 'left' | 'right') => {
     const currentX = dragX.get();
-    const stepSize = 380;
+    const stepSize = 340;
     let targetX = direction === 'left' ? currentX + stepSize : currentX - stepSize;
     targetX = Math.min(0, Math.max(-maxDragWidth, targetX));
     dragX.set(targetX);
@@ -411,7 +399,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
   };
 
   const categories = [
-    { id: 'all', label: 'All Vectors Active', count: 8 },
+    { id: 'all', label: 'All 8 Vectors', count: 8 },
     { id: 'performance', label: 'Core Performance', count: 2 },
     { id: 'security', label: 'OWASP Security', count: 2 },
     { id: 'ai_eco', label: 'AI & Carbon', count: 2 },
@@ -421,47 +409,41 @@ export const FeaturedAuditMetrics: React.FC = () => {
   const currentCategory = categories.find((c) => c.id === selectedCategory) || categories[0];
 
   return (
-    <section className="py-10 lg:py-12 bg-[#f8fafc] border-y border-brand-gray text-brand-navy relative overflow-hidden">
-      
-      {/* Background Subtle Gradient Accents */}
-
+    <section className="py-12 lg:py-16 bg-brand-oxford/70 backdrop-blur-sm border-b border-brand-slate/30 text-brand-offwhite relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* =========================================================================
-            SECTION HEADER & CONTROLS
-        ========================================================================= */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-brand-gray">
+        {/* Header & Controls */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-brand-slate/30">
           
-          <div className="space-y-2.5 max-w-2xl text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-gray bg-white px-3.5 py-1 text-sm font-mono text-brand-slate-hover shadow-sm">
-              <Activity className="h-3.5 w-3.5 text-sky-600 animate-pulse" />
+          <div className="space-y-2 max-w-2xl text-left">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs font-mono text-brand-periwinkle shadow-sm">
+              <Activity className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
               <span>Continuous SDLC Observability • 8 Vector Metrics</span>
             </div>
             
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-sans tracking-tight text-brand-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
               Featured Audit Telemetry Metrics
             </h2>
             
-            <p className="text-sm sm:text-base text-brand-slate leading-relaxed">
+            <p className="text-xs sm:text-sm text-brand-periwinkle leading-relaxed">
               Real-time synthetic probes benchmarked across 42 global edge points of presence. Select any vector to launch targeted diagnostics.
             </p>
           </div>
 
-          {/* Interactive Dropdown & Minimalist Scroll Controls - Top Right Corner */}
+          {/* Minimalist Dropdown Selector & Scroll Controls */}
           <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
             
-            {/* Minimalist Dropdown Selector */}
             <div ref={dropdownRef} className="relative inline-block text-left">
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-1.5 text-sm font-mono text-brand-slate-hover hover:text-slate-900 bg-white border border-brand-gray py-1.5 px-3 rounded-xl shadow-sm hover:bg-brand-offwhite transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center gap-2 text-xs font-mono text-brand-periwinkle hover:text-white bg-surface-panel border border-brand-slate/40 py-2 px-3 rounded-xl shadow-sm hover:bg-surface-subtle transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
               >
-                <span className="text-slate-400">Filter:</span>
-                <span className="font-semibold text-brand-navy">{currentCategory.label}</span>
-                <ChevronDown className={`h-3 w-3 text-sky-600 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                <span className="text-brand-slate-light">Filter:</span>
+                <span className="font-semibold text-brand-offwhite">{currentCategory.label}</span>
+                <ChevronDown className={`h-3.5 w-3.5 text-accent-cyan transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Dropdown Menu */}
@@ -472,7 +454,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.98 }}
                     transition={{ duration: 0.12 }}
-                    className="absolute right-0 mt-1.5 w-48 rounded-xl bg-white border border-brand-gray shadow-xl py-1.5 z-40 font-mono text-sm"
+                    className="absolute right-0 mt-1.5 w-48 rounded-xl bg-surface-panel border border-brand-slate/50 shadow-2xl py-1.5 z-40 font-mono text-xs"
                   >
                     {categories.map((cat) => {
                       const isSelected = selectedCategory === cat.id;
@@ -488,14 +470,14 @@ export const FeaturedAuditMetrics: React.FC = () => {
                             setCanScrollLeft(false);
                             setCanScrollRight(true);
                           }}
-                          className={`w-full flex items-center justify-between px-3 py-1.5 transition-colors text-left cursor-pointer ${
+                          className={`w-full flex items-center justify-between px-3 py-2 transition-colors text-left cursor-pointer ${
                             isSelected
-                              ? 'bg-sky-50 text-sky-700 font-bold'
-                              : 'text-brand-slate-hover hover:text-slate-900 hover:bg-brand-offwhite'
+                              ? 'bg-brand-slate text-white font-bold'
+                              : 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
                           }`}
                         >
                           <span>{cat.label}</span>
-                          <span className={`text-xs ${isSelected ? 'text-sky-700' : 'text-slate-400'}`}>
+                          <span className={`text-[10px] ${isSelected ? 'text-accent-cyan' : 'text-brand-slate-light'}`}>
                             {cat.count}
                           </span>
                         </button>
@@ -506,54 +488,49 @@ export const FeaturedAuditMetrics: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* Minimalist Navigation Arrows & Drag Hint */}
-            <div className="flex items-center gap-1.5 text-sm font-mono">
-              <span className="hidden sm:inline text-slate-400 text-sm">Drag to explore</span>
-              <div className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => scrollStep('left')}
-                  disabled={!canScrollLeft}
-                  className={`p-2 rounded-xl bg-white border border-brand-gray transition-colors shadow-sm cursor-pointer ${
-                    canScrollLeft
-                      ? 'text-brand-slate-hover hover:text-slate-900 hover:bg-brand-offwhite'
-                      : 'text-slate-300 cursor-not-allowed opacity-50'
-                  }`}
-                  aria-label="Scroll metrics left"
-                >
-                  <ChevronLeft className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => scrollStep('right')}
-                  disabled={!canScrollRight}
-                  className={`p-2 rounded-xl bg-white border border-brand-gray transition-colors shadow-sm cursor-pointer ${
-                    canScrollRight
-                      ? 'text-brand-slate-hover hover:text-slate-900 hover:bg-brand-offwhite'
-                      : 'text-slate-300 cursor-not-allowed opacity-50'
-                  }`}
-                  aria-label="Scroll metrics right"
-                >
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
+            {/* Navigation Arrows */}
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => scrollStep('left')}
+                disabled={!canScrollLeft}
+                className={`p-2 rounded-xl bg-surface-panel border border-brand-slate/40 transition-colors shadow-sm cursor-pointer ${
+                  canScrollLeft
+                    ? 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
+                    : 'text-brand-slate-light cursor-not-allowed opacity-40'
+                }`}
+                aria-label="Scroll metrics left"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollStep('right')}
+                disabled={!canScrollRight}
+                className={`p-2 rounded-xl bg-surface-panel border border-brand-slate/40 transition-colors shadow-sm cursor-pointer ${
+                  canScrollRight
+                    ? 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
+                    : 'text-brand-slate-light cursor-not-allowed opacity-40'
+                }`}
+                aria-label="Scroll metrics right"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
             </div>
 
           </div>
 
         </div>
 
-        {/* Scroll / Drag Track Progress Bar */}
-        <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden my-4">
+        {/* Progress Bar */}
+        <div className="w-full bg-brand-navy h-1.5 rounded-full overflow-hidden my-4 border border-brand-slate/20">
           <motion.div
             style={{ width: `${Math.max(15, dragProgress)}%` }}
-            className="h-full bg-gradient-to-r from-slate-700 to-brand-navy rounded-full transition-all duration-150"
+            className="h-full bg-brand-slate rounded-full transition-all duration-150"
           />
         </div>
 
-        {/* =========================================================================
-            FRAMER MOTION DRAGGABLE CAROUSEL TRACK
-        ========================================================================= */}
+        {/* Draggable Carousel Track */}
         <div ref={containerRef} className="relative overflow-hidden cursor-grab active:cursor-grabbing select-none py-2">
           
           <motion.div
@@ -564,7 +541,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
             dragMomentum={true}
             style={{ x: dragX }}
             onDrag={handleDrag}
-            className="flex gap-5 w-max items-stretch pb-2"
+            className="flex gap-4 w-max items-stretch pb-2"
           >
             {filteredMetrics.map((metric) => {
               const IconComponent = metric.icon;
@@ -572,21 +549,15 @@ export const FeaturedAuditMetrics: React.FC = () => {
               return (
                 <div
                   key={metric.id}
-                  className="w-[300px] sm:w-[330px] flex-shrink-0 flex flex-col justify-between bg-white border border-brand-gray/90 hover:border-brand-slate/30 rounded-2xl p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-navy/5 group relative overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-[280px] sm:w-[310px] flex-shrink-0 flex flex-col justify-between bg-surface-panel border border-brand-slate/40 hover:border-brand-slate rounded-2xl p-5 text-left transition-all duration-200 group relative overflow-hidden"
                 >
-                  {/* Subtle top accent gradient line */}
-                  <div 
-                    className="absolute top-0 inset-x-0 h-1 bg-brand-navy opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
-                  />
-
-                  {/* Header: Phase badge & Score */}
-                  <div className="space-y-4">
+                  <div className="space-y-3.5">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-mono font-semibold text-brand-slate-light tracking-wide uppercase flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+                      <span className="text-[10px] font-mono font-semibold text-brand-slate-light tracking-wide uppercase flex items-center gap-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent-cyan" />
                         {metric.phase}
                       </span>
-                      <span className={`text-sm font-mono font-bold px-2 py-0.5 rounded border ${metric.scoreColor}`}>
+                      <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${metric.scoreColor}`}>
                         {metric.score}
                       </span>
                     </div>
@@ -594,42 +565,49 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     {/* Title and Icon */}
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <h3 className="text-base sm:text-lg font-bold font-sans text-brand-navy group-hover:text-sky-700 transition-colors leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                        <h3 className="text-sm sm:text-base font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors leading-tight">
                           {metric.title}
                         </h3>
-                        <p className="text-sm font-mono text-brand-slate-light mt-1">
+                        <p className="text-[11px] font-mono text-brand-slate-light mt-0.5">
                           {metric.engineName}
                         </p>
                       </div>
-                      <div className="w-10 h-10 rounded-xl bg-brand-ghost border border-brand-gray flex items-center justify-center text-brand-navy shrink-0 group-hover:bg-brand-navy group-hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                        <IconComponent className="h-5 w-5" />
+                      <div className="w-9 h-9 rounded-xl bg-brand-oxford border border-brand-slate/40 flex items-center justify-center text-accent-cyan shrink-0">
+                        <IconComponent className="h-4 w-4" />
                       </div>
                     </div>
 
                     {/* Primary Highlight Metric Box */}
-                    <div className="p-3.5 rounded-xl bg-brand-offwhite border border-brand-gray/80 flex items-center justify-between">
+                    <div className="p-3 rounded-xl bg-brand-oxford border border-brand-slate/30 flex items-center justify-between">
                       <div>
-                        <div className="text-2xl font-black font-mono text-brand-navy tracking-tight">
+                        <div className="text-xl font-black font-mono text-brand-offwhite tracking-tight metric-tabular">
                           {metric.highlightValue}
                         </div>
-                        <div className="text-sm font-mono text-brand-slate-light mt-0.5">
+                        <div className="text-[11px] font-mono text-brand-slate-light mt-0.5">
                           {metric.highlightLabel}
                         </div>
                       </div>
-                      <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-md bg-white border border-brand-gray text-brand-slate-hover shadow-2xs">
+                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-surface-panel border border-brand-slate/40 text-brand-periwinkle">
                         {metric.badge}
                       </span>
                     </div>
                   </div>
 
-                  {/* Card Footer / CTA Text Action */}
-                  <div className="pt-4 mt-4 border-t border-brand-greige">
+                  {/* Card Footer / Action */}
+                  <div className="pt-3.5 mt-3.5 border-t border-brand-slate/30 flex items-center justify-between gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setInspectedMetric(metric)}
+                      className="text-xs font-mono text-brand-periwinkle hover:text-white cursor-pointer"
+                    >
+                      Inspect Vector
+                    </button>
                     <Link
                       to={metric.route}
-                      className="w-full flex items-center justify-center gap-2 bg-brand-navy hover:bg-[#1b2a4a] text-white py-2.5 px-4 rounded-xl font-mono text-sm font-bold transition-all shadow-sm active:scale-[0.98] group-hover:shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1.5 bg-brand-slate hover:bg-brand-slate-hover text-white py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all shadow-sm border border-brand-periwinkle/30"
                     >
-                      <span>Run Vector Audit</span>
-                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                      <span>Run Audit</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
                   </div>
 
@@ -642,48 +620,42 @@ export const FeaturedAuditMetrics: React.FC = () => {
 
       </div>
 
-      {/* =========================================================================
-          INTERACTIVE TELEMETRY INSPECTOR MODAL / DRAWER
-      ========================================================================= */}
+      {/* Modal Inspector */}
       <AnimatePresence>
         {inspectedMetric && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-5">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setInspectedMetric(null)}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             />
 
-            {/* Dialog Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-white border border-brand-gray rounded-3xl p-5 sm:p-8 shadow-2xl text-left z-10 space-y-6 overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar"
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              className="relative w-full max-w-2xl bg-surface-panel border border-brand-slate/50 rounded-2xl p-5 sm:p-7 shadow-2xl text-left z-10 space-y-5 overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar text-brand-offwhite"
             >
-              {/* Close Button */}
               <button
                 type="button"
                 onClick={() => setInspectedMetric(null)}
-                className="absolute top-5 right-5 p-2 rounded-xl bg-brand-ghost border border-brand-gray text-brand-slate hover:text-brand-navy hover:bg-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="absolute top-5 right-5 p-2 rounded-xl bg-brand-oxford border border-brand-slate/40 text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="h-4 w-4" />
               </button>
 
-              {/* Header */}
-              <div className="space-y-2 pr-10">
-                <div className="flex items-center gap-2 text-sm font-mono text-sky-600">
-                  <span className="h-2 w-2 rounded-full bg-sky-500 animate-ping" />
+              <div className="space-y-1.5 pr-10">
+                <div className="flex items-center gap-2 text-xs font-mono text-accent-cyan">
+                  <span className="h-2 w-2 rounded-full bg-accent-cyan animate-pulse" />
                   <span>{inspectedMetric.phase}</span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black font-sans text-brand-navy">
+                <h3 className="text-xl sm:text-2xl font-black text-brand-offwhite">
                   {inspectedMetric.title} Telemetry Vector
                 </h3>
-                <p className="text-sm sm:text-base text-brand-slate">
+                <p className="text-xs sm:text-sm text-brand-periwinkle">
                   {inspectedMetric.telemetryDetails.benchmark}
                 </p>
               </div>
@@ -691,36 +663,36 @@ export const FeaturedAuditMetrics: React.FC = () => {
               {/* Primary Values Summary */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {inspectedMetric.vectors.map((vec, idx) => (
-                  <div key={idx} className="bg-brand-offwhite p-3 rounded-xl border border-brand-gray font-mono">
-                    <div className="text-xs text-brand-slate-light truncate">{vec.name}</div>
-                    <div className="text-base font-bold text-brand-navy mt-1">{vec.value}</div>
-                    <div className="text-xs text-emerald-600 uppercase font-bold mt-0.5">● {vec.status}</div>
+                  <div key={idx} className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 font-mono">
+                    <div className="text-[10px] text-brand-slate-light truncate">{vec.name}</div>
+                    <div className="text-sm font-bold text-brand-offwhite mt-1">{vec.value}</div>
+                    <div className="text-[10px] text-accent-emerald uppercase font-bold mt-0.5">● {vec.status}</div>
                   </div>
                 ))}
               </div>
 
-              {/* Live CLI Command with Copy */}
-              <div className="space-y-2">
-                <div className="text-sm font-mono text-brand-slate flex items-center justify-between">
+              {/* CLI Command */}
+              <div className="space-y-1.5">
+                <div className="text-xs font-mono text-brand-slate-light flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
-                    <Terminal className="h-3.5 w-3.5 text-sky-600" />
+                    <Terminal className="h-3.5 w-3.5 text-accent-cyan" />
                     <span>Run Synthetic Vector Probe via Terminal</span>
                   </span>
-                  <span className="text-xs text-slate-400">Node.js / CI CLI</span>
+                  <span className="text-[10px] text-brand-slate-light">Node.js / CI CLI</span>
                 </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between gap-3 text-sm font-mono text-slate-100">
-                  <span className="text-slate-200 truncate">
+                <div className="bg-brand-navy border border-brand-slate/40 rounded-xl p-3 flex items-center justify-between gap-3 text-xs font-mono text-brand-periwinkle">
+                  <span className="truncate text-brand-offwhite">
                     {inspectedMetric.telemetryDetails.cliCommand}
                   </span>
                   <button
                     type="button"
                     onClick={() => copyCli(inspectedMetric.telemetryDetails.cliCommand)}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-sm transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand-oxford hover:bg-surface-subtle text-white border border-brand-slate/40 text-xs transition-colors shrink-0 cursor-pointer"
                   >
                     {copiedCli ? (
                       <>
-                        <Check className="h-3.5 w-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Copied</span>
+                        <Check className="h-3.5 w-3.5 text-accent-emerald" />
+                        <span className="text-accent-emerald">Copied</span>
                       </>
                     ) : (
                       <>
@@ -732,34 +704,18 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 </div>
               </div>
 
-              {/* Autonomous Probes Breakdown List */}
-              <div className="bg-brand-offwhite p-4 rounded-2xl border border-brand-gray space-y-2.5 font-mono text-sm">
-                <div className="flex items-center justify-between text-brand-slate pb-1.5 border-b border-brand-gray">
-                  <span>Simulated AST Inspection Probes</span>
-                  <span className="text-emerald-600 font-bold">4/4 Validated</span>
-                </div>
-                <div className="space-y-1.5">
-                  {inspectedMetric.telemetryDetails.probes.map((probe, pIdx) => (
-                    <div key={pIdx} className="flex items-center gap-2 text-brand-slate-hover text-sm">
-                      <span className="text-sky-600 font-bold">›</span>
-                      <span>{probe}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setInspectedMetric(null)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-brand-gray text-sm font-mono text-brand-slate-hover hover:bg-brand-ghost transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl border border-brand-slate/40 text-xs font-mono text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
                 >
                   Dismiss
                 </button>
                 <Link
                   to={inspectedMetric.route}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-navy hover:bg-[#152238] text-white px-6 py-2.5 rounded-xl text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-slate hover:bg-brand-slate-hover text-white px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 cursor-pointer"
                 >
                   <span>Launch {inspectedMetric.engineName}</span>
                   <ArrowRight className="h-4 w-4" />

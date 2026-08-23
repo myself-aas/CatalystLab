@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import type { BlogPost } from '../../types';
 import { getBlogPosts } from '../../lib/firebase';
@@ -10,13 +10,11 @@ import {
   ArrowRight, 
   Clock, 
   Calendar, 
-  Eye, 
   Bookmark, 
   BookmarkCheck, 
   Share2, 
   Sparkles, 
   Check, 
-  ExternalLink,
   ChevronRight,
   Zap,
   ShieldCheck,
@@ -46,9 +44,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   showFilterTabs = true,
   showEcosystemBar = true,
   className = "",
-  limit = 5
 }) => {
-  const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>('All Topics');
@@ -56,7 +52,6 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   const [previewPost, setPreviewPost] = useState<BlogPost | null>(null);
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
 
-  // Load bookmarks from local storage
   useEffect(() => {
     try {
       const saved = localStorage.getItem('catalyst_bookmarked_blogs');
@@ -94,7 +89,6 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
     }
   };
 
-  // Compile all available seed articles as fallback + combine
   const allFallbackPosts = useMemo(() => {
     const list: BlogPost[] = [];
     Object.values(ENGINE_SEEDED_BLOGS).forEach(engineList => {
@@ -115,7 +109,6 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
         const firestorePosts = await getBlogPosts();
         const published = firestorePosts.filter(p => p.status !== 'archived');
         
-        // Merge firestore with fallback blogs so we always have a comprehensive set
         const combinedMap = new Map<string, BlogPost>();
         allFallbackPosts.forEach(p => combinedMap.set(p.slug || p.id || '', p));
         published.forEach(p => combinedMap.set(p.slug || p.id || '', p));
@@ -144,7 +137,6 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
     };
   }, [allFallbackPosts]);
 
-  // Categories list
   const categories = [
     { id: 'All Topics', label: 'All Topics', icon: Sparkles },
     { id: 'AI & LLMO', label: 'AI & LLMO', icon: Cpu },
@@ -155,7 +147,6 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
     { id: 'Architecture', label: 'Architecture', icon: Layers }
   ];
 
-  // Filtered posts based on active category
   const filteredPosts = useMemo(() => {
     if (activeCategory === 'All Topics') return posts;
     return posts.filter(p => {
@@ -185,11 +176,9 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
     });
   }, [posts, activeCategory]);
 
-  // Featured hero post (1st) and the 4 compact list posts
   const heroPost = filteredPosts[0] || posts[0];
   const compactPosts = filteredPosts.filter(p => (p.slug || p.id) !== (heroPost?.slug || heroPost?.id)).slice(0, 4);
 
-  // If filtered category has fewer than 4 compact posts, supplement with recent posts
   const finalCompactPosts = useMemo(() => {
     if (compactPosts.length >= 4) return compactPosts;
     const remaining = 4 - compactPosts.length;
@@ -212,29 +201,24 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   return (
     <section 
       id="latest-blogs-section"
-      className={`relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden ${className}`}
+      className={`relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-brand-slate/30 ${className}`}
       aria-label="Latest engineering news and articles"
     >
-      {/* Background Ambient Glow Accents */}
-      <div className="absolute top-1/4 -left-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-10 -right-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
-
-      {/* Main Glassmorphic Container Wrapper */}
-      <div className="relative rounded-[32px] border border-white/10 bg-gradient-to-b from-[#0e1b2e]/90 via-[#0d1829]/95 to-[#0a1424] p-6 sm:p-8 lg:p-12 shadow-2xl backdrop-blur-2xl">
+      <div className="relative rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 lg:p-10 shadow-xl">
         
         {/* Top Header Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-white/10">
-          <div className="space-y-3 max-w-2xl">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-brand-slate/30">
+          <div className="space-y-2 max-w-2xl">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-semibold text-cyan-300 tracking-wide">
-                <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-brand-oxford px-3.5 py-1 text-xs font-mono font-semibold text-accent-cyan tracking-wide">
+                <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>{badgeText}</span>
               </div>
             )}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-offwhite tracking-tight leading-tight">
               {title}
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p className="text-brand-periwinkle text-xs sm:text-sm leading-relaxed">
               {subtitle}
             </p>
           </div>
@@ -244,23 +228,22 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               <Link
                 to="/blogs"
                 id="view-all-blogs-btn"
-                className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 px-6 py-3 text-sm font-bold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-[1.03] hover:border-cyan-400/50 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford hover:bg-surface-subtle px-5 py-2.5 text-xs font-mono font-bold text-brand-offwhite transition-colors"
               >
                 <span>View all blogs</span>
-                <ArrowRight className="h-4 w-4 text-cyan-400 transition-transform duration-300 group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                <ArrowRight className="h-3.5 w-3.5 text-accent-cyan" />
               </Link>
             </div>
           )}
         </div>
 
-        {/* Interactive Category Filter Pills */}
+        {/* Category Filter Pills */}
         {showFilterTabs && (
-          <div className="mt-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <div className="mt-6 flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;
               
-              // Count articles for this category
               const count = cat.id === 'All Topics' 
                 ? posts.length 
                 : posts.filter(p => {
@@ -280,27 +263,16 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`relative shrink-0 flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer border ${
                     isActive 
-                      ? 'text-[#0b192c] font-bold shadow-md' 
-                      : 'text-slate-300 hover:text-white hover:bg-white/5 border border-white/5'
+                      ? 'bg-brand-slate text-white border-brand-periwinkle/40 font-bold' 
+                      : 'bg-brand-oxford text-brand-periwinkle border-brand-slate/30 hover:text-white hover:bg-surface-subtle'
                   }`}
                 >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeBlogFilter"
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-sky-300 shadow-lg shadow-cyan-500/20"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10 flex items-center gap-1.5">
-                    <Icon className={`h-3.5 w-3.5 ${isActive ? 'text-[#0b192c]' : 'text-slate-400'}`} />
-                    <span>{cat.label}</span>
-                    <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
-                      isActive ? 'bg-black/15 text-[#0b192c]' : 'bg-white/10 text-slate-400'
-                    }`}>
-                      {count}
-                    </span>
+                  <Icon className="h-3.5 w-3.5" />
+                  <span>{cat.label}</span>
+                  <span className="ml-1 px-1.5 py-0.2 rounded text-[10px] bg-brand-navy text-brand-slate-light">
+                    {count}
                   </span>
                 </button>
               );
@@ -308,259 +280,215 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
           </div>
         )}
 
-        {/* 1 + 4 Grid Layout (Matching Reference Mockup) */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+        {/* 1 + 4 Grid Layout */}
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          {/* LEFT FEATURED HERO CARD (5 cols) */}
+          {/* Hero Card */}
           {heroPost && (
-            <motion.article 
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="lg:col-span-5 group relative rounded-[28px] border border-white/10 bg-[#122238]/80 hover:bg-[#152740]/90 p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            <article 
+              className="lg:col-span-5 group relative rounded-xl border border-brand-slate/40 bg-brand-oxford p-4 sm:p-5 flex flex-col justify-between transition-all hover:border-brand-slate shadow-lg"
             >
-              {/* Card Image Container */}
-              <div className="relative w-full aspect-[16/10] sm:aspect-[16/10] rounded-2xl overflow-hidden bg-slate-800">
-                <img alt="Visual asset" 
+              <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden bg-brand-navy border border-brand-slate/30">
+                <img 
                   src={getBlogCoverImage(heroPost)} 
                   alt={heroPost.title}
-                  className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="h-full w-full object-cover object-center"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0e1b2e]/90 via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-transparent to-transparent" />
                 
-                {/* Category Pill Tag Overlay */}
-                <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
-                  <span className="rounded-full bg-[#0b192c]/85 border border-white/20 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white shadow-md">
+                <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                  <span className="rounded bg-brand-navy/90 border border-brand-slate/40 px-2 py-0.5 text-[10px] font-mono font-bold text-white">
                     {heroPost.category || 'Trending'}
                   </span>
-                  <span className="rounded-full bg-cyan-500/90 text-[#0b192c] px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
+                  <span className="rounded bg-accent-cyan text-brand-navy px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase tracking-wider">
                     Featured
                   </span>
                 </div>
 
-                {/* Bookmark & Quick Share Buttons Overlay */}
-                <div className="absolute top-3.5 right-3.5 flex items-center gap-1.5">
+                <div className="absolute top-3 right-3 flex items-center gap-1">
                   <button
                     onClick={(e) => handleShare(heroPost.slug || heroPost.id || '', e)}
                     title="Share Article Link"
-                    className="h-8 w-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="h-7 w-7 rounded-lg bg-brand-navy/80 border border-brand-slate/40 flex items-center justify-center text-white transition-colors hover:bg-brand-oxford cursor-pointer"
                   >
                     {copiedSlug === (heroPost.slug || heroPost.id) ? (
-                      <Check className="h-3.5 w-3.5 text-green-400" />
+                      <Check className="h-3.5 w-3.5 text-accent-emerald" />
                     ) : (
-                      <Share2 className="h-3.5 w-3.5 text-slate-200" />
+                      <Share2 className="h-3.5 w-3.5 text-brand-periwinkle" />
                     )}
                   </button>
                   <button
                     onClick={(e) => toggleBookmark(heroPost.id || heroPost.slug, e)}
                     title={bookmarkedIds.has(heroPost.id || heroPost.slug) ? "Remove Bookmark" : "Save Article"}
-                    className="h-8 w-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="h-7 w-7 rounded-lg bg-brand-navy/80 border border-brand-slate/40 flex items-center justify-center text-white transition-colors hover:bg-brand-oxford cursor-pointer"
                   >
                     {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
-                      <BookmarkCheck className="h-4 w-4 text-cyan-400 fill-cyan-400" />
+                      <BookmarkCheck className="h-3.5 w-3.5 text-accent-cyan fill-accent-cyan" />
                     ) : (
-                      <Bookmark className="h-4 w-4 text-slate-200" />
+                      <Bookmark className="h-3.5 w-3.5 text-brand-periwinkle" />
                     )}
                   </button>
                 </div>
               </div>
 
-              {/* Card Content Area */}
-              <div className="mt-5 flex-1 flex flex-col justify-between">
+              <div className="mt-4 flex-1 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-3 text-xs text-slate-400 font-medium mb-2.5">
+                  <div className="flex items-center gap-2 text-xs font-mono text-brand-slate-light mb-2">
                     <span className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-cyan-400" />
+                      <Calendar className="h-3 w-3 text-accent-cyan" />
                       {formatDate(heroPost.createdAt)}
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5 text-cyan-400" />
+                      <Clock className="h-3 w-3 text-accent-cyan" />
                       {getArticleReadingTime(heroPost)}
                     </span>
-                    {heroPost.views && (
-                      <>
-                        <span>•</span>
-                        <span className="flex items-center gap-1">
-                          <Eye className="h-3.5 w-3.5 text-slate-400" />
-                          {heroPost.views.toLocaleString()} views
-                        </span>
-                      </>
-                    )}
                   </div>
 
                   <Link to={`/blog/${heroPost.slug || heroPost.id}`}>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                    <h3 className="text-base sm:text-lg font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors leading-snug">
                       {heroPost.title}
                     </h3>
                   </Link>
 
-                  <p className="mt-3 text-sm text-slate-300 leading-relaxed line-clamp-3">
+                  <p className="mt-2 text-xs text-brand-periwinkle leading-relaxed line-clamp-3">
                     {heroPost.excerpt || 'Explore deep-dive telemetry diagnostics, modern SSR hydration patterns, and benchmark data from production engines.'}
                   </p>
                 </div>
 
-                {/* Card Footer Action Row */}
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2.5">
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-cyan-500 to-sky-400 flex items-center justify-center text-[#0b192c] font-black text-xs shadow-sm">
+                <div className="mt-4 pt-3 border-t border-brand-slate/30 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="h-7 w-7 rounded-lg bg-brand-navy border border-brand-slate/40 flex items-center justify-center text-accent-cyan font-mono font-bold text-xs">
                       {heroPost.authorName ? heroPost.authorName.charAt(0) : 'C'}
                     </div>
-                    <div className="text-xs">
-                      <div className="font-bold text-white">{heroPost.authorName || 'CatalystLab Telemetry'}</div>
-                      <div className="text-[11px] text-slate-400">Principal Engineer</div>
+                    <div className="text-xs font-mono">
+                      <div className="font-bold text-brand-offwhite">{heroPost.authorName || 'CatalystLab Telemetry'}</div>
+                      <div className="text-[10px] text-brand-slate-light">Principal Engineer</div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setPreviewPost(heroPost)}
-                      className="rounded-full bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1.5 text-xs font-semibold text-slate-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="rounded-lg bg-brand-navy hover:bg-surface-subtle border border-brand-slate/40 px-2.5 py-1 text-xs font-mono text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
                     >
                       Quick Peek
                     </button>
                     <Link
                       to={`/blog/${heroPost.slug || heroPost.id}`}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 px-4 py-1.5 text-xs font-bold text-[#0b192c] transition-all hover:scale-105 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1 rounded-lg bg-brand-slate hover:bg-brand-slate-hover px-3 py-1 text-xs font-mono font-bold text-white transition-colors border border-brand-periwinkle/30"
                     >
                       <span>Read</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
+                      <ArrowRight className="h-3 w-3" />
                     </Link>
                   </div>
                 </div>
               </div>
-            </motion.article>
+            </article>
           )}
 
-          {/* RIGHT 2x2 COMPACT GRID (7 cols - 4 Cards) */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          {/* Right 2x2 Grid */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <AnimatePresence mode="popLayout">
               {finalCompactPosts.map((post, idx) => {
                 const isBookmarked = bookmarkedIds.has(post.id || post.slug);
                 return (
-                  <motion.article
+                  <article
                     key={post.slug || post.id || idx}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3, delay: idx * 0.05 }}
-                    className="group relative rounded-2xl border border-white/10 bg-[#122238]/70 hover:bg-[#152740]/90 p-3.5 sm:p-4 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-xl hover:shadow-cyan-950/30 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="group relative rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5 flex flex-col justify-between transition-all hover:border-brand-slate shadow-md"
                   >
                     <div>
-                      {/* Compact Thumbnail Container */}
-                      <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-slate-800 mb-3">
-                        <img alt="Visual asset" 
+                      <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-brand-navy border border-brand-slate/30 mb-2.5">
+                        <img 
                           src={getBlogCoverImage(post)} 
                           alt={post.title}
-                          className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="h-full w-full object-cover object-center"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0e1b2e]/80 via-transparent to-black/20" />
-                        
-                        {/* Category Pill Tag Overlay */}
-                        <div className="absolute top-2.5 left-2.5">
-                          <span className="rounded-full bg-[#0b192c]/85 border border-white/20 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                        <div className="absolute top-2 left-2">
+                          <span className="rounded bg-brand-navy/90 border border-brand-slate/40 px-2 py-0.5 text-[9px] font-mono font-bold text-brand-offwhite">
                             {post.category || 'Guide'}
                           </span>
                         </div>
 
-                        {/* Bookmark Button Overlay */}
                         <button
                           onClick={(e) => toggleBookmark(post.id || post.slug, e)}
                           title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="absolute top-2 right-2 h-6 w-6 rounded-lg bg-brand-navy/80 border border-brand-slate/40 flex items-center justify-center text-white transition-colors cursor-pointer"
                         >
                           {isBookmarked ? (
-                            <BookmarkCheck className="h-3.5 w-3.5 text-cyan-400 fill-cyan-400" />
+                            <BookmarkCheck className="h-3 w-3 text-accent-cyan fill-accent-cyan" />
                           ) : (
-                            <Bookmark className="h-3.5 w-3.5 text-slate-200" />
+                            <Bookmark className="h-3 w-3 text-brand-periwinkle" />
                           )}
                         </button>
                       </div>
 
-                      {/* Title & Excerpt */}
                       <Link to={`/blog/${post.slug || post.id}`}>
-                        <h4 className="text-[15px] font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                        <h4 className="text-xs sm:text-sm font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors leading-snug line-clamp-2">
                           {post.title}
                         </h4>
                       </Link>
 
-                      <p className="mt-1.5 text-xs text-slate-300 line-clamp-2 leading-relaxed">
+                      <p className="mt-1 text-xs text-brand-periwinkle line-clamp-2 leading-relaxed">
                         {post.excerpt || 'Technical breakdown with architectural diagrams and actionable code patterns.'}
                       </p>
                     </div>
 
-                    {/* Compact Card Meta Row */}
-                    <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-                      <div className="flex items-center gap-2">
-                        <span className="flex items-center gap-1 text-[11px]">
-                          <Calendar className="h-3 w-3 text-cyan-400" />
-                          {formatDate(post.createdAt)}
-                        </span>
-                        <span>•</span>
-                        <span className="text-[11px] text-cyan-400">{getArticleReadingTime(post)}</span>
+                    <div className="mt-3 pt-2.5 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono text-brand-slate-light">
+                      <div className="flex items-center gap-1 text-[10px]">
+                        <Calendar className="h-3 w-3 text-accent-cyan" />
+                        <span>{formatDate(post.createdAt)}</span>
                       </div>
 
                       <div className="flex items-center gap-1.5">
                         <button
                           onClick={() => setPreviewPost(post)}
-                          className="text-[11px] text-slate-300 hover:text-cyan-300 font-semibold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="text-[10px] text-brand-periwinkle hover:text-white font-semibold transition-colors cursor-pointer"
                         >
                           Peek
                         </button>
                         <Link 
                           to={`/blog/${post.slug || post.id}`}
-                          className="h-6 w-6 rounded-full bg-white/10 group-hover:bg-cyan-400 group-hover:text-[#0b192c] flex items-center justify-center text-slate-300 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="h-5 w-5 rounded bg-brand-navy border border-brand-slate/40 flex items-center justify-center text-brand-periwinkle hover:text-white"
                           aria-label={`Read article: ${post.title}`}
                         >
-                          <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                          <ChevronRight className="h-3 w-3" />
                         </Link>
                       </div>
                     </div>
-                  </motion.article>
+                  </article>
                 );
               })}
             </AnimatePresence>
           </div>
         </div>
 
-        {/* BOTTOM ECOSYSTEM & TRUST LOGO BAR (Matching Mockup Footer) */}
+        {/* Bottom Ecosystem & Trust Bar */}
         {showEcosystemBar && (
-          <div className="mt-12 pt-8 border-t border-white/10">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-              <div className="text-xs font-semibold uppercase tracking-widest text-slate-400">
-                Audited & Integrated Across Modern Cloud Ecosystems:
+          <div className="mt-8 pt-6 border-t border-brand-slate/30 font-mono">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-[11px] font-semibold uppercase tracking-widest text-brand-slate-light">
+                Audited &amp; Integrated Across Modern Cloud Ecosystems:
               </div>
 
-              {/* Partner Brand Logos Grid (Matching uploaded layout) */}
-              <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 opacity-75 grayscale hover:grayscale-0 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                {/* Cloudflare */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                  <span className="text-orange-400 font-black text-base">●</span> Cloudflare
-                </div>
-                {/* Google Cloud */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                  <span className="text-blue-400 font-black text-base">■</span> Google Cloud
-                </div>
-                {/* Fastly */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                  <span className="text-red-400 font-black text-base">▲</span> Fastly
-                </div>
-                {/* AWS */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                  <span className="text-amber-400 font-black text-base">◆</span> AWS
-                </div>
-                {/* Vercel */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                  <span className="text-white font-black text-base">▲</span> Vercel
-                </div>
-                {/* Next.js */}
-                <div className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors font-bold text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                  <span className="text-cyan-400 font-black text-base">N</span> Next.js
-                </div>
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-brand-periwinkle">
+                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                  <span className="text-accent-amber font-black">●</span> Cloudflare
+                </span>
+                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                  <span className="text-accent-cyan font-black">■</span> Google Cloud
+                </span>
+                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                  <span className="text-accent-rose font-black">▲</span> Fastly
+                </span>
+                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                  <span className="text-accent-amber font-black">◆</span> AWS
+                </span>
+                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                  <span className="text-white font-black">▲</span> Vercel
+                </span>
               </div>
             </div>
           </div>
@@ -568,77 +496,64 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
 
       </div>
 
-      {/* QUICK PREVIEW MODAL */}
+      {/* Quick Preview Modal */}
       <AnimatePresence>
         {previewPost && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl rounded-3xl border border-white/20 bg-[#0e1c30] p-6 sm:p-8 text-white shadow-2xl overflow-hidden"
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              className="relative w-full max-w-2xl rounded-2xl border border-brand-slate/50 bg-surface-panel p-5 sm:p-7 text-brand-offwhite shadow-2xl overflow-hidden font-mono"
             >
-              {/* Close Button */}
               <button
                 onClick={() => setPreviewPost(null)}
-                className="absolute top-5 right-5 h-9 w-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="absolute top-4 right-4 h-8 w-8 rounded-lg bg-brand-oxford border border-brand-slate/40 flex items-center justify-center text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
 
-              <div className="flex items-center gap-2 mb-4">
-                <span className="rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-3 py-1 text-xs font-bold">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="rounded bg-cyan-950/60 text-accent-cyan border border-cyan-500/30 px-2.5 py-0.5 text-xs font-bold">
                   {previewPost.category}
                 </span>
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-brand-slate-light">
                   {formatDate(previewPost.createdAt)} • {previewPost.readTime}
                 </span>
               </div>
 
-              <h3 className="text-2xl font-extrabold text-white leading-tight mb-3">
+              <h3 className="text-lg sm:text-xl font-bold text-brand-offwhite leading-snug mb-3">
                 {previewPost.title}
               </h3>
 
-              <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden mb-4 bg-slate-800">
-                <img alt="Visual asset" 
+              <div className="w-full aspect-[16/8] rounded-xl overflow-hidden mb-3 bg-brand-navy border border-brand-slate/30">
+                <img 
                   src={getBlogCoverImage(previewPost)} 
                   alt={previewPost.title} 
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              <p className="text-sm text-slate-300 leading-relaxed mb-6">
+              <p className="text-xs text-brand-periwinkle leading-relaxed mb-4">
                 {previewPost.excerpt}
               </p>
 
-              {/* Key Takeaways */}
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 mb-6 space-y-2">
-                <div className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                  <Sparkles className="h-3.5 w-3.5" /> Key Architectural Takeaways:
-                </div>
-                <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
-                  <li>Proven telemetry benchmark vectors based on real multi-region tests.</li>
-                  <li>Actionable mitigation steps to prevent CPU blocking and DOM degradation.</li>
-                  <li>Tested for compliance with OWASP, Sustainable Web v4, and Schema.org standards.</li>
-                </ul>
-              </div>
-
-              <div className="flex items-center justify-between gap-4 pt-4 border-t border-white/10">
-                <div className="text-xs text-slate-400">
+              <div className="flex items-center justify-between gap-3 pt-3 border-t border-brand-slate/30">
+                <div className="text-xs text-brand-slate-light">
                   Author: <span className="text-white font-bold">{previewPost.authorName}</span>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <button
                     onClick={() => setPreviewPost(null)}
-                    className="rounded-full px-5 py-2 text-xs font-bold text-slate-300 hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="rounded-lg px-4 py-2 text-xs font-bold text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
                   >
                     Close Preview
                   </button>
                   <Link
                     to={`/blog/${previewPost.slug || previewPost.id}`}
                     onClick={() => setPreviewPost(null)}
-                    className="inline-flex items-center gap-2 rounded-full bg-cyan-400 hover:bg-cyan-300 px-6 py-2.5 text-xs font-extrabold text-[#0b192c] transition-all hover:scale-105 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover px-4 py-2 text-xs font-bold text-white transition-all shadow-sm border border-brand-periwinkle/30"
                   >
                     <span>Read Full Article</span>
                     <ArrowRight className="h-3.5 w-3.5" />

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { LazyReveal } from '../common/LazyAnimate';
-import { ShieldCheck, Star, Quote, Terminal, CheckCircle2, Building2, TrendingUp, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { Star, CheckCircle2, Building2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Testimonial {
   id: string;
@@ -20,7 +19,6 @@ interface Testimonial {
 export const Testimonials: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
 
   const testimonials: Testimonial[] = [
     {
@@ -91,7 +89,7 @@ export const Testimonials: React.FC = () => {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 360;
+      const scrollAmount = 320;
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -99,47 +97,34 @@ export const Testimonials: React.FC = () => {
     }
   };
 
-  const handleScrollEvent = () => {
-    if (scrollContainerRef.current) {
-      const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const cardWidth = 360;
-      const newIndex = Math.round(scrollLeft / cardWidth);
-      setActiveSlideIndex(Math.min(filteredTestimonials.length - 1, Math.max(0, newIndex)));
-    }
-  };
-
   return (
-    <section className="py-12 lg:py-14 bg-gradient-to-b from-[#eef3f9] via-[#f6f9fd] to-[#e4ecf7] text-brand-navy relative overflow-hidden border-b border-brand-periwinkle/70">
-      {/* Background Patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(#c5d3e8_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
-
+    <section className="py-14 lg:py-16 bg-transparent text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header & Carousel Navigation */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/20 bg-white/80 backdrop-blur-md px-3.5 py-1 text-sm font-mono text-brand-slate mb-2 shadow-xs">
-              <Building2 className="h-3.5 w-3.5 text-[#0284c7]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs font-mono text-brand-periwinkle mb-3 shadow-sm">
+              <Building2 className="h-3.5 w-3.5 text-accent-cyan" />
               <span>Production Proven By Engineering Leaders</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-navy">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
               Trusted in Critical CI/CD Pipelines
             </h2>
           </LazyReveal>
 
           {/* Controls & Filter */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center gap-1 p-1 bg-white/80 backdrop-blur-md rounded-2xl border border-brand-periwinkle">
+            <div className="flex flex-wrap items-center gap-1 p-1 bg-surface-panel rounded-xl border border-brand-slate/40">
               {categories.map((cat) => (
                 <button
                   key={cat.id}
                   type="button"
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-2.5 py-1 rounded-xl text-sm font-mono transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
                     activeCategory === cat.id
-                      ? 'bg-brand-navy text-white font-bold'
-                      : 'text-brand-slate hover:bg-[#eef3f9]'
+                      ? 'bg-brand-slate text-white font-bold'
+                      : 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
                   }`}
                 >
                   {cat.label}
@@ -153,7 +138,7 @@ export const Testimonials: React.FC = () => {
                 type="button"
                 onClick={() => scroll('left')}
                 aria-label="Scroll testimonials left"
-                className="p-2 rounded-xl bg-white hover:bg-[#f0f4fa] text-brand-navy border border-brand-periwinkle shadow-xs active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-xs cursor-pointer transition-colors"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -161,7 +146,7 @@ export const Testimonials: React.FC = () => {
                 type="button"
                 onClick={() => scroll('right')}
                 aria-label="Scroll testimonials right"
-                className="p-2 rounded-xl bg-white hover:bg-[#f0f4fa] text-brand-navy border border-brand-periwinkle shadow-xs active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-xs cursor-pointer transition-colors"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -169,13 +154,10 @@ export const Testimonials: React.FC = () => {
           </div>
         </div>
 
-        {/* =========================================================================
-            HORIZONTAL SCROLLING TESTIMONIAL REEL
-        ========================================================================= */}
+        {/* Testimonials Reel */}
         <div className="relative">
           <div
             ref={scrollContainerRef}
-            onScroll={handleScrollEvent}
             className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2 pt-1 scroll-smooth"
             tabIndex={0}
             role="region"
@@ -184,40 +166,40 @@ export const Testimonials: React.FC = () => {
             {filteredTestimonials.map((t) => (
               <div
                 key={t.id}
-                className="w-[290px] sm:w-[340px] lg:w-[360px] shrink-0 snap-start bg-white border border-brand-periwinkle rounded-3xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-[280px] sm:w-[320px] lg:w-[340px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 shadow-lg flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                        <Star key={i} className="h-3 w-3 fill-accent-amber text-accent-amber" />
                       ))}
                     </div>
-                    <span className="text-xs font-mono text-[#0284c7] bg-[#eef3f9] px-2 py-0.5 rounded border border-brand-periwinkle font-bold">
+                    <span className="text-[10px] font-mono text-accent-cyan bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/30 font-bold">
                       {t.verifiedBadge}
                     </span>
                   </div>
 
-                  <p className="text-sm text-brand-navy leading-relaxed mb-4 italic">
+                  <p className="text-xs sm:text-sm text-brand-periwinkle leading-relaxed mb-4 italic">
                     "{t.quote}"
                   </p>
 
-                  <div className="bg-[#eef3f9] p-2.5 rounded-2xl border border-brand-periwinkle/70 flex items-center justify-between mb-4">
+                  <div className="bg-brand-oxford p-2.5 rounded-xl border border-brand-slate/30 flex items-center justify-between mb-4">
                     <div>
-                      <div className="text-xs font-mono text-brand-slate uppercase">{t.metricLabel}</div>
-                      <div className="text-base font-black font-mono text-brand-navy">{t.metric}</div>
+                      <div className="text-[10px] font-mono text-brand-slate-light uppercase">{t.metricLabel}</div>
+                      <div className="text-sm font-bold font-mono text-brand-offwhite">{t.metric}</div>
                     </div>
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                    <CheckCircle2 className="h-4 w-4 text-accent-emerald" />
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-[#e2e8f0] flex items-center gap-3">
-                  <div className="h-8 w-8 rounded-full bg-brand-navy text-white flex items-center justify-center text-sm font-bold font-mono shrink-0">
+                <div className="pt-3 border-t border-brand-slate/30 flex items-center gap-3">
+                  <div className="h-7 w-7 rounded-lg bg-brand-oxford border border-brand-slate/40 text-brand-offwhite flex items-center justify-center text-xs font-bold font-mono shrink-0">
                     {t.avatarText}
                   </div>
                   <div className="overflow-hidden">
-                    <div className="text-sm font-bold text-brand-navy truncate">{t.name}</div>
-                    <div className="text-xs text-brand-slate truncate">{t.role} • {t.company}</div>
+                    <div className="text-xs font-bold text-brand-offwhite truncate">{t.name}</div>
+                    <div className="text-[11px] text-brand-slate-light truncate">{t.role} • {t.company}</div>
                   </div>
                 </div>
               </div>

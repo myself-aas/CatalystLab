@@ -605,16 +605,16 @@ export const BlogEditorPage: React.FC = () => {
               type="button"
               disabled={saving}
               onClick={() => handleSave('published')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-sky-500 px-4 py-1.5 text-xs font-extrabold text-[#07111e] hover:from-cyan-400 hover:to-sky-400 disabled:opacity-50 transition-all shadow-md shadow-cyan-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-1.5 text-xs font-bold text-white disabled:opacity-50 transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {saving ? (
                 <>
-                  <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
                   <span>Saving...</span>
                 </>
               ) : (
                 <>
-                  <Send className="h-3.5 w-3.5" />
+                  <Send className="h-3.5 w-3.5 text-accent-cyan" />
                   <span>{isCreateMode ? 'Publish Article' : 'Save Changes'}</span>
                 </>
               )}
@@ -1065,16 +1065,16 @@ export const BlogEditorPage: React.FC = () => {
                 type="button"
                 disabled={saving}
                 onClick={() => handleSave()}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-sky-500 py-3 text-sm font-extrabold text-[#07111e] hover:from-cyan-400 hover:to-sky-400 disabled:opacity-50 transition-all shadow-lg shadow-cyan-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-3 text-sm font-bold text-white disabled:opacity-50 transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {saving ? (
                   <>
-                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    <RefreshCw className="h-4 w-4 animate-spin text-accent-cyan" />
                     <span>Synchronizing...</span>
                   </>
                 ) : (
                   <>
-                    <Save className="h-4 w-4" />
+                    <Save className="h-4 w-4 text-accent-cyan" />
                     <span>{isCreateMode ? 'Publish Article Now' : 'Save Article Changes'}</span>
                   </>
                 )}

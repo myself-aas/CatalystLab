@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LazyReveal } from '../common/LazyAnimate';
 import { 
@@ -7,12 +7,9 @@ import {
   Zap, 
   Server, 
   ShieldCheck, 
-  Cpu, 
   CheckCircle2, 
-  Sparkles,
   ArrowRight,
   RefreshCw,
-  Sliders,
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
@@ -56,20 +53,19 @@ export const GlobalEdgeRadar: React.FC = () => {
     ? regions 
     : regions.filter((r) => r.continent === selectedContinent);
 
-  // Trigger interactive synthetic ping
   const triggerGlobalPing = () => {
     setIsPinging(true);
     const newJitter: Record<string, number> = {};
     
     regions.forEach((r) => {
-      const delta = Math.floor(Math.random() * 9) - 4; // -4 to +4 ms
+      const delta = Math.floor(Math.random() * 9) - 4;
       newJitter[r.id] = Math.max(8, r.baseLatency + delta);
     });
 
     setTimeout(() => {
       setLatencyJitter(newJitter);
       setIsPinging(false);
-    }, 600);
+    }, 500);
   };
 
   const scroll = (direction: 'left' | 'right') => {
@@ -94,50 +90,47 @@ export const GlobalEdgeRadar: React.FC = () => {
   const selectedRegion = regions.find((r) => r.id === selectedRegionId) || regions[0];
 
   return (
-    <section className="py-12 lg:py-14 bg-gradient-to-b from-brand-oxford via-[#112239] to-brand-navy text-white relative overflow-hidden border-b border-brand-slate/30">
-      {/* Background Glows */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(65,90,119,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(65,90,119,0.08)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
-
+    <section className="py-14 lg:py-18 bg-brand-oxford/70 backdrop-blur-sm text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/60 bg-brand-navy px-3 py-0.5 text-sm font-mono text-brand-periwinkle mb-2 shadow-[0_0_20px_rgba(65,90,119,0.2)]">
-              <Radio className="h-3 w-3 text-[#38bdf8] animate-pulse" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs sm:text-sm font-mono text-brand-periwinkle mb-3 shadow-sm">
+              <Radio className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
               <span>Phase 5 • EdgeVmax Network Probe</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
               Global Edge Latency Radar
             </h2>
-            <p className="text-sm sm:text-base text-brand-periwinkle max-w-xl mt-1 leading-relaxed">
-              Verify TTFB, TLS 1.3 0-RTT handshakes, and HTTP/3 QUIC across 12 global PoPs.
+            <p className="text-sm sm:text-base text-brand-periwinkle max-w-xl mt-1.5 leading-relaxed">
+              Verify TTFB, TLS 1.3 0-RTT handshakes, and HTTP/3 QUIC across 12 distributed global PoPs.
             </p>
           </LazyReveal>
 
           {/* Action & Filter buttons */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               type="button"
               onClick={triggerGlobalPing}
               disabled={isPinging}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-periwinkle text-brand-navy hover:bg-white text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover text-white text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer disabled:opacity-50 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
-              <RefreshCw className={`h-3 w-3 ${isPinging ? 'animate-spin' : ''}`} />
-              <span>{isPinging ? 'Pinging...' : 'Ping All 12 PoPs'}</span>
+              <RefreshCw className={`h-3.5 w-3.5 ${isPinging ? 'animate-spin text-accent-cyan' : ''}`} />
+              <span>{isPinging ? 'Pinging PoPs...' : 'Ping All 12 PoPs'}</span>
             </button>
 
             {/* Continent Filters */}
-            <div className="flex items-center gap-1 bg-brand-navy p-1 rounded-xl border border-brand-slate/40">
+            <div className="flex items-center gap-1 bg-surface-panel p-1 rounded-xl border border-brand-slate/40">
               {['all', 'Americas', 'EMEA', 'APAC'].map((cont) => (
                 <button
                   key={cont}
                   type="button"
                   onClick={() => setSelectedContinent(cont)}
-                  className={`px-2 py-0.5 rounded-lg text-xs font-mono transition-colors cursor-pointer capitalize ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer capitalize ${
                     selectedContinent === cont
                       ? 'bg-brand-slate text-white font-bold'
-                      : 'text-[#8ea8c3] hover:text-white'
+                      : 'text-brand-periwinkle hover:text-white'
                   }`}
                 >
                   {cont}
@@ -151,67 +144,76 @@ export const GlobalEdgeRadar: React.FC = () => {
                 type="button"
                 onClick={() => scroll('left')}
                 aria-label="Scroll PoP nodes left"
-                className="p-1.5 rounded-xl bg-brand-navy hover:bg-[#162a45] text-brand-periwinkle border border-brand-slate/50 shadow-sm active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
               >
-                <ChevronLeft className="h-3.5 w-3.5" />
+                <ChevronLeft className="h-4 w-4" />
               </button>
               <button
                 type="button"
                 onClick={() => scroll('right')}
                 aria-label="Scroll PoP nodes right"
-                className="p-1.5 rounded-xl bg-brand-navy hover:bg-[#162a45] text-brand-periwinkle border border-brand-slate/50 shadow-sm active:scale-95 cursor-pointer transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
               >
-                <ChevronRight className="h-3.5 w-3.5" />
+                <ChevronRight className="h-4 w-4" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* =========================================================================
-            HORIZONTAL SCROLLING POP NODES REEL
-        ========================================================================= */}
-        <div className="relative mb-6">
+        {/* Horizontal PoP Cards Reel */}
+        <div className="relative mb-8">
           <div
             ref={scrollContainerRef}
             onScroll={handleScrollEvent}
             className="flex gap-3.5 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2 pt-1 scroll-smooth"
             tabIndex={0}
             role="region"
-            aria-label="Global edge latency PoPs horizontal reel"
+            aria-label="Global edge PoP node carousel"
           >
             {filteredRegions.map((reg) => {
-              const currentLatency = latencyJitter[reg.id] || reg.baseLatency;
               const isSelected = selectedRegionId === reg.id;
+              const liveLatency = latencyJitter[reg.id] || reg.baseLatency;
+              const isGood = liveLatency < 35;
+              const isFair = liveLatency >= 35 && liveLatency < 60;
+
               return (
                 <div
                   key={reg.id}
                   onClick={() => setSelectedRegionId(reg.id)}
-                  className={`w-[220px] sm:w-[250px] shrink-0 snap-start p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                  className={`w-[240px] sm:w-[260px] shrink-0 snap-start p-4 rounded-2xl border transition-all duration-150 cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-[#162a45] border-[#38bdf8] shadow-[0_0_20px_rgba(56,189,248,0.25)] ring-1 ring-[#38bdf8]'
-                      : 'bg-brand-oxford/90 border-brand-slate/40 hover:bg-[#132742] hover:border-brand-slate'
+                      ? 'bg-surface-panel border-accent-cyan shadow-lg ring-1 ring-accent-cyan/60'
+                      : 'bg-surface-panel/70 border-brand-slate/30 hover:border-brand-slate hover:bg-surface-panel'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-mono uppercase tracking-wider text-[#8ea8c3]">
-                      {reg.id.toUpperCase()} • {reg.continent}
-                    </span>
-                    <span className="flex h-2 w-2 rounded-full bg-[#34d399] animate-ping" />
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-brand-slate-light bg-brand-oxford px-2 py-0.5 rounded border border-brand-slate/30">
+                        {reg.id.toUpperCase()} • {reg.continent}
+                      </span>
+                      <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${
+                        isGood 
+                          ? 'bg-emerald-950/40 text-accent-emerald border-emerald-500/30'
+                          : isFair
+                          ? 'bg-cyan-950/40 text-accent-cyan border-cyan-500/30'
+                          : 'bg-amber-950/40 text-accent-amber border-amber-500/30'
+                      }`}>
+                        {liveLatency} ms
+                      </span>
+                    </div>
+
+                    <h4 className="text-sm font-bold text-brand-offwhite leading-tight">
+                      {reg.location.split(' (')[0]}
+                    </h4>
+                    <p className="text-xs text-brand-periwinkle font-mono truncate mt-0.5">
+                      {reg.isp}
+                    </p>
                   </div>
 
-                  <div className="text-lg font-mono font-black text-white">
-                    {currentLatency}
-                    <span className="text-sm font-normal text-[#8ea8c3] ml-1">ms</span>
-                  </div>
-
-                  <div className="text-sm text-brand-periwinkle truncate mt-1">
-                    {reg.location}
-                  </div>
-
-                  <div className="pt-2 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono mt-2 text-[#8ea8c3]">
-                    <span>{reg.isp}</span>
-                    <span className={isSelected ? 'text-[#38bdf8] font-bold' : ''}>
-                      {isSelected ? '● Active' : 'Inspect'}
+                  <div className="pt-2.5 border-t border-brand-slate/30 flex items-center justify-between text-[11px] font-mono text-brand-slate-light mt-3">
+                    <span className="truncate">{reg.ip}</span>
+                    <span className={`font-bold ${isSelected ? 'text-accent-cyan' : 'text-brand-periwinkle'}`}>
+                      {isSelected ? '● Active' : 'Select'}
                     </span>
                   </div>
                 </div>
@@ -220,35 +222,78 @@ export const GlobalEdgeRadar: React.FC = () => {
           </div>
         </div>
 
-        {/* Compact Inspector Bar for Selected Node */}
-        <div className="bg-brand-navy/95 border border-brand-slate/60 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-4 text-sm font-mono text-brand-periwinkle">
-            <div className="flex items-center gap-2">
-              <Server className="h-4 w-4 text-[#38bdf8]" />
-              <span className="text-white font-bold">{selectedRegion.location} ({selectedRegion.id.toUpperCase()})</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-brand-oxford px-2.5 py-1 rounded-lg border border-brand-slate/40">
-              <span className="text-[#8ea8c3]">Anycast IP:</span>
-              <span className="text-[#38bdf8]">{selectedRegion.ip}</span>
-            </div>
-            <div className="flex items-center gap-1 text-emerald-400">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              <span>TLS 1.3 0-RTT Ready</span>
-            </div>
-            <div className="flex items-center gap-1 text-emerald-400">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              <span>HTTP/3 QUIC Enabled</span>
-            </div>
-          </div>
-
-          <Link
-            to="/edge"
-            className="inline-flex items-center gap-1.5 bg-brand-periwinkle hover:bg-white text-brand-navy px-4 py-2 rounded-xl text-sm font-mono font-bold transition-all shadow-sm active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+        {/* Active PoP Detail Panel */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedRegion.id}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.15 }}
+            className="bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 sm:p-6 shadow-xl"
           >
-            <span>Launch EdgeVmax Engine</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              
+              {/* Left Column: Specs */}
+              <div className="lg:col-span-8 space-y-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-oxford border border-brand-slate/40 text-xs font-mono text-brand-periwinkle">
+                    <Globe2 className="h-3.5 w-3.5 text-accent-cyan" />
+                    <span>Anycast PoP: {selectedRegion.location}</span>
+                  </div>
+                  <span className="text-xs font-mono text-brand-slate-light bg-brand-oxford px-2.5 py-1 rounded-lg border border-brand-slate/30">
+                    Host IP: {selectedRegion.ip}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                  <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30">
+                    <div className="text-[10px] font-mono text-brand-slate-light uppercase">Synthesized TTFB</div>
+                    <div className="text-xl font-bold font-mono text-accent-cyan mt-0.5 metric-tabular">
+                      {latencyJitter[selectedRegion.id] || selectedRegion.baseLatency}ms
+                    </div>
+                  </div>
+                  <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30">
+                    <div className="text-[10px] font-mono text-brand-slate-light uppercase">HTTP/3 QUIC</div>
+                    <div className="text-xl font-bold font-mono text-accent-emerald mt-0.5">
+                      Enabled
+                    </div>
+                  </div>
+                  <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30">
+                    <div className="text-[10px] font-mono text-brand-slate-light uppercase">TLS 1.3 0-RTT</div>
+                    <div className="text-xl font-bold font-mono text-accent-emerald mt-0.5">
+                      Verified
+                    </div>
+                  </div>
+                  <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30">
+                    <div className="text-[10px] font-mono text-brand-slate-light uppercase">BGP Transit</div>
+                    <div className="text-sm font-bold font-mono text-brand-offwhite mt-1 truncate">
+                      {selectedRegion.isp.split(' ')[0]}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: CTA */}
+              <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-center lg:items-end justify-center gap-3">
+                <Link
+                  to={`/latency?pop=${selectedRegion.id}`}
+                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center gap-2 bg-brand-slate hover:bg-brand-slate-hover text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                >
+                  <span>Launch Deep PoP Diagnostic</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  to="/docs#edge-latency"
+                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center gap-1.5 bg-brand-oxford hover:bg-surface-subtle text-brand-periwinkle hover:text-white px-4 py-2.5 rounded-xl text-xs font-mono border border-brand-slate/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                >
+                  <span>PoP SLA &amp; Topology Docs</span>
+                </Link>
+              </div>
+
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </section>

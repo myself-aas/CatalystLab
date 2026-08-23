@@ -443,7 +443,7 @@ async function runComplianceEngine(url: string): Promise<string> {
   logs.push(`Target: ${url}\n`);
 
   let riskCount = 0;
-  let secProfile: unknown = null;
+  let secProfile: any = null;
 
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });

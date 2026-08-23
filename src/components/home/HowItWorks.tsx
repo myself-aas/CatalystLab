@@ -21,7 +21,7 @@ export const HowItWorks: React.FC = () => {
       number: '01',
       title: 'Target Ingestion & Edge DNS',
       subtitle: 'Phase 1 • Anycast Resolution',
-      description: 'Resolves hostname across 42 global edge PoPs. Probing TLS 1.3 0-RTT handshakes and HTTP/3 viability.',
+      description: 'Resolves hostname across 42 global edge PoPs. Probes TLS 1.3 0-RTT handshakes and HTTP/3 viability.',
       icon: Network,
       time: '~140ms'
     },
@@ -53,7 +53,7 @@ export const HowItWorks: React.FC = () => {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 340;
+      const scrollAmount = 320;
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
@@ -64,47 +64,51 @@ export const HowItWorks: React.FC = () => {
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const scrollLeft = scrollContainerRef.current.scrollLeft;
-      const cardWidth = 340;
+      const cardWidth = 320;
       const newIdx = Math.round(scrollLeft / cardWidth);
       setActiveIdx(Math.min(steps.length - 1, Math.max(0, newIdx)));
     }
   };
 
   return (
-    <section className="py-12 lg:py-16 bg-brand-navy text-white relative overflow-hidden border-y border-brand-slate/30">
+    <section className="py-14 lg:py-18 bg-transparent text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <LazyReveal direction="up">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-[1.1]">
-              Execution Workflow.
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs font-mono text-brand-periwinkle mb-3 shadow-sm">
+              <Network className="h-3.5 w-3.5 text-accent-cyan" />
+              <span>Telemetry Execution Pipeline</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
+              Execution Workflow
             </h2>
-            <p className="text-base sm:text-lg text-brand-periwinkle max-w-2xl mt-4 leading-relaxed font-medium">
-              Four synchronous steps from anycast edge DNS resolution to complete remediation code patches.
+            <p className="text-xs sm:text-sm text-brand-periwinkle max-w-xl mt-1.5 leading-relaxed">
+              Four synchronous stages from anycast edge DNS resolution to complete remediation code patches.
             </p>
           </LazyReveal>
 
           {/* Navigation Arrows */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => scroll('left')}
               aria-label="Scroll steps left"
-              className="p-3 rounded-xl bg-brand-oxford hover:bg-brand-slate text-brand-periwinkle border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-base font-mono text-brand-periwinkle px-2 font-bold">
+            <span className="text-xs font-mono text-brand-periwinkle px-1 font-bold">
               Step {steps[activeIdx].number} / 04
             </span>
             <button
               type="button"
               onClick={() => scroll('right')}
               aria-label="Scroll steps right"
-              className="p-3 rounded-xl bg-brand-oxford hover:bg-brand-slate text-brand-periwinkle border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -113,7 +117,7 @@ export const HowItWorks: React.FC = () => {
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-6 pt-1 scroll-smooth"
+          className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-3 pt-1 scroll-smooth"
           tabIndex={0}
           role="region"
           aria-label="Pipeline execution workflow steps"
@@ -123,41 +127,39 @@ export const HowItWorks: React.FC = () => {
             return (
               <div
                 key={step.number}
-                className="w-[300px] sm:w-[340px] shrink-0 snap-start bg-brand-oxford border border-brand-slate/30 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between hover:border-brand-slate/60 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 space-y-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-[280px] sm:w-[310px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 flex flex-col justify-between hover:border-brand-slate transition-all space-y-4 shadow-lg"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-3 rounded-xl bg-brand-navy border border-brand-slate/40 text-sky-400">
-                      <Icon className="h-6 w-6" />
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2.5 rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan">
+                      <Icon className="h-5 w-5" />
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-mono text-brand-slate-light bg-brand-navy px-2 py-1 rounded border border-brand-slate/30 uppercase tracking-widest">
-                        {step.time}
-                      </span>
-                    </div>
+                    <span className="text-[10px] font-mono text-brand-slate-light bg-brand-oxford px-2 py-0.5 rounded border border-brand-slate/30 uppercase tracking-wider">
+                      {step.time}
+                    </span>
                   </div>
                   
-                  <div className="text-sm font-mono text-brand-slate-light uppercase tracking-widest mb-2 font-bold">
+                  <div className="text-[10px] font-mono text-brand-slate-light uppercase tracking-wider mb-1 font-bold">
                     {step.subtitle}
                   </div>
-                  <h3 className="text-xl font-bold text-white leading-tight mb-3">
+                  <h3 className="text-base font-bold text-brand-offwhite leading-tight mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-base text-brand-periwinkle leading-relaxed">
+                  <p className="text-xs text-brand-periwinkle leading-relaxed">
                     {step.description}
                   </p>
                 </div>
                 
-                <div className="pt-4 border-t border-brand-slate/30 flex items-center justify-between text-sm font-mono mt-4">
-                  <span className="text-brand-slate-light uppercase tracking-wider font-bold">
+                <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono">
+                  <span className="text-brand-slate-light uppercase tracking-wider text-[10px] font-bold">
                     Auto-Executed
                   </span>
                   <Link
-                    to="/launch-audit"
-                    className="text-sky-400 hover:text-white font-bold flex items-center gap-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    to="/playground"
+                    className="text-accent-cyan hover:underline font-bold flex items-center gap-1 transition-colors"
                   >
                     <span>Run Scan</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-3 w-3" />
                   </Link>
                 </div>
               </div>

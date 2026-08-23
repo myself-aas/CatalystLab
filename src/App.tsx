@@ -1,4 +1,5 @@
 import { NewsletterModal } from "./components/common/NewsletterModal";
+import { PaymentCheckoutModal } from "./components/common/PaymentCheckoutModal";
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
@@ -57,6 +58,8 @@ import { PlaygroundPage } from "./pages/PlaygroundPage";
 import { LoginPage } from "./pages/LoginPage";
 import { SignUpPage } from "./pages/SignUpPage";
 
+import ParticlesComponent from "./components/ui/particles-bg";
+
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
 
@@ -73,6 +76,9 @@ export const App: React.FC = () => {
   const [getInTouchTopic, setGetInTouchTopic] = useState("general");
   const [getInTouchSource, setGetInTouchSource] = useState("app-global");
 
+  const [isPaymentCheckoutOpen, setIsPaymentCheckoutOpen] = useState(false);
+  const [paymentPlanId, setPaymentPlanId] = useState<SubscriptionPlanId>('pro');
+
   useEffect(() => {
     const handleOpenModal = (e: Event) => {
       const customEvent = e as CustomEvent<GetInTouchModalEventDetail>;
@@ -85,15 +91,28 @@ export const App: React.FC = () => {
       setIsGetInTouchOpen(true);
     };
 
+    const handleOpenPayment = (e: Event) => {
+      const customEvent = e as CustomEvent<{ planId?: SubscriptionPlanId }>;
+      if (customEvent.detail?.planId) {
+        setPaymentPlanId(customEvent.detail.planId);
+      }
+      setIsPaymentCheckoutOpen(true);
+    };
+
     window.addEventListener("catalyst:open-get-in-touch", handleOpenModal);
-    return () =>
+    window.addEventListener("catalyst:open-payment-checkout", handleOpenPayment);
+    return () => {
       window.removeEventListener("catalyst:open-get-in-touch", handleOpenModal);
+      window.removeEventListener("catalyst:open-payment-checkout", handleOpenPayment);
+    };
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f4f6fa] text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c]">
-      <a 
-        href="#main-content" 
+    <>
+      <ParticlesComponent />
+      <div className="flex min-h-screen flex-col bg-transparent text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c] animate-app-fade-in relative z-10">
+        <a 
+          href="#main-content" 
         className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-[#07111e] focus:text-cyan-400 focus:font-bold focus:outline-none focus:ring-2 focus:ring-cyan-400"
       >
         Skip to main content
@@ -491,6 +510,11 @@ export const App: React.FC = () => {
       <AuthDomainModal />
       <TrialActivationModal />
       <NewsletterModal />
+      <PaymentCheckoutModal
+        isOpen={isPaymentCheckoutOpen}
+        onClose={() => setIsPaymentCheckoutOpen(false)}
+        initialPlanId={paymentPlanId}
+      />
       <GetInTouchEmailModal
         isOpen={isGetInTouchOpen}
         onClose={() => setIsGetInTouchOpen(false)}
@@ -498,6 +522,7 @@ export const App: React.FC = () => {
         sourceContext={getInTouchSource}
       />
     </div>
+    </>
   );
 };
 export default App;

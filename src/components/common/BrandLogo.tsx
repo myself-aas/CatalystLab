@@ -1,4 +1,5 @@
 import React from 'react';
+import { Terminal } from 'lucide-react';
 
 interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -20,27 +21,27 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   const sizeClasses = {
     sm: {
       box: 'h-6 w-6 rounded-md',
-      icon: 'text-[14px]',
+      icon: 'h-3.5 w-3.5',
       title: 'text-base',
       badge: 'text-xs px-1 py-0.2',
     },
     md: {
       box: 'h-8 w-8 rounded-lg',
-      icon: 'text-[18px]',
+      icon: 'h-4 w-4',
       title: 'text-lg',
-      badge: 'text-sm px-1.5 py-0.5',
+      badge: 'text-xs px-1.5 py-0.5',
     },
     lg: {
       box: 'h-10 w-10 rounded-xl',
-      icon: 'text-[22px]',
+      icon: 'h-5 w-5',
       title: 'text-xl',
-      badge: 'text-sm px-2 py-0.5',
+      badge: 'text-xs px-2 py-0.5',
     },
     xl: {
-      box: 'h-14 w-14 rounded-2xl',
-      icon: 'text-[32px]',
+      box: 'h-12 w-12 rounded-xl',
+      icon: 'h-6 w-6',
       title: 'text-2xl sm:text-3xl',
-      badge: 'text-base px-2.5 py-1',
+      badge: 'text-sm px-2.5 py-1',
     },
   };
 
@@ -48,28 +49,33 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      {/* Official Terminal Icon Box */}
+      {/* Engineered Terminal Icon Box */}
       <div 
-        className={`flex ${current.box} items-center justify-center ${darkText ? 'bg-[#0b192c] text-white' : 'bg-[#0b192c] text-[#c5d3e8]'} border border-[#415a77]/50 shadow-md select-none font-bold shrink-0`}
+        className={`flex ${current.box} items-center justify-center ${
+          darkText 
+            ? 'bg-brand-navy text-brand-periwinkle border-brand-slate/40' 
+            : 'bg-brand-oxford text-brand-periwinkle border-brand-slate/50'
+        } border shadow-md select-none font-bold shrink-0 transition-transform active:scale-95`}
         aria-hidden="true"
       >
-        <span className={`material-symbols-outlined ${current.icon} font-black leading-none text-[#c5d3e8]`}>
-          terminal_2
-        </span>
+        <Terminal className={`${current.icon} text-brand-periwinkle`} />
       </div>
 
       {showText && (
-        <span className={`font-extrabold tracking-tight transition-colors duration-200 ${darkText ? 'text-[#0b192c]' : 'text-white'} ${current.title}`}>
-          CatalystLab
+        <span className={`font-black tracking-tight transition-colors duration-200 ${
+          darkText ? 'text-brand-navy' : 'text-brand-offwhite'
+        } ${current.title}`}>
+          Catalyst<span className="text-brand-periwinkle">Lab</span>
         </span>
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded bg-[#415a77]/15 font-bold text-[#415a77] border border-[#415a77]/30 ${current.badge}`}>
+        <span className={`rounded-md bg-brand-slate/20 font-mono font-bold text-brand-slate border border-brand-slate/30 uppercase ${current.badge}`}>
           {badgeText}
         </span>
       )}
     </div>
   );
 };
+
 export default BrandLogo;

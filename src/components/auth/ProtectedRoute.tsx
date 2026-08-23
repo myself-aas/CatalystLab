@@ -152,7 +152,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <div className="space-y-2">
                 <Link
                   to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 py-3 text-xs sm:text-sm font-extrabold text-[#0b192c] hover:opacity-95 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-3 text-xs sm:text-sm font-bold text-white transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <LogIn className="h-4 w-4" />
                   <span>Sign In (Email, Gmail, GitHub)</span>
@@ -160,7 +160,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
                 <Link
                   to={`/signup?redirect=${encodeURIComponent(location.pathname + location.search)}`}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-cyan-500/40 bg-[#152238] py-2.5 text-xs font-bold text-cyan-300 hover:bg-[#1e304d] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-brand-slate/40 bg-surface-panel hover:bg-surface-subtle py-2.5 text-xs font-semibold text-brand-periwinkle hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate cursor-pointer"
                 >
                   <span>Create Free Account &rarr;</span>
                 </Link>
@@ -177,7 +177,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <div className="space-y-2">
                 <button
                   onClick={() => openTrialModal('pro')}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-3 text-xs sm:text-sm font-bold text-[#0b192c] hover:opacity-90 transition-all shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-3 text-xs sm:text-sm font-bold text-white transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Zap className="h-4 w-4" />
                   <span>Start 7-Day Pro Free Trial</span>

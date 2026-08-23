@@ -193,7 +193,7 @@ export const TrialActivationModal: React.FC = () => {
                 className={`w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition-all shadow-lg flex items-center justify-center gap-2 ${
                   success
                     ? 'bg-emerald-500 text-white'
-                    : 'bg-gradient-to-r from-emerald-500 to-brand-cyan hover:from-emerald-400 hover:to-brand-cyan/90 text-brand-navy'
+                    : 'bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 text-white'
                 }`}
               >
                 {loading ? (

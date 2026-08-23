@@ -71,7 +71,7 @@ export const EnterpriseScaleChart: React.FC = () => {
   };
 
   return (
-    <section className="py-12 lg:py-14 bg-gradient-to-b from-[#0d1b2a] via-[#112239] to-[#0b192c] text-white relative overflow-hidden border-b border-[#415a77]/30">
+    <section className="py-12 lg:py-14 bg-brand-oxford text-white relative overflow-hidden border-b border-brand-slate/30">
       {/* Background Glow Elements */}
       <div className="absolute top-1/3 left-1/3 w-[450px] h-[450px] bg-[#38bdf8]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-[#415a77]/20 rounded-full blur-[140px] pointer-events-none" />

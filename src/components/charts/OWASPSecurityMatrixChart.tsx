@@ -17,7 +17,7 @@ export const OWASPSecurityMatrixChart: React.FC<OWASPSecurityMatrixChartProps> =
   xFrameOptions,
   referrerPolicy,
   permissionsPolicy,
-  riskCount,
+  riskCount: _riskCount,
   score
 }) => {
   const [copiedSnippet, setCopiedSnippet] = useState(false);
@@ -118,19 +118,19 @@ header {
   };
 
   return (
-    <div className="rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl space-y-6 text-[#f8fafc]">
+    <div className="rounded-2xl border border-brand-slate/30 bg-brand-navy p-6 shadow-xl space-y-6 text-brand-offwhite">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#415a77]/25 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/25 pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#415a77]/25 text-[#c5d3e8] border border-[#415a77]/40">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-slate/25 text-brand-periwinkle border border-brand-slate/40">
               <Lock className="h-4 w-4" />
             </span>
-            <h3 className="text-base font-bold text-[#f8fafc]">
+            <h3 className="text-base font-bold text-brand-offwhite">
               OWASP Top 10 Security Headers Matrix
             </h3>
           </div>
-          <p className="text-xs text-[#c5d3e8] mt-1">
+          <p className="text-xs text-brand-periwinkle mt-1">
             Zero-Trust HTTP response header audit against MITM, Clickjacking, and Cross-Site Scripting (XSS).
           </p>
         </div>
@@ -138,11 +138,11 @@ header {
         {/* Score Pill */}
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <div className="text-xs font-semibold text-[#c5d3e8]">Security Index</div>
+            <div className="text-xs font-semibold text-brand-periwinkle">Security Index</div>
             <div className="text-xl font-black text-emerald-400 font-mono">{score}/100</div>
           </div>
           <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${
-            score >= 80 ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-[#415a77]/40 bg-[#415a77]/25 text-[#c5d3e8]'
+            score >= 80 ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-brand-slate/40 bg-brand-slate/25 text-brand-periwinkle'
           }`}>
             {score >= 80 ? <ShieldCheck className="h-6 w-6" /> : <ShieldAlert className="h-6 w-6" />}
           </div>
@@ -150,15 +150,15 @@ header {
       </div>
 
       {/* Compliance Meter */}
-      <div className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-4">
+      <div className="rounded-xl border border-brand-slate/30 bg-surface-panel p-4">
         <div className="flex items-center justify-between text-xs mb-2">
-          <span className="font-semibold text-[#f8fafc]">OWASP Hardening Coverage ({passedCount}/{totalHeaders} Passed)</span>
+          <span className="font-semibold text-brand-offwhite">OWASP Hardening Coverage ({passedCount}/{totalHeaders} Passed)</span>
           <span className="font-mono font-bold text-emerald-400">{compliancePct}%</span>
         </div>
-        <div className="h-2.5 w-full rounded-full bg-[#0b192c] overflow-hidden border border-[#415a77]/30">
+        <div className="h-2.5 w-full rounded-full bg-brand-navy overflow-hidden border border-brand-slate/30">
           <div
             className={`h-full transition-all ${
-              compliancePct >= 80 ? 'bg-emerald-400' : compliancePct >= 50 ? 'bg-[#415a77]' : 'bg-rose-500'
+              compliancePct >= 80 ? 'bg-emerald-400' : compliancePct >= 50 ? 'bg-brand-slate' : 'bg-rose-500'
             }`}
             style={{ width: `${compliancePct}%` }}
           />
@@ -166,21 +166,21 @@ header {
       </div>
 
       {/* Interactive Headers Table */}
-      <div className="overflow-hidden rounded-xl border border-[#415a77]/30 bg-[#152238]">
+      <div className="overflow-hidden rounded-xl border border-brand-slate/30 bg-surface-panel">
         <table className="w-full text-left text-xs">
-          <thead className="border-b border-[#415a77]/25 bg-[#0b192c] font-semibold text-[#c5d3e8]">
+          <thead className="border-b border-brand-slate/25 bg-brand-navy font-semibold text-brand-periwinkle">
             <tr>
               <th className="px-4 py-3">Security Header Directive</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3 hidden md:table-cell">Protection Scope</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#415a77]/20 text-[#f8fafc]">
+          <tbody className="divide-y divide-brand-slate/20 text-brand-offwhite">
             {headersList.map((header) => (
-              <tr key={header.name} className="hover:bg-[#0b192c]/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                <td className="px-4 py-3 font-mono font-semibold text-[#f8fafc]">
+              <tr key={header.name} className="hover:bg-brand-navy/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                <td className="px-4 py-3 font-mono font-semibold text-brand-offwhite">
                   <div>{header.name}</div>
-                  <div className="text-[11px] text-[#c5d3e8] font-sans md:hidden mt-0.5">{header.desc}</div>
+                  <div className="text-[11px] text-brand-periwinkle font-sans md:hidden mt-0.5">{header.desc}</div>
                 </td>
                 <td className="px-4 py-3 shrink-0">
                   {header.present ? (
@@ -193,7 +193,7 @@ header {
                     </span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-[#c5d3e8] hidden md:table-cell">
+                <td className="px-4 py-3 text-brand-periwinkle hidden md:table-cell">
                   {header.desc}
                 </td>
               </tr>
@@ -203,30 +203,30 @@ header {
       </div>
 
       {/* Remediation Snippet */}
-      <div className="rounded-xl border border-[#415a77]/30 bg-[#152238] p-4 space-y-3">
+      <div className="rounded-xl border border-brand-slate/30 bg-surface-panel p-4 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <Key className="h-4 w-4 text-[#c5d3e8]" />
-            <span className="text-xs font-bold text-[#f8fafc]">One-Click Remediation Blueprint</span>
+            <Key className="h-4 w-4 text-brand-periwinkle" />
+            <span className="text-xs font-bold text-brand-offwhite">One-Click Remediation Blueprint</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex items-center rounded-lg bg-[#0b192c] p-0.5 border border-[#415a77]/30 text-[11px]">
+            <div className="flex items-center rounded-lg bg-brand-navy p-0.5 border border-brand-slate/30 text-[11px]">
               <button
                 onClick={() => setSnippetFormat('vercel')}
-                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'vercel' ? 'bg-[#415a77] text-white' : 'text-[#c5d3e8] hover:text-[#f8fafc]'}`}
+                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'vercel' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-brand-offwhite'}`}
               >
                 vercel.json
               </button>
               <button
                 onClick={() => setSnippetFormat('nginx')}
-                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'nginx' ? 'bg-[#415a77] text-white' : 'text-[#c5d3e8] hover:text-[#f8fafc]'}`}
+                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'nginx' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-brand-offwhite'}`}
               >
                 nginx.conf
               </button>
               <button
                 onClick={() => setSnippetFormat('caddy')}
-                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'caddy' ? 'bg-[#415a77] text-white' : 'text-[#c5d3e8] hover:text-[#f8fafc]'}`}
+                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'caddy' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-brand-offwhite'}`}
               >
                 Caddyfile
               </button>
@@ -234,15 +234,15 @@ header {
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/40 bg-[#415a77]/25 px-3 py-1 text-xs font-semibold text-[#f8fafc] hover:bg-[#415a77]/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center gap-1.5 rounded-lg border border-brand-slate/40 bg-brand-slate/25 px-3 py-1 text-xs font-semibold text-brand-offwhite hover:bg-brand-slate/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
-              {copiedSnippet ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-[#c5d3e8]" />}
+              {copiedSnippet ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-brand-periwinkle" />}
               <span>{copiedSnippet ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
         </div>
 
-        <pre className="overflow-x-auto rounded-lg bg-[#0b192c] p-3.5 font-mono text-[11px] text-[#c5d3e8] border border-[#415a77]/30">
+        <pre className="overflow-x-auto rounded-lg bg-brand-navy p-3.5 font-mono text-[11px] text-brand-periwinkle border border-brand-slate/30">
           <code>{currentSnippet}</code>
         </pre>
       </div>

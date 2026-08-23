@@ -11,19 +11,11 @@ import {
   Settings,
   Calendar,
   Clock,
-  Eye,
   Bookmark,
   BookmarkCheck,
   Share2,
   Check,
   Sparkles,
-  Filter,
-  Layers,
-  Zap,
-  Globe,
-  ShieldCheck,
-  Leaf,
-  Cpu,
   Star,
   Plus
 } from 'lucide-react';
@@ -31,14 +23,13 @@ import { SEOHead } from '../components/common/SEOHead';
 import { LatestBlogsSection } from '../components/home/LatestBlogsSection';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
-import synthshiftImg from '../assets/images/synthshift_migration_1787420135413.jpg';
 import vitalzymeImg from '../assets/images/vitalzyme_health_1787420174357.jpg';
 import edgevmaxImg from '../assets/images/edgevmax_latency_1787420187566.jpg';
 
 export const BlogsPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('All');
   const [sortBy, setSortBy] = useState<'newest' | 'popular' | 'readTime'>('newest');
@@ -174,7 +165,7 @@ export const BlogsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#07111e] text-white overflow-x-hidden selection:bg-cyan-500 selection:text-[#07111e]">
+    <div className="min-h-screen bg-brand-navy text-brand-offwhite font-mono selection:bg-brand-slate selection:text-white">
       <SEOHead
         title="Engineering Insights & Telemetry Articles | CatalystLab"
         description="Discover engineering updates, telemetry benchmarks, and architecture best practices from the CatalystLab team."
@@ -184,18 +175,18 @@ export const BlogsPage: React.FC = () => {
 
       {/* Admin Quick Access Bar */}
       {user && (
-        <div className="border-b border-cyan-500/20 bg-cyan-950/40 backdrop-blur-md">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-semibold text-cyan-300">
-              <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+        <div className="border-b border-brand-slate/30 bg-brand-oxford">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-accent-cyan">
+              <Sparkles className="h-3 w-3" />
               <span>
-                {isAdmin ? 'Admin Mode Active — You have publishing and editing privileges' : 'Author Access Active'}
+                {isAdmin ? 'Admin Mode Active — Publishing & editing privileges enabled' : 'Author Access Active'}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Link
                 to="/blogs/create"
-                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-sky-500 px-4 py-1 text-xs font-extrabold text-[#07111e] hover:from-cyan-400 hover:to-sky-400 transition-all shadow-md shadow-cyan-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-1 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3 py-1 text-xs font-bold text-white transition-all shadow-sm"
               >
                 <Plus className="h-3 w-3 stroke-[3]" />
                 <span>Write Article</span>
@@ -203,7 +194,7 @@ export const BlogsPage: React.FC = () => {
               {isAdmin && (
                 <Link
                   to="/admin"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/40 bg-cyan-500/20 px-3.5 py-1 text-xs font-bold text-cyan-300 hover:bg-cyan-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1 rounded-lg border border-brand-slate/40 bg-surface-panel px-3 py-1 text-xs font-bold text-brand-offwhite hover:bg-surface-subtle transition-colors"
                 >
                   <Settings className="h-3 w-3" />
                   <span>CMS Studio</span>
@@ -215,25 +206,22 @@ export const BlogsPage: React.FC = () => {
       )}
 
       {/* Hero Header Section */}
-      <section className="relative pt-12 pb-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-4 py-1.5 text-xs font-semibold text-cyan-300 tracking-wide">
-            <BookOpen className="h-3.5 w-3.5 text-cyan-400" />
+      <section className="border-b border-brand-slate/30 bg-brand-oxford py-10 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center space-y-3">
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
+            <BookOpen className="h-3 w-3" />
             <span>CatalystLab Engineering Publications</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
-            Engineering Insights & <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
-              Edge Telemetry Research
-            </span>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-offwhite tracking-tight font-sans">
+            Engineering Insights &amp; Edge Telemetry Research
           </h1>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+          <p className="text-xs sm:text-sm text-brand-periwinkle leading-relaxed max-w-2xl mx-auto font-sans">
             Deep-dive technical diagnostics, Next.js rendering benchmarks, AI crawler readiness protocols, and multi-region infrastructure analyses written by our core architects.
           </p>
         </div>
       </section>
 
-      {/* 1. DYNAMIC INTERACTIVE LATEST BLOGS SECTION (1+4 Interactive Grid) */}
+      {/* 1. DYNAMIC INTERACTIVE LATEST BLOGS SECTION */}
       <LatestBlogsSection 
         title="Latest news & research insights"
         subtitle="Explore our newest benchmark telemetry, code patterns, and deep-dive engineering analyses."
@@ -241,39 +229,39 @@ export const BlogsPage: React.FC = () => {
         showViewAllButton={false}
         showFilterTabs={true}
         showEcosystemBar={true}
-        className="pt-2 pb-16"
+        className="pt-8 pb-12"
       />
 
-      {/* 2. EXPLORE ALL TECHNICAL ARTICLES (Searchable, Filterable Grid) */}
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      {/* 2. EXPLORE ALL TECHNICAL ARTICLES */}
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 space-y-6">
         
         {/* Section Header with Search & Filter Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-brand-slate/30">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-brand-offwhite tracking-tight font-sans">
               All Technical Publications
             </h2>
-            <p className="text-slate-400 text-xs sm:text-sm mt-1.5">
+            <p className="text-brand-periwinkle text-xs mt-0.5 font-sans">
               Showing {filteredAndSortedPosts.length} article{filteredAndSortedPosts.length === 1 ? '' : 's'} across core telemetry disciplines
             </p>
           </div>
 
           {/* Search and Sort Inputs */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             {/* Search Input */}
-            <div className="relative min-w-[240px]">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <div className="relative min-w-[220px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-brand-slate-light" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search topics, tags, or words..."
-                className="w-full rounded-full border border-white/15 bg-white/5 pl-10 pr-4 py-2 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:border-cyan-400 focus:bg-white/10 focus:outline-none transition-colors"
+                className="w-full rounded-xl border border-brand-slate/40 bg-surface-panel pl-9 pr-7 py-1.5 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors font-mono"
               />
               {searchQuery && (
                 <button 
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-brand-slate-light hover:text-white"
                 >
                   ✕
                 </button>
@@ -281,32 +269,30 @@ export const BlogsPage: React.FC = () => {
             </div>
 
             {/* Sort Selector */}
-            <div className="flex items-center gap-2">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="rounded-full border border-white/15 bg-[#0e1c30] px-4 py-2 text-xs sm:text-sm font-semibold text-slate-200 focus:border-cyan-400 focus:outline-none cursor-pointer"
-              >
-                <option value="newest">Sort: Newest First</option>
-                <option value="popular">Sort: Most Popular</option>
-                <option value="readTime">Sort: Quick Read</option>
-              </select>
-            </div>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="rounded-xl border border-brand-slate/40 bg-surface-panel px-3 py-1.5 text-xs font-semibold text-brand-offwhite focus:border-brand-slate focus:outline-none cursor-pointer font-mono"
+            >
+              <option value="newest">Sort: Newest First</option>
+              <option value="popular">Sort: Most Popular</option>
+              <option value="readTime">Sort: Quick Read</option>
+            </select>
           </div>
         </div>
 
         {/* Topic Pills Bar */}
-        <div className="mt-6 flex items-center gap-2 overflow-x-auto pb-3 scrollbar-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {topicsList.map((topic) => {
             const isActive = selectedTopic === topic;
             return (
               <button
                 key={topic}
                 onClick={() => setSelectedTopic(topic)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+                className={`shrink-0 rounded-lg px-3 py-1 text-xs font-semibold transition-all cursor-pointer font-mono ${
                   isActive
-                    ? 'bg-cyan-400 text-[#07111e] font-bold shadow-md shadow-cyan-500/20'
-                    : 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 hover:text-white'
+                    ? 'bg-brand-slate text-white border border-brand-periwinkle/30 shadow-sm'
+                    : 'bg-surface-panel border border-brand-slate/40 text-brand-periwinkle hover:text-white'
                 }`}
               >
                 {topic}
@@ -317,97 +303,97 @@ export const BlogsPage: React.FC = () => {
 
         {/* Articles Grid (3 Columns) */}
         {filteredAndSortedPosts.length > 0 ? (
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredAndSortedPosts.map((post) => {
               const isBookmarked = bookmarkedIds.has(post.id || post.slug);
               return (
                 <article
                   key={post.slug || post.id}
-                  className="group relative rounded-3xl border border-white/10 bg-[#0d1c30]/70 hover:bg-[#11243d]/90 p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/40 hover:shadow-2xl hover:shadow-cyan-950/40 hover:-translate-y-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="group relative rounded-2xl border border-brand-slate/40 bg-surface-panel p-4 flex flex-col justify-between transition-all duration-300 hover:border-brand-periwinkle/50 hover:shadow-xl"
                 >
                   <div>
                     {/* Thumbnail Image */}
-                    <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-800 mb-4">
-                      <img alt="Visual asset" 
+                    <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-brand-oxford mb-3 border border-brand-slate/30">
+                      <img 
                         src={getBlogCoverImage(post)} 
                         alt={post.title}
-                        className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0d1c30]/90 via-transparent to-black/20" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-transparent to-transparent" />
                       
                       {/* Category Pill Tag */}
-                      <div className="absolute top-3 left-3">
-                        <span className="rounded-full bg-[#07111e]/90 border border-white/20 backdrop-blur-md px-3 py-0.5 text-[11px] font-bold text-white shadow-sm">
+                      <div className="absolute top-2.5 left-2.5">
+                        <span className="rounded-md bg-brand-navy/90 border border-brand-slate/40 px-2.5 py-0.5 text-[10px] font-bold text-accent-cyan shadow-sm">
                           {post.category || 'Engineering'}
                         </span>
                       </div>
 
                       {/* Share & Bookmark overlay buttons */}
-                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                      <div className="absolute top-2.5 right-2.5 flex items-center gap-1">
                         <button
                           onClick={(e) => handleShare(post.slug || post.id || '', e)}
                           title="Copy Link"
-                          className="h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="h-6 w-6 rounded-lg bg-brand-navy/80 hover:bg-brand-navy border border-brand-slate/40 flex items-center justify-center text-brand-offwhite transition-all cursor-pointer"
                         >
                           {copiedSlug === (post.slug || post.id) ? (
-                            <Check className="h-3 w-3 text-green-400" />
+                            <Check className="h-3 w-3 text-accent-emerald" />
                           ) : (
-                            <Share2 className="h-3 w-3 text-slate-200" />
+                            <Share2 className="h-3 w-3 text-brand-periwinkle" />
                           )}
                         </button>
                         <button
                           onClick={(e) => toggleBookmark(post.id || post.slug, e)}
                           title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="h-7 w-7 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:scale-110 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="h-6 w-6 rounded-lg bg-brand-navy/80 hover:bg-brand-navy border border-brand-slate/40 flex items-center justify-center text-brand-offwhite transition-all cursor-pointer"
                         >
                           {isBookmarked ? (
-                            <BookmarkCheck className="h-3.5 w-3.5 text-cyan-400 fill-cyan-400" />
+                            <BookmarkCheck className="h-3 w-3 text-accent-cyan fill-accent-cyan" />
                           ) : (
-                            <Bookmark className="h-3.5 w-3.5 text-slate-200" />
+                            <Bookmark className="h-3 w-3 text-brand-periwinkle" />
                           )}
                         </button>
                       </div>
                     </div>
 
                     {/* Metadata line */}
-                    <div className="flex items-center gap-2.5 text-xs text-slate-400 font-medium mb-2.5">
-                      <span className="flex items-center gap-1 text-[11px]">
-                        <Calendar className="h-3 w-3 text-cyan-400" />
+                    <div className="flex items-center gap-2 text-xs text-brand-slate-light mb-2">
+                      <span className="flex items-center gap-1 text-[10px]">
+                        <Calendar className="h-2.5 w-2.5 text-accent-cyan" />
                         {formatDate(post.createdAt)}
                       </span>
                       <span>•</span>
-                      <span className="flex items-center gap-1 text-[11px]">
-                        <Clock className="h-3 w-3 text-cyan-400" />
+                      <span className="flex items-center gap-1 text-[10px]">
+                        <Clock className="h-2.5 w-2.5 text-accent-cyan" />
                         {getArticleReadingTime(post)}
                       </span>
                       {post.views && (
                         <>
                           <span>•</span>
-                          <span className="text-[11px] text-slate-400">{post.views.toLocaleString()} views</span>
+                          <span className="text-[10px]">{post.views.toLocaleString()} views</span>
                         </>
                       )}
                     </div>
 
                     {/* Title */}
                     <Link to={`/blog/${post.slug || post.id}`}>
-                      <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                      <h3 className="text-sm font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors leading-snug line-clamp-2 font-sans">
                         {post.title}
                       </h3>
                     </Link>
 
                     {/* Excerpt */}
-                    <p className="mt-2.5 text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3">
+                    <p className="mt-1.5 text-xs text-brand-periwinkle leading-relaxed line-clamp-2 font-sans">
                       {post.excerpt || 'Read the comprehensive breakdown covering real telemetry vectors, implementation guides, and performance benchmarks.'}
                     </p>
 
                     {/* Tags Pills */}
                     {post.tags && post.tags.length > 0 && (
-                      <div className="mt-3.5 flex flex-wrap gap-1.5">
+                      <div className="mt-2.5 flex flex-wrap gap-1">
                         {post.tags.slice(0, 3).map((tag, idx) => (
                           <span 
                             key={idx}
-                            className="rounded-md bg-white/5 border border-white/10 px-2 py-0.5 text-[10px] font-semibold text-slate-300"
+                            className="rounded bg-brand-oxford border border-brand-slate/40 px-1.5 py-0.5 text-[9px] font-semibold text-brand-periwinkle"
                           >
                             #{tag}
                           </span>
@@ -417,22 +403,22 @@ export const BlogsPage: React.FC = () => {
                   </div>
 
                   {/* Card Bottom CTA */}
-                  <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-cyan-400 to-sky-300 flex items-center justify-center text-[#07111e] font-black text-[10px]">
+                  <div className="mt-4 pt-3 border-t border-brand-slate/30 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-5 w-5 rounded-full bg-brand-slate border border-brand-periwinkle/30 flex items-center justify-center text-white font-bold text-[9px]">
                         {post.authorName ? post.authorName.charAt(0) : 'C'}
                       </div>
-                      <span className="text-xs text-slate-300 font-medium">
+                      <span className="text-xs text-brand-periwinkle font-medium">
                         {post.authorName || 'Catalyst Team'}
                       </span>
                     </div>
 
                     <Link
                       to={`/blog/${post.slug || post.id}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-300 hover:text-cyan-200 transition-colors group-hover:translate-x-1 duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-accent-cyan hover:underline transition-all"
                     >
-                      <span>Read article</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
+                      <span>Read</span>
+                      <ArrowRight className="h-3 w-3" />
                     </Link>
                   </div>
                 </article>
@@ -440,13 +426,13 @@ export const BlogsPage: React.FC = () => {
             })}
           </div>
         ) : (
-          <div className="mt-16 text-center py-16 rounded-3xl border border-white/10 bg-white/5 max-w-md mx-auto p-8">
-            <Search className="h-10 w-10 text-slate-400 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-white">No matching articles found</h3>
-            <p className="text-xs text-slate-400 mt-1">Try resetting your search query or choosing "All" topics.</p>
+          <div className="text-center py-12 rounded-2xl border border-brand-slate/40 bg-surface-panel max-w-md mx-auto p-6 space-y-3">
+            <Search className="h-8 w-8 text-brand-slate-light mx-auto" />
+            <h3 className="text-sm font-bold text-brand-offwhite">No matching articles found</h3>
+            <p className="text-xs text-brand-periwinkle font-sans">Try resetting your search query or choosing &quot;All&quot; topics.</p>
             <button
               onClick={() => { setSearchQuery(''); setSelectedTopic('All'); }}
-              className="mt-4 rounded-full bg-cyan-400 px-5 py-2 text-xs font-bold text-[#07111e] hover:bg-cyan-300 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="mt-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-1.5 text-xs font-bold text-white transition-all cursor-pointer"
             >
               Reset Filters
             </button>
@@ -454,59 +440,59 @@ export const BlogsPage: React.FC = () => {
         )}
 
         {/* 3. ENGINEER'S TELEMETRY HIGHLIGHTS SECTION */}
-        <section className="mt-28 rounded-3xl border border-white/10 bg-gradient-to-r from-[#0d1d33] via-[#0f223d] to-[#0d1d33] p-8 sm:p-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <section className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Narrative */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-cyan-400">
-                <Sparkles className="h-3.5 w-3.5" /> Engineer's Field Highlights
+            <div className="lg:col-span-5 space-y-3">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-accent-cyan">
+                <Sparkles className="h-3.5 w-3.5" /> Engineer&apos;s Field Highlights
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                Architectural Benchmarks & Field Notes
+              <h3 className="text-xl sm:text-2xl font-extrabold text-brand-offwhite leading-tight font-sans">
+                Architectural Benchmarks &amp; Field Notes
               </h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
+              <p className="text-brand-periwinkle text-xs leading-relaxed font-sans">
                 Our engineering team runs real-world probes against 40M+ edge requests each month. Here are the core field notes on sub-millisecond edge routing and zero-CLS layouts.
               </p>
               
               {/* Testimonial Quote */}
-              <div className="pt-4 border-t border-white/10">
-                <div className="flex items-center gap-1 mb-2">
+              <div className="pt-3 border-t border-brand-slate/30">
+                <div className="flex items-center gap-1 mb-1.5">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <Star key={s} className="h-3 w-3 fill-accent-amber text-accent-amber" />
                   ))}
                 </div>
-                <blockquote className="text-xs text-slate-200 italic leading-relaxed">
-                  "CatalystLab's telemetry telemetry diagnostics uncovered a critical DOM hydration freeze in our Next.js edge clusters that standard Lighthouse tests completely missed."
+                <blockquote className="text-xs text-brand-offwhite italic leading-relaxed font-sans">
+                  &quot;CatalystLab&apos;s telemetry diagnostics uncovered a critical DOM hydration freeze in our Next.js edge clusters that standard Lighthouse tests completely missed.&quot;
                 </blockquote>
-                <div className="mt-3 flex items-center gap-2.5">
-                  <div className="h-7 w-7 rounded-full bg-cyan-400 text-[#07111e] flex items-center justify-center font-bold text-xs">
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="h-6 w-6 rounded-full bg-brand-slate text-white flex items-center justify-center font-bold text-[10px]">
                     M
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white">Maria Angelica</div>
-                    <div className="text-[10px] text-slate-400">Staff Cloud Architect</div>
+                    <div className="text-xs font-bold text-brand-offwhite">Maria Angelica</div>
+                    <div className="text-[10px] text-brand-periwinkle">Staff Cloud Architect</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Right Interactive Image Highlight Cards */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Card 1 */}
               <Link 
                 to="/blog/optimizing-dom-depth-nextjs"
-                className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-800 border border-white/10 hover:border-cyan-400/40 transition-all hover:scale-[1.02] shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="group relative rounded-xl overflow-hidden aspect-[4/3] bg-brand-oxford border border-brand-slate/40 hover:border-brand-periwinkle/50 transition-all shadow-md"
               >
-                <img alt="Visual asset" 
+                <img 
                   src={vitalzymeImg} 
                   alt="DOM Health Telemetry" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                  <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider mb-1">Telemetry Spotlight</span>
-                  <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                    Optimizing DOM Depth & Eliminating Hydration Freezes
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-black/40 to-transparent p-3.5 flex flex-col justify-end">
+                  <span className="text-[10px] font-bold text-accent-cyan uppercase tracking-wider mb-0.5">Telemetry Spotlight</span>
+                  <h4 className="text-xs font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
+                    Optimizing DOM Depth &amp; Eliminating Hydration Freezes
                   </h4>
                 </div>
               </Link>
@@ -514,17 +500,17 @@ export const BlogsPage: React.FC = () => {
               {/* Card 2 */}
               <Link 
                 to="/blog/decimating-ttfb-edge-workers"
-                className="group relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-800 border border-white/10 hover:border-cyan-400/40 transition-all hover:scale-[1.02] shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="group relative rounded-xl overflow-hidden aspect-[4/3] bg-brand-oxford border border-brand-slate/40 hover:border-brand-periwinkle/50 transition-all shadow-md"
               >
-                <img alt="Visual asset" 
+                <img 
                   src={edgevmaxImg} 
                   alt="Edge Latency Benchmarks" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
-                  <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider mb-1">Edge Latency</span>
-                  <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors line-clamp-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                    Sub-20ms Anycast Routing & Worker Invalidation
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-black/40 to-transparent p-3.5 flex flex-col justify-end">
+                  <span className="text-[10px] font-bold text-accent-cyan uppercase tracking-wider mb-0.5">Edge Latency</span>
+                  <h4 className="text-xs font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors line-clamp-2 font-sans">
+                    Sub-20ms Anycast Routing &amp; Worker Invalidation
                   </h4>
                 </div>
               </Link>
@@ -536,46 +522,46 @@ export const BlogsPage: React.FC = () => {
       </main>
 
       {/* 4. NEWSLETTER SUBSCRIPTION SECTION */}
-      <section className="border-t border-white/10 bg-[#0a1526] py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-4 py-1 text-xs font-semibold text-cyan-300">
-            <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+      <section className="border-t border-brand-slate/30 bg-brand-oxford py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-0.5 text-xs font-bold text-accent-cyan">
+            <Sparkles className="h-3 w-3" />
             <span>Weekly Engineering Telemetry Digest</span>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-brand-offwhite tracking-tight font-sans">
             Get Technical Telemetry Briefings Straight to Your Inbox
           </h2>
           
-          <p className="text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
+          <p className="text-xs text-brand-periwinkle max-w-md mx-auto leading-relaxed font-sans">
             Every Tuesday, we send deep-dive architectural breakdowns, Core Web Vital changes, and AI search indexing tactics. No spam, ever.
           </p>
 
           {subscribed ? (
-            <div className="rounded-2xl border border-green-500/30 bg-green-500/10 p-5 text-sm font-bold text-green-300">
+            <div className="rounded-xl border border-accent-emerald/40 bg-brand-navy p-3 text-xs font-bold text-accent-emerald">
               ✓ You are subscribed! Check your inbox for the latest telemetry dispatch.
             </div>
           ) : (
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto pt-1 font-mono">
               <input
                 type="email"
                 required
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
                 placeholder="developer@company.com"
-                className="flex-1 rounded-full border border-white/20 bg-white/10 px-5 py-3.5 text-sm text-white placeholder:text-slate-400 focus:border-cyan-400 focus:bg-white/15 focus:outline-none transition-colors"
+                className="flex-1 rounded-xl border border-brand-slate/40 bg-surface-panel px-3.5 py-2 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
               />
               <button 
                 type="submit"
-                className="rounded-full bg-cyan-400 hover:bg-cyan-300 px-8 py-3.5 text-sm font-extrabold text-[#07111e] transition-all hover:scale-105 shadow-md whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-5 py-2 text-xs font-bold text-white transition-all whitespace-nowrap cursor-pointer shadow-sm"
               >
                 Subscribe
               </button>
             </form>
           )}
 
-          <p className="text-xs text-slate-400">
-            By subscribing, you agree to our <Link to="/privacy" className="underline hover:text-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Privacy Policy</Link>. Unsubscribe at any time with one click.
+          <p className="text-[11px] text-brand-slate-light font-sans">
+            By subscribing, you agree to our <Link to="/privacy" className="underline hover:text-white">Privacy Policy</Link>. Unsubscribe at any time with one click.
           </p>
         </div>
       </section>

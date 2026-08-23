@@ -134,7 +134,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
     return (
       <div 
         id="rate-limit-exceeded-alert"
-        className={`rounded-2xl border border-rose-500/60 bg-gradient-to-r from-rose-950/80 via-[#151324]/90 to-rose-950/80 p-4 sm:p-5 text-[#f8fafc] backdrop-blur-md shadow-xl animate-in fade-in slide-in-from-top-2 duration-300 ${className}`}
+        className={`rounded-2xl border border-rose-500/60 bg-brand-oxford p-4 sm:p-5 text-brand-offwhite backdrop-blur-md shadow-xl animate-in fade-in slide-in-from-top-2 duration-300 ${className}`}
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
@@ -170,7 +170,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {!user ? (
               <button
                 onClick={() => login()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-xs font-bold text-white hover:from-blue-500 hover:to-indigo-500 transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2.5 text-xs font-bold text-white transition-all shadow-xs active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
               >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In (+30 Units/Day)</span>
@@ -217,7 +217,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
     return (
       <div 
         id="rate-limit-approaching-alert"
-        className={`rounded-2xl border border-amber-500/50 bg-gradient-to-r from-amber-950/70 via-[#191e2b]/90 to-amber-950/70 p-4 sm:p-5 text-[#f8fafc] backdrop-blur-md shadow-lg animate-in fade-in duration-200 ${className}`}
+        className={`rounded-2xl border border-amber-500/50 bg-brand-oxford p-4 sm:p-5 text-brand-offwhite backdrop-blur-md shadow-lg animate-in fade-in duration-200 ${className}`}
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">

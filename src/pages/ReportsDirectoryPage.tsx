@@ -6,29 +6,20 @@ import { ENGINES_MAP } from '../data/engines';
 import { urlToDomainSlug, extractDomainFromUrl } from '../utils/slugUtils';
 import type { AuditReport } from '../types';
 import { 
-  LayoutDashboard, 
   Search, 
-  ExternalLink, 
-  ShieldCheck, 
   ArrowRight, 
   FileText, 
   Sparkles,
   Zap,
   Globe,
-  Lock,
-  Layers,
   Activity,
   CreditCard,
   Package,
   Triangle,
   Shield,
-  Star,
-  CheckCircle2,
-  GitBranch,
-  Terminal,
-  Leaf,
-  Cpu
+  Star
 } from 'lucide-react';
+import { SEOHead } from '../components/common/SEOHead';
 
 const FEATURED_BENCHMARKS = [
   {
@@ -91,21 +82,17 @@ export const ReportsDirectoryPage: React.FC = () => {
   const { user, login } = useAuth();
   const navigate = useNavigate();
   const [userReports, setUserReports] = useState<AuditReport[]>([]);
-  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [domainInput, setDomainInput] = useState('');
 
   useEffect(() => {
     const load = async () => {
       if (user) {
-        setLoading(true);
         try {
           const data = await getUserReports();
           setUserReports(data);
         } catch (e) {
           console.error("Failed to load user reports:", e);
-        } finally {
-          setLoading(false);
         }
       }
     };
@@ -132,59 +119,65 @@ export const ReportsDirectoryPage: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#0b192c] selection:bg-[#c5d3e8] selection:text-[#0b192c]">
+    <div className="min-h-screen bg-brand-navy pb-24 text-brand-offwhite selection:bg-brand-slate selection:text-white font-mono">
+      <SEOHead
+        title="Diagnostic Report Directory"
+        description="Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide."
+        keywords={['audit directory', 'web health benchmark', 'dossier directory', 'performance reports']}
+        canonicalUrl="https://www.catalystlab.tech/reports"
+      />
       
       {/* Header Banner */}
-      <section className="border-b border-[#e2e8f0] bg-white px-4 py-14 sm:px-6 lg:px-8">
+      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-3 py-1 text-sm font-bold text-[#415a77] uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-slate/40 bg-surface-panel px-3 py-1 text-xs font-bold text-accent-cyan uppercase tracking-wider mb-3">
                 <FileText className="h-3.5 w-3.5" />
                 <span>Diagnostic Report Directory</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0b192c] tracking-tight">
-                Web Performance, Security & AI Readiness Dossiers
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-offwhite tracking-tight font-sans">
+                Web Performance, Security &amp; AI Readiness Dossiers
               </h1>
-              <p className="mt-2 text-base text-[#415a77] max-w-2xl leading-relaxed">
+              <p className="mt-2 text-xs text-brand-periwinkle max-w-2xl leading-relaxed font-sans">
                 Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide.
               </p>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
               <Link
-                to="/"
-                className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-3 text-sm font-bold text-white hover:bg-[#152238] shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                to="/master-audit"
+                className="flex items-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all"
               >
-                <Zap className="h-4 w-4 fill-current text-[#c5d3e8]" />
+                <Zap className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>Run New Audit</span>
               </Link>
             </div>
           </div>
 
           {/* Quick Domain Inspector Input */}
-          <form onSubmit={handleInstantInspect} className="mt-4">
-            <div className="flex flex-col sm:flex-row gap-2 rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-2.5 shadow-2xl text-[#f8fafc]">
+          <form onSubmit={handleInstantInspect} className="mt-3">
+            <div className="flex flex-col sm:flex-row gap-2 rounded-xl border border-brand-slate/40 bg-surface-panel p-2 shadow-xl">
               <div className="relative flex-1">
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#c5d3e8]">
-                  <Globe className="h-4 w-4" />
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-slate-light">
+                  <Globe className="h-3.5 w-3.5" />
                 </span>
                 <input
                   type="text"
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
-                  placeholder="Enter any domain to view or generate its report (e.g. stripe.com or catalystlab.tech)..."
-                  className="w-full rounded-xl bg-transparent py-2.5 pl-10 pr-4 text-sm text-[#f8fafc] placeholder:text-[#c5d3e8]/50 focus:outline-none font-mono"
+                  placeholder="Enter any domain to view dossier (e.g. stripe.com or catalystlab.tech)..."
+                  className="w-full rounded-lg bg-transparent py-2 pl-9 pr-3 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:outline-none"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#415a77] px-5 py-2.5 text-sm font-bold text-[#f8fafc] hover:bg-[#33475e] transition-colors shrink-0 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-colors shrink-0 shadow-sm cursor-pointer"
               >
                 <span>Open Dossier</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#c5d3e8]" />
+                <ArrowRight className="h-3 w-3 text-accent-cyan" />
               </button>
             </div>
           </form>
@@ -192,37 +185,37 @@ export const ReportsDirectoryPage: React.FC = () => {
       </section>
 
       {/* Main Content */}
-      <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 space-y-10">
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#415a77]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-brand-slate-light" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search report directory by domain name, technology, or category..."
-            className="w-full rounded-2xl border border-[#415a77]/30 bg-white pl-10 pr-4 py-3 text-sm text-[#0b192c] placeholder:text-[#415a77]/60 focus:border-[#0b192c] focus:outline-none transition-colors shadow-sm"
+            className="w-full rounded-xl border border-brand-slate/40 bg-surface-panel pl-9 pr-4 py-2.5 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none transition-colors shadow-sm"
           />
         </div>
 
         {/* User Saved Reports (If authenticated & has reports) */}
         {user && userReports.length > 0 && (
-          <section className="space-y-4">
+          <section className="space-y-3.5">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-[#0b192c] flex items-center gap-2">
-                <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#0b192c] text-white text-sm font-bold">
-                  <Zap className="h-3.5 w-3.5 text-sky-400" />
+              <h2 className="text-xs font-bold text-brand-offwhite uppercase tracking-wider flex items-center gap-1.5">
+                <span className="flex h-5 w-5 items-center justify-center rounded bg-brand-oxford text-accent-cyan text-xs">
+                  <Zap className="h-3 w-3" />
                 </span>
                 <span>Your Saved Audit Reports ({filteredUserReports.length})</span>
               </h2>
-              <Link to="/dashboard" className="text-sm text-[#415a77] font-semibold hover:underline flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <Link to="/dashboard" className="text-xs text-brand-periwinkle hover:text-white flex items-center gap-1">
                 <span>Manage in Dashboard</span>
                 <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredUserReports.map((r) => {
                 const meta = ENGINES_MAP[r.engine] || { name: r.engine };
                 const domainSlug = urlToDomainSlug(r.url);
@@ -232,29 +225,29 @@ export const ReportsDirectoryPage: React.FC = () => {
                   <Link
                     key={r.id || domainSlug}
                     to={`/reports/${domainSlug}`}
-                    className="group relative rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl hover:border-[#415a77]/70 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="group relative rounded-xl border border-brand-slate/40 bg-surface-panel p-4 shadow-sm hover:bg-surface-subtle transition-all block text-brand-offwhite"
                   >
-                    <div className="flex items-center justify-between gap-2 mb-3.5">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#152238] text-sky-300 border border-[#415a77]/40 text-base group-hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                        <Activity className="h-4 w-4" />
+                    <div className="flex items-center justify-between gap-2 mb-2.5">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-oxford text-accent-cyan border border-brand-slate/40">
+                        <Activity className="h-3.5 w-3.5" />
                       </span>
-                      <span className="text-xs uppercase font-bold text-sky-300 bg-[#152238] px-2.5 py-1 rounded-full border border-sky-500/30 font-mono tracking-wider">
+                      <span className="text-[10px] uppercase font-bold text-accent-cyan bg-brand-oxford px-2 py-0.5 rounded border border-brand-slate/30">
                         {meta.name}
                       </span>
                     </div>
 
-                    <div className="font-bold text-base text-[#f8fafc] group-hover:text-sky-300 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                    <div className="font-bold text-xs text-brand-offwhite group-hover:text-accent-cyan transition-colors truncate">
                       {domainName}
                     </div>
-                    <div className="font-mono text-sm text-[#94a3b8] truncate mt-0.5">
+                    <div className="text-[11px] text-brand-slate-light truncate mt-0.5">
                       {r.url}
                     </div>
 
-                    <div className="flex items-center justify-between pt-3.5 mt-4 border-t border-[#415a77]/25 text-sm text-[#94a3b8]">
+                    <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-brand-slate/30 text-[11px] text-brand-slate-light">
                       <span>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'Recent'}</span>
-                      <span className="flex items-center gap-1 font-bold text-sky-300 group-hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                      <span className="flex items-center gap-1 font-bold text-brand-slate-light group-hover:text-white transition-colors">
                         <span>View Dossier</span>
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>
                   </Link>
@@ -265,20 +258,20 @@ export const ReportsDirectoryPage: React.FC = () => {
         )}
 
         {/* Featured Benchmark Articles (Always visible to everyone) */}
-        <section className="space-y-4">
+        <section className="space-y-3.5">
           <div>
-            <h2 className="text-lg font-bold text-[#0b192c] flex items-center gap-2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#415a77] text-white text-sm font-bold">
-                <Star className="h-3.5 w-3.5 text-amber-300 fill-amber-300" />
+            <h2 className="text-xs font-bold text-brand-offwhite uppercase tracking-wider flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-brand-oxford text-accent-amber text-xs">
+                <Star className="h-3 w-3 fill-accent-amber" />
               </span>
-              <span>Featured Architecture & Telemetry Dossiers</span>
+              <span>Featured Architecture &amp; Telemetry Dossiers</span>
             </h2>
-            <p className="text-sm text-[#415a77] mt-1">
+            <p className="text-xs text-brand-periwinkle mt-0.5 font-sans">
               Public benchmarks demonstrating DOM depth, OWASP header compliance, and edge latency across industry standards.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredFeatured.map((item) => {
               const slug = urlToDomainSlug(item.domain);
               const isGradeA = item.grade.startsWith('A');
@@ -288,38 +281,38 @@ export const ReportsDirectoryPage: React.FC = () => {
                 <Link
                   key={item.domain}
                   to={`/reports/${slug}`}
-                  className="group relative rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 shadow-xl hover:border-[#415a77]/70 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 block text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="group relative rounded-xl border border-brand-slate/40 bg-surface-panel p-4 shadow-sm hover:bg-surface-subtle transition-all block text-brand-offwhite"
                 >
-                  <div className="flex items-center justify-between gap-2 mb-3.5">
-                    <div className="flex items-center gap-2.5">
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#152238] text-white border border-[#415a77]/40 text-base group-hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                        <Icon className="h-4 w-4 text-sky-300" />
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-oxford text-accent-cyan border border-brand-slate/40">
+                        <Icon className="h-3.5 w-3.5" />
                       </span>
-                      <span className="text-xs uppercase font-bold text-[#94a3b8] bg-[#152238] px-2.5 py-1 rounded-full border border-[#415a77]/40 tracking-wide">
+                      <span className="text-[10px] uppercase font-bold text-brand-slate-light bg-brand-oxford px-2 py-0.5 rounded border border-brand-slate/30">
                         {item.category}
                       </span>
                     </div>
-                    <span className={`text-sm font-mono font-extrabold px-2.5 py-1 rounded-full border ${
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
                       isGradeA 
-                        ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400' 
-                        : 'border-sky-500/40 bg-sky-500/10 text-sky-300'
+                        ? 'border-emerald-500/30 bg-emerald-950/40 text-accent-emerald' 
+                        : 'border-blue-500/30 bg-blue-950/40 text-blue-300'
                     }`}>
                       Grade {item.grade}
                     </span>
                   </div>
 
-                  <div className="font-bold text-base text-[#f8fafc] group-hover:text-sky-300 transition-colors truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                  <div className="font-bold text-xs text-brand-offwhite group-hover:text-accent-cyan transition-colors truncate">
                     {item.domain}
                   </div>
-                  <p className="text-sm text-[#94a3b8] mt-1.5 line-clamp-2 leading-relaxed">
+                  <p className="text-[11px] text-brand-periwinkle mt-1 line-clamp-2 leading-relaxed font-sans">
                     {item.title}
                   </p>
 
-                  <div className="flex items-center justify-between pt-3.5 mt-4 border-t border-[#415a77]/25 text-sm text-[#94a3b8]">
-                    <span className="font-mono text-sm font-semibold text-sky-300">{item.score}/100 Score</span>
-                    <span className="flex items-center gap-1 font-bold text-sky-300 group-hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                  <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-brand-slate/30 text-[11px] text-brand-slate-light">
+                    <span className="text-accent-cyan font-bold">{item.score}/100 Score</span>
+                    <span className="flex items-center gap-1 font-bold text-brand-slate-light group-hover:text-white transition-colors">
                       <span>Explore Benchmark</span>
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
                 </Link>
@@ -330,19 +323,19 @@ export const ReportsDirectoryPage: React.FC = () => {
 
         {/* Guest Call-to-action Banner if not signed in */}
         {!user && (
-          <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-8 sm:p-10 text-center shadow-2xl text-[#f8fafc]">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#415a77] text-white text-xl font-bold mb-3 shadow-md">
-              <Sparkles className="h-6 w-6 text-[#c5d3e8]" />
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-center shadow-xl text-brand-offwhite">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan mb-2.5 shadow-sm">
+              <Sparkles className="h-5 w-5" />
             </div>
-            <h3 className="text-xl font-bold text-[#f8fafc]">Save & Organize Your Custom Domain Audits</h3>
-            <p className="mt-2 text-sm text-[#c5d3e8] max-w-md mx-auto leading-relaxed">
-              Sign in with Google to permanently track historical audits, monitor regressions over time, and generate dedicated whitepaper dossiers.
+            <h3 className="text-base font-extrabold text-brand-offwhite">Save &amp; Organize Your Custom Domain Audits</h3>
+            <p className="mt-1.5 text-xs text-brand-periwinkle max-w-md mx-auto leading-relaxed font-sans">
+              Sign in to permanently track historical audits, monitor regressions over time, and generate dedicated whitepaper dossiers.
             </p>
             <button
               onClick={() => login()}
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-6 py-3 text-sm font-bold text-[#f8fafc] hover:bg-[#33475e] shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-5 py-2 text-xs font-bold text-white shadow-sm transition-all cursor-pointer"
             >
-              Sign In with Google
+              Sign In to Your Account
             </button>
           </div>
         )}
@@ -351,5 +344,5 @@ export const ReportsDirectoryPage: React.FC = () => {
     </div>
   );
 };
-export default ReportsDirectoryPage;
 
+export default ReportsDirectoryPage;

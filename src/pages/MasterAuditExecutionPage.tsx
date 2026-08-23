@@ -12,9 +12,7 @@ import { urlToDomainSlug } from '../utils/slugUtils';
 import { getRateLimitStatus, recordAuditLaunch, getVisitorDeviceId } from '../utils/rateLimiter';
 import type { EngineType } from '../types';
 import {
-  Terminal,
   RotateCw,
-  Play,
   CheckCircle2,
   ExternalLink,
   Share2,
@@ -22,17 +20,9 @@ import {
   Activity,
   Download,
   FlaskConical,
-  Check,
-  AlertCircle,
-  Sparkles,
-  Layers,
-  ShieldCheck,
-  Globe,
-  Cpu,
-  Leaf,
-  GitBranch,
-  Gauge
+  AlertCircle
 } from 'lucide-react';
+import { SEOHead } from '../components/common/SEOHead';
 
 interface EngineState {
   output: string;
@@ -47,7 +37,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
   const initialUrlFromQuery = searchParams.get('url') || '';
 
   const [targetUrl, setTargetUrl] = useState(initialUrlFromQuery);
-  const [urlStatus, setUrlStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid' | 'unreachable'>('idle');
+  const [, setUrlStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid' | 'unreachable'>('idle');
   const [isAuditing, setIsAuditing] = useState(false);
   const [savedReportId, setSavedReportId] = useState<string | null>(null);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
@@ -58,7 +48,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
   const engineKeys = Object.keys(ENGINES_MAP) as EngineType[];
   const [activeEngineTab, setActiveEngineTab] = useState<EngineType>('health');
   const [typedPlaceholder, setTypedPlaceholder] = useState('');
-  const [commandBlink, setCommandBlink] = useState(false);
+  const [, setCommandBlink] = useState(false);
 
   useEffect(() => {
     const fullText = "@catalystlab-search: (https://example.com)";
@@ -141,7 +131,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
         } else {
           setUrlStatus('unreachable');
         }
-      } catch (err) {
+      } catch {
         setUrlStatus('unreachable');
       }
     };
@@ -205,7 +195,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
               [key]: { output: outputText, loading: false, success: true }
             }));
             return { engine: key, output: outputText, success: true };
-          } catch (err: unknown) {
+          } catch (err: any) {
             const errText = `Error executing ${key}: ${err.message || 'Unknown error'}`;
             setEngineStates(prev => ({
               ...prev,
@@ -216,7 +206,9 @@ export const MasterAuditExecutionPage: React.FC = () => {
         })
       );
       
-      const results = settledResults.map(r => r.status === 'fulfilled' ? r.value : null).filter(Boolean);
+      const results = settledResults
+        .map(r => (r.status === 'fulfilled' ? r.value : null))
+        .filter((r): r is { engine: EngineType; output: any; success: boolean } => r !== null);
 
       const combinedResults: Record<string, string> = {};
       results.forEach(r => {
@@ -272,25 +264,30 @@ export const MasterAuditExecutionPage: React.FC = () => {
   const progressPercent = Math.round((completedCount / engineKeys.length) * 100);
 
   return (
-    <div className="min-h-screen bg-[#0b192c] text-white pb-24 selection:bg-[#415a77]/30 selection:text-white">
+    <div className="min-h-screen bg-brand-navy text-brand-offwhite pb-24 selection:bg-brand-slate selection:text-white font-mono">
+      <SEOHead
+        title="Master Audit Execution Hub"
+        description="Launch 8 parallel AI diagnostic microagents across architecture, code hygiene, Core Web Vitals, and AI search discoverability."
+        keywords={['master audit', '8 engine audit', 'web health radar', 'architecture diagnostics']}
+        canonicalUrl="https://www.catalystlab.tech/master-audit"
+      />
       
-      {/* Dedicated Master Audit Launcher Header using Brand Navy & Oxford Palette */}
-      <section className="relative overflow-hidden border-b border-[#415a77]/30 bg-[#0d1b2a] py-16 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(65,90,119,0.2),rgba(11,25,44,0))] pointer-events-none"></div>
+      {/* Dedicated Master Audit Launcher Header */}
+      <section className="relative overflow-hidden border-b border-brand-slate/30 bg-brand-oxford py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/50 bg-[#0b192c] px-3.5 py-1 text-sm font-mono font-bold text-[#c5d3e8]">
-            <span className="w-2 h-2 rounded-full bg-[#c5d3e8] animate-ping"></span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3 py-1 text-xs font-bold text-accent-cyan">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-ping" />
             <span>Dedicated Master Audit Execution Hub</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-sans">
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight font-sans text-brand-offwhite">
             Launch 8 Parallel AI Telemetry Catalysts
           </h1>
-          <p className="text-base sm:text-base text-[#c5d3e8] max-w-2xl mx-auto font-mono">
+          <p className="text-xs sm:text-sm text-brand-periwinkle max-w-2xl mx-auto font-sans leading-relaxed">
             Enter your target URL below to dispatch autonomous Python microagents across architecture, code hygiene, Core Web Vitals, and AI search discoverability.
           </p>
 
           {/* Master Audit Execution Form */}
-          <div className="pt-4 max-w-2xl mx-auto flex justify-center w-full">
+          <div className="pt-3 max-w-2xl mx-auto flex justify-center w-full">
             <EngineInput 
               value={targetUrl}
               onChange={(val) => { triggerHaptic(12); setTargetUrl(val); }}
@@ -306,29 +303,29 @@ export const MasterAuditExecutionPage: React.FC = () => {
       </section>
 
       {/* Main Results Workspace */}
-      <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
 
         {savedReportId && (
           <LazyReveal direction="down" duration={0.35}>
-            <div className="mb-8 rounded-2xl border border-[#415a77]/50 bg-[#0d1b2a] p-6 text-white shadow-2xl">
+            <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-5 text-brand-offwhite shadow-xl">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-emerald-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="h-5 w-5 text-accent-emerald shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="text-base font-bold text-white">
+                    <h3 className="text-sm font-bold text-brand-offwhite">
                       Master Audit Successfully Committed to Firestore!
                     </h3>
-                    <p className="text-sm text-[#c5d3e8] mt-1">
+                    <p className="text-xs text-brand-periwinkle mt-0.5">
                       Immutable telemetry record created. Shareable permalink:
                     </p>
                     <a
                       href={permalinkUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-1.5 inline-flex items-center gap-1 text-sm text-[#c5d3e8] underline hover:text-white font-mono break-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="mt-1 inline-flex items-center gap-1 text-xs text-accent-cyan underline hover:text-white break-all"
                     >
                       {permalinkUrl}
-                      <ExternalLink className="h-3.5 w-3.5" />
+                      <ExternalLink className="h-3 w-3" />
                     </a>
                   </div>
                 </div>
@@ -336,18 +333,18 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-2 shrink-0">
                   <button
                     onClick={handleCopyPermalink}
-                    className="flex items-center gap-1.5 rounded-lg border border-[#415a77]/50 bg-[#0b192c] px-3.5 py-2 text-sm font-semibold text-white hover:bg-[#132742] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="flex items-center gap-1.5 rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs font-bold text-brand-offwhite hover:bg-surface-subtle transition-colors cursor-pointer"
                   >
-                    <Share2 className="h-4 w-4 text-[#c5d3e8]" />
+                    <Share2 className="h-3.5 w-3.5 text-accent-cyan" />
                     <span>{copiedLink ? 'Copied!' : 'Copy Link'}</span>
                   </button>
 
                   <Link
                     to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                    className="flex items-center gap-1.5 rounded-lg bg-[#c5d3e8] text-[#0b192c] px-3.5 py-2 text-sm font-bold hover:bg-white transition-colors shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3.5 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
                   >
                     <span>Read Article Dossier</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               </div>
@@ -355,23 +352,23 @@ export const MasterAuditExecutionPage: React.FC = () => {
           </LazyReveal>
         )}
 
-        {/* Real-time 8-Stage Pipeline Live Tracker (When auditing or has output) */}
+        {/* Real-time 8-Stage Pipeline Live Tracker */}
         {(isAuditing || hasAnyOutput) && (
-          <div className="mb-8 rounded-2xl border border-[#415a77]/40 bg-[#0d1b2a] p-5 shadow-xl">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-4 shadow-xl space-y-3.5">
+            <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <Activity className="h-4 w-4 text-sky-400 animate-pulse" />
-                <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-[#c5d3e8]">
+                <Activity className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-brand-offwhite">
                   8-Stage Telemetry Pipeline Execution Status
                 </h3>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-sm font-mono text-[#c5d3e8]">
-                  Completed: <strong className="text-white">{completedCount} / 8</strong> Catalysts ({progressPercent}%)
+                <span className="text-xs text-brand-periwinkle">
+                  Completed: <strong className="text-brand-offwhite">{completedCount} / 8</strong> ({progressPercent}%)
                 </span>
-                <div className="w-24 bg-[#0b192c] rounded-full h-2 overflow-hidden border border-[#415a77]/40">
+                <div className="w-24 bg-brand-oxford rounded-full h-1.5 overflow-hidden border border-brand-slate/40">
                   <div 
-                    className="bg-emerald-400 h-2 rounded-full transition-all duration-300"
+                    className="bg-accent-emerald h-1.5 rounded-full transition-all duration-300"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -389,30 +386,30 @@ export const MasterAuditExecutionPage: React.FC = () => {
                     key={key}
                     type="button"
                     onClick={() => setActiveEngineTab(key)}
-                    className={`flex flex-col p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                    className={`flex flex-col p-2 rounded-xl border text-left transition-all cursor-pointer ${
                       isCurrentTab 
-                        ? 'border-sky-400 bg-[#152238] shadow-md ring-1 ring-sky-400/40' 
-                        : 'border-[#415a77]/30 bg-[#0b192c] hover:border-[#415a77]'
+                        ? 'border-brand-slate bg-brand-slate text-white shadow-sm' 
+                        : 'border-brand-slate/30 bg-brand-oxford text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-mono text-[#c5d3e8] font-bold uppercase truncate">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[10px] font-bold uppercase truncate">
                         {meta.shortCode || meta.name}
                       </span>
                       {state?.loading ? (
-                        <RotateCw className="h-3 w-3 text-amber-400 animate-spin" />
+                        <RotateCw className="h-2.5 w-2.5 text-accent-amber animate-spin" />
                       ) : state?.success ? (
-                        <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                        <CheckCircle2 className="h-2.5 w-2.5 text-accent-emerald" />
                       ) : state?.error ? (
-                        <AlertCircle className="h-3 w-3 text-rose-400" />
+                        <AlertCircle className="h-2.5 w-2.5 text-rose-400" />
                       ) : (
-                        <div className="h-2 w-2 rounded-full bg-slate-600" />
+                        <div className="h-1.5 w-1.5 rounded-full bg-brand-slate-light" />
                       )}
                     </div>
-                    <div className="text-sm font-semibold text-white truncate">
+                    <div className="text-xs font-semibold text-brand-offwhite truncate">
                       {meta.catalystName || meta.name}
                     </div>
-                    <div className="text-xs font-mono text-[#64748b] truncate mt-0.5">
+                    <div className="text-[10px] text-brand-slate-light truncate mt-0.5">
                       {state?.loading ? 'Scanning...' : state?.success ? 'Indexed' : state?.error ? 'Failed' : 'Queued'}
                     </div>
                   </button>
@@ -424,40 +421,40 @@ export const MasterAuditExecutionPage: React.FC = () => {
 
         {/* Results Grid / Active Workspace */}
         {(hasAnyOutput || isAuditing) && (
-          <div id="master-results-grid" className="space-y-8">
+          <div id="master-results-grid" className="space-y-6">
             
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-[#0d1b2a] p-4 rounded-2xl border border-[#415a77]/40">
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-surface-panel p-3.5 rounded-2xl border border-brand-slate/40">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#415a77]/20 border border-[#415a77]/50 flex items-center justify-center text-[#c5d3e8]">
-                  <Activity className="h-5 w-5 text-sky-400" />
+                <div className="w-8 h-8 rounded-lg bg-brand-oxford border border-brand-slate/40 flex items-center justify-center text-accent-cyan">
+                  <Activity className="h-4 w-4" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-white">Execution Workspace</h2>
-                  <p className="text-sm text-[#c5d3e8] font-mono">Target: {targetUrl}</p>
+                  <h2 className="text-sm font-bold text-brand-offwhite">Execution Workspace</h2>
+                  <p className="text-xs text-brand-periwinkle">Target: {targetUrl}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={handleExportPdf}
                   disabled={isExportingPdf || !hasAnyOutput}
-                  className="flex items-center gap-1.5 rounded-xl border border-[#415a77]/50 bg-[#0b192c] px-4 py-2 text-sm font-semibold text-white hover:bg-[#132742] disabled:opacity-40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center gap-1.5 rounded-lg border border-brand-slate/40 bg-brand-oxford px-3.5 py-1.5 text-xs font-bold text-brand-offwhite hover:bg-surface-subtle disabled:opacity-40 transition-colors cursor-pointer"
                 >
-                  <Download className="h-4 w-4 text-[#c5d3e8]" />
+                  <Download className="h-3.5 w-3.5 text-accent-cyan" />
                   <span>{isExportingPdf ? 'Compiling PDF...' : 'Export PDF Report'}</span>
                 </button>
               </div>
             </div>
 
             {/* Catalyst Engine Selector Dropdown */}
-            <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0d1b2a] px-4 py-3 rounded-2xl border border-[#415a77]/40">
+            <div className="flex flex-wrap items-center justify-between gap-3 bg-surface-panel px-3.5 py-2.5 rounded-2xl border border-brand-slate/40">
               <div className="flex items-center gap-2">
-                <label htmlFor="master-engine-select" className="text-xs font-mono text-[#c5d3e8] uppercase font-bold">Terminal Feed:</label>
+                <label htmlFor="master-engine-select" className="text-xs text-brand-periwinkle uppercase font-bold">Terminal Feed:</label>
                 <select
                   id="master-engine-select"
                   value={activeEngineTab}
                   onChange={(e) => setActiveEngineTab(e.target.value as EngineType)}
-                  className="rounded-xl border border-[#415a77]/50 bg-[#0b192c] px-3 py-2 text-xs font-mono font-bold text-white focus:border-sky-400 focus:outline-none"
+                  className="rounded-lg border border-brand-slate/40 bg-brand-oxford px-2.5 py-1 text-xs font-bold text-brand-offwhite focus:border-brand-slate focus:outline-none cursor-pointer"
                 >
                   {engineKeys.map(key => {
                     const meta = ENGINES_MAP[key];
@@ -472,8 +469,8 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 </select>
               </div>
 
-              <div className="text-xs font-mono text-[#64748b]">
-                Active Engine: <span className="text-sky-400 font-bold">{ENGINES_MAP[activeEngineTab].name}</span>
+              <div className="text-xs text-brand-slate-light">
+                Active Engine: <span className="text-accent-cyan font-bold">{ENGINES_MAP[activeEngineTab].name}</span>
               </div>
             </div>
 
@@ -485,7 +482,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 engine={ENGINES_MAP[activeEngineTab].id}
                 output={engineStates[activeEngineTab]?.output || ''}
                 loading={engineStates[activeEngineTab]?.loading}
-                statusText={`Executing ${ENGINES_MAP[activeEngineTab].catalystName || ENGINES_MAP[activeEngineTab].name} in Python container...`}
+                statusText={`Executing ${ENGINES_MAP[activeEngineTab].catalystName || ENGINES_MAP[activeEngineTab].name} in container...`}
               />
             </div>
 
@@ -493,11 +490,11 @@ export const MasterAuditExecutionPage: React.FC = () => {
         )}
 
         {!hasAnyOutput && !isAuditing && (
-          <div className="text-center py-20 bg-[#0d1b2a] rounded-3xl border border-[#415a77]/40 space-y-4 max-w-2xl mx-auto">
-            <FlaskConical className="h-14 w-14 text-[#c5d3e8] mx-auto opacity-70" />
-            <h3 className="text-xl font-bold text-white">Ready for Execution</h3>
-            <p className="text-base text-[#c5d3e8] px-6">
-              Enter a URL above and click "Start Master Audit" to initiate the 8 parallel telemetry microagents.
+          <div className="text-center py-16 bg-surface-panel rounded-2xl border border-brand-slate/40 space-y-3 max-w-xl mx-auto p-6">
+            <FlaskConical className="h-10 w-10 text-brand-slate-light mx-auto opacity-70" />
+            <h3 className="text-base font-bold text-brand-offwhite">Ready for Execution</h3>
+            <p className="text-xs text-brand-periwinkle max-w-sm mx-auto font-sans leading-relaxed">
+              Enter a URL above and click &quot;Start Master Audit&quot; to initiate the 8 parallel telemetry microagents.
             </p>
           </div>
         )}

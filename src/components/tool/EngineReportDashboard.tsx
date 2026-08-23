@@ -387,7 +387,7 @@ print(report['output'])`
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               {meta.image && (
                 <div className="shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border border-[#415a77]/50 shadow-lg relative">
-                  <img alt="Visual asset" 
+                  <img 
                     src={meta.image} 
                     alt={meta.name}
                     className="w-full h-full object-cover"
@@ -761,7 +761,7 @@ print(report['output'])`
       </div>
 
       {/* 7. Next Recommended Engines for Subsequent Audits */}
-      <div className="rounded-3xl border border-[#415a77]/30 bg-gradient-to-br from-[#152238] to-[#0b192c] p-6 sm:p-8 text-white shadow-2xl">
+      <div className="rounded-3xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-2xl">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[#fbbf24]">
             <Compass className="h-5 w-5" />

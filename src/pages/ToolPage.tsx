@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ENGINES_MAP } from '../data/engines';
 import { TerminalOutput } from '../components/TerminalOutput';
-import { RateLimitBadge } from '../components/RateLimitBadge';
 import { RateLimitModal } from '../components/RateLimitModal';
 import { EngineReportDashboard } from '../components/tool/EngineReportDashboard';
 import { saveReport } from '../lib/firebase';
@@ -12,21 +11,16 @@ import { urlToDomainSlug } from '../utils/slugUtils';
 import { getRateLimitStatus, recordAuditLaunch, getVisitorDeviceId } from '../utils/rateLimiter';
 import type { EngineType } from '../types';
 import { 
-  Play, 
-  Share2, 
   ExternalLink, 
   CheckCircle2, 
   ArrowLeft, 
   ShieldCheck, 
-  Sparkles,
-  ArrowRight,
-  FileText,
-  Activity,
-  Code,
-  Tag,
-  Compass,
-  BookOpen
+  FileText, 
+  Activity, 
+  Code, 
+  BookOpen 
 } from 'lucide-react';
+import { SEOHead } from '../components/common/SEOHead';
 
 interface ToolPageProps {
   engineType: EngineType;
@@ -57,7 +51,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     return trimmed;
   };
 
-  // Inspect URL search params for quick testing / cross-engine runs
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const queryUrl = searchParams.get('url');
@@ -65,7 +58,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       setTargetUrl(queryUrl);
       if (!autoLaunchedRef.current && !output && !loading) {
         autoLaunchedRef.current = true;
-        // Trigger auto-scan
         triggerAudit(queryUrl);
       }
     }
@@ -98,7 +90,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   const triggerAudit = async (rawUrl: string) => {
     if (!rawUrl.trim()) return;
 
-    // Check rate limit
     const rateStatus = getRateLimitStatus(user, isAdmin);
     if (rateStatus.isSingleExceeded) {
       setRateLimitReason('limit_reached');
@@ -117,7 +108,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     setSavedReportId(null);
     setViewMode('dashboard');
 
-    // Record launch count
     recordAuditLaunch(user, isAdmin, 'single');
     const auditSessionId = `tool_${engineType}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     const visitorId = getVisitorDeviceId();
@@ -145,7 +135,6 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       const finalOutput = data.output || (data.error ? `Error: ${data.error}` : 'No output returned.');
       setOutput(finalOutput);
 
-      // Auto-save if user authenticated
       if (user && data.success) {
         try {
           const docId = await saveReport({
@@ -165,7 +154,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           console.error("Firestore auto-save error:", saveErr);
         }
       }
-    } catch (err: unknown) {
+    } catch (err: any) {
       setOutput(`[!] Error: Network communication failure (${err.message}).`);
     } finally {
       setLoading(false);
@@ -189,71 +178,76 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-20 text-[#0b192c] selection:bg-[#c5d3e8] selection:text-[#0b192c]">
+    <div className="min-h-screen bg-brand-navy pb-20 text-brand-offwhite selection:bg-brand-slate selection:text-white font-mono">
+      <SEOHead
+        title={`${meta.catalystName || meta.name} Catalyst`}
+        description={meta.description}
+        canonicalUrl={`https://www.catalystlab.tech/tool/${engineType}`}
+      />
       
       {/* Header Banner */}
-      <section className="border-b border-[#e2e8f0] bg-white px-4 py-12 sm:px-6 lg:px-8">
+      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           
           <div className="flex items-center justify-between mb-6">
             <Link
-              to="/"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#415a77] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              to="/master-audit"
+              className="inline-flex items-center gap-1 text-xs font-bold text-brand-periwinkle hover:text-white transition-colors"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-3.5 w-3.5" />
               <span>Back to Master Audit</span>
             </Link>
 
             <Link
               to={`/docs#${meta.docsAnchor || 'overview'}`}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#38bdf8] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1 text-xs font-bold text-accent-cyan hover:underline transition-colors"
             >
-              <BookOpen className="h-4 w-4" />
+              <BookOpen className="h-3.5 w-3.5" />
               <span>Engine Documentation</span>
-              <ExternalLink className="h-3 w-3" />
+              <ExternalLink className="h-2.5 w-2.5" />
             </Link>
           </div>
 
-          <div className="flex flex-col items-center mb-4">
+          <div className="flex flex-col items-center mb-3">
             {meta.image ? (
-              <div className="w-24 h-24 sm:w-32 sm:h-32 mb-4 rounded-2xl overflow-hidden shadow-lg border border-[#e2e8f0]">
-                <img alt="Visual asset" 
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-3 rounded-2xl overflow-hidden shadow-lg border border-brand-slate/40">
+                <img 
                   src={meta.image} 
                   alt={meta.name}
                   className="w-full h-full object-cover"
                 />
               </div>
             ) : (
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0b192c] text-[#38bdf8] text-3xl shadow-xl mb-4 border border-[#415a77]/40">
-                <span className="material-symbols-outlined text-4xl">{meta.icon}</span>
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-panel text-accent-cyan text-2xl shadow-lg mb-3 border border-brand-slate/40">
+                <span className="material-symbols-outlined text-3xl">{meta.icon}</span>
               </div>
             )}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-            <span className="text-sm font-bold px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-600">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded border border-brand-slate/40 bg-surface-panel text-accent-cyan">
               {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
             </span>
-            <span className="inline-flex items-center gap-1 text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-accent-emerald bg-brand-oxford px-2.5 py-0.5 rounded border border-brand-slate/40">
+              <ShieldCheck className="h-3 w-3 text-accent-emerald" />
               <span>Replaces: {meta.departmentReplaced}</span>
             </span>
-            <span className="inline-flex items-center gap-1 text-sm font-mono font-bold text-[#415a77] bg-[#f1f5f9] px-3 py-1 rounded-full border border-[#e2e8f0]">
-              <Code className="h-3 w-3 text-[#38bdf8]" />
+            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-brand-periwinkle bg-surface-panel px-2.5 py-0.5 rounded border border-brand-slate/40">
+              <Code className="h-3 w-3 text-accent-cyan" />
               <span>runtime: Python 3.11 ({meta.pythonScript})</span>
             </span>
           </div>
 
-          <h1 className="text-3xl font-extrabold text-[#0b192c] sm:text-4xl">
+          <h1 className="text-2xl font-extrabold text-brand-offwhite sm:text-3xl font-sans">
             {meta.catalystName || `${meta.name} Catalyst`}
           </h1>
 
-          <p className="mx-auto mt-3 max-w-2xl text-base text-[#415a77] leading-relaxed">
+          <p className="mx-auto mt-2 max-w-2xl text-xs sm:text-sm text-brand-periwinkle leading-relaxed font-sans">
             {meta.description}
           </p>
 
           {/* Form */}
-          <div className="mt-8 mx-auto max-w-xl">
+          <div className="mt-6 mx-auto max-w-xl">
             <EngineInput 
               value={targetUrl}
               onChange={setTargetUrl}
@@ -275,20 +269,20 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       />
 
       {/* Results Section */}
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8 space-y-6">
         
         {/* Saved Permalink Banner */}
         {savedReportId && (
-          <div className="mb-6 rounded-2xl border border-[#415a77]/30 bg-[#0b192c] p-4 sm:p-5 shadow-lg text-[#f8fafc]">
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-4 shadow-xl text-brand-offwhite">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3">
-                <CheckCircle2 className="h-5 w-5 text-[#c5d3e8] shrink-0 mt-0.5" />
+                <CheckCircle2 className="h-5 w-5 text-accent-emerald shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-sm font-bold text-brand-offwhite">
                     Audit Saved to Your User Dashboard!
                   </h3>
-                  <div className="text-sm text-[#c5d3e8] mt-0.5">
-                    Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-white underline">{permalinkUrl}</a>
+                  <div className="text-xs text-brand-periwinkle mt-0.5">
+                    Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-accent-cyan underline">{permalinkUrl}</a>
                   </div>
                 </div>
               </div>
@@ -296,15 +290,15 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleCopy}
-                  className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-3.5 py-2 text-sm font-semibold text-white hover:bg-[#1f314d] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs font-semibold text-brand-offwhite hover:bg-surface-subtle transition-colors cursor-pointer"
                 >
                   {copiedLink ? 'Copied' : 'Copy Link'}
                 </button>
                 <Link
                   to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                  className="flex items-center gap-1 rounded-xl bg-[#415a77] px-3.5 py-2 text-sm font-bold text-white hover:bg-[#33475e] transition-colors shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center gap-1 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
                 >
-                  <FileText className="h-3.5 w-3.5" />
+                  <FileText className="h-3 w-3 text-accent-cyan" />
                   <span>Read Article Dossier</span>
                 </Link>
               </div>
@@ -313,27 +307,27 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         )}
 
         {(output || loading) && (
-          <div className="mt-8 flex gap-4 border-b border-[#e2e8f0]">
+          <div className="flex gap-2 border-b border-brand-slate/30 pb-2">
             <button
               onClick={() => setViewMode('dashboard')}
-              className={`flex items-center gap-2 px-4 py-3 text-base font-bold border-b-2 transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'dashboard'
-                  ? 'border-[#0b192c] text-[#0b192c]'
-                  : 'border-transparent text-[#415a77] hover:text-[#0b192c]'
+                  ? 'bg-brand-slate text-white border border-brand-periwinkle/30'
+                  : 'bg-surface-panel text-brand-periwinkle hover:text-white border border-brand-slate/40'
               }`}
             >
-              <Activity className="h-4 w-4" />
+              <Activity className="h-3.5 w-3.5" />
               Executive Visual Dashboard
             </button>
             <button
               onClick={() => setViewMode('terminal')}
-              className={`flex items-center gap-2 px-4 py-3 text-base font-bold border-b-2 transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'terminal'
-                  ? 'border-[#0b192c] text-[#0b192c]'
-                  : 'border-transparent text-[#415a77] hover:text-[#0b192c]'
+                  ? 'bg-brand-slate text-white border border-brand-periwinkle/30'
+                  : 'bg-surface-panel text-brand-periwinkle hover:text-white border border-brand-slate/40'
               }`}
             >
-              <Code className="h-4 w-4" />
+              <Code className="h-3.5 w-3.5" />
               Raw Terminal Output
             </button>
           </div>
@@ -351,7 +345,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         )}
 
         {(viewMode === 'terminal' || loading || output.startsWith('[!] Error')) && (
-          <div className="mt-8">
+          <div className="mt-4">
             <TerminalOutput
               title={`${meta.name} Console Output`}
               icon={meta.icon}
@@ -366,14 +360,14 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
         {/* Auth prompt if not logged in */}
         {!user && !loading && output && !output.startsWith('[!] Error') && (
-          <div className="mt-6 rounded-2xl border border-[#415a77]/30 bg-white p-5 text-center shadow-md max-w-4xl mx-auto">
-            <p className="text-sm text-[#415a77] flex items-center justify-center gap-1.5">
-              <span className="material-symbols-outlined text-base text-amber-500">lightbulb</span>
+          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-4 text-center shadow-md max-w-2xl mx-auto">
+            <p className="text-xs text-brand-periwinkle flex items-center justify-center gap-1.5 font-sans">
+              <span className="material-symbols-outlined text-sm text-accent-amber">lightbulb</span>
               <span><strong>Want to save this report to your history?</strong> Sign in with Google to enable permanent cloud storage and permalinks.</span>
             </p>
             <button
               onClick={() => login()}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] border border-[#0b192c] px-4 py-2 text-sm font-bold text-white hover:bg-[#152238] transition-colors shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3.5 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
             >
               Sign In with Google
             </button>
@@ -384,3 +378,5 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     </div>
   );
 };
+
+export default ToolPage;

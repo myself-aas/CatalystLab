@@ -16,6 +16,7 @@
 
     /* Linting */
     "strict": true,
+    "useUnknownInCatchVariables": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true

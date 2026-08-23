@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Play, 
+  Terminal, 
   Send, 
   Copy, 
   Check, 
@@ -10,23 +10,17 @@ import {
   ShieldCheck, 
   Zap, 
   AlertCircle, 
-  Server, 
-  Layers, 
   CheckCircle2, 
   XCircle, 
   Clock, 
   Sliders, 
   FileJson,
   Key,
-  ExternalLink,
-  ChevronRight,
-  Terminal,
   Activity
 } from 'lucide-react';
 import { 
   API_ENDPOINTS, 
   API_CATEGORIES, 
-  ApiEndpointSpec, 
   generateCodeSnippet, 
   generateOpenApiSpec, 
   generatePostmanCollection 
@@ -42,18 +36,14 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
   onSelectEndpoint 
 }) => {
   const [selectedEndpointId, setSelectedEndpointId] = useState<string>(
-    initialEndpointId || API_ENDPOINTS[0].id
+    initialEndpointId || API_ENDPOINTS[0]?.id || ''
   );
-  const [baseUrl, setBaseUrl] = useState<string>('/api');
   const [authType, setAuthType] = useState<'none' | 'apiKey' | 'bearer'>('none');
   const [apiKeyVal, setApiKeyVal] = useState<string>('cat_live_9f83b271d4e680a9c1e2f3a4b5c6d7e8');
   const [bearerToken, setBearerToken] = useState<string>('');
   
   const [requestBodyText, setRequestBodyText] = useState<string>('');
   const [queryParams, setQueryParams] = useState<Record<string, string>>({});
-  const [customHeaders, setCustomHeaders] = useState<{ key: string; value: string }[]>([
-    { key: 'Accept', value: 'application/json' }
-  ]);
 
   // Execution states
   const [loading, setLoading] = useState(false);
@@ -61,15 +51,13 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
   const [responseStatusText, setResponseStatusText] = useState<string>('');
   const [responseTimeMs, setResponseTimeMs] = useState<number | null>(null);
   const [responsePayload, setResponsePayload] = useState<any>(null);
-  const [responseHeaders, setResponseHeaders] = useState<Record<string, string>>({});
   const [responseSizeKb, setResponseSizeKb] = useState<number | null>(null);
-  const [rawTextOutput, setRawTextOutput] = useState<string>('');
 
   const [snippetLanguage, setSnippetLanguage] = useState<'curl' | 'javascript' | 'python' | 'go' | 'rust' | 'php'>('curl');
   const [copiedSnippet, setCopiedSnippet] = useState(false);
   const [copiedResponse, setCopiedResponse] = useState(false);
 
-  // Automated Test Suite State (Finalize for Deployment)
+  // Automated Test Suite State
   const [runningSuite, setRunningSuite] = useState(false);
   const [suiteProgress, setSuiteProgress] = useState<number>(0);
   const [suiteResults, setSuiteResults] = useState<{
@@ -122,7 +110,6 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
     setResponsePayload(null);
     setResponseTimeMs(null);
     setResponseSizeKb(null);
-    setRawTextOutput('');
 
     const startTime = performance.now();
 
@@ -138,116 +125,89 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
       });
 
       // Append query parameters
-      const queryString = new URLSearchParams(queryParams).toString();
-      let targetUrl = resolvedPath;
-      if (queryString) {
-        targetUrl += `?${queryString}`;
-      }
+      const activeQueryParams = Object.entries(queryParams)
+        .filter(([, v]) => v !== '')
+        .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+        .join('&');
 
-      // Headers construction
+      const url = activeQueryParams ? `${resolvedPath}?${activeQueryParams}` : resolvedPath;
+
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       };
 
-      if (authType === 'apiKey' && apiKeyVal) {
+      if (authType === 'apiKey') {
         headers['X-API-Key'] = apiKeyVal;
-      } else if (authType === 'bearer' && bearerToken) {
+      } else if (authType === 'bearer') {
         headers['Authorization'] = `Bearer ${bearerToken}`;
       }
-
-      customHeaders.forEach(h => {
-        if (h.key && h.value) {
-          headers[h.key] = h.value;
-        }
-      });
 
       const options: RequestInit = {
         method: currentEndpoint.method,
         headers
       };
 
-      if (currentEndpoint.method !== 'GET' && requestBodyText.trim()) {
+      if (currentEndpoint.method !== 'GET' && requestBodyText) {
         try {
-          // Validate JSON syntax first
-          JSON.parse(requestBodyText);
           options.body = requestBodyText;
-        } catch (jsonErr: any) {
-          setLoading(false);
-          setResponseStatus(400);
-          setResponseStatusText('Bad Request (Invalid JSON Body)');
-          setResponsePayload({
-            error: 'Client JSON Validation Failed: ' + jsonErr.message
-          });
-          return;
+        } catch {
+          // Send as raw string if JSON parsing fails
+          options.body = requestBodyText;
         }
       }
 
-      const res = await fetch(targetUrl, options);
-      const elapsed = Math.round(performance.now() - startTime);
-
+      const res = await fetch(url, options);
+      const latency = Math.round(performance.now() - startTime);
+      setResponseTimeMs(latency);
       setResponseStatus(res.status);
-      setResponseStatusText(res.statusText || (res.status === 200 ? 'OK' : 'Error'));
-      setResponseTimeMs(elapsed);
-
-      // Headers map
-      const resHeaders: Record<string, string> = {};
-      res.headers.forEach((val, key) => {
-        resHeaders[key] = val;
-      });
-      setResponseHeaders(resHeaders);
+      setResponseStatusText(res.statusText || (res.status === 200 ? 'OK' : ''));
 
       const contentType = res.headers.get('content-type') || '';
       if (contentType.includes('application/json')) {
         const data = await res.json();
         setResponsePayload(data);
-        const size = new Blob([JSON.stringify(data)]).size;
-        setResponseSizeKb(Number((size / 1024).toFixed(2)));
+        const jsonStr = JSON.stringify(data);
+        setResponseSizeKb(Math.round((new Blob([jsonStr]).size / 1024) * 100) / 100);
       } else {
         const text = await res.text();
-        setRawTextOutput(text);
-        try {
-          const parsed = JSON.parse(text);
-          setResponsePayload(parsed);
-        } catch {
-          setResponsePayload({ raw: text });
-        }
-        setResponseSizeKb(Number((new Blob([text]).size / 1024).toFixed(2)));
+        setResponsePayload({ message: text || 'Non-JSON response received' });
+        setResponseSizeKb(Math.round((new Blob([text]).size / 1024) * 100) / 100);
       }
-    } catch (err: unknown) {
-      const elapsed = Math.round(performance.now() - startTime);
-      setResponseTimeMs(elapsed);
+    } catch (err: any) {
+      const latency = Math.round(performance.now() - startTime);
+      setResponseTimeMs(latency);
       setResponseStatus(500);
-      setResponseStatusText('Network / Execution Error');
+      setResponseStatusText('Network/CORS Error');
       setResponsePayload({
-        success: false,
-        error: err.message || 'Failed to dispatch request to API server.'
+        error: true,
+        message: err?.message || 'Failed to reach API endpoint. Ensure server is running or proxy is configured.'
       });
     } finally {
       setLoading(false);
     }
   };
 
-  // Run full automated deployment validation suite
+  // Automated Test Suite Runner across all endpoints
   const runFullVerificationSuite = async () => {
     setRunningSuite(true);
     setDeploymentReady(null);
-    
-    const initialSuite = API_ENDPOINTS.map(ep => ({
+    setSuiteProgress(0);
+
+    const initialList = API_ENDPOINTS.map(ep => ({
       endpointId: ep.id,
       summary: ep.summary,
       path: ep.path,
       status: 'pending' as const
     }));
-    
-    setSuiteResults(initialSuite);
+    setSuiteResults(initialList);
+
     let passedCount = 0;
 
     for (let i = 0; i < API_ENDPOINTS.length; i++) {
       const ep = API_ENDPOINTS[i];
       setSuiteProgress(Math.round(((i + 1) / API_ENDPOINTS.length) * 100));
 
-      // Mark running
       setSuiteResults(prev => prev.map((item, idx) => idx === i ? { ...item, status: 'running' } : item));
 
       const start = performance.now();
@@ -283,7 +243,6 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
             latencyMs: latency
           } : item));
         } else {
-          // If expected 4xx or rate limited, still record
           setSuiteResults(prev => prev.map((item, idx) => idx === i ? {
             ...item,
             status: res.status === 429 ? 'passed' : 'failed',
@@ -293,14 +252,14 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           } : item));
           if (res.status === 429) passedCount++;
         }
-      } catch (err: unknown) {
+      } catch (err: any) {
         const latency = Math.round(performance.now() - start);
         setSuiteResults(prev => prev.map((item, idx) => idx === i ? {
           ...item,
           status: 'failed',
           statusCode: 500,
           latencyMs: latency,
-          error: err.message
+          error: err?.message || 'Network error'
         } : item));
       }
     }
@@ -344,19 +303,21 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
   };
 
   return (
-    <div id="api-playground-root" className="rounded-2xl border border-[#e2e8f0] bg-white shadow-xl overflow-hidden">
+    <div id="api-playground-root" className="rounded-2xl border border-brand-slate/40 bg-surface-panel shadow-xl overflow-hidden font-mono text-brand-offwhite">
       {/* Top Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#e2e8f0] bg-[#f8fafc] px-6 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-slate/30 bg-brand-oxford px-5 py-3.5">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0b192c] text-[#38bdf8] shadow-sm">
-            <Terminal className="h-5 w-5" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-surface-panel border border-brand-slate/40 text-accent-cyan shadow-xs">
+            <Terminal className="h-4 w-4" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-[#0b192c] flex items-center gap-2">
-              CatalystLab API Playground & Validation Studio
-              <span className="rounded-full bg-[#e2e8f0] px-2 py-0.5 text-xs font-mono text-[#415a77]">v2.4.0 (OpenAPI 3.1)</span>
-            </h2>
-            <p className="text-xs text-[#415a77]">
+            <h3 className="text-xs sm:text-sm font-bold text-brand-offwhite flex items-center gap-2 font-sans">
+              <span>Interactive Request Builder &amp; Sandbox</span>
+              <span className="rounded bg-brand-navy border border-brand-slate/40 px-1.5 py-0.5 text-[10px] font-mono text-accent-cyan">
+                v2.4.0 (OpenAPI 3.1)
+              </span>
+            </h3>
+            <p className="text-[11px] text-brand-periwinkle font-sans">
               Interactive request builder, live telemetry sandboxing, and production deployment quality verification.
             </p>
           </div>
@@ -366,34 +327,34 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={downloadOpenApiJson}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] shadow-sm transition hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3 py-1.5 text-xs font-semibold text-brand-offwhite shadow-xs transition hover:bg-surface-subtle cursor-pointer"
             title="Download OpenAPI 3.1 JSON Specification"
           >
-            <Download className="h-3.5 w-3.5 text-[#3b82f6]" />
-            <span>OpenAPI 3.1 Spec</span>
+            <Download className="h-3.5 w-3.5 text-accent-cyan" />
+            <span>OpenAPI 3.1</span>
           </button>
 
           <button
             onClick={downloadPostman}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] shadow-sm transition hover:bg-[#f1f5f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3 py-1.5 text-xs font-semibold text-brand-offwhite shadow-xs transition hover:bg-surface-subtle cursor-pointer"
             title="Export Postman Collection v2.1"
           >
-            <FileJson className="h-3.5 w-3.5 text-[#f97316]" />
+            <FileJson className="h-3.5 w-3.5 text-accent-amber" />
             <span>Postman v2.1</span>
           </button>
         </div>
       </div>
 
       {/* Main Studio Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#e2e8f0]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-brand-slate/30">
         
         {/* Left Column: Request Builder (7 cols) */}
-        <div className="lg:col-span-7 p-6 space-y-6">
+        <div className="lg:col-span-7 p-5 space-y-4">
           
           {/* Endpoint Selector Dropdown */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-[#415a77]">
-              Select API Endpoint & Resource
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold uppercase tracking-wider text-brand-slate-light">
+              Select API Endpoint &amp; Resource
             </label>
             <div className="relative">
               <select
@@ -402,7 +363,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                   setSelectedEndpointId(e.target.value);
                   if (onSelectEndpoint) onSelectEndpoint(e.target.value);
                 }}
-                className="w-full rounded-xl border border-[#cbd5e1] bg-white py-2.5 pl-3 pr-10 text-sm font-semibold text-[#0b192c] shadow-sm focus:border-[#38bdf8] focus:outline-none focus:ring-2 focus:ring-[#38bdf8]/20"
+                className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford py-2 pl-3 pr-8 text-xs font-semibold text-brand-offwhite shadow-xs focus:border-brand-slate focus:outline-none cursor-pointer"
               >
                 {API_CATEGORIES.map(category => (
                   <optgroup key={category} label={`─── ${category} ───`}>
@@ -419,32 +380,33 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
           {/* Live Request Address Bar */}
           <div className="flex flex-col sm:flex-row items-stretch gap-2">
-            <span className={`flex items-center justify-center rounded-lg px-3 py-2 text-xs font-mono font-bold uppercase text-white shadow-sm ${
-              currentEndpoint.method === 'POST' ? 'bg-[#3b82f6]' :
-              currentEndpoint.method === 'GET' ? 'bg-[#10b981]' :
-              currentEndpoint.method === 'DELETE' ? 'bg-[#ef4444]' : 'bg-[#f59e0b]'
+            <span className={`flex items-center justify-center rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold uppercase text-white shadow-xs ${
+              currentEndpoint.method === 'POST' ? 'bg-brand-slate border border-brand-periwinkle/30' :
+              currentEndpoint.method === 'GET' ? 'bg-emerald-950/80 border border-emerald-500/40 text-accent-emerald' :
+              currentEndpoint.method === 'DELETE' ? 'bg-rose-950/80 border border-rose-500/40 text-rose-400' : 
+              'bg-amber-950/80 border border-amber-500/40 text-accent-amber'
             }`}>
               {currentEndpoint.method}
             </span>
 
-            <div className="flex-1 flex items-center rounded-xl border border-[#cbd5e1] bg-[#f8fafc] px-3 py-2 text-xs font-mono text-[#0b192c] overflow-x-auto">
-              <span className="text-[#94a3b8] mr-1">/api</span>
-              <span className="font-bold text-[#0b192c]">{currentEndpoint.path.replace(/^\/api/, '')}</span>
+            <div className="flex-1 flex items-center rounded-xl border border-brand-slate/40 bg-brand-navy px-3 py-1.5 text-xs font-mono text-brand-offwhite overflow-x-auto">
+              <span className="text-brand-slate-light mr-1">/api</span>
+              <span className="font-bold text-accent-cyan">{currentEndpoint.path.replace(/^\/api/, '')}</span>
             </div>
 
             <button
               onClick={executeApiCall}
               disabled={loading}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2.5 text-xs font-bold text-[#38bdf8] shadow-md transition hover:bg-[#152238] disabled:opacity-50 active:scale-95 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center justify-center gap-1.5 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-1.5 text-xs font-bold text-white shadow-xs transition-all disabled:opacity-50 active:scale-95 whitespace-nowrap cursor-pointer"
             >
               {loading ? (
                 <>
-                  <RefreshCw className="h-4 w-4 animate-spin text-[#38bdf8]" />
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
                   <span>Dispatching...</span>
                 </>
               ) : (
                 <>
-                  <Send className="h-4 w-4" />
+                  <Send className="h-3.5 w-3.5 text-accent-cyan" />
                   <span>Send Request</span>
                 </>
               )}
@@ -452,34 +414,34 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           </div>
 
           {/* Endpoint Summary & Auth Tags */}
-          <div className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc]/70 p-3.5 space-y-2">
+          <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3 space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs font-bold text-[#0b192c]">{currentEndpoint.summary}</span>
+              <span className="text-xs font-bold text-brand-offwhite font-sans">{currentEndpoint.summary}</span>
               <div className="flex items-center gap-2">
-                <span className="rounded-md bg-white border border-[#e2e8f0] px-2 py-0.5 text-[10px] font-semibold text-[#415a77]">
+                <span className="rounded bg-surface-panel border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-brand-periwinkle">
                   Auth: {currentEndpoint.auth}
                 </span>
-                <span className="rounded-md bg-white border border-[#e2e8f0] px-2 py-0.5 text-[10px] font-semibold text-[#415a77]">
+                <span className="rounded bg-surface-panel border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-accent-cyan">
                   Quota: {currentEndpoint.rateLimit}
                 </span>
               </div>
             </div>
-            <p className="text-xs text-[#415a77] leading-relaxed">
+            <p className="text-xs text-brand-periwinkle leading-relaxed font-sans">
               {currentEndpoint.description}
             </p>
           </div>
 
-          {/* Directly Accessible Request Configuration Sections (No Tabviews) */}
-          <div className="space-y-5">
-            {/* 1. Query & Path Parameters (if applicable) */}
+          {/* Request Configuration Sections */}
+          <div className="space-y-4">
+            {/* 1. Query & Path Parameters */}
             {currentEndpoint.parameters && currentEndpoint.parameters.length > 0 && (
-              <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-3 shadow-2xs">
-                <div className="flex items-center justify-between border-b border-[#e2e8f0] pb-2">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c] flex items-center gap-1.5">
-                    <Sliders className="h-3.5 w-3.5 text-[#3b82f6]" />
-                    <span>Query & Path Parameters</span>
+              <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5 space-y-2.5">
+                <div className="flex items-center justify-between border-b border-brand-slate/30 pb-1.5">
+                  <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan flex items-center gap-1.5 font-sans">
+                    <Sliders className="h-3.5 w-3.5" />
+                    <span>Query &amp; Path Parameters</span>
                   </div>
-                  <span className="rounded-full bg-[#f1f5f9] px-2 py-0.5 text-[10px] font-mono text-[#64748b]">
+                  <span className="rounded bg-brand-navy border border-brand-slate/40 px-1.5 py-0.5 text-[10px] font-mono text-brand-slate-light">
                     {currentEndpoint.parameters.length} parameter{currentEndpoint.parameters.length > 1 ? 's' : ''}
                   </span>
                 </div>
@@ -487,15 +449,15 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                   {currentEndpoint.parameters.map((param) => (
                     <div key={param.name} className="flex flex-col sm:flex-row sm:items-center gap-2 text-xs">
                       <div className="sm:w-1/3">
-                        <div className="font-mono font-bold text-[#0b192c]">{param.name}</div>
-                        <div className="text-[10px] text-[#64748b]">{param.description}</div>
+                        <div className="font-mono font-bold text-accent-cyan">{param.name}</div>
+                        <div className="text-[10px] text-brand-slate-light font-sans">{param.description}</div>
                       </div>
                       <input
                         type="text"
                         value={queryParams[param.name] || ''}
                         onChange={(e) => setQueryParams({ ...queryParams, [param.name]: e.target.value })}
                         placeholder={param.example || param.default || 'value'}
-                        className="flex-1 rounded-lg border border-[#cbd5e1] bg-white px-3 py-1.5 font-mono text-xs text-[#0b192c] focus:border-[#38bdf8] focus:outline-none"
+                        className="flex-1 rounded-lg border border-brand-slate/40 bg-surface-panel px-2.5 py-1 font-mono text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
                       />
                     </div>
                   ))}
@@ -504,13 +466,13 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
             )}
 
             {/* 2. Request Body (JSON) */}
-            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-2 shadow-2xs">
-              <div className="flex items-center justify-between border-b border-[#e2e8f0] pb-2">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c] flex items-center gap-1.5">
-                  <FileJson className="h-3.5 w-3.5 text-[#3b82f6]" />
+            <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5 space-y-2">
+              <div className="flex items-center justify-between border-b border-brand-slate/30 pb-1.5">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan flex items-center gap-1.5 font-sans">
+                  <FileJson className="h-3.5 w-3.5" />
                   <span>Request Body (application/json)</span>
                 </div>
-                <div className="flex items-center gap-3 text-xs">
+                <div className="flex items-center gap-3 text-xs font-sans">
                   {currentEndpoint.requestBody && (
                     <button
                       onClick={() => {
@@ -518,14 +480,14 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                           setRequestBodyText(JSON.stringify(currentEndpoint.requestBody.defaultPayload, null, 2));
                         }
                       }}
-                      className="text-[#3b82f6] hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="text-accent-cyan hover:underline cursor-pointer"
                     >
                       Reset Example
                     </button>
                   )}
                   <button
                     onClick={formatBodyJson}
-                    className="text-[#415a77] hover:text-[#0b192c] font-mono cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="text-brand-periwinkle hover:text-white font-mono cursor-pointer"
                   >
                     Format JSON
                   </button>
@@ -536,74 +498,74 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                 value={requestBodyText}
                 onChange={(e) => setRequestBodyText(e.target.value)}
                 placeholder={currentEndpoint.method === 'GET' ? 'GET requests do not require a JSON body.' : '{\n  "url": "https://example.com"\n}'}
-                rows={currentEndpoint.method === 'GET' ? 3 : 7}
+                rows={currentEndpoint.method === 'GET' ? 2 : 5}
                 disabled={currentEndpoint.method === 'GET'}
-                className="w-full rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-3 font-mono text-xs text-[#38bdf8] focus:border-[#38bdf8] focus:outline-none focus:ring-2 focus:ring-[#38bdf8]/20 disabled:bg-[#f1f5f9] disabled:text-[#94a3b8] selection:bg-[#38bdf8]/30"
+                className="w-full rounded-xl border border-brand-slate/40 bg-brand-navy p-3 font-mono text-xs text-accent-cyan focus:border-brand-slate focus:outline-none disabled:opacity-50"
               />
             </div>
 
             {/* 3. Authentication & Custom Headers */}
-            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-3 shadow-2xs">
-              <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c] flex items-center gap-1.5 border-b border-[#e2e8f0] pb-2">
-                <Key className="h-3.5 w-3.5 text-[#3b82f6]" />
-                <span>Headers & Authentication</span>
+            <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5 space-y-2.5">
+              <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan flex items-center gap-1.5 border-b border-brand-slate/30 pb-1.5 font-sans">
+                <Key className="h-3.5 w-3.5" />
+                <span>Headers &amp; Authentication</span>
               </div>
 
-              <div className="space-y-3 text-xs">
+              <div className="space-y-2 text-xs">
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     onClick={() => setAuthType('none')}
-                    className={`rounded-lg border p-2 text-center font-semibold transition cursor-pointer ${
+                    className={`rounded-lg border p-1.5 text-center font-semibold transition cursor-pointer text-xs ${
                       authType === 'none'
-                        ? 'border-[#0b192c] bg-[#0b192c] text-white'
-                        : 'border-[#e2e8f0] bg-white text-[#415a77] hover:bg-[#f8fafc]'
+                        ? 'border-brand-periwinkle/30 bg-brand-slate text-white'
+                        : 'border-brand-slate/40 bg-surface-panel text-brand-periwinkle hover:text-white'
                     }`}
                   >
-                    Anonymous / Public
+                    Public
                   </button>
                   <button
                     onClick={() => setAuthType('apiKey')}
-                    className={`rounded-lg border p-2 text-center font-semibold transition cursor-pointer ${
+                    className={`rounded-lg border p-1.5 text-center font-semibold transition cursor-pointer text-xs ${
                       authType === 'apiKey'
-                        ? 'border-[#0b192c] bg-[#0b192c] text-white'
-                        : 'border-[#e2e8f0] bg-white text-[#415a77] hover:bg-[#f8fafc]'
+                        ? 'border-brand-periwinkle/30 bg-brand-slate text-white'
+                        : 'border-brand-slate/40 bg-surface-panel text-brand-periwinkle hover:text-white'
                     }`}
                   >
-                    X-API-Key Header
+                    X-API-Key
                   </button>
                   <button
                     onClick={() => setAuthType('bearer')}
-                    className={`rounded-lg border p-2 text-center font-semibold transition cursor-pointer ${
+                    className={`rounded-lg border p-1.5 text-center font-semibold transition cursor-pointer text-xs ${
                       authType === 'bearer'
-                        ? 'border-[#0b192c] bg-[#0b192c] text-white'
-                        : 'border-[#e2e8f0] bg-white text-[#415a77] hover:bg-[#f8fafc]'
+                        ? 'border-brand-periwinkle/30 bg-brand-slate text-white'
+                        : 'border-brand-slate/40 bg-surface-panel text-brand-periwinkle hover:text-white'
                     }`}
                   >
-                    Bearer JWT Token
+                    Bearer JWT
                   </button>
                 </div>
 
                 {authType === 'apiKey' && (
                   <div className="space-y-1 pt-1">
-                    <label className="font-semibold text-[#415a77]">X-API-Key Secret</label>
+                    <label className="font-semibold text-brand-slate-light text-[11px]">X-API-Key Secret</label>
                     <input
                       type="text"
                       value={apiKeyVal}
                       onChange={(e) => setApiKeyVal(e.target.value)}
-                      className="w-full rounded-lg border border-[#cbd5e1] bg-white px-3 py-1.5 font-mono text-xs text-[#0b192c]"
+                      className="w-full rounded-lg border border-brand-slate/40 bg-brand-navy px-2.5 py-1 font-mono text-xs text-accent-cyan"
                     />
                   </div>
                 )}
 
                 {authType === 'bearer' && (
                   <div className="space-y-1 pt-1">
-                    <label className="font-semibold text-[#415a77]">Bearer Authorization Token</label>
+                    <label className="font-semibold text-brand-slate-light text-[11px]">Bearer Authorization Token</label>
                     <input
                       type="text"
                       value={bearerToken}
                       onChange={(e) => setBearerToken(e.target.value)}
                       placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                      className="w-full rounded-lg border border-[#cbd5e1] bg-white px-3 py-1.5 font-mono text-xs text-[#0b192c]"
+                      className="w-full rounded-lg border border-brand-slate/40 bg-brand-navy px-2.5 py-1 font-mono text-xs text-accent-cyan"
                     />
                   </div>
                 )}
@@ -611,27 +573,27 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
             </div>
 
             {/* 4. Client Code Generator Snippet */}
-            <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-3 shadow-2xs">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#e2e8f0] pb-2">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#0b192c] flex items-center gap-1.5">
-                  <Code2 className="h-3.5 w-3.5 text-[#3b82f6]" />
+            <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5 space-y-2">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-brand-slate/30 pb-1.5">
+                <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan flex items-center gap-1.5 font-sans">
+                  <Code2 className="h-3.5 w-3.5" />
                   <span>Client Code Generator</span>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
-                    <span className="text-[11px] text-[#64748b]">Language:</span>
+                    <span className="text-[10px] text-brand-slate-light font-mono">Lang:</span>
                     <select
                       value={snippetLanguage}
                       onChange={(e) => setSnippetLanguage(e.target.value as any)}
-                      className="rounded-md border border-[#cbd5e1] bg-white px-2 py-1 text-xs font-semibold text-[#0b192c] focus:outline-none"
+                      className="rounded-lg border border-brand-slate/40 bg-surface-panel px-2 py-0.5 text-[11px] font-semibold text-brand-offwhite focus:outline-none cursor-pointer font-mono"
                     >
-                      <option value="curl">cURL (CLI)</option>
-                      <option value="javascript">JavaScript (Fetch / Node)</option>
-                      <option value="python">Python (Requests)</option>
+                      <option value="curl">cURL</option>
+                      <option value="javascript">JavaScript / Node</option>
+                      <option value="python">Python</option>
                       <option value="go">Go</option>
-                      <option value="rust">Rust (Reqwest)</option>
-                      <option value="php">PHP (cURL)</option>
+                      <option value="rust">Rust</option>
+                      <option value="php">PHP</option>
                     </select>
                   </div>
 
@@ -642,15 +604,15 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       setCopiedSnippet(true);
                       setTimeout(() => setCopiedSnippet(false), 2000);
                     }}
-                    className="flex items-center gap-1 text-xs font-semibold text-[#3b82f6] hover:underline cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="flex items-center gap-1 text-xs font-semibold text-accent-cyan hover:underline cursor-pointer"
                   >
-                    {copiedSnippet ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copiedSnippet ? <Check className="h-3 w-3 text-accent-emerald" /> : <Copy className="h-3 w-3" />}
                     <span>{copiedSnippet ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
               </div>
 
-              <pre className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-3.5 font-mono text-xs text-[#38bdf8] overflow-x-auto selection:bg-[#38bdf8]/30 max-h-48">
+              <pre className="rounded-xl border border-brand-slate/40 bg-brand-navy p-3 font-mono text-xs text-accent-cyan overflow-x-auto max-h-40">
                 <code>{generateCodeSnippet(currentEndpoint, snippetLanguage)}</code>
               </pre>
             </div>
@@ -659,30 +621,30 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
         </div>
 
         {/* Right Column: Live Response & Telemetry Inspector (5 cols) */}
-        <div className="lg:col-span-5 p-6 bg-[#f8fafc] flex flex-col justify-between space-y-4">
+        <div className="lg:col-span-5 p-5 bg-brand-oxford flex flex-col justify-between space-y-4">
           
           {/* Header & Status Gauge */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#415a77]">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-accent-cyan">
                 Live Response Telemetry
               </span>
 
               {responseStatus !== null && (
-                <div className="flex items-center gap-2">
-                  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-mono font-bold ${
+                <div className="flex items-center gap-1.5">
+                  <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-mono font-bold ${
                     responseStatus >= 200 && responseStatus < 300
-                      ? 'bg-green-100 text-green-800'
+                      ? 'bg-emerald-950/80 text-accent-emerald border border-emerald-500/40'
                       : responseStatus === 429
-                      ? 'bg-amber-100 text-amber-800'
-                      : 'bg-red-100 text-red-800'
+                      ? 'bg-amber-950/80 text-accent-amber border border-amber-500/40'
+                      : 'bg-rose-950/80 text-rose-400 border border-rose-500/40'
                   }`}>
-                    {responseStatus === 200 ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertCircle className="h-3.5 w-3.5" />}
+                    {responseStatus === 200 ? <CheckCircle2 className="h-3 w-3" /> : <AlertCircle className="h-3 w-3" />}
                     {responseStatus} {responseStatusText}
                   </span>
 
                   {responseTimeMs !== null && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-mono text-blue-700">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-surface-panel border border-brand-slate/40 px-2 py-0.5 text-xs font-mono text-accent-cyan">
                       <Clock className="h-3 w-3" />
                       {responseTimeMs}ms
                     </span>
@@ -693,10 +655,10 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
             {/* Response Metrics Pill Bar */}
             {responsePayload && (
-              <div className="flex items-center justify-between text-[11px] text-[#64748b] bg-white border border-[#e2e8f0] rounded-lg px-3 py-1.5 font-mono">
-                <span>Payload Size: {responseSizeKb ? `${responseSizeKb} KB` : 'N/A'}</span>
-                <span className="text-green-600 font-semibold flex items-center gap-1">
-                  <ShieldCheck className="h-3.5 w-3.5" /> OpenAPI 3.1 Valid
+              <div className="flex items-center justify-between text-[10px] text-brand-periwinkle bg-brand-navy border border-brand-slate/40 rounded-lg px-2.5 py-1 font-mono">
+                <span>Size: {responseSizeKb ? `${responseSizeKb} KB` : 'N/A'}</span>
+                <span className="text-accent-emerald font-semibold flex items-center gap-1">
+                  <ShieldCheck className="h-3 w-3" /> OpenAPI 3.1
                 </span>
                 <button
                   onClick={() => {
@@ -704,37 +666,37 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                     setCopiedResponse(true);
                     setTimeout(() => setCopiedResponse(false), 2000);
                   }}
-                  className="flex items-center gap-1 text-[#3b82f6] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center gap-1 text-accent-cyan hover:underline cursor-pointer"
                 >
-                  {copiedResponse ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
+                  {copiedResponse ? <Check className="h-3 w-3 text-accent-emerald" /> : <Copy className="h-3 w-3" />}
                   <span>{copiedResponse ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
             )}
 
             {/* Live Response Content Container */}
-            <div className="rounded-xl border border-[#cbd5e1] bg-[#0b192c] p-4 text-xs font-mono text-[#f8fafc] overflow-y-auto max-h-[380px] shadow-inner selection:bg-[#38bdf8]/30">
+            <div className="rounded-xl border border-brand-slate/40 bg-brand-navy p-3.5 text-xs font-mono text-brand-offwhite overflow-y-auto max-h-[340px] shadow-inner">
               {loading ? (
-                <div className="flex flex-col items-center justify-center py-16 space-y-3 text-[#94a3b8]">
-                  <RefreshCw className="h-8 w-8 animate-spin text-[#38bdf8]" />
+                <div className="flex flex-col items-center justify-center py-14 space-y-2 text-brand-periwinkle">
+                  <RefreshCw className="h-6 w-6 animate-spin text-accent-cyan" />
                   <p className="text-xs">Dispatching sandboxed engine execution...</p>
                 </div>
               ) : responsePayload ? (
-                <pre className="text-[#38bdf8] whitespace-pre-wrap">
+                <pre className="text-accent-cyan whitespace-pre-wrap">
                   {JSON.stringify(responsePayload, null, 2)}
                 </pre>
               ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center text-[#64748b] space-y-2">
-                  <Activity className="h-8 w-8 text-[#415a77]" />
-                  <p className="font-sans text-xs">Ready for execution. Click <strong>"Send Request"</strong> to inspect live payload output.</p>
+                <div className="flex flex-col items-center justify-center py-14 text-center text-brand-slate-light space-y-2">
+                  <Activity className="h-6 w-6 text-brand-periwinkle" />
+                  <p className="font-sans text-xs">Ready for execution. Click <strong>&quot;Send Request&quot;</strong> to inspect live payload output.</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Quick Sandbox Target Selector */}
-          <div className="border-t border-[#e2e8f0] pt-4 space-y-2">
-            <span className="text-[11px] font-bold text-[#415a77] uppercase tracking-wider">
+          <div className="border-t border-brand-slate/30 pt-3 space-y-1.5">
+            <span className="text-[10px] font-bold text-brand-slate-light uppercase tracking-wider">
               Quick Test Presets
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -754,7 +716,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       }, null, 2));
                     }
                   }}
-                  className="rounded-md border border-[#cbd5e1] bg-white px-2.5 py-1 text-[11px] font-mono text-[#0b192c] hover:bg-[#f1f5f9] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="rounded-md border border-brand-slate/40 bg-surface-panel px-2 py-0.5 text-[10px] font-mono text-brand-offwhite hover:bg-surface-subtle transition cursor-pointer"
                 >
                   {preset.name}
                 </button>
@@ -767,16 +729,16 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* AUTOMATED TEST RUNNER & DEPLOYMENT VERIFICATION ("Finalize for Deployment") */}
+      {/* AUTOMATED TEST RUNNER & DEPLOYMENT VERIFICATION */}
       {/* ========================================================================= */}
-      <div className="border-t border-[#e2e8f0] bg-[#f8fafc] p-6 space-y-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="border-t border-brand-slate/30 bg-brand-oxford p-5 space-y-3.5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h3 className="text-sm font-bold text-[#0b192c] flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-[#10b981]" />
-              API Deployment Verification Suite (Finalize for Production)
+            <h3 className="text-xs sm:text-sm font-bold text-brand-offwhite flex items-center gap-1.5 font-sans">
+              <ShieldCheck className="h-4 w-4 text-accent-emerald" />
+              <span>API Deployment Verification Suite (Finalize for Production)</span>
             </h3>
-            <p className="text-xs text-[#415a77]">
+            <p className="text-[11px] text-brand-periwinkle font-sans">
               Runs automated test assertions across all 8 diagnostic engines, master audit, reports, and security headers to validate zero-defect production readiness.
             </p>
           </div>
@@ -784,17 +746,17 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           <button
             onClick={runFullVerificationSuite}
             disabled={runningSuite}
-            className="flex items-center gap-2 rounded-xl bg-[#10b981] px-5 py-2.5 text-xs font-bold text-white shadow-md transition hover:bg-[#059669] disabled:opacity-50 active:scale-95 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all disabled:opacity-50 active:scale-95 whitespace-nowrap cursor-pointer"
           >
             {runningSuite ? (
               <>
-                <RefreshCw className="h-4 w-4 animate-spin" />
-                <span>Running Test Suite ({suiteProgress}%)...</span>
+                <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
+                <span>Running Suite ({suiteProgress}%)...</span>
               </>
             ) : (
               <>
-                <Zap className="h-4 w-4" />
-                <span>Run Full API Verification Suite</span>
+                <Zap className="h-3.5 w-3.5 text-accent-cyan" />
+                <span>Run API Verification Suite</span>
               </>
             )}
           </button>
@@ -802,56 +764,56 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
         {/* Verification Checklist Results Table */}
         {suiteResults.length > 0 && (
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-3">
-            <div className="flex items-center justify-between border-b border-[#e2e8f0] pb-2">
-              <span className="text-xs font-bold text-[#0b192c]">
+          <div className="rounded-xl border border-brand-slate/40 bg-surface-panel p-3.5 space-y-2.5">
+            <div className="flex items-center justify-between border-b border-brand-slate/30 pb-2">
+              <span className="text-xs font-bold text-brand-offwhite">
                 Automated Test Assertions ({suiteResults.filter(r => r.status === 'passed').length}/{suiteResults.length} Passed)
               </span>
 
               {deploymentReady !== null && (
-                <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold ${
+                <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-bold ${
                   deploymentReady
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-amber-100 text-amber-800'
+                    ? 'bg-emerald-950/80 text-accent-emerald border border-emerald-500/40'
+                    : 'bg-amber-950/80 text-accent-amber border border-amber-500/40'
                 }`}>
-                  {deploymentReady ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
-                  {deploymentReady ? '100% Ready for Production Deployment' : 'Minor Warnings Detected'}
+                  {deploymentReady ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertCircle className="h-3.5 w-3.5" />}
+                  {deploymentReady ? '100% Production Ready' : 'Minor Warnings Detected'}
                 </span>
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto pt-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto pt-1">
               {suiteResults.map((item) => (
                 <div 
                   key={item.endpointId}
-                  className={`flex items-center justify-between rounded-lg border p-2.5 text-xs ${
-                    item.status === 'passed' ? 'border-green-200 bg-green-50/50' :
-                    item.status === 'failed' ? 'border-red-200 bg-red-50/50' :
-                    item.status === 'running' ? 'border-blue-200 bg-blue-50/50 animate-pulse' :
-                    'border-[#e2e8f0] bg-[#f8fafc]'
+                  className={`flex items-center justify-between rounded-lg border p-2 text-xs ${
+                    item.status === 'passed' ? 'border-emerald-500/40 bg-emerald-950/30' :
+                    item.status === 'failed' ? 'border-rose-500/40 bg-rose-950/30' :
+                    item.status === 'running' ? 'border-accent-cyan/40 bg-surface-panel animate-pulse' :
+                    'border-brand-slate/40 bg-brand-oxford'
                   }`}
                 >
                   <div className="truncate mr-2">
-                    <div className="font-semibold text-[#0b192c] truncate">{item.summary}</div>
-                    <div className="font-mono text-[10px] text-[#64748b] truncate">{item.path}</div>
+                    <div className="font-semibold text-brand-offwhite truncate text-[11px] font-sans">{item.summary}</div>
+                    <div className="font-mono text-[10px] text-accent-cyan truncate">{item.path}</div>
                   </div>
 
-                  <div className="shrink-0 flex items-center gap-1.5">
+                  <div className="shrink-0 flex items-center gap-1">
                     {item.status === 'passed' && (
-                      <span className="flex items-center gap-1 text-green-700 font-bold font-mono text-[11px]">
-                        <Check className="h-3.5 w-3.5" /> {item.latencyMs}ms
+                      <span className="flex items-center gap-0.5 text-accent-emerald font-bold font-mono text-[10px]">
+                        <Check className="h-3 w-3" /> {item.latencyMs}ms
                       </span>
                     )}
                     {item.status === 'failed' && (
-                      <span className="flex items-center gap-1 text-red-700 font-bold font-mono text-[11px]">
-                        <XCircle className="h-3.5 w-3.5" /> {item.error || 'Failed'}
+                      <span className="flex items-center gap-0.5 text-rose-400 font-bold font-mono text-[10px]">
+                        <XCircle className="h-3 w-3" /> {item.error || 'Failed'}
                       </span>
                     )}
                     {item.status === 'running' && (
-                      <RefreshCw className="h-3.5 w-3.5 animate-spin text-blue-600" />
+                      <RefreshCw className="h-3 w-3 animate-spin text-accent-cyan" />
                     )}
                     {item.status === 'pending' && (
-                      <span className="text-[10px] text-[#94a3b8]">Queued</span>
+                      <span className="text-[10px] text-brand-slate-light">Queued</span>
                     )}
                   </div>
                 </div>
