@@ -34,7 +34,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
-      - name: Run Catalyst 1: PAR (Planning, Architecture & Requirements)
+      - name: Run Catalyst 1: PAR 
         run: |
           TARGET="${{ github.event.inputs.target_url || 'https://catalystlab.tech' }}"
           python3 python-engines/platform_migration_audit.py "$TARGET"
