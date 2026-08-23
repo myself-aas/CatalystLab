@@ -82,12 +82,12 @@ export const CookiePreferenceCenter: React.FC = () => {
     <div className="space-y-8 font-mono">
       {/* Policy Banner */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
           <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
             <Cookie className="h-4 w-4" />
             <span>TRANSPARENT PRIVACY TOKENS • STRICT OPT-IN</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-brand-offwhite tracking-tight font-sans">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight font-sans">
             Cookie Policy &amp; Consent Manager
           </h2>
           <p className="mt-2 text-xs text-brand-periwinkle max-w-3xl leading-relaxed font-sans">
@@ -98,10 +98,10 @@ export const CookiePreferenceCenter: React.FC = () => {
 
       {/* Interactive Preference Center */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-xl space-y-5">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-5">
             <div>
-              <h3 className="text-base font-bold text-brand-offwhite flex items-center gap-2 font-sans">
+              <h3 className="text-base font-bold text-black flex items-center gap-2 font-sans">
                 <Sliders className="h-4 w-4 text-accent-cyan" />
                 <span>Interactive Cookie Preference Center</span>
               </h3>
@@ -125,8 +125,8 @@ export const CookiePreferenceCenter: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Lock className="h-3.5 w-3.5 text-accent-emerald" />
-                  <span className="font-bold text-xs text-brand-offwhite font-sans">Strictly Essential &amp; Authentication Tokens</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-emerald/40 bg-brand-navy text-accent-emerald">
+                  <span className="font-bold text-xs text-black font-sans">Strictly Essential &amp; Authentication Tokens</span>
+                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-emerald/40 bg-white text-accent-emerald">
                     Always Active
                   </span>
                 </div>
@@ -149,8 +149,8 @@ export const CookiePreferenceCenter: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Zap className="h-3.5 w-3.5 text-accent-cyan" />
-                  <span className="font-bold text-xs text-brand-offwhite font-sans">Diagnostic Telemetry Cache</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-cyan/40 bg-brand-navy text-accent-cyan">
+                  <span className="font-bold text-xs text-black font-sans">Diagnostic Telemetry Cache</span>
+                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-cyan/40 bg-white text-accent-cyan">
                     Recommended
                   </span>
                 </div>
@@ -165,7 +165,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   aria-checked={preferences.telemetryCache}
                   onClick={() => setPreferences({ ...preferences, telemetryCache: !preferences.telemetryCache })}
                   className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                    preferences.telemetryCache ? 'bg-brand-slate' : 'bg-brand-navy'
+                    preferences.telemetryCache ? 'bg-brand-slate' : 'bg-white'
                   }`}
                 >
                   <span
@@ -182,8 +182,8 @@ export const CookiePreferenceCenter: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Globe className="h-3.5 w-3.5 text-accent-amber" />
-                  <span className="font-bold text-xs text-brand-offwhite font-sans">Anonymous Usage &amp; Crash Metrics</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-amber/40 bg-brand-navy text-accent-amber">
+                  <span className="font-bold text-xs text-black font-sans">Anonymous Usage &amp; Crash Metrics</span>
+                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-accent-amber/40 bg-white text-accent-amber">
                     Optional
                   </span>
                 </div>
@@ -198,7 +198,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   aria-checked={preferences.analytics}
                   onClick={() => setPreferences({ ...preferences, analytics: !preferences.analytics })}
                   className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                    preferences.analytics ? 'bg-brand-slate' : 'bg-brand-navy'
+                    preferences.analytics ? 'bg-brand-slate' : 'bg-white'
                   }`}
                 >
                   <span
@@ -215,9 +215,9 @@ export const CookiePreferenceCenter: React.FC = () => {
 
       {/* Complete Cookie Inventory Table */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-xl space-y-4">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl space-y-4">
           <div>
-            <h3 className="text-base font-bold text-brand-offwhite font-sans">Detailed Cookie &amp; Token Inventory</h3>
+            <h3 className="text-base font-bold text-black font-sans">Detailed Cookie &amp; Token Inventory</h3>
             <p className="text-xs text-brand-periwinkle mt-0.5 font-sans">
               Comprehensive audit of every token written by CatalystLab.tech or authenticated cloud providers.
             </p>
@@ -226,7 +226,7 @@ export const CookiePreferenceCenter: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse font-mono">
               <thead>
-                <tr className="border-b border-brand-slate/30 bg-brand-oxford text-brand-offwhite font-bold">
+                <tr className="border-b border-brand-slate/30 bg-brand-oxford text-black font-bold">
                   <th className="py-2.5 px-3 rounded-l-lg">Cookie Identifier</th>
                   <th className="py-2.5 px-3">Category</th>
                   <th className="py-2.5 px-3">Provider</th>
@@ -236,10 +236,10 @@ export const CookiePreferenceCenter: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-brand-slate/20 text-brand-periwinkle">
                 {cookieList.map((item, idx) => (
-                  <tr key={idx} className="hover:bg-surface-subtle transition-colors">
+                  <tr key={idx} className="hover:bg-gray-50 transition-colors">
                     <td className="py-3 px-3 font-bold text-accent-cyan">{item.name}</td>
                     <td className="py-3 px-3">
-                      <span className="rounded bg-brand-oxford border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-brand-offwhite">
+                      <span className="rounded bg-brand-oxford border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-black">
                         {item.category}
                       </span>
                     </td>
@@ -256,10 +256,10 @@ export const CookiePreferenceCenter: React.FC = () => {
 
       {/* Browser Specific Guides */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-5">
             <div>
-              <h3 className="text-base font-bold text-brand-offwhite font-sans">Browser-Level Cookie Management</h3>
+              <h3 className="text-base font-bold text-black font-sans">Browser-Level Cookie Management</h3>
               <p className="text-xs text-brand-periwinkle mt-0.5 font-sans">
                 You can also configure global cookie restrictions directly inside your browser settings.
               </p>

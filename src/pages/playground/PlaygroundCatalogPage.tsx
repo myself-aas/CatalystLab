@@ -39,7 +39,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa] text-[#0b192c]">
+    <div className="min-h-screen bg-white text-[#0b192c]">
       {/* Hero Banner */}
       <div className="border-b border-[#e2e8f0] bg-white pt-12 pb-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

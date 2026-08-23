@@ -6,13 +6,7 @@ import {
   Zap,
   ShieldCheck,
   Globe,
-  Activity,
-  Cpu,
   ArrowRight,
-  Terminal,
-  Layers,
-  Sparkles,
-  CheckCircle2,
   Code2
 } from 'lucide-react';
 
@@ -22,22 +16,23 @@ export const HeroSection: React.FC = () => {
   
   const [heroUrl, setHeroUrl] = useState('');
   const [activeMonitorTab, setActiveMonitorTab] = useState<'stream' | 'pops' | 'patch'>('stream');
+  
   const [simulationLog, setSimulationLog] = useState<string[]>([
-    'Core Web Vitals indexed: 99.4/100 (Optimal TTFB: 18ms)',
-    'Verified strict CSP & HSTS transport headers (6/6 Pass)',
-    '/llms.txt manifest parsed: 24,000 clean tokens indexed'
+    'Core Web Vitals indexed: 99.4/100',
+    'Verified strict transport headers',
+    '/llms.txt manifest parsed: 24k tokens'
   ]);
 
   useEffect(() => {
     const logs = [
-      'Latency optimized across 42 global PoPs (16.2ms avg TTFB)',
-      'OWASP Transport: 6/6 strict compliance verified',
-      '/llms.txt manifest parsed: 24,000 clean tokens indexed',
-      'SWD Carbon model: 0.08g CO2/view (A+ Green Certified)',
-      'Schema.org JSON-LD entity graph validated for AI search RAG',
-      'Core Web Vitals indexed: 99.4/100 (Optimal TTFB: 18ms)',
-      'AST Route Parser: 0 circular 301 redirects found',
-      'TLS 1.3 0-RTT Handshake verified across Anycast DNS'
+      'Latency optimized across 42 global PoPs',
+      'OWASP Transport: 6/6 strict compliance',
+      '/llms.txt manifest parsed: 24k tokens',
+      'SWD Carbon model: 0.08g CO2/view',
+      'Schema.org JSON-LD graph validated',
+      'Core Web Vitals indexed: 99.4/100',
+      'AST Route Parser: 0 circular redirects',
+      'TLS 1.3 0-RTT Handshake verified'
     ];
     const interval = setInterval(() => {
       const nextLog = logs[Math.floor(Math.random() * logs.length)];
@@ -69,39 +64,32 @@ export const HeroSection: React.FC = () => {
   const activeDisplayTarget = heroUrl.trim() || 'catalystlab.tech';
 
   const globalPoPs = [
-    { city: 'San Jose', region: 'US-West', ttfb: '14.2ms', status: 'Optimal' },
-    { city: 'Frankfurt', region: 'EU-Central', ttfb: '17.8ms', status: 'Optimal' },
-    { city: 'Tokyo', region: 'AP-Northeast', ttfb: '19.4ms', status: 'Optimal' },
-    { city: 'London', region: 'EU-West', ttfb: '15.6ms', status: 'Optimal' },
-    { city: 'Singapore', region: 'AP-Southeast', ttfb: '21.1ms', status: 'Optimal' }
+    { city: 'San Jose', region: 'US-West', ttfb: '14.2ms' },
+    { city: 'Frankfurt', region: 'EU-Central', ttfb: '17.8ms' },
+    { city: 'Tokyo', region: 'AP-Northeast', ttfb: '19.4ms' },
+    { city: 'London', region: 'EU-West', ttfb: '15.6ms' }
   ];
 
   return (
-    <section className="relative overflow-hidden border-b border-brand-slate/30 bg-transparent pt-16 pb-14 lg:pt-20 lg:pb-20 px-4 sm:px-6 lg:px-8 text-white">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+    <section className="relative overflow-hidden bg-white py-16 lg:py-24 border-b border-zinc-200">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* LEFT COLUMN: Headline, copy, input, and sample badges */}
-          <div className="lg:col-span-7 text-left space-y-6">
+          {/* LEFT COLUMN */}
+          <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center text-left">
             <LazyReveal direction="up" delay={0.1}>
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs sm:text-sm font-mono text-brand-periwinkle mb-1 shadow-sm">
-                <span className="h-2 w-2 rounded-full bg-accent-emerald animate-pulse" />
-                <span className="font-semibold text-brand-offwhite">Synchronous Multi-Agent Telemetry</span>
-                <span className="text-brand-slate-light hidden sm:inline">•</span>
-                <span className="text-accent-cyan font-bold hidden sm:inline">42 Global PoPs</span>
-              </div>
-
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-black tracking-tight leading-[1.12] text-brand-offwhite font-sans">
-                Precision Telemetry &amp; Autonomous Web Health Auditing.
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05] text-zinc-950">
+                Precision Telemetry. <br className="hidden sm:block" />
+                Autonomous Auditing.
               </h1>
               
-              <p className="mt-3 text-base sm:text-lg text-brand-periwinkle max-w-2xl font-normal leading-relaxed font-sans">
-                Execute 8 concurrent diagnostic micro-engines on any domain in under 2 seconds. Audit Core Web Vitals, OWASP transport security, AST tree depth, and <span className="text-accent-cyan font-mono">/llms.txt</span> AI search discoverability.
+              <p className="mt-6 text-base sm:text-lg text-zinc-500 max-w-xl leading-relaxed">
+                Execute diagnostic micro-engines on any domain. Audit Web Vitals, transport security, and LLM discoverability in under 2 seconds.
               </p>
             </LazyReveal>
 
             <LazyReveal direction="up" delay={0.2}>
-              <div className="mt-2 space-y-4">
+              <div className="mt-10 max-w-xl">
                 <EngineInput 
                   value={heroUrl}
                   onChange={setHeroUrl}
@@ -112,66 +100,60 @@ export const HeroSection: React.FC = () => {
                     }
                   }}
                   buttonText="Run Master Audit"
-                  placeholder="@catalystlab-search: (https://"
+                  placeholder="https://"
                   disabled={!isValidUrlFormat(heroUrl) && heroUrl.length > 0}
                 />
                 
-                {/* Popular sample domain chips */}
-                <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-mono">
-                  <span className="text-brand-slate-light font-bold">Instant presets:</span>
-                  {['catalystlab.tech', 'stripe.com', 'github.com', 'cloudflare.com', 'anthropic.com'].map((domain) => (
+                {/* Presets */}
+                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
+                  <span className="text-zinc-400 font-medium">Presets:</span>
+                  {['catalystlab.tech', 'stripe.com', 'github.com'].map((domain) => (
                     <button
                       key={domain}
                       type="button"
                       onClick={() => selectQuickSample(domain)}
-                      className="px-2.5 py-1 rounded-lg bg-surface-panel border border-brand-slate/40 hover:border-accent-cyan/60 hover:text-brand-offwhite text-brand-periwinkle transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                      className="text-zinc-500 font-medium hover:text-zinc-950 transition-colors cursor-pointer focus-visible:outline-none"
                     >
                       {domain}
                     </button>
                   ))}
                 </div>
-
-                {/* Micro guarantees */}
-                <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2 text-xs font-mono text-brand-slate-light">
-                  <div className="flex items-center gap-1.5 text-brand-periwinkle">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-accent-emerald shrink-0" />
-                    <span>No agent install required</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-brand-periwinkle">
-                    <Zap className="h-3.5 w-3.5 text-accent-cyan shrink-0" />
-                    <span>&lt;2.0s Parallel Scan</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-brand-periwinkle">
-                    <ShieldCheck className="h-3.5 w-3.5 text-accent-purple shrink-0" />
-                    <span>OWASP ASVS v4 Validated</span>
-                  </div>
-                </div>
               </div>
             </LazyReveal>
           </div>
 
-          {/* RIGHT COLUMN: Real-Time Telemetry Monitor */}
-          <div className="lg:col-span-5 relative">
-            <LazyReveal direction="scale" delay={0.3}>
-              <div className="relative bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 sm:p-6 shadow-2xl text-left overflow-hidden space-y-4">
+          {/* RIGHT COLUMN (Unsplash Banner + Glass Card) */}
+          <div className="lg:col-span-6 xl:col-span-5 relative w-full h-[500px] lg:h-[650px] rounded-3xl overflow-hidden shadow-sm border border-zinc-200/50">
+            {/* Background Image */}
+            <img 
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200" 
+              alt="Modern architectural glass facade" 
+              className="absolute inset-0 w-full h-full object-cover object-center bg-zinc-100"
+              loading="eager"
+            />
+            {/* Overlay for contrast */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/60 to-transparent mix-blend-overlay pointer-events-none" />
+
+            <LazyReveal direction="scale" delay={0.3} className="absolute inset-0 flex items-center justify-center p-4 sm:p-8">
+              <div className="liquid-glass-web-approx rounded-3xl p-5 sm:p-6 w-full max-w-sm text-left">
                 
-                {/* Header bar & tab selector */}
-                <div className="flex items-center justify-between pb-3 border-b border-brand-slate/30">
+                {/* Header */}
+                <div className="flex items-center justify-between pb-4 border-b border-zinc-950/10">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-accent-emerald animate-ping" />
-                    <span className="text-xs font-mono text-brand-periwinkle font-bold uppercase tracking-wider">
-                      Live Telemetry Radar
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-semibold text-zinc-950 tracking-wide">
+                      Live Telemetry
                     </span>
                   </div>
                   
-                  <div className="flex items-center gap-1 bg-brand-oxford p-1 rounded-lg border border-brand-slate/30">
+                  <div className="flex items-center gap-1 bg-white/60 p-1 rounded-lg border border-white/40 shadow-sm">
                     <button
                       type="button"
                       onClick={() => setActiveMonitorTab('stream')}
-                      className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                      className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                         activeMonitorTab === 'stream'
-                          ? 'bg-brand-slate text-white'
-                          : 'text-brand-slate-light hover:text-brand-offwhite'
+                          ? 'bg-zinc-950 text-white shadow-sm'
+                          : 'text-zinc-600 hover:text-zinc-950'
                       }`}
                     >
                       Stream
@@ -179,84 +161,62 @@ export const HeroSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setActiveMonitorTab('pops')}
-                      className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                      className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer ${
                         activeMonitorTab === 'pops'
-                          ? 'bg-brand-slate text-white'
-                          : 'text-brand-slate-light hover:text-brand-offwhite'
+                          ? 'bg-zinc-950 text-white shadow-sm'
+                          : 'text-zinc-600 hover:text-zinc-950'
                       }`}
                     >
-                      Edge PoPs
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActiveMonitorTab('patch')}
-                      className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold transition-all cursor-pointer ${
-                        activeMonitorTab === 'patch'
-                          ? 'bg-brand-slate text-white'
-                          : 'text-brand-slate-light hover:text-brand-offwhite'
-                      }`}
-                    >
-                      Patch
+                      PoPs
                     </button>
                   </div>
                 </div>
 
-                {/* Target Host Object */}
-                <div className="bg-brand-oxford p-3.5 rounded-xl border border-brand-slate/30 flex items-center justify-between shadow-inner">
+                {/* Target */}
+                <div className="mt-4 bg-white/80 p-4 rounded-2xl border border-white/60 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-8 h-8 rounded-lg bg-brand-slate/30 flex items-center justify-center text-accent-cyan shrink-0">
-                      <Globe className="h-4 w-4" />
+                    <div className="w-10 h-10 rounded-xl bg-zinc-100/80 flex items-center justify-center text-zinc-900 border border-zinc-200/50 shrink-0">
+                      <Globe className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-[10px] text-brand-slate-light font-mono uppercase tracking-widest font-bold">
-                        Target Domain Object
+                      <div className="text-[10px] text-zinc-500 font-medium tracking-wide">
+                        Target Domain
                       </div>
-                      <div className="text-sm sm:text-base font-bold text-brand-offwhite font-mono truncate mt-0.5">
+                      <div className="text-sm font-semibold text-zinc-950 truncate mt-0.5">
                         {activeDisplayTarget}
                       </div>
                     </div>
                   </div>
-                  <span className="text-[10px] font-mono text-accent-emerald bg-emerald-950/60 px-2 py-1 rounded border border-emerald-500/40 font-bold shrink-0">
-                    LIVE PROBE
-                  </span>
                 </div>
 
-                {/* Tab 1: Live Stream view */}
+                {/* Tab 1: Stream */}
                 {activeMonitorTab === 'stream' && (
-                  <div className="space-y-3">
-                    {/* Real-time Metrics Pair */}
+                  <div className="mt-4 space-y-4">
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-brand-oxford p-3.5 rounded-xl border border-brand-slate/30">
-                        <div className="flex items-center gap-1.5 text-accent-cyan text-xs font-mono mb-1 font-semibold">
+                      <div className="bg-white/80 p-3 sm:p-4 rounded-2xl border border-white/60 shadow-sm">
+                        <div className="flex items-center gap-1.5 text-zinc-500 text-[11px] font-medium mb-1.5">
                           <Zap className="h-3.5 w-3.5" />
-                          <span>Edge TTFB</span>
+                          <span>TTFB</span>
                         </div>
-                        <div className="text-xl font-black font-mono text-brand-offwhite tracking-tight metric-tabular">
+                        <div className="text-xl font-bold text-zinc-950 font-mono tracking-tight">
                           18.4ms
                         </div>
-                        <div className="text-[10px] font-mono text-accent-emerald mt-0.5">
-                          Top 1% Global Tier
-                        </div>
                       </div>
-                      <div className="bg-brand-oxford p-3.5 rounded-xl border border-brand-slate/30">
-                        <div className="flex items-center gap-1.5 text-accent-emerald text-xs font-mono mb-1 font-semibold">
+                      <div className="bg-white/80 p-3 sm:p-4 rounded-2xl border border-white/60 shadow-sm">
+                        <div className="flex items-center gap-1.5 text-zinc-500 text-[11px] font-medium mb-1.5">
                           <ShieldCheck className="h-3.5 w-3.5" />
-                          <span>OWASP Headers</span>
+                          <span>OWASP</span>
                         </div>
-                        <div className="text-xl font-black font-mono text-brand-offwhite tracking-tight metric-tabular">
-                          6 / 6 Pass
-                        </div>
-                        <div className="text-[10px] font-mono text-accent-emerald mt-0.5">
-                          Grade A+ Hardened
+                        <div className="text-xl font-bold text-zinc-950 font-mono tracking-tight">
+                          6 / 6
                         </div>
                       </div>
                     </div>
 
-                    {/* Monospace Stream Logs */}
-                    <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 font-mono text-xs space-y-1.5 h-[96px] overflow-hidden flex flex-col justify-end">
-                      {simulationLog.slice(0, 3).map((log, idx) => (
-                        <div key={idx} className="text-brand-periwinkle truncate flex items-center gap-2 opacity-95">
-                          <span className="text-accent-cyan shrink-0">❯</span>
+                    <div className="bg-zinc-950/90 backdrop-blur-md p-4 rounded-2xl border border-zinc-900 font-mono text-[10px] sm:text-[11px] space-y-2 h-[100px] overflow-hidden flex flex-col justify-end shadow-inner">
+                      {simulationLog.map((log, idx) => (
+                        <div key={idx} className="text-zinc-300 truncate flex items-center gap-2 opacity-90">
+                          <span className="text-zinc-600 shrink-0">❯</span>
                           <span className="truncate">{log}</span>
                         </div>
                       ))}
@@ -264,53 +224,34 @@ export const HeroSection: React.FC = () => {
                   </div>
                 )}
 
-                {/* Tab 2: Edge PoPs latency breakdown */}
+                {/* Tab 2: PoPs */}
                 {activeMonitorTab === 'pops' && (
-                  <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 font-mono text-xs space-y-2">
-                    <div className="text-[10px] text-brand-slate-light uppercase tracking-wider font-bold mb-1 flex items-center justify-between">
-                      <span>PoP Location</span>
-                      <span>TTFB Latency</span>
+                  <div className="mt-4 bg-white/80 p-4 rounded-2xl border border-white/60 font-mono text-[11px] space-y-3 shadow-sm h-[200px] overflow-y-auto no-scrollbar">
+                    <div className="text-zinc-400 font-semibold mb-2 flex items-center justify-between">
+                      <span>Location</span>
+                      <span>Latency</span>
                     </div>
                     {globalPoPs.map((pop) => (
-                      <div key={pop.city} className="flex items-center justify-between text-[11px] py-0.5 border-b border-brand-slate/20 last:border-0">
+                      <div key={pop.city} className="flex items-center justify-between py-1.5 border-b border-zinc-950/5 last:border-0">
                         <div className="flex items-center gap-2">
-                          <span className="h-1.5 w-1.5 rounded-full bg-accent-emerald" />
-                          <span className="text-brand-offwhite font-bold">{pop.city}</span>
-                          <span className="text-brand-slate-light text-[10px]">({pop.region})</span>
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                          <span className="text-zinc-950 font-medium">{pop.city}</span>
                         </div>
-                        <span className="text-accent-cyan font-bold metric-tabular">{pop.ttfb}</span>
+                        <span className="text-zinc-600">{pop.ttfb}</span>
                       </div>
                     ))}
                   </div>
                 )}
 
-                {/* Tab 3: Remediation Patch Preview */}
-                {activeMonitorTab === 'patch' && (
-                  <div className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 font-mono text-xs space-y-2">
-                    <div className="flex items-center justify-between text-[10px] text-brand-slate-light uppercase tracking-wider font-bold">
-                      <span className="flex items-center gap-1.5 text-accent-cyan">
-                        <Code2 className="h-3.5 w-3.5" />
-                        <span>nginx.conf • Strict Headers</span>
-                      </span>
-                      <span className="text-accent-emerald">Auto-Generated</span>
-                    </div>
-                    <pre className="text-[11px] text-brand-periwinkle bg-brand-navy p-2.5 rounded-lg overflow-x-auto leading-relaxed border border-brand-slate/40">
-{`add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
-add_header Content-Security-Policy "default-src 'self';" always;
-add_header X-Content-Type-Options "nosniff" always;`}
-                    </pre>
-                  </div>
-                )}
-
-                {/* Footer link to launch */}
-                <div className="pt-2 flex items-center justify-between text-xs font-mono border-t border-brand-slate/30">
-                  <span className="text-brand-slate-light text-[11px]">Autonomous Multi-Agent Mesh</span>
+                {/* Footer Link */}
+                <div className="mt-5 pt-4 flex items-center justify-between text-xs border-t border-zinc-950/10">
+                  <span className="text-zinc-500 font-medium">Autonomous Agent Mesh</span>
                   <button
                     type="button"
                     onClick={() => navigate(`/launch-audit?url=${encodeURIComponent(activeDisplayTarget)}`)}
-                    className="text-accent-cyan hover:underline font-bold inline-flex items-center gap-1 cursor-pointer"
+                    className="text-zinc-950 hover:text-zinc-600 font-semibold inline-flex items-center gap-1 cursor-pointer transition-colors"
                   >
-                    <span>Full Diagnostic Dossier</span>
+                    <span>Dossier</span>
                     <ArrowRight className="h-3 w-3" />
                   </button>
                 </div>

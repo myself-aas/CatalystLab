@@ -104,7 +104,7 @@ export const ApiNavSidebar: React.FC = () => {
               >
                 <span className="truncate">{cat}</span>
                 <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${
-                  active ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'
+                  active ? 'bg-brand-navy/20 text-white' : 'bg-gray-100 text-gray-600'
                 }`}>
                   {count}
                 </span>

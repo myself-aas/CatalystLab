@@ -9,7 +9,7 @@ interface DOMDepthChartProps {
   modernImagesPct: number;
 }
 
-export const DOMDepthChart: React.FC<DOMDepthChartProps> = ({
+export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
   domElementsCount,
   domDepthLevel,
   payloadKb,
@@ -180,4 +180,4 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = ({
       </div>
     </div>
   );
-};
+});

@@ -14,10 +14,10 @@ export const CompareEngineInput: React.FC<CompareEngineInputProps> = ({
   urlA, setUrlA, urlB, setUrlB, onSubmit, isLoading = false
 }) => {
   return (
-    <form onSubmit={onSubmit} className="p-2 sm:p-2.5 rounded-[1.5rem] border border-brand-slate/40 bg-surface-card w-full shadow-xl">
+    <form onSubmit={onSubmit} className="p-2 sm:p-2.5 rounded-[1.5rem] border border-gray-200 bg-white w-full shadow-xl">
       <div className="flex flex-col gap-2 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <div className="flex items-center gap-2.5 px-4 py-3 sm:py-3.5 rounded-2xl bg-[#0a0f1a] border border-[#c5d3e8]/10 text-white font-mono text-sm sm:text-base focus-within:border-[#c5d3e8]/30 transition-all shadow-inner relative group">
+          <div className="flex items-center gap-2.5 px-4 py-3 sm:py-3.5 rounded-2xl bg-[#0a0f1a] border border-[#c5d3e8]/10 text-black font-mono text-sm sm:text-base focus-within:border-[#c5d3e8]/30 transition-all shadow-inner relative group">
             <span className="text-white shrink-0 font-bold tracking-tighter select-none">{'>_'}</span>
             <input 
               type="text" 
@@ -33,7 +33,7 @@ export const CompareEngineInput: React.FC<CompareEngineInputProps> = ({
               className="bg-transparent flex-1 outline-none border-none placeholder-[#52718e] text-[#c5d3e8] w-full min-w-0 font-medium"
             />
           </div>
-          <div className="flex items-center gap-2.5 px-4 py-3 sm:py-3.5 rounded-2xl bg-[#0a0f1a] border border-[#c5d3e8]/10 text-white font-mono text-sm sm:text-base focus-within:border-[#c5d3e8]/30 transition-all shadow-inner relative group">
+          <div className="flex items-center gap-2.5 px-4 py-3 sm:py-3.5 rounded-2xl bg-[#0a0f1a] border border-[#c5d3e8]/10 text-black font-mono text-sm sm:text-base focus-within:border-[#c5d3e8]/30 transition-all shadow-inner relative group">
             <span className="text-white shrink-0 font-bold tracking-tighter select-none">{'>_'}</span>
             <input 
               type="text" 

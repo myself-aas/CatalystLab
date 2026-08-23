@@ -10,7 +10,7 @@ interface WCAGAccessibilityGaugeProps {
   complianceLevel: string;
 }
 
-export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = ({
+export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = React.memo(({
   altTextCoveragePct,
   missingAltCount,
   totalImages,
@@ -166,4 +166,4 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = ({
       </div>
     </div>
   );
-};
+});

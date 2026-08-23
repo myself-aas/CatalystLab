@@ -51,26 +51,20 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`flex items-center gap-2.5 ${className}`}>
       {/* Engineered Terminal Icon Box */}
       <div 
-        className={`flex ${current.box} items-center justify-center ${
-          darkText 
-            ? 'bg-brand-navy text-brand-periwinkle border-brand-slate/40' 
-            : 'bg-brand-oxford text-brand-periwinkle border-brand-slate/50'
-        } border shadow-md select-none font-bold shrink-0 transition-transform active:scale-95`}
+        className={`flex ${current.box} items-center justify-center bg-black text-[#f9a825] border border-black/80 shadow-xs select-none font-bold shrink-0 transition-transform active:scale-95`}
         aria-hidden="true"
       >
-        <Terminal className={`${current.icon} text-brand-periwinkle`} />
+        <Terminal className={`${current.icon} text-[#f9a825]`} />
       </div>
 
       {showText && (
-        <span className={`font-black tracking-tight transition-colors duration-200 ${
-          darkText ? 'text-brand-navy' : 'text-brand-offwhite'
-        } ${current.title}`}>
-          Catalyst<span className="text-brand-periwinkle">Lab</span>
+        <span className={`font-black tracking-tight transition-colors duration-200 text-black ${current.title}`}>
+          Catalyst<span className="text-[#f9a825]">Lab</span>
         </span>
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded-md bg-brand-slate/20 font-mono font-bold text-brand-slate border border-brand-slate/30 uppercase ${current.badge}`}>
+        <span className={`rounded-md bg-[#fffbf2] font-mono font-bold text-[#d08305] border border-[#fbd18c] uppercase ${current.badge}`}>
           {badgeText}
         </span>
       )}

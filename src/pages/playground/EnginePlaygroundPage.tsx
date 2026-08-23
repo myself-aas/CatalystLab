@@ -246,7 +246,7 @@ func main() {
   const codeSnippet = generateSnippet();
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa] text-[#0b192c]">
+    <div className="min-h-screen bg-white text-[#0b192c]">
       {/* Rate Limit Modal Alert */}
       {rateLimitAlertOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

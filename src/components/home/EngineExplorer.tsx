@@ -71,20 +71,16 @@ export const EngineExplorer: React.FC = () => {
   const ActiveIcon = getEngineIcon(activeEngine.id);
 
   return (
-    <section className="py-14 lg:py-18 bg-brand-oxford/70 backdrop-blur-sm text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
+    <section className="py-24 bg-white text-zinc-950 relative overflow-hidden border-b border-zinc-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header & Carousel Navigation */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs sm:text-sm font-mono text-brand-periwinkle mb-3 shadow-sm">
-              <Cpu className="h-3.5 w-3.5 text-accent-cyan" />
-              <span>Parallel Multi-Agent Architecture</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-950">
               The 8 Autonomous SDLC Catalysts
             </h2>
-            <p className="text-sm sm:text-base text-brand-periwinkle max-w-xl mt-1.5 leading-relaxed">
+            <p className="text-base sm:text-lg text-zinc-600 max-w-xl mt-3 leading-relaxed">
               Explore our 8 synchronous telemetry engines. Select any catalyst to inspect diagnostic vectors, RFC compliance, and live remediation code.
             </p>
           </LazyReveal>
@@ -95,18 +91,18 @@ export const EngineExplorer: React.FC = () => {
               type="button"
               onClick={() => scroll('left')}
               aria-label="Scroll engines left"
-              className="p-2.5 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+              className="p-2.5 rounded-full bg-white hover:bg-zinc-50 text-zinc-600 border border-zinc-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-xs font-mono text-brand-periwinkle px-2 font-semibold">
+            <span className="text-xs font-mono text-zinc-600 px-2 font-semibold">
               {activeEngineIndex + 1} / {SDLC_CATALYSTS_LIST.length}
             </span>
             <button
               type="button"
               onClick={() => scroll('right')}
               aria-label="Scroll engines right"
-              className="p-2.5 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+              className="p-2.5 rounded-full bg-white hover:bg-zinc-50 text-zinc-600 border border-zinc-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -135,64 +131,25 @@ export const EngineExplorer: React.FC = () => {
                   onClick={() => selectEngine(engine, idx)}
                   className={`w-[280px] sm:w-[310px] shrink-0 snap-start p-4.5 rounded-2xl border transition-all duration-150 cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-surface-panel border-accent-cyan shadow-lg ring-1 ring-accent-cyan/60'
-                      : 'bg-surface-panel/70 border-brand-slate/30 hover:border-brand-slate hover:bg-surface-panel'
+                      ? 'bg-zinc-50 border-zinc-950 shadow-md ring-1 ring-zinc-950/20'
+                      : 'bg-white border-zinc-200 hover:border-zinc-300'
                   }`}
                 >
                   <div className="space-y-3">
-                    {/* Top Row */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className={`p-2 rounded-xl border ${
-                          isSelected 
-                            ? 'bg-accent-cyan/20 border-accent-cyan/40 text-accent-cyan' 
-                            : 'bg-brand-oxford border-brand-slate/40 text-brand-periwinkle'
-                        }`}>
-                          <IconComp className="h-4 w-4" />
-                        </div>
-                        <span className="text-[11px] font-mono text-brand-slate-light uppercase tracking-wider">
-                          Phase {engine.sdlcPhaseNumber}
-                        </span>
+                    <div className="flex items-center gap-2">
+                      <div className={`p-2 rounded-xl ${isSelected ? 'bg-zinc-200/50' : 'bg-zinc-100'} `}>
+                        <IconComp className={`h-4 w-4 ${isSelected ? 'text-zinc-950' : 'text-zinc-500'}`} />
                       </div>
-                      <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
-                        isSelected 
-                          ? 'bg-accent-cyan/15 text-accent-cyan border-accent-cyan/30' 
-                          : 'bg-brand-oxford text-brand-periwinkle border-brand-slate/30'
-                      }`}>
+                      <span className="text-xs font-mono font-medium text-zinc-500 uppercase tracking-wider">
                         {engine.category}
                       </span>
                     </div>
-
-                    {/* Name & Short Desc */}
-                    <div>
-                      {engine.image && (
-                        <div className="w-full h-20 mb-2.5 overflow-hidden rounded-lg border border-brand-slate/30 relative">
-                          <img 
-                            src={engine.image} 
-                            alt={`${engine.catalystName || engine.name} visualization`}
-                            className="w-full h-full object-cover opacity-85 hover:opacity-100 transition-opacity"
-                          />
-                        </div>
-                      )}
-                      <h3 className="text-base font-bold text-brand-offwhite leading-tight">
-                        {engine.catalystName || engine.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-brand-periwinkle line-clamp-2 mt-1 leading-snug">
-                        {engine.description}
-                      </p>
-                    </div>
+                    <h3 className={`text-lg font-bold tracking-tight ${isSelected ? 'text-zinc-950' : 'text-zinc-700'}`}>
+                      {engine.name}
+                    </h3>
                   </div>
-
-                  {/* Vectors Count & Select Status */}
-                  <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono mt-3">
-                    <span className="text-brand-slate-light">
-                      {engine.keyVectors?.length || 4} Vectors
-                    </span>
-                    <span className={`font-bold flex items-center gap-1 ${
-                      isSelected ? 'text-accent-cyan' : 'text-brand-periwinkle'
-                    }`}>
-                      {isSelected ? '● Active' : 'Inspect ›'}
-                    </span>
+                  <div className="mt-4 text-xs text-zinc-500 font-mono">
+                    {engine.keyVectors?.length || 0} Telemetry Vectors
                   </div>
                 </div>
               );
@@ -210,37 +167,38 @@ export const EngineExplorer: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.15 }}
-            className="bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 sm:p-7 shadow-xl"
+            className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-8 shadow-sm"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* Left Details Column */}
-              <div className="lg:col-span-7 space-y-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-oxford border border-brand-slate/40 text-xs font-mono text-brand-periwinkle">
-                    <ActiveIcon className="h-3.5 w-3.5 text-accent-cyan" />
+              <div className="lg:col-span-7 space-y-6">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono text-zinc-600">
+                    <ActiveIcon className="h-3.5 w-3.5 text-zinc-950" />
                     <span>{activeEngine.sdlcPhase}</span>
                   </div>
-                  <span className="text-xs font-mono text-brand-slate-light bg-brand-oxford px-2.5 py-1 rounded-lg border border-brand-slate/30">
+                  <span className="text-xs font-mono text-zinc-500 bg-white px-3 py-1.5 rounded-full border border-zinc-200">
                     Category: {activeEngine.category}
                   </span>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-5">
                   {activeEngine.image && (
-                    <div className="hidden sm:block shrink-0 w-20 h-20 rounded-xl overflow-hidden border border-brand-slate/40 shadow-md relative">
+                    <div className="hidden sm:block shrink-0 w-24 h-24 rounded-2xl overflow-hidden border border-zinc-200 shadow-sm relative">
                       <img 
                         src={activeEngine.image} 
                         alt={activeEngine.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover grayscale-[0.2]"
+                        referrerPolicy="no-referrer"
                       />
                     </div>
                   )}
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-black text-brand-offwhite">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight">
                       {activeEngine.catalystName || activeEngine.name}
                     </h3>
-                    <p className="text-sm text-brand-periwinkle leading-relaxed mt-1">
+                    <p className="text-base text-zinc-600 leading-relaxed mt-2">
                       {activeEngine.description}
                     </p>
                   </div>
@@ -248,18 +206,14 @@ export const EngineExplorer: React.FC = () => {
 
                 {/* Key Vectors Checked */}
                 {activeEngine.keyVectors && activeEngine.keyVectors.length > 0 && (
-                  <div className="space-y-2">
-                    <div className="text-xs font-mono uppercase tracking-wider text-brand-slate-light flex items-center gap-1.5">
-                      <Activity className="h-3.5 w-3.5 text-accent-cyan" />
-                      <span>Telemetry Vectors ({activeEngine.keyVectors.length})</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="space-y-3 pt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {activeEngine.keyVectors.map((vector, i) => (
                         <div
                           key={i}
-                          className="flex items-start gap-2 text-xs sm:text-sm text-brand-offwhite bg-brand-oxford p-2.5 rounded-xl border border-brand-slate/30"
+                          className="flex items-start gap-3 text-sm text-zinc-700 p-3 rounded-xl border border-zinc-200 bg-zinc-50"
                         >
-                          <CheckCircle2 className="h-3.5 w-3.5 text-accent-emerald shrink-0 mt-0.5" />
+                          <CheckCircle2 className="h-4 w-4 text-zinc-950 shrink-0 mt-0.5" />
                           <span className="leading-snug">{vector}</span>
                         </div>
                       ))}
@@ -268,43 +222,41 @@ export const EngineExplorer: React.FC = () => {
                 )}
 
                 {/* Actions */}
-                <div className="flex flex-wrap items-center gap-3 pt-2">
+                <div className="flex flex-wrap items-center gap-4 pt-4">
                   <Link
                     to={activeEngine.route}
-                    className="inline-flex items-center gap-1.5 bg-brand-slate hover:bg-brand-slate-hover text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                    className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white px-5 py-3 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
                   >
-                    <span>Launch {activeEngine.name} Engine</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                    <span>Launch {activeEngine.name}</span>
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
-
                   <Link
                     to={`/docs#${activeEngine.docsAnchor || activeEngine.id}`}
-                    className="inline-flex items-center gap-1.5 bg-brand-oxford hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-mono transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                    className="inline-flex items-center justify-center gap-2 bg-white hover:bg-zinc-50 text-zinc-950 border border-zinc-200 px-5 py-3 rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
                   >
-                    <Code2 className="h-3.5 w-3.5 text-brand-periwinkle" />
-                    <span>View Docs</span>
+                    <Code2 className="h-4 w-4" />
+                    <span>Documentation</span>
                   </Link>
                 </div>
               </div>
 
               {/* Right Telemetry Terminal */}
               <div className="lg:col-span-5 space-y-3">
-                <div className="bg-brand-oxford border border-brand-slate/40 rounded-2xl p-4 shadow-xl font-mono text-xs">
+                <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 shadow-sm font-mono text-xs">
                   {/* Top Mode Bar */}
-                  <div className="flex items-center justify-between pb-2.5 border-b border-brand-slate/30 text-xs">
+                  <div className="flex items-center justify-between pb-3 border-b border-zinc-200 text-xs">
                     <div className="flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full bg-red-400" />
-                      <span className="h-2 w-2 rounded-full bg-yellow-400" />
-                      <span className="h-2 w-2 rounded-full bg-green-400" />
-                      <span className="ml-1 text-brand-periwinkle text-[11px] truncate max-w-[120px]">{activeEngine.pythonScript || 'catalyst_probe.py'}</span>
+                      <span className="h-2 w-2 rounded-full bg-zinc-300" />
+                      <span className="h-2 w-2 rounded-full bg-zinc-300" />
+                      <span className="h-2 w-2 rounded-full bg-zinc-300" />
+                      <span className="ml-1 text-zinc-500 text-[11px] truncate max-w-[120px]">{activeEngine.pythonScript || 'catalyst_probe.py'}</span>
                     </div>
-
-                    <div className="flex items-center gap-1 bg-surface-panel p-0.5 rounded-lg border border-brand-slate/30">
+                    <div className="flex items-center gap-1 bg-white p-0.5 rounded-lg border border-zinc-200">
                       <button
                         type="button"
                         onClick={() => setTerminalViewMode('probe')}
                         className={`px-2 py-0.5 rounded text-[11px] cursor-pointer transition-colors ${
-                          terminalViewMode === 'probe' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-white'
+                          terminalViewMode === 'probe' ? 'bg-zinc-950 text-white' : 'text-zinc-600 hover:text-zinc-950'
                         }`}
                       >
                         Probe
@@ -313,7 +265,7 @@ export const EngineExplorer: React.FC = () => {
                         type="button"
                         onClick={() => setTerminalViewMode('code')}
                         className={`px-2 py-0.5 rounded text-[11px] cursor-pointer transition-colors ${
-                          terminalViewMode === 'code' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-white'
+                          terminalViewMode === 'code' ? 'bg-zinc-950 text-white' : 'text-zinc-600 hover:text-zinc-950'
                         }`}
                       >
                         Patch
@@ -322,7 +274,7 @@ export const EngineExplorer: React.FC = () => {
                         type="button"
                         onClick={() => setTerminalViewMode('specs')}
                         className={`px-2 py-0.5 rounded text-[11px] cursor-pointer transition-colors ${
-                          terminalViewMode === 'specs' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-white'
+                          terminalViewMode === 'specs' ? 'bg-zinc-950 text-white' : 'text-zinc-600 hover:text-zinc-950'
                         }`}
                       >
                         Specs
@@ -332,47 +284,45 @@ export const EngineExplorer: React.FC = () => {
 
                   {/* Terminal Dynamic Content */}
                   {terminalViewMode === 'probe' && (
-                    <div className="mt-3 space-y-2 text-brand-periwinkle bg-surface-panel p-3.5 rounded-xl border border-brand-slate/30">
-                      <div className="text-accent-cyan flex items-center gap-1 text-xs">
-                        <span>$</span>
+                    <div className="mt-3 space-y-2 text-zinc-600 bg-white p-4 rounded-xl border border-zinc-200">
+                      <div className="text-zinc-900 flex items-center gap-1 text-xs">
+                        <span className="text-zinc-400">$</span>
                         <span>catalystlab probe --engine={activeEngine.id}</span>
                       </div>
-                      <div className="text-brand-slate-light text-[11px]">
+                      <div className="text-zinc-500 text-[11px]">
                         [INFO] Ingesting target AST &amp; DNS matrix...
                       </div>
-                      <div className="text-accent-emerald text-[11px]">
+                      <div className="text-zinc-900 text-[11px]">
                         [STATUS] Telemetry verified in 142ms.
                       </div>
-                      <div className="text-white text-[11px] bg-brand-oxford p-2 rounded-lg border border-brand-slate/30">
-                        Score: <span className="text-accent-cyan font-bold font-mono">98.5 / 100</span> (Zero vulnerabilities)
+                      <div className="text-zinc-900 text-[11px] bg-zinc-50 p-2 rounded-lg border border-zinc-200 mt-2">
+                        Score: <span className="font-bold font-mono">98.5 / 100</span> (Zero vulnerabilities)
                       </div>
                     </div>
                   )}
 
                   {terminalViewMode === 'code' && (
-                    <div className="mt-3 space-y-1.5 text-[11px] text-brand-periwinkle bg-surface-panel p-3.5 rounded-xl border border-brand-slate/30">
-                      <div className="text-brand-slate-light">// Automated Remediation Patch</div>
-                      <div className="text-accent-cyan">add_header Content-Security-Policy &quot;default-src &#39;self&#39;&quot;;</div>
-                      <div className="text-accent-cyan">add_header Strict-Transport-Security &quot;max-age=31536000;&quot; always;</div>
-                      <div className="text-accent-amber font-semibold"># Validated: 0 syntax errors</div>
+                    <div className="mt-3 space-y-1.5 text-[11px] text-zinc-600 bg-white p-4 rounded-xl border border-zinc-200">
+                      <div className="text-zinc-400">// Automated Remediation Patch</div>
+                      <div className="text-zinc-900">add_header Content-Security-Policy &quot;default-src &#39;self&#39;&quot;;</div>
+                      <div className="text-zinc-900">add_header Strict-Transport-Security &quot;max-age=31536000;&quot; always;</div>
+                      <div className="text-zinc-900 font-semibold mt-2 pt-2 border-t border-zinc-100"># Validated: 0 syntax errors</div>
                     </div>
                   )}
 
                   {terminalViewMode === 'specs' && (
-                    <div className="mt-3 space-y-1.5 text-[11px] text-brand-periwinkle bg-surface-panel p-3.5 rounded-xl border border-brand-slate/30">
-                      <div className="text-brand-slate-light font-bold">Engine Standard Specification:</div>
+                    <div className="mt-3 space-y-1.5 text-[11px] text-zinc-600 bg-white p-4 rounded-xl border border-zinc-200">
+                      <div className="text-zinc-900 font-bold">Engine Standard Specification:</div>
                       <div>• Category: {activeEngine.category}</div>
                       <div>• Phase: {activeEngine.sdlcPhase}</div>
-                      <div className="text-accent-cyan font-semibold">✓ RFC / W3C Compliant Telemetry</div>
+                      <div className="text-zinc-900 font-semibold mt-2 pt-2 border-t border-zinc-100">✓ RFC / W3C Compliant Telemetry</div>
                     </div>
                   )}
                 </div>
               </div>
-
             </div>
           </motion.div>
         </AnimatePresence>
-
       </div>
     </section>
   );

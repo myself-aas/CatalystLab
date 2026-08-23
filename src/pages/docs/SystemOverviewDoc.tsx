@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Info, CheckCircle2, Server, Cpu, Database, Activity, Play, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
+import { ParallaxSection } from '../../components/common/ParallaxSection';
 
 export const SystemOverviewDoc: React.FC = () => {
   const toc = [
@@ -31,6 +32,23 @@ export const SystemOverviewDoc: React.FC = () => {
           CatalystLab is an enterprise-grade automated telemetry and web quality intelligence platform. It orchestrates synchronous diagnostics across 8 isolated evaluation modules to measure Core Web Vitals, AI LLM crawler accessibility, Git repository hygiene, multi-region edge latency, OWASP compliance, and green hosting carbon metrics.
         </p>
       </section>
+
+      {/* Immersive Docs Parallax Banner */}
+      <ParallaxSection
+        bgImage="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80"
+        overlayOpacity={0.88}
+        height="min-h-[260px]"
+        className="rounded-xl overflow-hidden my-6 border border-gray-200"
+      >
+        <div className="max-w-3xl mx-auto px-6 text-center space-y-2">
+          <span className="inline-flex items-center gap-2 rounded-full bg-black text-white px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider">
+            Zero-Eval Architecture
+          </span>
+          <h2 className="text-xl sm:text-2xl font-bold text-black font-sans tracking-tight">
+            Deterministic Telemetry &amp; TLS Probing
+          </h2>
+        </div>
+      </ParallaxSection>
 
       {/* Callout Note */}
       <section id="zero-eval-model" className="space-y-4">

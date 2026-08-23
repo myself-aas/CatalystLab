@@ -7,7 +7,7 @@ interface VitalsRadarOverviewProps {
   targetDomain: string;
 }
 
-export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = ({ telemetry, targetDomain }) => {
+export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.memo(({ telemetry, targetDomain }) => {
   const dimensions = [
     { name: 'Core DOM Depth', score: telemetry.health.score, icon: Layers, color: '#415a77' },
     { name: 'OWASP Security', score: telemetry.security.score, icon: Lock, color: '#10b981' },
@@ -81,4 +81,4 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = ({ teleme
       </div>
     </div>
   );
-};
+});

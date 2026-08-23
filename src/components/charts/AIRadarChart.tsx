@@ -11,7 +11,7 @@ interface AIRadarChartProps {
   ragIndexability: string;
 }
 
-export const AIRadarChart: React.FC<AIRadarChartProps> = ({
+export const AIRadarChart: React.FC<AIRadarChartProps> = React.memo(({
   score,
   hasLlmsTxt,
   hasAiPlugin,
@@ -145,4 +145,4 @@ export const AIRadarChart: React.FC<AIRadarChartProps> = ({
       </div>
     </div>
   );
-};
+});

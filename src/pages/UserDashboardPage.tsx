@@ -207,10 +207,10 @@ export const UserDashboardPage: React.FC = () => {
 
   if (authLoading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-brand-navy font-mono">
+      <div className="flex min-h-[60vh] items-center justify-center bg-white font-mono">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-slate border-t-accent-cyan" />
-          <span className="text-xs text-brand-periwinkle">Synchronizing user telemetry...</span>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-accent-cyan" />
+          <span className="text-xs text-gray-600">Synchronizing user telemetry...</span>
         </div>
       </div>
     );
@@ -218,20 +218,20 @@ export const UserDashboardPage: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 bg-brand-navy text-brand-offwhite">
-        <div className="w-full max-w-md rounded-2xl border border-brand-slate/40 bg-surface-panel p-8 shadow-2xl text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-brand-oxford text-accent-cyan mb-4 border border-brand-slate/40">
+      <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 bg-white text-black">
+        <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-2xl text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-accent-cyan mb-4 border border-gray-200">
             <LogIn className="h-6 w-6" />
           </div>
-          <h2 className="text-xl font-extrabold text-brand-offwhite">Developer Access Required</h2>
-          <p className="mt-2 text-xs text-brand-periwinkle leading-relaxed">
+          <h2 className="text-xl font-extrabold text-black">Developer Access Required</h2>
+          <p className="mt-2 text-xs text-gray-600 leading-relaxed">
             Sign in to access your persistent audit dossiers, real-time rate limit allocations, domain uptime monitoring, and technical research articles.
           </p>
           
           <div className="mt-6 space-y-2.5 font-mono">
             <Link
               to="/login?redirect=/dashboard"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 py-2.5 text-xs font-bold text-white shadow-md transition-all cursor-pointer"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 py-2.5 text-xs font-bold text-white shadow-md transition-all cursor-pointer"
             >
               <LogIn className="h-4 w-4" />
               <span>Sign In with Email or Google</span>
@@ -239,20 +239,20 @@ export const UserDashboardPage: React.FC = () => {
 
             <Link
               to="/signup?redirect=/dashboard"
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford py-2.5 text-xs font-bold text-brand-offwhite hover:bg-surface-subtle hover:text-white transition-all cursor-pointer"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-gray-100 py-2.5 text-xs font-bold text-black hover:bg-gray-50 hover:text-white transition-all cursor-pointer"
             >
               <span>Create Free Developer Account &rarr;</span>
             </Link>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-brand-slate/30 flex flex-col sm:flex-row items-center justify-center gap-2 font-mono">
+          <div className="mt-5 pt-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-center gap-2 font-mono">
             <button
               onClick={() => loginWithLocalSession({
                 email: 'developer@catalystlab.io',
                 displayName: 'CatalystLab Developer',
                 isAdmin: false
               })}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs font-bold text-accent-cyan hover:bg-surface-subtle transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-bold text-accent-cyan hover:bg-gray-50 transition-all cursor-pointer"
             >
               <Sparkles className="h-3.5 w-3.5" />
               <span>Preview Developer Session</span>
@@ -260,7 +260,7 @@ export const UserDashboardPage: React.FC = () => {
 
             <button
               onClick={() => setShowDomainModal(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-lg border border-brand-slate/30 bg-brand-oxford px-3 py-1.5 text-xs font-medium text-brand-slate-light hover:text-white transition-colors cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-white transition-colors cursor-pointer"
             >
               <span>Domain Helper</span>
             </button>
@@ -271,7 +271,7 @@ export const UserDashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-brand-navy pb-24 text-brand-offwhite selection:bg-brand-slate selection:text-white">
+    <div className="min-h-screen bg-white pb-24 text-black selection:bg-black selection:text-white">
       <SEOHead
         title="Developer Telemetry Dashboard & Audits — CatalystLab"
         description="View real-time audit dossiers, rate limit allocations, domain uptime monitoring, and API keys."
@@ -279,7 +279,7 @@ export const UserDashboardPage: React.FC = () => {
       />
       
       {/* Top Header Section */}
-      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-7 sm:px-6 lg:px-8">
+      <section className="border-b border-gray-200 bg-gray-100 px-4 py-7 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             
@@ -290,24 +290,24 @@ export const UserDashboardPage: React.FC = () => {
                   src={user.photoURL} 
                   alt={user.displayName || 'User Avatar'} 
                   referrerPolicy="no-referrer"
-                  className="h-12 w-12 rounded-xl border border-brand-slate/40 object-cover shadow-sm"
+                  className="h-12 w-12 rounded-xl border border-gray-200 object-cover shadow-sm"
                 />
               ) : (
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-slate text-white font-bold text-base shadow-sm">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-black text-white font-bold text-base shadow-sm">
                   {userName.charAt(0).toUpperCase()}
                 </div>
               )}
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-brand-offwhite">
+                  <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-black">
                     {getGreeting()}, {userName}!
                   </h1>
                   <span className={`rounded-md border px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
                     {roleConfig.displayName}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2.5 mt-1 text-xs text-brand-periwinkle font-mono">
+                <div className="flex flex-wrap items-center gap-2.5 mt-1 text-xs text-gray-600 font-mono">
                   <span>{user.email}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5 text-accent-emerald font-bold">
@@ -325,16 +325,16 @@ export const UserDashboardPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2.5 font-mono">
               <Link
                 to="/master-audit"
-                className="flex items-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
+                className="flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
                 <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>Run Master Audit</span>
               </Link>
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3.5 py-2 text-xs font-bold text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-all shadow-sm"
+                className="flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3.5 py-2 text-xs font-bold text-gray-600 hover:bg-gray-50 hover:text-white transition-all shadow-sm"
               >
-                <FileText className="h-3.5 w-3.5 text-brand-slate-light" />
+                <FileText className="h-3.5 w-3.5 text-gray-500" />
                 <span>API Reference</span>
               </Link>
             </div>
@@ -350,7 +350,7 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 1: Daily Resource Allocation */}
           <Link 
             to="/dashboard/rate-limits"
-            className="group cursor-pointer rounded-xl border border-brand-slate/40 bg-surface-panel p-4 shadow-sm transition-all hover:bg-surface-subtle flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
@@ -363,18 +363,18 @@ export const UserDashboardPage: React.FC = () => {
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-brand-offwhite">
+              <div className="text-2xl font-black text-black">
                 {rateStatus.isUnlimited ? 'Unlimited' : `${rateStatus.remaining} / ${rateStatus.limit}`}
-                <span className="text-xs font-normal text-brand-slate-light ml-1">Units</span>
+                <span className="text-xs font-normal text-gray-500 ml-1">Units</span>
               </div>
-              <p className="text-[11px] text-brand-periwinkle mt-0.5">
+              <p className="text-[11px] text-gray-600 mt-0.5">
                 {rateStatus.isUnlimited 
                   ? 'Zero throttling applied' 
                   : `${rateStatus.masterRemaining} Master or ${rateStatus.singleRemaining} Single audits`}
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-2.5 border-t border-brand-slate/30 text-xs font-bold text-brand-slate-light group-hover:text-white">
+            <div className="flex items-center justify-between pt-2.5 border-t border-gray-200 text-xs font-bold text-gray-500 group-hover:text-white">
               <span>Inspect Allocations</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -383,7 +383,7 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 2: Saved Dossiers */}
           <Link 
             to="/dashboard/audits"
-            className="group cursor-pointer rounded-xl border border-brand-slate/40 bg-surface-panel p-4 shadow-sm transition-all hover:bg-surface-subtle flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
@@ -397,16 +397,16 @@ export const UserDashboardPage: React.FC = () => {
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-brand-offwhite">
+              <div className="text-2xl font-black text-black">
                 {totalAudits}
-                <span className="text-xs font-normal text-brand-slate-light ml-1">Dossiers</span>
+                <span className="text-xs font-normal text-gray-500 ml-1">Dossiers</span>
               </div>
-              <p className="text-[11px] text-brand-periwinkle mt-0.5">
+              <p className="text-[11px] text-gray-600 mt-0.5">
                 Permanent Firestore telemetry records with PDF export
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-2.5 border-t border-brand-slate/30 text-xs font-bold text-brand-slate-light group-hover:text-white">
+            <div className="flex items-center justify-between pt-2.5 border-t border-gray-200 text-xs font-bold text-gray-500 group-hover:text-white">
               <span>View All Reports</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -415,7 +415,7 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 3: Average Benchmark Score */}
           <Link 
             to="/dashboard"
-            className="group cursor-pointer rounded-xl border border-brand-slate/40 bg-surface-panel p-4 shadow-sm transition-all hover:bg-surface-subtle flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
@@ -430,16 +430,16 @@ export const UserDashboardPage: React.FC = () => {
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-brand-offwhite">
+              <div className="text-2xl font-black text-black">
                 {avgScore}
-                <span className="text-xs font-normal text-brand-slate-light ml-1">/ 100</span>
+                <span className="text-xs font-normal text-gray-500 ml-1">/ 100</span>
               </div>
-              <p className="text-[11px] text-brand-periwinkle mt-0.5">
+              <p className="text-[11px] text-gray-600 mt-0.5">
                 Composite benchmark across all audited domains
               </p>
             </div>
 
-            <div className="pt-2.5 border-t border-brand-slate/30 flex items-center justify-between text-xs font-bold text-brand-slate-light group-hover:text-white">
+            <div className="pt-2.5 border-t border-gray-200 flex items-center justify-between text-xs font-bold text-gray-500 group-hover:text-white">
               <span>View Full Analytics</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -448,7 +448,7 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 4: Monitored Endpoints */}
           <Link 
             to="/dashboard/monitoring"
-            className="group cursor-pointer rounded-xl border border-brand-slate/40 bg-surface-panel p-4 shadow-sm transition-all hover:bg-surface-subtle flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
@@ -462,16 +462,16 @@ export const UserDashboardPage: React.FC = () => {
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-brand-offwhite">
+              <div className="text-2xl font-black text-black">
                 {uniqueDomains}
-                <span className="text-xs font-normal text-brand-slate-light ml-1">Domains</span>
+                <span className="text-xs font-normal text-gray-500 ml-1">Domains</span>
               </div>
-              <p className="text-[11px] text-brand-periwinkle mt-0.5">
+              <p className="text-[11px] text-gray-600 mt-0.5">
                 Real-time TTFB radar &amp; certificate expiry alerts
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-2.5 border-t border-brand-slate/30 text-xs font-bold text-brand-slate-light group-hover:text-white">
+            <div className="flex items-center justify-between pt-2.5 border-t border-gray-200 text-xs font-bold text-gray-500 group-hover:text-white">
               <span>Open Monitoring Radar</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -482,14 +482,14 @@ export const UserDashboardPage: React.FC = () => {
 
       {/* Main Navigation Links with Dedicated URLs */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-7 font-mono">
-        <div className="flex flex-wrap items-center gap-2 border-b border-brand-slate/30 pb-3">
+        <div className="flex flex-wrap items-center gap-2 border-b border-gray-200 pb-3">
           
           <Link
             to="/dashboard"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'analytics'
-                ? 'bg-brand-slate text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-surface-panel text-brand-periwinkle hover:text-white hover:bg-surface-subtle border border-brand-slate/30'
+                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
+                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
             <Activity className="h-3.5 w-3.5 text-accent-emerald" />
@@ -500,14 +500,14 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/audits"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'audits'
-                ? 'bg-brand-slate text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-surface-panel text-brand-periwinkle hover:text-white hover:bg-surface-subtle border border-brand-slate/30'
+                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
+                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
             <FileText className="h-3.5 w-3.5 text-accent-cyan" />
             <span>Audit Reports &amp; Dossiers</span>
             <span className={`ml-1 rounded px-1.5 py-0.2 text-[10px] ${
-              activeTab === 'audits' ? 'bg-white/20 text-white' : 'bg-brand-oxford text-brand-slate-light'
+              activeTab === 'audits' ? 'bg-gray-100 text-black' : 'bg-gray-100 text-gray-500'
             }`}>
               {reports.length}
             </span>
@@ -517,8 +517,8 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/rate-limits"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'rate-limits'
-                ? 'bg-brand-slate text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-surface-panel text-brand-periwinkle hover:text-white hover:bg-surface-subtle border border-brand-slate/30'
+                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
+                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
             <Cpu className="h-3.5 w-3.5 text-accent-cyan" />
@@ -529,8 +529,8 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/api-keys"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'api-keys'
-                ? 'bg-brand-slate text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-surface-panel text-brand-periwinkle hover:text-white hover:bg-surface-subtle border border-brand-slate/30'
+                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
+                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
             <Key className="h-3.5 w-3.5 text-accent-amber" />
@@ -541,8 +541,8 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/monitoring"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'monitoring'
-                ? 'bg-brand-slate text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-surface-panel text-brand-periwinkle hover:text-white hover:bg-surface-subtle border border-brand-slate/30'
+                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
+                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
             <Activity className="h-3.5 w-3.5 text-accent-cyan" />
@@ -553,8 +553,8 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/blogs"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'blogs'
-                ? 'bg-brand-slate text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-surface-panel text-brand-periwinkle hover:text-white hover:bg-surface-subtle border border-brand-slate/30'
+                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
+                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
             }`}
           >
             <BookOpen className="h-3.5 w-3.5 text-accent-cyan" />
@@ -577,30 +577,30 @@ export const UserDashboardPage: React.FC = () => {
           <div className="space-y-5">
             
             {/* Search & Filtering Bar */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 rounded-xl border border-brand-slate/40 bg-surface-panel p-3.5 sm:p-4 shadow-sm font-mono">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-3.5 sm:p-4 shadow-sm font-mono">
               
               {/* Search Bar */}
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-brand-slate-light" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-500" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search domain, engine, or keywords..."
-                  className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford pl-9 pr-3.5 py-1.5 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
+                  className="w-full rounded-lg border border-gray-200 bg-gray-100 pl-9 pr-3.5 py-1.5 text-xs text-black placeholder:text-gray-500 focus:border-gray-200 focus:outline-none"
                 />
               </div>
 
               {/* Engine Selector Dropdown */}
               <div className="flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-1 text-xs font-bold text-brand-periwinkle">
+                <div className="flex items-center gap-1 text-xs font-bold text-gray-600">
                   <Filter className="h-3 w-3" />
                   <span>Catalyst:</span>
                 </div>
                 <select
                   value={selectedEngine}
                   onChange={(e) => setSelectedEngine(e.target.value)}
-                  className="rounded-lg border border-brand-slate/40 bg-brand-oxford px-2.5 py-1.5 text-xs font-bold text-brand-offwhite focus:outline-none"
+                  className="rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1.5 text-xs font-bold text-black focus:outline-none"
                 >
                   <option value="all">All Catalysts</option>
                   <option value="master">Master Audit (All 8)</option>
@@ -615,7 +615,7 @@ export const UserDashboardPage: React.FC = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="rounded-lg border border-brand-slate/40 bg-brand-oxford px-2.5 py-1.5 text-xs font-bold text-brand-offwhite focus:outline-none"
+                  className="rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1.5 text-xs font-bold text-black focus:outline-none"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
@@ -625,11 +625,11 @@ export const UserDashboardPage: React.FC = () => {
                 </select>
 
                 {/* View Mode Switcher */}
-                <div className="flex items-center rounded-lg border border-brand-slate/40 bg-brand-oxford p-0.5">
+                <div className="flex items-center rounded-lg border border-gray-200 bg-gray-100 p-0.5">
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-1 rounded transition-colors ${
-                      viewMode === 'grid' ? 'bg-brand-slate text-white' : 'text-brand-slate-light hover:text-white'
+                      viewMode === 'grid' ? 'bg-black text-white' : 'text-gray-500 hover:text-white'
                     }`}
                     title="Grid View"
                   >
@@ -638,7 +638,7 @@ export const UserDashboardPage: React.FC = () => {
                   <button
                     onClick={() => setViewMode('table')}
                     className={`p-1 rounded transition-colors ${
-                      viewMode === 'table' ? 'bg-brand-slate text-white' : 'text-brand-slate-light hover:text-white'
+                      viewMode === 'table' ? 'bg-black text-white' : 'text-gray-500 hover:text-white'
                     }`}
                     title="Table View"
                   >
@@ -651,15 +651,15 @@ export const UserDashboardPage: React.FC = () => {
 
             {/* Reports List / Grid */}
             {loading ? (
-              <div className="py-16 text-center text-brand-periwinkle font-mono text-xs">
+              <div className="py-16 text-center text-gray-600 font-mono text-xs">
                 <RotateCw className="mx-auto h-6 w-6 animate-spin text-accent-cyan mb-2.5" />
                 <div>Fetching telemetry dossier records...</div>
               </div>
             ) : filteredReports.length === 0 ? (
-              <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-10 text-center shadow-sm font-mono">
-                <FileText className="mx-auto h-10 w-10 text-brand-slate-light mb-3" />
-                <h2 className="text-sm font-bold text-brand-offwhite">No Reports Found</h2>
-                <p className="mt-1 max-w-sm mx-auto text-xs text-brand-periwinkle">
+              <div className="rounded-2xl border border-gray-200 bg-white p-10 text-center shadow-sm font-mono">
+                <FileText className="mx-auto h-10 w-10 text-gray-500 mb-3" />
+                <h2 className="text-sm font-bold text-black">No Reports Found</h2>
+                <p className="mt-1 max-w-sm mx-auto text-xs text-gray-600">
                   {searchQuery || selectedEngine !== 'all' 
                     ? "No reports match your active search filters. Try clearing the search query."
                     : "You haven't run any audits yet. Launch your first Master Audit to generate a permanent dossier."}
@@ -667,7 +667,7 @@ export const UserDashboardPage: React.FC = () => {
                 <div className="mt-5">
                   <Link
                     to="/master-audit"
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
                   >
                     <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
                     <span>Run Master Audit</span>
@@ -689,20 +689,20 @@ export const UserDashboardPage: React.FC = () => {
                     <div
                       key={report.id}
                       onClick={() => handleNavigateToReport(report)}
-                      className="group cursor-pointer rounded-xl border border-brand-slate/40 bg-surface-panel p-4 shadow-sm transition-all hover:bg-surface-subtle flex flex-col justify-between"
+                      className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
                     >
                       <div>
                         {/* Top Card Bar */}
-                        <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-brand-slate/30">
+                        <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-gray-200">
                           <div className="flex items-center gap-2 min-w-0">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-oxford border border-brand-slate/40 text-accent-cyan shrink-0">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 border border-gray-200 text-accent-cyan shrink-0">
                               <Globe className="h-3.5 w-3.5" />
                             </div>
                             <div className="min-w-0">
-                              <h4 className="text-xs font-bold text-brand-offwhite truncate group-hover:text-accent-cyan transition-colors">
+                              <h4 className="text-xs font-bold text-black truncate group-hover:text-accent-cyan transition-colors">
                                 {domain}
                               </h4>
-                              <span className="text-[10px] text-brand-slate-light flex items-center gap-1">
+                              <span className="text-[10px] text-gray-500 flex items-center gap-1">
                                 <Calendar className="h-2.5 w-2.5" />
                                 {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
                               </span>
@@ -723,30 +723,30 @@ export const UserDashboardPage: React.FC = () => {
 
                         {/* Middle Content */}
                         <div className="py-3 space-y-1.5">
-                          <div className="inline-flex items-center gap-1 rounded bg-brand-oxford border border-brand-slate/30 px-2 py-0.5 text-[10px] font-bold text-brand-periwinkle">
+                          <div className="inline-flex items-center gap-1 rounded bg-gray-100 border border-gray-200 px-2 py-0.5 text-[10px] font-bold text-gray-600">
                             <Sparkles className="h-2.5 w-2.5 text-accent-cyan" />
                             <span>{engineMeta.name}</span>
                           </div>
-                          <p className="text-[11px] text-brand-periwinkle line-clamp-2 leading-relaxed font-sans">
+                          <p className="text-[11px] text-gray-600 line-clamp-2 leading-relaxed font-sans">
                             {report.summary || report.title || `Telemetry audit evaluated for ${report.url}`}
                           </p>
                         </div>
                       </div>
 
                       {/* Card Action Footer */}
-                      <div className="pt-2.5 border-t border-brand-slate/30 flex items-center justify-between gap-2">
+                      <div className="pt-2.5 border-t border-gray-200 flex items-center justify-between gap-2">
                         <div className="flex items-center gap-1">
                           <button
                             onClick={(e) => handleDirectExportPdf(report, e)}
                             disabled={exportingId === report.id}
-                            className="p-1 rounded text-brand-slate-light hover:bg-brand-oxford hover:text-white transition-colors cursor-pointer"
+                            className="p-1 rounded text-gray-500 hover:bg-gray-100 hover:text-white transition-colors cursor-pointer"
                             title="Export PDF"
                           >
                             <Download className={`h-3.5 w-3.5 ${exportingId === report.id ? 'animate-bounce' : ''}`} />
                           </button>
                           <button
                             onClick={(e) => handleCopyLink(report, e)}
-                            className="p-1 rounded text-brand-slate-light hover:bg-brand-oxford hover:text-white transition-colors cursor-pointer"
+                            className="p-1 rounded text-gray-500 hover:bg-gray-100 hover:text-white transition-colors cursor-pointer"
                             title="Copy Permalink"
                           >
                             {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-accent-emerald" /> : <Share2 className="h-3.5 w-3.5" />}
@@ -754,14 +754,14 @@ export const UserDashboardPage: React.FC = () => {
                           <button
                             onClick={(e) => handleDelete(report.id!, e)}
                             disabled={deletingId === report.id}
-                            className="p-1 rounded text-brand-slate-light hover:bg-rose-950/40 hover:text-rose-400 transition-colors cursor-pointer"
+                            className="p-1 rounded text-gray-500 hover:bg-rose-950/40 hover:text-rose-400 transition-colors cursor-pointer"
                             title="Delete Report"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
                         </div>
 
-                        <span className="text-xs font-bold text-brand-slate-light group-hover:text-white flex items-center gap-1">
+                        <span className="text-xs font-bold text-gray-500 group-hover:text-white flex items-center gap-1">
                           <span>Read Dossier</span>
                           <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                         </span>
@@ -773,9 +773,9 @@ export const UserDashboardPage: React.FC = () => {
             ) : (
 
               /* TABLE VIEW */
-              <div className="overflow-hidden rounded-xl border border-brand-slate/40 bg-surface-panel shadow-sm font-mono">
+              <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm font-mono">
                 <table className="w-full text-left text-xs" aria-label="Audit reports list">
-                  <thead className="bg-brand-oxford border-b border-brand-slate/30 text-brand-periwinkle uppercase tracking-wider font-bold">
+                  <thead className="bg-gray-100 border-b border-gray-200 text-gray-600 uppercase tracking-wider font-bold">
                     <tr>
                       <th className="px-4 py-3">Target Domain</th>
                       <th className="px-4 py-3">Diagnostic Engine</th>
@@ -794,16 +794,16 @@ export const UserDashboardPage: React.FC = () => {
                         <tr 
                           key={report.id}
                           onClick={() => handleNavigateToReport(report)}
-                          className="hover:bg-surface-subtle cursor-pointer transition-colors"
+                          className="hover:bg-gray-50 cursor-pointer transition-colors"
                         >
-                          <td className="px-4 py-3 font-bold text-brand-offwhite">
+                          <td className="px-4 py-3 font-bold text-black">
                             <div className="flex items-center gap-2">
                               <Globe className="h-3.5 w-3.5 text-accent-cyan" />
                               <span>{domain}</span>
                             </div>
                           </td>
-                          <td className="px-4 py-3 text-brand-periwinkle">
-                            <span className="rounded bg-brand-oxford px-2 py-0.5 font-bold text-[11px] border border-brand-slate/30">
+                          <td className="px-4 py-3 text-gray-600">
+                            <span className="rounded bg-gray-100 px-2 py-0.5 font-bold text-[11px] border border-gray-200">
                               {engineName}
                             </span>
                           </td>
@@ -816,28 +816,28 @@ export const UserDashboardPage: React.FC = () => {
                               {report.score || 92}/100
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-brand-slate-light">
+                          <td className="px-4 py-3 text-gray-500">
                             {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
                           </td>
                           <td className="px-4 py-3 text-right" onClick={(e) => e.stopPropagation()}>
                             <div className="flex items-center justify-end gap-1">
                               <button
                                 onClick={(e) => handleDirectExportPdf(report, e)}
-                                className="p-1 rounded text-brand-slate-light hover:text-white cursor-pointer"
+                                className="p-1 rounded text-gray-500 hover:text-white cursor-pointer"
                                 title="Export PDF"
                               >
                                 <Download className="h-3 w-3" />
                               </button>
                               <button
                                 onClick={(e) => handleCopyLink(report, e)}
-                                className="p-1 rounded text-brand-slate-light hover:text-white cursor-pointer"
+                                className="p-1 rounded text-gray-500 hover:text-white cursor-pointer"
                                 title="Copy Link"
                               >
                                 {copiedId === report.id ? <Check className="h-3 w-3 text-accent-emerald" /> : <Share2 className="h-3 w-3" />}
                               </button>
                               <button
                                 onClick={(e) => handleDelete(report.id!, e)}
-                                className="p-1 rounded text-brand-slate-light hover:text-rose-400 cursor-pointer"
+                                className="p-1 rounded text-gray-500 hover:text-rose-400 cursor-pointer"
                                 title="Delete"
                               >
                                 <Trash2 className="h-3 w-3" />

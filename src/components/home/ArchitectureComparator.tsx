@@ -1,27 +1,36 @@
 import React from 'react';
 import { LazyReveal } from '../common/LazyAnimate';
-import { ShieldAlert, Zap, SearchCode, Leaf, GitBranch, Layers, Check, X, ArrowRight } from 'lucide-react';
+import { 
+  Activity, 
+  ShieldCheck, 
+  SearchCode, 
+  Leaf, 
+  Layers, 
+  GitBranch, 
+  Check, 
+  X,
+  Zap,
+  ArrowRight
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const ArchitectureComparator: React.FC = () => {
   const comparisonItems = [
     {
-      dimension: 'Global Edge Performance',
-      description: 'DNS resolution & TTFB latency',
-      icon: Zap,
-      legacy: 'Regional routing & sluggish TTFB',
-      catalyst: '42 Anycast PoPs & 0-RTT TLS 1.3',
-      benefit: 'Ultra-Low Latency',
-      color: 'text-accent-cyan bg-cyan-950/40 border-cyan-500/30'
+      dimension: 'Global Performance (CWV)',
+      description: 'LCP, CLS, and INP metrics',
+      icon: Activity,
+      legacy: '1.2s+ INP, Poor CLS Layout Shifts',
+      catalyst: 'Prefetched Edge Caching (LCP < 0.8s)',
+      benefit: 'Ultra-Fast FCP',
     },
     {
-      dimension: 'Security & Headers (OWASP)',
-      description: 'HSTS, CSP, and XSS defense',
-      icon: ShieldAlert,
-      legacy: 'Missing headers & vulnerable XSS',
-      catalyst: 'Strict CSP, HSTS, and X-Content-Type',
+      dimension: 'Security Headers',
+      description: 'HSTS, CSP, X-Content-Type',
+      icon: ShieldCheck,
+      legacy: 'Missing Strict-Transport-Security',
+      catalyst: 'A+ Grade CSP & Strict MIME-Type',
       benefit: 'A+ Grade Transport',
-      color: 'text-accent-rose bg-rose-950/40 border-rose-500/30'
     },
     {
       dimension: 'AI Search Discoverability',
@@ -30,7 +39,6 @@ export const ArchitectureComparator: React.FC = () => {
       legacy: 'Blocked crawlers & missing /llms.txt',
       catalyst: 'Clean /llms.txt + Validated RAG Schema',
       benefit: 'Perplexity/Claude Ready',
-      color: 'text-accent-purple bg-purple-950/40 border-purple-500/30'
     },
     {
       dimension: 'Carbon Efficiency (SWD v4)',
@@ -39,7 +47,6 @@ export const ArchitectureComparator: React.FC = () => {
       legacy: '1.84g CO2 / View (F Rating)',
       catalyst: '0.08g CO2 / View (A+ Certified)',
       benefit: '95.6% CO2e Reduction',
-      color: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30'
     },
     {
       dimension: 'AST Route Integrity',
@@ -48,7 +55,6 @@ export const ArchitectureComparator: React.FC = () => {
       legacy: 'Unmonitored loops & broken links',
       catalyst: 'Zero-loss AST diffing & 301 tree',
       benefit: '100% Link Parity',
-      color: 'text-accent-amber bg-amber-950/40 border-amber-500/30'
     },
     {
       dimension: 'Code Hygiene & CI/CD',
@@ -57,25 +63,20 @@ export const ArchitectureComparator: React.FC = () => {
       legacy: 'Manual reviews & untracked CVEs',
       catalyst: 'Continuous AST & Automated Shields',
       benefit: 'Zero Known CVEs',
-      color: 'text-brand-periwinkle bg-brand-oxford border-brand-slate/40'
     }
   ];
 
   return (
-    <section className="py-14 lg:py-18 bg-brand-oxford/70 backdrop-blur-sm text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
+    <section className="py-24 bg-zinc-50 text-zinc-950 relative overflow-hidden border-b border-zinc-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-8">
+        <div className="max-w-3xl mx-auto text-center mb-16">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs font-mono text-brand-periwinkle mb-3 shadow-sm">
-              <Zap className="h-3.5 w-3.5 text-accent-cyan" />
-              <span>Architectural Parity Benchmark</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-950 leading-tight">
               Architectural Parity Benchmark
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-brand-periwinkle max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed">
               Side-by-side architectural audit comparing traditional unmonitored infrastructure with CatalystLab's automated telemetry stack.
             </p>
           </LazyReveal>
@@ -83,42 +84,42 @@ export const ArchitectureComparator: React.FC = () => {
 
         {/* Responsive Table View Comparison */}
         <LazyReveal direction="up" delay={0.1}>
-          <div className="bg-surface-panel border border-brand-slate/40 rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-white border border-zinc-200 rounded-3xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-brand-slate/40 bg-brand-navy font-mono text-xs text-brand-slate-light">
-                    <th className="py-3 px-4 font-bold uppercase tracking-wider text-brand-offwhite w-1/3">
+                  <tr className="border-b border-zinc-200 bg-zinc-50 font-mono text-xs text-zinc-500">
+                    <th className="py-4 px-6 font-bold uppercase tracking-wider text-zinc-950 w-1/3">
                       Architectural Dimension
                     </th>
-                    <th className="py-3 px-4 font-bold uppercase tracking-wider text-accent-rose bg-rose-950/20 w-1/4">
+                    <th className="py-4 px-6 font-bold uppercase tracking-wider text-zinc-950 w-1/4">
                       Legacy Deployments
                     </th>
-                    <th className="py-3 px-4 font-bold uppercase tracking-wider text-accent-emerald bg-emerald-950/20 w-1/4">
+                    <th className="py-4 px-6 font-bold uppercase tracking-wider text-zinc-950 w-1/4">
                       CatalystLab Pipeline
                     </th>
-                    <th className="py-3 px-4 font-bold uppercase tracking-wider text-brand-offwhite text-right">
+                    <th className="py-4 px-6 font-bold uppercase tracking-wider text-zinc-950 text-right">
                       Advantage
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-brand-slate/30 text-xs sm:text-sm font-mono">
+                <tbody className="divide-y divide-zinc-200 text-sm">
                   {comparisonItems.map((item, idx) => {
                     const Icon = item.icon;
                     return (
-                      <tr key={idx} className="hover:bg-surface-subtle transition-colors">
+                      <tr key={idx} className="hover:bg-zinc-50 transition-colors">
                         
                         {/* Dimension & Icon */}
-                        <td className="py-3.5 px-4 font-sans">
-                          <div className="flex items-center gap-3">
-                            <div className={`p-2 rounded-xl border shrink-0 ${item.color}`}>
-                              <Icon className="h-4 w-4" />
+                        <td className="py-4 px-6 font-sans">
+                          <div className="flex items-center gap-4">
+                            <div className="p-2.5 rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-700 shrink-0">
+                              <Icon className="h-5 w-5" />
                             </div>
                             <div>
-                              <div className="font-bold text-brand-offwhite text-xs sm:text-sm">
+                              <div className="font-bold text-zinc-950 text-sm">
                                 {item.dimension}
                               </div>
-                              <div className="text-[11px] text-brand-slate-light font-mono mt-0.5">
+                              <div className="text-xs text-zinc-500 font-mono mt-1">
                                 {item.description}
                               </div>
                             </div>
@@ -126,32 +127,32 @@ export const ArchitectureComparator: React.FC = () => {
                         </td>
 
                         {/* Legacy */}
-                        <td className="py-3.5 px-4 bg-rose-950/10 text-brand-periwinkle">
-                          <div className="flex items-start gap-2">
-                            <span className="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-rose-900/60 text-accent-rose text-[10px]">
-                              <X className="h-2.5 w-2.5" />
+                        <td className="py-4 px-6 text-zinc-600">
+                          <div className="flex items-start gap-3">
+                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-400">
+                              <X className="h-3 w-3" />
                             </span>
-                            <span className="text-rose-200/80 leading-relaxed text-xs">
+                            <span className="leading-relaxed">
                               {item.legacy}
                             </span>
                           </div>
                         </td>
 
                         {/* CatalystLab Pipeline */}
-                        <td className="py-3.5 px-4 bg-emerald-950/10 text-brand-offwhite font-bold">
-                          <div className="flex items-start gap-2">
-                            <span className="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-emerald-900/60 text-accent-emerald text-[10px]">
-                              <Check className="h-2.5 w-2.5" />
+                        <td className="py-4 px-6 text-zinc-950 font-medium">
+                          <div className="flex items-start gap-3">
+                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
+                              <Check className="h-3 w-3" />
                             </span>
-                            <span className="text-accent-emerald leading-relaxed text-xs">
+                            <span className="leading-relaxed">
                               {item.catalyst}
                             </span>
                           </div>
                         </td>
 
                         {/* Advantage Pill */}
-                        <td className="py-3.5 px-4 text-right">
-                          <span className="inline-flex items-center text-[10px] font-mono uppercase tracking-wider font-bold px-2.5 py-1 rounded-md bg-cyan-950/40 border border-cyan-500/30 text-accent-cyan whitespace-nowrap">
+                        <td className="py-4 px-6 text-right">
+                          <span className="inline-flex items-center text-[10px] font-mono uppercase tracking-wider font-bold px-3 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-950 whitespace-nowrap">
                             {item.benefit}
                           </span>
                         </td>
@@ -163,12 +164,12 @@ export const ArchitectureComparator: React.FC = () => {
             </div>
             
             {/* Table Footer */}
-            <div className="bg-brand-navy border-t border-brand-slate/30 px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-mono text-brand-slate-light">
+            <div className="bg-zinc-50 border-t border-zinc-200 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
               <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-accent-emerald animate-pulse" />
-                <span className="font-bold text-brand-periwinkle uppercase">6 of 6 Telemetry Vectors Validated across 42 Edge Points</span>
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-bold text-zinc-700 uppercase">6 of 6 Telemetry Vectors Validated across 42 Edge Points</span>
               </div>
-              <div className="text-brand-slate-light font-bold uppercase text-[10px]">
+              <div className="text-zinc-500 font-bold uppercase text-[10px]">
                 Continuous synthetic probes active 24/7
               </div>
             </div>
@@ -176,10 +177,10 @@ export const ArchitectureComparator: React.FC = () => {
         </LazyReveal>
 
         {/* Action */}
-        <div className="mt-10 text-center">
+        <div className="mt-12 text-center">
           <Link
             to="/playground"
-            className="inline-flex items-center gap-2 bg-brand-slate hover:bg-brand-slate-hover text-white px-6 py-3 rounded-xl text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+            className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white px-6 py-3.5 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
           >
             <span>Audit Your Architecture</span>
             <ArrowRight className="h-4 w-4" />

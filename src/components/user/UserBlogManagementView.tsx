@@ -133,7 +133,7 @@ export const UserBlogManagementView: React.FC = () => {
           {/* Dedicated URL for Create (No Popup!) */}
           <Link
             to="/dashboard/blogs/create"
-            className="flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#1e2f4a] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-2 rounded-xl bg-brand-navy px-4 py-2.5 text-xs font-bold text-white hover:bg-[#1e2f4a] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Plus className="h-4 w-4 stroke-[2.5]" />
             <span>Write New Article</span>
@@ -170,7 +170,7 @@ export const UserBlogManagementView: React.FC = () => {
             </p>
             <Link
               to="/dashboard/blogs/create"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#1e2f4a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-brand-navy px-4 py-2 text-xs font-bold text-white hover:bg-[#1e2f4a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Create Article</span>

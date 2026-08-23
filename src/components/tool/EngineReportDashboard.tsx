@@ -391,6 +391,7 @@ print(report['output'])`
                     src={meta.image} 
                     alt={meta.name}
                     className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-[#0b192c]/10 ring-1 ring-inset ring-white/10 rounded-2xl mix-blend-overlay"></div>
                 </div>
@@ -761,7 +762,7 @@ print(report['output'])`
       </div>
 
       {/* 7. Next Recommended Engines for Subsequent Audits */}
-      <div className="rounded-3xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-2xl">
+      <div className="rounded-3xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-2xl">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[#fbbf24]">
             <Compass className="h-5 w-5" />

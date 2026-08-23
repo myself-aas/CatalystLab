@@ -128,7 +128,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#e2e8f0]">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#415a77]/10 text-[#415a77]">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-black/10 text-[#415a77]">
                 <Cpu className="h-4 w-4" />
               </span>
               <h3 className="text-xl font-bold text-[#0b192c]">Daily Compute Quota & Allocation</h3>
@@ -145,7 +145,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             <button
               onClick={loadStatus}
               disabled={loading}
-              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-[#415a77]/30 transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-gray-200 transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
@@ -177,7 +177,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               <div className="h-3.5 w-full overflow-hidden rounded-full bg-slate-200 p-0.5">
                 <div 
                   className={`h-full rounded-full transition-all duration-700 ${
-                    percentRemaining > 40 ? 'bg-[#415a77]' : percentRemaining > 15 ? 'bg-amber-500' : 'bg-rose-500'
+                    percentRemaining > 40 ? 'bg-black' : percentRemaining > 15 ? 'bg-amber-500' : 'bg-rose-500'
                   }`}
                   style={{ width: `${percentRemaining}%` }}
                 />
@@ -210,7 +210,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <Sparkles className="h-4 w-4 text-[#415a77]" />
                   Master Audits (All 8 Engines)
                 </span>
-                <span className="rounded bg-[#415a77]/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                <span className="rounded bg-black/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
                   {MASTER_AUDIT_COST} Units / Run
                 </span>
               </div>
@@ -241,7 +241,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <Layers className="h-4 w-4 text-[#415a77]" />
                   Single Diagnostic Engines
                 </span>
-                <span className="rounded bg-[#415a77]/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                <span className="rounded bg-black/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
                   {SINGLE_ENGINE_COST} Unit / Run
                 </span>
               </div>
@@ -358,7 +358,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               Inspect rate limit response headers directly from your terminal or continuous integration test workflows:
             </p>
 
-            <pre className="rounded-xl bg-[#0b192c] p-4 text-[11px] font-mono text-emerald-400 overflow-x-auto leading-relaxed border border-slate-800">
+            <pre className="rounded-xl bg-white p-4 text-[11px] font-mono text-emerald-600 overflow-x-auto leading-relaxed border border-slate-800">
               <code>{curlExample}</code>
             </pre>
           </div>
@@ -396,7 +396,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
 
           <Link
             to="/pricing"
-            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#1a2e4c] transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl bg-brand-navy px-4 py-2 text-xs font-bold text-white hover:bg-[#1a2e4c] transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span>View Full Pricing Matrix</span>
             <ArrowRight className="h-3.5 w-3.5" />

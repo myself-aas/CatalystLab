@@ -11,7 +11,7 @@ interface OWASPSecurityMatrixChartProps {
   score: number;
 }
 
-export const OWASPSecurityMatrixChart: React.FC<OWASPSecurityMatrixChartProps> = ({
+export const OWASPSecurityMatrixChart: React.FC<OWASPSecurityMatrixChartProps> = React.memo(({
   hsts,
   csp,
   xFrameOptions,
@@ -118,7 +118,7 @@ header {
   };
 
   return (
-    <div className="rounded-2xl border border-brand-slate/30 bg-brand-navy p-6 shadow-xl space-y-6 text-brand-offwhite">
+    <div className="rounded-2xl border border-brand-slate/30 bg-white p-6 shadow-xl space-y-6 text-black">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/25 pb-5">
         <div>
@@ -126,7 +126,7 @@ header {
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-slate/25 text-brand-periwinkle border border-brand-slate/40">
               <Lock className="h-4 w-4" />
             </span>
-            <h3 className="text-base font-bold text-brand-offwhite">
+            <h3 className="text-base font-bold text-black">
               OWASP Top 10 Security Headers Matrix
             </h3>
           </div>
@@ -150,12 +150,12 @@ header {
       </div>
 
       {/* Compliance Meter */}
-      <div className="rounded-xl border border-brand-slate/30 bg-surface-panel p-4">
+      <div className="rounded-xl border border-brand-slate/30 bg-white p-4">
         <div className="flex items-center justify-between text-xs mb-2">
-          <span className="font-semibold text-brand-offwhite">OWASP Hardening Coverage ({passedCount}/{totalHeaders} Passed)</span>
+          <span className="font-semibold text-black">OWASP Hardening Coverage ({passedCount}/{totalHeaders} Passed)</span>
           <span className="font-mono font-bold text-emerald-400">{compliancePct}%</span>
         </div>
-        <div className="h-2.5 w-full rounded-full bg-brand-navy overflow-hidden border border-brand-slate/30">
+        <div className="h-2.5 w-full rounded-full bg-white overflow-hidden border border-brand-slate/30">
           <div
             className={`h-full transition-all ${
               compliancePct >= 80 ? 'bg-emerald-400' : compliancePct >= 50 ? 'bg-brand-slate' : 'bg-rose-500'
@@ -166,19 +166,19 @@ header {
       </div>
 
       {/* Interactive Headers Table */}
-      <div className="overflow-hidden rounded-xl border border-brand-slate/30 bg-surface-panel">
+      <div className="overflow-hidden rounded-xl border border-brand-slate/30 bg-white">
         <table className="w-full text-left text-xs">
-          <thead className="border-b border-brand-slate/25 bg-brand-navy font-semibold text-brand-periwinkle">
+          <thead className="border-b border-brand-slate/25 bg-white font-semibold text-brand-periwinkle">
             <tr>
               <th className="px-4 py-3">Security Header Directive</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3 hidden md:table-cell">Protection Scope</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-brand-slate/20 text-brand-offwhite">
+          <tbody className="divide-y divide-brand-slate/20 text-black">
             {headersList.map((header) => (
-              <tr key={header.name} className="hover:bg-brand-navy/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                <td className="px-4 py-3 font-mono font-semibold text-brand-offwhite">
+              <tr key={header.name} className="hover:bg-white/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                <td className="px-4 py-3 font-mono font-semibold text-black">
                   <div>{header.name}</div>
                   <div className="text-[11px] text-brand-periwinkle font-sans md:hidden mt-0.5">{header.desc}</div>
                 </td>
@@ -203,30 +203,30 @@ header {
       </div>
 
       {/* Remediation Snippet */}
-      <div className="rounded-xl border border-brand-slate/30 bg-surface-panel p-4 space-y-3">
+      <div className="rounded-xl border border-brand-slate/30 bg-white p-4 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Key className="h-4 w-4 text-brand-periwinkle" />
-            <span className="text-xs font-bold text-brand-offwhite">One-Click Remediation Blueprint</span>
+            <span className="text-xs font-bold text-black">One-Click Remediation Blueprint</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex items-center rounded-lg bg-brand-navy p-0.5 border border-brand-slate/30 text-[11px]">
+            <div className="flex items-center rounded-lg bg-white p-0.5 border border-brand-slate/30 text-[11px]">
               <button
                 onClick={() => setSnippetFormat('vercel')}
-                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'vercel' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-brand-offwhite'}`}
+                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'vercel' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-black'}`}
               >
                 vercel.json
               </button>
               <button
                 onClick={() => setSnippetFormat('nginx')}
-                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'nginx' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-brand-offwhite'}`}
+                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'nginx' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-black'}`}
               >
                 nginx.conf
               </button>
               <button
                 onClick={() => setSnippetFormat('caddy')}
-                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'caddy' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-brand-offwhite'}`}
+                className={`rounded px-2.5 py-1 font-semibold transition-colors ${snippetFormat === 'caddy' ? 'bg-brand-slate text-white' : 'text-brand-periwinkle hover:text-black'}`}
               >
                 Caddyfile
               </button>
@@ -234,7 +234,7 @@ header {
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-lg border border-brand-slate/40 bg-brand-slate/25 px-3 py-1 text-xs font-semibold text-brand-offwhite hover:bg-brand-slate/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center gap-1.5 rounded-lg border border-brand-slate/40 bg-brand-slate/25 px-3 py-1 text-xs font-semibold text-black hover:bg-brand-slate/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {copiedSnippet ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-brand-periwinkle" />}
               <span>{copiedSnippet ? 'Copied' : 'Copy'}</span>
@@ -242,10 +242,10 @@ header {
           </div>
         </div>
 
-        <pre className="overflow-x-auto rounded-lg bg-brand-navy p-3.5 font-mono text-[11px] text-brand-periwinkle border border-brand-slate/30">
+        <pre className="overflow-x-auto rounded-lg bg-white p-3.5 font-mono text-[11px] text-brand-periwinkle border border-brand-slate/30">
           <code>{currentSnippet}</code>
         </pre>
       </div>
     </div>
   );
-};
+});

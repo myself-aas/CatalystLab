@@ -321,7 +321,9 @@ export function recordAuditLaunch(
   }
 
   const updatedStatus = getRateLimitStatus(user, isAdmin, planId, isTrial, trialDaysLeft);
-  window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
+  if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+    window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
+  }
   return { allowed: true, status: updatedStatus };
 }
 
@@ -356,6 +358,8 @@ export function recordClientRequestAttempt(
   }
 
   const updatedStatus = getRateLimitStatus(user, isAdmin, planId, isTrial, trialDaysLeft);
-  window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
+  if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+    window.dispatchEvent(new CustomEvent('catalyst-rate-limit-updated', { detail: updatedStatus }));
+  }
   return { allowed: true, status: updatedStatus };
 }

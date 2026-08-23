@@ -409,23 +409,23 @@ export const FeaturedAuditMetrics: React.FC = () => {
   const currentCategory = categories.find((c) => c.id === selectedCategory) || categories[0];
 
   return (
-    <section className="py-12 lg:py-16 bg-brand-oxford/70 backdrop-blur-sm border-b border-brand-slate/30 text-brand-offwhite relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-gray-100/70 backdrop-blur-sm border-b border-gray-200 text-black relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Header & Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-brand-slate/30">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-gray-200">
           
           <div className="space-y-2 max-w-2xl text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs font-mono text-brand-periwinkle shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs font-mono text-gray-600 shadow-sm">
               <Activity className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
               <span>Continuous SDLC Observability • 8 Vector Metrics</span>
             </div>
             
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-black">
               Featured Audit Telemetry Metrics
             </h2>
             
-            <p className="text-xs sm:text-sm text-brand-periwinkle leading-relaxed">
+            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
               Real-time synthetic probes benchmarked across 42 global edge points of presence. Select any vector to launch targeted diagnostics.
             </p>
           </div>
@@ -437,12 +437,12 @@ export const FeaturedAuditMetrics: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2 text-xs font-mono text-brand-periwinkle hover:text-white bg-surface-panel border border-brand-slate/40 py-2 px-3 rounded-xl shadow-sm hover:bg-surface-subtle transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                className="flex items-center gap-2 text-xs font-mono text-gray-600 hover:text-white bg-white border border-gray-200 py-2 px-3 rounded-xl shadow-sm hover:bg-gray-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
               >
-                <span className="text-brand-slate-light">Filter:</span>
-                <span className="font-semibold text-brand-offwhite">{currentCategory.label}</span>
+                <span className="text-gray-500">Filter:</span>
+                <span className="font-semibold text-black">{currentCategory.label}</span>
                 <ChevronDown className={`h-3.5 w-3.5 text-accent-cyan transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -454,7 +454,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.98 }}
                     transition={{ duration: 0.12 }}
-                    className="absolute right-0 mt-1.5 w-48 rounded-xl bg-surface-panel border border-brand-slate/50 shadow-2xl py-1.5 z-40 font-mono text-xs"
+                    className="absolute right-0 mt-1.5 w-48 rounded-xl bg-white border border-gray-200 shadow-2xl py-1.5 z-40 font-mono text-xs"
                   >
                     {categories.map((cat) => {
                       const isSelected = selectedCategory === cat.id;
@@ -472,12 +472,12 @@ export const FeaturedAuditMetrics: React.FC = () => {
                           }}
                           className={`w-full flex items-center justify-between px-3 py-2 transition-colors text-left cursor-pointer ${
                             isSelected
-                              ? 'bg-brand-slate text-white font-bold'
-                              : 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
+                              ? 'bg-black text-white font-bold'
+                              : 'text-gray-600 hover:text-white hover:bg-gray-50'
                           }`}
                         >
                           <span>{cat.label}</span>
-                          <span className={`text-[10px] ${isSelected ? 'text-accent-cyan' : 'text-brand-slate-light'}`}>
+                          <span className={`text-[10px] ${isSelected ? 'text-accent-cyan' : 'text-gray-500'}`}>
                             {cat.count}
                           </span>
                         </button>
@@ -494,10 +494,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 type="button"
                 onClick={() => scrollStep('left')}
                 disabled={!canScrollLeft}
-                className={`p-2 rounded-xl bg-surface-panel border border-brand-slate/40 transition-colors shadow-sm cursor-pointer ${
+                className={`p-2 rounded-xl bg-white border border-gray-200 transition-colors shadow-sm cursor-pointer ${
                   canScrollLeft
-                    ? 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
-                    : 'text-brand-slate-light cursor-not-allowed opacity-40'
+                    ? 'text-gray-600 hover:text-white hover:bg-gray-50'
+                    : 'text-gray-500 cursor-not-allowed opacity-40'
                 }`}
                 aria-label="Scroll metrics left"
               >
@@ -507,10 +507,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 type="button"
                 onClick={() => scrollStep('right')}
                 disabled={!canScrollRight}
-                className={`p-2 rounded-xl bg-surface-panel border border-brand-slate/40 transition-colors shadow-sm cursor-pointer ${
+                className={`p-2 rounded-xl bg-white border border-gray-200 transition-colors shadow-sm cursor-pointer ${
                   canScrollRight
-                    ? 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
-                    : 'text-brand-slate-light cursor-not-allowed opacity-40'
+                    ? 'text-gray-600 hover:text-white hover:bg-gray-50'
+                    : 'text-gray-500 cursor-not-allowed opacity-40'
                 }`}
                 aria-label="Scroll metrics right"
               >
@@ -523,10 +523,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
         </div>
 
         {/* Progress Bar */}
-        <div className="w-full bg-brand-navy h-1.5 rounded-full overflow-hidden my-4 border border-brand-slate/20">
+        <div className="w-full bg-white h-1.5 rounded-full overflow-hidden my-4 border border-gray-200">
           <motion.div
             style={{ width: `${Math.max(15, dragProgress)}%` }}
-            className="h-full bg-brand-slate rounded-full transition-all duration-150"
+            className="h-full bg-black rounded-full transition-all duration-150"
           />
         </div>
 
@@ -549,11 +549,11 @@ export const FeaturedAuditMetrics: React.FC = () => {
               return (
                 <div
                   key={metric.id}
-                  className="w-[280px] sm:w-[310px] flex-shrink-0 flex flex-col justify-between bg-surface-panel border border-brand-slate/40 hover:border-brand-slate rounded-2xl p-5 text-left transition-all duration-200 group relative overflow-hidden"
+                  className="w-[280px] sm:w-[310px] flex-shrink-0 flex flex-col justify-between bg-white border border-gray-200 hover:border-gray-200 rounded-2xl p-5 text-left transition-all duration-200 group relative overflow-hidden"
                 >
                   <div className="space-y-3.5">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-[10px] font-mono font-semibold text-brand-slate-light tracking-wide uppercase flex items-center gap-1.5">
+                      <span className="text-[10px] font-mono font-semibold text-gray-500 tracking-wide uppercase flex items-center gap-1.5">
                         <span className="h-1.5 w-1.5 rounded-full bg-accent-cyan" />
                         {metric.phase}
                       </span>
@@ -565,46 +565,46 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     {/* Title and Icon */}
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <h3 className="text-sm sm:text-base font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors leading-tight">
+                        <h3 className="text-sm sm:text-base font-bold text-black group-hover:text-accent-cyan transition-colors leading-tight">
                           {metric.title}
                         </h3>
-                        <p className="text-[11px] font-mono text-brand-slate-light mt-0.5">
+                        <p className="text-[11px] font-mono text-gray-500 mt-0.5">
                           {metric.engineName}
                         </p>
                       </div>
-                      <div className="w-9 h-9 rounded-xl bg-brand-oxford border border-brand-slate/40 flex items-center justify-center text-accent-cyan shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-accent-cyan shrink-0">
                         <IconComponent className="h-4 w-4" />
                       </div>
                     </div>
 
                     {/* Primary Highlight Metric Box */}
-                    <div className="p-3 rounded-xl bg-brand-oxford border border-brand-slate/30 flex items-center justify-between">
+                    <div className="p-3 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-between">
                       <div>
-                        <div className="text-xl font-black font-mono text-brand-offwhite tracking-tight metric-tabular">
+                        <div className="text-xl font-black font-mono text-black tracking-tight metric-tabular">
                           {metric.highlightValue}
                         </div>
-                        <div className="text-[11px] font-mono text-brand-slate-light mt-0.5">
+                        <div className="text-[11px] font-mono text-gray-500 mt-0.5">
                           {metric.highlightLabel}
                         </div>
                       </div>
-                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-surface-panel border border-brand-slate/40 text-brand-periwinkle">
+                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-600">
                         {metric.badge}
                       </span>
                     </div>
                   </div>
 
                   {/* Card Footer / Action */}
-                  <div className="pt-3.5 mt-3.5 border-t border-brand-slate/30 flex items-center justify-between gap-2">
+                  <div className="pt-3.5 mt-3.5 border-t border-gray-200 flex items-center justify-between gap-2">
                     <button
                       type="button"
                       onClick={() => setInspectedMetric(metric)}
-                      className="text-xs font-mono text-brand-periwinkle hover:text-white cursor-pointer"
+                      className="text-xs font-mono text-gray-600 hover:text-white cursor-pointer"
                     >
                       Inspect Vector
                     </button>
                     <Link
                       to={metric.route}
-                      className="inline-flex items-center gap-1.5 bg-brand-slate hover:bg-brand-slate-hover text-white py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all shadow-sm border border-brand-periwinkle/30"
+                      className="inline-flex items-center gap-1.5 bg-black hover:bg-black-hover text-white py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all shadow-sm border border-brand-periwinkle/30"
                     >
                       <span>Run Audit</span>
                       <ArrowRight className="h-3.5 w-3.5" />
@@ -636,12 +636,12 @@ export const FeaturedAuditMetrics: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              className="relative w-full max-w-2xl bg-surface-panel border border-brand-slate/50 rounded-2xl p-5 sm:p-7 shadow-2xl text-left z-10 space-y-5 overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar text-brand-offwhite"
+              className="relative w-full max-w-2xl bg-white border border-gray-200 rounded-2xl p-5 sm:p-7 shadow-2xl text-left z-10 space-y-5 overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar text-black"
             >
               <button
                 type="button"
                 onClick={() => setInspectedMetric(null)}
-                className="absolute top-5 right-5 p-2 rounded-xl bg-brand-oxford border border-brand-slate/40 text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
+                className="absolute top-5 right-5 p-2 rounded-xl bg-gray-100 border border-gray-200 text-gray-600 hover:text-white transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="h-4 w-4" />
@@ -652,10 +652,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                   <span className="h-2 w-2 rounded-full bg-accent-cyan animate-pulse" />
                   <span>{inspectedMetric.phase}</span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-brand-offwhite">
+                <h3 className="text-xl sm:text-2xl font-black text-black">
                   {inspectedMetric.title} Telemetry Vector
                 </h3>
-                <p className="text-xs sm:text-sm text-brand-periwinkle">
+                <p className="text-xs sm:text-sm text-gray-600">
                   {inspectedMetric.telemetryDetails.benchmark}
                 </p>
               </div>
@@ -663,9 +663,9 @@ export const FeaturedAuditMetrics: React.FC = () => {
               {/* Primary Values Summary */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {inspectedMetric.vectors.map((vec, idx) => (
-                  <div key={idx} className="bg-brand-oxford p-3 rounded-xl border border-brand-slate/30 font-mono">
-                    <div className="text-[10px] text-brand-slate-light truncate">{vec.name}</div>
-                    <div className="text-sm font-bold text-brand-offwhite mt-1">{vec.value}</div>
+                  <div key={idx} className="bg-gray-100 p-3 rounded-xl border border-gray-200 font-mono">
+                    <div className="text-[10px] text-gray-500 truncate">{vec.name}</div>
+                    <div className="text-sm font-bold text-black mt-1">{vec.value}</div>
                     <div className="text-[10px] text-accent-emerald uppercase font-bold mt-0.5">● {vec.status}</div>
                   </div>
                 ))}
@@ -673,21 +673,21 @@ export const FeaturedAuditMetrics: React.FC = () => {
 
               {/* CLI Command */}
               <div className="space-y-1.5">
-                <div className="text-xs font-mono text-brand-slate-light flex items-center justify-between">
+                <div className="text-xs font-mono text-gray-500 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Terminal className="h-3.5 w-3.5 text-accent-cyan" />
                     <span>Run Synthetic Vector Probe via Terminal</span>
                   </span>
-                  <span className="text-[10px] text-brand-slate-light">Node.js / CI CLI</span>
+                  <span className="text-[10px] text-gray-500">Node.js / CI CLI</span>
                 </div>
-                <div className="bg-brand-navy border border-brand-slate/40 rounded-xl p-3 flex items-center justify-between gap-3 text-xs font-mono text-brand-periwinkle">
-                  <span className="truncate text-brand-offwhite">
+                <div className="bg-white border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-3 text-xs font-mono text-gray-600">
+                  <span className="truncate text-black">
                     {inspectedMetric.telemetryDetails.cliCommand}
                   </span>
                   <button
                     type="button"
                     onClick={() => copyCli(inspectedMetric.telemetryDetails.cliCommand)}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand-oxford hover:bg-surface-subtle text-white border border-brand-slate/40 text-xs transition-colors shrink-0 cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-50 text-white border border-gray-200 text-xs transition-colors shrink-0 cursor-pointer"
                   >
                     {copiedCli ? (
                       <>
@@ -709,13 +709,13 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setInspectedMetric(null)}
-                  className="w-full sm:w-auto px-4 py-2 rounded-xl border border-brand-slate/40 text-xs font-mono text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl border border-gray-200 text-xs font-mono text-gray-600 hover:text-white transition-colors cursor-pointer"
                 >
                   Dismiss
                 </button>
                 <Link
                   to={inspectedMetric.route}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-slate hover:bg-brand-slate-hover text-white px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 cursor-pointer"
                 >
                   <span>Launch {inspectedMetric.engineName}</span>
                   <ArrowRight className="h-4 w-4" />

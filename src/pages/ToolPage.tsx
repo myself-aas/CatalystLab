@@ -178,7 +178,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   };
 
   return (
-    <div className="min-h-screen bg-brand-navy pb-20 text-brand-offwhite selection:bg-brand-slate selection:text-white font-mono">
+    <div className="min-h-screen bg-white pb-20 text-black selection:bg-black selection:text-white font-mono">
       <SEOHead
         title={`${meta.catalystName || meta.name} Catalyst`}
         description={meta.description}
@@ -186,13 +186,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       />
       
       {/* Header Banner */}
-      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-10 sm:px-6 lg:px-8">
+      <section className="border-b border-gray-200 bg-gray-100 px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           
           <div className="flex items-center justify-between mb-6">
             <Link
               to="/master-audit"
-              className="inline-flex items-center gap-1 text-xs font-bold text-brand-periwinkle hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-bold text-gray-600 hover:text-white transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Back to Master Audit</span>
@@ -210,39 +210,40 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
           <div className="flex flex-col items-center mb-3">
             {meta.image ? (
-              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-3 rounded-2xl overflow-hidden shadow-lg border border-brand-slate/40">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-3 rounded-2xl overflow-hidden shadow-lg border border-gray-200">
                 <img 
                   src={meta.image} 
                   alt={meta.name}
                   className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
                 />
               </div>
             ) : (
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-surface-panel text-accent-cyan text-2xl shadow-lg mb-3 border border-brand-slate/40">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-accent-cyan text-2xl shadow-lg mb-3 border border-gray-200">
                 <span className="material-symbols-outlined text-3xl">{meta.icon}</span>
               </div>
             )}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded border border-brand-slate/40 bg-surface-panel text-accent-cyan">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded border border-gray-200 bg-white text-accent-cyan">
               {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-accent-emerald bg-brand-oxford px-2.5 py-0.5 rounded border border-brand-slate/40">
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-accent-emerald bg-gray-100 px-2.5 py-0.5 rounded border border-gray-200">
               <ShieldCheck className="h-3 w-3 text-accent-emerald" />
               <span>Replaces: {meta.departmentReplaced}</span>
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-brand-periwinkle bg-surface-panel px-2.5 py-0.5 rounded border border-brand-slate/40">
+            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-gray-600 bg-white px-2.5 py-0.5 rounded border border-gray-200">
               <Code className="h-3 w-3 text-accent-cyan" />
               <span>runtime: Python 3.11 ({meta.pythonScript})</span>
             </span>
           </div>
 
-          <h1 className="text-2xl font-extrabold text-brand-offwhite sm:text-3xl font-sans">
+          <h1 className="text-2xl font-extrabold text-black sm:text-3xl font-sans">
             {meta.catalystName || `${meta.name} Catalyst`}
           </h1>
 
-          <p className="mx-auto mt-2 max-w-2xl text-xs sm:text-sm text-brand-periwinkle leading-relaxed font-sans">
+          <p className="mx-auto mt-2 max-w-2xl text-xs sm:text-sm text-gray-600 leading-relaxed font-sans">
             {meta.description}
           </p>
 
@@ -273,15 +274,15 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         
         {/* Saved Permalink Banner */}
         {savedReportId && (
-          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-4 shadow-xl text-brand-offwhite">
+          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-xl text-black">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="h-5 w-5 text-accent-emerald shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-sm font-bold text-brand-offwhite">
+                  <h3 className="text-sm font-bold text-black">
                     Audit Saved to Your User Dashboard!
                   </h3>
-                  <div className="text-xs text-brand-periwinkle mt-0.5">
+                  <div className="text-xs text-gray-600 mt-0.5">
                     Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-accent-cyan underline">{permalinkUrl}</a>
                   </div>
                 </div>
@@ -290,13 +291,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleCopy}
-                  className="rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs font-semibold text-brand-offwhite hover:bg-surface-subtle transition-colors cursor-pointer"
+                  className="rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-semibold text-black hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   {copiedLink ? 'Copied' : 'Copy Link'}
                 </button>
                 <Link
                   to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                  className="flex items-center gap-1 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
+                  className="flex items-center gap-1 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
                 >
                   <FileText className="h-3 w-3 text-accent-cyan" />
                   <span>Read Article Dossier</span>
@@ -307,13 +308,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         )}
 
         {(output || loading) && (
-          <div className="flex gap-2 border-b border-brand-slate/30 pb-2">
+          <div className="flex gap-2 border-b border-gray-200 pb-2">
             <button
               onClick={() => setViewMode('dashboard')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'dashboard'
-                  ? 'bg-brand-slate text-white border border-brand-periwinkle/30'
-                  : 'bg-surface-panel text-brand-periwinkle hover:text-white border border-brand-slate/40'
+                  ? 'bg-black text-white border border-brand-periwinkle/30'
+                  : 'bg-white text-gray-600 hover:text-white border border-gray-200'
               }`}
             >
               <Activity className="h-3.5 w-3.5" />
@@ -323,8 +324,8 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               onClick={() => setViewMode('terminal')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'terminal'
-                  ? 'bg-brand-slate text-white border border-brand-periwinkle/30'
-                  : 'bg-surface-panel text-brand-periwinkle hover:text-white border border-brand-slate/40'
+                  ? 'bg-black text-white border border-brand-periwinkle/30'
+                  : 'bg-white text-gray-600 hover:text-white border border-gray-200'
               }`}
             >
               <Code className="h-3.5 w-3.5" />
@@ -360,14 +361,14 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
         {/* Auth prompt if not logged in */}
         {!user && !loading && output && !output.startsWith('[!] Error') && (
-          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-4 text-center shadow-md max-w-2xl mx-auto">
-            <p className="text-xs text-brand-periwinkle flex items-center justify-center gap-1.5 font-sans">
+          <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-md max-w-2xl mx-auto">
+            <p className="text-xs text-gray-600 flex items-center justify-center gap-1.5 font-sans">
               <span className="material-symbols-outlined text-sm text-accent-amber">lightbulb</span>
               <span><strong>Want to save this report to your history?</strong> Sign in with Google to enable permanent cloud storage and permalinks.</span>
             </p>
             <button
               onClick={() => login()}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-3.5 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3.5 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
             >
               Sign In with Google
             </button>

@@ -117,7 +117,7 @@ export const TrialActivationModal: React.FC = () => {
                     className={`relative p-3 rounded-xl text-left border transition-all ${
                       isSelected 
                         ? 'bg-brand-cyan/10 border-brand-cyan shadow-md text-white' 
-                        : 'bg-brand-navy/60 border-brand-border/60 text-slate-300 hover:border-slate-500'
+                        : 'bg-white/60 border-brand-border/60 text-slate-300 hover:border-slate-500'
                     }`}
                   >
                     {item.popular && (
@@ -139,7 +139,7 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Active Plan Highlights Box */}
-          <div className="mt-6 p-4 rounded-xl bg-brand-navy/80 border border-brand-border/80">
+          <div className="mt-6 p-4 rounded-xl bg-white/80 border border-brand-border/80">
             <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-3 border-b border-brand-border/40">
               <span className="flex items-center gap-1.5 text-white">
                 <Cpu className="w-4 h-4 text-brand-cyan" /> {plan.dailyComputeUnits} Daily Compute Units
@@ -193,7 +193,7 @@ export const TrialActivationModal: React.FC = () => {
                 className={`w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition-all shadow-lg flex items-center justify-center gap-2 ${
                   success
                     ? 'bg-emerald-500 text-white'
-                    : 'bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 text-white'
+                    : 'bg-black hover:bg-gray-800 border border-gray-200 text-white'
                 }`}
               >
                 {loading ? (

@@ -56,7 +56,7 @@ export const ApiCategoryPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa] text-[#0b192c]">
+    <div className="min-h-screen bg-white text-[#0b192c]">
       {/* Category Header */}
       <div className="border-b border-[#e2e8f0] bg-white pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

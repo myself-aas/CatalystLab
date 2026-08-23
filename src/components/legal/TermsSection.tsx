@@ -60,12 +60,12 @@ export const TermsSection: React.FC = () => {
     <div className="space-y-8 font-mono">
       {/* Terms Header Card */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
           <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
             <Scale className="h-4 w-4" />
             <span>OPERATING AGREEMENT • REV 2026.8</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-brand-offwhite tracking-tight font-sans">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight font-sans">
             Terms of Service &amp; Acceptable Use
           </h2>
           <p className="mt-2 text-xs text-brand-periwinkle max-w-3xl leading-relaxed font-sans">
@@ -88,10 +88,10 @@ export const TermsSection: React.FC = () => {
 
       {/* Permitted vs Prohibited Interactive Matrix */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl">
           <div className="flex items-center gap-2 mb-1.5">
             <ShieldAlert className="h-4 w-4 text-accent-cyan" />
-            <h3 className="text-base font-bold text-brand-offwhite font-sans">Ethical Use &amp; Scanning Authorization Matrix</h3>
+            <h3 className="text-base font-bold text-black font-sans">Ethical Use &amp; Scanning Authorization Matrix</h3>
           </div>
           <p className="text-xs text-brand-periwinkle mb-5 font-sans">
             CatalystLab provides non-destructive synthetic probes. Scans must remain within authorized boundaries.
@@ -106,7 +106,7 @@ export const TermsSection: React.FC = () => {
               </div>
               <ul className="space-y-2">
                 {permitted.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs text-brand-offwhite font-sans">
+                  <li key={idx} className="flex items-start gap-2 text-xs text-black font-sans">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent-emerald mt-1.5 shrink-0" />
                     <span>{item}</span>
                   </li>
@@ -122,7 +122,7 @@ export const TermsSection: React.FC = () => {
               </div>
               <ul className="space-y-2">
                 {prohibited.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs text-brand-offwhite font-sans">
+                  <li key={idx} className="flex items-start gap-2 text-xs text-black font-sans">
                     <span className="h-1.5 w-1.5 rounded-full bg-rose-400 mt-1.5 shrink-0" />
                     <span>{item}</span>
                   </li>
@@ -135,14 +135,14 @@ export const TermsSection: React.FC = () => {
 
       {/* Interactive Service Level Agreement (SLA) & Concurrency Viewer */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-5">
             <div>
               <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
                 <Zap className="h-3.5 w-3.5" />
                 <span>SLA &amp; UPTIME COMMITMENT</span>
               </div>
-              <h3 className="text-base font-bold text-brand-offwhite font-sans">Service Reliability &amp; Performance Guarantees</h3>
+              <h3 className="text-base font-bold text-black font-sans">Service Reliability &amp; Performance Guarantees</h3>
             </div>
 
             {/* Tier Selector */}
@@ -187,7 +187,7 @@ export const TermsSection: React.FC = () => {
 
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5">
               <span className="text-[10px] uppercase font-bold text-brand-slate-light">Support Target</span>
-              <div className="text-base font-extrabold text-brand-offwhite mt-0.5">
+              <div className="text-base font-extrabold text-black mt-0.5">
                 {slaTiers[activeTier].supportSla}
               </div>
             </div>
@@ -197,23 +197,23 @@ export const TermsSection: React.FC = () => {
 
       {/* Core Legal Terms Specifications */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-xl space-y-4 text-xs text-brand-periwinkle leading-relaxed">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl space-y-4 text-xs text-brand-periwinkle leading-relaxed">
           <section className="space-y-1.5">
-            <h4 className="text-sm font-bold text-brand-offwhite font-sans">1. Intellectual Property &amp; Dossier Ownership</h4>
+            <h4 className="text-sm font-bold text-black font-sans">1. Intellectual Property &amp; Dossier Ownership</h4>
             <p className="font-sans">
               All synthetic audit dossiers, radar diagrams, and compliance evaluations generated by CatalystLab are the exclusive property of the requesting user. CatalystLab retains all rights, titles, and interests in the underlying diagnostic algorithms, container workers, and source codebase.
             </p>
           </section>
 
           <section className="space-y-1.5">
-            <h4 className="text-sm font-bold text-brand-offwhite font-sans">2. Limitation of Liability</h4>
+            <h4 className="text-sm font-bold text-black font-sans">2. Limitation of Liability</h4>
             <p className="font-sans">
               Diagnostic outputs reflect simulated synthetic requests. Under no circumstance shall CatalystLab or its developers be held liable for third-party hosting outages, DNS propagation anomalies, or misconfigured web firewalls.
             </p>
           </section>
 
           <section className="space-y-1.5">
-            <h4 className="text-sm font-bold text-brand-offwhite font-sans">3. Term &amp; Termination</h4>
+            <h4 className="text-sm font-bold text-black font-sans">3. Term &amp; Termination</h4>
             <p className="font-sans">
               Users may terminate their account at any time. CatalystLab reserves the right to suspend API credentials that violate acceptable use or attempt unauthorized probe flood attacks.
             </p>

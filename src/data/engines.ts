@@ -1,12 +1,4 @@
 import type { EngineMeta } from '../types';
-import synthshiftImg from '../assets/images/synthshift_migration_1787420135413.jpg';
-import gitlygaseImg from '../assets/images/gitlygase_repo_1787420147890.jpg';
-import ecoholoImg from '../assets/images/ecoholo_eco_1787420162544.jpg';
-import vitalzymeImg from '../assets/images/vitalzyme_health_1787420174357.jpg';
-import edgevmaxImg from '../assets/images/edgevmax_latency_1787420187566.jpg';
-import riskproteaseImg from '../assets/images/riskprotease_compliance_1787420200307.jpg';
-import llmKinaseImg from '../assets/images/llm_kinase_ai_1787420214376.jpg';
-import allostersearchImg from '../assets/images/allostersearch_llmo_1787420226857.jpg';
 
 export const ENGINES_MAP: Record<string, EngineMeta> = {
   // SDLC Phase 1: SynthShift
@@ -28,7 +20,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'platform_migration_audit.py',
     route: '/migration',
     docsAnchor: 'engine-par',
-    image: synthshiftImg,
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'Site Topology & Route Hierarchy Mapping',
       'Canonical URL Destination Synchronization',
@@ -86,7 +78,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'repo_scanner.py',
     route: '/repo-scanner',
     docsAnchor: 'engine-repo-scanner',
-    image: gitlygaseImg,
+    image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'Open-Source License Compatibility (MIT, Apache, GPL)',
       'SECURITY.md Vulnerability Disclosure Policy',
@@ -144,7 +136,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'eco_carbon_audit.py',
     route: '/eco-audit',
     docsAnchor: 'engine-eco-audit',
-    image: ecoholoImg,
+    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'Sustainable Web Design (SWD) Carbon Model Scoring',
       'CO2 Grams per 10,000 Pageviews Benchmark',
@@ -202,7 +194,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'website_health.py',
     route: '/health',
     docsAnchor: 'engine-health',
-    image: vitalzymeImg,
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'DOM Tree Recursion Depth & Total Node Volume',
       'Render-Blocking Stylesheets & Script Bottlenecks',
@@ -261,7 +253,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'edge_latency.py',
     route: '/latency',
     docsAnchor: 'engine-latency',
-    image: edgevmaxImg,
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'Multi-Region Anycast Edge Routing Radar (US, EU, AP, SA)',
       '12 Global PoPs Time-To-First-Byte (TTFB) Comparison',
@@ -319,7 +311,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'compliance_risk_audit.py',
     route: '/compliance',
     docsAnchor: 'engine-compliance',
-    image: riskproteaseImg,
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'Strict-Transport-Security (HSTS 2-Year Preload Verification)',
       'Content-Security-Policy (Strict CSP Nonces & Hash Validation)',
@@ -377,7 +369,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'ai_readiness.py',
     route: '/ai-readiness',
     docsAnchor: 'engine-ai-readiness',
-    image: llmKinaseImg,
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'Root /llms.txt and /llms-full.txt Manifest Discovery',
       'Robots.txt AI Agent Crawling Directives (GPTBot, ClaudeBot, PerplexityBot)',
@@ -435,7 +427,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'llmo_optimizer.py',
     route: '/llmo',
     docsAnchor: 'engine-llmo',
-    image: allostersearchImg,
+    image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=800',
     keyVectors: [
       'Schema.org TechArticle & Entity Graph Depth',
       'Factual Information Density Index for AI Citation',

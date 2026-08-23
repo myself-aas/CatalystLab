@@ -303,17 +303,17 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
   };
 
   return (
-    <div id="api-playground-root" className="rounded-2xl border border-brand-slate/40 bg-surface-panel shadow-xl overflow-hidden font-mono text-brand-offwhite">
+    <div id="api-playground-root" className="rounded-2xl border border-brand-slate/40 bg-white shadow-xl overflow-hidden font-mono text-black">
       {/* Top Header Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-slate/30 bg-brand-oxford px-5 py-3.5">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-surface-panel border border-brand-slate/40 text-accent-cyan shadow-xs">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white border border-brand-slate/40 text-accent-cyan shadow-xs">
             <Terminal className="h-4 w-4" />
           </div>
           <div>
-            <h3 className="text-xs sm:text-sm font-bold text-brand-offwhite flex items-center gap-2 font-sans">
+            <h3 className="text-xs sm:text-sm font-bold text-black flex items-center gap-2 font-sans">
               <span>Interactive Request Builder &amp; Sandbox</span>
-              <span className="rounded bg-brand-navy border border-brand-slate/40 px-1.5 py-0.5 text-[10px] font-mono text-accent-cyan">
+              <span className="rounded bg-white border border-brand-slate/40 px-1.5 py-0.5 text-[10px] font-mono text-accent-cyan">
                 v2.4.0 (OpenAPI 3.1)
               </span>
             </h3>
@@ -327,7 +327,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={downloadOpenApiJson}
-            className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3 py-1.5 text-xs font-semibold text-brand-offwhite shadow-xs transition hover:bg-surface-subtle cursor-pointer"
+            className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-white px-3 py-1.5 text-xs font-semibold text-black shadow-xs transition hover:bg-gray-50 cursor-pointer"
             title="Download OpenAPI 3.1 JSON Specification"
           >
             <Download className="h-3.5 w-3.5 text-accent-cyan" />
@@ -336,7 +336,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
           <button
             onClick={downloadPostman}
-            className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-surface-panel px-3 py-1.5 text-xs font-semibold text-brand-offwhite shadow-xs transition hover:bg-surface-subtle cursor-pointer"
+            className="flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-white px-3 py-1.5 text-xs font-semibold text-black shadow-xs transition hover:bg-gray-50 cursor-pointer"
             title="Export Postman Collection v2.1"
           >
             <FileJson className="h-3.5 w-3.5 text-accent-amber" />
@@ -363,7 +363,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                   setSelectedEndpointId(e.target.value);
                   if (onSelectEndpoint) onSelectEndpoint(e.target.value);
                 }}
-                className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford py-2 pl-3 pr-8 text-xs font-semibold text-brand-offwhite shadow-xs focus:border-brand-slate focus:outline-none cursor-pointer"
+                className="w-full rounded-xl border border-brand-slate/40 bg-brand-oxford py-2 pl-3 pr-8 text-xs font-semibold text-black shadow-xs focus:border-brand-slate focus:outline-none cursor-pointer"
               >
                 {API_CATEGORIES.map(category => (
                   <optgroup key={category} label={`─── ${category} ───`}>
@@ -389,7 +389,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
               {currentEndpoint.method}
             </span>
 
-            <div className="flex-1 flex items-center rounded-xl border border-brand-slate/40 bg-brand-navy px-3 py-1.5 text-xs font-mono text-brand-offwhite overflow-x-auto">
+            <div className="flex-1 flex items-center rounded-xl border border-brand-slate/40 bg-white px-3 py-1.5 text-xs font-mono text-black overflow-x-auto">
               <span className="text-brand-slate-light mr-1">/api</span>
               <span className="font-bold text-accent-cyan">{currentEndpoint.path.replace(/^\/api/, '')}</span>
             </div>
@@ -416,12 +416,12 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           {/* Endpoint Summary & Auth Tags */}
           <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3 space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs font-bold text-brand-offwhite font-sans">{currentEndpoint.summary}</span>
+              <span className="text-xs font-bold text-black font-sans">{currentEndpoint.summary}</span>
               <div className="flex items-center gap-2">
-                <span className="rounded bg-surface-panel border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-brand-periwinkle">
+                <span className="rounded bg-white border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-brand-periwinkle">
                   Auth: {currentEndpoint.auth}
                 </span>
-                <span className="rounded bg-surface-panel border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-accent-cyan">
+                <span className="rounded bg-white border border-brand-slate/40 px-2 py-0.5 text-[10px] font-semibold text-accent-cyan">
                   Quota: {currentEndpoint.rateLimit}
                 </span>
               </div>
@@ -441,7 +441,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                     <Sliders className="h-3.5 w-3.5" />
                     <span>Query &amp; Path Parameters</span>
                   </div>
-                  <span className="rounded bg-brand-navy border border-brand-slate/40 px-1.5 py-0.5 text-[10px] font-mono text-brand-slate-light">
+                  <span className="rounded bg-white border border-brand-slate/40 px-1.5 py-0.5 text-[10px] font-mono text-brand-slate-light">
                     {currentEndpoint.parameters.length} parameter{currentEndpoint.parameters.length > 1 ? 's' : ''}
                   </span>
                 </div>
@@ -457,7 +457,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                         value={queryParams[param.name] || ''}
                         onChange={(e) => setQueryParams({ ...queryParams, [param.name]: e.target.value })}
                         placeholder={param.example || param.default || 'value'}
-                        className="flex-1 rounded-lg border border-brand-slate/40 bg-surface-panel px-2.5 py-1 font-mono text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
+                        className="flex-1 rounded-lg border border-brand-slate/40 bg-white px-2.5 py-1 font-mono text-xs text-black placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
                       />
                     </div>
                   ))}
@@ -500,7 +500,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                 placeholder={currentEndpoint.method === 'GET' ? 'GET requests do not require a JSON body.' : '{\n  "url": "https://example.com"\n}'}
                 rows={currentEndpoint.method === 'GET' ? 2 : 5}
                 disabled={currentEndpoint.method === 'GET'}
-                className="w-full rounded-xl border border-brand-slate/40 bg-brand-navy p-3 font-mono text-xs text-accent-cyan focus:border-brand-slate focus:outline-none disabled:opacity-50"
+                className="w-full rounded-xl border border-brand-slate/40 bg-white p-3 font-mono text-xs text-accent-cyan focus:border-brand-slate focus:outline-none disabled:opacity-50"
               />
             </div>
 
@@ -518,7 +518,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                     className={`rounded-lg border p-1.5 text-center font-semibold transition cursor-pointer text-xs ${
                       authType === 'none'
                         ? 'border-brand-periwinkle/30 bg-brand-slate text-white'
-                        : 'border-brand-slate/40 bg-surface-panel text-brand-periwinkle hover:text-white'
+                        : 'border-brand-slate/40 bg-white text-brand-periwinkle hover:text-white'
                     }`}
                   >
                     Public
@@ -528,7 +528,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                     className={`rounded-lg border p-1.5 text-center font-semibold transition cursor-pointer text-xs ${
                       authType === 'apiKey'
                         ? 'border-brand-periwinkle/30 bg-brand-slate text-white'
-                        : 'border-brand-slate/40 bg-surface-panel text-brand-periwinkle hover:text-white'
+                        : 'border-brand-slate/40 bg-white text-brand-periwinkle hover:text-white'
                     }`}
                   >
                     X-API-Key
@@ -538,7 +538,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                     className={`rounded-lg border p-1.5 text-center font-semibold transition cursor-pointer text-xs ${
                       authType === 'bearer'
                         ? 'border-brand-periwinkle/30 bg-brand-slate text-white'
-                        : 'border-brand-slate/40 bg-surface-panel text-brand-periwinkle hover:text-white'
+                        : 'border-brand-slate/40 bg-white text-brand-periwinkle hover:text-white'
                     }`}
                   >
                     Bearer JWT
@@ -552,7 +552,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       type="text"
                       value={apiKeyVal}
                       onChange={(e) => setApiKeyVal(e.target.value)}
-                      className="w-full rounded-lg border border-brand-slate/40 bg-brand-navy px-2.5 py-1 font-mono text-xs text-accent-cyan"
+                      className="w-full rounded-lg border border-brand-slate/40 bg-white px-2.5 py-1 font-mono text-xs text-accent-cyan"
                     />
                   </div>
                 )}
@@ -565,7 +565,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       value={bearerToken}
                       onChange={(e) => setBearerToken(e.target.value)}
                       placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                      className="w-full rounded-lg border border-brand-slate/40 bg-brand-navy px-2.5 py-1 font-mono text-xs text-accent-cyan"
+                      className="w-full rounded-lg border border-brand-slate/40 bg-white px-2.5 py-1 font-mono text-xs text-accent-cyan"
                     />
                   </div>
                 )}
@@ -586,7 +586,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                     <select
                       value={snippetLanguage}
                       onChange={(e) => setSnippetLanguage(e.target.value as any)}
-                      className="rounded-lg border border-brand-slate/40 bg-surface-panel px-2 py-0.5 text-[11px] font-semibold text-brand-offwhite focus:outline-none cursor-pointer font-mono"
+                      className="rounded-lg border border-brand-slate/40 bg-white px-2 py-0.5 text-[11px] font-semibold text-black focus:outline-none cursor-pointer font-mono"
                     >
                       <option value="curl">cURL</option>
                       <option value="javascript">JavaScript / Node</option>
@@ -612,7 +612,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                 </div>
               </div>
 
-              <pre className="rounded-xl border border-brand-slate/40 bg-brand-navy p-3 font-mono text-xs text-accent-cyan overflow-x-auto max-h-40">
+              <pre className="rounded-xl border border-brand-slate/40 bg-white p-3 font-mono text-xs text-accent-cyan overflow-x-auto max-h-40">
                 <code>{generateCodeSnippet(currentEndpoint, snippetLanguage)}</code>
               </pre>
             </div>
@@ -644,7 +644,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                   </span>
 
                   {responseTimeMs !== null && (
-                    <span className="inline-flex items-center gap-1 rounded-md bg-surface-panel border border-brand-slate/40 px-2 py-0.5 text-xs font-mono text-accent-cyan">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-white border border-brand-slate/40 px-2 py-0.5 text-xs font-mono text-accent-cyan">
                       <Clock className="h-3 w-3" />
                       {responseTimeMs}ms
                     </span>
@@ -655,7 +655,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
             {/* Response Metrics Pill Bar */}
             {responsePayload && (
-              <div className="flex items-center justify-between text-[10px] text-brand-periwinkle bg-brand-navy border border-brand-slate/40 rounded-lg px-2.5 py-1 font-mono">
+              <div className="flex items-center justify-between text-[10px] text-brand-periwinkle bg-white border border-brand-slate/40 rounded-lg px-2.5 py-1 font-mono">
                 <span>Size: {responseSizeKb ? `${responseSizeKb} KB` : 'N/A'}</span>
                 <span className="text-accent-emerald font-semibold flex items-center gap-1">
                   <ShieldCheck className="h-3 w-3" /> OpenAPI 3.1
@@ -675,7 +675,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
             )}
 
             {/* Live Response Content Container */}
-            <div className="rounded-xl border border-brand-slate/40 bg-brand-navy p-3.5 text-xs font-mono text-brand-offwhite overflow-y-auto max-h-[340px] shadow-inner">
+            <div className="rounded-xl border border-brand-slate/40 bg-white p-3.5 text-xs font-mono text-black overflow-y-auto max-h-[340px] shadow-inner">
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-14 space-y-2 text-brand-periwinkle">
                   <RefreshCw className="h-6 w-6 animate-spin text-accent-cyan" />
@@ -716,7 +716,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                       }, null, 2));
                     }
                   }}
-                  className="rounded-md border border-brand-slate/40 bg-surface-panel px-2 py-0.5 text-[10px] font-mono text-brand-offwhite hover:bg-surface-subtle transition cursor-pointer"
+                  className="rounded-md border border-brand-slate/40 bg-white px-2 py-0.5 text-[10px] font-mono text-black hover:bg-gray-50 transition cursor-pointer"
                 >
                   {preset.name}
                 </button>
@@ -734,7 +734,7 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
       <div className="border-t border-brand-slate/30 bg-brand-oxford p-5 space-y-3.5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h3 className="text-xs sm:text-sm font-bold text-brand-offwhite flex items-center gap-1.5 font-sans">
+            <h3 className="text-xs sm:text-sm font-bold text-black flex items-center gap-1.5 font-sans">
               <ShieldCheck className="h-4 w-4 text-accent-emerald" />
               <span>API Deployment Verification Suite (Finalize for Production)</span>
             </h3>
@@ -764,9 +764,9 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
         {/* Verification Checklist Results Table */}
         {suiteResults.length > 0 && (
-          <div className="rounded-xl border border-brand-slate/40 bg-surface-panel p-3.5 space-y-2.5">
+          <div className="rounded-xl border border-brand-slate/40 bg-white p-3.5 space-y-2.5">
             <div className="flex items-center justify-between border-b border-brand-slate/30 pb-2">
-              <span className="text-xs font-bold text-brand-offwhite">
+              <span className="text-xs font-bold text-black">
                 Automated Test Assertions ({suiteResults.filter(r => r.status === 'passed').length}/{suiteResults.length} Passed)
               </span>
 
@@ -789,12 +789,12 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
                   className={`flex items-center justify-between rounded-lg border p-2 text-xs ${
                     item.status === 'passed' ? 'border-emerald-500/40 bg-emerald-950/30' :
                     item.status === 'failed' ? 'border-rose-500/40 bg-rose-950/30' :
-                    item.status === 'running' ? 'border-accent-cyan/40 bg-surface-panel animate-pulse' :
+                    item.status === 'running' ? 'border-accent-cyan/40 bg-white animate-pulse' :
                     'border-brand-slate/40 bg-brand-oxford'
                   }`}
                 >
                   <div className="truncate mr-2">
-                    <div className="font-semibold text-brand-offwhite truncate text-[11px] font-sans">{item.summary}</div>
+                    <div className="font-semibold text-black truncate text-[11px] font-sans">{item.summary}</div>
                     <div className="font-mono text-[10px] text-accent-cyan truncate">{item.path}</div>
                   </div>
 

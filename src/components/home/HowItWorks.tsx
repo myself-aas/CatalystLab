@@ -71,20 +71,20 @@ export const HowItWorks: React.FC = () => {
   };
 
   return (
-    <section className="py-14 lg:py-18 bg-transparent text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
+    <section className="py-14 lg:py-18 bg-transparent text-black relative overflow-hidden border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs font-mono text-brand-periwinkle mb-3 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs font-mono text-gray-600 mb-3 shadow-sm">
               <Network className="h-3.5 w-3.5 text-accent-cyan" />
               <span>Telemetry Execution Pipeline</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-black">
               Execution Workflow
             </h2>
-            <p className="text-xs sm:text-sm text-brand-periwinkle max-w-xl mt-1.5 leading-relaxed">
+            <p className="text-xs sm:text-sm text-gray-600 max-w-xl mt-1.5 leading-relaxed">
               Four synchronous stages from anycast edge DNS resolution to complete remediation code patches.
             </p>
           </LazyReveal>
@@ -95,18 +95,18 @@ export const HowItWorks: React.FC = () => {
               type="button"
               onClick={() => scroll('left')}
               aria-label="Scroll steps left"
-              className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+              className="p-2 rounded-xl bg-white hover:bg-gray-50 text-gray-600 hover:text-white border border-gray-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-xs font-mono text-brand-periwinkle px-1 font-bold">
+            <span className="text-xs font-mono text-gray-600 px-1 font-bold">
               Step {steps[activeIdx].number} / 04
             </span>
             <button
               type="button"
               onClick={() => scroll('right')}
               aria-label="Scroll steps right"
-              className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+              className="p-2 rounded-xl bg-white hover:bg-gray-50 text-gray-600 hover:text-white border border-gray-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -127,31 +127,31 @@ export const HowItWorks: React.FC = () => {
             return (
               <div
                 key={step.number}
-                className="w-[280px] sm:w-[310px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 flex flex-col justify-between hover:border-brand-slate transition-all space-y-4 shadow-lg"
+                className="w-[280px] sm:w-[310px] shrink-0 snap-start bg-white border border-gray-200 rounded-2xl p-5 flex flex-col justify-between hover:border-gray-200 transition-all space-y-4 shadow-lg"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="p-2.5 rounded-xl bg-brand-oxford border border-brand-slate/40 text-accent-cyan">
+                    <div className="p-2.5 rounded-xl bg-gray-100 border border-gray-200 text-accent-cyan">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono text-brand-slate-light bg-brand-oxford px-2 py-0.5 rounded border border-brand-slate/30 uppercase tracking-wider">
+                    <span className="text-[10px] font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-200 uppercase tracking-wider">
                       {step.time}
                     </span>
                   </div>
                   
-                  <div className="text-[10px] font-mono text-brand-slate-light uppercase tracking-wider mb-1 font-bold">
+                  <div className="text-[10px] font-mono text-gray-500 uppercase tracking-wider mb-1 font-bold">
                     {step.subtitle}
                   </div>
-                  <h3 className="text-base font-bold text-brand-offwhite leading-tight mb-2">
+                  <h3 className="text-base font-bold text-black leading-tight mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-xs text-brand-periwinkle leading-relaxed">
+                  <p className="text-xs text-gray-600 leading-relaxed">
                     {step.description}
                   </p>
                 </div>
                 
-                <div className="pt-3 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono">
-                  <span className="text-brand-slate-light uppercase tracking-wider text-[10px] font-bold">
+                <div className="pt-3 border-t border-gray-200 flex items-center justify-between text-xs font-mono">
+                  <span className="text-gray-500 uppercase tracking-wider text-[10px] font-bold">
                     Auto-Executed
                   </span>
                   <Link

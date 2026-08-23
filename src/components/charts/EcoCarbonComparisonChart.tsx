@@ -10,7 +10,7 @@ interface EcoCarbonComparisonChartProps {
   treesEquivalentYearly: number;
 }
 
-export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> = ({
+export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> = React.memo(({
   rating,
   color,
   emissionsPerVisitGrams,
@@ -146,4 +146,4 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
       </div>
     </div>
   );
-};
+});

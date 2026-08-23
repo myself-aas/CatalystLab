@@ -1,7 +1,21 @@
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import type { AuditReport } from '../types';
 import { ENGINES_MAP } from '../data/engines';
+
+/**
+ * Lazily loads jsPDF library on demand
+ */
+async function loadJsPDF() {
+  const mod = await import('jspdf');
+  return mod.default || mod.jsPDF;
+}
+
+/**
+ * Lazily loads html2canvas library on demand
+ */
+async function loadHtml2Canvas() {
+  const mod = await import('html2canvas');
+  return mod.default;
+}
 
 /**
  * Safely convert any modern CSS color expression (oklch, oklab, lch, lab, color-mix)
@@ -72,9 +86,10 @@ function sanitizeClonedDocumentStyles(clonedDoc: Document): void {
 /**
  * Direct jsPDF programmatic generator fallback if DOM canvas rasterization is blocked
  */
-function generateDirectTextPdf(element: HTMLElement, filename: string): void {
+async function generateDirectTextPdf(element: HTMLElement, filename: string): Promise<void> {
   try {
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const JsPdfClass = await loadJsPDF();
+    const pdf = new JsPdfClass('p', 'mm', 'a4');
     const pageWidth = 210;
     const pageHeight = 297;
     const margin = 15;
@@ -132,6 +147,9 @@ export async function exportReportToPdf(elementId: string, filename: string = 'C
   }
 
   try {
+    const html2canvas = await loadHtml2Canvas();
+    const JsPdfClass = await loadJsPDF();
+
     const canvas = await html2canvas(element, {
       scale: 2,
       backgroundColor: '#020617',
@@ -145,7 +163,7 @@ export async function exportReportToPdf(elementId: string, filename: string = 'C
     });
 
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new JsPdfClass('p', 'mm', 'a4');
     const pageWidth = 210;
     const pageHeight = 297;
     const imgWidth = pageWidth;
@@ -167,7 +185,7 @@ export async function exportReportToPdf(elementId: string, filename: string = 'C
     pdf.save(filename);
   } catch (error) {
     console.warn('[PDF Export] Canvas rasterization failed, using direct PDF document engine:', error);
-    generateDirectTextPdf(element, filename);
+    await generateDirectTextPdf(element, filename);
   }
 }
 
@@ -227,6 +245,9 @@ export async function exportAuditReportDataToPdf(report: AuditReport): Promise<v
   const filename = `CatalystLab-${safeDomain}-${report.engine}.pdf`;
 
   try {
+    const html2canvas = await loadHtml2Canvas();
+    const JsPdfClass = await loadJsPDF();
+
     const canvas = await html2canvas(container, {
       scale: 2,
       backgroundColor: '#020617',
@@ -237,7 +258,7 @@ export async function exportAuditReportDataToPdf(report: AuditReport): Promise<v
     });
 
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new JsPdfClass('p', 'mm', 'a4');
     const pageWidth = 210;
     const pageHeight = 297;
     const imgWidth = pageWidth;
@@ -259,7 +280,7 @@ export async function exportAuditReportDataToPdf(report: AuditReport): Promise<v
     pdf.save(filename);
   } catch (err) {
     console.warn('[PDF Export] HTML canvas render failed, using direct PDF fallback:', err);
-    generateDirectTextPdf(container, filename);
+    await generateDirectTextPdf(container, filename);
   } finally {
     if (document.body.contains(container)) {
       document.body.removeChild(container);

@@ -17,12 +17,13 @@ import { SDLC_CATALYSTS_LIST, TOTAL_EXPERTS_REPLACED } from '../../data/engines'
 import type { AuditReport } from '../../types';
 
 import { motion } from 'framer-motion';
-import catBg1 from '../../assets/images/catalyst_bg_1_1787217666949.jpg';
-import catBg2 from '../../assets/images/catalyst_bg_2_1787217684318.jpg';
-import catBg3 from '../../assets/images/catalyst_bg_3_1787217714810.jpg';
-import catBg4 from '../../assets/images/catalyst_bg_4_1787217734483.jpg';
 
-const catImages = [catBg1, catBg2, catBg3, catBg4];
+const catImages = [
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800',
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800',
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
+  'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800'
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -387,8 +388,8 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
         <div>
           <div className="flex items-center gap-2">
             <Activity className="h-5 w-5 text-[#415a77]" />
-            <h2 className="text-lg font-bold text-[#0b192c]">Plausible-Style Zero-Cost Telemetry & Alerts</h2>
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-white uppercase">
+            <h2 className="text-lg font-bold text-black">Plausible-Style Zero-Cost Telemetry & Alerts</h2>
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-black uppercase">
               Phase 4 & 5
             </span>
           </div>
@@ -404,7 +405,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             id="user-analytics-view-select"
             value={activeSubTab}
             onChange={(e) => setActiveSubTab(e.target.value as any)}
-            className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-xs font-bold text-[#0b192c] shadow-sm focus:border-[#38bdf8] focus:outline-none"
+            className="rounded-xl border border-[#cbd5e1] bg-white px-3 py-2 text-xs font-bold text-black shadow-sm focus:border-[#38bdf8] focus:outline-none"
           >
             <option value="analytics">📊 Analytics & Charts</option>
             <option value="sdlc-catalysts">⚡ SDLC Catalysts (8 Stages)</option>
@@ -424,7 +425,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             <select
               value={selectedDomain}
               onChange={(e) => setSelectedDomain(e.target.value)}
-              className="text-xs font-bold text-[#0b192c] bg-[#f8fafc] border border-[#e2e8f0] rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#415a77]"
+              className="text-xs font-bold text-black bg-[#f8fafc] border border-[#e2e8f0] rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#415a77]"
             >
               {domainList.map(d => (
                 <option key={d} value={d}>
@@ -437,7 +438,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           <button
             onClick={fetchStats}
             title="Refresh telemetry queries"
-            className="p-1.5 text-[#415a77] hover:text-[#0b192c] hover:bg-[#f1f5f9] rounded-lg border border-[#e2e8f0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="p-1.5 text-[#415a77] hover:text-black hover:bg-[#f1f5f9] rounded-lg border border-[#e2e8f0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
@@ -462,7 +463,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 key={t}
                 onClick={() => setTimeframe(t)}
                 className={`px-3 py-1 rounded-md transition-colors ${
-                  timeframe === t ? 'bg-white text-[#0b192c] shadow-sm' : 'text-[#415a77] hover:bg-[#e2e8f0]'
+                  timeframe === t ? 'bg-white text-black shadow-sm' : 'text-[#415a77] hover:bg-[#e2e8f0]'
                 }`}
               >
                 {t.toUpperCase()}
@@ -488,11 +489,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                       Cookieless
                     </span>
                   </div>
-                  <h3 className="text-2xl font-black text-[#0b192c] font-mono mt-1">
+                  <h3 className="text-2xl font-black text-black font-mono mt-1">
                     {stats ? stats.uniqueVisitors.toLocaleString() : '---'}
                   </h3>
                 </div>
-                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-[#0b192c]">
+                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-black">
                   <Users className="h-4 w-4" />
                 </div>
               </div>
@@ -509,11 +510,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-[10px] font-bold text-[#415a77] uppercase tracking-wider">Total Pageviews</p>
-                  <h3 className="text-2xl font-black text-[#0b192c] font-mono mt-1">
+                  <h3 className="text-2xl font-black text-black font-mono mt-1">
                     {stats ? stats.totalPageviews.toLocaleString() : '---'}
                   </h3>
                 </div>
-                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-[#0b192c]">
+                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-black">
                   <MousePointerClick className="h-4 w-4" />
                 </div>
               </div>
@@ -535,11 +536,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                       Single Event
                     </span>
                   </div>
-                  <h3 className="text-2xl font-black text-[#0b192c] font-mono mt-1">
+                  <h3 className="text-2xl font-black text-black font-mono mt-1">
                     {stats ? `${stats.bounceRate.toFixed(1)}%` : '---'}
                   </h3>
                 </div>
-                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-[#0b192c]">
+                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-black">
                   <Activity className="h-4 w-4" />
                 </div>
               </div>
@@ -561,11 +562,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                       $subtract
                     </span>
                   </div>
-                  <h3 className="text-2xl font-black text-[#0b192c] font-mono mt-1">
+                  <h3 className="text-2xl font-black text-black font-mono mt-1">
                     {stats ? stats.avgSessionDurationFormatted : '---'}
                   </h3>
                 </div>
-                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-[#0b192c]">
+                <div className="p-2 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] text-black">
                   <Clock className="h-4 w-4" />
                 </div>
               </div>
@@ -586,12 +587,12 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             <div className="lg:col-span-2 rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-sm font-bold text-[#0b192c]">Traffic Ingestion Flow (Visitors vs Views)</h3>
+                  <h3 className="text-sm font-bold text-black">Traffic Ingestion Flow (Visitors vs Views)</h3>
                   <p className="text-xs text-[#64748b]">Zero-cost aggregation across MongoDB Time-Series granularity</p>
                 </div>
                 <div className="flex items-center gap-4 text-xs">
-                  <span className="flex items-center gap-1.5 font-bold text-[#0b192c]">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#0b192c]"></span> Visitors
+                  <span className="flex items-center gap-1.5 font-bold text-black">
+                    <span className="h-2.5 w-2.5 rounded-full bg-white"></span> Visitors
                   </span>
                   <span className="flex items-center gap-1.5 font-bold text-[#38bdf8]">
                     <span className="h-2.5 w-2.5 rounded-full bg-[#38bdf8]"></span> Pageviews
@@ -629,7 +630,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             {/* Right: Device Breakdown Pie Chart */}
             <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-sm flex flex-col justify-between">
               <div>
-                <h3 className="text-sm font-bold text-[#0b192c]">Device & Form-Factor Share</h3>
+                <h3 className="text-sm font-bold text-black">Device & Form-Factor Share</h3>
                 <p className="text-xs text-[#64748b] mb-4">Parsed via user-agent header</p>
                 <div className="h-[180px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -662,7 +663,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 </div>
                 <div className="flex gap-2 flex-wrap">
                   {(stats?.countries || []).slice(0, 5).map((c, i) => (
-                    <span key={i} className="px-2 py-0.5 rounded bg-[#f8fafc] border border-[#e2e8f0] text-[11px] font-mono text-[#0b192c]">
+                    <span key={i} className="px-2 py-0.5 rounded bg-[#f8fafc] border border-[#e2e8f0] text-[11px] font-mono text-black">
                       {c.country}: {c.count.toLocaleString()}
                     </span>
                   ))}
@@ -677,14 +678,14 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             
             {/* Top Referrers */}
             <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-[#0b192c] mb-1">Top Referrers & Acquisition Channels</h3>
+              <h3 className="text-sm font-bold text-black mb-1">Top Referrers & Acquisition Channels</h3>
               <p className="text-xs text-[#64748b] mb-4">Zero-cost $group aggregation on document metadata.source</p>
               
               <div className="space-y-3.5">
                 {(stats?.sources || []).map((s, idx) => (
                   <div key={idx}>
                     <div className="flex justify-between text-xs font-bold mb-1">
-                      <span className="text-[#0b192c]">{s.name}</span>
+                      <span className="text-black">{s.name}</span>
                       <span className="text-[#415a77] font-mono">{s.count.toLocaleString()} ({s.value}%)</span>
                     </div>
                     <div className="h-2 w-full bg-[#f1f5f9] rounded-full overflow-hidden">
@@ -700,7 +701,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
 
             {/* Top Visited URL Paths */}
             <div className="rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-[#0b192c] mb-1">Top Visited Pathnames & Views</h3>
+              <h3 className="text-sm font-bold text-black mb-1">Top Visited Pathnames & Views</h3>
               <p className="text-xs text-[#64748b] mb-4">Real-time aggregate of visited endpoints</p>
 
               <div className="overflow-x-auto">
@@ -715,7 +716,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   <tbody className="divide-y divide-[#f1f5f9]">
                     {(stats?.topPages || []).map((p, idx) => (
                       <tr key={idx} className="hover:bg-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                        <td className="py-2.5 font-mono font-bold text-[#0b192c]">
+                        <td className="py-2.5 font-mono font-bold text-black">
                           {p.pathname}
                         </td>
                         <td className="py-2.5 text-right font-mono text-[#415a77]">
@@ -748,7 +749,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-base font-bold text-[#0b192c]">Phase 3: The First-Party Proxy Strategy (Ad-Blocker Proof)</h3>
+                    <h3 className="text-base font-bold text-black">Phase 3: The First-Party Proxy Strategy (Ad-Blocker Proof)</h3>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
                       100% $0 GSDP Stack
                     </span>
@@ -763,7 +764,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 <button
                   onClick={handleSendTestPing}
                   disabled={pingTestStatus.loading}
-                  className="px-4 py-2 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="px-4 py-2 rounded-lg bg-white text-black text-xs font-bold hover:bg-gray-100 transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Send className={`h-3.5 w-3.5 ${pingTestStatus.loading ? 'animate-pulse' : ''}`} />
                   {pingTestStatus.loading ? 'Dispatching Ping...' : 'Send Live Test Ping'}
@@ -792,33 +793,33 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               
               <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-                <div className="flex items-center gap-2 font-bold text-xs text-[#0b192c] mb-1.5">
+                <div className="flex items-center gap-2 font-bold text-xs text-black mb-1.5">
                   <FileCode className="h-4 w-4 text-[#415a77]" />
                   <span>Step 1: First-Party Asset</span>
                 </div>
-                <p className="text-xs font-bold text-[#0b192c]">Ultra-Lightweight &lt;1KB Vanilla JS</p>
+                <p className="text-xs font-bold text-black">Ultra-Lightweight &lt;1KB Vanilla JS</p>
                 <p className="text-[11px] text-[#64748b] mt-1">
                   Served directly at <code>/telemetry.js</code>. Ad-blockers classify the script as first-party website code, not a 3rd-party tracker.
                 </p>
               </div>
 
               <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-                <div className="flex items-center gap-2 font-bold text-xs text-[#0b192c] mb-1.5">
+                <div className="flex items-center gap-2 font-bold text-xs text-black mb-1.5">
                   <Server className="h-4 w-4 text-[#415a77]" />
                   <span>Step 2: First-Party Ingestion</span>
                 </div>
-                <p className="text-xs font-bold text-[#0b192c]">POST /api/telemetry/event</p>
+                <p className="text-xs font-bold text-black">POST /api/telemetry/event</p>
                 <p className="text-[11px] text-[#64748b] mt-1">
                   Catches beacon payload, drops bots silently, performs local GeoIP lookup, hashes visitor daily-salt, and micro-batches to MongoDB.
                 </p>
               </div>
 
               <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-                <div className="flex items-center gap-2 font-bold text-xs text-[#0b192c] mb-1.5">
+                <div className="flex items-center gap-2 font-bold text-xs text-black mb-1.5">
                   <Layers className="h-4 w-4 text-[#059669]" />
                   <span>Step 3: Cross-Domain Proxies</span>
                 </div>
-                <p className="text-xs font-bold text-[#0b192c]">Cloudflare, Vercel & Nginx</p>
+                <p className="text-xs font-bold text-black">Cloudflare, Vercel & Nginx</p>
                 <p className="text-[11px] text-[#64748b] mt-1">
                   Clients map <code>/stats/js</code> and <code>/stats/api/event</code> via their own CDN or edge server with zero configuration overhead.
                 </p>
@@ -829,7 +830,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             {/* Step 3: Interactive Cross-Domain Snippet Generator */}
             <div className="border-t border-[#f1f5f9] pt-5 space-y-4">
               <div>
-                <h4 className="text-sm font-bold text-[#0b192c]">Step 3: Cross-Domain Reverse-Proxy & Script Generator</h4>
+                <h4 className="text-sm font-bold text-black">Step 3: Cross-Domain Reverse-Proxy & Script Generator</h4>
                 <p className="text-xs text-[#64748b] mt-0.5">
                   Select your client's hosting platform and customize the domain name to generate the exact zero-cost reverse-proxy configuration and tracking tag.
                 </p>
@@ -844,7 +845,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                     value={targetDomain}
                     onChange={(e) => setTargetDomain(e.target.value)}
                     placeholder="e.g. yourclientapp.com"
-                    className="w-full px-3.5 py-1.5 text-xs rounded-lg border border-[#e2e8f0] bg-[#f8fafc] focus:outline-none focus:border-[#0b192c] font-mono text-[#0b192c] font-bold"
+                    className="w-full px-3.5 py-1.5 text-xs rounded-lg border border-[#e2e8f0] bg-[#f8fafc] focus:outline-none focus:border-[#0b192c] font-mono text-black font-bold"
                   />
                 </div>
 
@@ -875,7 +876,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                     onClick={() => setProxyPlatform(p.id as any)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                       proxyPlatform === p.id
-                        ? 'bg-[#0b192c] text-white shadow-xs'
+                        ? 'bg-white text-black shadow-xs'
                         : 'bg-[#f8fafc] text-[#415a77] hover:bg-[#e2e8f0]'
                     }`}
                   >
@@ -891,16 +892,16 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 {proxyPlatform === 'html' && (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b192c]">Direct First-Party Tracking Script Tag</span>
+                      <span className="text-xs font-bold text-black">Direct First-Party Tracking Script Tag</span>
                       <button
                         onClick={() => handleCopy(`<script defer data-domain="${targetDomain || 'example.com'}" src="https://catalystlab.tech/telemetry.js"></script>`, 'direct-html')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'direct-html' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'direct-html' ? 'Copied!' : 'Copy Script Tag'}
                       </button>
                     </div>
-                    <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                    <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
                       {`<!-- CatalystLab First-Party Telemetry (<1KB Vanilla JS, Zero Cookies, GDPR/ePrivacy Exempt) -->\n<script defer data-domain="${targetDomain || 'example.com'}" src="https://catalystlab.tech/telemetry.js"></script>`}
                     </pre>
                     <p className="text-[11px] text-[#64748b]">
@@ -913,7 +914,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 {proxyPlatform === 'cloudflare' && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b192c]">Cloudflare Worker Script (worker.js) - 100,000 Free Req/Day</span>
+                      <span className="text-xs font-bold text-black">Cloudflare Worker Script (worker.js) - 100,000 Free Req/Day</span>
                       <button
                         onClick={() => handleCopy(`// Cloudflare Worker: Reverse Proxy for CatalystLab Telemetry
 addEventListener('fetch', event => {
@@ -936,14 +937,14 @@ async function handleRequest(request) {
   }
   return fetch(request);
 }`, 'cf-worker')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'cf-worker' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'cf-worker' ? 'Copied!' : 'Copy Worker Code'}
                       </button>
                     </div>
 
-                    <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                    <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`// Cloudflare Worker: Reverse Proxy for CatalystLab Telemetry
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
@@ -968,7 +969,7 @@ async function handleRequest(request) {
                     </pre>
 
                     <div className="p-3 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] space-y-1 text-xs">
-                      <p className="font-bold text-[#0b192c]">Then install this on {targetDomain || 'your site'}:</p>
+                      <p className="font-bold text-black">Then install this on {targetDomain || 'your site'}:</p>
                       <code className="text-emerald-700 bg-white px-2 py-0.5 rounded border border-[#e2e8f0] block overflow-x-auto">
                         {`<script defer data-domain="${targetDomain || 'example.com'}" data-api="/stats/api/event" src="/stats/js"></script>`}
                       </code>
@@ -980,7 +981,7 @@ async function handleRequest(request) {
                 {proxyPlatform === 'vercel' && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b192c]">Vercel Configuration (vercel.json)</span>
+                      <span className="text-xs font-bold text-black">Vercel Configuration (vercel.json)</span>
                       <button
                         onClick={() => handleCopy(`{
   "rewrites": [
@@ -994,14 +995,14 @@ async function handleRequest(request) {
     }
   ]
 }`, 'vercel-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'vercel-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'vercel-config' ? 'Copied!' : 'Copy vercel.json'}
                       </button>
                     </div>
 
-                    <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                    <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`{
   "rewrites": [
     {
@@ -1017,7 +1018,7 @@ async function handleRequest(request) {
                     </pre>
 
                     <div className="p-3 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] space-y-1 text-xs">
-                      <p className="font-bold text-[#0b192c]">Then install this on {targetDomain || 'your site'}:</p>
+                      <p className="font-bold text-black">Then install this on {targetDomain || 'your site'}:</p>
                       <code className="text-emerald-700 bg-white px-2 py-0.5 rounded border border-[#e2e8f0] block overflow-x-auto">
                         {`<script defer data-domain="${targetDomain || 'example.com'}" data-api="/stats/api/event" src="/stats/js"></script>`}
                       </code>
@@ -1029,7 +1030,7 @@ async function handleRequest(request) {
                 {proxyPlatform === 'nextjs' && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b192c]">Next.js Configuration (next.config.js)</span>
+                      <span className="text-xs font-bold text-black">Next.js Configuration (next.config.js)</span>
                       <button
                         onClick={() => handleCopy(`// next.config.js
 module.exports = {
@@ -1046,14 +1047,14 @@ module.exports = {
     ];
   },
 };`, 'next-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'next-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'next-config' ? 'Copied!' : 'Copy next.config.js'}
                       </button>
                     </div>
 
-                    <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                    <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`// next.config.js
 module.exports = {
   async rewrites() {
@@ -1072,7 +1073,7 @@ module.exports = {
                     </pre>
 
                     <div className="p-3 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] space-y-1 text-xs">
-                      <p className="font-bold text-[#0b192c]">Then install in your Next.js root layout or _app.js:</p>
+                      <p className="font-bold text-black">Then install in your Next.js root layout or _app.js:</p>
                       <code className="text-emerald-700 bg-white px-2 py-0.5 rounded border border-[#e2e8f0] block overflow-x-auto">
                         {`<script defer data-domain="${targetDomain || 'example.com'}" data-api="/stats/api/event" src="/stats/js"></script>`}
                       </code>
@@ -1084,7 +1085,7 @@ module.exports = {
                 {proxyPlatform === 'netlify' && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b192c]">Netlify Configuration (_redirects or netlify.toml)</span>
+                      <span className="text-xs font-bold text-black">Netlify Configuration (_redirects or netlify.toml)</span>
                       <button
                         onClick={() => handleCopy(`# netlify.toml
 [[redirects]]
@@ -1098,14 +1099,14 @@ module.exports = {
   to = "https://catalystlab.tech/api/telemetry/event"
   status = 200
   force = true`, 'netlify-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'netlify-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'netlify-config' ? 'Copied!' : 'Copy Netlify Config'}
                       </button>
                     </div>
 
-                    <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                    <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`# netlify.toml
 [[redirects]]
   from = "/stats/js"
@@ -1121,7 +1122,7 @@ module.exports = {
                     </pre>
 
                     <div className="p-3 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] space-y-1 text-xs">
-                      <p className="font-bold text-[#0b192c]">Then install this on {targetDomain || 'your site'}:</p>
+                      <p className="font-bold text-black">Then install this on {targetDomain || 'your site'}:</p>
                       <code className="text-emerald-700 bg-white px-2 py-0.5 rounded border border-[#e2e8f0] block overflow-x-auto">
                         {`<script defer data-domain="${targetDomain || 'example.com'}" data-api="/stats/api/event" src="/stats/js"></script>`}
                       </code>
@@ -1133,7 +1134,7 @@ module.exports = {
                 {proxyPlatform === 'nginx' && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b192c]">Nginx VirtualHost (nginx.conf)</span>
+                      <span className="text-xs font-bold text-black">Nginx VirtualHost (nginx.conf)</span>
                       <button
                         onClick={() => handleCopy(`# Nginx Reverse Proxy Block
 location = /stats/js {
@@ -1151,14 +1152,14 @@ location = /stats/api/event {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_ssl_server_name on;
 }`, 'nginx-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'nginx-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'nginx-config' ? 'Copied!' : 'Copy Nginx Block'}
                       </button>
                     </div>
 
-                    <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                    <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`# Nginx Reverse Proxy Block
 location = /stats/js {
     proxy_pass https://catalystlab.tech/telemetry.js;
@@ -1178,7 +1179,7 @@ location = /stats/api/event {
                     </pre>
 
                     <div className="p-3 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] space-y-1 text-xs">
-                      <p className="font-bold text-[#0b192c]">Then install this on {targetDomain || 'your site'}:</p>
+                      <p className="font-bold text-black">Then install this on {targetDomain || 'your site'}:</p>
                       <code className="text-emerald-700 bg-white px-2 py-0.5 rounded border border-[#e2e8f0] block overflow-x-auto">
                         {`<script defer data-domain="${targetDomain || 'example.com'}" data-api="/stats/api/event" src="/stats/js"></script>`}
                       </code>
@@ -1190,7 +1191,7 @@ location = /stats/api/event {
                 {proxyPlatform === 'apache' && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#0b192c]">Apache (.htaccess)</span>
+                      <span className="text-xs font-bold text-black">Apache (.htaccess)</span>
                       <button
                         onClick={() => handleCopy(`# Apache mod_rewrite Reverse Proxy
 <IfModule mod_rewrite.c>
@@ -1198,14 +1199,14 @@ location = /stats/api/event {
   RewriteRule ^stats/js$ https://catalystlab.tech/telemetry.js [P,L]
   RewriteRule ^stats/api/event$ https://catalystlab.tech/api/telemetry/event [P,L]
 </IfModule>`, 'apache-config')}
-                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         {copiedKey === 'apache-config' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                         {copiedKey === 'apache-config' ? 'Copied!' : 'Copy .htaccess'}
                       </button>
                     </div>
 
-                    <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                    <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`# Apache mod_rewrite Reverse Proxy
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -1215,7 +1216,7 @@ location = /stats/api/event {
                     </pre>
 
                     <div className="p-3 rounded-lg bg-[#f8fafc] border border-[#e2e8f0] space-y-1 text-xs">
-                      <p className="font-bold text-[#0b192c]">Then install this on {targetDomain || 'your site'}:</p>
+                      <p className="font-bold text-black">Then install this on {targetDomain || 'your site'}:</p>
                       <code className="text-emerald-700 bg-white px-2 py-0.5 rounded border border-[#e2e8f0] block overflow-x-auto">
                         {`<script defer data-domain="${targetDomain || 'example.com'}" data-api="/stats/api/event" src="/stats/js"></script>`}
                       </code>
@@ -1259,7 +1260,7 @@ location = /stats/api/event {
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-[#0b192c]">Step 4.1 & 4.2: Mailgun Email Dossiers & CRON</h3>
+                    <h3 className="text-base font-bold text-black">Step 4.1 & 4.2: Mailgun Email Dossiers & CRON</h3>
                     <p className="text-xs text-[#64748b]">
                       Dispatches weekly analytical summaries and instant traffic anomaly reports (GSDP Perk: 20,000 free emails/month).
                     </p>
@@ -1270,14 +1271,14 @@ location = /stats/api/event {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleOpenPreview('weekly')}
-                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-black hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Eye className="h-3.5 w-3.5 text-[#415a77]" />
                   Preview Weekly Dossier
                 </button>
                 <button
                   onClick={() => handleOpenPreview('anomaly')}
-                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-black hover:bg-[#e2e8f0] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Eye className="h-3.5 w-3.5 text-rose-600" />
                   Preview Spike Alert
@@ -1305,7 +1306,7 @@ location = /stats/api/event {
                   <button
                     onClick={handleSendMailgunDigest}
                     disabled={dispatchStatus.loading}
-                    className="px-4 py-2 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="px-4 py-2 rounded-lg bg-white text-black text-xs font-bold hover:bg-gray-100 transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     <Send className="h-3.5 w-3.5" />
                     Dispatch Test Weekly Dossier
@@ -1315,7 +1316,7 @@ location = /stats/api/event {
 
               {/* Schedule Info Box */}
               <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-4 text-xs space-y-2">
-                <div className="flex items-center gap-2 font-bold text-[#0b192c]">
+                <div className="flex items-center gap-2 font-bold text-black">
                   <Clock className="h-4 w-4 text-[#415a77]" />
                   <span>Configured CRON Automation Schedule</span>
                 </div>
@@ -1336,7 +1337,7 @@ location = /stats/api/event {
                   <Hash className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-[#0b192c]">Step 4.3: Free Webhook Ingestion (Slack & Discord)</h3>
+                  <h3 className="text-base font-bold text-black">Step 4.3: Free Webhook Ingestion (Slack & Discord)</h3>
                   <p className="text-xs text-[#64748b]">
                     Executes standard HTTP POST requests using native Node.js <code>fetch</code> (Zero third-party fees).
                   </p>
@@ -1353,7 +1354,7 @@ location = /stats/api/event {
                     <div className="h-6 w-6 rounded bg-[#F4EDE4] flex items-center justify-center font-bold text-xs text-[#4A154B]">
                       #
                     </div>
-                    <span className="text-xs font-bold text-[#0b192c]">Slack Block Kit Webhook</span>
+                    <span className="text-xs font-bold text-black">Slack Block Kit Webhook</span>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
                     Ready
@@ -1371,7 +1372,7 @@ location = /stats/api/event {
                 <button
                   onClick={handleTestSlack}
                   disabled={dispatchStatus.loading}
-                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-black hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Send className="h-3 w-3 text-[#4A154B]" />
                   Test Slack Webhook Dispatch
@@ -1385,7 +1386,7 @@ location = /stats/api/event {
                     <div className="h-6 w-6 rounded bg-[#e8e9fb] flex items-center justify-center font-bold text-xs text-[#5865F2]">
                       D
                     </div>
-                    <span className="text-xs font-bold text-[#0b192c]">Discord Rich Embed Webhook</span>
+                    <span className="text-xs font-bold text-black">Discord Rich Embed Webhook</span>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
                     Ready
@@ -1403,7 +1404,7 @@ location = /stats/api/event {
                 <button
                   onClick={handleTestDiscord}
                   disabled={dispatchStatus.loading}
-                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full py-2 rounded-lg bg-white border border-[#e2e8f0] text-xs font-bold text-black hover:bg-[#f1f5f9] transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Send className="h-3 w-3 text-[#5865F2]" />
                   Test Discord Webhook Dispatch
@@ -1415,7 +1416,7 @@ location = /stats/api/event {
             {/* Anomaly Detection Trigger Simulator */}
             <div className="mt-6 pt-5 border-t border-[#f1f5f9] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h4 className="text-xs font-bold text-[#0b192c]">Simulate Anomaly Radar Pipeline</h4>
+                <h4 className="text-xs font-bold text-black">Simulate Anomaly Radar Pipeline</h4>
                 <p className="text-[11px] text-[#64748b]">
                   Test how the system detects spikes/drops and dispatches across all configured notification channels.
                 </p>
@@ -1425,14 +1426,14 @@ location = /stats/api/event {
                 <button
                   onClick={() => handleRunAnomalyCheck(false)}
                   disabled={dispatchStatus.loading}
-                  className="px-3.5 py-1.5 rounded-lg border border-[#e2e8f0] bg-white text-xs font-bold text-[#0b192c] hover:bg-[#f1f5f9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="px-3.5 py-1.5 rounded-lg border border-[#e2e8f0] bg-white text-xs font-bold text-black hover:bg-[#f1f5f9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Run Baseline Check
                 </button>
                 <button
                   onClick={() => handleRunAnomalyCheck(true)}
                   disabled={dispatchStatus.loading}
-                  className="px-3.5 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="px-3.5 py-1.5 rounded-lg bg-rose-600 text-black text-xs font-bold hover:bg-rose-700 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Zap className="h-3.5 w-3.5" />
                   Simulate Traffic Surge (+304%)
@@ -1447,11 +1448,11 @@ location = /stats/api/event {
             <div className="border-b border-[#f1f5f9] pb-4 mb-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-lg bg-slate-900 text-white">
+                  <div className="p-2 rounded-lg bg-slate-900 text-black">
                     <Terminal className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-[#0b192c]">Step 4.4: Automated GitHub Actions CI/CD Quality Gate</h3>
+                    <h3 className="text-base font-bold text-black">Step 4.4: Automated GitHub Actions CI/CD Quality Gate</h3>
                     <p className="text-xs text-[#64748b]">
                       Run all 8 SDLC Catalysts on every commit, PR, or scheduled CRON release gate (`.github/workflows/catalystlab-audit.yml`).
                     </p>
@@ -1484,15 +1485,15 @@ jobs:
       - run: python3 python-engines/compliance_risk_audit.py "https://${targetDomain || 'catalystlab.tech'}"
       - run: python3 python-engines/ai_readiness.py "https://${targetDomain || 'catalystlab.tech'}"
       - run: python3 python-engines/llmo_optimizer.py "https://${targetDomain || 'catalystlab.tech'}"`, 'github-workflow-audit')}
-                  className="px-3 py-1.5 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="px-3 py-1.5 rounded-lg bg-white text-black text-xs font-bold hover:bg-gray-100 transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
-                  {copiedKey === 'github-workflow-audit' ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copiedKey === 'github-workflow-audit' ? <Check className="h-3.5 w-3.5 text-emerald-700" /> : <Copy className="h-3.5 w-3.5" />}
                   <span>{copiedKey === 'github-workflow-audit' ? 'Copied Workflow!' : 'Copy GitHub Workflow'}</span>
                 </button>
               </div>
             </div>
 
-            <pre className="p-4 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+            <pre className="p-4 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`# .github/workflows/catalystlab-audit.yml
 name: "CatalystLab 8-Stage Autonomous SDLC Audit"
 on:
@@ -1530,10 +1531,10 @@ jobs:
       {activeSubTab === 'sdlc-catalysts' && (
         <div className="space-y-6">
           {/* Executive Overview Banner */}
-          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 text-brand-offwhite shadow-xl">
+          <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 text-black shadow-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-bold mb-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-blue-700 text-xs font-bold mb-3">
                   <Sparkles className="h-3.5 w-3.5" />
                   <span>SDLC Quality & Health Telemetry</span>
                 </div>
@@ -1548,14 +1549,14 @@ jobs:
               <div className="flex flex-row sm:flex-col gap-3 shrink-0">
                 <button
                   onClick={() => setActiveSubTab('par-blueprint')}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs transition-all shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-bold text-xs transition-all shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Layers className="h-3.5 w-3.5" />
                   <span>Explore PAR Blueprint</span>
                 </button>
                 <Link
                   to="/master-audit"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-[#0b192c] font-extrabold text-xs transition-all shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-extrabold text-xs transition-all shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Play className="h-3.5 w-3.5" />
                   <span>Run 8-Stage Master Audit</span>
@@ -1567,7 +1568,7 @@ jobs:
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-white/10">
               <div className="bg-white/5 rounded-xl p-3 border border-white/10">
                 <span className="text-[10px] text-[#c5d3e8] uppercase font-bold tracking-wider">SDLC Phases</span>
-                <p className="text-lg font-black text-white mt-0.5">8 / 8 Active</p>
+                <p className="text-lg font-black text-black mt-0.5">8 / 8 Active</p>
               </div>
               <div className="bg-white/5 rounded-xl p-3 border border-white/10">
                 <span className="text-[10px] text-[#c5d3e8] uppercase font-bold tracking-wider">Primary Stage</span>
@@ -1575,11 +1576,11 @@ jobs:
               </div>
               <div className="bg-white/5 rounded-xl p-3 border border-white/10">
                 <span className="text-[10px] text-[#c5d3e8] uppercase font-bold tracking-wider">Telemetry Engine</span>
-                <p className="text-lg font-black text-sky-400 mt-0.5">Python 3.11</p>
+                <p className="text-lg font-black text-blue-600 mt-0.5">Python 3.11</p>
               </div>
               <div className="bg-white/5 rounded-xl p-3 border border-white/10">
                 <span className="text-[10px] text-[#c5d3e8] uppercase font-bold tracking-wider">Verification Mode</span>
-                <p className="text-lg font-black text-emerald-400 mt-0.5">Automated</p>
+                <p className="text-lg font-black text-emerald-700 mt-0.5">Automated</p>
               </div>
             </div>
           </div>
@@ -1597,19 +1598,19 @@ jobs:
               <motion.div
                 variants={itemVariants}
                 key={catalyst.id}
-                className="relative rounded-[2rem] overflow-hidden shadow-2xl flex flex-col sm:flex-row bg-[#0b192c] border border-white/5 min-h-[280px]"
+                className="relative rounded-[2rem] overflow-hidden shadow-2xl flex flex-col sm:flex-row bg-white border border-gray-200 min-h-[280px]"
               >
                 {/* Image side (Right) */}
                 <div className="absolute top-0 right-0 bottom-0 w-full sm:w-[55%] pointer-events-none">
                   <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-[#0b192c] via-[#0b192c]/80 to-transparent z-10"></div>
-                  <img  src={bgImage} alt="Background" className="w-full h-full object-cover" />
+                  <img src={bgImage} alt="Background" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
 
                 {/* Content side (Left) */}
                 <div className="relative z-20 flex-1 p-6 sm:p-8 flex flex-col justify-between sm:w-[65%] shrink-0">
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-4">
-                      <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full border border-sky-400/30 bg-sky-400/10 text-sky-300 tracking-wider">
+                      <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full border border-sky-400/30 bg-sky-400/10 text-blue-700 tracking-wider">
                         {catalyst.sdlcPhase}
                       </span>
                       {catalyst.shortCode && (
@@ -1618,8 +1619,8 @@ jobs:
                         </span>
                       )}
                     </div>
-                    <h3 className="text-white font-extrabold text-xl sm:text-2xl mb-2 flex items-center gap-2 tracking-tight">
-                       <span className="material-symbols-outlined text-[26px] text-white/80">{catalyst.icon}</span>
+                    <h3 className="text-black font-extrabold text-xl sm:text-2xl mb-2 flex items-center gap-2 tracking-tight">
+                       <span className="material-symbols-outlined text-[26px] text-black/80">{catalyst.icon}</span>
                        {catalyst.name}
                     </h3>
                     
@@ -1643,7 +1644,7 @@ jobs:
                     <div className="flex items-center gap-4">
                       <Link
                         to={`/docs#${catalyst.docsAnchor || 'overview'}`}
-                        className="text-[11px] font-bold text-gray-400 hover:text-white flex items-center gap-1 transition-colors uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="text-[11px] font-bold text-gray-400 hover:text-black flex items-center gap-1 transition-colors uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       >
                         <span>Read Specs</span>
                       </Link>
@@ -1659,7 +1660,7 @@ jobs:
 
                     <Link
                       to={`${catalyst.route}${selectedDomain !== 'all' ? `?url=${encodeURIComponent('https://' + selectedDomain)}` : ''}`}
-                      className="bg-white text-[#0b192c] hover:bg-sky-50 transition-colors font-bold py-2.5 px-6 rounded-full text-xs shadow-lg inline-flex items-center gap-2 active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="bg-white text-black hover:bg-sky-50 transition-colors font-bold py-2.5 px-6 rounded-full text-xs shadow-lg inline-flex items-center gap-2 active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <span>Launch Catalyst</span>
                       <Play className="h-3 w-3 fill-current" />
@@ -1677,7 +1678,7 @@ jobs:
         <div className="space-y-6">
           
           {/* Header Banner */}
-          <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 text-brand-offwhite shadow-xl">
+          <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 text-black shadow-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-300 text-xs font-bold mb-3">
@@ -1695,14 +1696,14 @@ jobs:
               <div className="flex items-center gap-3">
                 <Link
                   to="/migration"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-bold text-xs transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Play className="h-3.5 w-3.5" />
                   <span>Run Live PAR Audit</span>
                 </Link>
                 <Link
                   to="/docs#par-technical-blueprint"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-black font-bold text-xs border border-white/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span>Docs Specs</span>
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -1723,8 +1724,8 @@ jobs:
                   onClick={() => setParSelectedStage(stage.id as any)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                     parSelectedStage === stage.id
-                      ? 'bg-orange-500 text-white shadow-sm'
-                      : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white'
+                      ? 'bg-orange-500 text-black shadow-sm'
+                      : 'bg-white/10 text-black/80 hover:bg-white/20 hover:text-black'
                   }`}
                 >
                   {stage.label}
@@ -1739,7 +1740,7 @@ jobs:
               <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-4 mb-4">
                   <div>
-                    <h4 className="text-base font-bold text-[#0b192c]">Part 1: Serverless Stack Architecture (Firebase + MongoDB)</h4>
+                    <h4 className="text-base font-bold text-black">Part 1: Serverless Stack Architecture (Firebase + MongoDB)</h4>
                     <p className="text-xs text-[#64748b] mt-0.5">
                       Production architecture for high-velocity real-time state synchronization and persistent document storage.
                     </p>
@@ -1769,7 +1770,7 @@ jobs:
 │   +------------------+         +------------------+                    │
 │                                                                        │
 └────────────────────────────────────────────────────────────────────────┘`, 'par-ascii-arch')}
-                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-black hover:bg-[#e2e8f0] flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'par-ascii-arch' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedKey === 'par-ascii-arch' ? 'Copied' : 'Copy ASCII Diagram'}</span>
@@ -1777,7 +1778,7 @@ jobs:
                 </div>
 
                 {/* ASCII Diagram Box */}
-                <pre className="p-4 rounded-xl bg-[#0b192c] text-sky-300 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                <pre className="p-4 rounded-xl bg-white text-blue-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`┌────────────────────────────────────────────────────────────────────────┐
 │                          SERVERLESS STACK ARCHITECTURE                  │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -1807,7 +1808,7 @@ jobs:
                 {/* Architecture Reference Nodes Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                   <div className="p-4 rounded-xl bg-[#f8fafc] border border-[#e2e8f0]">
-                    <div className="flex items-center gap-2 font-bold text-xs text-[#0b192c] mb-1">
+                    <div className="flex items-center gap-2 font-bold text-xs text-black mb-1">
                       <Database className="h-4 w-4 text-orange-600" />
                       <span>Data Normalization</span>
                     </div>
@@ -1817,7 +1818,7 @@ jobs:
                   </div>
 
                   <div className="p-4 rounded-xl bg-[#f8fafc] border border-[#e2e8f0]">
-                    <div className="flex items-center gap-2 font-bold text-xs text-[#0b192c] mb-1">
+                    <div className="flex items-center gap-2 font-bold text-xs text-black mb-1">
                       <Zap className="h-4 w-4 text-amber-600" />
                       <span>TTL & Index Strategy</span>
                     </div>
@@ -1827,7 +1828,7 @@ jobs:
                   </div>
 
                   <div className="p-4 rounded-xl bg-[#f8fafc] border border-[#e2e8f0]">
-                    <div className="flex items-center gap-2 font-bold text-xs text-[#0b192c] mb-1">
+                    <div className="flex items-center gap-2 font-bold text-xs text-black mb-1">
                       <Server className="h-4 w-4 text-sky-600" />
                       <span>Cold Start Avoidance</span>
                     </div>
@@ -1837,7 +1838,7 @@ jobs:
                   </div>
 
                   <div className="p-4 rounded-xl bg-[#f8fafc] border border-[#e2e8f0]">
-                    <div className="flex items-center gap-2 font-bold text-xs text-[#0b192c] mb-1">
+                    <div className="flex items-center gap-2 font-bold text-xs text-black mb-1">
                       <ShieldCheck className="h-4 w-4 text-emerald-600" />
                       <span>Firebase Security RBAC</span>
                     </div>
@@ -1860,7 +1861,7 @@ jobs:
                   <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-3">
                     <div className="flex items-center gap-2">
                       <Code className="h-4 w-4 text-orange-600" />
-                      <h4 className="text-sm font-bold text-[#0b192c]">1. Projects Schema (Mongoose)</h4>
+                      <h4 className="text-sm font-bold text-black">1. Projects Schema (Mongoose)</h4>
                     </div>
                     <button
                       onClick={() => handleCopy(`import mongoose, { Schema, Document } from 'mongoose';
@@ -1898,14 +1899,14 @@ const ProjectSchema = new Schema<IProject>(
 ProjectSchema.index({ workspaceId: 1, sdlcStatus: 1 });
 
 export const Project = mongoose.models.Project || mongoose.model<IProject>('Project', ProjectSchema);`, 'par-project-schema')}
-                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {copiedKey === 'par-project-schema' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                       <span>{copiedKey === 'par-project-schema' ? 'Copied' : 'Copy'}</span>
                     </button>
                   </div>
 
-                  <pre className="p-3.5 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45] max-h-[380px]">
+                  <pre className="p-3.5 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200 max-h-[380px]">
 {`import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IProject extends Document {
@@ -1948,7 +1949,7 @@ ProjectSchema.index({ workspaceId: 1, sdlcStatus: 1 });`}
                   <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-3">
                     <div className="flex items-center gap-2">
                       <Code className="h-4 w-4 text-sky-600" />
-                      <h4 className="text-sm font-bold text-[#0b192c]">2. Tasks Schema (Mongoose)</h4>
+                      <h4 className="text-sm font-bold text-black">2. Tasks Schema (Mongoose)</h4>
                     </div>
                     <button
                       onClick={() => handleCopy(`import mongoose, { Schema, Document } from 'mongoose';
@@ -1984,14 +1985,14 @@ const TaskSchema = new Schema<ITask>(
 TaskSchema.index({ projectId: 1, lifecyclePhase: 1, slaDeadline: 1 });
 
 export const Task = mongoose.models.Task || mongoose.model<ITask>('Task', TaskSchema);`, 'par-task-schema')}
-                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-[#0b192c] flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="px-2.5 py-1 rounded bg-[#f8fafc] hover:bg-[#e2e8f0] border border-[#e2e8f0] text-xs font-bold text-black flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {copiedKey === 'par-task-schema' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                       <span>{copiedKey === 'par-task-schema' ? 'Copied' : 'Copy'}</span>
                     </button>
                   </div>
 
-                  <pre className="p-3.5 rounded-xl bg-[#0b192c] text-sky-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45] max-h-[380px]">
+                  <pre className="p-3.5 rounded-xl bg-white text-blue-600 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200 max-h-[380px]">
 {`import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ITask extends Document {
@@ -2039,7 +2040,7 @@ TaskSchema.index({ projectId: 1, lifecyclePhase: 1, slaDeadline: 1 });`}
               <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm space-y-4">
                 <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-4">
                   <div>
-                    <h4 className="text-base font-bold text-[#0b192c]">Part 1.2: Pre-Aggregating Team Capacity (MongoDB Pipeline)</h4>
+                    <h4 className="text-base font-bold text-black">Part 1.2: Pre-Aggregating Team Capacity (MongoDB Pipeline)</h4>
                     <p className="text-xs text-[#64748b] mt-0.5">
                       Computes uncompleted workload, backlog counts, and estimated hours per team member across active projects in single database round-trip.
                     </p>
@@ -2078,14 +2079,14 @@ TaskSchema.index({ projectId: 1, lifecyclePhase: 1, slaDeadline: 1 });`}
     { $sort: { totalEstimatedHours: -1 } }
   ]);
 }`, 'par-agg-pipeline')}
-                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-[#0b192c] hover:bg-[#e2e8f0] flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="px-3 py-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] text-xs font-bold text-black hover:bg-[#e2e8f0] flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'par-agg-pipeline' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedKey === 'par-agg-pipeline' ? 'Copied' : 'Copy Aggregation Code'}</span>
                   </button>
                 </div>
 
-                <pre className="p-4 rounded-xl bg-[#0b192c] text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45]">
+                <pre className="p-4 rounded-xl bg-white text-emerald-700 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200">
 {`export async function getTeamCapacitySummary(workspaceId: string) {
   return await Project.aggregate([
     // 1. Filter projects belonging to workspace
@@ -2133,19 +2134,19 @@ TaskSchema.index({ projectId: 1, lifecyclePhase: 1, slaDeadline: 1 });`}
                 {/* Pipeline Stages Breakdown Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                   <div className="p-3.5 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] text-xs">
-                    <span className="font-bold text-[#0b192c] block mb-1">Stage 1: $match & $lookup</span>
+                    <span className="font-bold text-black block mb-1">Stage 1: $match & $lookup</span>
                     <p className="text-[#64748b] text-[11px]">
                       Filters by tenant workspace and executes an in-memory index join using the compound index key.
                     </p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] text-xs">
-                    <span className="font-bold text-[#0b192c] block mb-1">Stage 2: $unwind & Filter</span>
+                    <span className="font-bold text-black block mb-1">Stage 2: $unwind & Filter</span>
                     <p className="text-[#64748b] text-[11px]">
                       Streams tasks individually while pruning finished tasks to minimize memory utilization.
                     </p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] text-xs">
-                    <span className="font-bold text-[#0b192c] block mb-1">Stage 3: $group & $sort</span>
+                    <span className="font-bold text-black block mb-1">Stage 3: $group & $sort</span>
                     <p className="text-[#64748b] text-[11px]">
                       Pre-calculates team load and returns immediate charts data without application-level loops.
                     </p>
@@ -2161,7 +2162,7 @@ TaskSchema.index({ projectId: 1, lifecyclePhase: 1, slaDeadline: 1 });`}
               <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#f1f5f9] pb-4">
                   <div>
-                    <h4 className="text-base font-bold text-[#0b192c]">Part 2: Comprehensive Google AI Studio Planning Prompt</h4>
+                    <h4 className="text-base font-bold text-black">Part 2: Comprehensive Google AI Studio Planning Prompt</h4>
                     <p className="text-xs text-[#64748b] mt-0.5">
                       Copy and paste this structured prompt into Google AI Studio to plan and scaffold your application with exact MongoDB + Firebase specifications.
                     </p>
@@ -2184,9 +2185,9 @@ Key Technical Specifications to Produce:
 2. MongoDB aggregation pipeline for real-time team workload and capacity calculations.
 3. Firebase Auth token validation middleware for Express/Node.js.
 4. Step-by-step implementation sequence with zero external dependency bloat.`, 'par-ai-prompt')}
-                      className="px-3.5 py-1.5 rounded-lg bg-[#0b192c] text-white text-xs font-bold hover:bg-[#1b2d45] transition-colors flex items-center gap-1.5 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="px-3.5 py-1.5 rounded-lg bg-white text-black text-xs font-bold hover:bg-gray-100 transition-colors flex items-center gap-1.5 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
-                      {copiedKey === 'par-ai-prompt' ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                      {copiedKey === 'par-ai-prompt' ? <Check className="h-3.5 w-3.5 text-emerald-700" /> : <Copy className="h-3.5 w-3.5" />}
                       <span>{copiedKey === 'par-ai-prompt' ? 'Prompt Copied!' : 'Copy AI Studio Prompt'}</span>
                     </button>
                   </div>
@@ -2201,7 +2202,7 @@ Key Technical Specifications to Produce:
                       value={parProjectName}
                       onChange={(e) => setParProjectName(e.target.value)}
                       placeholder="e.g. Next-Gen B2B Analytics Hub"
-                      className="w-full px-3.5 py-2 text-xs rounded-lg border border-[#e2e8f0] bg-white font-bold text-[#0b192c] focus:outline-none focus:border-[#0b192c]"
+                      className="w-full px-3.5 py-2 text-xs rounded-lg border border-[#e2e8f0] bg-white font-bold text-black focus:outline-none focus:border-[#0b192c]"
                     />
                   </div>
 
@@ -2210,7 +2211,7 @@ Key Technical Specifications to Produce:
                     <select
                       value={parDbChoice}
                       onChange={(e) => setParDbChoice(e.target.value as any)}
-                      className="w-full px-3.5 py-2 text-xs rounded-lg border border-[#e2e8f0] bg-white font-bold text-[#0b192c] focus:outline-none focus:border-[#0b192c]"
+                      className="w-full px-3.5 py-2 text-xs rounded-lg border border-[#e2e8f0] bg-white font-bold text-black focus:outline-none focus:border-[#0b192c]"
                     >
                       <option value="mongodb_firebase">MongoDB Atlas + Firebase Auth ($0 Serverless Stack)</option>
                       <option value="mongodb_standalone">MongoDB Atlas Standalone + Express JWT</option>
@@ -2220,7 +2221,7 @@ Key Technical Specifications to Produce:
                 </div>
 
                 {/* Rendered Prompt Preview */}
-                <pre className="p-4 rounded-xl bg-[#0b192c] text-sky-200 font-mono text-xs overflow-x-auto leading-relaxed border border-[#1b2d45] whitespace-pre-wrap">
+                <pre className="p-4 rounded-xl bg-white text-sky-200 font-mono text-xs overflow-x-auto leading-relaxed border border-gray-200 whitespace-pre-wrap">
 {`System Role & Architecture Persona:
 Act as a Principal Software Architect and Lead Fullstack Engineer specializing in high-performance Serverless Web Applications using Firebase, MongoDB Atlas, and React (TypeScript).
 
@@ -2249,7 +2250,7 @@ Key Technical Specifications to Produce:
       {activeSubTab === 'architecture' && (
         <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm space-y-6">
           <div className="border-b border-[#f1f5f9] pb-4">
-            <h3 className="text-base font-bold text-[#0b192c]">Summary of Your $0 GSDP Stack & Architecture</h3>
+            <h3 className="text-base font-bold text-black">Summary of Your $0 GSDP Stack & Architecture</h3>
             <p className="text-xs text-[#64748b] mt-1">
               Guarantees ingestion of millions of events, real-time Recharts dashboards, and weekly dossiers without entering a credit card.
             </p>
@@ -2258,66 +2259,66 @@ Key Technical Specifications to Produce:
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             
             <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-[#0b192c]">
+              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-black">
                 <Database className="h-4 w-4 text-[#415a77]" />
                 <span>1. Data Layer</span>
               </div>
-              <p className="text-xs font-bold text-[#0b192c]">MongoDB Atlas Time-Series / ClickHouse</p>
+              <p className="text-xs font-bold text-black">MongoDB Atlas Time-Series / ClickHouse</p>
               <p className="text-[11px] text-[#64748b] mt-1">
                 Zero-cost timeField partitioning with metadata granularity in seconds. In-memory queue batching every 3s.
               </p>
             </div>
 
             <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-[#0b192c]">
+              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-black">
                 <Server className="h-4 w-4 text-[#415a77]" />
                 <span>2. Ingestion & API Dyno</span>
               </div>
-              <p className="text-xs font-bold text-[#0b192c]">Node.js Express + Native Fetch</p>
+              <p className="text-xs font-bold text-black">Node.js Express + Native Fetch</p>
               <p className="text-[11px] text-[#64748b] mt-1">
                 Local GeoIP lookup and daily-salt cookieless SHA-256 visitor hashing. No external API calls during event ingestion.
               </p>
             </div>
 
             <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-[#0b192c]">
+              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-black">
                 <Mail className="h-4 w-4 text-[#415a77]" />
                 <span>3. Email Dispatch Dossiers</span>
               </div>
-              <p className="text-xs font-bold text-[#0b192c]">Mailgun GSDP Perk</p>
+              <p className="text-xs font-bold text-black">Mailgun GSDP Perk</p>
               <p className="text-[11px] text-[#64748b] mt-1">
                 20,000 free emails & 100 free validations/month. High-fidelity HTML template for executive reporting.
               </p>
             </div>
 
             <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-[#0b192c]">
+              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-black">
                 <Clock className="h-4 w-4 text-[#415a77]" />
                 <span>4. CI/CD & CRON Triggers</span>
               </div>
-              <p className="text-xs font-bold text-[#0b192c]">GitHub Actions Pro</p>
+              <p className="text-xs font-bold text-black">GitHub Actions Pro</p>
               <p className="text-[11px] text-[#64748b] mt-1">
                 3,000 free minutes/month. Hourly anomaly radar (<code>0 * * * *</code>) and weekly reports on Monday (<code>0 9 * * 1</code>).
               </p>
             </div>
 
             <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-[#0b192c]">
+              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-black">
                 <Globe className="h-4 w-4 text-[#415a77]" />
                 <span>5. DNS & Edge Protection</span>
               </div>
-              <p className="text-xs font-bold text-[#0b192c]">Namecheap + Cloudflare Free</p>
+              <p className="text-xs font-bold text-black">Namecheap + Cloudflare Free</p>
               <p className="text-[11px] text-[#64748b] mt-1">
                 Free SSL/TLS termination, bot crawler challenge, and edge Anycast routing with zero egress bandwidth charges.
               </p>
             </div>
 
             <div className="rounded-xl border border-[#e2e8f0] p-4 bg-[#f8fafc]">
-              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-[#0b192c]">
+              <div className="flex items-center gap-2 mb-2 font-bold text-xs text-black">
                 <ShieldCheck className="h-4 w-4 text-[#059669]" />
                 <span>6. Privacy Compliance</span>
               </div>
-              <p className="text-xs font-bold text-[#0b192c]">GDPR / CCPA / PECR Exempt</p>
+              <p className="text-xs font-bold text-black">GDPR / CCPA / PECR Exempt</p>
               <p className="text-[11px] text-[#64748b] mt-1">
                 100% cookieless tracking. No personal identifiable information (PII) stored across disk or memory.
               </p>
@@ -2334,8 +2335,8 @@ Key Technical Specifications to Produce:
             
             <div className="flex items-center justify-between p-4 border-b border-[#e2e8f0] bg-[#f8fafc]">
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-[#0b192c]" />
-                <h3 className="text-sm font-bold text-[#0b192c]">
+                <Mail className="h-4 w-4 text-black" />
+                <h3 className="text-sm font-bold text-black">
                   {previewType === 'weekly' ? 'Weekly Telemetry Email Dossier Preview' : 'Traffic Anomaly Spike Alert Preview'}
                 </h3>
               </div>

@@ -104,7 +104,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
                   <span className="truncate">{engine.name}</span>
                 </div>
                 <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded shrink-0 ${
-                  active ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'
+                  active ? 'bg-gray-100 text-black' : 'bg-gray-100 text-gray-600'
                 }`}>
                   {engine.cost} credit
                 </span>

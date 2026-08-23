@@ -40,7 +40,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   const getStatusBadge = () => {
     if (loading) {
       return (
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-300">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700">
           <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-ping" />
           <span>Executing</span>
         </span>
@@ -48,8 +48,8 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     }
     if (!output) {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full border border-[#415a77]/30 bg-[#415a77]/10 px-2 py-0.5 text-[10px] font-semibold text-[#c5d3e8]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#415a77]" />
+        <span className="inline-flex items-center gap-1 rounded-full border border-[#415a77]/30 bg-black/10 px-2 py-0.5 text-[10px] font-semibold text-[#c5d3e8]">
+          <span className="h-1.5 w-1.5 rounded-full bg-black" />
           <span>Standby</span>
         </span>
       );
@@ -71,7 +71,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
         <span>Optimal</span>
       </span>
@@ -86,7 +86,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
       let colorClass = 'text-[#cbd5e1]';
 
       if (line.includes('[+] PASS:') || line.includes('STATUS: OPTIMAL') || line.includes('STATUS: EXCELLENT') || line.includes('STATUS: FULLY COMPATIBLE') || line.includes('STATUS: PRODUCTION-READY') || line.includes('STATUS: COMPLIANT')) {
-        colorClass = 'text-emerald-400 font-medium';
+        colorClass = 'text-emerald-700 font-medium';
       } else if (line.includes('[-] FAIL:') || line.includes('[!] CRITICAL:') || line.includes('[!] HIGH RISK:') || line.includes('STATUS: CRITICAL') || line.includes('STATUS: INVISIBLE') || line.includes('STATUS: HIGH LIABILITY') || line.includes('STATUS: AT RISK')) {
         colorClass = 'text-rose-400 font-bold';
       } else if (line.includes('[~] WARNING:') || line.includes('STATUS: MODERATE') || line.includes('STATUS: PARTIAL') || line.includes('STATUS: WARNING') || line.includes('STATUS: FAIR')) {
@@ -98,7 +98,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
       }
 
       return (
-        <div key={idx} className={`${colorClass} leading-relaxed break-words hover:bg-[#152238]/30 px-1 rounded transition-colors`}>
+        <div key={idx} className={`${colorClass} leading-relaxed break-words hover:bg-gray-50/30 px-1 rounded transition-colors`}>
           {line || '\u00A0'}
         </div>
       );
@@ -106,7 +106,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   };
 
   return (
-    <div className="flex flex-col rounded-2xl border border-[#415a77]/30 bg-[#0b192c] shadow-xl overflow-hidden hover:border-[#415a77]/60 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+    <div className="flex flex-col rounded-2xl border border-[#415a77]/30 bg-white shadow-xl overflow-hidden hover:border-[#415a77]/60 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
       {/* Terminal Title Bar */}
       <div className="flex items-center justify-between border-b border-[#415a77]/25 bg-[#091524] px-4 py-3 select-none">
         <div className="flex items-center gap-3">
@@ -117,26 +117,26 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           </div>
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-sm text-[#93c5fd]">{icon}</span>
-            <span className="text-xs font-bold text-[#f8fafc] tracking-tight">{title}</span>
+            <span className="text-xs font-bold text-black tracking-tight">{title}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {getStatusBadge()}
 
-          <div className="h-3.5 w-px bg-[#415a77]/30 mx-0.5" />
+          <div className="h-3.5 w-px bg-black/30 mx-0.5" />
 
           {isComplianceEngine && (
             <button
               onClick={() => setShowGauges(!showGauges)}
               className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-medium transition-all active:scale-95 ${
                 showGauges
-                  ? 'border-sky-500/50 bg-sky-500/20 text-sky-300'
-                  : 'border-[#415a77]/30 bg-[#152238]/70 text-[#c5d3e8] hover:text-[#f8fafc]'
+                  ? 'border-sky-500/50 bg-sky-500/20 text-blue-700'
+                  : 'border-[#415a77]/30 bg-gray-50/70 text-[#c5d3e8] hover:text-black'
               }`}
               title="Toggle D3.js Risk & SSL Gauges"
             >
-              <Activity className="h-3 w-3 text-sky-400" />
+              <Activity className="h-3 w-3 text-blue-600" />
               <span className="hidden sm:inline">D3 Gauges</span>
             </button>
           )}
@@ -144,14 +144,14 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           <button
             onClick={handleCopy}
             disabled={!output}
-            className="flex items-center gap-1 rounded-lg border border-[#415a77]/30 bg-[#152238]/70 px-2 py-1 text-[11px] font-medium text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-[#f8fafc] disabled:opacity-40 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1 rounded-lg border border-[#415a77]/30 bg-gray-50/70 px-2 py-1 text-[11px] font-medium text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-black disabled:opacity-40 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Copy output"
             aria-label="Copy terminal output"
           >
             {copied ? (
               <>
-                <Check className="h-3 w-3 text-emerald-400" />
-                <span className="text-emerald-400">Copied</span>
+                <Check className="h-3 w-3 text-emerald-700" />
+                <span className="text-emerald-700">Copied</span>
               </>
             ) : (
               <>
@@ -163,7 +163,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
           <button
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg border border-[#415a77]/30 bg-[#152238]/70 p-1 text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-[#f8fafc] transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-lg border border-[#415a77]/30 bg-gray-50/70 p-1 text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-black transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title={expanded ? "Collapse console" : "Expand console"}
             aria-label={expanded ? "Collapse console" : "Expand console"}
           >
@@ -181,7 +181,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
       {/* Terminal Body */}
       <div
-        className={`p-4 font-mono text-xs overflow-y-auto bg-[#050d18] selection:bg-[#415a77]/50 ${
+        className={`p-4 font-mono text-xs overflow-y-auto bg-[#050d18] selection:bg-black/50 ${
           expanded ? 'max-h-[620px]' : maxHeight
         }`}
       >

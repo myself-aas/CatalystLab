@@ -1,6 +1,6 @@
 import { NewsletterModal } from "./components/common/NewsletterModal";
 import { PaymentCheckoutModal } from "./components/common/PaymentCheckoutModal";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
@@ -9,6 +9,7 @@ import { TrialBanner } from "./components/common/TrialBanner";
 import { TrialActivationModal } from "./components/common/TrialActivationModal";
 import { GlobalBreadcrumb } from "./components/layout/GlobalBreadcrumb";
 import { Footer } from "./components/layout/Footer";
+import { DynamicBanner } from "./components/layout/DynamicBanner";
 import { AuthDomainModal } from "./components/auth/AuthDomainModal";
 import {
   GetInTouchEmailModal,
@@ -16,47 +17,53 @@ import {
 } from "./components/common/GetInTouchEmailModal";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { RoleSimulatorFloatingBar } from "./components/common/RoleSimulatorFloatingBar";
+import { RouteLoadingSkeleton } from "./components/common/RouteLoadingSkeleton";
+import type { SubscriptionPlanId } from "./types";
+
+// Critical landing page kept synchronous for instant FCP / LCP
 import { MasterAuditPage } from "./pages/MasterAuditPage";
-import { MasterAuditExecutionPage } from "./pages/MasterAuditExecutionPage";
-import { UserDashboardPage } from "./pages/UserDashboardPage";
-import { AdminDashboardPage } from "./pages/AdminDashboardPage";
 import { AdminRoute } from "./components/auth/AdminRoute";
-import { DomainReportArticlePage } from "./pages/DomainReportArticlePage";
-import { ReportsDirectoryPage } from "./pages/ReportsDirectoryPage";
-import { ComparePage } from "./pages/ComparePage";
-import { ToolPage } from "./pages/ToolPage";
-import { MethodologyPage } from "./pages/MethodologyPage";
-import { BlogsPage } from "./pages/BlogsPage";
-import { BlogPostPage } from "./pages/BlogPostPage";
-import { BlogEditorPage } from "./pages/BlogEditorPage";
-import { ContactPage } from "./pages/ContactPage";
-import { PrivacyPage } from "./pages/PrivacyPage";
-import { TermsPage } from "./pages/TermsPage";
-import { CookiePolicyPage } from "./pages/CookiePolicyPage";
-import { SecurityPage } from "./pages/SecurityPage";
-import { PricingPage } from "./pages/PricingPage";
-import { ProductsPage } from "./pages/ProductsPage";
-import { DocsPage } from "./pages/DocsPage";
-import { SystemOverviewDoc } from "./pages/docs/SystemOverviewDoc";
-import { ArchitectureDoc } from "./pages/docs/ArchitectureDoc";
-import { SecurityDoc } from "./pages/docs/SecurityDoc";
-import { RateLimitingDoc } from "./pages/docs/RateLimitingDoc";
-import { ScoringMatrixDoc } from "./pages/docs/ScoringMatrixDoc";
-import { SynthShiftDoc } from "./pages/docs/SynthShiftDoc";
-import { GitLygaseDoc } from "./pages/docs/GitLygaseDoc";
-import { EcoHoloDoc } from "./pages/docs/EcoHoloDoc";
-import { VitalZymeDoc } from "./pages/docs/VitalZymeDoc";
-import { EdgeVmaxDoc } from "./pages/docs/EdgeVmaxDoc";
-import { RiskProteaseDoc } from "./pages/docs/RiskProteaseDoc";
-import { LlmKinaseDoc } from "./pages/docs/LlmKinaseDoc";
-import { AllosterSearchDoc } from "./pages/docs/AllosterSearchDoc";
-import { OrchestratorDoc } from "./pages/docs/OrchestratorDoc";
-import { ApiReferenceDoc } from "./pages/docs/ApiReferenceDoc";
-import { CicdDevOpsDoc } from "./pages/docs/CicdDevOpsDoc";
-import { ApiDocsPage } from "./pages/ApiDocsPage";
-import { PlaygroundPage } from "./pages/PlaygroundPage";
-import { LoginPage } from "./pages/LoginPage";
-import { SignUpPage } from "./pages/SignUpPage";
+
+// Lazy-loaded routes for code-splitting & optimal bundle chunking
+const MasterAuditExecutionPage = React.lazy(() => import("./pages/MasterAuditExecutionPage").then(m => ({ default: m.MasterAuditExecutionPage })));
+const UserDashboardPage = React.lazy(() => import("./pages/UserDashboardPage").then(m => ({ default: m.UserDashboardPage })));
+const AdminDashboardPage = React.lazy(() => import("./pages/AdminDashboardPage").then(m => ({ default: m.AdminDashboardPage })));
+const DomainReportArticlePage = React.lazy(() => import("./pages/DomainReportArticlePage").then(m => ({ default: m.DomainReportArticlePage })));
+const ReportsDirectoryPage = React.lazy(() => import("./pages/ReportsDirectoryPage").then(m => ({ default: m.ReportsDirectoryPage })));
+const ComparePage = React.lazy(() => import("./pages/ComparePage").then(m => ({ default: m.ComparePage })));
+const ToolPage = React.lazy(() => import("./pages/ToolPage").then(m => ({ default: m.ToolPage })));
+const MethodologyPage = React.lazy(() => import("./pages/MethodologyPage").then(m => ({ default: m.MethodologyPage })));
+const BlogsPage = React.lazy(() => import("./pages/BlogsPage").then(m => ({ default: m.BlogsPage })));
+const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage").then(m => ({ default: m.BlogPostPage })));
+const BlogEditorPage = React.lazy(() => import("./pages/BlogEditorPage").then(m => ({ default: m.BlogEditorPage })));
+const ContactPage = React.lazy(() => import("./pages/ContactPage").then(m => ({ default: m.ContactPage })));
+const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage").then(m => ({ default: m.PrivacyPage })));
+const TermsPage = React.lazy(() => import("./pages/TermsPage").then(m => ({ default: m.TermsPage })));
+const CookiePolicyPage = React.lazy(() => import("./pages/CookiePolicyPage").then(m => ({ default: m.CookiePolicyPage })));
+const SecurityPage = React.lazy(() => import("./pages/SecurityPage").then(m => ({ default: m.SecurityPage })));
+const PricingPage = React.lazy(() => import("./pages/PricingPage").then(m => ({ default: m.PricingPage })));
+const ProductsPage = React.lazy(() => import("./pages/ProductsPage").then(m => ({ default: m.ProductsPage })));
+const DocsPage = React.lazy(() => import("./pages/DocsPage").then(m => ({ default: m.DocsPage })));
+const SystemOverviewDoc = React.lazy(() => import("./pages/docs/SystemOverviewDoc").then(m => ({ default: m.SystemOverviewDoc })));
+const ArchitectureDoc = React.lazy(() => import("./pages/docs/ArchitectureDoc").then(m => ({ default: m.ArchitectureDoc })));
+const SecurityDoc = React.lazy(() => import("./pages/docs/SecurityDoc").then(m => ({ default: m.SecurityDoc })));
+const RateLimitingDoc = React.lazy(() => import("./pages/docs/RateLimitingDoc").then(m => ({ default: m.RateLimitingDoc })));
+const ScoringMatrixDoc = React.lazy(() => import("./pages/docs/ScoringMatrixDoc").then(m => ({ default: m.ScoringMatrixDoc })));
+const SynthShiftDoc = React.lazy(() => import("./pages/docs/SynthShiftDoc").then(m => ({ default: m.SynthShiftDoc })));
+const GitLygaseDoc = React.lazy(() => import("./pages/docs/GitLygaseDoc").then(m => ({ default: m.GitLygaseDoc })));
+const EcoHoloDoc = React.lazy(() => import("./pages/docs/EcoHoloDoc").then(m => ({ default: m.EcoHoloDoc })));
+const VitalZymeDoc = React.lazy(() => import("./pages/docs/VitalZymeDoc").then(m => ({ default: m.VitalZymeDoc })));
+const EdgeVmaxDoc = React.lazy(() => import("./pages/docs/EdgeVmaxDoc").then(m => ({ default: m.EdgeVmaxDoc })));
+const RiskProteaseDoc = React.lazy(() => import("./pages/docs/RiskProteaseDoc").then(m => ({ default: m.RiskProteaseDoc })));
+const LlmKinaseDoc = React.lazy(() => import("./pages/docs/LlmKinaseDoc").then(m => ({ default: m.LlmKinaseDoc })));
+const AllosterSearchDoc = React.lazy(() => import("./pages/docs/AllosterSearchDoc").then(m => ({ default: m.AllosterSearchDoc })));
+const OrchestratorDoc = React.lazy(() => import("./pages/docs/OrchestratorDoc").then(m => ({ default: m.OrchestratorDoc })));
+const ApiReferenceDoc = React.lazy(() => import("./pages/docs/ApiReferenceDoc").then(m => ({ default: m.ApiReferenceDoc })));
+const CicdDevOpsDoc = React.lazy(() => import("./pages/docs/CicdDevOpsDoc").then(m => ({ default: m.CicdDevOpsDoc })));
+const ApiDocsPage = React.lazy(() => import("./pages/ApiDocsPage").then(m => ({ default: m.ApiDocsPage })));
+const PlaygroundPage = React.lazy(() => import("./pages/PlaygroundPage").then(m => ({ default: m.PlaygroundPage })));
+const LoginPage = React.lazy(() => import("./pages/LoginPage").then(m => ({ default: m.LoginPage })));
+const SignUpPage = React.lazy(() => import("./pages/SignUpPage").then(m => ({ default: m.SignUpPage })));
 
 import ParticlesComponent from "./components/ui/particles-bg";
 
@@ -110,21 +117,23 @@ export const App: React.FC = () => {
   return (
     <>
       <ParticlesComponent />
-      <div className="flex min-h-screen flex-col bg-transparent text-[#0b192c] selection:bg-[#415a77]/25 selection:text-[#0b192c] animate-app-fade-in relative z-10">
+      <div className="flex min-h-screen flex-col bg-transparent text-black selection:bg-[#f9a825]/25 selection:text-black animate-app-fade-in relative z-10">
         <a 
           href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-[#07111e] focus:text-cyan-400 focus:font-bold focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-[#f9a825] focus:font-bold focus:outline-none focus:ring-2 focus:ring-[#f9a825]"
       >
         Skip to main content
       </a>
       <ScrollToTop />
       <TrialBanner />
       <Navbar />
+      {location.pathname !== '/' && location.pathname !== '/index.html' && <DynamicBanner />}
       <GlobalBreadcrumb />
       <main id="main-content" className="flex-1">
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname} className="min-h-full">
-            <Routes location={location} key={location.pathname}>
+            <Suspense fallback={<RouteLoadingSkeleton />}>
+              <Routes location={location} key={location.pathname}>
               <Route path="/" element={<MasterAuditPage />} />
               <Route path="/index.html" element={<Navigate to="/" replace />} />
               <Route
@@ -502,8 +511,9 @@ export const App: React.FC = () => {
               {/* Catch-all */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </PageTransition>
-        </AnimatePresence>
+          </Suspense>
+        </PageTransition>
+      </AnimatePresence>
       </main>
       <Footer />
       <RoleSimulatorFloatingBar />

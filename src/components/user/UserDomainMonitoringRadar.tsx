@@ -114,14 +114,14 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
     return (
       <div className="rounded-3xl border border-[#415a77]/20 bg-white p-12 text-center shadow-sm">
         <Radio className="mx-auto h-12 w-12 text-[#415a77]/30 mb-4 animate-pulse" />
-        <h3 className="text-lg font-bold text-[#0b192c]">No Monitored Endpoints Yet</h3>
+        <h3 className="text-lg font-bold text-black">No Monitored Endpoints Yet</h3>
         <p className="mt-1 max-w-md mx-auto text-xs text-[#415a77] leading-relaxed">
           Run your first Master Audit or single-engine diagnostic on any website or API to register it onto your real-time telemetry radar.
         </p>
         <div className="mt-6">
           <Link
             to="/master-audit"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#415a77] px-6 py-2.5 text-xs font-bold text-white hover:bg-[#33475e] shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex items-center gap-2 rounded-xl bg-black px-6 py-2.5 text-xs font-bold text-black hover:bg-gray-800 shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Zap className="h-4 w-4" />
             <span>Launch First Master Audit</span>
@@ -136,7 +136,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-lg font-bold text-[#0b192c] flex items-center gap-2">
+          <h3 className="text-lg font-bold text-black flex items-center gap-2">
             <Activity className="h-5 w-5 text-[#415a77]" />
             <span>Active Domain Telemetry Radar</span>
             <span className="rounded-md bg-[#f1f5f9] px-2 py-0.5 text-xs font-bold text-[#415a77] border border-[#e2e8f0]">
@@ -150,7 +150,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
 
         <Link
           to="/master-audit"
-          className="flex items-center gap-2 rounded-xl bg-[#415a77] px-4 py-2 text-xs font-bold text-white hover:bg-[#33475e] shadow-md transition-all shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          className="flex items-center gap-2 rounded-xl bg-black px-4 py-2 text-xs font-bold text-black hover:bg-gray-800 shadow-md transition-all shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           <Play className="h-3.5 w-3.5" />
           <span>Audit New Target</span>
@@ -172,7 +172,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                     {item.domain.substring(0, 2)}
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-sm font-bold text-[#0b192c] truncate hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                    <h4 className="text-sm font-bold text-black truncate hover:text-[#415a77] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <a href={item.url} target="_blank" rel="noreferrer" className="flex items-center gap-1">
                         <span>{item.domain}</span>
                         <ExternalLink className="h-3 w-3 opacity-40 shrink-0" />
@@ -204,7 +204,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                     <Zap className="h-3 w-3 text-amber-500" />
                     Edge TTFB
                   </div>
-                  <div className="text-sm font-bold text-[#0b192c] mt-1">
+                  <div className="text-sm font-bold text-black mt-1">
                     {item.latencyMs ? `${item.latencyMs} ms` : '—'}
                   </div>
                   <span className="text-[10px] text-emerald-600 font-sans">
@@ -217,7 +217,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                     <Lock className="h-3 w-3 text-emerald-600" />
                     SSL Security
                   </div>
-                  <div className="text-sm font-bold text-[#0b192c] mt-1">
+                  <div className="text-sm font-bold text-black mt-1">
                     {item.sslDays ? `${item.sslDays} Days` : 'Active'}
                   </div>
                   <span className="text-[10px] text-emerald-600 font-sans">
@@ -234,13 +234,13 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                 disabled={probingDomain === item.domain}
                 className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1.5 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
-                <RefreshCw className={`h-3.5 w-3.5 ${probingDomain === item.domain ? 'animate-spin text-[#0b192c]' : ''}`} />
+                <RefreshCw className={`h-3.5 w-3.5 ${probingDomain === item.domain ? 'animate-spin text-black' : ''}`} />
                 <span>{probingDomain === item.domain ? 'Pinging...' : 'Ping Radar'}</span>
               </button>
 
               <Link
                 to={`/master-audit?target=${encodeURIComponent(item.url)}`}
-                className="flex items-center gap-1 rounded-lg bg-[#415a77] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#33475e] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center gap-1 rounded-lg bg-black px-3 py-1.5 text-xs font-bold text-black hover:bg-gray-800 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <span>Re-Audit</span>
                 <ArrowUpRight className="h-3.5 w-3.5" />

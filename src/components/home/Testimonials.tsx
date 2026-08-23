@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { LazyReveal } from '../common/LazyAnimate';
-import { Star, CheckCircle2, Building2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, CheckCircle2, ChevronLeft, ChevronRight, ShieldCheck, Cpu, Flame, Leaf } from 'lucide-react';
 
 interface Testimonial {
   id: string;
@@ -9,11 +9,13 @@ interface Testimonial {
   name: string;
   role: string;
   company: string;
+  avatarUrl: string;
   avatarText: string;
   quote: string;
   metric: string;
   metricLabel: string;
   verifiedBadge: string;
+  icon: typeof ShieldCheck;
 }
 
 export const Testimonials: React.FC = () => {
@@ -28,11 +30,13 @@ export const Testimonials: React.FC = () => {
       name: 'Alex Rivera',
       role: 'VP of Engineering',
       company: 'CloudScale Networks',
+      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
       avatarText: 'AR',
       quote: 'CatalystLab caught an unhandled render-blocking script chain and two missing OWASP security headers before our Kubernetes rollout.',
       metric: '-68% TTFB',
       metricLabel: 'Edge latency improvement',
-      verifiedBadge: 'Verified CI/CD'
+      verifiedBadge: 'Verified CI/CD',
+      icon: Cpu
     },
     {
       id: '2',
@@ -41,11 +45,13 @@ export const Testimonials: React.FC = () => {
       name: 'Elena Rostova',
       role: 'Principal Architect',
       company: 'EdgeVelo Cloud',
+      avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
       avatarText: 'ER',
       quote: 'Running all 8 catalysts synchronously via CLI in under 2 seconds is incredible. The automated NGINX patches make remediation instant.',
       metric: '100% Strict',
       metricLabel: 'OWASP Security Header score',
-      verifiedBadge: 'Enterprise Deploy'
+      verifiedBadge: 'Enterprise Deploy',
+      icon: ShieldCheck
     },
     {
       id: '3',
@@ -54,11 +60,13 @@ export const Testimonials: React.FC = () => {
       name: 'Marcus Chen',
       role: 'Director of AI Search',
       company: 'GrowthStack Media',
+      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
       avatarText: 'MC',
       quote: 'The LLM-Kinase engine and /llms.txt audit gave our team a clear roadmap for AI engine discovery. Citations on Perplexity jumped 140%.',
       metric: '+140% Citations',
       metricLabel: 'LLMO discoverability',
-      verifiedBadge: 'Verified AI Engine'
+      verifiedBadge: 'Verified AI Engine',
+      icon: Flame
     },
     {
       id: '4',
@@ -67,11 +75,13 @@ export const Testimonials: React.FC = () => {
       name: 'Sofia Lindqvist',
       role: 'Head of DevSecOps',
       company: 'NordicFintech Group',
+      avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
       avatarText: 'SL',
       quote: 'The Sustainable Web Design carbon modeling paired with AST dependency scanning gives our leadership full visibility on security and ESG.',
       metric: '0.08g CO2',
       metricLabel: 'Per pageview carbon',
-      verifiedBadge: 'Green Web Certified'
+      verifiedBadge: 'Green Web Certified',
+      icon: Leaf
     }
   ];
 
@@ -98,55 +108,55 @@ export const Testimonials: React.FC = () => {
   };
 
   return (
-    <section className="py-14 lg:py-16 bg-transparent text-brand-offwhite relative overflow-hidden border-b border-brand-slate/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-14 sm:py-20 border-b border-gray-200 relative overflow-hidden bg-brand-deep">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header & Carousel Navigation */}
+        {/* Header with Navigation Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-          <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-surface-panel px-3.5 py-1 text-xs font-mono text-brand-periwinkle mb-3 shadow-sm">
-              <Building2 className="h-3.5 w-3.5 text-accent-cyan" />
-              <span>Production Proven By Engineering Leaders</span>
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-bold uppercase tracking-wider mb-3">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Production Proven</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-brand-offwhite">
-              Trusted in Critical CI/CD Pipelines
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight">
+              Trusted by Leading Platform & AI Engineers
             </h2>
-          </LazyReveal>
+            <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+              Real telemetry outcomes from engineering teams enforcing sub-second edge speeds, zero-trust headers, and autonomous AI search ingestion.
+            </p>
+          </div>
 
-          {/* Controls & Filter */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex flex-wrap items-center gap-1 p-1 bg-surface-panel rounded-xl border border-brand-slate/40">
-              {categories.map((cat) => (
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Category Filter Chips */}
+            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-gray-200">
+              {categories.map((c) => (
                 <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
-                    activeCategory === cat.id
-                      ? 'bg-brand-slate text-white font-bold'
-                      : 'text-brand-periwinkle hover:text-white hover:bg-surface-subtle'
+                  key={c.id}
+                  onClick={() => setActiveCategory(c.id)}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
+                    activeCategory === c.id
+                      ? 'bg-accent-cyan text-brand-deep shadow-sm'
+                      : 'text-gray-600 hover:text-black'
                   }`}
                 >
-                  {cat.label}
+                  {c.label}
                 </button>
               ))}
             </div>
 
-            {/* Carousel Arrows */}
-            <div className="flex items-center gap-1">
+            {/* Carousel Buttons */}
+            <div className="hidden sm:flex items-center gap-1.5 ml-2">
               <button
-                type="button"
                 onClick={() => scroll('left')}
-                aria-label="Scroll testimonials left"
-                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-xs cursor-pointer transition-colors"
+                className="p-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:text-black hover:border-gray-200 transition-colors"
+                aria-label="Previous testimonial"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
               <button
-                type="button"
                 onClick={() => scroll('right')}
-                aria-label="Scroll testimonials right"
-                className="p-2 rounded-xl bg-surface-panel hover:bg-surface-subtle text-brand-periwinkle hover:text-white border border-brand-slate/40 shadow-xs cursor-pointer transition-colors"
+                className="p-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:text-black hover:border-gray-200 transition-colors"
+                aria-label="Next testimonial"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -166,7 +176,7 @@ export const Testimonials: React.FC = () => {
             {filteredTestimonials.map((t) => (
               <div
                 key={t.id}
-                className="w-[280px] sm:w-[320px] lg:w-[340px] shrink-0 snap-start bg-surface-panel border border-brand-slate/40 rounded-2xl p-5 shadow-lg flex flex-col justify-between"
+                className="w-[290px] sm:w-[320px] lg:w-[350px] shrink-0 snap-start bg-white border border-gray-200 rounded-2xl p-5 shadow-lg flex flex-col justify-between hover:border-accent-cyan/40 transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -180,26 +190,29 @@ export const Testimonials: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-brand-periwinkle leading-relaxed mb-4 italic">
+                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-4 italic">
                     "{t.quote}"
                   </p>
 
-                  <div className="bg-brand-oxford p-2.5 rounded-xl border border-brand-slate/30 flex items-center justify-between mb-4">
+                  <div className="bg-gray-100 p-2.5 rounded-xl border border-gray-200 flex items-center justify-between mb-4">
                     <div>
-                      <div className="text-[10px] font-mono text-brand-slate-light uppercase">{t.metricLabel}</div>
-                      <div className="text-sm font-bold font-mono text-brand-offwhite">{t.metric}</div>
+                      <div className="text-[10px] font-mono text-gray-500 uppercase">{t.metricLabel}</div>
+                      <div className="text-sm font-bold font-mono text-black">{t.metric}</div>
                     </div>
                     <CheckCircle2 className="h-4 w-4 text-accent-emerald" />
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-brand-slate/30 flex items-center gap-3">
-                  <div className="h-7 w-7 rounded-lg bg-brand-oxford border border-brand-slate/40 text-brand-offwhite flex items-center justify-center text-xs font-bold font-mono shrink-0">
-                    {t.avatarText}
-                  </div>
+                <div className="pt-3 border-t border-gray-200 flex items-center gap-3">
+                  <img
+                    src={t.avatarUrl}
+                    alt={t.name}
+                    className="h-9 w-9 rounded-xl object-cover border border-gray-200 shrink-0 shadow-sm"
+                    referrerPolicy="no-referrer"
+                  />
                   <div className="overflow-hidden">
-                    <div className="text-xs font-bold text-brand-offwhite truncate">{t.name}</div>
-                    <div className="text-[11px] text-brand-slate-light truncate">{t.role} • {t.company}</div>
+                    <div className="text-xs font-bold text-black truncate">{t.name}</div>
+                    <div className="text-[11px] text-gray-500 truncate">{t.role} • {t.company}</div>
                   </div>
                 </div>
               </div>

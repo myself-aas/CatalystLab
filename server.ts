@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import helmet from 'helmet';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -12,6 +13,7 @@ import os from 'os';
 import geoip from 'geoip-lite';
 import { UAParser } from 'ua-parser-js';
 import { runNativeEngine } from './src/lib/nodeEngines';
+import { validatePublicUrl } from './src/lib/networkSecurity';
 import { initAnalyticsDB, getDbInstance, queueEvent, generateVisitorId, getAnalyticsStats, detectTrafficAnomalies, checkMongoDBHealth, getBatchMetrics } from './src/lib/analyticsEngine';
 import { generateWeeklyReportHtml, generateAnomalyAlertHtml, sendEmailViaMailgun, AnalyticsWeeklyData, AnomalyAlertData } from './src/lib/emailService';
 import { sendSlackWebhook, sendDiscordWebhook, WebhookPayloadData } from './src/lib/webhookService';
@@ -499,39 +501,54 @@ async function startServer() {
   const PORT = 3000;
   const HOST = '0.0.0.0';
 
-  // Security Headers Middleware (OWASP Hardening & Injection Prevention)
+  // OWASP Security Hardening Middleware with Helmet
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://apis.google.com", "https://*.googleapis.com", "https://*.gstatic.com"],
+          styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://*.gstatic.com"],
+          fontSrc: ["'self'", "data:", "https://fonts.gstatic.com", "https://fonts.googleapis.com"],
+          imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+          connectSrc: [
+            "'self'",
+            "https://*.googleapis.com",
+            "https://*.firebaseio.com",
+            "wss://*.firebaseio.com",
+            "https://*.cloudfunctions.net",
+            "https://identitytoolkit.googleapis.com",
+            "https://securetoken.googleapis.com",
+            "https://firestore.googleapis.com",
+            "https://www.catalystlab.tech",
+            "https://*.run.app",
+            "ws:",
+            "wss:"
+          ],
+          frameSrc: ["'self'", "https://*.firebaseapp.com", "https://*.google.com"],
+          frameAncestors: ["'self'", "https://*.google.com", "https://*.googleusercontent.com", "https://*.run.app", "https://ai.studio", "*"],
+          objectSrc: ["'none'"],
+          baseUri: ["'self'"],
+          formAction: ["'self'"],
+          upgradeInsecureRequests: [],
+        },
+      },
+      crossOriginEmbedderPolicy: false,
+      crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+      hsts: {
+        maxAge: 63072000,
+        includeSubDomains: true,
+        preload: true
+      },
+      referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+      frameguard: false // Permitted for iframe previews in AI Studio
+    })
+  );
+
+  // Additional defense-in-depth header controls
   app.use((req: Request, res: Response, next) => {
-    // 1. Strict-Transport-Security (HSTS) with preload and subdomains (2 years / 63072000s)
-    res.setHeader(
-      'Strict-Transport-Security',
-      'max-age=63072000; includeSubDomains; preload'
-    );
-
-    // 2. Prevent MIME type sniffing
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-
-    // 3. Robust Content-Security-Policy (CSP) to mitigate XSS and data injection
-    const cspDirectives = [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.googleapis.com https://*.gstatic.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.gstatic.com",
-      "font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https: http:",
-      "connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.cloudfunctions.net https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://www.catalystlab.tech https://*.run.app ws: wss:",
-      "frame-src 'self' https://*.firebaseapp.com https://*.google.com",
-      "frame-ancestors 'self' https://*.google.com https://*.googleusercontent.com https://*.run.app https://ai.studio *",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "upgrade-insecure-requests"
-    ].join('; ');
-    res.setHeader('Content-Security-Policy', cspDirectives);
-
-    // 4. Defense-in-depth headers
-    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-
     next();
   });
 
@@ -1397,8 +1414,15 @@ async function startServer() {
         }
         return;
       }
+
+      // SSRF & loopback address security check
+      const validation = await validatePublicUrl(url);
+      if (!validation.valid) {
+        res.status(400).json({ reachable: false, error: validation.error || 'Invalid or forbidden target URL.' });
+        return;
+      }
       
-      const parsedUrl = new URL(url);
+      const parsedUrl = new URL(validation.normalizedUrl || url);
       const isHttps = parsedUrl.protocol === 'https:';
       const client = isHttps ? https : http;
 
@@ -1450,21 +1474,24 @@ async function startServer() {
         return;
       }
 
+      const isRepoEngine = engine === 'repo' || engine === 'code_quality';
+      const validation = await validatePublicUrl(url, isRepoEngine);
+      if (!validation.valid) {
+        res.status(400).json({ success: false, error: validation.error || 'Invalid or forbidden target URL.' });
+        return;
+      }
+
+      const targetUrl = validation.normalizedUrl || url;
       const rateStatus = (req as any).rateLimitStatus;
       totalAuditsExecuted++;
-      const scriptName = ENGINE_SCRIPT_MAP[engine];
-      const scriptPath = path.join(process.cwd(), 'python-engines', scriptName);
-
-      // Validate URL / repo safety
-      const safeUrl = url.trim().replace(/(["\\$`])/g, '\\$1');
 
       // Execute Native TypeScript engine directly
-      const output = await runNativeEngine(url, engine);
+      const output = await runNativeEngine(targetUrl, engine);
 
       res.json({
         success: true,
         engine,
-        url,
+        url: targetUrl,
         rateLimit: {
           tier: rateStatus?.tier || 'user',
           tierLabel: rateStatus?.tierLabel || 'Registered User',
@@ -1676,19 +1703,24 @@ async function startServer() {
         res.status(400).json({ success: false, error: 'URL parameter is required.' });
         return;
       }
+
+      const isRepoEngine = engine === 'repo' || engine === 'code_quality';
+      const validation = await validatePublicUrl(url, isRepoEngine);
+      if (!validation.valid) {
+        res.status(400).json({ success: false, error: validation.error || 'Invalid or forbidden target URL.' });
+        return;
+      }
       
+      const targetUrl = validation.normalizedUrl || url;
       const rateStatus = (req as any).rateLimitStatus;
       totalAuditsExecuted++;
-      const scriptName = ENGINE_SCRIPT_MAP[engine];
-      const scriptPath = path.join(process.cwd(), 'python-engines', scriptName);
-      const safeUrl = url.trim().replace(/(["\\$`])/g, '\\$1');
 
-      const output = await runNativeEngine(url, engine);
+      const output = await runNativeEngine(targetUrl, engine);
 
       res.json({
         success: true,
         engine,
-        url,
+        url: targetUrl,
         rateLimit: {
           tier: rateStatus?.tier || 'user',
           tierLabel: rateStatus?.tierLabel || 'Registered User',
@@ -1715,15 +1747,22 @@ async function startServer() {
         return;
       }
 
+      const validation = await validatePublicUrl(url);
+      if (!validation.valid) {
+        res.status(400).json({ success: false, error: validation.error || 'Invalid or forbidden target URL.' });
+        return;
+      }
+
+      const targetUrl = validation.normalizedUrl || url;
       const rateStatus = (req as any).rateLimitStatus;
-      const enginesToRun = Object.keys(ENGINE_SCRIPT_MAP);
+      const primaryEngines = ['health', 'compliance', 'ai_ready', 'latency', 'eco', 'migration', 'llmo', 'repo'];
       const results: Record<string, any> = {};
 
       await Promise.allSettled(
-        enginesToRun.map(async (eng) => {
+        primaryEngines.map(async (eng) => {
           try {
-            const out = await runNativeEngine(url, eng);
-            results[eng] = { status: 'completed', preview: out ? out.slice(0, 300) : 'Completed' };
+            const out = await runNativeEngine(targetUrl, eng);
+            results[eng] = { status: 'completed', preview: out ? out.slice(0, 300) : 'Completed', rawOutput: out };
           } catch (err: any) {
             results[eng] = { status: 'error', error: err.message };
           }
@@ -1732,10 +1771,10 @@ async function startServer() {
 
       res.json({
         success: true,
-        url,
+        url: targetUrl,
         compositeScore: 92,
         grade: 'A',
-        totalEnginesAudited: enginesToRun.length,
+        totalEnginesAudited: primaryEngines.length,
         engines: results,
         rateLimit: {
           tier: rateStatus?.tier || 'user',
@@ -1752,6 +1791,106 @@ async function startServer() {
       res.status(500).json({ success: false, error: err.message });
     }
   });
+
+  // 2b. Master Audit Real-Time SSE Streaming Orchestrator (/api/v1/audit/master/stream & /api/master-audit/stream)
+  const handleMasterAuditStream = async (req: Request, res: Response): Promise<void> => {
+    const rawUrl = (req.query.url as string) || (req.body && req.body.url);
+    if (!rawUrl) {
+      res.status(400).json({ success: false, error: 'Target URL is required for stream.' });
+      return;
+    }
+
+    const validation = await validatePublicUrl(rawUrl);
+    if (!validation.valid) {
+      res.status(400).json({ success: false, error: validation.error || 'Invalid or forbidden target URL.' });
+      return;
+    }
+
+    const targetUrl = validation.normalizedUrl || rawUrl;
+
+    // Set Server-Sent Events headers
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.flushHeaders();
+
+    const sendSse = (eventType: string, data: any) => {
+      res.write(`event: ${eventType}\ndata: ${JSON.stringify(data)}\n\n`);
+    };
+
+    sendSse('session_init', {
+      url: targetUrl,
+      sessionId: `master_stream_${Date.now()}`,
+      enginesCount: 8,
+      timestamp: Date.now()
+    });
+
+    const engines = [
+      { key: 'health', name: 'VitalZyme (DOM & Core Vitals)' },
+      { key: 'compliance', name: 'RiskProtease (OWASP & SSL)' },
+      { key: 'ai_ready', name: 'LlmKinase (AI Agents & RAG)' },
+      { key: 'latency', name: 'EdgeVmax (CDN & TTFB)' },
+      { key: 'eco', name: 'EcoHolo (Carbon & SWD)' },
+      { key: 'migration', name: 'SynthShift (Architecture & AST)' },
+      { key: 'llmo', name: 'AllosterSearch (Schema & Citations)' },
+      { key: 'repo', name: 'GitLygase (Quality & Cyclomatic)' }
+    ];
+
+    const completedResults: Record<string, any> = {};
+
+    for (let i = 0; i < engines.length; i++) {
+      const eng = engines[i];
+      const progressPct = Math.round(((i) / engines.length) * 100);
+
+      sendSse('engine_start', {
+        engine: eng.key,
+        name: eng.name,
+        index: i,
+        total: engines.length,
+        progress: progressPct,
+        timestamp: Date.now()
+      });
+
+      try {
+        const rawOutput = await runNativeEngine(targetUrl, eng.key);
+        completedResults[eng.key] = rawOutput;
+
+        sendSse('engine_complete', {
+          engine: eng.key,
+          name: eng.name,
+          status: 'success',
+          output: rawOutput,
+          preview: rawOutput ? rawOutput.slice(0, 200) : '',
+          progress: Math.round(((i + 1) / engines.length) * 100),
+          timestamp: Date.now()
+        });
+      } catch (err: any) {
+        sendSse('engine_complete', {
+          engine: eng.key,
+          name: eng.name,
+          status: 'error',
+          error: err.message || 'Engine execution failed',
+          progress: Math.round(((i + 1) / engines.length) * 100),
+          timestamp: Date.now()
+        });
+      }
+    }
+
+    sendSse('audit_complete', {
+      success: true,
+      url: targetUrl,
+      totalEngines: engines.length,
+      timestamp: Date.now()
+    });
+
+    res.end();
+  };
+
+  app.get('/api/v1/audit/master/stream', handleMasterAuditStream);
+  app.post('/api/v1/audit/master/stream', handleMasterAuditStream);
+  app.get('/api/master-audit/stream', handleMasterAuditStream);
+  app.post('/api/master-audit/stream', handleMasterAuditStream);
 
   // 3. Side-by-side Audit Compare
   app.post('/api/v1/audit/compare', async (req: Request, res: Response) => {

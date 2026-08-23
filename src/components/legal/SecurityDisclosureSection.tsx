@@ -66,7 +66,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
     },
     {
       level: 'Low',
-      color: 'border-brand-slate/30 bg-surface-panel text-brand-slate-light',
+      color: 'border-brand-slate/30 bg-white text-brand-slate-light',
       badge: 'P3 Low',
       targetFix: '< 14 Business Days',
       examples: 'Missing Informational Security Headers, Verbose Server Fingerprint Banners'
@@ -77,12 +77,12 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
     <div className="space-y-8 font-mono">
       {/* Safe Harbor Banner */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl">
           <div className="flex items-center gap-2 text-xs font-mono text-accent-emerald mb-1">
             <ShieldCheck className="h-4 w-4" />
             <span>DISCLOSE.IO &amp; RFC-9116 COMPLIANT SAFE HARBOR</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-brand-offwhite tracking-tight font-sans">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight font-sans">
             Vulnerability Disclosure &amp; Safe Harbor
           </h2>
           <p className="mt-2 text-xs text-brand-periwinkle max-w-3xl leading-relaxed font-sans">
@@ -92,7 +92,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-brand-slate/30 pt-5">
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5">
               <span className="text-[10px] uppercase font-bold text-accent-cyan">Target Triage Time</span>
-              <div className="text-base font-bold text-brand-offwhite mt-0.5 flex items-center gap-1.5">
+              <div className="text-base font-bold text-black mt-0.5 flex items-center gap-1.5">
                 <Clock className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>&lt; 2 Hours</span>
               </div>
@@ -100,7 +100,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5">
               <span className="text-[10px] uppercase font-bold text-accent-emerald">Safe Harbor Status</span>
-              <div className="text-base font-bold text-brand-offwhite mt-0.5 flex items-center gap-1.5">
+              <div className="text-base font-bold text-black mt-0.5 flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-accent-emerald" />
                 <span>Full Legal Pledge</span>
               </div>
@@ -108,7 +108,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
             <div className="rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5">
               <span className="text-[10px] uppercase font-bold text-accent-amber">Hall of Fame</span>
-              <div className="text-base font-bold text-brand-offwhite mt-0.5 flex items-center gap-1.5">
+              <div className="text-base font-bold text-black mt-0.5 flex items-center gap-1.5">
                 <Award className="h-3.5 w-3.5 text-accent-amber" />
                 <span>Public Recognition</span>
               </div>
@@ -119,10 +119,10 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
       {/* Vulnerability Severity Matrix */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl">
           <div className="flex items-center gap-2 mb-1.5">
             <AlertOctagon className="h-4 w-4 text-accent-cyan" />
-            <h3 className="text-base font-bold text-brand-offwhite font-sans">Severity Classification &amp; Resolution SLAs</h3>
+            <h3 className="text-base font-bold text-black font-sans">Severity Classification &amp; Resolution SLAs</h3>
           </div>
           <p className="text-xs text-brand-periwinkle mb-5 font-sans">
             Standardized Common Vulnerability Scoring System (CVSS v3.1) matrix and remediation timelines.
@@ -151,14 +151,14 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
       {/* PGP Public Key Viewer */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl space-y-4">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-xl space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-slate/30 pb-4">
             <div>
               <div className="flex items-center gap-2 text-xs text-accent-cyan mb-1">
                 <Key className="h-3.5 w-3.5" />
                 <span>ENCRYPTED COMMUNICATIONS</span>
               </div>
-              <h3 className="text-base font-bold text-brand-offwhite font-sans">Security Team PGP Public Key</h3>
+              <h3 className="text-base font-bold text-black font-sans">Security Team PGP Public Key</h3>
               <p className="text-xs text-brand-periwinkle mt-0.5 font-sans">
                 Encrypt sensitive Proof of Concept (PoC) exploit chains before transmitting over public channels.
               </p>
@@ -166,7 +166,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
             <button
               onClick={handleCopyPgp}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand-oxford px-3 py-1.5 text-xs font-bold text-accent-cyan border border-brand-slate/40 hover:bg-surface-subtle transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand-oxford px-3 py-1.5 text-xs font-bold text-accent-cyan border border-brand-slate/40 hover:bg-gray-50 transition-colors cursor-pointer"
             >
               {pgpCopied ? <Check className="h-3 w-3 text-accent-emerald" /> : <Copy className="h-3 w-3" />}
               <span>{pgpCopied ? 'PGP Block Copied!' : 'Copy Public Key'}</span>
@@ -186,10 +186,10 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
       {/* Interactive Vulnerability Submission Form */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 shadow-xl">
+        <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 sm:p-8 shadow-xl">
           <div className="flex items-center gap-2 mb-1.5">
             <Send className="h-4 w-4 text-accent-cyan" />
-            <h3 className="text-base font-bold text-brand-offwhite font-sans">Submit Coordinated Vulnerability Report</h3>
+            <h3 className="text-base font-bold text-black font-sans">Submit Coordinated Vulnerability Report</h3>
           </div>
           <p className="text-xs text-brand-periwinkle mb-5 font-sans">
             Direct intake channel directly to CatalystLab&apos;s on-call security engineering rotation.
@@ -198,7 +198,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
           {submitted ? (
             <div className="rounded-xl border border-accent-emerald/40 bg-brand-oxford p-6 text-center space-y-2.5">
               <CheckCircle2 className="h-8 w-8 text-accent-emerald mx-auto" />
-              <h4 className="text-sm font-bold text-brand-offwhite">Vulnerability Report Dispatched!</h4>
+              <h4 className="text-sm font-bold text-black">Vulnerability Report Dispatched!</h4>
               <p className="text-xs text-brand-periwinkle max-w-md mx-auto font-sans leading-relaxed">
                 Thank you for contributing to web telemetry safety. Our security team has received your ticket and will verify the PoC within 2 hours.
               </p>
@@ -213,13 +213,13 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
             <form onSubmit={handleSubmit} className="space-y-4 font-mono">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-brand-offwhite mb-1">
+                  <label className="block text-xs font-bold text-black mb-1">
                     Target Asset / Endpoint
                   </label>
                   <select
                     value={targetAsset}
                     onChange={(e) => setTargetAsset(e.target.value)}
-                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-brand-offwhite focus:border-brand-slate focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-black focus:border-brand-slate focus:outline-none cursor-pointer"
                   >
                     <option>catalystlab.tech (Web Portal)</option>
                     <option>Diagnostic Container Workers (Cloud Run)</option>
@@ -230,13 +230,13 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-brand-offwhite mb-1">
+                  <label className="block text-xs font-bold text-black mb-1">
                     Vulnerability Category
                   </label>
                   <select
                     value={vulnType}
                     onChange={(e) => setVulnType(e.target.value)}
-                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-brand-offwhite focus:border-brand-slate focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-black focus:border-brand-slate focus:outline-none cursor-pointer"
                   >
                     <option>Server-Side Request Forgery (SSRF)</option>
                     <option>Cross-Site Scripting (XSS)</option>
@@ -250,7 +250,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-brand-offwhite mb-1">
+                  <label className="block text-xs font-bold text-black mb-1">
                     Estimated CVSS Severity
                   </label>
                   <div className="flex items-center gap-1.5">
@@ -272,7 +272,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-brand-offwhite mb-1">
+                  <label className="block text-xs font-bold text-black mb-1">
                     Researcher Contact / PGP Email
                   </label>
                   <input
@@ -281,13 +281,13 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="researcher@secops.io"
-                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-brand-offwhite focus:border-brand-slate focus:outline-none"
+                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford px-3 py-1.5 text-xs text-black focus:border-brand-slate focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-brand-offwhite mb-1">
+                <label className="block text-xs font-bold text-black mb-1">
                   Proof of Concept (PoC) &amp; Reproduction Steps
                 </label>
                 <textarea
@@ -296,7 +296,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                   value={details}
                   onChange={(e) => setDetails(e.target.value)}
                   placeholder="Provide exact HTTP request headers, payload reproduction steps, and impact assessment..."
-                  className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford p-3 text-xs text-brand-offwhite focus:border-brand-slate focus:outline-none"
+                  className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford p-3 text-xs text-black focus:border-brand-slate focus:outline-none"
                 />
               </div>
 

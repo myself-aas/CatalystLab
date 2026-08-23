@@ -8,6 +8,7 @@
     "start": "node dist/server.cjs",
     "cron:anomaly": "tsx scripts/cron/anomaly_detection.ts",
     "cron:weekly-digest": "tsx scripts/cron/weekly_digest.ts",
+    "test": "vitest run",
     "lint": "eslint src/"
   },
   "dependencies": {
@@ -30,6 +31,7 @@
     "firebase-admin": "^14.2.0",
     "framer-motion": "^13.1.0",
     "geoip-lite": "^2.0.3",
+    "helmet": "^8.3.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.33.0",
@@ -56,6 +58,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "typescript-eslint": "^8.67.0"
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.11"
   }
 }

@@ -88,17 +88,17 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title 
   };
 
   return (
-    <div className="my-4 overflow-hidden rounded-xl border border-brand-slate/40 bg-brand-navy shadow-md font-mono">
+    <div className="my-4 overflow-hidden rounded-xl border border-brand-slate/40 bg-white shadow-md font-mono">
       <div className="flex items-center justify-between border-b border-brand-slate/30 bg-brand-oxford px-4 py-2 text-xs">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-rose-500/80" />
           <span className="h-2 w-2 rounded-full bg-amber-400/80" />
           <span className="h-2 w-2 rounded-full bg-emerald-500/80" />
-          <span className="ml-2 font-semibold text-brand-offwhite">{title || language}</span>
+          <span className="ml-2 font-semibold text-black">{title || language}</span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-surface-panel px-2.5 py-1 text-xs font-medium text-brand-periwinkle hover:text-white hover:bg-surface-subtle transition-all cursor-pointer"
+          className="flex items-center gap-1.5 rounded-md border border-brand-slate/40 bg-white px-2.5 py-1 text-xs font-medium text-brand-periwinkle hover:text-white hover:bg-gray-50 transition-all cursor-pointer"
           title="Copy code"
         >
           {copied ? (
@@ -114,7 +114,7 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title 
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto p-4 text-xs leading-relaxed text-brand-offwhite bg-brand-navy/90">
+      <pre className="overflow-x-auto p-4 text-xs leading-relaxed text-black bg-white/90">
         <code>{code}</code>
       </pre>
     </div>
@@ -195,7 +195,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-brand-navy text-brand-offwhite selection:bg-brand-slate selection:text-white">
+    <div className="min-h-screen bg-white text-black selection:bg-brand-slate selection:text-white">
       <SEOHead
         title={`${title} | CatalystLab Documentation`}
         description={description}
@@ -229,7 +229,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-brand-slate/40 text-brand-periwinkle hover:text-white hover:bg-surface-subtle cursor-pointer"
+              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-brand-slate/40 text-brand-periwinkle hover:text-white hover:bg-gray-50 cursor-pointer"
               aria-label="Toggle docs navigation"
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -241,7 +241,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
           {/* Quick Search */}
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 rounded-lg border border-brand-slate/40 bg-surface-panel px-3 py-1.5 text-xs text-brand-slate-light">
+            <div className="flex items-center gap-2 rounded-lg border border-brand-slate/40 bg-white px-3 py-1.5 text-xs text-brand-slate-light">
               <Search className="h-3.5 w-3.5 text-accent-cyan" />
               <span className="hidden sm:inline">Telemetry Documentation Index</span>
               <kbd className="rounded border border-brand-slate/40 bg-brand-oxford px-1.5 py-0.2 text-[10px] text-brand-periwinkle">v2.4</kbd>
@@ -255,7 +255,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Left Column: Sticky Navigation Sidebar */}
-          <aside className={`lg:col-span-3 lg:block ${mobileMenuOpen ? 'block fixed inset-x-4 top-32 z-40 max-h-[75vh] overflow-y-auto rounded-2xl border border-brand-slate/40 bg-surface-panel p-5 shadow-2xl' : 'hidden'}`}>
+          <aside className={`lg:col-span-3 lg:block ${mobileMenuOpen ? 'block fixed inset-x-4 top-32 z-40 max-h-[75vh] overflow-y-auto rounded-2xl border border-brand-slate/40 bg-white p-5 shadow-2xl' : 'hidden'}`}>
             <div className="sticky top-28 space-y-5 font-mono">
               <div className="pb-3 border-b border-brand-slate/30">
                 <div className="text-xs font-bold uppercase tracking-wider text-accent-cyan">
@@ -271,7 +271,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Filter topics..."
-                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford py-1.5 pl-8 pr-3 text-xs text-brand-offwhite placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
+                    className="w-full rounded-lg border border-brand-slate/40 bg-brand-oxford py-1.5 pl-8 pr-3 text-xs text-black placeholder:text-brand-slate-light focus:border-brand-slate focus:outline-none"
                   />
                 </div>
               </div>
@@ -295,7 +295,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                             className={`w-full text-left text-xs py-1 px-2 rounded-md transition-all flex items-center justify-between ${
                               isCurrent
                                 ? 'bg-brand-slate text-white font-bold shadow-xs'
-                                : 'text-brand-slate-light hover:text-white hover:bg-surface-subtle'
+                                : 'text-brand-slate-light hover:text-white hover:bg-gray-50'
                             }`}
                           >
                             <span className="truncate">{item.title}</span>
@@ -311,7 +311,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               <div className="pt-3 border-t border-brand-slate/30 space-y-1.5">
                 <Link
                   to="/blogs"
-                  className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-surface-panel p-2.5 text-xs text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-white p-2.5 text-xs text-brand-periwinkle hover:bg-gray-50 hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-3.5 w-3.5 text-accent-cyan" />
@@ -321,7 +321,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 </Link>
                 <Link
                   to="/contact"
-                  className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-surface-panel p-2.5 text-xs text-brand-periwinkle hover:bg-surface-subtle hover:text-white transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-brand-slate/30 bg-white p-2.5 text-xs text-brand-periwinkle hover:bg-gray-50 hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <HelpCircle className="h-3.5 w-3.5 text-accent-cyan" />
@@ -335,7 +335,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
           {/* Center Column: Documentation Content */}
           <main className={`${toc.length > 0 ? 'lg:col-span-7' : 'lg:col-span-9'} space-y-10`}>
-            <div className="docs-content text-brand-offwhite">
+            <div className="docs-content text-black">
               {children}
             </div>
 
@@ -344,13 +344,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               {prevItem ? (
                 <Link
                   to={prevItem.path}
-                  className="flex flex-col gap-1 rounded-xl border border-brand-slate/40 bg-surface-panel p-3.5 text-left transition-all hover:bg-surface-subtle shadow-xs group"
+                  className="flex flex-col gap-1 rounded-xl border border-brand-slate/40 bg-white p-3.5 text-left transition-all hover:bg-gray-50 shadow-xs group"
                 >
                   <span className="text-xs font-semibold text-brand-slate-light flex items-center gap-1">
                     <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-1" />
                     <span>Previous</span>
                   </span>
-                  <span className="text-xs font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors truncate">
+                  <span className="text-xs font-bold text-black group-hover:text-accent-cyan transition-colors truncate">
                     {prevItem.title}
                   </span>
                 </Link>
@@ -359,13 +359,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               {nextItem ? (
                 <Link
                   to={nextItem.path}
-                  className="flex flex-col items-end gap-1 rounded-xl border border-brand-slate/40 bg-surface-panel p-3.5 text-right transition-all hover:bg-surface-subtle shadow-xs group sm:col-start-2"
+                  className="flex flex-col items-end gap-1 rounded-xl border border-brand-slate/40 bg-white p-3.5 text-right transition-all hover:bg-gray-50 shadow-xs group sm:col-start-2"
                 >
                   <span className="text-xs font-semibold text-brand-slate-light flex items-center gap-1">
                     <span>Next</span>
                     <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                   </span>
-                  <span className="text-xs font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors truncate">
+                  <span className="text-xs font-bold text-black group-hover:text-accent-cyan transition-colors truncate">
                     {nextItem.title}
                   </span>
                 </Link>
@@ -373,10 +373,10 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             </div>
 
             {/* Helpful Feedback Box */}
-            <div className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-5 shadow-xs font-mono">
+            <div className="rounded-2xl border border-brand-slate/40 bg-white p-5 shadow-xs font-mono">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm font-bold text-brand-offwhite">Was this documentation helpful?</div>
+                  <div className="text-sm font-bold text-black">Was this documentation helpful?</div>
                   <div className="text-xs text-brand-slate-light mt-0.5">Let us know how we can improve our developer guides.</div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -385,7 +385,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                       feedbackGiven === 'yes'
                         ? 'border-emerald-500 bg-emerald-950/40 text-emerald-300'
-                        : 'border-brand-slate/40 bg-brand-oxford text-brand-periwinkle hover:bg-surface-subtle hover:text-white'
+                        : 'border-brand-slate/40 bg-brand-oxford text-brand-periwinkle hover:bg-gray-50 hover:text-white'
                     }`}
                   >
                     <ThumbsUp className="h-3.5 w-3.5" />
@@ -396,7 +396,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                       feedbackGiven === 'no'
                         ? 'border-rose-500 bg-rose-950/40 text-rose-300'
-                        : 'border-brand-slate/40 bg-brand-oxford text-brand-periwinkle hover:bg-surface-subtle hover:text-white'
+                        : 'border-brand-slate/40 bg-brand-oxford text-brand-periwinkle hover:bg-gray-50 hover:text-white'
                     }`}
                   >
                     <ThumbsDown className="h-3.5 w-3.5" />

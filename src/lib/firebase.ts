@@ -62,11 +62,14 @@ setLogLevel('error'); // Suppress noisy offline/unavailable SDK warnings
 
 async function testConnection() {
   try {
-    await getDocFromServer(doc(db, 'test', 'connection'));
+    // Non-blocking connection check with timeout
+    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000));
+    await Promise.race([
+      getDocFromServer(doc(db, 'test', 'connection')),
+      timeoutPromise
+    ]);
   } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error('Please check your Firebase configuration.');
-    }
+    // Gracefully operate in offline/local cache mode without spamming console errors
   }
 }
 testConnection();

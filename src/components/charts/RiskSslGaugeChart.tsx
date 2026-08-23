@@ -13,7 +13,7 @@ export interface RiskSslGaugeProps {
   compact?: boolean;
 }
 
-export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = ({
+export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
   spoofingRisk,
   spfStatus,
   dmarcStatus,
@@ -591,6 +591,6 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = ({
       </div>
     </div>
   );
-};
+});
 
 export default RiskSslGaugeChart;

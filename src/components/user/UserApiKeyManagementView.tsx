@@ -287,11 +287,11 @@ func main() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#e2e8f0] pb-6">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0b192c] text-white shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-black shadow-sm">
               <Key className="h-5 w-5 text-amber-300" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-[#0b192c]">
+              <h2 className="text-xl font-bold text-black">
                 Developer API Keys & White-Label Access
               </h2>
               <p className="text-xs text-[#415a77]">
@@ -304,7 +304,7 @@ func main() {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             to="/playground"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-[#415a77]/30 bg-white px-3.5 py-2 text-xs font-semibold text-black hover:bg-[#f8fafc] shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Terminal className="h-4 w-4 text-blue-600" />
             <span>Open API Playground</span>
@@ -312,7 +312,7 @@ func main() {
 
           <button
             onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-md transition-all active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-xs font-bold text-black hover:bg-gray-50 shadow-md transition-all active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Plus className="h-4 w-4 text-amber-300" />
             <span>Generate New API Key</span>
@@ -358,12 +358,12 @@ func main() {
         <div className="border-b border-[#e2e8f0] bg-[#f8fafc] px-5 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Key className="h-4 w-4 text-[#415a77]" />
-            <span className="text-xs font-bold text-[#0b192c] uppercase tracking-wider">
+            <span className="text-xs font-bold text-black uppercase tracking-wider">
               Configured API Keys ({keys.length})
             </span>
           </div>
           <span className="text-xs text-[#64748b]">
-            Header: <code className="font-mono text-[#0b192c] font-semibold">X-API-Key: cat_live_...</code>
+            Header: <code className="font-mono text-black font-semibold">X-API-Key: cat_live_...</code>
           </span>
         </div>
 
@@ -375,13 +375,13 @@ func main() {
         ) : keys.length === 0 ? (
           <div className="p-12 text-center">
             <Key className="h-10 w-10 text-[#94a3b8] mx-auto mb-3" />
-            <h3 className="text-sm font-bold text-[#0b192c]">No API Keys Generated Yet</h3>
+            <h3 className="text-sm font-bold text-black">No API Keys Generated Yet</h3>
             <p className="text-xs text-[#64748b] mt-1 max-w-sm mx-auto">
               Create an API key to run headless audits from your CI/CD pipelines, terminal scripts, or external dashboards.
             </p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-xs font-bold text-black hover:bg-gray-50 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Plus className="h-4 w-4 text-amber-300" />
               <span>Create First Key</span>
@@ -403,7 +403,7 @@ func main() {
                     {/* Left Key Info */}
                     <div className="space-y-2">
                       <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="font-bold text-sm text-[#0b192c]">
+                        <span className="font-bold text-sm text-black">
                           {apiKey.name}
                         </span>
 
@@ -446,7 +446,7 @@ func main() {
 
                         {/* White-Label Tag if configured */}
                         {apiKey.whiteLabelConfig?.organizationName && (
-                          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#0b192c]/5 text-[#0b192c] border border-[#0b192c]/20 flex items-center gap-1">
+                          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/5 text-black border border-[#0b192c]/20 flex items-center gap-1">
                             <Building2 className="h-3 w-3 text-blue-600" />
                             <span>{apiKey.whiteLabelConfig.organizationName}</span>
                           </span>
@@ -460,7 +460,7 @@ func main() {
                           <span>{apiKey.keyPrefix}</span>
                           <button
                             onClick={() => copyToClipboard(apiKey.keyPrefix.replace('...', ''), apiKey.id)}
-                            className="text-[#64748b] hover:text-[#0b192c] transition-colors ml-1 p-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                            className="text-[#64748b] hover:text-black transition-colors ml-1 p-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                             title="Copy Key Prefix"
                           >
                             {copiedKeyId === apiKey.id ? (
@@ -472,7 +472,7 @@ func main() {
                         </div>
 
                         <div className="text-[11px] text-[#64748b]">
-                          Limit: <strong className="text-[#0b192c] font-mono">{apiKey.dailyComputeLimit || 500} units/day</strong>
+                          Limit: <strong className="text-black font-mono">{apiKey.dailyComputeLimit || 500} units/day</strong>
                         </div>
                       </div>
 
@@ -509,7 +509,7 @@ func main() {
                         onClick={() => setSelectedSnippetKey(apiKey)}
                         className={`rounded-xl border px-3 py-1.5 text-xs font-semibold transition-colors flex items-center gap-1.5 ${
                           isSnippetSelected 
-                            ? 'border-blue-600 bg-blue-600 text-white shadow-sm'
+                            ? 'border-blue-600 bg-blue-600 text-black shadow-sm'
                             : 'border-[#cbd5e1] bg-white text-[#334155] hover:bg-[#f1f5f9]'
                         }`}
                         title="View Code Snippets for this Key"
@@ -564,7 +564,7 @@ func main() {
             <div>
               <div className="flex items-center gap-2">
                 <Terminal className="h-4 w-4 text-blue-600" />
-                <h3 className="text-sm font-bold text-[#0b192c]">
+                <h3 className="text-sm font-bold text-black">
                   Integration Snippet for {activeKeyForSnippet?.name || 'Selected Key'}
                 </h3>
               </div>
@@ -580,8 +580,8 @@ func main() {
                   onClick={() => setCodeLanguage(lang)}
                   className={`rounded-lg px-2.5 py-1 text-xs font-semibold uppercase font-mono transition-colors ${
                     codeLanguage === lang 
-                      ? 'bg-[#0b192c] text-white shadow-sm'
-                      : 'bg-[#f1f5f9] text-[#64748b] hover:text-[#0b192c]'
+                      ? 'bg-white text-black shadow-sm'
+                      : 'bg-[#f1f5f9] text-[#64748b] hover:text-black'
                   }`}
                 >
                   {lang}
@@ -594,7 +594,7 @@ func main() {
                   setCopiedCodeSnippet(true);
                   setTimeout(() => setCopiedCodeSnippet(false), 2000);
                 }}
-                className="flex items-center gap-1.5 rounded-lg border border-[#cbd5e1] bg-white px-3 py-1 text-xs font-semibold text-[#0b192c] hover:bg-[#f8fafc] shadow-sm ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center gap-1.5 rounded-lg border border-[#cbd5e1] bg-white px-3 py-1 text-xs font-semibold text-black hover:bg-[#f8fafc] shadow-sm ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {copiedCodeSnippet ? (
                   <>
@@ -611,7 +611,7 @@ func main() {
             </div>
           </div>
 
-          <div className="mt-4 rounded-xl bg-[#0b192c] p-4 text-xs font-mono text-[#f8fafc] overflow-x-auto shadow-inner border border-[#1e293b]">
+          <div className="mt-4 rounded-xl bg-white p-4 text-xs font-mono text-black overflow-x-auto shadow-inner border border-[#1e293b]">
             <pre>{generateSnippet()}</pre>
           </div>
         </div>
@@ -623,17 +623,17 @@ func main() {
           <div className="w-full max-w-xl rounded-2xl bg-white p-6 shadow-2xl border border-[#e2e8f0] max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-[#e2e8f0] pb-4">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#0b192c] text-white">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-black">
                   <Key className="h-4 w-4 text-amber-300" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-[#0b192c]">Generate Developer API Key</h3>
+                  <h3 className="text-base font-bold text-black">Generate Developer API Key</h3>
                   <p className="text-xs text-[#64748b]">Includes 500 Compute Units / Day and White-Label Support</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="text-[#94a3b8] hover:text-[#0b192c] p-1 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="text-[#94a3b8] hover:text-black p-1 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -642,7 +642,7 @@ func main() {
             <form onSubmit={handleCreateSubmit} className="mt-5 space-y-4">
               {/* Key Name */}
               <div>
-                <label className="block text-xs font-bold text-[#0b192c] mb-1">
+                <label className="block text-xs font-bold text-black mb-1">
                   Key Name / Purpose <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -651,20 +651,20 @@ func main() {
                   placeholder="e.g. Production CI/CD Pipeline Gate"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full rounded-xl border border-[#cbd5e1] px-3.5 py-2 text-xs text-[#0b192c] focus:border-[#0b192c] focus:outline-none focus:ring-1 focus:ring-[#0b192c]"
+                  className="w-full rounded-xl border border-[#cbd5e1] px-3.5 py-2 text-xs text-black focus:border-[#0b192c] focus:outline-none focus:ring-1 focus:ring-[#0b192c]"
                 />
               </div>
 
               {/* Environment & Expiration */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-[#0b192c] mb-1">
+                  <label className="block text-xs font-bold text-black mb-1">
                     Environment
                   </label>
                   <select
                     value={formEnvironment}
                     onChange={(e) => setFormEnvironment(e.target.value as ApiKeyEnvironment)}
-                    className="w-full rounded-xl border border-[#cbd5e1] px-3.5 py-2 text-xs text-[#0b192c] focus:border-[#0b192c] focus:outline-none"
+                    className="w-full rounded-xl border border-[#cbd5e1] px-3.5 py-2 text-xs text-black focus:border-[#0b192c] focus:outline-none"
                   >
                     <option value="production">Production</option>
                     <option value="staging">Staging</option>
@@ -673,13 +673,13 @@ func main() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#0b192c] mb-1">
+                  <label className="block text-xs font-bold text-black mb-1">
                     Expiration Period
                   </label>
                   <select
                     value={formExpirationDays}
                     onChange={(e) => setFormExpirationDays(Number(e.target.value))}
-                    className="w-full rounded-xl border border-[#cbd5e1] px-3.5 py-2 text-xs text-[#0b192c] focus:border-[#0b192c] focus:outline-none"
+                    className="w-full rounded-xl border border-[#cbd5e1] px-3.5 py-2 text-xs text-black focus:border-[#0b192c] focus:outline-none"
                   >
                     <option value={30}>30 Days</option>
                     <option value={90}>90 Days (Recommended)</option>
@@ -691,7 +691,7 @@ func main() {
 
               {/* Scope Permissions */}
               <div>
-                <label className="block text-xs font-bold text-[#0b192c] mb-1.5">
+                <label className="block text-xs font-bold text-black mb-1.5">
                   Permissions & Scopes
                 </label>
                 <div className="space-y-2 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] p-3">
@@ -706,10 +706,10 @@ func main() {
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => toggleScope(scope.id)}
-                          className="mt-0.5 rounded border-slate-300 text-[#0b192c] focus:ring-0"
+                          className="mt-0.5 rounded border-slate-300 text-black focus:ring-0"
                         />
                         <div>
-                          <span className="text-xs font-bold text-[#0b192c] font-mono">{scope.id}</span>
+                          <span className="text-xs font-bold text-black font-mono">{scope.id}</span>
                           <p className="text-[11px] text-[#64748b]">{scope.description}</p>
                         </div>
                       </label>
@@ -722,7 +722,7 @@ func main() {
               <div className="border-t border-[#e2e8f0] pt-3">
                 <div className="flex items-center gap-1.5 mb-2">
                   <Building2 className="h-4 w-4 text-blue-600" />
-                  <span className="text-xs font-bold text-[#0b192c]">
+                  <span className="text-xs font-bold text-black">
                     White-Label Configuration (Optional)
                   </span>
                 </div>
@@ -737,7 +737,7 @@ func main() {
                       placeholder="e.g. Acme Telemetry Core"
                       value={formOrgName}
                       onChange={(e) => setFormOrgName(e.target.value)}
-                      className="w-full rounded-lg border border-[#cbd5e1] px-3 py-1.5 text-xs text-[#0b192c]"
+                      className="w-full rounded-lg border border-[#cbd5e1] px-3 py-1.5 text-xs text-black"
                     />
                   </div>
 
@@ -750,7 +750,7 @@ func main() {
                       placeholder="e.g. X-Acme-Telemetry"
                       value={formBrandHeader}
                       onChange={(e) => setFormBrandHeader(e.target.value)}
-                      className="w-full rounded-lg border border-[#cbd5e1] px-3 py-1.5 text-xs text-[#0b192c]"
+                      className="w-full rounded-lg border border-[#cbd5e1] px-3 py-1.5 text-xs text-black"
                     />
                   </div>
                 </div>
@@ -764,7 +764,7 @@ func main() {
                     placeholder="https://api.yourdomain.com/webhooks/audit-complete"
                     value={formWebhookUrl}
                     onChange={(e) => setFormWebhookUrl(e.target.value)}
-                    className="w-full rounded-lg border border-[#cbd5e1] px-3 py-1.5 text-xs text-[#0b192c]"
+                    className="w-full rounded-lg border border-[#cbd5e1] px-3 py-1.5 text-xs text-black"
                   />
                 </div>
               </div>
@@ -782,7 +782,7 @@ func main() {
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-5 py-2 text-xs font-bold text-white hover:bg-[#152238] shadow-md disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2 text-xs font-bold text-black hover:bg-gray-50 shadow-md disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {actionLoading ? (
                     <>
@@ -810,7 +810,7 @@ func main() {
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-600 border border-emerald-500/30 mb-3">
                 <CheckCircle2 className="h-6 w-6" />
               </div>
-              <h3 className="text-lg font-bold text-[#0b192c]">
+              <h3 className="text-lg font-bold text-black">
                 API Key Generated Successfully
               </h3>
               <p className="text-xs text-[#64748b] mt-1">
@@ -832,17 +832,17 @@ func main() {
                 </button>
               </div>
 
-              <div className="flex items-center gap-2 rounded-lg bg-white p-3 font-mono text-xs text-[#0b192c] border border-amber-200 shadow-inner">
+              <div className="flex items-center gap-2 rounded-lg bg-white p-3 font-mono text-xs text-black border border-amber-200 shadow-inner">
                 <div className="flex-1 break-all">
                   {showMaskedSecret ? revealedSecretKey : revealedSecretKey.substring(0, 14) + '••••••••••••••••••••••••••••'}
                 </div>
                 <button
                   onClick={() => copyToClipboard(revealedSecretKey)}
-                  className="flex items-center gap-1 rounded-lg bg-[#0b192c] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors shrink-0 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex items-center gap-1 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-black hover:bg-gray-50 transition-colors shrink-0 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   {copiedSecret ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-emerald-400" />
+                      <Check className="h-3.5 w-3.5 text-emerald-700" />
                       <span>Copied!</span>
                     </>
                   ) : (
@@ -869,7 +869,7 @@ func main() {
                   setShowSecretModal(false);
                   setRevealedSecretKey(null);
                 }}
-                className="rounded-xl bg-[#0b192c] px-6 py-2.5 text-xs font-bold text-white hover:bg-[#152238] shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-xl bg-white px-6 py-2.5 text-xs font-bold text-black hover:bg-gray-50 shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 I have safely stored my key
               </button>
@@ -887,7 +887,7 @@ func main() {
                 <RotateCw className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[#0b192c]">Rotate API Key</h3>
+                <h3 className="text-base font-bold text-black">Rotate API Key</h3>
                 <p className="text-xs text-[#64748b]">Generate a new secret for {keyToRotate.name}</p>
               </div>
             </div>
@@ -906,7 +906,7 @@ func main() {
               <button
                 onClick={handleRotateConfirm}
                 disabled={actionLoading}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-xs font-bold text-white hover:bg-amber-700 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-xs font-bold text-black hover:bg-amber-700 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {actionLoading ? <RotateCw className="h-4 w-4 animate-spin" /> : <RotateCw className="h-4 w-4" />}
                 <span>Confirm Rotation</span>
@@ -925,7 +925,7 @@ func main() {
                 <ShieldAlert className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[#0b192c]">Revoke API Key</h3>
+                <h3 className="text-base font-bold text-black">Revoke API Key</h3>
                 <p className="text-xs text-[#64748b]">Immediately deactivate {keyToRevoke.name}</p>
               </div>
             </div>
@@ -944,7 +944,7 @@ func main() {
               <button
                 onClick={handleRevokeConfirm}
                 disabled={actionLoading}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-white hover:bg-rose-700 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-black hover:bg-rose-700 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {actionLoading ? <RotateCw className="h-4 w-4 animate-spin" /> : <ShieldAlert className="h-4 w-4" />}
                 <span>Revoke Key Now</span>
@@ -963,7 +963,7 @@ func main() {
                 <Trash2 className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[#0b192c]">Delete Key Record</h3>
+                <h3 className="text-base font-bold text-black">Delete Key Record</h3>
                 <p className="text-xs text-[#64748b]">Remove key entry permanently</p>
               </div>
             </div>
@@ -982,7 +982,7 @@ func main() {
               <button
                 onClick={handleDeleteConfirm}
                 disabled={actionLoading}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800 px-4 py-2 text-xs font-bold text-white hover:bg-slate-900 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-800 px-4 py-2 text-xs font-bold text-black hover:bg-slate-900 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {actionLoading ? <RotateCw className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
                 <span>Delete Record</span>

@@ -16,10 +16,10 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
     return (
       <div 
         onClick={onOpenInfo}
-        className="inline-flex items-center gap-1.5 rounded-full border border-[#415a77]/40 bg-[#0b192c] px-3 py-1 text-xs font-semibold text-[#f8fafc] shadow-sm cursor-pointer hover:border-[#415a77] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+        className="inline-flex items-center gap-1.5 rounded-full border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-black shadow-sm cursor-pointer hover:border-[#415a77] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         title="Primary Superadmin - Unlimited Audits"
       >
-        <Crown className="h-3.5 w-3.5 text-[#c5d3e8]" />
+        <Crown className="h-3.5 w-3.5 text-gray-600" />
         <span>Superadmin: Unlimited Audits</span>
       </div>
     );
@@ -31,8 +31,8 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
   const badgeColor = isDanger 
     ? 'border-rose-500/40 bg-rose-500/10 text-rose-700 font-semibold' 
     : isWarning 
-    ? 'border-amber-500/40 bg-amber-500/10 text-amber-800 font-semibold' 
-    : 'border-[#415a77]/30 bg-[#415a77]/10 text-[#0b192c] font-semibold';
+    ? 'border-amber-300 bg-amber-500/10 text-amber-800 font-semibold' 
+    : 'border-gray-200 bg-black/10 text-[#0b192c] font-semibold';
 
   if (compact) {
     return (
@@ -74,7 +74,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
           <button
             type="button"
             onClick={() => login()}
-            className="flex items-center gap-1 rounded-lg bg-[#0b192c] border border-[#0b192c] px-2.5 py-1 text-[11px] font-bold text-white hover:bg-[#152238] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1 rounded-lg bg-brand-navy border border-[#0b192c] px-2.5 py-1 text-[11px] font-bold text-white hover:bg-gray-100 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Sign in for 10 audits per day"
           >
             <LogIn className="h-3 w-3" />

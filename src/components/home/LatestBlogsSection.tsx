@@ -201,24 +201,24 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   return (
     <section 
       id="latest-blogs-section"
-      className={`relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-brand-slate/30 ${className}`}
+      className={`relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-gray-200 ${className}`}
       aria-label="Latest engineering news and articles"
     >
-      <div className="relative rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 lg:p-10 shadow-xl">
+      <div className="relative rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 lg:p-10 shadow-xl">
         
         {/* Top Header Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-brand-slate/30">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-gray-200">
           <div className="space-y-2 max-w-2xl">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-slate/40 bg-brand-oxford px-3.5 py-1 text-xs font-mono font-semibold text-accent-cyan tracking-wide">
+              <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 px-3.5 py-1 text-xs font-mono font-semibold text-accent-cyan tracking-wide">
                 <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
                 <span>{badgeText}</span>
               </div>
             )}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-offwhite tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black tracking-tight leading-tight">
               {title}
             </h2>
-            <p className="text-brand-periwinkle text-xs sm:text-sm leading-relaxed">
+            <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
               {subtitle}
             </p>
           </div>
@@ -228,7 +228,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               <Link
                 to="/blogs"
                 id="view-all-blogs-btn"
-                className="inline-flex items-center gap-2 rounded-xl border border-brand-slate/40 bg-brand-oxford hover:bg-surface-subtle px-5 py-2.5 text-xs font-mono font-bold text-brand-offwhite transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 hover:bg-gray-50 px-5 py-2.5 text-xs font-mono font-bold text-black transition-colors"
               >
                 <span>View all blogs</span>
                 <ArrowRight className="h-3.5 w-3.5 text-accent-cyan" />
@@ -265,13 +265,13 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   onClick={() => setActiveCategory(cat.id)}
                   className={`shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer border ${
                     isActive 
-                      ? 'bg-brand-slate text-white border-brand-periwinkle/40 font-bold' 
-                      : 'bg-brand-oxford text-brand-periwinkle border-brand-slate/30 hover:text-white hover:bg-surface-subtle'
+                      ? 'bg-black text-white border-brand-periwinkle/40 font-bold' 
+                      : 'bg-gray-100 text-gray-600 border-gray-200 hover:text-white hover:bg-gray-50'
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
                   <span>{cat.label}</span>
-                  <span className="ml-1 px-1.5 py-0.2 rounded text-[10px] bg-brand-navy text-brand-slate-light">
+                  <span className="ml-1 px-1.5 py-0.2 rounded text-[10px] bg-white text-gray-500">
                     {count}
                   </span>
                 </button>
@@ -286,19 +286,20 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
           {/* Hero Card */}
           {heroPost && (
             <article 
-              className="lg:col-span-5 group relative rounded-xl border border-brand-slate/40 bg-brand-oxford p-4 sm:p-5 flex flex-col justify-between transition-all hover:border-brand-slate shadow-lg"
+              className="lg:col-span-5 group relative rounded-xl border border-gray-200 bg-gray-100 p-4 sm:p-5 flex flex-col justify-between transition-all hover:border-gray-200 shadow-lg"
             >
-              <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden bg-brand-navy border border-brand-slate/30">
+              <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden bg-white border border-gray-200">
                 <img 
                   src={getBlogCoverImage(heroPost)} 
                   alt={heroPost.title}
                   className="h-full w-full object-cover object-center"
                   loading="lazy"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-transparent to-transparent" />
                 
                 <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                  <span className="rounded bg-brand-navy/90 border border-brand-slate/40 px-2 py-0.5 text-[10px] font-mono font-bold text-white">
+                  <span className="rounded bg-white/90 border border-gray-200 px-2 py-0.5 text-[10px] font-mono font-bold text-white">
                     {heroPost.category || 'Trending'}
                   </span>
                   <span className="rounded bg-accent-cyan text-brand-navy px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase tracking-wider">
@@ -310,23 +311,23 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <button
                     onClick={(e) => handleShare(heroPost.slug || heroPost.id || '', e)}
                     title="Share Article Link"
-                    className="h-7 w-7 rounded-lg bg-brand-navy/80 border border-brand-slate/40 flex items-center justify-center text-white transition-colors hover:bg-brand-oxford cursor-pointer"
+                    className="h-7 w-7 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors hover:bg-gray-100 cursor-pointer"
                   >
                     {copiedSlug === (heroPost.slug || heroPost.id) ? (
                       <Check className="h-3.5 w-3.5 text-accent-emerald" />
                     ) : (
-                      <Share2 className="h-3.5 w-3.5 text-brand-periwinkle" />
+                      <Share2 className="h-3.5 w-3.5 text-gray-600" />
                     )}
                   </button>
                   <button
                     onClick={(e) => toggleBookmark(heroPost.id || heroPost.slug, e)}
                     title={bookmarkedIds.has(heroPost.id || heroPost.slug) ? "Remove Bookmark" : "Save Article"}
-                    className="h-7 w-7 rounded-lg bg-brand-navy/80 border border-brand-slate/40 flex items-center justify-center text-white transition-colors hover:bg-brand-oxford cursor-pointer"
+                    className="h-7 w-7 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors hover:bg-gray-100 cursor-pointer"
                   >
                     {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
                       <BookmarkCheck className="h-3.5 w-3.5 text-accent-cyan fill-accent-cyan" />
                     ) : (
-                      <Bookmark className="h-3.5 w-3.5 text-brand-periwinkle" />
+                      <Bookmark className="h-3.5 w-3.5 text-gray-600" />
                     )}
                   </button>
                 </div>
@@ -334,7 +335,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
 
               <div className="mt-4 flex-1 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-2 text-xs font-mono text-brand-slate-light mb-2">
+                  <div className="flex items-center gap-2 text-xs font-mono text-gray-500 mb-2">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3 text-accent-cyan" />
                       {formatDate(heroPost.createdAt)}
@@ -347,37 +348,46 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   </div>
 
                   <Link to={`/blog/${heroPost.slug || heroPost.id}`}>
-                    <h3 className="text-base sm:text-lg font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors leading-snug">
+                    <h3 className="text-base sm:text-lg font-bold text-black group-hover:text-accent-cyan transition-colors leading-snug">
                       {heroPost.title}
                     </h3>
                   </Link>
 
-                  <p className="mt-2 text-xs text-brand-periwinkle leading-relaxed line-clamp-3">
+                  <p className="mt-2 text-xs text-gray-600 leading-relaxed line-clamp-3">
                     {heroPost.excerpt || 'Explore deep-dive telemetry diagnostics, modern SSR hydration patterns, and benchmark data from production engines.'}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-brand-slate/30 flex items-center justify-between gap-3">
+                <div className="mt-4 pt-3 border-t border-gray-200 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
-                    <div className="h-7 w-7 rounded-lg bg-brand-navy border border-brand-slate/40 flex items-center justify-center text-accent-cyan font-mono font-bold text-xs">
-                      {heroPost.authorName ? heroPost.authorName.charAt(0) : 'C'}
-                    </div>
+                    {heroPost.authorAvatar ? (
+                      <img
+                        src={heroPost.authorAvatar}
+                        alt={heroPost.authorName || 'Author'}
+                        className="h-7 w-7 rounded-lg object-cover border border-gray-200"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <div className="h-7 w-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-accent-cyan font-mono font-bold text-xs">
+                        {heroPost.authorName ? heroPost.authorName.charAt(0) : 'C'}
+                      </div>
+                    )}
                     <div className="text-xs font-mono">
-                      <div className="font-bold text-brand-offwhite">{heroPost.authorName || 'CatalystLab Telemetry'}</div>
-                      <div className="text-[10px] text-brand-slate-light">Principal Engineer</div>
+                      <div className="font-bold text-black">{heroPost.authorName || 'CatalystLab Telemetry'}</div>
+                      <div className="text-[10px] text-gray-500">Principal Engineer</div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setPreviewPost(heroPost)}
-                      className="rounded-lg bg-brand-navy hover:bg-surface-subtle border border-brand-slate/40 px-2.5 py-1 text-xs font-mono text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
+                      className="rounded-lg bg-white hover:bg-gray-50 border border-gray-200 px-2.5 py-1 text-xs font-mono text-gray-600 hover:text-white transition-colors cursor-pointer"
                     >
                       Quick Peek
                     </button>
                     <Link
                       to={`/blog/${heroPost.slug || heroPost.id}`}
-                      className="inline-flex items-center gap-1 rounded-lg bg-brand-slate hover:bg-brand-slate-hover px-3 py-1 text-xs font-mono font-bold text-white transition-colors border border-brand-periwinkle/30"
+                      className="inline-flex items-center gap-1 rounded-lg bg-black hover:bg-black-hover px-3 py-1 text-xs font-mono font-bold text-white transition-colors border border-brand-periwinkle/30"
                     >
                       <span>Read</span>
                       <ArrowRight className="h-3 w-3" />
@@ -396,18 +406,19 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 return (
                   <article
                     key={post.slug || post.id || idx}
-                    className="group relative rounded-xl border border-brand-slate/40 bg-brand-oxford p-3.5 flex flex-col justify-between transition-all hover:border-brand-slate shadow-md"
+                    className="group relative rounded-xl border border-gray-200 bg-gray-100 p-3.5 flex flex-col justify-between transition-all hover:border-gray-200 shadow-md"
                   >
                     <div>
-                      <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-brand-navy border border-brand-slate/30 mb-2.5">
+                      <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-white border border-gray-200 mb-2.5">
                         <img 
                           src={getBlogCoverImage(post)} 
                           alt={post.title}
                           className="h-full w-full object-cover object-center"
                           loading="lazy"
+                          referrerPolicy="no-referrer"
                         />
                         <div className="absolute top-2 left-2">
-                          <span className="rounded bg-brand-navy/90 border border-brand-slate/40 px-2 py-0.5 text-[9px] font-mono font-bold text-brand-offwhite">
+                          <span className="rounded bg-white/90 border border-gray-200 px-2 py-0.5 text-[9px] font-mono font-bold text-black">
                             {post.category || 'Guide'}
                           </span>
                         </div>
@@ -415,28 +426,28 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                         <button
                           onClick={(e) => toggleBookmark(post.id || post.slug, e)}
                           title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="absolute top-2 right-2 h-6 w-6 rounded-lg bg-brand-navy/80 border border-brand-slate/40 flex items-center justify-center text-white transition-colors cursor-pointer"
+                          className="absolute top-2 right-2 h-6 w-6 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors cursor-pointer"
                         >
                           {isBookmarked ? (
                             <BookmarkCheck className="h-3 w-3 text-accent-cyan fill-accent-cyan" />
                           ) : (
-                            <Bookmark className="h-3 w-3 text-brand-periwinkle" />
+                            <Bookmark className="h-3 w-3 text-gray-600" />
                           )}
                         </button>
                       </div>
 
                       <Link to={`/blog/${post.slug || post.id}`}>
-                        <h4 className="text-xs sm:text-sm font-bold text-brand-offwhite group-hover:text-accent-cyan transition-colors leading-snug line-clamp-2">
+                        <h4 className="text-xs sm:text-sm font-bold text-black group-hover:text-accent-cyan transition-colors leading-snug line-clamp-2">
                           {post.title}
                         </h4>
                       </Link>
 
-                      <p className="mt-1 text-xs text-brand-periwinkle line-clamp-2 leading-relaxed">
+                      <p className="mt-1 text-xs text-gray-600 line-clamp-2 leading-relaxed">
                         {post.excerpt || 'Technical breakdown with architectural diagrams and actionable code patterns.'}
                       </p>
                     </div>
 
-                    <div className="mt-3 pt-2.5 border-t border-brand-slate/30 flex items-center justify-between text-xs font-mono text-brand-slate-light">
+                    <div className="mt-3 pt-2.5 border-t border-gray-200 flex items-center justify-between text-xs font-mono text-gray-500">
                       <div className="flex items-center gap-1 text-[10px]">
                         <Calendar className="h-3 w-3 text-accent-cyan" />
                         <span>{formatDate(post.createdAt)}</span>
@@ -445,13 +456,13 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                       <div className="flex items-center gap-1.5">
                         <button
                           onClick={() => setPreviewPost(post)}
-                          className="text-[10px] text-brand-periwinkle hover:text-white font-semibold transition-colors cursor-pointer"
+                          className="text-[10px] text-gray-600 hover:text-white font-semibold transition-colors cursor-pointer"
                         >
                           Peek
                         </button>
                         <Link 
                           to={`/blog/${post.slug || post.id}`}
-                          className="h-5 w-5 rounded bg-brand-navy border border-brand-slate/40 flex items-center justify-center text-brand-periwinkle hover:text-white"
+                          className="h-5 w-5 rounded bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white"
                           aria-label={`Read article: ${post.title}`}
                         >
                           <ChevronRight className="h-3 w-3" />
@@ -467,26 +478,26 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
 
         {/* Bottom Ecosystem & Trust Bar */}
         {showEcosystemBar && (
-          <div className="mt-8 pt-6 border-t border-brand-slate/30 font-mono">
+          <div className="mt-8 pt-6 border-t border-gray-200 font-mono">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-[11px] font-semibold uppercase tracking-widest text-brand-slate-light">
+              <div className="text-[11px] font-semibold uppercase tracking-widest text-gray-500">
                 Audited &amp; Integrated Across Modern Cloud Ecosystems:
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-brand-periwinkle">
-                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-gray-600">
+                <span className="flex items-center gap-1 font-bold text-black">
                   <span className="text-accent-amber font-black">●</span> Cloudflare
                 </span>
-                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                <span className="flex items-center gap-1 font-bold text-black">
                   <span className="text-accent-cyan font-black">■</span> Google Cloud
                 </span>
-                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                <span className="flex items-center gap-1 font-bold text-black">
                   <span className="text-accent-rose font-black">▲</span> Fastly
                 </span>
-                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                <span className="flex items-center gap-1 font-bold text-black">
                   <span className="text-accent-amber font-black">◆</span> AWS
                 </span>
-                <span className="flex items-center gap-1 font-bold text-brand-offwhite">
+                <span className="flex items-center gap-1 font-bold text-black">
                   <span className="text-white font-black">▲</span> Vercel
                 </span>
               </div>
@@ -504,11 +515,11 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              className="relative w-full max-w-2xl rounded-2xl border border-brand-slate/50 bg-surface-panel p-5 sm:p-7 text-brand-offwhite shadow-2xl overflow-hidden font-mono"
+              className="relative w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-5 sm:p-7 text-black shadow-2xl overflow-hidden font-mono"
             >
               <button
                 onClick={() => setPreviewPost(null)}
-                className="absolute top-4 right-4 h-8 w-8 rounded-lg bg-brand-oxford border border-brand-slate/40 flex items-center justify-center text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 h-8 w-8 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -517,43 +528,44 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <span className="rounded bg-cyan-950/60 text-accent-cyan border border-cyan-500/30 px-2.5 py-0.5 text-xs font-bold">
                   {previewPost.category}
                 </span>
-                <span className="text-xs text-brand-slate-light">
+                <span className="text-xs text-gray-500">
                   {formatDate(previewPost.createdAt)} • {previewPost.readTime}
                 </span>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-brand-offwhite leading-snug mb-3">
+              <h3 className="text-lg sm:text-xl font-bold text-black leading-snug mb-3">
                 {previewPost.title}
               </h3>
 
-              <div className="w-full aspect-[16/8] rounded-xl overflow-hidden mb-3 bg-brand-navy border border-brand-slate/30">
+              <div className="w-full aspect-[16/8] rounded-xl overflow-hidden mb-3 bg-white border border-gray-200">
                 <img 
                   src={getBlogCoverImage(previewPost)} 
                   alt={previewPost.title} 
                   className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
                 />
               </div>
 
-              <p className="text-xs text-brand-periwinkle leading-relaxed mb-4">
+              <p className="text-xs text-gray-600 leading-relaxed mb-4">
                 {previewPost.excerpt}
               </p>
 
-              <div className="flex items-center justify-between gap-3 pt-3 border-t border-brand-slate/30">
-                <div className="text-xs text-brand-slate-light">
+              <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-200">
+                <div className="text-xs text-gray-500">
                   Author: <span className="text-white font-bold">{previewPost.authorName}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setPreviewPost(null)}
-                    className="rounded-lg px-4 py-2 text-xs font-bold text-brand-periwinkle hover:text-white transition-colors cursor-pointer"
+                    className="rounded-lg px-4 py-2 text-xs font-bold text-gray-600 hover:text-white transition-colors cursor-pointer"
                   >
                     Close Preview
                   </button>
                   <Link
                     to={`/blog/${previewPost.slug || previewPost.id}`}
                     onClick={() => setPreviewPost(null)}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-brand-slate hover:bg-brand-slate-hover px-4 py-2 text-xs font-bold text-white transition-all shadow-sm border border-brand-periwinkle/30"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover px-4 py-2 text-xs font-bold text-white transition-all shadow-sm border border-brand-periwinkle/30"
                   >
                     <span>Read Full Article</span>
                     <ArrowRight className="h-3.5 w-3.5" />

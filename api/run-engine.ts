@@ -1,10 +1,11 @@
 import type { Request, Response } from 'express';
 import { runNativeEngine } from '../src/lib/nodeEngines';
-import { exec } from 'child_process';
+import { validatePublicUrl } from '../src/lib/networkSecurity';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
 import path from 'path';
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 const ENGINE_SCRIPT_MAP: Record<string, string> = {
   health: 'website_health.py',
@@ -53,14 +54,23 @@ export default async function handler(req: any, res: any) {
       return;
     }
 
+    // SSRF Security Validation
+    const urlValidation = await validatePublicUrl(url, engine === 'repo');
+    if (!urlValidation.valid) {
+      res.status(400).json({ success: false, error: urlValidation.error || 'Invalid or prohibited target URL.' });
+      return;
+    }
+
+    const validatedUrl = urlValidation.normalizedUrl || url;
+
     // Attempt Python script first if python3 is available in runtime
     let output: string | null = null;
     const scriptName = ENGINE_SCRIPT_MAP[engine];
     const scriptPath = path.join(process.cwd(), 'python-engines', scriptName);
 
     try {
-      const safeUrl = url.trim().replace(/(["\\$`])/g, '\\$1');
-      const { stdout, stderr } = await execAsync(`python3 "${scriptPath}" "${safeUrl}"`, {
+      // Safe execution using execFile with arguments array (prevents shell injection)
+      const { stdout, stderr } = await execFileAsync('python3', [scriptPath, validatedUrl], {
         timeout: 15000,
         maxBuffer: 1024 * 1024 * 5
       });
@@ -72,13 +82,13 @@ export default async function handler(req: any, res: any) {
 
     // Fallback to high-speed Native TypeScript Engine
     if (!output || output.trim() === '') {
-      output = await runNativeEngine(url, engine);
+      output = await runNativeEngine(validatedUrl, engine);
     }
 
     res.status(200).json({
       success: true,
       engine,
-      url,
+      url: validatedUrl,
       output: output || 'Telemetry audit completed.'
     });
   } catch (err: any) {

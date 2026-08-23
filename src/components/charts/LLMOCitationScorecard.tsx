@@ -10,7 +10,7 @@ interface LLMOCitationScorecardProps {
   citationConfidence: string;
 }
 
-export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = ({
+export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React.memo(({
   score,
   jsonLdBlocksCount,
   hasOgTags,
@@ -129,4 +129,4 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = ({
       </div>
     </div>
   );
-};
+});

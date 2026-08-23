@@ -25,18 +25,12 @@ export default function ParticlesComponent() {
       window.pJSDom = [];
     }
 
-    // Dynamically extract colors from Tailwind config for light/dark themes
-    const colors = isDark
-      ? {
-          particles: getCssVar('--color-accent-cyan', '#38bdf8'),
-          lines: getCssVar('--color-brand-slate', '#415a77'),
-          accent: getCssVar('--color-accent-cyan', '#38bdf8'),
-        }
-      : {
-          particles: getCssVar('--color-brand-slate-light', '#52718e'),
-          lines: getCssVar('--color-brand-periwinkle', '#c5d3e8'),
-          accent: getCssVar('--color-brand-slate-hover', '#33475e'),
-        };
+    // Clean light palette from uploaded color swatch
+    const colors = {
+      particles: '#f9a825', // Warm amber from swatch
+      lines: '#c4c4c4',     // Clean silver grey from swatch
+      accent: '#c62828',    // Crimson red from swatch
+    };
 
     // @ts-ignore
     if (!window.particlesJS) return;
@@ -44,39 +38,39 @@ export default function ParticlesComponent() {
     // @ts-ignore
     window.particlesJS("particles-js", {
       particles: {
-        number: { value: 140, density: { enable: true, value_area: 800 } },
-        color: { value: colors.particles },
-        shape: { type: "circle", stroke: { width: 0.5, color: colors.accent } },
+        number: { value: 70, density: { enable: true, value_area: 900 } },
+        color: { value: [colors.particles, colors.accent, '#b4b4b4'] },
+        shape: { type: "circle", stroke: { width: 0 } },
         opacity: {
-          value: 0.4,
+          value: 0.25,
           random: true,
-          anim: { enable: true, speed: 1, opacity_min: 0.1 },
+          anim: { enable: true, speed: 0.8, opacity_min: 0.08 },
         },
         size: {
-          value: 3,
+          value: 2.5,
           random: true,
-          anim: { enable: true, speed: 2, size_min: 1 },
+          anim: { enable: true, speed: 1.5, size_min: 1 },
         },
         line_linked: {
           enable: true,
-          distance: 160,
+          distance: 140,
           color: colors.lines,
-          opacity: 0.3,
-          width: 1.2,
+          opacity: 0.2,
+          width: 0.8,
         },
-        move: { enable: true, speed: 1.5, random: true, out_mode: "bounce" },
+        move: { enable: true, speed: 0.9, random: true, out_mode: "bounce" },
       },
       interactivity: {
         detect_on: "window",
         events: {
           onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
           resize: true,
         },
         modes: {
-          grab: { distance: 200, line_linked: { opacity: 0.6 } },
-          push: { particles_nb: 3 },
-          repulse: { distance: 180, duration: 0.4 },
+          grab: { distance: 180, line_linked: { opacity: 0.4 } },
+          push: { particles_nb: 2 },
+          repulse: { distance: 160, duration: 0.4 },
         },
       },
       retina_detect: true,
@@ -86,54 +80,25 @@ export default function ParticlesComponent() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const html = document.documentElement;
-    const detectDark = () => 
-      html.classList.contains("dark") || html.getAttribute("data-theme") === "dark";
-
-    let currentDark = detectDark();
-    setIsDarkTheme(currentDark);
-
-    const loadParticles = (dark: boolean) => {
-      // Fade out
+    const loadParticles = () => {
       setOpacity(0);
-      
-      // Re-initialize after fade out completes
       setTimeout(() => {
-        initParticles(dark);
-        setOpacity(1); // Fade back in
-      }, 500); 
+        initParticles(false);
+        setOpacity(0.8);
+      }, 300);
     };
 
     // @ts-ignore
     if (window.particlesJS) {
-      loadParticles(currentDark);
+      loadParticles();
     } else {
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js";
       script.async = true;
       document.body.appendChild(script);
 
-      script.onload = () => loadParticles(detectDark());
+      script.onload = () => loadParticles();
     }
-
-    // Observer to watch for theme changes globally
-    const observer = new MutationObserver(() => {
-      const dark = detectDark();
-      if (dark !== currentDark) {
-        currentDark = dark;
-        setIsDarkTheme(dark);
-        loadParticles(dark);
-      }
-    });
-
-    observer.observe(html, {
-      attributes: true,
-      attributeFilter: ["class", "data-theme"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
   }, [initParticles]);
 
   // Parallax setup for 3D depth effect
@@ -167,9 +132,7 @@ export default function ParticlesComponent() {
       style={{ x, y }}
       transition={{ opacity: { duration: 0.5, ease: "easeInOut" } }}
       id="particles-js"
-      className={`particles-color-shift fixed inset-0 w-full h-full z-0 pointer-events-auto transition-colors duration-1000 ${
-        isDarkTheme ? 'bg-brand-navy' : 'bg-brand-ghost'
-      }`}
+      className="fixed inset-0 w-full h-full z-0 pointer-events-auto bg-white opacity-90 transition-opacity duration-700"
     />
   );
 }

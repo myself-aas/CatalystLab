@@ -7,6 +7,9 @@ export const ENGINE_SEEDED_BLOGS: Record<string, BlogPost[]> = {
       title: 'Optimizing DOM Depth and Eliminating Render-Blocking Bottlenecks in Next.js',
       slug: 'optimizing-dom-depth-render-blocking-nextjs',
       excerpt: 'Why deep DOM hierarchies severely degrade layout recalculation and mobile INP, and architectural strategies to flatten nested component trees.',
+      coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+      featured: true,
       content: `## The Hidden Cost of Deep DOM Hierarchies
 
 Modern component-driven frameworks like React and Next.js make it easy to wrap elements in multiple layout containers, provider contexts, and styling wrappers. However, when DOM depth exceeds 32 levels or total nodes exceed 1,500, browser rendering engines suffer severe performance bottlenecks.
@@ -48,8 +51,8 @@ export const UserCard = ({ user }) => (
 - **Virtualize Long Lists**: Use \`@tanstack/react-virtual\` for feeds with more than 50 repeating elements.`,
       category: 'Core Performance',
       tags: ['DOM', 'Core Web Vitals', 'LCP', 'Next.js', 'Performance'],
-      authorName: 'CatalystLab Telemetry Team',
-      authorEmail: 'engineering@catalystlab.tech',
+      authorName: 'Alex Rivera',
+      authorEmail: 'alex.rivera@catalystlab.tech',
       status: 'published',
       readTime: '5 min read',
       createdAt: Date.now() - 2 * 24 * 60 * 60 * 1000,
@@ -61,6 +64,8 @@ export const UserCard = ({ user }) => (
       title: 'Decoupling Critical CSS and Preloading Key Display Fonts for Sub-Second LCP',
       slug: 'decoupling-critical-css-font-preloading',
       excerpt: 'How inlining critical path CSS while asynchronous loading secondary styles reduces Largest Contentful Paint to under 800ms.',
+      coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200',
       content: `## Achieving Sub-Second Largest Contentful Paint (LCP)
 
 Largest Contentful Paint measures when the main visual content of a webpage is rendered. For text-heavy hero sections, custom display fonts and blocking stylesheets are the primary contributors to delayed rendering.
@@ -96,6 +101,9 @@ Using \`font-display: swap\` prevents invisible text flashes (FOIT), while prelo
       title: 'Decimating TTFB with Multi-Region Edge Workers & Smart Anycast Routing',
       slug: 'decimating-ttfb-edge-workers',
       excerpt: 'A deep-dive into synthetic edge latency telemetry across Tokyo, Frankfurt, Virginia, and Sydney points of presence.',
+      coverImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
+      featured: true,
       content: `## The Geography of Milliseconds
 
 Time To First Byte (TTFB) is the single highest predictor of bounce rates for modern interactive web applications. When packets must traverse trans-Pacific fiber lines, round-trip latency often exceeds 220ms before JavaScript execution even begins.
@@ -114,8 +122,8 @@ Time To First Byte (TTFB) is the single highest predictor of bounce rates for mo
 3. **HTTP/3 QUIC Multiplexing**: Eliminate head-of-line packet blocking over unstable mobile connections.`,
       category: 'Edge Latency',
       tags: ['Edge', 'TTFB', 'Performance', 'CDN', 'Infrastructure'],
-      authorName: 'CatalystLab DevOps',
-      authorEmail: 'devops@catalystlab.tech',
+      authorName: 'Elena Rostova',
+      authorEmail: 'elena.rostova@catalystlab.tech',
       status: 'published',
       readTime: '8 min read',
       createdAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
@@ -130,6 +138,9 @@ Time To First Byte (TTFB) is the single highest predictor of bounce rates for mo
       title: 'The /llms.txt Standard: Preparing Knowledge Bases for Autonomous AI Crawlers',
       slug: 'llmstxt-standard-autonomous-ai-crawlers',
       excerpt: 'How to structure root documentation manifests and robots.txt policies to ensure seamless vector ingestion by frontier AI models.',
+      coverImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+      featured: true,
       content: `## The Paradigm Shift: From Keywords to Vector Embeddings
 
 In 2026, web crawlers are no longer simple heuristic indexers—they are autonomous LLM retrieval agents powering Perplexity, ChatGPT Search, and Gemini.
@@ -151,8 +162,8 @@ In 2026, web crawlers are no longer simple heuristic indexers—they are autonom
 \`\`\``,
       category: 'AI & LLMO',
       tags: ['llms.txt', 'AI Readiness', 'RAG', 'GPTBot', 'ClaudeBot'],
-      authorName: 'CatalystLab AI Research',
-      authorEmail: 'ai@catalystlab.tech',
+      authorName: 'Marcus Chen',
+      authorEmail: 'marcus.chen@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
       createdAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
@@ -167,6 +178,8 @@ In 2026, web crawlers are no longer simple heuristic indexers—they are autonom
       title: 'Automating Git Repository SecOps & Hygiene Verification in Modern CI/CD',
       slug: 'automating-git-secops-hygiene',
       excerpt: 'How automated branch protection, license checks, and SECURITY.md audits prevent catastrophic supply-chain leaks.',
+      coverImage: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
       content: `## Securing the Modern Software Supply Chain
 
 A high percentage of security breaches begin not in production firewalls, but in misconfigured public repositories with exposed secrets, stale dependencies, and missing vulnerability disclosure policies.
@@ -180,8 +193,8 @@ A high percentage of security breaches begin not in production firewalls, but in
 6. **Code of Conduct & Contributing Guides**: Standardizes OSS maintenance workflows.`,
       category: 'SecOps',
       tags: ['Git', 'SecOps', 'Security', 'DevSecOps', 'CI/CD'],
-      authorName: 'CatalystLab SecOps',
-      authorEmail: 'secops@catalystlab.tech',
+      authorName: 'Dr. Aris Thorne',
+      authorEmail: 'aris.thorne@catalystlab.tech',
       status: 'published',
       readTime: '5 min read',
       createdAt: Date.now() - 7 * 24 * 60 * 60 * 1000,
@@ -196,6 +209,8 @@ A high percentage of security breaches begin not in production firewalls, but in
       title: 'Sustainable Web Engineering: Reducing Digital Carbon Footprints with Modern Formats',
       slug: 'sustainable-web-engineering-carbon-reduction',
       excerpt: 'Applying the Sustainable Web Design (SWD) model, choosing 100% renewable datacenters, and optimizing transfer weights.',
+      coverImage: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
       content: `## The Environmental Impact of Cloud Computing
 
 The internet accounts for over 3.7% of global greenhouse gas emissions—exceeding the commercial airline industry. Every kilobyte transmitted across cellular towers and rendered on mobile displays consumes measurable electrical energy.
@@ -213,8 +228,8 @@ The standard SWD formula models energy consumption across four primary segments:
 - Enable high-efficiency brotli compression at level 6.`,
       category: 'Sustainability',
       tags: ['Green Web', 'CO2 Reduction', 'AVIF', 'Eco', 'ESG'],
-      authorName: 'CatalystLab Eco Team',
-      authorEmail: 'eco@catalystlab.tech',
+      authorName: 'Sofia Lindqvist',
+      authorEmail: 'sofia.lindqvist@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
       createdAt: Date.now() - 8 * 24 * 60 * 60 * 1000,
@@ -229,6 +244,8 @@ The standard SWD formula models energy consumption across four primary segments:
       title: 'OWASP Hardened Security Headers & GDPR Cookie Governance Architecture',
       slug: 'owasp-security-headers-gdpr-governance',
       excerpt: 'Complete production implementation of Strict-Transport-Security, Content-Security-Policy nonces, and privacy consent tiers.',
+      coverImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
       content: `## Defense-in-Depth for Modern Ingress Points
 
 Web application firewalls are insufficient if individual HTTP responses lack cryptographic defense instructions. Security headers inform the browser how to safely handle cookies, scripts, frames, and TLS negotiations.
@@ -240,8 +257,8 @@ Web application firewalls are insufficient if individual HTTP responses lack cry
 4. **Content-Security-Policy**: Restricts script execution to approved domains and cryptographic nonces.`,
       category: 'Compliance & Security',
       tags: ['OWASP', 'HSTS', 'CSP', 'GDPR', 'CCPA', 'Security'],
-      authorName: 'SecOps Team',
-      authorEmail: 'secops@catalystlab.tech',
+      authorName: 'Elena Rostova',
+      authorEmail: 'elena.rostova@catalystlab.tech',
       status: 'published',
       readTime: '7 min read',
       createdAt: Date.now() - 9 * 24 * 60 * 60 * 1000,
@@ -256,6 +273,8 @@ Web application firewalls are insufficient if individual HTTP responses lack cry
       title: 'Zero-Downtime Platform Migration: 301 Redirects and SEO Canonical Parity',
       slug: 'zero-downtime-platform-migration-seo-parity',
       excerpt: 'Architectural blueprint for transitioning legacy CMS systems to modern decoupled edge frameworks without traffic loss.',
+      coverImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
       content: `## Migrating Without Losing Organic Authority
 
 Re-platforming from legacy systems like WordPress or Magento to modern edge stacks (Next.js, Remix, Astro) often triggers severe organic traffic drops if redirect mapping and canonical tags are not synchronized.
@@ -267,8 +286,8 @@ Re-platforming from legacy systems like WordPress or Magento to modern edge stac
 4. **Database Replication Parity**: Confirm sub-50ms replication lag before cutover.`,
       category: 'Architecture',
       tags: ['Migration', '301 Redirects', 'SEO', 'Cloud Portability', 'DevOps'],
-      authorName: 'Architecture Guild',
-      authorEmail: 'arch@catalystlab.tech',
+      authorName: 'Alex Rivera',
+      authorEmail: 'alex.rivera@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
       createdAt: Date.now() - 11 * 24 * 60 * 60 * 1000,
@@ -283,6 +302,9 @@ Re-platforming from legacy systems like WordPress or Magento to modern edge stac
       title: 'Generative Engine Optimization (LLMO): Mastering Citations in Perplexity and SearchGPT',
       slug: 'generative-engine-optimization-llmo-citations',
       excerpt: 'How to structure Schema.org entity graphs, factual densities, and semantic hierarchies to dominate answer engine summaries.',
+      coverImage: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+      featured: true,
       content: `## Winning Citations in Generative Answer Engines
 
 Traditional search engines ranked pages based on backlink counts and keyword densities. Answer engines like Perplexity, ChatGPT Search, and Gemini synthesize responses using multi-source RAG retrieval.
@@ -293,8 +315,8 @@ Traditional search engines ranked pages based on backlink counts and keyword den
 3. **Clean Markdown Structure**: Keep semantic header hierarchies intact to aid LLM chunking algorithms.`,
       category: 'AI Search',
       tags: ['LLMO', 'SearchGPT', 'Perplexity', 'JSON-LD', 'Semantic Web'],
-      authorName: 'CatalystLab AI Research',
-      authorEmail: 'ai@catalystlab.tech',
+      authorName: 'Marcus Chen',
+      authorEmail: 'marcus.chen@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
       createdAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
@@ -309,13 +331,16 @@ Traditional search engines ranked pages based on backlink counts and keyword den
       title: 'The Modern Anatomy of Website Health in the Era of AI Search',
       slug: 'modern-website-health-ai-search',
       excerpt: 'Why traditional SEO is yielding ground to structured RAG indexing and how llms.txt standardizes generative search ingestion.',
+      coverImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
+      authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+      featured: true,
       content: `## The Next Decade of Web Quality Intelligence
 
 Evaluating websites requires a holistic approach spanning DOM complexity, edge latency, zero-trust security compliance, sustainability, and generative AI search discoverability.`,
       category: 'AI & LLMO',
       tags: ['LLMO', 'AI Search', 'RAG', 'llms.txt', 'SEO'],
-      authorName: 'CatalystLab Engineering',
-      authorEmail: 'engineering@catalystlab.tech',
+      authorName: 'Dr. Aris Thorne',
+      authorEmail: 'aris.thorne@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
       createdAt: Date.now() - 4 * 24 * 60 * 60 * 1000,

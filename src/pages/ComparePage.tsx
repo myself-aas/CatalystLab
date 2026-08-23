@@ -4,6 +4,7 @@ import { TerminalOutput } from '../components/TerminalOutput';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { CustomIconSync } from '../components/common/CustomSvgs';
 import { SEOHead } from '../components/common/SEOHead';
+import { ParallaxSection } from '../components/common/ParallaxSection';
 
 export const ComparePage: React.FC = () => {
   const [urlA, setUrlA] = useState('');
@@ -54,7 +55,7 @@ export const ComparePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-brand-navy pb-20 text-brand-offwhite selection:bg-brand-slate selection:text-white">
+    <div className="min-h-screen bg-white pb-20 text-black selection:bg-black selection:text-white">
       <SEOHead
         title="Side-by-Side Delta Comparison"
         description="Benchmark performance, security headers, and DOM complexity between two competing websites in real-time."
@@ -63,15 +64,15 @@ export const ComparePage: React.FC = () => {
       />
       
       {/* Header */}
-      <section className="border-b border-brand-slate/30 bg-brand-oxford px-4 py-12 sm:px-6 lg:px-8">
+      <section className="border-b border-gray-200 bg-gray-100 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-surface-panel text-accent-cyan mb-4 border border-brand-slate/40 shadow-sm">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-white text-accent-cyan mb-4 border border-gray-200 shadow-sm">
             <CustomIconSync className="h-6 w-6" />
           </div>
-          <h1 className="text-3xl font-extrabold text-brand-offwhite sm:text-4xl tracking-tight">
+          <h1 className="text-3xl font-extrabold text-black sm:text-4xl tracking-tight">
             Side-by-Side Delta Comparison
           </h1>
-          <p className="mt-2 text-sm text-brand-periwinkle max-w-2xl mx-auto font-sans">
+          <p className="mt-2 text-sm text-gray-600 max-w-2xl mx-auto font-sans">
             Benchmark performance, security headers, and DOM complexity between two competing websites.
           </p>
 
@@ -109,46 +110,63 @@ export const ComparePage: React.FC = () => {
           />
         </div>
 
+        {/* Immersive Compare Parallax Banner */}
+        <ParallaxSection
+          bgImage="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80"
+          overlayOpacity={0.88}
+          height="min-h-[260px]"
+          className="rounded-2xl overflow-hidden border border-gray-200"
+        >
+          <div className="max-w-3xl mx-auto px-6 text-center space-y-2">
+            <span className="inline-flex items-center gap-2 rounded-full bg-black text-white px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider">
+              Side-by-Side Telemetry Diff
+            </span>
+            <h2 className="text-xl sm:text-2xl font-bold text-black font-sans tracking-tight">
+              Synchronous Multi-Target Benchmarking
+            </h2>
+          </div>
+        </ParallaxSection>
+
         {/* Industry Competitive Architecture Matrix */}
-        <section className="rounded-2xl border border-brand-slate/40 bg-surface-panel p-6 sm:p-8 text-brand-offwhite shadow-xl font-mono">
+        <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 text-black shadow-xl font-mono">
           <div className="text-center max-w-3xl mx-auto mb-7">
-            <span className="rounded-md bg-brand-oxford px-2.5 py-1 text-xs font-bold text-accent-cyan border border-brand-slate/40 uppercase tracking-wider">
+            <span className="rounded-md bg-gray-100 px-2.5 py-1 text-xs font-bold text-accent-cyan border border-gray-200 uppercase tracking-wider">
               COMPETITIVE BENCHMARK
             </span>
-            <h2 className="text-xl font-extrabold text-brand-offwhite sm:text-2xl mt-2.5">
+            <h2 className="text-xl font-extrabold text-black sm:text-2xl mt-2.5">
               CatalystLab vs. Legacy Telemetry Tools
             </h2>
-            <p className="mt-1.5 text-xs text-brand-periwinkle font-sans">
+            <p className="mt-1.5 text-xs text-gray-600 font-sans">
               Comparing architectural capabilities across modern web health, OWASP security, AI readiness, and edge latency.
             </p>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-brand-slate/30">
+          <div className="overflow-x-auto rounded-xl border border-gray-200">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-brand-slate/40 text-brand-periwinkle bg-brand-oxford">
+                <tr className="border-b border-gray-200 text-gray-600 bg-gray-100">
                   <th className="py-3 px-4">Feature / Telemetry Dimension</th>
-                  <th className="py-3 px-4 text-accent-emerald font-bold bg-brand-slate/40">CatalystLab</th>
+                  <th className="py-3 px-4 text-accent-emerald font-bold bg-black/40">CatalystLab</th>
                   <th className="py-3 px-4">PageSpeed Insights</th>
                   <th className="py-3 px-4">GTmetrix</th>
                   <th className="py-3 px-4">SecurityHeaders</th>
                   <th className="py-3 px-4">WAVE</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-brand-slate/30 text-brand-offwhite bg-brand-navy">
-                <tr className="hover:bg-surface-subtle transition-colors">
-                  <td className="py-3 px-4 font-semibold text-brand-offwhite">Multi-Engine Unified Audit (8 Engines)</td>
-                  <td className="py-3 px-4 text-accent-emerald font-bold bg-brand-slate/20">
+              <tbody className="divide-y divide-brand-slate/30 text-black bg-white">
+                <tr className="hover:bg-gray-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-black">Multi-Engine Unified Audit (8 Engines)</td>
+                  <td className="py-3 px-4 text-accent-emerald font-bold bg-black/20">
                     <span className="flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5" /> Yes (Full Suite)</span>
                   </td>
-                  <td className="py-3 px-4 text-brand-slate-light">Lighthouse Only</td>
-                  <td className="py-3 px-4 text-brand-slate-light">Performance Only</td>
-                  <td className="py-3 px-4 text-brand-slate-light">Headers Only</td>
-                  <td className="py-3 px-4 text-brand-slate-light">A11y Only</td>
+                  <td className="py-3 px-4 text-gray-500">Lighthouse Only</td>
+                  <td className="py-3 px-4 text-gray-500">Performance Only</td>
+                  <td className="py-3 px-4 text-gray-500">Headers Only</td>
+                  <td className="py-3 px-4 text-gray-500">A11y Only</td>
                 </tr>
-                <tr className="hover:bg-surface-subtle transition-colors">
-                  <td className="py-3 px-4 font-semibold text-brand-offwhite">Instant Shareable Permalink</td>
-                  <td className="py-3 px-4 text-accent-emerald font-bold bg-brand-slate/20">
+                <tr className="hover:bg-gray-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-black">Instant Shareable Permalink</td>
+                  <td className="py-3 px-4 text-accent-emerald font-bold bg-black/20">
                     <span className="flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5" /> Yes (/reports/:slug)</span>
                   </td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
@@ -156,9 +174,9 @@ export const ComparePage: React.FC = () => {
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                 </tr>
-                <tr className="hover:bg-surface-subtle transition-colors">
-                  <td className="py-3 px-4 font-semibold text-brand-offwhite">AI Search Readiness (/llms.txt)</td>
-                  <td className="py-3 px-4 text-accent-emerald font-bold bg-brand-slate/20">
+                <tr className="hover:bg-gray-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-black">AI Search Readiness (/llms.txt)</td>
+                  <td className="py-3 px-4 text-accent-emerald font-bold bg-black/20">
                     <span className="flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5" /> Yes (LLMO Radar)</span>
                   </td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
@@ -166,23 +184,23 @@ export const ComparePage: React.FC = () => {
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                 </tr>
-                <tr className="hover:bg-surface-subtle transition-colors">
-                  <td className="py-3 px-4 font-semibold text-brand-offwhite">Continuous Edge Latency Radar (12 PoPs)</td>
-                  <td className="py-3 px-4 text-accent-emerald font-bold bg-brand-slate/20">
+                <tr className="hover:bg-gray-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-black">Continuous Edge Latency Radar (12 PoPs)</td>
+                  <td className="py-3 px-4 text-accent-emerald font-bold bg-black/20">
                     <span className="flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5" /> Yes (Global)</span>
                   </td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
-                  <td className="py-3 px-4 text-brand-slate-light">Single Region</td>
+                  <td className="py-3 px-4 text-gray-500">Single Region</td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                 </tr>
-                <tr className="hover:bg-surface-subtle transition-colors">
-                  <td className="py-3 px-4 font-semibold text-brand-offwhite">Full PDF &amp; JSON Telemetry Dossiers</td>
-                  <td className="py-3 px-4 text-accent-emerald font-bold bg-brand-slate/20">
+                <tr className="hover:bg-gray-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-black">Full PDF &amp; JSON Telemetry Dossiers</td>
+                  <td className="py-3 px-4 text-accent-emerald font-bold bg-black/20">
                     <span className="flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5" /> Yes (Instant Export)</span>
                   </td>
-                  <td className="py-3 px-4 text-brand-slate-light">JSON Only</td>
-                  <td className="py-3 px-4 text-brand-slate-light">Paid PDF</td>
+                  <td className="py-3 px-4 text-gray-500">JSON Only</td>
+                  <td className="py-3 px-4 text-gray-500">Paid PDF</td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                   <td className="py-3 px-4 text-rose-400"><span className="flex items-center gap-1"><XCircle className="h-3.5 w-3.5" /> No</span></td>
                 </tr>

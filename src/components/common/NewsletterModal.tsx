@@ -66,7 +66,7 @@ export const NewsletterModal: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="absolute inset-0 bg-brand-navy/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-white/80 backdrop-blur-sm"
           />
 
           {/* Modal Content */}
@@ -75,12 +75,12 @@ export const NewsletterModal: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-md bg-brand-oxford border border-brand-slate/40 rounded-3xl shadow-2xl shadow-black/50 overflow-hidden"
+            className="relative w-full max-w-md bg-gray-100 border border-gray-200 rounded-3xl shadow-2xl shadow-black/50 overflow-hidden"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-2 text-brand-slate hover:text-white bg-brand-navy/50 hover:bg-brand-navy rounded-full transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="absolute top-4 right-4 p-2 text-brand-slate hover:text-white bg-white/50 hover:bg-white rounded-full transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <X className="h-5 w-5" />
             </button>
@@ -95,7 +95,7 @@ export const NewsletterModal: React.FC = () => {
                     <CheckCircle2 className="h-8 w-8" />
                   </div>
                   <h3 className="text-xl font-bold text-white tracking-tight">You're on the list!</h3>
-                  <p className="text-brand-slate-light text-sm">
+                  <p className="text-gray-500 text-sm">
                     Keep an eye on your inbox for the latest performance insights and updates.
                   </p>
                 </div>
@@ -109,7 +109,7 @@ export const NewsletterModal: React.FC = () => {
                     <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight mb-2">
                       Join the CatalystLab Newsletter
                     </h3>
-                    <p className="text-sm text-brand-slate-light leading-relaxed">
+                    <p className="text-sm text-gray-500 leading-relaxed">
                       Get exclusive insights on web performance, zero-day vulnerabilities, and architectural patterns sent directly to your inbox.
                     </p>
                   </div>
@@ -127,7 +127,7 @@ export const NewsletterModal: React.FC = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="you@company.com"
-                          className="w-full rounded-xl border border-brand-slate/50 bg-brand-navy py-3 pl-11 pr-4 text-base font-mono text-white placeholder-brand-slate focus:border-[#38bdf8] focus:outline-none focus:ring-1 focus:ring-[#38bdf8]/30 transition-all"
+                          className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-base font-mono text-white placeholder-brand-slate focus:border-[#38bdf8] focus:outline-none focus:ring-1 focus:ring-[#38bdf8]/30 transition-all"
                         />
                       </div>
                     </div>
