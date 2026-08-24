@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
@@ -2413,6 +2413,14 @@ async function startServer() {
   // Vite Integration
   if (process.env.NODE_ENV === 'production') {
     const distPath = path.join(process.cwd(), 'dist');
+
+    app.use((req: Request, res: Response, next: NextFunction) => {
+      if (req.url.endsWith('.map')) {
+        return res.status(404).send('Not Found');
+      }
+      next();
+    });
+
     app.use(express.static(distPath));
     app.get('*', (req: Request, res: Response) => {
       res.sendFile(path.join(distPath, 'index.html'));

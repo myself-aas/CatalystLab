@@ -30,7 +30,7 @@ export default defineConfig({
         },
       },
     },
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV !== 'production',
     cssCodeSplit: true,
     assetsInlineLimit: 4096,
   },
