@@ -267,7 +267,9 @@ export const BlogsPage: React.FC = () => {
             {/* Search Input */}
             <div className="relative min-w-[220px]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-500" />
+              <label htmlFor="blog-search" className="sr-only">Search blogs</label>
               <input
+                id="blog-search"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -578,7 +580,9 @@ export const BlogsPage: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto pt-1 font-mono">
+              <label htmlFor="blog-subscribe" className="sr-only">Email for blog subscription</label>
               <input
+                id="blog-subscribe"
                 type="email"
                 required
                 value={subscribeEmail}

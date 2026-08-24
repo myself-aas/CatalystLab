@@ -162,7 +162,9 @@ export const ReportsDirectoryPage: React.FC = () => {
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                   <Globe className="h-3.5 w-3.5" />
                 </span>
+                <label htmlFor="domain-inspect" className="sr-only">Domain to inspect</label>
                 <input
+                  id="domain-inspect"
                   type="text"
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
