@@ -113,11 +113,15 @@ export const NewsletterModal: React.FC = () => {
                   {/* Form */}
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
+                      <label htmlFor="newsletter-email" className="block text-xs font-mono font-bold text-gray-600 mb-1">
+                        Email Address
+                      </label>
                       <div className="relative">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-brand-slate-hover">
                           <Mail className="h-5 w-5" />
                         </div>
                         <input
+                          id="newsletter-email"
                           type="email"
                           required
                           value={email}

@@ -190,7 +190,9 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
             <div className="mt-6 max-w-xl mx-auto relative">
               <div className="relative flex items-center">
                 <Search className="absolute left-4 h-4 w-4 text-gray-500 pointer-events-none" />
+                <label htmlFor="faq-search" className="sr-only">Search FAQs</label>
                 <input
+                  id="faq-search"
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
