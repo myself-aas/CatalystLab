@@ -207,7 +207,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-brand-slate/40 bg-brand-oxford px-3.5 py-2 text-xs font-semibold text-brand-periwinkle hover:text-white hover:bg-gray-50 transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-black/40 bg-slate-900 px-3.5 py-2 text-xs font-semibold text-slate-500 hover:text-white hover:bg-gray-50 transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
               title="Sync latest Firestore audit logs"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? 'animate-spin text-cyan-400' : ''}`} />
@@ -217,7 +217,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleRunDiagnosticAudit}
               disabled={runningDiagnostic}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-slate-500/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
             >
               <Play className={`h-3.5 w-3.5 ${runningDiagnostic ? 'animate-spin' : ''}`} />
               <span>{runningDiagnostic ? 'Probing Engines...' : 'Run Diagnostics'}</span>

@@ -67,12 +67,12 @@ export const FinalCTA: React.FC = () => {
             </div>
 
             {/* Alternative Action: Pro Trial */}
-            <div className="pt-8 border-t border-zinc-200 flex flex-col sm:flex-row items-center justify-center gap-6">
-              <span className="text-zinc-600">Looking for continuous automated 6-hour cron audits?</span>
+            <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center gap-6">
+              <span className="text-slate-600">Looking for continuous automated 6-hour cron audits?</span>
               <button
                 type="button"
                 onClick={() => openTrialModal('pro')}
-                className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white px-6 py-3 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+                className="inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-6 py-3 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black cursor-pointer"
               >
                 <span>Start 7-Day Pro Trial Free</span>
                 <ChevronRight className="h-4 w-4" />
@@ -80,17 +80,17 @@ export const FinalCTA: React.FC = () => {
             </div>
 
             {/* Micro Guarantees */}
-            <div className="flex flex-wrap items-center justify-center gap-8 pt-8 text-sm font-medium text-zinc-700">
+            <div className="flex flex-wrap items-center justify-center gap-8 pt-8 text-sm font-medium text-slate-700">
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+                <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                 <span>Zero Installation Required</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+                <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                 <span>&lt;2.0s Parallel Latency</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+                <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                 <span>100% Free Public Audit</span>
               </div>
             </div>

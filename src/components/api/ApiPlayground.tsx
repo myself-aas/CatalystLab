@@ -731,14 +731,14 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
       {/* ========================================================================= */}
       {/* AUTOMATED TEST RUNNER & DEPLOYMENT VERIFICATION */}
       {/* ========================================================================= */}
-      <div className="border-t border-brand-slate/30 bg-brand-oxford p-5 space-y-3.5">
+      <div className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 p-5 space-y-3.5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h3 className="text-xs sm:text-sm font-bold text-black flex items-center gap-1.5 font-sans">
-              <ShieldCheck className="h-4 w-4 text-accent-emerald" />
+            <h3 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5 font-sans">
+              <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               <span>API Deployment Verification Suite (Finalize for Production)</span>
             </h3>
-            <p className="text-[11px] text-brand-periwinkle font-sans">
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-sans">
               Runs automated test assertions across all 8 diagnostic engines, master audit, reports, and security headers to validate zero-defect production readiness.
             </p>
           </div>
@@ -746,16 +746,16 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
           <button
             onClick={runFullVerificationSuite}
             disabled={runningSuite}
-            className="flex items-center gap-1.5 rounded-xl bg-brand-slate hover:bg-brand-slate-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all disabled:opacity-50 active:scale-95 whitespace-nowrap cursor-pointer"
+            className="flex items-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white px-4 py-2 text-xs font-bold text-white dark:text-zinc-900 shadow-sm transition-all disabled:opacity-50 active:scale-95 whitespace-nowrap cursor-pointer"
           >
             {runningSuite ? (
               <>
-                <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
+                <RefreshCw className="h-3.5 w-3.5 animate-spin text-amber-400 dark:text-amber-600" />
                 <span>Running Suite ({suiteProgress}%)...</span>
               </>
             ) : (
               <>
-                <Zap className="h-3.5 w-3.5 text-accent-cyan" />
+                <Zap className="h-3.5 w-3.5 text-amber-400 dark:text-amber-600" />
                 <span>Run API Verification Suite</span>
               </>
             )}
@@ -764,19 +764,19 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
 
         {/* Verification Checklist Results Table */}
         {suiteResults.length > 0 && (
-          <div className="rounded-xl border border-brand-slate/40 bg-white p-3.5 space-y-2.5">
-            <div className="flex items-center justify-between border-b border-brand-slate/30 pb-2">
-              <span className="text-xs font-bold text-black">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-3.5 space-y-2.5 shadow-sm">
+            <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-2">
+              <span className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
                 Automated Test Assertions ({suiteResults.filter(r => r.status === 'passed').length}/{suiteResults.length} Passed)
               </span>
 
               {deploymentReady !== null && (
                 <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-bold ${
                   deploymentReady
-                    ? 'bg-emerald-950/80 text-accent-emerald border border-emerald-500/40'
-                    : 'bg-amber-950/80 text-accent-amber border border-amber-500/40'
+                    ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700'
+                    : 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700'
                 }`}>
-                  {deploymentReady ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertCircle className="h-3.5 w-3.5" />}
+                  {deploymentReady ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> : <AlertCircle className="h-3.5 w-3.5 text-amber-600" />}
                   {deploymentReady ? '100% Production Ready' : 'Minor Warnings Detected'}
                 </span>
               )}
@@ -786,34 +786,34 @@ export const ApiPlayground: React.FC<ApiPlaygroundProps> = ({
               {suiteResults.map((item) => (
                 <div 
                   key={item.endpointId}
-                  className={`flex items-center justify-between rounded-lg border p-2 text-xs ${
-                    item.status === 'passed' ? 'border-emerald-500/40 bg-emerald-950/30' :
-                    item.status === 'failed' ? 'border-rose-500/40 bg-rose-950/30' :
-                    item.status === 'running' ? 'border-accent-cyan/40 bg-white animate-pulse' :
-                    'border-brand-slate/40 bg-brand-oxford'
+                  className={`flex items-center justify-between rounded-lg border p-2 text-xs transition-colors ${
+                    item.status === 'passed' ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/30' :
+                    item.status === 'failed' ? 'border-rose-200 dark:border-rose-800 bg-rose-50/60 dark:bg-rose-950/30' :
+                    item.status === 'running' ? 'border-amber-400 bg-amber-50/50 dark:bg-amber-950/30 animate-pulse' :
+                    'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/40'
                   }`}
                 >
                   <div className="truncate mr-2">
-                    <div className="font-semibold text-black truncate text-[11px] font-sans">{item.summary}</div>
-                    <div className="font-mono text-[10px] text-accent-cyan truncate">{item.path}</div>
+                    <div className="font-semibold text-zinc-900 dark:text-zinc-100 truncate text-[11px] font-sans">{item.summary}</div>
+                    <div className="font-mono text-[10px] text-amber-700 dark:text-amber-400 truncate">{item.path}</div>
                   </div>
 
                   <div className="shrink-0 flex items-center gap-1">
                     {item.status === 'passed' && (
-                      <span className="flex items-center gap-0.5 text-accent-emerald font-bold font-mono text-[10px]">
+                      <span className="flex items-center gap-0.5 text-emerald-700 dark:text-emerald-400 font-bold font-mono text-[10px]">
                         <Check className="h-3 w-3" /> {item.latencyMs}ms
                       </span>
                     )}
                     {item.status === 'failed' && (
-                      <span className="flex items-center gap-0.5 text-rose-400 font-bold font-mono text-[10px]">
+                      <span className="flex items-center gap-0.5 text-rose-600 dark:text-rose-400 font-bold font-mono text-[10px]">
                         <XCircle className="h-3 w-3" /> {item.error || 'Failed'}
                       </span>
                     )}
                     {item.status === 'running' && (
-                      <RefreshCw className="h-3 w-3 animate-spin text-accent-cyan" />
+                      <RefreshCw className="h-3 w-3 animate-spin text-amber-600 dark:text-amber-400" />
                     )}
                     {item.status === 'pending' && (
-                      <span className="text-[10px] text-brand-slate-light">Queued</span>
+                      <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Queued</span>
                     )}
                   </div>
                 </div>

@@ -1,3 +1,4 @@
+import { HeroImageCard } from '../common/HeroImageCard';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -37,6 +38,7 @@ export interface AuditMetricItem {
   icon: any;
   accentColor: string;
   route: string;
+  bgImageUrl?: string;
   vectors: Array<{ name: string; value: string; status: 'pass' | 'optimal' | 'verified' }>;
   telemetryDetails: {
     benchmark: string;
@@ -52,16 +54,17 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'performance',
     phase: 'Phase 4 • VitalZyme',
     phaseNumber: 4,
+    bgImageUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600',
     engineName: 'VitalZyme Engine',
     title: 'Core Web Vitals & TTFB',
     highlightValue: '18ms',
     highlightLabel: 'Edge TTFB (Optimal)',
     score: '99.4',
-    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
+    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
     badge: 'Top 1% Global',
     description: 'Sub-second Largest Contentful Paint with zero layout shift and instantaneous edge response times.',
     icon: Zap,
-    accentColor: '#38bdf8',
+    accentColor: '#4f5d75',
     route: '/health',
     vectors: [
       { name: 'TTFB (Time to First Byte)', value: '18ms', status: 'optimal' },
@@ -86,12 +89,13 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'security',
     phase: 'Phase 6 • RiskProtease',
     phaseNumber: 6,
+    bgImageUrl: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&q=80&w=600',
     engineName: 'RiskProtease Engine',
     title: 'OWASP Security & Transport',
     highlightValue: '6 / 6',
     highlightLabel: 'Hardened Headers',
     score: 'A+',
-    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
+    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
     badge: 'Zero Leaks',
     description: 'Strict Content-Security-Policy, 2-year HSTS preloading, SRI hash validation, and automated secret shields.',
     icon: ShieldCheck,
@@ -120,12 +124,13 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'ai_eco',
     phase: 'Phase 3 • EcoHolo',
     phaseNumber: 3,
+    bgImageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600',
     engineName: 'EcoHolo Engine',
     title: 'Sustainable Carbon Accounting',
     highlightValue: '0.08g',
     highlightLabel: 'CO2e / Pageview',
     score: 'A+',
-    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
+    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
     badge: 'Green Certified',
     description: 'SWD v4 scientific carbon accounting measuring energy intensity, edge cache hits, and green CDN routing.',
     icon: Leaf,
@@ -154,16 +159,17 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'ai_eco',
     phase: 'Phase 7 • LLM-Kinase',
     phaseNumber: 7,
+    bgImageUrl: 'https://images.unsplash.com/photo-1531297172868-edf65d642b84?auto=format&fit=crop&q=80&w=600',
     engineName: 'LLM-Kinase Engine',
     title: 'Generative AI & /llms.txt',
     highlightValue: '24.5k',
     highlightLabel: 'Indexed Token Budget',
     score: '96.8',
-    scoreColor: 'text-accent-purple bg-purple-950/40 border-purple-500/30',
+    scoreColor: 'text-slate-800 bg-slate-100 border-slate-200',
     badge: '/llms.txt Active',
     description: 'Comprehensive /llms.txt validation and Schema.org knowledge graph parsing for autonomous agents.',
     icon: Bot,
-    accentColor: '#c084fc',
+    accentColor: '#4f5d75',
     route: '/ai-readiness',
     vectors: [
       { name: '/llms.txt Specification', value: 'Valid (200 OK)', status: 'pass' },
@@ -188,16 +194,17 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'performance',
     phase: 'Phase 5 • EdgeVmax',
     phaseNumber: 5,
+    bgImageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=600',
     engineName: 'EdgeVmax Engine',
     title: 'Global Edge Latency Radar',
     highlightValue: '16.2ms',
     highlightLabel: 'Global Avg TTFB',
     score: '42/42',
-    scoreColor: 'text-accent-cyan bg-cyan-950/40 border-cyan-500/30',
+    scoreColor: 'text-slate-800 bg-slate-100 border-slate-200',
     badge: 'HTTP/3 QUIC',
     description: 'Parallel synthetic routing across 42 global edge points of presence verifying TLS 1.3 0-RTT handshakes.',
     icon: Globe2,
-    accentColor: '#38bdf8',
+    accentColor: '#4f5d75',
     route: '/latency',
     vectors: [
       { name: 'Americas Anycast (IAD / SFO)', value: '11.4ms', status: 'optimal' },
@@ -222,12 +229,13 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'architecture',
     phase: 'Phase 1 • SynthShift',
     phaseNumber: 1,
+    bgImageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600',
     engineName: 'SynthShift Engine',
     title: 'Architecture & Canonical Parity',
     highlightValue: '100%',
     highlightLabel: 'Route Hierarchy Parity',
     score: '100',
-    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
+    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
     badge: '0 Loops',
     description: 'Full AST route topology diffing, OpenGraph metadata retention, and 301 permanent redirect tree integrity.',
     icon: Layers,
@@ -256,12 +264,13 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'security',
     phase: 'Phase 2 • GitLygase',
     phaseNumber: 2,
+    bgImageUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600',
     engineName: 'GitLygase Engine',
     title: 'Code Hygiene & CI/CD Security',
     highlightValue: '0 CVEs',
     highlightLabel: 'Vulnerability Index',
     score: '99.2',
-    scoreColor: 'text-accent-emerald bg-emerald-950/40 border-emerald-500/30',
+    scoreColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
     badge: 'Clean Build',
     description: 'Static dependency vulnerability scanning, mandatory branch protection rules, and open-source license governance.',
     icon: GitBranch,
@@ -290,16 +299,17 @@ export const FEATURED_AUDIT_METRICS: AuditMetricItem[] = [
     category: 'architecture',
     phase: 'Phase 8 • Alloster',
     phaseNumber: 8,
+    bgImageUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=600',
     engineName: 'Alloster Engine',
     title: 'Entity Graph & Semantic Schema',
     highlightValue: '8 Entities',
     highlightLabel: 'Validated Graph Nodes',
     score: '97.5',
-    scoreColor: 'text-accent-purple bg-purple-950/40 border-purple-500/30',
+    scoreColor: 'text-slate-800 bg-slate-100 border-slate-200',
     badge: 'SGE Ready',
     description: 'Schema.org JSON-LD entity graph validation enabling rich search snippets and generative AI engine comprehension.',
     icon: Sparkles,
-    accentColor: '#e879f9',
+    accentColor: '#4f5d75',
     route: '/alloster',
     vectors: [
       { name: 'BreadcrumbList Schema', value: 'Valid Structure', status: 'pass' },
@@ -409,15 +419,15 @@ export const FeaturedAuditMetrics: React.FC = () => {
   const currentCategory = categories.find((c) => c.id === selectedCategory) || categories[0];
 
   return (
-    <section className="py-12 lg:py-16 bg-gray-100/70 backdrop-blur-sm border-b border-gray-200 text-black relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-slate-50 border-b border-slate-200 text-black relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Header & Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-gray-200">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-slate-200">
           
           <div className="space-y-2 max-w-2xl text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs font-mono text-gray-600 shadow-sm">
-              <Activity className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-mono text-slate-700 shadow-sm">
+              <Activity className="h-3.5 w-3.5 text-slate-800 animate-pulse" />
               <span>Continuous SDLC Observability • 8 Vector Metrics</span>
             </div>
             
@@ -425,7 +435,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
               Featured Audit Telemetry Metrics
             </h2>
             
-            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               Real-time synthetic probes benchmarked across 42 global edge points of presence. Select any vector to launch targeted diagnostics.
             </p>
           </div>
@@ -437,13 +447,13 @@ export const FeaturedAuditMetrics: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2 text-xs font-mono text-gray-600 hover:text-white bg-white border border-gray-200 py-2 px-3 rounded-xl shadow-sm hover:bg-gray-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                className="flex items-center gap-2 text-xs font-mono text-slate-700 bg-white border border-slate-200 py-2 px-3 rounded-xl shadow-sm hover:bg-slate-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
               >
-                <span className="text-gray-500">Filter:</span>
+                <span className="text-slate-500">Filter:</span>
                 <span className="font-semibold text-black">{currentCategory.label}</span>
-                <ChevronDown className={`h-3.5 w-3.5 text-accent-cyan transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-3.5 w-3.5 text-slate-800 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Dropdown Menu */}
@@ -454,7 +464,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.98 }}
                     transition={{ duration: 0.12 }}
-                    className="absolute right-0 mt-1.5 w-48 rounded-xl bg-white border border-gray-200 shadow-2xl py-1.5 z-40 font-mono text-xs"
+                    className="absolute right-0 mt-1.5 w-48 rounded-xl bg-white border border-slate-200 shadow-xl py-1.5 z-40 font-mono text-xs"
                   >
                     {categories.map((cat) => {
                       const isSelected = selectedCategory === cat.id;
@@ -473,11 +483,11 @@ export const FeaturedAuditMetrics: React.FC = () => {
                           className={`w-full flex items-center justify-between px-3 py-2 transition-colors text-left cursor-pointer ${
                             isSelected
                               ? 'bg-black text-white font-bold'
-                              : 'text-gray-600 hover:text-white hover:bg-gray-50'
+                              : 'text-slate-700 hover:bg-slate-100'
                           }`}
                         >
                           <span>{cat.label}</span>
-                          <span className={`text-[10px] ${isSelected ? 'text-accent-cyan' : 'text-gray-500'}`}>
+                          <span className={`text-[10px] ${isSelected ? 'text-white' : 'text-slate-400'}`}>
                             {cat.count}
                           </span>
                         </button>
@@ -494,10 +504,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 type="button"
                 onClick={() => scrollStep('left')}
                 disabled={!canScrollLeft}
-                className={`p-2 rounded-xl bg-white border border-gray-200 transition-colors shadow-sm cursor-pointer ${
+                className={`p-2 rounded-xl bg-white border border-slate-200 transition-colors shadow-sm cursor-pointer ${
                   canScrollLeft
-                    ? 'text-gray-600 hover:text-white hover:bg-gray-50'
-                    : 'text-gray-500 cursor-not-allowed opacity-40'
+                    ? 'text-slate-700 hover:bg-slate-50'
+                    : 'text-slate-300 cursor-not-allowed opacity-40'
                 }`}
                 aria-label="Scroll metrics left"
               >
@@ -507,10 +517,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 type="button"
                 onClick={() => scrollStep('right')}
                 disabled={!canScrollRight}
-                className={`p-2 rounded-xl bg-white border border-gray-200 transition-colors shadow-sm cursor-pointer ${
+                className={`p-2 rounded-xl bg-white border border-slate-200 transition-colors shadow-sm cursor-pointer ${
                   canScrollRight
-                    ? 'text-gray-600 hover:text-white hover:bg-gray-50'
-                    : 'text-gray-500 cursor-not-allowed opacity-40'
+                    ? 'text-slate-700 hover:bg-slate-50'
+                    : 'text-slate-300 cursor-not-allowed opacity-40'
                 }`}
                 aria-label="Scroll metrics right"
               >
@@ -523,7 +533,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
         </div>
 
         {/* Progress Bar */}
-        <div className="w-full bg-white h-1.5 rounded-full overflow-hidden my-4 border border-gray-200">
+        <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden my-4">
           <motion.div
             style={{ width: `${Math.max(15, dragProgress)}%` }}
             className="h-full bg-black rounded-full transition-all duration-150"
@@ -543,77 +553,73 @@ export const FeaturedAuditMetrics: React.FC = () => {
             onDrag={handleDrag}
             className="flex gap-4 w-max items-stretch pb-2"
           >
-            {filteredMetrics.map((metric) => {
-              const IconComponent = metric.icon;
-
-              return (
+            {filteredMetrics.map((metric) => { const IconComponent = metric.icon; return (
                 <div
                   key={metric.id}
-                  className="w-[280px] sm:w-[310px] flex-shrink-0 flex flex-col justify-between bg-white border border-gray-200 hover:border-gray-200 rounded-2xl p-5 text-left transition-all duration-200 group relative overflow-hidden"
+                  className="w-[280px] sm:w-[310px] h-[400px] flex-shrink-0 relative"
                 >
-                  <div className="space-y-3.5">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[10px] font-mono font-semibold text-gray-500 tracking-wide uppercase flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-accent-cyan" />
-                        {metric.phase}
-                      </span>
-                      <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${metric.scoreColor}`}>
-                        {metric.score}
-                      </span>
-                    </div>
-
-                    {/* Title and Icon */}
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="text-sm sm:text-base font-bold text-black group-hover:text-accent-cyan transition-colors leading-tight">
-                          {metric.title}
-                        </h3>
-                        <p className="text-[11px] font-mono text-gray-500 mt-0.5">
-                          {metric.engineName}
-                        </p>
+                  <HeroImageCard
+                    imageUrl={metric.bgImageUrl || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600'}
+                    imageAlt={metric.title}
+                    title={<div className="text-xl font-bold leading-tight">{metric.title}</div>}
+                    badge={
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono text-white bg-black/40 backdrop-blur-md px-2 py-0.5 rounded border border-white/20 uppercase tracking-wider font-bold shadow-sm">
+                          {metric.phase}
+                        </span>
+                        <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-black/40 backdrop-blur-md border border-white/20 shadow-sm ${metric.scoreColor.replace('text-slate-800 bg-slate-100 border-slate-200', 'text-white')}`}>
+                          {metric.score}
+                        </span>
                       </div>
-                      <div className="w-9 h-9 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-accent-cyan shrink-0">
+                    }
+                    topRight={
+                      <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-sm shrink-0">
                         <IconComponent className="h-4 w-4" />
                       </div>
-                    </div>
-
-                    {/* Primary Highlight Metric Box */}
-                    <div className="p-3 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-between">
-                      <div>
-                        <div className="text-xl font-black font-mono text-black tracking-tight metric-tabular">
-                          {metric.highlightValue}
+                    }
+                    description={
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-2xl font-black font-mono text-white tracking-tight metric-tabular">
+                            {metric.highlightValue}
+                          </div>
+                          <div className="text-[11px] font-mono text-white/70 mt-0.5">
+                            {metric.highlightLabel}
+                          </div>
                         </div>
-                        <div className="text-[11px] font-mono text-gray-500 mt-0.5">
-                          {metric.highlightLabel}
-                        </div>
+                        <span className="text-[10px] font-mono font-semibold px-2 py-1 rounded bg-black/40 backdrop-blur-md border border-white/20 text-white shadow-sm">
+                          {metric.badge}
+                        </span>
                       </div>
-                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-600">
-                        {metric.badge}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Footer / Action */}
-                  <div className="pt-3.5 mt-3.5 border-t border-gray-200 flex items-center justify-between gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setInspectedMetric(metric)}
-                      className="text-xs font-mono text-gray-600 hover:text-white cursor-pointer"
-                    >
-                      Inspect Vector
-                    </button>
-                    <Link
-                      to={metric.route}
-                      className="inline-flex items-center gap-1.5 bg-black hover:bg-black-hover text-white py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all shadow-sm border border-brand-periwinkle/30"
-                    >
-                      <span>Run Audit</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-
+                    }
+                    action={
+                      <div className="flex items-center justify-between w-full">
+                        <button
+                          type="button"
+                          onClick={() => setInspectedMetric(metric)}
+                          className="text-xs font-mono text-white hover:text-white/80 cursor-pointer font-bold transition-colors"
+                        >
+                          Inspect Vector
+                        </button>
+                        <Link
+                          to={metric.route}
+                          className="inline-flex items-center gap-1.5 bg-white text-black hover:bg-gray-100 py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all shadow-sm"
+                        >
+                          <span>Run Audit</span>
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
+                      </div>
+                    }
+                    footer={
+                      <div className="text-[11px] font-mono text-white/60">
+                        {metric.engineName}
+                      </div>
+                    }
+                    aspectRatio="h-full w-full"
+                    overlayStyle="glass"
+                  />
                 </div>
-              );
-            })}
+); })}
           </motion.div>
 
         </div>
@@ -629,33 +635,33 @@ export const FeaturedAuditMetrics: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setInspectedMetric(null)}
-              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              className="relative w-full max-w-2xl bg-white border border-gray-200 rounded-2xl p-5 sm:p-7 shadow-2xl text-left z-10 space-y-5 overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar text-black"
+              className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 shadow-2xl text-left z-10 space-y-5 overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar text-black"
             >
               <button
                 type="button"
                 onClick={() => setInspectedMetric(null)}
-                className="absolute top-5 right-5 p-2 rounded-xl bg-gray-100 border border-gray-200 text-gray-600 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-5 right-5 p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 hover:text-black transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="h-4 w-4" />
               </button>
 
               <div className="space-y-1.5 pr-10">
-                <div className="flex items-center gap-2 text-xs font-mono text-accent-cyan">
-                  <span className="h-2 w-2 rounded-full bg-accent-cyan animate-pulse" />
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-800 font-bold">
+                  <span className="h-2 w-2 rounded-full bg-black animate-pulse" />
                   <span>{inspectedMetric.phase}</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-black">
                   {inspectedMetric.title} Telemetry Vector
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-600">
+                <p className="text-xs sm:text-sm text-slate-600">
                   {inspectedMetric.telemetryDetails.benchmark}
                 </p>
               </div>
@@ -663,36 +669,36 @@ export const FeaturedAuditMetrics: React.FC = () => {
               {/* Primary Values Summary */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {inspectedMetric.vectors.map((vec, idx) => (
-                  <div key={idx} className="bg-gray-100 p-3 rounded-xl border border-gray-200 font-mono">
-                    <div className="text-[10px] text-gray-500 truncate">{vec.name}</div>
+                  <div key={idx} className="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono">
+                    <div className="text-[10px] text-slate-500 truncate">{vec.name}</div>
                     <div className="text-sm font-bold text-black mt-1">{vec.value}</div>
-                    <div className="text-[10px] text-accent-emerald uppercase font-bold mt-0.5">● {vec.status}</div>
+                    <div className="text-[10px] text-emerald-600 uppercase font-bold mt-0.5">● {vec.status}</div>
                   </div>
                 ))}
               </div>
 
               {/* CLI Command */}
               <div className="space-y-1.5">
-                <div className="text-xs font-mono text-gray-500 flex items-center justify-between">
+                <div className="text-xs font-mono text-slate-500 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
-                    <Terminal className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Terminal className="h-3.5 w-3.5 text-slate-800" />
                     <span>Run Synthetic Vector Probe via Terminal</span>
                   </span>
-                  <span className="text-[10px] text-gray-500">Node.js / CI CLI</span>
+                  <span className="text-[10px] text-slate-400">Node.js / CI CLI</span>
                 </div>
-                <div className="bg-white border border-gray-200 rounded-xl p-3 flex items-center justify-between gap-3 text-xs font-mono text-gray-600">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between gap-3 text-xs font-mono text-slate-700">
                   <span className="truncate text-black">
                     {inspectedMetric.telemetryDetails.cliCommand}
                   </span>
                   <button
                     type="button"
                     onClick={() => copyCli(inspectedMetric.telemetryDetails.cliCommand)}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-50 text-white border border-gray-200 text-xs transition-colors shrink-0 cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs transition-colors shrink-0 cursor-pointer"
                   >
                     {copiedCli ? (
                       <>
-                        <Check className="h-3.5 w-3.5 text-accent-emerald" />
-                        <span className="text-accent-emerald">Copied</span>
+                        <Check className="h-3.5 w-3.5 text-emerald-600" />
+                        <span className="text-emerald-600 font-bold">Copied</span>
                       </>
                     ) : (
                       <>
@@ -709,13 +715,13 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setInspectedMetric(null)}
-                  className="w-full sm:w-auto px-4 py-2 rounded-xl border border-gray-200 text-xs font-mono text-gray-600 hover:text-white transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl border border-slate-200 text-xs font-mono text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   Dismiss
                 </button>
                 <Link
                   to={inspectedMetric.route}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-5 py-2.5 rounded-xl text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
                 >
                   <span>Launch {inspectedMetric.engineName}</span>
                   <ArrowRight className="h-4 w-4" />

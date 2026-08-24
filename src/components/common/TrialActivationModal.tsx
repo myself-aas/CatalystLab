@@ -68,10 +68,10 @@ export const TrialActivationModal: React.FC = () => {
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
       <div 
         id="trial-activation-modal-card"
-        className="relative w-full max-w-2xl bg-brand-surface border border-brand-border/80 rounded-2xl shadow-2xl overflow-hidden text-white animate-scaleUp"
+        className="relative w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden text-white animate-scaleUp"
       >
         {/* Header gradient bar */}
-        <div className="h-2 bg-gradient-to-r from-emerald-500 via-brand-cyan to-indigo-500" />
+        <div className="h-2 bg-gradient-to-r from-emerald-500 via-cyan-500 to-indigo-500" />
 
         {/* Close Button */}
         <button 
@@ -94,7 +94,7 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">
-            Unlock Full <span className="text-brand-cyan">{plan.name} Tier</span> for 7 Days
+            Unlock Full <span className="text-cyan-500">{plan.name} Tier</span> for 7 Days
           </h2>
           <p className="text-sm text-slate-300 mt-2 leading-relaxed">
             Experience our 8 parallel diagnostic engines, automated CI/CD runners, and high-frequency edge latency probes with zero billing lock-in.
@@ -116,12 +116,12 @@ export const TrialActivationModal: React.FC = () => {
                     onClick={() => setSelectedPlan(tierKey)}
                     className={`relative p-3 rounded-xl text-left border transition-all ${
                       isSelected 
-                        ? 'bg-brand-cyan/10 border-brand-cyan shadow-md text-white' 
-                        : 'bg-white/60 border-brand-border/60 text-slate-300 hover:border-slate-500'
+                        ? 'bg-cyan-500/10 border-cyan-500 shadow-md text-white' 
+                        : 'bg-white/60 border-slate-700/60 text-slate-300 hover:border-slate-500'
                     }`}
                   >
                     {item.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[9px] font-bold rounded bg-brand-cyan text-brand-navy">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500 text-black">
                         POPULAR
                       </span>
                     )}
@@ -139,10 +139,10 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Active Plan Highlights Box */}
-          <div className="mt-6 p-4 rounded-xl bg-white/80 border border-brand-border/80">
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-3 border-b border-brand-border/40">
+          <div className="mt-6 p-4 rounded-xl bg-white/80 border border-slate-700/80">
+            <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-3 border-b border-slate-700/40">
               <span className="flex items-center gap-1.5 text-white">
-                <Cpu className="w-4 h-4 text-brand-cyan" /> {plan.dailyComputeUnits} Daily Compute Units
+                <Cpu className="w-4 h-4 text-cyan-500" /> {plan.dailyComputeUnits} Daily Compute Units
               </span>
               <span className="text-emerald-400 font-mono">
                 {plan.masterAuditsPerDay} Master / {plan.singleEngineAuditsPerDay} Single Audits
@@ -168,7 +168,7 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Action Footer */}
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-brand-border/60">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-700/60">
             <div className="text-xs text-slate-400 text-center sm:text-left">
               {user ? (
                 <span>Signed in as <strong className="text-white">{user.email}</strong></span>
@@ -198,7 +198,7 @@ export const TrialActivationModal: React.FC = () => {
               >
                 {loading ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-brand-navy border-t-transparent rounded-full animate-spin" />
+                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                     <span>Activating...</span>
                   </>
                 ) : success ? (
@@ -208,7 +208,7 @@ export const TrialActivationModal: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4 text-brand-navy" />
+                    <Sparkles className="w-4 h-4 text-black" />
                     <span>Activate 7-Day Trial</span>
                   </>
                 )}

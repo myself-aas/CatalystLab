@@ -472,9 +472,9 @@ export const BlogEditorPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center p-6">
-        <RefreshCw className="h-8 w-8 text-amber-600 animate-spin mb-4" />
+        <RefreshCw className="h-8 w-8 text-amber-500 animate-spin mb-4" />
         <div className="text-lg font-bold">Loading Article Editor Studio...</div>
-        <p className="text-sm text-slate-400 mt-1">Retrieving markdown document and metadata.</p>
+        <p className="text-sm text-slate-500 mt-1">Retrieving markdown document and metadata.</p>
       </div>
     );
   }
@@ -489,7 +489,7 @@ export const BlogEditorPage: React.FC = () => {
       />
 
       {/* 1. TOP DEDICATED APP BAR */}
-      <header className="sticky top-0 z-30 border-b border-cyan-500/20 bg-[#091527]/95 backdrop-blur-md px-4 sm:px-6 py-3">
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md px-4 sm:px-6 py-3">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
           
           {/* Left Zone: Back & Title Badge */}
@@ -501,46 +501,46 @@ export const BlogEditorPage: React.FC = () => {
                 }
                 navigate(-1);
               }}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-slate-800/80 px-2.5 py-1.5 text-xs font-semibold text-gray-700 hover:text-black hover:bg-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-black hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Return to previous view"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Back</span>
             </button>
 
-            <div className="h-4 w-px bg-slate-700 hidden sm:block" />
+            <div className="h-4 w-px bg-slate-200 hidden sm:block" />
 
             <div className="flex items-center gap-2">
               <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                isCreateMode ? 'bg-black/20 text-amber-600 border border-cyan-400/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30'
+                isCreateMode ? 'bg-amber-50 text-amber-500 border border-amber-200' : 'bg-emerald-50 text-emerald-500 border border-emerald-200'
               }`}>
                 {isCreateMode ? <Sparkles className="h-3 w-3" /> : <Edit3 className="h-3 w-3" />}
                 <span>{isCreateMode ? 'New Article' : 'Editing Article'}</span>
               </span>
 
-              <div className="hidden md:flex items-center gap-2 text-xs font-mono text-gray-700 bg-white px-2.5 py-1 rounded-lg border border-gray-200">
-                <span className="text-amber-600 font-bold flex items-center gap-1">
+              <div className="hidden md:flex items-center gap-2 text-xs font-mono text-slate-600 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+                <span className="text-amber-500 font-bold flex items-center gap-1">
                   <Clock className="h-3 w-3" />
                   {stats.readTime}
                 </span>
-                <span className="text-slate-600">•</span>
+                <span className="text-slate-400">•</span>
                 <span>{stats.words.toLocaleString()} words</span>
                 {stats.codeBlocksCount > 0 && (
                   <>
-                    <span className="text-slate-600">•</span>
-                    <span className="text-amber-400">{stats.codeBlocksCount} code blocks</span>
+                    <span className="text-slate-400">•</span>
+                    <span className="text-amber-500">{stats.codeBlocksCount} code blocks</span>
                   </>
                 )}
               </div>
 
               {hasUnsavedChanges ? (
-                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded-md border border-amber-500/30">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
                   Unsaved changes
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 bg-slate-800/50 px-2 py-0.5 rounded-md border border-gray-200/50">
-                  <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                  <CheckCircle2 className="h-3 w-3 text-emerald-500" />
                   Saved
                 </span>
               )}
@@ -549,14 +549,14 @@ export const BlogEditorPage: React.FC = () => {
 
           {/* Center Zone: Mode Switchers (Split, Edit, Preview) */}
           <div className="flex items-center justify-center">
-            <div className="inline-flex rounded-xl bg-[#0d1f38] p-1 border border-gray-200/70">
+            <div className="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
               <button
                 type="button"
                 onClick={() => setViewMode('edit')}
                 className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
                   viewMode === 'edit'
-                    ? 'bg-black text-white shadow-sm'
-                    : 'text-slate-400 hover:text-black'
+                    ? 'bg-white text-black shadow-xs'
+                    : 'text-slate-600 hover:text-black'
                 }`}
               >
                 <Edit3 className="h-3.5 w-3.5" />
@@ -568,8 +568,8 @@ export const BlogEditorPage: React.FC = () => {
                 onClick={() => setViewMode('split')}
                 className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
                   viewMode === 'split'
-                    ? 'bg-black text-white shadow-sm'
-                    : 'text-slate-400 hover:text-black'
+                    ? 'bg-white text-black shadow-xs'
+                    : 'text-slate-600 hover:text-black'
                 }`}
               >
                 <Columns className="h-3.5 w-3.5" />
@@ -581,8 +581,8 @@ export const BlogEditorPage: React.FC = () => {
                 onClick={() => setViewMode('preview')}
                 className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
                   viewMode === 'preview'
-                    ? 'bg-black text-white shadow-sm'
-                    : 'text-slate-400 hover:text-black'
+                    ? 'bg-white text-black shadow-xs'
+                    : 'text-slate-600 hover:text-black'
                 }`}
               >
                 <Eye className="h-3.5 w-3.5" />
@@ -596,7 +596,7 @@ export const BlogEditorPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="hidden lg:inline-flex p-2 rounded-lg border border-gray-200 bg-slate-800/80 text-gray-700 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="hidden lg:inline-flex p-2 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:text-black hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title={isFullscreen ? 'Exit Fullscreen' : 'Zen Fullscreen Writing Mode'}
             >
               {isFullscreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
@@ -607,7 +607,7 @@ export const BlogEditorPage: React.FC = () => {
                 href={`/blogs/${liveArticleSlug}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded-xl border border-gray-200 bg-slate-800/80 px-3 py-1.5 text-xs font-semibold text-gray-800 hover:bg-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 title="Open live article in new tab"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
@@ -619,7 +619,7 @@ export const BlogEditorPage: React.FC = () => {
               type="button"
               disabled={saving}
               onClick={() => handleSave('draft')}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-800 px-3.5 py-1.5 text-xs font-bold text-gray-800 hover:bg-slate-700 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Save className="h-3.5 w-3.5" />
               <span>Save Draft</span>
@@ -629,16 +629,16 @@ export const BlogEditorPage: React.FC = () => {
               type="button"
               disabled={saving}
               onClick={() => handleSave('published')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-1.5 text-xs font-bold text-black disabled:opacity-50 transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-black hover:bg-black-hover border border-slate-800 px-4 py-1.5 text-xs font-bold text-white disabled:opacity-50 transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               {saving ? (
                 <>
-                  <RefreshCw className="h-3.5 w-3.5 animate-spin text-accent-cyan" />
+                  <RefreshCw className="h-3.5 w-3.5 animate-spin text-amber-500" />
                   <span>Saving...</span>
                 </>
               ) : (
                 <>
-                  <Send className="h-3.5 w-3.5 text-accent-cyan" />
+                  <Send className="h-3.5 w-3.5 text-amber-500" />
                   <span>{isCreateMode ? 'Publish Article' : 'Save Changes'}</span>
                 </>
               )}
@@ -666,9 +666,9 @@ export const BlogEditorPage: React.FC = () => {
         <main className={`space-y-6 ${viewMode === 'preview' ? 'lg:col-span-12' : 'lg:col-span-8'}`}>
           
           {/* Article Title Input Box */}
-          <div className="rounded-2xl border border-cyan-500/20 bg-[#0d1f38] p-5 sm:p-6 shadow-xl space-y-4">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm space-y-4">
             <div>
-              <label className="block text-xs font-bold text-amber-600 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                 Article Title & Headline
               </label>
               <input
@@ -676,21 +676,21 @@ export const BlogEditorPage: React.FC = () => {
                 value={post.title || ''}
                 onChange={(e) => handleTitleChange(e.target.value)}
                 placeholder="e.g. Next.js 15 Server Action Latencies: Multi-Region Telemetry Benchmark"
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-lg sm:text-xl font-extrabold text-black placeholder:text-slate-500 focus:border-black focus:outline-none transition-colors"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-lg sm:text-xl font-extrabold text-black placeholder:text-slate-400 focus:border-black focus:outline-none transition-colors"
               />
             </div>
 
             {/* Permanent URL Slug Preview & Editor */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-200 text-xs">
-              <div className="flex items-center gap-2 text-slate-400">
-                <LinkIcon className="h-3.5 w-3.5 text-amber-600 shrink-0" />
-                <span className="font-mono text-slate-500">catalystlab.tech/blogs/</span>
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 text-xs">
+              <div className="flex items-center gap-2 text-slate-500">
+                <LinkIcon className="h-3.5 w-3.5 text-black shrink-0" />
+                <span className="font-mono text-slate-400">catalystlab.tech/blogs/</span>
                 <input
                   type="text"
                   value={post.slug || ''}
                   onChange={(e) => handleSlugChange(e.target.value)}
                   placeholder="custom-article-slug"
-                  className="bg-transparent border-b border-dashed border-slate-600 font-mono text-amber-600 focus:border-black focus:outline-none px-1 py-0.5 max-w-[240px] sm:max-w-xs"
+                  className="bg-transparent border-b border-dashed border-slate-300 font-mono text-black focus:border-black focus:outline-none px-1 py-0.5 max-w-[240px] sm:max-w-xs"
                 />
               </div>
 
@@ -700,21 +700,21 @@ export const BlogEditorPage: React.FC = () => {
                   onClick={() => setShowInlineHeroPreview(!showInlineHeroPreview)}
                   className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-lg border transition-colors ${
                     showInlineHeroPreview
-                      ? 'bg-black/20 text-amber-600 border-cyan-400/40'
-                      : 'bg-slate-800 text-slate-400 border-gray-200 hover:text-black'
+                      ? 'bg-amber-50 text-amber-500 border-amber-200'
+                      : 'bg-slate-50 text-slate-600 border-slate-200 hover:text-black hover:bg-slate-100'
                   }`}
                   title="Toggle live hero banner preview"
                 >
-                  <ImageIcon className="h-3 w-3 text-amber-600" />
+                  <ImageIcon className="h-3 w-3 text-amber-500" />
                   <span>{showInlineHeroPreview ? 'Hide Hero Banner' : 'Live Hero Banner Preview'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleCopyLiveLink}
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400 hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
-                  {copiedLink ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                  {copiedLink ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
                   <span>{copiedLink ? 'Copied URL!' : 'Copy Permanent URL'}</span>
                 </button>
               </div>
@@ -740,15 +740,15 @@ export const BlogEditorPage: React.FC = () => {
 
           {/* Rich Markdown Formatting Toolbar (Visible in edit and split modes) */}
           {viewMode !== 'preview' && (
-            <div className="rounded-2xl border border-gray-200 bg-[#0d1f38] p-2.5 shadow-md">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-2.5 shadow-xs">
               <div className="flex flex-wrap items-center gap-1">
                 
                 {/* Heading group */}
-                <div className="flex items-center bg-white rounded-lg p-0.5 border border-gray-200">
+                <div className="flex items-center bg-white rounded-lg p-0.5 border border-slate-200">
                   <button
                     type="button"
                     onClick={() => insertMarkdown('# ', '', 'Heading 1')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Heading 1"
                   >
                     <Heading1 className="h-4 w-4" />
@@ -756,7 +756,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('## ', '', 'Heading 2')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Heading 2"
                   >
                     <Heading2 className="h-4 w-4" />
@@ -764,21 +764,21 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('### ', '', 'Heading 3')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Heading 3"
                   >
                     <Heading3 className="h-4 w-4" />
                   </button>
                 </div>
 
-                <div className="h-5 w-px bg-slate-800 mx-1" />
+                <div className="h-5 w-px bg-slate-200 mx-1" />
 
                 {/* Inline formatting group */}
-                <div className="flex items-center bg-white rounded-lg p-0.5 border border-gray-200">
+                <div className="flex items-center bg-white rounded-lg p-0.5 border border-slate-200">
                   <button
                     type="button"
                     onClick={() => insertMarkdown('**', '**', 'bold text')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Bold (Ctrl+B)"
                   >
                     <Bold className="h-4 w-4" />
@@ -786,7 +786,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('*', '*', 'italic text')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Italic (Ctrl+I)"
                   >
                     <Italic className="h-4 w-4" />
@@ -794,7 +794,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('~~', '~~', 'strikethrough')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Strikethrough"
                   >
                     <Strikethrough className="h-4 w-4" />
@@ -802,21 +802,21 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('`', '`', 'code')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Inline Code"
                   >
                     <Code className="h-4 w-4" />
                   </button>
                 </div>
 
-                <div className="h-5 w-px bg-slate-800 mx-1" />
+                <div className="h-5 w-px bg-slate-200 mx-1" />
 
                 {/* Blocks group */}
-                <div className="flex items-center bg-white rounded-lg p-0.5 border border-gray-200">
+                <div className="flex items-center bg-white rounded-lg p-0.5 border border-slate-200">
                   <button
                     type="button"
                     onClick={() => insertMarkdown('> ', '', 'Quoted text')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Blockquote"
                   >
                     <Quote className="h-4 w-4" />
@@ -824,7 +824,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('- ', '', 'List item')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Bullet List"
                   >
                     <List className="h-4 w-4" />
@@ -832,7 +832,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('1. ', '', 'Numbered item')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Numbered List"
                   >
                     <ListOrdered className="h-4 w-4" />
@@ -840,21 +840,21 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('- [ ] ', '', 'Task')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Task Checklist"
                   >
                     <CheckSquare className="h-4 w-4" />
                   </button>
                 </div>
 
-                <div className="h-5 w-px bg-slate-800 mx-1" />
+                <div className="h-5 w-px bg-slate-200 mx-1" />
 
                 {/* Advanced Inserters */}
-                <div className="flex items-center bg-white rounded-lg p-0.5 border border-gray-200">
+                <div className="flex items-center bg-white rounded-lg p-0.5 border border-slate-200">
                   <button
                     type="button"
                     onClick={() => insertMarkdown('```typescript\n', '\n```', '// Code snippet')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Code Block"
                   >
                     <FileCode className="h-4 w-4" />
@@ -862,7 +862,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('[', '](https://)', 'Link text')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Link"
                   >
                     <LinkIcon className="h-4 w-4" />
@@ -870,7 +870,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('![', '](https://images.unsplash.com/photo-1558494949-ef010cbdcc31)', 'Image description')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Image"
                   >
                     <ImageIcon className="h-4 w-4" />
@@ -878,7 +878,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('| Metric | Status | Latency |\n|---|---|---|\n| Edge TTFB | Optimal | 42ms |\n| LCP | Good | 1.1s |\n')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Telemetry Table"
                   >
                     <TableIcon className="h-4 w-4" />
@@ -886,7 +886,7 @@ export const BlogEditorPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => insertMarkdown('\n---\n')}
-                    className="p-1.5 text-gray-700 hover:text-amber-600 hover:bg-slate-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Horizontal Divider"
                   >
                     <Minus className="h-4 w-4" />
@@ -895,7 +895,7 @@ export const BlogEditorPage: React.FC = () => {
 
                 {/* Templates Selector */}
                 <div className="ml-auto flex items-center gap-1.5">
-                  <span className="text-[11px] font-bold text-slate-400 hidden sm:inline">Templates:</span>
+                  <span className="text-[11px] font-bold text-slate-500 hidden sm:inline">Templates:</span>
                   <select
                     onChange={(e) => {
                       const selected = TEMPLATES.find((t) => t.label === e.target.value);
@@ -911,7 +911,7 @@ export const BlogEditorPage: React.FC = () => {
                       e.target.value = '';
                     }}
                     defaultValue=""
-                    className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-amber-600 focus:border-black focus:outline-none"
+                    className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-800 focus:border-black focus:outline-none"
                   >
                     <option value="" disabled>Insert Technical Blueprint...</option>
                     {TEMPLATES.map((t) => (
@@ -930,12 +930,12 @@ export const BlogEditorPage: React.FC = () => {
             
             {/* 1. WRITE MODE OR SPLIT LEFT */}
             {viewMode !== 'preview' && (
-              <div className={`rounded-2xl border border-cyan-500/20 bg-[#0d1f38] p-4 sm:p-5 shadow-xl flex flex-col ${
+              <div className={`rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm flex flex-col ${
                 viewMode === 'split' ? 'min-h-[550px]' : 'min-h-[700px]'
               }`}>
-                <div className="flex items-center justify-between pb-3 mb-2 border-b border-gray-200 text-xs text-slate-400 font-mono">
+                <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100 text-xs text-slate-500 font-mono">
                   <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-amber-600" />
+                    <FileText className="h-4 w-4 text-black" />
                     <span>Markdown Source Stream</span>
                   </div>
                   <span>Tab: 2 Spaces • Shortcuts: Ctrl+B, Ctrl+I, Ctrl+S</span>
@@ -950,19 +950,19 @@ export const BlogEditorPage: React.FC = () => {
                   }}
                   onKeyDown={handleKeyDown}
                   placeholder="Write your in-depth telemetry analysis, benchmarks, architecture patterns, and technical remediation here..."
-                  className="flex-1 w-full rounded-xl border border-gray-200 bg-white p-4 text-sm font-mono leading-relaxed text-black placeholder:text-slate-600 focus:border-black focus:outline-none resize-y min-h-[480px]"
+                  className="flex-1 w-full rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm font-mono leading-relaxed text-black placeholder:text-slate-400 focus:border-black focus:outline-none resize-y min-h-[480px]"
                 />
               </div>
             )}
 
             {/* 2. PREVIEW MODE OR SPLIT RIGHT */}
             {(viewMode === 'split' || viewMode === 'preview') && (
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-10 shadow-2xl text-[#0b192c]">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm text-black">
                 
                 {/* Header in Preview */}
                 <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-200">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-cyan-100 text-cyan-900 border border-cyan-300 px-3 py-0.5 text-xs font-bold">
+                    <span className="rounded-full bg-slate-100 text-slate-800 border border-slate-200 px-3 py-0.5 text-xs font-bold">
                       {post.category || 'Architecture'}
                     </span>
                     <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold">
@@ -976,13 +976,13 @@ export const BlogEditorPage: React.FC = () => {
                 </div>
 
                 {/* Article Headline */}
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0b192c] tracking-tight leading-tight mb-6">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black tracking-tight leading-tight mb-6">
                   {post.title || 'Untitled Engineering Article'}
                 </h1>
 
                 {/* Hero / Cover Image Banner */}
                 {post.coverImage && (
-                  <div className="mb-8 rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-[16/9] bg-slate-100">
+                  <div className="mb-8 rounded-2xl overflow-hidden shadow-xs border border-slate-200 aspect-[16/9] bg-slate-50">
                     <img
                       src={getBlogCoverImage(post as BlogPost)}
                       alt={post.title || 'Article Cover'}
@@ -1002,12 +1002,12 @@ export const BlogEditorPage: React.FC = () => {
                       referrerPolicy="no-referrer"
                     />
                   ) : (
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b192c] text-sm font-bold text-black shadow-xs">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-800 shadow-xs">
                       {(post.authorName || 'C')[0]}
                     </div>
                   )}
                   <div>
-                    <div className="text-sm font-bold text-[#0b192c]">
+                    <div className="text-sm font-bold text-black">
                       {post.authorName || 'CatalystLab Telemetry Team'}
                     </div>
                     <div className="text-xs text-slate-500">
@@ -1018,13 +1018,13 @@ export const BlogEditorPage: React.FC = () => {
 
                 {/* Excerpt Lead in Preview */}
                 {post.excerpt && (
-                  <div className="mb-8 rounded-xl border-l-4 border-[#0b192c] bg-slate-50 p-4 text-base font-medium text-slate-700 leading-relaxed">
+                  <div className="mb-8 rounded-xl border-l-4 border-slate-900 bg-slate-50 p-4 text-base font-medium text-slate-700 leading-relaxed">
                     {post.excerpt}
                   </div>
                 )}
 
                 {/* Rendered Markdown Body */}
-                <div className="prose prose-slate max-w-none text-base leading-relaxed text-[#0b192c]">
+                <div className="prose prose-slate max-w-none text-base leading-relaxed text-slate-800">
                   <MarkdownRenderer content={post.content || ''} />
                 </div>
 
@@ -1054,8 +1054,8 @@ export const BlogEditorPage: React.FC = () => {
           <aside className="lg:col-span-4 space-y-6">
             
             {/* Card: Publishing Controls */}
-            <div className="rounded-2xl border border-cyan-500/20 bg-[#0d1f38] p-5 shadow-xl space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-amber-600 flex items-center gap-2">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
                 <Send className="h-3.5 w-3.5" />
                 <span>Publication Status</span>
               </h3>
@@ -1069,8 +1069,8 @@ export const BlogEditorPage: React.FC = () => {
                   }}
                   className={`flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold border transition-all ${
                     post.status === 'published'
-                      ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300 shadow-sm'
-                      : 'border-gray-200 bg-slate-800/60 text-slate-400 hover:text-gray-800'
+                      ? 'border-emerald-300 bg-emerald-50 text-emerald-500 shadow-xs'
+                      : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-black hover:bg-slate-100'
                   }`}
                 >
                   <CheckCircle2 className="h-3.5 w-3.5" />
@@ -1085,8 +1085,8 @@ export const BlogEditorPage: React.FC = () => {
                   }}
                   className={`flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold border transition-all ${
                     post.status === 'draft'
-                      ? 'border-amber-500/50 bg-amber-500/20 text-amber-300 shadow-sm'
-                      : 'border-gray-200 bg-slate-800/60 text-slate-400 hover:text-gray-800'
+                      ? 'border-amber-300 bg-amber-50 text-amber-500 shadow-xs'
+                      : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-black hover:bg-slate-100'
                   }`}
                 >
                   <Clock className="h-3.5 w-3.5" />
@@ -1099,16 +1099,16 @@ export const BlogEditorPage: React.FC = () => {
                 type="button"
                 disabled={saving}
                 onClick={() => handleSave()}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 py-3 text-sm font-bold text-black disabled:opacity-50 transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-slate-800 py-3 text-sm font-bold text-white disabled:opacity-50 transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 {saving ? (
                   <>
-                    <RefreshCw className="h-4 w-4 animate-spin text-accent-cyan" />
+                    <RefreshCw className="h-4 w-4 animate-spin text-amber-500" />
                     <span>Synchronizing...</span>
                   </>
                 ) : (
                   <>
-                    <Save className="h-4 w-4 text-accent-cyan" />
+                    <Save className="h-4 w-4 text-amber-500" />
                     <span>{isCreateMode ? 'Publish Article Now' : 'Save Article Changes'}</span>
                   </>
                 )}
@@ -1119,7 +1119,7 @@ export const BlogEditorPage: React.FC = () => {
                   type="button"
                   onClick={handleDelete}
                   disabled={saving}
-                  className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-rose-500/30 bg-rose-950/20 py-2 text-xs font-bold text-rose-300 hover:bg-rose-950/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                   <span>Delete Article Permanently</span>
@@ -1143,21 +1143,21 @@ export const BlogEditorPage: React.FC = () => {
             />
 
             {/* Card: Taxonomy & Category */}
-            <div className="rounded-2xl border border-cyan-500/20 bg-[#0d1f38] p-5 shadow-xl space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-amber-600 flex items-center gap-2">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
                 <Folder className="h-3.5 w-3.5" />
                 <span>Category & Taxonomy</span>
               </h3>
 
               <div>
-                <label className="block text-xs text-slate-400 mb-1.5">Primary Category</label>
+                <label className="block text-xs text-slate-500 mb-1.5">Primary Category</label>
                 <select
                   value={post.category || CATEGORIES[0]}
                   onChange={(e) => {
                     setPost((prev) => ({ ...prev, category: e.target.value }));
                     setHasUnsavedChanges(true);
                   }}
-                  className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-black focus:border-black focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-black focus:border-black focus:outline-none"
                 >
                   {CATEGORIES.map((c) => (
                     <option key={c} value={c}>
@@ -1168,7 +1168,7 @@ export const BlogEditorPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs text-slate-400 mb-1.5">Keywords & Tags</label>
+                <label className="block text-xs text-slate-500 mb-1.5">Keywords & Tags</label>
                 <div className="flex gap-1.5 mb-2">
                   <input
                     type="text"
@@ -1176,12 +1176,12 @@ export const BlogEditorPage: React.FC = () => {
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyDown={handleAddTag}
                     placeholder="Add tag (press Enter)..."
-                    className="flex-1 rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-black placeholder:text-slate-500 focus:border-black focus:outline-none"
+                    className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs text-black placeholder:text-slate-400 focus:border-black focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => handleAddTag()}
-                    className="rounded-xl border border-gray-200 bg-slate-800 px-3 py-1.5 text-xs font-bold text-gray-800 hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Add
                   </button>
@@ -1191,7 +1191,7 @@ export const BlogEditorPage: React.FC = () => {
                   {(post.tags || []).map((t) => (
                     <span
                       key={t}
-                      className="inline-flex items-center gap-1 rounded-lg bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 text-xs font-medium text-amber-600"
+                      className="inline-flex items-center gap-1 rounded-lg bg-slate-100 border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-700"
                     >
                       <span>#{t}</span>
                       <button
@@ -1208,14 +1208,14 @@ export const BlogEditorPage: React.FC = () => {
             </div>
 
             {/* Card: Excerpt & SERP Snippet */}
-            <div className="rounded-2xl border border-cyan-500/20 bg-[#0d1f38] p-5 shadow-xl space-y-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-amber-600 flex items-center gap-2">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
                   <Search className="h-3.5 w-3.5" />
                   <span>Search Snippet & Excerpt</span>
                 </h3>
                 <span className={`text-[11px] font-mono ${
-                  (post.excerpt?.length || 0) > 160 ? 'text-amber-400' : 'text-slate-400'
+                  (post.excerpt?.length || 0) > 160 ? 'text-amber-500' : 'text-slate-400'
                 }`}>
                   {post.excerpt?.length || 0}/160 chars
                 </span>
@@ -1229,32 +1229,32 @@ export const BlogEditorPage: React.FC = () => {
                 }}
                 rows={3}
                 placeholder="Concise summary indexed by Google and AI LLM search engines..."
-                className="w-full rounded-xl border border-gray-200 bg-white p-3 text-xs text-black placeholder:text-slate-500 focus:border-black focus:outline-none"
+                className="w-full rounded-xl border border-slate-200 bg-white p-3 text-xs text-black placeholder:text-slate-400 focus:border-black focus:outline-none"
               />
 
               {/* SERP Search Preview Card */}
-              <div className="rounded-xl border border-gray-200 bg-white p-3 text-xs space-y-1">
-                <div className="text-[11px] text-slate-400 flex items-center gap-1 font-mono truncate">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs space-y-1">
+                <div className="text-[11px] text-slate-500 flex items-center gap-1 font-mono truncate">
                   <span>https://www.catalystlab.tech › blogs › {post.slug || 'article'}</span>
                 </div>
-                <div className="text-sky-400 font-medium hover:underline cursor-pointer truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                <div className="text-black font-medium hover:underline cursor-pointer truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                   {post.title || 'Untitled Engineering Article'} - CatalystLab
                 </div>
-                <div className="text-slate-400 text-[11px] line-clamp-2">
+                <div className="text-slate-500 text-[11px] line-clamp-2">
                   {post.excerpt || 'Read the comprehensive engineering benchmarks and edge telemetry diagnostics on CatalystLab.'}
                 </div>
               </div>
             </div>
 
             {/* Card: Author Byline */}
-            <div className="rounded-2xl border border-cyan-500/20 bg-[#0d1f38] p-5 shadow-xl space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-amber-600 flex items-center gap-2">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
                 <User className="h-3.5 w-3.5" />
                 <span>Author Attribution</span>
               </h3>
 
               <div>
-                <label className="block text-[11px] text-slate-400 mb-1">Author Name</label>
+                <label className="block text-[11px] text-slate-500 mb-1">Author Name</label>
                 <input
                   type="text"
                   value={post.authorName || ''}
@@ -1262,12 +1262,12 @@ export const BlogEditorPage: React.FC = () => {
                     setPost((prev) => ({ ...prev, authorName: e.target.value }));
                     setHasUnsavedChanges(true);
                   }}
-                  className="w-full rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-black focus:border-black focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs text-black focus:border-black focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] text-slate-400 mb-1">Author Email</label>
+                <label className="block text-[11px] text-slate-500 mb-1">Author Email</label>
                 <input
                   type="email"
                   value={post.authorEmail || ''}
@@ -1275,7 +1275,7 @@ export const BlogEditorPage: React.FC = () => {
                     setPost((prev) => ({ ...prev, authorEmail: e.target.value }));
                     setHasUnsavedChanges(true);
                   }}
-                  className="w-full rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-black focus:border-black focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs text-black focus:border-black focus:outline-none"
                 />
               </div>
             </div>

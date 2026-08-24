@@ -1,3 +1,4 @@
+import { HeroImageCard } from "../common/HeroImageCard";
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -265,7 +266,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   onClick={() => setActiveCategory(cat.id)}
                   className={`shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer border ${
                     isActive 
-                      ? 'bg-black text-white border-brand-periwinkle/40 font-bold' 
+                      ? 'bg-black text-white border-slate-700 font-bold' 
                       : 'bg-gray-100 text-gray-600 border-gray-200 hover:text-white hover:bg-gray-50'
                   }`}
                 >
@@ -280,122 +281,107 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
           </div>
         )}
 
+        
         {/* 1 + 4 Grid Layout */}
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Hero Card */}
           {heroPost && (
-            <article 
-              className="lg:col-span-5 group relative rounded-xl border border-gray-200 bg-gray-100 p-4 sm:p-5 flex flex-col justify-between transition-all hover:border-gray-200 shadow-lg"
-            >
-              <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden bg-white border border-gray-200">
-                <img 
-                  src={getBlogCoverImage(heroPost)} 
-                  alt={heroPost.title}
-                  className="h-full w-full object-cover object-center"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-transparent to-transparent" />
-                
-                <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                  <span className="rounded bg-white/90 border border-gray-200 px-2 py-0.5 text-[10px] font-mono font-bold text-white">
-                    {heroPost.category || 'Trending'}
-                  </span>
-                  <span className="rounded bg-accent-cyan text-brand-navy px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase tracking-wider">
-                    Featured
-                  </span>
-                </div>
-
-                <div className="absolute top-3 right-3 flex items-center gap-1">
-                  <button
-                    onClick={(e) => handleShare(heroPost.slug || heroPost.id || '', e)}
-                    title="Share Article Link"
-                    className="h-7 w-7 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors hover:bg-gray-100 cursor-pointer"
-                  >
-                    {copiedSlug === (heroPost.slug || heroPost.id) ? (
-                      <Check className="h-3.5 w-3.5 text-accent-emerald" />
-                    ) : (
-                      <Share2 className="h-3.5 w-3.5 text-gray-600" />
-                    )}
-                  </button>
-                  <button
-                    onClick={(e) => toggleBookmark(heroPost.id || heroPost.slug, e)}
-                    title={bookmarkedIds.has(heroPost.id || heroPost.slug) ? "Remove Bookmark" : "Save Article"}
-                    className="h-7 w-7 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors hover:bg-gray-100 cursor-pointer"
-                  >
-                    {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
-                      <BookmarkCheck className="h-3.5 w-3.5 text-accent-cyan fill-accent-cyan" />
-                    ) : (
-                      <Bookmark className="h-3.5 w-3.5 text-gray-600" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-xs font-mono text-gray-500 mb-2">
+            <div className="lg:col-span-5 h-full min-h-[450px]">
+              <HeroImageCard
+                imageUrl={getBlogCoverImage(heroPost)}
+                imageAlt={heroPost.title}
+                title={heroPost.title}
+                subtitle={
+                  <div className="flex items-center gap-2 text-xs font-mono mt-2 mb-2">
                     <span className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3 text-accent-cyan" />
+                      <Calendar className="h-3.5 w-3.5 text-white/70" />
                       {formatDate(heroPost.createdAt)}
                     </span>
-                    <span>•</span>
+                    <span className="text-white/40">•</span>
                     <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3 text-accent-cyan" />
+                      <Clock className="h-3.5 w-3.5 text-white/70" />
                       {getArticleReadingTime(heroPost)}
                     </span>
                   </div>
-
-                  <Link to={`/blog/${heroPost.slug || heroPost.id}`}>
-                    <h3 className="text-base sm:text-lg font-bold text-black group-hover:text-accent-cyan transition-colors leading-snug">
-                      {heroPost.title}
-                    </h3>
+                }
+                description={heroPost.excerpt || 'Explore deep-dive telemetry diagnostics, modern SSR hydration patterns, and benchmark data from production engines.'}
+                badge={
+                  <div className="flex items-center gap-1.5">
+                    <span className="rounded bg-black/60 border border-white/20 px-2 py-0.5 text-[10px] font-mono font-bold text-white backdrop-blur-md">
+                      {heroPost.category || 'Trending'}
+                    </span>
+                    <span className="rounded bg-white text-black px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase tracking-wider shadow-sm">
+                      Featured
+                    </span>
+                  </div>
+                }
+                topRight={
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleShare(heroPost.slug || heroPost.id || '', e);
+                      }}
+                      title="Share Article Link"
+                      className="h-8 w-8 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
+                    >
+                      {copiedSlug === (heroPost.slug || heroPost.id) ? (
+                        <Check className="h-4 w-4 text-emerald-400" />
+                      ) : (
+                        <Share2 className="h-4 w-4 text-white/90" />
+                      )}
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleBookmark(heroPost.id || heroPost.slug, e);
+                      }}
+                      title={bookmarkedIds.has(heroPost.id || heroPost.slug) ? "Remove Bookmark" : "Save Article"}
+                      className="h-8 w-8 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
+                    >
+                      {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
+                        <BookmarkCheck className="h-4 w-4 text-white fill-white" />
+                      ) : (
+                        <Bookmark className="h-4 w-4 text-white/90" />
+                      )}
+                    </button>
+                  </div>
+                }
+                action={
+                  <Link
+                    to={`/blog/${heroPost.slug || heroPost.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-white hover:bg-gray-100 px-4 py-2.5 text-sm font-bold text-black transition-colors shadow-sm"
+                  >
+                    <span>Read Article</span>
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
-
-                  <p className="mt-2 text-xs text-gray-600 leading-relaxed line-clamp-3">
-                    {heroPost.excerpt || 'Explore deep-dive telemetry diagnostics, modern SSR hydration patterns, and benchmark data from production engines.'}
-                  </p>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-gray-200 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
+                }
+                footer={
+                  <div className="flex items-center gap-2.5">
                     {heroPost.authorAvatar ? (
                       <img
                         src={heroPost.authorAvatar}
                         alt={heroPost.authorName || 'Author'}
-                        className="h-7 w-7 rounded-lg object-cover border border-gray-200"
+                        className="h-8 w-8 rounded-full object-cover border border-white/20"
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="h-7 w-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-accent-cyan font-mono font-bold text-xs">
+                      <div className="h-8 w-8 rounded-full bg-white/20 border border-white/20 flex items-center justify-center text-white font-mono font-bold text-xs">
                         {heroPost.authorName ? heroPost.authorName.charAt(0) : 'C'}
                       </div>
                     )}
-                    <div className="text-xs font-mono">
-                      <div className="font-bold text-black">{heroPost.authorName || 'CatalystLab Telemetry'}</div>
-                      <div className="text-[10px] text-gray-500">Principal Engineer</div>
+                    <div className="text-xs font-mono text-white/90">
+                      <div className="font-bold">{heroPost.authorName || 'CatalystLab Telemetry'}</div>
+                      <div className="text-[10px] text-white/60">Principal Engineer</div>
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setPreviewPost(heroPost)}
-                      className="rounded-lg bg-white hover:bg-gray-50 border border-gray-200 px-2.5 py-1 text-xs font-mono text-gray-600 hover:text-white transition-colors cursor-pointer"
-                    >
-                      Quick Peek
-                    </button>
-                    <Link
-                      to={`/blog/${heroPost.slug || heroPost.id}`}
-                      className="inline-flex items-center gap-1 rounded-lg bg-black hover:bg-black-hover px-3 py-1 text-xs font-mono font-bold text-white transition-colors border border-brand-periwinkle/30"
-                    >
-                      <span>Read</span>
-                      <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </article>
+                }
+                aspectRatio="h-full w-full"
+                overlayStyle="solid" bottomGradientClasses="from-slate-900 via-slate-900/90"
+              />
+            </div>
           )}
 
           {/* Right 2x2 Grid */}
@@ -404,78 +390,69 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               {finalCompactPosts.map((post, idx) => {
                 const isBookmarked = bookmarkedIds.has(post.id || post.slug);
                 return (
-                  <article
-                    key={post.slug || post.id || idx}
-                    className="group relative rounded-xl border border-gray-200 bg-gray-100 p-3.5 flex flex-col justify-between transition-all hover:border-gray-200 shadow-md"
-                  >
-                    <div>
-                      <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-white border border-gray-200 mb-2.5">
-                        <img 
-                          src={getBlogCoverImage(post)} 
-                          alt={post.title}
-                          className="h-full w-full object-cover object-center"
-                          loading="lazy"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className="absolute top-2 left-2">
-                          <span className="rounded bg-white/90 border border-gray-200 px-2 py-0.5 text-[9px] font-mono font-bold text-black">
-                            {post.category || 'Guide'}
-                          </span>
-                        </div>
-
+                  <div key={post.slug || post.id || idx} className="h-[260px] md:h-full">
+                    <HeroImageCard
+                      imageUrl={getBlogCoverImage(post)}
+                      imageAlt={post.title}
+                      title={<div className="text-lg md:text-xl line-clamp-2">{post.title}</div>}
+                      description={null}
+                      badge={
+                        <span className="rounded bg-black/60 border border-white/20 px-2 py-0.5 text-[9px] font-mono font-bold text-white backdrop-blur-md">
+                          {post.category || 'Guide'}
+                        </span>
+                      }
+                      topRight={
                         <button
-                          onClick={(e) => toggleBookmark(post.id || post.slug, e)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleBookmark(post.id || post.slug, e);
+                          }}
                           title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="absolute top-2 right-2 h-6 w-6 rounded-lg bg-white/80 border border-gray-200 flex items-center justify-center text-white transition-colors cursor-pointer"
+                          className="h-7 w-7 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
                         >
                           {isBookmarked ? (
-                            <BookmarkCheck className="h-3 w-3 text-accent-cyan fill-accent-cyan" />
+                            <BookmarkCheck className="h-3.5 w-3.5 text-white fill-white" />
                           ) : (
-                            <Bookmark className="h-3 w-3 text-gray-600" />
+                            <Bookmark className="h-3.5 w-3.5 text-white/90" />
                           )}
                         </button>
-                      </div>
-
-                      <Link to={`/blog/${post.slug || post.id}`}>
-                        <h4 className="text-xs sm:text-sm font-bold text-black group-hover:text-accent-cyan transition-colors leading-snug line-clamp-2">
-                          {post.title}
-                        </h4>
-                      </Link>
-
-                      <p className="mt-1 text-xs text-gray-600 line-clamp-2 leading-relaxed">
-                        {post.excerpt || 'Technical breakdown with architectural diagrams and actionable code patterns.'}
-                      </p>
-                    </div>
-
-                    <div className="mt-3 pt-2.5 border-t border-gray-200 flex items-center justify-between text-xs font-mono text-gray-500">
-                      <div className="flex items-center gap-1 text-[10px]">
-                        <Calendar className="h-3 w-3 text-accent-cyan" />
-                        <span>{formatDate(post.createdAt)}</span>
-                      </div>
-
-                      <div className="flex items-center gap-1.5">
-                        <button
-                          onClick={() => setPreviewPost(post)}
-                          className="text-[10px] text-gray-600 hover:text-white font-semibold transition-colors cursor-pointer"
-                        >
-                          Peek
-                        </button>
-                        <Link 
-                          to={`/blog/${post.slug || post.id}`}
-                          className="h-5 w-5 rounded bg-white border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white"
-                          aria-label={`Read article: ${post.title}`}
-                        >
-                          <ChevronRight className="h-3 w-3" />
-                        </Link>
-                      </div>
-                    </div>
-                  </article>
+                      }
+                      footer={
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5 text-[10px] font-mono">
+                            <Calendar className="h-3 w-3 text-white/70" />
+                            <span>{formatDate(post.createdAt)}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPreviewPost(post);
+                              }}
+                              className="text-[10px] text-white/70 hover:text-white font-semibold transition-colors cursor-pointer"
+                            >
+                              Peek
+                            </button>
+                            <Link 
+                              to={`/blog/${post.slug || post.id}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="h-6 w-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/20 flex items-center justify-center text-white transition-colors"
+                              aria-label={`Read article: ${post.title}`}
+                            >
+                              <ChevronRight className="h-3 w-3" />
+                            </Link>
+                          </div>
+                        </div>
+                      }
+                      aspectRatio="h-full w-full"
+                      overlayStyle="solid" bottomGradientClasses="from-slate-900 via-slate-900/90"
+                    />
+                  </div>
                 );
               })}
             </AnimatePresence>
           </div>
         </div>
-
         {/* Bottom Ecosystem & Trust Bar */}
         {showEcosystemBar && (
           <div className="mt-8 pt-6 border-t border-gray-200 font-mono">
@@ -565,7 +542,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <Link
                     to={`/blog/${previewPost.slug || previewPost.id}`}
                     onClick={() => setPreviewPost(null)}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover px-4 py-2 text-xs font-bold text-white transition-all shadow-sm border border-brand-periwinkle/30"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover px-4 py-2 text-xs font-bold text-white transition-all shadow-sm border border-slate-300"
                   >
                     <span>Read Full Article</span>
                     <ArrowRight className="h-3.5 w-3.5" />

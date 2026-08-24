@@ -273,16 +273,16 @@ export const MasterAuditExecutionPage: React.FC = () => {
       />
       
       {/* Dedicated Master Audit Launcher Header */}
-      <section className="relative overflow-hidden border-b border-gray-200 bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-bold text-accent-cyan">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan animate-ping" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-900">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
             <span>Dedicated Master Audit Execution Hub</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight font-sans text-black">
             Launch 8 Parallel AI Telemetry Catalysts
           </h1>
-          <p className="text-xs sm:text-sm text-gray-600 max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto font-sans leading-relaxed">
             Enter your target URL below to dispatch autonomous Python microagents across architecture, code hygiene, Core Web Vitals, and AI search discoverability.
           </p>
 
@@ -307,22 +307,22 @@ export const MasterAuditExecutionPage: React.FC = () => {
 
         {savedReportId && (
           <LazyReveal direction="down" duration={0.35}>
-            <div className="rounded-2xl border border-gray-200 bg-white p-5 text-black shadow-xl">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-black shadow-sm">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-accent-emerald shrink-0 mt-0.5" />
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
                     <h3 className="text-sm font-bold text-black">
                       Master Audit Successfully Committed to Firestore!
                     </h3>
-                    <p className="text-xs text-gray-600 mt-0.5">
+                    <p className="text-xs text-slate-600 mt-0.5">
                       Immutable telemetry record created. Shareable permalink:
                     </p>
                     <a
                       href={permalinkUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-1 inline-flex items-center gap-1 text-xs text-accent-cyan underline hover:text-white break-all"
+                      className="mt-1 inline-flex items-center gap-1 text-xs text-slate-900 underline hover:text-black break-all"
                     >
                       {permalinkUrl}
                       <ExternalLink className="h-3 w-3" />
@@ -333,15 +333,15 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-2 shrink-0">
                   <button
                     onClick={handleCopyPermalink}
-                    className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-bold text-black hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-black hover:bg-slate-100 transition-colors cursor-pointer"
                   >
-                    <Share2 className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Share2 className="h-3.5 w-3.5 text-slate-700" />
                     <span>{copiedLink ? 'Copied!' : 'Copy Link'}</span>
                   </button>
 
                   <Link
                     to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                    className="flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3.5 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
+                    className="flex items-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-200 px-3.5 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
                   >
                     <span>Read Article Dossier</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -354,21 +354,21 @@ export const MasterAuditExecutionPage: React.FC = () => {
 
         {/* Real-time 8-Stage Pipeline Live Tracker */}
         {(isAuditing || hasAnyOutput) && (
-          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-xl space-y-3.5">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm space-y-3.5">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <Activity className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+                <Activity className="h-3.5 w-3.5 text-amber-600 animate-pulse" />
                 <h3 className="text-xs font-bold uppercase tracking-wider text-black">
                   8-Stage Telemetry Pipeline Execution Status
                 </h3>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-xs text-gray-600">
+                <span className="text-xs text-slate-600">
                   Completed: <strong className="text-black">{completedCount} / 8</strong> ({progressPercent}%)
                 </span>
-                <div className="w-24 bg-gray-100 rounded-full h-1.5 overflow-hidden border border-gray-200">
+                <div className="w-24 bg-slate-50 rounded-full h-1.5 overflow-hidden border border-slate-200">
                   <div 
-                    className="bg-accent-emerald h-1.5 rounded-full transition-all duration-300"
+                    className="bg-emerald-600 h-1.5 rounded-full transition-all duration-300"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -388,8 +388,8 @@ export const MasterAuditExecutionPage: React.FC = () => {
                     onClick={() => setActiveEngineTab(key)}
                     className={`flex flex-col p-2 rounded-xl border text-left transition-all cursor-pointer ${
                       isCurrentTab 
-                        ? 'border-gray-200 bg-black text-white shadow-sm' 
-                        : 'border-gray-200 bg-gray-100 text-gray-600 hover:text-white hover:bg-gray-50'
+                        ? 'border-slate-900 bg-slate-900 text-white shadow-sm' 
+                        : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-black hover:bg-slate-100'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
@@ -397,19 +397,19 @@ export const MasterAuditExecutionPage: React.FC = () => {
                         {meta.shortCode || meta.name}
                       </span>
                       {state?.loading ? (
-                        <RotateCw className="h-2.5 w-2.5 text-accent-amber animate-spin" />
+                        <RotateCw className="h-2.5 w-2.5 text-amber-500 animate-spin" />
                       ) : state?.success ? (
-                        <CheckCircle2 className="h-2.5 w-2.5 text-accent-emerald" />
+                        <CheckCircle2 className="h-2.5 w-2.5 text-emerald-500" />
                       ) : state?.error ? (
                         <AlertCircle className="h-2.5 w-2.5 text-rose-400" />
                       ) : (
-                        <div className="h-1.5 w-1.5 rounded-full bg-black-light" />
+                        <div className="h-1.5 w-1.5 rounded-full bg-slate-300" />
                       )}
                     </div>
-                    <div className="text-xs font-semibold text-black truncate">
+                    <div className={`text-xs font-semibold truncate ${isCurrentTab ? 'text-white' : 'text-black'}`}>
                       {meta.catalystName || meta.name}
                     </div>
-                    <div className="text-[10px] text-gray-500 truncate mt-0.5">
+                    <div className="text-[10px] text-slate-500 truncate mt-0.5">
                       {state?.loading ? 'Scanning...' : state?.success ? 'Indexed' : state?.error ? 'Failed' : 'Queued'}
                     </div>
                   </button>
@@ -423,14 +423,14 @@ export const MasterAuditExecutionPage: React.FC = () => {
         {(hasAnyOutput || isAuditing) && (
           <div id="master-results-grid" className="space-y-6">
             
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-3.5 rounded-2xl border border-gray-200">
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-3.5 rounded-2xl border border-slate-200">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-accent-cyan">
+                <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-700">
                   <Activity className="h-4 w-4" />
                 </div>
                 <div>
                   <h2 className="text-sm font-bold text-black">Execution Workspace</h2>
-                  <p className="text-xs text-gray-600">Target: {targetUrl}</p>
+                  <p className="text-xs text-slate-600">Target: {targetUrl}</p>
                 </div>
               </div>
 
@@ -438,23 +438,23 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 <button
                   onClick={handleExportPdf}
                   disabled={isExportingPdf || !hasAnyOutput}
-                  className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3.5 py-1.5 text-xs font-bold text-black hover:bg-gray-50 disabled:opacity-40 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-xs font-bold text-black hover:bg-slate-100 disabled:opacity-40 transition-colors cursor-pointer"
                 >
-                  <Download className="h-3.5 w-3.5 text-accent-cyan" />
+                  <Download className="h-3.5 w-3.5 text-slate-700" />
                   <span>{isExportingPdf ? 'Compiling PDF...' : 'Export PDF Report'}</span>
                 </button>
               </div>
             </div>
 
             {/* Catalyst Engine Selector Dropdown */}
-            <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-3.5 py-2.5 rounded-2xl border border-gray-200">
+            <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-3.5 py-2.5 rounded-2xl border border-slate-200">
               <div className="flex items-center gap-2">
-                <label htmlFor="master-engine-select" className="text-xs text-gray-600 uppercase font-bold">Terminal Feed:</label>
+                <label htmlFor="master-engine-select" className="text-xs text-slate-600 uppercase font-bold">Terminal Feed:</label>
                 <select
                   id="master-engine-select"
                   value={activeEngineTab}
                   onChange={(e) => setActiveEngineTab(e.target.value as EngineType)}
-                  className="rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1 text-xs font-bold text-black focus:border-gray-200 focus:outline-none cursor-pointer"
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-black focus:border-slate-200 focus:outline-none cursor-pointer"
                 >
                   {engineKeys.map(key => {
                     const meta = ENGINES_MAP[key];
@@ -469,8 +469,8 @@ export const MasterAuditExecutionPage: React.FC = () => {
                 </select>
               </div>
 
-              <div className="text-xs text-gray-500">
-                Active Engine: <span className="text-accent-cyan font-bold">{ENGINES_MAP[activeEngineTab].name}</span>
+              <div className="text-xs text-slate-500">
+                Active Engine: <span className="text-slate-900 font-bold">{ENGINES_MAP[activeEngineTab].name}</span>
               </div>
             </div>
 
@@ -490,10 +490,10 @@ export const MasterAuditExecutionPage: React.FC = () => {
         )}
 
         {!hasAnyOutput && !isAuditing && (
-          <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 space-y-3 max-w-xl mx-auto p-6">
-            <FlaskConical className="h-10 w-10 text-gray-500 mx-auto opacity-70" />
+          <div className="text-center py-16 bg-white rounded-2xl border border-slate-200 space-y-3 max-w-xl mx-auto p-6">
+            <FlaskConical className="h-10 w-10 text-slate-500 mx-auto opacity-70" />
             <h3 className="text-base font-bold text-black">Ready for Execution</h3>
-            <p className="text-xs text-gray-600 max-w-sm mx-auto font-sans leading-relaxed">
+            <p className="text-xs text-slate-600 max-w-sm mx-auto font-sans leading-relaxed">
               Enter a URL above and click &quot;Start Master Audit&quot; to initiate the 8 parallel telemetry microagents.
             </p>
           </div>

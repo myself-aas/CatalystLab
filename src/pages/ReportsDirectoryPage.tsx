@@ -128,18 +128,18 @@ export const ReportsDirectoryPage: React.FC = () => {
       />
       
       {/* Header Banner */}
-      <section className="border-b border-gray-200 bg-gray-100 px-4 py-12 sm:px-6 lg:px-8">
+      <section className="border-b border-slate-200 bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-bold text-accent-cyan uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-amber-600 uppercase tracking-wider mb-3">
                 <FileText className="h-3.5 w-3.5" />
                 <span>Diagnostic Report Directory</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-black tracking-tight font-sans">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-sans">
                 Web Performance, Security &amp; AI Readiness Dossiers
               </h1>
-              <p className="mt-2 text-xs text-gray-600 max-w-2xl leading-relaxed font-sans">
+              <p className="mt-2 text-xs text-slate-600 max-w-2xl leading-relaxed font-sans">
                 Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide.
               </p>
             </div>
@@ -147,9 +147,9 @@ export const ReportsDirectoryPage: React.FC = () => {
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 to="/master-audit"
-                className="flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all"
               >
-                <Zap className="h-3.5 w-3.5 text-accent-cyan" />
+                <Zap className="h-3.5 w-3.5 text-amber-400" />
                 <span>Run New Audit</span>
               </Link>
             </div>
@@ -157,9 +157,9 @@ export const ReportsDirectoryPage: React.FC = () => {
 
           {/* Quick Domain Inspector Input */}
           <form onSubmit={handleInstantInspect} className="mt-3">
-            <div className="flex flex-col sm:flex-row gap-2 rounded-xl border border-gray-200 bg-white p-2 shadow-xl">
+            <div className="flex flex-col sm:flex-row gap-2 rounded-xl border border-slate-200 bg-white p-2 shadow-sm">
               <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                   <Globe className="h-3.5 w-3.5" />
                 </span>
                 <label htmlFor="domain-inspect" className="sr-only">Domain to inspect</label>
@@ -169,17 +169,17 @@ export const ReportsDirectoryPage: React.FC = () => {
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
                   placeholder="Enter any domain to view dossier (e.g. stripe.com or catalystlab.tech)..."
-                  className="w-full rounded-lg bg-transparent py-2 pl-9 pr-3 text-xs text-black placeholder:text-gray-500 focus:outline-none"
+                  className="w-full rounded-lg bg-transparent py-2 pl-9 pr-3 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="flex items-center justify-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-colors shrink-0 shadow-sm cursor-pointer"
+                className="flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-xs font-bold text-white transition-colors shrink-0 shadow-sm cursor-pointer"
               >
                 <span>Open Dossier</span>
-                <ArrowRight className="h-3 w-3 text-accent-cyan" />
+                <ArrowRight className="h-3 w-3 text-amber-400" />
               </button>
             </div>
           </form>
@@ -191,13 +191,13 @@ export const ReportsDirectoryPage: React.FC = () => {
         
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-500" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search report directory by domain name, technology, or category..."
-            className="w-full rounded-xl border border-gray-200 bg-white pl-9 pr-4 py-2.5 text-xs text-black placeholder:text-gray-500 focus:border-gray-200 focus:outline-none transition-colors shadow-sm"
+            className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors shadow-sm"
           />
         </div>
 
@@ -205,13 +205,13 @@ export const ReportsDirectoryPage: React.FC = () => {
         {user && userReports.length > 0 && (
           <section className="space-y-3.5">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-bold text-black uppercase tracking-wider flex items-center gap-1.5">
-                <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-cyan text-xs">
+              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="flex h-5 w-5 items-center justify-center rounded bg-amber-50 text-amber-600 text-xs border border-amber-200">
                   <Zap className="h-3 w-3" />
                 </span>
                 <span>Your Saved Audit Reports ({filteredUserReports.length})</span>
               </h2>
-              <Link to="/dashboard" className="text-xs text-gray-600 hover:text-white flex items-center gap-1">
+              <Link to="/dashboard" className="text-xs text-slate-600 hover:text-slate-900 flex items-center gap-1">
                 <span>Manage in Dashboard</span>
                 <ArrowRight className="h-3 w-3" />
               </Link>
@@ -227,27 +227,27 @@ export const ReportsDirectoryPage: React.FC = () => {
                   <Link
                     key={r.id || domainSlug}
                     to={`/reports/${domainSlug}`}
-                    className="group relative rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:bg-gray-50 transition-all block text-black"
+                    className="group relative rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50 transition-all block text-slate-900"
                   >
                     <div className="flex items-center justify-between gap-2 mb-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gray-100 text-accent-cyan border border-gray-200">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-600 border border-amber-200">
                         <Activity className="h-3.5 w-3.5" />
                       </span>
-                      <span className="text-[10px] uppercase font-bold text-accent-cyan bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
+                      <span className="text-[10px] uppercase font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                         {meta.name}
                       </span>
                     </div>
 
-                    <div className="font-bold text-xs text-black group-hover:text-accent-cyan transition-colors truncate">
+                    <div className="font-bold text-xs text-slate-900 group-hover:text-amber-600 transition-colors truncate">
                       {domainName}
                     </div>
-                    <div className="text-[11px] text-gray-500 truncate mt-0.5">
+                    <div className="text-[11px] text-slate-500 truncate mt-0.5">
                       {r.url}
                     </div>
 
-                    <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-gray-200 text-[11px] text-gray-500">
+                    <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-slate-200 text-[11px] text-slate-500">
                       <span>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'Recent'}</span>
-                      <span className="flex items-center gap-1 font-bold text-gray-500 group-hover:text-white transition-colors">
+                      <span className="flex items-center gap-1 font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
                         <span>View Dossier</span>
                         <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                       </span>
@@ -262,13 +262,13 @@ export const ReportsDirectoryPage: React.FC = () => {
         {/* Featured Benchmark Articles (Always visible to everyone) */}
         <section className="space-y-3.5">
           <div>
-            <h2 className="text-xs font-bold text-black uppercase tracking-wider flex items-center gap-1.5">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-accent-amber text-xs">
-                <Star className="h-3 w-3 fill-accent-amber" />
+            <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-amber-50 text-amber-600 text-xs border border-amber-200">
+                <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
               </span>
               <span>Featured Architecture &amp; Telemetry Dossiers</span>
             </h2>
-            <p className="text-xs text-gray-600 mt-0.5 font-sans">
+            <p className="text-xs text-slate-600 mt-0.5 font-sans">
               Public benchmarks demonstrating DOM depth, OWASP header compliance, and edge latency across industry standards.
             </p>
           </div>
@@ -283,36 +283,36 @@ export const ReportsDirectoryPage: React.FC = () => {
                 <Link
                   key={item.domain}
                   to={`/reports/${slug}`}
-                  className="group relative rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:bg-gray-50 transition-all block text-black"
+                  className="group relative rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50 transition-all block text-slate-900"
                 >
                   <div className="flex items-center justify-between gap-2 mb-2.5">
                     <div className="flex items-center gap-2">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gray-100 text-accent-cyan border border-gray-200">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-amber-600 border border-slate-200">
                         <Icon className="h-3.5 w-3.5" />
                       </span>
-                      <span className="text-[10px] uppercase font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
+                      <span className="text-[10px] uppercase font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                         {item.category}
                       </span>
                     </div>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
                       isGradeA 
-                        ? 'border-emerald-500/30 bg-emerald-950/40 text-accent-emerald' 
-                        : 'border-blue-500/30 bg-blue-950/40 text-blue-300'
+                        ? 'border-emerald-200 bg-emerald-50 text-emerald-700' 
+                        : 'border-amber-200 bg-amber-50 text-amber-700'
                     }`}>
                       Grade {item.grade}
                     </span>
                   </div>
 
-                  <div className="font-bold text-xs text-black group-hover:text-accent-cyan transition-colors truncate">
+                  <div className="font-bold text-xs text-slate-900 group-hover:text-amber-600 transition-colors truncate">
                     {item.domain}
                   </div>
-                  <p className="text-[11px] text-gray-600 mt-1 line-clamp-2 leading-relaxed font-sans">
+                  <p className="text-[11px] text-slate-600 mt-1 line-clamp-2 leading-relaxed font-sans">
                     {item.title}
                   </p>
 
-                  <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-gray-200 text-[11px] text-gray-500">
-                    <span className="text-accent-cyan font-bold">{item.score}/100 Score</span>
-                    <span className="flex items-center gap-1 font-bold text-gray-500 group-hover:text-white transition-colors">
+                  <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-slate-200 text-[11px] text-slate-500">
+                    <span className="text-amber-600 font-bold">{item.score}/100 Score</span>
+                    <span className="flex items-center gap-1 font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
                       <span>Explore Benchmark</span>
                       <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                     </span>
@@ -325,17 +325,17 @@ export const ReportsDirectoryPage: React.FC = () => {
 
         {/* Guest Call-to-action Banner if not signed in */}
         {!user && (
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 text-center shadow-xl text-black">
-            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 border border-gray-200 text-accent-cyan mb-2.5 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 text-center shadow-sm text-slate-900">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 border border-amber-200 text-amber-600 mb-2.5 shadow-sm">
               <Sparkles className="h-5 w-5" />
             </div>
-            <h3 className="text-base font-extrabold text-black">Save &amp; Organize Your Custom Domain Audits</h3>
-            <p className="mt-1.5 text-xs text-gray-600 max-w-md mx-auto leading-relaxed font-sans">
+            <h3 className="text-base font-extrabold text-slate-900">Save &amp; Organize Your Custom Domain Audits</h3>
+            <p className="mt-1.5 text-xs text-slate-600 max-w-md mx-auto leading-relaxed font-sans">
               Sign in to permanently track historical audits, monitor regressions over time, and generate dedicated whitepaper dossiers.
             </p>
             <button
               onClick={() => login()}
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-5 py-2 text-xs font-bold text-white shadow-sm transition-all cursor-pointer"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-5 py-2 text-xs font-bold text-white shadow-sm transition-all cursor-pointer"
             >
               Sign In to Your Account
             </button>

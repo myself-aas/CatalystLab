@@ -396,7 +396,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
 
           <Link
             to="/pricing"
-            className="flex items-center gap-1.5 rounded-xl bg-brand-navy px-4 py-2 text-xs font-bold text-white hover:bg-[#1a2e4c] transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl bg-black px-4 py-2 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
           >
             <span>View Full Pricing Matrix</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -414,7 +414,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                 key={tierKey}
                 className={`rounded-xl p-4 border flex flex-col justify-between transition-all ${
                   isCurrent 
-                    ? 'border-brand-cyan bg-sky-50/50 shadow-md ring-1 ring-brand-cyan/50' 
+                    ? 'border-black bg-slate-50 shadow-md ring-1 ring-black/40' 
                     : 'border-[#e2e8f0] bg-[#f8fafc] hover:border-slate-400'
                 }`}
               >
@@ -456,7 +456,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   ) : (
                     <button
                       onClick={() => openTrialModal(tierKey)}
-                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-brand-cyan text-brand-navy hover:bg-brand-cyan/90 transition-colors shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-black text-white hover:bg-black-hover transition-colors shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                     >
                       7-Day Free Trial
                     </button>

@@ -763,7 +763,7 @@ print(report['output'])`
       </div>
 
       {/* 7. Next Recommended Engines for Subsequent Audits */}
-      <div className="rounded-3xl border border-brand-slate/40 bg-white p-6 sm:p-8 text-black shadow-2xl">
+      <div className="rounded-3xl border border-slate-300 bg-white p-6 sm:p-8 text-black shadow-2xl">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[#fbbf24]">
             <Compass className="h-5 w-5" />

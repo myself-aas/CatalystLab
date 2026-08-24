@@ -99,7 +99,7 @@ export const NewsletterModal: React.FC = () => {
                 <>
                   {/* Icon & Title */}
                   <div className="mb-6">
-                    <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-gradient-to-r from-brand-periwinkle via-brand-slate to-brand-periwinkle-light text-primary mb-4">
+                    <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-gradient-to-r from-slate-500 via-black to-slate-500-light text-primary mb-4">
                       <Sparkles className="h-6 w-6" />
                     </div>
                     <h3 id="newsletter-modal-title" className="text-xl sm:text-2xl font-black text-primary tracking-tight mb-2">
@@ -117,7 +117,7 @@ export const NewsletterModal: React.FC = () => {
                         Email Address
                       </label>
                       <div className="relative">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-brand-slate-hover">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-black-hover">
                           <Mail className="h-5 w-5" />
                         </div>
                         <input
@@ -127,7 +127,7 @@ export const NewsletterModal: React.FC = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="you@company.com"
-                          className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-base font-mono text-white placeholder-brand-slate focus:border-[#38bdf8] focus:outline-none focus:ring-1 focus:ring-[#38bdf8]/30 transition-all"
+                          className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-base font-mono text-white placeholder-black focus:border-[#38bdf8] focus:outline-none focus:ring-1 focus:ring-[#38bdf8]/30 transition-all"
                         />
                       </div>
                     </div>
@@ -135,7 +135,7 @@ export const NewsletterModal: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-periwinkle hover:bg-white text-brand-navy py-3.5 text-sm font-mono font-bold transition-all shadow-md active:scale-98 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="w-full flex items-center justify-center gap-2 rounded-xl bg-slate-500 hover:bg-white text-black py-3.5 text-sm font-mono font-bold transition-all shadow-md active:scale-98 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {isSubmitting ? (
                         <span>Subscribing...</span>
@@ -148,7 +148,7 @@ export const NewsletterModal: React.FC = () => {
                     </button>
                   </form>
                   
-                  <p className="text-center text-xs text-brand-slate mt-5 font-mono">
+                  <p className="text-center text-xs text-black mt-5 font-mono">
                     No spam. Unsubscribe at any time.
                   </p>
                 </>

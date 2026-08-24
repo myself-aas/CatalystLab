@@ -104,19 +104,19 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
           {/* Free Tier */}
           <div className={`rounded-xl border p-3 transition-colors ${
             status.tier === 'free' 
-              ? 'border-brand-cyan/60 bg-gray-100 shadow-sm' 
-              : 'border-gray-200 bg-gray-50'
+              ? 'border-black bg-slate-100 shadow-sm' 
+              : 'border-slate-200 bg-slate-50'
           }`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <UserIcon className="h-4 w-4 text-gray-600" />
+                <UserIcon className="h-4 w-4 text-black" />
                 <span className="text-xs font-bold text-black">1. Community (Free)</span>
               </div>
-              <span className="rounded-md bg-black/40 border border-[#415a77]/60 px-2 py-0.5 text-[10px] font-mono font-bold text-gray-600">
+              <span className="rounded-md bg-white border border-black/30 px-2 py-0.5 text-[10px] font-mono font-bold text-black">
                 {FREE_DAILY_LIMIT} Units / Day
               </span>
             </div>
-            <p className="text-[11px] text-gray-600 mt-1 pl-6">
+            <p className="text-[11px] text-slate-600 mt-1 pl-6">
               5 Master Audits or 50 Single Engines. 25 CI/CD runs/month.
             </p>
           </div>
@@ -124,19 +124,19 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
           {/* Starter ($9) / Pro ($19) Tier with 7-day trial trigger */}
           <div className={`rounded-xl border p-3 transition-colors ${
             status.tier === 'pro' || status.tier === 'starter'
-              ? 'border-brand-cyan bg-gray-100 shadow-sm' 
-              : 'border-gray-200 bg-gray-50'
+              ? 'border-black bg-slate-100 shadow-sm' 
+              : 'border-slate-200 bg-slate-50'
           }`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Zap className="h-4 w-4 text-cyan-400" />
+                <Zap className="h-4 w-4 text-black" />
                 <span className="text-xs font-bold text-black">2. Starter ($9) &amp; Pro ($19)</span>
               </div>
-              <span className="rounded-md bg-cyan-950 border border-cyan-500/40 px-2 py-0.5 text-[10px] font-mono font-bold text-cyan-300">
+              <span className="rounded-md bg-black/15 border border-black/30 px-2 py-0.5 text-[10px] font-mono font-bold text-black">
                 150 - 500 Units / Day
               </span>
             </div>
-            <p className="text-[11px] text-gray-600 mt-1 pl-6">
+            <p className="text-[11px] text-slate-600 mt-1 pl-6">
               15 - 50 Master Audits, 100 - 500 CI/CD runs, continuous 42-PoP radar tracking.
             </p>
           </div>
@@ -144,19 +144,19 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
           {/* Team ($49) & Enterprise ($99) */}
           <div className={`rounded-xl border p-3 transition-colors ${
             status.tier === 'team' || status.tier === 'enterprise' || status.tier === 'superadmin'
-              ? 'border-indigo-500/60 bg-gray-100 shadow-sm' 
-              : 'border-gray-200 bg-gray-50'
+              ? 'border-black bg-slate-100 shadow-sm' 
+              : 'border-slate-200 bg-slate-50'
           }`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Crown className="h-4 w-4 text-indigo-300" />
+                <Crown className="h-4 w-4 text-black" />
                 <span className="text-xs font-bold text-black">3. Team ($49) &amp; Enterprise ($99)</span>
               </div>
-              <span className="rounded-md bg-indigo-950 border border-indigo-500/40 px-2 py-0.5 text-[10px] font-mono font-bold text-indigo-300">
+              <span className="rounded-md bg-black/15 border border-black/30 px-2 py-0.5 text-[10px] font-mono font-bold text-black">
                 1,500 - 5,000 Units / Day
               </span>
             </div>
-            <p className="text-[11px] text-gray-600 mt-1 pl-6">
+            <p className="text-[11px] text-slate-600 mt-1 pl-6">
               Multi-seat workspaces, unlimited CI/CD pipelines, dedicated runners, private SLA.
             </p>
           </div>
@@ -164,9 +164,9 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         </div>
 
         {/* Action Footer */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-gray-200">
-          <div className="flex items-center gap-1.5 text-xs text-gray-600">
-            <Clock className="h-3.5 w-3.5 text-[#415a77]" />
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-200">
+          <div className="flex items-center gap-1.5 text-xs text-slate-600">
+            <Clock className="h-3.5 w-3.5 text-black" />
             <span>Daily reset in <strong className="text-black">{status.formattedResetTime}</strong></span>
           </div>
           <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -178,7 +178,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                   } catch (e) { console.error("Ignored error:", e); }
                 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-slate-500/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <LogIn className="h-3.5 w-3.5" />
                 <span>Sign In for 50 Units Free</span>
@@ -190,7 +190,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                     openTrialModal('pro');
                   }}
-                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-brand-cyan px-4 py-2 text-xs font-bold text-brand-navy hover:bg-brand-cyan/90 transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-black hover:bg-black-hover border border-slate-500/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span>Start 7-Day Trial</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -198,7 +198,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <Link
                   to="/pricing"
                   onClick={onClose}
-                  className="rounded-xl bg-gray-100 border border-gray-300 px-3.5 py-2 text-xs font-bold text-black hover:bg-gray-50 transition-colors text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="rounded-xl bg-slate-100 border border-slate-300 px-3.5 py-2 text-xs font-bold text-black hover:bg-slate-200 transition-colors text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   Plans
                 </Link>

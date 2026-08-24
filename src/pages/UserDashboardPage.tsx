@@ -34,7 +34,9 @@ import {
   Cpu,
   Filter,
   CheckCircle2,
-  Key
+  Key,
+  Eye,
+  X
 } from 'lucide-react';
 import { UserBlogManagementView } from '../components/user/UserBlogManagementView';
 import { UserRateLimitAllocationCard } from '../components/user/UserRateLimitAllocationCard';
@@ -79,6 +81,7 @@ export const UserDashboardPage: React.FC = () => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [exportingId, setExportingId] = useState<string | null>(null);
+  const [quickViewReport, setQuickViewReport] = useState<AuditReport | null>(null);
 
   const [rateStatus, setRateStatus] = useState<RateLimitStatus>(() => getRateLimitStatus(user, isAdmin));
 
@@ -209,8 +212,8 @@ export const UserDashboardPage: React.FC = () => {
     return (
       <div className="flex min-h-[60vh] items-center justify-center bg-white font-mono">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-accent-cyan" />
-          <span className="text-xs text-gray-600">Synchronizing user telemetry...</span>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-amber-500" />
+          <span className="text-xs text-slate-600">Synchronizing user telemetry...</span>
         </div>
       </div>
     );
@@ -218,20 +221,20 @@ export const UserDashboardPage: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 bg-white text-black">
-        <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-2xl text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-accent-cyan mb-4 border border-gray-200">
+      <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 bg-white text-slate-900">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-amber-600 mb-4 border border-slate-200">
             <LogIn className="h-6 w-6" />
           </div>
-          <h2 className="text-xl font-extrabold text-black">Developer Access Required</h2>
-          <p className="mt-2 text-xs text-gray-600 leading-relaxed">
+          <h2 className="text-xl font-extrabold text-slate-900">Developer Access Required</h2>
+          <p className="mt-2 text-xs text-slate-600 leading-relaxed">
             Sign in to access your persistent audit dossiers, real-time rate limit allocations, domain uptime monitoring, and technical research articles.
           </p>
           
           <div className="mt-6 space-y-2.5 font-mono">
             <Link
               to="/login?redirect=/dashboard"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 py-2.5 text-xs font-bold text-white shadow-md transition-all cursor-pointer"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 py-2.5 text-xs font-bold text-white shadow-sm transition-all cursor-pointer"
             >
               <LogIn className="h-4 w-4" />
               <span>Sign In with Email or Google</span>
@@ -239,20 +242,20 @@ export const UserDashboardPage: React.FC = () => {
 
             <Link
               to="/signup?redirect=/dashboard"
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-gray-100 py-2.5 text-xs font-bold text-black hover:bg-gray-50 hover:text-white transition-all cursor-pointer"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-xs font-bold text-slate-900 hover:bg-slate-50 transition-all cursor-pointer"
             >
               <span>Create Free Developer Account &rarr;</span>
             </Link>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-center gap-2 font-mono">
+          <div className="mt-5 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center gap-2 font-mono">
             <button
               onClick={() => loginWithLocalSession({
                 email: 'developer@catalystlab.io',
                 displayName: 'CatalystLab Developer',
                 isAdmin: false
               })}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-bold text-accent-cyan hover:bg-gray-50 transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs font-bold text-amber-600 hover:bg-slate-50 transition-all cursor-pointer"
             >
               <Sparkles className="h-3.5 w-3.5" />
               <span>Preview Developer Session</span>
@@ -260,7 +263,7 @@ export const UserDashboardPage: React.FC = () => {
 
             <button
               onClick={() => setShowDomainModal(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-white transition-colors cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
             >
               <span>Domain Helper</span>
             </button>
@@ -271,7 +274,7 @@ export const UserDashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white pb-24 text-black selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white pb-24 text-slate-900 selection:bg-slate-900 selection:text-white">
       <SEOHead
         title="Developer Telemetry Dashboard & Audits — CatalystLab"
         description="View real-time audit dossiers, rate limit allocations, domain uptime monitoring, and API keys."
@@ -279,7 +282,7 @@ export const UserDashboardPage: React.FC = () => {
       />
       
       {/* Top Header Section */}
-      <section className="border-b border-gray-200 bg-gray-100 px-4 py-7 sm:px-6 lg:px-8">
+      <section className="border-b border-slate-200 bg-slate-50 px-4 py-7 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             
@@ -290,27 +293,27 @@ export const UserDashboardPage: React.FC = () => {
                   src={user.photoURL} 
                   alt={user.displayName || 'User Avatar'} 
                   referrerPolicy="no-referrer"
-                  className="h-12 w-12 rounded-xl border border-gray-200 object-cover shadow-sm"
+                  className="h-12 w-12 rounded-xl border border-slate-200 object-cover shadow-sm"
                 />
               ) : (
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-black text-white font-bold text-base shadow-sm">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-white font-bold text-base shadow-sm">
                   {userName.charAt(0).toUpperCase()}
                 </div>
               )}
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-black">
+                  <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
                     {getGreeting()}, {userName}!
                   </h1>
                   <span className={`rounded-md border px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
                     {roleConfig.displayName}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2.5 mt-1 text-xs text-gray-600 font-mono">
+                <div className="flex flex-wrap items-center gap-2.5 mt-1 text-xs text-slate-600 font-mono">
                   <span>{user.email}</span>
                   <span>•</span>
-                  <span className="flex items-center gap-1.5 text-accent-emerald font-bold">
+                  <span className="flex items-center gap-1.5 text-emerald-600 font-bold">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -325,16 +328,16 @@ export const UserDashboardPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2.5 font-mono">
               <Link
                 to="/master-audit"
-                className="flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
-                <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
                 <span>Run Master Audit</span>
               </Link>
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3.5 py-2 text-xs font-bold text-gray-600 hover:bg-gray-50 hover:text-white transition-all shadow-sm"
+                className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
               >
-                <FileText className="h-3.5 w-3.5 text-gray-500" />
+                <FileText className="h-3.5 w-3.5 text-slate-500" />
                 <span>API Reference</span>
               </Link>
             </div>
@@ -350,31 +353,31 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 1: Daily Resource Allocation */}
           <Link 
             to="/dashboard/rate-limits"
-            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:bg-slate-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
                 <Cpu className="h-3.5 w-3.5" />
                 Compute Quota
               </span>
-              <span className="text-[10px] text-accent-emerald bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30 font-bold">
+              <span className="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 font-bold">
                 {rateStatus.formattedResetTime}
               </span>
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-black">
+              <div className="text-2xl font-black text-slate-900">
                 {rateStatus.isUnlimited ? 'Unlimited' : `${rateStatus.remaining} / ${rateStatus.limit}`}
-                <span className="text-xs font-normal text-gray-500 ml-1">Units</span>
+                <span className="text-xs font-normal text-slate-500 ml-1">Units</span>
               </div>
-              <p className="text-[11px] text-gray-600 mt-0.5">
+              <p className="text-[11px] text-slate-600 mt-0.5">
                 {rateStatus.isUnlimited 
                   ? 'Zero throttling applied' 
                   : `${rateStatus.masterRemaining} Master or ${rateStatus.singleRemaining} Single audits`}
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-2.5 border-t border-gray-200 text-xs font-bold text-gray-500 group-hover:text-white">
+            <div className="flex items-center justify-between pt-2.5 border-t border-slate-200 text-xs font-bold text-slate-500 group-hover:text-slate-900">
               <span>Inspect Allocations</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -383,30 +386,30 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 2: Saved Dossiers */}
           <Link 
             to="/dashboard/audits"
-            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:bg-slate-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
                 <FileText className="h-3.5 w-3.5" />
                 Saved Reports
               </span>
-              <span className="flex items-center gap-1 text-[10px] font-bold text-accent-emerald bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30">
+              <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
                 <CheckCircle2 className="h-3 w-3" />
                 Synced
               </span>
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-black">
+              <div className="text-2xl font-black text-slate-900">
                 {totalAudits}
-                <span className="text-xs font-normal text-gray-500 ml-1">Dossiers</span>
+                <span className="text-xs font-normal text-slate-500 ml-1">Dossiers</span>
               </div>
-              <p className="text-[11px] text-gray-600 mt-0.5">
+              <p className="text-[11px] text-slate-600 mt-0.5">
                 Permanent Firestore telemetry records with PDF export
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-2.5 border-t border-gray-200 text-xs font-bold text-gray-500 group-hover:text-white">
+            <div className="flex items-center justify-between pt-2.5 border-t border-slate-200 text-xs font-bold text-slate-500 group-hover:text-slate-900">
               <span>View All Reports</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -415,31 +418,31 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 3: Average Benchmark Score */}
           <Link 
             to="/dashboard"
-            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:bg-slate-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
                 <Activity className="h-3.5 w-3.5" />
                 System Health
               </span>
               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
-                avgScore >= 90 ? 'bg-emerald-950/40 text-accent-emerald border-emerald-500/30' : 'bg-blue-950/40 text-blue-300 border-blue-500/30'
+                avgScore >= 90 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
               }`}>
                 Grade {avgScore >= 90 ? 'A+' : 'A'}
               </span>
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-black">
+              <div className="text-2xl font-black text-slate-900">
                 {avgScore}
-                <span className="text-xs font-normal text-gray-500 ml-1">/ 100</span>
+                <span className="text-xs font-normal text-slate-500 ml-1">/ 100</span>
               </div>
-              <p className="text-[11px] text-gray-600 mt-0.5">
+              <p className="text-[11px] text-slate-600 mt-0.5">
                 Composite benchmark across all audited domains
               </p>
             </div>
 
-            <div className="pt-2.5 border-t border-gray-200 flex items-center justify-between text-xs font-bold text-gray-500 group-hover:text-white">
+            <div className="pt-2.5 border-t border-slate-200 flex items-center justify-between text-xs font-bold text-slate-500 group-hover:text-slate-900">
               <span>View Full Analytics</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -448,30 +451,30 @@ export const UserDashboardPage: React.FC = () => {
           {/* Card 4: Monitored Endpoints */}
           <Link 
             to="/dashboard/monitoring"
-            className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
+            className="group cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:bg-slate-50 flex flex-col justify-between"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-accent-cyan uppercase tracking-wider flex items-center gap-1.5">
+              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
                 <Globe className="h-3.5 w-3.5" />
                 Monitored Hosts
               </span>
-              <span className="text-[10px] font-bold text-accent-emerald bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
+              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
                 <ShieldCheck className="h-3 w-3" />
                 100% SSL
               </span>
             </div>
 
             <div className="my-2.5">
-              <div className="text-2xl font-black text-black">
+              <div className="text-2xl font-black text-slate-900">
                 {uniqueDomains}
-                <span className="text-xs font-normal text-gray-500 ml-1">Domains</span>
+                <span className="text-xs font-normal text-slate-500 ml-1">Domains</span>
               </div>
-              <p className="text-[11px] text-gray-600 mt-0.5">
+              <p className="text-[11px] text-slate-600 mt-0.5">
                 Real-time TTFB radar &amp; certificate expiry alerts
               </p>
             </div>
 
-            <div className="flex items-center justify-between pt-2.5 border-t border-gray-200 text-xs font-bold text-gray-500 group-hover:text-white">
+            <div className="flex items-center justify-between pt-2.5 border-t border-slate-200 text-xs font-bold text-slate-500 group-hover:text-slate-900">
               <span>Open Monitoring Radar</span>
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </div>
@@ -482,17 +485,17 @@ export const UserDashboardPage: React.FC = () => {
 
       {/* Main Navigation Links with Dedicated URLs */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-7 font-mono">
-        <div className="flex flex-wrap items-center gap-2 border-b border-gray-200 pb-3">
+        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
           
           <Link
             to="/dashboard"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'analytics'
-                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200'
             }`}
           >
-            <Activity className="h-3.5 w-3.5 text-accent-emerald" />
+            <Activity className="h-3.5 w-3.5 text-emerald-500" />
             <span>Real-Time Analytics</span>
           </Link>
 
@@ -500,14 +503,14 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/audits"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'audits'
-                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200'
             }`}
           >
-            <FileText className="h-3.5 w-3.5 text-accent-cyan" />
+            <FileText className="h-3.5 w-3.5 text-amber-500" />
             <span>Audit Reports &amp; Dossiers</span>
             <span className={`ml-1 rounded px-1.5 py-0.2 text-[10px] ${
-              activeTab === 'audits' ? 'bg-gray-100 text-black' : 'bg-gray-100 text-gray-500'
+              activeTab === 'audits' ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-600'
             }`}>
               {reports.length}
             </span>
@@ -517,11 +520,11 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/rate-limits"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'rate-limits'
-                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200'
             }`}
           >
-            <Cpu className="h-3.5 w-3.5 text-accent-cyan" />
+            <Cpu className="h-3.5 w-3.5 text-amber-500" />
             <span>Rate Limits</span>
           </Link>
 
@@ -529,11 +532,11 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/api-keys"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'api-keys'
-                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200'
             }`}
           >
-            <Key className="h-3.5 w-3.5 text-accent-amber" />
+            <Key className="h-3.5 w-3.5 text-amber-500" />
             <span>API Keys &amp; Tokens</span>
           </Link>
 
@@ -541,11 +544,11 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/monitoring"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'monitoring'
-                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200'
             }`}
           >
-            <Activity className="h-3.5 w-3.5 text-accent-cyan" />
+            <Activity className="h-3.5 w-3.5 text-amber-500" />
             <span>Domain Health Radar</span>
           </Link>
 
@@ -553,11 +556,11 @@ export const UserDashboardPage: React.FC = () => {
             to="/dashboard/blogs"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'blogs'
-                ? 'bg-black text-white shadow-sm border border-brand-periwinkle/30'
-                : 'bg-white text-gray-600 hover:text-white hover:bg-gray-50 border border-gray-200'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200'
             }`}
           >
-            <BookOpen className="h-3.5 w-3.5 text-accent-cyan" />
+            <BookOpen className="h-3.5 w-3.5 text-amber-500" />
             <span>My Technical Articles</span>
           </Link>
 
@@ -577,30 +580,30 @@ export const UserDashboardPage: React.FC = () => {
           <div className="space-y-5">
             
             {/* Search & Filtering Bar */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white p-3.5 sm:p-4 shadow-sm font-mono">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3.5 sm:p-4 shadow-sm font-mono">
               
               {/* Search Bar */}
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-500" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search domain, engine, or keywords..."
-                  className="w-full rounded-lg border border-gray-200 bg-gray-100 pl-9 pr-3.5 py-1.5 text-xs text-black placeholder:text-gray-500 focus:border-gray-200 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3.5 py-1.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none"
                 />
               </div>
 
               {/* Engine Selector Dropdown */}
               <div className="flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-1 text-xs font-bold text-gray-600">
-                  <Filter className="h-3 w-3" />
+                <div className="flex items-center gap-1 text-xs font-bold text-slate-700">
+                  <Filter className="h-3 w-3 text-slate-500" />
                   <span>Catalyst:</span>
                 </div>
                 <select
                   value={selectedEngine}
                   onChange={(e) => setSelectedEngine(e.target.value)}
-                  className="rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1.5 text-xs font-bold text-black focus:outline-none"
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:outline-none"
                 >
                   <option value="all">All Catalysts</option>
                   <option value="master">Master Audit (All 8)</option>
@@ -615,7 +618,7 @@ export const UserDashboardPage: React.FC = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="rounded-lg border border-gray-200 bg-gray-100 px-2.5 py-1.5 text-xs font-bold text-black focus:outline-none"
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:outline-none"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
@@ -625,11 +628,11 @@ export const UserDashboardPage: React.FC = () => {
                 </select>
 
                 {/* View Mode Switcher */}
-                <div className="flex items-center rounded-lg border border-gray-200 bg-gray-100 p-0.5">
+                <div className="flex items-center rounded-lg border border-slate-200 bg-slate-100 p-0.5">
                   <button
                     onClick={() => setViewMode('grid')}
-                    className={`p-1 rounded transition-colors ${
-                      viewMode === 'grid' ? 'bg-black text-white' : 'text-gray-500 hover:text-white'
+                    className={`p-1 rounded transition-colors cursor-pointer ${
+                      viewMode === 'grid' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
                     }`}
                     title="Grid View"
                   >
@@ -637,8 +640,8 @@ export const UserDashboardPage: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setViewMode('table')}
-                    className={`p-1 rounded transition-colors ${
-                      viewMode === 'table' ? 'bg-black text-white' : 'text-gray-500 hover:text-white'
+                    className={`p-1 rounded transition-colors cursor-pointer ${
+                      viewMode === 'table' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
                     }`}
                     title="Table View"
                   >
@@ -651,15 +654,15 @@ export const UserDashboardPage: React.FC = () => {
 
             {/* Reports List / Grid */}
             {loading ? (
-              <div className="py-16 text-center text-gray-600 font-mono text-xs">
-                <RotateCw className="mx-auto h-6 w-6 animate-spin text-accent-cyan mb-2.5" />
+              <div className="py-16 text-center text-slate-600 font-mono text-xs">
+                <RotateCw className="mx-auto h-6 w-6 animate-spin text-amber-500 mb-2.5" />
                 <div>Fetching telemetry dossier records...</div>
               </div>
             ) : filteredReports.length === 0 ? (
-              <div className="rounded-2xl border border-gray-200 bg-white p-10 text-center shadow-sm font-mono">
-                <FileText className="mx-auto h-10 w-10 text-gray-500 mb-3" />
-                <h2 className="text-sm font-bold text-black">No Reports Found</h2>
-                <p className="mt-1 max-w-sm mx-auto text-xs text-gray-600">
+              <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm font-mono">
+                <FileText className="mx-auto h-10 w-10 text-slate-400 mb-3" />
+                <h2 className="text-sm font-bold text-slate-900">No Reports Found</h2>
+                <p className="mt-1 max-w-sm mx-auto text-xs text-slate-600">
                   {searchQuery || selectedEngine !== 'all' 
                     ? "No reports match your active search filters. Try clearing the search query."
                     : "You haven't run any audits yet. Launch your first Master Audit to generate a permanent dossier."}
@@ -667,9 +670,9 @@ export const UserDashboardPage: React.FC = () => {
                 <div className="mt-5">
                   <Link
                     to="/master-audit"
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
                   >
-                    <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+                    <Sparkles className="h-3.5 w-3.5 text-amber-500" />
                     <span>Run Master Audit</span>
                   </Link>
                 </div>
@@ -689,20 +692,20 @@ export const UserDashboardPage: React.FC = () => {
                     <div
                       key={report.id}
                       onClick={() => handleNavigateToReport(report)}
-                      className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:bg-gray-50 flex flex-col justify-between"
+                      className="group cursor-pointer rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:bg-slate-50 flex flex-col justify-between"
                     >
                       <div>
                         {/* Top Card Bar */}
-                        <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-gray-200">
+                        <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-slate-200">
                           <div className="flex items-center gap-2 min-w-0">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 border border-gray-200 text-accent-cyan shrink-0">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 border border-slate-200 text-amber-600 shrink-0">
                               <Globe className="h-3.5 w-3.5" />
                             </div>
                             <div className="min-w-0">
-                              <h4 className="text-xs font-bold text-black truncate group-hover:text-accent-cyan transition-colors">
+                              <h4 className="text-xs font-bold text-slate-900 truncate group-hover:text-amber-600 transition-colors">
                                 {domain}
                               </h4>
-                              <span className="text-[10px] text-gray-500 flex items-center gap-1">
+                              <span className="text-[10px] text-slate-500 flex items-center gap-1">
                                 <Calendar className="h-2.5 w-2.5" />
                                 {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
                               </span>
@@ -712,10 +715,10 @@ export const UserDashboardPage: React.FC = () => {
                           {/* Score Pill */}
                           <div className={`px-2 py-0.5 rounded text-xs font-bold border ${
                             (report.score || 90) >= 90
-                              ? 'bg-emerald-950/40 text-accent-emerald border-emerald-500/30'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                               : (report.score || 90) >= 75
-                                ? 'bg-blue-950/40 text-blue-300 border-blue-500/30'
-                                : 'bg-amber-950/40 text-amber-300 border-amber-500/30'
+                                ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                : 'bg-red-50 text-red-700 border-red-200'
                           }`}>
                             {report.score || 92}/100
                           </div>
@@ -723,45 +726,55 @@ export const UserDashboardPage: React.FC = () => {
 
                         {/* Middle Content */}
                         <div className="py-3 space-y-1.5">
-                          <div className="inline-flex items-center gap-1 rounded bg-gray-100 border border-gray-200 px-2 py-0.5 text-[10px] font-bold text-gray-600">
-                            <Sparkles className="h-2.5 w-2.5 text-accent-cyan" />
+                          <div className="inline-flex items-center gap-1 rounded bg-slate-100 border border-slate-200 px-2 py-0.5 text-[10px] font-bold text-slate-700">
+                            <Sparkles className="h-2.5 w-2.5 text-amber-500" />
                             <span>{engineMeta.name}</span>
                           </div>
-                          <p className="text-[11px] text-gray-600 line-clamp-2 leading-relaxed font-sans">
+                          <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed font-sans">
                             {report.summary || report.title || `Telemetry audit evaluated for ${report.url}`}
                           </p>
                         </div>
                       </div>
 
                       {/* Card Action Footer */}
-                      <div className="pt-2.5 border-t border-gray-200 flex items-center justify-between gap-2">
+                      <div className="pt-2.5 border-t border-slate-200 flex items-center justify-between gap-2">
                         <div className="flex items-center gap-1">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setQuickViewReport(report);
+                            }}
+                            className="p-1 rounded text-slate-400 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
+                            title="Quick View"
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                          </button>
                           <button
                             onClick={(e) => handleDirectExportPdf(report, e)}
                             disabled={exportingId === report.id}
-                            className="p-1 rounded text-gray-500 hover:bg-gray-100 hover:text-white transition-colors cursor-pointer"
+                            className="p-1 rounded text-slate-400 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
                             title="Export PDF"
                           >
                             <Download className={`h-3.5 w-3.5 ${exportingId === report.id ? 'animate-bounce' : ''}`} />
                           </button>
                           <button
                             onClick={(e) => handleCopyLink(report, e)}
-                            className="p-1 rounded text-gray-500 hover:bg-gray-100 hover:text-white transition-colors cursor-pointer"
+                            className="p-1 rounded text-slate-400 hover:bg-slate-100 hover:text-slate-900 transition-colors cursor-pointer"
                             title="Copy Permalink"
                           >
-                            {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-accent-emerald" /> : <Share2 className="h-3.5 w-3.5" />}
+                            {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Share2 className="h-3.5 w-3.5" />}
                           </button>
                           <button
                             onClick={(e) => handleDelete(report.id!, e)}
                             disabled={deletingId === report.id}
-                            className="p-1 rounded text-gray-500 hover:bg-rose-950/40 hover:text-rose-400 transition-colors cursor-pointer"
+                            className="p-1 rounded text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
                             title="Delete Report"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
                         </div>
 
-                        <span className="text-xs font-bold text-gray-500 group-hover:text-white flex items-center gap-1">
+                        <span className="text-xs font-bold text-slate-500 group-hover:text-slate-900 flex items-center gap-1">
                           <span>Read Dossier</span>
                           <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                         </span>
@@ -773,9 +786,9 @@ export const UserDashboardPage: React.FC = () => {
             ) : (
 
               /* TABLE VIEW */
-              <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm font-mono">
+              <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm font-mono">
                 <table className="w-full text-left text-xs" aria-label="Audit reports list">
-                  <thead className="bg-gray-100 border-b border-gray-200 text-gray-600 uppercase tracking-wider font-bold">
+                  <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 uppercase tracking-wider font-bold">
                     <tr>
                       <th className="px-4 py-3">Target Domain</th>
                       <th className="px-4 py-3">Diagnostic Engine</th>
@@ -784,7 +797,7 @@ export const UserDashboardPage: React.FC = () => {
                       <th className="px-4 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-brand-slate/30">
+                  <tbody className="divide-y divide-slate-200">
                     {filteredReports.map((report) => {
                       const domain = extractDomainFromUrl(report.url);
                       const isMaster = report.engine === 'all' || report.engine === 'master';
@@ -794,50 +807,60 @@ export const UserDashboardPage: React.FC = () => {
                         <tr 
                           key={report.id}
                           onClick={() => handleNavigateToReport(report)}
-                          className="hover:bg-gray-50 cursor-pointer transition-colors"
+                          className="hover:bg-slate-50 cursor-pointer transition-colors"
                         >
-                          <td className="px-4 py-3 font-bold text-black">
+                          <td className="px-4 py-3 font-bold text-slate-900">
                             <div className="flex items-center gap-2">
-                              <Globe className="h-3.5 w-3.5 text-accent-cyan" />
+                              <Globe className="h-3.5 w-3.5 text-amber-600" />
                               <span>{domain}</span>
                             </div>
                           </td>
-                          <td className="px-4 py-3 text-gray-600">
-                            <span className="rounded bg-gray-100 px-2 py-0.5 font-bold text-[11px] border border-gray-200">
+                          <td className="px-4 py-3 text-slate-600">
+                            <span className="rounded bg-slate-100 px-2 py-0.5 font-bold text-[11px] border border-slate-200 text-slate-800">
                               {engineName}
                             </span>
                           </td>
                           <td className="px-4 py-3 font-bold">
                             <span className={`px-2 py-0.5 rounded text-[11px] border ${
                               (report.score || 90) >= 90
-                                ? 'bg-emerald-950/40 text-accent-emerald border-emerald-500/30'
-                                : 'bg-blue-950/40 text-blue-300 border-blue-500/30'
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                : 'bg-amber-50 text-amber-700 border-amber-200'
                             }`}>
                               {report.score || 92}/100
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-gray-500">
+                          <td className="px-4 py-3 text-slate-500">
                             {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
                           </td>
                           <td className="px-4 py-3 text-right" onClick={(e) => e.stopPropagation()}>
                             <div className="flex items-center justify-end gap-1">
                               <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setQuickViewReport(report);
+                                }}
+                                className="p-1 rounded text-slate-400 hover:text-slate-900 cursor-pointer"
+                                title="Quick View"
+                              >
+                                <Eye className="h-3 w-3" />
+                              </button>
+                              <button
                                 onClick={(e) => handleDirectExportPdf(report, e)}
-                                className="p-1 rounded text-gray-500 hover:text-white cursor-pointer"
+                                className="p-1 rounded text-slate-400 hover:text-slate-900 cursor-pointer"
                                 title="Export PDF"
                               >
                                 <Download className="h-3 w-3" />
                               </button>
                               <button
                                 onClick={(e) => handleCopyLink(report, e)}
-                                className="p-1 rounded text-gray-500 hover:text-white cursor-pointer"
+                                className="p-1 rounded text-slate-400 hover:text-slate-900 cursor-pointer"
                                 title="Copy Link"
                               >
-                                {copiedId === report.id ? <Check className="h-3 w-3 text-accent-emerald" /> : <Share2 className="h-3 w-3" />}
+                                {copiedId === report.id ? <Check className="h-3 w-3 text-emerald-600" /> : <Share2 className="h-3 w-3" />}
                               </button>
                               <button
                                 onClick={(e) => handleDelete(report.id!, e)}
-                                className="p-1 rounded text-gray-500 hover:text-rose-400 cursor-pointer"
+                                className="p-1 rounded text-slate-400 hover:text-red-600 cursor-pointer"
                                 title="Delete"
                               >
                                 <Trash2 className="h-3 w-3" />

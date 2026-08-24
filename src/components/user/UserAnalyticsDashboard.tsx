@@ -1,3 +1,4 @@
+import { HeroImageCard } from '../common/HeroImageCard';
 import React, { useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
@@ -1531,7 +1532,7 @@ jobs:
       {activeSubTab === 'sdlc-catalysts' && (
         <div className="space-y-6">
           {/* Executive Overview Banner */}
-          <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 text-black shadow-xl">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 text-black shadow-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/40 text-blue-700 text-xs font-bold mb-3">
@@ -1592,83 +1593,79 @@ jobs:
             animate="visible"
             className="grid grid-cols-1 xl:grid-cols-2 gap-6"
           >
-            {SDLC_CATALYSTS_LIST.map((catalyst, index) => {
-              const bgImage = catalyst.image || catImages[index % 4];
-              return (
+            {SDLC_CATALYSTS_LIST.map((catalyst, index) => { const bgImage = catalyst.image || catImages[index % 4]; return (
               <motion.div
                 variants={itemVariants}
                 key={catalyst.id}
-                className="relative rounded-[2rem] overflow-hidden shadow-2xl flex flex-col sm:flex-row bg-white border border-gray-200 min-h-[280px]"
+                className="h-[320px] relative shrink-0"
               >
-                {/* Image side (Right) */}
-                <div className="absolute top-0 right-0 bottom-0 w-full sm:w-[55%] pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-[#0b192c] via-[#0b192c]/80 to-transparent z-10"></div>
-                  <img src={bgImage} alt="Background" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                </div>
-
-                {/* Content side (Left) */}
-                <div className="relative z-20 flex-1 p-6 sm:p-8 flex flex-col justify-between sm:w-[65%] shrink-0">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2 mb-4">
-                      <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full border border-sky-400/30 bg-sky-400/10 text-blue-700 tracking-wider">
+                <HeroImageCard
+                  imageUrl={bgImage}
+                  imageAlt={catalyst.name}
+                  title={
+                    <h3 className="font-extrabold text-xl sm:text-2xl leading-tight flex items-center gap-2">
+                       <span className="material-symbols-outlined text-[24px] text-white/80">{catalyst.icon}</span>
+                       {catalyst.name}
+                    </h3>
+                  }
+                  badge={
+                    <div className="flex gap-1.5 items-center">
+                      <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded border border-white/20 bg-black/40 backdrop-blur-md text-white tracking-wider shadow-sm">
                         {catalyst.sdlcPhase}
                       </span>
                       {catalyst.shortCode && (
-                        <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-orange-400/10 text-orange-400 border border-orange-400/30">
+                        <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded border border-white/20 bg-black/40 backdrop-blur-md text-white shadow-sm">
                           {catalyst.shortCode}
                         </span>
                       )}
                     </div>
-                    <h3 className="text-black font-extrabold text-xl sm:text-2xl mb-2 flex items-center gap-2 tracking-tight">
-                       <span className="material-symbols-outlined text-[26px] text-black/80">{catalyst.icon}</span>
-                       {catalyst.name}
-                    </h3>
-                    
-                    <p className="text-gray-300 text-[13px] leading-relaxed mb-4 line-clamp-3 sm:line-clamp-2">
-                      {catalyst.description}
-                    </p>
-                    
-                     {/* Capabilities Chips */}
-                    {catalyst.keyVectors && (
-                      <div className="flex flex-wrap gap-1.5 mt-3">
-                        {catalyst.keyVectors.slice(0, 2).map((v, idx) => (
-                          <span key={idx} className="text-[10px] font-medium bg-black/40 backdrop-blur-md text-gray-300 px-2 py-1 rounded-md border border-white/10 truncate max-w-[200px]">
-                            {v}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="mt-8 flex flex-row items-center justify-between gap-4 border-t border-white/10 pt-5">
+                  }
+                  description={
+                    <div className="flex flex-col gap-3">
+                      <p className="line-clamp-2">{catalyst.description}</p>
+                      {catalyst.keyVectors && (
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                          {catalyst.keyVectors.slice(0, 2).map((v, idx) => (
+                            <span key={idx} className="text-[10px] font-medium bg-black/40 backdrop-blur-md text-white/80 px-2 py-1 rounded-md border border-white/20 truncate max-w-[200px]">
+                              {v}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  }
+                  footer={
                     <div className="flex items-center gap-4">
                       <Link
                         to={`/docs#${catalyst.docsAnchor || 'overview'}`}
-                        className="text-[11px] font-bold text-gray-400 hover:text-black flex items-center gap-1 transition-colors uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                        className="text-[11px] font-bold text-white/70 hover:text-white flex items-center gap-1 transition-colors uppercase tracking-wider"
                       >
                         <span>Read Specs</span>
                       </Link>
                       {catalyst.shortCode === 'SYNTH' && (
                         <button
                           onClick={() => setActiveSubTab('par-blueprint')}
-                          className="text-[11px] font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="text-[11px] font-bold text-white/70 hover:text-white flex items-center gap-1 transition-colors uppercase tracking-wider"
                         >
                           <span>Blueprint</span>
                         </button>
                       )}
                     </div>
-
+                  }
+                  action={
                     <Link
                       to={`${catalyst.route}${selectedDomain !== 'all' ? `?url=${encodeURIComponent('https://' + selectedDomain)}` : ''}`}
-                      className="bg-white text-black hover:bg-sky-50 transition-colors font-bold py-2.5 px-6 rounded-full text-xs shadow-lg inline-flex items-center gap-2 active:scale-95 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="bg-white text-black hover:bg-gray-100 transition-colors font-bold py-2 px-5 rounded-full text-xs shadow-lg inline-flex items-center gap-2 active:scale-95 shrink-0"
                     >
-                      <span>Launch Catalyst</span>
+                      <span>Launch</span>
                       <Play className="h-3 w-3 fill-current" />
                     </Link>
-                  </div>
-                </div>
+                  }
+                  aspectRatio="h-full w-full"
+                  overlayStyle="glass"
+                />
               </motion.div>
-            )})}
+); })}
           </motion.div>
         </div>
       )}
@@ -1678,7 +1675,7 @@ jobs:
         <div className="space-y-6">
           
           {/* Header Banner */}
-          <div className="rounded-2xl border border-brand-slate/40 bg-white p-6 text-black shadow-xl">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 text-black shadow-xl">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-300 text-xs font-bold mb-3">

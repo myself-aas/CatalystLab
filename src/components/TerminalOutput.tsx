@@ -106,9 +106,9 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   };
 
   return (
-    <div className="flex flex-col rounded-2xl border border-[#415a77]/30 bg-white shadow-xl overflow-hidden hover:border-[#415a77]/60 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+    <div className="flex flex-col rounded-2xl border border-black/30 bg-white shadow-xl overflow-hidden hover:border-black/60 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
       {/* Terminal Title Bar */}
-      <div className="flex items-center justify-between border-b border-[#415a77]/25 bg-[#091524] px-4 py-3 select-none">
+      <div className="flex items-center justify-between border-b border-black/25 bg-black px-4 py-3 select-none">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80 shadow-sm" />
@@ -116,27 +116,27 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80 shadow-sm" />
           </div>
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-sm text-[#93c5fd]">{icon}</span>
-            <span className="text-xs font-bold text-black tracking-tight">{title}</span>
+            <span className="material-symbols-outlined text-sm text-slate-500">{icon}</span>
+            <span className="text-xs font-bold text-white tracking-tight">{title}</span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {getStatusBadge()}
 
-          <div className="h-3.5 w-px bg-black/30 mx-0.5" />
+          <div className="h-3.5 w-px bg-white/20 mx-0.5" />
 
           {isComplianceEngine && (
             <button
               onClick={() => setShowGauges(!showGauges)}
               className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-medium transition-all active:scale-95 ${
                 showGauges
-                  ? 'border-sky-500/50 bg-sky-500/20 text-blue-700'
-                  : 'border-[#415a77]/30 bg-gray-50/70 text-[#c5d3e8] hover:text-black'
+                  ? 'border-slate-500/50 bg-black/30 text-white'
+                  : 'border-black/30 bg-black/10 text-slate-500 hover:text-white'
               }`}
               title="Toggle D3.js Risk & SSL Gauges"
             >
-              <Activity className="h-3 w-3 text-blue-600" />
+              <Activity className="h-3 w-3 text-slate-500" />
               <span className="hidden sm:inline">D3 Gauges</span>
             </button>
           )}
@@ -144,18 +144,18 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           <button
             onClick={handleCopy}
             disabled={!output}
-            className="flex items-center gap-1 rounded-lg border border-[#415a77]/30 bg-gray-50/70 px-2 py-1 text-[11px] font-medium text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-black disabled:opacity-40 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1 rounded-lg border border-black/30 bg-black/15 px-2 py-1 text-[11px] font-medium text-slate-500 hover:border-black/60 hover:bg-black/30 hover:text-white disabled:opacity-40 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Copy output"
             aria-label="Copy terminal output"
           >
             {copied ? (
               <>
-                <Check className="h-3 w-3 text-emerald-700" />
-                <span className="text-emerald-700">Copied</span>
+                <Check className="h-3 w-3 text-emerald-400" />
+                <span className="text-emerald-400">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="h-3 w-3 text-[#c5d3e8]" />
+                <Copy className="h-3 w-3 text-slate-500" />
                 <span className="hidden sm:inline">Copy</span>
               </>
             )}
@@ -163,7 +163,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
           <button
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg border border-[#415a77]/30 bg-gray-50/70 p-1 text-[#c5d3e8] hover:border-[#415a77]/60 hover:bg-[#1e2f4a] hover:text-black transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-lg border border-black/30 bg-black/15 p-1 text-slate-500 hover:border-black/60 hover:bg-black/30 hover:text-white transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title={expanded ? "Collapse console" : "Expand console"}
             aria-label={expanded ? "Collapse console" : "Expand console"}
           >
@@ -174,32 +174,32 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
       {/* Embedded D3.js Gauges for Compliance & Risk */}
       {isComplianceEngine && showGauges && (
-        <div className="border-b border-[#415a77]/25 p-3 bg-[#081628]/95">
+        <div className="border-b border-black/25 p-3 bg-slate-900">
           <RiskSslGaugeChart rawOutput={output} compact />
         </div>
       )}
 
       {/* Terminal Body */}
       <div
-        className={`p-4 font-mono text-xs overflow-y-auto bg-[#050d18] selection:bg-black/50 ${
+        className={`p-4 font-mono text-xs overflow-y-auto bg-slate-900 selection:bg-black/50 ${
           expanded ? 'max-h-[620px]' : maxHeight
         }`}
       >
         {loading && !output ? (
           <div className="space-y-2.5 py-4">
-            <div className="text-[#93c5fd] flex items-center gap-2 font-medium">
+            <div className="text-slate-500 flex items-center gap-2 font-medium">
               <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
               <span>{statusText || 'Initializing diagnostic container and dispatching telemetry trace...'}</span>
             </div>
-            <div className="text-[#415a77] text-[11px] animate-pulse">
+            <div className="text-black text-[11px] animate-pulse">
               Tracing socket connections, DOM depth, and headers...
             </div>
           </div>
         ) : output ? (
           formatTerminalText(output)
         ) : (
-          <div className="flex items-center gap-2 text-[#415a77] italic py-2">
-            <Terminal className="h-3.5 w-3.5 text-[#415a77]" />
+          <div className="flex items-center gap-2 text-black italic py-2">
+            <Terminal className="h-3.5 w-3.5 text-black" />
             <span>Awaiting target URL initialization...</span>
           </div>
         )}

@@ -90,20 +90,20 @@ export const GlobalEdgeRadar: React.FC = () => {
   const selectedRegion = regions.find((r) => r.id === selectedRegionId) || regions[0];
 
   return (
-    <section className="py-14 lg:py-18 bg-gray-100/70 backdrop-blur-sm text-black relative overflow-hidden border-b border-gray-200">
+    <section className="py-14 lg:py-18 bg-slate-50/70 backdrop-blur-sm text-black relative overflow-hidden border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1 text-xs sm:text-sm font-mono text-gray-600 mb-3 shadow-sm">
-              <Radio className="h-3.5 w-3.5 text-accent-cyan animate-pulse" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs sm:text-sm font-mono text-slate-800 mb-3 shadow-sm">
+              <Radio className="h-3.5 w-3.5 text-slate-800 animate-pulse" />
               <span>Phase 5 • EdgeVmax Network Probe</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-black">
               Global Edge Latency Radar
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-xl mt-1.5 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 max-w-xl mt-1.5 leading-relaxed">
               Verify TTFB, TLS 1.3 0-RTT handshakes, and HTTP/3 QUIC across 12 distributed global PoPs.
             </p>
           </LazyReveal>
@@ -114,14 +114,14 @@ export const GlobalEdgeRadar: React.FC = () => {
               type="button"
               onClick={triggerGlobalPing}
               disabled={isPinging}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-black hover:bg-black-hover text-white text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer disabled:opacity-50 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-black hover:bg-black-hover text-white text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer disabled:opacity-50 border border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
             >
-              <RefreshCw className={`h-3.5 w-3.5 ${isPinging ? 'animate-spin text-accent-cyan' : ''}`} />
+              <RefreshCw className={`h-3.5 w-3.5 ${isPinging ? 'animate-spin text-slate-300' : ''}`} />
               <span>{isPinging ? 'Pinging PoPs...' : 'Ping All 12 PoPs'}</span>
             </button>
 
             {/* Continent Filters */}
-            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-gray-200">
+            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
               {['all', 'Americas', 'EMEA', 'APAC'].map((cont) => (
                 <button
                   key={cont}
@@ -129,8 +129,8 @@ export const GlobalEdgeRadar: React.FC = () => {
                   onClick={() => setSelectedContinent(cont)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer capitalize ${
                     selectedContinent === cont
-                      ? 'bg-black text-white font-bold'
-                      : 'text-gray-600 hover:text-white'
+                      ? 'bg-black text-white font-bold shadow-sm'
+                      : 'text-slate-600 hover:text-black hover:bg-slate-100'
                   }`}
                 >
                   {cont}
@@ -144,7 +144,7 @@ export const GlobalEdgeRadar: React.FC = () => {
                 type="button"
                 onClick={() => scroll('left')}
                 aria-label="Scroll PoP nodes left"
-                className="p-2 rounded-xl bg-white hover:bg-gray-50 text-gray-600 hover:text-white border border-gray-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                className="p-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -152,7 +152,7 @@ export const GlobalEdgeRadar: React.FC = () => {
                 type="button"
                 onClick={() => scroll('right')}
                 aria-label="Scroll PoP nodes right"
-                className="p-2 rounded-xl bg-white hover:bg-gray-50 text-gray-600 hover:text-white border border-gray-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                className="p-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm active:scale-95 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -182,21 +182,21 @@ export const GlobalEdgeRadar: React.FC = () => {
                   onClick={() => setSelectedRegionId(reg.id)}
                   className={`w-[240px] sm:w-[260px] shrink-0 snap-start p-4 rounded-2xl border transition-all duration-150 cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-white border-accent-cyan shadow-lg ring-1 ring-accent-cyan/60'
-                      : 'bg-white/70 border-gray-200 hover:border-gray-200 hover:bg-white'
+                      ? 'bg-white border-black shadow-lg ring-1 ring-black/60'
+                      : 'bg-white/80 border-slate-200 hover:border-slate-300 hover:bg-white'
                   }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                         {reg.id.toUpperCase()} • {reg.continent}
                       </span>
                       <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${
                         isGood 
-                          ? 'bg-emerald-950/40 text-accent-emerald border-emerald-500/30'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                           : isFair
-                          ? 'bg-cyan-950/40 text-accent-cyan border-cyan-500/30'
-                          : 'bg-amber-950/40 text-accent-amber border-amber-500/30'
+                          ? 'bg-sky-50 text-sky-700 border-sky-200'
+                          : 'bg-amber-50 text-amber-700 border-amber-200'
                       }`}>
                         {liveLatency} ms
                       </span>
@@ -205,14 +205,14 @@ export const GlobalEdgeRadar: React.FC = () => {
                     <h4 className="text-sm font-bold text-black leading-tight">
                       {reg.location.split(' (')[0]}
                     </h4>
-                    <p className="text-xs text-gray-600 font-mono truncate mt-0.5">
+                    <p className="text-xs text-slate-600 font-mono truncate mt-0.5">
                       {reg.isp}
                     </p>
                   </div>
 
-                  <div className="pt-2.5 border-t border-gray-200 flex items-center justify-between text-[11px] font-mono text-gray-500 mt-3">
+                  <div className="pt-2.5 border-t border-slate-200 flex items-center justify-between text-[11px] font-mono text-slate-500 mt-3">
                     <span className="truncate">{reg.ip}</span>
-                    <span className={`font-bold ${isSelected ? 'text-accent-cyan' : 'text-gray-600'}`}>
+                    <span className={`font-bold ${isSelected ? 'text-slate-800' : 'text-slate-600'}`}>
                       {isSelected ? '● Active' : 'Select'}
                     </span>
                   </div>
@@ -230,43 +230,43 @@ export const GlobalEdgeRadar: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.15 }}
-            className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 shadow-xl"
+            className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xl"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               
               {/* Left Column: Specs */}
               <div className="lg:col-span-8 space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-100 border border-gray-200 text-xs font-mono text-gray-600">
-                    <Globe2 className="h-3.5 w-3.5 text-accent-cyan" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700">
+                    <Globe2 className="h-3.5 w-3.5 text-slate-800" />
                     <span>Anycast PoP: {selectedRegion.location}</span>
                   </div>
-                  <span className="text-xs font-mono text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg border border-gray-200">
+                  <span className="text-xs font-mono text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
                     Host IP: {selectedRegion.ip}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-                  <div className="bg-gray-100 p-3 rounded-xl border border-gray-200">
-                    <div className="text-[10px] font-mono text-gray-500 uppercase">Synthesized TTFB</div>
-                    <div className="text-xl font-bold font-mono text-accent-cyan mt-0.5 metric-tabular">
+                  <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div className="text-[10px] font-mono text-slate-500 uppercase">Synthesized TTFB</div>
+                    <div className="text-xl font-bold font-mono text-slate-800 mt-0.5 metric-tabular">
                       {latencyJitter[selectedRegion.id] || selectedRegion.baseLatency}ms
                     </div>
                   </div>
-                  <div className="bg-gray-100 p-3 rounded-xl border border-gray-200">
-                    <div className="text-[10px] font-mono text-gray-500 uppercase">HTTP/3 QUIC</div>
-                    <div className="text-xl font-bold font-mono text-accent-emerald mt-0.5">
+                  <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div className="text-[10px] font-mono text-slate-500 uppercase">HTTP/3 QUIC</div>
+                    <div className="text-xl font-bold font-mono text-emerald-700 mt-0.5">
                       Enabled
                     </div>
                   </div>
-                  <div className="bg-gray-100 p-3 rounded-xl border border-gray-200">
-                    <div className="text-[10px] font-mono text-gray-500 uppercase">TLS 1.3 0-RTT</div>
-                    <div className="text-xl font-bold font-mono text-accent-emerald mt-0.5">
+                  <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div className="text-[10px] font-mono text-slate-500 uppercase">TLS 1.3 0-RTT</div>
+                    <div className="text-xl font-bold font-mono text-emerald-700 mt-0.5">
                       Verified
                     </div>
                   </div>
-                  <div className="bg-gray-100 p-3 rounded-xl border border-gray-200">
-                    <div className="text-[10px] font-mono text-gray-500 uppercase">BGP Transit</div>
+                  <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div className="text-[10px] font-mono text-slate-500 uppercase">BGP Transit</div>
                     <div className="text-sm font-bold font-mono text-black mt-1 truncate">
                       {selectedRegion.isp.split(' ')[0]}
                     </div>
@@ -278,14 +278,14 @@ export const GlobalEdgeRadar: React.FC = () => {
               <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-center lg:items-end justify-center gap-3">
                 <Link
                   to={`/latency?pop=${selectedRegion.id}`}
-                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 border border-brand-periwinkle/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-5 py-3 rounded-xl text-xs sm:text-sm font-mono font-bold transition-all shadow-md active:scale-95 border border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                 >
                   <span>Launch Deep PoP Diagnostic</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   to="/docs#edge-latency"
-                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center gap-1.5 bg-gray-100 hover:bg-gray-50 text-gray-600 hover:text-white px-4 py-2.5 rounded-xl text-xs font-mono border border-gray-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-slate"
+                  className="w-full sm:w-auto lg:w-full inline-flex items-center justify-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-mono border border-slate-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                 >
                   <span>PoP SLA &amp; Topology Docs</span>
                 </Link>

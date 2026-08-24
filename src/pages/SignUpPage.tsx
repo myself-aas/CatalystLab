@@ -172,7 +172,7 @@ export const SignUpPage: React.FC = () => {
   const activeErrorMessage = localError || authError?.message;
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-white text-black selection:bg-black selection:text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-white text-slate-900 selection:bg-slate-900 selection:text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <SEOHead
         title="Sign Up for CatalystLab | Free Developer Telemetry & Forensic Audit Account"
         description="Create your free CatalystLab account to run 8 specialized web diagnostic engines, obtain REST API tokens, and monitor production sites with automated watchdogs."
@@ -188,54 +188,54 @@ export const SignUpPage: React.FC = () => {
             <BrandLogo size="lg" />
           </Link>
           
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-black">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
             Create your CatalystLab account
           </h1>
-          <p className="mt-2 text-xs sm:text-sm text-gray-600 max-w-md">
+          <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-md">
             Unlock 50 free daily diagnostic units, continuous health monitoring, and instant REST API access keys.
           </p>
         </div>
 
         {/* Feature Highlights Grid */}
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
-          <div className="rounded-xl border border-gray-200 bg-white p-2.5">
-            <Zap className="h-4 w-4 text-accent-cyan mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-black">50 Free Units</div>
-            <div className="text-[9px] text-gray-500">Refreshed daily</div>
+          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+            <Zap className="h-4 w-4 text-amber-500 mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-slate-900">50 Free Units</div>
+            <div className="text-[9px] text-slate-500">Refreshed daily</div>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-2.5">
-            <Layers className="h-4 w-4 text-gray-600 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-black">8 Engines</div>
-            <div className="text-[9px] text-gray-500">Deep telemetry</div>
+          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+            <Layers className="h-4 w-4 text-slate-600 mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-slate-900">8 Engines</div>
+            <div className="text-[9px] text-slate-500">Deep telemetry</div>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-2.5">
-            <KeyRound className="h-4 w-4 text-accent-emerald mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-black">REST API</div>
-            <div className="text-[9px] text-gray-500">CI/CD hooks</div>
+          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+            <KeyRound className="h-4 w-4 text-emerald-600 mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-slate-900">REST API</div>
+            <div className="text-[9px] text-slate-500">CI/CD hooks</div>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-2.5">
-            <ShieldCheck className="h-4 w-4 text-accent-amber mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-black">Zero Risk</div>
-            <div className="text-[9px] text-gray-500">No card required</div>
+          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+            <ShieldCheck className="h-4 w-4 text-amber-600 mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-slate-900">Zero Risk</div>
+            <div className="text-[9px] text-slate-500">No card required</div>
           </div>
         </div>
 
         {/* Card Container */}
-        <div className="mt-5 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-2xl">
+        <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
           
           {/* Error Alert Banner */}
           {activeErrorMessage && (
-            <div className="mb-5 rounded-xl border border-rose-500/40 bg-rose-950/40 p-3.5 text-xs text-rose-200">
+            <div className="mb-5 rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs text-red-700">
               <div className="flex items-start gap-2.5">
-                <AlertCircle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
                 <div className="flex-1 space-y-1">
-                  <p className="font-semibold text-rose-200 leading-snug">{activeErrorMessage}</p>
+                  <p className="font-semibold text-red-800 leading-snug">{activeErrorMessage}</p>
                   {authError?.isUnauthorizedDomain && (
                     <div className="pt-1">
                       <button
                         type="button"
                         onClick={() => setShowDomainModal(true)}
-                        className="font-bold underline text-rose-300 hover:text-white cursor-pointer"
+                        className="font-bold underline text-red-700 hover:text-red-900 cursor-pointer"
                       >
                         Whitelist domain &lsquo;{authError.domain}&rsquo; in Firebase
                       </button>
@@ -254,10 +254,10 @@ export const SignUpPage: React.FC = () => {
                 type="button"
                 onClick={handleGoogleSignUp}
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-3.5 py-2.5 text-xs font-mono font-bold text-black transition-colors hover:bg-gray-50 hover:text-white disabled:opacity-60 cursor-pointer shadow-sm"
+                className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 transition-colors hover:bg-slate-50 disabled:opacity-60 cursor-pointer shadow-sm"
               >
                 {authMethod === 'google' ? (
-                  <RotateCw className="h-4 w-4 animate-spin text-accent-cyan" />
+                  <RotateCw className="h-4 w-4 animate-spin text-amber-500" />
                 ) : (
                   <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
                     <path
@@ -286,10 +286,10 @@ export const SignUpPage: React.FC = () => {
                 type="button"
                 onClick={handleGithubSignUp}
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-3.5 py-2.5 text-xs font-mono font-bold text-black transition-colors hover:bg-gray-50 hover:text-white disabled:opacity-60 cursor-pointer shadow-sm"
+                className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 transition-colors hover:bg-slate-50 disabled:opacity-60 cursor-pointer shadow-sm"
               >
                 {authMethod === 'github' ? (
-                  <RotateCw className="h-4 w-4 animate-spin text-accent-cyan" />
+                  <RotateCw className="h-4 w-4 animate-spin text-amber-500" />
                 ) : (
                   <svg className="h-4 w-4 shrink-0 fill-current" viewBox="0 0 24 24">
                     <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -301,8 +301,8 @@ export const SignUpPage: React.FC = () => {
 
             {/* Or Divider */}
             <div className="relative flex items-center justify-center">
-              <div className="w-full border-t border-gray-200" />
-              <span className="bg-white px-3 text-[10px] font-mono font-semibold text-gray-500 uppercase tracking-wider">
+              <div className="w-full border-t border-slate-200" />
+              <span className="bg-white px-3 text-[10px] font-mono font-semibold text-slate-500 uppercase tracking-wider">
                 or register with email
               </span>
             </div>
@@ -310,11 +310,11 @@ export const SignUpPage: React.FC = () => {
             {/* Email Registration Form */}
             <form onSubmit={handleEmailSignUp} className="space-y-3.5">
               <div>
-                <label htmlFor="fullName" className="block text-xs font-mono font-bold text-gray-600 mb-1">
+                <label htmlFor="fullName" className="block text-xs font-mono font-bold text-slate-700 mb-1">
                   Full Name / Handle
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                     <UserIcon className="h-4 w-4" />
                   </div>
                   <input
@@ -325,17 +325,17 @@ export const SignUpPage: React.FC = () => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Alex Mercer"
-                    className="block w-full rounded-xl border border-gray-200 bg-gray-100 pl-9 pr-3.5 py-2 text-xs font-mono text-black placeholder-brand-slate-light focus:border-gray-200 focus:outline-none transition-colors"
+                    className="block w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3.5 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-xs font-mono font-bold text-gray-600 mb-1">
+                <label htmlFor="email" className="block text-xs font-mono font-bold text-slate-700 mb-1">
                   Work or Personal Email
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                     <Mail className="h-4 w-4" />
                   </div>
                   <input
@@ -347,17 +347,17 @@ export const SignUpPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="alex@company.com"
-                    className="block w-full rounded-xl border border-gray-200 bg-gray-100 pl-9 pr-3.5 py-2 text-xs font-mono text-black placeholder-brand-slate-light focus:border-gray-200 focus:outline-none transition-colors"
+                    className="block w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3.5 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-xs font-mono font-bold text-gray-600 mb-1">
+                <label htmlFor="password" className="block text-xs font-mono font-bold text-slate-700 mb-1">
                   Create Password
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                     <Lock className="h-4 w-4" />
                   </div>
                   <input
@@ -369,12 +369,12 @@ export const SignUpPage: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="At least 8 characters"
-                    className="block w-full rounded-xl border border-gray-200 bg-gray-100 pl-9 pr-9 py-2 text-xs font-mono text-black placeholder-brand-slate-light focus:border-gray-200 focus:outline-none transition-colors"
+                    className="block w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-9 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-white transition-colors cursor-pointer"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -384,31 +384,31 @@ export const SignUpPage: React.FC = () => {
                 {/* Password Strength Indicator */}
                 {password.length > 0 && (
                   <div className="mt-2 space-y-1">
-                    <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden border border-gray-200">
+                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                       <div 
                         className={`h-full transition-all duration-300 ${
-                          strengthScore <= 25 ? 'bg-rose-500 w-1/4' :
+                          strengthScore <= 25 ? 'bg-red-500 w-1/4' :
                           strengthScore <= 50 ? 'bg-amber-500 w-2/4' :
-                          strengthScore <= 75 ? 'bg-blue-400 w-3/4' :
-                          'bg-accent-emerald w-full'
+                          strengthScore <= 75 ? 'bg-amber-600 w-3/4' :
+                          'bg-emerald-500 w-full'
                         }`}
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px] font-mono">
-                      <div className={`flex items-center gap-1 ${passwordCriteria.minLength ? 'text-accent-emerald' : 'text-gray-500'}`}>
-                        {passwordCriteria.minLength ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-black" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.minLength ? 'text-emerald-600' : 'text-slate-400'}`}>
+                        {passwordCriteria.minLength ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
                         <span>8+ characters</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasUppercase ? 'text-accent-emerald' : 'text-gray-500'}`}>
-                        {passwordCriteria.hasUppercase ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-black" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasUppercase ? 'text-emerald-600' : 'text-slate-400'}`}>
+                        {passwordCriteria.hasUppercase ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
                         <span>Uppercase letter</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasNumber ? 'text-accent-emerald' : 'text-gray-500'}`}>
-                        {passwordCriteria.hasNumber ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-black" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasNumber ? 'text-emerald-600' : 'text-slate-400'}`}>
+                        {passwordCriteria.hasNumber ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
                         <span>Number</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasSpecial ? 'text-accent-emerald' : 'text-gray-500'}`}>
-                        {passwordCriteria.hasSpecial ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-black" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasSpecial ? 'text-emerald-600' : 'text-slate-400'}`}>
+                        {passwordCriteria.hasSpecial ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
                         <span>Special character</span>
                       </div>
                     </div>
@@ -417,11 +417,11 @@ export const SignUpPage: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-xs font-mono font-bold text-gray-600 mb-1">
+                <label htmlFor="confirmPassword" className="block text-xs font-mono font-bold text-slate-700 mb-1">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                     <Lock className="h-4 w-4" />
                   </div>
                   <input
@@ -434,31 +434,31 @@ export const SignUpPage: React.FC = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Repeat password"
                     className={`block w-full rounded-xl border ${
-                      !passwordsMatch ? 'border-rose-500 bg-rose-950/20' : 'border-gray-200 bg-gray-100'
-                    } pl-9 pr-3.5 py-2 text-xs font-mono text-black placeholder-brand-slate-light focus:border-gray-200 focus:outline-none transition-colors`}
+                      !passwordsMatch ? 'border-red-500 bg-red-50' : 'border-slate-200 bg-slate-50'
+                    } pl-9 pr-3.5 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors`}
                   />
                 </div>
                 {!passwordsMatch && confirmPassword && (
-                  <p className="mt-1 text-[11px] font-mono text-rose-400">Passwords do not match.</p>
+                  <p className="mt-1 text-[11px] font-mono text-red-600">Passwords do not match.</p>
                 )}
               </div>
 
               <div className="pt-0.5">
-                <label className="flex items-start gap-2 cursor-pointer select-none text-xs font-mono text-gray-600">
+                <label className="flex items-start gap-2 cursor-pointer select-none text-xs font-mono text-slate-600">
                   <input
                     type="checkbox"
                     checked={agreeTerms}
                     onChange={(e) => setAgreeTerms(e.target.checked)}
                     required
-                    className="h-3.5 w-3.5 mt-0.5 rounded border-gray-200 bg-gray-100 text-brand-slate focus:ring-0"
+                    className="h-3.5 w-3.5 mt-0.5 rounded border-slate-300 bg-white text-slate-900 focus:ring-0"
                   />
                   <span>
                     I agree to the{' '}
-                    <Link to="/terms" target="_blank" className="text-accent-cyan hover:underline">
+                    <Link to="/terms" target="_blank" className="text-amber-600 hover:underline font-semibold">
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link to="/privacy" target="_blank" className="text-accent-cyan hover:underline">
+                    <Link to="/privacy" target="_blank" className="text-amber-600 hover:underline font-semibold">
                       Privacy Policy
                     </Link>
                     .
@@ -469,7 +469,7 @@ export const SignUpPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || !agreeTerms || (!passwordsMatch && Boolean(confirmPassword))}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 py-2.5 text-xs font-mono font-bold text-white shadow-md transition-all disabled:opacity-60 cursor-pointer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 py-2.5 text-xs font-mono font-bold text-white shadow-sm transition-all disabled:opacity-60 cursor-pointer"
               >
                 {authMethod === 'email' && isSubmitting ? (
                   <RotateCw className="h-4 w-4 animate-spin" />
@@ -484,17 +484,17 @@ export const SignUpPage: React.FC = () => {
           </div>
 
           {/* Sandbox Developer Demo Bypass */}
-          <div className="mt-5 pt-4 border-t border-gray-200">
-            <div className="flex items-center justify-between text-[11px] font-mono text-gray-500 mb-2">
-              <span className="flex items-center gap-1 font-semibold text-gray-600">
-                <Terminal className="h-3 w-3 text-accent-cyan" />
+          <div className="mt-5 pt-4 border-t border-slate-200">
+            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 mb-2">
+              <span className="flex items-center gap-1 font-semibold text-slate-700">
+                <Terminal className="h-3 w-3 text-amber-600" />
                 <span>Instant Sandbox Onboarding:</span>
               </span>
             </div>
             <button
               type="button"
               onClick={handleSandboxSignUp}
-              className="w-full rounded-lg border border-gray-200 bg-gray-100 px-3 py-1.5 text-[11px] font-mono font-bold text-gray-600 hover:bg-gray-50 hover:text-white transition-colors text-center cursor-pointer"
+              className="w-full rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-[11px] font-mono font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors text-center cursor-pointer"
             >
               Test Onboarding in Sandbox Mode (1-Click)
             </button>
@@ -502,25 +502,25 @@ export const SignUpPage: React.FC = () => {
         </div>
 
         {/* Switch to Sign In */}
-        <div className="mt-5 text-center text-xs font-mono text-gray-500">
+        <div className="mt-5 text-center text-xs font-mono text-slate-500">
           <span>Already have a CatalystLab account? </span>
           <Link
             to={`/login${location.search}`}
-            className="font-bold text-accent-cyan hover:underline ml-1"
+            className="font-bold text-amber-600 hover:underline ml-1"
           >
             Sign in &rarr;
           </Link>
         </div>
 
         {/* Trust & Compliance Badge */}
-        <div className="mt-6 flex items-center justify-center gap-4 text-[11px] font-mono text-gray-500">
+        <div className="mt-6 flex items-center justify-center gap-4 text-[11px] font-mono text-slate-500">
           <div className="flex items-center gap-1">
-            <ShieldCheck className="h-3.5 w-3.5 text-accent-emerald" />
+            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
             <span>SOC2 Type II &amp; GDPR Compliant</span>
           </div>
           <span>•</span>
           <div className="flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+            <Sparkles className="h-3.5 w-3.5 text-amber-500" />
             <span>No Credit Card Needed</span>
           </div>
         </div>

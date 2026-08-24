@@ -6,7 +6,7 @@ import { SEOHead } from '../components/common/SEOHead';
 
 export const TermsPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white pb-24 text-black font-mono selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white pb-24 text-slate-900 font-mono selection:bg-slate-900 selection:text-white">
       <SEOHead
         title="Terms of Service & Acceptable Use Policy"
         description="Review CatalystLab's Terms of Service, acceptable telemetry usage policies, intellectual property rights, and report licensing terms."
@@ -15,18 +15,18 @@ export const TermsPage: React.FC = () => {
       />
 
       {/* Dedicated Hero Header */}
-      <section className="border-b border-gray-200 bg-gray-100 px-4 py-10 sm:px-6 lg:px-8">
+      <section className="border-b border-slate-200 bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-0.5 text-xs font-bold text-accent-cyan uppercase tracking-wider">
-                <Scale className="h-3.5 w-3.5 text-accent-cyan" />
+              <div className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-bold text-amber-600 uppercase tracking-wider">
+                <Scale className="h-3.5 w-3.5 text-amber-600" />
                 <span>Operating Standards &amp; Guidelines</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black tracking-tight font-sans">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
                 Terms of Service &amp; Acceptable Use
               </h1>
-              <p className="text-xs sm:text-sm text-gray-600 max-w-2xl leading-relaxed font-sans">
+              <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed font-sans">
                 Operating rules, diagnostic rate quotas, intellectual property protections, and 100% user ownership guarantees over generated audit dossiers.
               </p>
             </div>
@@ -35,11 +35,11 @@ export const TermsPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-3.5 py-2 text-xs font-bold text-white transition-all shadow-sm"
+                className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-3.5 py-2 text-xs font-bold text-white transition-all shadow-sm"
               >
-                <LifeBuoy className="h-3.5 w-3.5 text-accent-cyan" />
+                <LifeBuoy className="h-3.5 w-3.5 text-amber-500" />
                 <span>Enterprise Inquiries</span>
-                <ArrowRight className="h-3 w-3 text-gray-500" />
+                <ArrowRight className="h-3 w-3 text-slate-400" />
               </Link>
             </div>
           </div>
@@ -51,27 +51,27 @@ export const TermsPage: React.FC = () => {
         <TermsSection />
 
         {/* Global Trust Footer Card */}
-        <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center text-black shadow-xl space-y-3">
-          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 border border-gray-200 text-accent-amber shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center text-slate-900 shadow-sm space-y-3">
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 border border-slate-200 text-amber-600 shadow-sm">
             <Award className="h-5 w-5" />
           </div>
-          <h3 className="text-base font-bold text-black font-sans">Need Custom Terms or Master Service Agreements?</h3>
-          <p className="text-xs text-gray-600 max-w-lg mx-auto leading-relaxed font-sans">
+          <h3 className="text-base font-bold text-slate-900 font-sans">Need Custom Terms or Master Service Agreements?</h3>
+          <p className="text-xs text-slate-600 max-w-lg mx-auto leading-relaxed font-sans">
             Enterprise customers can request customized SLA guarantees, dedicated private cloud deployments, and custom procurement agreements.
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-brand-periwinkle/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-xs font-bold text-white transition-all shadow-sm"
             >
-              <LifeBuoy className="h-3.5 w-3.5 text-accent-cyan" />
+              <LifeBuoy className="h-3.5 w-3.5 text-amber-500" />
               <span>Contact Legal &amp; Sales</span>
             </Link>
             <Link
               to="/privacy"
-              className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-2 text-xs font-bold text-black hover:bg-gray-50 transition-all"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50 transition-all"
             >
-              <FileText className="h-3.5 w-3.5 text-accent-cyan" />
+              <FileText className="h-3.5 w-3.5 text-amber-600" />
               <span>Privacy Policy</span>
             </Link>
           </div>

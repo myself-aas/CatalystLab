@@ -142,7 +142,7 @@ export const ArchitectureComparator: React.FC = () => {
                         {/* CatalystLab Pipeline */}
                         <td className="py-4 px-6 text-emerald-800 font-medium">
                           <div className="flex items-start gap-3">
-                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zinc-950 text-white">
+                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-black text-white">
                               <Check className="h-3 w-3" />
                             </span>
                             <span className="leading-relaxed">
@@ -153,7 +153,7 @@ export const ArchitectureComparator: React.FC = () => {
 
                         {/* Advantage Pill */}
                         <td className="py-4 px-6 text-right">
-                          <span className="inline-flex items-center text-[10px] font-mono uppercase tracking-wider font-bold px-3 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-950 whitespace-nowrap">
+                          <span className="inline-flex items-center text-[10px] font-mono uppercase tracking-wider font-bold px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 whitespace-nowrap">
                             {item.benefit}
                           </span>
                         </td>
@@ -165,12 +165,12 @@ export const ArchitectureComparator: React.FC = () => {
             </div>
             
             {/* Table Footer */}
-            <div className="bg-zinc-50 border-t border-zinc-200 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
+            <div className="bg-slate-50 border-t border-slate-200 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="font-bold text-zinc-700 uppercase">6 of 6 Telemetry Vectors Validated across 42 Edge Points</span>
+                <span className="font-bold text-slate-700 uppercase">6 of 6 Telemetry Vectors Validated across 42 Edge Points</span>
               </div>
-              <div className="text-zinc-500 font-bold uppercase text-[10px]">
+              <div className="text-slate-500 font-bold uppercase text-[10px]">
                 Continuous synthetic probes active 24/7
               </div>
             </div>
@@ -181,7 +181,7 @@ export const ArchitectureComparator: React.FC = () => {
         <div className="mt-12 text-center">
           <Link
             to="/playground"
-            className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white px-6 py-3.5 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+            className="inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-6 py-3.5 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
           >
             <span>Audit Your Architecture</span>
             <ArrowRight className="h-4 w-4" />

@@ -12,7 +12,7 @@ export const TrialBanner: React.FC = () => {
     return (
       <div 
         id="catalyst-active-trial-banner"
-        className="w-full bg-gradient-to-r from-emerald-950/90 via-brand-navy to-indigo-950/90 border-b border-emerald-500/30 px-4 py-2 text-xs text-slate-200 shadow-sm"
+        className="w-full bg-gradient-to-r from-emerald-950/90 via-black to-indigo-950/90 border-b border-emerald-500/30 px-4 py-2 text-xs text-slate-200 shadow-sm"
       >
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">

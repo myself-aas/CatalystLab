@@ -229,14 +229,14 @@ export const EngineExplorer: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-4 pt-4">
                   <Link
                     to={activeEngine.route}
-                    className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white px-5 py-3 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+                    className="inline-flex items-center justify-center gap-2 bg-black hover:bg-black-hover text-white px-5 py-3 rounded-full text-sm font-medium transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                   >
                     <span>Launch {activeEngine.name}</span>
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link
                     to={`/docs#${activeEngine.docsAnchor || activeEngine.id}`}
-                    className="inline-flex items-center justify-center gap-2 bg-white hover:bg-zinc-50 text-zinc-950 border border-zinc-200 px-5 py-3 rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+                    className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-black border border-slate-200 px-5 py-3 rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                   >
                     <Code2 className="h-4 w-4" />
                     <span>Documentation</span>
@@ -246,21 +246,21 @@ export const EngineExplorer: React.FC = () => {
 
               {/* Right Telemetry Terminal */}
               <div className="lg:col-span-5 space-y-3">
-                <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 shadow-sm font-mono text-xs">
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 shadow-sm font-mono text-xs">
                   {/* Top Mode Bar */}
-                  <div className="flex items-center justify-between pb-3 border-b border-zinc-200 text-xs">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200 text-xs">
                     <div className="flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full bg-zinc-300" />
-                      <span className="h-2 w-2 rounded-full bg-zinc-300" />
-                      <span className="h-2 w-2 rounded-full bg-zinc-300" />
-                      <span className="ml-1 text-zinc-500 text-[11px] truncate max-w-[120px]">{activeEngine.pythonScript || 'catalyst_probe.py'}</span>
+                      <span className="h-2 w-2 rounded-full bg-slate-300" />
+                      <span className="h-2 w-2 rounded-full bg-slate-300" />
+                      <span className="h-2 w-2 rounded-full bg-slate-300" />
+                      <span className="ml-1 text-slate-500 text-[11px] truncate max-w-[120px]">{activeEngine.pythonScript || 'catalyst_probe.py'}</span>
                     </div>
-                    <div className="flex items-center gap-1 bg-white p-0.5 rounded-lg border border-zinc-200">
+                    <div className="flex items-center gap-1 bg-white p-0.5 rounded-lg border border-slate-200">
                       <button
                         type="button"
                         onClick={() => setTerminalViewMode('probe')}
                         className={`px-2 py-0.5 rounded text-[11px] cursor-pointer transition-colors ${
-                          terminalViewMode === 'probe' ? 'bg-zinc-950 text-white' : 'text-zinc-600 hover:text-zinc-950'
+                          terminalViewMode === 'probe' ? 'bg-black text-white' : 'text-slate-600 hover:text-black'
                         }`}
                       >
                         Probe
@@ -269,7 +269,7 @@ export const EngineExplorer: React.FC = () => {
                         type="button"
                         onClick={() => setTerminalViewMode('code')}
                         className={`px-2 py-0.5 rounded text-[11px] cursor-pointer transition-colors ${
-                          terminalViewMode === 'code' ? 'bg-zinc-950 text-white' : 'text-zinc-600 hover:text-zinc-950'
+                          terminalViewMode === 'code' ? 'bg-black text-white' : 'text-slate-600 hover:text-black'
                         }`}
                       >
                         Patch
@@ -278,7 +278,7 @@ export const EngineExplorer: React.FC = () => {
                         type="button"
                         onClick={() => setTerminalViewMode('specs')}
                         className={`px-2 py-0.5 rounded text-[11px] cursor-pointer transition-colors ${
-                          terminalViewMode === 'specs' ? 'bg-zinc-950 text-white' : 'text-zinc-600 hover:text-zinc-950'
+                          terminalViewMode === 'specs' ? 'bg-black text-white' : 'text-slate-600 hover:text-black'
                         }`}
                       >
                         Specs
