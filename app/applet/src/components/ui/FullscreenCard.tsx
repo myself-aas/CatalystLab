@@ -39,18 +39,19 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
   glassmorphism = true,
   imageBrightness = 'auto'
 }) => {
-  // Determine blur intensity class
+  // Determine blur intensity class with increased transparency to view the image clearly
   const blurClass = 
-    glassmorphism === 'heavy' ? 'backdrop-blur-xl bg-slate-950/70 border-white/30' :
-    glassmorphism === 'subtle' ? 'backdrop-blur-sm bg-black/30 border-white/15' :
-    glassmorphism === 'medium' || glassmorphism === true ? 'backdrop-blur-md bg-slate-950/50 border-white/25' : 
-    'bg-black/60';
+    glassmorphism === 'heavy' ? 'backdrop-blur-md bg-slate-950/40 border-white/20' :
+    glassmorphism === 'subtle' || glassmorphism === 'ultra-subtle' ? 'backdrop-blur-[2px] bg-black/15 border-white/10' :
+    glassmorphism === 'transparent' ? 'backdrop-blur-[1px] bg-transparent border-white/5' :
+    glassmorphism === 'medium' || glassmorphism === true ? 'backdrop-blur-sm bg-slate-950/25 border-white/15' : 
+    'bg-black/20';
 
-  // Dynamic brightness adjustment
+  // Dynamic lightweight brightness adjustment so image shines through
   const brightnessOverlay = 
-    imageBrightness === 'light' ? 'bg-gradient-to-t from-slate-950/90 via-slate-950/70 to-slate-950/50' :
-    imageBrightness === 'dark' ? 'bg-gradient-to-t from-black/80 via-black/40 to-transparent' :
-    'bg-gradient-to-t from-slate-950/80 via-slate-950/50 to-slate-950/20';
+    imageBrightness === 'light' ? 'bg-slate-950/40' :
+    imageBrightness === 'dark' ? 'bg-black/30' :
+    'bg-gradient-to-t from-slate-950/70 via-slate-950/30 to-transparent';
 
   return (
     <div
@@ -98,24 +99,24 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
         {/* Middle Content Section */}
         <div className="my-auto py-4 space-y-3">
           {subtitle && (
-            <div className="text-xs font-mono uppercase tracking-widest text-white/80 font-bold">
+            <div className="text-xs font-mono uppercase tracking-widest text-cyan-300 font-extrabold drop-shadow">
               {subtitle}
             </div>
           )}
 
-          <div className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-white drop-shadow-sm">
+          <div className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
             {title}
           </div>
 
           {(metric || metricLabel) && (
-            <div className="flex items-baseline gap-2 pt-1">
-              {metric && <div className="text-3xl sm:text-4xl font-black text-emerald-400 font-mono tracking-tight">{metric}</div>}
-              {metricLabel && <div className="text-xs text-white/80 font-mono font-bold uppercase tracking-wider">{metricLabel}</div>}
+            <div className="flex items-baseline gap-2.5 pt-1">
+              {metric && <div className="text-3xl sm:text-4xl font-black text-emerald-300 font-mono tracking-tight drop-shadow">{metric}</div>}
+              {metricLabel && <div className="text-xs text-white/90 font-mono font-bold uppercase tracking-wider drop-shadow">{metricLabel}</div>}
             </div>
           )}
 
           {description && (
-            <p className="text-xs sm:text-sm text-white/90 line-clamp-3 leading-relaxed font-sans font-normal">
+            <p className="text-xs sm:text-sm text-slate-100 line-clamp-3 leading-relaxed font-sans font-medium drop-shadow">
               {description}
             </p>
           )}
