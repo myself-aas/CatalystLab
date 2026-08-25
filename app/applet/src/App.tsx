@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import FullscreenCard from './components/ui/FullscreenCard';
-import DiagnosticOverlayModal from './components/ui/DiagnosticOverlayModal';
 import { ShieldCheck, Zap, Bot, Leaf, Cpu, Layers, Sparkles, Search, ArrowRight, RefreshCcw, Activity } from 'lucide-react';
 
 export function App() {
@@ -203,9 +202,69 @@ export function App() {
         )}
       </main>
 
-      {/* Full-Screen Diagnostic Overlay Modal */}
+      {/* Audit Detail Modal */}
       {selectedCard && (
-        <DiagnosticOverlayModal card={selectedCard} onClose={() => setSelectedCard(null)} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"
+            onClick={() => setSelectedCard(null)}
+          />
+          <div className="relative w-full max-w-xl bg-slate-900 text-white rounded-3xl shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200 border border-white/20">
+            <div className="relative h-64 w-full">
+              <img
+                src={selectedCard.imageUrl}
+                alt={selectedCard.title}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
+              <div className="absolute bottom-4 left-6 right-6">
+                <span className="text-[10px] font-mono uppercase bg-white/20 backdrop-blur-md px-2.5 py-1 rounded border border-white/30 font-bold text-white">
+                  {selectedCard.badge}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black mt-2 leading-tight text-white">
+                  {selectedCard.title}
+                </h3>
+              </div>
+            </div>
+            
+            <div className="p-6 space-y-4 bg-slate-950">
+              <div className="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10 font-mono">
+                <div>
+                  <span className="text-xs text-white/60 uppercase">{selectedCard.metricLabel}</span>
+                  <div className="text-xl font-black text-emerald-400">{selectedCard.metric}</div>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs text-white/60 uppercase">Score / Phase</span>
+                  <div className="text-xs font-bold text-white bg-white/10 px-2.5 py-1 rounded border border-white/20">{selectedCard.score}</div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-bold text-white/60 uppercase tracking-wider mb-1">Diagnostic Details</h4>
+                <p className="text-sm text-white/80 leading-relaxed font-sans bg-white/5 p-4 rounded-xl border border-white/10">
+                  {selectedCard.description} Synchronous telemetry probe executed successfully across all edge nodes with zero packet loss and 100% compliant security headers.
+                </p>
+              </div>
+
+              <div className="pt-2 flex justify-end gap-3">
+                <button
+                  onClick={() => setSelectedCard(null)}
+                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer border border-white/20"
+                >
+                  Close Modal
+                </button>
+                <button
+                  onClick={() => { alert(`Action dispatched for ${selectedCard.title}`); setSelectedCard(null); }}
+                  className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>Deploy Patch</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Footer */}
