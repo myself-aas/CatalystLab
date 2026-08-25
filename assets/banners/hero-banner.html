@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, initial-scale=1.0">
+<title>CatalystLab Hero Banner</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #060911;
+    color: #e2e8f0;
+    font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+  }
+  .banner {
+    width: 1920px;
+    height: 700px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, #0B101D 0%, #060911 70%),
+      linear-gradient(180deg, #060911 0%, #080D1A 50%, #0B101D 100%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(30,41,59,0.18) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(30,41,59,0.18) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 70%);
+  }
+  .glow-1 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(6,182,212,0.14) 0%, rgba(0,240,255,0.06) 40%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .glow-2 {
+    position: absolute;
+    bottom: 5%;
+    right: 8%;
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(16,185,129,0.10) 0%, transparent 70%);
+    filter: blur(90px);
+    pointer-events: none;
+  }
+  .glow-3 {
+    position: absolute;
+    top: 25%;
+    left: 5%;
+    width: 400px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%);
+    filter: blur(70px);
+    pointer-events: none;
+  }
+  .scanline {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+  }
+  .content {
+    position: relative;
+    z-index: 2;
+    width: 1920px;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    padding: 0 80px;
+  }
+  .left {
+    flex: 1;
+    max-width: 860px;
+    padding-right: 40px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    border: 1px solid rgba(6,182,212,0.35);
+    background: rgba(6,182,212,0.08);
+    border-radius: 9999px;
+    font-family: 'Geist Mono', 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #00F0FF;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    backdrop-filter: blur(12px);
+    width: fit-content;
+  }
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00FF66;
+    box-shadow: 0 0 10px rgba(0,255,102,0.6);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.9); }
+  }
+  .headline {
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 24px;
+    text-wrap: balance;
+  }
+  .headline-accent {
+    background: linear-gradient(135deg, #00F0FF 0%, #06B6D4 40%, #00FF66 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .subhead {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #94a3b8;
+    max-width: 620px;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #06B6D4, #10B981);
+    color: #0B101D;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 30px rgba(6,182,212,0.35);
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(16,185,129,0.5);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: transparent;
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(148,163,184,0.25);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: all 0.3s ease;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(0,240,255,0.5);
+    color: #00F0FF;
+    background: rgba(6,182,212,0.06);
+  }
+  .right {
+    width: 520px;
+    height: 420px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .hud {
+    width: 100%;
+    height: 100%;
+    background: rgba(11,16,29,0.85);
+    border: 1px solid rgba(148,163,184,0.15);
+    border-radius: 16px;
+    backdrop-filter: blur(24px);
+    overflow: hidden;
+    box-shadow:
+      0 24px 60px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .hud-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    background: rgba(7,11,20,0.6);
+  }
+  .hud-dots {
+    display: flex;
+    gap: 8px;
+  }
+  .hud-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+  .hud-title {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #cbd5e1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hud-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.25);
+    color: #00FF66;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .hud-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .metric-card {
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(7,10,18,0.6);
+    border: 1px solid rgba(148,163,184,0.08);
+  }
+  .metric-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .metric-value {
+    font-family: 'Geist Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1;
+  }
+  .metric-unit {
+    font-size: 10px;
+    color: #64748b;
+    margin-left: 2px;
+    font-weight: 500;
+  }
+  .log-box {
+    flex: 1;
+    border-radius: 10px;
+    background: rgba(5,8,15,0.7);
+    border: 1px solid rgba(148,163,184,0.08);
+    padding: 12px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #94a3b8;
+    overflow: hidden;
+    position: relative;
+  }
+  .log-line {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+    align-items: flex-start;
+  }
+  .log-time {
+    color: #475569;
+    font-size: 10px;
+    min-width: 70px;
+  }
+  .log-tag {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: 1px solid;
+    min-width: 52px;
+    text-align: center;
+  }
+  .log-text {
+    color: #cbd5e1;
+    flex: 1;
+  }
+  .tag-vital {
+    background: rgba(14,165,233,0.12);
+    color: #38bdf8;
+    border-color: rgba(14,165,233,0.25);
+  }
+  .tag-ai {
+    background: rgba(168,85,247,0.12);
+    color: #c084fc;
+    border-color: rgba(168,85,247,0.25);
+  }
+  .tag-sec {
+    background: rgba(16,185,129,0.12);
+    color: #34d399;
+    border-color: rgba(16,185,129,0.25);
+  }
+  .tag-edge {
+    background: rgba(6,182,212,0.12);
+    color: #22d3ee;
+    border-color: rgba(6,182,212,0.25);
+  }
+  .footer-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(148,163,184,0.08);
+    background: rgba(7,11,20,0.5);
+    backdrop-filter: blur(12px);
+    z-index: 3;
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: rgba(6,182,212,0.1);
+    border: 1px solid rgba(6,182,212,0.3);
+    color: #00F0FF;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .corner-accent {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 1px solid rgba(6,182,212,0.15);
+    pointer-events: none;
+  }
+  .corner-tl {
+    top: 40px;
+    left: 40px;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 8px 0 0 0;
+  }
+  .corner-br {
+    bottom: 60px;
+    right: 40px;
+    border-left: none;
+    border-top: none;
+    border-radius: 0 0 8px 0;
+  }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="grid"></div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
+    <div class="glow-3"></div>
+    <div class="scanline"></div>
+    <div class="corner-accent corner-tl"></div>
+    <div class="corner-accent corner-br"></div>
+
+    <div class="content">
+      <div class="left">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Synchronous Telemetry OS v2.4</span>
+        </div>
+
+        <h1 class="headline">
+          Precision Telemetry.<br>
+          <span class="headline-accent">Autonomous Auditing.</span>
+        </h1>
+
+        <p class="subhead">
+          Execute 8 synchronous diagnostic micro-engines against any production domain.
+          Audit Core Web Vitals, OWASP zero-trust transport, and LLM RAG discoverability in under 2 seconds.
+        </p>
+
+        <div class="cta-row">
+          <button class="btn-primary">
+            <span>Execute Audit</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <button class="btn-secondary">
+            <span>View Documentation</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="hud">
+          <div class="hud-header">
+            <div class="hud-dots">
+              <span class="hud-dot" style="background:#EF4444;box-shadow:0 0 8px rgba(239,68,68,0.5)"></span>
+              <span class="hud-dot" style="background:#F59E0B;box-shadow:0 0 8px rgba(245,158,11,0.5)"></span>
+              <span class="hud-dot" style="background:#10B981;box-shadow:0 0 8px rgba(16,185,129,0.5)"></span>
+            </div>
+            <div class="hud-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00FF66" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>
+              <span>Live Telemetry Stream</span>
+            </div>
+            <div class="hud-status">
+              <span style="width:6px;height:6px;border-radius:50%;background:#00FF66;box-shadow:0 0 6px #00FF66"></span>
+              <span>Synchronous</span>
+            </div>
+          </div>
+
+          <div class="hud-body">
+            <div class="metric-row">
+              <div class="metric-card">
+                <div class="metric-label">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  <span>TTFB</span>
+                </div>
+                <div class="metric-value">16.4<span class="metric-unit">ms</span></div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00FF66" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span>OWASP</span>
+                </div>
+                <div class="metric-value" style="color:#00FF66">6/6<span class="metric-unit">Pass</span></div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><path d="M12 10v4"/><path d="M8 18h8"/><circle cx="12" cy="16" r="0.5" fill="#A855F7"/></svg>
+                  <span>LLM-RAG</span>
+                </div>
+                <div class="metric-value" style="color:#A855F7">98<span class="metric-unit">/100</span></div>
+              </div>
+            </div>
+
+            <div class="log-box">
+              <div class="log-line">
+                <span class="log-time">00:00:01</span>
+                <span class="log-tag tag-vital">VITAL</span>
+                <span class="log-text">TLS 1.3 0-RTT Handshake verified (14ms)</span>
+              </div>
+              <div class="log-line">
+                <span class="log-time">00:00:02</span>
+                <span class="log-tag tag-ai">AI_RAG</span>
+                <span class="log-text">/llms.txt manifest parsed: 24.8k tokens indexable</span>
+              </div>
+              <div class="log-line">
+                <span class="log-time">00:00:03</span>
+                <span class="log-tag tag-sec">SECOPS</span>
+                <span class="log-text">OWASP Transport: 6/6 strict security headers verified</span>
+              </div>
+              <div class="log-line">
+                <span class="log-time">00:00:04</span>
+                <span class="log-tag tag-edge">EDGE</span>
+                <span class="log-text">Anycast routing optimized across 42 global edge PoPs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <div class="footer-left">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        <span>8-Engine Reel Ready</span>
+      </div>
+      <div class="footer-right">
+        <span>Launch Dossier</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
