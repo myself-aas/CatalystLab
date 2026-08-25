@@ -5,6 +5,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
 import { Navbar } from "./components/layout/Navbar";
+import { StickyHUD } from "./components/layout/StickyHUD";
 import { TrialBanner } from "./components/common/TrialBanner";
 import { TrialActivationModal } from "./components/common/TrialActivationModal";
 import { GlobalBreadcrumb } from "./components/layout/GlobalBreadcrumb";
@@ -26,6 +27,7 @@ import { AdminRoute } from "./components/auth/AdminRoute";
 
 // Lazy-loaded routes for code-splitting & optimal bundle chunking
 const MasterAuditExecutionPage = React.lazy(() => import("./pages/MasterAuditExecutionPage").then(m => ({ default: m.MasterAuditExecutionPage })));
+const CommandCenterPage = React.lazy(() => import("./pages/CommandCenterPage").then(m => ({ default: m.CommandCenterPage })));
 const UserDashboardPage = React.lazy(() => import("./pages/UserDashboardPage").then(m => ({ default: m.UserDashboardPage })));
 const AdminDashboardPage = React.lazy(() => import("./pages/AdminDashboardPage").then(m => ({ default: m.AdminDashboardPage })));
 const DomainReportArticlePage = React.lazy(() => import("./pages/DomainReportArticlePage").then(m => ({ default: m.DomainReportArticlePage })));
@@ -217,6 +219,12 @@ export const App: React.FC = () => {
 
               <Route path="/about" element={<MethodologyPage />} />
               <Route path="/about.html" element={<MethodologyPage />} />
+
+              {/* User Dashboard & Telemetry Command Center HUD */}
+              <Route path="/app" element={<CommandCenterPage />} />
+              <Route path="/hud" element={<CommandCenterPage />} />
+              <Route path="/dashboard/hud" element={<CommandCenterPage />} />
+              <Route path="/insights" element={<BlogsPage />} />
 
               {/* User Dashboard & Reports (Protected) */}
               <Route 
@@ -513,6 +521,7 @@ export const App: React.FC = () => {
       </AnimatePresence>
       </main>
       <Footer />
+      <StickyHUD />
       <RoleSimulatorFloatingBar />
       <AuthDomainModal />
       <TrialActivationModal />

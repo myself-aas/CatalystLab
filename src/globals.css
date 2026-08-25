@@ -1,0 +1,473 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   CATALYSTLAB CYBERPUNK TERMINAL & ENTERPRISE DESIGN SYSTEM (PHASE 1)
+   ========================================================================== */
+
+:root {
+  /* --- Terminal Dark Theme (Default Telemetry Environment) --- */
+  --bg-app: #060911;
+  --bg-void: #030712;
+  --bg-panel: #0b101b;
+  --bg-panel-hover: #101726;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #162032;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #030712;
+
+  --border-subtle: #1e293b;
+  --border-medium: #334155;
+  --border-bright: #475569;
+  --border-focus: #06b6d4;
+
+  /* Terminal Neon Colors */
+  --color-green-neon: #00ff66;
+  --color-green-terminal: #10b981;
+  --color-green-glow: rgba(16, 185, 129, 0.25);
+
+  --color-cyan-neon: #00f0ff;
+  --color-cyan-terminal: #06b6d4;
+  --color-cyan-glow: rgba(6, 182, 212, 0.25);
+
+  --color-amber-neon: #ffb800;
+  --color-amber-terminal: #f59e0b;
+  --color-amber-glow: rgba(245, 158, 11, 0.25);
+
+  --color-red-neon: #ff3366;
+  --color-red-terminal: #ef4444;
+  --color-red-glow: rgba(239, 68, 68, 0.25);
+
+  --color-purple-neon: #a855f7;
+  --color-purple-terminal: #8b5cf6;
+  --color-purple-glow: rgba(139, 92, 246, 0.25);
+
+  /* Biochemical Enzyme Palette */
+  --enzyme-vitalzyme: #06b6d4;
+  --enzyme-llmkinase: #10b981;
+  --enzyme-repoprotease: #8b5cf6;
+  --enzyme-latencypolymerase: #3b82f6;
+  --enzyme-ecolactase: #84cc16;
+  --enzyme-compliasome: #f59e0b;
+  --enzyme-migratase: #ec4899;
+  --enzyme-synthase: #14b8a6;
+
+  /* Font Stacks */
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Terminal Glass Specs */
+  --glass-bg: rgba(11, 16, 27, 0.75);
+  --glass-border: rgba(51, 65, 85, 0.6);
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+}
+
+/* --- Terminal Light Theme (High-Contrast Lab Mode) --- */
+[data-theme="light"], .theme-light {
+  --bg-app: #f8fafc;
+  --bg-void: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-panel-hover: #f1f5f9;
+  --bg-surface: #f8fafc;
+  --bg-surface-elevated: #ffffff;
+
+  --text-primary: #090d16;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-bright: #94a3b8;
+  --border-focus: #0891b2;
+
+  --color-green-neon: #059669;
+  --color-green-terminal: #10b981;
+  --color-green-glow: rgba(16, 185, 129, 0.15);
+
+  --color-cyan-neon: #0891b2;
+  --color-cyan-terminal: #06b6d4;
+  --color-cyan-glow: rgba(6, 182, 212, 0.15);
+
+  --color-amber-neon: #d97706;
+  --color-amber-terminal: #f59e0b;
+  --color-amber-glow: rgba(245, 158, 11, 0.15);
+
+  --color-red-neon: #dc2626;
+  --color-red-terminal: #ef4444;
+  --color-red-glow: rgba(239, 68, 68, 0.15);
+
+  --color-purple-neon: #7c3aed;
+  --color-purple-terminal: #8b5cf6;
+  --color-purple-glow: rgba(139, 92, 246, 0.15);
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(203, 213, 225, 0.8);
+  --glass-blur: 16px;
+  --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.08);
+}
+
+/* ==========================================================================
+   BASE STYLES & TYPOGRAPHY
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  code, pre, kbd, samp, .font-mono {
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum' on, 'zero' on;
+  }
+
+  ::selection {
+    background-color: rgba(6, 182, 212, 0.35);
+    color: #ffffff;
+  }
+}
+
+/* ==========================================================================
+   CUSTOM TERMINAL UTILITIES & SCANLINE LAYERS
+   ========================================================================== */
+
+@layer utilities {
+  /* 1. Terminal Glass Container */
+  .terminal-glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .terminal-glass-cyan {
+    background: rgba(11, 16, 27, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(6, 182, 212, 0.05);
+  }
+
+  .terminal-glass-green {
+    background: rgba(11, 16, 27, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(16, 185, 129, 0.05);
+  }
+
+  /* 2. CRT Scanline Overlay */
+  .scanline-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scanline-overlay::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.25) 50%
+    ), linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.03)
+    );
+    z-index: 20;
+    background-size: 100% 3px, 6px 100%;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .scanline-overlay::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), transparent);
+    z-index: 21;
+    pointer-events: none;
+    animation: scanlineSweep 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  /* 3. Pulse Glow Effects */
+  .pulse-glow {
+    animation: pulseGlowCyan 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .pulse-glow-green {
+    animation: pulseGlowGreen 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .pulse-glow-amber {
+    animation: pulseGlowAmber 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .pulse-glow-red {
+    animation: pulseGlowRed 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* 4. Terminal Cursor & Prompt Styling */
+  .terminal-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.15em;
+    vertical-align: -0.15em;
+    background-color: var(--color-cyan-neon);
+    animation: terminalBlink 1s step-start infinite;
+  }
+
+  .terminal-cursor-green {
+    background-color: var(--color-green-neon);
+  }
+
+  /* 5. Matrix & Cyber Grid Backgrounds */
+  .matrix-grid-bg {
+    background-size: 32px 32px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+
+  .matrix-grid-dense {
+    background-size: 16px 16px;
+    background-image: 
+      linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+  }
+
+  /* 6. Technical Corner Brackets */
+  .corner-bracket {
+    position: relative;
+  }
+
+  .corner-bracket::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid var(--border-focus);
+    border-left: 2px solid var(--border-focus);
+    pointer-events: none;
+  }
+
+  .corner-bracket::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid var(--border-focus);
+    border-right: 2px solid var(--border-focus);
+    pointer-events: none;
+  }
+
+  /* 7. Tabular Numbers */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ==========================================================================
+   ANIMATION KEYFRAMES
+   ========================================================================== */
+
+@keyframes scanlineSweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+@keyframes terminalBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes pulseGlowCyan {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.25), inset 0 0 12px rgba(6, 182, 212, 0.1);
+    border-color: rgba(6, 182, 212, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(6, 182, 212, 0.6), inset 0 0 18px rgba(6, 182, 212, 0.25);
+    border-color: rgba(6, 182, 212, 0.8);
+  }
+}
+
+@keyframes pulseGlowGreen {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.25), inset 0 0 12px rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.6), inset 0 0 18px rgba(16, 185, 129, 0.25);
+    border-color: rgba(16, 185, 129, 0.8);
+  }
+}
+
+@keyframes pulseGlowAmber {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.25), inset 0 0 12px rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(245, 158, 11, 0.6), inset 0 0 18px rgba(245, 158, 11, 0.25);
+    border-color: rgba(245, 158, 11, 0.8);
+  }
+}
+
+@keyframes pulseGlowRed {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.25), inset 0 0 12px rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(239, 68, 68, 0.6), inset 0 0 18px rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.8);
+  }
+}
+
+/* ==========================================================================
+   CATALYST-GRADE MEDIA & UNSPLASH PIPELINE
+   ========================================================================== */
+
+@layer utilities {
+  /* 1. Base Image Normalization */
+  .catalyst-media-img {
+    filter: grayscale(0.9) contrast(1.1) brightness(0.85);
+    transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease;
+    will-change: filter, transform;
+  }
+
+  /* 2. Interactive Media Colorization & Hover Zoom */
+  .group:hover .catalyst-media-img,
+  .catalyst-media-interactive:hover .catalyst-media-img {
+    filter: grayscale(0) contrast(1.05) brightness(1);
+    transform: scale(1.03);
+  }
+
+  /* 3. Duotone Tint Overlays (mix-blend-mode: color) */
+  .catalyst-duotone-layer {
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: color;
+    pointer-events: none;
+    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.75;
+    z-index: 2;
+  }
+
+  .group:hover .catalyst-duotone-layer,
+  .catalyst-media-interactive:hover .catalyst-duotone-layer {
+    opacity: 0.15;
+  }
+
+  .duotone-cyan {
+    background-color: var(--color-cyan-terminal);
+  }
+
+  .duotone-green {
+    background-color: var(--color-green-terminal);
+  }
+
+  .duotone-crimson {
+    background-color: var(--color-red-terminal);
+  }
+
+  .duotone-purple {
+    background-color: var(--color-purple-terminal);
+  }
+
+  .duotone-amber {
+    background-color: var(--color-amber-terminal);
+  }
+
+  .duotone-hero {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.85) 0%, rgba(3, 7, 18, 0.95) 100%);
+  }
+
+  /* 4. Text Contrast Scrim & Vignette (Guarantees WCAG AA Text Contrast) */
+  .catalyst-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(3, 7, 18, 0.96) 0%,
+      rgba(3, 7, 18, 0.75) 35%,
+      rgba(3, 7, 18, 0.3) 70%,
+      rgba(3, 7, 18, 0.1) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .catalyst-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      transparent 35%,
+      rgba(3, 7, 18, 0.7) 80%,
+      rgba(3, 7, 18, 0.95) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* 5. Pointer-Tracked Radial Spotlight Overlay */
+  .catalyst-spotlight {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(6, 182, 212, 0.18),
+      transparent 75%
+    );
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+
+  .group:hover .catalyst-spotlight,
+  .catalyst-media-interactive:hover .catalyst-spotlight {
+    opacity: 1;
+  }
+
+  /* 6. ScanReveal Shimmer Line */
+  .scan-reveal-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+    box-shadow: 0 0 12px #00f0ff, 0 0 24px #06b6d4;
+    z-index: 10;
+    pointer-events: none;
+  }
+}
+

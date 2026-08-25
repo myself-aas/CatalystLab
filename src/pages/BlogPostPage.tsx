@@ -4,6 +4,7 @@ import type { BlogPost } from '../types';
 import { getBlogPostBySlug, getBlogPosts } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
+import { ScanRevealFigure } from '../components/media/ScanRevealFigure';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 import { 
@@ -140,13 +141,13 @@ export const BlogPostPage: React.FC = () => {
                 {post.title}
               </h1>
 
-              {/* Hero / Cover Image Banner */}
-              <div className="mb-6 rounded-xl overflow-hidden shadow-sm border border-slate-200 aspect-[16/9] bg-slate-50">
-                <img 
-                  src={getBlogCoverImage(post)} 
-                  alt={post.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  referrerPolicy="no-referrer"
+              {/* Hero / Cover Image Banner with ScanReveal & Catalyst Treatment */}
+              <div className="mb-6">
+                <ScanRevealFigure
+                  imageUrl={getBlogCoverImage(post)}
+                  imageAlt={post.title}
+                  caption={`Figure 1.0 • Technical architecture briefing for ${post.title}`}
+                  className="rounded-xl overflow-hidden shadow-sm border border-slate-200"
                 />
               </div>
 

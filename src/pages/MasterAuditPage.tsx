@@ -27,7 +27,7 @@ export const MasterAuditPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="homepage-minimal min-h-screen bg-white text-black font-sans selection:bg-black/10 selection:text-black">
+    <div className="homepage-minimal min-h-screen bg-[#060912] text-slate-100 font-sans selection:bg-[#06B6D4]/30 selection:text-[#00F0FF]">
       <div>
         <SEOHead
           title="Precision Telemetry & Autonomous Web Health Auditing — CatalystLab"
@@ -67,14 +67,6 @@ export const MasterAuditPage: React.FC = () => {
 
         {/* 11. Final Conversion CTA & Instant Domain Scan */}
         <FinalCTA />
-
-        {/* Custom Testimonial Integration */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-extrabold text-center mb-12 text-black">New Cardview Integration</h2>
-            <DemoOne />
-          </div>
-        </section>
       </div>
     </div>
   );

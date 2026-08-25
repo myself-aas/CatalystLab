@@ -15,9 +15,14 @@ import {
   CheckCircle2, 
   Menu, 
   X, 
-  HelpCircle
+  HelpCircle,
+  Terminal as TerminalIcon,
+  Play,
+  Maximize2,
+  Columns
 } from 'lucide-react';
 import { SEOHead } from '../common/SEOHead';
+import { CLISimulator } from './CLISimulator';
 
 export interface DocNavItem {
   id: string;
@@ -76,9 +81,10 @@ interface CodeSnippetProps {
   code: string;
   language: string;
   title?: string;
+  runnableCommand?: string;
 }
 
-export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title }) => {
+export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title, runnableCommand }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -87,34 +93,50 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title 
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleRunInCli = () => {
+    const cmd = runnableCommand || (code.startsWith('catalyst') || code.startsWith('curl') || code.startsWith('npm') ? code.split('\n')[0] : `catalyst audit`);
+    window.dispatchEvent(new CustomEvent('catalyst:cli-run', { detail: { command: cmd } }));
+  };
+
   return (
-    <div className="my-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm font-mono">
-      <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2 text-xs">
+    <div className="my-4 overflow-hidden rounded-xl border border-slate-800 bg-[#080D1A] shadow-md font-mono">
+      <div className="flex items-center justify-between border-b border-slate-800 bg-[#0B101D] px-4 py-2 text-xs">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-rose-500/80" />
           <span className="h-2 w-2 rounded-full bg-amber-400/80" />
           <span className="h-2 w-2 rounded-full bg-emerald-500/80" />
-          <span className="ml-2 font-semibold text-slate-900">{title || language}</span>
+          <span className="ml-2 font-semibold text-slate-300">{title || language}</span>
         </div>
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all cursor-pointer"
-          title="Copy code"
-        >
-          {copied ? (
-            <>
-              <Check className="h-3 w-3 text-emerald-600" />
-              <span className="text-emerald-600">Copied</span>
-            </>
-          ) : (
-            <>
-              <Copy className="h-3 w-3 text-slate-400" />
-              <span>Copy</span>
-            </>
-          )}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleRunInCli}
+            className="flex items-center gap-1 text-[11px] font-mono text-[#00F0FF] hover:text-white bg-[#0E1526] border border-[#06B6D4]/30 px-2 py-0.5 rounded cursor-pointer transition-colors"
+            title="Execute in CLI Simulator"
+          >
+            <Play className="h-3 w-3 fill-current" />
+            <span className="hidden sm:inline">Run in CLI</span>
+          </button>
+          <button
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 rounded-md border border-slate-800 bg-[#0E1526] px-2.5 py-1 text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
+            title="Copy code"
+          >
+            {copied ? (
+              <>
+                <Check className="h-3 w-3 text-[#00FF66]" />
+                <span className="text-[#00FF66]">Copied</span>
+              </>
+            ) : (
+              <>
+                <Copy className="h-3 w-3 text-slate-400" />
+                <span>Copy</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
-      <pre className="overflow-x-auto p-4 text-xs leading-relaxed text-slate-800 bg-slate-50/50">
+      <pre className="overflow-x-auto p-4 text-xs leading-relaxed text-slate-200 bg-[#060912]">
         <code>{code}</code>
       </pre>
     </div>
@@ -146,6 +168,21 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState<'yes' | 'no' | null>(null);
   const [activeTocId, setActiveTocId] = useState<string>('');
+  const [isCliSplitOpen, setIsCliSplitOpen] = useState(true);
+  const [injectedCommand, setInjectedCommand] = useState<string>('catalyst run --engine vitalzyme');
+
+  useEffect(() => {
+    const handleCliRun = (e: Event) => {
+      const customEvent = e as CustomEvent<{ command: string }>;
+      if (customEvent.detail?.command) {
+        setInjectedCommand(customEvent.detail.command);
+        setIsCliSplitOpen(true);
+      }
+    };
+
+    window.addEventListener('catalyst:cli-run', handleCliRun);
+    return () => window.removeEventListener('catalyst:cli-run', handleCliRun);
+  }, []);
 
   // Scrollspy for on-page table of contents
   useEffect(() => {
@@ -166,7 +203,6 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [toc]);
 
-  // Flattened navigation list for previous/next page calculation
   const allNavItems = DOC_NAVIGATION.flatMap((g) => g.items);
   const currentPath = location.pathname.replace(/\/$/, '') || '/docs';
   const currentIndex = allNavItems.findIndex(
@@ -176,7 +212,6 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   const prevItem = currentIndex > 0 ? allNavItems[currentIndex - 1] : null;
   const nextItem = currentIndex >= 0 && currentIndex < allNavItems.length - 1 ? allNavItems[currentIndex + 1] : null;
 
-  // Filter navigation by sidebar search query
   const filteredNav = DOC_NAVIGATION.map((group) => ({
     ...group,
     items: group.items.filter((item) =>
@@ -195,7 +230,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 selection:bg-slate-900 selection:text-white">
+    <div className="min-h-screen bg-[#060912] text-slate-100 selection:bg-[#06B6D4]/30 selection:text-white">
       <SEOHead
         title={`${title} | CatalystLab Documentation`}
         description={description}
@@ -223,28 +258,42 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         }}
       />
 
-      {/* Docs Toolbar with Mobile Menu Toggle and Global Search */}
-      <div className="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-16 z-30 font-mono">
+      {/* Docs Header Toolbar */}
+      <div className="border-b border-slate-800 bg-[#080D1A]/90 backdrop-blur sticky top-16 z-30 font-mono">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 cursor-pointer"
+              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer"
               aria-label="Toggle docs navigation"
             >
               {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-600 lg:hidden">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-300 lg:hidden">
               Docs Navigation
             </span>
           </div>
 
-          {/* Quick Search */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-600">
-              <Search className="h-3.5 w-3.5 text-amber-500" />
-              <span className="hidden sm:inline">Telemetry Documentation Index</span>
-              <kbd className="rounded border border-slate-200 bg-white px-1.5 py-0.2 text-[10px] text-slate-700 font-bold">v2.4</kbd>
+          {/* Quick Search & CLI Split-Pane Toggle */}
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setIsCliSplitOpen(!isCliSplitOpen)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
+                isCliSplitOpen
+                  ? 'bg-[#06B6D4]/10 border-[#06B6D4] text-[#00F0FF] shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+                  : 'bg-[#0B101D] border-slate-800 text-slate-400 hover:text-white'
+              }`}
+            >
+              <TerminalIcon className="h-3.5 w-3.5" />
+              <span>CLI Simulator</span>
+              <span className={`h-1.5 w-1.5 rounded-full ${isCliSplitOpen ? 'bg-[#00FF66] animate-pulse' : 'bg-slate-600'}`} />
+            </button>
+
+            <div className="hidden sm:flex items-center gap-2 rounded-lg border border-slate-800 bg-[#0B101D] px-3 py-1.5 text-xs text-slate-400">
+              <Search className="h-3.5 w-3.5 text-[#00F0FF]" />
+              <span>Telemetry Documentation Index</span>
+              <kbd className="rounded border border-slate-700 bg-slate-800 px-1.5 py-0.2 text-[10px] text-slate-300 font-bold">v2.4</kbd>
             </div>
           </div>
         </div>
@@ -252,36 +301,36 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
       {/* Main Split-Layout Container */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
-          {/* Left Column: Sticky Navigation Sidebar */}
-          <aside className={`lg:col-span-3 lg:block ${mobileMenuOpen ? 'block fixed inset-x-4 top-32 z-40 max-h-[75vh] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl' : 'hidden'}`}>
+          {/* Left Column: Sticky Navigation Sidebar (3 Cols) */}
+          <aside className={`lg:col-span-3 lg:block ${mobileMenuOpen ? 'block fixed inset-x-4 top-32 z-40 max-h-[75vh] overflow-y-auto rounded-2xl border border-slate-800 bg-[#0B101D] p-5 shadow-2xl' : 'hidden'}`}>
             <div className="sticky top-28 space-y-5 font-mono">
-              <div className="pb-3 border-b border-slate-200">
-                <div className="text-xs font-bold uppercase tracking-wider text-amber-600">
+              <div className="pb-3 border-b border-slate-800">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#00F0FF]">
                   Documentation Index
                 </div>
-                <div className="text-xs text-slate-500 mt-0.5">v2.4 Spec</div>
+                <div className="text-xs text-slate-500 mt-0.5">v2.4 Spec Engine</div>
                 
                 {/* Search in sidebar */}
                 <div className="mt-3 relative">
-                  <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
+                  <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Filter topics..."
-                    className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none"
+                    className="w-full rounded-lg border border-slate-800 bg-[#060912] py-1.5 pl-8 pr-3 text-xs text-slate-200 placeholder:text-slate-600 focus:border-[#06B6D4] focus:outline-none"
                   />
                 </div>
               </div>
 
               {filteredNav.map((group) => (
                 <div key={group.group} className="space-y-1.5">
-                  <div className="text-[11px] font-bold text-slate-700 uppercase tracking-wider">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                     {group.group}
                   </div>
-                  <ul className="space-y-0.5 border-l-2 border-slate-200 pl-2.5">
+                  <ul className="space-y-0.5 border-l border-slate-800 pl-2.5">
                     {group.items.map((item) => {
                       const isCurrent = 
                         item.path === currentPath ||
@@ -292,14 +341,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                           <Link
                             to={item.path}
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`w-full text-left text-xs py-1 px-2 rounded-md transition-all flex items-center justify-between ${
+                            className={`w-full text-left text-xs py-1.5 px-2 rounded-lg transition-all flex items-center justify-between ${
                               isCurrent
-                                ? 'bg-slate-900 text-white font-bold shadow-xs'
-                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                                ? 'bg-[#06B6D4]/20 text-[#00F0FF] font-bold border border-[#06B6D4]/40 shadow-xs'
+                                : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
                             }`}
                           >
                             <span className="truncate">{item.title}</span>
-                            {isCurrent && <ChevronRight className="h-3 w-3 text-amber-500 shrink-0 ml-1" />}
+                            {isCurrent && <ChevronRight className="h-3 w-3 text-[#00F0FF] shrink-0 ml-1" />}
                           </Link>
                         </li>
                       );
@@ -308,23 +357,23 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 </div>
               ))}
 
-              <div className="pt-3 border-t border-slate-200 space-y-1.5">
+              <div className="pt-3 border-t border-slate-800 space-y-1.5">
                 <Link
                   to="/blogs"
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-2.5 text-xs text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-slate-800 bg-[#080D1A] p-2.5 text-xs text-slate-400 hover:bg-[#0E1526] hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-3.5 w-3.5 text-amber-600" />
+                    <BookOpen className="h-3.5 w-3.5 text-[#00F0FF]" />
                     <span className="font-semibold">Developer Blog</span>
                   </div>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
                 <Link
                   to="/contact"
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-2.5 text-xs text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-slate-800 bg-[#080D1A] p-2.5 text-xs text-slate-400 hover:bg-[#0E1526] hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <HelpCircle className="h-3.5 w-3.5 text-amber-600" />
+                    <HelpCircle className="h-3.5 w-3.5 text-[#00F0FF]" />
                     <span className="font-semibold">Developer Support</span>
                   </div>
                   <ArrowRight className="h-3 w-3" />
@@ -333,24 +382,24 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             </div>
           </aside>
 
-          {/* Center Column: Documentation Content */}
-          <main className={`${toc.length > 0 ? 'lg:col-span-7' : 'lg:col-span-9'} space-y-10`}>
-            <div className="docs-content text-slate-900">
+          {/* Center Column: Documentation Content (Takes 5-9 cols depending on CLI split) */}
+          <main className={`${isCliSplitOpen ? 'lg:col-span-5' : (toc.length > 0 ? 'lg:col-span-7' : 'lg:col-span-9')} space-y-8`}>
+            <div className="docs-content text-slate-200">
               {children}
             </div>
 
-            {/* Pagination Controls: Previous & Next Page */}
-            <div className="pt-6 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
+            {/* Pagination Controls */}
+            <div className="pt-6 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
               {prevItem ? (
                 <Link
                   to={prevItem.path}
-                  className="flex flex-col gap-1 rounded-xl border border-slate-200 bg-white p-3.5 text-left transition-all hover:bg-slate-50 shadow-xs group"
+                  className="flex flex-col gap-1 rounded-xl border border-slate-800 bg-[#080D1A] p-3.5 text-left transition-all hover:bg-[#0E1526] shadow-xs group"
                 >
                   <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
                     <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-1" />
                     <span>Previous</span>
                   </span>
-                  <span className="text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors truncate">
+                  <span className="text-xs font-bold text-white group-hover:text-[#00F0FF] transition-colors truncate">
                     {prevItem.title}
                   </span>
                 </Link>
@@ -359,13 +408,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               {nextItem ? (
                 <Link
                   to={nextItem.path}
-                  className="flex flex-col items-end gap-1 rounded-xl border border-slate-200 bg-white p-3.5 text-right transition-all hover:bg-slate-50 shadow-xs group sm:col-start-2"
+                  className="flex flex-col items-end gap-1 rounded-xl border border-slate-800 bg-[#080D1A] p-3.5 text-right transition-all hover:bg-[#0E1526] shadow-xs group sm:col-start-2"
                 >
                   <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
                     <span>Next</span>
                     <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                   </span>
-                  <span className="text-xs font-bold text-slate-900 group-hover:text-amber-600 transition-colors truncate">
+                  <span className="text-xs font-bold text-white group-hover:text-[#00F0FF] transition-colors truncate">
                     {nextItem.title}
                   </span>
                 </Link>
@@ -373,19 +422,19 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             </div>
 
             {/* Helpful Feedback Box */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs font-mono">
+            <div className="rounded-2xl border border-slate-800 bg-[#080D1A] p-5 shadow-xs font-mono">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm font-bold text-slate-900">Was this documentation helpful?</div>
-                  <div className="text-xs text-slate-500 mt-0.5">Let us know how we can improve our developer guides.</div>
+                  <div className="text-sm font-bold text-white">Was this documentation helpful?</div>
+                  <div className="text-xs text-slate-400 mt-0.5">Let us know how we can improve our developer guides.</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setFeedbackGiven('yes')}
                     className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                       feedbackGiven === 'yes'
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-700 font-bold'
-                        : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                        ? 'border-emerald-500 bg-emerald-950/40 text-[#00FF66] font-bold'
+                        : 'border-slate-800 bg-[#0B101D] text-slate-400 hover:bg-slate-800 hover:text-white'
                     }`}
                   >
                     <ThumbsUp className="h-3.5 w-3.5" />
@@ -395,8 +444,8 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     onClick={() => setFeedbackGiven('no')}
                     className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                       feedbackGiven === 'no'
-                        ? 'border-rose-500 bg-rose-50 text-rose-700 font-bold'
-                        : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                        ? 'border-rose-500 bg-rose-950/40 text-rose-400 font-bold'
+                        : 'border-slate-800 bg-[#0B101D] text-slate-400 hover:bg-slate-800 hover:text-white'
                     }`}
                   >
                     <ThumbsDown className="h-3.5 w-3.5" />
@@ -405,7 +454,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 </div>
               </div>
               {feedbackGiven && (
-                <div className="mt-3 text-xs text-emerald-600 font-medium flex items-center gap-1.5">
+                <div className="mt-3 text-xs text-[#00FF66] font-medium flex items-center gap-1.5">
                   <CheckCircle2 className="h-3.5 w-3.5" />
                   <span>Thank you for your feedback! Our telemetry engineering team reviews updates weekly.</span>
                 </div>
@@ -413,45 +462,51 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             </div>
           </main>
 
-          {/* Right Column: "On This Page" Sticky Table of Contents */}
-          {toc.length > 0 && (
-            <aside className="hidden lg:col-span-2 lg:block font-mono">
-              <div className="sticky top-28 space-y-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-amber-600">
-                  On This Page
-                </div>
-                <ul className="space-y-1.5 text-xs border-l border-slate-200 pl-3 max-h-[calc(100vh-180px)] overflow-y-auto">
-                  {toc.map((item) => {
-                    const isCurrent = activeTocId === item.id;
-                    return (
-                      <li key={item.id}>
-                        <button
-                          onClick={() => scrollToTocSection(item.id)}
-                          className={`text-left transition-colors hover:text-slate-900 truncate block w-full py-0.5 cursor-pointer ${
-                            isCurrent
-                              ? 'font-bold text-amber-600 border-l-2 -ml-[13px] pl-2.5 border-amber-600'
-                              : 'text-slate-500'
-                          }`}
-                        >
-                          {item.title}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
+          {/* Right Column: Split-Pane CLI Simulator (4 cols) OR TOC */}
+          {isCliSplitOpen ? (
+            <div className="lg:col-span-4 sticky top-28 space-y-4">
+              <CLISimulator initialCommand={injectedCommand} />
+            </div>
+          ) : (
+            toc.length > 0 && (
+              <aside className="hidden lg:col-span-2 lg:block font-mono">
+                <div className="sticky top-28 space-y-4">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#00F0FF]">
+                    On This Page
+                  </div>
+                  <ul className="space-y-1.5 text-xs border-l border-slate-800 pl-3 max-h-[calc(100vh-180px)] overflow-y-auto">
+                    {toc.map((item) => {
+                      const isCurrent = activeTocId === item.id;
+                      return (
+                        <li key={item.id}>
+                          <button
+                            onClick={() => scrollToTocSection(item.id)}
+                            className={`text-left transition-colors hover:text-white truncate block w-full py-0.5 cursor-pointer ${
+                              isCurrent
+                                ? 'font-bold text-[#00F0FF] border-l-2 -ml-[13px] pl-2.5 border-[#06B6D4]'
+                                : 'text-slate-400'
+                            }`}
+                          >
+                            {item.title}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
 
-                <div className="pt-4 border-t border-slate-200 space-y-2 text-xs text-slate-500">
-                  <Link to="/blogs" className="flex items-center gap-1.5 hover:text-slate-900 transition-colors">
-                    <FileText className="h-3.5 w-3.5 text-amber-600" />
-                    <span>Developer Blog</span>
-                  </Link>
-                  <Link to="/contact" className="flex items-center gap-1.5 hover:text-slate-900 transition-colors">
-                    <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
-                    <span>Developer Support</span>
-                  </Link>
+                  <div className="pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-400">
+                    <Link to="/blogs" className="flex items-center gap-1.5 hover:text-white transition-colors">
+                      <FileText className="h-3.5 w-3.5 text-[#00F0FF]" />
+                      <span>Developer Blog</span>
+                    </Link>
+                    <Link to="/contact" className="flex items-center gap-1.5 hover:text-white transition-colors">
+                      <ShieldCheck className="h-3.5 w-3.5 text-[#00F0FF]" />
+                      <span>Developer Support</span>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </aside>
+              </aside>
+            )
           )}
 
         </div>

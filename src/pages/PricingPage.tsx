@@ -16,14 +16,18 @@ import {
   Crown, 
   Eye, 
   RotateCcw, 
-  Sliders
+  Sliders,
+  Calculator,
+  Terminal as TerminalIcon
 } from 'lucide-react';
+import { UnsplashImage } from '../components/media/UnsplashImage';
 import { SUBSCRIPTION_PLANS } from '../data/pricingData';
 import { MASTER_FAQ_CATEGORIES } from '../data/faqData';
 import { GlobalFaqSection } from '../components/common/GlobalFaqSection';
 import { SEOHead } from '../components/common/SEOHead';
 import { LazyReveal, LazyStaggerContainer, LazyStaggerItem } from '../components/common/LazyAnimate';
 import { ParallaxSection } from '../components/common/ParallaxSection';
+import { TelemetryRoiCalculator } from '../components/pricing/TelemetryRoiCalculator';
 import { useSubscription } from '../context/SubscriptionContext';
 import { useAuth } from '../context/AuthContext';
 import { useRoleSecurity } from '../context/RoleSecurityContext';
@@ -32,7 +36,7 @@ import { UserRole, ROLE_CONFIGS } from '../utils/rolePermissions';
 
 export const PricingPage: React.FC = () => {
   const [annual, setAnnual] = useState(true);
-  const [activeTab, setActiveTab] = useState<'plans' | 'matrix' | 'simulator'>('plans');
+  const [activeTab, setActiveTab] = useState<'plans' | 'calculator' | 'matrix' | 'simulator'>('plans');
   const [simulatorTargetTier, setSimulatorTargetTier] = useState<SubscriptionPlanId>('pro');
 
   const { planId, isTrialActive, trialDaysRemaining, openTrialModal } = useSubscription();
@@ -105,35 +109,41 @@ export const PricingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black pb-24 selection:bg-slate-900 selection:text-white">
+    <div className="min-h-screen bg-[#060912] text-slate-100 pb-24 selection:bg-[#06B6D4]/30 selection:text-white font-mono">
       <SEOHead
-        title="5-Tier Pricing, RBAC Role Matrix & 7-Day Free Trial | CatalystLab"
-        description="Explore CatalystLab's transparent 5-tier diagnostic plans ($0 Free, $9 Starter, $19 Pro, $49 Team, $99 Enterprise). Preview feature unlocks and role-based permissions in real time."
-        keywords={['CatalystLab pricing', 'telemetry API plans', 'RBAC role preview', '7-day free trial no credit card', 'web audit pricing']}
-        canonicalUrl="https://www.catalystlab.tech/pricing"
+        title="Terminal Billing Console & Telemetry ROI Calculator | CatalystLab"
+        description="Explore CatalystLab's transparent 5-tier diagnostic plans ($0 Free, $9 Starter, $19 Pro, $49 Team, $99 Enterprise). Interactive CLI billing flags, ROI calculator, and RBAC matrix."
+        keywords={['CatalystLab pricing', 'telemetry API plans', 'RBAC role preview', '7-day free trial no credit card', 'web audit pricing', 'telemetry ROI calculator']}
+        canonicalPath="/pricing"
       />
 
       {/* Hero Header */}
-      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-16 sm:py-20">
+      <section className="relative overflow-hidden border-b border-slate-800 bg-[#080D1A] py-16 sm:py-20">
+        <UnsplashImage 
+          assetId="pricing-header-texture" 
+          className="absolute inset-0 opacity-[0.08] pointer-events-none object-cover w-full h-full" 
+        />
+        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#06B6D4_1px,transparent_1px)] [background-size:24px_24px]" />
+
         <LazyReveal direction="down" className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1 text-xs sm:text-sm font-mono text-amber-700 mb-6 shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-            <span>Role-Based Access Control &amp; 5-Tier Telemetry Architecture</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0B101D] px-4 py-1 text-xs font-mono text-[#00F0FF] mb-6 shadow-sm">
+            <TerminalIcon className="h-3.5 w-3.5" />
+            <span>TERMINAL BILLING CONSOLE &bull; 5-TIER TELEMETRY ARCHITECTURE</span>
           </div>
 
-          <h1 className="text-3xl font-black tracking-tight text-black sm:text-4xl lg:text-5xl leading-tight">
+          <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl leading-tight font-sans">
             Precision Web Health &amp; Telemetry Plans
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-slate-600 leading-relaxed">
-            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-slate-900 font-semibold">7-day free trial with zero credit card requirements</strong>.
+          <p className="mx-auto mt-4 max-w-2xl text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
+            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-white font-bold">7-day free trial with zero credit card requirements</strong>.
           </p>
 
           {/* Interactive Role Preview Switcher Bar */}
-          <div className="mt-8 mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-4 shadow-sm text-left">
+          <div className="mt-8 mx-auto max-w-3xl rounded-2xl border border-slate-800 bg-[#0B101D] p-4 shadow-sm text-left">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
               <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-amber-700" />
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">
+                <Eye className="h-4 w-4 text-[#00F0FF]" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
                   Preview Platform As Role:
                 </span>
               </div>
@@ -145,7 +155,7 @@ export const PricingPage: React.FC = () => {
                 {isSimulating && (
                   <button
                     onClick={resetSimulation}
-                    className="flex items-center gap-1 text-[11px] text-amber-600 hover:underline cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+                    className="flex items-center gap-1 text-[11px] text-[#00F0FF] hover:underline cursor-pointer ml-1"
                   >
                     <RotateCcw className="h-3 w-3" />
                     <span>Reset</span>
@@ -167,8 +177,8 @@ export const PricingPage: React.FC = () => {
                     onClick={() => setSimulatedRole(opt.role)}
                     className={`flex items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-bold transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-slate-900 text-white border border-slate-900 shadow-sm'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                        ? 'bg-[#06B6D4] text-slate-950 border border-[#06B6D4] shadow-sm'
+                        : 'bg-[#080D1A] text-slate-300 hover:bg-[#0E1526] border border-slate-800'
                     }`}
                   >
                     <Icon className="h-3.5 w-3.5 shrink-0" />
@@ -179,37 +189,49 @@ export const PricingPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Primary View Switcher: Plans vs RBAC Matrix vs Simulator */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 border-b border-slate-200 pb-4">
+          {/* Primary View Switcher: Plans vs ROI Calculator vs RBAC Matrix vs Simulator */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 border-b border-slate-800 pb-4">
             <button
               onClick={() => setActiveTab('plans')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 activeTab === 'plans'
-                  ? 'bg-slate-900 text-white shadow-sm border border-slate-900'
-                  : 'text-slate-600 hover:text-black hover:bg-slate-100'
+                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
+                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
               }`}
             >
               Subscription Plans &amp; Pricing
             </button>
 
             <button
+              onClick={() => setActiveTab('calculator')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                activeTab === 'calculator'
+                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
+                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
+              }`}
+            >
+              <Calculator className="h-3.5 w-3.5" />
+              <span>Telemetry ROI Calculator</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('matrix')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'matrix'
-                  ? 'bg-slate-900 text-white shadow-sm border border-slate-900'
-                  : 'text-slate-600 hover:text-black hover:bg-slate-100'
+                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
+                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
               }`}
             >
               <Shield className="h-3.5 w-3.5" />
-              <span>Role &amp; Security Matrix (RBAC)</span>
+              <span>Role Matrix (RBAC)</span>
             </button>
 
             <button
               onClick={() => setActiveTab('simulator')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'simulator'
-                  ? 'bg-slate-900 text-white shadow-sm border border-slate-900'
-                  : 'text-slate-600 hover:text-black hover:bg-slate-100'
+                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
+                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
               }`}
             >
               <Sliders className="h-3.5 w-3.5" />
@@ -217,58 +239,40 @@ export const PricingPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Billing Toggle */}
+          {/* CLI-Style Billing Toggle */}
           {activeTab === 'plans' && (
-            <div className="mt-6 flex items-center justify-center gap-4">
-              <span className={`text-xs sm:text-sm font-bold transition-colors ${!annual ? 'text-black' : 'text-slate-500'}`}>
-                Monthly Billing
-              </span>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-mono">
+              <span className="text-slate-500">FLAGS:</span>
               <button
                 type="button"
-                onClick={() => setAnnual(!annual)}
-                role="switch"
-                aria-checked={annual}
-                className="relative h-7 w-14 rounded-full bg-slate-200 p-1 transition-colors border border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 cursor-pointer"
-                aria-label={`Billing cycle: ${annual ? 'annual' : 'monthly'}. Toggle to switch`}
+                onClick={() => setAnnual(false)}
+                className={`px-3 py-1 rounded-lg border transition-all cursor-pointer ${
+                  !annual 
+                    ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-[#00F0FF] font-bold' 
+                    : 'bg-[#0B101D] border-slate-800 text-slate-400 hover:text-white'
+                }`}
               >
-                <div
-                  className={`h-5 w-5 rounded-full transition-transform shadow-md ${
-                    annual ? 'translate-x-7 bg-slate-900' : 'translate-x-0 bg-white'
-                  }`}
-                />
+                --billing=monthly
               </button>
-              <div className="flex items-center gap-2">
-                <span className={`text-xs sm:text-sm font-bold transition-colors ${annual ? 'text-black' : 'text-slate-500'}`}>
-                  Annual Billing
+
+              <button
+                type="button"
+                onClick={() => setAnnual(true)}
+                className={`px-3 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-2 ${
+                  annual 
+                    ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-[#00F0FF] font-bold shadow-[0_0_10px_rgba(6,182,212,0.2)]' 
+                    : 'bg-[#0B101D] border-slate-800 text-slate-400 hover:text-white'
+                }`}
+              >
+                <span>--billing=annual</span>
+                <span className="rounded bg-emerald-950/60 text-[#00FF66] border border-emerald-500/40 px-1.5 py-0.2 text-[10px]">
+                  --save=20%
                 </span>
-                <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-mono font-bold text-emerald-700 border border-emerald-200">
-                  Save 20%
-                </span>
-              </div>
+              </button>
             </div>
           )}
         </LazyReveal>
       </section>
-
-      {/* Immersive Pricing Parallax Banner */}
-      <ParallaxSection
-        bgImage="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=80"
-        overlayOpacity={0.88}
-        height="min-h-[300px]"
-        className="border-y border-slate-200"
-      >
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 text-amber-700 border border-slate-200 px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider">
-            Transparent Pricing &amp; RBAC Control
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-black font-sans tracking-tight">
-            Built for Scalable Engineering Teams
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-xl mx-auto">
-            Upgrade, downgrade, or test simulated enterprise security privileges instantly with zero lock-in.
-          </p>
-        </div>
-      </ParallaxSection>
 
       {/* Main Content Area */}
       <main className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
@@ -286,10 +290,10 @@ export const PricingPage: React.FC = () => {
                 return (
                   <LazyStaggerItem
                     key={plan.id}
-                    className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition-all duration-200 bg-white shadow-sm ${
+                    className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition-all duration-200 bg-[#080D1A] shadow-sm ${
                       isPopular
-                        ? 'border-2 border-slate-900 shadow-md lg:-translate-y-2'
-                        : 'border border-slate-200 hover:border-slate-300'
+                        ? 'border-2 border-[#06B6D4] shadow-[0_0_20px_rgba(6,182,212,0.2)] lg:-translate-y-2'
+                        : 'border border-slate-800 hover:border-slate-700'
                     }`}
                   >
                     {/* Badge */}
@@ -298,294 +302,201 @@ export const PricingPage: React.FC = () => {
                         <span
                           className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase shadow-sm whitespace-nowrap ${
                             isPopular
-                              ? 'bg-slate-900 text-white border border-slate-900'
-                              : 'border border-slate-200 bg-slate-100 text-slate-700'
+                              ? 'bg-[#06B6D4] text-slate-950'
+                              : 'bg-[#0B101D] text-slate-300 border border-slate-800'
                           }`}
                         >
-                          {isPopular && <Sparkles className="h-3 w-3" />}
-                          <span>{plan.badge}</span>
+                          {isPopular && <Sparkles className="h-2.5 w-2.5 fill-current" />}
+                          {plan.badge}
                         </span>
                       </div>
                     )}
 
                     <div>
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-black text-black tracking-tight">{plan.name}</h3>
-                      </div>
-                      <p className="mt-1.5 text-xs text-slate-600 leading-relaxed min-h-[36px]">{plan.tagline}</p>
-
-                      {/* Price */}
-                      <div className="mt-4 flex items-baseline gap-1">
-                        <span className="text-3xl sm:text-4xl font-black text-black tracking-tight metric-tabular">
-                          ${price}
-                        </span>
-                        <span className="text-xs font-mono text-slate-500">
-                          {plan.priceMonthly === 0 ? 'free forever' : '/ mo'}
-                        </span>
+                      {/* Title & Description */}
+                      <div className="mb-4">
+                        <h3 className="text-lg font-bold text-white font-sans">{plan.name}</h3>
+                        <p className="mt-1 text-xs text-slate-400 leading-relaxed font-sans">{plan.description}</p>
                       </div>
 
-                      {annual && plan.priceMonthly > 0 ? (
-                        <p className="mt-0.5 text-[11px] text-emerald-600 font-mono font-semibold">
-                          Billed annually (${price * 12}/yr)
-                        </p>
-                      ) : (
-                        <div className="h-4 mt-0.5 text-[11px] text-slate-500 font-mono">
-                          {plan.priceMonthly === 0 ? 'No credit card needed' : 'Billed monthly'}
-                        </div>
-                      )}
-
-                      {/* Compute Quota Box */}
-                      <div className="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-                        <div className="flex items-center justify-between font-bold text-black">
-                          <span className="flex items-center gap-1 text-slate-900 font-mono">
-                            <Cpu className="w-3.5 h-3.5 text-amber-600" /> Quota
+                      {/* Price Display */}
+                      <div className="mb-5 pb-5 border-b border-slate-800">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-white font-mono">
+                            ${price}
                           </span>
-                          <span className="text-emerald-600 font-mono">
-                            {plan.dailyComputeUnits} units/day
+                          <span className="text-xs text-slate-400 font-mono">
+                            / month
                           </span>
                         </div>
-                        <div className="mt-1 flex items-center justify-between text-[11px] text-slate-600 font-mono">
-                          <span>Full Audits:</span>
-                          <span className="font-semibold text-black">{plan.masterAuditsPerDay} / day</span>
+                        {annual && plan.priceMonthly > 0 && (
+                          <div className="mt-1 text-[11px] text-[#00FF66] font-mono">
+                            Billed annually (${plan.priceAnnualTotal}/yr)
+                          </div>
+                        )}
+                        {!annual && plan.priceMonthly > 0 && (
+                          <div className="mt-1 text-[11px] text-slate-500 font-mono">
+                            Billed monthly
+                          </div>
+                        )}
+                        {plan.priceMonthly === 0 && (
+                          <div className="mt-1 text-[11px] text-[#00F0FF] font-mono">
+                            Free forever • No credit card
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Core Compute Stats */}
+                      <div className="mb-5 space-y-2 rounded-xl bg-[#060912] p-3 text-xs border border-slate-800/80 font-mono">
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Daily Compute:</span>
+                          <span className="font-bold text-white">{plan.dailyComputeUnits} units</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Monitored Sites:</span>
+                          <span className="font-bold text-white">{plan.monitoredSitesQuota}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-400">Probe Rate:</span>
+                          <span className="font-bold text-white">
+                            {plan.probeFrequencyMinutes < 60 ? `${plan.probeFrequencyMinutes}m` : `${plan.probeFrequencyMinutes / 60}h`}
+                          </span>
                         </div>
                       </div>
 
-                      {/* Features List */}
-                      <div className="mt-4 border-t border-slate-200 pt-3">
-                        <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 mb-2.5">
-                          Included Features:
-                        </p>
-                        <ul className="space-y-2">
-                          {plan.features.map((feature, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-xs text-slate-600">
-                              <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-900 mt-0.5 border border-slate-200">
-                                <Check className="h-2.5 w-2.5 stroke-[3]" />
-                              </div>
-                              <span className="leading-snug">{feature.text}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      {/* Feature Checklist */}
+                      <ul className="space-y-2 text-xs text-slate-300 mb-6 font-sans">
+                        {plan.features.map((feat, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <Check className="h-3.5 w-3.5 text-[#00FF66] shrink-0 mt-0.5" />
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
 
-                    {/* Dynamic CTA Action Area */}
-                    <div className="mt-6 pt-4 border-t border-slate-200">
-                      {ctaInfo.variant === 'superadmin' ? (
-                        <div className="rounded-xl border border-amber-300 bg-amber-50 p-2.5 text-center">
-                          <span className="text-xs font-bold text-amber-800 flex items-center justify-center gap-1 font-mono">
-                            <Crown className="h-3.5 w-3.5" />
-                            <span>Superadmin Unlocked</span>
-                          </span>
-                        </div>
-                      ) : ctaInfo.variant === 'current' ? (
-                        <div className="rounded-xl border border-slate-200 bg-slate-100 p-2.5 text-center">
-                          <span className="text-xs font-bold text-slate-900 flex items-center justify-center gap-1 font-mono">
-                            <CheckCircle2 className="h-3.5 w-3.5" />
-                            <span>{ctaInfo.label}</span>
-                          </span>
-                        </div>
-                      ) : key === 'free' ? (
-                        <Link
-                          to="/"
-                          className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-bold font-mono transition-all duration-150 bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
-                        >
-                          <span>Start Free Scan</span>
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        </Link>
-                      ) : (
-                        <div className="space-y-2">
-                          <button
-                            type="button"
-                            onClick={() => handlePlanCta(key)}
-                            className={`flex w-full items-center justify-center gap-1.5 rounded-xl py-2.5 text-xs font-bold font-mono transition-all duration-150 shadow-sm active:scale-95 cursor-pointer ${
-                              isPopular
-                                ? 'bg-slate-900 hover:bg-slate-800 text-white font-extrabold'
-                                : 'bg-slate-900 hover:bg-slate-800 text-white'
-                            }`}
-                          >
-                            <span>{ctaInfo.label}</span>
-                            <ArrowRight className="h-3.5 w-3.5" />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              window.dispatchEvent(new CustomEvent('catalyst:open-payment-checkout', { detail: { planId: key } }));
-                            }}
-                            className="flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-[11px] font-bold font-mono transition-all duration-150 bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 cursor-pointer"
-                          >
-                            <span>Buy Now (2Checkout / DodoPay)</span>
-                          </button>
-                        </div>
-                      )}
-
-                      <p className="mt-2 text-center text-[10px] font-mono text-slate-500">
+                    {/* CTA Button */}
+                    <div className="pt-2">
+                      <button
+                        type="button"
+                        onClick={() => handlePlanCta(plan.id)}
+                        disabled={ctaInfo.disabled}
+                        className={`w-full rounded-xl py-2.5 px-4 text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                          ctaInfo.disabled
+                            ? 'bg-[#0B101D] text-slate-500 border border-slate-800 cursor-not-allowed'
+                            : isPopular
+                            ? 'bg-[#06B6D4] text-slate-950 hover:bg-[#00F0FF] shadow-[0_0_15px_rgba(6,182,212,0.3)]'
+                            : 'bg-[#0E1526] text-white hover:bg-slate-800 border border-slate-800'
+                        }`}
+                      >
+                        <span>{ctaInfo.label}</span>
+                        {!ctaInfo.disabled && <ArrowRight className="h-3.5 w-3.5" />}
+                      </button>
+                      <div className="mt-1.5 text-center text-[10px] text-slate-500 font-mono">
                         {ctaInfo.subtext}
-                      </p>
+                      </div>
                     </div>
                   </LazyStaggerItem>
                 );
               })}
             </LazyStaggerContainer>
-
-            {/* 7-Day Free Trial Banner */}
-            <LazyReveal direction="up" className="mt-14 rounded-2xl bg-white border border-slate-200 p-6 sm:p-10 shadow-sm relative overflow-hidden">
-              <div className="relative z-10 max-w-4xl mx-auto">
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-xs font-mono font-bold text-emerald-700 mb-3">
-                  <ShieldCheck className="h-3.5 w-3.5" />
-                  <span>100% Risk-Free Guarantee</span>
-                </div>
-
-                <h2 className="text-2xl sm:text-3xl font-black text-black leading-tight">
-                  How the 7-Day Free Trial Works
-                </h2>
-                <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-                  We believe in proving value before asking for payment. Explore our complete telemetry mesh, CI/CD gates, and REST APIs with zero friction.
-                </p>
-
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                    <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-white border border-slate-200 text-slate-900 font-mono font-extrabold text-xs">
-                      1
-                    </div>
-                    <h4 className="text-sm font-bold text-black">Sign In with Google</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      One-click authentication. No password to remember and no credit card numbers required.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                    <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-white border border-slate-200 text-emerald-600 font-mono font-extrabold text-xs">
-                      2
-                    </div>
-                    <h4 className="text-sm font-bold text-black">Choose Any Paid Tier</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      Activate Starter ($9), Pro ($19), Team ($49), or Enterprise ($99). You instantly receive full daily compute quota.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                    <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-white border border-slate-200 text-slate-900 font-mono font-extrabold text-xs">
-                      3
-                    </div>
-                    <h4 className="text-sm font-bold text-black">Automatic Free Rollover</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      After 7 days, your account smoothly reverts to the Free Community plan unless you choose to add a payment method.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </LazyReveal>
           </div>
         )}
 
-        {/* TAB 2: RBAC MATRIX */}
+        {/* TAB 2: INTERACTIVE ROI CALCULATOR */}
+        {activeTab === 'calculator' && (
+          <div className="max-w-5xl mx-auto">
+            <TelemetryRoiCalculator 
+              onSelectRecommendedPlan={(recPlan) => {
+                setActiveTab('plans');
+                handlePlanCta(recPlan);
+              }}
+            />
+          </div>
+        )}
+
+        {/* TAB 3: ROLE & SECURITY MATRIX (RBAC) */}
         {activeTab === 'matrix' && (
-          <div className="space-y-6">
-            <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-mono font-bold text-amber-700 mb-2">
-                <Shield className="h-3.5 w-3.5" />
-                <span>Frontend &amp; Firestore Security Architecture</span>
+          <div className="rounded-2xl border border-slate-800 bg-[#080D1A] overflow-hidden shadow-sm">
+            <div className="p-5 bg-[#0B101D] border-b border-slate-800 flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-bold text-white">Full Role-Based Access Control (RBAC) Matrix</h3>
+                <p className="text-xs text-slate-400 mt-0.5">Permissions, rate limits, and endpoint capabilities mapped by subscriber authorization tier.</p>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-black">
-                Role-Based Access Control (RBAC) Matrix
-              </h2>
-              <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Security rules are enforced both client-side via React guards and backend via Firestore token claims to safeguard API keys, white-label configs, and telemetry pipelines.
-              </p>
             </div>
 
-            <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <table className="w-full text-left border-collapse text-xs sm:text-sm text-black">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs font-mono">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 uppercase text-[11px] font-mono font-bold tracking-wider">
+                  <tr className="border-b border-slate-800 bg-[#060912] text-slate-400 uppercase text-[11px] font-bold tracking-wider">
                     <th className="p-3.5">Platform Capability / Route</th>
                     <th className="p-3.5 text-center">Guest / Anon</th>
                     <th className="p-3.5 text-center">Free Dev</th>
-                    <th className="p-3.5 text-center text-slate-900 font-bold bg-slate-100">Pro Member</th>
+                    <th className="p-3.5 text-center text-[#00F0FF] font-bold bg-[#06B6D4]/10">Pro Member</th>
                     <th className="p-3.5 text-center">Team Lead</th>
                     <th className="p-3.5 text-center">Enterprise</th>
-                    <th className="p-3.5 text-center text-amber-700 bg-amber-50">Superadmin</th>
+                    <th className="p-3.5 text-center text-amber-400 bg-amber-950/20">Superadmin</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200 text-slate-600">
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">Daily Compute Quota</td>
-                    <td className="p-3.5 text-center font-mono">20 units</td>
-                    <td className="p-3.5 text-center font-mono">50 units</td>
-                    <td className="p-3.5 text-center font-mono text-slate-900 font-bold bg-slate-50">500 units</td>
-                    <td className="p-3.5 text-center font-mono font-bold">1,500 units</td>
-                    <td className="p-3.5 text-center font-mono font-bold text-slate-900">5,000 units</td>
-                    <td className="p-3.5 text-center font-mono font-bold text-amber-700 bg-amber-50">Unlimited (&infin;)</td>
+                <tbody className="divide-y divide-slate-800 text-slate-300">
+                  <tr className="hover:bg-[#0E1526] transition-colors">
+                    <td className="p-3.5 font-bold text-white">Daily Compute Quota</td>
+                    <td className="p-3.5 text-center">20 units</td>
+                    <td className="p-3.5 text-center">50 units</td>
+                    <td className="p-3.5 text-center text-[#00F0FF] font-bold bg-[#06B6D4]/5">500 units</td>
+                    <td className="p-3.5 text-center font-bold">1,500 units</td>
+                    <td className="p-3.5 text-center font-bold text-white">5,000 units</td>
+                    <td className="p-3.5 text-center font-bold text-amber-400 bg-amber-950/10">Unlimited (&infin;)</td>
                   </tr>
 
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">Public Audit Permalinks (/reports/*)</td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-slate-50"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-amber-50"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-[#0E1526] transition-colors">
+                    <td className="p-3.5 font-bold text-white">Public Audit Permalinks (/reports/*)</td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66] bg-[#06B6D4]/5"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66] bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
 
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">Personal Saved Audit Dossiers (/dashboard)</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-slate-50"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-amber-50"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-[#0E1526] transition-colors">
+                    <td className="p-3.5 font-bold text-white">Personal Saved Audit Dossiers (/dashboard)</td>
+                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66] bg-[#06B6D4]/5"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66] bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
 
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">Domain Watchdog Monitoring Quota</td>
-                    <td className="p-3.5 text-center text-slate-400">0 slots</td>
+                  <tr className="hover:bg-[#0E1526] transition-colors">
+                    <td className="p-3.5 font-bold text-white">Domain Watchdog Monitoring Quota</td>
+                    <td className="p-3.5 text-center text-slate-600">0 slots</td>
                     <td className="p-3.5 text-center">1 domain</td>
-                    <td className="p-3.5 text-center text-slate-900 font-bold bg-slate-50">20 domains</td>
+                    <td className="p-3.5 text-center text-[#00F0FF] font-bold bg-[#06B6D4]/5">20 domains</td>
                     <td className="p-3.5 text-center font-bold">50 domains</td>
-                    <td className="p-3.5 text-center font-bold text-slate-900">Unlimited</td>
-                    <td className="p-3.5 text-center font-bold text-amber-700 bg-amber-50">Unlimited</td>
+                    <td className="p-3.5 text-center font-bold text-white">Unlimited</td>
+                    <td className="p-3.5 text-center font-bold text-amber-400 bg-amber-950/10">Unlimited</td>
                   </tr>
 
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">REST API Secret Keys (cat_live_...)</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-slate-50"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-amber-50"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-[#0E1526] transition-colors">
+                    <td className="p-3.5 font-bold text-white">REST API Secret Keys (cat_live_...)</td>
+                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
+                    <td className="p-3.5 text-center text-[#00FF66] bg-[#06B6D4]/5"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-[#00FF66] bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
 
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">Technical Blog Authoring (/blogs/create)</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-slate-50"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600 bg-amber-50"><Check className="w-4 h-4 mx-auto" /></td>
-                  </tr>
-
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">White-Label Branding &amp; Custom PDF Reports</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400 bg-slate-50">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-emerald-600 font-bold"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-emerald-600 font-bold text-amber-700 bg-amber-50"><Check className="w-4 h-4 mx-auto" /></td>
-                  </tr>
-
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3.5 font-bold text-black">Superadmin Command Center (/admin/*)</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400 bg-slate-50">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
-                    <td className="p-3.5 text-center text-emerald-600 font-bold text-amber-700 bg-amber-50"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-[#0E1526] transition-colors">
+                    <td className="p-3.5 font-bold text-white">Superadmin Command Center (/admin/*)</td>
+                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-600 bg-[#06B6D4]/5">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
+                    <td className="p-3.5 text-center text-[#00FF66] font-bold text-amber-400 bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
                 </tbody>
               </table>
@@ -593,18 +504,18 @@ export const PricingPage: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 3: UPGRADE SIMULATOR */}
+        {/* TAB 4: UPGRADE SIMULATOR */}
         {activeTab === 'simulator' && (
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-mono font-bold text-amber-700 mb-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0B101D] px-3.5 py-1 text-xs font-mono font-bold text-[#00F0FF] mb-2">
                 <Sliders className="h-3.5 w-3.5" />
                 <span>Value Delta &amp; ROI Calculator</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-black">
+              <h2 className="text-2xl sm:text-3xl font-black text-white font-sans">
                 Tier Upgrade Value Simulator
               </h2>
-              <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="mt-1 text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
                 See exactly how your compute throughput, monitoring intervals, and security capabilities will upgrade from your current role.
               </p>
             </div>
@@ -620,15 +531,15 @@ export const PricingPage: React.FC = () => {
                     onClick={() => setSimulatorTargetTier(tid)}
                     className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-slate-900 bg-white shadow-sm ring-1 ring-slate-900'
-                        : 'border-slate-200 bg-slate-50 hover:bg-white'
+                        ? 'border-[#06B6D4] bg-[#06B6D4]/10 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                        : 'border-slate-800 bg-[#080D1A] hover:bg-[#0E1526]'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-sm text-black">{plan.name}</span>
-                      <span className="text-xs font-mono font-bold text-slate-900">${plan.priceMonthly}/mo</span>
+                      <span className="font-bold text-sm text-white font-sans">{plan.name}</span>
+                      <span className="text-xs font-mono font-bold text-[#00F0FF]">${plan.priceMonthly}/mo</span>
                     </div>
-                    <div className="mt-1.5 text-xs font-mono text-emerald-600 font-bold">
+                    <div className="mt-1.5 text-xs font-mono text-[#00FF66] font-bold">
                       {plan.dailyComputeUnits} units/day
                     </div>
                   </button>
@@ -643,52 +554,52 @@ export const PricingPage: React.FC = () => {
               const unitMultiplier = Math.round(target.dailyComputeUnits / Math.max(1, currentUnits));
 
               return (
-                <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-sm">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-200">
+                <div className="rounded-2xl border border-slate-800 bg-[#080D1A] p-5 sm:p-7 shadow-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
                     
                     {/* Multiplier */}
                     <div className="p-3 space-y-1.5">
-                      <span className="text-xs font-mono uppercase font-bold text-slate-500 tracking-wider">Compute Boost</span>
-                      <div className="text-3xl sm:text-4xl font-black font-mono text-slate-900 metric-tabular">
+                      <span className="text-xs font-mono uppercase font-bold text-slate-400 tracking-wider">Compute Boost</span>
+                      <div className="text-3xl sm:text-4xl font-black font-mono text-[#00F0FF]">
                         {unitMultiplier > 1 ? `${unitMultiplier}x` : '1x'}
                       </div>
-                      <p className="text-xs text-slate-600">
+                      <p className="text-xs text-slate-400 font-sans">
                         From {currentUnits} to {target.dailyComputeUnits} daily units
                       </p>
                     </div>
 
                     {/* Monitored Domains */}
                     <div className="p-3 space-y-1.5">
-                      <span className="text-xs font-mono uppercase font-bold text-slate-500 tracking-wider">Domain Watchdog</span>
-                      <div className="text-3xl sm:text-4xl font-black font-mono text-emerald-600 metric-tabular">
+                      <span className="text-xs font-mono uppercase font-bold text-slate-400 tracking-wider">Domain Watchdog</span>
+                      <div className="text-3xl sm:text-4xl font-black font-mono text-[#00FF66]">
                         {target.monitoredSitesQuota}
                       </div>
-                      <p className="text-xs text-slate-600">
+                      <p className="text-xs text-slate-400 font-sans">
                         Probe frequency every {target.probeFrequencyMinutes < 60 ? `${target.probeFrequencyMinutes}m` : `${target.probeFrequencyMinutes / 60}h`}
                       </p>
                     </div>
 
                     {/* REST API & CI/CD */}
                     <div className="p-3 space-y-1.5">
-                      <span className="text-xs font-mono uppercase font-bold text-slate-500 tracking-wider">Automation Capacity</span>
-                      <div className="text-3xl sm:text-4xl font-black font-mono text-slate-900 font-bold metric-tabular">
+                      <span className="text-xs font-mono uppercase font-bold text-slate-400 tracking-wider">Automation Capacity</span>
+                      <div className="text-3xl sm:text-4xl font-black font-mono text-purple-400 font-bold">
                         {target.ciRunsPerMonth}
                       </div>
-                      <p className="text-xs text-slate-600">
+                      <p className="text-xs text-slate-400 font-sans">
                         CI runs/mo across {target.ciParallelConcurrency} parallel runners
                       </p>
                     </div>
 
                   </div>
 
-                  <div className="mt-6 pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="text-xs text-slate-600">
+                  <div className="mt-6 pt-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-xs text-slate-400 font-sans">
                       <span>Ready to activate <strong>{target.name}</strong>? Start your 7-day risk-free evaluation.</span>
                     </div>
 
                     <button
                       onClick={() => openTrialModal(simulatorTargetTier)}
-                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#06B6D4] hover:bg-[#00F0FF] text-slate-950 font-mono font-bold text-xs transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] active:scale-95 cursor-pointer"
                     >
                       Start 7-Day Free Trial for {target.name}
                     </button>
@@ -699,21 +610,21 @@ export const PricingPage: React.FC = () => {
           </div>
         )}
 
-        {/* Enterprise & Private Cloud Banner */}
-        <LazyReveal direction="up" className="mt-14 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm text-black">
+        {/* Enterprise Banner */}
+        <LazyReveal direction="up" className="mt-14 rounded-2xl border border-slate-800 bg-[#080D1A] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm text-slate-100 font-mono">
           <div className="space-y-1.5 max-w-2xl">
-            <div className="flex items-center gap-2 text-amber-700 font-mono font-bold text-xs uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-[#00F0FF] font-bold text-xs uppercase tracking-wider">
               <Server className="h-4 w-4" />
               <span>Custom Enterprise Infrastructure</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-black">Need On-Premises or Private Cloud Telemetry?</h3>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <h3 className="text-xl sm:text-2xl font-black text-white font-sans">Need On-Premises or Private Cloud Telemetry?</h3>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
               We deploy containerized CatalystLab audit runners directly into your VPC (GCP, AWS, Azure, or Kubernetes) with air-gapped security compliance and SOC2 governance.
             </p>
           </div>
           <Link
             to="/contact"
-            className="shrink-0 rounded-xl bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 text-xs sm:text-sm font-mono font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+            className="shrink-0 rounded-xl bg-[#06B6D4] hover:bg-[#00F0FF] text-slate-950 px-5 py-3 text-xs sm:text-sm font-mono font-bold transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] active:scale-95"
           >
             Speak with Solution Engineering
           </Link>

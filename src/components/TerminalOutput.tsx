@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Copy, Check, Maximize2, Minimize2, Terminal, CircleDot, Activity, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Copy, Check, Maximize2, Minimize2, Terminal, CircleDot, Activity, ShieldCheck, ArrowDown } from 'lucide-react';
 import { RiskSslGaugeChart } from './charts/RiskSslGaugeChart';
 
 interface TerminalOutputProps {
@@ -26,6 +26,45 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [showGauges, setShowGauges] = useState(true);
+  const [displayedOutput, setDisplayedOutput] = useState('');
+  const [autoScroll, setAutoScroll] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // ponytail: native interval chunks replacing heavy framer-motion typewriter libs
+  useEffect(() => {
+    if (!output) {
+      setDisplayedOutput('');
+      return;
+    }
+    const interval = setInterval(() => {
+      setDisplayedOutput(prev => {
+        if (prev.length >= output.length) {
+          clearInterval(interval);
+          return output;
+        }
+        if (!output.startsWith(prev)) {
+          return output.slice(0, Math.max(3, Math.floor(output.length / 40)));
+        }
+        return output.slice(0, prev.length + Math.max(3, Math.floor(output.length / 40)));
+      });
+    }, 15);
+    return () => clearInterval(interval);
+  }, [output]);
+
+  useEffect(() => {
+    if (autoScroll && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [displayedOutput, autoScroll]);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 40;
+    if (isAtBottom !== autoScroll) {
+      setAutoScroll(isAtBottom);
+    }
+  };
 
   const isComplianceEngine = engine === 'compliance' || engine === 'devsecops_compliance' || title.toLowerCase().includes('compliance');
 
@@ -142,6 +181,20 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           )}
 
           <button
+            onClick={() => setAutoScroll(!autoScroll)}
+            className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-medium transition-all active:scale-95 ${
+              autoScroll
+                ? 'border-sky-500/50 bg-sky-500/10 text-sky-400'
+                : 'border-black/30 bg-black/15 text-slate-500 hover:text-white'
+            }`}
+            title={autoScroll ? "Auto-scroll On" : "Auto-scroll Off"}
+            aria-label="Toggle Auto-scroll"
+          >
+            <ArrowDown className="h-3 w-3" />
+            <span className="hidden sm:inline">Scroll</span>
+          </button>
+
+          <button
             onClick={handleCopy}
             disabled={!output}
             className="flex items-center gap-1 rounded-lg border border-black/30 bg-black/15 px-2 py-1 text-[11px] font-medium text-slate-500 hover:border-black/60 hover:bg-black/30 hover:text-white disabled:opacity-40 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
@@ -181,6 +234,8 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
       {/* Terminal Body */}
       <div
+        ref={scrollRef}
+        onScroll={handleScroll}
         className={`p-4 font-mono text-xs overflow-y-auto bg-slate-900 selection:bg-black/50 ${
           expanded ? 'max-h-[620px]' : maxHeight
         }`}
@@ -195,8 +250,8 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
               Tracing socket connections, DOM depth, and headers...
             </div>
           </div>
-        ) : output ? (
-          formatTerminalText(output)
+        ) : displayedOutput ? (
+          formatTerminalText(displayedOutput)
         ) : (
           <div className="flex items-center gap-2 text-black italic py-2">
             <Terminal className="h-3.5 w-3.5 text-black" />

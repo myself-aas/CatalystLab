@@ -1,8 +1,0 @@
-1. Convert to 3-column Bento Grid (lg:grid-cols-3, md:grid-cols-2, grid-cols-1).
-2. Card 1 (OWASP): col-span-1 lg:col-span-2.
-3. Card 2, 3, 4, 5: col-span-1.
-4. Remove `accent-*` colors. Replace with `zinc-900`, `zinc-500`, `zinc-100`.
-5. Remove the `scroll` horizontal logic and arrows.
-6. Remove the small `Phase X • Name` eyebrows from cards.
-7. Clean up the sliders to use standard `accent-zinc-900` or custom minimal styles.
-8. Ensure all links/CTAs at the bottom of cards use clean typography.

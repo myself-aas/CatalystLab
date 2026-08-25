@@ -1,0 +1,265 @@
+// CatalystLab Enterprise Telemetry Platform Database Schema
+// Prisma Schema with PostgreSQL / TimescaleDB & ClickHouse compatibility
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters", "fullTextSearchPostgres"]
+}
+
+enum UserRole {
+  USER
+  DEVELOPER
+  ORGANIZATION_ADMIN
+  ENTERPRISE_AUDITOR
+  SUPERADMIN
+}
+
+enum SubscriptionTier {
+  VISITOR
+  FREE
+  STARTER
+  PRO
+  TEAM
+  ENTERPRISE
+}
+
+enum AuditStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  PARTIAL
+}
+
+enum EngineId {
+  HEALTH
+  AI_READY
+  REPO
+  LATENCY
+  ECO
+  COMPLIANCE
+  MIGRATION
+  AI_SEARCH
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model User {
+  id                    String                @id @default(cuid())
+  name                  String?
+  email                 String                @unique
+  emailVerified         DateTime?
+  image                 String?
+  hashedPassword        String?
+  role                  UserRole              @default(USER)
+  tier                  SubscriptionTier      @default(FREE)
+  dailyQuotaLimit       Int                   @default(50)
+  currentDayUnitsUsed   Int                   @default(0)
+  quotaResetAt          DateTime              @default(now())
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+
+  // Relationships
+  auditReports          AuditReport[]
+  comparisons           SideBySideComparison[]
+  academicPosts         AcademicPost[]
+  apiTokens             ApiToken[]
+  organizationMembers   OrganizationMember[]
+  rateLimitLogs         RateLimitLog[]
+
+  @@index([email])
+  @@index([role, tier])
+  @@map("users")
+}
+
+model Organization {
+  id          String               @id @default(cuid())
+  name        String
+  slug        String               @unique
+  plan        SubscriptionTier     @default(TEAM)
+  logoUrl     String?
+  billingEmail String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  members     OrganizationMember[]
+  reports     AuditReport[]
+  apiTokens   ApiToken[]
+
+  @@index([slug])
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String       @id @default(cuid())
+  organizationId String
+  userId         String
+  role           String       @default("MEMBER") // ADMIN, MEMBER, VIEWER
+  createdAt      DateTime     @default(now())
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([userId])
+  @@map("organization_members")
+}
+
+model AuditReport {
+  id              String         @id @default(cuid())
+  targetUrl       String
+  normalizedUrl   String
+  domainSlug      String
+  overallScore    Int            @default(0)
+  grade           String         @default("F")
+  status          AuditStatus    @default(QUEUED)
+  durationMs      Int            @default(0)
+  isPublic        Boolean        @default(true)
+  clientIpHash    String?
+  userAgent       String?
+  summaryMarkdown String?        @db.Text
+  metricsSnapshot Json?          // Comprehensive JSON snapshot of all 8 engines
+  
+  // Relations
+  userId          String?
+  user            User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  organizationId  String?
+  organization    Organization?  @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  
+  engineResults   EngineResult[]
+  comparisonsAsA  SideBySideComparison[] @relation("ComparisonReportA")
+  comparisonsAsB  SideBySideComparison[] @relation("ComparisonReportB")
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([targetUrl, createdAt])
+  @@index([domainSlug, createdAt])
+  @@index([userId, createdAt])
+  @@index([overallScore, grade])
+  @@map("audit_reports")
+}
+
+model EngineResult {
+  id              String        @id @default(cuid())
+  auditReportId   String
+  engineId        EngineId
+  engineName      String
+  category        String        // Performance, Intelligence, Security, Architecture
+  status          AuditStatus   @default(PROCESSING)
+  score           Int           @default(0)
+  executionTimeMs Int           @default(0)
+  metricsJson     Json          // Structured telemetry metrics specific to this engine
+  logsJson        Json?         // Streamed logs & diagnostic traces
+  errorMessage    String?       @db.Text
+  createdAt       DateTime      @default(now())
+
+  auditReport     AuditReport   @relation(fields: [auditReportId], references: [id], onDelete: Cascade)
+
+  @@unique([auditReportId, engineId])
+  @@index([engineId, score])
+  @@index([auditReportId])
+  @@map("engine_results")
+}
+
+model SideBySideComparison {
+  id               String       @id @default(cuid())
+  targetUrlA       String
+  targetUrlB       String
+  scoreA           Int
+  scoreB           Int
+  deltaScore       Int
+  winner           String       // "A", "B", or "TIE"
+  comparisonMatrix Json         // Structured diff matrix of all telemetry metrics
+  
+  reportAId        String?
+  reportA          AuditReport? @relation("ComparisonReportA", fields: [reportAId], references: [id], onDelete: SetNull)
+  reportBId        String?
+  reportB          AuditReport? @relation("ComparisonReportB", fields: [reportBId], references: [id], onDelete: SetNull)
+  
+  userId           String?
+  user             User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt        DateTime     @default(now())
+
+  @@index([targetUrlA, targetUrlB])
+  @@index([userId, createdAt])
+  @@map("side_by_side_comparisons")
+}
+
+model AcademicPost {
+  id               String       @id @default(cuid())
+  title            String
+  slug             String       @unique
+  excerpt          String       @db.Text
+  content          String       @db.Text
+  category         String
+  tags             String[]
+  status           PostStatus   @default(PUBLISHED)
+  readTimeMinutes  Int          @default(5)
+  coverImageUrl    String?
+  isFeatured       Boolean      @default(false)
+  viewCount        Int          @default(0)
+
+  authorId         String?
+  author           User?        @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([slug])
+  @@index([category, status])
+  @@index([isFeatured, createdAt])
+  @@map("academic_posts")
+}
+
+model ApiToken {
+  id                 String        @id @default(cuid())
+  name               String
+  keyPrefix          String        // e.g. "ctl_live_"
+  keyHash            String        @unique // SHA-256 hash of the full token
+  scopes             String[]      @default(["telemetry:read", "scan:create"])
+  rateLimitOverride  Int?
+  lastUsedAt         DateTime?
+  expiresAt          DateTime?
+  revokedAt          DateTime?
+
+  userId             String
+  user               User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId     String?
+  organization       Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+
+  createdAt          DateTime      @default(now())
+
+  @@index([keyHash])
+  @@index([userId])
+  @@map("api_tokens")
+}
+
+model RateLimitLog {
+  id           String    @id @default(cuid())
+  identifier   String    // IP, Device Fingerprint, or User ID
+  tier         String
+  endpoint     String
+  unitsCharged Int       @default(1)
+  ipAddress    String?
+  userAgent    String?
+  blocked      Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+
+  userId       String?
+  user         User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([identifier, createdAt])
+  @@index([createdAt])
+  @@map("rate_limit_logs")
+}

@@ -1887,6 +1887,8 @@ async function startServer() {
     res.end();
   };
 
+  app.get('/api/scan/stream', handleMasterAuditStream);
+  app.post('/api/scan/stream', handleMasterAuditStream);
   app.get('/api/v1/audit/master/stream', handleMasterAuditStream);
   app.post('/api/v1/audit/master/stream', handleMasterAuditStream);
   app.get('/api/master-audit/stream', handleMasterAuditStream);

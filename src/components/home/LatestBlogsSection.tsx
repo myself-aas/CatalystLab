@@ -202,24 +202,24 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   return (
     <section 
       id="latest-blogs-section"
-      className={`relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-gray-200 ${className}`}
+      className={`relative py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-slate-800 ${className}`}
       aria-label="Latest engineering news and articles"
     >
-      <div className="relative rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 lg:p-10 shadow-xl">
+      <div className="relative rounded-2xl border border-slate-800 bg-[#0B101D] p-6 sm:p-8 lg:p-10 shadow-2xl">
         
         {/* Top Header Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-gray-200">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-slate-800">
           <div className="space-y-2 max-w-2xl">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 px-3.5 py-1 text-xs font-mono font-semibold text-accent-cyan tracking-wide">
-                <Sparkles className="h-3.5 w-3.5 text-accent-cyan" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3.5 py-1 text-xs font-mono font-semibold text-[#00F0FF] tracking-wide">
+                <Sparkles className="h-3.5 w-3.5 text-[#00F0FF]" />
                 <span>{badgeText}</span>
               </div>
             )}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
               {title}
             </h2>
-            <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
               {subtitle}
             </p>
           </div>
@@ -229,10 +229,10 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               <Link
                 to="/blogs"
                 id="view-all-blogs-btn"
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 hover:bg-gray-50 px-5 py-2.5 text-xs font-mono font-bold text-black transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-[#0E1526] hover:bg-slate-800 px-5 py-2.5 text-xs font-mono font-bold text-slate-200 hover:text-white transition-colors"
               >
                 <span>View all blogs</span>
-                <ArrowRight className="h-3.5 w-3.5 text-accent-cyan" />
+                <ArrowRight className="h-3.5 w-3.5 text-[#00F0FF]" />
               </Link>
             </div>
           )}
@@ -266,13 +266,13 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   onClick={() => setActiveCategory(cat.id)}
                   className={`shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer border ${
                     isActive 
-                      ? 'bg-black text-white border-slate-700 font-bold' 
-                      : 'bg-gray-100 text-gray-600 border-gray-200 hover:text-white hover:bg-gray-50'
+                      ? 'bg-[#06B6D4] text-slate-950 border-[#06B6D4] font-bold shadow-[0_0_12px_rgba(6,182,212,0.3)]' 
+                      : 'bg-[#0E1526] text-slate-400 border-slate-800 hover:text-white hover:bg-slate-800'
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
                   <span>{cat.label}</span>
-                  <span className="ml-1 px-1.5 py-0.2 rounded text-[10px] bg-white text-gray-500">
+                  <span className={`ml-1 px-1.5 py-0.2 rounded text-[10px] ${isActive ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-400'}`}>
                     {count}
                   </span>
                 </button>
@@ -294,13 +294,13 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 title={heroPost.title}
                 subtitle={
                   <div className="flex items-center gap-2 text-xs font-mono mt-2 mb-2">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5 text-white/70" />
+                    <span className="flex items-center gap-1 text-slate-300">
+                      <Calendar className="h-3.5 w-3.5 text-[#00F0FF]" />
                       {formatDate(heroPost.createdAt)}
                     </span>
                     <span className="text-white/40">•</span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5 text-white/70" />
+                    <span className="flex items-center gap-1 text-slate-300">
+                      <Clock className="h-3.5 w-3.5 text-[#00F0FF]" />
                       {getArticleReadingTime(heroPost)}
                     </span>
                   </div>
@@ -311,7 +311,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                     <span className="rounded bg-black/60 border border-white/20 px-2 py-0.5 text-[10px] font-mono font-bold text-white backdrop-blur-md">
                       {heroPost.category || 'Trending'}
                     </span>
-                    <span className="rounded bg-white text-black px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase tracking-wider shadow-sm">
+                    <span className="rounded bg-[#06B6D4] text-slate-950 px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase tracking-wider shadow-sm">
                       Featured
                     </span>
                   </div>
@@ -341,7 +341,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                       className="h-8 w-8 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
                     >
                       {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
-                        <BookmarkCheck className="h-4 w-4 text-white fill-white" />
+                        <BookmarkCheck className="h-4 w-4 text-[#00FF66] fill-[#00FF66]" />
                       ) : (
                         <Bookmark className="h-4 w-4 text-white/90" />
                       )}
@@ -352,7 +352,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <Link
                     to={`/blog/${heroPost.slug || heroPost.id}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-white hover:bg-gray-100 px-4 py-2.5 text-sm font-bold text-black transition-colors shadow-sm"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#06B6D4] hover:bg-[#00F0FF] px-4 py-2.5 text-sm font-bold text-slate-950 transition-colors shadow-sm"
                   >
                     <span>Read Article</span>
                     <ArrowRight className="h-4 w-4" />
@@ -411,7 +411,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                           className="h-7 w-7 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
                         >
                           {isBookmarked ? (
-                            <BookmarkCheck className="h-3.5 w-3.5 text-white fill-white" />
+                            <BookmarkCheck className="h-3.5 w-3.5 text-[#00FF66] fill-[#00FF66]" />
                           ) : (
                             <Bookmark className="h-3.5 w-3.5 text-white/90" />
                           )}
@@ -455,26 +455,26 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
         </div>
         {/* Bottom Ecosystem & Trust Bar */}
         {showEcosystemBar && (
-          <div className="mt-8 pt-6 border-t border-gray-200 font-mono">
+          <div className="mt-8 pt-6 border-t border-slate-800 font-mono">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-[11px] font-semibold uppercase tracking-widest text-gray-500">
+              <div className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
                 Audited &amp; Integrated Across Modern Cloud Ecosystems:
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-gray-600">
-                <span className="flex items-center gap-1 font-bold text-black">
-                  <span className="text-accent-amber font-black">●</span> Cloudflare
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-slate-400">
+                <span className="flex items-center gap-1 font-bold text-slate-200">
+                  <span className="text-amber-400 font-black">●</span> Cloudflare
                 </span>
-                <span className="flex items-center gap-1 font-bold text-black">
-                  <span className="text-accent-cyan font-black">■</span> Google Cloud
+                <span className="flex items-center gap-1 font-bold text-slate-200">
+                  <span className="text-[#00F0FF] font-black">■</span> Google Cloud
                 </span>
-                <span className="flex items-center gap-1 font-bold text-black">
-                  <span className="text-accent-rose font-black">▲</span> Fastly
+                <span className="flex items-center gap-1 font-bold text-slate-200">
+                  <span className="text-rose-400 font-black">▲</span> Fastly
                 </span>
-                <span className="flex items-center gap-1 font-bold text-black">
-                  <span className="text-accent-amber font-black">◆</span> AWS
+                <span className="flex items-center gap-1 font-bold text-slate-200">
+                  <span className="text-amber-400 font-black">◆</span> AWS
                 </span>
-                <span className="flex items-center gap-1 font-bold text-black">
+                <span className="flex items-center gap-1 font-bold text-slate-200">
                   <span className="text-white font-black">▲</span> Vercel
                 </span>
               </div>
@@ -492,29 +492,29 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              className="relative w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-5 sm:p-7 text-black shadow-2xl overflow-hidden font-mono"
+              className="relative w-full max-w-2xl rounded-2xl border border-slate-800 bg-[#0B101D] p-5 sm:p-7 text-white shadow-2xl overflow-hidden font-mono"
             >
               <button
                 onClick={() => setPreviewPost(null)}
-                className="absolute top-4 right-4 h-8 w-8 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-600 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 h-8 w-8 rounded-lg bg-[#0E1526] border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
 
               <div className="flex items-center gap-2 mb-3">
-                <span className="rounded bg-cyan-950/60 text-accent-cyan border border-cyan-500/30 px-2.5 py-0.5 text-xs font-bold">
+                <span className="rounded bg-[#06B6D4]/15 text-[#00F0FF] border border-[#06B6D4]/30 px-2.5 py-0.5 text-xs font-bold">
                   {previewPost.category}
                 </span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-slate-400">
                   {formatDate(previewPost.createdAt)} • {previewPost.readTime}
                 </span>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-black leading-snug mb-3">
+              <h3 className="text-lg sm:text-xl font-bold text-white leading-snug mb-3">
                 {previewPost.title}
               </h3>
 
-              <div className="w-full aspect-[16/8] rounded-xl overflow-hidden mb-3 bg-white border border-gray-200">
+              <div className="w-full aspect-[16/8] rounded-xl overflow-hidden mb-3 bg-slate-900 border border-slate-800">
                 <img 
                   src={getBlogCoverImage(previewPost)} 
                   alt={previewPost.title} 
@@ -523,26 +523,26 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 />
               </div>
 
-              <p className="text-xs text-gray-600 leading-relaxed mb-4">
+              <p className="text-xs text-slate-300 leading-relaxed mb-4">
                 {previewPost.excerpt}
               </p>
 
-              <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-200">
-                <div className="text-xs text-gray-500">
+              <div className="flex items-center justify-between gap-3 pt-3 border-t border-slate-800">
+                <div className="text-xs text-slate-400">
                   Author: <span className="text-white font-bold">{previewPost.authorName}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setPreviewPost(null)}
-                    className="rounded-lg px-4 py-2 text-xs font-bold text-gray-600 hover:text-white transition-colors cursor-pointer"
+                    className="rounded-lg px-4 py-2 text-xs font-bold text-slate-400 hover:text-white transition-colors cursor-pointer"
                   >
                     Close Preview
                   </button>
                   <Link
                     to={`/blog/${previewPost.slug || previewPost.id}`}
                     onClick={() => setPreviewPost(null)}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-black hover:bg-black-hover px-4 py-2 text-xs font-bold text-white transition-all shadow-sm border border-slate-300"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-[#06B6D4] hover:bg-[#00F0FF] px-4 py-2 text-xs font-bold text-slate-950 transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] border border-[#06B6D4]"
                   >
                     <span>Read Full Article</span>
                     <ArrowRight className="h-3.5 w-3.5" />

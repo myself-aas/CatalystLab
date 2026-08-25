@@ -223,12 +223,15 @@ export const Footer: React.FC = () => {
 
         </div>
 
-        {/* Bottom Bar: Copyright, Sync, and Back to Top */}
+        {/* Bottom Bar: Copyright, Unsplash Credits, Sync, and Back to Top */}
         <div className="mt-12 flex flex-col items-center justify-between border-t border-gray-200 pt-6 sm:flex-row gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
             <p className="text-xs text-gray-500 font-mono">
               &copy; 2026 CatalystLab. Enterprise Telemetry &amp; Automated Web Quality Intelligence.
             </p>
+            <span className="text-[11px] font-mono text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
+              Imagery via Unsplash (CC0)
+            </span>
             <SyncStatusBadge />
           </div>
           

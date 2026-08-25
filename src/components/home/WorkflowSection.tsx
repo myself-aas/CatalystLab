@@ -1,0 +1,307 @@
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { LazyReveal } from '../common/LazyAnimate';
+import {
+  Network,
+  Cpu,
+  Bot,
+  FileCheck,
+  Zap,
+  ShieldCheck,
+  CheckCircle2,
+  Terminal,
+  ArrowRight,
+  Sparkles,
+  Layers,
+  Code2,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+interface WorkflowStep {
+  number: string;
+  phaseCode: string;
+  title: string;
+  subtitle: string;
+  executionTime: string;
+  description: string;
+  icon: React.ElementType;
+  color: string;
+  vectors: string[];
+  techSnippet: string;
+}
+
+export const WorkflowSection: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start 80%', 'end 60%'],
+  });
+
+  // Smooth spring for the animated SVG line
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    restDelta: 0.001,
+  });
+
+  // Height / stroke-dasharray animation transforms
+  const lineHeight = useTransform(smoothProgress, [0, 1], ['0%', '100%']);
+
+  const steps: WorkflowStep[] = [
+    {
+      number: '01',
+      phaseCode: 'PHASE_DNS_ANYCAST',
+      title: 'Target Ingestion & Edge DNS',
+      subtitle: 'Global Edge Anycast Resolution',
+      executionTime: '~140ms',
+      icon: Network,
+      color: '#06B6D4',
+      description:
+        'Resolves target domain across 42 global edge PoPs. Probes TLS 1.3 0-RTT handshakes, ALPN protocols, and HTTP/3 QUIC connection viability.',
+      vectors: ['DNS TTL & CAA Records', 'TLS 1.3 0-RTT Handshake', 'HTTP/3 QUIC Support', 'Multi-Region TTFB P90'],
+      techSnippet: 'GET /probe/anycast?target=domain.com&pops=42 -> 200 OK (14.2ms)',
+    },
+    {
+      number: '02',
+      phaseCode: 'PHASE_PARALLEL_TELEMETRY',
+      title: '8-Engine Parallel Telemetry',
+      subtitle: 'Synchronous Multi-Vector Analysis',
+      executionTime: '~420ms',
+      icon: Cpu,
+      color: '#00F0FF',
+      description:
+        'Eight specialized micro-engines execute synchronously. Inspects Core Web Vitals, AST tree recursion, OWASP zero-trust headers, and carbon emissions.',
+      vectors: ['VitalZyme (LCP, CLS, INP)', 'RiskProtease (OWASP 6/6)', 'EcoHolo (SWD v4 Carbon)', 'GitLygase (Branch SecOps)'],
+      techSnippet: 'EXEC [VitalZyme, RiskProtease, EcoHolo, GitLygase] PARALLEL_STREAM',
+    },
+    {
+      number: '03',
+      phaseCode: 'PHASE_AI_RAG_DISCOVERY',
+      title: 'AI Discoverability & /llms.txt',
+      subtitle: 'Semantic Vector Extraction',
+      executionTime: '~310ms',
+      icon: Bot,
+      color: '#A855F7',
+      description:
+        'Parses /llms.txt manifests, robots.txt AI bot directives, and Schema.org JSON-LD knowledge graphs to verify RAG compatibility for Claude, GPT, and Perplexity.',
+      vectors: ['/llms.txt Token Manifest', 'Schema.org JSON-LD Entities', 'GPTBot / ClaudeBot Crawl Policy', 'Markdown AST Cleanliness'],
+      techSnippet: 'PARSE /llms.txt -> 24.8k tokens indexable | Schema.org: 18 entities',
+    },
+    {
+      number: '04',
+      phaseCode: 'PHASE_REMEDIATION_SYNTHESIS',
+      title: 'Remediation Dossier & Patches',
+      subtitle: 'Autonomous Code Generation',
+      executionTime: '~190ms',
+      icon: FileCheck,
+      color: '#00FF66',
+      description:
+        'Synthesizes all diagnostic telemetry into a unified composite score. Generates production-ready NGINX, Cloudflare Workers, and Next.js remediation code patches.',
+      vectors: ['Composite Health Score', 'Instant NGINX/Caddy Patches', 'Cloudflare Transform Rules', 'Shareable Executive Dossier'],
+      techSnippet: 'GENERATE patch.nginx.conf -> Content-Security-Policy & HSTS injected',
+    },
+  ];
+
+  return (
+    <section
+      id="workflow-section"
+      ref={containerRef}
+      className="relative py-20 lg:py-28 bg-[#070A13] text-slate-100 border-b border-slate-800 overflow-hidden"
+    >
+      {/* Subtle Background Glows */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#06B6D4]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#10B981]/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <LazyReveal direction="up">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3.5 py-1 text-xs font-mono font-medium text-[#00F0FF] shadow-sm mb-3">
+              <Network className="h-3.5 w-3.5 text-[#00F0FF]" />
+              <span>SYNCHRONOUS EXECUTION PIPELINE</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+              Autonomous 4-Stage Workflow
+            </h2>
+            <p className="text-sm sm:text-base text-slate-400 max-w-xl mt-2 leading-relaxed">
+              From global edge DNS resolution to instant zero-latency remediation patches in under 1,060ms total execution time.
+            </p>
+          </LazyReveal>
+
+          <div className="flex items-center gap-2 text-xs font-mono text-slate-400 bg-[#0B101D] border border-slate-800 p-2.5 rounded-xl">
+            <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping" />
+            <span>TOTAL LATENCY: <strong className="text-slate-100">1.06s</strong> (P95)</span>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            WORKFLOW PIPELINE WITH SCROLL-ANIMATED SVG CONNECTING LINES
+        ========================================================================= */}
+        <div className="relative">
+          
+          {/* Central Vertical Connecting Line on Large Screens */}
+          <div className="hidden lg:block absolute left-1/2 top-8 bottom-8 -translate-x-1/2 w-0.5 pointer-events-none">
+            {/* Background Track Line */}
+            <div className="w-full h-full bg-slate-800" />
+            
+            {/* Animated SVG Filling Stroke */}
+            <motion.div
+              style={{ height: lineHeight }}
+              className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#06B6D4] via-[#00F0FF] to-[#00FF66] shadow-[0_0_12px_#00F0FF]"
+            />
+          </div>
+
+          {/* Steps Grid / Timeline */}
+          <div className="space-y-12 lg:space-y-20">
+            {steps.map((step, idx) => {
+              const Icon = step.icon;
+              const isEven = idx % 2 === 1;
+
+              return (
+                <div
+                  key={step.number}
+                  id={`workflow-step-${step.number}`}
+                  className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+                >
+                  {/* Left Column Content (or Right on alternate rows) */}
+                  <div
+                    className={`lg:col-span-5 ${
+                      isEven ? 'lg:order-3' : 'lg:order-1'
+                    }`}
+                  >
+                    <LazyReveal direction={isEven ? 'left' : 'right'} delay={idx * 0.1}>
+                      <div className="p-6 rounded-2xl border border-slate-800 bg-[#0B101D]/90 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:border-slate-700 transition-all group">
+                        
+                        {/* Step Micro Header */}
+                        <div className="flex items-center justify-between gap-3 pb-3 mb-4 border-b border-slate-800/80">
+                          <div className="flex items-center gap-2">
+                            <span
+                              style={{ color: step.color, borderColor: `${step.color}40`, backgroundColor: `${step.color}15` }}
+                              className="px-2 py-0.5 rounded text-[11px] font-mono font-bold border"
+                            >
+                              STEP {step.number}
+                            </span>
+                            <span className="text-[10px] font-mono text-slate-500">
+                              {step.phaseCode}
+                            </span>
+                          </div>
+
+                          <span className="text-xs font-mono font-bold text-[#00FF66] bg-[#10B981]/10 border border-[#10B981]/30 px-2 py-0.5 rounded">
+                            {step.executionTime}
+                          </span>
+                        </div>
+
+                        {/* Title & Subtitle */}
+                        <h3 className="text-xl font-bold text-white group-hover:text-[#00F0FF] transition-colors">
+                          {step.title}
+                        </h3>
+                        <p className="text-xs font-mono text-[#06B6D4] mt-0.5">
+                          {step.subtitle}
+                        </p>
+
+                        <p className="text-sm text-slate-300 mt-3 leading-relaxed">
+                          {step.description}
+                        </p>
+
+                        {/* 4 Vector Bullets */}
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 pt-3 border-t border-slate-800/60">
+                          {step.vectors.map((vec, vIdx) => (
+                            <div key={vIdx} className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
+                              <CheckCircle2 className="w-3 h-3 text-[#00FF66] shrink-0" />
+                              <span className="truncate">{vec}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Tech Snippet Console Preview */}
+                        <div className="mt-4 p-2.5 rounded-lg bg-[#05080F] border border-slate-800/80 font-mono text-[11px] text-slate-300 flex items-center gap-2 overflow-x-auto">
+                          <Terminal className="w-3.5 h-3.5 text-[#06B6D4] shrink-0" />
+                          <code className="text-[11px] whitespace-nowrap text-slate-300">
+                            {step.techSnippet}
+                          </code>
+                        </div>
+
+                      </div>
+                    </LazyReveal>
+                  </div>
+
+                  {/* Center Node Icon Marker on Large Screens */}
+                  <div className="hidden lg:flex lg:col-span-2 lg:order-2 justify-center items-center relative">
+                    <motion.div
+                      whileHover={{ scale: 1.15 }}
+                      className="w-14 h-14 rounded-2xl bg-[#0B101D] border-2 border-[#06B6D4] shadow-[0_0_20px_rgba(6,182,212,0.3)] flex items-center justify-center text-white relative z-10"
+                    >
+                      <Icon className="w-6 h-6 text-[#00F0FF]" />
+                    </motion.div>
+                  </div>
+
+                  {/* Placeholder / Visual Graphic Column on Alternate Side */}
+                  <div
+                    className={`lg:col-span-5 ${
+                      isEven ? 'lg:order-1' : 'lg:order-3'
+                    }`}
+                  >
+                    <LazyReveal direction={isEven ? 'right' : 'left'} delay={idx * 0.1 + 0.1}>
+                      <div className="p-5 rounded-2xl border border-slate-800/80 bg-[#080D1A]/70 backdrop-blur-md">
+                        <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#00FF66]" />
+                            <span>STAGE EXECUTION TELEMETRY</span>
+                          </span>
+                          <span>LATENCY BUDGET: 25%</span>
+                        </div>
+
+                        {/* Progress Bar & Telemetry Matrix */}
+                        <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${(idx + 1) * 25}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="h-full bg-gradient-to-r from-[#06B6D4] to-[#00FF66] rounded-full"
+                          />
+                        </div>
+
+                        <div className="mt-4 grid grid-cols-2 gap-2 font-mono text-[11px]">
+                          <div className="p-2 rounded bg-[#0B101D] border border-slate-800">
+                            <span className="text-slate-500 block text-[10px]">DIAGNOSTIC STATUS</span>
+                            <span className="font-bold text-[#00FF66]">VERIFIED OK</span>
+                          </div>
+                          <div className="p-2 rounded bg-[#0B101D] border border-slate-800">
+                            <span className="text-slate-500 block text-[10px]">PARITY DRIFT</span>
+                            <span className="font-bold text-[#00F0FF]">0.00% DRIFT</span>
+                          </div>
+                        </div>
+                      </div>
+                    </LazyReveal>
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+
+        {/* Bottom Pipeline Summary CTA */}
+        <div className="mt-16 text-center">
+          <LazyReveal direction="up" delay={0.3}>
+            <Link
+              to="/methodology"
+              id="workflow-view-methodology-link"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-mono text-xs font-bold transition-all shadow-lg hover:border-[#06B6D4]"
+            >
+              <span>Inspect Full RFC & Engine Methodology Specification</span>
+              <ArrowRight className="w-4 h-4 text-[#06B6D4]" />
+            </Link>
+          </LazyReveal>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+export default WorkflowSection;

@@ -1,5 +1,1 @@
-import Example  from "@/components/ui/testimonial";
-
-export default function DemoOne() {
-  return <Example />;
-}
+export { default } from '../../../components/ui/demo';
