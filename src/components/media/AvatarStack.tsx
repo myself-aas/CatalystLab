@@ -9,6 +9,7 @@ export interface AvatarItem {
   company: string;
   assetId?: string;
   imageUrl?: string;
+  sources?: string[];
 }
 
 export interface AvatarStackProps {
@@ -20,34 +21,98 @@ export interface AvatarStackProps {
 
 const DEFAULT_TESTIMONIAL_AVATARS: AvatarItem[] = [
   {
-    id: 'elena',
-    name: 'Elena Rostova',
-    role: 'VP Platform Engineering',
-    company: 'Veloce Network',
-    assetId: 'avatar-elena-rostova',
+    id: 'sarah',
+    name: 'Sarah Chen',
+    role: 'VP Infrastructure',
+    company: 'NexusWave',
+    assetId: 'avatar-sarah-chen',
   },
   {
     id: 'marcus',
     name: 'Marcus Vance',
     role: 'Chief Architect',
-    company: 'StrataScale Cloud',
+    company: 'StrataCore Global',
     assetId: 'avatar-marcus-vance',
   },
   {
-    id: 'sarah',
-    name: 'Dr. Sarah Chen',
-    role: 'Head of SecOps',
-    company: 'Apex FinTech',
-    assetId: 'avatar-dr-sarah-chen',
+    id: 'elena',
+    name: 'Elena Rostova',
+    role: 'Head of Edge Engineering',
+    company: 'HyperScale Media',
+    assetId: 'avatar-elena-rostova',
   },
   {
     id: 'david',
-    name: 'David K. Lindqvist',
-    role: 'Principal DevOps Lead',
-    company: 'Nordic Quantum',
-    assetId: 'avatar-david-lindqvist',
+    name: 'David Kim',
+    role: 'Principal SRE',
+    company: 'FinGrid Financial',
+    assetId: 'avatar-david-kim',
   },
 ];
+
+const AvatarSingle: React.FC<{
+  avatar: AvatarItem;
+  sizeClasses: string;
+  isFirst: boolean;
+  onHover: (av: AvatarItem | null) => void;
+}> = ({ avatar, sizeClasses, isFirst, onHover }) => {
+  const asset: MediaAsset | null = avatar.assetId ? getMediaAsset(avatar.assetId) : null;
+  const sources: string[] =
+    avatar.sources && avatar.sources.length > 0
+      ? avatar.sources
+      : avatar.imageUrl
+      ? [avatar.imageUrl, ...(asset?.sources || [])]
+      : asset?.sources && asset.sources.length > 0
+      ? asset.sources
+      : asset?.url
+      ? [asset.url]
+      : [];
+
+  const [sourceIdx, setSourceIdx] = useState(0);
+  const [isDegraded, setIsDegraded] = useState(false);
+
+  const handleError = () => {
+    if (sourceIdx < sources.length - 1) {
+      console.warn(
+        `[media] Avatar source ${sourceIdx} failed for <${avatar.name}>. Trying next fallback source ${sourceIdx + 1}...`
+      );
+      setSourceIdx((prev) => prev + 1);
+    } else {
+      setIsDegraded(true);
+      console.warn(`[media] slot <avatar-${avatar.id}> degraded`);
+    }
+  };
+
+  const currentSrc = sources[sourceIdx] || avatar.imageUrl || asset?.url || '';
+
+  return (
+    <div
+      onMouseEnter={() => onHover(avatar)}
+      onMouseLeave={() => onHover(null)}
+      className={`relative ${isFirst ? 'ml-0' : sizeClasses} transition-transform duration-300 hover:scale-115 hover:z-30 cursor-pointer`}
+    >
+      <div className="w-full h-full rounded-full border-2 border-[#030712] overflow-hidden bg-slate-800 shadow-md">
+        {!isDegraded && currentSrc ? (
+          <img
+            src={currentSrc}
+            alt={`${avatar.name} - ${avatar.role} at ${avatar.company}`}
+            width={96}
+            height={96}
+            loading="lazy"
+            decoding="async"
+            
+            onError={handleError}
+            className="w-full h-full object-cover grayscale-[0.2] contrast-[1.05] hover:grayscale-0 transition-all duration-300"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-cyan-900 to-slate-900 flex items-center justify-center text-[10px] font-bold text-cyan-200">
+            {avatar.name.slice(0, 2).toUpperCase()}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export const AvatarStack: React.FC<AvatarStackProps> = ({
   avatars = DEFAULT_TESTIMONIAL_AVATARS,
@@ -69,32 +134,15 @@ export const AvatarStack: React.FC<AvatarStackProps> = ({
 
   return (
     <div className={`flex items-center relative ${className}`}>
-      {displayed.map((avatar, idx) => {
-        const asset: MediaAsset | null = avatar.assetId ? getMediaAsset(avatar.assetId) : null;
-        const imgUrl = avatar.imageUrl || asset?.url || '';
-
-        return (
-          <div
-            key={avatar.id}
-            onMouseEnter={() => setHoveredAvatar(avatar)}
-            onMouseLeave={() => setHoveredAvatar(null)}
-            className={`relative ${idx === 0 ? 'ml-0' : sizeClasses[size]} transition-transform duration-300 hover:scale-115 hover:z-30 cursor-pointer`}
-          >
-            <div className="w-full h-full rounded-full border-2 border-[#030712] overflow-hidden bg-slate-800 shadow-md">
-              <img
-                src={imgUrl}
-                alt={`${avatar.name} - ${avatar.role} at ${avatar.company}`}
-                width={96}
-                height={96}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover grayscale-[0.2] contrast-[1.05] hover:grayscale-0 transition-all duration-300"
-              />
-            </div>
-          </div>
-        );
-      })}
+      {displayed.map((avatar, idx) => (
+        <AvatarSingle
+          key={avatar.id}
+          avatar={avatar}
+          sizeClasses={sizeClasses[size]}
+          isFirst={idx === 0}
+          onHover={setHoveredAvatar}
+        />
+      ))}
 
       {remainder > 0 && (
         <div

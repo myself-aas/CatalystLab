@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./styles/card-tokens.css";
 
 /* ==========================================================================
    CATALYSTLAB CYBERPUNK TERMINAL & ENTERPRISE DESIGN SYSTEM (PHASE 1)
@@ -406,6 +407,10 @@
     background-color: var(--color-amber-terminal);
   }
 
+  .duotone-neutral {
+    background-color: #64748b;
+  }
+
   .duotone-hero {
     background: linear-gradient(135deg, rgba(6, 182, 212, 0.85) 0%, rgba(3, 7, 18, 0.95) 100%);
   }
@@ -416,10 +421,10 @@
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(3, 7, 18, 0.96) 0%,
-      rgba(3, 7, 18, 0.75) 35%,
-      rgba(3, 7, 18, 0.3) 70%,
-      rgba(3, 7, 18, 0.1) 100%
+      rgba(3, 7, 18, 0.98) 0%,
+      rgba(3, 7, 18, 0.88) 35%,
+      rgba(3, 7, 18, 0.40) 70%,
+      transparent 100%
     );
     pointer-events: none;
     z-index: 3;
@@ -438,7 +443,21 @@
     z-index: 3;
   }
 
-  /* 5. Pointer-Tracked Radial Spotlight Overlay */
+  /* 5. Catalyst Scanline Overlay */
+  .catalyst-scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.35) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 4;
+    opacity: 0.7;
+  }
+
+  /* 6. Pointer-Tracked Radial Spotlight Overlay */
   .catalyst-spotlight {
     position: absolute;
     inset: 0;
@@ -448,7 +467,7 @@
       transparent 75%
     );
     pointer-events: none;
-    z-index: 4;
+    z-index: 5;
     opacity: 0;
     transition: opacity 300ms ease;
   }
@@ -458,7 +477,7 @@
     opacity: 1;
   }
 
-  /* 6. ScanReveal Shimmer Line */
+  /* 7. ScanReveal Shimmer Line */
   .scan-reveal-bar {
     position: absolute;
     left: 0;
@@ -468,6 +487,23 @@
     box-shadow: 0 0 12px #00f0ff, 0 0 24px #06b6d4;
     z-index: 10;
     pointer-events: none;
+  }
+}
+
+/* Reduced Motion Overrides */
+@media (prefers-reduced-motion: reduce) {
+  .catalyst-media-img,
+  .catalyst-duotone-layer,
+  .catalyst-spotlight,
+  .scan-reveal-bar {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .group:hover .catalyst-media-img,
+  .catalyst-media-interactive:hover .catalyst-media-img {
+    transform: none !important;
   }
 }
 

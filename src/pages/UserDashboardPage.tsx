@@ -292,7 +292,7 @@ export const UserDashboardPage: React.FC = () => {
                 <img 
                   src={user.photoURL} 
                   alt={user.displayName || 'User Avatar'} 
-                  referrerPolicy="no-referrer"
+                  
                   className="h-12 w-12 rounded-xl border border-slate-200 object-cover shadow-sm"
                 />
               ) : (

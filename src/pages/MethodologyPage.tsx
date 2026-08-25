@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, ArrowRight, Zap, Clock, ShieldCheck, Lock, Activity, Cpu, Sparkles, Terminal } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { LazyReveal, LazyStaggerContainer, LazyStaggerItem } from '../components/common/LazyAnimate';
+import { ScanRevealFigure } from '../components/media/ScanRevealFigure';
 
 export const MethodologyPage: React.FC = () => {
   return (
@@ -124,6 +125,15 @@ export const MethodologyPage: React.FC = () => {
               </p>
             </div>
 
+          </div>
+
+          <div className="mt-12">
+            <ScanRevealFigure
+              assetId="about-engineering-team"
+              caption="CatalystLab Edge Infrastructure Engineering Team Collaborating"
+              aspectRatio="21/9"
+              className="rounded-2xl shadow-sm"
+            />
           </div>
         </div>
       </section>

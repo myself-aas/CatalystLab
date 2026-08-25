@@ -15,6 +15,8 @@ import {
   Terminal
 } from 'lucide-react';
 import { LazyReveal } from '../common/LazyAnimate';
+import { TelemetrySwatchCard } from '../cards/content/TelemetrySwatchCard';
+import { EnzymeHue } from '../cards/types';
 import { useSubscription } from '../../context/SubscriptionContext';
 
 export const SevenDayTrialSection: React.FC = () => {
@@ -196,29 +198,28 @@ export const SevenDayTrialSection: React.FC = () => {
                   Active Telemetry Swatches
                 </div>
                 <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-                  {engineCards.map((card, idx) => (
-                    <button
-                      key={card.id}
-                      type="button"
-                      onClick={() => setActiveEngineCard(idx)}
-                      style={{ borderColor: activeEngineCard === idx ? card.color : undefined }}
-                      className={`shrink-0 rounded-xl p-3 text-left border transition-all cursor-pointer w-32 font-mono ${
-                        activeEngineCard === idx
-                          ? 'bg-[#0E1526] shadow-[0_0_15px_rgba(0,0,0,0.5)]'
-                          : 'bg-[#0E1526]/60 border-slate-800 hover:border-slate-700 opacity-80 hover:opacity-100'
-                      }`}
-                    >
-                      <div className="text-[9px] uppercase tracking-wider text-slate-400">
-                        {card.badge}
+                  {engineCards.map((card, idx) => {
+                    const hues: EnzymeHue[] = ['vitalzyme', 'edgevmax', 'riskprotease', 'llmkinase', 'ecoholo'];
+                    const cardHue = hues[idx % hues.length];
+                    return (
+                      <div key={card.id} className="shrink-0 w-36">
+                        <TelemetrySwatchCard
+                          id={`swatch-${card.id}`}
+                          title={card.title}
+                          badge={card.badge}
+                          mainMetric={card.metric}
+                          detail={card.detail}
+                          hue={cardHue}
+                          isActive={activeEngineCard === idx}
+                          onClick={() => setActiveEngineCard(idx)}
+                          miniStats={[
+                            { label: 'SLA', value: '99.9%' },
+                            { label: 'PoPs', value: '42' }
+                          ]}
+                        />
                       </div>
-                      <div className="text-sm font-bold text-white mt-1" style={{ color: card.color }}>
-                        {card.metric}
-                      </div>
-                      <div className="text-[10px] text-slate-300 truncate">
-                        {card.title}
-                      </div>
-                    </button>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 

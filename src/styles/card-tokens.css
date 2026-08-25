@@ -1,0 +1,140 @@
+/* ==========================================================================
+   CATALYSTLAB UNIFIED CARD SYSTEM TOKENS (R1–R5 DESIGN DNA)
+   ========================================================================== */
+
+:root {
+  /* --- Structural Geometry & Radius Math --- */
+  --card-radius-outer: 20px;
+  --card-radius-inner: 14px;
+  --card-radius-pill: 9999px;
+  --card-radius-chip: 10px;
+
+  /* --- Per-Enzyme Biochemical Hue Tokens (HSL Values) --- */
+  --hue-vitalzyme: 142 71% 45%;        /* Emerald / Core Health */
+  --hue-riskprotease: 0 84% 60%;       /* Crimson / OWASP SecOps */
+  --hue-llmkinase: 262 83% 58%;        /* Violet / LLMO & Discovery */
+  --hue-edgevmax: 189 94% 43%;         /* Cyan / Edge TTFB & DNS */
+  --hue-ecoholo: 160 84% 39%;          /* Mint Green / Carbon & ESG */
+  --hue-synthshift: 38 92% 50%;        /* Amber / Platform Migration */
+  --hue-gitlygase: 217 91% 60%;        /* Electric Blue / CI/CD DevOps */
+  --hue-alloster: 300 90% 55%;         /* Magenta Fuchsia / AI Search */
+  --hue-neutral: 240 5% 65%;           /* Neutral Slate */
+
+  /* --- Card Shadow & Bloom Variables --- */
+  --card-shadow-ambient: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  --card-bloom-active: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+
+  /* --- High-Contrast Text Scrim Overlays --- */
+  --scrim-immersive: linear-gradient(
+    to top,
+    hsl(240 12% 4% / 0.98) 0%,
+    hsl(240 12% 4% / 0.92) 28%,
+    hsl(240 12% 4% / 0.70) 55%,
+    hsl(240 12% 4% / 0.35) 75%,
+    transparent 100%
+  );
+
+  --scrim-destination: linear-gradient(
+    to top,
+    hsl(240 14% 5% / 0.98) 0%,
+    hsl(240 14% 5% / 0.85) 45%,
+    hsl(240 14% 5% / 0.40) 70%,
+    transparent 100%
+  );
+
+  --scrim-event: linear-gradient(
+    to top,
+    hsl(240 14% 5% / 0.99) 0%,
+    hsl(240 14% 5% / 0.92) 35%,
+    hsl(240 14% 5% / 0.60) 65%,
+    transparent 100%
+  );
+
+  --scrim-listing: linear-gradient(
+    to top,
+    hsl(240 14% 4% / 0.98) 0%,
+    hsl(240 14% 4% / 0.88) 40%,
+    hsl(240 14% 4% / 0.40) 75%,
+    transparent 100%
+  );
+
+  /* Default Spotlight coordinates */
+  --spot-x: 50%;
+  --spot-y: 50%;
+  --spot-opacity: 0;
+}
+
+/* --- Enzyme Token Utilities --- */
+.card-hue-vitalzyme {
+  --card-hue: var(--hue-vitalzyme);
+  --card-accent: hsl(var(--hue-vitalzyme));
+  --card-glow: hsla(var(--hue-vitalzyme) / 0.35);
+}
+
+.card-hue-riskprotease {
+  --card-hue: var(--hue-riskprotease);
+  --card-accent: hsl(var(--hue-riskprotease));
+  --card-glow: hsla(var(--hue-riskprotease) / 0.35);
+}
+
+.card-hue-llmkinase {
+  --card-hue: var(--hue-llmkinase);
+  --card-accent: hsl(var(--hue-llmkinase));
+  --card-glow: hsla(var(--hue-llmkinase) / 0.35);
+}
+
+.card-hue-edgevmax {
+  --card-hue: var(--hue-edgevmax);
+  --card-accent: hsl(var(--hue-edgevmax));
+  --card-glow: hsla(var(--hue-edgevmax) / 0.35);
+}
+
+.card-hue-ecoholo {
+  --card-hue: var(--hue-ecoholo);
+  --card-accent: hsl(var(--hue-ecoholo));
+  --card-glow: hsla(var(--hue-ecoholo) / 0.35);
+}
+
+.card-hue-synthshift {
+  --card-hue: var(--hue-synthshift);
+  --card-accent: hsl(var(--hue-synthshift));
+  --card-glow: hsla(var(--hue-synthshift) / 0.35);
+}
+
+.card-hue-gitlygase {
+  --card-hue: var(--hue-gitlygase);
+  --card-accent: hsl(var(--hue-gitlygase));
+  --card-glow: hsla(var(--hue-gitlygase) / 0.35);
+}
+
+.card-hue-alloster {
+  --card-hue: var(--hue-alloster);
+  --card-accent: hsl(var(--hue-alloster));
+  --card-glow: hsla(var(--hue-alloster) / 0.35);
+}
+
+.card-hue-neutral {
+  --card-hue: var(--hue-neutral);
+  --card-accent: hsl(var(--hue-neutral));
+  --card-glow: rgba(255, 255, 255, 0.12);
+}
+
+/* --- Card Motion & Glow Enhancements --- */
+.card-spotlight-overlay {
+  background: radial-gradient(
+    600px circle at var(--spot-x) var(--spot-y),
+    hsla(var(--card-hue, 240 5% 65%) / 0.14),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.card-surface-ring {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.card-active-lift {
+  transform: translateY(-16px);
+  box-shadow: 0 30px 60px -15px hsla(var(--card-hue, 240 5% 65%) / 0.45), 0 0 0 1px hsla(var(--card-hue, 240 5% 65%) / 0.6);
+}

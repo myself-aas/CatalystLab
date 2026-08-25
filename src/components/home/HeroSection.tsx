@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TerminalInput } from '../ui/TerminalInput';
 import { LazyReveal } from '../common/LazyAnimate';
+import { CinematicVideo } from '../media/CinematicVideo';
 import { CinematicMedia } from '../media/CinematicMedia';
 import { useTelemetryHUDStore } from '../../store/useTelemetryHUDStore';
+import { PresetChip } from '../cards/marketing/PresetChip';
 import {
   Zap,
   ShieldCheck,
@@ -124,11 +126,13 @@ export const HeroSection: React.FC = () => {
       id="hero-section"
       className="relative overflow-hidden bg-gradient-to-b from-[#060911] via-[#080D1A] to-[#0B101D] text-slate-100 py-16 lg:py-24 border-b border-slate-800"
     >
-      {/* Catalyst-Grade Cinematic Media Background */}
-      <CinematicMedia 
-        assetId="hero-datacenter-bg" 
-        mode="ken-burns" 
-        containerClassName="absolute inset-0 opacity-[0.14] pointer-events-none z-0" 
+      {/* Catalyst-Grade Cinematic Video Background (V-HERO with U-SERVER poster) */}
+      <CinematicVideo 
+        assetId="hero-video"
+        containerClassName="absolute inset-0 opacity-[0.15] pointer-events-none z-0"
+        treatment="catalyst-grade-hero"
+        overlayScrim={true}
+        overlayVignette={true}
       />
 
       {/* Background Decorative Tech Grid & Ambient Glows */}
@@ -176,6 +180,22 @@ export const HeroSection: React.FC = () => {
                   enableGlow={true}
                   id="hero-telemetry-terminal-input"
                 />
+
+                {/* Preset Domain Quick Select Chips */}
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="text-[11px] font-mono text-slate-400">Presets:</span>
+                  {['catalystlab.tech', 'stripe.com', 'github.com', 'vercel.com'].map((domain) => (
+                    <PresetChip
+                      key={domain}
+                      domain={domain}
+                      selected={heroUrl === domain}
+                      onSelect={(d) => {
+                        setHeroUrl(d);
+                        handleLaunchAudit(d);
+                      }}
+                    />
+                  ))}
+                </div>
 
                 {/* Sub-Banner Micro Specs */}
                 <div className="mt-4 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">

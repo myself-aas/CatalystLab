@@ -1,4 +1,5 @@
-import { HeroImageCard } from '../common/HeroImageCard';
+import { EngineVectorCard } from '../cards/marketing/EngineVectorCard';
+import { EnzymeHue } from '../cards/types';
 import { StatCounter } from '../ui/StatCounter';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, AnimatePresence } from 'motion/react';
@@ -554,73 +555,43 @@ export const FeaturedAuditMetrics: React.FC = () => {
             onDrag={handleDrag}
             className="flex gap-4 w-max items-stretch pb-2"
           >
-            {filteredMetrics.map((metric) => { const IconComponent = metric.icon; return (
+            {filteredMetrics.map((metric) => {
+              const hueMap: Record<string, EnzymeHue> = {
+                vitalzyme: 'vitalzyme',
+                riskprotease: 'riskprotease',
+                ecoholo: 'ecoholo',
+                llmkinase: 'llmkinase',
+                edgevmax: 'edgevmax',
+                synthshift: 'synthshift',
+                gitlygase: 'gitlygase',
+                alloster: 'alloster',
+              };
+              const activeHue = hueMap[metric.id] || 'edgevmax';
+
+              return (
                 <div
                   key={metric.id}
-                  className="w-[280px] sm:w-[310px] h-[400px] flex-shrink-0 relative"
+                  className="w-[280px] sm:w-[320px] flex-shrink-0 relative select-none"
                 >
-                  <HeroImageCard
-                    imageUrl={metric.bgImageUrl || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600'}
-                    imageAlt={metric.title}
-                    title={<div className="text-xl font-bold leading-tight text-white">{metric.title}</div>}
-                    badge={
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-mono text-[#00F0FF] bg-black/60 backdrop-blur-md px-2 py-0.5 rounded border border-[#06B6D4]/30 uppercase tracking-wider font-bold shadow-sm">
-                          {metric.phase}
-                        </span>
-                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-black/60 backdrop-blur-md border border-white/20 shadow-sm text-emerald-400">
-                          <StatCounter value={metric.score} />
-                        </span>
-                      </div>
-                    }
-                    topRight={
-                      <div className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-[#06B6D4]/30 flex items-center justify-center text-[#00F0FF] shadow-sm shrink-0">
-                        <IconComponent className="h-4 w-4" />
-                      </div>
-                    }
-                    description={
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="text-2xl font-black font-mono text-white tracking-tight metric-tabular">
-                            <StatCounter value={metric.highlightValue} />
-                          </div>
-                          <div className="text-[11px] font-mono text-slate-300 mt-0.5">
-                            {metric.highlightLabel}
-                          </div>
-                        </div>
-                        <span className="text-[10px] font-mono font-semibold px-2 py-1 rounded bg-black/60 backdrop-blur-md border border-white/20 text-[#00FF66] shadow-sm">
-                          {metric.badge}
-                        </span>
-                      </div>
-                    }
-                    action={
-                      <div className="flex items-center justify-between w-full">
-                        <button
-                          type="button"
-                          onClick={() => setInspectedMetric(metric)}
-                          className="text-xs font-mono text-slate-300 hover:text-[#00F0FF] cursor-pointer font-bold transition-colors"
-                        >
-                          Inspect Vector
-                        </button>
-                        <Link
-                          to={metric.route}
-                          className="inline-flex items-center gap-1.5 bg-[#06B6D4] text-slate-950 hover:bg-[#00F0FF] py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all shadow-[0_0_12px_rgba(6,182,212,0.3)]"
-                        >
-                          <span>Run Audit</span>
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        </Link>
-                      </div>
-                    }
-                    footer={
-                      <div className="text-[11px] font-mono text-slate-400">
-                        {metric.engineName}
-                      </div>
-                    }
-                    aspectRatio="h-full w-full"
-                    overlayStyle="glass"
+                  <EngineVectorCard
+                    id={metric.id}
+                    hue={activeHue}
+                    name={metric.engineName}
+                    category={metric.phase}
+                    title={metric.title}
+                    description={metric.description}
+                    score={metric.score}
+                    stats={[
+                      { label: metric.highlightLabel, value: metric.highlightValue, trend: 'up' },
+                      { label: 'Status', value: metric.badge },
+                    ]}
+                    actionLabel="Inspect Vector"
+                    actionUrl={metric.route}
+                    onInspect={() => setInspectedMetric(metric)}
                   />
                 </div>
-); })}
+              );
+            })}
           </motion.div>
 
         </div>

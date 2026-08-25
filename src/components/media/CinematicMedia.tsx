@@ -5,9 +5,10 @@ import { getMediaAsset, MediaAsset } from '../../lib/media/registry';
 
 export interface CinematicMediaProps extends Omit<UnsplashImageProps, 'src' | 'alt'> {
   assetId: string;
+  sources?: string[];
   mode?: 'ken-burns' | 'parallax-band' | 'static' | 'spotlight';
-  speed?: number; // parallax intensity or ken-burns duration
-  videoSlot?: React.ReactNode; // Optional CC0 video slot with identical treatment
+  speed?: number; // parallax intensity or ken-burns duration in seconds
+  videoSlot?: React.ReactNode;
   children?: React.ReactNode;
   showSpotlight?: boolean;
   scanlineOverlay?: boolean;
@@ -17,6 +18,7 @@ export interface CinematicMediaProps extends Omit<UnsplashImageProps, 'src' | 'a
 
 export const CinematicMedia: React.FC<CinematicMediaProps> = ({
   assetId,
+  sources,
   mode = 'ken-burns',
   speed = 22,
   videoSlot,
@@ -77,6 +79,7 @@ export const CinematicMedia: React.FC<CinematicMediaProps> = ({
           >
             <UnsplashImage
               assetId={assetId}
+              sources={sources}
               treatment={treatment || asset.treatment}
               priority={priority}
               isDecorative={isDecorative}
@@ -102,6 +105,7 @@ export const CinematicMedia: React.FC<CinematicMediaProps> = ({
           >
             <UnsplashImage
               assetId={assetId}
+              sources={sources}
               treatment={treatment || asset.treatment}
               priority={priority}
               isDecorative={isDecorative}
@@ -115,6 +119,7 @@ export const CinematicMedia: React.FC<CinematicMediaProps> = ({
         ) : (
           <UnsplashImage
             assetId={assetId}
+            sources={sources}
             treatment={treatment || asset.treatment}
             priority={priority}
             isDecorative={isDecorative}
@@ -134,14 +139,13 @@ export const CinematicMedia: React.FC<CinematicMediaProps> = ({
       {overlayVignette && <div aria-hidden="true" className="catalyst-vignette" />}
 
       {/* 4. Pointer-Tracked Radial Spotlight */}
-      {showSpotlight && <div aria-hidden="true" className="catalyst-spotlight" />}
+      {showSpotlight && !prefersReducedMotion && (
+        <div aria-hidden="true" className="catalyst-spotlight" />
+      )}
 
       {/* 5. Optional Scanline Band Texture */}
       {scanlineOverlay && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none opacity-25 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.4)_50%)] bg-[length:100%_4px] z-10"
-        />
+        <div aria-hidden="true" className="catalyst-scanlines" />
       )}
 
       {/* 6. Foreground Content Slot */}

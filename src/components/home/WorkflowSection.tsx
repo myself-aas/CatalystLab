@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { LazyReveal } from '../common/LazyAnimate';
+import { WorkflowStepCard } from '../cards/marketing/WorkflowStepCard';
+import { EnzymeHue } from '../cards/types';
 import {
   Network,
   Cpu,
@@ -172,58 +174,21 @@ export const WorkflowSection: React.FC = () => {
                     }`}
                   >
                     <LazyReveal direction={isEven ? 'left' : 'right'} delay={idx * 0.1}>
-                      <div className="p-6 rounded-2xl border border-slate-800 bg-[#0B101D]/90 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:border-slate-700 transition-all group">
-                        
-                        {/* Step Micro Header */}
-                        <div className="flex items-center justify-between gap-3 pb-3 mb-4 border-b border-slate-800/80">
-                          <div className="flex items-center gap-2">
-                            <span
-                              style={{ color: step.color, borderColor: `${step.color}40`, backgroundColor: `${step.color}15` }}
-                              className="px-2 py-0.5 rounded text-[11px] font-mono font-bold border"
-                            >
-                              STEP {step.number}
-                            </span>
-                            <span className="text-[10px] font-mono text-slate-500">
-                              {step.phaseCode}
-                            </span>
-                          </div>
-
-                          <span className="text-xs font-mono font-bold text-[#00FF66] bg-[#10B981]/10 border border-[#10B981]/30 px-2 py-0.5 rounded">
-                            {step.executionTime}
-                          </span>
-                        </div>
-
-                        {/* Title & Subtitle */}
-                        <h3 className="text-xl font-bold text-white group-hover:text-[#00F0FF] transition-colors">
-                          {step.title}
-                        </h3>
-                        <p className="text-xs font-mono text-[#06B6D4] mt-0.5">
-                          {step.subtitle}
-                        </p>
-
-                        <p className="text-sm text-slate-300 mt-3 leading-relaxed">
-                          {step.description}
-                        </p>
-
-                        {/* 4 Vector Bullets */}
-                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 pt-3 border-t border-slate-800/60">
-                          {step.vectors.map((vec, vIdx) => (
-                            <div key={vIdx} className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
-                              <CheckCircle2 className="w-3 h-3 text-[#00FF66] shrink-0" />
-                              <span className="truncate">{vec}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Tech Snippet Console Preview */}
-                        <div className="mt-4 p-2.5 rounded-lg bg-[#05080F] border border-slate-800/80 font-mono text-[11px] text-slate-300 flex items-center gap-2 overflow-x-auto">
-                          <Terminal className="w-3.5 h-3.5 text-[#06B6D4] shrink-0" />
-                          <code className="text-[11px] whitespace-nowrap text-slate-300">
-                            {step.techSnippet}
-                          </code>
-                        </div>
-
-                      </div>
+                      {(() => {
+                        const stepHues: EnzymeHue[] = ['edgevmax', 'vitalzyme', 'llmkinase', 'gitlygase'];
+                        const activeHue = stepHues[idx] || 'edgevmax';
+                        return (
+                          <WorkflowStepCard
+                            stepNumber={step.number}
+                            duration={step.executionTime}
+                            title={step.title}
+                            description={step.description}
+                            commandSnippet={step.techSnippet}
+                            status="COMPLETED"
+                            hue={activeHue}
+                          />
+                        );
+                      })()}
                     </LazyReveal>
                   </div>
 

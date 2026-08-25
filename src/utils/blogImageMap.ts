@@ -1,49 +1,58 @@
 import type { BlogPost } from '../types';
+import { 
+  U_MATRIX, 
+  U_CODE, 
+  U_NEON, 
+  U_SERVER, 
+  U_NET, 
+  U_CYBER, 
+  U_GLOBE, 
+  U_CIRCUIT 
+} from '../lib/media/registry';
 
 /**
- * Curated Unsplash Image Library
- * All assets are high-resolution, copyright-free photography hosted on Unsplash CDN.
+ * Curated Unsplash Image Library mapped to Verified Media Manifest
  */
 export const UNSPLASH_ASSET_LIBRARY = {
   // 1. AI & LLMO / Generative Search / RAG
-  ai_neural: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200',
-  ai_abstract_wave: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200',
-  ai_intelligence: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=1200',
+  ai_neural: U_MATRIX,
+  ai_abstract_wave: U_NEON,
+  ai_intelligence: U_CODE,
 
   // 2. Core Performance / DOM Depth / Core Web Vitals
-  dom_performance: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
-  cpu_hardware: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200',
-  speed_rendering: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
+  dom_performance: U_SERVER,
+  cpu_hardware: U_CIRCUIT,
+  speed_rendering: U_NET,
 
   // 3. Edge Latency / Anycast / DNS / QUIC
-  edge_network: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
-  fiber_optics: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1200',
-  global_routes: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1200',
+  edge_network: U_GLOBE,
+  fiber_optics: U_NET,
+  global_routes: U_MATRIX,
 
   // 4. SecOps / OWASP / CSP Nonce / Compliance
-  secops_shield: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200',
-  security_lock: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
-  cyber_matrix: 'https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&q=80&w=1200',
+  secops_shield: U_CYBER,
+  security_lock: U_CYBER,
+  cyber_matrix: U_MATRIX,
 
   // 5. Git Repositories / CI/CD Pipelines / Static Analysis
-  git_branches: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200',
-  code_review: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=1200',
-  devops_pipeline: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1200',
+  git_branches: U_CODE,
+  code_review: U_CODE,
+  devops_pipeline: U_SERVER,
 
   // 6. Sustainability / Green Web / SWD Carbon
-  green_datacenter: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=1200',
-  eco_tech: 'https://images.unsplash.com/photo-1508873696983-2df5703bc225?auto=format&fit=crop&q=80&w=1200',
-  clean_energy: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&q=80&w=1200',
+  green_datacenter: U_SERVER,
+  eco_tech: U_GLOBE,
+  clean_energy: U_NET,
 
   // 7. System Architecture / Migration / 301 Canonical
-  architecture_blueprint: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1200',
-  cloud_servers: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200',
-  datacenter_grid: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=1200',
+  architecture_blueprint: U_CIRCUIT,
+  cloud_servers: U_SERVER,
+  datacenter_grid: U_NET,
 
   // 8. General Telemetry / Field Notes
-  telemetry_dashboard: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
-  engineering_command: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1200',
-  deep_analytics: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=1200'
+  telemetry_dashboard: U_CODE,
+  engineering_command: U_CYBER,
+  deep_analytics: U_MATRIX
 };
 
 /**

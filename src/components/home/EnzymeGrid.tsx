@@ -5,6 +5,7 @@ import { TelemetryCard, type SubVectorItem } from '../ui/TelemetryCard';
 import { CodeBlock } from '../ui/CodeBlock';
 import { TiltCard } from '../media/TiltCard';
 import { CinematicMedia } from '../media/CinematicMedia';
+import { getEnzymeMediaAsset } from '../../lib/media/registry';
 import {
   Activity,
   Cpu,
@@ -554,7 +555,7 @@ export const EnzymeGrid: React.FC = () => {
                 {/* Catalyst-Grade Tilt Holo Media Visual */}
                 <TiltCard className="rounded-xl overflow-hidden border border-slate-800 h-36 relative">
                   <CinematicMedia 
-                    assetId={activeEnzyme.id === 'ai_ready' ? 'enzyme-fiber-optics' : activeEnzyme.id === 'compliance' ? 'enzyme-server-racks' : activeEnzyme.id === 'eco' ? 'enzyme-lab-optics' : 'enzyme-silicon-macro'} 
+                    assetId={getEnzymeMediaAsset(activeEnzyme.id).id} 
                     mode="ken-burns" 
                     containerClassName="absolute inset-0"
                   />

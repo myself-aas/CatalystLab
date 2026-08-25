@@ -215,7 +215,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                   src={meta.image} 
                   alt={meta.name}
                   className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
+                  
                 />
               </div>
             ) : (

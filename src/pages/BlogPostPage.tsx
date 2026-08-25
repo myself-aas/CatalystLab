@@ -144,8 +144,8 @@ export const BlogPostPage: React.FC = () => {
               {/* Hero / Cover Image Banner with ScanReveal & Catalyst Treatment */}
               <div className="mb-6">
                 <ScanRevealFigure
-                  imageUrl={getBlogCoverImage(post)}
-                  imageAlt={post.title}
+                  src={getBlogCoverImage(post)}
+                  alt={post.title}
                   caption={`Figure 1.0 • Technical architecture briefing for ${post.title}`}
                   className="rounded-xl overflow-hidden shadow-sm border border-slate-200"
                 />
@@ -155,12 +155,13 @@ export const BlogPostPage: React.FC = () => {
               <div className="flex items-center justify-between border-y border-slate-200 py-3 mb-6">
                 <div className="flex items-center gap-2.5">
                   {post.authorAvatar ? (
-                    <img
-                      src={post.authorAvatar}
-                      alt={post.authorName || 'Author'}
-                      className="h-8 w-8 rounded-lg object-cover border border-slate-300 shadow-xs"
-                      referrerPolicy="no-referrer"
-                    />
+                    <div className="h-9 w-9 rounded-full overflow-hidden border border-slate-200 flex-shrink-0">
+                      <UnsplashImage
+                        src={post.authorAvatar}
+                        alt={post.authorName || 'Author'}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
                   ) : (
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white shadow-xs border border-slate-700">
                       {(post.authorName || 'C')[0]}

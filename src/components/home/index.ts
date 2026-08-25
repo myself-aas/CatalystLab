@@ -11,3 +11,4 @@ export * from './Testimonials';
 export * from './LatestBlogsSection';
 export * from './FaqAccordion';
 export * from './FinalCTA';
+export * from './CatalystCarouselSection';

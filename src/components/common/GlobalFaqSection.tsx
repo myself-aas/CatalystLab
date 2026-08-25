@@ -22,6 +22,8 @@ import {
   BookOpen
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FAQCategoryCard } from '../cards/content/FAQCategoryCard';
+import { EnzymeHue } from '../cards/types';
 
 export interface FaqItem {
   question: string;
@@ -338,39 +340,23 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                     Topic Categories ({resolvedCategories.length})
                   </span>
                 </div>
-                {resolvedCategories.map((cat) => {
+                {resolvedCategories.map((cat, idx) => {
                   const isActive = activeCategoryId === cat.id;
+                  const hues: EnzymeHue[] = ['edgevmax', 'vitalzyme', 'riskprotease', 'llmkinase', 'ecoholo', 'synthshift'];
+                  const catHue = hues[idx % hues.length];
+
                   return (
-                    <button
+                    <FAQCategoryCard
                       key={cat.id}
-                      onClick={() => handleSelectCategory(cat.id)}
-                      className={`group w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-left transition-all cursor-pointer font-mono ${
-                        isActive
-                          ? 'bg-[#0B101D] text-[#00F0FF] border border-[#06B6D4]/40 shadow-[0_0_15px_rgba(6,182,212,0.15)] font-bold'
-                          : 'bg-[#0B101D]/60 text-slate-400 hover:bg-[#0B101D] hover:text-white border border-slate-800'
-                      }`}
-                      role="tab"
-                      aria-selected={isActive}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0 pr-2">
-                        <div className={`flex items-center justify-center w-7 h-7 rounded-lg transition-colors ${
-                          isActive 
-                            ? 'bg-[#06B6D4]/20 text-[#00F0FF] border border-[#06B6D4]/40' 
-                            : 'bg-[#0E1526] border border-slate-800 text-slate-400 group-hover:text-white'
-                        }`}>
-                          {getCategoryIcon(cat.iconName || cat.id)}
-                        </div>
-                        <span className="text-xs font-bold truncate">
-                          {cat.label}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1 shrink-0">
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#0E1526] text-slate-400 font-bold border border-slate-800">
-                          {cat.items.length}
-                        </span>
-                        <ChevronRight className="h-3.5 w-3.5 text-slate-500" />
-                      </div>
-                    </button>
+                      id={cat.id}
+                      label={cat.label}
+                      description={cat.description}
+                      icon={getCategoryIcon(cat.iconName || cat.id)}
+                      itemCount={cat.items.length}
+                      isActive={isActive}
+                      onSelect={(id) => handleSelectCategory(id)}
+                      hue={catHue}
+                    />
                   );
                 })}
 

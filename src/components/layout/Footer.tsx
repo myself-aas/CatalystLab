@@ -230,7 +230,7 @@ export const Footer: React.FC = () => {
               &copy; 2026 CatalystLab. Enterprise Telemetry &amp; Automated Web Quality Intelligence.
             </p>
             <span className="text-[11px] font-mono text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
-              Imagery via Unsplash (CC0)
+              Imagery via Unsplash &amp; Pexels
             </span>
             <SyncStatusBadge />
           </div>

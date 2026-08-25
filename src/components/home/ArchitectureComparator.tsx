@@ -16,7 +16,9 @@ import {
   Layers as LayersIcon
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { BenchmarkCard, BenchmarkVector } from '../ui/BenchmarkCard';
+import { BenchmarkCard as InteractiveBenchmarkCard, BenchmarkVector } from '../ui/BenchmarkCard';
+import { BenchmarkCard as R5BenchmarkCard } from '../cards/marketing/BenchmarkCard';
+import { EnzymeHue } from '../cards/types';
 
 export const ArchitectureComparator: React.FC = () => {
   const [viewMode, setViewMode] = useState<'table' | 'card'>('table');
@@ -220,8 +222,29 @@ export const ArchitectureComparator: React.FC = () => {
         {/* Mobile / Card View */}
         <div className={viewMode === 'card' ? 'block' : 'lg:hidden'}>
           <LazyReveal direction="up" delay={0.1}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto mb-8">
+              {comparisonItems.map((item, idx) => {
+                const hues: EnzymeHue[] = ['vitalzyme', 'riskprotease', 'llmkinase', 'ecoholo', 'synthshift', 'gitlygase'];
+                return (
+                  <R5BenchmarkCard
+                    key={idx}
+                    category="PARITY BENCHMARK"
+                    engineName={item.dimension}
+                    description={item.description}
+                    legacyTitle="Legacy Monolithic"
+                    legacyValue={item.legacy.split(',')[0]}
+                    legacyLabel="Legacy Baseline"
+                    catalystTitle="CatalystLab"
+                    catalystValue={item.catalyst.split('(')[0]}
+                    catalystLabel="Synchronous Edge"
+                    deltaImprovement={item.benefit}
+                    hue={hues[idx] || 'edgevmax'}
+                  />
+                );
+              })}
+            </div>
             <div className="max-w-3xl mx-auto">
-              <BenchmarkCard
+              <InteractiveBenchmarkCard
                 targetDomain="Your Target Architecture (CatalystLab Stack)"
                 targetScore={96}
                 benchmarkDomain="Legacy Unmonitored Architecture"

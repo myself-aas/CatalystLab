@@ -318,12 +318,12 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 className={`w-full h-full transition-all duration-500 ${
                   fitMode === 'contain' ? 'object-contain bg-black' : 'object-cover'
                 }`}
-                referrerPolicy="no-referrer"
+                
               />
 
               {/* Optional Contrast Dark Overlay */}
               {overlayDarkness === 'subtle' && (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
               )}
               {overlayDarkness === 'strong' && (
                 <div className="absolute inset-0 bg-black/60 pointer-events-none" />
@@ -429,7 +429,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 }`}
                 title={preset.title}
               >
-                <img src={preset.url} alt={preset.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                <img src={preset.url} alt={preset.title} className="w-full h-full object-cover"  />
                 {imageUrl === preset.url && (
                   <div className="absolute inset-0 bg-cyan-950/60 flex items-center justify-center">
                     <Check className="h-3.5 w-3.5 text-amber-600 stroke-[3]" />
@@ -478,9 +478,9 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 src={effectiveUrl}
                 alt={title}
                 className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
+                
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 sm:p-10 flex flex-col justify-between">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 sm:p-10 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <span className="rounded-lg bg-black text-white px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider">
                     {category}

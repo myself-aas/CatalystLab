@@ -5,6 +5,7 @@ import { getMediaAsset, MediaAsset } from '../../lib/media/registry';
 
 export interface ScanRevealFigureProps extends Partial<UnsplashImageProps> {
   assetId?: string;
+  sources?: string[];
   caption?: string;
   duration?: number;
   laserColor?: string;
@@ -14,6 +15,7 @@ export interface ScanRevealFigureProps extends Partial<UnsplashImageProps> {
 
 export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
   assetId,
+  sources,
   caption,
   duration = 0.9,
   laserColor = '#00F0FF',
@@ -70,6 +72,7 @@ export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
         ) : assetId ? (
           <UnsplashImage
             assetId={assetId}
+            sources={sources}
             treatment={finalTreatment}
             overlayScrim
             overlayVignette
@@ -80,7 +83,7 @@ export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
         ) : null}
 
         {/* Pointer Spotlight on Hover */}
-        <div aria-hidden="true" className="catalyst-spotlight" />
+        {!prefersReducedMotion && <div aria-hidden="true" className="catalyst-spotlight" />}
       </motion.div>
 
       {/* 2. Optional Caption */}

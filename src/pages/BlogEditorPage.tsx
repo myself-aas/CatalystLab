@@ -987,7 +987,7 @@ export const BlogEditorPage: React.FC = () => {
                       src={getBlogCoverImage(post as BlogPost)}
                       alt={post.title || 'Article Cover'}
                       className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
+                      
                     />
                   </div>
                 )}
@@ -999,7 +999,7 @@ export const BlogEditorPage: React.FC = () => {
                       src={post.authorAvatar}
                       alt={post.authorName || 'Author'}
                       className="h-10 w-10 rounded-full object-cover border border-slate-200 shadow-xs"
-                      referrerPolicy="no-referrer"
+                      
                     />
                   ) : (
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-800 shadow-xs">

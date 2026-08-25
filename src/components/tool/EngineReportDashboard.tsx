@@ -392,7 +392,7 @@ print(report['output'])`
                     src={meta.image} 
                     alt={meta.name}
                     className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
+                    
                   />
                   <div className="absolute inset-0 bg-[#0b192c]/10 ring-1 ring-inset ring-white/10 rounded-2xl mix-blend-overlay"></div>
                 </div>

@@ -26,6 +26,8 @@ import { SEOHead } from '../components/common/SEOHead';
 import { ParallaxSection } from '../components/common/ParallaxSection';
 import { LatestBlogsSection } from '../components/home/LatestBlogsSection';
 import { InteractiveTelemetrySandbox } from '../components/blog/InteractiveTelemetrySandbox';
+import { BlogCard } from '../components/cards/content/BlogCard';
+import { EnzymeHue } from '../components/cards/types';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 
@@ -344,134 +346,35 @@ export const BlogsPage: React.FC = () => {
 
         {/* Articles Grid (3 Columns) */}
         {filteredAndSortedPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredAndSortedPosts.map((post) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredAndSortedPosts.map((post, idx) => {
               const isBookmarked = bookmarkedIds.has(post.id || post.slug);
+              const hues: EnzymeHue[] = ['vitalzyme', 'edgevmax', 'riskprotease', 'llmkinase', 'ecoholo', 'synthshift', 'gitlygase', 'alloster'];
+              const cardHue = hues[idx % hues.length];
+
               return (
-                <article
+                <BlogCard
                   key={post.slug || post.id}
-                  className="group relative rounded-2xl border border-slate-800 bg-[#080D1A] p-4 flex flex-col justify-between transition-all duration-300 hover:border-[#06B6D4]/50 hover:shadow-2xl"
-                >
-                  <div>
-                    {/* Thumbnail Image */}
-                    <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-[#060912] mb-3 border border-slate-800">
-                      <img 
-                        src={getBlogCoverImage(post)} 
-                        alt={post.title}
-                        className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#080D1A] via-transparent to-transparent opacity-90" />
-                      
-                      {/* Biochemical Tag Pill */}
-                      <div className="absolute top-2.5 left-2.5">
-                        <span className="rounded-md bg-[#060912]/90 border border-[#06B6D4]/40 px-2.5 py-0.5 text-[10px] font-bold text-[#00F0FF] shadow-sm">
-                          [{post.category || 'Telemetry'}]
-                        </span>
-                      </div>
-
-                      {/* Share & Bookmark overlay buttons */}
-                      <div className="absolute top-2.5 right-2.5 flex items-center gap-1">
-                        <button
-                          onClick={(e) => handleShare(post.slug || post.id || '', e)}
-                          title="Copy Link"
-                          className="h-6 w-6 rounded-lg bg-[#060912]/80 hover:bg-[#060912] border border-slate-800 flex items-center justify-center text-slate-300 transition-all cursor-pointer"
-                        >
-                          {copiedSlug === (post.slug || post.id) ? (
-                            <Check className="h-3 w-3 text-[#00FF66]" />
-                          ) : (
-                            <Share2 className="h-3 w-3 text-slate-400" />
-                          )}
-                        </button>
-                        <button
-                          onClick={(e) => toggleBookmark(post.id || post.slug, e)}
-                          title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="h-6 w-6 rounded-lg bg-[#060912]/80 hover:bg-[#060912] border border-slate-800 flex items-center justify-center text-slate-300 transition-all cursor-pointer"
-                        >
-                          {isBookmarked ? (
-                            <BookmarkCheck className="h-3 w-3 text-[#00F0FF] fill-[#00F0FF]" />
-                          ) : (
-                            <Bookmark className="h-3 w-3 text-slate-400" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Metadata line */}
-                    <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
-                      <span className="flex items-center gap-1 text-[10px]">
-                        <Calendar className="h-2.5 w-2.5 text-[#00F0FF]" />
-                        {formatDate(post.createdAt)}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1 text-[10px]">
-                        <Clock className="h-2.5 w-2.5 text-[#00F0FF]" />
-                        {getArticleReadingTime(post)}
-                      </span>
-                      {post.views && (
-                        <>
-                          <span>•</span>
-                          <span className="text-[10px] text-slate-400">{post.views.toLocaleString()} views</span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Title */}
-                    <Link to={`/blog/${post.slug || post.id}`}>
-                      <h3 className="text-sm font-bold text-white group-hover:text-[#00F0FF] transition-colors leading-snug line-clamp-2 font-sans">
-                        {post.title}
-                      </h3>
-                    </Link>
-
-                    {/* Excerpt */}
-                    <p className="mt-1.5 text-xs text-slate-400 leading-relaxed line-clamp-2 font-sans">
-                      {post.excerpt || 'Read the comprehensive breakdown covering real telemetry vectors, implementation guides, and performance benchmarks.'}
-                    </p>
-
-                    {/* Tags Pills */}
-                    {post.tags && post.tags.length > 0 && (
-                      <div className="mt-2.5 flex flex-wrap gap-1">
-                        {post.tags.slice(0, 3).map((tag, idx) => (
-                          <span 
-                            key={idx}
-                            className="rounded bg-[#060912] border border-slate-800 px-1.5 py-0.5 text-[9px] font-semibold text-slate-400"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Card Bottom CTA */}
-                  <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      {post.authorAvatar ? (
-                        <img
-                          src={post.authorAvatar}
-                          alt={post.authorName || 'Author'}
-                          className="h-5 w-5 rounded-full object-cover border border-slate-700"
-                          referrerPolicy="no-referrer"
-                        />
-                      ) : (
-                        <div className="h-5 w-5 rounded-full bg-[#06B6D4] text-slate-950 font-bold text-[9px] flex items-center justify-center">
-                          {post.authorName ? post.authorName.charAt(0) : 'C'}
-                        </div>
-                      )}
-                      <span className="text-xs text-slate-400 font-medium">
-                        {post.authorName || 'Catalyst Team'}
-                      </span>
-                    </div>
-
-                    <Link
-                      to={`/blog/${post.slug || post.id}`}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-[#00F0FF] hover:underline transition-all"
-                    >
-                      <span>Read Specs</span>
-                      <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  </div>
-                </article>
+                  id={post.id || post.slug}
+                  slug={post.slug || post.id}
+                  title={post.title}
+                  excerpt={post.excerpt || 'Read the comprehensive breakdown covering real telemetry vectors, implementation guides, and performance benchmarks.'}
+                  category={post.category || 'Telemetry'}
+                  readTime={getArticleReadingTime(post)}
+                  publishedAt={formatDate(post.createdAt)}
+                  author={{
+                    name: post.authorName || 'Catalyst Team',
+                    role: 'Principal Engineer',
+                    avatarUrl: post.authorAvatar,
+                  }}
+                  imageUrl={getBlogCoverImage(post)}
+                  assetId="engine-neural-hologram"
+                  hue={cardHue}
+                  isBookmarked={isBookmarked}
+                  onBookmarkToggle={(s) => toggleBookmark(post.id || s, {} as React.MouseEvent)}
+                  onShare={(s) => handleShare(s, {} as React.MouseEvent)}
+                  className="h-full flex flex-col justify-between"
+                />
               );
             })}
           </div>

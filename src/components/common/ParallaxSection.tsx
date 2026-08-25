@@ -48,7 +48,7 @@ export const ParallaxSection: React.FC<ParallaxSectionProps> = ({
             src={bgImage}
             alt="Parallax background"
             className="w-full h-full object-cover scale-110"
-            referrerPolicy="no-referrer"
+            
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300" />

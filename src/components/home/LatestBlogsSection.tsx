@@ -1,4 +1,5 @@
-import { HeroImageCard } from "../common/HeroImageCard";
+import { BlogCard } from "../cards/content/BlogCard";
+import { EnzymeHue } from "../cards/types";
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -287,99 +288,27 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
           
           {/* Hero Card */}
           {heroPost && (
-            <div className="lg:col-span-5 h-full min-h-[450px]">
-              <HeroImageCard
-                imageUrl={getBlogCoverImage(heroPost)}
-                imageAlt={heroPost.title}
+            <div className="lg:col-span-5 h-full">
+              <BlogCard
+                id={heroPost.id || heroPost.slug}
+                slug={heroPost.slug || heroPost.id}
                 title={heroPost.title}
-                subtitle={
-                  <div className="flex items-center gap-2 text-xs font-mono mt-2 mb-2">
-                    <span className="flex items-center gap-1 text-slate-300">
-                      <Calendar className="h-3.5 w-3.5 text-[#00F0FF]" />
-                      {formatDate(heroPost.createdAt)}
-                    </span>
-                    <span className="text-white/40">•</span>
-                    <span className="flex items-center gap-1 text-slate-300">
-                      <Clock className="h-3.5 w-3.5 text-[#00F0FF]" />
-                      {getArticleReadingTime(heroPost)}
-                    </span>
-                  </div>
-                }
-                description={heroPost.excerpt || 'Explore deep-dive telemetry diagnostics, modern SSR hydration patterns, and benchmark data from production engines.'}
-                badge={
-                  <div className="flex items-center gap-1.5">
-                    <span className="rounded bg-black/60 border border-white/20 px-2 py-0.5 text-[10px] font-mono font-bold text-white backdrop-blur-md">
-                      {heroPost.category || 'Trending'}
-                    </span>
-                    <span className="rounded bg-[#06B6D4] text-slate-950 px-2 py-0.5 text-[10px] font-mono font-extrabold uppercase tracking-wider shadow-sm">
-                      Featured
-                    </span>
-                  </div>
-                }
-                topRight={
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleShare(heroPost.slug || heroPost.id || '', e);
-                      }}
-                      title="Share Article Link"
-                      className="h-8 w-8 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
-                    >
-                      {copiedSlug === (heroPost.slug || heroPost.id) ? (
-                        <Check className="h-4 w-4 text-emerald-400" />
-                      ) : (
-                        <Share2 className="h-4 w-4 text-white/90" />
-                      )}
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleBookmark(heroPost.id || heroPost.slug, e);
-                      }}
-                      title={bookmarkedIds.has(heroPost.id || heroPost.slug) ? "Remove Bookmark" : "Save Article"}
-                      className="h-8 w-8 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
-                    >
-                      {bookmarkedIds.has(heroPost.id || heroPost.slug) ? (
-                        <BookmarkCheck className="h-4 w-4 text-[#00FF66] fill-[#00FF66]" />
-                      ) : (
-                        <Bookmark className="h-4 w-4 text-white/90" />
-                      )}
-                    </button>
-                  </div>
-                }
-                action={
-                  <Link
-                    to={`/blog/${heroPost.slug || heroPost.id}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#06B6D4] hover:bg-[#00F0FF] px-4 py-2.5 text-sm font-bold text-slate-950 transition-colors shadow-sm"
-                  >
-                    <span>Read Article</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                }
-                footer={
-                  <div className="flex items-center gap-2.5">
-                    {heroPost.authorAvatar ? (
-                      <img
-                        src={heroPost.authorAvatar}
-                        alt={heroPost.authorName || 'Author'}
-                        className="h-8 w-8 rounded-full object-cover border border-white/20"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <div className="h-8 w-8 rounded-full bg-white/20 border border-white/20 flex items-center justify-center text-white font-mono font-bold text-xs">
-                        {heroPost.authorName ? heroPost.authorName.charAt(0) : 'C'}
-                      </div>
-                    )}
-                    <div className="text-xs font-mono text-white/90">
-                      <div className="font-bold">{heroPost.authorName || 'CatalystLab Telemetry'}</div>
-                      <div className="text-[10px] text-white/60">Principal Engineer</div>
-                    </div>
-                  </div>
-                }
-                aspectRatio="h-full w-full"
-                overlayStyle="solid" bottomGradientClasses="from-slate-900 via-slate-900/90"
+                excerpt={heroPost.excerpt || 'Explore deep-dive telemetry diagnostics, modern SSR hydration patterns, and benchmark data from production engines.'}
+                category={heroPost.category || 'Featured'}
+                readTime={getArticleReadingTime(heroPost)}
+                publishedAt={formatDate(heroPost.createdAt)}
+                author={{
+                  name: heroPost.authorName || 'CatalystLab Telemetry',
+                  role: 'Principal Engineer',
+                  avatarUrl: heroPost.authorAvatar,
+                }}
+                imageUrl={getBlogCoverImage(heroPost)}
+                assetId="engine-neural-hologram"
+                hue="vitalzyme"
+                isBookmarked={bookmarkedIds.has(heroPost.id || heroPost.slug)}
+                onBookmarkToggle={(s) => toggleBookmark(heroPost.id || s, {} as React.MouseEvent)}
+                onShare={(s) => handleShare(s, {} as React.MouseEvent)}
+                className="h-full flex flex-col justify-between"
               />
             </div>
           )}
@@ -389,63 +318,30 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
             <AnimatePresence mode="popLayout">
               {finalCompactPosts.map((post, idx) => {
                 const isBookmarked = bookmarkedIds.has(post.id || post.slug);
+                const hues: EnzymeHue[] = ['llmkinase', 'edgevmax', 'riskprotease', 'ecoholo'];
+                const activeHue = hues[idx % hues.length];
+                
                 return (
-                  <div key={post.slug || post.id || idx} className="h-[260px] md:h-full">
-                    <HeroImageCard
+                  <div key={post.slug || post.id || idx} className="h-full">
+                    <BlogCard
+                      id={post.id || post.slug}
+                      slug={post.slug || post.id}
+                      title={post.title}
+                      excerpt={post.excerpt || 'Real-time telemetry and edge diagnostic research.'}
+                      category={post.category || 'Research'}
+                      readTime={getArticleReadingTime(post)}
+                      publishedAt={formatDate(post.createdAt)}
+                      author={{
+                        name: post.authorName || 'Staff Engineer',
+                        avatarUrl: post.authorAvatar,
+                      }}
                       imageUrl={getBlogCoverImage(post)}
-                      imageAlt={post.title}
-                      title={<div className="text-lg md:text-xl line-clamp-2">{post.title}</div>}
-                      description={null}
-                      badge={
-                        <span className="rounded bg-black/60 border border-white/20 px-2 py-0.5 text-[9px] font-mono font-bold text-white backdrop-blur-md">
-                          {post.category || 'Guide'}
-                        </span>
-                      }
-                      topRight={
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleBookmark(post.id || post.slug, e);
-                          }}
-                          title={isBookmarked ? "Remove Bookmark" : "Save Article"}
-                          className="h-7 w-7 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-black/60 backdrop-blur-md cursor-pointer shadow-sm"
-                        >
-                          {isBookmarked ? (
-                            <BookmarkCheck className="h-3.5 w-3.5 text-[#00FF66] fill-[#00FF66]" />
-                          ) : (
-                            <Bookmark className="h-3.5 w-3.5 text-white/90" />
-                          )}
-                        </button>
-                      }
-                      footer={
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1.5 text-[10px] font-mono">
-                            <Calendar className="h-3 w-3 text-white/70" />
-                            <span>{formatDate(post.createdAt)}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setPreviewPost(post);
-                              }}
-                              className="text-[10px] text-white/70 hover:text-white font-semibold transition-colors cursor-pointer"
-                            >
-                              Peek
-                            </button>
-                            <Link 
-                              to={`/blog/${post.slug || post.id}`}
-                              onClick={(e) => e.stopPropagation()}
-                              className="h-6 w-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/20 flex items-center justify-center text-white transition-colors"
-                              aria-label={`Read article: ${post.title}`}
-                            >
-                              <ChevronRight className="h-3 w-3" />
-                            </Link>
-                          </div>
-                        </div>
-                      }
-                      aspectRatio="h-full w-full"
-                      overlayStyle="solid" bottomGradientClasses="from-slate-900 via-slate-900/90"
+                      assetId="engine-quantum-processor"
+                      hue={activeHue}
+                      isBookmarked={isBookmarked}
+                      onBookmarkToggle={(s) => toggleBookmark(post.id || s, {} as React.MouseEvent)}
+                      onShare={(s) => handleShare(s, {} as React.MouseEvent)}
+                      className="h-full flex flex-col justify-between"
                     />
                   </div>
                 );
@@ -519,7 +415,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   src={getBlogCoverImage(previewPost)} 
                   alt={previewPost.title} 
                   className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
+                  
                 />
               </div>
 

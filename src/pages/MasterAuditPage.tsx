@@ -10,7 +10,6 @@ import { Testimonials } from '../components/home/Testimonials';
 import { LatestBlogsSection } from '../components/home/LatestBlogsSection';
 import { FaqAccordion } from '../components/home/FaqAccordion';
 import { FinalCTA } from '../components/home/FinalCTA';
-import DemoOne from '../components/ui/demo';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const MasterAuditPage: React.FC = () => {

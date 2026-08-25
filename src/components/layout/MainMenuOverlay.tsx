@@ -85,13 +85,13 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
   return (
     <div 
       id="main-menu-overlay" 
-      className="mobile-nav-menu fixed inset-0 z-[99999] flex flex-col bg-white text-zinc-900 selection:bg-primary selection:text-foreground overflow-y-auto"
+      className="mobile-nav-menu fixed inset-0 z-[100] flex flex-col bg-white text-zinc-900 selection:bg-primary selection:text-foreground overflow-y-auto"
       role="dialog"
       aria-modal="true"
       aria-label="Main Navigation Menu"
     >
       {/* Top Header Bar inside Overlay */}
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-8 shrink-0 border-b border-zinc-200 sticky top-0 bg-white/95 backdrop-blur-md z-[100000]">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-8 shrink-0 border-b border-zinc-200 sticky top-0 bg-white/95 backdrop-blur-md z-[100]">
         <Link 
           to="/" 
           onClick={onClose}
@@ -119,7 +119,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
       </div>
 
       {/* Center Main Navigation Body */}
-      <div className="mx-auto flex w-full max-w-7xl flex-col px-6 py-12 sm:px-12 lg:px-16 z-[99999]">
+      <div className="mx-auto flex w-full max-w-7xl flex-col px-6 py-12 sm:px-12 lg:px-16 z-[100]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           
           {/* Primary Structured Navigation Menu */}
@@ -540,7 +540,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         src={user.photoURL} 
                         alt="User profile avatar" 
                         className="h-9 w-9 rounded-lg object-cover border border-zinc-200 dark:border-zinc-700 shrink-0" 
-                        referrerPolicy="no-referrer"
+                        
                       />
                     ) : (
                       <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900 dark:bg-zinc-100 text-xs font-bold text-white dark:text-zinc-900 shrink-0">

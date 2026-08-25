@@ -1,6 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { Star, ShieldCheck, ChevronLeft, ChevronRight, CheckCircle2, Flame, Leaf, Cpu } from 'lucide-react';
-import { HeroImageCard } from '../common/HeroImageCard';
+import { TestimonialCard } from '../cards/content/TestimonialCard';
+import { EnzymeHue } from '../cards/types';
+import { 
+  U_FACE_1, 
+  U_FACE_2, 
+  U_FACE_3, 
+  U_FACE_4, 
+  U_SERVER, 
+  U_NET, 
+  U_CYBER, 
+  U_GLOBE 
+} from '../../lib/media/registry';
 
 interface Testimonial {
   id: string;
@@ -31,9 +42,9 @@ export const Testimonials: React.FC = () => {
       name: 'David Jung',
       role: 'VP of Engineering',
       company: 'NexusStream',
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+      avatarUrl: U_FACE_1,
       avatarText: 'DJ',
-      bgImageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600',
+      bgImageUrl: U_CYBER,
       quote: 'CatalystLab caught an unhandled render-blocking script chain and two missing OWASP security headers before our Kubernetes rollout.',
       metric: '-68% TTFB',
       metricLabel: 'Edge latency improvement',
@@ -47,9 +58,9 @@ export const Testimonials: React.FC = () => {
       name: 'Elena Rostova',
       role: 'Principal Architect',
       company: 'EdgeVelo Cloud',
-      avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
+      avatarUrl: U_FACE_2,
       avatarText: 'ER',
-      bgImageUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600',
+      bgImageUrl: U_SERVER,
       quote: 'Running all 8 catalysts synchronously via CLI in under 2 seconds is incredible. The automated NGINX patches make remediation instant.',
       metric: '100% Strict',
       metricLabel: 'OWASP Security Header score',
@@ -63,9 +74,9 @@ export const Testimonials: React.FC = () => {
       name: 'Marcus Chen',
       role: 'Director of AI Search',
       company: 'GrowthStack Media',
-      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+      avatarUrl: U_FACE_3,
       avatarText: 'MC',
-      bgImageUrl: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=600',
+      bgImageUrl: U_NET,
       quote: 'The LLM-Kinase engine and /llms.txt audit gave our team a clear roadmap for AI engine discovery. Citations on Perplexity jumped 140%.',
       metric: '+140% Citations',
       metricLabel: 'LLMO discoverability',
@@ -79,9 +90,9 @@ export const Testimonials: React.FC = () => {
       name: 'Sofia Lindqvist',
       role: 'Head of DevSecOps',
       company: 'NordicFintech Group',
-      avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
+      avatarUrl: U_FACE_4,
       avatarText: 'SL',
-      bgImageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600',
+      bgImageUrl: U_GLOBE,
       quote: 'The Sustainable Web Design carbon modeling paired with AST dependency scanning gives our leadership full visibility on security and ESG.',
       metric: '0.08g CO2',
       metricLabel: 'Per pageview carbon',
@@ -178,53 +189,34 @@ export const Testimonials: React.FC = () => {
             role="region"
             aria-label="Engineering leadership testimonials horizontal reel"
           >
-            {filteredTestimonials.map((t) => (
-              <div
-                key={t.id}
-                className="w-[300px] sm:w-[320px] lg:w-[350px] h-[400px] shrink-0 snap-start relative rounded-2xl overflow-hidden border border-slate-800 shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
-              >
-                <HeroImageCard
-                  imageUrl={t.bgImageUrl || t.avatarUrl}
-                  imageAlt={t.name}
-                  title={<div className="text-xl sm:text-2xl font-bold leading-tight text-white">"{t.quote}"</div>}
-                  badge={
-                    <div className="flex gap-0.5">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                  }
-                  topRight={
-                    <span className="text-[10px] font-mono text-[#00F0FF] bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-[#06B6D4]/30 font-bold shadow-sm">
-                      {t.verifiedBadge}
-                    </span>
-                  }
-                  metadata={
-                    <div className="flex flex-col">
-                      <span className="text-[10px] font-mono uppercase text-slate-300">{t.metricLabel}</span>
-                      <span className="text-base font-bold font-mono text-[#00FF66]">{t.metric}</span>
-                    </div>
-                  }
-                  action={<CheckCircle2 className="h-5 w-5 text-[#00FF66]" />}
-                  footer={
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={t.avatarUrl}
-                        alt={t.name}
-                        className="h-10 w-10 rounded-full object-cover border-2 border-[#06B6D4]/40 shrink-0 shadow-sm"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="overflow-hidden">
-                        <div className="text-sm font-bold text-white truncate">{t.name}</div>
-                        <div className="text-xs text-slate-300 truncate font-mono">{t.role} • {t.company}</div>
-                      </div>
-                    </div>
-                  }
-                  aspectRatio="h-full w-full"
-                  gradientFrom="from-slate-950"
-                />
-              </div>
-            ))}
+            {filteredTestimonials.map((t, idx) => {
+              const hues: EnzymeHue[] = ['edgevmax', 'riskprotease', 'llmkinase', 'ecoholo'];
+              const activeHue = hues[idx % hues.length];
+
+              return (
+                <div
+                  key={t.id}
+                  className="w-[300px] sm:w-[320px] lg:w-[350px] shrink-0 snap-start relative"
+                >
+                  <TestimonialCard
+                    id={t.id}
+                    quote={t.quote}
+                    authorName={t.name}
+                    authorRole={t.role}
+                    company={t.company}
+                    avatarUrl={t.avatarUrl}
+                    bgImageUrl={t.bgImageUrl}
+                    badgeLabel={t.verifiedBadge}
+                    metricValue={t.metric}
+                    metricLabel={t.metricLabel}
+                    secondaryMetricValue="0-RTT"
+                    secondaryMetricLabel="Pipeline SLA"
+                    hue={activeHue}
+                    rating={5}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 

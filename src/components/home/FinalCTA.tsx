@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TerminalInput } from '../ui/TerminalInput';
 import { LazyReveal } from '../common/LazyAnimate';
+import { CinematicVideo } from '../media/CinematicVideo';
 import { CinematicMedia } from '../media/CinematicMedia';
 import { ShieldCheck, Zap, ChevronRight, Check, Sparkles, Terminal } from 'lucide-react';
 import { useSubscription } from '../../context/SubscriptionContext';
@@ -34,12 +35,12 @@ export const FinalCTA: React.FC = () => {
 
   return (
     <section id="final-cta-section" className="py-20 lg:py-28 bg-[#060912] text-slate-100 relative overflow-hidden">
-      {/* Scanline-Treated Cinematic Media Band */}
-      <CinematicMedia 
-        assetId="cta-server-band" 
-        mode="ken-burns" 
-        scanlineOverlay={true}
-        containerClassName="absolute inset-0 opacity-[0.18] pointer-events-none" 
+      {/* Scanline-Treated Cinematic Video Band (V-AI with scanlines & fallback) */}
+      <CinematicVideo 
+        assetId="cta-video" 
+        scanlines={true}
+        treatment="catalyst-grade-cyan"
+        containerClassName="absolute inset-0 opacity-[0.16] pointer-events-none" 
       />
 
       {/* Glow Effects */}

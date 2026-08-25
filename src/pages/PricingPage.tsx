@@ -21,6 +21,8 @@ import {
   Terminal as TerminalIcon
 } from 'lucide-react';
 import { UnsplashImage } from '../components/media/UnsplashImage';
+import { PricingPlanCard } from '../components/cards/content/PricingPlanCard';
+import { EnzymeHue, StatPair } from '../components/cards/types';
 import { SUBSCRIPTION_PLANS } from '../data/pricingData';
 import { MASTER_FAQ_CATEGORIES } from '../data/faqData';
 import { GlobalFaqSection } from '../components/common/GlobalFaqSection';
@@ -287,115 +289,46 @@ export const PricingPage: React.FC = () => {
                 const isPopular = plan.popular;
                 const ctaInfo = getCardCtaInfo(key);
 
+                const planHues: Record<SubscriptionPlanId, EnzymeHue> = {
+                  free: 'neutral',
+                  starter: 'synthshift',
+                  pro: 'vitalzyme',
+                  team: 'edgevmax',
+                  enterprise: 'riskprotease',
+                };
+
+                const stats: StatPair[] = [
+                  { label: 'Compute', value: `${plan.dailyComputeUnits}u/d`, highlight: isPopular },
+                  { label: 'Probe Rate', value: plan.probeFrequencyMinutes < 60 ? `${plan.probeFrequencyMinutes}m` : `${plan.probeFrequencyMinutes / 60}h` },
+                ];
+
+                const billingSubtext = annual && plan.priceMonthly > 0
+                  ? `Billed annually ($${plan.priceAnnualTotal}/yr)`
+                  : !annual && plan.priceMonthly > 0
+                  ? 'Billed monthly'
+                  : 'Free forever • Zero card';
+
                 return (
-                  <LazyStaggerItem
-                    key={plan.id}
-                    className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition-all duration-200 bg-[#080D1A] shadow-sm ${
-                      isPopular
-                        ? 'border-2 border-[#06B6D4] shadow-[0_0_20px_rgba(6,182,212,0.2)] lg:-translate-y-2'
-                        : 'border border-slate-800 hover:border-slate-700'
-                    }`}
-                  >
-                    {/* Badge */}
-                    {plan.badge && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <span
-                          className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase shadow-sm whitespace-nowrap ${
-                            isPopular
-                              ? 'bg-[#06B6D4] text-slate-950'
-                              : 'bg-[#0B101D] text-slate-300 border border-slate-800'
-                          }`}
-                        >
-                          {isPopular && <Sparkles className="h-2.5 w-2.5 fill-current" />}
-                          {plan.badge}
-                        </span>
-                      </div>
-                    )}
-
-                    <div>
-                      {/* Title & Description */}
-                      <div className="mb-4">
-                        <h3 className="text-lg font-bold text-white font-sans">{plan.name}</h3>
-                        <p className="mt-1 text-xs text-slate-400 leading-relaxed font-sans">{plan.description}</p>
-                      </div>
-
-                      {/* Price Display */}
-                      <div className="mb-5 pb-5 border-b border-slate-800">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-white font-mono">
-                            ${price}
-                          </span>
-                          <span className="text-xs text-slate-400 font-mono">
-                            / month
-                          </span>
-                        </div>
-                        {annual && plan.priceMonthly > 0 && (
-                          <div className="mt-1 text-[11px] text-[#00FF66] font-mono">
-                            Billed annually (${plan.priceAnnualTotal}/yr)
-                          </div>
-                        )}
-                        {!annual && plan.priceMonthly > 0 && (
-                          <div className="mt-1 text-[11px] text-slate-500 font-mono">
-                            Billed monthly
-                          </div>
-                        )}
-                        {plan.priceMonthly === 0 && (
-                          <div className="mt-1 text-[11px] text-[#00F0FF] font-mono">
-                            Free forever • No credit card
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Core Compute Stats */}
-                      <div className="mb-5 space-y-2 rounded-xl bg-[#060912] p-3 text-xs border border-slate-800/80 font-mono">
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Daily Compute:</span>
-                          <span className="font-bold text-white">{plan.dailyComputeUnits} units</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Monitored Sites:</span>
-                          <span className="font-bold text-white">{plan.monitoredSitesQuota}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Probe Rate:</span>
-                          <span className="font-bold text-white">
-                            {plan.probeFrequencyMinutes < 60 ? `${plan.probeFrequencyMinutes}m` : `${plan.probeFrequencyMinutes / 60}h`}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Feature Checklist */}
-                      <ul className="space-y-2 text-xs text-slate-300 mb-6 font-sans">
-                        {plan.features.map((feat, idx) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <Check className="h-3.5 w-3.5 text-[#00FF66] shrink-0 mt-0.5" />
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* CTA Button */}
-                    <div className="pt-2">
-                      <button
-                        type="button"
-                        onClick={() => handlePlanCta(plan.id)}
-                        disabled={ctaInfo.disabled}
-                        className={`w-full rounded-xl py-2.5 px-4 text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                          ctaInfo.disabled
-                            ? 'bg-[#0B101D] text-slate-500 border border-slate-800 cursor-not-allowed'
-                            : isPopular
-                            ? 'bg-[#06B6D4] text-slate-950 hover:bg-[#00F0FF] shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                            : 'bg-[#0E1526] text-white hover:bg-slate-800 border border-slate-800'
-                        }`}
-                      >
-                        <span>{ctaInfo.label}</span>
-                        {!ctaInfo.disabled && <ArrowRight className="h-3.5 w-3.5" />}
-                      </button>
-                      <div className="mt-1.5 text-center text-[10px] text-slate-500 font-mono">
-                        {ctaInfo.subtext}
-                      </div>
-                    </div>
+                  <LazyStaggerItem key={plan.id} className="h-full">
+                    <PricingPlanCard
+                      id={plan.id}
+                      name={plan.name}
+                      price={`$${price}`}
+                      period="/mo"
+                      billingSubtext={billingSubtext}
+                      description={plan.description}
+                      badge={isPopular ? 'MOST DEPLOYED' : plan.badge}
+                      isPopular={isPopular}
+                      isCurrent={ctaInfo.disabled && ctaInfo.variant === 'current'}
+                      stats={stats}
+                      features={plan.features}
+                      ctaLabel={ctaInfo.label}
+                      ctaSubtext={ctaInfo.subtext}
+                      ctaDisabled={ctaInfo.disabled}
+                      onCtaClick={() => handlePlanCta(plan.id)}
+                      hue={planHues[key]}
+                      className="h-full"
+                    />
                   </LazyStaggerItem>
                 );
               })}
