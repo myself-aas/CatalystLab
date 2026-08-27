@@ -2883,7 +2883,13 @@ async function startServer() {
     });
   } else {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        hmr: {
+          server: httpServer,
+          protocol: 'ws'
+        }
+      },
       appType: 'spa'
     });
     app.use(vite.middlewares);
