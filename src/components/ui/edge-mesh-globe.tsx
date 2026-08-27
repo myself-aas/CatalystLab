@@ -405,7 +405,7 @@ export function EdgeMeshGlobe({
     if (!canvasRef.current || !containerRef.current) return;
     if (!isIntersecting) return;
 
-    let width = containerRef.current.offsetWidth || 350;
+    let width = Math.max(containerRef.current.getBoundingClientRect().width, 1);
     let phi = 0;
     let theta = 0.25;
 
@@ -417,7 +417,7 @@ export function EdgeMeshGlobe({
 
     const onResize = () => {
       if (containerRef.current && canvasRef.current) {
-        width = containerRef.current.offsetWidth;
+        width = Math.max(containerRef.current.getBoundingClientRect().width, 1);
         if (shockwaveCanvasRef.current) {
           shockwaveCanvasRef.current.width = width;
           shockwaveCanvasRef.current.height = width;
@@ -425,6 +425,8 @@ export function EdgeMeshGlobe({
       }
     };
     window.addEventListener('resize', onResize);
+    const resizeObserver = new ResizeObserver(onResize);
+    resizeObserver.observe(containerRef.current);
     onResize();
 
     // Palette definition according to theme requirements
@@ -534,6 +536,7 @@ export function EdgeMeshGlobe({
         globeInstanceRef.current = null;
       }
       window.removeEventListener('resize', onResize);
+      resizeObserver.disconnect();
     };
   }, [
     activePoPs,
@@ -615,7 +618,7 @@ export function EdgeMeshGlobe({
       {/* Primary WebGL Canvas */}
       <canvas
         ref={canvasRef}
-        className="w-full h-full opacity-0 transition-opacity duration-700 cursor-grab active:cursor-grabbing relative z-10"
+        className="relative z-10 h-full w-full opacity-100 transition-opacity duration-700 cursor-grab active:cursor-grabbing"
         style={{
           width: '100%',
           height: '100%',
