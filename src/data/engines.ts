@@ -20,7 +20,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'platform_migration_audit.py',
     route: '/migration',
     docsAnchor: 'engine-par',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'Site Topology & Route Hierarchy Mapping',
       'Canonical URL Destination Synchronization',
@@ -78,7 +78,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'repo_scanner.py',
     route: '/repo-scanner',
     docsAnchor: 'engine-repo-scanner',
-    image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'Open-Source License Compatibility (MIT, Apache, GPL)',
       'SECURITY.md Vulnerability Disclosure Policy',
@@ -136,7 +136,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'eco_carbon_audit.py',
     route: '/eco-audit',
     docsAnchor: 'engine-eco-audit',
-    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'Sustainable Web Design (SWD) Carbon Model Scoring',
       'CO2 Grams per 10,000 Pageviews Benchmark',
@@ -194,7 +194,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'website_health.py',
     route: '/health',
     docsAnchor: 'engine-health',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'DOM Tree Recursion Depth & Total Node Volume',
       'Render-Blocking Stylesheets & Script Bottlenecks',
@@ -253,7 +253,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'edge_latency.py',
     route: '/latency',
     docsAnchor: 'engine-latency',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'Multi-Region Anycast Edge Routing Radar (US, EU, AP, SA)',
       '12 Global PoPs Time-To-First-Byte (TTFB) Comparison',
@@ -311,7 +311,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'compliance_risk_audit.py',
     route: '/compliance',
     docsAnchor: 'engine-compliance',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'Strict-Transport-Security (HSTS 2-Year Preload Verification)',
       'Content-Security-Policy (Strict CSP Nonces & Hash Validation)',
@@ -369,7 +369,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'ai_readiness.py',
     route: '/ai-readiness',
     docsAnchor: 'engine-ai-readiness',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'Root /llms.txt and /llms-full.txt Manifest Discovery',
       'Robots.txt AI Agent Crawling Directives (GPTBot, ClaudeBot, PerplexityBot)',
@@ -427,7 +427,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'llmo_optimizer.py',
     route: '/llmo',
     docsAnchor: 'engine-llmo',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
       'Schema.org TechArticle & Entity Graph Depth',
       'Factual Information Density Index for AI Citation',

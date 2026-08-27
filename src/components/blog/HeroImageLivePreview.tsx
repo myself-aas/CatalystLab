@@ -101,7 +101,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
       const random = presetImages[Math.floor(Math.random() * presetImages.length)];
       onUrlChange(random.url);
     } else {
-      onUrlChange(`https://images.unsplash.com/photo-${1550000000000 + Math.floor(Math.random() * 99999999)}?auto=format&fit=crop&q=80&w=1200`);
+      onUrlChange(`https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`);
     }
   };
 
@@ -185,7 +185,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             type="url"
             value={imageUrl || ''}
             onChange={(e) => onUrlChange(e.target.value)}
-            placeholder="Paste image URL (e.g. https://images.unsplash.com/...)"
+            placeholder="Paste image URL (e.g. https://images.pexels.com/...)"
             className="w-full rounded-xl border border-gray-200 bg-white pl-3.5 pr-20 py-2.5 text-xs text-black placeholder:text-slate-500 focus:border-black focus:outline-none font-mono"
           />
           <div className="absolute right-1.5 flex items-center gap-1">

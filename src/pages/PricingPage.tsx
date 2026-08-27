@@ -20,7 +20,7 @@ import {
   Calculator,
   Terminal as TerminalIcon
 } from 'lucide-react';
-import { UnsplashImage } from '../components/media/UnsplashImage';
+import { PexelsImage } from '../components/media/PexelsImage';
 import { PricingPlanCard } from '../components/cards/content/PricingPlanCard';
 import { EnzymeHue, StatPair } from '../components/cards/types';
 import { SUBSCRIPTION_PLANS } from '../data/pricingData';
@@ -111,7 +111,7 @@ export const PricingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#060912] text-slate-100 pb-24 selection:bg-[#06B6D4]/30 selection:text-white font-mono">
+    <div className="min-h-screen bg-white pb-24 text-slate-900 selection:bg-slate-900 selection:text-white">
       <SEOHead
         title="Terminal Billing Console & Telemetry ROI Calculator | CatalystLab"
         description="Explore CatalystLab's transparent 5-tier diagnostic plans ($0 Free, $9 Starter, $19 Pro, $49 Team, $99 Enterprise). Interactive CLI billing flags, ROI calculator, and RBAC matrix."
@@ -120,32 +120,26 @@ export const PricingPage: React.FC = () => {
       />
 
       {/* Hero Header */}
-      <section className="relative overflow-hidden border-b border-slate-800 bg-[#080D1A] py-16 sm:py-20">
-        <UnsplashImage 
-          assetId="pricing-header-texture" 
-          className="absolute inset-0 opacity-[0.08] pointer-events-none object-cover w-full h-full" 
-        />
-        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#06B6D4_1px,transparent_1px)] [background-size:24px_24px]" />
-
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-14 sm:py-18">
         <LazyReveal direction="down" className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0B101D] px-4 py-1 text-xs font-mono text-[#00F0FF] mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1 text-xs font-mono font-bold text-slate-900 mb-5 shadow-sm">
             <TerminalIcon className="h-3.5 w-3.5" />
-            <span>TERMINAL BILLING CONSOLE &bull; 5-TIER TELEMETRY ARCHITECTURE</span>
+            <span>5-TIER TELEMETRY ARCHITECTURE &bull; 7-DAY ZERO-RISK TRIAL</span>
           </div>
 
-          <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl leading-tight font-sans">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight font-sans">
             Precision Web Health &amp; Telemetry Plans
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
-            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-white font-bold">7-day free trial with zero credit card requirements</strong>.
+          <p className="mx-auto mt-4 max-w-2xl text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
+            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-slate-900 font-bold">7-day free trial with zero credit card requirements</strong>.
           </p>
 
           {/* Interactive Role Preview Switcher Bar */}
-          <div className="mt-8 mx-auto max-w-3xl rounded-2xl border border-slate-800 bg-[#0B101D] p-4 shadow-sm text-left">
+          <div className="mt-8 mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-4 shadow-sm text-left">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
               <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-[#00F0FF]" />
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+                <Eye className="h-4 w-4 text-slate-700" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900">
                   Preview Platform As Role:
                 </span>
               </div>
@@ -157,7 +151,7 @@ export const PricingPage: React.FC = () => {
                 {isSimulating && (
                   <button
                     onClick={resetSimulation}
-                    className="flex items-center gap-1 text-[11px] text-[#00F0FF] hover:underline cursor-pointer ml-1"
+                    className="flex items-center gap-1 text-[11px] text-slate-900 font-bold hover:underline cursor-pointer ml-1"
                   >
                     <RotateCcw className="h-3 w-3" />
                     <span>Reset</span>
@@ -179,8 +173,8 @@ export const PricingPage: React.FC = () => {
                     onClick={() => setSimulatedRole(opt.role)}
                     className={`flex items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-bold transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-[#06B6D4] text-slate-950 border border-[#06B6D4] shadow-sm'
-                        : 'bg-[#080D1A] text-slate-300 hover:bg-[#0E1526] border border-slate-800'
+                        ? 'bg-slate-900 text-white shadow-sm'
+                        : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
                     }`}
                   >
                     <Icon className="h-3.5 w-3.5 shrink-0" />
@@ -192,13 +186,13 @@ export const PricingPage: React.FC = () => {
           </div>
 
           {/* Primary View Switcher: Plans vs ROI Calculator vs RBAC Matrix vs Simulator */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 border-b border-slate-800 pb-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 border-b border-slate-200 pb-4">
             <button
               onClick={() => setActiveTab('plans')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 activeTab === 'plans'
-                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
-                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
+                  ? 'bg-slate-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               Subscription Plans &amp; Pricing
@@ -208,8 +202,8 @@ export const PricingPage: React.FC = () => {
               onClick={() => setActiveTab('calculator')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'calculator'
-                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
-                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
+                  ? 'bg-slate-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <Calculator className="h-3.5 w-3.5" />
@@ -220,8 +214,8 @@ export const PricingPage: React.FC = () => {
               onClick={() => setActiveTab('matrix')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'matrix'
-                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
-                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
+                  ? 'bg-slate-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <Shield className="h-3.5 w-3.5" />
@@ -232,8 +226,8 @@ export const PricingPage: React.FC = () => {
               onClick={() => setActiveTab('simulator')}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'simulator'
-                  ? 'bg-[#06B6D4] text-slate-950 shadow-sm border border-[#06B6D4]'
-                  : 'text-slate-400 hover:text-white hover:bg-[#0E1526]'
+                  ? 'bg-slate-900 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <Sliders className="h-3.5 w-3.5" />
@@ -244,14 +238,14 @@ export const PricingPage: React.FC = () => {
           {/* CLI-Style Billing Toggle */}
           {activeTab === 'plans' && (
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-mono">
-              <span className="text-slate-500">FLAGS:</span>
+              <span className="text-slate-500 font-bold">FLAGS:</span>
               <button
                 type="button"
                 onClick={() => setAnnual(false)}
                 className={`px-3 py-1 rounded-lg border transition-all cursor-pointer ${
                   !annual 
-                    ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-[#00F0FF] font-bold' 
-                    : 'bg-[#0B101D] border-slate-800 text-slate-400 hover:text-white'
+                    ? 'bg-slate-900 border-slate-900 text-white font-bold' 
+                    : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900'
                 }`}
               >
                 --billing=monthly
@@ -262,12 +256,12 @@ export const PricingPage: React.FC = () => {
                 onClick={() => setAnnual(true)}
                 className={`px-3 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-2 ${
                   annual 
-                    ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-[#00F0FF] font-bold shadow-[0_0_10px_rgba(6,182,212,0.2)]' 
-                    : 'bg-[#0B101D] border-slate-800 text-slate-400 hover:text-white'
+                    ? 'bg-slate-900 border-slate-900 text-white font-bold shadow-sm' 
+                    : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <span>--billing=annual</span>
-                <span className="rounded bg-emerald-950/60 text-[#00FF66] border border-emerald-500/40 px-1.5 py-0.2 text-[10px]">
+                <span className="rounded bg-emerald-100 text-emerald-800 border border-emerald-300 px-1.5 py-0.2 text-[10px] font-bold">
                   --save=20%
                 </span>
               </button>
@@ -350,86 +344,86 @@ export const PricingPage: React.FC = () => {
 
         {/* TAB 3: ROLE & SECURITY MATRIX (RBAC) */}
         {activeTab === 'matrix' && (
-          <div className="rounded-2xl border border-slate-800 bg-[#080D1A] overflow-hidden shadow-sm">
-            <div className="p-5 bg-[#0B101D] border-b border-slate-800 flex items-center justify-between">
+          <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+            <div className="p-5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <div>
-                <h3 className="text-base font-bold text-white">Full Role-Based Access Control (RBAC) Matrix</h3>
-                <p className="text-xs text-slate-400 mt-0.5">Permissions, rate limits, and endpoint capabilities mapped by subscriber authorization tier.</p>
+                <h3 className="text-base font-bold text-slate-900">Full Role-Based Access Control (RBAC) Matrix</h3>
+                <p className="text-xs text-slate-600 mt-0.5">Permissions, rate limits, and endpoint capabilities mapped by subscriber authorization tier.</p>
               </div>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs font-mono">
                 <thead>
-                  <tr className="border-b border-slate-800 bg-[#060912] text-slate-400 uppercase text-[11px] font-bold tracking-wider">
+                  <tr className="border-b border-slate-200 bg-slate-100 text-slate-700 uppercase text-[11px] font-bold tracking-wider">
                     <th className="p-3.5">Platform Capability / Route</th>
                     <th className="p-3.5 text-center">Guest / Anon</th>
                     <th className="p-3.5 text-center">Free Dev</th>
-                    <th className="p-3.5 text-center text-[#00F0FF] font-bold bg-[#06B6D4]/10">Pro Member</th>
+                    <th className="p-3.5 text-center text-slate-900 font-bold bg-slate-200/50">Pro Member</th>
                     <th className="p-3.5 text-center">Team Lead</th>
                     <th className="p-3.5 text-center">Enterprise</th>
-                    <th className="p-3.5 text-center text-amber-400 bg-amber-950/20">Superadmin</th>
+                    <th className="p-3.5 text-center text-amber-700 bg-amber-50">Superadmin</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800 text-slate-300">
-                  <tr className="hover:bg-[#0E1526] transition-colors">
-                    <td className="p-3.5 font-bold text-white">Daily Compute Quota</td>
+                <tbody className="divide-y divide-slate-100 text-slate-700">
+                  <tr className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 font-bold text-slate-900">Daily Compute Quota</td>
                     <td className="p-3.5 text-center">20 units</td>
                     <td className="p-3.5 text-center">50 units</td>
-                    <td className="p-3.5 text-center text-[#00F0FF] font-bold bg-[#06B6D4]/5">500 units</td>
-                    <td className="p-3.5 text-center font-bold">1,500 units</td>
-                    <td className="p-3.5 text-center font-bold text-white">5,000 units</td>
-                    <td className="p-3.5 text-center font-bold text-amber-400 bg-amber-950/10">Unlimited (&infin;)</td>
+                    <td className="p-3.5 text-center text-slate-900 font-bold bg-slate-50">500 units</td>
+                    <td className="p-3.5 text-center font-bold text-slate-900">1,500 units</td>
+                    <td className="p-3.5 text-center font-bold text-slate-900">5,000 units</td>
+                    <td className="p-3.5 text-center font-bold text-amber-700 bg-amber-50/50">Unlimited (&infin;)</td>
                   </tr>
 
-                  <tr className="hover:bg-[#0E1526] transition-colors">
-                    <td className="p-3.5 font-bold text-white">Public Audit Permalinks (/reports/*)</td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66] bg-[#06B6D4]/5"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66] bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 font-bold text-slate-900">Public Audit Permalinks (/reports/*)</td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600 bg-slate-50"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600 bg-amber-50/50"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
 
-                  <tr className="hover:bg-[#0E1526] transition-colors">
-                    <td className="p-3.5 font-bold text-white">Personal Saved Audit Dossiers (/dashboard)</td>
-                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66] bg-[#06B6D4]/5"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66] bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 font-bold text-slate-900">Personal Saved Audit Dossiers (/dashboard)</td>
+                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600 bg-slate-50"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600 bg-amber-50/50"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
 
-                  <tr className="hover:bg-[#0E1526] transition-colors">
-                    <td className="p-3.5 font-bold text-white">Domain Watchdog Monitoring Quota</td>
-                    <td className="p-3.5 text-center text-slate-600">0 slots</td>
+                  <tr className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 font-bold text-slate-900">Domain Watchdog Monitoring Quota</td>
+                    <td className="p-3.5 text-center text-slate-400">0 slots</td>
                     <td className="p-3.5 text-center">1 domain</td>
-                    <td className="p-3.5 text-center text-[#00F0FF] font-bold bg-[#06B6D4]/5">20 domains</td>
-                    <td className="p-3.5 text-center font-bold">50 domains</td>
-                    <td className="p-3.5 text-center font-bold text-white">Unlimited</td>
-                    <td className="p-3.5 text-center font-bold text-amber-400 bg-amber-950/10">Unlimited</td>
+                    <td className="p-3.5 text-center text-slate-900 font-bold bg-slate-50">20 domains</td>
+                    <td className="p-3.5 text-center font-bold text-slate-900">50 domains</td>
+                    <td className="p-3.5 text-center font-bold text-slate-900">Unlimited</td>
+                    <td className="p-3.5 text-center font-bold text-amber-700 bg-amber-50/50">Unlimited</td>
                   </tr>
 
-                  <tr className="hover:bg-[#0E1526] transition-colors">
-                    <td className="p-3.5 font-bold text-white">REST API Secret Keys (cat_live_...)</td>
-                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
-                    <td className="p-3.5 text-center text-[#00FF66] bg-[#06B6D4]/5"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66]"><Check className="w-4 h-4 mx-auto" /></td>
-                    <td className="p-3.5 text-center text-[#00FF66] bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 font-bold text-slate-900">REST API Secret Keys (cat_live_...)</td>
+                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
+                    <td className="p-3.5 text-center text-emerald-600 bg-slate-50"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600"><Check className="w-4 h-4 mx-auto" /></td>
+                    <td className="p-3.5 text-center text-emerald-600 bg-amber-50/50"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
 
-                  <tr className="hover:bg-[#0E1526] transition-colors">
-                    <td className="p-3.5 font-bold text-white">Superadmin Command Center (/admin/*)</td>
-                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-600 bg-[#06B6D4]/5">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
-                    <td className="p-3.5 text-center text-slate-600">&mdash;</td>
-                    <td className="p-3.5 text-center text-[#00FF66] font-bold text-amber-400 bg-amber-950/10"><Check className="w-4 h-4 mx-auto" /></td>
+                  <tr className="hover:bg-slate-50 transition-colors">
+                    <td className="p-3.5 font-bold text-slate-900">Superadmin Command Center (/admin/*)</td>
+                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-400 bg-slate-50">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
+                    <td className="p-3.5 text-center text-slate-400">&mdash;</td>
+                    <td className="p-3.5 text-center text-emerald-600 font-bold text-amber-700 bg-amber-50/50"><Check className="w-4 h-4 mx-auto" /></td>
                   </tr>
                 </tbody>
               </table>
@@ -441,14 +435,14 @@ export const PricingPage: React.FC = () => {
         {activeTab === 'simulator' && (
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0B101D] px-3.5 py-1 text-xs font-mono font-bold text-[#00F0FF] mb-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1 text-xs font-mono font-bold text-slate-900 mb-2">
                 <Sliders className="h-3.5 w-3.5" />
                 <span>Value Delta &amp; ROI Calculator</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white font-sans">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-sans">
                 Tier Upgrade Value Simulator
               </h2>
-              <p className="mt-1 text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
+              <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
                 See exactly how your compute throughput, monitoring intervals, and security capabilities will upgrade from your current role.
               </p>
             </div>
@@ -464,15 +458,15 @@ export const PricingPage: React.FC = () => {
                     onClick={() => setSimulatorTargetTier(tid)}
                     className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-[#06B6D4] bg-[#06B6D4]/10 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
-                        : 'border-slate-800 bg-[#080D1A] hover:bg-[#0E1526]'
+                        ? 'border-slate-900 bg-slate-50 shadow-sm'
+                        : 'border-slate-200 bg-white hover:bg-slate-50'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-sm text-white font-sans">{plan.name}</span>
-                      <span className="text-xs font-mono font-bold text-[#00F0FF]">${plan.priceMonthly}/mo</span>
+                      <span className="font-bold text-sm text-slate-900 font-sans">{plan.name}</span>
+                      <span className="text-xs font-mono font-bold text-slate-900">${plan.priceMonthly}/mo</span>
                     </div>
-                    <div className="mt-1.5 text-xs font-mono text-[#00FF66] font-bold">
+                    <div className="mt-1.5 text-xs font-mono text-emerald-700 font-bold">
                       {plan.dailyComputeUnits} units/day
                     </div>
                   </button>
@@ -487,52 +481,52 @@ export const PricingPage: React.FC = () => {
               const unitMultiplier = Math.round(target.dailyComputeUnits / Math.max(1, currentUnits));
 
               return (
-                <div className="rounded-2xl border border-slate-800 bg-[#080D1A] p-5 sm:p-7 shadow-sm">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
                     
                     {/* Multiplier */}
                     <div className="p-3 space-y-1.5">
-                      <span className="text-xs font-mono uppercase font-bold text-slate-400 tracking-wider">Compute Boost</span>
-                      <div className="text-3xl sm:text-4xl font-black font-mono text-[#00F0FF]">
+                      <span className="text-xs font-mono uppercase font-bold text-slate-500 tracking-wider">Compute Boost</span>
+                      <div className="text-3xl sm:text-4xl font-extrabold font-mono text-slate-900">
                         {unitMultiplier > 1 ? `${unitMultiplier}x` : '1x'}
                       </div>
-                      <p className="text-xs text-slate-400 font-sans">
+                      <p className="text-xs text-slate-600 font-sans">
                         From {currentUnits} to {target.dailyComputeUnits} daily units
                       </p>
                     </div>
 
                     {/* Monitored Domains */}
                     <div className="p-3 space-y-1.5">
-                      <span className="text-xs font-mono uppercase font-bold text-slate-400 tracking-wider">Domain Watchdog</span>
-                      <div className="text-3xl sm:text-4xl font-black font-mono text-[#00FF66]">
+                      <span className="text-xs font-mono uppercase font-bold text-slate-500 tracking-wider">Domain Watchdog</span>
+                      <div className="text-3xl sm:text-4xl font-extrabold font-mono text-emerald-600">
                         {target.monitoredSitesQuota}
                       </div>
-                      <p className="text-xs text-slate-400 font-sans">
+                      <p className="text-xs text-slate-600 font-sans">
                         Probe frequency every {target.probeFrequencyMinutes < 60 ? `${target.probeFrequencyMinutes}m` : `${target.probeFrequencyMinutes / 60}h`}
                       </p>
                     </div>
 
                     {/* REST API & CI/CD */}
                     <div className="p-3 space-y-1.5">
-                      <span className="text-xs font-mono uppercase font-bold text-slate-400 tracking-wider">Automation Capacity</span>
-                      <div className="text-3xl sm:text-4xl font-black font-mono text-purple-400 font-bold">
+                      <span className="text-xs font-mono uppercase font-bold text-slate-500 tracking-wider">Automation Capacity</span>
+                      <div className="text-3xl sm:text-4xl font-extrabold font-mono text-indigo-600 font-bold">
                         {target.ciRunsPerMonth}
                       </div>
-                      <p className="text-xs text-slate-400 font-sans">
+                      <p className="text-xs text-slate-600 font-sans">
                         CI runs/mo across {target.ciParallelConcurrency} parallel runners
                       </p>
                     </div>
 
                   </div>
 
-                  <div className="mt-6 pt-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="text-xs text-slate-400 font-sans">
-                      <span>Ready to activate <strong>{target.name}</strong>? Start your 7-day risk-free evaluation.</span>
+                  <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-xs text-slate-600 font-sans">
+                      <span>Ready to activate <strong className="text-slate-900">{target.name}</strong>? Start your 7-day risk-free evaluation.</span>
                     </div>
 
                     <button
                       onClick={() => openTrialModal(simulatorTargetTier)}
-                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#06B6D4] hover:bg-[#00F0FF] text-slate-950 font-mono font-bold text-xs transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] active:scale-95 cursor-pointer"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs transition-all shadow-sm cursor-pointer"
                     >
                       Start 7-Day Free Trial for {target.name}
                     </button>
@@ -544,20 +538,20 @@ export const PricingPage: React.FC = () => {
         )}
 
         {/* Enterprise Banner */}
-        <LazyReveal direction="up" className="mt-14 rounded-2xl border border-slate-800 bg-[#080D1A] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm text-slate-100 font-mono">
+        <LazyReveal direction="up" className="mt-14 rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm text-slate-900 font-mono">
           <div className="space-y-1.5 max-w-2xl">
-            <div className="flex items-center gap-2 text-[#00F0FF] font-bold text-xs uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-slate-900 font-bold text-xs uppercase tracking-wider">
               <Server className="h-4 w-4" />
               <span>Custom Enterprise Infrastructure</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-white font-sans">Need On-Premises or Private Cloud Telemetry?</h3>
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-sans">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-sans">Need On-Premises or Private Cloud Telemetry?</h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
               We deploy containerized CatalystLab audit runners directly into your VPC (GCP, AWS, Azure, or Kubernetes) with air-gapped security compliance and SOC2 governance.
             </p>
           </div>
           <Link
             to="/contact"
-            className="shrink-0 rounded-xl bg-[#06B6D4] hover:bg-[#00F0FF] text-slate-950 px-5 py-3 text-xs sm:text-sm font-mono font-bold transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] active:scale-95"
+            className="shrink-0 rounded-xl bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 text-xs sm:text-sm font-mono font-bold transition-all shadow-sm"
           >
             Speak with Solution Engineering
           </Link>

@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'motion/react';
-import { UnsplashImage, UnsplashImageProps } from './UnsplashImage';
+import { PexelsImage, PexelsImageProps } from './PexelsImage';
 import { getMediaAsset, MediaAsset } from '../../lib/media/registry';
 
-export interface ScanRevealFigureProps extends Partial<UnsplashImageProps> {
+export interface ScanRevealFigureProps extends Partial<PexelsImageProps> {
   assetId?: string;
   sources?: string[];
   caption?: string;
@@ -70,7 +70,7 @@ export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
         {children ? (
           children
         ) : assetId ? (
-          <UnsplashImage
+          <PexelsImage
             assetId={assetId}
             sources={sources}
             treatment={finalTreatment}

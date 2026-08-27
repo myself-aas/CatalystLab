@@ -156,7 +156,7 @@ export const BlogPostPage: React.FC = () => {
                 <div className="flex items-center gap-2.5">
                   {post.authorAvatar ? (
                     <div className="h-9 w-9 rounded-full overflow-hidden border border-slate-200 flex-shrink-0">
-                      <UnsplashImage
+                      <PexelsImage
                         src={post.authorAvatar}
                         alt={post.authorName || 'Author'}
                         className="h-full w-full object-cover"

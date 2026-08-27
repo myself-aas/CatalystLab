@@ -2,11 +2,11 @@
  * ============================================================================
  * CATALYSTLAB VERIFIED MEDIA REGISTRY & MANIFEST (v2)
  * ============================================================================
- * Strict compliance manifest for copyright-free Unsplash & Pexels imagery and videos.
+ * Strict compliance manifest for copyright-free Pexels & Pexels imagery and videos.
  *
  * HARD CONTRACT RULES:
  * R1: ZERO-EMPTY-SLOT: Every slot mounts real remote URLs from this manifest.
- * R2: SOURCES: Unsplash for photos, Pexels for photos + video clips.
+ * R2: SOURCES: Pexels for photos, Pexels for photos + video clips.
  * R3: FALLBACK CHAIN: Every item has sources: string[] for automatic fallback.
  * R4: VERIFY TOOLING: Validated by scripts/verify-media.mjs (`npm run media:check`).
  * R5: LICENSING: Commercial use permitted without attribution; credits tracked.
@@ -45,7 +45,7 @@ export type MediaRole =
 
 export interface MediaCredit {
   photographer: string;
-  source: 'Unsplash' | 'Pexels';
+  source: 'Pexels' | 'Pexels';
   sourceUrl: string;
   license: string;
 }
@@ -75,21 +75,21 @@ export const DEFAULT_BLUR_SHIMMER =
 // VERIFIED ASSET MANIFEST CONSTANTS
 // ============================================================================
 
-// Unsplash Images (Verified Live IDs)
-export const U_SERVER = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2400&auto=format&fit=crop';
-export const U_NET = 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2400&auto=format&fit=crop';
-export const U_CIRCUIT = 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2400&auto=format&fit=crop';
-export const U_MATRIX = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1600&auto=format&fit=crop';
-export const U_CYBER = 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1600&auto=format&fit=crop';
-export const U_GLOBE = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop';
-export const U_CODE = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop';
-export const U_NEON = 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop';
+// Pexels Images (Verified Live IDs)
+export const U_SERVER = 'https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=2400';
+export const U_NET = 'https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_CIRCUIT = 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_MATRIX = 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_CYBER = 'https://images.pexels.com/photos/574070/pexels-photo-574070.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_GLOBE = 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_CODE = 'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_NEON = 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
-// Unsplash Avatars (Faces crop)
-export const U_FACE_1 = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=96&h=96&auto=format&fit=crop&crop=faces';
-export const U_FACE_2 = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=96&h=96&auto=format&fit=crop&crop=faces';
-export const U_FACE_3 = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=96&h=96&auto=format&fit=crop&crop=faces';
-export const U_FACE_4 = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=96&h=96&auto=format&fit=crop&crop=faces';
+// Pexels Avatars (Faces crop)
+export const U_FACE_1 = 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_FACE_2 = 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_FACE_3 = 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_FACE_4 = 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
 // Pexels Images
 export const P_DC = 'https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=2400';
@@ -143,9 +143,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 1350,
     credit: {
       photographer: 'Taylor Vick',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1558494949-ef010cbdcc31',
-      license: 'Unsplash License (Commercial Use Allowed)',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1558494949-ef010cbdcc31',
+      license: 'Pexels License (Commercial Use Allowed)',
     },
     needsManualVerify: false,
     blurDataUrl: DEFAULT_BLUR_SHIMMER,
@@ -163,9 +163,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 1350,
     credit: {
       photographer: 'Taylor Vick',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1558494949-ef010cbdcc31',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1558494949-ef010cbdcc31',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -185,9 +185,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Alexandre Debiève',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1518770660439-4636190af475',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1518770660439-4636190af475',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'silicon microchip wafer macro',
@@ -205,9 +205,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Alexandre Debiève',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1518770660439-4636190af475',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1518770660439-4636190af475',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -224,9 +224,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Compare Fibre',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1544197150-b99a580bb7a8',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1544197150-b99a580bb7a8',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'fiber optic cables glowing light',
@@ -244,9 +244,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Compare Fibre',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1544197150-b99a580bb7a8',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1544197150-b99a580bb7a8',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -263,9 +263,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'FLY:D',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1550751827-4bd374c3f58b',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1550751827-4bd374c3f58b',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'cybersecurity encryption server shield',
@@ -283,9 +283,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'FLY:D',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1550751827-4bd374c3f58b',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1550751827-4bd374c3f58b',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -302,9 +302,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Cash Macanaya',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1550684376-efcbd6e3f319',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1550684376-efcbd6e3f319',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'artificial intelligence neural nodes',
@@ -322,9 +322,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Cash Macanaya',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1550684376-efcbd6e3f319',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1550684376-efcbd6e3f319',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -341,9 +341,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'NASA',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'clean energy eco circuit power',
@@ -361,9 +361,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'NASA',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -380,9 +380,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Christopher Gower',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1498050108023-c5249f4df085',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1498050108023-c5249f4df085',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'code syntax dark screen programming',
@@ -400,9 +400,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Christopher Gower',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1498050108023-c5249f4df085',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1498050108023-c5249f4df085',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -419,9 +419,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Markus Spiske',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1526374965328-7f61d4dc18c5',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1526374965328-7f61d4dc18c5',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'cyber matrix terminal code lines',
@@ -439,9 +439,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Markus Spiske',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1526374965328-7f61d4dc18c5',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1526374965328-7f61d4dc18c5',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -458,9 +458,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'NASA',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
     fallbackQuery: 'knowledge graph network nodes',
@@ -478,9 +478,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'NASA',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -498,7 +498,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'Alexandre Debiève', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1518770660439-4636190af475', license: 'Unsplash License' },
+    credit: { photographer: 'Alexandre Debiève', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1518770660439-4636190af475', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'carousel-edgevmax': {
@@ -511,7 +511,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'Compare Fibre', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1544197150-b99a580bb7a8', license: 'Unsplash License' },
+    credit: { photographer: 'Compare Fibre', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1544197150-b99a580bb7a8', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'carousel-riskprotease': {
@@ -524,7 +524,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'FLY:D', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1550751827-4bd374c3f58b', license: 'Unsplash License' },
+    credit: { photographer: 'FLY:D', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1550751827-4bd374c3f58b', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'carousel-llmkinase': {
@@ -537,7 +537,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'Cash Macanaya', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1550684376-efcbd6e3f319', license: 'Unsplash License' },
+    credit: { photographer: 'Cash Macanaya', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1550684376-efcbd6e3f319', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'carousel-ecoholo': {
@@ -550,7 +550,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'NASA', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa', license: 'Unsplash License' },
+    credit: { photographer: 'NASA', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'carousel-gitlygase': {
@@ -563,7 +563,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'Christopher Gower', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1498050108023-c5249f4df085', license: 'Unsplash License' },
+    credit: { photographer: 'Christopher Gower', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1498050108023-c5249f4df085', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'carousel-synthshift': {
@@ -576,7 +576,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'Markus Spiske', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1526374965328-7f61d4dc18c5', license: 'Unsplash License' },
+    credit: { photographer: 'Markus Spiske', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1526374965328-7f61d4dc18c5', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'carousel-alloster': {
@@ -589,7 +589,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'tilt-holo',
     width: 900,
     height: 1200,
-    credit: { photographer: 'NASA', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa', license: 'Unsplash License' },
+    credit: { photographer: 'NASA', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa', license: 'Pexels License' },
     needsManualVerify: false,
   },
 
@@ -608,9 +608,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 96,
     credit: {
       photographer: 'LinkedIn Sales Solutions',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1560250097-0b93528c311a',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1560250097-0b93528c311a',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -627,9 +627,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 96,
     credit: {
       photographer: 'Joseph Gonzalez',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1507003211169-0a1dd7228f2d',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1507003211169-0a1dd7228f2d',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -646,9 +646,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 96,
     credit: {
       photographer: 'Christina @ wocintechchat.com',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1573496359142-b8d87734a5a2',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1573496359142-b8d87734a5a2',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -665,9 +665,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 96,
     credit: {
       photographer: 'Stephanie Liverani',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1494790108377-be9c29b29330',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1494790108377-be9c29b29330',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -685,7 +685,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'static',
     width: 800,
     height: 600,
-    credit: { photographer: 'Taylor Vick', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1558494949-ef010cbdcc31', license: 'Unsplash License' },
+    credit: { photographer: 'Taylor Vick', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1558494949-ef010cbdcc31', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'testimonial-bg-2': {
@@ -698,7 +698,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'static',
     width: 800,
     height: 600,
-    credit: { photographer: 'Compare Fibre', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1544197150-b99a580bb7a8', license: 'Unsplash License' },
+    credit: { photographer: 'Compare Fibre', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1544197150-b99a580bb7a8', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'testimonial-bg-3': {
@@ -711,7 +711,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'static',
     width: 800,
     height: 600,
-    credit: { photographer: 'FLY:D', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1550751827-4bd374c3f58b', license: 'Unsplash License' },
+    credit: { photographer: 'FLY:D', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1550751827-4bd374c3f58b', license: 'Pexels License' },
     needsManualVerify: false,
   },
   'testimonial-bg-4': {
@@ -724,7 +724,7 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     motion: 'static',
     width: 800,
     height: 600,
-    credit: { photographer: 'NASA', source: 'Unsplash', sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa', license: 'Unsplash License' },
+    credit: { photographer: 'NASA', source: 'Pexels', sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa', license: 'Pexels License' },
     needsManualVerify: false,
   },
 
@@ -743,9 +743,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 900,
     credit: {
       photographer: 'Markus Spiske',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1526374965328-7f61d4dc18c5',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1526374965328-7f61d4dc18c5',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -762,9 +762,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 900,
     credit: {
       photographer: 'FLY:D',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1550751827-4bd374c3f58b',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1550751827-4bd374c3f58b',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -781,9 +781,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 900,
     credit: {
       photographer: 'Alexandre Debiève',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1518770660439-4636190af475',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1518770660439-4636190af475',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -800,9 +800,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 900,
     credit: {
       photographer: 'Compare Fibre',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1544197150-b99a580bb7a8',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1544197150-b99a580bb7a8',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -819,9 +819,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 900,
     credit: {
       photographer: 'Cash Macanaya',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1550684376-efcbd6e3f319',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1550684376-efcbd6e3f319',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -838,9 +838,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 900,
     credit: {
       photographer: 'Christopher Gower',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1498050108023-c5249f4df085',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1498050108023-c5249f4df085',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -857,9 +857,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 900,
     credit: {
       photographer: 'NASA',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1451187580459-43490279c0fa',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1451187580459-43490279c0fa',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -879,9 +879,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 800,
     credit: {
       photographer: 'Cash Macanaya',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1550684376-efcbd6e3f319',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1550684376-efcbd6e3f319',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },
@@ -901,9 +901,9 @@ export const MEDIA_REGISTRY: Record<string, MediaAsset> = {
     height: 600,
     credit: {
       photographer: 'Alexandre Debiève',
-      source: 'Unsplash',
-      sourceUrl: 'https://unsplash.com/photos/1518770660439-4636190af475',
-      license: 'Unsplash License',
+      source: 'Pexels',
+      sourceUrl: 'https://pexels.com/photo/1518770660439-4636190af475',
+      license: 'Pexels License',
     },
     needsManualVerify: false,
   },

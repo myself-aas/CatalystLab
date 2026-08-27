@@ -29,7 +29,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({
       aria-label={ariaLabel}
       className={twMerge(
         clsx(
-          'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white active:scale-90',
+          'relative before:absolute before:-inset-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-white active:scale-90',
           'bg-slate-900/60 hover:bg-slate-900/90 text-white border border-white/20 backdrop-blur-md shadow-sm',
           active && 'text-rose-400 border-rose-500/40 bg-rose-950/60',
           className

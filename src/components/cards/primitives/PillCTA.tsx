@@ -13,7 +13,7 @@ const pillVariants = cva(
     variants: {
       variant: {
         solid:
-          'bg-white text-slate-950 hover:bg-slate-100 shadow-md py-2 px-5 hover:scale-[1.02] active:scale-[0.98]',
+          'bg-slate-900 text-white hover:bg-slate-800 shadow-sm py-2 px-5 hover:scale-[1.01] active:scale-[0.98]',
         glass:
           'bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-md shadow-md py-2 px-4 hover:border-white/50',
         'immersive-glow':

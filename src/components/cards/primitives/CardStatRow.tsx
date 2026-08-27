@@ -19,7 +19,7 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
       className={twMerge(
         clsx(
           'w-full flex items-center justify-between',
-          layout === 'inline-dividers' && 'divide-x divide-slate-200 dark:divide-slate-800/80',
+          layout === 'inline-dividers' && (isSurface ? 'divide-x divide-slate-200 dark:divide-slate-800/80' : 'divide-x divide-white/20'),
           className
         )
       )}
@@ -39,7 +39,7 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
           <div className="flex items-center gap-1">
             <span
               className={clsx(
-                'font-bold font-mono tracking-tight truncate',
+                'font-bold font-mono tracking-tight truncate drop-shadow-sm',
                 isSurface ? 'text-slate-900 dark:text-white' : 'text-white',
                 size === 'sm' && 'text-xs',
                 size === 'md' && 'text-sm sm:text-base',
@@ -53,10 +53,10 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
                 className={clsx(
                   'text-[10px] font-mono font-semibold px-1 rounded',
                   stat.trend === 'up'
-                    ? 'text-emerald-400 bg-emerald-950/60'
+                    ? 'text-emerald-300 bg-emerald-950/80 border border-emerald-500/30'
                     : stat.trend === 'down'
-                    ? 'text-rose-400 bg-rose-950/60'
-                    : 'text-slate-400 bg-slate-800/60'
+                    ? 'text-rose-300 bg-rose-950/80 border border-rose-500/30'
+                    : 'text-white bg-slate-800/80 border border-white/20'
                 )}
               >
                 {stat.delta}
@@ -65,8 +65,8 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
           </div>
           <span
             className={clsx(
-              'text-[11px] font-sans truncate tracking-tight',
-              isSurface ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400'
+              'text-[11px] font-sans truncate tracking-tight drop-shadow-sm',
+              isSurface ? 'text-slate-500 dark:text-slate-400' : 'text-white font-medium'
             )}
           >
             {stat.label}

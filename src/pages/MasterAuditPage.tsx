@@ -26,7 +26,7 @@ export const MasterAuditPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="homepage-minimal min-h-screen bg-[#060912] text-slate-100 font-sans selection:bg-[#06B6D4]/30 selection:text-[#00F0FF]">
+    <div className="homepage-minimal min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-slate-200 selection:text-slate-900">
       <div>
         <SEOHead
           title="Precision Telemetry & Autonomous Web Health Auditing — CatalystLab"

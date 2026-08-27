@@ -11,9 +11,9 @@ import {
 } from '../lib/media/registry';
 
 /**
- * Curated Unsplash Image Library mapped to Verified Media Manifest
+ * Curated Pexels Image Library mapped to Verified Media Manifest
  */
-export const UNSPLASH_ASSET_LIBRARY = {
+export const PEXELS_ASSET_LIBRARY = {
   // 1. AI & LLMO / Generative Search / RAG
   ai_neural: U_MATRIX,
   ai_abstract_wave: U_NEON,
@@ -56,7 +56,7 @@ export const UNSPLASH_ASSET_LIBRARY = {
 };
 
 /**
- * Maps any blog post to a contextual, copyright-free Unsplash image URL.
+ * Maps any blog post to a contextual, copyright-free Pexels image URL.
  */
 export function getBlogCoverImage(post: Partial<BlogPost>): string {
   // If post explicitly specifies a valid URL or data-uri, return it
@@ -73,57 +73,57 @@ export function getBlogCoverImage(post: Partial<BlogPost>): string {
   // 1. AI & LLMO
   if (combined.includes('ai') || combined.includes('llm') || combined.includes('llmo') || combined.includes('searchgpt') || combined.includes('perplexity') || combined.includes('rag') || combined.includes('claude')) {
     if (combined.includes('citation') || combined.includes('knowledge')) {
-      return UNSPLASH_ASSET_LIBRARY.ai_intelligence;
+      return PEXELS_ASSET_LIBRARY.ai_intelligence;
     }
     if (combined.includes('crawler') || combined.includes('llms.txt')) {
-      return UNSPLASH_ASSET_LIBRARY.ai_neural;
+      return PEXELS_ASSET_LIBRARY.ai_neural;
     }
-    return UNSPLASH_ASSET_LIBRARY.ai_abstract_wave;
+    return PEXELS_ASSET_LIBRARY.ai_abstract_wave;
   }
 
   // 2. DOM & Performance
   if (combined.includes('dom') || combined.includes('health') || combined.includes('lcp') || combined.includes('inp') || combined.includes('cls') || combined.includes('vital') || combined.includes('performance') || combined.includes('css') || combined.includes('font')) {
     if (combined.includes('css') || combined.includes('font')) {
-      return UNSPLASH_ASSET_LIBRARY.speed_rendering;
+      return PEXELS_ASSET_LIBRARY.speed_rendering;
     }
-    return UNSPLASH_ASSET_LIBRARY.dom_performance;
+    return PEXELS_ASSET_LIBRARY.dom_performance;
   }
 
   // 3. Edge Latency & CDN
   if (combined.includes('latency') || combined.includes('ttfb') || combined.includes('edge') || combined.includes('worker') || combined.includes('pop') || combined.includes('speed') || combined.includes('anycast') || combined.includes('quic')) {
     if (combined.includes('anycast') || combined.includes('pop')) {
-      return UNSPLASH_ASSET_LIBRARY.edge_network;
+      return PEXELS_ASSET_LIBRARY.edge_network;
     }
-    return UNSPLASH_ASSET_LIBRARY.fiber_optics;
+    return PEXELS_ASSET_LIBRARY.fiber_optics;
   }
 
   // 4. SecOps & OWASP
   if (combined.includes('security') || combined.includes('secops') || combined.includes('owasp') || combined.includes('csp') || combined.includes('hsts') || combined.includes('gdpr') || combined.includes('compliance') || combined.includes('threat')) {
     if (combined.includes('threat') || combined.includes('vulnerability')) {
-      return UNSPLASH_ASSET_LIBRARY.cyber_matrix;
+      return PEXELS_ASSET_LIBRARY.cyber_matrix;
     }
-    return UNSPLASH_ASSET_LIBRARY.secops_shield;
+    return PEXELS_ASSET_LIBRARY.secops_shield;
   }
 
   // 5. Git & Repo Hygiene
   if (combined.includes('repo') || combined.includes('git') || combined.includes('ci/cd') || combined.includes('pipeline') || combined.includes('github') || combined.includes('hygiene') || combined.includes('branch')) {
-    return UNSPLASH_ASSET_LIBRARY.git_branches;
+    return PEXELS_ASSET_LIBRARY.git_branches;
   }
 
   // 6. Sustainability & Green Web
   if (combined.includes('eco') || combined.includes('carbon') || combined.includes('green') || combined.includes('sustainability') || combined.includes('sustainable') || combined.includes('esg')) {
-    return UNSPLASH_ASSET_LIBRARY.green_datacenter;
+    return PEXELS_ASSET_LIBRARY.green_datacenter;
   }
 
   // 7. Migration & Architecture
   if (combined.includes('migration') || combined.includes('synth') || combined.includes('301') || combined.includes('architecture') || combined.includes('redirect') || combined.includes('platform')) {
-    return UNSPLASH_ASSET_LIBRARY.architecture_blueprint;
+    return PEXELS_ASSET_LIBRARY.architecture_blueprint;
   }
 
   // 8. Infrastructure & Cloud
   if (combined.includes('server') || combined.includes('cluster') || combined.includes('infra') || combined.includes('cloud')) {
-    return UNSPLASH_ASSET_LIBRARY.cloud_servers;
+    return PEXELS_ASSET_LIBRARY.cloud_servers;
   }
 
-  return UNSPLASH_ASSET_LIBRARY.telemetry_dashboard;
+  return PEXELS_ASSET_LIBRARY.telemetry_dashboard;
 }

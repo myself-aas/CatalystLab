@@ -1,4 +1,4 @@
-export * from './UnsplashImage';
+export * from './PexelsImage';
 export * from './CinematicVideo';
 export * from './CinematicMedia';
 export * from './TiltCard';

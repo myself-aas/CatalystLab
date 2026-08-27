@@ -41,44 +41,44 @@ export const MiniDashboardCard: React.FC<MiniDashboardCardProps> = ({
 }) => {
   return (
     <Card
-      variant="terminal"
+      variant="surface"
       hue={hue}
       lift={false}
-      className={`p-4 sm:p-5 flex flex-col justify-between border border-slate-800 bg-[#0B101D]/95 backdrop-blur-md ${className || ''}`}
+      className={`p-4 sm:p-5 flex flex-col justify-between border border-slate-200 bg-white shadow-sm hover:border-slate-300 hover:shadow-md transition-all ${className || ''}`}
     >
       <div>
         {/* Header Row: Title & Status Indicator */}
-        <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-800/80">
+        <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
           <div className="flex items-center gap-2 min-w-0">
-            <div className="w-6 h-6 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 shrink-0">
-              {icon || <Activity className="w-3.5 h-3.5" />}
+            <div className="w-7 h-7 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+              {icon || <Activity className="w-4 h-4" />}
             </div>
             <CardTitle
               as="h4"
-              className="text-xs sm:text-sm font-bold text-white font-mono truncate"
+              className="text-xs sm:text-sm font-bold text-slate-900 font-sans tracking-tight truncate"
             >
               {title}
             </CardTitle>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
-            {isLive && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />}
-            <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-200 shadow-sm">
+            {isLive && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
+            <span className="text-[9px] font-sans font-bold text-slate-500 uppercase tracking-widest">
               {status}
             </span>
           </div>
         </div>
 
         {/* Primary Metric Display */}
-        <div className="my-2">
-          <div className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight metric-tabular">
+        <div className="my-3">
+          <div className="text-2xl sm:text-3xl font-black font-mono text-slate-900 tracking-tight metric-tabular">
             {mainValue}
           </div>
-          <div className="text-xs font-mono text-cyan-400/90 mt-0.5">
+          <div className="text-xs font-sans font-bold text-indigo-600 mt-1 uppercase tracking-wider">
             {mainLabel}
           </div>
           {subtitle && (
-            <p className="text-[11px] font-sans text-slate-400 mt-1">
+            <p className="text-[11px] font-sans font-medium text-slate-500 mt-1.5 leading-relaxed">
               {subtitle}
             </p>
           )}
@@ -86,7 +86,7 @@ export const MiniDashboardCard: React.FC<MiniDashboardCardProps> = ({
       </div>
 
       {/* Divider-Separated Stat Row (R5 / Catalyst Spec) */}
-      <div className="mt-4 pt-3 border-t border-slate-800/80">
+      <div className="mt-4 pt-3 border-t border-slate-100">
         <CardStatRow
           stats={stats}
           layout="inline-dividers"
@@ -94,7 +94,7 @@ export const MiniDashboardCard: React.FC<MiniDashboardCardProps> = ({
         />
 
         {actionSlot && (
-          <div className="mt-3 pt-2 border-t border-slate-800/60 flex items-center justify-end">
+          <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-end">
             {actionSlot}
           </div>
         )}

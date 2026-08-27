@@ -1,6 +1,4 @@
 import React from 'react';
-import { Card } from '../primitives/Card';
-import { CardTitle } from '../primitives/CardTitle';
 import { EnzymeHue } from '../types';
 import { ChevronRight, HelpCircle } from 'lucide-react';
 
@@ -16,12 +14,6 @@ export interface FAQCategoryCardProps {
   className?: string;
 }
 
-/**
- * FAQCategoryCard (Terminal Variant)
- * Reference Anatomy:
- * - Scanline glass shell
- * - Monospace category icon, title, description, question count chip, hover chevron
- */
 export const FAQCategoryCard: React.FC<FAQCategoryCardProps> = ({
   id,
   label,
@@ -30,20 +22,16 @@ export const FAQCategoryCard: React.FC<FAQCategoryCardProps> = ({
   itemCount,
   isActive = false,
   onSelect,
-  hue = 'edgevmax',
   className,
 }) => {
   return (
-    <Card
-      variant="terminal"
-      hue={hue}
-      lift={true}
-      active={isActive}
+    <button
+      type="button"
       onClick={() => onSelect?.(id)}
-      className={`p-4 sm:p-5 cursor-pointer transition-all duration-200 ${
+      className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer ${
         isActive
-          ? 'border-cyan-400/80 bg-cyan-950/20 shadow-[0_0_20px_rgba(6,182,212,0.2)]'
-          : 'border-slate-800 hover:border-slate-700 bg-[#0B101D]/90'
+          ? 'border-slate-900 bg-slate-50 shadow-sm'
+          : 'border-slate-200 bg-white hover:bg-slate-50/80 hover:border-slate-300'
       } ${className || ''}`}
     >
       <div className="flex items-start justify-between gap-3">
@@ -52,8 +40,8 @@ export const FAQCategoryCard: React.FC<FAQCategoryCardProps> = ({
           <div
             className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border transition-colors ${
               isActive
-                ? 'bg-cyan-500/20 text-cyan-400 border-cyan-400/50'
-                : 'bg-slate-900 text-slate-400 border-slate-800 group-hover:text-white'
+                ? 'bg-slate-900 text-white border-slate-900'
+                : 'bg-slate-100 text-slate-700 border-slate-200'
             }`}
           >
             {icon || <HelpCircle className="w-4 h-4" />}
@@ -61,17 +49,16 @@ export const FAQCategoryCard: React.FC<FAQCategoryCardProps> = ({
 
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <CardTitle
-                as="h4"
-                className={`text-sm sm:text-base font-bold truncate transition-colors ${
-                  isActive ? 'text-cyan-400' : 'text-white group-hover:text-cyan-400'
+              <h4
+                className={`text-sm font-bold truncate transition-colors font-sans ${
+                  isActive ? 'text-slate-900' : 'text-slate-800'
                 }`}
               >
                 {label}
-              </CardTitle>
+              </h4>
             </div>
             {description && (
-              <p className="mt-1 text-xs text-slate-400 font-sans line-clamp-2 leading-relaxed">
+              <p className="mt-1 text-xs text-slate-500 font-sans line-clamp-2 leading-relaxed">
                 {description}
               </p>
             )}
@@ -80,16 +67,17 @@ export const FAQCategoryCard: React.FC<FAQCategoryCardProps> = ({
 
         {/* Right Badge + Chevron */}
         <div className="flex items-center gap-2 shrink-0">
-          <span className="px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-[10px] font-mono font-bold">
+          <span className="px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-[10px] font-mono font-bold">
             {itemCount} Qs
           </span>
           <ChevronRight
             className={`w-4 h-4 transition-transform ${
-              isActive ? 'text-cyan-400 translate-x-0.5' : 'text-slate-600'
+              isActive ? 'text-slate-900 translate-x-0.5' : 'text-slate-400'
             }`}
           />
         </div>
       </div>
-    </Card>
+    </button>
   );
 };
+

@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
-import { UnsplashImage, UnsplashImageProps } from './UnsplashImage';
+import { PexelsImage, PexelsImageProps } from './PexelsImage';
 import { getMediaAsset, MediaAsset } from '../../lib/media/registry';
 
-export interface CinematicMediaProps extends Omit<UnsplashImageProps, 'src' | 'alt'> {
+export interface CinematicMediaProps extends Omit<PexelsImageProps, 'src' | 'alt'> {
   assetId: string;
   sources?: string[];
   mode?: 'ken-burns' | 'parallax-band' | 'static' | 'spotlight';
@@ -77,7 +77,7 @@ export const CinematicMedia: React.FC<CinematicMediaProps> = ({
             style={{ y: parallaxY, scale: 1.12 }}
             className="w-full h-[120%] -top-[10%] relative"
           >
-            <UnsplashImage
+            <PexelsImage
               assetId={assetId}
               sources={sources}
               treatment={treatment || asset.treatment}
@@ -103,7 +103,7 @@ export const CinematicMedia: React.FC<CinematicMediaProps> = ({
             }}
             className="w-full h-full"
           >
-            <UnsplashImage
+            <PexelsImage
               assetId={assetId}
               sources={sources}
               treatment={treatment || asset.treatment}
@@ -117,7 +117,7 @@ export const CinematicMedia: React.FC<CinematicMediaProps> = ({
             />
           </motion.div>
         ) : (
-          <UnsplashImage
+          <PexelsImage
             assetId={assetId}
             sources={sources}
             treatment={treatment || asset.treatment}

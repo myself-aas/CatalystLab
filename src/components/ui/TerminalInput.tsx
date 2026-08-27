@@ -161,7 +161,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               aria-label="Target domain or URL for telemetry audit"
               aria-describedby={`${inputId}-description`}
               aria-busy={isLoading}
-              className={`w-full bg-transparent text-slate-100 placeholder-slate-500 font-mono focus:outline-none transition-colors ${
+              className={`w-full bg-transparent text-slate-100 placeholder-slate-400 font-mono focus:outline-none transition-colors ${
                 isHero
                   ? 'text-sm sm:text-base py-2'
                   : isCompact
@@ -256,30 +256,6 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
           )}
         </AnimatePresence>
       </div>
-
-      {/* Quick Example Targets Pills */}
-      {isHero && !isLoading && (
-        <div className="mt-3 flex flex-wrap items-center gap-2 px-1 text-xs font-mono text-slate-500">
-          <span className="text-slate-400 flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-[#06B6D4]" />
-            <span>Sample Probes:</span>
-          </span>
-          {['https://stripe.com', 'https://vercel.com', 'https://github.com', 'https://shopify.com'].map((target) => (
-            <button
-              key={target}
-              type="button"
-              id={`sample-target-${target.replace(/[^a-z0-9]/gi, '')}`}
-              onClick={() => {
-                onChange(target);
-                onSubmit(target);
-              }}
-              className="px-2 py-0.5 rounded bg-slate-900/80 border border-slate-800 hover:border-[#06B6D4]/50 hover:text-slate-200 transition-colors text-[11px] text-slate-400"
-            >
-              {target.replace('https://', '')}
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

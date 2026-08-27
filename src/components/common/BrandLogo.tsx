@@ -51,20 +51,20 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`flex items-center gap-2.5 ${className}`}>
       {/* Engineered Terminal Icon Box */}
       <div 
-        className={`flex ${current.box} items-center justify-center bg-black text-[#f9a825] border border-black/80 shadow-xs select-none font-bold shrink-0 transition-transform active:scale-95`}
+        className={`flex ${current.box} items-center justify-center bg-slate-900 text-cyan-400 border border-slate-700/80 shadow-xs select-none font-bold shrink-0 transition-transform active:scale-95`}
         aria-hidden="true"
       >
-        <Terminal className={`${current.icon} text-[#f9a825]`} />
+        <Terminal className={`${current.icon} text-cyan-400`} />
       </div>
 
       {showText && (
-        <span className={`font-black tracking-tight transition-colors duration-200 text-black ${current.title}`}>
-          Catalyst<span className="text-[#f9a825]">Lab</span>
+        <span className={`font-bold tracking-tight transition-colors duration-200 ${darkText ? 'text-slate-900' : 'text-foreground'} ${current.title}`}>
+          Catalyst<span className="text-cyan-400">Lab</span>
         </span>
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded-md bg-[#fffbf2] font-mono font-bold text-[#d08305] border border-[#fbd18c] uppercase ${current.badge}`}>
+        <span className={`rounded-md bg-cyan-950/60 font-mono font-semibold text-cyan-400 border border-cyan-500/30 uppercase ${current.badge}`}>
           {badgeText}
         </span>
       )}

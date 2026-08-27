@@ -73,7 +73,10 @@ export function HeroImageCard({
       {overlayStyle === 'glass' ? (
         <>
           {/* Dark base for contrast under blur */}
-          <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-black/95 via-black/70 to-transparent pointer-events-none" />
+          <div
+            className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-black/80 to-transparent pointer-events-none"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
+          />
           {/* Frosted Glass Mask */}
           <div 
             className="absolute inset-x-0 bottom-0 h-[50%] backdrop-blur-md pointer-events-none"
@@ -85,7 +88,10 @@ export function HeroImageCard({
         </>
       ) : (
         /* Solid Gradient */
-        <div className={`absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t ${bottomGradientClasses} to-transparent pointer-events-none opacity-100`} />
+        <div
+          className={`absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/80 to-transparent pointer-events-none opacity-100`}
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
+        />
       )}
 
       {/* Content Container */}

@@ -1,10 +1,10 @@
 /**
- * Free Webhook Dispatch Engine for Slack & Discord (Phase 4.3)
- * Executes standard HTTP POST requests using native Node.js fetch (Zero-Cost).
+ * Zero-Cost Webhook Dispatch Engine for Slack, Discord, and Generic HTTP Endpoints
+ * Executes asynchronous HTTP POST requests using native fetch with HMAC-SHA256 signature support.
  */
 
 export interface WebhookPayloadData {
-  event: 'anomaly_spike' | 'anomaly_drop' | 'downtime' | 'weekly_digest' | 'health_audit_complete';
+  event: 'anomaly_spike' | 'anomaly_drop' | 'downtime' | 'weekly_digest' | 'health_audit_complete' | 'score_drop_alert';
   domain: string;
   title: string;
   summary: string;
@@ -16,6 +16,8 @@ export interface WebhookPayloadData {
   severity?: 'info' | 'warning' | 'critical' | 'success';
   actionUrl?: string;
   timestamp?: number;
+  score?: number;
+  engine?: string;
 }
 
 export interface WebhookResult {
@@ -87,7 +89,7 @@ export function formatSlackBlocks(data: WebhookPayloadData) {
         elements: [
           {
             type: 'mrkdwn',
-            text: `CatalystLab Zero-Cost Telemetry Alert • <!date^${Math.floor((data.timestamp || Date.now()) / 1000)}^{date_num} {time_secs}|${new Date().toISOString()}>`
+            text: `CatalystLab Telemetry Alert • <!date^${Math.floor((data.timestamp || Date.now()) / 1000)}^{date_num} {time_secs}|${new Date().toISOString()}>`
           }
         ]
       }
@@ -104,7 +106,7 @@ export function formatDiscordEmbed(data: WebhookPayloadData) {
   const isSuccess = data.severity === 'success';
 
   // Discord color integers
-  const color = isCritical ? 0xef4444 : isWarning ? 0xf59e0b : isSuccess ? 0x10b981 : 0x0b192c;
+  const color = isCritical ? 0xef4444 : isWarning ? 0xf59e0b : isSuccess ? 0x10b981 : 0x06b6d4;
 
   return {
     username: 'CatalystLab Telemetry',
@@ -136,8 +138,7 @@ export function formatDiscordEmbed(data: WebhookPayloadData) {
 export async function sendSlackWebhook(webhookUrl: string, data: WebhookPayloadData): Promise<WebhookResult> {
   const start = performance.now();
   if (!webhookUrl || !webhookUrl.startsWith('https://hooks.slack.com/')) {
-    // If mock or invalid URL
-    console.log(`[Slack Mock Webhook] Dispatched event: ${data.event} for ${data.domain}`);
+    // Mock / non-live url fallback
     return {
       success: true,
       destination: 'slack',
@@ -173,11 +174,11 @@ export async function sendSlackWebhook(webhookUrl: string, data: WebhookPayloadD
       statusCode: response.status,
       responseTimeMs: elapsed
     };
-  } catch (err: unknown) {
+  } catch (err: any) {
     return {
       success: false,
       destination: 'slack',
-      error: err.message,
+      error: err?.message || 'Network error dispatching Slack webhook',
       responseTimeMs: Math.round(performance.now() - start)
     };
   }
@@ -189,8 +190,7 @@ export async function sendSlackWebhook(webhookUrl: string, data: WebhookPayloadD
 export async function sendDiscordWebhook(webhookUrl: string, data: WebhookPayloadData): Promise<WebhookResult> {
   const start = performance.now();
   if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks/')) {
-    // If mock or invalid URL
-    console.log(`[Discord Mock Webhook] Dispatched event: ${data.event} for ${data.domain}`);
+    // Mock / non-live url fallback
     return {
       success: true,
       destination: 'discord',
@@ -226,11 +226,79 @@ export async function sendDiscordWebhook(webhookUrl: string, data: WebhookPayloa
       statusCode: response.status,
       responseTimeMs: elapsed
     };
-  } catch (err: unknown) {
+  } catch (err: any) {
     return {
       success: false,
       destination: 'discord',
-      error: err.message,
+      error: err?.message || 'Network error dispatching Discord webhook',
+      responseTimeMs: Math.round(performance.now() - start)
+    };
+  }
+}
+
+/**
+ * Dispatch Generic REST Webhook with HMAC signature
+ */
+export async function sendGenericWebhook(webhookUrl: string, data: WebhookPayloadData, secret?: string): Promise<WebhookResult> {
+  const start = performance.now();
+  if (!webhookUrl || !webhookUrl.startsWith('http')) {
+    return {
+      success: false,
+      destination: 'generic',
+      error: 'Invalid target webhook URL scheme (must begin with http:// or https://)'
+    };
+  }
+
+  try {
+    const payloadString = JSON.stringify({
+      event: data.event,
+      timestamp: data.timestamp || Date.now(),
+      domain: data.domain,
+      title: data.title,
+      summary: data.summary,
+      metrics: data.metrics || [],
+      severity: data.severity || 'info',
+      actionUrl: data.actionUrl,
+      score: data.score
+    });
+
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'User-Agent': 'CatalystLab-Telemetry-Dispatcher/2.5.0'
+    };
+
+    if (secret) {
+      // Create HMAC signature if secret provided
+      try {
+        const crypto = await import('crypto');
+        const hmac = crypto.createHmac('sha256', secret);
+        hmac.update(payloadString);
+        headers['X-Catalyst-Signature'] = `sha256=${hmac.digest('hex')}`;
+      } catch {
+        // In browser contexts or if crypto unavailable
+      }
+    }
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers,
+      body: payloadString
+    });
+
+    const elapsed = Math.round(performance.now() - start);
+
+    return {
+      success: response.ok,
+      destination: 'generic',
+      statusCode: response.status,
+      error: response.ok ? undefined : `Target returned HTTP status ${response.status}`,
+      responseTimeMs: elapsed
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      destination: 'generic',
+      error: err?.message || 'Network error dispatching generic webhook',
       responseTimeMs: Math.round(performance.now() - start)
     };
   }

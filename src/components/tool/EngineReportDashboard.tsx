@@ -7,6 +7,7 @@ import {
   BookOpen, Compass, Sparkles, Tag, ArrowUpRight, CheckCircle2, Clock
 } from 'lucide-react';
 import { exportAuditReportDataToPdf } from '../../utils/pdfExport';
+import { ExportReportDropdown } from '../common/ExportReportDropdown';
 import { ENGINES_MAP } from '../../data/engines';
 import { EngineCharts } from './EngineCharts';
 import { AuditInsights } from './AuditInsights';
@@ -437,23 +438,16 @@ print(report['output'])`
                 <span>{savedReportId ? 'Report Saved' : 'Save Report'}</span>
               </button>
 
-              <button 
-                onClick={handleExportPdf} 
-                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
-                title="Export comprehensive PDF dossier"
-              >
-                <Download className="h-4 w-4 text-[#34d399]" /> 
-                <span>Export PDF</span>
-              </button>
-
-              <button 
-                onClick={handlePrint} 
-                className="flex items-center gap-2 rounded-xl bg-[#152238] border border-[#415a77]/40 px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1e2f4a] hover:border-[#38bdf8]/50 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
-                title="Print report format"
-              >
-                <Printer className="h-4 w-4 text-[#a78bfa]" /> 
-                <span>Print</span>
-              </button>
+              <ExportReportDropdown
+                report={{
+                  engine: engineType,
+                  url: targetUrl,
+                  output: output,
+                  createdAt: Date.now(),
+                  ownerId: 'guest'
+                }}
+                buttonLabel="Export Dossier (SARIF / PDF / CDX)"
+              />
 
               <button 
                 onClick={() => setShareModalOpen(true)} 

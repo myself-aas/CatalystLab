@@ -145,7 +145,7 @@ export const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-24 text-black selection:bg-slate-900 selection:text-white">
+    <div className="min-h-screen bg-white pb-24 text-slate-900 selection:bg-slate-900 selection:text-white">
       <SEOHead
         title="Developer Support & Inquiries"
         description="Contact the CatalystLab telemetry and engineering team. Get support for synthetic audits, DOM performance diagnostics, API access, and enterprise quotas."
@@ -154,15 +154,15 @@ export const ContactPage: React.FC = () => {
       />
       
       {/* Header Banner */}
-      <section className="border-b border-slate-200 bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
+      <section className="border-b border-slate-200 bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-mono font-bold text-slate-900 uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-mono font-bold text-slate-900 uppercase tracking-wider mb-3 shadow-sm">
                 <LifeBuoy className="h-3.5 w-3.5" />
                 <span>CatalystLab Engineering Support</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-black tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
                 Developer Inquiries &amp; Support Portal
               </h1>
               <p className="mt-2 text-sm text-slate-600 max-w-2xl leading-relaxed font-sans">
@@ -171,12 +171,12 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Live Status Indicator Pill */}
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 shrink-0 shadow-sm font-mono">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-700">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 shrink-0 shadow-sm font-mono">
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>SUPPORT STATUS: ACTIVE</span>
               </div>
-              <div className="mt-1 text-xs text-black font-medium">
+              <div className="mt-1 text-xs text-slate-700 font-medium font-sans">
                 Avg Response: &lt; 2.4 Hours
               </div>
             </div>
@@ -185,42 +185,42 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* Main Support Workspace */}
-      <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8 space-y-10">
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 space-y-10">
         
         {/* Support Intake Form & Department Hub */}
         <LazyReveal direction="up">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm font-mono">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
             {submitted ? (
-              <div className="rounded-xl border border-emerald-300 bg-emerald-50 p-8 text-center space-y-4">
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-8 text-center space-y-4">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm">
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
-                <h2 className="text-xl font-extrabold text-black">Support Ticket Generated!</h2>
-                <div className="inline-block rounded-lg border border-emerald-200 bg-white px-4 py-1.5 text-sm font-bold text-emerald-700">
+                <h2 className="text-xl font-extrabold text-slate-900">Support Ticket Generated</h2>
+                <div className="inline-block rounded-xl border border-emerald-200 bg-white px-4 py-1.5 text-sm font-mono font-bold text-emerald-800 shadow-sm">
                   Ticket Reference: #{ticketId}
                 </div>
                 <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed font-sans">
-                  We have dispatched your inquiry to the <strong className="capitalize text-black">{department}</strong> on-call team. A confirmation receipt has been sent to <strong className="text-black">{email}</strong>.
+                  We have dispatched your inquiry to the <strong className="capitalize text-slate-900">{department}</strong> on-call team. A confirmation receipt has been sent to <strong className="text-slate-900">{email}</strong>.
                 </p>
                 <button
                   onClick={() => {
                     setSubmitted(false);
                     setMessage('');
                   }}
-                  className="mt-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-300 px-6 py-2.5 text-xs font-bold text-white shadow-sm cursor-pointer"
+                  className="mt-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-6 py-2.5 text-xs font-bold text-white shadow-sm cursor-pointer transition-colors"
                 >
                   Submit Another Inquiry
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6 font-sans">
                 
                 {/* 1. Department Selection */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-2.5">
+                  <label className="block text-xs font-mono font-bold text-slate-900 uppercase tracking-wider mb-2.5">
                     1. Select Inquiry Topic / Routing
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {departments.map((dep) => {
                       const Icon = dep.icon;
                       const isSelected = department === dep.id;
@@ -229,22 +229,20 @@ export const ContactPage: React.FC = () => {
                           key={dep.id}
                           type="button"
                           onClick={() => setDepartment(dep.id)}
-                          className={`flex items-start gap-3 rounded-xl p-3.5 text-left border transition-all cursor-pointer ${
+                          className={`flex items-start gap-3 rounded-2xl p-4 text-left border transition-all cursor-pointer ${
                             isSelected
-                              ? 'border-slate-300 bg-slate-900 text-white shadow-sm'
-                              : 'border-slate-200 bg-slate-50 text-black hover:border-slate-300'
+                              ? 'border-slate-900 bg-slate-50 text-slate-900 shadow-sm ring-1 ring-slate-900'
+                              : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300 hover:bg-slate-50/50'
                           }`}
                         >
-                          <div className={`p-2 rounded-lg shrink-0 ${
-                            isSelected ? 'bg-slate-800 text-white' : 'bg-white text-slate-600'
+                          <div className={`p-2 rounded-xl shrink-0 border ${
+                            isSelected ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-100 text-slate-700 border-slate-200'
                           }`}>
                             <Icon className="h-4 w-4" />
                           </div>
                           <div>
-                            <div className="font-bold text-xs">{dep.label}</div>
-                            <div className={`text-[11px] mt-0.5 leading-snug font-sans ${
-                              isSelected ? 'text-slate-200' : 'text-slate-600'
-                            }`}>
+                            <div className="font-bold text-xs font-sans text-slate-900">{dep.label}</div>
+                            <div className="text-[11px] mt-0.5 leading-relaxed font-sans text-slate-500">
                               {dep.desc}
                             </div>
                           </div>
@@ -256,7 +254,7 @@ export const ContactPage: React.FC = () => {
 
                 {/* 2. Priority Level */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-mono font-bold text-slate-900 uppercase tracking-wider mb-2">
                     2. Urgency &amp; Priority Level
                   </label>
                   <div className="flex flex-wrap items-center gap-2">
@@ -269,10 +267,10 @@ export const ContactPage: React.FC = () => {
                         key={p.id}
                         type="button"
                         onClick={() => setPriority(p.id)}
-                        className={`rounded-lg px-3.5 py-1.5 text-xs font-bold border transition-all cursor-pointer ${
+                        className={`rounded-xl px-4 py-2 text-xs font-semibold border transition-all cursor-pointer ${
                           priority === p.id
-                            ? 'border-slate-300 bg-slate-900 text-white shadow-sm'
-                            : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-black hover:bg-slate-100'
+                            ? 'border-slate-900 bg-slate-900 text-white shadow-sm'
+                            : 'border-slate-200 bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-50'
                         }`}
                       >
                         {p.label}
@@ -282,9 +280,9 @@ export const ContactPage: React.FC = () => {
                 </div>
 
                 {/* 3. Contact Details */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                       Your Name / Organization
                     </label>
                     <input
@@ -293,12 +291,12 @@ export const ContactPage: React.FC = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Jane Doe (DevOps Lead)"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-black placeholder:text-slate-400 focus:border-slate-300 focus:outline-none"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                       Work Email Address
                     </label>
                     <input
@@ -307,14 +305,14 @@ export const ContactPage: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="jane@company.com"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-black placeholder:text-slate-400 focus:border-slate-300 focus:outline-none"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm"
                     />
                   </div>
                 </div>
 
                 {/* 4. Target Domain */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                     Target Domain or Repository (Optional)
                   </label>
                   <input
@@ -322,13 +320,13 @@ export const ContactPage: React.FC = () => {
                     value={targetUrl}
                     onChange={(e) => setTargetUrl(e.target.value)}
                     placeholder="https://example.com or github.com/owner/repo"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-black placeholder:text-slate-400 focus:border-slate-300 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm font-mono"
                   />
                 </div>
 
                 {/* 5. Message Body */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-600 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                     Describe Your Inquiry or Diagnostic Error
                   </label>
                   <textarea
@@ -337,21 +335,21 @@ export const ContactPage: React.FC = () => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Provide details about the diagnostic engine, unexpected metric values, or custom infrastructure requirements..."
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-black placeholder:text-slate-400 focus:border-slate-300 focus:outline-none font-sans"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm font-sans"
                   />
                 </div>
 
                 {/* 6. Diagnostics Checkbox */}
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 flex items-start gap-2.5 text-xs text-slate-600 font-sans">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 flex items-start gap-3 text-xs text-slate-600 font-sans">
                   <input
                     type="checkbox"
                     id="attach-diag"
                     checked={attachDiagnostics}
                     onChange={(e) => setAttachDiagnostics(e.target.checked)}
-                    className="mt-0.5 h-3.5 w-3.5 rounded border-slate-300 bg-white text-slate-900 focus:ring-0"
+                    className="mt-0.5 h-4 w-4 rounded border-slate-300 bg-white text-slate-900 focus:ring-slate-900 cursor-pointer"
                   />
                   <label htmlFor="attach-diag" className="cursor-pointer leading-relaxed">
-                    <strong className="text-black">Attach Client Telemetry Context:</strong> Includes browser user-agent, viewport resolution, and network socket handshake latency to help engineers reproduce your issue quickly.
+                    <strong className="text-slate-900">Attach Client Telemetry Context:</strong> Includes browser user-agent, viewport resolution, and network socket handshake latency to help engineers reproduce your issue quickly.
                   </label>
                 </div>
 
@@ -359,7 +357,7 @@ export const ContactPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-300 py-3 text-xs font-bold text-white shadow-sm active:scale-98 disabled:opacity-60 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 py-3.5 text-xs font-bold text-white shadow-sm active:scale-98 disabled:opacity-60 cursor-pointer transition-colors"
                 >
                   {isSubmitting ? (
                     <>
@@ -391,29 +389,29 @@ export const ContactPage: React.FC = () => {
 
         {/* Alternate Emergency Channels */}
         <LazyReveal direction="up">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 font-mono">
-            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-1.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 text-slate-700 border border-slate-200 mb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700 border border-slate-200 mb-2">
                 <Mail className="h-4 w-4" />
               </div>
-              <h4 className="text-xs font-bold text-black">Direct Email Hotline</h4>
-              <p className="text-xs text-slate-500">support@catalystlab.tech</p>
+              <h4 className="text-xs font-bold text-slate-900 font-sans">Direct Email Hotline</h4>
+              <p className="text-xs text-slate-500 font-mono">support@catalystlab.tech</p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-1.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 text-emerald-600 border border-slate-200 mb-2">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 mb-2">
                 <Terminal className="h-4 w-4" />
               </div>
-              <h4 className="text-xs font-bold text-black">Superadmin Studio</h4>
-              <p className="text-xs text-slate-500">Admin Live Console (/admin)</p>
+              <h4 className="text-xs font-bold text-slate-900 font-sans">Superadmin Studio</h4>
+              <p className="text-xs text-slate-500 font-mono">Admin Live Console (/admin)</p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-1.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 text-amber-600 border border-slate-200 mb-2">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-2">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-700 border border-amber-200 mb-2">
                 <ShieldCheck className="h-4 w-4" />
               </div>
-              <h4 className="text-xs font-bold text-black">Security Vulnerabilities</h4>
-              <p className="text-xs text-slate-500">security@catalystlab.tech</p>
+              <h4 className="text-xs font-bold text-slate-900 font-sans">Security Vulnerabilities</h4>
+              <p className="text-xs text-slate-500 font-mono">security@catalystlab.tech</p>
             </div>
           </div>
         </LazyReveal>

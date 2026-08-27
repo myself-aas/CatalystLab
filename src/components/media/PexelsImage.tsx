@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getMediaAsset, MediaAsset, MediaTreatment, DEFAULT_BLUR_SHIMMER } from '../../lib/media/registry';
 
-export interface UnsplashImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface PexelsImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   assetId?: string;
   sources?: string[];
   treatment?: MediaTreatment;
@@ -17,7 +17,7 @@ export interface UnsplashImageProps extends React.ImgHTMLAttributes<HTMLImageEle
   height?: number;
 }
 
-export const UnsplashImage: React.FC<UnsplashImageProps> = ({
+export const PexelsImage: React.FC<PexelsImageProps> = ({
   assetId,
   sources: customSources,
   treatment,
@@ -164,4 +164,4 @@ export const UnsplashImage: React.FC<UnsplashImageProps> = ({
   );
 };
 
-export default UnsplashImage;
+export default PexelsImage;

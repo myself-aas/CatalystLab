@@ -14,6 +14,16 @@ import {
   TrendingDown,
   Minus,
 } from 'lucide-react';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from 'recharts';
+import { Card } from '../cards/primitives/Card';
 
 export interface BenchmarkVector {
   id: string;
@@ -152,182 +162,98 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
 
   const wins = activeVectors.filter((v) => v.verdict === 'WIN').length;
 
+  const chartData = [
+    { name: 'Target', score: activeSelected.targetScore, fill: '#4f46e5' },
+    { name: 'Benchmark', score: activeSelected.benchmarkScore, fill: '#94a3b8' },
+  ];
+
   return (
-    <div
+    <Card
       id={cardId}
-      className={`rounded-xl border border-slate-800 bg-[#0B101B]/95 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden font-sans ${className}`}
+      variant="surface"
+      className={`border-slate-200 shadow-sm ${className}`}
     >
-      {/* Header Comparison Banner */}
-      <div className="p-4 sm:p-5 bg-gradient-to-r from-[#0D1424] to-[#0A0F1D] border-b border-slate-800/80">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      {/* Header Comparison Banner - Refined Light Theme */}
+      <div className="p-5 border-b border-slate-100">
+        <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#06B6D4]">
+            <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
               <ArrowLeftRight className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-semibold tracking-wider text-[#06B6D4] uppercase">
+              <span className="text-[10px] font-sans font-bold tracking-widest text-indigo-600 uppercase">
                 COMPARATIVE TELEMETRY MATRIX
               </span>
-              <h3 className="text-sm sm:text-base font-bold text-slate-100">
+              <h3 className="text-base font-bold text-slate-900">
                 Head-to-Head Vector Benchmark
               </h3>
             </div>
           </div>
-
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-[#10B981]/15 text-[#00FF66] border border-[#10B981]/30">
-              <Trophy className="w-3.5 h-3.5 text-[#00FF66]" />
-              <span>
-                {wins}/{activeVectors.length} Vectors Ahead
-              </span>
-            </span>
-          </div>
-        </div>
-
-        {/* Side-by-Side Domain Badges */}
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          {/* Target Domain Card */}
-          <div className="p-3 rounded-lg bg-[#070B13] border border-[#06B6D4]/40 shadow-[0_0_15px_rgba(6,182,212,0.15)] flex flex-col justify-between">
-            <div className="flex items-center justify-between gap-1">
-              <span className="text-[10px] font-mono text-[#06B6D4] font-bold">
-                [TARGET SITE]
-              </span>
-              <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-pulse" />
-            </div>
-            <p className="text-xs sm:text-sm font-mono font-bold text-slate-100 truncate mt-1">
-              {targetDomain}
-            </p>
-            <div className="mt-2 flex items-baseline gap-1">
-              <span className="text-lg sm:text-xl font-mono font-extrabold text-[#00FF66]">
-                {targetScore}
-              </span>
-              <span className="text-[10px] font-mono text-slate-500">/100 Composite</span>
-            </div>
-          </div>
-
-          {/* Benchmark Domain Card */}
-          <div className="p-3 rounded-lg bg-[#070B13] border border-slate-800 flex flex-col justify-between">
-            <div className="flex items-center justify-between gap-1">
-              <span className="text-[10px] font-mono text-slate-400 font-medium">
-                [BENCHMARK]
-              </span>
-              <span className="w-2 h-2 rounded-full bg-slate-600" />
-            </div>
-            <p className="text-xs sm:text-sm font-mono font-semibold text-slate-300 truncate mt-1">
-              {benchmarkDomain}
-            </p>
-            <div className="mt-2 flex items-baseline gap-1">
-              <span className="text-lg sm:text-xl font-mono font-extrabold text-slate-400">
-                {benchmarkScore}
-              </span>
-              <span className="text-[10px] font-mono text-slate-500">/100 Composite</span>
-            </div>
-          </div>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-sans font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <Trophy className="w-3.5 h-3.5 text-emerald-600" />
+            <span>{wins}/{activeVectors.length} Vectors Ahead</span>
+          </span>
         </div>
       </div>
 
-      {/* Vector List / Mobile Tabs */}
-      <div className="p-4 sm:p-5 space-y-3">
-        <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block">
-          Telemetry Vector Deltas:
-        </span>
-
+      {/* Vector List & Interactive Chart */}
+      <div className="p-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Vector List */}
         <div className="space-y-2">
           {activeVectors.map((vec) => {
             const Icon = vec.icon;
             const isSelected = vec.id === selectedVectorId;
 
             return (
-              <div
+              <button
                 key={vec.id}
-                id={`${cardId}-row-${vec.id}`}
                 onClick={() => setSelectedVectorId(vec.id)}
-                className={`p-3 rounded-lg border transition-all cursor-pointer ${
+                className={`w-full p-3 rounded-xl border transition-all ${
                   isSelected
-                    ? 'border-[#06B6D4]/80 bg-[#070B14] shadow-[0_0_15px_rgba(6,182,212,0.15)]'
-                    : 'border-slate-800/80 bg-[#080D17]/70 hover:border-slate-700 hover:bg-[#0A101C]'
+                    ? 'border-indigo-200 bg-indigo-50 shadow-sm'
+                    : 'border-slate-100 hover:border-slate-200 hover:bg-slate-50'
                 }`}
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div
-                      className={`p-1.5 rounded ${
-                        isSelected
-                          ? 'bg-[#06B6D4]/20 text-[#00F0FF]'
-                          : 'bg-slate-800 text-slate-400'
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                    </div>
-                    <span className="text-xs sm:text-sm font-mono font-semibold text-slate-200 truncate">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-indigo-600' : 'text-slate-400'}`} />
+                    <span className={`text-sm font-sans font-semibold ${isSelected ? 'text-indigo-900' : 'text-slate-700'}`}>
                       {vec.name}
                     </span>
                   </div>
-
-                  {/* Delta Pill */}
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-[#10B981]/15 text-[#00FF66] border border-[#10B981]/30">
-                      <TrendingUp className="w-3 h-3 text-[#00FF66]" />
-                      <span>{vec.deltaText}</span>
-                    </span>
-                  </div>
+                  <span className="text-[11px] font-sans font-bold text-emerald-700">
+                    {vec.deltaText}
+                  </span>
                 </div>
-
-                {/* Comparative Mini Gauges */}
-                <div className="mt-2.5 grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/40 text-xs font-mono">
-                  <div>
-                    <div className="flex items-baseline justify-between text-slate-300">
-                      <span className="text-[10px] text-slate-500">Target</span>
-                      <span className="font-bold text-[#00FF66]">
-                        {vec.targetValue}
-                        {vec.targetUnit && ` ${vec.targetUnit}`}
-                      </span>
-                    </div>
-                    <div className="mt-1 h-1.5 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${vec.targetScore}%` }}
-                        transition={{ duration: 0.5 }}
-                        className="h-full bg-gradient-to-r from-[#06B6D4] to-[#00FF66] rounded-full"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex items-baseline justify-between text-slate-400">
-                      <span className="text-[10px] text-slate-500">Benchmark</span>
-                      <span className="font-medium text-slate-400">
-                        {vec.benchmarkValue}
-                        {vec.benchmarkUnit && ` ${vec.benchmarkUnit}`}
-                      </span>
-                    </div>
-                    <div className="mt-1 h-1.5 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${vec.benchmarkScore}%` }}
-                        transition={{ duration: 0.5 }}
-                        className="h-full bg-slate-600 rounded-full"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </button>
             );
           })}
         </div>
 
-        {/* Selected Vector Deep Dive Note */}
-        {activeSelected && (
-          <div className="mt-3 p-3 rounded-lg bg-[#070A12] border border-slate-800/80 text-xs font-sans text-slate-400">
-            <span className="font-mono font-bold text-slate-300">
-              Vector Insight:
-            </span>{' '}
+        {/* Recharts Visualization */}
+        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex flex-col">
+          <span className="text-xs font-sans font-bold text-slate-500 mb-4">
+            Vector Score Comparison
+          </span>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 20 }}>
+                <XAxis type="number" domain={[0, 100]} hide />
+                <YAxis dataKey="name" type="category" tick={{ fontSize: 12, fontWeight: 600 }} axisLine={false} tickLine={false} />
+                <Tooltip cursor={false} contentStyle={{ borderRadius: '8px', fontSize: '12px' }} />
+                <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={24} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 p-3 rounded-lg bg-white border border-slate-100 text-xs text-slate-600">
+            <span className="font-sans font-bold text-slate-900">Vector Insight:</span>{' '}
             {activeSelected.description}
           </div>
-        )}
+        </div>
       </div>
-    </div>
+    </Card>
   );
 };
+
 
 export default BenchmarkCard;

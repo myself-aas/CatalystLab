@@ -8,6 +8,15 @@ import { ThemeProvider } from './context/ThemeContext';
 import App from './App';
 import './index.css';
 
+// Register Service Worker for offline asset and telemetry doc caching
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((error) => {
+      console.warn('[SW] Registration failed:', error);
+    });
+  });
+}
+
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
 

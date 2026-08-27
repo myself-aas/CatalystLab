@@ -91,30 +91,30 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         onClick={onClick}
         className={`group w-full text-left rounded-xl p-3 border transition-all cursor-pointer font-mono select-none ${
           isActive
-            ? 'bg-[#0E1526] border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)]'
-            : 'bg-[#0E1526]/60 border-slate-800 hover:border-slate-700 opacity-80 hover:opacity-100'
+            ? 'bg-white border-indigo-400 shadow-md ring-2 ring-indigo-500/10'
+            : 'bg-white/60 border-slate-200 hover:border-slate-300 opacity-80 hover:opacity-100 hover:bg-white shadow-sm'
         } ${className || ''}`}
       >
         <div className="flex items-center justify-between gap-1 mb-1">
-          <span className="text-[9px] uppercase tracking-wider text-slate-400 font-bold truncate">
+          <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold truncate">
             {displayBadge}
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shrink-0" />
+          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse shrink-0" />
         </div>
 
-        <div className="text-sm font-bold text-white font-mono truncate">
+        <div className="text-sm font-bold text-slate-900 font-mono truncate">
           {displayValue}
         </div>
 
-        <div className="text-[10px] text-slate-300 truncate mt-0.5 font-sans">
+        <div className="text-[10px] text-slate-500 font-medium truncate mt-0.5 font-sans">
           {displayTitle}
         </div>
 
         {miniStats && miniStats.length > 0 && (
-          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-slate-800/80 text-[9px] text-slate-400 font-mono">
+          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-slate-100 text-[9px] text-slate-500 font-mono">
             {miniStats.map((ms, idx) => (
               <span key={idx}>
-                {ms.label}: <strong className="text-white">{ms.value}</strong>
+                {ms.label}: <strong className="text-slate-900">{ms.value}</strong>
               </span>
             ))}
           </div>

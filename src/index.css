@@ -2,20 +2,20 @@
 @import "./styles/card-tokens.css";
 
 /* ==========================================================================
-   CATALYSTLAB DESIGN SYSTEM — merged terminal + enterprise tokens
+   CATALYSTLAB DESIGN SYSTEM — MINIMALIST & PROFESSIONAL ARCHITECTURE
    ========================================================================== */
 
 :root {
-  /* --- Terminal Dark Theme (Default Telemetry Environment) --- */
-  --bg-app: #060911;
-  --bg-void: #030712;
-  --bg-panel: #0b101b;
-  --bg-panel-hover: #101726;
-  --bg-surface: #111827;
-  --bg-surface-elevated: #162032;
+  /* --- Primary Telemetry Dark Substrate --- */
+  --bg-app: #060912;
+  --bg-void: #03050a;
+  --bg-panel: #0b101d;
+  --bg-panel-hover: #10172a;
+  --bg-surface: #0e1526;
+  --bg-surface-elevated: #131c31;
 
   --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
+  --text-secondary: #cbd5e1;
   --text-muted: #64748b;
   --text-inverse: #030712;
 
@@ -24,141 +24,78 @@
   --border-bright: #475569;
   --border-focus: #06b6d4;
 
-  /* Terminal Neon Colors */
+  /* Refined Telemetry Accents */
   --color-green-neon: #00ff66;
   --color-green-terminal: #10b981;
-  --color-green-glow: rgba(16, 185, 129, 0.25);
+  --color-green-glow: rgba(16, 185, 129, 0.2);
 
   --color-cyan-neon: #00f0ff;
   --color-cyan-terminal: #06b6d4;
-  --color-cyan-glow: rgba(6, 182, 212, 0.25);
+  --color-cyan-glow: rgba(6, 182, 212, 0.2);
 
   --color-amber-neon: #ffb800;
   --color-amber-terminal: #f59e0b;
-  --color-amber-glow: rgba(245, 158, 11, 0.25);
+  --color-amber-glow: rgba(245, 158, 11, 0.2);
 
   --color-red-neon: #ff3366;
   --color-red-terminal: #ef4444;
-  --color-red-glow: rgba(239, 68, 68, 0.25);
+  --color-red-glow: rgba(239, 68, 68, 0.2);
 
   --color-purple-neon: #a855f7;
   --color-purple-terminal: #8b5cf6;
-  --color-purple-glow: rgba(139, 92, 246, 0.25);
-
-  /* Biochemical Enzyme Palette */
-  --enzyme-vitalzyme: #06b6d4;
-  --enzyme-llmkinase: #10b981;
-  --enzyme-repoprotease: #8b5cf6;
-  --enzyme-latencypolymerase: #3b82f6;
-  --enzyme-ecolactase: #84cc16;
-  --enzyme-compliasome: #f59e0b;
-  --enzyme-migratase: #ec4899;
-  --enzyme-synthase: #14b8a6;
+  --color-purple-glow: rgba(139, 92, 246, 0.2);
 
   /* Font Stacks */
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  /* Terminal Glass Specs */
-  --glass-bg: rgba(11, 16, 27, 0.75);
-  --glass-border: rgba(51, 65, 85, 0.6);
+  /* Glass Specifications */
+  --glass-bg: rgba(11, 16, 29, 0.85);
+  --glass-border: rgba(30, 41, 59, 0.8);
   --glass-blur: 16px;
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  --glass-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.6);
 
-  /* =========================================
-     PRIMITIVE COLOR TOKENS (From Palette Image)
-     ========================================= */
-  /* Neutrals / Greys */
-  --color-black-pure: #000000;
-  --color-black-900: #111111;
-  --color-black-800: #232323;
-  --color-black-700: #353535;
-  --color-gray-600: #474747;
-  --color-gray-500: #595959;
-  --color-gray-400: #6b6b6b;
-  --color-gray-300: #7c7c7c;
-  --color-gray-200: #8e8e8e;
-  --color-gray-150: #a0a0a0;
-  --color-gray-100: #b2b2b2;
-  --color-silver: #b4b4b4;
-  --color-silver-light: #c4c4c4;
-  --color-border-subtle: #e5e5e5;
-  --color-surface-soft: #f5f5f7;
-  --color-surface-subtle: #fafafa;
-  --color-white-pure: #ffffff;
+  /* Semantic Default Tokens (Dark Substrate) */
+  --color-background: #060912;
+  --color-foreground: #f8fafc;
+  --color-surface: #0b101d;
+  --color-surface-panel: #0b101d;
+  --color-surface-muted: #0e1526;
+  --color-surface-subtle: #090e1a;
+  --color-surface-tint-orange: rgba(245, 158, 11, 0.08);
+  --color-surface-tint-red: rgba(239, 68, 68, 0.08);
+  --color-primary: #06b6d4;
+  --color-primary-hover: #00f0ff;
+  --color-secondary: #10b981;
+  --color-secondary-hover: #00ff66;
+  --color-muted: #94a3b8;
+  --color-border: #1e293b;
+  --color-border-strong: #334155;
 
-  /* Warm Amber / Orange Scale (Main: #f9a825) */
-  --color-amber-50: #fffbf2;
-  --color-amber-100: #fff4db;
-  --color-amber-200: #fbd18c;
-  --color-amber-300: #fac36a;
-  --color-amber-400: #f9b547;
-  --color-amber-450: #f8a724;
-  --color-amber-500: #f9a825;
-  --color-amber-600: #f39806;
-  --color-amber-700: #d08305;
-  --color-amber-800: #ad6d04;
-  --color-amber-900: #8a5703;
-  --color-amber-950: #452b01;
-
-  /* Crimson / Deep Red Scale (Main: #c62828) */
-  --color-red-50: #fff5f5;
-  --color-red-100: #ffe6e6;
-  --color-red-200: #eb9d9d;
-  --color-red-300: #e57f7f;
-  --color-red-400: #df6262;
-  --color-red-450: #d94444;
-  --color-red-500: #cf2a2a;
-  --color-red-600: #c62828;
-  --color-red-700: #b22424;
-  --color-red-800: #941e1e;
-  --color-red-900: #761818;
-  --color-red-950: #3b0c0c;
-
-  /* =========================================
-     SEMANTIC TOKENS
-     ========================================= */
-  --color-background: #ffffff;
-  --color-foreground: #111111;
-  --color-surface: #ffffff;
-  --color-surface-panel: #ffffff;
-  --color-surface-muted: #fafafa;
-  --color-surface-tint-orange: #fffbf2;
-  --color-surface-tint-red: #fff5f5;
-  --color-primary: #f9a825;
-  --color-primary-hover: #d08305;
-  --color-secondary: #c62828;
-  --color-secondary-hover: #941e1e;
-  --color-muted: #595959;
-  --color-border: #e5e5e5;
-  --color-border-strong: #b4b4b4;
-
-  /* Component tokens */
-  --button-bg: #111111;
-  --button-text: #ffffff;
-  --button-hover: #f9a825;
-  --slide-bg: #ffffff;
+  --button-bg: #06b6d4;
+  --button-text: #060912;
+  --button-hover: #00f0ff;
+  --slide-bg: #060912;
 }
 
 html.dark, [data-theme="dark"] {
-  /* Dark theme overrides. The default :root is intentionally light. */
-  --color-background: #060911;
+  --color-background: #060912;
   --color-foreground: #f8fafc;
-  --color-surface: #0b101b;
-  --color-surface-panel: #0b101b;
-  --color-surface-muted: #111827;
-  --color-surface-subtle: #111827;
+  --color-surface: #0b101d;
+  --color-surface-panel: #0b101d;
+  --color-surface-muted: #0e1526;
+  --color-surface-subtle: #090e1a;
   --color-border: #1e293b;
   --color-border-subtle: #1e293b;
   --color-border-strong: #334155;
   --color-muted: #94a3b8;
   --button-bg: #06b6d4;
-  --button-text: #060911;
+  --button-text: #060912;
   --button-hover: #00f0ff;
-  --slide-bg: #060911;
+  --slide-bg: #060912;
 }
 
-/* --- Terminal Light Theme (High-Contrast Lab Mode) --- */
+/* Light Theme Mode */
 [data-theme="light"], .theme-light {
   --bg-app: #f8fafc;
   --bg-void: #ffffff;
@@ -177,30 +114,25 @@ html.dark, [data-theme="dark"] {
   --border-bright: #94a3b8;
   --border-focus: #0891b2;
 
-  --color-green-neon: #059669;
-  --color-green-terminal: #10b981;
-  --color-green-glow: rgba(16, 185, 129, 0.15);
+  --color-background: #f8fafc;
+  --color-foreground: #090d16;
+  --color-surface: #ffffff;
+  --color-surface-panel: #ffffff;
+  --color-surface-muted: #f1f5f9;
+  --color-surface-subtle: #f8fafc;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+  --color-muted: #64748b;
+  --button-bg: #0891b2;
+  --button-text: #ffffff;
+  --button-hover: #06b6d4;
+  --slide-bg: #ffffff;
 
-  --color-cyan-neon: #0891b2;
-  --color-cyan-terminal: #06b6d4;
-  --color-cyan-glow: rgba(6, 182, 212, 0.15);
-
-  --color-amber-neon: #d97706;
-  --color-amber-terminal: #f59e0b;
-  --color-amber-glow: rgba(245, 158, 11, 0.15);
-
-  --color-red-neon: #dc2626;
-  --color-red-terminal: #ef4444;
-  --color-red-glow: rgba(239, 68, 68, 0.15);
-
-  --color-purple-neon: #7c3aed;
-  --color-purple-terminal: #8b5cf6;
-  --color-purple-glow: rgba(139, 92, 246, 0.15);
-
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(203, 213, 225, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(226, 232, 240, 0.8);
   --glass-blur: 16px;
-  --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.08);
+  --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.06);
 }
 
 @theme {
@@ -294,7 +226,7 @@ html.dark, [data-theme="dark"] {
   h1, h2, h3, h4, h5, h6 {
     text-wrap: balance;
     letter-spacing: -0.025em;
-    color: #000000;
+    color: var(--color-foreground, inherit);
     font-weight: 700;
   }
 
@@ -304,7 +236,7 @@ html.dark, [data-theme="dark"] {
 
   p {
     text-wrap: pretty;
-    color: #474747;
+    color: inherit;
   }
 }
 
@@ -517,7 +449,7 @@ html.dark, [data-theme="dark"] {
 }
 
 /* ==========================================================================
-   CATALYST-GRADE MEDIA & UNSPLASH PIPELINE
+   CATALYST-GRADE MEDIA & PEXELS PIPELINE
    ========================================================================== */
 
 @layer utilities {
@@ -815,6 +747,19 @@ html.dark, [data-theme="dark"] {
 [data-theme="light"] .homepage-minimal .bg-clip-text.text-transparent {
   -webkit-text-fill-color: #0f172a !important;
   color: #0f172a !important;
+}
+
+/* Hero section light theme background and media contrast tuning */
+[data-theme="light"] .homepage-minimal #hero-section {
+  background-color: #f8fafc !important;
+  background-image: radial-gradient(ellipse 80% 50% at 50% 0%, #ffffff 0%, #f1f5f9 60%, #e2e8f0 100%) !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .homepage-minimal #hero-section .catalyst-media-img {
+  filter: grayscale(1) contrast(1.15) brightness(1.05);
+  opacity: 0.12;
+  mix-blend-mode: multiply;
 }
 
 /* =========================================

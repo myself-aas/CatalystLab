@@ -109,32 +109,32 @@ export const WorkflowSection: React.FC = () => {
     <section
       id="workflow-section"
       ref={containerRef}
-      className="relative py-20 lg:py-28 bg-[#070A13] text-slate-100 border-b border-slate-800 overflow-hidden"
+      className="relative py-24 lg:py-32 bg-white text-slate-900 border-b border-slate-200 overflow-hidden"
     >
       {/* Subtle Background Glows */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#06B6D4]/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#10B981]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3.5 py-1 text-xs font-mono font-medium text-[#00F0FF] shadow-sm mb-3">
-              <Network className="h-3.5 w-3.5 text-[#00F0FF]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-sans font-bold text-indigo-700 shadow-sm mb-4">
+              <Network className="h-3.5 w-3.5 text-indigo-600" />
               <span>SYNCHRONOUS EXECUTION PIPELINE</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900">
               Autonomous 4-Stage Workflow
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 max-w-xl mt-2 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mt-4 font-medium leading-relaxed">
               From global edge DNS resolution to instant zero-latency remediation patches in under 1,060ms total execution time.
             </p>
           </LazyReveal>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400 bg-[#0B101D] border border-slate-800 p-2.5 rounded-xl">
-            <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping" />
-            <span>TOTAL LATENCY: <strong className="text-slate-100">1.06s</strong> (P95)</span>
+          <div className="flex items-center gap-2 text-sm font-sans font-medium text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+            <span>TOTAL LATENCY: <strong className="text-slate-900 font-mono text-base">1.06s</strong> (P95)</span>
           </div>
         </div>
 
@@ -146,17 +146,17 @@ export const WorkflowSection: React.FC = () => {
           {/* Central Vertical Connecting Line on Large Screens */}
           <div className="hidden lg:block absolute left-1/2 top-8 bottom-8 -translate-x-1/2 w-0.5 pointer-events-none">
             {/* Background Track Line */}
-            <div className="w-full h-full bg-slate-800" />
+            <div className="w-full h-full bg-slate-200 rounded-full" />
             
             {/* Animated SVG Filling Stroke */}
             <motion.div
               style={{ height: lineHeight }}
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#06B6D4] via-[#00F0FF] to-[#00FF66] shadow-[0_0_12px_#00F0FF]"
+              className="absolute top-0 left-0 w-full bg-gradient-to-b from-indigo-500 via-purple-500 to-emerald-500 shadow-[0_0_12px_rgba(99,102,241,0.5)] rounded-full"
             />
           </div>
 
           {/* Steps Grid / Timeline */}
-          <div className="space-y-12 lg:space-y-20">
+          <div className="space-y-16 lg:space-y-24">
             {steps.map((step, idx) => {
               const Icon = step.icon;
               const isEven = idx % 2 === 1;
@@ -165,7 +165,7 @@ export const WorkflowSection: React.FC = () => {
                 <div
                   key={step.number}
                   id={`workflow-step-${step.number}`}
-                  className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+                  className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
                 >
                   {/* Left Column Content (or Right on alternate rows) */}
                   <div
@@ -196,9 +196,9 @@ export const WorkflowSection: React.FC = () => {
                   <div className="hidden lg:flex lg:col-span-2 lg:order-2 justify-center items-center relative">
                     <motion.div
                       whileHover={{ scale: 1.15 }}
-                      className="w-14 h-14 rounded-2xl bg-[#0B101D] border-2 border-[#06B6D4] shadow-[0_0_20px_rgba(6,182,212,0.3)] flex items-center justify-center text-white relative z-10"
+                      className="w-16 h-16 rounded-2xl bg-white border-2 border-indigo-500 shadow-md flex items-center justify-center relative z-10"
                     >
-                      <Icon className="w-6 h-6 text-[#00F0FF]" />
+                      <Icon className="w-7 h-7 text-indigo-600" />
                     </motion.div>
                   </div>
 
@@ -209,34 +209,34 @@ export const WorkflowSection: React.FC = () => {
                     }`}
                   >
                     <LazyReveal direction={isEven ? 'right' : 'left'} delay={idx * 0.1 + 0.1}>
-                      <div className="p-5 rounded-2xl border border-slate-800/80 bg-[#080D1A]/70 backdrop-blur-md">
-                        <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-3">
-                          <span className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-[#00FF66]" />
+                      <div className="p-6 rounded-3xl border border-slate-200 bg-slate-50 shadow-sm">
+                        <div className="flex items-center justify-between text-xs font-sans font-bold text-slate-500 uppercase tracking-widest mb-4">
+                          <span className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                             <span>STAGE EXECUTION TELEMETRY</span>
                           </span>
                           <span>LATENCY BUDGET: 25%</span>
                         </div>
 
                         {/* Progress Bar & Telemetry Matrix */}
-                        <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                        <div className="h-2.5 w-full bg-slate-200 rounded-full overflow-hidden shadow-inner">
                           <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: `${(idx + 1) * 25}%` }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.2 }}
-                            className="h-full bg-gradient-to-r from-[#06B6D4] to-[#00FF66] rounded-full"
+                            className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full"
                           />
                         </div>
 
-                        <div className="mt-4 grid grid-cols-2 gap-2 font-mono text-[11px]">
-                          <div className="p-2 rounded bg-[#0B101D] border border-slate-800">
-                            <span className="text-slate-500 block text-[10px]">DIAGNOSTIC STATUS</span>
-                            <span className="font-bold text-[#00FF66]">VERIFIED OK</span>
+                        <div className="mt-5 grid grid-cols-2 gap-3 font-mono text-[11px]">
+                          <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-1">
+                            <span className="text-slate-500 font-sans font-bold text-[10px] uppercase tracking-wider">DIAGNOSTIC STATUS</span>
+                            <span className="font-bold text-emerald-600 text-sm">VERIFIED OK</span>
                           </div>
-                          <div className="p-2 rounded bg-[#0B101D] border border-slate-800">
-                            <span className="text-slate-500 block text-[10px]">PARITY DRIFT</span>
-                            <span className="font-bold text-[#00F0FF]">0.00% DRIFT</span>
+                          <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-1">
+                            <span className="text-slate-500 font-sans font-bold text-[10px] uppercase tracking-wider">PARITY DRIFT</span>
+                            <span className="font-bold text-indigo-600 text-sm">0.00% DRIFT</span>
                           </div>
                         </div>
                       </div>
@@ -251,15 +251,15 @@ export const WorkflowSection: React.FC = () => {
         </div>
 
         {/* Bottom Pipeline Summary CTA */}
-        <div className="mt-16 text-center">
+        <div className="mt-20 text-center">
           <LazyReveal direction="up" delay={0.3}>
             <Link
               to="/methodology"
               id="workflow-view-methodology-link"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-mono text-xs font-bold transition-all shadow-lg hover:border-[#06B6D4]"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-sans text-sm font-bold transition-all shadow-md active:scale-95 hover:shadow-lg"
             >
               <span>Inspect Full RFC & Engine Methodology Specification</span>
-              <ArrowRight className="w-4 h-4 text-[#06B6D4]" />
+              <ArrowRight className="w-4 h-4 text-indigo-300" />
             </Link>
           </LazyReveal>
         </div>

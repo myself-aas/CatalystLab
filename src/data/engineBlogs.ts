@@ -7,8 +7,8 @@ export const ENGINE_SEEDED_BLOGS: Record<string, BlogPost[]> = {
       title: 'Optimizing DOM Depth and Eliminating Render-Blocking Bottlenecks in Next.js',
       slug: 'optimizing-dom-depth-render-blocking-nextjs',
       excerpt: 'Why deep DOM hierarchies severely degrade layout recalculation and mobile INP, and architectural strategies to flatten nested component trees.',
-      coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: true,
       content: `## The Hidden Cost of Deep DOM Hierarchies
 
@@ -64,8 +64,8 @@ export const UserCard = ({ user }) => (
       title: 'Decoupling Critical CSS and Preloading Key Display Fonts for Sub-Second LCP',
       slug: 'decoupling-critical-css-font-preloading',
       excerpt: 'How inlining critical path CSS while asynchronous loading secondary styles reduces Largest Contentful Paint to under 800ms.',
-      coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       content: `## Achieving Sub-Second Largest Contentful Paint (LCP)
 
 Largest Contentful Paint measures when the main visual content of a webpage is rendered. For text-heavy hero sections, custom display fonts and blocking stylesheets are the primary contributors to delayed rendering.
@@ -101,8 +101,8 @@ Using \`font-display: swap\` prevents invisible text flashes (FOIT), while prelo
       title: 'Decimating TTFB with Multi-Region Edge Workers & Smart Anycast Routing',
       slug: 'decimating-ttfb-edge-workers',
       excerpt: 'A deep-dive into synthetic edge latency telemetry across Tokyo, Frankfurt, Virginia, and Sydney points of presence.',
-      coverImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: true,
       content: `## The Geography of Milliseconds
 
@@ -138,8 +138,8 @@ Time To First Byte (TTFB) is the single highest predictor of bounce rates for mo
       title: 'The /llms.txt Standard: Preparing Knowledge Bases for Autonomous AI Crawlers',
       slug: 'llmstxt-standard-autonomous-ai-crawlers',
       excerpt: 'How to structure root documentation manifests and robots.txt policies to ensure seamless vector ingestion by frontier AI models.',
-      coverImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: true,
       content: `## The Paradigm Shift: From Keywords to Vector Embeddings
 
@@ -178,8 +178,8 @@ In 2026, web crawlers are no longer simple heuristic indexers—they are autonom
       title: 'Automating Git Repository SecOps & Hygiene Verification in Modern CI/CD',
       slug: 'automating-git-secops-hygiene',
       excerpt: 'How automated branch protection, license checks, and SECURITY.md audits prevent catastrophic supply-chain leaks.',
-      coverImage: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       content: `## Securing the Modern Software Supply Chain
 
 A high percentage of security breaches begin not in production firewalls, but in misconfigured public repositories with exposed secrets, stale dependencies, and missing vulnerability disclosure policies.
@@ -209,8 +209,8 @@ A high percentage of security breaches begin not in production firewalls, but in
       title: 'Sustainable Web Engineering: Reducing Digital Carbon Footprints with Modern Formats',
       slug: 'sustainable-web-engineering-carbon-reduction',
       excerpt: 'Applying the Sustainable Web Design (SWD) model, choosing 100% renewable datacenters, and optimizing transfer weights.',
-      coverImage: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       content: `## The Environmental Impact of Cloud Computing
 
 The internet accounts for over 3.7% of global greenhouse gas emissions—exceeding the commercial airline industry. Every kilobyte transmitted across cellular towers and rendered on mobile displays consumes measurable electrical energy.
@@ -244,8 +244,8 @@ The standard SWD formula models energy consumption across four primary segments:
       title: 'OWASP Hardened Security Headers & GDPR Cookie Governance Architecture',
       slug: 'owasp-security-headers-gdpr-governance',
       excerpt: 'Complete production implementation of Strict-Transport-Security, Content-Security-Policy nonces, and privacy consent tiers.',
-      coverImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       content: `## Defense-in-Depth for Modern Ingress Points
 
 Web application firewalls are insufficient if individual HTTP responses lack cryptographic defense instructions. Security headers inform the browser how to safely handle cookies, scripts, frames, and TLS negotiations.
@@ -273,8 +273,8 @@ Web application firewalls are insufficient if individual HTTP responses lack cry
       title: 'Zero-Downtime Platform Migration: 301 Redirects and SEO Canonical Parity',
       slug: 'zero-downtime-platform-migration-seo-parity',
       excerpt: 'Architectural blueprint for transitioning legacy CMS systems to modern decoupled edge frameworks without traffic loss.',
-      coverImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       content: `## Migrating Without Losing Organic Authority
 
 Re-platforming from legacy systems like WordPress or Magento to modern edge stacks (Next.js, Remix, Astro) often triggers severe organic traffic drops if redirect mapping and canonical tags are not synchronized.
@@ -302,8 +302,8 @@ Re-platforming from legacy systems like WordPress or Magento to modern edge stac
       title: 'Generative Engine Optimization (LLMO): Mastering Citations in Perplexity and SearchGPT',
       slug: 'generative-engine-optimization-llmo-citations',
       excerpt: 'How to structure Schema.org entity graphs, factual densities, and semantic hierarchies to dominate answer engine summaries.',
-      coverImage: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: true,
       content: `## Winning Citations in Generative Answer Engines
 
@@ -331,8 +331,8 @@ Traditional search engines ranked pages based on backlink counts and keyword den
       title: 'The Modern Anatomy of Website Health in the Era of AI Search',
       slug: 'modern-website-health-ai-search',
       excerpt: 'Why traditional SEO is yielding ground to structured RAG indexing and how llms.txt standardizes generative search ingestion.',
-      coverImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
-      authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+      coverImage: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      authorAvatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: true,
       content: `## The Next Decade of Web Quality Intelligence
 

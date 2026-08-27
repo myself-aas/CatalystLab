@@ -66,22 +66,22 @@ export const SocialProof: React.FC = () => {
   ];
 
   return (
-    <section id="social-proof-telemetry" className="py-20 lg:py-24 bg-[#080D1A] border-b border-slate-800 text-slate-100 relative overflow-hidden">
+    <section id="social-proof-telemetry" className="py-20 lg:py-32 bg-slate-50 border-b border-slate-200 text-slate-900 relative overflow-hidden">
       {/* Background Grid Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#1e293b1a_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
+      <div className="absolute inset-0 bg-[radial-gradient(#cbd5e140_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-60" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3.5 py-1 text-xs font-mono font-medium text-[#00F0FF] shadow-sm mb-3">
-              <Terminal className="h-3.5 w-3.5 text-[#00F0FF]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-mono font-medium text-slate-600 shadow-sm mb-4">
+              <Terminal className="h-3.5 w-3.5 text-slate-400" />
               <span>GLOBAL HIGH-FREQUENCY TELEMETRY MESH</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05]">
               Enterprise Scale Diagnostic Infrastructure
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 mt-3 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-600 mt-5 leading-relaxed font-normal">
               Continuous multi-tenant telemetry validated against international engineering protocols and real-time edge telemetry nodes.
             </p>
           </LazyReveal>
@@ -107,20 +107,20 @@ export const SocialProof: React.FC = () => {
 
         {/* Ecosystem Integration Chips */}
         <LazyReveal direction="up" delay={0.2}>
-          <div className="mt-12">
-            <div className="w-full h-12 mb-8 relative rounded-full overflow-hidden opacity-60">
+          <div className="mt-16">
+            <div className="w-full h-12 mb-10 relative rounded-full overflow-hidden opacity-30">
               <ScanRevealFigure
                 assetId="enzyme-vitalzyme"
                 aspectRatio="auto"
                 className="w-full h-full"
                 containerClassName="h-full w-full border-none"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#060912] via-transparent to-[#060912]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-transparent to-slate-50" />
             </div>
             
-            <div className="text-center mb-5">
-              <span className="text-slate-400 font-mono font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-1.5">
-                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="text-center mb-6">
+              <span className="text-slate-500 font-sans font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2">
+                <Terminal className="w-4 h-4 text-slate-400" />
                 <span>Synchronous Edge &amp; Cloud Integrations</span>
               </span>
             </div>
@@ -140,14 +140,14 @@ export const SocialProof: React.FC = () => {
 
         {/* Enterprise Compliance Strip */}
         <LazyReveal direction="up" delay={0.3}>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-            <span className="text-slate-400 font-mono font-bold uppercase tracking-wider text-xs flex items-center gap-1.5 mr-2">
-              <ShieldCheck className="w-4 h-4 text-[#00FF66]" />
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <span className="text-slate-500 font-sans font-bold uppercase tracking-widest text-[11px] flex items-center gap-2 mr-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
               <span>Validated Standards:</span>
             </span>
             {enterpriseBadges.map((badge, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-slate-300 font-mono text-xs bg-[#0B101D] border border-slate-800 px-3 py-1.5 rounded-lg shadow-sm">
-                <Check className="h-3.5 w-3.5 text-[#00FF66] shrink-0" />
+              <div key={idx} className="flex items-center gap-2 text-slate-700 font-sans font-medium text-xs bg-white border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">
+                <Check className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
                 <span>{badge}</span>
               </div>
             ))}

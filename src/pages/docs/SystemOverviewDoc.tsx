@@ -35,7 +35,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* Immersive Docs Parallax Banner */}
       <ParallaxSection
-        bgImage="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=80"
+        bgImage="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         overlayOpacity={0.88}
         height="min-h-[260px]"
         className="rounded-xl overflow-hidden my-6 border border-gray-200"

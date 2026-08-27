@@ -156,11 +156,11 @@ export const ReportsDirectoryPage: React.FC = () => {
           </div>
 
           {/* Quick Domain Inspector Input */}
-          <form onSubmit={handleInstantInspect} className="mt-3">
-            <div className="flex flex-col sm:flex-row gap-2 rounded-xl border border-slate-200 bg-white p-2 shadow-sm">
-              <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                  <Globe className="h-3.5 w-3.5" />
+          <form onSubmit={handleInstantInspect} className="mt-4">
+            <div className="flex flex-col sm:flex-row gap-2 rounded-2xl border border-slate-200 bg-slate-50/50 p-2 shadow-sm focus-within:border-slate-400 focus-within:bg-white transition-all">
+              <div className="relative flex-1 flex items-center">
+                <span className="absolute left-4 text-slate-400">
+                  <Globe className="h-4 w-4" />
                 </span>
                 <label htmlFor="domain-inspect" className="sr-only">Domain to inspect</label>
                 <input
@@ -169,17 +169,17 @@ export const ReportsDirectoryPage: React.FC = () => {
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
                   placeholder="Enter any domain to view dossier (e.g. stripe.com or catalystlab.tech)..."
-                  className="w-full rounded-lg bg-transparent py-2 pl-9 pr-3 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                  className="w-full rounded-xl bg-transparent py-3 pl-11 pr-4 text-sm font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-xs font-bold text-white transition-colors shrink-0 shadow-sm cursor-pointer"
+                className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 text-sm font-bold font-sans transition-all shrink-0 shadow-sm cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
               >
                 <span>Open Dossier</span>
-                <ArrowRight className="h-3 w-3 text-amber-400" />
+                <ArrowRight className="h-4 w-4 text-amber-400" />
               </button>
             </div>
           </form>
@@ -187,37 +187,37 @@ export const ReportsDirectoryPage: React.FC = () => {
       </section>
 
       {/* Main Content */}
-      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
+      <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8 space-y-12">
         
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search report directory by domain name, technology, or category..."
-            className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-4 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors shadow-sm"
+            className="w-full rounded-2xl border border-slate-200 bg-white pl-11 pr-4 py-3.5 text-sm font-sans text-slate-900 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none transition-all shadow-sm"
           />
         </div>
 
         {/* User Saved Reports (If authenticated & has reports) */}
         {user && userReports.length > 0 && (
-          <section className="space-y-3.5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="flex h-5 w-5 items-center justify-center rounded bg-amber-50 text-amber-600 text-xs border border-amber-200">
-                  <Zap className="h-3 w-3" />
+          <section className="space-y-6">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h2 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
+                  <Zap className="h-3.5 w-3.5 text-amber-500" />
                 </span>
                 <span>Your Saved Audit Reports ({filteredUserReports.length})</span>
               </h2>
-              <Link to="/dashboard" className="text-xs text-slate-600 hover:text-slate-900 flex items-center gap-1">
+              <Link to="/dashboard" className="text-sm font-semibold text-slate-500 hover:text-slate-900 flex items-center gap-1.5 transition-colors">
                 <span>Manage in Dashboard</span>
-                <ArrowRight className="h-3 w-3" />
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredUserReports.map((r) => {
                 const meta = ENGINES_MAP[r.engine] || { name: r.engine };
                 const domainSlug = urlToDomainSlug(r.url);
@@ -227,29 +227,29 @@ export const ReportsDirectoryPage: React.FC = () => {
                   <Link
                     key={r.id || domainSlug}
                     to={`/reports/${domainSlug}`}
-                    className="group relative rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50 transition-all block text-slate-900"
+                    className="group relative rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all block text-slate-900"
                   >
-                    <div className="flex items-center justify-between gap-2 mb-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-600 border border-amber-200">
-                        <Activity className="h-3.5 w-3.5" />
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-slate-600 border border-slate-200 shadow-sm">
+                        <Activity className="h-4 w-4" />
                       </span>
-                      <span className="text-[10px] uppercase font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                      <span className="text-[10px] uppercase font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200 tracking-wider">
                         {meta.name}
                       </span>
                     </div>
 
-                    <div className="font-bold text-xs text-slate-900 group-hover:text-amber-600 transition-colors truncate">
+                    <div className="font-extrabold text-base text-slate-900 group-hover:text-amber-600 transition-colors truncate font-sans">
                       {domainName}
                     </div>
-                    <div className="text-[11px] text-slate-500 truncate mt-0.5">
+                    <div className="text-xs text-slate-500 truncate mt-1 font-sans">
                       {r.url}
                     </div>
 
-                    <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-slate-200 text-[11px] text-slate-500">
+                    <div className="flex items-center justify-between pt-4 mt-4 border-t border-slate-100 text-xs text-slate-500 font-sans">
                       <span>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'Recent'}</span>
-                      <span className="flex items-center gap-1 font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
+                      <span className="flex items-center gap-1 font-bold text-slate-700 group-hover:text-slate-900 transition-colors">
                         <span>View Dossier</span>
-                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>
                   </Link>
@@ -260,20 +260,20 @@ export const ReportsDirectoryPage: React.FC = () => {
         )}
 
         {/* Featured Benchmark Articles (Always visible to everyone) */}
-        <section className="space-y-3.5">
-          <div>
-            <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-              <span className="flex h-5 w-5 items-center justify-center rounded bg-amber-50 text-amber-600 text-xs border border-amber-200">
-                <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+        <section className="space-y-6">
+          <div className="border-b border-slate-200 pb-3">
+            <h2 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-amber-50 text-amber-600 border border-amber-200">
+                <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
               </span>
               <span>Featured Architecture &amp; Telemetry Dossiers</span>
             </h2>
-            <p className="text-xs text-slate-600 mt-0.5 font-sans">
+            <p className="text-sm text-slate-600 mt-2 font-sans">
               Public benchmarks demonstrating DOM depth, OWASP header compliance, and edge latency across industry standards.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredFeatured.map((item) => {
               const slug = urlToDomainSlug(item.domain);
               const isGradeA = item.grade.startsWith('A');
@@ -283,18 +283,18 @@ export const ReportsDirectoryPage: React.FC = () => {
                 <Link
                   key={item.domain}
                   to={`/reports/${slug}`}
-                  className="group relative rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50 transition-all block text-slate-900"
+                  className="group relative rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all block text-slate-900"
                 >
-                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex items-center gap-2">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-amber-600 border border-slate-200">
-                        <Icon className="h-3.5 w-3.5" />
+                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-50 text-slate-700 border border-slate-200 shadow-sm">
+                        <Icon className="h-4 w-4" />
                       </span>
-                      <span className="text-[10px] uppercase font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                      <span className="text-[10px] uppercase font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200 tracking-wider">
                         {item.category}
                       </span>
                     </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                    <span className={`text-xs font-bold px-2.5 py-1 rounded-md border ${
                       isGradeA 
                         ? 'border-emerald-200 bg-emerald-50 text-emerald-700' 
                         : 'border-amber-200 bg-amber-50 text-amber-700'
@@ -303,18 +303,18 @@ export const ReportsDirectoryPage: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="font-bold text-xs text-slate-900 group-hover:text-amber-600 transition-colors truncate">
+                  <div className="font-extrabold text-base text-slate-900 group-hover:text-amber-600 transition-colors truncate font-sans">
                     {item.domain}
                   </div>
-                  <p className="text-[11px] text-slate-600 mt-1 line-clamp-2 leading-relaxed font-sans">
+                  <p className="text-sm text-slate-500 mt-1.5 line-clamp-2 leading-relaxed font-sans">
                     {item.title}
                   </p>
 
-                  <div className="flex items-center justify-between pt-2.5 mt-3 border-t border-slate-200 text-[11px] text-slate-500">
+                  <div className="flex items-center justify-between pt-4 mt-4 border-t border-slate-100 text-xs text-slate-500 font-sans">
                     <span className="text-amber-600 font-bold">{item.score}/100 Score</span>
-                    <span className="flex items-center gap-1 font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
+                    <span className="flex items-center gap-1 font-bold text-slate-700 group-hover:text-slate-900 transition-colors">
                       <span>Explore Benchmark</span>
-                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
                 </Link>
@@ -325,17 +325,17 @@ export const ReportsDirectoryPage: React.FC = () => {
 
         {/* Guest Call-to-action Banner if not signed in */}
         {!user && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 text-center shadow-sm text-slate-900">
-            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 border border-amber-200 text-amber-600 mb-2.5 shadow-sm">
-              <Sparkles className="h-5 w-5" />
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8 sm:p-12 text-center shadow-sm text-slate-900">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-slate-200 text-amber-500 mb-4 shadow-sm">
+              <Sparkles className="h-6 w-6" />
             </div>
-            <h3 className="text-base font-extrabold text-slate-900">Save &amp; Organize Your Custom Domain Audits</h3>
-            <p className="mt-1.5 text-xs text-slate-600 max-w-md mx-auto leading-relaxed font-sans">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-sans">Save &amp; Organize Your Custom Domain Audits</h3>
+            <p className="mt-3 text-sm text-slate-600 max-w-md mx-auto leading-relaxed font-sans">
               Sign in to permanently track historical audits, monitor regressions over time, and generate dedicated whitepaper dossiers.
             </p>
             <button
               onClick={() => login()}
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-5 py-2 text-xs font-bold text-white shadow-sm transition-all cursor-pointer"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 text-sm font-bold font-sans shadow-sm transition-all cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
             >
               Sign In to Your Account
             </button>

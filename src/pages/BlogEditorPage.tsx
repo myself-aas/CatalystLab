@@ -64,53 +64,53 @@ const CATEGORIES = [
   'Engineering'
 ];
 
-const SAMPLE_UNSPLASH_IMAGES = [
+const SAMPLE_PEXELS_IMAGES = [
   {
-    url: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'AI Neural Networks & Vector Embeddings'
   },
   {
-    url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'High-Performance Code & DOM Architecture'
   },
   {
-    url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Global Edge Network & Optical Anycast Routing'
   },
   {
-    url: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Zero-Trust SecOps & OWASP Defense Matrix'
   },
   {
-    url: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Git Version Control & CI/CD Pipelines'
   },
   {
-    url: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Green Web Datacenters & Carbon Telemetry'
   },
   {
-    url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Cloud Infrastructure & Platform Migration'
   },
   {
-    url: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Generative Search & LLMO Knowledge Discovery'
   },
   {
-    url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Microchips & Quantum Computing Hardware'
   },
   {
-    url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Engineering Operations Command Center'
   },
   {
-    url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'High-Density Cloud Servers & Kubernetes Cluster'
   },
   {
-    url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
+    url: 'https://images.pexels.com/photos/574070/pexels-photo-574070.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     title: 'Master Audit & Real-Time Performance Analytics'
   }
 ];
@@ -216,7 +216,7 @@ export const BlogEditorPage: React.FC = () => {
     authorName: user?.displayName || 'CatalystLab SecOps Team',
     authorEmail: user?.email || 'shuvo.1807016@bau.edu.bd',
     authorAvatar: user?.photoURL || '',
-    coverImage: SAMPLE_UNSPLASH_IMAGES[0].url,
+    coverImage: SAMPLE_PEXELS_IMAGES[0].url,
     status: 'published',
     readTime: '5 min read'
   });
@@ -485,7 +485,7 @@ export const BlogEditorPage: React.FC = () => {
     <div className={`min-h-screen bg-white text-black flex flex-col ${isFullscreen ? 'fixed inset-0 z-50 overflow-y-auto' : ''}`}>
       <SEOHead
         title={isCreateMode ? 'Create New Article | CatalystLab Studio' : `Edit: ${post.title || 'Article'} | CatalystLab Studio`}
-        description="Dedicated Markdown and telemetry article editor with real-time preview, SEO optimization, and Unsplash integration."
+        description="Dedicated Markdown and telemetry article editor with real-time preview, SEO optimization, and Pexels integration."
       />
 
       {/* 1. TOP DEDICATED APP BAR */}
@@ -734,7 +734,7 @@ export const BlogEditorPage: React.FC = () => {
                 setPost((prev) => ({ ...prev, coverImage: newUrl }));
                 setHasUnsavedChanges(true);
               }}
-              presetImages={SAMPLE_UNSPLASH_IMAGES}
+              presetImages={SAMPLE_PEXELS_IMAGES}
             />
           )}
 
@@ -869,7 +869,7 @@ export const BlogEditorPage: React.FC = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => insertMarkdown('![', '](https://images.unsplash.com/photo-1558494949-ef010cbdcc31)', 'Image description')}
+                    onClick={() => insertMarkdown('![', '](https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)', 'Image description')}
                     className="p-1.5 text-slate-700 hover:text-black hover:bg-slate-100 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Image"
                   >
@@ -1139,7 +1139,7 @@ export const BlogEditorPage: React.FC = () => {
                 setPost((prev) => ({ ...prev, coverImage: newUrl }));
                 setHasUnsavedChanges(true);
               }}
-              presetImages={SAMPLE_UNSPLASH_IMAGES}
+              presetImages={SAMPLE_PEXELS_IMAGES}
             />
 
             {/* Card: Taxonomy & Category */}

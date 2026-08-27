@@ -16,7 +16,7 @@ import { runNativeEngine } from './src/lib/nodeEngines';
 import { validatePublicUrl } from './src/lib/networkSecurity';
 import { initAnalyticsDB, getDbInstance, queueEvent, generateVisitorId, getAnalyticsStats, detectTrafficAnomalies, checkMongoDBHealth, getBatchMetrics } from './src/lib/analyticsEngine';
 import { generateWeeklyReportHtml, generateAnomalyAlertHtml, sendEmailViaMailgun, AnalyticsWeeklyData, AnomalyAlertData } from './src/lib/emailService';
-import { sendSlackWebhook, sendDiscordWebhook, WebhookPayloadData } from './src/lib/webhookService';
+import { sendSlackWebhook, sendDiscordWebhook, sendGenericWebhook, WebhookPayloadData } from './src/lib/webhookService';
 import 'dotenv/config';
 
 const execAsync = promisify(exec);
@@ -496,7 +496,11 @@ function getSslDetails(hostname: string, port = 443): Promise<{ valid: boolean; 
 }
 
 async function startServer() {
-  await initAnalyticsDB();
+  // Initialize analytics DB asynchronously without blocking server startup
+  initAnalyticsDB().catch((err) => {
+    console.warn('[Analytics DB] Startup init skipped/deferred:', err?.message || err);
+  });
+
   const app = express();
   const PORT = 3000;
   const HOST = '0.0.0.0';
@@ -1016,7 +1020,7 @@ async function startServer() {
   // Generic Webhook Dispatcher
   app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Response): Promise<void> => {
     try {
-      const { slackWebhookUrl, discordWebhookUrl, payload } = req.body;
+      const { slackWebhookUrl, discordWebhookUrl, genericWebhookUrl, webhookSecret, payload } = req.body;
       const results: Record<string, any> = {};
 
       if (slackWebhookUrl) {
@@ -1024,6 +1028,9 @@ async function startServer() {
       }
       if (discordWebhookUrl) {
         results.discord = await sendDiscordWebhook(discordWebhookUrl, payload);
+      }
+      if (genericWebhookUrl) {
+        results.generic = await sendGenericWebhook(genericWebhookUrl, payload, webhookSecret);
       }
 
       res.json({
@@ -2429,15 +2436,7 @@ async function startServer() {
     });
   } else {
     const vite = await createViteServer({
-      server: {
-        middlewareMode: true,
-        hmr: {
-          server: httpServer,
-          // Let the browser choose ws/wss from the page protocol while using
-          // the preview proxy's public WebSocket port.
-          clientPort: 443
-        }
-      },
+      server: { middlewareMode: true },
       appType: 'spa'
     });
     app.use(vite.middlewares);

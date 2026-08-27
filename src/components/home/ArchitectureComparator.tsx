@@ -168,184 +168,131 @@ export const ArchitectureComparator: React.FC = () => {
   ];
 
   return (
-    <section id="architecture-comparator-section" className="py-20 lg:py-28 bg-[#070A13] text-slate-100 relative overflow-hidden border-b border-slate-800">
+    <section id="architecture-comparator-section" className="py-24 lg:py-32 bg-slate-50 text-slate-900 relative overflow-hidden border-b border-slate-200">
       {/* Background Accent Gradients */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#06B6D4]/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#10B981]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3.5 py-1 text-xs font-mono font-medium text-[#00F0FF] shadow-sm mb-3">
-              <Cpu className="h-3.5 w-3.5 text-[#00F0FF]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-sans font-bold text-indigo-700 shadow-sm mb-4">
+              <Cpu className="h-3.5 w-3.5 text-indigo-600" />
               <span>ARCHITECTURAL BENCHMARK MATRIX</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
               Architectural Parity Benchmark
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl font-medium leading-relaxed">
               Side-by-side architectural audit comparing traditional unmonitored infrastructure with CatalystLab's automated 8-catalyst telemetry stack.
             </p>
           </LazyReveal>
 
-          {/* View Toggle on Desktop/Tablet */}
-          <div className="hidden sm:flex items-center gap-1.5 bg-[#0B101D] p-1.5 rounded-xl border border-slate-800 self-start md:self-end">
+          {/* View Toggle - Responsive Layout */}
+          <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm self-start">
             <button
               type="button"
               id="arch-view-table-btn"
               onClick={() => setViewMode('table')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-sans font-bold transition-all cursor-pointer ${
                 viewMode === 'table'
-                  ? 'bg-[#06B6D4] text-slate-950 shadow-md font-bold'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-slate-900 text-white shadow-md'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
-              Matrix Table
+              Table
             </button>
             <button
               type="button"
               id="arch-view-card-btn"
               onClick={() => setViewMode('card')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-sans font-bold transition-all cursor-pointer ${
                 viewMode === 'card'
-                  ? 'bg-[#06B6D4] text-slate-950 shadow-md font-bold'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-slate-900 text-white shadow-md'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
-              Interactive HUD Card
+              Card
             </button>
           </div>
         </div>
 
-        {/* Mobile / Card View */}
-        <div className={viewMode === 'card' ? 'block' : 'lg:hidden'}>
+        {/* Responsive Content Container */}
+        <div className="mt-8">
           <LazyReveal direction="up" delay={0.1}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto mb-8">
-              {comparisonItems.map((item, idx) => {
-                const hues: EnzymeHue[] = ['vitalzyme', 'riskprotease', 'llmkinase', 'ecoholo', 'synthshift', 'gitlygase'];
-                return (
-                  <R5BenchmarkCard
-                    key={idx}
-                    category="PARITY BENCHMARK"
-                    engineName={item.dimension}
-                    description={item.description}
-                    legacyTitle="Legacy Monolithic"
-                    legacyValue={item.legacy.split(',')[0]}
-                    legacyLabel="Legacy Baseline"
-                    catalystTitle="CatalystLab"
-                    catalystValue={item.catalyst.split('(')[0]}
-                    catalystLabel="Synchronous Edge"
-                    deltaImprovement={item.benefit}
-                    hue={hues[idx] || 'edgevmax'}
-                  />
-                );
-              })}
+            {/* Conditional Rendering based on viewMode */}
+            <div className={viewMode === 'card' ? 'block' : 'hidden'}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-10">
+                {comparisonItems.map((item, idx) => {
+                  const hues: EnzymeHue[] = ['vitalzyme', 'riskprotease', 'llmkinase', 'ecoholo', 'synthshift', 'gitlygase'];
+                  return (
+                    <R5BenchmarkCard
+                      key={idx}
+                      category="PARITY BENCHMARK"
+                      engineName={item.dimension}
+                      description={item.description}
+                      legacyTitle="Legacy Monolithic"
+                      legacyValue={item.legacy.split(',')[0]}
+                      legacyLabel="Legacy Baseline"
+                      catalystTitle="CatalystLab"
+                      catalystValue={item.catalyst.split('(')[0]}
+                      catalystLabel="Synchronous Edge"
+                      deltaImprovement={item.benefit}
+                      hue={hues[idx] || 'edgevmax'}
+                    />
+                  );
+                })}
+              </div>
+              <div className="max-w-3xl mx-auto">
+                <InteractiveBenchmarkCard
+                  targetDomain="Your Target Architecture (CatalystLab Stack)"
+                  targetScore={96}
+                  benchmarkDomain="Legacy Unmonitored Architecture"
+                  benchmarkScore={52}
+                  vectors={benchmarkVectors}
+                  id="arch-interactive-benchmark-card"
+                />
+              </div>
             </div>
-            <div className="max-w-3xl mx-auto">
-              <InteractiveBenchmarkCard
-                targetDomain="Your Target Architecture (CatalystLab Stack)"
-                targetScore={96}
-                benchmarkDomain="Legacy Unmonitored Architecture"
-                benchmarkScore={52}
-                vectors={benchmarkVectors}
-                id="arch-interactive-benchmark-card"
-              />
-            </div>
-          </LazyReveal>
-        </div>
 
-        {/* Desktop Table View */}
-        <div className={viewMode === 'table' ? 'hidden lg:block' : 'hidden'}>
-          <LazyReveal direction="up" delay={0.1}>
-            <div className="bg-[#0B101D]/90 border border-slate-800 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] overflow-hidden backdrop-blur-xl">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-800 bg-[#080D1A] font-mono text-xs text-slate-400">
-                      <th className="py-4 px-6 font-bold uppercase tracking-wider text-slate-200 w-1/3">
-                        Architectural Dimension
-                      </th>
-                      <th className="py-4 px-6 font-bold uppercase tracking-wider text-rose-400 w-1/4">
-                        Legacy Deployments
-                      </th>
-                      <th className="py-4 px-6 font-bold uppercase tracking-wider text-[#00FF66] w-1/4">
-                        CatalystLab Pipeline
-                      </th>
-                      <th className="py-4 px-6 font-bold uppercase tracking-wider text-[#00F0FF] text-right">
-                        Parity Advantage
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/80 text-sm">
-                    {comparisonItems.map((item, idx) => {
-                      const Icon = item.icon;
-                      return (
-                        <tr key={idx} className="hover:bg-[#0E1526]/70 transition-colors">
-                          
-                          {/* Dimension & Icon */}
-                          <td className="py-4.5 px-6 font-sans">
-                            <div className="flex items-center gap-3.5">
-                              <div className="p-2.5 rounded-xl border border-slate-800 bg-[#080D1A] text-[#00F0FF] shrink-0">
-                                <Icon className="h-4.5 w-4.5" />
-                              </div>
-                              <div>
-                                <div className="font-bold text-white text-sm">
+            {/* Desktop Table View - Still hidden on mobile for clarity if desired, or let it scroll */}
+            <div className={viewMode === 'table' ? 'block' : 'hidden'}>
+              <div className="bg-white border border-slate-200 rounded-3xl shadow-lg overflow-hidden backdrop-blur-xl">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                      <tr className="border-b border-slate-200 bg-slate-50 font-sans text-xs text-slate-500">
+                        <th className="py-5 px-6 font-bold uppercase tracking-wider text-slate-700">Architectural Dimension</th>
+                        <th className="py-5 px-6 font-bold uppercase tracking-wider text-rose-600">Legacy</th>
+                        <th className="py-5 px-6 font-bold uppercase tracking-wider text-emerald-700">CatalystLab</th>
+                        <th className="py-5 px-6 font-bold uppercase tracking-wider text-indigo-700 text-right">Advantage</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 text-sm">
+                      {comparisonItems.map((item, idx) => {
+                        const Icon = item.icon;
+                        return (
+                          <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
+                            <td className="py-5 px-6 font-sans">
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-lg border border-slate-200 bg-white text-indigo-600 shadow-sm shrink-0">
+                                  <Icon className="h-4 w-4" />
+                                </div>
+                                <div className="font-extrabold text-slate-900 text-sm tracking-tight">
                                   {item.dimension}
                                 </div>
-                                <div className="text-xs text-slate-400 font-mono mt-0.5">
-                                  {item.description}
-                                </div>
                               </div>
-                            </div>
-                          </td>
-
-                          {/* Legacy */}
-                          <td className="py-4.5 px-6 text-slate-400 font-mono text-xs">
-                            <div className="flex items-start gap-2.5">
-                              <span aria-hidden="true" className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30">
-                                <X className="h-2.5 w-2.5" />
-                              </span>
-                              <span className="leading-relaxed">
-                                {item.legacy}
-                              </span>
-                            </div>
-                          </td>
-
-                          {/* CatalystLab Pipeline */}
-                          <td className="py-4.5 px-6 text-slate-200 font-mono text-xs font-medium">
-                            <div className="flex items-start gap-2.5">
-                              <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#10B981]/15 text-[#00FF66] border border-[#10B981]/40">
-                                <Check className="h-2.5 w-2.5" />
-                              </span>
-                              <span className="leading-relaxed text-[#00FF66]">
-                                {item.catalyst}
-                              </span>
-                            </div>
-                          </td>
-
-                          {/* Advantage Pill */}
-                          <td className="py-4.5 px-6 text-right">
-                            <span className="inline-flex items-center text-[10px] font-mono uppercase tracking-wider font-bold px-3 py-1 rounded-lg bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#00F0FF] whitespace-nowrap shadow-sm">
-                              {item.benefit}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              
-              {/* Table Footer */}
-              <div className="bg-[#080D1A] border-t border-slate-800 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#00FF66] animate-ping" />
-                  <span className="font-bold text-slate-200 uppercase">6 of 6 Telemetry Vectors Validated across 42 Edge Points</span>
-                </div>
-                <div className="text-[#06B6D4] font-bold uppercase text-[10px] bg-[#06B6D4]/10 border border-[#06B6D4]/30 px-2.5 py-1 rounded">
-                  Continuous synthetic probes active 24/7
+                            </td>
+                            <td className="py-5 px-6 text-slate-600 font-mono text-xs">{item.legacy}</td>
+                            <td className="py-5 px-6 text-emerald-700 font-mono text-xs font-bold">{item.catalyst}</td>
+                            <td className="py-5 px-6 text-right text-[11px] font-sans font-bold uppercase text-indigo-700 whitespace-nowrap">{item.benefit}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -353,12 +300,12 @@ export const ArchitectureComparator: React.FC = () => {
         </div>
 
         {/* Action */}
-        <div className="mt-12 text-center">
+        <div className="mt-16 text-center">
           <LazyReveal direction="up" delay={0.2}>
             <Link
               to="/playground"
               id="arch-audit-architecture-btn"
-              className="inline-flex items-center justify-center gap-2 bg-[#06B6D4] hover:bg-[#00F0FF] text-slate-950 px-6 py-3.5 rounded-xl font-mono text-xs font-bold transition-all shadow-[0_0_24px_rgba(6,182,212,0.3)]"
+              className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-sans text-sm font-bold transition-all shadow-md hover:shadow-lg active:scale-95"
             >
               <span>Audit Your Live Architecture Now</span>
               <ArrowRight className="h-4 w-4" />

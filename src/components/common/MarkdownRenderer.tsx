@@ -18,9 +18,9 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
   const flushList = (key: string) => {
     if (listItems.length > 0) {
       elements.push(
-        <ul key={key} className="my-4 space-y-2 list-disc list-inside text-[#334155] text-base leading-relaxed">
+        <ul key={key} className="my-4 space-y-2 list-disc list-inside text-slate-800 dark:text-slate-200 text-base leading-relaxed">
           {listItems.map((item, idx) => (
-            <li key={idx} className="marker:text-[#415a77]">
+            <li key={idx} className="marker:text-cyan-600 dark:marker:text-cyan-400">
               {renderInline(item)}
             </li>
           ))}
@@ -42,7 +42,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
       const codeMatch = remaining.match(/^`([^`]+)`/);
       if (codeMatch) {
         parts.push(
-          <code key={keyIdx++} className="rounded bg-[#0b192c] px-1.5 py-0.5 font-mono text-sm text-[#c5d3e8] border border-[#415a77]/30">
+          <code key={keyIdx++} className="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-sm text-slate-900 dark:text-cyan-300 border border-slate-300 dark:border-slate-700 font-semibold">
             {codeMatch[1]}
           </code>
         );
@@ -54,7 +54,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
       const boldMatch = remaining.match(/^\*\*([^*]+)\*\*/);
       if (boldMatch) {
         parts.push(
-          <strong key={keyIdx++} className="font-bold text-[#0b192c]">
+          <strong key={keyIdx++} className="font-bold text-slate-950 dark:text-white">
             {boldMatch[1]}
           </strong>
         );
@@ -71,7 +71,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
             href={linkMatch[2]}
             target="_blank"
             rel="noreferrer"
-            className="text-[#415a77] underline font-medium hover:text-[#0b192c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="text-cyan-700 dark:text-cyan-400 underline font-semibold hover:text-cyan-900 dark:hover:text-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
           >
             {linkMatch[1]}
           </a>
@@ -106,14 +106,14 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
       if (inCodeBlock) {
         // Flush code block
         elements.push(
-          <div key={`code-${i}`} className="my-5 overflow-hidden rounded-xl border border-[#415a77]/30 bg-[#0b192c] shadow-lg">
+          <div key={`code-${i}`} className="my-5 overflow-hidden rounded-xl border border-slate-700/80 bg-[#0B101D] shadow-xl">
             {codeBlockLang && (
-              <div className="flex items-center justify-between border-b border-[#415a77]/20 bg-[#152238] px-4 py-1.5 text-sm font-mono text-[#c5d3e8]">
-                <span>{codeBlockLang}</span>
-                <span className="text-xs text-[#c5d3e8]/60">code snippet</span>
+              <div className="flex items-center justify-between border-b border-slate-800 bg-[#080C16] px-4 py-1.5 text-xs font-mono text-cyan-400">
+                <span className="font-bold">{codeBlockLang}</span>
+                <span className="text-slate-400 text-[11px]">code snippet</span>
               </div>
             )}
-            <pre className="overflow-x-auto p-4 font-mono text-sm text-[#c5d3e8] leading-relaxed">
+            <pre className="overflow-x-auto p-4 font-mono text-sm text-slate-100 leading-relaxed">
               <code>{codeBlockContent.join('\n')}</code>
             </pre>
           </div>
@@ -147,8 +147,8 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
     const numMatch = line.trim().match(/^(\d+)\.\s+(.*)/);
     if (numMatch) {
       elements.push(
-        <div key={`num-${i}`} className="my-2 flex items-start gap-2.5 text-base text-[#334155] leading-relaxed">
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#415a77]/15 text-sm font-bold font-mono text-[#415a77] border border-[#415a77]/30">
+        <div key={`num-${i}`} className="my-2 flex items-start gap-2.5 text-base text-slate-800 dark:text-slate-200 leading-relaxed">
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-500/15 text-xs font-bold font-mono text-cyan-700 dark:text-cyan-400 border border-cyan-500/30">
             {numMatch[1]}
           </span>
           <div className="pt-0.5">{renderInline(numMatch[2])}</div>
@@ -160,7 +160,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
     // Headings
     if (line.startsWith('### ')) {
       elements.push(
-        <h3 key={`h3-${i}`} className="mt-6 mb-3 text-lg font-bold text-[#0b192c] tracking-tight">
+        <h3 key={`h3-${i}`} className="mt-6 mb-3 text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
           {renderInline(line.replace('### ', ''))}
         </h3>
       );
@@ -169,7 +169,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
 
     if (line.startsWith('## ')) {
       elements.push(
-        <h2 key={`h2-${i}`} className="mt-8 mb-4 text-xl font-bold text-[#0b192c] tracking-tight border-b border-[#415a77]/20 pb-2">
+        <h2 key={`h2-${i}`} className="mt-8 mb-4 text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight border-b border-slate-200 dark:border-slate-800 pb-2">
           {renderInline(line.replace('## ', ''))}
         </h2>
       );
@@ -178,7 +178,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
 
     if (line.startsWith('# ')) {
       elements.push(
-        <h1 key={`h1-${i}`} className="mt-8 mb-4 text-2xl font-extrabold text-[#0b192c] tracking-tight">
+        <h1 key={`h1-${i}`} className="mt-8 mb-4 text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           {renderInline(line.replace('# ', ''))}
         </h1>
       );
@@ -192,7 +192,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
 
     // Regular paragraph
     elements.push(
-      <p key={`p-${i}`} className="my-3 text-base sm:text-base text-[#334155] leading-relaxed">
+      <p key={`p-${i}`} className="my-3 text-base sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed">
         {renderInline(line)}
       </p>
     );

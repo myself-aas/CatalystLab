@@ -7,28 +7,28 @@ import { CardChipProps, EnzymeHue } from '../types';
 import { useCardContext } from './CardContext';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-1.5 px-3 py-1 rounded-[10px] text-xs font-mono font-medium tracking-tight whitespace-nowrap shrink-0 transition-all duration-200 select-none',
+  'inline-flex items-center gap-1.5 px-3 py-1 rounded-[10px] text-xs font-mono font-bold tracking-tight whitespace-nowrap shrink-0 transition-all duration-200 select-none text-white',
   {
     variants: {
       variant: {
-        default: 'bg-slate-900/80 text-slate-200 border border-slate-700/60 shadow-sm backdrop-blur-md',
-        live: 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.2)]',
-        accent: 'bg-white/10 text-white border border-white/20 shadow-md backdrop-blur-md',
-        rating: 'bg-slate-950/80 text-amber-300 border border-amber-500/30 shadow-sm backdrop-blur-md',
+        default: 'bg-black/60 text-white border border-white/20 shadow-sm backdrop-blur-md',
+        live: 'bg-black/60 text-white border border-white/25 shadow-[0_0_12px_rgba(16,185,129,0.25)] backdrop-blur-md',
+        accent: 'bg-white/15 text-white border border-white/25 shadow-md backdrop-blur-md',
+        rating: 'bg-black/60 text-white border border-amber-400/40 shadow-sm backdrop-blur-md',
         glass: 'bg-white/15 hover:bg-white/25 text-white border border-white/25 backdrop-blur-lg shadow-sm',
-        solid: 'bg-black text-white border border-slate-800 shadow-sm',
-        enzyme: 'text-white border shadow-sm backdrop-blur-md',
+        solid: 'bg-black text-white border border-white/20 shadow-sm',
+        enzyme: 'text-white border border-white/20 bg-black/60 shadow-sm backdrop-blur-md',
       },
       hue: {
-        vitalzyme: 'border-emerald-500/40 bg-emerald-950/70 text-emerald-300',
-        riskprotease: 'border-rose-500/40 bg-rose-950/70 text-rose-300',
-        llmkinase: 'border-purple-500/40 bg-purple-950/70 text-purple-300',
-        edgevmax: 'border-cyan-500/40 bg-cyan-950/70 text-cyan-300',
-        ecoholo: 'border-emerald-500/40 bg-emerald-950/70 text-emerald-300',
-        synthshift: 'border-amber-500/40 bg-amber-950/70 text-amber-300',
-        gitlygase: 'border-blue-500/40 bg-blue-950/70 text-blue-300',
-        alloster: 'border-fuchsia-500/40 bg-fuchsia-950/70 text-fuchsia-300',
-        neutral: 'border-slate-700/60 bg-slate-900/80 text-slate-300',
+        vitalzyme: 'border-emerald-400/40 bg-black/60 text-white',
+        riskprotease: 'border-rose-400/40 bg-black/60 text-white',
+        llmkinase: 'border-purple-400/40 bg-black/60 text-white',
+        edgevmax: 'border-cyan-400/40 bg-black/60 text-white',
+        ecoholo: 'border-emerald-400/40 bg-black/60 text-white',
+        synthshift: 'border-amber-400/40 bg-black/60 text-white',
+        gitlygase: 'border-blue-400/40 bg-black/60 text-white',
+        alloster: 'border-fuchsia-400/40 bg-black/60 text-white',
+        neutral: 'border-white/20 bg-black/60 text-white',
       },
     },
     defaultVariants: {

@@ -423,40 +423,40 @@ export const EnzymeGrid: React.FC = () => {
   return (
     <section
       id="enzyme-grid-section"
-      className="py-20 lg:py-28 bg-[#060912] text-slate-100 border-b border-slate-800 relative overflow-hidden"
+      className="py-24 lg:py-32 bg-slate-50 text-slate-900 border-b border-slate-200 relative overflow-hidden"
     >
       {/* Background Subtle Tech Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#1e293b1a_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-60" />
+      <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-[0.15]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3.5 py-1 text-xs font-mono font-medium text-[#00F0FF] shadow-sm mb-3">
-              <Cpu className="h-3.5 w-3.5 text-[#00F0FF]" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-sans font-bold text-indigo-700 shadow-sm mb-4">
+              <Cpu className="h-3.5 w-3.5 text-indigo-600" />
               <span>THE 8 AUTONOMOUS SDLC CATALYSTS</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900">
               Precision Micro-Engine Matrix
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 max-w-xl mt-2 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mt-4 font-medium leading-relaxed">
               Eight synchronous diagnostic engines that inspect, benchmark, and generate autonomous remediation code across your entire stack.
             </p>
           </LazyReveal>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-[#0B101D] p-1.5 rounded-xl border border-slate-800">
+          <div className="flex flex-wrap items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
             {categories.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 id={`filter-cat-${cat.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-sm font-sans font-bold transition-all cursor-pointer ${
                   activeCategory === cat
-                    ? 'bg-[#06B6D4] text-slate-950 shadow-md font-bold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                    ? 'bg-slate-900 text-white shadow-md'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
                 {cat}
@@ -468,10 +468,10 @@ export const EnzymeGrid: React.FC = () => {
         {/* =========================================================================
             DESKTOP: 2-COLUMN LAYOUT (GRID OF 8 CARDS ON LEFT + STICKY HUD SIDEBAR ON RIGHT)
         ========================================================================= */}
-        <div className="hidden lg:grid lg:grid-cols-12 gap-8 items-start">
+        <div className="hidden lg:grid lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: 8 Enzyme Catalyst Cards Grid */}
-          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
             {filteredEnzymes.map((enzyme) => {
               const Icon = enzyme.icon;
               const isSelected = selectedEnzymeId === enzyme.id;
@@ -482,57 +482,57 @@ export const EnzymeGrid: React.FC = () => {
                   id={`enzyme-card-${enzyme.id}`}
                   onMouseEnter={() => setSelectedEnzymeId(enzyme.id)}
                   onClick={() => setSelectedEnzymeId(enzyme.id)}
-                  className={`p-4.5 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between relative overflow-hidden ${
+                  className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden ${
                     isSelected
-                      ? 'bg-[#0E1526] border-[#06B6D4] shadow-[0_0_20px_rgba(6,182,212,0.2)] ring-1 ring-[#06B6D4]/40'
-                      : 'bg-[#0B101D]/90 border-slate-800 hover:border-slate-700 hover:bg-[#0D1322]'
+                      ? 'bg-indigo-50 border-indigo-200 shadow-[0_4px_20px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500/20 scale-[1.02]'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md'
                   }`}
                 >
                   {/* Top Bar: Icon + Enzyme Code + Score */}
                   <div>
                     <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3">
                         <div
                           style={{
                             color: enzyme.themeColor,
                             backgroundColor: `${enzyme.themeColor}15`,
                             borderColor: `${enzyme.themeColor}30`,
                           }}
-                          className="w-8 h-8 rounded-lg border flex items-center justify-center shrink-0"
+                          className="w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 shadow-sm"
                         >
-                          <Icon className="w-4 h-4" />
+                          <Icon className="w-5 h-5" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-bold text-white font-mono flex items-center gap-1.5">
+                          <h4 className="text-base font-bold text-slate-900 font-sans flex items-center gap-1.5">
                             <span>{enzyme.name}</span>
-                            <span className="text-[10px] text-slate-500 font-normal">
-                              [{enzyme.shortCode}]
+                            <span className="text-[10px] text-slate-500 font-mono font-medium bg-slate-100 px-1.5 py-0.5 rounded-md">
+                              {enzyme.shortCode}
                             </span>
                           </h4>
-                          <span className="text-[10px] font-mono text-slate-400 block truncate">
+                          <span className="text-[11px] font-sans font-bold text-slate-500 uppercase tracking-wider block truncate mt-0.5">
                             {enzyme.category}
                           </span>
                         </div>
                       </div>
 
                       <div className="text-right">
-                        <span className="text-xs font-mono font-extrabold text-[#00FF66] bg-[#10B981]/15 px-2 py-0.5 rounded border border-[#10B981]/30">
+                        <span className="text-xs font-sans font-black text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-200 shadow-sm">
                           {enzyme.score}/100
                         </span>
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-300 font-medium mt-3 line-clamp-2">
+                    <p className="text-sm text-slate-600 font-medium mt-4 line-clamp-2 leading-relaxed">
                       {enzyme.role}
                     </p>
                   </div>
 
                   {/* Bottom Metric Preview */}
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                    <span className="text-[#00F0FF] truncate">
+                  <div className="mt-5 pt-4 border-t border-slate-200 flex items-center justify-between text-xs font-sans font-bold text-slate-500 uppercase tracking-wide">
+                    <span className="text-indigo-600 truncate">
                       {enzyme.primaryMetric.label}:
                     </span>
-                    <strong className="text-slate-100 shrink-0 ml-1">
+                    <strong className="text-slate-900 font-mono text-sm shrink-0 ml-2 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
                       {enzyme.primaryMetric.value} {enzyme.primaryMetric.unit || ''}
                     </strong>
                   </div>
@@ -542,7 +542,7 @@ export const EnzymeGrid: React.FC = () => {
           </div>
 
           {/* RIGHT: Sticky Active Engine Telemetry & Code Inspector */}
-          <div className="lg:col-span-6 sticky top-24 space-y-4">
+          <div className="lg:col-span-6 sticky top-28 space-y-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeEnzyme.id}
@@ -550,20 +550,20 @@ export const EnzymeGrid: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="space-y-4"
+                className="space-y-6"
               >
                 {/* Catalyst-Grade Tilt Holo Media Visual */}
-                <TiltCard className="rounded-xl overflow-hidden border border-slate-800 h-36 relative">
+                <TiltCard className="rounded-3xl overflow-hidden border border-slate-200 h-48 relative shadow-lg">
                   <CinematicMedia 
                     assetId={getEnzymeMediaAsset(activeEnzyme.id).id} 
                     mode="ken-burns" 
                     containerClassName="absolute inset-0"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none p-3 flex items-end justify-between">
-                    <span className="text-[10px] font-mono font-bold text-[#00F0FF] uppercase tracking-wider bg-black/70 px-2 py-0.5 rounded border border-[#06B6D4]/30">
-                      [{activeEnzyme.shortCode}] TELEMETRY OPTICS
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent pointer-events-none p-4 flex items-end justify-between">
+                    <span className="text-[10px] font-sans font-bold text-indigo-300 uppercase tracking-widest bg-slate-900/80 px-2.5 py-1 rounded-md border border-indigo-500/30 backdrop-blur-sm">
+                      {activeEnzyme.shortCode} OPTICS
                     </span>
-                    <span className="text-[10px] font-mono text-slate-300">
+                    <span className="text-[10px] font-sans font-bold text-slate-300 tracking-wider">
                       Catalyst Grade
                     </span>
                   </div>
@@ -584,14 +584,16 @@ export const EnzymeGrid: React.FC = () => {
                 />
 
                 {/* Remediation CodeBlock */}
-                <CodeBlock
-                  filename={activeEnzyme.codeSnippet.filename}
-                  language={activeEnzyme.codeSnippet.language}
-                  code={activeEnzyme.codeSnippet.code}
-                  autoStartTypewriter={false}
-                  enableScanline={true}
-                  id={`inspector-code-${activeEnzyme.id}`}
-                />
+                <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-md">
+                  <CodeBlock
+                    filename={activeEnzyme.codeSnippet.filename}
+                    language={activeEnzyme.codeSnippet.language}
+                    code={activeEnzyme.codeSnippet.code}
+                    autoStartTypewriter={false}
+                    enableScanline={false}
+                    id={`inspector-code-${activeEnzyme.id}`}
+                  />
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -601,7 +603,7 @@ export const EnzymeGrid: React.FC = () => {
         {/* =========================================================================
             MOBILE: RESPONSIVE STACKED ACCORDION VIEW
         ========================================================================= */}
-        <div className="lg:hidden space-y-3">
+        <div className="lg:hidden space-y-4">
           {filteredEnzymes.map((enzyme) => {
             const Icon = enzyme.icon;
             const isExpanded = mobileExpandedId === enzyme.id;
@@ -610,36 +612,38 @@ export const EnzymeGrid: React.FC = () => {
               <div
                 key={enzyme.id}
                 id={`mobile-enzyme-card-${enzyme.id}`}
-                className="rounded-xl border border-slate-800 bg-[#0B101D] overflow-hidden"
+                className={`rounded-2xl border transition-all ${
+                  isExpanded ? 'border-indigo-300 bg-white shadow-lg' : 'border-slate-200 bg-white shadow-sm'
+                } overflow-hidden`}
               >
                 {/* Mobile Header Bar */}
                 <div
                   onClick={() => setMobileExpandedId(isExpanded ? null : enzyme.id)}
-                  className="p-4 flex items-center justify-between cursor-pointer"
+                  className="p-5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
                     <div
                       style={{
                         color: enzyme.themeColor,
                         backgroundColor: `${enzyme.themeColor}15`,
                         borderColor: `${enzyme.themeColor}30`,
                       }}
-                      className="w-8 h-8 rounded-lg border flex items-center justify-center shrink-0"
+                      className="w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 shadow-sm"
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white font-mono">
-                        {enzyme.name} <span className="text-xs text-slate-500">[{enzyme.shortCode}]</span>
+                      <h4 className="text-base font-bold text-slate-900 font-sans flex items-center gap-2">
+                        {enzyme.name} <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-md">{enzyme.shortCode}</span>
                       </h4>
-                      <span className="text-[11px] text-slate-400 block">
+                      <span className="text-xs font-medium text-slate-500 block mt-0.5">
                         {enzyme.role}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-[#00FF66] bg-[#10B981]/15 px-2 py-0.5 rounded border border-[#10B981]/30">
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-xs font-sans font-black text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-200 shadow-sm">
                       {enzyme.score}
                     </span>
                   </div>
@@ -653,30 +657,34 @@ export const EnzymeGrid: React.FC = () => {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.25 }}
-                      className="p-4 pt-0 border-t border-slate-800/80 bg-[#080D1A] space-y-4"
+                      className="border-t border-slate-100 bg-slate-50/50 space-y-6 overflow-hidden"
                     >
-                      {/* Telemetry Card */}
-                      <TelemetryCard
-                        enzymeName={enzyme.name}
-                        techTranslation={enzyme.role}
-                        shortCode={enzyme.shortCode}
-                        category={enzyme.category}
-                        score={enzyme.score}
-                        primaryMetric={enzyme.primaryMetric}
-                        subVectors={enzyme.subVectors}
-                        themeColor={enzyme.themeColor}
-                        onInspectDetails={() => navigate(enzyme.route)}
-                        id={`mobile-telemetry-${enzyme.id}`}
-                      />
+                      <div className="p-5 space-y-6">
+                        {/* Telemetry Card */}
+                        <TelemetryCard
+                          enzymeName={enzyme.name}
+                          techTranslation={enzyme.role}
+                          shortCode={enzyme.shortCode}
+                          category={enzyme.category}
+                          score={enzyme.score}
+                          primaryMetric={enzyme.primaryMetric}
+                          subVectors={enzyme.subVectors}
+                          themeColor={enzyme.themeColor}
+                          onInspectDetails={() => navigate(enzyme.route)}
+                          id={`mobile-telemetry-${enzyme.id}`}
+                        />
 
-                      {/* Code Block */}
-                      <CodeBlock
-                        filename={enzyme.codeSnippet.filename}
-                        language={enzyme.codeSnippet.language}
-                        code={enzyme.codeSnippet.code}
-                        autoStartTypewriter={false}
-                        id={`mobile-code-${enzyme.id}`}
-                      />
+                        {/* Code Block */}
+                        <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                          <CodeBlock
+                            filename={enzyme.codeSnippet.filename}
+                            language={enzyme.codeSnippet.language}
+                            code={enzyme.codeSnippet.code}
+                            autoStartTypewriter={false}
+                            id={`mobile-code-${enzyme.id}`}
+                          />
+                        </div>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -686,20 +694,20 @@ export const EnzymeGrid: React.FC = () => {
         </div>
 
         {/* Section Footer Link */}
-        <div className="mt-14 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-16 pt-10 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
-            <h4 className="text-base font-bold text-white">
+            <h4 className="text-xl font-extrabold text-slate-900">
               Autonomous Remediation Sandbox
             </h4>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Every catalyst compiles machine-validated patches ready for instantaneous CD deployment.
+            <p className="text-sm text-slate-600 mt-2 font-medium max-w-xl">
+              Every catalyst compiles machine-validated patches ready for instantaneous CD deployment across your infrastructure.
             </p>
           </div>
 
           <Link
             to="/products"
             id="enzyme-grid-explore-all"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#06B6D4] hover:bg-[#00F0FF] text-slate-950 font-mono text-xs font-bold transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-sans text-sm font-bold transition-all shadow-md active:scale-95 shrink-0"
           >
             <span>Explore All 8 Engines</span>
             <ArrowRight className="w-4 h-4" />

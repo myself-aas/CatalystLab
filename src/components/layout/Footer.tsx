@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="relative z-20 border-t border-border bg-muted/30 text-foreground">
+    <footer id="main-footer" className="relative z-20 border-t border-slate-800/80 bg-[#04060d] text-slate-300">
       {/* Main Multi-Column Footer Menu */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
@@ -38,31 +38,31 @@ export const Footer: React.FC = () => {
               <BrandLogo size="md" />
             </Link>
             
-            <p className="text-xs sm:text-sm leading-relaxed text-gray-600 max-w-sm">
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-400 max-w-sm">
               Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics. Auditing Core Web Vitals, OWASP SecOps, WCAG Accessibility, Eco-Carbon, and AI Readiness.
             </p>
 
             {/* Quick CLI Copy Box */}
-            <div className="rounded-xl border border-gray-300 bg-white p-2.5 max-w-sm shadow-2xs">
-              <div className="flex items-center justify-between gap-2 text-xs font-mono text-gray-700">
+            <div className="rounded-xl border border-slate-800 bg-[#0a0f1d] p-2.5 max-w-sm shadow-sm">
+              <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-300">
                 <div className="flex items-center gap-1.5 truncate">
-                  <Terminal className="h-3.5 w-3.5 text-[#f9a825] shrink-0" />
-                  <span className="truncate text-black font-semibold">npx catalystlab audit</span>
+                  <Terminal className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
+                  <span className="truncate text-white font-semibold">npx catalystlab audit</span>
                 </div>
                 <button
                   type="button"
                   onClick={copyCliCommand}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded bg-gray-100 hover:bg-gray-200 text-[11px] text-gray-800 hover:text-black border border-gray-300 transition-colors cursor-pointer shrink-0 focus-visible:outline-none"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 hover:text-white border border-slate-700 transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
                   title="Copy CLI command"
                 >
                   {copiedCli ? (
                     <>
-                      <Check className="h-3 w-3 text-emerald-600" />
-                      <span className="text-emerald-700 font-bold">Copied</span>
+                      <Check className="h-3 w-3 text-emerald-400" />
+                      <span className="text-emerald-400 font-semibold">Copied</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="h-3 w-3" />
+                      <Copy className="h-3 w-3 text-slate-400" />
                       <span>Copy</span>
                     </>
                   )}
@@ -71,108 +71,108 @@ export const Footer: React.FC = () => {
             </div>
 
             {/* Engine Status Indicator */}
-            <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs text-gray-700 w-fit font-mono shadow-2xs">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="flex items-center gap-2 rounded-full border border-slate-800 bg-[#0a0f1d] px-3 py-1 text-xs text-slate-300 w-fit font-mono shadow-xs">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>8 Python Diagnostic Engines Active</span>
             </div>
           </div>
 
           {/* Column 2: Platform Solutions */}
           <div className="lg:col-span-2">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-black flex items-center gap-1.5 mb-3 border-b border-gray-200 pb-2 font-mono">
-              <Globe className="h-3.5 w-3.5 text-[#f9a825]" />
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-100 flex items-center gap-1.5 mb-3 border-b border-slate-800 pb-2 font-mono">
+              <Globe className="h-3.5 w-3.5 text-cyan-400" />
               <span>Platform</span>
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-gray-600">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               <li>
-                <Link to="/" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Home</Link>
+                <Link to="/" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Home</Link>
               </li>
               <li>
-                <Link to="/launch-audit" className="hover:text-black transition-colors block py-0.5 text-black font-medium flex items-center gap-1 focus-visible:outline-none">
+                <Link to="/launch-audit" className="hover:text-cyan-400 transition-colors block py-0.5 text-slate-200 font-medium flex items-center gap-1 focus-visible:outline-none">
                   <span>Launch Master Audit</span>
-                  <span className="text-[10px] bg-[#fffbf2] text-[#d08305] border border-[#fbd18c] px-1 rounded font-mono font-bold">Instant</span>
+                  <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 rounded font-mono font-semibold">Instant</span>
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Pricing &amp; Plans</Link>
+                <Link to="/pricing" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Pricing &amp; Plans</Link>
               </li>
               <li>
-                <Link to="/products" className="hover:text-black transition-colors block py-0.5 text-black font-medium flex items-center justify-between focus-visible:outline-none">
+                <Link to="/products" className="hover:text-cyan-400 transition-colors block py-0.5 text-slate-200 font-medium flex items-center justify-between focus-visible:outline-none">
                   <span>Products &amp; Watchdog</span>
-                  <span className="text-[10px] bg-[#fffbf2] text-[#d08305] border border-[#fbd18c] px-1 rounded font-mono font-bold">Continuous</span>
+                  <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 rounded font-mono font-semibold">Continuous</span>
                 </Link>
               </li>
               <li>
-                <Link to="/compare" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Side-by-Side Compare</Link>
+                <Link to="/compare" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Side-by-Side Compare</Link>
               </li>
               <li>
-                <Link to="/reports" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Audit Reports Directory</Link>
+                <Link to="/reports" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Audit Reports Directory</Link>
               </li>
               <li>
-                <Link to="/blogs" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Engineering Blogs</Link>
+                <Link to="/blogs" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Engineering Blogs</Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">About Us &amp; Team</Link>
+                <Link to="/about" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">About Us &amp; Team</Link>
               </li>
               <li>
-                <Link to="/dashboard" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">User Dashboard</Link>
+                <Link to="/dashboard" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">User Dashboard</Link>
               </li>
             </ul>
           </div>
 
           {/* Column 3: 8 Diagnostic Engines */}
           <div className="lg:col-span-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-black flex items-center gap-1.5 mb-3 border-b border-gray-200 pb-2 font-mono">
-              <Activity className="h-3.5 w-3.5 text-[#f9a825]" />
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-100 flex items-center gap-1.5 mb-3 border-b border-slate-800 pb-2 font-mono">
+              <Activity className="h-3.5 w-3.5 text-cyan-400" />
               <span>8 Diagnostic Engines</span>
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-gray-600">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               <li>
-                <Link to="/health" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/health" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>VitalZyme (Web Vitals)</span>
-                  <span className="text-[10px] text-gray-500 font-mono">DOM/TTFB</span>
+                  <span className="text-[10px] text-cyan-400 font-mono">DOM/TTFB</span>
                 </Link>
               </li>
               <li>
-                <Link to="/ai-readiness" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/ai-readiness" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>LLM-Kinase (AI Readiness)</span>
-                  <span className="text-[10px] text-purple-700 font-mono">llms.txt</span>
+                  <span className="text-[10px] text-purple-400 font-mono">llms.txt</span>
                 </Link>
               </li>
               <li>
-                <Link to="/repo-scanner" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/repo-scanner" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>GitLygase (Repo Hygiene)</span>
-                  <span className="text-[10px] text-emerald-700 font-mono">SecOps</span>
+                  <span className="text-[10px] text-emerald-400 font-mono">SecOps</span>
                 </Link>
               </li>
               <li>
-                <Link to="/latency" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/latency" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>EdgeVmax (Latency Radar)</span>
-                  <span className="text-[10px] text-amber-700 font-mono">42 PoPs</span>
+                  <span className="text-[10px] text-cyan-300 font-mono">42 PoPs</span>
                 </Link>
               </li>
               <li>
-                <Link to="/eco-audit" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/eco-audit" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>EcoHolo (Carbon Audit)</span>
-                  <span className="text-[10px] text-emerald-700 font-mono">CO2e</span>
+                  <span className="text-[10px] text-emerald-400 font-mono">CO2e</span>
                 </Link>
               </li>
               <li>
-                <Link to="/compliance" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/compliance" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>RiskProtease (OWASP SecOps)</span>
-                  <span className="text-[10px] text-red-700 font-mono">Headers</span>
+                  <span className="text-[10px] text-rose-400 font-mono">Headers</span>
                 </Link>
               </li>
               <li>
-                <Link to="/migration" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/migration" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>SynthShift (Architecture PAR)</span>
-                  <span className="text-[10px] text-orange-700 font-mono">Phase 1</span>
+                  <span className="text-[10px] text-amber-400 font-mono">Phase 1</span>
                 </Link>
               </li>
               <li>
-                <Link to="/llmo" className="hover:text-black transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
+                <Link to="/llmo" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>AllosterSearch (LLMO Search)</span>
-                  <span className="text-[10px] text-amber-700 font-mono">GEO</span>
+                  <span className="text-[10px] text-sky-400 font-mono">GEO</span>
                 </Link>
               </li>
             </ul>
@@ -180,57 +180,57 @@ export const Footer: React.FC = () => {
 
           {/* Column 4: Developers & Legal */}
           <div className="lg:col-span-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-black flex items-center gap-1.5 mb-3 border-b border-gray-200 pb-2 font-mono">
-              <Code2 className="h-3.5 w-3.5 text-purple-700" />
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-100 flex items-center gap-1.5 mb-3 border-b border-slate-800 pb-2 font-mono">
+              <Code2 className="h-3.5 w-3.5 text-purple-400" />
               <span>Developers &amp; Legal</span>
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-gray-600">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               <li>
-                <Link to="/api-docs" className="hover:text-[#d08305] transition-colors flex items-center gap-1.5 font-medium text-black py-0.5 focus-visible:outline-none">
+                <Link to="/api-docs" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-medium text-slate-200 py-0.5 focus-visible:outline-none">
                   <span>REST API Reference</span>
-                  <span className="text-[10px] bg-[#fffbf2] text-[#d08305] border border-[#fbd18c] px-1 py-0.2 rounded font-mono">v2.4</span>
+                  <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 py-0.2 rounded font-mono">v2.4</span>
                 </Link>
               </li>
               <li>
-                <Link to="/playground" className="hover:text-black transition-colors flex items-center gap-1.5 py-0.5 focus-visible:outline-none">
-                  <Sparkles className="h-3 w-3 text-[#f9a825]" />
+                <Link to="/playground" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 py-0.5 focus-visible:outline-none">
+                  <Sparkles className="h-3 w-3 text-cyan-400" />
                   <span>Interactive API Playground</span>
                 </Link>
               </li>
               <li>
-                <Link to="/docs" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Documentation &amp; Guides</Link>
+                <Link to="/docs" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Documentation &amp; Guides</Link>
               </li>
               <li>
-                <Link to="/methodology" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Audit Methodology &amp; Weights</Link>
+                <Link to="/methodology" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Audit Methodology &amp; Weights</Link>
               </li>
-              <li className="pt-2 border-t border-gray-200">
-                <Link to="/privacy" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Privacy Policy (GDPR / CCPA)</Link>
-              </li>
-              <li>
-                <Link to="/terms" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Terms of Service</Link>
+              <li className="pt-2 border-t border-slate-800">
+                <Link to="/privacy" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Privacy Policy (GDPR / CCPA)</Link>
               </li>
               <li>
-                <Link to="/cookies" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Cookie Preferences</Link>
+                <Link to="/terms" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Terms of Service</Link>
               </li>
               <li>
-                <Link to="/security" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Security &amp; Vulnerability Disclosure</Link>
+                <Link to="/cookies" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Cookie Preferences</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-black transition-colors block py-0.5 focus-visible:outline-none">Contact Support &amp; SLA</Link>
+                <Link to="/security" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Security &amp; Vulnerability Disclosure</Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Contact Support &amp; SLA</Link>
               </li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom Bar: Copyright, Unsplash Credits, Sync, and Back to Top */}
-        <div className="mt-12 flex flex-col items-center justify-between border-t border-gray-200 pt-6 sm:flex-row gap-4">
+        {/* Bottom Bar: Copyright, Credits, Sync, and Back to Top */}
+        <div className="mt-12 flex flex-col items-center justify-between border-t border-slate-800 pt-6 sm:flex-row gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-            <p className="text-xs text-gray-500 font-mono">
+            <p className="text-xs text-slate-400 font-mono">
               &copy; 2026 CatalystLab. Enterprise Telemetry &amp; Automated Web Quality Intelligence.
             </p>
-            <span className="text-[11px] font-mono text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
-              Imagery via Unsplash &amp; Pexels
+            <span className="text-[11px] font-mono text-slate-400 bg-slate-800/60 px-2 py-0.5 rounded border border-slate-700">
+              Telemetry Engine v2.4
             </span>
             <SyncStatusBadge />
           </div>
@@ -238,10 +238,10 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-mono text-gray-800 transition-colors hover:border-black hover:text-black shadow-2xs cursor-pointer active:scale-95 focus-visible:outline-none"
+            className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800/80 px-3.5 py-2 text-xs font-mono text-slate-200 transition-colors hover:border-cyan-500 hover:text-white shadow-xs cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
             title="Scroll back to top"
           >
-            <ArrowUp className="h-3.5 w-3.5 text-[#f9a825]" />
+            <ArrowUp className="h-3.5 w-3.5 text-cyan-400" />
             <span>Back to Top</span>
           </button>
         </div>

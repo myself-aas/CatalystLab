@@ -56,8 +56,18 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
         <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/90 via-slate-900/40 to-transparent" />
       )}
 
+      {/* Dark gradient scrim overlay */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-[5]"
+        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
+      />
+
       {/* Card Content Layout */}
-      <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 z-10 text-white">
+      <div
+        className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 z-10 text-white bg-gradient-to-t from-black/80 to-transparent"
+        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
+      >
         {/* Top Header / Badge / Actions */}
         <div className="flex items-center justify-between gap-2">
           {badge ? (
