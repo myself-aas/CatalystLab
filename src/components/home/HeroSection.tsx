@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Terminal } from 'lucide-react';
+import { ArrowRight, Terminal, ShieldCheck, Activity, Zap } from 'lucide-react';
 import EdgeMeshGlobe from '../ui/edge-mesh-globe';
 
 export const HeroSection: React.FC = () => {
@@ -28,12 +28,21 @@ export const HeroSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.1] text-white">
-              Autonomous telemetry for modern web architectures.
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/[0.06] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
+              Live architecture intelligence
+            </div>
+            <h1 className="max-w-[12ch] text-4xl font-medium leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl lg:text-7xl">
+              See the system behind the site.
             </h1>
-            <p className="mt-6 text-base md:text-lg text-zinc-400 leading-relaxed max-w-[48ch]">
+            <p className="mt-6 max-w-[48ch] text-base leading-relaxed text-zinc-400 md:text-lg">
               Execute multi-dimensional health audits in seconds. Assess Core Web Vitals, security posture, and infrastructure bottlenecks without deploying agents.
             </p>
+            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-xs text-zinc-500">
+              <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-emerald-400" /> No agents required</span>
+              <span className="inline-flex items-center gap-2"><Activity className="h-4 w-4 text-cyan-300" /> 40+ signals</span>
+              <span className="inline-flex items-center gap-2"><Zap className="h-4 w-4 text-amber-300" /> Results in seconds</span>
+            </div>
           </motion.div>
 
           <motion.form 
@@ -43,7 +52,7 @@ export const HeroSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="mt-10 w-full max-w-md relative"
           >
-            <div className="relative flex items-center p-1 rounded-xl bg-zinc-900 border border-zinc-800 focus-within:border-zinc-700 focus-within:ring-1 focus-within:ring-zinc-700 transition-all">
+            <div className="relative flex items-center rounded-2xl border border-white/10 bg-white/[0.06] p-1.5 shadow-[0_16px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl transition-all focus-within:border-cyan-300/50 focus-within:ring-4 focus-within:ring-cyan-300/10">
               <div className="pl-3 pr-2 text-zinc-500">
                 <Terminal className="w-5 h-5" />
               </div>
@@ -70,12 +79,15 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full min-h-[300px] aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950/50 flex items-center justify-center shadow-2xl"
+          className="group relative flex aspect-square min-h-[320px] w-full items-center justify-center overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950/70 shadow-[0_24px_100px_rgba(0,0,0,0.45)] md:aspect-[4/3]"
         >
           {/* A subtle geometric/technical placeholder asset */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none" />
           
-          <div className="absolute inset-0 flex items-center justify-center p-4">
+          <div className="pointer-events-none absolute left-5 top-5 z-20 rounded-lg border border-white/10 bg-black/30 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-zinc-400 backdrop-blur-md">
+            <span className="mr-2 text-emerald-400">●</span> Global mesh / observing
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8">
             <EdgeMeshGlobe 
               variant="hero"
               interactive={true} 
