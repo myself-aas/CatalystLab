@@ -2885,10 +2885,9 @@ async function startServer() {
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
-        hmr: {
-          server: httpServer,
-          protocol: 'ws'
-        }
+        // The preview proxy does not expose the dev WebSocket upgrade path.
+        // Disable Vite HMR so the browser does not retry a socket that cannot open.
+        hmr: false
       },
       appType: 'spa'
     });
