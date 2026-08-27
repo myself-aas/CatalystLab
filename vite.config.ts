@@ -6,7 +6,13 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss()
+    tailwindcss(),
+    {
+      name: 'disable-preview-hmr-client',
+      transformIndexHtml(html) {
+        return html.replace(/<script[^>]+src=["']\/\@vite\/client["'][^>]*><\/script>/g, '');
+      }
+    }
   ],
   resolve: {
     alias: {
