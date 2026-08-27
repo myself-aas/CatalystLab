@@ -2883,7 +2883,12 @@ async function startServer() {
     });
   } else {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        // The preview proxy does not expose the dev WebSocket upgrade path.
+        // Disable Vite HMR so the browser does not retry a socket that cannot open.
+        hmr: false
+      },
       appType: 'spa'
     });
     app.use(vite.middlewares);

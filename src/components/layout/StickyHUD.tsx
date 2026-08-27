@@ -109,7 +109,7 @@ export const StickyHUD: React.FC = () => {
     <aside
       id="telemetry-sticky-hud"
       aria-label="Real-time Telemetry Sticky HUD"
-      className="fixed bottom-3 inset-x-0 z-50 pointer-events-none flex flex-col items-center justify-end px-3 sm:px-6"
+      className="fixed inset-x-0 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 pointer-events-none flex flex-col items-center justify-end px-3 sm:px-6"
     >
       <div className="w-full max-w-5xl pointer-events-auto transition-all duration-300">
         
@@ -151,9 +151,10 @@ export const StickyHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowLogDrawer(false)}
-                    className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                    aria-label="Close telemetry log"
                   >
-                    <X className="h-3.5 w-3.5" />
+                    <X aria-hidden="true" className="h-3.5 w-3.5" />
                   </button>
                 </div>
               </div>
@@ -196,6 +197,9 @@ export const StickyHUD: React.FC = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
+              id="telemetry-engine-selector"
+              role="region"
+              aria-label="Telemetry engine focus selector"
               className="mb-2 p-3 rounded-2xl border border-slate-800 bg-[#060914]/95 backdrop-blur-xl shadow-2xl font-mono text-xs"
             >
               <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-800 text-slate-400 text-[11px]">
@@ -249,7 +253,7 @@ export const StickyHUD: React.FC = () => {
         </AnimatePresence>
 
         {/* Primary Sticky HUD Ribbon */}
-        <div className="relative rounded-2xl border border-slate-800 bg-[#060914]/90 backdrop-blur-xl shadow-[0_12px_36px_rgba(0,0,0,0.8)] font-mono text-xs overflow-hidden transition-all duration-300">
+        <div className="relative max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-2xl border border-slate-800 bg-[#060914]/90 backdrop-blur-xl shadow-[0_12px_36px_rgba(0,0,0,0.8)] font-mono text-xs transition-all duration-300">
           
           {/* Top Scanline / Scanning Progress Bar */}
           {isScanning ? (
@@ -321,6 +325,8 @@ export const StickyHUD: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowEngineSelector(!showEngineSelector)}
+                aria-expanded={showEngineSelector}
+                aria-controls="telemetry-engine-selector"
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[11px] font-bold transition-all cursor-pointer ${
                   focusEngine
                     ? 'bg-[#06B6D4]/15 border-[#00F0FF] text-[#00F0FF] shadow-[0_0_10px_rgba(0,240,255,0.2)]'
@@ -362,9 +368,10 @@ export const StickyHUD: React.FC = () => {
                     type="button"
                     onClick={cancelScan}
                     title="Cancel Scan"
-                    className="p-1 rounded-lg bg-rose-950/60 border border-rose-500/40 text-rose-400 hover:bg-rose-900 transition-colors"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg bg-rose-950/60 border border-rose-500/40 text-rose-400 hover:bg-rose-900 transition-colors"
+                    aria-label="Cancel scan"
                   >
-                    <X className="h-3.5 w-3.5" />
+                    <X aria-hidden="true" className="h-3.5 w-3.5" />
                   </button>
                 </div>
               ) : (

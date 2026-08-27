@@ -63,7 +63,7 @@ export const Navbar: React.FC = () => {
   const groupIsActive = (key: Exclude<MenuKey, null>) => menuItems[key].some((item) => isActive(item.to));
   const navLinkClass = (active: boolean) =>
     cn(
-      'group relative inline-flex h-9 items-center px-4 text-[13px] font-medium transition-all duration-300 rounded-full',
+      'group relative inline-flex min-h-11 items-center px-4 text-[13px] font-medium transition-all duration-300 rounded-full',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
       active
         ? 'text-foreground bg-zinc-100/50 dark:bg-zinc-800/50'

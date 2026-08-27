@@ -6,7 +6,13 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss()
+    tailwindcss(),
+    {
+      name: 'disable-preview-hmr-client',
+      transformIndexHtml(html) {
+        return html.replace(/<script[^>]+src=["']\/\@vite\/client["'][^>]*><\/script>/g, '');
+      }
+    }
   ],
   resolve: {
     alias: {
@@ -16,10 +22,7 @@ export default defineConfig({
   server: {
     port: 3000,
     host: '0.0.0.0',
-    strictPort: true,
-    hmr: {
-      clientPort: 443
-    }
+    strictPort: true
   },
   preview: {
     port: 3000,
