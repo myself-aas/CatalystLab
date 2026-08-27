@@ -186,13 +186,16 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       />
       
       {/* Header Banner */}
-      <section className="border-b border-slate-200 bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 px-4 py-14 sm:py-18 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
           
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-8">
             <Link
               to="/master-audit"
-              className="inline-flex items-center gap-1 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-600 hover:text-slate-900 transition-colors bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Back to Master Audit</span>
@@ -200,55 +203,54 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
             <Link
               to={`/docs#${meta.docsAnchor || 'overview'}`}
-              className="inline-flex items-center gap-1 text-xs font-bold text-slate-900 hover:underline transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-900 hover:text-blue-600 transition-colors bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs"
             >
-              <BookOpen className="h-3.5 w-3.5" />
+              <BookOpen className="h-3.5 w-3.5 text-blue-600" />
               <span>Engine Documentation</span>
-              <ExternalLink className="h-2.5 w-2.5" />
+              <ExternalLink className="h-3 w-3" />
             </Link>
           </div>
 
-          <div className="flex flex-col items-center mb-3">
+          <div className="flex flex-col items-center mb-4">
             {meta.image ? (
-              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-3 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 rounded-2xl overflow-hidden shadow-md border border-slate-200/90 bg-white">
                 <img 
                   src={meta.image} 
                   alt={meta.name}
                   className="w-full h-full object-cover"
-                  
                 />
               </div>
             ) : (
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-slate-900 text-2xl shadow-sm mb-3 border border-slate-200">
-                <span className="material-symbols-outlined text-3xl">{meta.icon}</span>
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-slate-900 text-3xl shadow-md mb-4 border border-slate-200/90">
+                <span className="material-symbols-outlined text-3xl text-blue-600">{meta.icon}</span>
               </div>
             )}
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded border border-slate-200 bg-white text-slate-900">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
+            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full border border-slate-200 bg-white text-slate-900 shadow-2xs">
               {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
-              <ShieldCheck className="h-3 w-3 text-emerald-600" />
+            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-2xs">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
               <span>Replaces: {meta.departmentReplaced}</span>
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-slate-600 bg-white px-2.5 py-0.5 rounded border border-slate-200">
-              <Code className="h-3 w-3 text-amber-600" />
-              <span>runtime: Python 3.11 ({meta.pythonScript})</span>
+            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-slate-700 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
+              <Code className="h-3.5 w-3.5 text-blue-600" />
+              <span>Python 3.11 ({meta.pythonScript})</span>
             </span>
           </div>
 
-          <h1 className="text-2xl font-extrabold text-slate-900 sm:text-3xl font-sans">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 font-sans leading-[1.1]">
             {meta.catalystName || `${meta.name} Catalyst`}
           </h1>
 
-          <p className="mx-auto mt-2 max-w-2xl text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
+          <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-slate-600 leading-relaxed font-sans font-normal">
             {meta.description}
           </p>
 
           {/* Form */}
-          <div className="mt-6 mx-auto max-w-xl">
+          <div className="mt-8 mx-auto max-w-xl">
             <EngineInput 
               value={targetUrl}
               onChange={setTargetUrl}

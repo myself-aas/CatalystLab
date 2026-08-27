@@ -1,5 +1,9 @@
 import { create } from 'zustand';
 import { EngineType } from '../types';
+import { EdgePoP, EDGE_POPS, findPoPById } from '../lib/edge/pops';
+
+export type GlobeScanState = 'idle' | 'running' | 'done';
+export type PlanTier = 'free' | 'pro' | 'team' | 'enterprise';
 
 export interface CronLogEntry {
   id: string;
@@ -28,6 +32,12 @@ export interface TelemetryHUDState {
   hudExpanded: boolean;
   cronLogs: CronLogEntry[];
   
+  // Edge Mesh Globe States
+  focusedPoP: EdgePoP | null;
+  scanState: GlobeScanState;
+  targetLocation: [number, number]; // [lat, lon]
+  planTier: PlanTier;
+  
   // Actions
   setFocusEngine: (engine: EngineType | null) => void;
   toggleFocusEngine: (engine: EngineType) => void;
@@ -42,6 +52,12 @@ export interface TelemetryHUDState {
   triggerSyntheticProbe: (engine?: EngineType) => void;
   startMockScan: (domain?: string) => Promise<void>;
   cancelScan: () => void;
+  
+  // Edge Mesh Actions
+  setFocusedPoP: (pop: EdgePoP | null | string) => void;
+  setScanState: (state: GlobeScanState) => void;
+  setTargetLocation: (coords: [number, number]) => void;
+  setPlanTier: (tier: PlanTier) => void;
 }
 
 const INITIAL_LOGS: CronLogEntry[] = [
@@ -146,6 +162,12 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
   hudExpanded: false,
   cronLogs: INITIAL_LOGS,
 
+  // Edge Mesh Globe initial state
+  focusedPoP: EDGE_POPS[0], // default to IAD (Ashburn / DC)
+  scanState: 'idle',
+  targetLocation: [39.0438, -77.4874], // Default to IAD / Washington DC
+  planTier: 'enterprise',
+
   setFocusEngine: (engine) => set({ focusEngine: engine }),
 
   toggleFocusEngine: (engine) => set((state) => ({
@@ -157,6 +179,27 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
   setAutoStreamActive: (active) => set({ autoStreamActive: active }),
 
   toggleAutoStream: () => set((state) => ({ autoStreamActive: !state.autoStreamActive })),
+
+  setFocusedPoP: (pop) => {
+    if (!pop) {
+      set({ focusedPoP: null });
+      return;
+    }
+    if (typeof pop === 'string') {
+      const found = findPoPById(pop);
+      if (found) {
+        set({ focusedPoP: found, targetLocation: found.coordinates });
+      }
+    } else {
+      set({ focusedPoP: pop, targetLocation: pop.coordinates });
+    }
+  },
+
+  setScanState: (state) => set({ scanState: state, isScanning: state === 'running' }),
+
+  setTargetLocation: (coords) => set({ targetLocation: coords }),
+
+  setPlanTier: (tier) => set({ planTier: tier }),
 
   setScrollDepthPercentage: (depth) => {
     const clamped = Math.max(0, Math.min(100, depth));
@@ -212,6 +255,7 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
 
     set({
       isScanning: true,
+      scanState: 'running',
       scanProgress: 5,
       activeDomain: targetDomain,
       currentScanningEngine: ENGINES_ORDER[0],
@@ -263,10 +307,18 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
 
           set({
             isScanning: false,
+            scanState: 'done',
             scanProgress: 100,
             currentScanningEngine: null,
             systemLoad: 24.2,
           });
+
+          // Reset scanState to idle after brief celebration
+          setTimeout(() => {
+            if (get().scanState === 'done') {
+              set({ scanState: 'idle' });
+            }
+          }, 3500);
 
           resolve();
         }
@@ -278,6 +330,7 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
     if (scanInterval) clearInterval(scanInterval);
     set({
       isScanning: false,
+      scanState: 'idle',
       scanProgress: 0,
       currentScanningEngine: null,
       systemLoad: 22.0,

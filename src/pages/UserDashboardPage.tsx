@@ -43,8 +43,10 @@ import { UserRateLimitAllocationCard } from '../components/user/UserRateLimitAll
 import { UserDomainMonitoringRadar } from '../components/user/UserDomainMonitoringRadar';
 import { UserAnalyticsDashboard } from '../components/user/UserAnalyticsDashboard';
 import { UserApiKeyManagementView } from '../components/user/UserApiKeyManagementView';
+import { UserGithubWebhookView } from '../components/user/UserGithubWebhookView';
 import { SEOHead } from '../components/common/SEOHead';
 import { useLocation, useParams } from 'react-router-dom';
+import { GitBranch } from 'lucide-react';
 
 export const UserDashboardPage: React.FC = () => {
   const { user, isAdmin, loading: authLoading, loginWithLocalSession, setShowDomainModal } = useAuth();
@@ -53,10 +55,11 @@ export const UserDashboardPage: React.FC = () => {
   const location = useLocation();
   const { tab } = useParams<{ tab: string }>();
 
-  const getActiveView = (): 'analytics' | 'audits' | 'rate-limits' | 'api-keys' | 'monitoring' | 'blogs' => {
-    if (tab && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs'].includes(tab)) {
-      return tab as any;
+  const getActiveView = (): 'analytics' | 'audits' | 'rate-limits' | 'api-keys' | 'monitoring' | 'blogs' | 'webhooks' => {
+    if (tab && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs', 'webhooks', 'github'].includes(tab)) {
+      return (tab === 'github' ? 'webhooks' : tab) as any;
     }
+    if (location.pathname.endsWith('/webhooks') || location.pathname.endsWith('/github')) return 'webhooks';
     if (location.pathname.endsWith('/audits')) return 'audits';
     if (location.pathname.endsWith('/rate-limits')) return 'rate-limits';
     if (location.pathname.endsWith('/api-keys')) return 'api-keys';
@@ -64,8 +67,8 @@ export const UserDashboardPage: React.FC = () => {
     if (location.pathname.endsWith('/blogs')) return 'blogs';
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
-    if (tabParam && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs'].includes(tabParam)) {
-      return tabParam as any;
+    if (tabParam && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs', 'webhooks', 'github'].includes(tabParam)) {
+      return (tabParam === 'github' ? 'webhooks' : tabParam) as any;
     }
     return 'analytics';
   };
@@ -553,6 +556,22 @@ export const UserDashboardPage: React.FC = () => {
           </Link>
 
           <Link
+            to="/dashboard/webhooks"
+            className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+              activeTab === 'webhooks'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200'
+            }`}
+          >
+            <GitBranch className="h-3.5 w-3.5 text-blue-500" />
+            <span>GitHub Webhooks</span>
+            <span className="relative flex h-2 w-2 ml-0.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+          </Link>
+
+          <Link
             to="/dashboard/blogs"
             className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
               activeTab === 'blogs'
@@ -900,6 +919,11 @@ export const UserDashboardPage: React.FC = () => {
           <RoleContentGate requiredPermission="feature:api_access" minPlan="Pro" mode="blur">
             <UserApiKeyManagementView />
           </RoleContentGate>
+        )}
+
+        {/* TAB 6: GITHUB WEBHOOKS & REAL-TIME TELEMETRY */}
+        {activeTab === 'webhooks' && (
+          <UserGithubWebhookView />
         )}
 
       </section>

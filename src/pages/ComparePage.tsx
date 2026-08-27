@@ -264,16 +264,24 @@ export const ComparePage: React.FC = () => {
       />
 
       {/* Header */}
-      <section className="border-b border-slate-800/80 bg-gradient-to-b from-slate-950 to-[#090D16] px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3.5 py-1 text-xs font-mono font-semibold text-[#06B6D4]">
-            <span>Side-by-Side Comparative Telemetry</span>
+      <section className="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-[#0B101D] to-[#090D16] px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#06b6d420_0%,transparent_75%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#33415515_1px,transparent_1px),linear-gradient(to_bottom,#33415515_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-4xl text-center space-y-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-4 py-1.5 text-xs font-mono font-bold text-[#00F0FF] shadow-xs backdrop-blur-md">
+            <span className="h-2 w-2 rounded-full bg-[#00F0FF] animate-pulse" />
+            <span>SIDE-BY-SIDE COMPARATIVE TELEMETRY</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-100 tracking-tight">
-            Head-to-Head Telemetry Delta Matrix
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-[1.08]">
+            Head-to-Head Telemetry{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-cyan-400 to-blue-500">
+              Delta Matrix
+            </span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto font-sans">
-            Benchmark performance, security headers, and DOM complexity between two competing web architectures.
+          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto font-sans font-normal leading-relaxed">
+            Benchmark performance, security headers, and DOM complexity between two competing web architectures with synchronous multi-engine delta calculations.
           </p>
         </div>
       </section>

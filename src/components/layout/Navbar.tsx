@@ -15,6 +15,7 @@ const menuItems = {
   services: [
     { label: 'Pricing & plans', description: 'Choose the right audit tier', to: '/pricing' },
     { label: 'Products & Watchdog', description: 'Continuous monitoring tools', to: '/products' },
+    { label: 'GitHub Webhooks', description: 'Real-time commit & PR telemetry', to: '/dashboard/webhooks' },
   ],
   resources: [
     { label: 'Documentation', description: 'Understand the platform', to: '/docs' },
@@ -62,33 +63,35 @@ export const Navbar: React.FC = () => {
   const groupIsActive = (key: Exclude<MenuKey, null>) => menuItems[key].some((item) => isActive(item.to));
   const navLinkClass = (active: boolean) =>
     cn(
-      'inline-flex min-h-10 items-center rounded-lg px-3 text-sm font-semibold transition-colors',
+      'group relative inline-flex h-9 items-center px-4 text-[13px] font-medium transition-all duration-300 rounded-full',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
       active
-        ? 'bg-primary/12 text-foreground'
-        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+        ? 'text-foreground bg-zinc-100/50 dark:bg-zinc-800/50'
+        : 'text-muted-foreground hover:text-foreground hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50'
     );
 
   return (
     <>
       <header
         className={cn(
-          'sticky top-0 z-50 border-b transition-all duration-200',
+          'sticky top-0 z-50 border-b transition-all duration-300',
           isScrolled
-            ? 'border-border bg-background/95 shadow-sm backdrop-blur-xl'
-            : 'border-transparent bg-background/80 backdrop-blur-md'
+            ? 'border-border bg-background/80 shadow-sm backdrop-blur-xl'
+            : 'border-transparent bg-transparent'
         )}
       >
-        <div className="mx-auto flex min-h-16 max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
+        <div className="mx-auto flex min-h-16 max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link to="/" className="shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="CatalystLab home">
             <BrandLogo size="md" />
           </Link>
 
           <nav ref={navRef} className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
             <Link to="/" className={navLinkClass(isActive('/'))}>Home</Link>
+            
             {(Object.keys(menuItems) as Array<Exclude<MenuKey, null>>).map((key) => {
               const isOpen = openMenu === key;
               const label = key === 'services' ? 'Services' : 'Resources';
+              
               return (
                 <div key={key} className="relative">
                   <button
@@ -99,14 +102,15 @@ export const Navbar: React.FC = () => {
                     onClick={() => setOpenMenu(isOpen ? null : key)}
                   >
                     {label}
-                    <ChevronDown aria-hidden="true" className={cn('size-4 transition-transform', isOpen && 'rotate-180')} />
+                    <ChevronDown aria-hidden="true" className={cn('size-3.5 transition-transform duration-300', isOpen && 'rotate-180')} />
                   </button>
+                  
                   {isOpen && (
-                    <div role="menu" aria-label={`${label} menu`} className="absolute left-0 top-full mt-2 w-72 rounded-xl border border-border bg-surface-panel p-2 shadow-xl">
+                    <div role="menu" aria-label={`${label} menu`} className="absolute left-0 top-[calc(100%+0.5rem)] w-[320px] rounded-2xl border border-border bg-background/95 backdrop-blur-xl p-2 shadow-2xl ring-1 ring-black/5 dark:ring-white/5 animate-in fade-in slide-in-from-top-2 duration-200">
                       {menuItems[key].map((item) => (
-                        <Link key={item.to} to={item.to} role="menuitem" className="flex min-h-14 flex-col justify-center rounded-lg px-3 py-2 transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                          <span className="text-sm font-semibold text-foreground">{item.label}</span>
-                          <span className="text-xs leading-5 text-muted-foreground">{item.description}</span>
+                        <Link key={item.to} to={item.to} role="menuitem" className="group flex flex-col justify-center rounded-xl px-4 py-3 transition-colors hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                          <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">{item.label}</span>
+                          <span className="text-xs leading-relaxed text-muted-foreground mt-0.5">{item.description}</span>
                         </Link>
                       ))}
                     </div>
@@ -114,52 +118,56 @@ export const Navbar: React.FC = () => {
                 </div>
               );
             })}
+            
             <Link to="/about" className={navLinkClass(isActive('/about'))}>About</Link>
             <Link to="/contact" className={navLinkClass(isActive('/contact'))}>Contact</Link>
+            
             {hasPermission('page:view_admin') && (
               <Link to="/admin" className={cn(navLinkClass(isActive('/admin')), 'gap-1.5')}>
-                <ShieldCheck aria-hidden="true" className="size-4" />
+                <ShieldCheck aria-hidden="true" className="size-3.5 text-emerald-500" />
                 Admin
               </Link>
             )}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-3">
             <NavbarSearch isScrolled={isScrolled} />
             <ThemeToggle />
+            
             {user ? (
               <Link
                 to="/dashboard"
                 className={cn(
-                  'hidden min-h-10 items-center gap-2 rounded-lg border border-border bg-surface-panel px-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                  'hidden h-9 items-center gap-2 rounded-full border border-border bg-background px-4 text-[13px] font-medium text-foreground transition-all hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm',
                   'sm:flex'
                 )}
                 aria-label="Open dashboard"
               >
-                <LayoutDashboard aria-hidden="true" className="size-4 text-muted-foreground" />
-                <span className="max-w-24 truncate">{user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Dashboard'}</span>
-                <span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] uppercase text-muted-foreground">{roleConfig.shortLabel}</span>
+                <LayoutDashboard aria-hidden="true" className="size-3.5 text-muted-foreground" />
+                <span className="max-w-[100px] truncate">{user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Dashboard'}</span>
+                <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase text-primary font-bold">{roleConfig.shortLabel}</span>
               </Link>
             ) : (
-              <div className="hidden items-center gap-1 sm:flex">
+              <div className="hidden items-center gap-2 sm:flex">
                 <Link to="/login" className={navLinkClass(false)}>Log in</Link>
                 <Link to="/signup" className={cn(
-                  'inline-flex min-h-10 items-center rounded-lg bg-foreground px-4 text-sm font-semibold text-background transition-colors',
-                  'hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary'
+                  'inline-flex h-9 items-center justify-center rounded-full bg-foreground px-5 text-[13px] font-medium text-background transition-transform hover:scale-105 active:scale-95',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-md'
                 )}>Sign up</Link>
               </div>
             )}
+            
             <button
               type="button"
               onClick={() => setMenuOverlayOpen(true)}
               className={cn(
-                'inline-flex size-10 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors',
-                'hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                'inline-flex size-9 items-center justify-center rounded-full border border-border bg-background text-foreground transition-all',
+                'hover:bg-zinc-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-sm',
                 'lg:hidden'
               )}
               aria-label="Open navigation menu"
             >
-              <Menu aria-hidden="true" className="size-5" />
+              <Menu aria-hidden="true" className="size-4" />
             </button>
           </div>
         </div>

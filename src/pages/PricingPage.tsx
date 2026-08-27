@@ -30,6 +30,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { LazyReveal, LazyStaggerContainer, LazyStaggerItem } from '../components/common/LazyAnimate';
 import { ParallaxSection } from '../components/common/ParallaxSection';
 import { TelemetryRoiCalculator } from '../components/pricing/TelemetryRoiCalculator';
+import { PricingMeshCoverage } from '../components/pricing/PricingMeshCoverage';
 import { useSubscription } from '../context/SubscriptionContext';
 import { useAuth } from '../context/AuthContext';
 import { useRoleSecurity } from '../context/RoleSecurityContext';
@@ -120,38 +121,44 @@ export const PricingPage: React.FC = () => {
       />
 
       {/* Hero Header */}
-      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-14 sm:py-18">
-        <LazyReveal direction="down" className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1 text-xs font-mono font-bold text-slate-900 mb-5 shadow-sm">
-            <TerminalIcon className="h-3.5 w-3.5" />
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-16 sm:py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <LazyReveal direction="down" className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-4 py-1.5 text-xs font-mono font-semibold text-slate-800 mb-6 shadow-xs">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>5-TIER TELEMETRY ARCHITECTURE &bull; 7-DAY ZERO-RISK TRIAL</span>
           </div>
 
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight font-sans">
-            Precision Web Health &amp; Telemetry Plans
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.08] font-sans">
+            Precision Web Health &amp;{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-800">
+              Telemetry Plans
+            </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
-            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-slate-900 font-bold">7-day free trial with zero credit card requirements</strong>.
+          <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-slate-600 leading-relaxed font-sans font-normal">
+            Choose the exact compute throughput, automated probe frequencies, and REST API access suited for your engineering workflow. All paid tiers include a <strong className="text-slate-900 font-semibold">7-day free trial with zero credit card requirements</strong>.
           </p>
 
           {/* Interactive Role Preview Switcher Bar */}
-          <div className="mt-8 mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-4 shadow-sm text-left">
+          <div className="mt-8 mx-auto max-w-3xl rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md p-4 sm:p-5 shadow-xs text-left">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
               <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-slate-700" />
+                <Eye className="h-4 w-4 text-blue-600" />
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-900">
                   Preview Platform As Role:
                 </span>
               </div>
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-slate-500">Current:</span>
-                <span className={`font-mono font-bold px-2 py-0.5 rounded border text-[11px] uppercase ${ROLE_CONFIGS[effectiveRole].badgeBg} ${ROLE_CONFIGS[effectiveRole].badgeText} ${ROLE_CONFIGS[effectiveRole].badgeBorder}`}>
+                <span className="text-slate-500 font-medium">Current Active:</span>
+                <span className={`font-mono font-bold px-2.5 py-1 rounded-md border text-[11px] uppercase ${ROLE_CONFIGS[effectiveRole].badgeBg} ${ROLE_CONFIGS[effectiveRole].badgeText} ${ROLE_CONFIGS[effectiveRole].badgeBorder}`}>
                   {ROLE_CONFIGS[effectiveRole].displayName} {isSimulating ? '(Previewing)' : ''}
                 </span>
                 {isSimulating && (
                   <button
                     onClick={resetSimulation}
-                    className="flex items-center gap-1 text-[11px] text-slate-900 font-bold hover:underline cursor-pointer ml-1"
+                    className="flex items-center gap-1 text-[11px] text-blue-600 font-bold hover:underline cursor-pointer ml-1"
                   >
                     <RotateCcw className="h-3 w-3" />
                     <span>Reset</span>
@@ -327,6 +334,9 @@ export const PricingPage: React.FC = () => {
                 );
               })}
             </LazyStaggerContainer>
+
+            {/* Interactive 3D Anycast PoP Mesh Coverage Breakdown */}
+            <PricingMeshCoverage onSelectPlan={handlePlanCta} />
           </div>
         )}
 

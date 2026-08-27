@@ -476,34 +476,40 @@ func main() {
       />
       
       {/* Top Header Hero */}
-      <section className="border-b border-slate-200 bg-slate-50 px-4 py-7 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 px-4 py-10 sm:py-12 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             
-            <div className="flex items-center gap-3.5">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white border border-slate-200 text-black shadow-sm">
-                <Terminal className="h-5 w-5" />
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-slate-200/90 text-slate-900 shadow-xs backdrop-blur-md">
+                <Terminal className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">
-                    Engine Test Playground
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-sans">
+                    Engine Test{' '}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                      Playground
+                    </span>
                   </h1>
-                  <span className="rounded-md bg-slate-200 border border-slate-300 px-2 py-0.5 text-xs font-mono font-bold text-slate-800">
+                  <span className="rounded-full bg-slate-200/80 border border-slate-300/80 px-3 py-1 text-xs font-mono font-bold text-slate-800">
                     {endpointPath}
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 mt-0.5 font-mono">
+                <p className="text-xs sm:text-sm text-slate-600 mt-1 font-mono">
                   Interactive REST test harness for single diagnostic engines and composite master audits.
                 </p>
               </div>
             </div>
 
             {/* Quick Links */}
-            <div className="flex flex-wrap items-center gap-2.5 font-mono">
+            <div className="flex flex-wrap items-center gap-3 font-mono">
               <Link
                 to="/dashboard?tab=api-keys"
-                className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 hover:text-black transition-all shadow-sm"
+                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-all shadow-xs"
               >
                 <Key className="h-3.5 w-3.5 text-amber-500" />
                 <span>API Keys &amp; White-Label</span>
@@ -511,9 +517,9 @@ func main() {
               
               <Link
                 to="/api-docs"
-                className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 hover:text-black transition-all shadow-sm"
+                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-all shadow-xs"
               >
-                <FileJson className="h-3.5 w-3.5 text-black" />
+                <FileJson className="h-3.5 w-3.5 text-blue-600" />
                 <span>OpenAPI Docs</span>
               </Link>
             </div>

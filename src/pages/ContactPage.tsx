@@ -154,24 +154,30 @@ export const ContactPage: React.FC = () => {
       />
       
       {/* Header Banner */}
-      <section className="border-b border-slate-200 bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-mono font-bold text-slate-900 uppercase tracking-wider mb-3 shadow-sm">
-                <LifeBuoy className="h-3.5 w-3.5" />
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-6xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-4 py-1 text-xs font-mono font-bold text-slate-900 uppercase tracking-wider shadow-xs">
+                <LifeBuoy className="h-3.5 w-3.5 text-blue-600" />
                 <span>CatalystLab Engineering Support</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                Developer Inquiries &amp; Support Portal
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.08]">
+                Developer Inquiries &amp;{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-800">
+                  Support Portal
+                </span>
               </h1>
-              <p className="mt-2 text-sm text-slate-600 max-w-2xl leading-relaxed font-sans">
+              <p className="text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed font-sans font-normal">
                 Connect directly with our core telemetry engineers, request custom audit engines, or resolve scanning anomalies.
               </p>
             </div>
 
             {/* Live Status Indicator Pill */}
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4 shrink-0 shadow-sm font-mono">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/90 backdrop-blur-md p-4 sm:p-5 shrink-0 shadow-xs font-mono">
               <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>SUPPORT STATUS: ACTIVE</span>

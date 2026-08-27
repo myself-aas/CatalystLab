@@ -9,6 +9,8 @@ export type CoreEngineType =
   | 'migration' 
   | 'llmo';
 
+export * from './card';
+
 export type SdlcCatalystType =
   | 'planning_arch'
   | 'code_quality'
@@ -313,5 +315,71 @@ export interface InfrastructureGrowthSummary {
   cloud_providers: string[];
   expansion_rate: string;
   discovery_source: string;
+}
+
+export interface GithubRepo {
+  id?: string;
+  name: string; // e.g. "org/repository-name"
+  repoUrl: string; // e.g. "https://github.com/org/repository-name"
+  defaultBranch: string; // e.g. "main"
+  webhookSecret: string; // e.g. "cat_whsec_..."
+  webhookUrl: string; // e.g. "https://.../api/v1/integrations/github/webhook?repoId=..."
+  ownerId: string;
+  ownerEmail?: string;
+  status: 'active' | 'inactive';
+  eventsCount: number;
+  lastEventAt?: number;
+  lastScore?: number;
+  lastStatus?: 'passed' | 'warning' | 'failed';
+  autoScanEngines?: string[]; // engines to run automatically e.g. ["repo", "compliance", "ai_ready", "eco"]
+  createdAt: number;
+  updatedAt?: number;
+}
+
+export interface GithubTelemetryMetrics {
+  astCodeHygiene: number; // 0-100
+  securityVulnerabilities: number; // 0-100
+  aiReadinessScore: number; // 0-100
+  buildCarbonEco: number; // 0-100
+  coreWebVitalsGate: number; // 0-100
+  edgeLatencyIndex: number; // 0-100
+  testCoverage: number; // percentage
+  cveIssuesDetected: number;
+  linesAnalyzed: number;
+  filesScanned: number;
+}
+
+export interface GithubEngineTelemetryResult {
+  engineKey: string;
+  engineName: string;
+  score: number;
+  status: 'passed' | 'warning' | 'failed';
+  summary: string;
+  details?: string;
+}
+
+export interface GithubTelemetryEvent {
+  id?: string;
+  repoId: string;
+  ownerId: string;
+  repoName: string;
+  eventType: 'push' | 'pull_request' | 'ping';
+  branch: string;
+  commitHash?: string;
+  commitMessage?: string;
+  commitUrl?: string;
+  author: string;
+  authorAvatar?: string;
+  prNumber?: number;
+  prTitle?: string;
+  prUrl?: string;
+  prAction?: 'opened' | 'synchronize' | 'reopened' | 'closed' | 'merged';
+  score: number;
+  status: 'passed' | 'warning' | 'failed';
+  summary: string;
+  durationMs: number;
+  metrics: GithubTelemetryMetrics;
+  engineResults: GithubEngineTelemetryResult[];
+  timestamp: number;
 }
 

@@ -128,18 +128,24 @@ export const ReportsDirectoryPage: React.FC = () => {
       />
       
       {/* Header Banner */}
-      <section className="border-b border-slate-200 bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-5xl space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-amber-600 uppercase tracking-wider mb-3">
-                <FileText className="h-3.5 w-3.5" />
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-3.5 py-1 text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-4 shadow-xs">
+                <FileText className="h-3.5 w-3.5 text-blue-600" />
                 <span>Diagnostic Report Directory</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-sans">
-                Web Performance, Security &amp; AI Readiness Dossiers
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-sans leading-[1.1]">
+                Web Performance, Security &amp;{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-800">
+                  AI Readiness Dossiers
+                </span>
               </h1>
-              <p className="mt-2 text-xs text-slate-600 max-w-2xl leading-relaxed font-sans">
+              <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed font-sans font-normal">
                 Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide.
               </p>
             </div>
@@ -147,9 +153,9 @@ export const ReportsDirectoryPage: React.FC = () => {
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 to="/master-audit"
-                className="flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all"
+                className="flex items-center gap-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-5 py-3 text-xs sm:text-sm font-bold text-white shadow-sm transition-all active:scale-95"
               >
-                <Zap className="h-3.5 w-3.5 text-amber-400" />
+                <Zap className="h-4 w-4 text-blue-400" />
                 <span>Run New Audit</span>
               </Link>
             </div>

@@ -7,3 +7,7 @@ export * from './testimonial';
 export * from './demo';
 export * from './kinetic-grid';
 export * from './particles-bg';
+export * from './animated-group';
+export * from './hero-section-6';
+export * from './cobe-globe-cdn';
+export * from './edge-mesh-globe';

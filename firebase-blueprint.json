@@ -126,12 +126,63 @@
         "updatedAt": { "type": "number", "description": "Last updated timestamp in ms" }
       },
       "required": ["userId", "planId", "status", "createdAt", "updatedAt"]
+    },
+    "GithubRepo": {
+      "title": "Connected GitHub Repository",
+      "description": "Configured repository webhook connection for real-time commit and PR telemetry.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Repository identifier (e.g. owner/repo)", "maxLength": 150 },
+        "repoUrl": { "type": "string", "description": "GitHub repository URL", "maxLength": 500 },
+        "defaultBranch": { "type": "string", "description": "Target branch for telemetry checks", "maxLength": 100 },
+        "webhookSecret": { "type": "string", "description": "HMAC secret token for payload verification", "maxLength": 128 },
+        "webhookUrl": { "type": "string", "description": "Unique payload delivery URL", "maxLength": 500 },
+        "ownerId": { "type": "string", "description": "UID of the user who connected the repository", "maxLength": 128 },
+        "ownerEmail": { "type": "string", "description": "Email of the repository owner", "maxLength": 256 },
+        "status": { "type": "string", "description": "Webhook connection status", "enum": ["active", "inactive"] },
+        "eventsCount": { "type": "number", "description": "Total events received from webhook" },
+        "lastEventAt": { "type": "number", "description": "Timestamp of the last received event" },
+        "lastScore": { "type": "number", "description": "Last evaluated composite telemetry score" },
+        "createdAt": { "type": "number", "description": "Creation timestamp in milliseconds" }
+      },
+      "required": ["name", "repoUrl", "ownerId", "status", "createdAt"]
+    },
+    "GithubTelemetryEvent": {
+      "title": "GitHub Telemetry Event",
+      "description": "Real-time automated telemetry record generated from commit push or PR webhook.",
+      "type": "object",
+      "properties": {
+        "repoId": { "type": "string", "description": "Identifier of the connected repository", "maxLength": 128 },
+        "ownerId": { "type": "string", "description": "UID of the user who owns the repo", "maxLength": 128 },
+        "repoName": { "type": "string", "description": "Name of the repository", "maxLength": 150 },
+        "eventType": { "type": "string", "description": "Webhook event type", "enum": ["push", "pull_request", "ping"] },
+        "branch": { "type": "string", "description": "Git branch name", "maxLength": 100 },
+        "commitHash": { "type": "string", "description": "Git commit SHA", "maxLength": 64 },
+        "commitMessage": { "type": "string", "description": "Git commit subject", "maxLength": 500 },
+        "author": { "type": "string", "description": "Commit or PR author", "maxLength": 150 },
+        "prNumber": { "type": "number", "description": "Pull request number" },
+        "prTitle": { "type": "string", "description": "Pull request title", "maxLength": 300 },
+        "prAction": { "type": "string", "description": "Pull request action", "maxLength": 50 },
+        "score": { "type": "number", "description": "Calculated composite telemetry score" },
+        "status": { "type": "string", "description": "Quality gate status", "enum": ["passed", "warning", "failed"] },
+        "durationMs": { "type": "number", "description": "Telemetry execution duration in ms" },
+        "timestamp": { "type": "number", "description": "Event timestamp in milliseconds" }
+      },
+      "required": ["repoId", "ownerId", "eventType", "status", "timestamp"]
     }
   },
   "firestore": {
     "user_subscriptions/{userId}": {
       "schema": "UserSubscription",
       "description": "User subscription tier and 7-day free trial state records."
+    },
+    "github_repos/{repoId}": {
+      "schema": "GithubRepo",
+      "description": "Stores user-connected GitHub repositories and webhook secret configurations."
+    },
+    "github_telemetry_events/{eventId}": {
+      "schema": "GithubTelemetryEvent",
+      "description": "Real-time telemetry event records ingested from GitHub webhooks."
     },
     "reports/{reportId}": {
       "schema": "Report",

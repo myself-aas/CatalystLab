@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useTelemetryHUDStore } from '../../store/useTelemetryHUDStore';
 import { LiveCronLogStream } from './LiveCronLogStream';
+import { EdgeMeshGlobe } from '../ui/edge-mesh-globe';
 import { EngineType } from '../../types';
 import { ENGINES_MAP } from '../../data/engines';
 import { motion, AnimatePresence } from 'motion/react';
@@ -394,14 +395,28 @@ export const CommandCenterHUD: React.FC = () => {
               </div>
             </div>
 
-            {/* Global Edge Node Health Status */}
-            <div className="bg-[#080D1A] border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3 font-mono text-xs">
+            {/* Global Edge Node Health Status & 3D Anycast Mesh */}
+            <div className="bg-[#080D1A] border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3 font-mono text-xs overflow-hidden">
               <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                 <span className="font-bold text-slate-200 flex items-center gap-1.5">
                   <Globe className="h-3.5 w-3.5 text-[#00F0FF]" />
-                  SYNTHETIC PROBE PoPs
+                  LIVE ANYCAST RADAR
                 </span>
-                <span className="text-[10px] text-[#00FF66]">42 / 42 ONLINE</span>
+                <span className="text-[10px] text-[#00FF66] font-bold">42 / 42 ONLINE</span>
+              </div>
+
+              {/* 3D WebGL Live Edge Mesh Globe */}
+              <div className="w-full flex items-center justify-center py-1">
+                <EdgeMeshGlobe
+                  variant="live"
+                  focusedEngine={focusEngine}
+                  interactive={true}
+                  autoSpin={true}
+                  showInspector={true}
+                  showChips={true}
+                  showControls={false}
+                  className="max-h-[220px]"
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-[10px]">

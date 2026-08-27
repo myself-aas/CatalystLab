@@ -33,7 +33,7 @@ import {
   limit,
   onSnapshot
 } from 'firebase/firestore';
-import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry, UserSubscription, SubscriptionPlanId } from '../types';
+import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry, UserSubscription, SubscriptionPlanId, GithubRepo, GithubTelemetryEvent } from '../types';
 import { calculateReadingTime } from '../utils/readingTime';
 
 import firebaseConfig from '../../firebase-applet-config.json';
@@ -1508,5 +1508,293 @@ export const changeUserSubscription = async (
   saveLocalSubscription(subscription);
   return subscription;
 };
+
+// ==========================================
+// CONNECTED GITHUB REPOSITORIES & WEBHOOKS
+// ==========================================
+
+const GITHUB_REPOS_STORAGE_KEY = 'catalystlab_github_repos_v1';
+const GITHUB_EVENTS_STORAGE_KEY = 'catalystlab_github_telemetry_events_v1';
+
+function getLocalGithubRepos(): GithubRepo[] {
+  try {
+    const raw = localStorage.getItem(GITHUB_REPOS_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalGithubRepos(repos: GithubRepo[]) {
+  try {
+    localStorage.setItem(GITHUB_REPOS_STORAGE_KEY, JSON.stringify(repos));
+  } catch {
+    // ignore
+  }
+}
+
+function getLocalGithubEvents(): GithubTelemetryEvent[] {
+  try {
+    const raw = localStorage.getItem(GITHUB_EVENTS_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalGithubEvents(events: GithubTelemetryEvent[]) {
+  try {
+    localStorage.setItem(GITHUB_EVENTS_STORAGE_KEY, JSON.stringify(events.slice(0, 100)));
+  } catch {
+    // ignore
+  }
+}
+
+export const getConnectedGithubRepos = async (userId?: string): Promise<GithubRepo[]> => {
+  const currentUid = userId || auth.currentUser?.uid;
+  const path = 'github_repos';
+  
+  if (!currentUid) {
+    return getLocalGithubRepos();
+  }
+
+  try {
+    const q = query(
+      collection(db, path),
+      where('ownerId', '==', currentUid)
+    );
+    const snap = await getDocs(q);
+    const repos: GithubRepo[] = [];
+    snap.forEach((docSnap) => {
+      repos.push({
+        id: docSnap.id,
+        ...(docSnap.data() as Omit<GithubRepo, 'id'>)
+      });
+    });
+
+    repos.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    saveLocalGithubRepos(repos);
+    return repos;
+  } catch (err) {
+    try {
+      handleFirestoreError(err, OperationType.GET, path);
+    } catch {
+      // Return local cache on permission or offline network failure
+    }
+    return getLocalGithubRepos().filter(r => r.ownerId === currentUid || !r.ownerId);
+  }
+};
+
+export const createConnectedGithubRepo = async (
+  repoData: Omit<GithubRepo, 'id'>
+): Promise<GithubRepo> => {
+  const path = 'github_repos';
+  const repoId = `gh_repo_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const fullRepo: GithubRepo = {
+    id: repoId,
+    ...repoData,
+    createdAt: repoData.createdAt || Date.now()
+  };
+
+  try {
+    const docRef = doc(db, path, repoId);
+    await setDoc(docRef, fullRepo);
+  } catch (err) {
+    try {
+      handleFirestoreError(err, OperationType.WRITE, path);
+    } catch {
+      // Local fallback
+    }
+  }
+
+  const localList = getLocalGithubRepos().filter(r => r.id !== repoId);
+  localList.unshift(fullRepo);
+  saveLocalGithubRepos(localList);
+
+  return fullRepo;
+};
+
+export const updateConnectedGithubRepo = async (
+  repoId: string,
+  updates: Partial<GithubRepo>
+): Promise<void> => {
+  const path = `github_repos/${repoId}`;
+  try {
+    const docRef = doc(db, 'github_repos', repoId);
+    await updateDoc(docRef, { ...updates, updatedAt: Date.now() });
+  } catch (err) {
+    try {
+      handleFirestoreError(err, OperationType.UPDATE, path);
+    } catch {
+      // Local fallback
+    }
+  }
+
+  const localList = getLocalGithubRepos();
+  const idx = localList.findIndex(r => r.id === repoId);
+  if (idx >= 0) {
+    localList[idx] = { ...localList[idx], ...updates, updatedAt: Date.now() };
+    saveLocalGithubRepos(localList);
+  }
+};
+
+export const deleteConnectedGithubRepo = async (repoId: string): Promise<void> => {
+  const path = `github_repos/${repoId}`;
+  try {
+    const docRef = doc(db, 'github_repos', repoId);
+    await deleteDoc(docRef);
+  } catch (err) {
+    try {
+      handleFirestoreError(err, OperationType.DELETE, path);
+    } catch {
+      // Local fallback
+    }
+  }
+
+  const localList = getLocalGithubRepos().filter(r => r.id !== repoId);
+  saveLocalGithubRepos(localList);
+};
+
+// ==========================================
+// REAL-TIME GITHUB TELEMETRY EVENTS
+// ==========================================
+
+export const getGithubTelemetryEvents = async (
+  userId?: string,
+  repoId?: string,
+  limitCount = 50
+): Promise<GithubTelemetryEvent[]> => {
+  const currentUid = userId || auth.currentUser?.uid;
+  const path = 'github_telemetry_events';
+
+  if (!currentUid) {
+    const local = getLocalGithubEvents();
+    return repoId ? local.filter(e => e.repoId === repoId) : local;
+  }
+
+  try {
+    const q = repoId
+      ? query(
+          collection(db, path),
+          where('ownerId', '==', currentUid),
+          where('repoId', '==', repoId),
+          limit(limitCount)
+        )
+      : query(
+          collection(db, path),
+          where('ownerId', '==', currentUid),
+          limit(limitCount)
+        );
+
+    const snap = await getDocs(q);
+    const events: GithubTelemetryEvent[] = [];
+    snap.forEach((docSnap) => {
+      events.push({
+        id: docSnap.id,
+        ...(docSnap.data() as Omit<GithubTelemetryEvent, 'id'>)
+      });
+    });
+
+    events.sort((a, b) => b.timestamp - a.timestamp);
+    saveLocalGithubEvents(events);
+    return events;
+  } catch (err) {
+    try {
+      handleFirestoreError(err, OperationType.GET, path);
+    } catch {
+      // Return local cache on network/rules failure
+    }
+    const local = getLocalGithubEvents().filter(e => e.ownerId === currentUid || !e.ownerId);
+    return repoId ? local.filter(e => e.repoId === repoId) : local;
+  }
+};
+
+export const recordGithubTelemetryEvent = async (
+  eventData: Omit<GithubTelemetryEvent, 'id'>
+): Promise<GithubTelemetryEvent> => {
+  const path = 'github_telemetry_events';
+  const eventId = `gh_evt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const fullEvent: GithubTelemetryEvent = {
+    id: eventId,
+    ...eventData,
+    timestamp: eventData.timestamp || Date.now()
+  };
+
+  try {
+    const docRef = doc(db, path, eventId);
+    await setDoc(docRef, fullEvent);
+  } catch (err) {
+    try {
+      handleFirestoreError(err, OperationType.WRITE, path);
+    } catch {
+      // Local fallback
+    }
+  }
+
+  const localEvents = getLocalGithubEvents();
+  localEvents.unshift(fullEvent);
+  saveLocalGithubEvents(localEvents);
+
+  return fullEvent;
+};
+
+export const subscribeToGithubTelemetryEvents = (
+  userId: string,
+  callback: (events: GithubTelemetryEvent[]) => void,
+  repoId?: string
+): (() => void) => {
+  const path = 'github_telemetry_events';
+  if (!userId) {
+    callback(getLocalGithubEvents());
+    return () => {};
+  }
+
+  try {
+    const q = repoId
+      ? query(
+          collection(db, path),
+          where('ownerId', '==', userId),
+          where('repoId', '==', repoId),
+          limit(50)
+        )
+      : query(
+          collection(db, path),
+          where('ownerId', '==', userId),
+          limit(50)
+        );
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snap) => {
+        const events: GithubTelemetryEvent[] = [];
+        snap.forEach((docSnap) => {
+          events.push({
+            id: docSnap.id,
+            ...(docSnap.data() as Omit<GithubTelemetryEvent, 'id'>)
+          });
+        });
+        events.sort((a, b) => b.timestamp - a.timestamp);
+        if (events.length > 0) {
+          saveLocalGithubEvents(events);
+        }
+        callback(events.length > 0 ? events : getLocalGithubEvents());
+      },
+      (error) => {
+        try {
+          handleFirestoreError(error, OperationType.GET, path);
+        } catch {
+          // fallback to local events
+        }
+        callback(getLocalGithubEvents());
+      }
+    );
+
+    return unsubscribe;
+  } catch (err) {
+    callback(getLocalGithubEvents());
+    return () => {};
+  }
+};
+
 
 

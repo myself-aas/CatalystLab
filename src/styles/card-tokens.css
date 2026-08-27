@@ -3,6 +3,14 @@
    ========================================================================== */
 
 :root {
+  /* --- Unified Modular Card Design Tokens --- */
+  --bg-dark-base: #0D0D0D;
+  --bg-dark-container: #1A1A1A;
+  --text-primary-white: #FFFFFF;
+  --text-muted-secondary: #A0A0A0;
+  --trail-card-radius-outer: 20px;
+  --trail-card-radius-inner: 16px;
+
   /* --- Structural Geometry & Radius Math --- */
   --card-radius-outer: 20px;
   --card-radius-inner: 14px;

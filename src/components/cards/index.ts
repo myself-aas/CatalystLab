@@ -28,6 +28,12 @@ export * from './marketing/LiveTelemetryPanel';
 // Content & Product Cards (Phase C4)
 export * from './content';
 
+// Unified Modular TrailCard & Atomic Components
+export * from './TrailCard';
+export * from './atomic/TrailCardHeader';
+export * from './atomic/TrailCardMiddleRow';
+export * from './atomic/TrailCardMetricsGrid';
+
 // Motion & Interaction Pass (Phase C5)
 export * from './hooks';
 export * from './motion';

@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { ParallaxSection } from '../components/common/ParallaxSection';
+import { WebhookFanoutMesh } from '../components/integrations/WebhookFanoutMesh';
 
 export const ProductsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'monitoring' | 'cicd' | 'webhooks'>('all');
@@ -125,23 +126,33 @@ export default {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-slate-50 py-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200">
-        <div className="relative mx-auto max-w-7xl">
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-mono text-slate-600 shadow-sm">
-              <Radio className="h-3.5 w-3.5 text-slate-900 animate-pulse" />
-              <span>Products &amp; Continuous Telemetry</span>
+      <section className="relative overflow-hidden bg-slate-50 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="flex flex-wrap items-center gap-2.5 mb-5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-3.5 py-1.5 text-xs font-mono text-slate-800 shadow-xs">
+              <Radio className="h-3.5 w-3.5 text-blue-600 animate-pulse" />
+              <span className="font-semibold">Products &amp; Continuous Telemetry</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-mono text-emerald-800 font-bold shadow-sm">
-              <CheckCircle2 className="h-3.5 w-3.5" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-mono text-emerald-800 font-bold shadow-xs">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
               <span>Automated Multi-Engine Cron</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-mono text-blue-800 font-semibold shadow-xs">
+              <Globe className="h-3.5 w-3.5 text-blue-600" />
+              <span>42 Global PoPs</span>
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 max-w-3xl leading-tight font-sans">
-            Automated Plugins &amp; Custom Domain Monitoring
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 max-w-3xl leading-[1.08] font-sans">
+            Automated Plugins &amp;{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+              Custom Domain Watchdogs
+            </span>
           </h1>
-          <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed font-sans">
+          <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed font-sans font-normal">
             Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains. Prevent Core Web Vitals regressions, OWASP header drift, and AI readiness drops before users notice.
           </p>
 
@@ -150,14 +161,14 @@ export default {
               href="#domain-configurator"
               className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans"
             >
-              <Sliders className="h-4 w-4 text-slate-300" />
+              <Sliders className="h-4 w-4 text-blue-400" />
               <span>Configure Domain Monitor</span>
             </a>
             <Link
               to="/dashboard?tab=monitoring"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 hover:border-slate-300 px-5 py-3 text-xs sm:text-sm transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans font-semibold"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 hover:text-slate-900 hover:border-slate-300 px-5 py-3 text-xs sm:text-sm transition-all shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans font-semibold"
             >
-              <Activity className="h-4 w-4 text-slate-700" />
+              <Activity className="h-4 w-4 text-emerald-600" />
               <span>View Monitored Domains</span>
             </Link>
             <Link
@@ -599,6 +610,11 @@ export default {
             </div>
 
           </div>
+        </section>
+
+        {/* Section 2b: Multi-Region Webhook Fan-Out Mesh */}
+        <section id="webhook-mesh">
+          <WebhookFanoutMesh />
         </section>
 
         {/* Section 3: Code Integration Snippets */}

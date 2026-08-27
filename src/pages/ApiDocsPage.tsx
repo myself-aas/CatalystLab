@@ -97,49 +97,55 @@ export const ApiDocsPage: React.FC = () => {
       />
 
       {/* Top Banner Hero */}
-      <section className="border-b border-slate-200 bg-slate-50 pt-10 pb-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div className="max-w-3xl space-y-3">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 pt-12 pb-14 sm:pt-16 sm:pb-18">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+            <div className="max-w-3xl space-y-4">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  <Terminal className="h-3.5 w-3.5" />
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-3.5 py-1 text-xs font-mono font-bold text-slate-900 uppercase tracking-wider shadow-xs">
+                  <Terminal className="h-3.5 w-3.5 text-blue-600" />
                   REST API v2.4.0
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-600">
+                <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-mono font-semibold text-slate-700 shadow-xs">
                   OpenAPI 3.1 Spec
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
-                  <ShieldCheck className="h-3.5 w-3.5" />
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-mono font-bold text-emerald-800 shadow-xs">
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
                   Production Ready
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 font-sans">
-                REST API Documentation &amp; Telemetry Reference
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 font-sans leading-[1.1]">
+                REST API Documentation &amp;{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-800">
+                  Telemetry Reference
+                </span>
               </h1>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-sans font-normal max-w-2xl">
                 Programmatic REST endpoints for all 8 diagnostic engines, parallel master audit orchestration, domain permalink dossiers, CI/CD quality gates, webhook dispatchers, and live telemetry sockets.
               </p>
             </div>
 
             {/* Quick Export CTAs */}
-            <div className="flex flex-wrap md:flex-col gap-2.5 shrink-0">
+            <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
               <button
                 onClick={() => {
                   const el = document.getElementById('api-playground-section');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all cursor-pointer whitespace-nowrap"
+                className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm transition-all cursor-pointer whitespace-nowrap active:scale-95"
               >
-                <Play className="h-3.5 w-3.5 text-amber-500" />
+                <Play className="h-4 w-4 text-blue-400" />
                 <span>Open API Playground</span>
               </button>
 
               <div className="flex gap-2">
                 <button
                   onClick={downloadOpenApi}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50 transition-all cursor-pointer whitespace-nowrap shadow-sm"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50 transition-all cursor-pointer whitespace-nowrap shadow-xs"
                 >
                   <Download className="h-3.5 w-3.5 text-slate-700" />
                   <span>OpenAPI 3.1</span>
@@ -147,7 +153,7 @@ export const ApiDocsPage: React.FC = () => {
 
                 <button
                   onClick={downloadPostman}
-                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50 transition-all cursor-pointer whitespace-nowrap shadow-sm"
+                  className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-900 hover:bg-slate-50 transition-all cursor-pointer whitespace-nowrap shadow-xs"
                 >
                   <FileJson className="h-3.5 w-3.5 text-amber-600" />
                   <span>Postman v2.1</span>

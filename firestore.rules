@@ -93,6 +93,52 @@ service cloud.firestore {
         && data.updatedAt is number;
     }
 
+    function isValidGithubRepo(data) {
+      return data.keys().hasAll(['name', 'repoUrl', 'ownerId', 'status', 'createdAt'])
+        && data.name is string && data.name.size() <= 150
+        && data.repoUrl is string && data.repoUrl.size() <= 500
+        && data.ownerId is string && data.ownerId == request.auth.uid
+        && data.status in ['active', 'inactive']
+        && data.createdAt is number;
+    }
+
+    function isValidGithubTelemetryEvent(data) {
+      return data.keys().hasAll(['repoId', 'ownerId', 'eventType', 'status', 'timestamp'])
+        && data.repoId is string && data.repoId.size() <= 128
+        && data.ownerId is string && data.ownerId == request.auth.uid
+        && data.eventType in ['push', 'pull_request', 'ping']
+        && data.status in ['passed', 'warning', 'failed']
+        && data.timestamp is number;
+    }
+
+    // Connected GitHub Repositories Collection (Owner or Superadmin)
+    match /github_repos/{repoId} {
+      allow get, list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn()
+                    && isValidId(repoId)
+                    && isValidGithubRepo(incoming());
+      allow update: if isSignedIn()
+                    && isValidId(repoId)
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+      allow delete: if isSignedIn()
+                    && isValidId(repoId)
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+    }
+
+    // GitHub Real-Time Telemetry Events Collection (Owner or Superadmin)
+    match /github_telemetry_events/{eventId} {
+      allow get, list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn()
+                    && isValidId(eventId)
+                    && isValidGithubTelemetryEvent(incoming());
+      allow update: if isSignedIn()
+                    && isValidId(eventId)
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+      allow delete: if isSignedIn()
+                    && isValidId(eventId)
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+    }
+
     // User Subscriptions Collection (Owner or Superadmin)
     match /user_subscriptions/{userId} {
       allow get: if isSignedIn() && (request.auth.uid == userId || isSuperAdmin());

@@ -66,6 +66,7 @@ const ApiDocsPage = React.lazy(() => import("./pages/ApiDocsPage").then(m => ({ 
 const PlaygroundPage = React.lazy(() => import("./pages/PlaygroundPage").then(m => ({ default: m.PlaygroundPage })));
 const LoginPage = React.lazy(() => import("./pages/LoginPage").then(m => ({ default: m.LoginPage })));
 const SignUpPage = React.lazy(() => import("./pages/SignUpPage").then(m => ({ default: m.SignUpPage })));
+const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage").then(m => ({ default: m.NotFoundPage })));
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -513,8 +514,12 @@ export const App: React.FC = () => {
               <Route path="/security" element={<SecurityPage />} />
               <Route path="/security.html" element={<SecurityPage />} />
 
+              {/* 404 Not Found Handling */}
+              <Route path="/404" element={<NotFoundPage />} />
+              <Route path="/404.html" element={<NotFoundPage />} />
+
               {/* Catch-all */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
         </PageTransition>

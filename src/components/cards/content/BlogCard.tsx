@@ -8,6 +8,7 @@ import { CardStatRow } from '../primitives/CardStatRow';
 import { PillCTA } from '../primitives/PillCTA';
 import { FavoriteButton } from '../primitives/FavoriteButton';
 import { EnzymeHue, StatPair } from '../types';
+import { EdgeMeshGlobe } from '../../ui/edge-mesh-globe';
 import { Clock, Calendar, Bookmark, BookmarkCheck, ArrowRight, Share2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -76,6 +77,14 @@ export const BlogCard: React.FC<BlogCardProps> = ({
     }
   };
 
+  const isEdgeArticle = hue === 'edgevmax' || 
+    category.toLowerCase().includes('edge') || 
+    category.toLowerCase().includes('latency') ||
+    title.toLowerCase().includes('ttfb') ||
+    title.toLowerCase().includes('anycast') ||
+    slug.includes('edge') ||
+    slug.includes('latency');
+
   return (
     <Card
       variant="surface"
@@ -85,16 +94,31 @@ export const BlogCard: React.FC<BlogCardProps> = ({
     >
       {/* Inset Rounded Media with subtle ring border (R2-A Signature) */}
       <div className="p-3 pb-0">
-        <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-700/50 shadow-inner">
-          <CardMedia
-            assetId={assetId}
-            src={imageUrl}
-            alt={title}
-            aspect="16/9"
-            scrim="none"
-            enableHoverZoom={true}
-            className="w-full h-44 sm:h-48"
-          />
+        <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-700/50 shadow-inner bg-slate-950 flex items-center justify-center h-44 sm:h-48">
+          {isEdgeArticle ? (
+            <div className="w-full h-full flex items-center justify-center relative bg-gradient-to-b from-slate-900 to-slate-950 overflow-hidden">
+              <EdgeMeshGlobe
+                variant="thumb"
+                interactive={false}
+                autoSpin={false}
+                showInspector={false}
+                showChips={false}
+                showControls={false}
+                className="w-full h-full object-contain"
+              />
+              <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-40" />
+            </div>
+          ) : (
+            <CardMedia
+              assetId={assetId}
+              src={imageUrl}
+              alt={title}
+              aspect="16/9"
+              scrim="none"
+              enableHoverZoom={true}
+              className="w-full h-44 sm:h-48"
+            />
+          )}
 
           {/* Floating Category Chip Left */}
           <div className="absolute top-2.5 left-2.5 z-10">

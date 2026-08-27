@@ -204,12 +204,23 @@ export const SystemOverviewDoc: React.FC = () => {
       {/* Next Steps */}
       <section id="next-steps" className="space-y-4">
         <h2 className="text-xl font-bold text-[#0b192c]">Next Steps</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+          <Link
+            to="/products#webhook-mesh"
+            className="rounded-xl border border-sky-300 bg-sky-50/50 p-4 hover:border-sky-400 hover:bg-sky-50 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          >
+            <div className="font-bold text-sky-900 group-hover:text-sky-700 flex items-center justify-between">
+              <span>Edge Mesh &amp; Webhooks</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </div>
+            <p className="text-xs text-sky-800/80 mt-1">Interactive 42-PoP Anycast mesh & webhook fan-out live visualizer.</p>
+          </Link>
+
           <Link
             to="/docs/architecture"
             className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
               <span>Full-Stack Architecture</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
@@ -220,7 +231,7 @@ export const SystemOverviewDoc: React.FC = () => {
             to="/docs/api"
             className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
               <span>REST API Spec</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
@@ -231,7 +242,7 @@ export const SystemOverviewDoc: React.FC = () => {
             to="/docs/synthshift"
             className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
               <span>Engine Deep-Dives</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>

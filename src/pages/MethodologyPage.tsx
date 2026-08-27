@@ -16,23 +16,29 @@ export const MethodologyPage: React.FC = () => {
       />
 
       {/* Hero Banner */}
-      <section className="border-b border-slate-200 bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-            <Link to="/" className="hover:text-black">Home</Link>
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+        <div className="relative z-10 max-w-7xl mx-auto space-y-4">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-500">
+            <Link to="/" className="hover:text-slate-900 transition-colors">Home</Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-black">Methodology &amp; Philosophy</span>
+            <span className="text-slate-900">Methodology &amp; Philosophy</span>
           </div>
           
-          <div className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-bold text-black uppercase tracking-wider">
-            <Sparkles className="h-3 w-3 text-black" />
-            Engineering Standard
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-3.5 py-1 text-xs font-mono font-bold text-slate-900 uppercase tracking-wider shadow-xs">
+            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+            <span>Deterministic Engineering Standard</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-black font-sans">
-            Deterministic Web Telemetry Architecture
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 font-sans leading-[1.08]">
+            Deterministic Web Telemetry{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-800">
+              Architecture
+            </span>
           </h1>
-          <p className="max-w-2xl text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
+          <p className="max-w-2xl text-sm sm:text-base text-slate-600 font-sans font-normal leading-relaxed">
             Building the gold standard in multi-dimensional web health, OWASP security, DOM efficiency, and AI-agent discoverability.
           </p>
         </div>

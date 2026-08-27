@@ -24,13 +24,13 @@ export const cardVariants = cva(
     variants: {
       variant: {
         immersive:
-          'bg-slate-950 text-white rounded-[16px] border-white/10 shadow-lg backdrop-blur-md',
+          'bg-zinc-950/60 text-white rounded-[16px] border border-zinc-800/80 shadow-lg backdrop-blur-xl hover:border-zinc-700/80 hover:bg-zinc-900/60 transition-colors',
         surface:
-          'bg-white text-slate-900 rounded-[16px] border-slate-200 shadow-sm p-3.5 sm:p-4 hover:border-slate-300 hover:shadow-md transition-all',
+          'bg-zinc-950/40 text-zinc-100 rounded-[16px] border border-zinc-800/80 shadow-sm p-3.5 sm:p-4 hover:border-zinc-700 hover:bg-zinc-900/40 hover:shadow-cyan-500/10 transition-all',
         terminal:
-          'bg-slate-950/90 text-slate-100 rounded-[16px] border-slate-800/80 scanline-overlay font-mono shadow-md backdrop-blur-xl p-5 sm:p-6',
+          'bg-zinc-950/90 text-zinc-100 rounded-[16px] border border-zinc-800 scanline-overlay font-mono shadow-md backdrop-blur-xl p-5 sm:p-6 hover:border-zinc-700 hover:shadow-indigo-500/10 transition-colors',
         swatch:
-          'bg-slate-900/95 text-slate-200 rounded-[16px] border-slate-800 p-4 font-mono shadow-md',
+          'bg-zinc-900/80 text-zinc-200 rounded-[16px] border border-zinc-800 p-4 font-mono shadow-md hover:border-zinc-700 hover:bg-zinc-800/80 transition-colors',
       },
       hue: {
         vitalzyme: 'card-hue-vitalzyme',

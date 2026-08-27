@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
 import { 
   X, 
   LogIn, 
@@ -59,8 +60,6 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const isCurrentActive = (path: string) => {
     if (path === '/' && (location.pathname === '/' || location.pathname === '/index.html')) return true;
     if (path === '/about' && (location.pathname === '/about' || location.pathname === '/methodology')) return true;
@@ -83,15 +82,21 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
   ];
 
   return (
-    <div 
-      id="main-menu-overlay" 
-      className="mobile-nav-menu fixed inset-0 z-[100] flex flex-col bg-white text-zinc-900 selection:bg-primary selection:text-foreground overflow-y-auto"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Main Navigation Menu"
-    >
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -20, scale: 0.98 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          id="main-menu-overlay" 
+          className="mobile-nav-menu fixed inset-0 z-[100] flex flex-col bg-background text-foreground overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Main Navigation Menu"
+        >
       {/* Top Header Bar inside Overlay */}
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-8 shrink-0 border-b border-zinc-200 sticky top-0 bg-white/95 backdrop-blur-md z-[100]">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-4 shrink-0 border-b border-border sticky top-0 bg-background/80 backdrop-blur-xl z-[100]">
         <Link 
           to="/" 
           onClick={onClose}
@@ -625,7 +630,9 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           <span>&copy; 2026 CatalystLab Intelligence Platform</span>
         </div>
       </div>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

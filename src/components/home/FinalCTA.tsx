@@ -1,116 +1,76 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import { TerminalInput } from '../ui/TerminalInput';
-import { LazyReveal } from '../common/LazyAnimate';
-import { CinematicVideo } from '../media/CinematicVideo';
-import { CinematicMedia } from '../media/CinematicMedia';
-import { ShieldCheck, Zap, ChevronRight, Check, Sparkles, Terminal } from 'lucide-react';
-import { useSubscription } from '../../context/SubscriptionContext';
+import { ArrowRight, Terminal } from 'lucide-react';
 
 export const FinalCTA: React.FC = () => {
-  const navigate = useNavigate();
-  const { openTrialModal } = useSubscription();
   const [url, setUrl] = useState('');
-  const [isLaunching, setIsLaunching] = useState(false);
+  const navigate = useNavigate();
 
-  const sampleTargets = [
-    { label: 'stripe.com', url: 'stripe.com' },
-    { label: 'github.com', url: 'github.com' },
-    { label: 'anthropic.com', url: 'anthropic.com' },
-    { label: 'cloudflare.com', url: 'cloudflare.com' },
-  ];
-
-  const handleLaunch = (submittedUrl: string) => {
-    const target = submittedUrl || url;
-    if (!target.trim()) return;
-    setIsLaunching(true);
-    let clean = target.trim();
-    if (!clean.startsWith('http://') && !clean.startsWith('https://')) {
-      clean = 'https://' + clean;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (url) {
+      navigate(`/audit?url=${encodeURIComponent(url)}`);
     }
-    setTimeout(() => {
-      navigate(`/launch-audit?url=${encodeURIComponent(clean)}`);
-    }, 400);
   };
 
   return (
-    <section id="final-cta-section" className="py-20 lg:py-28 bg-white text-slate-900 relative overflow-hidden border-b border-slate-200">
-      {/* Scanline-Treated Cinematic Video Band (V-AI with scanlines & fallback) */}
-      <CinematicVideo 
-        assetId="cta-video" 
-        scanlines={true}
-        treatment="catalyst-grade-slate"
-        containerClassName="absolute inset-0 opacity-[0.08] pointer-events-none mix-blend-multiply" 
-      />
+    <section className="py-20 md:py-32 bg-black border-t border-zinc-900 flex items-center justify-center text-center">
+      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-6 md:px-8 flex flex-col items-center">
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-2xl"
+        >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-white tracking-tight leading-[1.1]">
+            Ready to analyze your domain?
+          </h2>
+          <p className="mt-6 text-base md:text-lg text-zinc-400 leading-relaxed">
+            Run a complete autonomous audit in under two seconds. No agents, no installation required.
+          </p>
+        </motion.div>
 
-      {/* Glow Effects */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-indigo-500/10 rounded-full blur-[140px] pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <LazyReveal direction="up">
-          <div className="bg-slate-50/90 border border-slate-200 rounded-3xl p-8 sm:p-12 lg:p-16 text-center relative overflow-hidden shadow-xl backdrop-blur-xl">
-            
-            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-sans font-bold text-indigo-700 tracking-widest shadow-sm mb-5 uppercase">
-              <Terminal className="h-4 w-4 text-indigo-600" />
-              <span>Instant Zero-Installation Audit Dispatch</span>
+        <motion.form 
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 md:mt-12 w-full max-w-md relative"
+        >
+          <div className="relative flex items-center p-1 rounded-xl bg-zinc-900 border border-zinc-800 focus-within:border-zinc-700 focus-within:ring-1 focus-within:ring-zinc-700 transition-all shadow-xl">
+            <div className="pl-3 pr-2 text-zinc-500">
+              <Terminal className="w-5 h-5" />
             </div>
-
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-5 max-w-3xl mx-auto leading-tight">
-              Ready to Audit Your Architecture?
-            </h2>
-            <p className="text-base sm:text-lg text-slate-600 font-medium max-w-xl mx-auto mb-10 leading-relaxed">
-              Launch all 8 diagnostic engines synchronously. Audit Core Web Vitals, transport security, and AI search discoverability in seconds.
-            </p>
-
-            {/* Quick Audit Launch Form with TerminalInput */}
-            <div className="max-w-xl mx-auto mb-8 relative z-20">
-              <TerminalInput 
-                value={url}
-                onChange={setUrl}
-                onSubmit={handleLaunch}
-                buttonText="Launch Master Scan"
-                placeholder="domain.com"
-                isLoading={isLaunching}
-                presets={sampleTargets}
-                id="final-cta-terminal-input"
-              />
-            </div>
-
-            {/* Alternative Action: Pro Trial */}
-            <div className="pt-8 mt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm font-sans font-medium">
-              <span className="text-slate-500">Looking for continuous automated 6-hour cron audits?</span>
-              <button
-                type="button"
-                id="final-cta-start-trial-btn"
-                onClick={() => openTrialModal('pro')}
-                className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-md cursor-pointer"
-              >
-                <span>Start 7-Day Pro Trial Free</span>
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
-
-            {/* Micro Guarantees */}
-            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 pt-8 text-sm font-sans font-bold text-slate-600">
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-500 shrink-0" />
-                <span>Zero Installation Required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-500 shrink-0" />
-                <span>&lt; 2.0s Parallel Latency</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-emerald-500 shrink-0" />
-                <span>100% Free Public Audit</span>
-              </div>
-            </div>
-
+            <input
+              type="url"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://example.com"
+              required
+              className="w-full bg-transparent border-none text-white placeholder-zinc-500 focus:outline-none focus:ring-0 text-base py-3 md:text-sm"
+            />
+            <button 
+              type="submit"
+              className="shrink-0 flex items-center gap-2 px-6 py-3 md:py-2 bg-white text-black text-sm font-medium rounded-lg hover:bg-zinc-200 transition-colors"
+            >
+              Start Audit <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
-        </LazyReveal>
+        </motion.form>
+
+        <div className="mt-16 md:mt-24 pt-8 w-full border-t border-zinc-900 text-center flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-600">
+          <p>&copy; 2026 CatalystLab. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <a href="#" className="hover:text-zinc-400 transition-colors">Documentation</a>
+            <a href="#" className="hover:text-zinc-400 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-zinc-400 transition-colors">Terms</a>
+          </div>
+        </div>
       </div>
     </section>
   );
 };
-
-export default FinalCTA;
