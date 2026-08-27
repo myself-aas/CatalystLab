@@ -117,7 +117,7 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex min-h-screen flex-col bg-background text-foreground selection:bg-black/10 selection:text-black animate-app-fade-in">
+      <div className="app-shell flex min-h-screen flex-col bg-background text-foreground selection:bg-black/10 selection:text-black animate-app-fade-in">
         <a 
           href="#main-content" 
           className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary"

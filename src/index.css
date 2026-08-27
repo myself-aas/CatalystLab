@@ -45,6 +45,18 @@
   --color-purple-terminal: #8b5cf6;
   --color-purple-glow: rgba(139, 92, 246, 0.2);
 
+  /* Shared semantic design tokens */
+  --color-focus-ring: #22d3ee;
+  --color-link: #67e8f9;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #fb7185;
+  --surface-overlay: rgba(6, 9, 18, 0.88);
+  --surface-overlay-strong: rgba(6, 9, 18, 0.96);
+  --content-max-width: 1400px;
+  --page-gutter: clamp(1rem, 3vw, 2rem);
+  --control-min-size: 2.75rem;
+
   /* Font Stacks */
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -202,11 +214,21 @@ html.dark, [data-theme="dark"] {
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-focus-ring, var(--color-primary));
     outline-offset: 3px;
   }
-  
-  
+
+  :where(button, a, input, select, textarea) {
+    min-height: var(--control-min-size);
+  }
+
+  :where(a, button) {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :where(main, section, article, [id]) {
+    scroll-margin-top: 5rem;
+  }
 
   /* Initial app load soft fade-in */
   @keyframes appFadeIn {
@@ -434,6 +456,19 @@ html.dark, [data-theme="dark"] {
   50% {
     box-shadow: 0 0 24px rgba(245, 158, 11, 0.6), inset 0 0 18px rgba(245, 158, 11, 0.25);
     border-color: rgba(245, 158, 11, 0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
