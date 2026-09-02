@@ -324,7 +324,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   >
                     {getCategoryIcon(cat.iconName || cat.id)}
                     <span>{cat.label}</span>
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 font-mono">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">
                       {cat.items.length}
                     </span>
                   </button>

@@ -16,6 +16,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { logger } from '../lib/logger';
 
 interface RateLimitModalProps {
   isOpen: boolean;
@@ -177,7 +178,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                   try {
                     await login();
                     onClose();
-                  } catch (e) { console.error("Ignored error:", e); }
+                  } catch (e) { logger.error("Ignored error:", e); }
                 }}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-slate-500/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >

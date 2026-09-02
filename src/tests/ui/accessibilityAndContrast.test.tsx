@@ -42,7 +42,7 @@ describe('Browserbase UI-Test: Accessibility & Visual Contrast Layering', () => 
   it('ensures dark gradient scrim is applied to FullscreenCard for WCAG contrast', () => {
     const { container } = render(
       <FullscreenCard
-        imageUrl="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe"
+        imageUrl="https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         title="Accessibility Contrast Scrim Test"
         badge="A11y Test"
         score="100/100"

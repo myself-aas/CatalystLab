@@ -268,7 +268,7 @@ export const PricingPage: React.FC = () => {
                 }`}
               >
                 <span>--billing=annual</span>
-                <span className="rounded bg-emerald-100 text-emerald-800 border border-emerald-300 px-1.5 py-0.2 text-[10px] font-bold">
+                <span className="rounded bg-emerald-100 text-emerald-800 border border-emerald-300 px-1.5 py-0.5 text-[10px] font-bold">
                   --save=20%
                 </span>
               </button>
@@ -304,7 +304,7 @@ export const PricingPage: React.FC = () => {
                 ];
 
                 const billingSubtext = annual && plan.priceMonthly > 0
-                  ? `Billed annually ($${plan.priceAnnualTotal}/yr)`
+                  ? `Billed annually ($${plan.annualBillingTotal}/yr)`
                   : !annual && plan.priceMonthly > 0
                   ? 'Billed monthly'
                   : 'Free forever • Zero card';
@@ -317,7 +317,7 @@ export const PricingPage: React.FC = () => {
                       price={`$${price}`}
                       period="/mo"
                       billingSubtext={billingSubtext}
-                      description={plan.description}
+                      description={plan.tagline}
                       badge={isPopular ? 'MOST DEPLOYED' : plan.badge}
                       isPopular={isPopular}
                       isCurrent={ctaInfo.disabled && ctaInfo.variant === 'current'}

@@ -3,6 +3,8 @@ import { SideBySideDeltaMatrix } from '../components/telemetry/SideBySideDeltaMa
 import { SEOHead } from '../components/common/SEOHead';
 import { urlToDomainSlug } from '../utils/slugUtils';
 import type { MasterTelemetryReport } from '../types/telemetry';
+import { authorizedFetch } from '../lib/authHeaders';
+import { logger } from '../lib/logger';
 
 export const ComparePage: React.FC = () => {
   const [reportA, setReportA] = useState<MasterTelemetryReport | null>(null);
@@ -27,12 +29,12 @@ export const ComparePage: React.FC = () => {
 
     try {
       const [resA, resB] = await Promise.all([
-        fetch('/api/run-engine', {
+        authorizedFetch('/api/run-engine', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: cleanA, engine: 'health' }),
         }).then(r => r.json()).catch(() => null),
-        fetch('/api/run-engine', {
+        authorizedFetch('/api/run-engine', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: cleanB, engine: 'health' }),
@@ -248,7 +250,7 @@ export const ComparePage: React.FC = () => {
       setReportA(constructedReportA);
       setReportB(constructedReportB);
     } catch (err) {
-      console.error("Side-by-side comparison failed:", err);
+      logger.error("Side-by-side comparison failed:", err);
     } finally {
       setLoading(false);
     }

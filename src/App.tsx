@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Navbar } from "./components/layout/Navbar";
 import { StickyHUD } from "./components/layout/StickyHUD";
 import { TrialBanner } from "./components/common/TrialBanner";
@@ -78,8 +79,28 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
+/**
+ * Routes authored with the always-dark "telemetry terminal" palette.
+ * `<main>` gets a polarity class so index.css can remap every hardcoded
+ * utility on the page to match the active theme (dark ↔ light).
+ */
+const DARK_AUTHORED_ROUTES: RegExp[] = [
+  /^\/$/,
+  /^\/index\.html$/,
+  /^\/(audit|launch-audit|master-audit)(\.html)?$/,
+  /^\/blogs(\.html)?$/,
+  /^\/compare(\.html)?$/,
+  /^\/404(\.html)?$/,
+  /^\/(app|hud)$/,
+  /^\/dashboard\/hud$/,
+];
+
+const isDarkAuthoredRoute = (pathname: string) =>
+  DARK_AUTHORED_ROUTES.some((re) => re.test(pathname));
+
 export const App: React.FC = () => {
   const location = useLocation();
+  const pagePolarity = isDarkAuthoredRoute(location.pathname) ? "page-dark" : "page-light";
   const [isGetInTouchOpen, setIsGetInTouchOpen] = useState(false);
   const [getInTouchTopic, setGetInTouchTopic] = useState("general");
   const [getInTouchSource, setGetInTouchSource] = useState("app-global");
@@ -117,10 +138,10 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <div className="app-shell flex min-h-screen flex-col bg-background text-foreground selection:bg-black/10 selection:text-black animate-app-fade-in">
-        <a 
-          href="#main-content" 
-          className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+      <div className="app-shell flex min-h-screen flex-col bg-background text-foreground animate-app-fade-in">
+        <a
+          href="#main-content"
+          className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:text-foreground focus:outline focus:outline-2 focus:outline-primary"
         >
           Skip to main content
         </a>
@@ -129,10 +150,11 @@ export const App: React.FC = () => {
         <Navbar />
       {location.pathname !== '/' && location.pathname !== '/index.html' && <DynamicBanner />}
       <GlobalBreadcrumb />
-      <main id="main-content" className="flex-1">
+      <main id="main-content" className={`${pagePolarity} flex-1`}>
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname} className="min-h-full">
             <Suspense fallback={<RouteLoadingSkeleton />}>
+              <ErrorBoundary variant="route">
               <Routes location={location} key={location.pathname}>
               <Route path="/" element={<MasterAuditPage />} />
               <Route path="/index.html" element={<Navigate to="/" replace />} />
@@ -521,6 +543,7 @@ export const App: React.FC = () => {
               {/* Catch-all */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
+              </ErrorBoundary>
           </Suspense>
         </PageTransition>
       </AnimatePresence>

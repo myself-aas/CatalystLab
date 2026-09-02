@@ -1,6 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import createGlobe from 'cobe';
 
+// cobe's shipped COBEOptions type predates the onRender callback option.
+type CobeOptionsWithRender = import('cobe').COBEOptions & {
+  onRender?: (state: Record<string, number> & { phi: number; theta: number; width: number; height: number }) => void;
+};
+
+
 export interface CobeGlobeCdnProps {
   className?: string;
   phi?: number;
@@ -82,7 +88,7 @@ export function CobeGlobeCdn({
       opacity: 1,
       offset: [0, 0],
       markers,
-      onRender: (state) => {
+      onRender: (state: Record<string, number> & { phi: number; theta: number; width: number; height: number }) => {
         if (!pointerInteracting.current) {
           currentPhi += 0.003;
         }
@@ -92,7 +98,7 @@ export function CobeGlobeCdn({
         state.height = width * 2;
         if (onRender) onRender(state);
       },
-    });
+    } as CobeOptionsWithRender);
 
     setTimeout(() => {
       if (canvasRef.current) {

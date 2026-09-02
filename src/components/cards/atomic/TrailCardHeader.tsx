@@ -24,7 +24,7 @@ export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
         onError={(e) => {
           // Fallback image if source fails
           (e.currentTarget as HTMLImageElement).src =
-            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80';
+            'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1';
         }}
       />
 

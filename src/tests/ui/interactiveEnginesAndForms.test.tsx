@@ -30,9 +30,8 @@ const mockEngine: Engine = {
   name: 'VitalZyme DOM Inspector',
   subtitle: 'High-frequency DOM tree mutation analyzer',
   category: 'DOM & Vitals',
-  description: 'Analyzes DOM tree depth, mutation recalculations, and layout shifts.',
-  status: 'operational',
-  version: '2.4.0',
+  badge: 'DOM',
+  theme: 'dark',
   metrics: [
     { label: 'DOM Nodes', value: '450' },
     { label: 'Max Depth', value: '14' },
@@ -47,7 +46,7 @@ describe('Browserbase UI-Test: Interactive Forms, Engines & Controls', () => {
   it('renders HeroSection and handles URL input and preset chip selection', () => {
     render(<HeroSection />, { wrapper });
 
-    const input = screen.getByPlaceholderText(/domain\.com/i);
+    const input = screen.getByPlaceholderText(/example\.com/i);
     expect(input).toBeInTheDocument();
 
     // Type custom URL

@@ -41,6 +41,7 @@ import {
   ArrowUpRight 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { logger } from '../../lib/logger';
 
 export const UserGithubWebhookView: React.FC = () => {
   const { user } = useAuth();
@@ -145,7 +146,7 @@ export const UserGithubWebhookView: React.FC = () => {
 
       setEvents(fetchedEvents);
     } catch (err) {
-      console.error('Error loading GitHub integration data:', err);
+      logger.error('Error loading GitHub integration data:', err);
     } finally {
       setLoading(false);
     }
@@ -197,7 +198,7 @@ export const UserGithubWebhookView: React.FC = () => {
           setTimeout(connectSse, 10000);
         };
       } catch (err) {
-        console.warn('SSE connection unavailable, relying on Firestore real-time listener');
+        logger.warn('SSE connection unavailable, relying on Firestore real-time listener');
       }
     };
 

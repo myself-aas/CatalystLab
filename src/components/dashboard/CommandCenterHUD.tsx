@@ -261,15 +261,15 @@ export const CommandCenterHUD: React.FC = () => {
 
           <div className="flex items-center gap-4 text-[11px] text-slate-400">
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-500">System Load:</span>
+              <span className="text-slate-400">System Load:</span>
               <span className="text-[#00FF66] font-bold">{systemLoad}%</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-500">Global Edge PoPs:</span>
+              <span className="text-slate-400">Global Edge PoPs:</span>
               <span className="text-[#00F0FF] font-bold">{edgePopCount} active</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-500">Mean Latency:</span>
+              <span className="text-slate-400">Mean Latency:</span>
               <span className="text-emerald-400 font-bold">{averageLatencyMs}ms</span>
             </div>
           </div>
@@ -299,7 +299,7 @@ export const CommandCenterHUD: React.FC = () => {
                   Inspect URL or Edge Hostname
                 </label>
                 <div className="flex items-center bg-[#060912] border border-slate-700 rounded-xl px-3 py-1.5 focus-within:border-[#06B6D4] transition-colors">
-                  <span className="text-slate-500 mr-1.5">&gt;</span>
+                  <span className="text-slate-400 mr-1.5">&gt;</span>
                   <input
                     type="text"
                     value={domainInputValue}
@@ -319,7 +319,7 @@ export const CommandCenterHUD: React.FC = () => {
 
               {/* Quick Presets */}
               <div className="pt-2 border-t border-slate-800/80">
-                <span className="text-[10px] text-slate-500 block mb-1.5 uppercase font-bold tracking-wider">
+                <span className="text-[10px] text-slate-400 block mb-1.5 uppercase font-bold tracking-wider">
                   Quick Benchmark Targets:
                 </span>
                 <div className="flex flex-wrap gap-1">
@@ -421,19 +421,19 @@ export const CommandCenterHUD: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2 text-[10px]">
                 <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-500">IAD • US-East</div>
+                  <div className="text-slate-400">IAD • US-East</div>
                   <div className="text-white font-bold mt-0.5">12.4ms • 100%</div>
                 </div>
                 <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-500">FRA • EU-Central</div>
+                  <div className="text-slate-400">FRA • EU-Central</div>
                   <div className="text-white font-bold mt-0.5">14.1ms • 100%</div>
                 </div>
                 <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-500">NRT • Tokyo</div>
+                  <div className="text-slate-400">NRT • Tokyo</div>
                   <div className="text-white font-bold mt-0.5">18.6ms • 100%</div>
                 </div>
                 <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-500">SJC • US-West</div>
+                  <div className="text-slate-400">SJC • US-West</div>
                   <div className="text-white font-bold mt-0.5">15.2ms • 100%</div>
                 </div>
               </div>
@@ -586,7 +586,7 @@ export const CommandCenterHUD: React.FC = () => {
                                 <div key={idx} className="p-2 rounded-lg bg-[#0B101D] border border-slate-800/80 flex items-center justify-between gap-2">
                                   <div className="truncate">
                                     <div className="text-slate-300 truncate text-[11px]">{vec.name}</div>
-                                    <div className="text-[10px] text-slate-500">Benchmark: {vec.benchmark}</div>
+                                    <div className="text-[10px] text-slate-400">Benchmark: {vec.benchmark}</div>
                                   </div>
                                   <div className="text-right shrink-0">
                                     <div className="text-white font-bold">{vec.value}</div>

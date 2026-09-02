@@ -7,26 +7,15 @@ import path from 'path';
 
 const execFileAsync = promisify(execFile);
 
-const ENGINE_SCRIPT_MAP: Record<string, string> = {
-  health: 'website_health.py',
-  latency: 'edge_latency.py',
-  ai_ready: 'ai_readiness.py',
-  repo: 'repo_scanner.py',
-  eco: 'eco_carbon_audit.py',
-  compliance: 'compliance_risk_audit.py',
-  migration: 'platform_migration_audit.py',
-  llmo: 'llmo_optimizer.py'
-};
+import { ENGINE_SCRIPT_MAP } from '../server/core/enginesCatalog';
 
 export default async function handler(req: any, res: any) {
-  // Enable CORS for Vercel
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  // CORS: this endpoint is a public POST API. Credentials are intentionally
+  // NOT allowed (invalid with a wildcard origin per the fetch spec), and the
+  // method list is limited to what the endpoint actually serves.
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Api-Key, Authorization');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();

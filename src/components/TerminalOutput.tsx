@@ -155,7 +155,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80 shadow-sm" />
           </div>
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-sm text-slate-500">{icon}</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-sm text-slate-500">{icon}</span>
             <span className="text-xs font-bold text-white tracking-tight">{title}</span>
           </div>
         </div>
@@ -243,7 +243,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
         {loading && !output ? (
           <div className="space-y-2.5 py-4">
             <div className="text-slate-500 flex items-center gap-2 font-medium">
-              <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-sm animate-spin">progress_activity</span>
               <span>{statusText || 'Initializing diagnostic container and dispatching telemetry trace...'}</span>
             </div>
             <div className="text-black text-[11px] animate-pulse">

@@ -188,7 +188,7 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/api-docs" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-medium text-slate-200 py-0.5 focus-visible:outline-none">
                   <span>REST API Reference</span>
-                  <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 py-0.2 rounded font-mono">v2.4</span>
+                  <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 py-0.5 rounded font-mono">v2.4</span>
                 </Link>
               </li>
               <li>

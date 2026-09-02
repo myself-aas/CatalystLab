@@ -35,6 +35,8 @@ import {
   Building2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 const ALL_SCOPES: { id: ApiKeyScope; label: string; description: string }[] = [
   { id: 'execute:engines', label: 'Execute Single Engines', description: 'Run individual diagnostic engines via /api/run-engine' },
@@ -89,7 +91,7 @@ export const UserApiKeyManagementView: React.FC = () => {
         setSelectedSnippetKey(data[0]);
       }
     } catch (err: unknown) {
-      console.error("Error loading API keys:", err);
+      logger.error("Error loading API keys:", err);
       setError("Failed to load API keys.");
     } finally {
       setLoading(false);
@@ -133,7 +135,7 @@ export const UserApiKeyManagementView: React.FC = () => {
 
       await loadKeys();
     } catch (err: unknown) {
-      alert("Error generating API key: " + err.message);
+      alert("Error generating API key: " + errorMessage(err));
     } finally {
       setActionLoading(false);
     }
@@ -150,7 +152,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       setShowSecretModal(true);
       await loadKeys();
     } catch (err: unknown) {
-      alert("Error rotating API key: " + err.message);
+      alert("Error rotating API key: " + errorMessage(err));
     } finally {
       setActionLoading(false);
     }
@@ -164,7 +166,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       setKeyToRevoke(null);
       await loadKeys();
     } catch (err: unknown) {
-      alert("Error revoking key: " + err.message);
+      alert("Error revoking key: " + errorMessage(err));
     } finally {
       setActionLoading(false);
     }
@@ -178,7 +180,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       setKeyToDelete(null);
       await loadKeys();
     } catch (err: unknown) {
-      alert("Error deleting key: " + err.message);
+      alert("Error deleting key: " + errorMessage(err));
     } finally {
       setActionLoading(false);
     }
@@ -228,7 +230,7 @@ export const UserApiKeyManagementView: React.FC = () => {
 });
 
 const data = await response.json();
-console.log('Engine Telemetry:', data.output);`;
+logger.debug('Engine Telemetry:', data.output);`;
     }
     if (codeLanguage === 'python') {
       return `import requests
@@ -312,7 +314,7 @@ func main() {
 
           <button
             onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-xs font-bold text-black hover:bg-gray-50 shadow-md transition-all active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-xs font-bold text-black hover:bg-gray-50 shadow-md transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Plus className="h-4 w-4 text-amber-300" />
             <span>Generate New API Key</span>

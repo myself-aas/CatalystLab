@@ -71,6 +71,11 @@
   --spot-x: 50%;
   --spot-y: 50%;
   --spot-opacity: 0;
+
+  /* Default glow fallback (overridden by .card-hue-* utilities) */
+  --card-glow: hsla(189 94% 43% / 0.35);
+  --card-hue: 240 5% 65%;
+  --card-accent: hsl(240 5% 65%);
 }
 
 /* --- Enzyme Token Utilities --- */

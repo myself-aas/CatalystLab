@@ -34,6 +34,8 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { authorizedFetch } from '../lib/authHeaders';
+import { logger } from '../lib/logger';
 
 export const DomainReportArticlePage: React.FC = () => {
   const { slug, id } = useParams<{ slug?: string; id?: string }>();
@@ -69,7 +71,7 @@ export const DomainReportArticlePage: React.FC = () => {
       const settledResponses = await Promise.allSettled(
         engineKeys.map(async (engineKey) => {
           try {
-            const res = await fetch('/api/run-engine', {
+            const res = await authorizedFetch('/api/run-engine', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ url: cleanUrl, engine: engineKey })
@@ -117,11 +119,11 @@ export const DomainReportArticlePage: React.FC = () => {
           });
           newReport.id = docId;
         } catch (saveErr) {
-          console.error("Auto-saving generated report failed:", saveErr);
+          logger.error("Auto-saving generated report failed:", saveErr);
         }
       }
     } catch (err: any) {
-      console.error("Live audit execution failed:", err);
+      logger.error("Live audit execution failed:", err);
       setError(err.message || 'Failed to complete diagnostic scan for domain.');
     } finally {
       setIsAuditingLive(false);
@@ -166,7 +168,7 @@ export const DomainReportArticlePage: React.FC = () => {
         setTelemetry(benchmark.telemetry);
         setLoading(false);
       } catch (err: unknown) {
-        console.error("Failed to load audit article:", err);
+        logger.error("Failed to load audit article:", err);
         const reconstructedDomain = slugToDisplayDomain(reportIdentifier);
         const benchmark = generateDomainBenchmarkTelemetry(reconstructedDomain);
         setReport({
@@ -198,7 +200,7 @@ export const DomainReportArticlePage: React.FC = () => {
     try {
       await exportReportToPdf('article-dossier-root', `CatalystLab-Benchmark-${canonicalDomainSlug}.pdf`);
     } catch (err) {
-      console.error("PDF export failed:", err);
+      logger.error("PDF export failed:", err);
       window.print();
     } finally {
       setIsExportingPdf(false);

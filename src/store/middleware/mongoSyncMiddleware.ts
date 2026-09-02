@@ -1,5 +1,8 @@
 import { StateCreator } from 'zustand';
 import { MongoCollectionName, OptimisticMutation, SyncStatus } from '../types';
+import { buildAuthHeaders } from '../../lib/authHeaders';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 export interface MongoSyncState {
   syncStatus: SyncStatus;
@@ -131,10 +134,10 @@ async function executeMongoMutation<TState>(
   try {
     const res = await fetch(SYNC_ENDPOINT, {
       method: 'POST',
-      headers: {
+      headers: await buildAuthHeaders({
         'Content-Type': 'application/json',
         'X-Client-Mutation-ID': mutation.id
-      },
+      }),
       body: JSON.stringify({
         collection: mutation.collection,
         actionType: mutation.actionType,
@@ -166,7 +169,7 @@ async function executeMongoMutation<TState>(
 
   } catch (error: unknown) {
     const state = get() as any;
-    console.error(`[MongoDB Optimistic Sync] Mutation ${mutation.id} rejected:`, error);
+    logger.error(`[MongoDB Optimistic Sync] Mutation ${mutation.id} rejected:`, error);
 
     // Rollback optimistic changes if max retries exceeded
     if (mutation.retryCount >= MAX_RETRIES) {
@@ -175,27 +178,27 @@ async function executeMongoMutation<TState>(
       }
       set({
         syncStatus: 'error',
-        lastError: `Sync failed for ${mutation.collection}: ${error?.message || 'Database error'}. Changes rolled back.`,
+        lastError: `Sync failed for ${mutation.collection}: ${errorMessage(error) || 'Database error'}. Changes rolled back.`,
         pendingMutations: (state.pendingMutations || []).filter((m: OptimisticMutation) => m.id !== mutation.id),
         failedMutations: [
           ...(state.failedMutations || []),
-          { ...mutation, status: 'rolled_back', error: error?.message }
+          { ...mutation, status: 'rolled_back', error: errorMessage(error) }
         ]
       });
-      if (onError) onError(error);
+      if (onError) onError(new Error(errorMessage(error)));
     } else {
       // Stage for retry
       mutation.retryCount += 1;
       set({
         syncStatus: 'error',
-        lastError: error?.message || 'Network sync error',
+        lastError: errorMessage(error) || 'Network sync error',
         pendingMutations: (state.pendingMutations || []).filter((m: OptimisticMutation) => m.id !== mutation.id),
         failedMutations: [
           ...(state.failedMutations || []),
-          { ...mutation, status: 'failed', error: error?.message }
+          { ...mutation, status: 'failed', error: errorMessage(error) }
         ]
       });
-      if (onError) onError(error);
+      if (onError) onError(new Error(errorMessage(error)));
     }
   }
 }

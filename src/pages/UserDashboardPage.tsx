@@ -47,6 +47,7 @@ import { UserGithubWebhookView } from '../components/user/UserGithubWebhookView'
 import { SEOHead } from '../components/common/SEOHead';
 import { useLocation, useParams } from 'react-router-dom';
 import { GitBranch } from 'lucide-react';
+import { logger } from '../lib/logger';
 
 export const UserDashboardPage: React.FC = () => {
   const { user, isAdmin, loading: authLoading, loginWithLocalSession, setShowDomainModal } = useAuth();
@@ -98,7 +99,7 @@ export const UserDashboardPage: React.FC = () => {
       const data = await getUserReports();
       setReports(data);
     } catch (err) {
-      console.error("Error fetching reports:", err);
+      logger.error("Error fetching reports:", err);
     } finally {
       setLoading(false);
     }
@@ -140,7 +141,7 @@ export const UserDashboardPage: React.FC = () => {
       await deleteReport(reportId);
       setReports((prev) => prev.filter((r) => r.id !== reportId));
     } catch (err) {
-      console.error("Failed to delete report:", err);
+      logger.error("Failed to delete report:", err);
       alert("Failed to delete report.");
     } finally {
       setDeletingId(null);
@@ -162,7 +163,7 @@ export const UserDashboardPage: React.FC = () => {
     try {
       await exportAuditReportDataToPdf(report);
     } catch (err) {
-      console.error("Export PDF failed:", err);
+      logger.error("Export PDF failed:", err);
       window.print();
     } finally {
       setExportingId(null);
@@ -512,7 +513,7 @@ export const UserDashboardPage: React.FC = () => {
           >
             <FileText className="h-3.5 w-3.5 text-amber-500" />
             <span>Audit Reports &amp; Dossiers</span>
-            <span className={`ml-1 rounded px-1.5 py-0.2 text-[10px] ${
+            <span className={`ml-1 rounded px-1.5 py-0.5 text-[10px] ${
               activeTab === 'audits' ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-600'
             }`}>
               {reports.length}
@@ -805,7 +806,7 @@ export const UserDashboardPage: React.FC = () => {
             ) : (
 
               /* TABLE VIEW */
-              <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm font-mono">
+              <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm font-mono">
                 <table className="w-full text-left text-xs" aria-label="Audit reports list">
                   <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 uppercase tracking-wider font-bold">
                     <tr>

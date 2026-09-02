@@ -39,6 +39,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLElement> {
 export interface CardMediaProps extends React.HTMLAttributes<HTMLElement> {
   assetId?: string;
   src?: string;
+  /** Optional fallback source URLs; tried in order when earlier ones fail. */
+  sources?: string[];
   alt: string;
   aspect?: AspectPreset;
   aspectClassName?: string;

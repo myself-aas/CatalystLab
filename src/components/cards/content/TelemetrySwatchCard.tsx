@@ -96,7 +96,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         } ${className || ''}`}
       >
         <div className="flex items-center justify-between gap-1 mb-1">
-          <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold truncate">
+          <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold truncate">
             {displayBadge}
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse shrink-0" />
@@ -111,7 +111,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         </div>
 
         {miniStats && miniStats.length > 0 && (
-          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-slate-100 text-[9px] text-slate-500 font-mono">
+          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-slate-100 text-[10px] text-slate-500 font-mono">
             {miniStats.map((ms, idx) => (
               <span key={idx}>
                 {ms.label}: <strong className="text-slate-900">{ms.value}</strong>

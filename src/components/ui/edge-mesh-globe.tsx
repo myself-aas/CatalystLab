@@ -6,6 +6,13 @@ import React, {
   useId,
 } from 'react';
 import createGlobe from 'cobe';
+import { logger } from '../../lib/logger';
+
+// cobe's shipped COBEOptions type predates the onRender callback option.
+type CobeOptionsWithRender = import('cobe').COBEOptions & {
+  onRender?: (state: Record<string, number> & { phi: number; theta: number; width: number; height: number }) => void;
+};
+
 import {
   Globe2,
   Activity,
@@ -42,6 +49,8 @@ export type GlobeVariant = 'hero' | 'panel' | 'live' | 'static' | 'thumb';
 export interface EdgeMeshGlobeProps {
   variant?: GlobeVariant;
   className?: string;
+  /** Optional engine focus hint (dashboard HUD cross-highlighting). */
+  focusedEngine?: string | null;
   planTier?: PlanTier;
   filterTiers?: PoPTier[];
   interactive?: boolean;
@@ -485,7 +494,7 @@ export function EdgeMeshGlobe({
         opacity: 1,
         offset: [0, 0],
         markers,
-        onRender: (state) => {
+        onRender: (state: Record<string, number> & { phi: number; theta: number; width: number; height: number }) => {
           if (!pointerInteracting.current && !isStatic) {
             phi += spinSpeed;
           }
@@ -519,7 +528,7 @@ export function EdgeMeshGlobe({
             setProjectedPoPs(projected);
           }
         },
-      });
+      } as CobeOptionsWithRender);
 
       globeInstanceRef.current = globe;
 
@@ -527,7 +536,7 @@ export function EdgeMeshGlobe({
         canvasRef.current.style.opacity = '1';
       }
     } catch (err) {
-      console.warn('WebGL / Cobe initialization fallback:', err);
+      logger.warn('WebGL / Cobe initialization fallback:', err);
     }
 
     return () => {
@@ -682,7 +691,7 @@ export function EdgeMeshGlobe({
                       )}
                     />
                     <span className="font-bold">{pop.code}</span>
-                    <span className="text-[9px] text-slate-400 font-sans hidden sm:inline">
+                    <span className="text-[10px] text-slate-400 font-sans hidden sm:inline">
                       {pop.ttfbMs}ms
                     </span>
                   </button>

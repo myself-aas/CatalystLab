@@ -3,7 +3,6 @@ export * from './TelemetryCard';
 export * from './CodeBlock';
 export * from './BenchmarkCard';
 export * from './StatCounter';
-export * from './testimonial';
 export * from './demo';
 export * from './kinetic-grid';
 export * from './particles-bg';

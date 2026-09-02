@@ -9,7 +9,7 @@ describe('TrailCard Unit & Accessibility Tests', () => {
     id: 'embercrest-ridge',
     title: 'Embercrest Ridge',
     subtitle: 'Silverpine Mountains',
-    imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1',
     imageAltText: 'Embercrest Ridge summit view',
     difficulty: 'Moderate' as const,
     metadataSubtext: '1886 by Helen Rowe & Elias Mendez',

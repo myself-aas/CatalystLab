@@ -9,6 +9,7 @@ import {
   Zap 
 } from 'lucide-react';
 import { LazyReveal } from '../common/LazyAnimate';
+import { logger } from '../../lib/logger';
 
 export const CookiePreferenceCenter: React.FC = () => {
   const [preferences, setPreferences] = useState({
@@ -26,7 +27,7 @@ export const CookiePreferenceCenter: React.FC = () => {
         setPreferences(JSON.parse(stored));
       }
     } catch (e) {
-      console.warn("Could not read stored cookie preferences:", e);
+      logger.warn("Could not read stored cookie preferences:", e);
     }
   }, []);
 
@@ -34,7 +35,7 @@ export const CookiePreferenceCenter: React.FC = () => {
     try {
       localStorage.setItem('catalystlab_cookie_consent', JSON.stringify(preferences));
     } catch (e) {
-      console.warn("Could not save cookie preferences:", e);
+      logger.warn("Could not save cookie preferences:", e);
     }
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);

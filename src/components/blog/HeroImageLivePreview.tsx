@@ -380,7 +380,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                   <span className="text-black font-bold truncate block">
                     {title || 'Article Title'} | CatalystLab
                   </span>
-                  <span className="text-slate-400 text-[9px] block">catalystlab.tech</span>
+                  <span className="text-slate-400 text-[10px] block">catalystlab.tech</span>
                 </div>
               )}
 
@@ -435,7 +435,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                     <Check className="h-3.5 w-3.5 text-amber-600 stroke-[3]" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/preset:opacity-100 transition-opacity flex items-center justify-center p-1 text-[8px] font-bold text-black text-center line-clamp-2">
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/preset:opacity-100 transition-opacity flex items-center justify-center p-1 text-[10px] font-bold text-black text-center line-clamp-2">
                   {preset.title.split(' ')[0]}
                 </div>
               </button>

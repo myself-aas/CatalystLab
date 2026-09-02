@@ -84,7 +84,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                     <Icon className={`h-4 w-4 shrink-0 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
                     <span className="truncate">{item.label}</span>
                     {isReal && (
-                      <span className="text-[9px] bg-slate-700/60 text-slate-300 px-1.5 py-0.2 rounded font-mono">
+                      <span className="text-[10px] bg-slate-700/60 text-slate-300 px-1.5 py-0.5 rounded font-mono">
                         (Auth)
                       </span>
                     )}

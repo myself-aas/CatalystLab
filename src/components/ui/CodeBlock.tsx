@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Terminal, Copy, Check, Play, FastForward, RotateCcw, FileCode, CheckCircle2 } from 'lucide-react';
 
 export interface CodeBlockProps {

@@ -11,7 +11,7 @@ export async function executeMigrationEngine(targetUrl: string): Promise<EngineR
   const components: DetectedStackComponent[] = [];
   let detectedCms: string | null = null;
   let detectedFrontend: string | null = null;
-  let detectedServer: string | null = null;
+  let detectedServer: string | null = null as string | null;
   let detectedCdn: string | null = null;
 
   try {

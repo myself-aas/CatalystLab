@@ -12,6 +12,7 @@ import {
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
+import { logger } from '../../lib/logger';
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -69,7 +70,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
           }
         }
       } catch (err) {
-        console.warn("Direct token claim verification warning:", err);
+        logger.warn("Direct token claim verification warning:", err);
         if (isMounted) {
           setTokenSuperadminVerified(isAdmin || hasSuperadminClaim);
         }

@@ -182,7 +182,7 @@ export const LiveCronLogStream: React.FC = () => {
             >
               <div className="flex items-center justify-between gap-2 text-[10px]">
                 <div className="flex items-center gap-1.5 truncate">
-                  <span className={`px-1.5 py-0.2 rounded border font-bold ${getLevelBadgeClass(log.level)}`}>
+                  <span className={`px-1.5 py-0.5 rounded border font-bold ${getLevelBadgeClass(log.level)}`}>
                     {log.level}
                   </span>
                   <span className="text-slate-400">{log.timestamp}</span>

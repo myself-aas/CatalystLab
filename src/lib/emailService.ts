@@ -3,6 +3,7 @@
  * Uses native fetch API to dispatch emails via Mailgun REST API (GSDP 20,000 free emails/month).
  */
 
+import { errorMessage } from './utils';
 export interface EmailRecipient {
   email: string;
   name?: string;
@@ -347,7 +348,7 @@ export async function sendEmailViaMailgun(options: {
     console.error('Mailgun dispatch failed:', err);
     return {
       success: false,
-      error: err.message || 'Failed to dispatch email via Mailgun'
+      error: errorMessage(err) || 'Failed to dispatch email via Mailgun'
     };
   }
 }

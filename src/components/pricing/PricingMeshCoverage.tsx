@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { EdgeMeshGlobe } from '../ui/edge-mesh-globe';
-import { PlanTier, TIER_COUNTS } from '../../lib/edge/pops';
+import type { PlanTier } from '../../store/useTelemetryHUDStore';
+
+type SpecTier = PlanTier | 'starter';
 import { 
   Globe2, 
   CheckCircle2, 
@@ -16,7 +18,7 @@ import {
 import { Link } from 'react-router-dom';
 
 interface TierSpec {
-  id: PlanTier;
+  id: SpecTier;
   label: string;
   name: string;
   price: string;
@@ -90,7 +92,7 @@ interface PricingMeshCoverageProps {
 }
 
 export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSelectPlan }) => {
-  const [selectedTier, setSelectedTier] = useState<PlanTier>('pro');
+  const [selectedTier, setSelectedTier] = useState<SpecTier>('pro');
 
   const currentSpec = TIER_SPECS.find((t) => t.id === selectedTier) || TIER_SPECS[2];
 
@@ -126,7 +128,8 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
                   type="button"
                   onClick={() => {
                     setSelectedTier(spec.id);
-                    if (onSelectPlan) onSelectPlan(spec.id);
+                    const planTier: PlanTier = spec.id === 'starter' ? 'pro' : spec.id;
+                    if (onSelectPlan) onSelectPlan(planTier);
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
                     isSelected
@@ -163,7 +166,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
               <div className="w-full flex items-center justify-center py-2">
                 <EdgeMeshGlobe
                   variant="panel"
-                  planTier={selectedTier}
+                  planTier={selectedTier === 'starter' ? 'pro' : selectedTier}
                   interactive={true}
                   autoSpin={true}
                   showInspector={true}

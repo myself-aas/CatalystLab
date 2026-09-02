@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 export const DynamicBanner: React.FC = () => {
   const location = useLocation();
@@ -94,16 +94,16 @@ export const DynamicBanner: React.FC = () => {
   if (path === '/') return null;
 
   return (
-    <div className="relative w-full h-[32vh] min-h-[260px] max-h-[360px] overflow-hidden flex items-center justify-center border-b border-slate-800/80 bg-[#060912]">
+    <div className="relative w-full h-[32vh] min-h-[260px] max-h-[360px] overflow-hidden flex items-center justify-center border-b border-border bg-background">
       {/* Background Image with Dark Gradient Scrim */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <img 
-          src={bannerConfig.image} 
-          alt={bannerConfig.title}
+        <img
+          src={bannerConfig.image}
+          alt=""
           className="w-full h-full object-cover object-center opacity-25 filter grayscale contrast-125"
         />
         {/* Dark Gradient Scrim Layering (Satisfies Background Layering Directive) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#060912] via-[#060912]/85 to-[#060912]/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/60" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-transparent to-transparent" />
       </div>
 
@@ -115,16 +115,16 @@ export const DynamicBanner: React.FC = () => {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-2xl"
         >
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 mb-4 rounded-lg bg-slate-800/60 border border-slate-700/60 backdrop-blur-md text-[11px] font-mono text-cyan-400 tracking-wider uppercase shadow-xs">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 mb-4 rounded-lg bg-muted border border-border backdrop-blur-md text-[11px] font-mono text-primary tracking-wider uppercase shadow-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             Active Module
           </div>
           
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-3">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-tight mb-3">
             {bannerConfig.title}
           </h1>
           
-          <p className="text-sm sm:text-base text-slate-300 font-normal max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base text-muted-foreground font-normal max-w-xl leading-relaxed">
             {bannerConfig.subtitle}
           </p>
         </motion.div>

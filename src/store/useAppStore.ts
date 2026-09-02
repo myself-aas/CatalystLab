@@ -9,6 +9,8 @@ import { GoalsSlice, createGoalsSlice } from './slices/goalsSlice';
 import { AlertsSlice, createAlertsSlice } from './slices/alertsSlice';
 import { AuditsSlice, createAuditsSlice } from './slices/auditsSlice';
 import { PreferencesSlice, createPreferencesSlice } from './slices/preferencesSlice';
+import { buildAuthHeaders } from '../lib/authHeaders';
+import { errorMessage } from '../lib/utils';
 
 export type AppState = MongoSyncState &
   DomainsSlice &
@@ -85,7 +87,7 @@ export const useAppStore = create<AppState>()(
         try {
           const res = await fetch('/api/state/sync', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: await buildAuthHeaders({ 'Content-Type': 'application/json' }),
             body: JSON.stringify({
               collection: mutation.collection,
               actionType: mutation.actionType,
@@ -99,17 +101,24 @@ export const useAppStore = create<AppState>()(
         } catch (err: unknown) {
           set((s) => ({
             syncStatus: 'error',
-            lastError: err?.message,
+            lastError: errorMessage(err),
             failedMutations: [...s.failedMutations, mutation]
           }));
         }
       }
     },
 
-    fetchFullSyncFromMongo: async (ownerId: string = 'usr_default') => {
+    fetchFullSyncFromMongo: async (_ownerId: string = 'usr_default') => {
       set({ syncStatus: 'syncing' });
       try {
-        const res = await fetch(`/api/state/sync?ownerId=${encodeURIComponent(ownerId)}`);
+        // ownerId is resolved server-side from the verified ID token; the
+        // client value is ignored by the API (IDOR fix).
+        const res = await fetch('/api/state/sync', { headers: await buildAuthHeaders() });
+        if (res.status === 401) {
+          // Not signed in (or token rejected): degrade gracefully, never queue errors.
+          set({ syncStatus: 'idle', lastError: null });
+          return;
+        }
         if (!res.ok) throw new Error(`Sync fetch failed: ${res.statusText}`);
         const data = await res.json();
         
@@ -133,7 +142,7 @@ export const useAppStore = create<AppState>()(
       } catch (err: unknown) {
         set({
           syncStatus: 'error',
-          lastError: err?.message || 'Failed to sync with MongoDB'
+          lastError: errorMessage(err) || 'Failed to sync with MongoDB'
         });
       }
     },

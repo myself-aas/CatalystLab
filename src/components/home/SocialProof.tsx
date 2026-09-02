@@ -13,7 +13,7 @@ export const SocialProof: React.FC = () => {
   return (
     <section className="py-12 md:py-24 border-t border-zinc-900 bg-black">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8">
-        <h2 className="text-center text-sm font-medium text-zinc-500 mb-8 md:mb-10">
+        <h2 className="text-center text-sm font-medium text-zinc-400 mb-8 md:mb-10">
           Trusted by engineering teams at
         </h2>
         <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">

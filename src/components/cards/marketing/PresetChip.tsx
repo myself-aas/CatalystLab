@@ -6,7 +6,7 @@ import { Globe } from 'lucide-react';
 export interface PresetChipProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   domain: string;
   selected?: boolean;
-  onSelect?: (domain: string) => void;
+  onSelectDomain?: (domain: string) => void;
   className?: string;
 }
 
@@ -17,14 +17,14 @@ export interface PresetChipProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 export const PresetChip: React.FC<PresetChipProps> = ({
   domain,
   selected = false,
-  onSelect,
+  onSelectDomain,
   className,
   ...props
 }) => {
   return (
     <button
       type="button"
-      onClick={() => onSelect?.(domain)}
+      onClick={() => onSelectDomain?.(domain)}
       className={twMerge(
         clsx(
           'inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-full font-mono text-xs transition-all duration-200 cursor-pointer select-none whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',

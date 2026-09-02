@@ -1,4 +1,5 @@
 import { ENGINES_MAP } from './engines';
+import { logger } from '../lib/logger';
 
 export interface ApiParam {
   name: string;
@@ -1098,7 +1099,7 @@ async function callCatalystApi() {
     }
   });
   const data = await response.json();
-  console.log("Telemetry Response:", data);
+  logger.debug("Telemetry Response:", data);
 }
 
 callCatalystApi();`;
@@ -1119,7 +1120,7 @@ async function runDiagnosticScan() {
   }
 
   const result = await response.json();
-  console.log("Diagnostic Results:", result);
+  logger.debug("Diagnostic Results:", result);
   return result;
 }
 

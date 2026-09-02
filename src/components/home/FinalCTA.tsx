@@ -42,7 +42,7 @@ export const FinalCTA: React.FC = () => {
           className="mt-10 md:mt-12 w-full max-w-md relative"
         >
           <div className="relative flex items-center p-1 rounded-xl bg-zinc-900 border border-zinc-800 focus-within:border-zinc-700 focus-within:ring-1 focus-within:ring-zinc-700 transition-all shadow-xl">
-            <div className="pl-3 pr-2 text-zinc-500">
+            <div className="pl-3 pr-2 text-zinc-400">
               <Terminal className="w-5 h-5" />
             </div>
             <input
@@ -51,7 +51,7 @@ export const FinalCTA: React.FC = () => {
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://example.com"
               required
-              className="w-full bg-transparent border-none text-white placeholder-zinc-500 focus:outline-none focus:ring-0 text-base py-3 md:text-sm"
+              className="w-full bg-transparent border-none text-white placeholder-zinc-400 focus:outline-none focus:ring-0 text-base py-3 md:text-sm"
             />
             <button 
               type="submit"

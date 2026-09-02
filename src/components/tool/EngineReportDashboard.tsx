@@ -15,6 +15,7 @@ import { EngineDataTable } from './EngineDataTable';
 import { getBlogsForEngine } from '../../data/engineBlogs';
 import { getBlogPosts } from '../../lib/firebase';
 import type { CoreEngineType, EngineType, BlogPost } from '../../types';
+import { logger } from '../../lib/logger';
 
 interface EngineReportDashboardProps {
   engineType: EngineType;
@@ -244,7 +245,7 @@ const extractMetrics = (output: string) => {
       return JSON.parse(match[1]);
     }
   } catch (e) {
-    console.error("Failed to parse metrics", e);
+    logger.error("Failed to parse metrics", e);
   }
   return null;
 };
@@ -357,7 +358,7 @@ const response = await fetch('https://www.catalystlab.tech/api/run-engine', {
 });
 
 const report = await response.json();
-console.log(report.output);`,
+logger.debug(report.output);`,
     python: `import requests
 
 res = requests.post(
@@ -401,7 +402,7 @@ print(report['output'])`
               
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-3">
-                  <span className="material-symbols-outlined text-3xl text-[#38bdf8]">{meta.icon}</span>
+                  <span aria-hidden="true" className="material-symbols-outlined text-3xl text-[#38bdf8]">{meta.icon}</span>
                   
                   {/* Category Badge */}
                   <span className="text-xs font-bold uppercase tracking-widest text-[#38bdf8] bg-[#38bdf8]/10 px-3 py-1 rounded-full border border-[#38bdf8]/20">
@@ -420,7 +421,7 @@ print(report['output'])`
                 </h2>
                 
                 <p className="text-sm text-[#c5d3e8] leading-relaxed mb-6">
-                  Automated telemetry evaluation for <strong className="text-white font-mono bg-[#152238] px-2 py-0.5 rounded border border-[#415a77]/40">{targetUrl}</strong> completed with an index rating of <span className="text-[#38bdf8] font-extrabold">{metrics.healthScore}/100</span>. 
+                  Automated telemetry evaluation for <strong className="text-white font-mono bg-[#152238] px-2 py-0.5 rounded border border-[#415a77]/40 break-all">{targetUrl}</strong> completed with an index rating of <span className="text-[#38bdf8] font-extrabold">{metrics.healthScore}/100</span>. 
                   Our engine identified <strong className="text-rose-400">{metrics.issues.critical} critical constraints</strong>, <strong className="text-amber-400">{metrics.issues.warning} warnings</strong>, and <strong className="text-emerald-400">{metrics.issues.info} verified optimizations</strong>.
                 </p>
               </div>
@@ -490,7 +491,7 @@ print(report['output'])`
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-              <span className="material-symbols-outlined text-amber-500 dark:text-sky-400">monitoring</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-amber-500 dark:text-sky-400">monitoring</span>
               <span>PowerBI Expressive Visualizations &amp; Explanations</span>
             </h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -789,7 +790,7 @@ print(report['output'])`
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-xl text-[#38bdf8]">{targetEngine.icon}</span>
+                      <span aria-hidden="true" className="material-symbols-outlined text-xl text-[#38bdf8]">{targetEngine.icon}</span>
                       <span className="text-xs font-bold text-white">{targetEngine.name}</span>
                     </div>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${targetEngine.badgeClass}`}>
@@ -861,7 +862,7 @@ print(report['output'])`
             {/* Rich OpenGraph Preview Card */}
             <div className="rounded-2xl border border-[#415a77]/40 bg-[#152238] p-4 my-5 relative overflow-hidden">
               <div className="flex items-center gap-2 mb-2">
-                <span className="material-symbols-outlined text-sm text-[#38bdf8]">{meta.icon}</span>
+                <span aria-hidden="true" className="material-symbols-outlined text-sm text-[#38bdf8]">{meta.icon}</span>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#38bdf8]">CatalystLab Telemetry</span>
               </div>
               <h4 className="text-sm font-bold text-white mb-1">{meta.name} Audit: {targetUrl}</h4>

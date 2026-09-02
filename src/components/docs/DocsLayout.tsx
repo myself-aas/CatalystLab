@@ -293,7 +293,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             <div className="hidden sm:flex items-center gap-2 rounded-lg border border-slate-800 bg-[#0B101D] px-3 py-1.5 text-xs text-slate-400">
               <Search className="h-3.5 w-3.5 text-[#00F0FF]" />
               <span>Telemetry Documentation Index</span>
-              <kbd className="rounded border border-slate-700 bg-slate-800 px-1.5 py-0.2 text-[10px] text-slate-300 font-bold">v2.4</kbd>
+              <kbd className="rounded border border-slate-700 bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-300 font-bold">v2.4</kbd>
             </div>
           </div>
         </div>

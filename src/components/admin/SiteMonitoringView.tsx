@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { MonitoredSite, SiteProbeResult, SystemHealthStats } from '../../types';
 import { getMonitoredSites, saveMonitoredSite, deleteMonitoredSite } from '../../lib/firebase';
-import { 
+import {
   Activity, 
   Plus, 
   Trash2, 
@@ -20,6 +20,8 @@ import {
   Cpu,
   Database
 } from 'lucide-react';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 export const SiteMonitoringView: React.FC = () => {
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ export const SiteMonitoringView: React.FC = () => {
       const data = await getMonitoredSites();
       setSites(data);
     } catch (err) {
-      console.error("Error fetching monitored sites:", err);
+      logger.error("Error fetching monitored sites:", err);
     } finally {
       setLoading(false);
     }
@@ -60,7 +62,7 @@ export const SiteMonitoringView: React.FC = () => {
         setSystemHealth(data);
       }
     } catch (err) {
-      console.warn("Could not load system health:", err);
+      logger.warn("Could not load system health:", err);
     }
   };
 
@@ -101,8 +103,8 @@ export const SiteMonitoringView: React.FC = () => {
       });
       setTimeout(() => setFeedbackMsg(null), 4000);
     } catch (err: unknown) {
-      console.error("Probe error:", err);
-      setFeedbackMsg({ text: `Probe failed: ${err.message}`, type: 'error' });
+      logger.error("Probe error:", err);
+      setFeedbackMsg({ text: `Probe failed: ${errorMessage(err)}`, type: 'error' });
     } finally {
       setProbingId(null);
     }
@@ -142,8 +144,8 @@ export const SiteMonitoringView: React.FC = () => {
       setFeedbackMsg({ text: `All ${sites.length} endpoints successfully probed!`, type: 'success' });
       setTimeout(() => setFeedbackMsg(null), 4000);
     } catch (err: unknown) {
-      console.error("Probe all error:", err);
-      setFeedbackMsg({ text: `Failed to probe all endpoints: ${err.message}`, type: 'error' });
+      logger.error("Probe all error:", err);
+      setFeedbackMsg({ text: `Failed to probe all endpoints: ${errorMessage(err)}`, type: 'error' });
     } finally {
       setProbingAll(false);
     }
@@ -179,8 +181,8 @@ export const SiteMonitoringView: React.FC = () => {
       const createdSite: MonitoredSite = { ...newSite, id: docId };
       handleProbeSite(createdSite);
     } catch (err: unknown) {
-      console.error("Error adding site:", err);
-      alert("Failed to add monitored site: " + err.message);
+      logger.error("Error adding site:", err);
+      alert("Failed to add monitored site: " + errorMessage(err));
     } finally {
       setSavingSite(false);
     }
@@ -194,7 +196,7 @@ export const SiteMonitoringView: React.FC = () => {
       setFeedbackMsg({ text: `Removed ${name} from radar.`, type: 'success' });
       setTimeout(() => setFeedbackMsg(null), 3000);
     } catch (err: unknown) {
-      console.error("Failed to delete site:", err);
+      logger.error("Failed to delete site:", err);
       alert("Failed to delete monitored site.");
     }
   };
@@ -219,7 +221,7 @@ export const SiteMonitoringView: React.FC = () => {
         }`}>
           <span>{feedbackMsg.text}</span>
           <button onClick={() => setFeedbackMsg(null)} className="text-[#c5d3e8] hover:text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-            <span className="material-symbols-outlined text-sm">close</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-sm">close</span>
           </button>
         </div>
       )}
@@ -309,7 +311,7 @@ export const SiteMonitoringView: React.FC = () => {
       <div className="overflow-hidden rounded-2xl border border-[#415a77]/30 bg-[#0b192c] shadow-xl text-[#f8fafc]">
         {loading ? (
           <div className="py-16 text-center text-[#c5d3e8] text-sm">
-            <span className="material-symbols-outlined text-2xl animate-spin text-[#c5d3e8] mb-2 inline-block">progress_activity</span>
+            <span aria-hidden="true" className="material-symbols-outlined text-2xl animate-spin text-[#c5d3e8] mb-2 inline-block">progress_activity</span>
             <div>Loading monitored endpoints...</div>
           </div>
         ) : sites.length === 0 ? (
@@ -536,7 +538,7 @@ export const SiteMonitoringView: React.FC = () => {
                 onClick={() => setShowAddModal(false)}
                 className="text-[#c5d3e8] hover:text-[#f8fafc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
-                <span className="material-symbols-outlined text-base">close</span>
+                <span aria-hidden="true" className="material-symbols-outlined text-base">close</span>
               </button>
             </div>
 
@@ -591,7 +593,7 @@ export const SiteMonitoringView: React.FC = () => {
                     SSL Alerts
                   </label>
                   <div className="flex h-[42px] items-center gap-1.5 rounded-xl border border-[#415a77]/40 bg-[#152238]/60 px-3 text-xs text-emerald-400 font-semibold">
-                    <span className="material-symbols-outlined text-sm">check</span>
+                    <span aria-hidden="true" className="material-symbols-outlined text-sm">check</span>
                     <span>Auto-Check (TLS 1.3)</span>
                   </div>
                 </div>

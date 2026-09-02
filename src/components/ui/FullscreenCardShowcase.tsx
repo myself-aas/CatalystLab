@@ -10,7 +10,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'embercrest-ridge',
     title: 'Embercrest Ridge',
     subtitle: 'Silverpine Mountains',
-    imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1',
     imageAltText: 'Embercrest Ridge alpine mountain summit view',
     difficulty: 'Moderate',
     metadataSubtext: '1886 by Helen Rowe & Elias Mendez',
@@ -24,7 +24,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'azure-creek-canyon',
     title: 'Azure Creek Canyon',
     subtitle: 'Cascade Wilderness',
-    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1',
     imageAltText: 'Azure Creek Canyon pristine river valley',
     difficulty: 'Easy',
     metadataSubtext: 'Maintained by Cascade Alpine Conservancy',
@@ -38,7 +38,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'obsidian-spire',
     title: 'Obsidian Spire',
     subtitle: 'Blackrock Range',
-    imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80',
+    imageUrl: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1',
     imageAltText: 'Obsidian Spire rugged alpine ascent',
     difficulty: 'Expert',
     metadataSubtext: 'First ascent 1924 by Arthur Sterling',
@@ -110,7 +110,7 @@ export const FullscreenCardShowcase: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <FullscreenCard
-            imageUrl="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"
+            imageUrl="https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             imageAlt="DOM Telemetry"
             badge="Engine 01"
             score="99.4/100"
@@ -122,7 +122,7 @@ export const FullscreenCardShowcase: React.FC = () => {
           />
 
           <FullscreenCard
-            imageUrl="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1200&auto=format&fit=crop"
+            imageUrl="https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             imageAlt="Network Jitter"
             badge="Engine 02"
             score="98.1/100"
@@ -134,7 +134,7 @@ export const FullscreenCardShowcase: React.FC = () => {
           />
 
           <FullscreenImageCard
-            imageUrl="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1200&auto=format&fit=crop"
+            imageUrl="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             imageAlt="Security Protease"
             badge="Engine 03"
             score="A+ Grade"

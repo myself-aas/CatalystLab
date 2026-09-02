@@ -17,6 +17,7 @@ import {
   Printer
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { logger } from '../lib/logger';
 
 export const ReportPermalinkPage: React.FC = () => {
   const { id: paramId } = useParams<{ id: string }>();
@@ -46,7 +47,7 @@ export const ReportPermalinkPage: React.FC = () => {
           setError("Audit record not found or was removed.");
         }
       } catch (err: unknown) {
-        console.error("Failed to load audit report:", err);
+        logger.error("Failed to load audit report:", err);
         setError("Audit record not found or was removed.");
       } finally {
         setLoading(false);
@@ -69,11 +70,11 @@ export const ReportPermalinkPage: React.FC = () => {
       let domain = report?.url || 'domain';
       try {
         domain = new URL(report?.url.startsWith('http') ? report!.url : `https://${report!.url}`).hostname;
-      } catch (e) { console.error("Ignored error:", e); }
+      } catch (e) { logger.error("Ignored error:", e); }
       const safeDomain = domain.replace(/[^a-zA-Z0-9]/g, '_');
       await exportReportToPdf('report-dossier-content', `CatalystLab-${safeDomain}-${report?.engine || 'audit'}.pdf`);
     } catch (err) {
-      console.error("PDF generation failed:", err);
+      logger.error("PDF generation failed:", err);
       window.print();
     } finally {
       setIsExportingPdf(false);

@@ -18,6 +18,8 @@ import type {
 import type { TerminalLogEntry } from '../components/telemetry/LiveTerminalStream';
 import { SEOHead } from '../components/common/SEOHead';
 import { CheckCircle2, ExternalLink, Share2, ArrowRight, Layers, ArrowLeftRight } from 'lucide-react';
+import { authorizedFetch } from '../lib/authHeaders';
+import { logger } from '../lib/logger';
 
 export const MasterAuditExecutionPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
@@ -45,7 +47,9 @@ export const MasterAuditExecutionPage: React.FC = () => {
     resetInSeconds: 86400,
     formattedResetTime: '24h 00m',
     tier: 'visitor',
-    ipHash: 'local',
+    used: 0,
+    allowed: true,
+    isBlocked: false,
   });
 
   useEffect(() => {
@@ -166,7 +170,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
             });
           }
         } catch (parseErr) {
-          console.error("SSE parse error:", parseErr);
+          logger.error("SSE parse error:", parseErr);
         }
       };
 
@@ -180,7 +184,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
         }
       };
     } catch (err: unknown) {
-      console.error("SSE connection error:", err);
+      logger.error("SSE connection error:", err);
       await runFallbackParallelScan(cleanUrl, auditSessionId, visitorId);
     }
   };
@@ -203,7 +207,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
       const results = await Promise.allSettled(
         engineKeys.map(async (engineKey) => {
           addLog(`[EXECUTING] Engine: ${engineKey}`, 'info', engineKey);
-          const res = await fetch('/api/run-engine', {
+          const res = await authorizedFetch('/api/run-engine', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -322,7 +326,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
       setCompareReportA(mockReportA);
       setCompareReportB(mockReportB);
     } catch (err) {
-      console.error("Comparison execution error:", err);
+      logger.error("Comparison execution error:", err);
     } finally {
       setIsComparing(false);
     }

@@ -30,6 +30,7 @@ import {
   CreditCard
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { errorMessage } from '../../lib/utils';
 
 export const UserRateLimitAllocationCard: React.FC = () => {
   const { user, isAdmin } = useAuth();
@@ -97,7 +98,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
     } catch (err: unknown) {
       setTestResult({
         success: false,
-        message: `Network error verifying rate limits: ${err.message}`
+        message: `Network error verifying rate limits: ${errorMessage(err)}`
       });
     } finally {
       setTestingUnit(null);

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { getContactInquiriesForAdmin } from '../../lib/firebase';
 import type { ContactInquiry } from '../../types';
+import { logger } from '../../lib/logger';
 
 export const ContactInquiriesAdminView: React.FC = () => {
   const [inquiries, setInquiries] = useState<ContactInquiry[]>([]);
@@ -29,7 +30,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
       const data = await getContactInquiriesForAdmin();
       setInquiries(data);
     } catch (err) {
-      console.error('Failed to load contact inquiries:', err);
+      logger.error('Failed to load contact inquiries:', err);
     } finally {
       setLoading(false);
     }

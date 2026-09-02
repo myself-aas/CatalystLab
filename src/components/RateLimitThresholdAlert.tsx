@@ -178,7 +178,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             ) : (
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center justify-center gap-2 rounded-xl bg-black px-4 py-2.5 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl bg-black px-4 py-2.5 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Key className="h-4 w-4 text-amber-300" />
                 <span>Get Pro API Key (500/day)</span>
@@ -257,7 +257,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {!user ? (
               <button
                 onClick={() => login()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-black px-4 py-2.5 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl bg-black px-4 py-2.5 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In (+30 Units/Day)</span>
@@ -265,7 +265,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             ) : (
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center justify-center gap-2 rounded-xl border border-amber-300 bg-amber-100 px-4 py-2.5 text-xs font-bold text-amber-900 hover:bg-amber-200 transition-all shadow-sm active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl border border-amber-300 bg-amber-100 px-4 py-2.5 text-xs font-bold text-amber-900 hover:bg-amber-200 transition-all shadow-sm active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Key className="h-4 w-4 text-amber-600" />
                 <span>Pro API Keys (500/day)</span>

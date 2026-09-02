@@ -90,7 +90,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
 
               <div className="relative z-10 mt-8 pt-8 border-t border-zinc-900 flex items-baseline gap-3">
                 <span className="text-3xl font-medium text-white font-mono tracking-tight">{metric.value}</span>
-                <span className="text-sm text-zinc-500 font-medium">{metric.label}</span>
+                <span className="text-sm text-zinc-400 font-medium">{metric.label}</span>
               </div>
             </motion.div>
           ))}

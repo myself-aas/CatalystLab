@@ -312,3 +312,9 @@ Thumbs.db
 .cache
 .temp
 
+
+# Python tooling artifacts
+__pycache__/
+*.pyc
+.coverage
+coverage/

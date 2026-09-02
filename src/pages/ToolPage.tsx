@@ -21,6 +21,8 @@ import {
   BookOpen 
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { authorizedFetch } from '../lib/authHeaders';
+import { logger } from '../lib/logger';
 
 interface ToolPageProps {
   engineType: EngineType;
@@ -83,7 +85,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       });
       setSavedReportId(docId);
     } catch (saveErr) {
-      console.error("Firestore manual save error:", saveErr);
+      logger.error("Firestore manual save error:", saveErr);
     }
   };
 
@@ -113,7 +115,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     const visitorId = getVisitorDeviceId();
 
     try {
-      const response = await fetch('/api/run-engine', {
+      const response = await authorizedFetch('/api/run-engine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -151,7 +153,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           });
           setSavedReportId(docId);
         } catch (saveErr) {
-          console.error("Firestore auto-save error:", saveErr);
+          logger.error("Firestore auto-save error:", saveErr);
         }
       }
     } catch (err: any) {
@@ -222,7 +224,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               </div>
             ) : (
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-slate-900 text-3xl shadow-md mb-4 border border-slate-200/90">
-                <span className="material-symbols-outlined text-3xl text-blue-600">{meta.icon}</span>
+                <span aria-hidden="true" className="material-symbols-outlined text-3xl text-blue-600">{meta.icon}</span>
               </div>
             )}
           </div>
@@ -365,7 +367,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         {!user && !loading && output && !output.startsWith('[!] Error') && (
           <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm max-w-2xl mx-auto">
             <p className="text-xs text-slate-600 flex items-center justify-center gap-1.5 font-sans">
-              <span className="material-symbols-outlined text-sm text-amber-600">lightbulb</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-sm text-amber-600">lightbulb</span>
               <span><strong>Want to save this report to your history?</strong> Sign in with Google to enable permanent cloud storage and permalinks.</span>
             </p>
             <button

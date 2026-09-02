@@ -60,7 +60,7 @@ export const ArchitectureComparator: React.FC = () => {
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
               <div className="flex items-start justify-between relative z-10">
-                <h3 className="text-sm font-medium text-zinc-500 group-hover:text-zinc-400 transition-colors duration-500">{spec.name}</h3>
+                <h3 className="text-sm font-medium text-zinc-400 group-hover:text-zinc-400 transition-colors duration-500">{spec.name}</h3>
                 <div className="w-1.5 h-1.5 mt-1.5 rounded-full bg-zinc-700 group-hover:bg-emerald-500 transition-colors duration-700 shadow-[0_0_0_rgba(16,185,129,0)] group-hover:shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
               </div>
               
@@ -82,7 +82,7 @@ export const ArchitectureComparator: React.FC = () => {
                   <span className="text-4xl font-medium text-white font-mono tracking-tight group-hover:text-zinc-100 transition-colors duration-500">{spec.value}</span>
                   <span className="text-sm text-zinc-400 font-medium group-hover:text-zinc-300 transition-colors duration-500">{spec.unit}</span>
                 </div>
-                <p className="text-sm text-zinc-500 leading-relaxed border-t border-zinc-900/80 pt-4 group-hover:text-zinc-400 transition-colors duration-500">
+                <p className="text-sm text-zinc-400 leading-relaxed border-t border-zinc-900/80 pt-4 group-hover:text-zinc-400 transition-colors duration-500">
                   {spec.why}
                 </p>
               </div>

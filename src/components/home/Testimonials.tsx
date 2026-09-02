@@ -55,11 +55,11 @@ export const Testimonials: React.FC = () => {
               
               <div className="mt-10 pt-6 border-t border-zinc-900/80 flex items-center gap-4 relative z-10">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 flex-shrink-0 group-hover:border-zinc-500 transition-colors duration-500 flex items-center justify-center">
-                  <span className="text-xs font-medium text-zinc-500 group-hover:text-zinc-400 transition-colors">{quote.author.charAt(0)}</span>
+                  <span className="text-xs font-medium text-zinc-400 group-hover:text-zinc-400 transition-colors">{quote.author.charAt(0)}</span>
                 </div>
                 <div>
                   <p className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors duration-500">{quote.author}</p>
-                  <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-500">{quote.role}, {quote.company}</p>
+                  <p className="text-sm text-zinc-400 group-hover:text-zinc-400 transition-colors duration-500">{quote.role}, {quote.company}</p>
                 </div>
               </div>
             </motion.div>
