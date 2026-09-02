@@ -171,10 +171,10 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
     <Card
       id={cardId}
       variant="surface"
-      className={`border-slate-200 shadow-sm ${className}`}
+      className={`border-border shadow-sm ${className}`}
     >
       {/* Header Comparison Banner - Refined Light Theme */}
-      <div className="p-5 border-b border-slate-100">
+      <div className="p-5 border-b border-border">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
@@ -184,7 +184,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
               <span className="text-[10px] font-sans font-bold tracking-widest text-indigo-600 uppercase">
                 COMPARATIVE TELEMETRY MATRIX
               </span>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-foreground">
                 Head-to-Head Vector Benchmark
               </h3>
             </div>
@@ -211,13 +211,13 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
                 className={`w-full p-3 rounded-xl border transition-all ${
                   isSelected
                     ? 'border-indigo-200 bg-indigo-50 shadow-sm'
-                    : 'border-slate-100 hover:border-slate-200 hover:bg-slate-50'
+                    : 'border-border hover:border-border hover:bg-muted'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <Icon className={`w-4 h-4 ${isSelected ? 'text-indigo-600' : 'text-slate-400'}`} />
-                    <span className={`text-sm font-sans font-semibold ${isSelected ? 'text-indigo-900' : 'text-slate-700'}`}>
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-indigo-600' : 'text-muted-foreground'}`} />
+                    <span className={`text-sm font-sans font-semibold ${isSelected ? 'text-indigo-900' : 'text-muted-foreground'}`}>
                       {vec.name}
                     </span>
                   </div>
@@ -231,8 +231,8 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
         </div>
 
         {/* Recharts Visualization */}
-        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex flex-col">
-          <span className="text-xs font-sans font-bold text-slate-500 mb-4">
+        <div className="bg-muted rounded-xl p-4 border border-border flex flex-col">
+          <span className="text-xs font-sans font-bold text-muted-foreground mb-4">
             Vector Score Comparison
           </span>
           <div className="h-48 w-full">
@@ -245,8 +245,8 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="mt-4 p-3 rounded-lg bg-white border border-slate-100 text-xs text-slate-600">
-            <span className="font-sans font-bold text-slate-900">Vector Insight:</span>{' '}
+          <div className="mt-4 p-3 rounded-lg bg-background border border-border text-xs text-muted-foreground">
+            <span className="font-sans font-bold text-foreground">Vector Insight:</span>{' '}
             {activeSelected.description}
           </div>
         </div>

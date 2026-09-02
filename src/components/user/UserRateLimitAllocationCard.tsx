@@ -125,11 +125,11 @@ export const UserRateLimitAllocationCard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Resource Allocation Banner */}
-      <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 sm:p-8 shadow-sm">
+      <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#e2e8f0]">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-black/10 text-[#415a77]">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/10 text-[#415a77]">
                 <Cpu className="h-4 w-4" />
               </span>
               <h3 className="text-xl font-bold text-[#0b192c]">Daily Compute Quota & Allocation</h3>
@@ -146,7 +146,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             <button
               onClick={loadStatus}
               disabled={loading}
-              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-gray-200 transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-background px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-border transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
@@ -175,10 +175,10 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               </div>
 
               {/* Visual Progress Bar */}
-              <div className="h-3.5 w-full overflow-hidden rounded-full bg-slate-200 p-0.5">
+              <div className="h-3.5 w-full overflow-hidden rounded-full bg-accent p-0.5">
                 <div 
                   className={`h-full rounded-full transition-all duration-700 ${
-                    percentRemaining > 40 ? 'bg-black' : percentRemaining > 15 ? 'bg-amber-500' : 'bg-rose-500'
+                    percentRemaining > 40 ? 'bg-primary' : percentRemaining > 15 ? 'bg-amber-500' : 'bg-rose-500'
                   }`}
                   style={{ width: `${percentRemaining}%` }}
                 />
@@ -190,12 +190,12 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
+            <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs">
               <span className="text-[#415a77] flex items-center gap-1.5">
                 <Clock className="h-3.5 w-3.5 text-[#415a77]" />
                 Daily Reset In:
               </span>
-              <span className="font-mono font-bold text-[#0b192c] bg-white px-2 py-0.5 rounded border border-slate-200">
+              <span className="font-mono font-bold text-[#0b192c] bg-background px-2 py-0.5 rounded border border-border">
                 {status.formattedResetTime} (Midnight UTC)
               </span>
             </div>
@@ -211,7 +211,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <Sparkles className="h-4 w-4 text-[#415a77]" />
                   Master Audits (All 8 Engines)
                 </span>
-                <span className="rounded bg-black/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
                   {MASTER_AUDIT_COST} Units / Run
                 </span>
               </div>
@@ -223,7 +223,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   Triggers all 8 telemetry scanners concurrently. Deduplicated session keys ensure zero double-billing.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
                 <span className="text-[11px] text-[#415a77]">Total Limit: {status.isUnlimited ? '∞' : `${status.masterLimit} / day`}</span>
                 <button
                   onClick={() => handleSimulateCheck(MASTER_AUDIT_COST)}
@@ -242,7 +242,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <Layers className="h-4 w-4 text-[#415a77]" />
                   Single Diagnostic Engines
                 </span>
-                <span className="rounded bg-black/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
                   {SINGLE_ENGINE_COST} Unit / Run
                 </span>
               </div>
@@ -254,7 +254,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   Individual scans for DOM Health, Edge TTFB Latency, /llms.txt AI crawler parity, SecOps, or ESG Carbon.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
                 <span className="text-[11px] text-[#415a77]">Total Limit: {status.isUnlimited ? '∞' : `${status.singleLimit} / day`}</span>
                 <button
                   onClick={() => handleSimulateCheck(SINGLE_ENGINE_COST)}
@@ -299,7 +299,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Rate Limiting Rules & Headers */}
-        <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 shadow-sm flex flex-col justify-between">
+        <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <ShieldCheck className="h-5 w-5 text-[#415a77]" />
@@ -310,19 +310,19 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             </p>
 
             <div className="space-y-2 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-4 text-xs font-mono">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+              <div className="flex items-center justify-between border-b border-border pb-1.5">
                 <span className="text-[#415a77]">X-RateLimit-Limit:</span>
                 <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'unlimited' : status.limit}</span>
               </div>
-              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+              <div className="flex items-center justify-between border-b border-border pb-1.5">
                 <span className="text-[#415a77]">X-RateLimit-Remaining:</span>
                 <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'unlimited' : status.remaining}</span>
               </div>
-              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+              <div className="flex items-center justify-between border-b border-border pb-1.5">
                 <span className="text-[#415a77]">X-RateLimit-Used:</span>
                 <span className="font-bold text-[#0b192c]">{status.used}</span>
               </div>
-              <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+              <div className="flex items-center justify-between border-b border-border pb-1.5">
                 <span className="text-[#415a77]">X-RateLimit-Tier:</span>
                 <span className="font-bold text-[#0b192c]">{status.tier}</span>
               </div>
@@ -340,7 +340,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
         </div>
 
         {/* Developer Integration & cURL */}
-        <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 shadow-sm flex flex-col justify-between">
+        <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -359,7 +359,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               Inspect rate limit response headers directly from your terminal or continuous integration test workflows:
             </p>
 
-            <pre className="rounded-xl bg-white p-4 text-[11px] font-mono text-emerald-600 overflow-x-auto leading-relaxed border border-slate-800">
+            <pre className="rounded-xl bg-background p-4 text-[11px] font-mono text-emerald-600 overflow-x-auto leading-relaxed border border-border">
               <code>{curlExample}</code>
             </pre>
           </div>
@@ -378,7 +378,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
       </div>
 
       {/* 5-Tier Subscription Plans & 7-Day Free Trial Tier Management */}
-      <div className="rounded-2xl border border-[#415a77]/20 bg-white p-6 sm:p-8 shadow-sm">
+      <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#e2e8f0]">
           <div>
             <div className="flex items-center gap-2">
@@ -397,7 +397,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
 
           <Link
             to="/pricing"
-            className="flex items-center gap-1.5 rounded-xl bg-black px-4 py-2 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+            className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
           >
             <span>View Full Pricing Matrix</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -415,8 +415,8 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                 key={tierKey}
                 className={`rounded-xl p-4 border flex flex-col justify-between transition-all ${
                   isCurrent 
-                    ? 'border-black bg-slate-50 shadow-md ring-1 ring-black/40' 
-                    : 'border-[#e2e8f0] bg-[#f8fafc] hover:border-slate-400'
+                    ? 'border-black bg-muted shadow-md ring-1 ring-black/40' 
+                    : 'border-[#e2e8f0] bg-[#f8fafc] hover:border-border'
                 }`}
               >
                 <div>
@@ -429,7 +429,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                     )}
                   </div>
                   <div className="mt-2 text-xl font-black text-[#0b192c]">
-                    ${item.priceMonthly}<span className="text-xs font-normal text-slate-500">/mo</span>
+                    ${item.priceMonthly}<span className="text-xs font-normal text-muted-foreground">/mo</span>
                   </div>
                   <div className="mt-1 text-xs font-bold text-emerald-700">
                     {item.dailyComputeUnits} units / day
@@ -439,25 +439,25 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-200">
+                <div className="mt-4 pt-3 border-t border-border">
                   {isCurrent ? (
                     <button 
                       disabled 
-                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white opacity-90 cursor-default"
+                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-primary-foreground opacity-90 cursor-default"
                     >
                       Current Tier
                     </button>
                   ) : tierKey === 'free' ? (
                     <Link
                       to="/pricing"
-                      className="block text-center w-full py-1.5 rounded-lg text-xs font-bold border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="block text-center w-full py-1.5 rounded-lg text-xs font-bold border border-border text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       Free Plan
                     </Link>
                   ) : (
                     <button
                       onClick={() => openTrialModal(tierKey)}
-                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-black text-white hover:bg-black-hover transition-colors shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-primary text-primary-foreground hover:bg-primary-hover transition-colors shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                     >
                       7-Day Free Trial
                     </button>

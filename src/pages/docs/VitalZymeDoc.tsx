@@ -79,7 +79,7 @@ export function analyzeDomTree(html: string) {
       {/* Metrics Thresholds */}
       <section id="metrics-thresholds" className="space-y-4 border-t border-[#e2e8f0] pt-8">
         <h2 className="text-2xl font-bold text-[#0b192c]">DOM & Performance Evaluation Thresholds</h2>
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white">
+        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
               <tr>

@@ -67,10 +67,10 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition-all duration-200 bg-white ${
+      className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition-all duration-200 bg-background ${
         isPopular
-          ? 'border-2 border-slate-900 shadow-md lg:-translate-y-1.5'
-          : 'border border-slate-200 hover:border-slate-300 shadow-sm'
+          ? 'border-2 border-border shadow-md lg:-translate-y-1.5'
+          : 'border border-border hover:border-border shadow-sm'
       } ${className || ''}`}
     >
       {/* Top Header Row & Badge */}
@@ -80,14 +80,14 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
             <span
               className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
                 isPopular
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-700 border border-slate-200'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-accent text-muted-foreground border border-border'
               }`}
             >
               {badge}
             </span>
           ) : (
-            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
               PLAN TIER
             </span>
           )}
@@ -101,22 +101,22 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 
         {/* Plan Title & Description */}
         <div className="mb-4">
-          <h3 className="text-lg sm:text-xl font-bold text-slate-900 font-sans">{name}</h3>
-          <p className="mt-1 text-xs text-slate-600 leading-relaxed font-sans min-h-[36px]">
+          <h3 className="text-lg sm:text-xl font-bold text-foreground font-sans">{name}</h3>
+          <p className="mt-1 text-xs text-muted-foreground leading-relaxed font-sans min-h-[36px]">
             {description}
           </p>
         </div>
 
         {/* Price As Title */}
-        <div className="py-3 border-y border-slate-100 my-3">
+        <div className="py-3 border-y border-border my-3">
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-mono tracking-tight">
+            <span className="text-3xl sm:text-4xl font-extrabold text-foreground font-mono tracking-tight">
               {price}
             </span>
-            <span className="text-xs text-slate-600 font-mono">{period}</span>
+            <span className="text-xs text-muted-foreground font-mono">{period}</span>
           </div>
           {billingSubtext && (
-            <div className="text-[11px] text-slate-500 font-mono mt-0.5">
+            <div className="text-[11px] text-muted-foreground font-mono mt-0.5">
               {billingSubtext}
             </div>
           )}
@@ -124,7 +124,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 
         {/* Stat Pair with Vertical Divider */}
         {stats && stats.length > 0 && (
-          <div className="py-2 mb-4 bg-slate-50 rounded-lg border border-slate-200 px-3">
+          <div className="py-2 mb-4 bg-muted rounded-lg border border-border px-3">
             <CardStatRow
               stats={stats}
               layout="inline-dividers"
@@ -135,7 +135,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 
         {/* Feature List */}
         <div className="space-y-2 mt-4">
-          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
             Included Capabilities:
           </span>
           <ul className="space-y-2 pt-1">
@@ -148,17 +148,17 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
                 <li
                   key={idx}
                   className={`flex items-start gap-2 text-xs font-sans ${
-                    included ? 'text-slate-700' : 'text-slate-400 line-through'
+                    included ? 'text-muted-foreground' : 'text-muted-foreground line-through'
                   }`}
                 >
                   {included ? (
-                    <Check className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${isPopular ? 'text-slate-900 font-bold' : 'text-emerald-600'}`} />
+                    <Check className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${isPopular ? 'text-foreground font-bold' : 'text-emerald-600'}`} />
                   ) : (
-                    <X className="w-3.5 h-3.5 shrink-0 mt-0.5 text-slate-300" />
+                    <X className="w-3.5 h-3.5 shrink-0 mt-0.5 text-muted-foreground" />
                   )}
                   <span className="leading-snug flex-1">{text}</span>
                   {featBadge && (
-                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 shrink-0">
+                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-accent text-muted-foreground border border-border shrink-0">
                       {featBadge}
                     </span>
                   )}
@@ -170,21 +170,21 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
       </div>
 
       {/* Action / CTA Row */}
-      <div className="mt-6 pt-4 border-t border-slate-100">
+      <div className="mt-6 pt-4 border-t border-border">
         <button
           onClick={onCtaClick}
           disabled={ctaDisabled}
           className={`w-full py-2.5 px-4 rounded-xl font-mono text-xs font-bold transition-all shadow-sm cursor-pointer ${
             isPopular
-              ? 'bg-slate-900 hover:bg-slate-800 text-white'
-              : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200'
+              ? 'bg-primary hover:bg-primary-hover text-primary-foreground'
+              : 'bg-accent hover:bg-accent text-foreground border border-border'
           } ${isCurrent ? 'opacity-60 cursor-not-allowed' : ''}`}
         >
           {ctaLabel}
         </button>
 
         {ctaSubtext && (
-          <p className="mt-2 text-center text-[10px] text-slate-500 font-mono">
+          <p className="mt-2 text-center text-[10px] text-muted-foreground font-mono">
             {ctaSubtext}
           </p>
         )}

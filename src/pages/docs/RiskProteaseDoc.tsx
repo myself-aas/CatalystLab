@@ -73,7 +73,7 @@ app.use(helmet({
           The engine computes relative luminance formulas to verify color contrast ratios between text and background elements:
         </p>
 
-        <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 text-sm space-y-2">
+        <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 text-sm space-y-2">
           <div><strong className="text-[#0b192c]">Standard Body Text (&lt; 18pt):</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">4.5:1</span></div>
           <div><strong className="text-[#0b192c]">Large Headings (&ge; 18pt or &ge; 14pt bold):</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">3.0:1</span></div>
           <div><strong className="text-[#0b192c]">Interactive UI Components & Form Borders:</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">3.0:1</span></div>

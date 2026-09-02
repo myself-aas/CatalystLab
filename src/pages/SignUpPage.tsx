@@ -173,7 +173,7 @@ export const SignUpPage: React.FC = () => {
   const activeErrorMessage = localError || authError?.message;
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-white text-slate-900 selection:bg-slate-900 selection:text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-background text-foreground selection:bg-primary selection:text-primary-foreground py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <SEOHead
         title="Sign Up for CatalystLab | Free Developer Telemetry & Forensic Audit Account"
         description="Create your free CatalystLab account to run 8 specialized web diagnostic engines, obtain REST API tokens, and monitor production sites with automated watchdogs."
@@ -189,40 +189,40 @@ export const SignUpPage: React.FC = () => {
             <BrandLogo size="lg" />
           </Link>
           
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
             Create your CatalystLab account
           </h1>
-          <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-md">
+          <p className="mt-2 text-xs sm:text-sm text-muted-foreground max-w-md">
             Unlock 50 free daily diagnostic units, continuous health monitoring, and instant REST API access keys.
           </p>
         </div>
 
         {/* Feature Highlights Grid */}
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
-          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+          <div className="rounded-xl border border-border bg-background p-2.5 shadow-sm">
             <Zap className="h-4 w-4 text-amber-500 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-900">50 Free Units</div>
-            <div className="text-[10px] text-slate-500">Refreshed daily</div>
+            <div className="text-[11px] font-bold text-foreground">50 Free Units</div>
+            <div className="text-[10px] text-muted-foreground">Refreshed daily</div>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
-            <Layers className="h-4 w-4 text-slate-600 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-900">8 Engines</div>
-            <div className="text-[10px] text-slate-500">Deep telemetry</div>
+          <div className="rounded-xl border border-border bg-background p-2.5 shadow-sm">
+            <Layers className="h-4 w-4 text-muted-foreground mx-auto mb-1" />
+            <div className="text-[11px] font-bold text-foreground">8 Engines</div>
+            <div className="text-[10px] text-muted-foreground">Deep telemetry</div>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+          <div className="rounded-xl border border-border bg-background p-2.5 shadow-sm">
             <KeyRound className="h-4 w-4 text-emerald-600 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-900">REST API</div>
-            <div className="text-[10px] text-slate-500">CI/CD hooks</div>
+            <div className="text-[11px] font-bold text-foreground">REST API</div>
+            <div className="text-[10px] text-muted-foreground">CI/CD hooks</div>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+          <div className="rounded-xl border border-border bg-background p-2.5 shadow-sm">
             <ShieldCheck className="h-4 w-4 text-amber-600 mx-auto mb-1" />
-            <div className="text-[11px] font-bold text-slate-900">Zero Risk</div>
-            <div className="text-[10px] text-slate-500">No card required</div>
+            <div className="text-[11px] font-bold text-foreground">Zero Risk</div>
+            <div className="text-[10px] text-muted-foreground">No card required</div>
           </div>
         </div>
 
         {/* Card Container */}
-        <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+        <div className="mt-5 rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
           
           {/* Error Alert Banner */}
           {activeErrorMessage && (
@@ -255,7 +255,7 @@ export const SignUpPage: React.FC = () => {
                 type="button"
                 onClick={handleGoogleSignUp}
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 transition-colors hover:bg-slate-50 disabled:opacity-60 cursor-pointer shadow-sm"
+                className="flex items-center justify-center gap-2 rounded-xl border border-border bg-accent px-3.5 py-2.5 text-xs font-mono font-bold text-foreground transition-colors hover:bg-muted disabled:opacity-60 cursor-pointer shadow-sm"
               >
                 {authMethod === 'google' ? (
                   <RotateCw className="h-4 w-4 animate-spin text-amber-500" />
@@ -287,7 +287,7 @@ export const SignUpPage: React.FC = () => {
                 type="button"
                 onClick={handleGithubSignUp}
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 transition-colors hover:bg-slate-50 disabled:opacity-60 cursor-pointer shadow-sm"
+                className="flex items-center justify-center gap-2 rounded-xl border border-border bg-accent px-3.5 py-2.5 text-xs font-mono font-bold text-foreground transition-colors hover:bg-muted disabled:opacity-60 cursor-pointer shadow-sm"
               >
                 {authMethod === 'github' ? (
                   <RotateCw className="h-4 w-4 animate-spin text-amber-500" />
@@ -302,8 +302,8 @@ export const SignUpPage: React.FC = () => {
 
             {/* Or Divider */}
             <div className="relative flex items-center justify-center">
-              <div className="w-full border-t border-slate-200" />
-              <span className="bg-white px-3 text-[10px] font-mono font-semibold text-slate-500 uppercase tracking-wider">
+              <div className="w-full border-t border-border" />
+              <span className="bg-background px-3 text-[10px] font-mono font-semibold text-muted-foreground uppercase tracking-wider">
                 or register with email
               </span>
             </div>
@@ -311,11 +311,11 @@ export const SignUpPage: React.FC = () => {
             {/* Email Registration Form */}
             <form onSubmit={handleEmailSignUp} className="space-y-3.5">
               <div>
-                <label htmlFor="fullName" className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                <label htmlFor="fullName" className="block text-xs font-mono font-bold text-muted-foreground mb-1">
                   Full Name / Handle
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
                     <UserIcon className="h-4 w-4" />
                   </div>
                   <input
@@ -326,17 +326,17 @@ export const SignUpPage: React.FC = () => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Alex Mercer"
-                    className="block w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3.5 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors"
+                    className="block w-full rounded-xl border border-border bg-muted pl-9 pr-3.5 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                <label htmlFor="email" className="block text-xs font-mono font-bold text-muted-foreground mb-1">
                   Work or Personal Email
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
                     <Mail className="h-4 w-4" />
                   </div>
                   <input
@@ -348,17 +348,17 @@ export const SignUpPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="alex@company.com"
-                    className="block w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3.5 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors"
+                    className="block w-full rounded-xl border border-border bg-muted pl-9 pr-3.5 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                <label htmlFor="password" className="block text-xs font-mono font-bold text-muted-foreground mb-1">
                   Create Password
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
                     <Lock className="h-4 w-4" />
                   </div>
                   <input
@@ -370,12 +370,12 @@ export const SignUpPage: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="At least 8 characters"
-                    className="block w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-9 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors"
+                    className="block w-full rounded-xl border border-border bg-muted pl-9 pr-9 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none transition-colors"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -385,7 +385,7 @@ export const SignUpPage: React.FC = () => {
                 {/* Password Strength Indicator */}
                 {password.length > 0 && (
                   <div className="mt-2 space-y-1">
-                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                    <div className="h-1.5 w-full bg-accent rounded-full overflow-hidden border border-border">
                       <div 
                         className={`h-full transition-all duration-300 ${
                           strengthScore <= 25 ? 'bg-red-500 w-1/4' :
@@ -396,20 +396,20 @@ export const SignUpPage: React.FC = () => {
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px] font-mono">
-                      <div className={`flex items-center gap-1 ${passwordCriteria.minLength ? 'text-emerald-600' : 'text-slate-400'}`}>
-                        {passwordCriteria.minLength ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.minLength ? 'text-emerald-600' : 'text-muted-foreground'}`}>
+                        {passwordCriteria.minLength ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-muted" />}
                         <span>8+ characters</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasUppercase ? 'text-emerald-600' : 'text-slate-400'}`}>
-                        {passwordCriteria.hasUppercase ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasUppercase ? 'text-emerald-600' : 'text-muted-foreground'}`}>
+                        {passwordCriteria.hasUppercase ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-muted" />}
                         <span>Uppercase letter</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasNumber ? 'text-emerald-600' : 'text-slate-400'}`}>
-                        {passwordCriteria.hasNumber ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasNumber ? 'text-emerald-600' : 'text-muted-foreground'}`}>
+                        {passwordCriteria.hasNumber ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-muted" />}
                         <span>Number</span>
                       </div>
-                      <div className={`flex items-center gap-1 ${passwordCriteria.hasSpecial ? 'text-emerald-600' : 'text-slate-400'}`}>
-                        {passwordCriteria.hasSpecial ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-slate-300" />}
+                      <div className={`flex items-center gap-1 ${passwordCriteria.hasSpecial ? 'text-emerald-600' : 'text-muted-foreground'}`}>
+                        {passwordCriteria.hasSpecial ? <Check className="h-3 w-3" /> : <span className="h-1.5 w-1.5 rounded-full bg-muted" />}
                         <span>Special character</span>
                       </div>
                     </div>
@@ -418,11 +418,11 @@ export const SignUpPage: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                <label htmlFor="confirmPassword" className="block text-xs font-mono font-bold text-muted-foreground mb-1">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
                     <Lock className="h-4 w-4" />
                   </div>
                   <input
@@ -435,8 +435,8 @@ export const SignUpPage: React.FC = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Repeat password"
                     className={`block w-full rounded-xl border ${
-                      !passwordsMatch ? 'border-red-500 bg-red-50' : 'border-slate-200 bg-slate-50'
-                    } pl-9 pr-3.5 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors`}
+                      !passwordsMatch ? 'border-red-500 bg-red-50' : 'border-border bg-muted'
+                    } pl-9 pr-3.5 py-2 text-xs font-mono text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none transition-colors`}
                   />
                 </div>
                 {!passwordsMatch && confirmPassword && (
@@ -445,13 +445,13 @@ export const SignUpPage: React.FC = () => {
               </div>
 
               <div className="pt-0.5">
-                <label className="flex items-start gap-2 cursor-pointer select-none text-xs font-mono text-slate-600">
+                <label className="flex items-start gap-2 cursor-pointer select-none text-xs font-mono text-muted-foreground">
                   <input
                     type="checkbox"
                     checked={agreeTerms}
                     onChange={(e) => setAgreeTerms(e.target.checked)}
                     required
-                    className="h-3.5 w-3.5 mt-0.5 rounded border-slate-300 bg-white text-slate-900 focus:ring-0"
+                    className="h-3.5 w-3.5 mt-0.5 rounded border-border bg-background text-foreground focus:ring-0"
                   />
                   <span>
                     I agree to the{' '}
@@ -470,7 +470,7 @@ export const SignUpPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting || !agreeTerms || (!passwordsMatch && Boolean(confirmPassword))}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 py-2.5 text-xs font-mono font-bold text-white shadow-sm transition-all disabled:opacity-60 cursor-pointer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-2.5 text-xs font-mono font-bold text-primary-foreground shadow-sm transition-all disabled:opacity-60 cursor-pointer"
               >
                 {authMethod === 'email' && isSubmitting ? (
                   <RotateCw className="h-4 w-4 animate-spin" />
@@ -485,9 +485,9 @@ export const SignUpPage: React.FC = () => {
           </div>
 
           {/* Sandbox Developer Demo Bypass */}
-          <div className="mt-5 pt-4 border-t border-slate-200">
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 mb-2">
-              <span className="flex items-center gap-1 font-semibold text-slate-700">
+          <div className="mt-5 pt-4 border-t border-border">
+            <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground mb-2">
+              <span className="flex items-center gap-1 font-semibold text-muted-foreground">
                 <Terminal className="h-3 w-3 text-amber-600" />
                 <span>Instant Sandbox Onboarding:</span>
               </span>
@@ -495,7 +495,7 @@ export const SignUpPage: React.FC = () => {
             <button
               type="button"
               onClick={handleSandboxSignUp}
-              className="w-full rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-[11px] font-mono font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors text-center cursor-pointer"
+              className="w-full rounded-lg border border-border bg-accent px-3 py-1.5 text-[11px] font-mono font-bold text-muted-foreground hover:bg-muted hover:text-foreground transition-colors text-center cursor-pointer"
             >
               Test Onboarding in Sandbox Mode (1-Click)
             </button>
@@ -503,7 +503,7 @@ export const SignUpPage: React.FC = () => {
         </div>
 
         {/* Switch to Sign In */}
-        <div className="mt-5 text-center text-xs font-mono text-slate-500">
+        <div className="mt-5 text-center text-xs font-mono text-muted-foreground">
           <span>Already have a CatalystLab account? </span>
           <Link
             to={`/login${location.search}`}
@@ -514,7 +514,7 @@ export const SignUpPage: React.FC = () => {
         </div>
 
         {/* Trust & Compliance Badge */}
-        <div className="mt-6 flex items-center justify-center gap-4 text-[11px] font-mono text-slate-500">
+        <div className="mt-6 flex items-center justify-center gap-4 text-[11px] font-mono text-muted-foreground">
           <div className="flex items-center gap-1">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
             <span>SOC2 Type II &amp; GDPR Compliant</span>

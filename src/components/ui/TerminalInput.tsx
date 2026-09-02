@@ -82,14 +82,14 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
         className={`relative group rounded-xl transition-all duration-300 cursor-text ${
           isFocused
             ? 'border-[#06B6D4] shadow-[0_0_25px_rgba(6,182,212,0.35)] bg-[#0A0F1D]/95'
-            : 'border-slate-800/90 hover:border-slate-700 bg-[#090D16]/90 shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
+            : 'border-border/90 hover:border-border bg-[#090D16]/90 shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
         } border backdrop-blur-xl ${
           isHero ? 'p-2 sm:p-3' : isCompact ? 'p-1.5' : 'p-2'
         }`}
       >
         {/* Terminal Header Bar (for Hero & Default) */}
         {!isCompact && (
-          <div className="flex items-center justify-between px-3 pt-1 pb-2 border-b border-slate-800/60 mb-2 select-none">
+          <div className="flex items-center justify-between px-3 pt-1 pb-2 border-b border-border/60 mb-2 select-none">
             <div className="flex items-center gap-2">
               {/* Traffic light LEDs */}
               <div className="flex items-center gap-1.5">
@@ -97,7 +97,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
                 <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]/80 shadow-[0_0_8px_rgba(245,158,11,0.4)]" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]/80 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
               </div>
-              <span className="text-[11px] font-mono text-slate-500 tracking-wider flex items-center gap-1.5 ml-2">
+              <span className="text-[11px] font-mono text-muted-foreground tracking-wider flex items-center gap-1.5 ml-2">
                 <Terminal className="w-3 h-3 text-[#06B6D4]" />
                 <span>TELEMETRY_SHELL_v2.4</span>
               </span>
@@ -109,7 +109,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
                   {badgeText}
                 </span>
               )}
-              <span className="text-[10px] font-mono text-slate-500">
+              <span className="text-[10px] font-mono text-muted-foreground">
                 PORT:3000 • TLS:ACTIVE
               </span>
             </div>
@@ -122,8 +122,8 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
           <div aria-hidden="true" className="flex items-center gap-1.5 shrink-0 select-none text-xs sm:text-sm font-mono font-bold">
             <span className="text-[#10B981] hidden sm:inline">{promptPrefix}</span>
             <span className="text-[#06B6D4] font-bold">&gt;</span>
-            <span className="text-slate-600 font-mono">\</span>
-            <span className="text-slate-400 font-mono">_</span>
+            <span className="text-muted-foreground font-mono">\</span>
+            <span className="text-muted-foreground font-mono">_</span>
           </div>
 
           {/* Protocol Toggle (Desktop only) */}
@@ -135,7 +135,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               e.stopPropagation();
               setProtocol((prev) => (prev === 'https://' ? 'http://' : 'https://'));
             }}
-            className="hidden md:flex items-center gap-1 px-2 py-1 rounded bg-slate-800/80 border border-slate-700/60 text-[11px] font-mono text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+            className="hidden md:flex items-center gap-1 px-2 py-1 rounded bg-muted border border-border/60 text-[11px] font-mono text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             title="Toggle Protocol"
           >
             <Shield className="w-2.5 h-2.5 text-[#10B981]" aria-hidden="true" />
@@ -161,7 +161,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               aria-label="Target domain or URL for telemetry audit"
               aria-describedby={`${inputId}-description`}
               aria-busy={isLoading}
-              className={`w-full bg-transparent text-slate-100 placeholder-slate-400 font-mono focus:outline-none transition-colors ${
+              className={`w-full bg-transparent text-foreground placeholder-slate-400 font-mono focus:outline-none transition-colors ${
                 isHero
                   ? 'text-sm sm:text-base py-2'
                   : isCompact
@@ -191,7 +191,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
                   handleClear();
                 }}
                 aria-label="Clear input value"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-primary-hover transition-colors"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -211,10 +211,10 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
                   : 'px-3 sm:px-4 py-1.5 text-xs'
               } ${
                 !value.trim() || disabled
-                  ? 'bg-slate-800/80 text-slate-500 border border-slate-700/40 cursor-not-allowed'
+                  ? 'bg-muted text-muted-foreground border border-border/40 cursor-not-allowed'
                   : isLoading
                   ? 'bg-[#06B6D4]/20 text-[#06B6D4] border border-[#06B6D4]/40 cursor-wait'
-                  : 'bg-gradient-to-r from-[#06B6D4] via-[#10B981] to-[#00FF66] text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:brightness-110 active:scale-95'
+                  : 'bg-gradient-to-r from-[#06B6D4] via-[#10B981] to-[#00FF66] text-foreground shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:brightness-110 active:scale-95'
               }`}
             >
               {isLoading ? (
@@ -245,13 +245,13 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-2 pt-2 px-3 border-t border-slate-800/50 flex items-center justify-between text-[11px] font-mono text-slate-400"
+              className="mt-2 pt-2 px-3 border-t border-border/50 flex items-center justify-between text-[11px] font-mono text-muted-foreground"
             >
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4] animate-ping" />
                 <span>{statusMessage}</span>
               </div>
-              <span className="text-slate-500 hidden sm:inline">8 Micro-Analyzers Ready</span>
+              <span className="text-muted-foreground hidden sm:inline">8 Micro-Analyzers Ready</span>
             </motion.div>
           )}
         </AnimatePresence>

@@ -77,9 +77,9 @@ export const ApiOverviewPage: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-white text-[#0b192c]">
+    <div className="min-h-screen bg-background text-[#0b192c]">
       {/* Top Banner Hero */}
-      <div className="border-b border-[#e2e8f0] bg-white pt-12 pb-14">
+      <div className="border-b border-[#e2e8f0] bg-background pt-12 pb-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div className="max-w-3xl space-y-4">
@@ -90,7 +90,7 @@ export const ApiOverviewPage: React.FC = () => {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#0b192c]">
                 CatalystLab API Reference
               </h1>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                 Automate real-time web audits, performance telemetry, security validation, and AI search readiness directly from your backend services, CI/CD pipelines, and developer workflows.
               </p>
             </div>
@@ -99,21 +99,21 @@ export const ApiOverviewPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-3">
               <button
                 onClick={downloadOpenApi}
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50 hover:border-gray-400 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:bg-muted hover:border-gray-400 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Download className="h-4 w-4 text-[#415a77]" />
                 <span>OpenAPI 3.1 (JSON)</span>
               </button>
               <button
                 onClick={downloadPostman}
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50 hover:border-gray-400 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:bg-muted hover:border-gray-400 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <FileJson className="h-4 w-4 text-amber-600" />
                 <span>Postman Collection</span>
               </button>
               <Link
                 to="/playground"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-white shadow-md hover:bg-[#152238] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#0b192c] px-4 py-2.5 text-sm font-bold text-primary-foreground shadow-md hover:bg-[#152238] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Terminal className="h-4 w-4 text-emerald-400" />
                 <span>Open Playground</span>
@@ -134,28 +134,28 @@ export const ApiOverviewPage: React.FC = () => {
           <div className="flex-1 space-y-10 min-w-0">
             
             {/* Quickstart Card */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-5">
+            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
                 <div>
                   <h2 className="text-xl font-bold text-[#0b192c] flex items-center gap-2">
                     <Zap className="h-5 w-5 text-amber-500" />
                     <span>Quickstart Guide</span>
                   </h2>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     Execute your first diagnostic scan in seconds using your preferred language or cURL.
                   </p>
                 </div>
 
                 {/* Dropdown Language Selector (No Tabview) */}
                 <div className="flex items-center gap-2">
-                  <label htmlFor="quickstart-lang-select" className="text-xs font-semibold text-gray-600">
+                  <label htmlFor="quickstart-lang-select" className="text-xs font-semibold text-muted-foreground">
                     Language:
                   </label>
                   <select
                     id="quickstart-lang-select"
                     value={selectedLanguage}
                     onChange={(e) => setSelectedLanguage(e.target.value as any)}
-                    className="rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-xs font-bold text-gray-800 shadow-sm focus:border-sky-500 focus:outline-none cursor-pointer"
+                    className="rounded-xl border border-border bg-background px-3 py-1.5 text-xs font-bold text-foreground shadow-sm focus:border-sky-500 focus:outline-none cursor-pointer"
                   >
                     <option value="curl">cURL (Bash)</option>
                     <option value="javascript">JavaScript (Fetch)</option>
@@ -168,7 +168,7 @@ export const ApiOverviewPage: React.FC = () => {
               </div>
 
               {/* Code Snippet Box */}
-              <div className="relative rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-gray-200 overflow-x-auto shadow-inner border border-[#415a77]/40">
+              <div className="relative rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto shadow-inner border border-[#415a77]/40">
                 <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
                   <span className="text-[11px] text-[#c5d3e8] uppercase font-bold">
                     POST /api/run-engine ({selectedLanguage.toUpperCase()})
@@ -198,21 +198,21 @@ export const ApiOverviewPage: React.FC = () => {
 
             {/* Authentication & Base URL Specifications */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="rounded-3xl border border-[#e2e8f0] bg-white p-6 shadow-sm space-y-3">
+              <div className="rounded-3xl border border-[#e2e8f0] bg-background p-6 shadow-sm space-y-3">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2 rounded-xl bg-sky-50 text-sky-700 border border-sky-200">
                     <Server className="h-5 w-5" />
                   </div>
                   <h3 className="text-base font-bold text-[#0b192c]">Base URL</h3>
                 </div>
-                <p className="text-xs text-gray-600">
+                <p className="text-xs text-muted-foreground">
                   All REST API endpoints are hosted securely with HTTPS encryption across global Anycast edge nodes:
                 </p>
-                <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 font-mono text-xs font-bold text-[#0b192c] flex items-center justify-between">
+                <div className="p-3 rounded-xl bg-muted border border-border font-mono text-xs font-bold text-[#0b192c] flex items-center justify-between">
                   <span>https://api.catalystlab.io/v1</span>
                   <button
                     onClick={() => handleCopy('baseurl', 'https://api.catalystlab.io/v1')}
-                    className="text-gray-500 hover:text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     title="Copy Base URL"
                   >
                     {copiedKey === 'baseurl' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
@@ -220,17 +220,17 @@ export const ApiOverviewPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-[#e2e8f0] bg-white p-6 shadow-sm space-y-3">
+              <div className="rounded-3xl border border-[#e2e8f0] bg-background p-6 shadow-sm space-y-3">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200">
                     <Key className="h-5 w-5" />
                   </div>
                   <h3 className="text-base font-bold text-[#0b192c]">Authentication</h3>
                 </div>
-                <p className="text-xs text-gray-600">
+                <p className="text-xs text-muted-foreground">
                   Pass your API key in request headers for authenticated rate limits & cloud persistence:
                 </p>
-                <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 font-mono text-xs text-gray-700 space-y-1">
+                <div className="p-3 rounded-xl bg-muted border border-border font-mono text-xs text-muted-foreground space-y-1">
                   <div><strong>Authorization:</strong> Bearer &lt;YOUR_API_KEY&gt;</div>
                   <div><strong>X-API-Key:</strong> &lt;YOUR_API_KEY&gt;</div>
                 </div>
@@ -242,7 +242,7 @@ export const ApiOverviewPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold text-[#0b192c]">Browse by Category</h2>
-                  <p className="text-xs text-gray-500 mt-0.5">Explore dedicated documentation pages for each API cluster</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Explore dedicated documentation pages for each API cluster</p>
                 </div>
               </div>
 
@@ -255,23 +255,23 @@ export const ApiOverviewPage: React.FC = () => {
                     <Link
                       key={cat}
                       to={`/api-reference/category/${slug}`}
-                      className="group rounded-2xl border border-[#e2e8f0] bg-white p-5 shadow-sm hover:shadow-md hover:border-[#415a77]/40 transition-all flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="group rounded-2xl border border-[#e2e8f0] bg-background p-5 shadow-sm hover:shadow-md hover:border-[#415a77]/40 transition-all flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-[11px] font-mono font-bold uppercase text-gray-500">
+                          <span className="text-[11px] font-mono font-bold uppercase text-muted-foreground">
                             {endpointsInCat.length} Endpoints
                           </span>
-                          <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-[#0b192c] group-hover:translate-x-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-[#0b192c] group-hover:translate-x-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
                         </div>
                         <h3 className="text-base font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           {cat}
                         </h3>
-                        <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                           {endpointsInCat[0]?.description || 'API endpoints for ' + cat}
                         </p>
                       </div>
-                      <div className="mt-4 pt-3 border-t border-gray-100 flex items-center gap-1.5 text-xs font-semibold text-sky-700">
+                      <div className="mt-4 pt-3 border-t border-border flex items-center gap-1.5 text-xs font-semibold text-sky-700">
                         <span>View Documentation</span>
                         <ArrowRight className="h-3.5 w-3.5" />
                       </div>
@@ -282,22 +282,22 @@ export const ApiOverviewPage: React.FC = () => {
             </section>
 
             {/* Search & All Endpoints Index */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm space-y-6">
+            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <h2 className="text-xl font-bold text-[#0b192c]">All Available Endpoints</h2>
-                  <p className="text-xs text-gray-500 mt-0.5">Direct links to dedicated endpoint reference specifications</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Direct links to dedicated endpoint reference specifications</p>
                 </div>
                 
                 {/* Search Bar */}
                 <div className="relative w-full sm:w-72">
-                  <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                  <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search endpoints..."
-                    className="w-full rounded-xl border border-gray-300 pl-9 pr-4 py-2 text-xs font-medium text-gray-800 placeholder-gray-400 focus:border-sky-500 focus:outline-none"
+                    className="w-full rounded-xl border border-border pl-9 pr-4 py-2 text-xs font-medium text-foreground placeholder-gray-400 focus:border-sky-500 focus:outline-none"
                   />
                 </div>
               </div>
@@ -308,7 +308,7 @@ export const ApiOverviewPage: React.FC = () => {
                   return (
                     <div
                       key={ep.id}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-gray-200 bg-gray-50/50 p-4 hover:bg-white hover:border-[#415a77]/30 hover:shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-border bg-muted/50 p-4 hover:bg-background hover:border-[#415a77]/30 hover:shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <div className="flex items-start sm:items-center gap-3 min-w-0">
                         <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-black uppercase shrink-0 ${
@@ -321,14 +321,14 @@ export const ApiOverviewPage: React.FC = () => {
                         </span>
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs font-bold text-gray-900 truncate">
+                            <span className="font-mono text-xs font-bold text-foreground truncate">
                               {ep.path}
                             </span>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-200 text-gray-700 shrink-0">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-accent text-muted-foreground shrink-0">
                               {ep.category}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-600 mt-0.5 truncate">
+                          <p className="text-xs text-muted-foreground mt-0.5 truncate">
                             {ep.summary}
                           </p>
                         </div>
@@ -337,7 +337,7 @@ export const ApiOverviewPage: React.FC = () => {
                       <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
                         <Link
                           to={`/api-reference/category/${catSlug}#${ep.id}`}
-                          className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-800 hover:bg-gray-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                         >
                           <span>Spec</span>
                           <ChevronRight className="h-3.5 w-3.5" />
@@ -345,7 +345,7 @@ export const ApiOverviewPage: React.FC = () => {
                         {ep.engineId && (
                           <Link
                             to={`/playground/${ep.engineId}`}
-                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                            className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-3 py-1.5 text-xs font-bold text-primary-foreground hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           >
                             <Terminal className="h-3 w-3 text-emerald-400" />
                             <span>Test Live</span>

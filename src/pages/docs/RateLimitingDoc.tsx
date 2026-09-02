@@ -29,7 +29,7 @@ export const RateLimitingDoc: React.FC = () => {
           CatalystLab employs a hybrid client-device and IP rate limiter to protect upstream infrastructure, prevent abuse, and ensure fair resource allocation across all users.
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white mt-4">
+        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background mt-4">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
               <tr>
@@ -117,7 +117,7 @@ function checkUserQuota(key: string, isMaster: boolean, tier: 'visitor' | 'user'
           All API responses carry rate limit telemetry headers to allow programmatic clients to monitor quota:
         </p>
 
-        <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 font-mono text-xs space-y-1">
+        <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 font-mono text-xs space-y-1">
           <div><strong className="text-sky-700">X-RateLimit-Limit:</strong> 10</div>
           <div><strong className="text-sky-700">X-RateLimit-Remaining:</strong> 7</div>
           <div><strong className="text-sky-700">X-RateLimit-Reset:</strong> 1755859200 (Midnight UTC)</div>

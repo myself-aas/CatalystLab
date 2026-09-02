@@ -155,15 +155,15 @@ export function PoPInspectorPanel({
       : 'text-rose-500 bg-rose-500/10 border-rose-500/30';
 
   return (
-    <div className="absolute right-3 top-3 z-30 w-72 sm:w-80 rounded-2xl border border-slate-700/80 bg-slate-900/95 p-4 shadow-2xl backdrop-blur-xl text-white font-sans transition-all animate-in fade-in slide-in-from-right-4 duration-300">
-      <div className="flex items-start justify-between border-b border-slate-800 pb-3 mb-3">
+    <div className="absolute right-3 top-3 z-30 w-72 sm:w-80 rounded-2xl border border-border/80 bg-primary/95 p-4 shadow-2xl backdrop-blur-xl text-primary-foreground font-sans transition-all animate-in fade-in slide-in-from-right-4 duration-300">
+      <div className="flex items-start justify-between border-b border-border pb-3 mb-3">
         <div className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono font-bold text-sm">
             {pop.code}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-sm font-bold leading-none text-slate-100">
+              <h4 className="text-sm font-bold leading-none text-foreground">
                 {pop.location}
               </h4>
               <span
@@ -175,12 +175,12 @@ export function PoPInspectorPanel({
                 {pop.status}
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-1 font-mono">{pop.region}</p>
+            <p className="text-xs text-muted-foreground mt-1 font-mono">{pop.region}</p>
           </div>
         </div>
         <button
           onClick={onClose}
-          className="rounded-lg p-1 text-slate-400 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer"
+          className="rounded-lg p-1 text-muted-foreground hover:bg-primary-hover hover:text-primary-foreground transition-colors cursor-pointer"
           aria-label="Close Inspector"
         >
           <XCircle className="h-4 w-4" />
@@ -189,16 +189,16 @@ export function PoPInspectorPanel({
 
       <div className="space-y-2.5 text-xs font-mono">
         <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2.5">
-            <span className="text-[10px] text-slate-400 block mb-0.5">TTFB LATENCY</span>
+          <div className="rounded-xl border border-border bg-foreground/60 p-2.5">
+            <span className="text-[10px] text-muted-foreground block mb-0.5">TTFB LATENCY</span>
             <span className="text-sm font-bold text-emerald-400 flex items-center gap-1">
               <Zap className="h-3.5 w-3.5 text-emerald-400" />
               {pop.ttfbMs} ms
             </span>
           </div>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2.5">
-            <span className="text-[10px] text-slate-400 block mb-0.5">TLS HANDSHAKE</span>
+          <div className="rounded-xl border border-border bg-foreground/60 p-2.5">
+            <span className="text-[10px] text-muted-foreground block mb-0.5">TLS HANDSHAKE</span>
             <span className="text-xs font-bold text-cyan-400 flex items-center gap-1 truncate">
               <Lock className="h-3 w-3 text-cyan-400 shrink-0" />
               <span className="truncate">{pop.tlsRtt}</span>
@@ -206,33 +206,33 @@ export function PoPInspectorPanel({
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2.5 space-y-1.5">
-          <div className="flex items-center justify-between text-slate-300">
-            <span className="text-slate-400">HTTP/3 QUIC:</span>
+        <div className="rounded-xl border border-border bg-foreground/60 p-2.5 space-y-1.5">
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-muted-foreground">HTTP/3 QUIC:</span>
             <span
               className={
-                pop.http3 ? 'text-emerald-400 font-bold' : 'text-slate-500'
+                pop.http3 ? 'text-emerald-400 font-bold' : 'text-muted-foreground'
               }
             >
               {pop.http3 ? 'ACTIVE (0-RTT)' : 'DISABLED'}
             </span>
           </div>
-          <div className="flex items-center justify-between text-slate-300">
-            <span className="text-slate-400">Anycast IP:</span>
-            <span className="text-slate-200">{pop.ipPrefix}</span>
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-muted-foreground">Anycast IP:</span>
+            <span className="text-muted-foreground">{pop.ipPrefix}</span>
           </div>
-          <div className="flex items-center justify-between text-slate-300">
-            <span className="text-slate-400">Live Traffic:</span>
-            <span className="text-slate-200">
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-muted-foreground">Live Traffic:</span>
+            <span className="text-muted-foreground">
               {pop.requestsPerSec.toLocaleString()} req/s
             </span>
           </div>
-          <div className="flex items-center justify-between text-slate-300">
-            <span className="text-slate-400">Carbon Intensity:</span>
-            <span className="text-slate-200">{pop.carbonIntensity} gCO₂/kWh</span>
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-muted-foreground">Carbon Intensity:</span>
+            <span className="text-muted-foreground">{pop.carbonIntensity} gCO₂/kWh</span>
           </div>
-          <div className="flex items-center justify-between text-slate-300">
-            <span className="text-slate-400">Tier Classification:</span>
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-muted-foreground">Tier Classification:</span>
             <span className="text-blue-400 font-bold">Tier {pop.tier} Core Hub</span>
           </div>
         </div>
@@ -248,7 +248,7 @@ export function PoPInspectorPanel({
           <button
             onClick={handleProbe}
             disabled={probing}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-3 text-xs transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-primary-foreground font-semibold py-2 px-3 text-xs transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 cursor-pointer"
           >
             <RefreshCw
               className={cn('h-3.5 w-3.5', probing && 'animate-spin')}
@@ -678,8 +678,8 @@ export function EdgeMeshGlobe({
                       isSelected
                         ? 'border-cyan-400 bg-cyan-950/90 text-cyan-200 ring-2 ring-cyan-400/40'
                         : pop.status === 'optimal'
-                        ? 'border-emerald-500/40 bg-slate-950/80 text-emerald-400 hover:border-emerald-400'
-                        : 'border-amber-500/40 bg-slate-950/80 text-amber-400 hover:border-amber-400'
+                        ? 'border-emerald-500/40 bg-foreground/80 text-emerald-400 hover:border-emerald-400'
+                        : 'border-amber-500/40 bg-foreground/80 text-amber-400 hover:border-amber-400'
                     )}
                   >
                     <span
@@ -691,7 +691,7 @@ export function EdgeMeshGlobe({
                       )}
                     />
                     <span className="font-bold">{pop.code}</span>
-                    <span className="text-[10px] text-slate-400 font-sans hidden sm:inline">
+                    <span className="text-[10px] text-muted-foreground font-sans hidden sm:inline">
                       {pop.ttfbMs}ms
                     </span>
                   </button>
@@ -712,15 +712,15 @@ export function EdgeMeshGlobe({
       {/* Live HUD Telemetry Badge (Hero & Live variants) */}
       {(variant === 'hero' || variant === 'live') && (
         <div className="absolute bottom-3 left-3 z-30 flex flex-wrap items-center gap-2 pointer-events-auto">
-          <div className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950/85 px-3 py-1.5 text-xs font-mono text-slate-300 backdrop-blur-md shadow-lg">
+          <div className="flex items-center gap-2 rounded-xl border border-border bg-foreground/85 px-3 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md shadow-lg">
             <Radio className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
-            <span className="font-bold text-slate-100">
+            <span className="font-bold text-foreground">
               {trafficRate.toLocaleString()}
             </span>
-            <span className="text-slate-500 text-[10px]">req/s</span>
+            <span className="text-muted-foreground text-[10px]">req/s</span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950/85 px-2.5 py-1.5 text-xs font-mono text-slate-400 backdrop-blur-md">
+          <div className="hidden sm:flex items-center gap-1.5 rounded-xl border border-border bg-foreground/85 px-2.5 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md">
             <Server className="h-3.5 w-3.5 text-blue-400" />
             <span>{activePoPs.length} PoPs Mesh</span>
           </div>
@@ -737,8 +737,8 @@ export function EdgeMeshGlobe({
             className={cn(
               'flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-mono backdrop-blur-md transition-all cursor-pointer shadow-md',
               grabMode
-                ? 'border-blue-500 bg-blue-600 text-white'
-                : 'border-slate-800 bg-slate-950/80 text-slate-300 hover:text-white'
+                ? 'border-blue-500 bg-blue-600 text-primary-foreground'
+                : 'border-border bg-foreground/80 text-muted-foreground hover:text-primary-foreground'
             )}
           >
             <Move3d className="h-3.5 w-3.5" />

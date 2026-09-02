@@ -226,7 +226,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
   const chartData = getChartInsights();
 
   return (
-    <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 text-white shadow-xl space-y-6">
+    <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 text-primary-foreground shadow-xl space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#415a77]/30 pb-5">
         <div className="flex items-center gap-3">
@@ -306,7 +306,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
           <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <strong className="text-white block">Action:</strong>
+              <strong className="text-primary-foreground block">Action:</strong>
               <span className="text-[#94a3b8]">{chartData.chart1.recommendation}</span>
             </div>
           </div>
@@ -329,7 +329,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
           <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <strong className="text-white block">Action:</strong>
+              <strong className="text-primary-foreground block">Action:</strong>
               <span className="text-[#94a3b8]">{chartData.chart2.recommendation}</span>
             </div>
           </div>
@@ -352,7 +352,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
           <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <strong className="text-white block">Action:</strong>
+              <strong className="text-primary-foreground block">Action:</strong>
               <span className="text-[#94a3b8]">{chartData.chart3.recommendation}</span>
             </div>
           </div>

@@ -24,7 +24,7 @@ export const cardVariants = cva(
     variants: {
       variant: {
         immersive:
-          'bg-zinc-950/60 text-white rounded-[16px] border border-zinc-800/80 shadow-lg backdrop-blur-xl hover:border-zinc-700/80 hover:bg-zinc-900/60 transition-colors',
+          'bg-zinc-950/60 text-primary-foreground rounded-[16px] border border-zinc-800/80 shadow-lg backdrop-blur-xl hover:border-zinc-700/80 hover:bg-zinc-900/60 transition-colors',
         surface:
           'bg-zinc-950/40 text-zinc-100 rounded-[16px] border border-zinc-800/80 shadow-sm p-3.5 sm:p-4 hover:border-zinc-700 hover:bg-zinc-900/40 hover:shadow-cyan-500/10 transition-all',
         terminal:

@@ -150,14 +150,14 @@ export const BlogManagementView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#415a77]/20 pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="rounded-lg bg-black/20 text-amber-600 border border-cyan-400/30 p-1.5">
+            <span className="rounded-lg bg-foreground/20 text-amber-600 border border-cyan-400/30 p-1.5">
               <BookOpen className="h-4 w-4" />
             </span>
-            <h2 className="text-xl font-black text-black tracking-tight">
+            <h2 className="text-xl font-black text-foreground tracking-tight">
               Article Editorial CMS Studio
             </h2>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             Author and orchestrate technical benchmark publications, telemetry analyses, and architecture briefs.
           </p>
         </div>
@@ -165,7 +165,7 @@ export const BlogManagementView: React.FC = () => {
         <div className="flex items-center gap-2.5">
           <button
             onClick={fetchPosts}
-            className="p-2.5 rounded-xl border border-gray-200 bg-slate-800/80 text-gray-700 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="p-2.5 rounded-xl border border-border bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Refresh articles"
           >
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -174,7 +174,7 @@ export const BlogManagementView: React.FC = () => {
           {/* Dedicated Page Navigation Link (No Popups!) */}
           <Link
             to="/admin/blogs/create"
-            className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-slate-500/30 px-4 py-2.5 text-xs font-bold text-black transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2.5 text-xs font-bold text-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Plus className="h-4 w-4 stroke-[3]" />
             <span>Create New Article</span>
@@ -184,34 +184,34 @@ export const BlogManagementView: React.FC = () => {
 
       {/* Quick Metrics Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-2xl border border-gray-200 bg-[#0b192c]/90 p-4">
-          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Total Articles</div>
-          <div className="text-2xl font-black text-black mt-1">{posts.length}</div>
+        <div className="rounded-2xl border border-border bg-[#0b192c]/90 p-4">
+          <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Total Articles</div>
+          <div className="text-2xl font-black text-foreground mt-1">{posts.length}</div>
         </div>
-        <div className="rounded-2xl border border-gray-200 bg-[#0b192c]/90 p-4">
+        <div className="rounded-2xl border border-border bg-[#0b192c]/90 p-4">
           <div className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">Published</div>
           <div className="text-2xl font-black text-emerald-300 mt-1">{publishedCount}</div>
         </div>
-        <div className="rounded-2xl border border-gray-200 bg-[#0b192c]/90 p-4">
+        <div className="rounded-2xl border border-border bg-[#0b192c]/90 p-4">
           <div className="text-[11px] font-semibold text-amber-400 uppercase tracking-wider">Drafts</div>
           <div className="text-2xl font-black text-amber-300 mt-1">{draftCount}</div>
         </div>
-        <div className="rounded-2xl border border-gray-200 bg-[#0b192c]/90 p-4">
+        <div className="rounded-2xl border border-border bg-[#0b192c]/90 p-4">
           <div className="text-[11px] font-semibold text-sky-400 uppercase tracking-wider">Cumulative Views</div>
           <div className="text-2xl font-black text-sky-300 mt-1">{totalViews.toLocaleString()}</div>
         </div>
       </div>
 
       {/* Search & Filter Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-[#0b192c]/90 border border-gray-200 p-3 rounded-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-[#0b192c]/90 border border-border p-3 rounded-2xl">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by title, excerpt, author, or keyword..."
-            className="w-full rounded-xl border border-gray-200 bg-white pl-9 pr-4 py-2 text-xs text-black placeholder:text-slate-500 focus:border-black focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background pl-9 pr-4 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-black focus:outline-none"
           />
         </div>
 
@@ -219,7 +219,7 @@ export const BlogManagementView: React.FC = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-800 focus:border-black focus:outline-none"
+            className="rounded-xl border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -231,7 +231,7 @@ export const BlogManagementView: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value as any)}
-            className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-800 focus:border-black focus:outline-none"
+            className="rounded-xl border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
           >
             <option value="all">All Statuses</option>
             <option value="published">Published Only</option>
@@ -243,21 +243,21 @@ export const BlogManagementView: React.FC = () => {
       {/* Articles Stream / List */}
       <div className="space-y-3">
         {loading ? (
-          <div className="py-16 text-center text-slate-400 text-sm flex flex-col items-center justify-center">
+          <div className="py-16 text-center text-muted-foreground text-sm flex flex-col items-center justify-center">
             <RefreshCw className="h-7 w-7 animate-spin text-amber-600 mb-3" />
-            <div className="font-semibold text-black">Loading CMS Articles...</div>
-            <div className="text-xs text-slate-500 mt-1">Querying telemetry and publication archives.</div>
+            <div className="font-semibold text-foreground">Loading CMS Articles...</div>
+            <div className="text-xs text-muted-foreground mt-1">Querying telemetry and publication archives.</div>
           </div>
         ) : filteredPosts.length === 0 ? (
-          <div className="py-16 text-center text-slate-400 rounded-2xl border border-gray-200 bg-[#0b192c]/70 p-8 shadow-xl">
+          <div className="py-16 text-center text-muted-foreground rounded-2xl border border-border bg-[#0b192c]/70 p-8 shadow-xl">
             <BookOpen className="mx-auto h-10 w-10 text-amber-600/40 mb-3" />
-            <h3 className="text-base font-bold text-black">No Matching Articles Found</h3>
-            <p className="mt-1 text-xs text-slate-400 max-w-sm mx-auto">
+            <h3 className="text-base font-bold text-foreground">No Matching Articles Found</h3>
+            <p className="mt-1 text-xs text-muted-foreground max-w-sm mx-auto">
               {searchQuery ? 'Try clearing your search query or category filters.' : 'Get started by creating your first deep-dive technical article.'}
             </p>
             <Link
               to="/admin/blogs/create"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-black px-4 py-2 text-xs font-bold text-white hover:bg-cyan-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-cyan-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Compose First Article</span>
@@ -269,7 +269,7 @@ export const BlogManagementView: React.FC = () => {
             return (
               <div
                 key={post.id || post.slug}
-                className="rounded-2xl border border-gray-200 bg-[#0b192c]/90 p-4 sm:p-5 shadow-md transition-all hover:border-cyan-500/40 hover:bg-[#0d1f38] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-2xl border border-border bg-[#0b192c]/90 p-4 sm:p-5 shadow-md transition-all hover:border-cyan-500/40 hover:bg-[#0d1f38] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   
@@ -286,7 +286,7 @@ export const BlogManagementView: React.FC = () => {
                       }`}>
                         {post.status === 'published' ? 'Published' : 'Draft'}
                       </span>
-                      <span className="text-xs text-slate-400 font-mono">
+                      <span className="text-xs text-muted-foreground font-mono">
                         {new Date(post.createdAt || Date.now()).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
@@ -298,25 +298,25 @@ export const BlogManagementView: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-bold text-black truncate hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                    <h3 className="text-base sm:text-lg font-bold text-foreground truncate hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                       <Link to={`/admin/blogs/edit/${articleIdOrSlug}`}>
                         {post.title}
                       </Link>
                     </h3>
 
                     {post.excerpt && (
-                      <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                         {post.excerpt}
                       </p>
                     )}
 
                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      <span className="text-[11px] font-mono text-slate-500">By {post.authorName || 'CatalystLab Team'}</span>
+                      <span className="text-[11px] font-mono text-muted-foreground">By {post.authorName || 'CatalystLab Team'}</span>
                       {post.tags && post.tags.length > 0 && (
                         <>
-                          <span className="text-slate-700">•</span>
+                          <span className="text-muted-foreground">•</span>
                           {post.tags.slice(0, 4).map((t) => (
-                            <span key={t} className="rounded bg-slate-800/80 px-2 py-0.5 text-[10px] font-medium text-slate-400">
+                            <span key={t} className="rounded bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
                               #{t}
                             </span>
                           ))}
@@ -326,14 +326,14 @@ export const BlogManagementView: React.FC = () => {
                   </div>
 
                   {/* Right Actions Bar */}
-                  <div className="flex flex-wrap items-center gap-2 shrink-0 border-t border-gray-200 pt-3 lg:border-t-0 lg:pt-0">
+                  <div className="flex flex-wrap items-center gap-2 shrink-0 border-t border-border pt-3 lg:border-t-0 lg:pt-0">
                     
                     {/* View Live Article Button */}
                     <a
                       href={`/blogs/${post.slug || post.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-xl border border-gray-200 bg-slate-800/80 px-3 py-1.5 text-xs font-semibold text-gray-700 hover:text-black hover:bg-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1 rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       title="View live article"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -344,7 +344,7 @@ export const BlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleCopyLink(post)}
-                      className="p-2 rounded-xl border border-gray-200 bg-slate-800/80 text-slate-400 hover:text-amber-600 hover:bg-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="p-2 rounded-xl border border-border bg-muted text-muted-foreground hover:text-amber-600 hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       title="Copy public link"
                     >
                       {copiedId === (post.id || post.slug) ? (
@@ -357,7 +357,7 @@ export const BlogManagementView: React.FC = () => {
                     {/* Dedicated Edit Page Button (Navigates to unique URL) */}
                     <Link
                       to={`/admin/blogs/edit/${articleIdOrSlug}`}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-cyan-500/40 bg-black/10 px-3.5 py-1.5 text-xs font-bold text-amber-600 hover:bg-black/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-cyan-500/40 bg-foreground/10 px-3.5 py-1.5 text-xs font-bold text-amber-600 hover:bg-foreground/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
                       <span>Edit</span>
@@ -367,7 +367,7 @@ export const BlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleToggleStatus(post)}
-                      className="rounded-xl border border-gray-200 bg-slate-800/80 px-3 py-1.5 text-xs font-semibold text-gray-700 hover:text-black hover:bg-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                     >
                       {post.status === 'published' ? 'Draft' : 'Publish'}
                     </button>

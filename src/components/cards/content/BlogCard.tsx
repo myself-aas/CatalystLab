@@ -94,7 +94,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
     >
       {/* Inset Rounded Media with subtle ring border (R2-A Signature) */}
       <div className="p-3 pb-0">
-        <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-700/50 shadow-inner bg-slate-950 flex items-center justify-center h-44 sm:h-48">
+        <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-700/50 shadow-inner bg-primary flex items-center justify-center h-44 sm:h-48">
           {isEdgeArticle ? (
             <div className="w-full h-full flex items-center justify-center relative bg-gradient-to-b from-slate-900 to-slate-950 overflow-hidden">
               <EdgeMeshGlobe
@@ -137,9 +137,9 @@ export const BlogCard: React.FC<BlogCardProps> = ({
               onClick={handleShareClick}
               title="Share article link"
               aria-label="Share article"
-              className="relative before:absolute before:-inset-2 w-8 h-8 rounded-full bg-slate-950/70 hover:bg-slate-900 text-slate-200 border border-white/20 flex items-center justify-center backdrop-blur-md transition-all shadow-sm cursor-pointer"
+              className="relative before:absolute before:-inset-2 w-8 h-8 rounded-full bg-foreground/70 hover:bg-primary text-muted-foreground border border-white/20 flex items-center justify-center backdrop-blur-md transition-all shadow-sm cursor-pointer"
             >
-              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-slate-200" />}
+              {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-muted-foreground" />}
             </button>
 
             <FavoriteButton
@@ -156,20 +156,20 @@ export const BlogCard: React.FC<BlogCardProps> = ({
       <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
         <div>
           {/* Metadata Byline */}
-          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 mb-2">
-            <span className="flex items-center gap-1 text-slate-300 font-medium">
+          <div className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground mb-2">
+            <span className="flex items-center gap-1 text-muted-foreground font-medium">
               <Calendar className="w-3 h-3 text-cyan-400" />
               <span>{publishedAt}</span>
             </span>
-            <span className="text-slate-600">•</span>
-            <span className="flex items-center gap-1 text-slate-300">
+            <span className="text-muted-foreground">•</span>
+            <span className="flex items-center gap-1 text-muted-foreground">
               <Clock className="w-3 h-3 text-cyan-400" />
               <span>{readTime}</span>
             </span>
             {author.name && (
               <>
-                <span className="text-slate-600">•</span>
-                <span className="truncate text-slate-400">By {author.name}</span>
+                <span className="text-muted-foreground">•</span>
+                <span className="truncate text-muted-foreground">By {author.name}</span>
               </>
             )}
           </div>
@@ -178,20 +178,20 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           <Link to={`/blog/${slug}`} className="group/title block">
             <CardTitle
               as="h3"
-              className="text-base sm:text-lg font-bold text-white group-hover/title:text-cyan-400 transition-colors line-clamp-2 leading-snug"
+              className="text-base sm:text-lg font-bold text-primary-foreground group-hover/title:text-cyan-400 transition-colors line-clamp-2 leading-snug"
             >
               {title}
             </CardTitle>
           </Link>
 
           {/* Excerpt */}
-          <p className="mt-2 text-xs text-slate-400 line-clamp-2 leading-relaxed font-sans">
+          <p className="mt-2 text-xs text-muted-foreground line-clamp-2 leading-relaxed font-sans">
             {excerpt}
           </p>
         </div>
 
         {/* 3-Stat Row with Vertical Dividers (R2-A Specification) */}
-        <div className="mt-4 pt-3 border-t border-slate-800/80">
+        <div className="mt-4 pt-3 border-t border-border/80">
           <CardStatRow
             stats={stats}
             layout="inline-dividers"

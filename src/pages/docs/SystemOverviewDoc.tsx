@@ -38,13 +38,13 @@ export const SystemOverviewDoc: React.FC = () => {
         bgImage="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         overlayOpacity={0.88}
         height="min-h-[260px]"
-        className="rounded-xl overflow-hidden my-6 border border-gray-200"
+        className="rounded-xl overflow-hidden my-6 border border-border"
       >
         <div className="max-w-3xl mx-auto px-6 text-center space-y-2">
-          <span className="inline-flex items-center gap-2 rounded-full bg-black text-white px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider">
             Zero-Eval Architecture
           </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-black font-sans tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground font-sans tracking-tight">
             Deterministic Telemetry &amp; TLS Probing
           </h2>
         </div>
@@ -72,7 +72,7 @@ export const SystemOverviewDoc: React.FC = () => {
       <section className="space-y-4">
         <h2 className="text-xl font-bold text-[#0b192c]">Four Core Principles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <Zap className="h-4 w-4 text-amber-500" />
               <span>1. Sub-Second Determinism</span>
@@ -82,7 +82,7 @@ export const SystemOverviewDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               <span>2. Zero-Trust Security</span>
@@ -92,7 +92,7 @@ export const SystemOverviewDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <Activity className="h-4 w-4 text-sky-600" />
               <span>3. Standardized Output Schema</span>
@@ -102,7 +102,7 @@ export const SystemOverviewDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <Database className="h-4 w-4 text-purple-600" />
               <span>4. Durable Permalinks</span>
@@ -121,7 +121,7 @@ export const SystemOverviewDoc: React.FC = () => {
           CatalystLab divides modern web telemetry into 8 specialized diagnostic vectors:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white">
+        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
               <tr>
@@ -218,7 +218,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/architecture"
-            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-[#e2e8f0] bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
               <span>Full-Stack Architecture</span>
@@ -229,7 +229,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/api"
-            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-[#e2e8f0] bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
               <span>REST API Spec</span>
@@ -240,7 +240,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/synthshift"
-            className="rounded-xl border border-[#e2e8f0] bg-white p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-[#e2e8f0] bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
               <span>Engine Deep-Dives</span>

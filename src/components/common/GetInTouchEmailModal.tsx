@@ -146,7 +146,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
-            className="relative w-full max-w-lg rounded-3xl border border-[#415a77]/60 bg-[#0d1b2a] p-6 sm:p-8 text-white shadow-2xl z-10 overflow-hidden"
+            className="relative w-full max-w-lg rounded-3xl border border-[#415a77]/60 bg-[#0d1b2a] p-6 sm:p-8 text-primary-foreground shadow-2xl z-10 overflow-hidden"
           >
             {/* Ambient Radial Highlight */}
             <div className="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-[#38bdf8]/15 blur-3xl" />
@@ -156,7 +156,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-5 right-5 rounded-full p-2 text-slate-400 hover:bg-[#162a45] hover:text-white transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="absolute top-5 right-5 rounded-full p-2 text-muted-foreground hover:bg-[#162a45] hover:text-primary-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               aria-label="Close Pop-up"
             >
               <X className="h-5 w-5" />
@@ -170,7 +170,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-black text-primary-foreground tracking-tight">
                     Thank You for Getting in Touch!
                   </h3>
                   <p className="text-sm sm:text-base text-[#8ea8c3] max-w-xs mx-auto leading-relaxed">
@@ -180,14 +180,14 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
 
                 <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-[#070b12]/60 px-3.5 py-1.5 font-mono text-sm text-emerald-400">
                   <span>Reference ID:</span>
-                  <span className="font-bold text-white">{inquiryId || 'inq_confirmed'}</span>
+                  <span className="font-bold text-primary-foreground">{inquiryId || 'inq_confirmed'}</span>
                 </div>
 
                 <div className="pt-4">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="w-full rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="w-full rounded-xl bg-[#c5d3e8] hover:bg-background text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Done & Close
                   </button>
@@ -202,7 +202,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                     <Sparkles className="h-3 w-3" />
                     <span>Direct Telemetry Contact</span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-black text-primary-foreground tracking-tight">
                     Get in Touch with CatalystLab
                   </h3>
                   <p className="text-sm text-[#8ea8c3] leading-relaxed">
@@ -231,8 +231,8 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           onClick={() => setTopic(t.id)}
                           className={`rounded-xl px-2.5 py-1.5 text-left text-sm font-mono transition-all border cursor-pointer ${
                             topic === t.id
-                              ? 'border-[#38bdf8] bg-[#38bdf8]/15 text-white font-bold shadow-xs'
-                              : 'border-[#415a77]/40 bg-[#0b192c]/60 text-[#8ea8c3] hover:border-[#415a77] hover:text-white'
+                              ? 'border-[#38bdf8] bg-[#38bdf8]/15 text-primary-foreground font-bold shadow-xs'
+                              : 'border-[#415a77]/40 bg-[#0b192c]/60 text-[#8ea8c3] hover:border-[#415a77] hover:text-primary-foreground'
                           }`}
                         >
                           {t.label}
@@ -256,7 +256,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@company.com"
-                        className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] py-2.5 pl-9 pr-3 text-sm sm:text-base font-mono text-white placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none focus:ring-1 focus:ring-[#38bdf8]/30 transition-all"
+                        className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] py-2.5 pl-9 pr-3 text-sm sm:text-base font-mono text-primary-foreground placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none focus:ring-1 focus:ring-[#38bdf8]/30 transition-all"
                       />
                     </div>
                   </div>
@@ -276,7 +276,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="Alex Mercer"
-                          className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] py-2 pl-8 pr-3 text-sm font-mono text-white placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none transition-all"
+                          className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] py-2 pl-8 pr-3 text-sm font-mono text-primary-foreground placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -294,7 +294,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           value={company}
                           onChange={(e) => setCompany(e.target.value)}
                           placeholder="acme-corp.com"
-                          className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] py-2 pl-8 pr-3 text-sm font-mono text-white placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none transition-all"
+                          className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] py-2 pl-8 pr-3 text-sm font-mono text-primary-foreground placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -311,7 +311,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Tell us what you're building or what questions you have..."
-                        className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] p-2.5 text-sm font-mono text-white placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none transition-all resize-none"
+                        className="w-full rounded-xl border border-[#415a77]/60 bg-[#0b192c] p-2.5 text-sm font-mono text-primary-foreground placeholder-[#8ea8c3] focus:border-[#38bdf8] focus:outline-none transition-all resize-none"
                       />
                     </div>
                   </div>
@@ -320,7 +320,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-background text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {isSubmitting ? (
                       <>

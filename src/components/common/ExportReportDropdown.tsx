@@ -62,10 +62,10 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
 
   const buttonStyle =
     variant === 'primary'
-      ? 'bg-cyan-500 hover:bg-cyan-400 text-black font-bold shadow-lg shadow-cyan-500/20'
+      ? 'bg-cyan-500 hover:bg-cyan-400 text-foreground font-bold shadow-lg shadow-cyan-500/20'
       : variant === 'compact'
-      ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 py-1.5 px-3 text-xs font-semibold'
-      : 'bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 border border-slate-700 py-2 px-4 text-xs font-semibold';
+      ? 'bg-muted hover:bg-muted/80 text-muted-foreground border border-border/60 py-1.5 px-3 text-xs font-semibold'
+      : 'bg-muted hover:bg-muted/90 text-muted-foreground border border-border py-2 px-4 text-xs font-semibold';
 
   return (
     <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
@@ -83,21 +83,21 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 origin-top-right rounded-xl bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 shadow-2xl p-1.5 z-50 animate-fadeIn">
-          <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-slate-400 border-b border-slate-800">
+        <div className="absolute right-0 mt-2 w-64 origin-top-right rounded-xl bg-primary/95 backdrop-blur-xl border border-border/80 shadow-2xl p-1.5 z-50 animate-fadeIn">
+          <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border">
             Export Format Specification
           </div>
 
           <div className="py-1 space-y-0.5">
             <button
               onClick={() => handleExport('pdf')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800/80 hover:text-white rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
                 <Printer className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-semibold">Executive PDF Dossier</div>
-                  <div className="text-[10px] text-slate-400">Native high-res print stylesheet</div>
+                  <div className="text-[10px] text-muted-foreground">Native high-res print stylesheet</div>
                 </div>
               </div>
               {lastExported === 'pdf' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -105,13 +105,13 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
 
             <button
               onClick={() => handleExport('sarif')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800/80 hover:text-white rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
                 <Shield className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-semibold">OASIS SARIF v2.1.0</div>
-                  <div className="text-[10px] text-slate-400">GitHub & GitLab Code Scanning</div>
+                  <div className="text-[10px] text-muted-foreground">GitHub & GitLab Code Scanning</div>
                 </div>
               </div>
               {lastExported === 'sarif' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -119,13 +119,13 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
 
             <button
               onClick={() => handleExport('cyclonedx')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800/80 hover:text-white rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
                 <FileText className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-semibold">CycloneDX v1.5 SBOM</div>
-                  <div className="text-[10px] text-slate-400">Security & dependency standard</div>
+                  <div className="text-[10px] text-muted-foreground">Security & dependency standard</div>
                 </div>
               </div>
               {lastExported === 'cyclonedx' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -133,13 +133,13 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
 
             <button
               onClick={() => handleExport('csv')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800/80 hover:text-white rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
                 <Table className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-semibold">Tabular CSV Metrics</div>
-                  <div className="text-[10px] text-slate-400">Excel / Google Sheets breakdown</div>
+                  <div className="text-[10px] text-muted-foreground">Excel / Google Sheets breakdown</div>
                 </div>
               </div>
               {lastExported === 'csv' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -147,13 +147,13 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
 
             <button
               onClick={() => handleExport('json')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-slate-200 hover:bg-slate-800/80 hover:text-white rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
                 <Code className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-semibold">Raw Machine JSON</div>
-                  <div className="text-[10px] text-slate-400">Complete raw telemetry payload</div>
+                  <div className="text-[10px] text-muted-foreground">Complete raw telemetry payload</div>
                 </div>
               </div>
               {lastExported === 'json' && <Check className="w-3.5 h-3.5 text-emerald-400" />}

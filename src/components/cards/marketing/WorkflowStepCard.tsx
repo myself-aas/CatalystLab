@@ -43,21 +43,21 @@ export const WorkflowStepCard: React.FC<WorkflowStepCardProps> = ({
       <div className="flex items-start justify-between gap-5 w-full mb-5">
         <div className="flex items-center gap-4">
           {/* Stacked Step Time Chip (R4 Anatomy) */}
-          <div className="flex flex-col items-center justify-center w-14 h-16 rounded-xl bg-slate-50 border border-slate-200 font-mono text-center shrink-0 shadow-sm overflow-hidden">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 w-full py-1">
+          <div className="flex flex-col items-center justify-center w-14 h-16 rounded-xl bg-muted border border-border font-mono text-center shrink-0 shadow-sm overflow-hidden">
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-accent w-full py-1">
               STEP
             </span>
-            <span className="text-xl font-black text-indigo-600 bg-white w-full py-0.5">0{stepNumber}</span>
+            <span className="text-xl font-black text-indigo-600 bg-background w-full py-0.5">0{stepNumber}</span>
           </div>
 
           <div className="flex flex-col min-w-0">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-slate-500 mb-1">
+            <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-muted-foreground mb-1">
               SYNCHRONOUS GATE
             </span>
-            <h4 className="text-lg font-bold text-slate-900 font-sans tracking-tight truncate">
+            <h4 className="text-lg font-bold text-foreground font-sans tracking-tight truncate">
               {title}
             </h4>
-            <span className="text-[11px] text-slate-500 font-mono mt-1 font-medium">{duration} execution</span>
+            <span className="text-[11px] text-muted-foreground font-mono mt-1 font-medium">{duration} execution</span>
           </div>
         </div>
 
@@ -69,14 +69,14 @@ export const WorkflowStepCard: React.FC<WorkflowStepCardProps> = ({
         )}
       </div>
 
-      <p className="text-sm text-slate-600 font-medium font-sans leading-relaxed mb-6">
+      <p className="text-sm text-muted-foreground font-medium font-sans leading-relaxed mb-6">
         {description}
       </p>
 
       {commandSnippet && (
-        <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 font-mono text-xs text-emerald-400 flex items-center justify-between overflow-x-auto shadow-inner">
+        <div className="p-3 rounded-xl bg-primary border border-border font-mono text-xs text-emerald-400 flex items-center justify-between overflow-x-auto shadow-inner">
           <span className="truncate">{commandSnippet}</span>
-          <ArrowRight className="w-4 h-4 text-slate-500 shrink-0 ml-3" />
+          <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-3" />
         </div>
       )}
     </Card>

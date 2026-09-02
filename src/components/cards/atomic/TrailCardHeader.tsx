@@ -40,7 +40,7 @@ export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
       {/* Title & Subtitle absolute positioning at lower edge */}
       <div className="absolute bottom-3 left-4 right-4 z-10 flex flex-col justify-end">
         <h3 
-          className="text-xl sm:text-2xl font-bold font-sans text-white tracking-tight leading-tight line-clamp-1 drop-shadow-md transition-colors group-hover:text-cyan-400"
+          className="text-xl sm:text-2xl font-bold font-sans text-primary-foreground tracking-tight leading-tight line-clamp-1 drop-shadow-md transition-colors group-hover:text-cyan-400"
           title={title}
         >
           {title}

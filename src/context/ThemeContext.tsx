@@ -24,7 +24,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {
       // localStorage may be inaccessible in sandboxed environments
     }
-    return 'system';
+    return 'light';
   });
 
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light');
@@ -34,7 +34,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     
     const updateTheme = () => {
       const isSystemDark = mediaQuery.matches;
-      const effectiveTheme: ResolvedTheme = theme === 'system' ? (isSystemDark ? 'dark' : 'light') : theme;
+      const effectiveTheme: ResolvedTheme = 'light';
       
       setResolvedTheme(effectiveTheme);
       

@@ -74,36 +74,36 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         role="alert"
         className={
           isRoot
-            ? 'min-h-screen flex items-center justify-center bg-[#060912] text-slate-100 p-6'
+            ? 'min-h-screen flex items-center justify-center bg-[#060912] text-foreground p-6'
             : 'min-h-[60vh] flex items-center justify-center p-6'
         }
       >
-        <div className="max-w-lg w-full rounded-2xl border border-slate-700/60 bg-[#0B101D] p-8 text-center shadow-2xl">
+        <div className="max-w-lg w-full rounded-2xl border border-border/60 bg-[#0B101D] p-8 text-center shadow-2xl">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10 text-amber-400">
             <AlertTriangle className="h-6 w-6" aria-hidden="true" />
           </div>
-          <h1 className="text-lg font-bold text-white">
+          <h1 className="text-lg font-bold text-primary-foreground">
             Something disrupted this view
           </h1>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-muted-foreground">
             An unexpected error occurred while rendering this page. Reloading usually
             resolves it. The issue has been logged.
           </p>
-          <p className="mt-3 break-all rounded-lg bg-black/40 px-3 py-2 font-mono text-xs text-slate-500">
+          <p className="mt-3 break-all rounded-lg bg-foreground/40 px-3 py-2 font-mono text-xs text-muted-foreground">
             {error.message.slice(0, 240)}
           </p>
           <div className="mt-6 flex items-center justify-center gap-3">
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-900 transition-colors hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              className="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
             >
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               Reload
             </button>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-600 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
             >
               <Home className="h-4 w-4" aria-hidden="true" />
               Go to homepage

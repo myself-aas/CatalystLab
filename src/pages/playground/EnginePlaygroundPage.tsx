@@ -248,20 +248,20 @@ func main() {
   const codeSnippet = generateSnippet();
 
   return (
-    <div className="min-h-screen bg-white text-[#0b192c]">
+    <div className="min-h-screen bg-background text-[#0b192c]">
       {/* Rate Limit Modal Alert */}
       {rateLimitAlertOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4">
+          <div className="w-full max-w-lg rounded-2xl bg-background p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold text-[#0b192c]">Rate Limit Exceeded</h3>
-              <button onClick={() => setRateLimitAlertOpen(false)} className="text-gray-400 hover:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">✕</button>
+              <button onClick={() => setRateLimitAlertOpen(false)} className="text-muted-foreground hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">✕</button>
             </div>
             <RateLimitThresholdAlert currentStatus={rateStatus} />
             <div className="flex justify-end">
               <button
                 onClick={() => setRateLimitAlertOpen(false)}
-                className="rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-white hover:bg-[#152238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-[#152238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Close
               </button>
@@ -271,11 +271,11 @@ func main() {
       )}
 
       {/* Header Banner */}
-      <div className="border-b border-[#e2e8f0] bg-white pt-10 pb-12">
+      <div className="border-b border-[#e2e8f0] bg-background pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono text-gray-500">
-              <Link to="/playground" className="hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+              <Link to="/playground" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 Playground
               </Link>
               <span>/</span>
@@ -292,7 +292,7 @@ func main() {
                     {activeEngineConfig.category}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                   Execute sandboxed live scans, stream logs, inspect raw telemetry JSON, and export production cURL commands.
                 </p>
               </div>
@@ -300,7 +300,7 @@ func main() {
               <div className="flex items-center gap-3">
                 <Link
                   to="/playground"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>All Consoles</span>
@@ -329,16 +329,16 @@ func main() {
           <div className="flex-1 space-y-8 min-w-0">
             
             {/* Target Configuration Card */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
                   <Sliders className="h-5 w-5 text-[#415a77]" />
                   <h2 className="text-lg font-bold text-[#0b192c]">Request Parameters</h2>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs font-mono text-gray-600">
+                <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
                   <span>Quota Cost:</span>
-                  <strong className="text-[#0b192c] bg-gray-100 px-2 py-0.5 rounded">
+                  <strong className="text-[#0b192c] bg-accent px-2 py-0.5 rounded">
                     {activeEngineConfig.cost} scan credit
                   </strong>
                 </div>
@@ -346,15 +346,15 @@ func main() {
 
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-xs text-gray-500">
-                    Remaining Quota: <strong className="text-gray-900">{rateStatus.isUnlimited ? "Unlimited" : rateStatus.remaining}</strong> scans
+                  <div className="text-xs text-muted-foreground">
+                    Remaining Quota: <strong className="text-foreground">{rateStatus.isUnlimited ? "Unlimited" : rateStatus.remaining}</strong> scans
                   </div>
                   <div className="w-full sm:w-1/3">
                     {apiKeys.length > 0 ? (
                       <select
                         value={selectedApiKey}
                         onChange={(e) => setSelectedApiKey(e.target.value)}
-                        className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-xs font-mono text-gray-800 focus:border-sky-500 focus:outline-none cursor-pointer"
+                        className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-xs font-mono text-foreground focus:border-sky-500 focus:outline-none cursor-pointer"
                       >
                         <option value="">Visitor Session (No Key)</option>
                         {apiKeys.map((k) => {
@@ -367,7 +367,7 @@ func main() {
                         })}
                       </select>
                     ) : (
-                      <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-3 py-2 text-[11px] text-gray-500 flex items-center justify-between">
+                      <div className="rounded-xl border border-dashed border-border bg-muted px-3 py-2 text-[11px] text-muted-foreground flex items-center justify-between">
                         <span>No saved API keys</span>
                         <Link to="/dashboard" className="text-sky-700 font-bold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                           Create
@@ -390,13 +390,13 @@ func main() {
             </section>
 
             {/* Execution Telemetry & Terminal Output */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2.5">
                   <Terminal className="h-5 w-5 text-emerald-600" />
                   <div>
                     <h2 className="text-lg font-bold text-[#0b192c]">Live Execution Console</h2>
-                    <p className="text-[11px] text-gray-500 font-mono">
+                    <p className="text-[11px] text-muted-foreground font-mono">
                       Runtime: Python 3.11 Container • Sandboxed VM
                     </p>
                   </div>
@@ -422,7 +422,7 @@ func main() {
               </div>
 
               {/* Terminal View */}
-              <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-gray-200 overflow-x-auto min-h-[160px] border border-[#415a77]/30 shadow-inner">
+              <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto min-h-[160px] border border-[#415a77]/30 shadow-inner">
                 {loading && (
                   <div className="flex items-center gap-2 text-amber-400 mb-2">
                     <RotateCw className="h-3.5 w-3.5 animate-spin" />
@@ -437,8 +437,8 @@ func main() {
 
             {/* Structured JSON Response Inspector */}
             {jsonResponse && (
-              <section className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm space-y-4">
-                <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+              <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-4">
+                <div className="flex items-center justify-between border-b border-border pb-4">
                   <div className="flex items-center gap-2">
                     <FileJson className="h-5 w-5 text-amber-500" />
                     <h2 className="text-lg font-bold text-[#0b192c]">Parsed JSON Response Payload</h2>
@@ -446,7 +446,7 @@ func main() {
 
                   <button
                     onClick={() => handleCopy('json', JSON.stringify(jsonResponse, null, 2))}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'json' ? (
                       <>
@@ -462,7 +462,7 @@ func main() {
                   </button>
                 </div>
 
-                <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-gray-200 overflow-x-auto border border-[#415a77]/30 max-h-[400px]">
+                <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30 max-h-[400px]">
                   <pre className="text-sky-300 leading-relaxed">
                     {JSON.stringify(jsonResponse, null, 2)}
                   </pre>
@@ -471,22 +471,22 @@ func main() {
             )}
 
             {/* Copyable cURL & SDK Snippet Generator (Language dropdown, NO TABVIEW!) */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
                   <Code2 className="h-5 w-5 text-[#415a77]" />
                   <h2 className="text-lg font-bold text-[#0b192c]">Code Export</h2>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <label htmlFor="code-lang-select" className="text-xs font-semibold text-gray-600">
+                  <label htmlFor="code-lang-select" className="text-xs font-semibold text-muted-foreground">
                     Format:
                   </label>
                   <select
                     id="code-lang-select"
                     value={codeLanguage}
                     onChange={(e) => setCodeLanguage(e.target.value as any)}
-                    className="rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-bold text-gray-800 shadow-sm focus:border-sky-500 focus:outline-none cursor-pointer"
+                    className="rounded-xl border border-border bg-background px-3 py-1 text-xs font-bold text-foreground shadow-sm focus:border-sky-500 focus:outline-none cursor-pointer"
                   >
                     <option value="curl">cURL (CLI)</option>
                     <option value="javascript">JavaScript (Fetch)</option>
@@ -496,7 +496,7 @@ func main() {
 
                   <button
                     onClick={() => handleCopy('code', codeSnippet)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {copiedKey === 'code' ? (
                       <>
@@ -513,7 +513,7 @@ func main() {
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-gray-200 overflow-x-auto border border-[#415a77]/30">
+              <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
                 <pre className="text-amber-300 whitespace-pre leading-relaxed">
                   {codeSnippet}
                 </pre>

@@ -24,12 +24,12 @@ export const CardByline: React.FC<CardBylineProps> = ({
   return (
     <div
       className={twMerge(
-        clsx('flex items-center gap-2.5 text-xs text-slate-300 select-none', className)
+        clsx('flex items-center gap-2.5 text-xs text-muted-foreground select-none', className)
       )}
       {...props}
     >
       {resolvedAvatarUrl && (
-        <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 ring-1 ring-white/20 bg-slate-800">
+        <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 ring-1 ring-white/20 bg-muted">
           <img
             src={resolvedAvatarUrl}
             alt={avatarAlt || author}
@@ -39,16 +39,16 @@ export const CardByline: React.FC<CardBylineProps> = ({
         </div>
       )}
       <div className="flex items-center gap-1.5 flex-wrap truncate">
-        <span className="text-slate-400 font-normal">By</span>
+        <span className="text-muted-foreground font-normal">By</span>
         {authorUrl ? (
           <a
             href={authorUrl}
-            className="font-medium text-white hover:text-cyan-300 underline underline-offset-2 decoration-slate-500 hover:decoration-cyan-300 transition-colors truncate"
+            className="font-medium text-primary-foreground hover:text-cyan-300 underline underline-offset-2 decoration-slate-500 hover:decoration-cyan-300 transition-colors truncate"
           >
             {author}
           </a>
         ) : (
-          <span className="font-medium text-white underline underline-offset-2 decoration-slate-500 truncate">
+          <span className="font-medium text-primary-foreground underline underline-offset-2 decoration-slate-500 truncate">
             {author}
           </span>
         )}
@@ -56,14 +56,14 @@ export const CardByline: React.FC<CardBylineProps> = ({
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 inline-block shrink-0" />
         )}
         {displayRole && (
-          <span className="text-[11px] text-slate-400 font-mono hidden sm:inline">
+          <span className="text-[11px] text-muted-foreground font-mono hidden sm:inline">
             ({displayRole})
           </span>
         )}
         {timestamp && (
           <>
-            <span className="text-slate-500">•</span>
-            <span className="text-slate-400 font-mono text-[11px]">{timestamp}</span>
+            <span className="text-muted-foreground">•</span>
+            <span className="text-muted-foreground font-mono text-[11px]">{timestamp}</span>
           </>
         )}
       </div>

@@ -38,13 +38,13 @@ export const AllosterSearchDoc: React.FC = () => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-1.5">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 space-y-1.5">
             <strong className="text-emerald-700 font-bold block">✓ High LLM Extractability</strong>
             <p className="text-[#64748b] text-xs leading-relaxed">
               Direct answer paragraphs under H2 headings, markdown tables, explicit code snippets with typed parameters, and schema entity tags.
             </p>
           </div>
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-1.5">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 space-y-1.5">
             <strong className="text-rose-700 font-bold block">✗ Low LLM Extractability</strong>
             <p className="text-[#64748b] text-xs leading-relaxed">
               Vague marketing fluff ("we supercharge synergies"), dynamic JavaScript-only content hydration, missing headings, and generic buzzwords.

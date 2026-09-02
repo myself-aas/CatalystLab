@@ -52,7 +52,7 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
   const statusColors = {
     COMPLETED: 'bg-emerald-950/80 text-emerald-400 border-emerald-500/30',
     RUNNING: 'bg-cyan-950/80 text-cyan-400 border-cyan-500/30 animate-pulse',
-    SCHEDULED: 'bg-slate-900/80 text-slate-300 border-slate-700/50',
+    SCHEDULED: 'bg-primary/80 text-muted-foreground border-border/50',
     FAILED: 'bg-rose-950/80 text-rose-400 border-rose-500/30',
   };
 
@@ -77,9 +77,9 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
 
       {/* Top Bar: Pipeline tag & Status badge */}
       <div className="relative z-10 p-4 sm:p-5 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-950/80 border border-white/15 backdrop-blur-md">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-foreground/80 border border-white/15 backdrop-blur-md">
           <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="text-[10px] font-mono font-bold text-white uppercase tracking-wider">
+          <span className="text-[10px] font-mono font-bold text-primary-foreground uppercase tracking-wider">
             CRON TELEMETRY
           </span>
         </div>
@@ -99,12 +99,12 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
         <div className="mb-4">
           <CardTitle
             as="h3"
-            className="text-lg sm:text-xl font-bold text-white leading-tight font-sans drop-shadow-md group-hover:text-cyan-400 transition-colors"
+            className="text-lg sm:text-xl font-bold text-primary-foreground leading-tight font-sans drop-shadow-md group-hover:text-cyan-400 transition-colors"
           >
             {title}
           </CardTitle>
           {subtitle && (
-            <p className="text-xs text-slate-300 font-mono mt-1 drop-shadow">
+            <p className="text-xs text-muted-foreground font-mono mt-1 drop-shadow">
               {subtitle}
             </p>
           )}
@@ -123,18 +123,18 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
             />
 
             <div className="min-w-0 font-mono">
-              <div className="text-xs font-bold text-white truncate flex items-center gap-1">
+              <div className="text-xs font-bold text-primary-foreground truncate flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-cyan-400 shrink-0" />
                 <span className="truncate">{venue}</span>
               </div>
-              <div className="text-[11px] text-slate-300 truncate">
+              <div className="text-[11px] text-muted-foreground truncate">
                 {address}
               </div>
             </div>
           </div>
 
           {/* Right: Time / Duration */}
-          <div className="flex items-center gap-1 text-xs font-mono font-bold text-emerald-400 shrink-0 bg-slate-950/70 border border-white/10 px-2.5 py-1 rounded-lg backdrop-blur-md">
+          <div className="flex items-center gap-1 text-xs font-mono font-bold text-emerald-400 shrink-0 bg-foreground/70 border border-white/10 px-2.5 py-1 rounded-lg backdrop-blur-md">
             <Clock className="w-3 h-3" />
             <span>{time}</span>
           </div>

@@ -177,7 +177,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
               <span>{score}</span>
               <span className="text-[10px] font-medium text-zinc-400">/100</span>
             </div>
-            <span className="text-[10px] font-mono text-slate-400 mt-1.5">
+            <span className="text-[10px] font-mono text-muted-foreground mt-1.5">
               {executionTimeMs}ms • {status}
             </span>
           </div>
@@ -250,7 +250,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
               id={`${cardId}-copy-payload`}
               onClick={handleCopyVectorPayload}
               title="Copy Vector JSON"
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-zinc-900/80 transition-colors"
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-muted-foreground hover:bg-zinc-900/80 transition-colors"
             >
               {copiedHash ? (
                 <Check className="w-3.5 h-3.5 text-emerald-500" />
@@ -291,7 +291,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                 <Terminal className="w-3 h-3 text-indigo-500" />
                 <span>MICRO-ANALYZER DIAGNOSTIC VECTORS (6/6)</span>
               </span>
-              <span className="text-[10px] font-mono text-slate-400 font-medium">
+              <span className="text-[10px] font-mono text-muted-foreground font-medium">
                 PROBE_CYCLE: #08
               </span>
             </div>
@@ -330,7 +330,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                         )}
                       </span>
                       {vector.benchmark && (
-                        <span className="text-[10px] font-mono text-slate-400 truncate">
+                        <span className="text-[10px] font-mono text-muted-foreground truncate">
                           tgt: {vector.benchmark}
                         </span>
                       )}

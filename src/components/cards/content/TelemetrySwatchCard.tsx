@@ -91,30 +91,30 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         onClick={onClick}
         className={`group w-full text-left rounded-xl p-3 border transition-all cursor-pointer font-mono select-none ${
           isActive
-            ? 'bg-white border-indigo-400 shadow-md ring-2 ring-indigo-500/10'
-            : 'bg-white/60 border-slate-200 hover:border-slate-300 opacity-80 hover:opacity-100 hover:bg-white shadow-sm'
+            ? 'bg-background border-indigo-400 shadow-md ring-2 ring-indigo-500/10'
+            : 'bg-background/60 border-border hover:border-border opacity-80 hover:opacity-100 hover:bg-background shadow-sm'
         } ${className || ''}`}
       >
         <div className="flex items-center justify-between gap-1 mb-1">
-          <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold truncate">
+          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold truncate">
             {displayBadge}
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse shrink-0" />
         </div>
 
-        <div className="text-sm font-bold text-slate-900 font-mono truncate">
+        <div className="text-sm font-bold text-foreground font-mono truncate">
           {displayValue}
         </div>
 
-        <div className="text-[10px] text-slate-500 font-medium truncate mt-0.5 font-sans">
+        <div className="text-[10px] text-muted-foreground font-medium truncate mt-0.5 font-sans">
           {displayTitle}
         </div>
 
         {miniStats && miniStats.length > 0 && (
-          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-slate-100 text-[10px] text-slate-500 font-mono">
+          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-border text-[10px] text-muted-foreground font-mono">
             {miniStats.map((ms, idx) => (
               <span key={idx}>
-                {ms.label}: <strong className="text-slate-900">{ms.value}</strong>
+                {ms.label}: <strong className="text-foreground">{ms.value}</strong>
               </span>
             ))}
           </div>
@@ -128,12 +128,12 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
       variant="swatch"
       hue={hue}
       lift={true}
-      className={`p-4 sm:p-5 flex flex-col justify-between border border-slate-800 bg-[#0A0F1E] ${className || ''}`}
+      className={`p-4 sm:p-5 flex flex-col justify-between border border-border bg-[#0A0F1E] ${className || ''}`}
     >
       <div>
         {/* Header: Metric Key & Status Badge */}
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             <span>{displayBadge}</span>
           </div>
@@ -148,26 +148,26 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
 
         {/* Big Metric Value (Tabular font) */}
         <div className="flex items-baseline gap-1 my-2">
-          <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-white metric-tabular">
+          <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-primary-foreground metric-tabular">
             {displayValue}
           </span>
-          {unit && <span className="text-xs font-mono text-slate-400">{unit}</span>}
+          {unit && <span className="text-xs font-mono text-muted-foreground">{unit}</span>}
         </div>
 
-        <div className="text-xs font-medium text-slate-300 font-sans">
+        <div className="text-xs font-medium text-muted-foreground font-sans">
           {displayTitle}
         </div>
       </div>
 
       {/* Target Progress & Benchmark Footer */}
-      <div className="mt-4 pt-3 border-t border-slate-800/80">
-        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1.5">
+      <div className="mt-4 pt-3 border-t border-border/80">
+        <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground mb-1.5">
           <span>Target: {benchmarkTarget}</span>
-          <span className="text-slate-500">{percentile} Telemetry</span>
+          <span className="text-muted-foreground">{percentile} Telemetry</span>
         </div>
 
         {/* Minimalist Gauge Bar */}
-        <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+        <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-500 ${currentStyle.bar}`}
             style={{ width: status === 'OPTIMAL' || status === 'PASS' ? '92%' : '65%' }}
@@ -175,7 +175,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         </div>
 
         <div className="flex items-center justify-between mt-2 text-[10px] font-mono">
-          <span className="text-slate-500">Global Edge Mesh</span>
+          <span className="text-muted-foreground">Global Edge Mesh</span>
           <span className="text-emerald-400 flex items-center gap-0.5 font-bold">
             <ArrowUpRight className="w-3 h-3" />
             {deltaPercent} vs baseline

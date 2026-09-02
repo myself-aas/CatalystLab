@@ -204,13 +204,13 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   return (
     <section 
       id="latest-blogs-section"
-      className={`relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-slate-200 ${className}`}
+      className={`relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-border ${className}`}
       aria-label="Latest engineering news and articles"
     >
-      <div className="relative rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8 lg:p-10 shadow-xl">
+      <div className="relative rounded-3xl border border-border bg-muted p-6 sm:p-8 lg:p-10 shadow-xl">
         
         {/* Top Header Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-slate-200">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-border">
           <div className="space-y-3 max-w-2xl">
             {badgeText && (
               <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-sans font-bold text-indigo-700 tracking-widest uppercase shadow-sm">
@@ -218,10 +218,10 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <span>{badgeText}</span>
               </div>
             )}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
               {title}
             </h2>
-            <p className="text-slate-600 font-medium text-sm sm:text-base leading-relaxed">
+            <p className="text-muted-foreground font-medium text-sm sm:text-base leading-relaxed">
               {subtitle}
             </p>
           </div>
@@ -231,7 +231,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               <Link
                 to="/blogs"
                 id="view-all-blogs-btn"
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-5 py-3 text-sm font-sans font-bold text-slate-600 hover:text-slate-900 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background hover:bg-muted px-5 py-3 text-sm font-sans font-bold text-muted-foreground hover:text-foreground transition-colors shadow-sm"
               >
                 <span>View all blogs</span>
                 <ArrowRight className="h-4 w-4 text-indigo-600" />
@@ -268,13 +268,13 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   onClick={() => setActiveCategory(cat.id)}
                   className={`shrink-0 flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-sans transition-all shadow-sm cursor-pointer border ${
                     isActive 
-                      ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-md' 
-                      : 'bg-white text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-50 font-medium'
+                      ? 'bg-primary text-primary-foreground border-border font-bold shadow-md' 
+                      : 'bg-background text-muted-foreground border-border hover:text-foreground hover:bg-muted font-medium'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
                   <span>{cat.label}</span>
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold ${isActive ? 'bg-background/20 text-primary-foreground' : 'bg-accent text-muted-foreground'}`}>
                     {count}
                   </span>
                 </button>
@@ -352,27 +352,27 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
         </div>
         {/* Bottom Ecosystem & Trust Bar */}
         {showEcosystemBar && (
-          <div className="mt-10 pt-6 border-t border-slate-200 font-sans">
+          <div className="mt-10 pt-6 border-t border-border font-sans">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-[11px] font-bold uppercase tracking-widest text-slate-500">
+              <div className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
                 Audited &amp; Integrated Across Modern Cloud Ecosystems:
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-slate-500">
-                <span className="flex items-center gap-1.5 font-bold text-slate-700">
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1.5 font-bold text-muted-foreground">
                   <span className="text-amber-500 font-black">●</span> Cloudflare
                 </span>
-                <span className="flex items-center gap-1.5 font-bold text-slate-700">
+                <span className="flex items-center gap-1.5 font-bold text-muted-foreground">
                   <span className="text-indigo-600 font-black">■</span> Google Cloud
                 </span>
-                <span className="flex items-center gap-1.5 font-bold text-slate-700">
+                <span className="flex items-center gap-1.5 font-bold text-muted-foreground">
                   <span className="text-rose-500 font-black">▲</span> Fastly
                 </span>
-                <span className="flex items-center gap-1.5 font-bold text-slate-700">
+                <span className="flex items-center gap-1.5 font-bold text-muted-foreground">
                   <span className="text-amber-500 font-black">◆</span> AWS
                 </span>
-                <span className="flex items-center gap-1.5 font-bold text-slate-700">
-                  <span className="text-slate-900 font-black">▲</span> Vercel
+                <span className="flex items-center gap-1.5 font-bold text-muted-foreground">
+                  <span className="text-foreground font-black">▲</span> Vercel
                 </span>
               </div>
             </div>
@@ -384,16 +384,16 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
       {/* Quick Preview Modal */}
       <AnimatePresence>
         {previewPost && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              className="relative w-full max-w-2xl rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 text-slate-900 shadow-2xl overflow-hidden font-sans"
+              className="relative w-full max-w-2xl rounded-3xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-2xl overflow-hidden font-sans"
             >
               <button
                 onClick={() => setPreviewPost(null)}
-                className="absolute top-4 right-4 h-8 w-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
+                className="absolute top-4 right-4 h-8 w-8 rounded-full bg-muted border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -402,16 +402,16 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <span className="rounded bg-indigo-50 text-indigo-700 border border-indigo-200 px-3 py-1 text-xs font-bold shadow-sm">
                   {previewPost.category}
                 </span>
-                <span className="text-xs font-medium text-slate-500">
+                <span className="text-xs font-medium text-muted-foreground">
                   {formatDate(previewPost.createdAt)} • {previewPost.readTime}
                 </span>
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug mb-4">
+              <h3 className="text-xl sm:text-2xl font-extrabold text-foreground leading-snug mb-4">
                 {previewPost.title}
               </h3>
 
-              <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden mb-4 bg-slate-100 border border-slate-200 shadow-sm">
+              <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden mb-4 bg-accent border border-border shadow-sm">
                 <img 
                   src={getBlogCoverImage(previewPost)} 
                   alt={previewPost.title} 
@@ -420,26 +420,26 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 />
               </div>
 
-              <p className="text-sm text-slate-600 font-medium leading-relaxed mb-6">
+              <p className="text-sm text-muted-foreground font-medium leading-relaxed mb-6">
                 {previewPost.excerpt}
               </p>
 
-              <div className="flex items-center justify-between gap-3 pt-5 border-t border-slate-200">
-                <div className="text-xs font-medium text-slate-500">
-                  Author: <span className="text-slate-900 font-bold">{previewPost.authorName}</span>
+              <div className="flex items-center justify-between gap-3 pt-5 border-t border-border">
+                <div className="text-xs font-medium text-muted-foreground">
+                  Author: <span className="text-foreground font-bold">{previewPost.authorName}</span>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setPreviewPost(null)}
-                    className="rounded-xl px-4 py-2.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors cursor-pointer hover:bg-slate-50"
+                    className="rounded-xl px-4 py-2.5 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors cursor-pointer hover:bg-muted"
                   >
                     Close Preview
                   </button>
                   <Link
                     to={`/blog/${previewPost.slug || previewPost.id}`}
                     onClick={() => setPreviewPost(null)}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-5 py-2.5 text-xs font-bold text-white transition-all shadow-md"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover px-5 py-2.5 text-xs font-bold text-primary-foreground transition-all shadow-md"
                   >
                     <span>Read Full Article</span>
                     <ArrowRight className="h-4 w-4" />

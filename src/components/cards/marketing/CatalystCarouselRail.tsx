@@ -85,7 +85,7 @@ export const CatalystCarouselRail: React.FC<CatalystCarouselRailProps> = ({
       {/* Nav Controls */}
       <div className="flex items-center justify-between gap-2 mb-4 px-2">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono text-slate-400">
+          <span className="text-xs font-mono text-muted-foreground">
             Active: #{activeIndex + 1} • Scroll or use ← → arrow keys
           </span>
         </div>
@@ -99,8 +99,8 @@ export const CatalystCarouselRail: React.FC<CatalystCarouselRailProps> = ({
             className={clsx(
               'w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
               canScrollLeft
-                ? 'bg-slate-900 text-white border-slate-700 hover:bg-slate-800 hover:border-slate-600 cursor-pointer shadow-sm'
-                : 'bg-slate-950/60 text-slate-600 border-slate-800/60 cursor-not-allowed opacity-40'
+                ? 'bg-primary text-primary-foreground border-border hover:bg-primary-hover hover:border-border cursor-pointer shadow-sm'
+                : 'bg-foreground/60 text-muted-foreground border-border/60 cursor-not-allowed opacity-40'
             )}
           >
             <ChevronLeft className="w-4 h-4" />
@@ -113,8 +113,8 @@ export const CatalystCarouselRail: React.FC<CatalystCarouselRailProps> = ({
             className={clsx(
               'w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
               canScrollRight
-                ? 'bg-slate-900 text-white border-slate-700 hover:bg-slate-800 hover:border-slate-600 cursor-pointer shadow-sm'
-                : 'bg-slate-950/60 text-slate-600 border-slate-800/60 cursor-not-allowed opacity-40'
+                ? 'bg-primary text-primary-foreground border-border hover:bg-primary-hover hover:border-border cursor-pointer shadow-sm'
+                : 'bg-foreground/60 text-muted-foreground border-border/60 cursor-not-allowed opacity-40'
             )}
           >
             <ChevronRight className="w-4 h-4" />

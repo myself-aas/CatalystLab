@@ -93,7 +93,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   const renderHighlightedLine = (lineText: string) => {
     // Comments
     if (lineText.trim().startsWith('//') || lineText.trim().startsWith('#')) {
-      return <span className="text-slate-500 italic">{lineText}</span>;
+      return <span className="text-muted-foreground italic">{lineText}</span>;
     }
 
     // Rough syntax tokenization for keywords & strings
@@ -135,7 +135,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
               </span>
             );
           }
-          return <span key={i} className="text-slate-200">{part}</span>;
+          return <span key={i} className="text-muted-foreground">{part}</span>;
         })}
       </>
     );
@@ -145,10 +145,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     <div
       ref={containerRef}
       id={blockId}
-      className={`relative rounded-xl border border-slate-800 bg-[#070A12] shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden font-mono text-xs sm:text-sm ${className}`}
+      className={`relative rounded-xl border border-border bg-[#070A12] shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden font-mono text-xs sm:text-sm ${className}`}
     >
       {/* Code Header Bar */}
-      <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#0B101B] border-b border-slate-800/80 select-none">
+      <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#0B101B] border-b border-border/80 select-none">
         <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/80" />
@@ -156,12 +156,12 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]/80" />
           </div>
 
-          <div className="flex items-center gap-1.5 ml-2 text-slate-400 text-xs font-semibold">
+          <div className="flex items-center gap-1.5 ml-2 text-muted-foreground text-xs font-semibold">
             <FileCode className="w-3.5 h-3.5 text-[#06B6D4]" />
-            <span className="text-slate-200">{filename}</span>
+            <span className="text-muted-foreground">{filename}</span>
           </div>
 
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-800 uppercase">
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary text-muted-foreground border border-border uppercase">
             {language}
           </span>
         </div>
@@ -174,7 +174,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
               id={`${blockId}-fast-forward`}
               onClick={handleFastForward}
               title="Fast Forward Typing"
-              className="flex items-center gap-1 px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-[#06B6D4] transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded bg-muted hover:bg-muted/80 text-[11px] text-[#06B6D4] transition-colors"
             >
               <FastForward className="w-3 h-3" />
               <span className="hidden sm:inline">Skip</span>
@@ -185,7 +185,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
               id={`${blockId}-replay`}
               onClick={handleReplay}
               title="Replay Typewriter Effect"
-              className="flex items-center gap-1 px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-[11px] text-slate-300 transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded bg-muted hover:bg-muted/80 text-[11px] text-muted-foreground transition-colors"
             >
               <RotateCcw className="w-3 h-3" />
               <span className="hidden sm:inline">Replay</span>
@@ -197,7 +197,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             id={`${blockId}-copy`}
             onClick={handleCopy}
             title="Copy Code to Clipboard"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-muted hover:bg-muted/80 text-xs text-muted-foreground transition-colors"
           >
             {copied ? (
               <>
@@ -206,7 +206,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-slate-400" />
+                <Copy className="w-3.5 h-3.5 text-muted-foreground" />
                 <span className="hidden sm:inline">Copy</span>
               </>
             )}
@@ -220,14 +220,14 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           enableScanline ? 'scanline-overlay' : ''
         }`}
       >
-        <pre className="m-0 p-0 font-mono text-slate-200">
+        <pre className="m-0 p-0 font-mono text-muted-foreground">
           <code>
             {lines.map((line, idx) => (
               <div key={idx} className="flex items-start">
                 {showLineNumbers && (
                   <span
                     aria-hidden="true"
-                    className="w-8 shrink-0 text-right pr-4 text-slate-600 select-none text-xs tabular-nums"
+                    className="w-8 shrink-0 text-right pr-4 text-muted-foreground select-none text-xs tabular-nums"
                   >
                     {idx + 1}
                   </span>

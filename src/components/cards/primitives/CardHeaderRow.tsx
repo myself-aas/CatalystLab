@@ -29,14 +29,14 @@ export const CardHeaderRow: React.FC<CardHeaderRowProps> = ({
           <div className="flex items-center gap-2 min-w-0">
             {leftSlot}
             {brandName && (
-              <span className="font-mono font-bold tracking-tight text-white text-sm sm:text-base uppercase truncate">
+              <span className="font-mono font-bold tracking-tight text-primary-foreground text-sm sm:text-base uppercase truncate">
                 {brandName}
               </span>
             )}
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {timestamp && (
-              <span className="font-mono text-xs text-slate-300 tracking-wider">
+              <span className="font-mono text-xs text-muted-foreground tracking-wider">
                 {timestamp}
               </span>
             )}

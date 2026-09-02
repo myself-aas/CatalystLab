@@ -90,7 +90,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         />
 
         {/* Rating Chip */}
-        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-950/70 border border-white/10 backdrop-blur-md shadow-sm">
+        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-foreground/70 border border-white/10 backdrop-blur-md shadow-sm">
           {[...Array(rating)].map((_, i) => (
             <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
           ))}
@@ -104,14 +104,14 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
           <Quote className="w-5 h-5 text-cyan-400/70 mb-1.5" />
           <CardTitle
             as="h3"
-            className="text-sm sm:text-base font-bold text-white leading-snug line-clamp-3 font-sans tracking-normal drop-shadow-md"
+            className="text-sm sm:text-base font-bold text-primary-foreground leading-snug line-clamp-3 font-sans tracking-normal drop-shadow-md"
           >
             &ldquo;{quote}&rdquo;
           </CardTitle>
         </div>
 
         {/* Stat Pair with Vertical Divider (R5 Signature) */}
-        <div className="py-2.5 my-2 border-y border-white/15 backdrop-blur-sm bg-slate-950/40 rounded-lg px-3">
+        <div className="py-2.5 my-2 border-y border-white/15 backdrop-blur-sm bg-foreground/40 rounded-lg px-3">
           <CardStatRow
             stats={stats}
             layout="inline-dividers"
@@ -127,7 +127,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
             avatarUrl={avatarUrl}
             avatarAssetId={avatarAssetId}
             verified={true}
-            className="text-slate-200"
+            className="text-muted-foreground"
           />
         </div>
       </div>

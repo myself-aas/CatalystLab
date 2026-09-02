@@ -112,7 +112,7 @@ export const CinematicVideo: React.FC<CinematicVideoProps> = ({
       case 'catalyst-grade-hero':
         return 'duotone-hero';
       default:
-        return 'bg-slate-900/40';
+        return 'bg-primary/40';
     }
   };
 

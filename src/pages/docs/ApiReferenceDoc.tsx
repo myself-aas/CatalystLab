@@ -45,7 +45,7 @@ export const ApiReferenceDoc: React.FC = () => {
 
           <Link
             to="/playground"
-            className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-xs font-bold text-[#0b192c] hover:bg-[#f8fafc] transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-background px-4 py-2 text-xs font-bold text-[#0b192c] hover:bg-[#f8fafc] transition shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Play className="h-4 w-4 text-emerald-600" />
             <span>Live API Playground</span>
@@ -73,7 +73,7 @@ export const ApiReferenceDoc: React.FC = () => {
       {/* POST /api/run-engine */}
       <section id="run-engine" className="space-y-4 border-t border-[#e2e8f0] pt-8">
         <div className="flex items-center gap-2">
-          <span className="rounded-md bg-blue-600 px-2.5 py-1 text-xs font-mono font-bold text-white uppercase">
+          <span className="rounded-md bg-blue-600 px-2.5 py-1 text-xs font-mono font-bold text-primary-foreground uppercase">
             POST
           </span>
           <h2 className="text-2xl font-bold text-[#0b192c]">/api/run-engine</h2>
@@ -82,7 +82,7 @@ export const ApiReferenceDoc: React.FC = () => {
           Executes an isolated diagnostic probe against any public HTTP/HTTPS endpoint.
         </p>
 
-        <div className="rounded-xl border border-[#e2e8f0] bg-white p-4 space-y-2 text-sm">
+        <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 space-y-2 text-sm">
           <h3 className="font-bold text-[#0b192c] text-xs uppercase tracking-wider">Request Parameters</h3>
           <ul className="space-y-1.5 text-xs font-mono text-[#415a77]">
             <li>• <code>url</code> (string, required): Full target URL (e.g. <code>https://stripe.com</code>)</li>
@@ -114,7 +114,7 @@ logger.debug("Quality Score:", data.score);`}
       {/* POST /api/monitor/probe */}
       <section id="monitor-probe" className="space-y-4 border-t border-[#e2e8f0] pt-8">
         <div className="flex items-center gap-2">
-          <span className="rounded-md bg-blue-600 px-2.5 py-1 text-xs font-mono font-bold text-white uppercase">
+          <span className="rounded-md bg-blue-600 px-2.5 py-1 text-xs font-mono font-bold text-primary-foreground uppercase">
             POST
           </span>
           <h2 className="text-2xl font-bold text-[#0b192c]">/api/monitor/probe</h2>
@@ -127,7 +127,7 @@ logger.debug("Quality Score:", data.score);`}
       {/* GET /api/monitor/system-health */}
       <section id="system-health" className="space-y-4 border-t border-[#e2e8f0] pt-8">
         <div className="flex items-center gap-2">
-          <span className="rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-mono font-bold text-white uppercase">
+          <span className="rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-mono font-bold text-primary-foreground uppercase">
             GET
           </span>
           <h2 className="text-2xl font-bold text-[#0b192c]">/api/monitor/system-health</h2>

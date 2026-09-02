@@ -426,26 +426,26 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
   return (
     <div
       id="compliance-risk-d3-gauges"
-      className={`rounded-2xl border border-black/30 bg-white p-4 sm:p-5 text-black shadow-xl ${className}`}
+      className={`rounded-2xl border border-border bg-background p-4 sm:p-5 text-foreground shadow-xl ${className}`}
     >
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/25 pb-3 mb-4">
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-lg bg-black/25 border border-black/40 text-black">
+          <div className="p-1.5 rounded-lg bg-foreground/5 border border-border text-foreground">
             <ShieldCheck className="h-4 w-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold font-mono tracking-wider text-black uppercase">
+            <h4 className="text-xs font-bold font-mono tracking-wider text-foreground uppercase">
               D3.js Security Diagnostic Gauges
             </h4>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-muted-foreground">
               Live Spoofing Vulnerability & SSL/TLS Telemetry Analysis
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-black/40 bg-slate-100 text-black">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-border bg-accent text-foreground">
             D3 v7.9 Engine
           </span>
           <span
@@ -465,9 +465,9 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       {/* Gauges Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* 1. Spoofing Risk Gauge Card */}
-        <div className="rounded-xl border border-black/30 bg-slate-50 p-3.5 flex flex-col justify-between">
+        <div className="rounded-xl border border-border bg-muted p-3.5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
               <ShieldAlert className="h-3.5 w-3.5 text-amber-500" />
               <span>Email Spoofing Risk Level</span>
             </div>
@@ -532,10 +532,10 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
         </div>
 
         {/* 2. SSL Expiration & TLS Suite Card */}
-        <div className="rounded-xl border border-black/30 bg-slate-50 p-3.5 flex flex-col justify-between">
+        <div className="rounded-xl border border-border bg-muted p-3.5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-              <Lock className="h-3.5 w-3.5 text-black" />
+            <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+              <Lock className="h-3.5 w-3.5 text-foreground" />
               <span>SSL Expiration & TLS Validity</span>
             </div>
             <span
@@ -559,18 +559,18 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
           </div>
 
           {/* SSL Metadata Details */}
-          <div className="mt-2 space-y-1.5 text-[11px] font-mono bg-white p-2 rounded-lg border border-black/25">
-            <div className="flex items-center justify-between text-black">
-              <span className="flex items-center gap-1 text-slate-500">
-                <Key className="h-3 w-3 text-black" />
+          <div className="mt-2 space-y-1.5 text-[11px] font-mono bg-background p-2 rounded-lg border border-black/25">
+            <div className="flex items-center justify-between text-foreground">
+              <span className="flex items-center gap-1 text-muted-foreground">
+                <Key className="h-3 w-3 text-foreground" />
                 <span>Cipher:</span>
               </span>
-              <span className="text-black font-bold truncate max-w-[140px]" title={resolvedData.ssl.encryption_algorithm}>
+              <span className="text-foreground font-bold truncate max-w-[140px]" title={resolvedData.ssl.encryption_algorithm}>
                 {resolvedData.ssl.encryption_algorithm}
               </span>
             </div>
-            <div className="flex items-center justify-between text-black">
-              <span className="flex items-center gap-1 text-slate-500">
+            <div className="flex items-center justify-between text-foreground">
+              <span className="flex items-center gap-1 text-muted-foreground">
                 <Clock className="h-3 w-3 text-emerald-600" />
                 <span>Days Remaining:</span>
               </span>

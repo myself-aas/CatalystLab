@@ -8,6 +8,7 @@ import { ThemeProvider } from '../../context/ThemeContext';
 import { SubscriptionProvider } from '../../context/SubscriptionContext';
 import { RoleSecurityProvider } from '../../context/RoleSecurityContext';
 import { FullscreenCard } from '../../components/ui/FullscreenCard';
+import { HeroSection } from '../../components/home/HeroSection';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <MemoryRouter initialEntries={['/']}>
@@ -69,5 +70,35 @@ describe('Browserbase UI-Test: Accessibility & Visual Contrast Layering', () => 
         btn.querySelector('svg');
       expect(Boolean(hasAccessibleName)).toBe(true);
     });
+  });
+
+  it('ensures HeroSection applies protective contrast scrim overlays and high-contrast typography tokens', () => {
+    const { container } = render(<HeroSection />, { wrapper });
+
+    // 1. Verify protective accessibility contrast scrim exists
+    const scrim = screen.getByTestId('hero-contrast-scrim');
+    expect(scrim).toBeInTheDocument();
+    expect(scrim).toHaveAttribute('aria-hidden', 'true');
+    expect(scrim.className).toContain('bg-gradient-to-b');
+
+    // 2. Verify all audit inputs have accessible placeholders and aria-labels
+    const inputs = screen.getAllByPlaceholderText(/example\.com/i);
+    expect(inputs.length).toBeGreaterThanOrEqual(1);
+    inputs.forEach((input) => {
+      expect(input).toHaveAttribute('aria-label');
+      expect(input.className).toContain('placeholder-zinc-300');
+    });
+
+    // 3. Verify headline and subheading contrast
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toBeInTheDocument();
+    expect(heading.className).toContain('drop-shadow');
+
+    // 4. Verify telemetry badge and signal badges have high-contrast styling
+    const beaconBadge = screen.getByText(/Autonomous Architecture & Telemetry OS/i);
+    expect(beaconBadge).toBeInTheDocument();
+
+    const presetsLabel = screen.getAllByText(/Presets:/i);
+    expect(presetsLabel.length).toBeGreaterThanOrEqual(1);
   });
 });

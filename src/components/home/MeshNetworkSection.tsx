@@ -65,7 +65,7 @@ export const MeshNetworkSection: React.FC = () => {
   return (
     <section 
       id="mesh-network-section" 
-      className="py-16 lg:py-24 bg-slate-900 text-white relative overflow-hidden border-b border-slate-800"
+      className="py-16 lg:py-24 bg-primary text-primary-foreground relative overflow-hidden border-b border-border"
     >
       {/* Background ambient lighting */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(0,180,255,0.06)_0%,transparent_80%)] pointer-events-none" />
@@ -80,10 +80,10 @@ export const MeshNetworkSection: React.FC = () => {
               <Radio className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
               <span>Phase 5 • Synchronous Edge Mesh Radar</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-primary-foreground">
               42-Node Global Anycast Mesh
             </h2>
-            <p className="text-base sm:text-lg text-slate-400 mt-3 leading-relaxed font-normal">
+            <p className="text-base sm:text-lg text-muted-foreground mt-3 leading-relaxed font-normal">
               Continuous sub-20ms edge verification. Every health audit dispatches synchronous TCP/TLS handshakes and HTTP/3 QUIC probes to nearest cloud gateways.
             </p>
           </LazyReveal>
@@ -94,13 +94,13 @@ export const MeshNetworkSection: React.FC = () => {
               type="button"
               onClick={handleTriggerGlobalProbe}
               disabled={isSynthesizing}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs sm:text-sm font-mono font-bold transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-foreground text-xs sm:text-sm font-mono font-bold transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
             >
               <RefreshCw className={`h-4 w-4 ${isSynthesizing ? 'animate-spin' : ''}`} />
               <span>{isSynthesizing ? 'Probing 42 Mesh Nodes...' : 'Probe All 42 Nodes'}</span>
             </button>
 
-            <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800 backdrop-blur-md">
+            <div className="flex items-center gap-1 bg-foreground/80 p-1 rounded-xl border border-border backdrop-blur-md">
               {['all', 'Americas', 'EMEA', 'APAC'].map((cont) => (
                 <button
                   key={cont}
@@ -108,8 +108,8 @@ export const MeshNetworkSection: React.FC = () => {
                   onClick={() => setSelectedContinent(cont)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer capitalize ${
                     selectedContinent === cont
-                      ? 'bg-blue-600 text-white font-bold shadow-md'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                      ? 'bg-blue-600 text-primary-foreground font-bold shadow-md'
+                      : 'text-muted-foreground hover:text-primary-foreground hover:bg-primary-hover'
                   }`}
                 >
                   {cont}
@@ -124,15 +124,15 @@ export const MeshNetworkSection: React.FC = () => {
           
           {/* Left Column: 3D WebGL Edge Mesh Globe */}
           <div className="lg:col-span-7 flex flex-col items-center justify-center relative">
-            <div className="w-full bg-slate-950/60 border border-slate-800/80 rounded-3xl p-4 sm:p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden">
+            <div className="w-full bg-foreground/60 border border-border/80 rounded-3xl p-4 sm:p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden">
               
               {/* Top Mesh HUD metrics */}
-              <div className="w-full flex items-center justify-between border-b border-slate-800/80 pb-3 mb-2 text-xs font-mono">
-                <div className="flex items-center gap-2 text-slate-300">
+              <div className="w-full flex items-center justify-between border-b border-border/80 pb-3 mb-2 text-xs font-mono">
+                <div className="flex items-center gap-2 text-muted-foreground">
                   <Activity className="h-4 w-4 text-emerald-400 animate-pulse" />
                   <span className="font-bold">ACTIVE ROUTING MATRIX</span>
                 </div>
-                <div className="flex items-center gap-3 text-slate-400">
+                <div className="flex items-center gap-3 text-muted-foreground">
                   <span>P95 TTFB: <strong className="text-cyan-400 font-bold">{stats.p95Latency}ms</strong></span>
                   <span>Optimal: <strong className="text-emerald-400 font-bold">{stats.optimalCount}/42</strong></span>
                 </div>
@@ -152,10 +152,10 @@ export const MeshNetworkSection: React.FC = () => {
               </div>
 
               {/* Active PoP Bottom Bar */}
-              <div className="w-full mt-2 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
+              <div className="w-full mt-2 pt-3 border-t border-border/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="text-slate-200">Focused Anycast Node:</span>
+                  <span className="text-muted-foreground">Focused Anycast Node:</span>
                   <span className="text-cyan-300 font-bold">{activePoP.code} • {activePoP.location}</span>
                 </div>
                 <div className="flex items-center gap-3 text-[11px]">
@@ -171,13 +171,13 @@ export const MeshNetworkSection: React.FC = () => {
           <div className="lg:col-span-5 flex flex-col space-y-4">
             
             {/* Real-time Regional Leaderboard Container */}
-            <div className="rounded-3xl border border-slate-800 bg-slate-950/80 p-5 shadow-2xl backdrop-blur-xl">
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+            <div className="rounded-3xl border border-border bg-foreground/80 p-5 shadow-2xl backdrop-blur-xl">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-border">
                 <div className="flex items-center gap-2">
                   <Server className="h-4 w-4 text-blue-400" />
-                  <h3 className="text-sm font-bold font-mono text-white">REGIONAL TTFB LEADERBOARD</h3>
+                  <h3 className="text-sm font-bold font-mono text-primary-foreground">REGIONAL TTFB LEADERBOARD</h3>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400">{leaderboardPoPs.length} Nodes</span>
+                <span className="text-[11px] font-mono text-muted-foreground">{leaderboardPoPs.length} Nodes</span>
               </div>
 
               {/* Filter search input */}
@@ -187,7 +187,7 @@ export const MeshNetworkSection: React.FC = () => {
                   placeholder="Filter by city, code, or region..."
                   value={filterQuery}
                   onChange={(e) => setFilterQuery(e.target.value)}
-                  className="w-full rounded-xl bg-slate-900/90 border border-slate-800 px-3 py-2 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                  className="w-full rounded-xl bg-primary/90 border border-border px-3 py-2 text-xs font-mono text-primary-foreground placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
                 />
               </div>
 
@@ -201,27 +201,27 @@ export const MeshNetworkSection: React.FC = () => {
                       onClick={() => setFocusedPoP(pop)}
                       className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-blue-600/20 border-cyan-500/80 shadow-md ring-1 ring-cyan-500/40 text-white'
-                          : 'bg-slate-900/50 border-slate-800/80 hover:bg-slate-900 hover:border-slate-700 text-slate-300'
+                          ? 'bg-blue-600/20 border-cyan-500/80 shadow-md ring-1 ring-cyan-500/40 text-primary-foreground'
+                          : 'bg-primary/50 border-border/80 hover:bg-primary hover:border-border text-muted-foreground'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="text-[10px] font-mono text-slate-500 w-4 text-right">{idx + 1}</span>
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 border border-slate-700 text-[11px] font-mono font-bold text-cyan-300 shrink-0">
+                        <span className="text-[10px] font-mono text-muted-foreground w-4 text-right">{idx + 1}</span>
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted border border-border text-[11px] font-mono font-bold text-cyan-300 shrink-0">
                           {pop.code}
                         </div>
                         <div className="min-w-0">
-                          <div className="text-xs font-bold text-slate-100 truncate">{pop.location}</div>
-                          <div className="text-[10px] font-mono text-slate-500 truncate">{pop.region}</div>
+                          <div className="text-xs font-bold text-foreground truncate">{pop.location}</div>
+                          <div className="text-[10px] font-mono text-muted-foreground truncate">{pop.region}</div>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3 shrink-0">
                         <div className="text-right">
                           <div className="text-xs font-mono font-bold text-emerald-400">{pop.ttfbMs} ms</div>
-                          <div className="text-[10px] font-mono text-slate-500">{pop.tlsRtt}</div>
+                          <div className="text-[10px] font-mono text-muted-foreground">{pop.tlsRtt}</div>
                         </div>
-                        <ChevronRight className={`h-4 w-4 transition-transform ${isSelected ? 'text-cyan-400 translate-x-0.5' : 'text-slate-600'}`} />
+                        <ChevronRight className={`h-4 w-4 transition-transform ${isSelected ? 'text-cyan-400 translate-x-0.5' : 'text-muted-foreground'}`} />
                       </div>
                     </div>
                   );
@@ -231,22 +231,22 @@ export const MeshNetworkSection: React.FC = () => {
 
             {/* Quick SLA & Compliance Badge */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3.5 backdrop-blur-md flex flex-col justify-between">
-                <div className="flex items-center gap-2 text-slate-400 text-xs font-mono mb-1">
+              <div className="rounded-2xl border border-border bg-foreground/60 p-3.5 backdrop-blur-md flex flex-col justify-between">
+                <div className="flex items-center gap-2 text-muted-foreground text-xs font-mono mb-1">
                   <ShieldCheck className="h-4 w-4 text-emerald-400" />
                   <span>SLA GUARANTEE</span>
                 </div>
-                <div className="text-lg font-bold font-mono text-white">99.99% Edge Uptime</div>
-                <div className="text-[10px] font-mono text-slate-500 mt-0.5">BGP Anycast failover &lt; 50ms</div>
+                <div className="text-lg font-bold font-mono text-primary-foreground">99.99% Edge Uptime</div>
+                <div className="text-[10px] font-mono text-muted-foreground mt-0.5">BGP Anycast failover &lt; 50ms</div>
               </div>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3.5 backdrop-blur-md flex flex-col justify-between">
-                <div className="flex items-center gap-2 text-slate-400 text-xs font-mono mb-1">
+              <div className="rounded-2xl border border-border bg-foreground/60 p-3.5 backdrop-blur-md flex flex-col justify-between">
+                <div className="flex items-center gap-2 text-muted-foreground text-xs font-mono mb-1">
                   <Leaf className="h-4 w-4 text-teal-400" />
                   <span>GREEN CDN INDEX</span>
                 </div>
                 <div className="text-lg font-bold font-mono text-emerald-400">100% Zero-Carbon</div>
-                <div className="text-[10px] font-mono text-slate-500 mt-0.5">Renewable edge data centers</div>
+                <div className="text-[10px] font-mono text-muted-foreground mt-0.5">Renewable edge data centers</div>
               </div>
             </div>
 

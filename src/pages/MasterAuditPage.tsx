@@ -2,14 +2,8 @@ import React, { useEffect } from 'react';
 import { HeroSection } from '../components/home/HeroSection';
 import { SocialProof } from '../components/home/SocialProof';
 import { FeaturedAuditMetrics } from '../components/home/FeaturedAuditMetrics';
-import { EngineExplorer } from '../components/home/EngineExplorer';
-import { HowItWorks } from '../components/home/HowItWorks';
 import { ArchitectureComparator } from '../components/home/ArchitectureComparator';
-import { MeshNetworkSection } from '../components/home/MeshNetworkSection';
-import { SevenDayTrialSection } from '../components/home/SevenDayTrialSection';
 import { Testimonials } from '../components/home/Testimonials';
-import { LatestBlogsSection } from '../components/home/LatestBlogsSection';
-import { FaqAccordion } from '../components/home/FaqAccordion';
 import { FinalCTA } from '../components/home/FinalCTA';
 import { SEOHead } from '../components/common/SEOHead';
 
@@ -27,7 +21,7 @@ export const MasterAuditPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-zinc-300 font-sans selection:bg-zinc-800 selection:text-white">
+    <div className="min-h-screen bg-primary text-zinc-300 font-sans selection:bg-zinc-800 selection:text-primary-foreground">
       <div>
         <SEOHead
           title="Precision Telemetry & Autonomous Web Health Auditing"

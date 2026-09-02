@@ -78,7 +78,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
   const paidTiers: SubscriptionPlanId[] = ['starter', 'pro', 'team', 'enterprise'];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-primary/85 backdrop-blur-md animate-fadeIn">
       <div 
         id="payment-checkout-modal-card"
         className="relative w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden text-foreground animate-scaleUp"
@@ -179,7 +179,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                     }`}
                   >
                     {tierItem.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-600 text-white shadow-xs">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-600 text-primary-foreground shadow-xs">
                         POPULAR
                       </span>
                     )}
@@ -273,8 +273,8 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 disabled={loading || success}
                 className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-2 ${
                   success
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-foreground hover:bg-foreground/90 text-white border border-border'
+                    ? 'bg-emerald-600 text-primary-foreground'
+                    : 'bg-foreground hover:bg-foreground/90 text-primary-foreground border border-border'
                 }`}
               >
                 {loading ? (

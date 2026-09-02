@@ -56,13 +56,13 @@ export const ApiCategoryPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#0b192c]">
+    <div className="min-h-screen bg-background text-[#0b192c]">
       {/* Category Header */}
-      <div className="border-b border-[#e2e8f0] bg-white pt-10 pb-12">
+      <div className="border-b border-[#e2e8f0] bg-background pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono text-gray-500">
-              <Link to="/api-reference" className="hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+              <Link to="/api-reference" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 API Reference
               </Link>
               <span>/</span>
@@ -74,7 +74,7 @@ export const ApiCategoryPage: React.FC = () => {
                 <h1 className="text-3xl sm:text-4xl font-black text-[#0b192c]">
                   {categoryName}
                 </h1>
-                <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+                <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
                   Explore endpoint specifications, query schemas, and runnable code generators for {categoryName.toLowerCase()}.
                 </p>
               </div>
@@ -82,14 +82,14 @@ export const ApiCategoryPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/api-reference"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>All Categories</span>
                 </Link>
                 <Link
                   to="/playground"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-3.5 py-2 text-xs font-bold text-white hover:bg-[#152238] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-3.5 py-2 text-xs font-bold text-primary-foreground hover:bg-[#152238] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <Terminal className="h-3.5 w-3.5 text-emerald-400" />
                   <span>Open Playground</span>
@@ -110,7 +110,7 @@ export const ApiCategoryPage: React.FC = () => {
           {/* Endpoints List */}
           <div className="flex-1 space-y-10 min-w-0">
             {endpoints.length === 0 ? (
-              <div className="rounded-3xl border border-gray-200 bg-white p-12 text-center text-gray-500">
+              <div className="rounded-3xl border border-border bg-background p-12 text-center text-muted-foreground">
                 No endpoints found in this category.
               </div>
             ) : (
@@ -122,10 +122,10 @@ export const ApiCategoryPage: React.FC = () => {
                   <article
                     key={ep.id}
                     id={ep.id}
-                    className="rounded-3xl border border-[#e2e8f0] bg-white p-6 sm:p-8 shadow-sm space-y-6 scroll-mt-24"
+                    className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6 scroll-mt-24"
                   >
                     {/* Endpoint Header */}
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-gray-100 pb-5">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-border pb-5">
                       <div className="space-y-1">
                         <div className="flex flex-wrap items-center gap-2.5">
                           <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-black uppercase ${
@@ -157,17 +157,17 @@ export const ApiCategoryPage: React.FC = () => {
                       )}
                     </div>
 
-                    <p className="text-sm text-gray-700 leading-relaxed">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
                       {ep.description}
                     </p>
 
                     {/* Metadata Pill Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                      <div className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 font-mono">
+                      <div className="flex items-center gap-2 p-3 rounded-xl bg-muted border border-border text-muted-foreground font-mono">
                         <Key className="h-4 w-4 text-emerald-600 shrink-0" />
                         <span className="truncate"><strong>Auth:</strong> {ep.auth}</span>
                       </div>
-                      <div className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 font-mono">
+                      <div className="flex items-center gap-2 p-3 rounded-xl bg-muted border border-border text-muted-foreground font-mono">
                         <Clock className="h-4 w-4 text-sky-600 shrink-0" />
                         <span className="truncate"><strong>Rate Limit:</strong> {ep.rateLimit}</span>
                       </div>
@@ -176,12 +176,12 @@ export const ApiCategoryPage: React.FC = () => {
                     {/* Parameters Table if applicable */}
                     {ep.parameters && ep.parameters.length > 0 && (
                       <div className="space-y-3">
-                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500">
+                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
                           Query / Path Parameters
                         </h3>
-                        <div className="overflow-x-auto rounded-2xl border border-gray-200">
+                        <div className="overflow-x-auto rounded-2xl border border-border">
                           <table className="w-full text-left text-xs" aria-label="Query parameters">
-                            <thead className="bg-gray-50 border-b border-gray-200 text-gray-600 font-mono">
+                            <thead className="bg-muted border-b border-border text-muted-foreground font-mono">
                               <tr>
                                 <th className="p-3">Parameter</th>
                                 <th className="p-3">Type</th>
@@ -190,20 +190,20 @@ export const ApiCategoryPage: React.FC = () => {
                                 <th className="p-3">Description</th>
                               </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100 font-mono text-gray-700">
+                            <tbody className="divide-y divide-gray-100 font-mono text-muted-foreground">
                               {ep.parameters.map((p) => (
-                                <tr key={p.name} className="hover:bg-gray-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                                <tr key={p.name} className="hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                                   <td className="p-3 font-bold text-[#0b192c]">{p.name}</td>
                                   <td className="p-3 text-sky-700">{p.type}</td>
-                                  <td className="p-3 text-gray-500">{p.in}</td>
+                                  <td className="p-3 text-muted-foreground">{p.in}</td>
                                   <td className="p-3">
                                     {p.required ? (
                                       <span className="text-rose-600 font-bold">Yes</span>
                                     ) : (
-                                      <span className="text-gray-400">Optional</span>
+                                      <span className="text-muted-foreground">Optional</span>
                                     )}
                                   </td>
-                                  <td className="p-3 font-sans text-gray-600">{p.description}</td>
+                                  <td className="p-3 font-sans text-muted-foreground">{p.description}</td>
                                 </tr>
                               ))}
                             </tbody>
@@ -216,15 +216,15 @@ export const ApiCategoryPage: React.FC = () => {
                     {ep.requestBody && (
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500">
+                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
                             Request Body ({ep.requestBody.contentType})
                           </h3>
                           {ep.requestBody.required && (
                             <span className="text-xs font-bold text-rose-600">Required</span>
                           )}
                         </div>
-                        <p className="text-xs text-gray-600">{ep.requestBody.description}</p>
-                        <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-gray-200 overflow-x-auto border border-[#415a77]/30">
+                        <p className="text-xs text-muted-foreground">{ep.requestBody.description}</p>
+                        <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
                           <pre className="text-emerald-400">
                             {JSON.stringify(ep.requestBody.defaultPayload, null, 2)}
                           </pre>
@@ -235,19 +235,19 @@ export const ApiCategoryPage: React.FC = () => {
                     {/* Code Snippet Box with Dropdown Selector (No Tabviews) */}
                     <div className="space-y-3">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500">
+                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
                           Code Generator
                         </h3>
 
                         <div className="flex items-center gap-2">
-                          <label htmlFor={`lang-${ep.id}`} className="text-xs font-semibold text-gray-600">
+                          <label htmlFor={`lang-${ep.id}`} className="text-xs font-semibold text-muted-foreground">
                             Client:
                           </label>
                           <select
                             id={`lang-${ep.id}`}
                             value={currentLang}
                             onChange={(e) => setLanguage(ep.id, e.target.value as any)}
-                            className="rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-bold text-gray-800 shadow-sm focus:border-sky-500 focus:outline-none cursor-pointer"
+                            className="rounded-xl border border-border bg-background px-3 py-1 text-xs font-bold text-foreground shadow-sm focus:border-sky-500 focus:outline-none cursor-pointer"
                           >
                             <option value="curl">cURL (Bash)</option>
                             <option value="javascript">JavaScript (Fetch)</option>
@@ -259,7 +259,7 @@ export const ApiCategoryPage: React.FC = () => {
 
                           <button
                             onClick={() => handleCopy(ep.id, snippet)}
-                            className="inline-flex items-center gap-1.5 rounded-xl border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                           >
                             {copiedMap[ep.id] ? (
                               <>
@@ -276,7 +276,7 @@ export const ApiCategoryPage: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-gray-200 overflow-x-auto border border-[#415a77]/30">
+                      <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
                         <pre className="text-sky-300 whitespace-pre leading-relaxed">
                           {snippet}
                         </pre>
@@ -286,11 +286,11 @@ export const ApiCategoryPage: React.FC = () => {
                     {/* Response Schema & Example */}
                     {ep.responses && ep.responses.length > 0 && (
                       <div className="space-y-3">
-                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500">
+                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
                           Response Payload (Status {ep.responses[0].status})
                         </h3>
-                        <p className="text-xs text-gray-600">{ep.responses[0].description}</p>
-                        <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-gray-200 overflow-x-auto border border-[#415a77]/30">
+                        <p className="text-xs text-muted-foreground">{ep.responses[0].description}</p>
+                        <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
                           <pre className="text-amber-300">
                             {JSON.stringify(ep.responses[0].example, null, 2)}
                           </pre>

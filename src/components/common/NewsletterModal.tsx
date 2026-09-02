@@ -78,12 +78,12 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full bg-[#0d1b2a] border border-[#415a77]/60 rounded-3xl shadow-2xl shadow-black/60 overflow-hidden text-white"
+            className="relative w-full bg-[#0d1b2a] border border-[#415a77]/60 rounded-3xl shadow-2xl shadow-black/60 overflow-hidden text-primary-foreground"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-full transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+              className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/80 rounded-full transition-colors z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
@@ -98,10 +98,10 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
                     <CheckCircle2 className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-white tracking-tight">
+                  <h3 className="text-xl font-bold text-primary-foreground tracking-tight">
                     You&apos;re on the list!
                   </h3>
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-muted-foreground text-sm">
                     Keep an eye on your inbox for the latest performance insights and updates.
                   </p>
                 </div>
@@ -112,10 +112,10 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                     <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 mb-4">
                       <Sparkles className="h-6 w-6" />
                     </div>
-                    <h3 id="newsletter-modal-title" className="text-xl sm:text-2xl font-black text-white tracking-tight mb-2">
+                    <h3 id="newsletter-modal-title" className="text-xl sm:text-2xl font-black text-primary-foreground tracking-tight mb-2">
                       Join the CatalystLab Newsletter
                     </h3>
-                    <p className="text-sm text-slate-300 leading-relaxed">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
                       Get exclusive insights on web performance, zero-day vulnerabilities, and architectural patterns sent directly to your inbox.
                     </p>
                   </div>
@@ -123,11 +123,11 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                   {/* Form */}
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                      <label htmlFor="newsletter-email" className="block text-xs font-mono font-bold text-slate-300 mb-1">
+                      <label htmlFor="newsletter-email" className="block text-xs font-mono font-bold text-muted-foreground mb-1">
                         Email Address
                       </label>
                       <div className="relative">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-muted-foreground">
                           <Mail className="h-4 w-4" />
                         </div>
                         <input
@@ -137,7 +137,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="developer@enterprise.io"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-900/90 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#00F0FF] focus:border-transparent transition-all"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-primary/90 text-primary-foreground placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#00F0FF] focus:border-transparent transition-all"
                         />
                       </div>
                     </div>
@@ -145,7 +145,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#00F0FF] to-[#06B6D4] text-slate-950 font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#00F0FF] to-[#06B6D4] text-foreground font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
                     >
                       <span>{isSubmitting ? 'Joining...' : 'Subscribe to Telemetry'}</span>
                       <ArrowRight className="h-4 w-4" />

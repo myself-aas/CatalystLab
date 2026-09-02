@@ -57,7 +57,7 @@ export const ParallaxSection: React.FC<ParallaxSectionProps> = ({
 
       {/* Dark / Light Scrim Overlay */}
       <div 
-        className="absolute inset-0 z-10 pointer-events-none bg-white/85 backdrop-blur-[2px]"
+        className="absolute inset-0 z-10 pointer-events-none bg-background/85 backdrop-blur-[2px]"
         style={{ backgroundColor: `rgba(255, 255, 255, ${overlayOpacity})` }}
       />
 

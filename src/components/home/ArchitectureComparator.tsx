@@ -1,88 +1,109 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { motion } from 'motion/react';
-import EdgeMeshGlobe from '../ui/edge-mesh-globe';
+import { Cpu, Server, Activity, ShieldCheck } from 'lucide-react';
+
+const EdgeMeshGlobe = React.lazy(() => import('../ui/edge-mesh-globe'));
 
 const SPECS = [
   {
     id: 'throughput',
-    name: 'Throughput',
+    name: 'Audit Throughput',
     value: '400k',
     unit: 'req/s',
-    why: 'Peak concurrent audit execution without queuing delays.',
+    why: 'Peak concurrent audit execution with zero queue backlog or dropped packets.',
+    badge: 'PARALLEL PIPELINE',
   },
   {
     id: 'latency',
-    name: 'Global Latency',
+    name: 'Global Edge Latency',
     value: '< 12',
     unit: 'ms',
-    why: 'Average response time across our 42-node edge network.',
+    why: 'P95 response time across 42 global anycast points of presence.',
+    badge: 'ANYCAST MESH',
   },
   {
     id: 'retention',
-    name: 'Data Retention',
+    name: 'Telemetry Retention',
     value: '13',
     unit: 'months',
-    why: 'Historical telemetry available for year-over-year reporting.',
+    why: 'Immutable time-series telemetry archive for regression analysis and compliance audits.',
+    badge: 'COLD / WARM TIER',
   },
   {
     id: 'accuracy',
-    name: 'Fidelity',
+    name: 'Synthetic Fidelity',
     value: '99.9',
     unit: '%',
-    why: 'Zero-noise data pipeline filtering synthetic bot traffic.',
+    why: 'Deterministic browser automation engine eliminating transient noise.',
+    badge: 'DETERMINISTIC',
   }
 ];
 
 export const ArchitectureComparator: React.FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-black border-t border-zinc-900">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8">
+    <section className="py-16 md:py-24 bg-primary border-t border-white/6 relative overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
-        <div className="mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-medium text-white tracking-tight">
+        {/* Section Header */}
+        <div className="mb-12 md:mb-16 max-w-2xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-950/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-emerald-400 mb-3">
+            <Server className="size-3.5" />
+            <span>Infrastructure Specifications</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-primary-foreground tracking-tight leading-tight">
             Enterprise architecture.
           </h2>
-          <p className="mt-4 text-zinc-400 text-lg leading-relaxed max-w-[60ch]">
+          <p className="mt-3 text-muted-foreground text-base sm:text-lg leading-relaxed">
             Built on a globally distributed edge mesh, CatalystLab scales elastically to handle millions of synthetic requests while maintaining sub-second analysis latency.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* 4-Card Bento Specs Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {SPECS.map((spec, i) => (
             <motion.div 
               key={spec.id}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative overflow-hidden p-6 rounded-2xl bg-zinc-950/40 border border-zinc-800/80 hover:bg-zinc-900/40 hover:border-zinc-700 transition-all duration-500 flex flex-col justify-between min-h-[240px]"
+              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative overflow-hidden p-6 rounded-2xl bg-foreground/70 border border-white/8 hover:bg-primary/60 hover:border-white/20 transition-all duration-300 flex flex-col justify-between min-h-[260px] backdrop-blur-xl shadow-lg"
             >
-              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              
+              {/* Top Bar: Name & Live Status Ping */}
               <div className="flex items-start justify-between relative z-10">
-                <h3 className="text-sm font-medium text-zinc-400 group-hover:text-zinc-400 transition-colors duration-500">{spec.name}</h3>
-                <div className="w-1.5 h-1.5 mt-1.5 rounded-full bg-zinc-700 group-hover:bg-emerald-500 transition-colors duration-700 shadow-[0_0_0_rgba(16,185,129,0)] group-hover:shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                <div>
+                  <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-medium">{spec.name}</h3>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-cyan-400 mt-1 block">
+                    {spec.badge}
+                  </span>
+                </div>
+
+                <div className="size-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
               </div>
               
+              {/* Interactive Edge Globe for Latency Card */}
               {spec.id === 'latency' && (
-                <div className="absolute right-0 top-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none translate-x-1/4 -translate-y-1/4 scale-150">
-                  <EdgeMeshGlobe 
-                    variant="thumb" 
-                    autoSpin={true} 
-                    interactive={false} 
-                    showChips={false} 
-                    showControls={false} 
-                    showInspector={false} 
-                  />
+                <div className="absolute right-0 top-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none translate-x-1/4 -translate-y-1/4 scale-125">
+                  <Suspense fallback={null}>
+                    <EdgeMeshGlobe 
+                      variant="thumb" 
+                      autoSpin={true} 
+                      interactive={false} 
+                      showChips={false} 
+                      showControls={false} 
+                      showInspector={false} 
+                    />
+                  </Suspense>
                 </div>
               )}
 
-              <div className="relative z-10 mt-auto">
-                <div className="flex items-baseline gap-1 mb-3">
-                  <span className="text-4xl font-medium text-white font-mono tracking-tight group-hover:text-zinc-100 transition-colors duration-500">{spec.value}</span>
-                  <span className="text-sm text-zinc-400 font-medium group-hover:text-zinc-300 transition-colors duration-500">{spec.unit}</span>
+              {/* Bottom Stat Value & Description */}
+              <div className="relative z-10 mt-6">
+                <div className="flex items-baseline gap-1.5 mb-3">
+                  <span className="text-4xl font-semibold text-primary-foreground font-mono tracking-tight">{spec.value}</span>
+                  <span className="text-sm text-muted-foreground font-mono font-medium">{spec.unit}</span>
                 </div>
-                <p className="text-sm text-zinc-400 leading-relaxed border-t border-zinc-900/80 pt-4 group-hover:text-zinc-400 transition-colors duration-500">
+                <p className="text-xs text-muted-foreground leading-relaxed border-t border-white/6 pt-3.5">
                   {spec.why}
                 </p>
               </div>
@@ -94,3 +115,6 @@ export const ArchitectureComparator: React.FC = () => {
     </section>
   );
 };
+
+export default ArchitectureComparator;
+

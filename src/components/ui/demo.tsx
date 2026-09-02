@@ -52,7 +52,7 @@ export default function Demo() {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-black flex items-center justify-center">
+    <div className="w-full min-h-screen bg-primary flex items-center justify-center">
       <CoverFlowCarousel 
         items={auditFeatures} 
         sectionLabel="DIAGNOSTIC ENGINES" 

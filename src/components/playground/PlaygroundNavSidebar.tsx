@@ -39,8 +39,8 @@ export const PlaygroundNavSidebar: React.FC = () => {
   return (
     <aside className="w-full lg:w-72 shrink-0 space-y-6">
       {/* Overview Card */}
-      <div className="rounded-2xl border border-[#e2e8f0] bg-white p-4 shadow-sm">
-        <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500 mb-3">
+      <div className="rounded-2xl border border-[#e2e8f0] bg-background p-4 shadow-sm">
+        <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground mb-3">
           Playground Hub
         </h4>
         <nav className="space-y-1">
@@ -48,8 +48,8 @@ export const PlaygroundNavSidebar: React.FC = () => {
             to="/playground"
             className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
               location.pathname === '/playground'
-                ? 'bg-[#0b192c] text-white'
-                : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                ? 'bg-[#0b192c] text-primary-foreground'
+                : 'text-muted-foreground hover:bg-accent hover:text-foreground'
             }`}
           >
             <div className="flex items-center gap-2">
@@ -73,12 +73,12 @@ export const PlaygroundNavSidebar: React.FC = () => {
       </div>
 
       {/* Engine Consoles List */}
-      <div className="rounded-2xl border border-[#e2e8f0] bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-[#e2e8f0] bg-background p-4 shadow-sm">
         <div className="flex items-center justify-between mb-3">
-          <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500">
+          <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
             Engine Consoles
           </h4>
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-accent text-muted-foreground">
             {PLAYGROUND_ENGINES.length}
           </span>
         </div>
@@ -95,8 +95,8 @@ export const PlaygroundNavSidebar: React.FC = () => {
                 to={path}
                 className={`flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors ${
                   active
-                    ? 'bg-[#0b192c] text-white font-bold'
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                    ? 'bg-[#0b192c] text-primary-foreground font-bold'
+                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
@@ -104,7 +104,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
                   <span className="truncate">{engine.name}</span>
                 </div>
                 <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded shrink-0 ${
-                  active ? 'bg-gray-100 text-black' : 'bg-gray-100 text-gray-600'
+                  active ? 'bg-accent text-foreground' : 'bg-accent text-muted-foreground'
                 }`}>
                   {engine.cost} credit
                 </span>

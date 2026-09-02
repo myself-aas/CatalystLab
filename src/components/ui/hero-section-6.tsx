@@ -160,14 +160,14 @@ export default function HeroSection6() {
   };
 
   return (
-    <div className="relative w-full min-h-screen [--color-primary:#003AF9] overflow-hidden bg-slate-950 text-white">
+    <div className="relative w-full min-h-screen [--color-primary:#003AF9] overflow-hidden bg-primary text-primary-foreground">
       {/* Radial Gradient Background */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(125%_125%_at_50%_10%,#020617_40%,var(--color-primary)_100%)] opacity-90" />
 
       {/* Navbar */}
       <nav className="w-full flex justify-between items-center py-4 px-4 sm:px-6 border-b border-white/10 relative z-10">
         <div className="flex items-center gap-2 font-bold text-base tracking-tight">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-white font-mono text-xs">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-primary-foreground font-mono text-xs">
             CL
           </div>
           <span>CatalystLab</span>
@@ -175,7 +175,7 @@ export default function HeroSection6() {
 
         <div className="items-center gap-6 hidden md:flex">
           {navItems.map((item) => (
-            <a href={item.href} key={item.name} className="text-sm text-neutral-300 hover:text-white transition-colors">
+            <a href={item.href} key={item.name} className="text-sm text-neutral-300 hover:text-primary-foreground transition-colors">
               {item.name}
             </a>
           ))}
@@ -185,7 +185,7 @@ export default function HeroSection6() {
           <a href="/login" className="px-3.5 py-1.5 text-xs font-medium border border-neutral-700 text-neutral-200 hover:bg-neutral-800 transition-colors rounded-lg">
             Log in
           </a>
-          <a href="/signup" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-white hover:bg-blue-500 transition-colors rounded-lg shadow-sm">
+          <a href="/signup" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-primary-foreground hover:bg-blue-500 transition-colors rounded-lg shadow-sm">
             Sign Up
           </a>
         </div>
@@ -211,7 +211,7 @@ export default function HeroSection6() {
             <span>SYNCHRONOUS TELEMETRY • AUTONOMOUS AGENTS</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.08] px-4 md:px-0">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-primary-foreground mb-6 leading-[1.08] px-4 md:px-0">
             Precision Telemetry &amp;
             <br />
             Autonomous Web Auditing
@@ -224,7 +224,7 @@ export default function HeroSection6() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-16 mx-auto">
             <a
               href="/master-audit"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-blue-500 text-white w-full sm:w-auto shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-blue-500 text-primary-foreground w-full sm:w-auto shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
             >
               <span>Launch Master Audit</span>
               <ArrowRight className="h-4 w-4" />

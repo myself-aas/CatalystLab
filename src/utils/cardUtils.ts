@@ -85,10 +85,10 @@ export const getDifficultyTheme = (difficulty: 'Easy' | 'Moderate' | 'Hard' | 'E
     default:
       return {
         label: difficulty,
-        colorClass: 'text-slate-300',
-        bgClass: 'bg-slate-800 border-slate-700',
-        dotColor: 'bg-slate-400',
-        badgeBorder: 'border-slate-700',
+        colorClass: 'text-muted-foreground',
+        bgClass: 'bg-muted border-border',
+        dotColor: 'bg-muted',
+        badgeBorder: 'border-border',
       };
   }
 };

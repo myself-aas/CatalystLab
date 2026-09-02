@@ -245,31 +245,31 @@ export const CommandCenterHUD: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#060912] text-slate-100 font-sans selection:bg-[#06B6D4]/30 selection:text-white pb-16">
+    <div className="min-h-screen bg-[#060912] text-foreground font-sans selection:bg-[#06B6D4]/30 selection:text-primary-foreground pb-16">
       {/* Top Telemetry Ticker */}
-      <div className="w-full bg-[#080D1A] border-b border-slate-800 px-4 py-2.5">
+      <div className="w-full bg-[#080D1A] border-b border-border px-4 py-2.5">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#06B6D4]/10 text-[#00F0FF] border border-[#06B6D4]/30 font-bold">
               <span className="h-2 w-2 rounded-full bg-[#00FF66] animate-pulse" />
               COMMAND CENTER HUD
             </span>
-            <span className="hidden sm:inline text-slate-400">
-              Active Telemetry Node: <strong className="text-white">{activeDomain}</strong>
+            <span className="hidden sm:inline text-muted-foreground">
+              Active Telemetry Node: <strong className="text-primary-foreground">{activeDomain}</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] text-slate-400">
+          <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-400">System Load:</span>
+              <span className="text-muted-foreground">System Load:</span>
               <span className="text-[#00FF66] font-bold">{systemLoad}%</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-400">Global Edge PoPs:</span>
+              <span className="text-muted-foreground">Global Edge PoPs:</span>
               <span className="text-[#00F0FF] font-bold">{edgePopCount} active</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-slate-400">Mean Latency:</span>
+              <span className="text-muted-foreground">Mean Latency:</span>
               <span className="text-emerald-400 font-bold">{averageLatencyMs}ms</span>
             </div>
           </div>
@@ -283,9 +283,9 @@ export const CommandCenterHUD: React.FC = () => {
           {/* ================= COLUMN 1: CONTROLS & TARGET RADAR (3 COLS) ================= */}
           <div className="lg:col-span-3 space-y-5">
             {/* Domain Target Console */}
-            <div className="bg-[#080D1A] border border-slate-800 rounded-2xl p-4 shadow-xl space-y-4 font-mono text-xs">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                <span className="font-bold text-slate-200 flex items-center gap-1.5">
+            <div className="bg-[#080D1A] border border-border rounded-2xl p-4 shadow-xl space-y-4 font-mono text-xs">
+              <div className="flex items-center justify-between pb-2 border-b border-border">
+                <span className="font-bold text-muted-foreground flex items-center gap-1.5">
                   <Crosshair className="h-3.5 w-3.5 text-[#00F0FF]" />
                   TARGET HOST
                 </span>
@@ -295,22 +295,22 @@ export const CommandCenterHUD: React.FC = () => {
               </div>
 
               <form onSubmit={handleDomainSubmit} className="space-y-2">
-                <label className="text-[11px] text-slate-400 block font-sans">
+                <label className="text-[11px] text-muted-foreground block font-sans">
                   Inspect URL or Edge Hostname
                 </label>
-                <div className="flex items-center bg-[#060912] border border-slate-700 rounded-xl px-3 py-1.5 focus-within:border-[#06B6D4] transition-colors">
-                  <span className="text-slate-400 mr-1.5">&gt;</span>
+                <div className="flex items-center bg-[#060912] border border-border rounded-xl px-3 py-1.5 focus-within:border-[#06B6D4] transition-colors">
+                  <span className="text-muted-foreground mr-1.5">&gt;</span>
                   <input
                     type="text"
                     value={domainInputValue}
                     onChange={(e) => setDomainInputValue(e.target.value)}
                     placeholder="example.com"
-                    className="w-full bg-transparent text-white focus:outline-none text-xs font-mono"
+                    className="w-full bg-transparent text-primary-foreground focus:outline-none text-xs font-mono"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-2 px-3 rounded-xl bg-[#06B6D4] text-slate-950 font-bold hover:bg-[#00F0FF] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.3)]"
+                  className="w-full py-2 px-3 rounded-xl bg-[#06B6D4] text-foreground font-bold hover:bg-[#00F0FF] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.3)]"
                 >
                   <span>Sync Telemetry</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -318,8 +318,8 @@ export const CommandCenterHUD: React.FC = () => {
               </form>
 
               {/* Quick Presets */}
-              <div className="pt-2 border-t border-slate-800/80">
-                <span className="text-[10px] text-slate-400 block mb-1.5 uppercase font-bold tracking-wider">
+              <div className="pt-2 border-t border-border/80">
+                <span className="text-[10px] text-muted-foreground block mb-1.5 uppercase font-bold tracking-wider">
                   Quick Benchmark Targets:
                 </span>
                 <div className="flex flex-wrap gap-1">
@@ -335,7 +335,7 @@ export const CommandCenterHUD: React.FC = () => {
                       className={`px-2 py-0.5 rounded border text-[10px] transition-colors cursor-pointer ${
                         activeDomain === d
                           ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-[#00F0FF] font-bold'
-                          : 'bg-[#0E1526] border-slate-800 text-slate-400 hover:text-white'
+                          : 'bg-[#0E1526] border-border text-muted-foreground hover:text-primary-foreground'
                       }`}
                     >
                       {d}
@@ -346,9 +346,9 @@ export const CommandCenterHUD: React.FC = () => {
             </div>
 
             {/* Focus Modes Isolator */}
-            <div className="bg-[#080D1A] border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3 font-mono text-xs">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                <span className="font-bold text-slate-200 flex items-center gap-1.5">
+            <div className="bg-[#080D1A] border border-border rounded-2xl p-4 shadow-xl space-y-3 font-mono text-xs">
+              <div className="flex items-center justify-between pb-2 border-b border-border">
+                <span className="font-bold text-muted-foreground flex items-center gap-1.5">
                   <Sliders className="h-3.5 w-3.5 text-[#00FF66]" />
                   FOCUS MODES
                 </span>
@@ -356,14 +356,14 @@ export const CommandCenterHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setFocusEngine(null)}
-                    className="text-[10px] text-slate-400 hover:text-white underline cursor-pointer"
+                    className="text-[10px] text-muted-foreground hover:text-primary-foreground underline cursor-pointer"
                   >
                     Reset (Show All)
                   </button>
                 )}
               </div>
 
-              <p className="text-[11px] font-sans text-slate-400 leading-relaxed">
+              <p className="text-[11px] font-sans text-muted-foreground leading-relaxed">
                 Click any catalyst engine below to isolate and illuminate its telemetry metrics across the HUD.
               </p>
 
@@ -377,16 +377,16 @@ export const CommandCenterHUD: React.FC = () => {
                       onClick={() => toggleFocusEngine(engine.id)}
                       className={`w-full flex items-center justify-between p-2 rounded-xl border transition-all text-left cursor-pointer ${
                         isFocused
-                          ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-white shadow-[0_0_12px_rgba(6,182,212,0.25)] font-bold'
-                          : 'bg-[#0B101D] border-slate-800/80 text-slate-300 hover:bg-[#0E1526] hover:border-slate-700'
+                          ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-primary-foreground shadow-[0_0_12px_rgba(6,182,212,0.25)] font-bold'
+                          : 'bg-[#0B101D] border-border/80 text-muted-foreground hover:bg-[#0E1526] hover:border-border'
                       }`}
                     >
                       <div className="flex items-center gap-2 truncate">
-                        <span className={`h-1.5 w-1.5 rounded-full ${isFocused ? 'bg-[#00F0FF] animate-ping' : 'bg-slate-600'}`} />
+                        <span className={`h-1.5 w-1.5 rounded-full ${isFocused ? 'bg-[#00F0FF] animate-ping' : 'bg-muted'}`} />
                         <span className="truncate">{engine.name}</span>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0 text-[10px]">
-                        <span className="text-slate-400">{engine.phase}</span>
+                        <span className="text-muted-foreground">{engine.phase}</span>
                         <span className="text-[#00FF66] font-bold">[{engine.score}]</span>
                       </div>
                     </button>
@@ -396,9 +396,9 @@ export const CommandCenterHUD: React.FC = () => {
             </div>
 
             {/* Global Edge Node Health Status & 3D Anycast Mesh */}
-            <div className="bg-[#080D1A] border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3 font-mono text-xs overflow-hidden">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                <span className="font-bold text-slate-200 flex items-center gap-1.5">
+            <div className="bg-[#080D1A] border border-border rounded-2xl p-4 shadow-xl space-y-3 font-mono text-xs overflow-hidden">
+              <div className="flex items-center justify-between pb-2 border-b border-border">
+                <span className="font-bold text-muted-foreground flex items-center gap-1.5">
                   <Globe className="h-3.5 w-3.5 text-[#00F0FF]" />
                   LIVE ANYCAST RADAR
                 </span>
@@ -420,21 +420,21 @@ export const CommandCenterHUD: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-[10px]">
-                <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-400">IAD • US-East</div>
-                  <div className="text-white font-bold mt-0.5">12.4ms • 100%</div>
+                <div className="bg-[#060912] p-2 rounded-lg border border-border">
+                  <div className="text-muted-foreground">IAD • US-East</div>
+                  <div className="text-primary-foreground font-bold mt-0.5">12.4ms • 100%</div>
                 </div>
-                <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-400">FRA • EU-Central</div>
-                  <div className="text-white font-bold mt-0.5">14.1ms • 100%</div>
+                <div className="bg-[#060912] p-2 rounded-lg border border-border">
+                  <div className="text-muted-foreground">FRA • EU-Central</div>
+                  <div className="text-primary-foreground font-bold mt-0.5">14.1ms • 100%</div>
                 </div>
-                <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-400">NRT • Tokyo</div>
-                  <div className="text-white font-bold mt-0.5">18.6ms • 100%</div>
+                <div className="bg-[#060912] p-2 rounded-lg border border-border">
+                  <div className="text-muted-foreground">NRT • Tokyo</div>
+                  <div className="text-primary-foreground font-bold mt-0.5">18.6ms • 100%</div>
                 </div>
-                <div className="bg-[#060912] p-2 rounded-lg border border-slate-800">
-                  <div className="text-slate-400">SJC • US-West</div>
-                  <div className="text-white font-bold mt-0.5">15.2ms • 100%</div>
+                <div className="bg-[#060912] p-2 rounded-lg border border-border">
+                  <div className="text-muted-foreground">SJC • US-West</div>
+                  <div className="text-primary-foreground font-bold mt-0.5">15.2ms • 100%</div>
                 </div>
               </div>
             </div>
@@ -444,15 +444,15 @@ export const CommandCenterHUD: React.FC = () => {
           <div className="lg:col-span-5 space-y-4">
             
             {/* View Mode Bar */}
-            <div className="flex items-center justify-between bg-[#080D1A] border border-slate-800 rounded-2xl p-2.5 text-xs font-mono">
+            <div className="flex items-center justify-between bg-[#080D1A] border border-border rounded-2xl p-2.5 text-xs font-mono">
               <div className="flex items-center gap-2">
-                <span className="text-slate-400 font-sans text-xs">Telemetry Matrix:</span>
+                <span className="text-muted-foreground font-sans text-xs">Telemetry Matrix:</span>
                 {focusEngine ? (
                   <span className="px-2 py-0.5 rounded bg-[#06B6D4]/10 text-[#00F0FF] border border-[#06B6D4]/30 font-bold">
                     Focus Mode: {focusEngine.toUpperCase()}
                   </span>
                 ) : (
-                  <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+                  <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground">
                     All 8 Engines Active
                   </span>
                 )}
@@ -464,8 +464,8 @@ export const CommandCenterHUD: React.FC = () => {
                   onClick={() => setActiveTab('hud')}
                   className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     activeTab === 'hud'
-                      ? 'bg-[#06B6D4] text-slate-950 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#06B6D4] text-foreground font-bold'
+                      : 'text-muted-foreground hover:text-primary-foreground'
                   }`}
                 >
                   Cards
@@ -475,8 +475,8 @@ export const CommandCenterHUD: React.FC = () => {
                   onClick={() => setActiveTab('waterfall')}
                   className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     activeTab === 'waterfall'
-                      ? 'bg-[#06B6D4] text-slate-950 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#06B6D4] text-foreground font-bold'
+                      : 'text-muted-foreground hover:text-primary-foreground'
                   }`}
                 >
                   Radar
@@ -502,27 +502,27 @@ export const CommandCenterHUD: React.FC = () => {
                         isFocused
                           ? 'bg-[#0B101D] border-[#06B6D4] ring-2 ring-[#06B6D4]/50 shadow-[0_0_24px_rgba(6,182,212,0.3)] z-10'
                           : isDimmed
-                          ? 'bg-[#080D1A]/50 border-slate-800/40 opacity-30 grayscale-40'
-                          : 'bg-[#080D1A] border-slate-800 hover:border-slate-700 shadow-xl'
+                          ? 'bg-[#080D1A]/50 border-border/40 opacity-30 grayscale-40'
+                          : 'bg-[#080D1A] border-border hover:border-border shadow-xl'
                       }`}
                     >
                       {/* Card Header Bar */}
-                      <div className="p-4 flex items-center justify-between gap-3 border-b border-slate-800/80">
+                      <div className="p-4 flex items-center justify-between gap-3 border-b border-border/80">
                         <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-xl bg-[#060912] border border-slate-800 ${engine.colorClass}`}>
+                          <div className={`p-2 rounded-xl bg-[#060912] border border-border ${engine.colorClass}`}>
                             <Activity className="h-4 w-4" />
                           </div>
 
                           <div>
                             <div className="flex items-center gap-2">
-                              <h3 className="font-bold text-white text-base tracking-tight">
+                              <h3 className="font-bold text-primary-foreground text-base tracking-tight">
                                 {engine.name}
                               </h3>
-                              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-[#00F0FF] border border-slate-700">
+                              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-[#00F0FF] border border-border">
                                 {engine.phase}
                               </span>
                             </div>
-                            <p className="text-xs text-slate-400 font-sans mt-0.5">
+                            <p className="text-xs text-muted-foreground font-sans mt-0.5">
                               {engine.techTranslation}
                             </p>
                           </div>
@@ -531,7 +531,7 @@ export const CommandCenterHUD: React.FC = () => {
                         {/* Health Score Pill */}
                         <div className="flex items-center gap-2 shrink-0">
                           <div className="text-right font-mono">
-                            <div className="text-lg font-black text-white">{engine.score}</div>
+                            <div className="text-lg font-black text-primary-foreground">{engine.score}</div>
                             <div className="text-[10px] text-[#00FF66] uppercase font-bold">● Healthy</div>
                           </div>
                         </div>
@@ -540,10 +540,10 @@ export const CommandCenterHUD: React.FC = () => {
                       {/* Primary Telemetry Metric Value */}
                       <div className="p-4 bg-[#060912]/50 flex items-center justify-between gap-4 font-mono">
                         <div>
-                          <div className="text-2xl font-black text-white tracking-tight">
+                          <div className="text-2xl font-black text-primary-foreground tracking-tight">
                             {engine.primaryMetric}
                           </div>
-                          <div className="text-xs text-slate-400 mt-0.5 font-sans">
+                          <div className="text-xs text-muted-foreground mt-0.5 font-sans">
                             {engine.primaryLabel}
                           </div>
                         </div>
@@ -552,7 +552,7 @@ export const CommandCenterHUD: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => toggleExpand(engine.id)}
-                            className="flex items-center gap-1 text-xs text-slate-300 hover:text-[#00F0FF] bg-[#0B101D] border border-slate-800 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
+                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-[#00F0FF] bg-[#0B101D] border border-border px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
                           >
                             <span>{isExpanded ? 'Hide Vectors' : '6 Sub-Vectors'}</span>
                             <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
@@ -560,7 +560,7 @@ export const CommandCenterHUD: React.FC = () => {
 
                           <Link
                             to={engine.route}
-                            className="p-1.5 rounded-xl bg-[#06B6D4] text-slate-950 hover:bg-[#00F0FF] transition-colors"
+                            className="p-1.5 rounded-xl bg-[#06B6D4] text-foreground hover:bg-[#00F0FF] transition-colors"
                             title="Run targeted audit"
                           >
                             <ArrowRight className="h-4 w-4" />
@@ -576,20 +576,20 @@ export const CommandCenterHUD: React.FC = () => {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="border-t border-slate-800 p-4 bg-[#060912] font-mono text-xs space-y-2"
+                            className="border-t border-border p-4 bg-[#060912] font-mono text-xs space-y-2"
                           >
-                            <div className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-2">
+                            <div className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider mb-2">
                               Synthesized Vector Measurements (Pass threshold):
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                               {engine.subVectors.map((vec, idx) => (
-                                <div key={idx} className="p-2 rounded-lg bg-[#0B101D] border border-slate-800/80 flex items-center justify-between gap-2">
+                                <div key={idx} className="p-2 rounded-lg bg-[#0B101D] border border-border/80 flex items-center justify-between gap-2">
                                   <div className="truncate">
-                                    <div className="text-slate-300 truncate text-[11px]">{vec.name}</div>
-                                    <div className="text-[10px] text-slate-400">Benchmark: {vec.benchmark}</div>
+                                    <div className="text-muted-foreground truncate text-[11px]">{vec.name}</div>
+                                    <div className="text-[10px] text-muted-foreground">Benchmark: {vec.benchmark}</div>
                                   </div>
                                   <div className="text-right shrink-0">
-                                    <div className="text-white font-bold">{vec.value}</div>
+                                    <div className="text-primary-foreground font-bold">{vec.value}</div>
                                     <div className="text-[10px] text-[#00FF66]">● Pass</div>
                                   </div>
                                 </div>
@@ -606,13 +606,13 @@ export const CommandCenterHUD: React.FC = () => {
 
             {/* Tab: Real-Time Multi-Region Waterfall Radar */}
             {activeTab === 'waterfall' && (
-              <div className="bg-[#080D1A] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4 font-mono text-xs">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                  <span className="font-bold text-white flex items-center gap-2">
+              <div className="bg-[#080D1A] border border-border rounded-2xl p-5 shadow-xl space-y-4 font-mono text-xs">
+                <div className="flex items-center justify-between pb-2 border-b border-border">
+                  <span className="font-bold text-primary-foreground flex items-center gap-2">
                     <BarChart3 className="h-4 w-4 text-[#00F0FF]" />
                     Multi-Region Latency & TTFB Distribution
                   </span>
-                  <span className="text-slate-400 text-[11px]">42 PoP Aggregate</span>
+                  <span className="text-muted-foreground text-[11px]">42 PoP Aggregate</span>
                 </div>
 
                 <div className="space-y-3">
@@ -624,10 +624,10 @@ export const CommandCenterHUD: React.FC = () => {
                   ].map((pop, idx) => (
                     <div key={idx} className="space-y-1">
                       <div className="flex items-center justify-between text-[11px]">
-                        <span className="text-slate-300 font-sans">{pop.region}</span>
+                        <span className="text-muted-foreground font-sans">{pop.region}</span>
                         <span className="text-[#00FF66] font-bold">{pop.ms}ms</span>
                       </div>
-                      <div className="w-full bg-[#060912] h-2 rounded-full overflow-hidden border border-slate-800">
+                      <div className="w-full bg-[#060912] h-2 rounded-full overflow-hidden border border-border">
                         <div 
                           className="h-full bg-gradient-to-r from-[#06B6D4] to-[#00FF66] rounded-full shadow-[0_0_8px_rgba(6,182,212,0.6)]" 
                           style={{ width: `${pop.percentage}%` }}
@@ -637,7 +637,7 @@ export const CommandCenterHUD: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="p-3 rounded-xl bg-[#060912] border border-slate-800 text-[11px] text-slate-400 leading-relaxed font-sans">
+                <div className="p-3 rounded-xl bg-[#060912] border border-border text-[11px] text-muted-foreground leading-relaxed font-sans">
                   Edge routing dynamically proxies probes via Cloudflare, Fastly, and AWS CloudFront Anycast networks. 0-RTT TLS session resumption is active across all endpoints.
                 </div>
               </div>

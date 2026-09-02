@@ -88,10 +88,10 @@ export const EngineVectorCard: React.FC<EngineVectorCardProps> = ({
       {/* 4. Top Header Row (R1 Anatomy: Glyph/Brand Left + Live Status Score Chip Right + Bookmark) */}
       <div className="w-full flex items-center justify-between gap-3 relative z-10 select-none">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 rounded-lg bg-black/60 border border-white/25 flex items-center justify-center text-xs font-mono font-black text-white shrink-0 backdrop-blur-md shadow-sm">
+          <div className="w-7 h-7 rounded-lg bg-foreground/60 border border-white/25 flex items-center justify-center text-xs font-mono font-black text-primary-foreground shrink-0 backdrop-blur-md shadow-sm">
             {code || name.slice(0, 2).toUpperCase()}
           </div>
-          <span className="font-mono font-bold tracking-tight text-white text-sm uppercase truncate drop-shadow-sm">
+          <span className="font-mono font-bold tracking-tight text-primary-foreground text-sm uppercase truncate drop-shadow-sm">
             {name}
           </span>
         </div>
@@ -109,13 +109,13 @@ export const EngineVectorCard: React.FC<EngineVectorCardProps> = ({
       {/* 5. Bottom Content & Actions (R2-B Anatomy: Title, Sub, Rating/Stat Row, Full-width Pill CTA) */}
       <div className="relative z-10 space-y-3 pt-6 mt-auto">
         <div className="space-y-1">
-          <span className="text-xs font-mono uppercase tracking-widest text-white font-bold block drop-shadow-sm">
+          <span className="text-xs font-mono uppercase tracking-widest text-primary-foreground font-bold block drop-shadow-sm">
             {category}
           </span>
-          <h3 className="text-lg sm:text-xl font-bold font-sans text-white tracking-tight leading-snug drop-shadow-md">
+          <h3 className="text-lg sm:text-xl font-bold font-sans text-primary-foreground tracking-tight leading-snug drop-shadow-md">
             {title}
           </h3>
-          <p className="text-xs sm:text-sm text-white font-sans line-clamp-2 leading-relaxed drop-shadow-sm">
+          <p className="text-xs sm:text-sm text-primary-foreground font-sans line-clamp-2 leading-relaxed drop-shadow-sm">
             {description}
           </p>
         </div>

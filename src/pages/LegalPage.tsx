@@ -22,29 +22,29 @@ export const LegalPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white pb-20 text-black font-mono selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-background pb-20 text-foreground font-mono selection:bg-primary selection:text-primary-foreground">
       <SEOHead
         title={`${title} — CatalystLab`}
         description={content}
         canonicalUrl={`https://www.catalystlab.tech${path}`}
       />
-      <section className="border-b border-slate-200 bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
+      <section className="border-b border-border bg-muted px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl space-y-2">
-          <div className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-0.5 text-xs font-bold text-black uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-0.5 text-xs font-bold text-foreground uppercase tracking-wider">
             <ShieldCheck className="h-3.5 w-3.5" />
             <span>Compliance &amp; Legal Standards</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-black font-sans">{title}</h1>
-          <p className="text-xs text-slate-500 font-sans">Last updated: August 2026</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground font-sans">{title}</h1>
+          <p className="text-xs text-muted-foreground font-sans">Last updated: August 2026</p>
         </div>
       </section>
 
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 text-xs sm:text-sm leading-relaxed text-black shadow-xl sm:p-8 font-sans">
-          <p className="text-black leading-relaxed">{content}</p>
-          <p className="text-xs text-slate-600 pt-2 border-t border-slate-200">
+        <div className="space-y-4 rounded-2xl border border-border bg-background p-6 text-xs sm:text-sm leading-relaxed text-foreground shadow-xl sm:p-8 font-sans">
+          <p className="text-foreground leading-relaxed">{content}</p>
+          <p className="text-xs text-muted-foreground pt-2 border-t border-border">
             For questions or requests regarding data retention or legal compliance, please refer to our{' '}
-            <Link to="/contact" className="font-semibold text-black underline hover:text-black">Contact Support</Link> portal.
+            <Link to="/contact" className="font-semibold text-foreground underline hover:text-foreground">Contact Support</Link> portal.
           </p>
         </div>
       </main>

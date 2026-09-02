@@ -51,14 +51,14 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`flex items-center gap-2.5 ${className}`}>
       {/* Engineered Terminal Icon Box */}
       <div 
-        className={`flex ${current.box} items-center justify-center bg-slate-900 text-cyan-400 border border-slate-700/80 shadow-xs select-none font-bold shrink-0 transition-transform active:scale-95`}
+        className={`flex ${current.box} items-center justify-center bg-primary text-cyan-400 border border-border/80 shadow-xs select-none font-bold shrink-0 transition-transform active:scale-95`}
         aria-hidden="true"
       >
         <Terminal className={`${current.icon} text-cyan-400`} />
       </div>
 
       {showText && (
-        <span className={`font-bold tracking-tight transition-colors duration-200 ${darkText ? 'text-slate-900' : 'text-foreground'} ${current.title}`}>
+        <span className={`font-bold tracking-tight transition-colors duration-200 ${darkText ? 'text-foreground' : 'text-foreground'} ${current.title}`}>
           Catalyst<span className="text-cyan-400">Lab</span>
         </span>
       )}

@@ -56,7 +56,7 @@ export const SyncStatusBadge: React.FC = () => {
           <CheckCircle2 className="w-3.5 h-3.5" />
           <span className="whitespace-nowrap">MongoDB Atlas: Synced</span>
           {lastSyncedAt && (
-            <span className="text-slate-400 text-xs hidden sm:inline">
+            <span className="text-muted-foreground text-xs hidden sm:inline">
               ({formatLastSync(lastSyncedAt)})
             </span>
           )}

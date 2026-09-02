@@ -13,15 +13,15 @@ const pillVariants = cva(
     variants: {
       variant: {
         solid:
-          'bg-slate-900 text-white hover:bg-slate-800 shadow-sm py-2 px-5 hover:scale-[1.01] active:scale-[0.98]',
+          'bg-primary text-primary-foreground hover:bg-primary-hover shadow-sm py-2 px-5 hover:scale-[1.01] active:scale-[0.98]',
         glass:
-          'bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-md shadow-md py-2 px-4 hover:border-white/50',
+          'bg-background/20 hover:bg-background/30 text-primary-foreground border border-white/30 backdrop-blur-md shadow-md py-2 px-4 hover:border-white/50',
         'immersive-glow':
-          'bg-slate-900/90 hover:bg-slate-800 text-white border border-white/20 shadow-lg py-2.5 px-5 w-full justify-between backdrop-blur-xl',
+          'bg-primary/90 hover:bg-primary-hover text-primary-foreground border border-white/20 shadow-lg py-2.5 px-5 w-full justify-between backdrop-blur-xl',
         minimal:
-          'bg-transparent text-white hover:text-cyan-300 py-1.5 px-3 border border-transparent hover:border-white/20 rounded-full',
+          'bg-transparent text-primary-foreground hover:text-cyan-300 py-1.5 px-3 border border-transparent hover:border-white/20 rounded-full',
         'full-width':
-          'w-full py-3 px-5 text-sm bg-white/15 hover:bg-white/25 text-white border border-white/20 backdrop-blur-lg justify-between shadow-lg',
+          'w-full py-3 px-5 text-sm bg-background/15 hover:bg-background/25 text-primary-foreground border border-white/20 backdrop-blur-lg justify-between shadow-lg',
       },
       hue: {
         vitalzyme: 'focus-visible:ring-emerald-400 hover:border-emerald-400/40',
@@ -68,9 +68,9 @@ export const PillCTA: React.FC<PillCTAProps> = ({
       {hasCircularArrow && (
         <span
           style={magneticArrowStyle}
-          className="w-7 h-7 rounded-full bg-white text-slate-900 flex items-center justify-center ml-3 shrink-0 shadow-md transition-transform duration-300 group-hover/btn:translate-x-1"
+          className="w-7 h-7 rounded-full bg-background text-foreground flex items-center justify-center ml-3 shrink-0 shadow-md transition-transform duration-300 group-hover/btn:translate-x-1"
         >
-          <ArrowRight className="w-4 h-4 text-slate-950" />
+          <ArrowRight className="w-4 h-4 text-foreground" />
         </span>
       )}
       {hasChevron && (

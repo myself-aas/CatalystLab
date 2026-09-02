@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="relative z-20 border-t border-slate-800/80 bg-[#04060d] text-slate-300">
+    <footer id="main-footer" className="relative z-20 border-t border-border/80 bg-[#04060d] text-muted-foreground">
       {/* Main Multi-Column Footer Menu */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
@@ -38,21 +38,21 @@ export const Footer: React.FC = () => {
               <BrandLogo size="md" />
             </Link>
             
-            <p className="text-xs sm:text-sm leading-relaxed text-slate-400 max-w-sm">
+            <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground max-w-sm">
               Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics. Auditing Core Web Vitals, OWASP SecOps, WCAG Accessibility, Eco-Carbon, and AI Readiness.
             </p>
 
             {/* Quick CLI Copy Box */}
-            <div className="rounded-xl border border-slate-800 bg-[#0a0f1d] p-2.5 max-w-sm shadow-sm">
-              <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-300">
+            <div className="rounded-xl border border-border bg-[#0a0f1d] p-2.5 max-w-sm shadow-sm">
+              <div className="flex items-center justify-between gap-2 text-xs font-mono text-muted-foreground">
                 <div className="flex items-center gap-1.5 truncate">
                   <Terminal className="h-3.5 w-3.5 text-cyan-400 shrink-0" />
-                  <span className="truncate text-white font-semibold">npx catalystlab audit</span>
+                  <span className="truncate text-primary-foreground font-semibold">npx catalystlab audit</span>
                 </div>
                 <button
                   type="button"
                   onClick={copyCliCommand}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 hover:text-white border border-slate-700 transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-muted hover:bg-muted/80 text-[11px] text-muted-foreground hover:text-foreground border border-border transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
                   title="Copy CLI command"
                 >
                   {copiedCli ? (
@@ -62,7 +62,7 @@ export const Footer: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <Copy className="h-3 w-3 text-slate-400" />
+                      <Copy className="h-3 w-3 text-muted-foreground" />
                       <span>Copy</span>
                     </>
                   )}
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
             </div>
 
             {/* Engine Status Indicator */}
-            <div className="flex items-center gap-2 rounded-full border border-slate-800 bg-[#0a0f1d] px-3 py-1 text-xs text-slate-300 w-fit font-mono shadow-xs">
+            <div className="flex items-center gap-2 rounded-full border border-border bg-[#0a0f1d] px-3 py-1 text-xs text-muted-foreground w-fit font-mono shadow-xs">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>8 Python Diagnostic Engines Active</span>
             </div>
@@ -79,16 +79,16 @@ export const Footer: React.FC = () => {
 
           {/* Column 2: Platform Solutions */}
           <div className="lg:col-span-2">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-100 flex items-center gap-1.5 mb-3 border-b border-slate-800 pb-2 font-mono">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-1.5 mb-3 border-b border-border pb-2 font-mono">
               <Globe className="h-3.5 w-3.5 text-cyan-400" />
               <span>Platform</span>
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
+            <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
               <li>
                 <Link to="/" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Home</Link>
               </li>
               <li>
-                <Link to="/launch-audit" className="hover:text-cyan-400 transition-colors block py-0.5 text-slate-200 font-medium flex items-center gap-1 focus-visible:outline-none">
+                <Link to="/launch-audit" className="hover:text-cyan-400 transition-colors block py-0.5 text-muted-foreground font-medium flex items-center gap-1 focus-visible:outline-none">
                   <span>Launch Master Audit</span>
                   <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 rounded font-mono font-semibold">Instant</span>
                 </Link>
@@ -97,7 +97,7 @@ export const Footer: React.FC = () => {
                 <Link to="/pricing" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Pricing &amp; Plans</Link>
               </li>
               <li>
-                <Link to="/products" className="hover:text-cyan-400 transition-colors block py-0.5 text-slate-200 font-medium flex items-center justify-between focus-visible:outline-none">
+                <Link to="/products" className="hover:text-cyan-400 transition-colors block py-0.5 text-muted-foreground font-medium flex items-center justify-between focus-visible:outline-none">
                   <span>Products &amp; Watchdog</span>
                   <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 rounded font-mono font-semibold">Continuous</span>
                 </Link>
@@ -122,11 +122,11 @@ export const Footer: React.FC = () => {
 
           {/* Column 3: 8 Diagnostic Engines */}
           <div className="lg:col-span-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-100 flex items-center gap-1.5 mb-3 border-b border-slate-800 pb-2 font-mono">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-1.5 mb-3 border-b border-border pb-2 font-mono">
               <Activity className="h-3.5 w-3.5 text-cyan-400" />
               <span>8 Diagnostic Engines</span>
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
+            <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
               <li>
                 <Link to="/health" className="hover:text-cyan-400 transition-colors flex items-center justify-between py-0.5 focus-visible:outline-none">
                   <span>VitalZyme (Web Vitals)</span>
@@ -180,13 +180,13 @@ export const Footer: React.FC = () => {
 
           {/* Column 4: Developers & Legal */}
           <div className="lg:col-span-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-100 flex items-center gap-1.5 mb-3 border-b border-slate-800 pb-2 font-mono">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-1.5 mb-3 border-b border-border pb-2 font-mono">
               <Code2 className="h-3.5 w-3.5 text-purple-400" />
               <span>Developers &amp; Legal</span>
             </h3>
-            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
+            <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
               <li>
-                <Link to="/api-docs" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-medium text-slate-200 py-0.5 focus-visible:outline-none">
+                <Link to="/api-docs" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-medium text-muted-foreground py-0.5 focus-visible:outline-none">
                   <span>REST API Reference</span>
                   <span className="text-[10px] bg-cyan-950/60 text-cyan-400 border border-cyan-500/30 px-1 py-0.5 rounded font-mono">v2.4</span>
                 </Link>
@@ -203,7 +203,7 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/methodology" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Audit Methodology &amp; Weights</Link>
               </li>
-              <li className="pt-2 border-t border-slate-800">
+              <li className="pt-2 border-t border-border">
                 <Link to="/privacy" className="hover:text-cyan-400 transition-colors block py-0.5 focus-visible:outline-none">Privacy Policy (GDPR / CCPA)</Link>
               </li>
               <li>
@@ -224,12 +224,12 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar: Copyright, Credits, Sync, and Back to Top */}
-        <div className="mt-12 flex flex-col items-center justify-between border-t border-slate-800 pt-6 sm:flex-row gap-4">
+        <div className="mt-12 flex flex-col items-center justify-between border-t border-border pt-6 sm:flex-row gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-            <p className="text-xs text-slate-400 font-mono">
+            <p className="text-xs text-muted-foreground font-mono">
               &copy; 2026 CatalystLab. Enterprise Telemetry &amp; Automated Web Quality Intelligence.
             </p>
-            <span className="text-[11px] font-mono text-slate-400 bg-slate-800/60 px-2 py-0.5 rounded border border-slate-700">
+            <span className="text-[11px] font-mono text-muted-foreground bg-muted/60 px-2 py-0.5 rounded border border-border">
               Telemetry Engine v2.4
             </span>
             <SyncStatusBadge />
@@ -238,7 +238,7 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800/80 px-3.5 py-2 text-xs font-mono text-slate-200 transition-colors hover:border-cyan-500 hover:text-white shadow-xs cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+            className="flex items-center gap-1.5 rounded-xl border border-border bg-muted px-3.5 py-2 text-xs font-mono text-muted-foreground transition-colors hover:border-cyan-500 hover:text-primary-foreground shadow-xs cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
             title="Scroll back to top"
           >
             <ArrowUp className="h-3.5 w-3.5 text-cyan-400" />

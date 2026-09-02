@@ -409,7 +409,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Platform',
       categoryIcon: HelpCircle,
-      categoryColor: 'text-slate-700 bg-slate-500/10 border-slate-500/30 dark:text-slate-300',
+      categoryColor: 'text-muted-foreground bg-muted0/10 border-border dark:text-muted-foreground',
       crumbs: [
         { label: 'Platform Methodology & Standards', isCurrent: true, icon: HelpCircle }
       ],
@@ -441,7 +441,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Legal & Trust',
       categoryIcon: ShieldCheck,
-      categoryColor: 'text-slate-700 bg-slate-500/10 border-slate-500/30 dark:text-slate-300',
+      categoryColor: 'text-muted-foreground bg-muted0/10 border-border dark:text-muted-foreground',
       crumbs: [
         { label: 'Legal & Compliance', href: '/terms' },
         { label: legalRoutes[cleanPath], isCurrent: true, icon: ShieldCheck }
@@ -466,7 +466,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Navigation',
       categoryIcon: Layers,
-      categoryColor: 'text-gray-700 bg-gray-500/10 border-gray-500/30 dark:text-gray-300',
+      categoryColor: 'text-muted-foreground bg-muted0/10 border-gray-500/30 dark:text-muted-foreground',
       crumbs: trail,
       parentHref: segments.length > 1 ? '/' + segments.slice(0, segments.length - 1).join('/') : '/'
     };

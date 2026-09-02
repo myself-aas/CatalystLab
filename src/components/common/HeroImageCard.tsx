@@ -57,7 +57,7 @@ export function HeroImageCard({
       className={`group relative w-full overflow-hidden rounded-2xl md:rounded-[2rem] text-left transition-transform duration-300 ${onClick ? 'cursor-pointer hover:-translate-y-1 hover:shadow-xl' : ''} ${aspectRatio} ${className}`}
     >
       {/* Background Image Container */}
-      <div className="absolute inset-0 bg-slate-100">
+      <div className="absolute inset-0 bg-accent">
         <img
           src={imageUrl}
           alt={imageAlt}

@@ -41,7 +41,7 @@ Please provide the exact collection schemas, indexing commands, and zero-downtim
           SynthShift provides enterprise technical system design specifications, NoSQL schema models, and capacity planning algorithms for migrating legacy applications to resilient cloud architectures.
         </p>
 
-        <div className="rounded-xl border border-[#e2e8f0] bg-white p-5 space-y-3">
+        <div className="rounded-xl border border-[#e2e8f0] bg-background p-5 space-y-3">
           <h2 className="font-bold text-[#0b192c] text-sm uppercase tracking-wider">Reference Architecture</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div className="rounded-lg bg-[#f8fafc] border border-[#e2e8f0] p-3">
@@ -142,7 +142,7 @@ taskSchema.index({ projectId: 1, status: 1, assigneeId: 1 });`}
               setCopiedPrompt(true);
               setTimeout(() => setCopiedPrompt(false), 2000);
             }}
-            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-semibold text-[#0b192c] hover:bg-[#f1f5f9] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-background px-3 py-1.5 text-xs font-semibold text-[#0b192c] hover:bg-[#f1f5f9] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             {copiedPrompt ? (
               <>

@@ -511,7 +511,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       key={eng.name}
                       to={eng.path}
                       onClick={onClose}
-                      className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 transition-colors hover:border-primary hover:bg-accent shadow-2xs"
+                      className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-background dark:bg-zinc-950 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 transition-colors hover:border-primary hover:bg-accent shadow-2xs"
                     >
                       <Icon className="h-4 w-4 text-primary shrink-0" />
                       <span className="truncate font-medium">{eng.name}</span>
@@ -530,7 +530,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/compare"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-background dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <Scale className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">Side-by-Side</span>
@@ -539,7 +539,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/reports"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-background dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <FileText className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">Audit Reports</span>
@@ -548,7 +548,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/products"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-background dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <Radio className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">Domain Watchdog</span>
@@ -557,7 +557,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/dashboard"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-background dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <LayoutDashboard className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">My Dashboard</span>
@@ -568,7 +568,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             {/* User Account / Auth Status in Menu */}
             <div className="border-t border-zinc-200 dark:border-zinc-800 pt-3">
               {user ? (
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl p-3.5 shadow-2xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-background dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-700 rounded-xl p-3.5 shadow-2xs">
                   <div className="flex items-center gap-2.5 min-w-0">
                     {user.photoURL ? (
                       <img 
@@ -578,7 +578,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         
                       />
                     ) : (
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900 dark:bg-zinc-100 text-xs font-bold text-white dark:text-zinc-900 shrink-0">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900 dark:bg-zinc-100 text-xs font-bold text-primary-foreground dark:text-zinc-900 shrink-0">
                         {(user.displayName || user.email || 'U')[0].toUpperCase()}
                       </div>
                     )}
@@ -624,7 +624,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <Link
                     to="/login"
                     onClick={onClose}
-                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 py-2.5 text-xs font-bold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900 shadow-2xs"
+                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-background dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 py-2.5 text-xs font-bold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900 shadow-2xs"
                   >
                     <LogIn className="h-3.5 w-3.5 text-primary" />
                     <span>Sign In</span>
@@ -632,7 +632,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <Link
                     to="/signup"
                     onClick={onClose}
-                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-primary hover:text-zinc-900 dark:hover:bg-primary dark:hover:text-zinc-900 border border-transparent py-2.5 text-xs font-bold text-white dark:text-zinc-900 shadow-xs transition-colors"
+                    className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-primary hover:text-zinc-900 dark:hover:bg-primary dark:hover:text-zinc-900 border border-transparent py-2.5 text-xs font-bold text-primary-foreground dark:text-zinc-900 shadow-xs transition-colors"
                   >
                     <UserPlus className="h-3.5 w-3.5" />
                     <span>Create Account</span>

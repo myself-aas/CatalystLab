@@ -71,7 +71,7 @@ export const EnterpriseScaleChart: React.FC = () => {
   };
 
   return (
-    <section className="py-12 lg:py-14 bg-gray-100 text-white relative overflow-hidden border-b border-gray-200">
+    <section className="py-12 lg:py-14 bg-accent text-primary-foreground relative overflow-hidden border-b border-border">
       {/* Background Glow Elements */}
       <div className="absolute top-1/3 left-1/3 w-[450px] h-[450px] bg-[#38bdf8]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-[#415a77]/20 rounded-full blur-[140px] pointer-events-none" />
@@ -86,7 +86,7 @@ export const EnterpriseScaleChart: React.FC = () => {
               <Server className="h-3 w-3 text-[#38bdf8]" />
               <span>Enterprise SLA & Governance</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-primary-foreground">
               Scale & Compliance Engine
             </h2>
             <p className="text-sm sm:text-base text-[#c5d3e8] max-w-xl mt-1 leading-relaxed">
@@ -98,7 +98,7 @@ export const EnterpriseScaleChart: React.FC = () => {
             type="button"
             onClick={triggerSimulation}
             disabled={simulationActive}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#c5d3e8] text-[#0b192c] hover:bg-white text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#c5d3e8] text-[#0b192c] hover:bg-background text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Sparkles className={`h-3.5 w-3.5 text-[#0b192c] ${simulationActive ? 'animate-spin' : ''}`} />
             <span>{simulationActive ? 'Simulating SLA Load...' : 'Simulate Enterprise Load'}</span>
@@ -133,7 +133,7 @@ export const EnterpriseScaleChart: React.FC = () => {
                   <span className="text-xs font-mono text-[#8ea8c3] uppercase tracking-wider block">
                     {pillar.subtitle}
                   </span>
-                  <h3 className="text-sm sm:text-base font-bold text-white leading-tight mt-0.5">
+                  <h3 className="text-sm sm:text-base font-bold text-primary-foreground leading-tight mt-0.5">
                     {pillar.title}
                   </h3>
                 </div>
@@ -158,7 +158,7 @@ export const EnterpriseScaleChart: React.FC = () => {
                 </span>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-white">
+              <h3 className="text-lg sm:text-xl font-bold text-primary-foreground">
                 {current.title}
               </h3>
 
@@ -169,7 +169,7 @@ export const EnterpriseScaleChart: React.FC = () => {
               <div className="pt-2 flex flex-wrap items-center gap-3 text-sm font-mono">
                 <Link
                   to="/launch-audit"
-                  className="inline-flex items-center gap-1.5 bg-[#c5d3e8] hover:bg-white text-[#0b192c] px-3.5 py-1.5 rounded-xl font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 bg-[#c5d3e8] hover:bg-background text-[#0b192c] px-3.5 py-1.5 rounded-xl font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                 >
                   <span>Audit Infrastructure SLA</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -182,7 +182,7 @@ export const EnterpriseScaleChart: React.FC = () => {
 
             {/* Right Metric Dial */}
             <div className="lg:col-span-4 flex flex-col items-center justify-center p-3 bg-[#0d1b2a] rounded-2xl border border-[#415a77]/40">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">
+              <div className="text-2xl sm:text-3xl font-black font-mono text-primary-foreground tracking-tight">
                 {current.dialValue}
               </div>
               <div className="text-sm font-mono text-[#38bdf8] font-semibold mt-0.5">

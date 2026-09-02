@@ -107,7 +107,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
         return 'bg-fuchsia-900/35 mix-blend-color';
       case 'neutral':
       default:
-        return 'bg-slate-900/25 mix-blend-color';
+        return 'bg-primary/25 mix-blend-color';
     }
   };
 
@@ -116,7 +116,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
       data-media-degraded={isDegraded ? 'true' : undefined}
       className={twMerge(
         clsx(
-          'relative overflow-hidden w-full select-none bg-slate-950',
+          'relative overflow-hidden w-full select-none bg-primary',
           isSurface && 'rounded-[14px] ring-1 ring-black/5 dark:ring-white/10 shadow-sm',
           isImmersive && 'absolute inset-0 z-0 h-full',
           aspectClassName || aspectMap[aspect],
@@ -129,9 +129,9 @@ export const CardMedia: React.FC<CardMediaProps> = ({
       {!isLoaded && (
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-slate-900/90 animate-pulse z-0 flex items-center justify-center"
+          className="absolute inset-0 bg-primary/90 animate-pulse z-0 flex items-center justify-center"
         >
-          <div className="w-8 h-8 rounded-full border border-slate-700/40 border-t-cyan-400 animate-spin opacity-40" />
+          <div className="w-8 h-8 rounded-full border border-border/40 border-t-cyan-400 animate-spin opacity-40" />
         </div>
       )}
 

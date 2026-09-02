@@ -33,11 +33,64 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['framer-motion', 'motion', 'recharts', 'lucide-react'],
-          'vendor-utils': ['zustand', 'dompurify', 'd3'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (
+              id.includes('/react/') ||
+              id.includes('/react-dom/') ||
+              id.includes('/react-router/') ||
+              id.includes('/react-router-dom/') ||
+              id.includes('/scheduler/') ||
+              id.includes('/use-sync-external-store/')
+            ) {
+              return 'vendor-react';
+            }
+            if (id.includes('/firebase/') || id.includes('/@firebase/') || id.includes('/idb/')) {
+              return 'vendor-firebase';
+            }
+            if (
+              id.includes('/recharts/') ||
+              id.includes('/d3') ||
+              id.includes('/internmap/') ||
+              id.includes('/decimal.js-light/') ||
+              id.includes('/react-is/') ||
+              id.includes('/reselect/') ||
+              id.includes('/redux/') ||
+              id.includes('/@reduxjs/') ||
+              id.includes('/react-redux/') ||
+              id.includes('/immer/') ||
+              id.includes('/eventemitter3/')
+            ) {
+              return 'vendor-charts';
+            }
+            if (id.includes('/motion') || id.includes('/framer-motion')) {
+              return 'vendor-motion';
+            }
+            if (id.includes('/lucide-react/')) {
+              return 'vendor-icons';
+            }
+            if (
+              id.includes('/zustand/') ||
+              id.includes('/dompurify/') ||
+              id.includes('/clsx/') ||
+              id.includes('/tailwind-merge/') ||
+              id.includes('/es-toolkit/') ||
+              id.includes('/cobe/')
+            ) {
+              return 'vendor-utils';
+            }
+          }
         },
+      },
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        passes: 2,
+        drop_debugger: true,
+      },
+      format: {
+        comments: false,
       },
     },
     sourcemap: process.env.NODE_ENV !== 'production',

@@ -14,7 +14,7 @@ export const CardBadge: React.FC<CardBadgeProps> = ({
   const getBadgeStyle = () => {
     switch (variant) {
       case 'amber':
-        return 'bg-white text-slate-900 shadow-md border border-slate-100/80';
+        return 'bg-background text-foreground shadow-md border border-border';
       case 'emerald':
         return 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 shadow-emerald-900/30';
       case 'cyan':
@@ -25,7 +25,7 @@ export const CardBadge: React.FC<CardBadgeProps> = ({
         return 'bg-rose-950/90 text-rose-300 border border-rose-500/40 shadow-rose-900/30';
       case 'neutral':
       default:
-        return 'bg-slate-900/90 text-slate-200 border border-slate-700/80 shadow-md';
+        return 'bg-primary/90 text-muted-foreground border border-border/80 shadow-md';
     }
   };
 

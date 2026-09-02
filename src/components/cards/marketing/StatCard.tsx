@@ -43,11 +43,11 @@ export const StatCard: React.FC<StatCardProps> = ({
       <div className="flex items-start justify-between gap-3 w-full mb-3">
         <div className="flex items-center gap-3">
           {icon && (
-            <div className="w-10 h-10 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 shrink-0 shadow-sm">
+            <div className="w-10 h-10 rounded-2xl bg-accent border border-border flex items-center justify-center text-muted-foreground shrink-0 shadow-sm">
               {icon}
             </div>
           )}
-          <span className="text-xs font-sans font-bold text-slate-500 tracking-wider uppercase">
+          <span className="text-xs font-sans font-bold text-muted-foreground tracking-wider uppercase">
             {label}
           </span>
         </div>
@@ -59,7 +59,7 @@ export const StatCard: React.FC<StatCardProps> = ({
                 ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
                 : trend === 'down'
                 ? 'bg-rose-50 text-rose-600 border border-rose-100'
-                : 'bg-slate-100 text-slate-600 border border-slate-200'
+                : 'bg-accent text-muted-foreground border border-border'
             )}
           >
             {delta}
@@ -68,18 +68,18 @@ export const StatCard: React.FC<StatCardProps> = ({
       </div>
 
       <div className="my-2">
-        <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 flex items-baseline gap-1">
+        <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground flex items-baseline gap-1">
           <span>{value}</span>
         </div>
         {subLabel && (
-          <p className="mt-2 text-sm text-slate-500 font-sans font-medium line-clamp-2">
+          <p className="mt-2 text-sm text-muted-foreground font-sans font-medium line-clamp-2">
             {subLabel}
           </p>
         )}
       </div>
 
       {stats && stats.length > 0 && (
-        <div className="pt-4 mt-4 border-t border-slate-100">
+        <div className="pt-4 mt-4 border-t border-border">
           <Card.StatRow stats={stats} size="sm" />
         </div>
       )}

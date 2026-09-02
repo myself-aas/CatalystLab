@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Activity,
@@ -20,11 +20,15 @@ import {
   ChevronUp,
   Terminal,
   Zap,
-  Info
+  Info,
+  Target
 } from 'lucide-react';
 import { DiagnosticConsoleCard } from './DiagnosticConsoleCard';
 import { LiveTerminalStream, type TerminalLogEntry } from './LiveTerminalStream';
 import { GuestQuotaBanner } from './GuestQuotaBanner';
+import { AuditScoreMatrixRadar } from './AuditScoreMatrixRadar';
+import { ExportReportDropdown } from '../../src/components/common/ExportReportDropdown';
+import type { AuditReport } from '../../src/types';
 import type {
   DiagnosticEngineId,
   MasterTelemetryReport,
@@ -76,6 +80,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showLiveLogs, setShowLiveLogs] = useState<boolean>(isScanning);
+  const [showRadarMatrix, setShowRadarMatrix] = useState<boolean>(true);
   const [expandedMobileAccordion, setExpandedMobileAccordion] = useState<DiagnosticEngineId | null>('health');
   const [inputUrl, setInputUrl] = useState<string>(targetUrl);
 
@@ -87,6 +92,21 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
 
   const overallScore = report?.overallScore ?? 0;
   const grade = report?.grade ?? 'A';
+
+  const exportAuditReport: AuditReport = useMemo(() => {
+    const formattedLogs = logs.map(l => `[${l.timestamp}] [${l.level.toUpperCase()}] ${l.message}`).join('\n');
+    const cleanTarget = report?.targetUrl || inputUrl || targetUrl || 'https://catalystlab.tech';
+    return {
+      id: report?.id || `rep_${Date.now()}`,
+      url: cleanTarget,
+      engine: 'master-audit',
+      output: formattedLogs || (report ? JSON.stringify(report, null, 2) : 'CatalystLab Telemetry Matrix Report'),
+      createdAt: report?.startedAt ? new Date(report.startedAt).getTime() : Date.now(),
+      ownerId: report?.initiatedBy?.userId || 'guest',
+      score: overallScore,
+      title: `Master Telemetry Dossier - ${cleanTarget}`
+    };
+  }, [report, targetUrl, inputUrl, logs, overallScore]);
 
   const getGradeBadge = (g: string) => {
     switch (g) {
@@ -157,28 +177,24 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
             </button>
 
             {report && (
-              <>
-                {onExportPdf && (
-                  <button
-                    type="button"
-                    onClick={onExportPdf}
-                    className="p-2.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
-                    title="Export Audit Dossier (PDF)"
-                  >
-                    <Download className="w-4 h-4" />
-                  </button>
-                )}
+              <div className="flex items-center gap-2">
+                <ExportReportDropdown
+                  report={exportAuditReport}
+                  variant="compact"
+                  buttonLabel="Export Dossier"
+                />
                 {onShareReport && (
                   <button
                     type="button"
                     onClick={onShareReport}
-                    className="p-2.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors"
+                    className="p-2.5 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
                     title="Share Audit Permalink"
+                    aria-label="Share Audit Permalink"
                   >
                     <Share2 className="w-4 h-4" />
                   </button>
                 )}
-              </>
+              </div>
             )}
           </div>
         </form>
@@ -213,11 +229,25 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
             </div>
           </div>
 
-          {/* Action to Toggle Live Terminal */}
-          <div className="flex items-center gap-2 w-full md:w-auto justify-end">
+          {/* Action to Toggle Radar Matrix & Live Terminal */}
+          <div className="flex items-center gap-2 w-full md:w-auto justify-end flex-wrap">
             <button
+              type="button"
+              onClick={() => setShowRadarMatrix(!showRadarMatrix)}
+              className={`px-3.5 py-1.5 rounded-lg border text-xs font-mono flex items-center gap-2 transition-all cursor-pointer ${
+                showRadarMatrix
+                  ? 'border-cyan-500/40 bg-cyan-500/15 text-cyan-300 shadow-sm'
+                  : 'border-slate-700 bg-slate-800/80 text-slate-300 hover:bg-slate-700'
+              }`}
+            >
+              <Target className="w-3.5 h-3.5" />
+              <span>{showRadarMatrix ? 'Hide Radar Matrix' : '8-Engine Radar & Matrix'}</span>
+            </button>
+
+            <button
+              type="button"
               onClick={() => setShowLiveLogs(!showLiveLogs)}
-              className={`px-3.5 py-1.5 rounded-lg border text-xs font-mono flex items-center gap-2 transition-all ${
+              className={`px-3.5 py-1.5 rounded-lg border text-xs font-mono flex items-center gap-2 transition-all cursor-pointer ${
                 showLiveLogs
                   ? 'border-[#06B6D4]/40 bg-[#06B6D4]/10 text-[#06B6D4]'
                   : 'border-slate-700 bg-slate-800/80 text-slate-300 hover:bg-slate-700'
@@ -230,6 +260,35 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
           </div>
         </div>
       )}
+
+      {/* 8-Engine Telemetry Matrix & Multi-Axis Radar (Collapsible) */}
+      <AnimatePresence>
+        {showRadarMatrix && (report || isScanning) && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <AuditScoreMatrixRadar
+              report={report}
+              activeEngines={activeEngines}
+              isScanning={isScanning}
+              onSelectEngine={(engineId) => {
+                setSelectedCategory('All');
+                if (onInspectEngine) {
+                  onInspectEngine(engineId);
+                }
+                const targetEl = document.getElementById(`engine-card-${engineId}`);
+                if (targetEl) {
+                  targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Live Monospace Terminal View (Collapsible) */}
       <AnimatePresence>
@@ -276,15 +335,16 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
           const isEngineActive = isScanning && (activeEngines.length === 0 || activeEngines.includes(engine.id));
 
           return (
-            <DiagnosticConsoleCard
-              key={engine.id}
-              engineId={engine.id}
-              name={engine.name}
-              category={engine.category}
-              result={result}
-              isLoading={isEngineActive && !result}
-              onInspectDetails={onInspectEngine ? () => onInspectEngine(engine.id) : undefined}
-            />
+            <div key={engine.id} id={`engine-card-${engine.id}`} className="scroll-mt-24">
+              <DiagnosticConsoleCard
+                engineId={engine.id}
+                name={engine.name}
+                category={engine.category}
+                result={result}
+                isLoading={isEngineActive && !result}
+                onInspectDetails={onInspectEngine ? () => onInspectEngine(engine.id) : undefined}
+              />
+            </div>
           );
         })}
       </div>

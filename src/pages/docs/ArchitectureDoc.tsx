@@ -32,7 +32,7 @@ export const ArchitectureDoc: React.FC = () => {
 
         {/* Stack Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-6">
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-5 shadow-xs space-y-2">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-5 shadow-xs space-y-2">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <Server className="h-4 w-4 text-sky-600" />
               <span>API Gateway & Ingress (Node.js)</span>
@@ -42,7 +42,7 @@ export const ArchitectureDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-5 shadow-xs space-y-2">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-5 shadow-xs space-y-2">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <Cpu className="h-4 w-4 text-purple-600" />
               <span>Python & Native Engine Workers</span>
@@ -52,7 +52,7 @@ export const ArchitectureDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-5 shadow-xs space-y-2">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-5 shadow-xs space-y-2">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <Database className="h-4 w-4 text-emerald-600" />
               <span>Cloud Persistence & Permalinks</span>
@@ -62,7 +62,7 @@ export const ArchitectureDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-white p-5 shadow-xs space-y-2">
+          <div className="rounded-xl border border-[#e2e8f0] bg-background p-5 shadow-xs space-y-2">
             <div className="flex items-center gap-2 font-bold text-[#0b192c]">
               <Activity className="h-4 w-4 text-pink-600" />
               <span>Client React UI & Visualization</span>
@@ -113,7 +113,7 @@ app.post("/api/run-engine", async (req, res) => {
           Diagnostic calculations run in separate non-blocking worker subprocesses. If the Python environment is constrained, the Node.js server automatically switches to native Cheerio AST and high-resolution socket modules to ensure 100% uptime with zero degradation.
         </p>
 
-        <div className="rounded-xl border border-[#e2e8f0] bg-white p-5 space-y-3">
+        <div className="rounded-xl border border-[#e2e8f0] bg-background p-5 space-y-3">
           <h3 className="font-bold text-[#0b192c] text-sm uppercase tracking-wider">Worker Failover Strategy</h3>
           <ul className="space-y-2 text-sm text-[#415a77]">
             <li className="flex items-start gap-2">

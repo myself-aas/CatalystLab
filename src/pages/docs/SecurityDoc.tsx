@@ -30,19 +30,19 @@ export const SecurityDoc: React.FC = () => {
         </p>
 
         <ul className="space-y-3 text-sm text-[#415a77] mt-4">
-          <li className="flex items-start gap-2.5 rounded-xl border border-[#e2e8f0] bg-white p-4">
+          <li className="flex items-start gap-2.5 rounded-xl border border-[#e2e8f0] bg-background p-4">
             <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
             <div>
               <strong className="text-[#0b192c]">Shell Escape Sanitization:</strong> All user-supplied URLs are scrubbed via <code>replace(/(["\\$`])/g, '\\$1')</code> before child process instantiation to eliminate CLI injection vectors.
             </div>
           </li>
-          <li className="flex items-start gap-2.5 rounded-xl border border-[#e2e8f0] bg-white p-4">
+          <li className="flex items-start gap-2.5 rounded-xl border border-[#e2e8f0] bg-background p-4">
             <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
             <div>
               <strong className="text-[#0b192c]">Memory & Buffer Caps:</strong> Execution buffers are restricted to a maximum of 5MB per audit stream with 40,000ms hard process timeouts.
             </div>
           </li>
-          <li className="flex items-start gap-2.5 rounded-xl border border-[#e2e8f0] bg-white p-4">
+          <li className="flex items-start gap-2.5 rounded-xl border border-[#e2e8f0] bg-background p-4">
             <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
             <div>
               <strong className="text-[#0b192c]">OWASP Header Hardening:</strong> Built-in response headers enforce <code>Strict-Transport-Security: max-age=63072000; includeSubDomains; preload</code> and strict CSP rules.
@@ -100,7 +100,7 @@ export const SecurityDoc: React.FC = () => {
           Every HTTP response emitted by CatalystLab carries hardened headers to prevent clickjacking, MIME-sniffing, and cross-site scripting:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white">
+        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
               <tr>

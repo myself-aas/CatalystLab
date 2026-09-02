@@ -92,7 +92,7 @@ const AvatarSingle: React.FC<{
       onMouseLeave={() => onHover(null)}
       className={`relative ${isFirst ? 'ml-0' : sizeClasses} transition-transform duration-300 hover:scale-115 hover:z-30 cursor-pointer`}
     >
-      <div className="w-full h-full rounded-full border-2 border-[#030712] overflow-hidden bg-slate-800 shadow-md">
+      <div className="w-full h-full rounded-full border-2 border-[#030712] overflow-hidden bg-muted shadow-md">
         {!isDegraded && currentSrc ? (
           <img
             src={currentSrc}
@@ -160,9 +160,9 @@ export const AvatarStack: React.FC<AvatarStackProps> = ({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 4, scale: 0.95 }}
           transition={{ duration: 0.15 }}
-          className="absolute -top-12 left-0 z-40 px-2.5 py-1.5 rounded-lg bg-[#0A0F20]/95 border border-slate-700 backdrop-blur-md shadow-2xl font-mono text-[11px] pointer-events-none whitespace-nowrap"
+          className="absolute -top-12 left-0 z-40 px-2.5 py-1.5 rounded-lg bg-[#0A0F20]/95 border border-border backdrop-blur-md shadow-2xl font-mono text-[11px] pointer-events-none whitespace-nowrap"
         >
-          <div className="font-bold text-white leading-tight">{hoveredAvatar.name}</div>
+          <div className="font-bold text-primary-foreground leading-tight">{hoveredAvatar.name}</div>
           <div className="text-[10px] text-[#06B6D4] leading-tight mt-0.5">
             {hoveredAvatar.role} • {hoveredAvatar.company}
           </div>

@@ -59,16 +59,16 @@ export const FullscreenCardShowcase: React.FC = () => {
       
       {/* Unified TrailCard Showcase Section */}
       <div className="space-y-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border pb-6">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3 backdrop-blur-md">
               <Compass className="h-3.5 w-3.5 text-cyan-400" />
               <span>Unified Modular Card System</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-black text-primary-foreground tracking-tight">
               High-Cohesion Trail & Route Cards
             </h2>
-            <p className="text-slate-400 max-w-2xl text-sm sm:text-base mt-2">
+            <p className="text-muted-foreground max-w-2xl text-sm sm:text-base mt-2">
               Strict 3-zone visual layout featuring 4:3 high-contrast gradient scrim header, middle context difficulty row, and 3-column split metrics grid.
             </p>
           </div>
@@ -93,16 +93,16 @@ export const FullscreenCardShowcase: React.FC = () => {
       </div>
 
       {/* Telemetry Parallax Cards Section */}
-      <div className="space-y-8 pt-8 border-t border-slate-800/80">
+      <div className="space-y-8 pt-8 border-t border-border/80">
         <div className="text-center space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1 text-xs font-mono text-indigo-300 mb-1 backdrop-blur-md">
             <Layers className="h-3.5 w-3.5 text-indigo-400" />
             <span>Interactive Diagnostic Engine Cards</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-primary-foreground">
             Fullscreen 3D Parallax Telemetry Cards
           </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
             Interactive full-bleed diagnostic units with multi-layered depth, responsive cursor tilt,
             and WCAG AA high-contrast gradient scrims.
           </p>

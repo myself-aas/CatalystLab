@@ -76,25 +76,25 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
   if (status.isUnlimited || isAdmin) {
     if (!showAllStates) return null;
     return (
-      <div className={`rounded-xl border border-gray-300 bg-white/90 px-4 py-3 text-xs text-black backdrop-blur-md shadow-sm ${className}`}>
+      <div className={`rounded-xl border border-border bg-background/90 px-4 py-3 text-xs text-foreground backdrop-blur-md shadow-sm ${className}`}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-black/30 text-[#38bdf8] border border-[#38bdf8]/30">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/30 text-[#38bdf8] border border-[#38bdf8]/30">
               <Crown className="h-4 w-4 text-[#38bdf8]" />
             </div>
             <div>
-              <div className="font-bold text-black flex items-center gap-1.5">
+              <div className="font-bold text-foreground flex items-center gap-1.5">
                 <span>Primary Superadmin Bypassing Engine Rate Limits</span>
                 <span className="rounded-md bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 text-[10px] font-mono font-bold border border-emerald-500/40">UNLIMITED</span>
               </div>
-              <p className="text-[11px] text-gray-600 mt-0.5">
+              <p className="text-[11px] text-muted-foreground mt-0.5">
                 All single engine scans (<code className="text-[#38bdf8]">{endpointPath}</code>) and master audits execute with zero quota deductions.
               </p>
             </div>
           </div>
           <button
             onClick={handleRefresh}
-            className="text-gray-600 hover:text-black p-1.5 rounded-lg hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="text-muted-foreground hover:text-foreground p-1.5 rounded-lg hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Refresh quota status"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />
@@ -134,7 +134,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
     return (
       <div 
         id="rate-limit-exceeded-alert"
-        className={`rounded-2xl border border-rose-200 bg-rose-50/70 p-4 sm:p-5 text-black backdrop-blur-md shadow-lg animate-in fade-in slide-in-from-top-2 duration-300 ${className}`}
+        className={`rounded-2xl border border-rose-200 bg-rose-50/70 p-4 sm:p-5 text-foreground backdrop-blur-md shadow-lg animate-in fade-in slide-in-from-top-2 duration-300 ${className}`}
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
@@ -150,18 +150,18 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
                   0 / {limit} Units Remaining
                 </span>
               </div>
-              <p className="mt-1 text-xs text-slate-700 leading-relaxed max-w-2xl">
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed max-w-2xl">
                 You have reached your daily compute allocation for <code className="font-mono text-rose-700 font-semibold">{endpointPath}</code>. 
                 Single engine requests cost <strong>{SINGLE_ENGINE_COST} unit</strong> and Master Audits cost <strong>{MASTER_AUDIT_COST} units</strong>.
               </p>
               
-              <div className="mt-2.5 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-600">
+              <div className="mt-2.5 flex flex-wrap items-center gap-4 text-xs font-mono text-muted-foreground">
                 <div className="flex items-center gap-1.5 text-rose-700 font-bold">
                   <Clock className="h-3.5 w-3.5" />
                   <span>Midnight UTC Reset in {status.formattedResetTime}</span>
                 </div>
                 <span>•</span>
-                <div>Tier: <strong className="text-black">{status.tierLabel}</strong></div>
+                <div>Tier: <strong className="text-foreground">{status.tierLabel}</strong></div>
               </div>
             </div>
           </div>
@@ -170,7 +170,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {!user ? (
               <button
                 onClick={() => login()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-slate-500/30 px-4 py-2.5 text-xs font-bold text-white transition-all shadow-xs active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
+                className="flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2.5 text-xs font-bold text-primary-foreground transition-all shadow-xs active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
               >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In (+30 Units/Day)</span>
@@ -178,7 +178,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             ) : (
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center justify-center gap-2 rounded-xl bg-black px-4 py-2.5 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Key className="h-4 w-4 text-amber-300" />
                 <span>Get Pro API Key (500/day)</span>
@@ -188,7 +188,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {onOpenRateLimitModal && (
               <button
                 onClick={onOpenRateLimitModal}
-                className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:text-black hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <Info className="h-3.5 w-3.5" />
                 <span>Tier Details</span>
@@ -217,7 +217,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
     return (
       <div 
         id="rate-limit-approaching-alert"
-        className={`rounded-2xl border border-amber-200 bg-amber-50/70 p-4 sm:p-5 text-black backdrop-blur-md shadow-md animate-in fade-in duration-200 ${className}`}
+        className={`rounded-2xl border border-amber-200 bg-amber-50/70 p-4 sm:p-5 text-foreground backdrop-blur-md shadow-md animate-in fade-in duration-200 ${className}`}
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
@@ -233,19 +233,19 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
                   {remaining} of {limit} Compute Units Left ({percentage}%)
                 </span>
               </div>
-              <p className="mt-1 text-xs text-slate-700 leading-relaxed max-w-2xl">
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed max-w-2xl">
                 You have consumed <strong>{used} units</strong> today. You can run <strong>{status.singleRemaining} more single engine scans</strong> or <strong>{status.masterRemaining} more master multi-engine audits</strong> before throttling begins.
               </p>
 
               {/* Visual Progress Bar */}
               <div className="mt-3 max-w-md">
-                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 border border-slate-300">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-accent border border-border">
                   <div 
                     className="h-full bg-gradient-to-r from-amber-500 to-rose-500 transition-all duration-500"
                     style={{ width: `${100 - percentage}%` }}
                   />
                 </div>
-                <div className="mt-1 flex items-center justify-between text-[10px] font-mono text-slate-600">
+                <div className="mt-1 flex items-center justify-between text-[10px] font-mono text-muted-foreground">
                   <span>{used} units used</span>
                   <span className="text-amber-700 font-bold">{remaining} units remaining</span>
                 </div>
@@ -257,7 +257,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {!user ? (
               <button
                 onClick={() => login()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-black px-4 py-2.5 text-xs font-bold text-white hover:bg-black-hover transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In (+30 Units/Day)</span>
@@ -274,7 +274,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
 
             <button
               onClick={handleRefresh}
-              className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               title="Sync status with server"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />
@@ -288,7 +288,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
 
   // NORMAL / GOOD STANDING INFO STATE
   return (
-    <div className={`rounded-xl border border-slate-200 bg-slate-50/90 p-3.5 text-black backdrop-blur-md shadow-sm ${className}`}>
+    <div className={`rounded-xl border border-border bg-muted/90 p-3.5 text-foreground backdrop-blur-md shadow-sm ${className}`}>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-50 text-emerald-600">
@@ -296,12 +296,12 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-black">{status.tierLabel} Quota Allocation</span>
+              <span className="font-bold text-foreground">{status.tierLabel} Quota Allocation</span>
               <span className="rounded-md border border-emerald-500/30 bg-emerald-50 px-2 py-0.5 text-[10px] font-mono font-bold text-emerald-700">
                 {remaining} / {limit} Units Available ({percentage}%)
               </span>
             </div>
-            <p className="text-[11px] text-slate-600 mt-0.5">
+            <p className="text-[11px] text-muted-foreground mt-0.5">
               Single engines: <strong>1 unit</strong> ({status.singleRemaining} left) • Master audits: <strong>10 units</strong> ({status.masterRemaining} left) • Reset in <strong>{status.formattedResetTime}</strong>
             </p>
           </div>
@@ -311,14 +311,14 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
           {!user && (
             <button
               onClick={() => login()}
-              className="rounded-lg bg-black px-3 py-1.5 text-xs font-bold text-white hover:bg-black-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               Sign In (50 Units/Day)
             </button>
           )}
           <button
             onClick={handleRefresh}
-            className="text-slate-500 hover:text-black p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="text-muted-foreground hover:text-foreground p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             title="Refresh quota count"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />

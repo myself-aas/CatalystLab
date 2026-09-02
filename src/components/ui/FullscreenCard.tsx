@@ -240,10 +240,10 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
   };
 
   const blurClass =
-    glassmorphism === 'heavy' ? 'backdrop-blur-xl bg-slate-950/70 border-white/30' :
-    glassmorphism === 'subtle' ? 'backdrop-blur-sm bg-black/30 border-white/15' :
-    glassmorphism === 'medium' || glassmorphism === true ? 'backdrop-blur-md bg-slate-950/50 border-white/25' :
-    'bg-black/60';
+    glassmorphism === 'heavy' ? 'backdrop-blur-xl bg-foreground/70 border-white/30' :
+    glassmorphism === 'subtle' ? 'backdrop-blur-sm bg-foreground/30 border-white/15' :
+    glassmorphism === 'medium' || glassmorphism === true ? 'backdrop-blur-md bg-foreground/50 border-white/25' :
+    'bg-foreground/60';
 
   return (
     <div style={{ perspective: 1200 }} className="w-full">
@@ -269,7 +269,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
           }
         }}
         className={cn(
-          'group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-slate-200/40 shadow-xl transition-shadow duration-500 hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] cursor-pointer text-white will-change-transform',
+          'group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-border/40 shadow-xl transition-shadow duration-500 hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] cursor-pointer text-primary-foreground will-change-transform',
           aspectRatio,
           className
         )}
@@ -327,7 +327,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
               className="flex items-center gap-2 flex-wrap"
             >
               {badge && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/25 backdrop-blur-md border border-white/40 text-xs font-mono font-bold uppercase tracking-wider text-white shadow-lg transition-colors group-hover:bg-white/35">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/25 backdrop-blur-md border border-white/40 text-xs font-mono font-bold uppercase tracking-wider text-primary-foreground shadow-lg transition-colors group-hover:bg-background/35">
                   <Sparkles className="h-3.5 w-3.5 text-amber-300" />
                   {badge}
                 </span>
@@ -344,7 +344,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   rotateY: badgeRotateY,
                   transformStyle: 'preserve-3d',
                 }}
-                className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/30 text-xs font-mono font-extrabold text-white shadow-md"
+                className="px-3 py-1 rounded-full bg-foreground/50 backdrop-blur-md border border-white/30 text-xs font-mono font-extrabold text-primary-foreground shadow-md"
               >
                 {score}
               </motion.div>
@@ -362,7 +362,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   rotateY: subtitleRotateY,
                   transformStyle: 'preserve-3d',
                 }}
-                className="text-xs font-mono uppercase tracking-widest text-white/80 font-bold drop-shadow-sm"
+                className="text-xs font-mono uppercase tracking-widest text-primary-foreground/80 font-bold drop-shadow-sm"
               >
                 {subtitle}
               </motion.div>
@@ -377,7 +377,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                 rotateY: titleRotateY,
                 transformStyle: 'preserve-3d',
               }}
-              className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-white drop-shadow-md"
+              className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-primary-foreground drop-shadow-md"
             >
               {title}
             </motion.div>
@@ -400,7 +400,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   </div>
                 )}
                 {metricLabel && (
-                  <div className="text-xs text-white/80 font-mono font-bold uppercase tracking-wider">
+                  <div className="text-xs text-primary-foreground/80 font-mono font-bold uppercase tracking-wider">
                     {metricLabel}
                   </div>
                 )}
@@ -417,7 +417,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   rotateY: descRotateY,
                   transformStyle: 'preserve-3d',
                 }}
-                className="text-xs sm:text-sm text-white/90 line-clamp-3 leading-relaxed font-sans font-normal drop-shadow-sm"
+                className="text-xs sm:text-sm text-primary-foreground/90 line-clamp-3 leading-relaxed font-sans font-normal drop-shadow-sm"
               >
                 {description}
               </motion.p>
@@ -437,7 +437,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                 rotateY: subtitleRotateY,
                 transformStyle: 'preserve-3d',
               }}
-              className="text-xs font-mono text-white/80 font-bold truncate"
+              className="text-xs font-mono text-primary-foreground/80 font-bold truncate"
             >
               {footer || 'CatalystLab Engine'}
             </motion.div>
@@ -454,7 +454,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
               className="shrink-0"
             >
               {action || (
-                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs transition-all border border-white/30 shadow-md">
+                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-background/20 hover:bg-background/30 backdrop-blur-md text-primary-foreground font-bold text-xs transition-all border border-white/30 shadow-md">
                   <span>Run Audit</span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>

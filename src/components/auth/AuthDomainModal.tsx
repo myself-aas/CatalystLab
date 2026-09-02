@@ -54,7 +54,7 @@ export const AuthDomainModal: React.FC = () => {
 
   return (
     <div 
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-4 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-primary/75 p-4 backdrop-blur-md animate-in fade-in duration-200"
       role="dialog"
       aria-modal="true"
       aria-labelledby="auth-domain-title"
@@ -102,8 +102,8 @@ export const AuthDomainModal: React.FC = () => {
               onClick={handleCopyDomain}
               className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition-all shrink-0 ${
                 copied 
-                  ? 'bg-emerald-600 text-white' 
-                  : 'bg-[#415a77] text-white hover:bg-[#52718e]'
+                  ? 'bg-emerald-600 text-primary-foreground' 
+                  : 'bg-[#415a77] text-primary-foreground hover:bg-[#52718e]'
               }`}
               title="Copy hostname to clipboard"
             >
@@ -157,7 +157,7 @@ export const AuthDomainModal: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={handleSignInAsSuperadmin}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#52718e] transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
               <span>Sign In as Superadmin</span>
@@ -179,7 +179,7 @@ export const AuthDomainModal: React.FC = () => {
             href={domainConfig.consoleAuthUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-[#c5d3e8] hover:text-white transition-colors flex items-center gap-1 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="text-[#c5d3e8] hover:text-primary-foreground transition-colors flex items-center gap-1 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span>Open Firebase Settings</span>
             <ExternalLink className="h-3.5 w-3.5" />

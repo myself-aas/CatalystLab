@@ -209,7 +209,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-black/40 bg-slate-900 px-3.5 py-2 text-xs font-semibold text-slate-500 hover:text-white hover:bg-gray-50 transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-black/40 bg-primary px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:text-primary-foreground hover:bg-muted transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
               title="Sync latest Firestore audit logs"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? 'animate-spin text-cyan-400' : ''}`} />
@@ -219,7 +219,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleRunDiagnosticAudit}
               disabled={runningDiagnostic}
-              className="inline-flex items-center gap-2 rounded-xl bg-black hover:bg-black-hover border border-slate-500/30 px-4 py-2 text-xs font-bold text-white transition-all shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
             >
               <Play className={`h-3.5 w-3.5 ${runningDiagnostic ? 'animate-spin' : ''}`} />
               <span>{runningDiagnostic ? 'Probing Engines...' : 'Run Diagnostics'}</span>
@@ -246,7 +246,7 @@ export const SystemHealthWidget: React.FC = () => {
         <div className="bg-[#0b192c] p-5">
           <div className="flex items-center justify-between text-xs text-[#c5d3e8] font-medium">
             <span>Operational State</span>
-            <Server className="h-4 w-4 text-slate-400" />
+            <Server className="h-4 w-4 text-muted-foreground" />
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <div className="flex items-center gap-2">
@@ -344,7 +344,7 @@ export const SystemHealthWidget: React.FC = () => {
               onClick={() => setSelectedFilter('healthy')}
               className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
                 selectedFilter === 'healthy' 
-                  ? 'bg-emerald-600 text-white shadow-sm' 
+                  ? 'bg-emerald-600 text-primary-foreground shadow-sm' 
                   : 'text-[#c5d3e8] hover:text-emerald-300'
               }`}
             >
@@ -355,7 +355,7 @@ export const SystemHealthWidget: React.FC = () => {
                 onClick={() => setSelectedFilter('warning')}
                 className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
                   selectedFilter === 'warning' 
-                    ? 'bg-amber-600 text-white shadow-sm' 
+                    ? 'bg-amber-600 text-primary-foreground shadow-sm' 
                     : 'text-[#c5d3e8] hover:text-amber-300'
                 }`}
               >
@@ -367,7 +367,7 @@ export const SystemHealthWidget: React.FC = () => {
                 onClick={() => setSelectedFilter('critical')}
                 className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
                   selectedFilter === 'critical' 
-                    ? 'bg-rose-600 text-white shadow-sm' 
+                    ? 'bg-rose-600 text-primary-foreground shadow-sm' 
                     : 'text-[#c5d3e8] hover:text-rose-300'
                 }`}
               >
@@ -445,13 +445,13 @@ export const SystemHealthWidget: React.FC = () => {
                           {log.executionTimeMs}ms
                         </span>
                       )}
-                      <span className="text-slate-400">
+                      <span className="text-muted-foreground">
                         {dateString} {timeString}
                       </span>
                       {isExpanded ? (
-                        <ChevronUp className="h-3.5 w-3.5 text-slate-400" />
+                        <ChevronUp className="h-3.5 w-3.5 text-muted-foreground" />
                       ) : (
-                        <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                        <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
                       )}
                     </div>
                   </div>
@@ -465,14 +465,14 @@ export const SystemHealthWidget: React.FC = () => {
                       </div>
                       {log.target && (
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-400">Target Host / Resource:</span>
-                          <span className="text-slate-200 truncate max-w-xs">{log.target}</span>
+                          <span className="text-muted-foreground">Target Host / Resource:</span>
+                          <span className="text-muted-foreground truncate max-w-xs">{log.target}</span>
                         </div>
                       )}
                       {log.userEmail && (
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-400">Initiator / Actor:</span>
-                          <span className="text-slate-200">{log.userEmail}</span>
+                          <span className="text-muted-foreground">Initiator / Actor:</span>
+                          <span className="text-muted-foreground">{log.userEmail}</span>
                         </div>
                       )}
                       {log.details && (

@@ -1,82 +1,127 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Shield, Zap, Activity, Globe } from 'lucide-react';
+import { Shield, Zap, Activity, Globe, ArrowUpRight, Cpu, Sparkles } from 'lucide-react';
 import EdgeMeshGlobe from '../ui/edge-mesh-globe';
 
 const METRICS = [
   {
     id: 'cwv',
     icon: Zap,
-    title: 'Core Web Vitals',
-    description: 'Measure LCP, FID, and CLS with precision down to the millisecond. Pinpoint exactly which assets are blocking render.',
+    accent: '#06B6D4',
+    title: 'Core Web Vitals & DOM Depth',
+    description: 'Measure LCP, INP, and CLS with precision down to the millisecond. Pinpoint exactly which assets are blocking critical render paths.',
     value: '99.9%',
-    label: 'Accuracy',
+    label: 'Diagnostic Precision',
+    tag: 'ZYME ENGINE',
   },
   {
     id: 'security',
     icon: Shield,
-    title: 'Security Posture',
-    description: 'Automated OWASP Top 10 vulnerability scanning. Validates HSTS, CSP headers, and TLS configurations in real-time.',
+    accent: '#F43F5E',
+    title: 'OWASP Transport & Zero-Trust',
+    description: 'Autonomous zero-trust transport validation. Validates HSTS preloads, strict CSP nonces, and TLS 1.3 cryptographic configurations in real-time.',
     value: '14+',
-    label: 'Vectors Analyzed',
+    label: 'Attack Vectors Audited',
+    tag: 'SEC-PROTEASE',
   },
   {
     id: 'dom',
     icon: Activity,
-    title: 'DOM Architecture',
-    description: 'Deep structural analysis of HTML trees. Identifies excessive depth, layout shift triggers, and hydration mismatches.',
+    accent: '#A855F7',
+    title: 'AST & LLM Discoverability',
+    description: 'Deep structural analysis of HTML trees and AI manifests. Audits /llms.txt compliance, robots directives, and Schema.org knowledge graphs.',
     value: '< 50ms',
     label: 'Scan Latency',
+    tag: 'LLM-KINASE',
   },
   {
     id: 'edge',
     icon: Globe,
-    title: 'Global Edge Jitter',
-    description: 'Ping your domain from 42 edge nodes simultaneously. Map global TTFB variance and CDN cache hit rates.',
+    accent: '#34D399',
+    title: 'Global Anycast Edge Mesh',
+    description: 'Ping your domain from 42 edge PoPs simultaneously. Map global TTFB variance, 0-RTT resumption, and CDN memory cache hit rates.',
     value: '42',
-    label: 'Global Nodes',
+    label: 'Active Edge PoPs',
+    tag: 'EDGE-VMAX',
   }
 ];
 
 export const FeaturedAuditMetrics: React.FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-black border-t border-zinc-900">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8">
+    <section className="py-16 md:py-24 bg-primary border-t border-white/6 relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
-        <div className="mb-12 md:mb-16 max-w-2xl">
-          <h2 className="text-3xl md:text-4xl font-medium text-white tracking-tight">
-            Deep visibility. Zero overhead.
-          </h2>
-          <p className="mt-4 text-zinc-400 text-lg leading-relaxed">
-            Our autonomous engines perform multi-dimensional analysis without requiring you to install any SDKs or modify your source code.
-          </p>
+        {/* Header Block */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/25 bg-cyan-950/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-cyan-400 mb-3">
+              <Cpu className="size-3.5" />
+              <span>Full-Spectrum Diagnostics</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-primary-foreground tracking-tight leading-tight">
+              Deep visibility. Zero overhead.
+            </h2>
+            <p className="mt-3 text-muted-foreground text-base sm:text-lg leading-relaxed">
+              Our autonomous engines perform multi-dimensional analysis without requiring you to install any SDKs or modify your source code.
+            </p>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-3 text-xs font-mono text-muted-foreground">
+            <span className="flex size-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Telemetry Pipeline: Active (42 Nodes)</span>
+          </div>
         </div>
 
+        {/* Bento 2.0 4-Card Asymmetric Matrix */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {METRICS.map((metric, i) => (
             <motion.div 
               key={metric.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative p-8 rounded-2xl bg-zinc-950/40 border border-zinc-800/80 hover:bg-zinc-900/40 hover:border-zinc-700 transition-all duration-500 flex flex-col justify-between min-h-[320px] overflow-hidden"
+              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative p-6 sm:p-8 rounded-[1.75rem] bg-foreground/70 border border-white/8 hover:border-white/20 hover:bg-primary/60 transition-all duration-300 flex flex-col justify-between min-h-[300px] overflow-hidden backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.4)]"
             >
-              {/* Subtle top glow on hover */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              
-              <div className="relative z-10">
-                <div className="h-10 w-10 rounded-lg bg-zinc-900/80 flex items-center justify-center border border-zinc-800 mb-6 group-hover:scale-110 group-hover:border-zinc-700 transition-all duration-500">
-                  <metric.icon className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors duration-500" />
+              {/* Corner Ambient Glow */}
+              <div 
+                className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-15 transition-opacity duration-500 pointer-events-none"
+                style={{ backgroundColor: metric.accent }}
+              />
+
+              <div>
+                {/* Top Bar: Icon + Engine Code Tag */}
+                <div className="flex items-center justify-between mb-6">
+                  <div 
+                    style={{
+                      color: metric.accent,
+                      backgroundColor: `${metric.accent}15`,
+                      borderColor: `${metric.accent}30`,
+                    }}
+                    className="size-11 rounded-xl flex items-center justify-center border shadow-sm group-hover:scale-105 transition-transform duration-300"
+                  >
+                    <metric.icon className="size-5" />
+                  </div>
+
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground bg-background/5 border border-white/8 px-2.5 py-1 rounded-full">
+                    {metric.tag}
+                  </span>
                 </div>
-                <h3 className="text-xl font-medium text-white tracking-tight">{metric.title}</h3>
-                <p className="mt-3 text-zinc-400 leading-relaxed text-sm max-w-[40ch] group-hover:text-zinc-300 transition-colors duration-500">
+
+                <h3 className="text-xl font-semibold text-primary-foreground tracking-tight flex items-center gap-2">
+                  {metric.title}
+                </h3>
+                <p className="mt-3 text-muted-foreground leading-relaxed text-sm max-w-[45ch]">
                   {metric.description}
                 </p>
               </div>
               
+              {/* Interactive Globe in Corner of Edge Card */}
               {metric.id === 'edge' && (
-                <div className="absolute right-0 bottom-0 opacity-40 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none translate-x-1/4 translate-y-1/4">
+                <div className="absolute right-[-20px] bottom-[-20px] opacity-30 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none w-48 h-48">
                   <EdgeMeshGlobe 
                     variant="thumb" 
                     autoSpin={true} 
@@ -88,9 +133,14 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 </div>
               )}
 
-              <div className="relative z-10 mt-8 pt-8 border-t border-zinc-900 flex items-baseline gap-3">
-                <span className="text-3xl font-medium text-white font-mono tracking-tight">{metric.value}</span>
-                <span className="text-sm text-zinc-400 font-medium">{metric.label}</span>
+              {/* Bottom Metric Readout */}
+              <div className="relative z-10 mt-8 pt-5 border-t border-white/6 flex items-baseline justify-between">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-3xl font-semibold text-primary-foreground font-mono tracking-tight">{metric.value}</span>
+                  <span className="text-xs text-muted-foreground font-medium font-mono">{metric.label}</span>
+                </div>
+
+                <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </div>
             </motion.div>
           ))}
@@ -100,3 +150,6 @@ export const FeaturedAuditMetrics: React.FC = () => {
     </section>
   );
 };
+
+export default FeaturedAuditMetrics;
+

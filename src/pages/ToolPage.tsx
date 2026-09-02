@@ -180,7 +180,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-20 text-slate-900 selection:bg-slate-900 selection:text-white font-mono">
+    <div className="min-h-screen bg-background pb-20 text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
       <SEOHead
         title={`${meta.catalystName || meta.name} Catalyst`}
         description={meta.description}
@@ -188,7 +188,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       />
       
       {/* Header Banner */}
-      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 px-4 py-14 sm:py-18 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden border-b border-border bg-muted px-4 py-14 sm:py-18 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
@@ -197,7 +197,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           <div className="flex items-center justify-between mb-8">
             <Link
               to="/master-audit"
-              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-600 hover:text-slate-900 transition-colors bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-muted-foreground hover:text-foreground transition-colors bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-border shadow-2xs"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Back to Master Audit</span>
@@ -205,7 +205,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
             <Link
               to={`/docs#${meta.docsAnchor || 'overview'}`}
-              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-slate-900 hover:text-blue-600 transition-colors bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-foreground hover:text-blue-600 transition-colors bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-border shadow-2xs"
             >
               <BookOpen className="h-3.5 w-3.5 text-blue-600" />
               <span>Engine Documentation</span>
@@ -215,7 +215,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
           <div className="flex flex-col items-center mb-4">
             {meta.image ? (
-              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 rounded-2xl overflow-hidden shadow-md border border-slate-200/90 bg-white">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 rounded-2xl overflow-hidden shadow-md border border-border/90 bg-background">
                 <img 
                   src={meta.image} 
                   alt={meta.name}
@@ -223,31 +223,31 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
                 />
               </div>
             ) : (
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-slate-900 text-3xl shadow-md mb-4 border border-slate-200/90">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-background text-foreground text-3xl shadow-md mb-4 border border-border/90">
                 <span aria-hidden="true" className="material-symbols-outlined text-3xl text-blue-600">{meta.icon}</span>
               </div>
             )}
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
-            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full border border-slate-200 bg-white text-slate-900 shadow-2xs">
+            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full border border-border bg-background text-foreground shadow-2xs">
               {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-2xs">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
               <span>Replaces: {meta.departmentReplaced}</span>
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-slate-700 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
+            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-muted-foreground bg-background px-3 py-1 rounded-full border border-border shadow-2xs">
               <Code className="h-3.5 w-3.5 text-blue-600" />
               <span>Python 3.11 ({meta.pythonScript})</span>
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 font-sans leading-[1.1]">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground font-sans leading-[1.1]">
             {meta.catalystName || `${meta.name} Catalyst`}
           </h1>
 
-          <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-slate-600 leading-relaxed font-sans font-normal">
+          <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed font-sans font-normal">
             {meta.description}
           </p>
 
@@ -278,15 +278,15 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         
         {/* Saved Permalink Banner */}
         {savedReportId && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm text-slate-900">
+          <div className="rounded-2xl border border-border bg-background p-4 shadow-sm text-foreground">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">
+                  <h3 className="text-sm font-bold text-foreground">
                     Audit Saved to Your User Dashboard!
                   </h3>
-                  <div className="text-xs text-slate-600 mt-0.5">
+                  <div className="text-xs text-muted-foreground mt-0.5">
                     Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-amber-700 hover:underline">{permalinkUrl}</a>
                   </div>
                 </div>
@@ -295,13 +295,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               <div className="flex flex-wrap items-center gap-2 shrink-0">
                 <button
                   onClick={handleCopy}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-accent transition-colors cursor-pointer"
                 >
                   {copiedLink ? 'Copied' : 'Copy Link'}
                 </button>
                 <Link
                   to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                  className="flex items-center gap-1 rounded-lg bg-slate-900 hover:bg-slate-800 px-3 py-1.5 text-xs font-bold text-white transition-colors shadow-sm"
+                  className="flex items-center gap-1 rounded-lg bg-primary hover:bg-primary-hover px-3 py-1.5 text-xs font-bold text-primary-foreground transition-colors shadow-sm"
                 >
                   <FileText className="h-3 w-3 text-amber-400" />
                   <span>Read Article Dossier</span>
@@ -312,13 +312,13 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         )}
 
         {(output || loading) && (
-          <div className="flex gap-2 border-b border-slate-200 pb-2">
+          <div className="flex gap-2 border-b border-border pb-2">
             <button
               onClick={() => setViewMode('dashboard')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'dashboard'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-background text-muted-foreground hover:text-foreground border border-border'
               }`}
             >
               <Activity className="h-3.5 w-3.5" />
@@ -328,8 +328,8 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
               onClick={() => setViewMode('terminal')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'terminal'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-background text-muted-foreground hover:text-foreground border border-border'
               }`}
             >
               <Code className="h-3.5 w-3.5" />
@@ -365,14 +365,14 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
 
         {/* Auth prompt if not logged in */}
         {!user && !loading && output && !output.startsWith('[!] Error') && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm max-w-2xl mx-auto">
-            <p className="text-xs text-slate-600 flex items-center justify-center gap-1.5 font-sans">
+          <div className="rounded-2xl border border-border bg-background p-4 text-center shadow-sm max-w-2xl mx-auto">
+            <p className="text-xs text-muted-foreground flex items-center justify-center gap-1.5 font-sans">
               <span aria-hidden="true" className="material-symbols-outlined text-sm text-amber-600">lightbulb</span>
               <span><strong>Want to save this report to your history?</strong> Sign in with Google to enable permanent cloud storage and permalinks.</span>
             </p>
             <button
               onClick={() => login()}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 px-3.5 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer shadow-sm"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary-hover px-3.5 py-1.5 text-xs font-bold text-primary-foreground transition-colors cursor-pointer shadow-sm"
             >
               Sign In with Google
             </button>

@@ -87,10 +87,10 @@ export const ReportPermalinkPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-white">
+      <div className="flex min-h-[70vh] items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-amber-500" />
-          <span className="text-xs text-slate-600 font-mono">Retrieving immutable audit dossier from Firestore...</span>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-amber-500" />
+          <span className="text-xs text-muted-foreground font-mono">Retrieving immutable audit dossier from Firestore...</span>
         </div>
       </div>
     );
@@ -98,23 +98,23 @@ export const ReportPermalinkPage: React.FC = () => {
 
   if (error || !report) {
     return (
-      <div className="mx-auto max-w-lg px-4 py-20 text-center bg-white min-h-[70vh] font-mono">
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-slate-900 shadow-sm">
+      <div className="mx-auto max-w-lg px-4 py-20 text-center bg-background min-h-[70vh] font-mono">
+        <div className="rounded-2xl border border-border bg-background p-8 text-foreground shadow-sm">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-600 mb-3 border border-red-200">
             <AlertCircle className="h-6 w-6" />
           </div>
-          <h2 className="text-lg font-bold text-slate-900">Report Not Found</h2>
-          <p className="mt-2 text-xs text-slate-600">{error || "The requested audit dossier does not exist."}</p>
+          <h2 className="text-lg font-bold text-foreground">Report Not Found</h2>
+          <p className="mt-2 text-xs text-muted-foreground">{error || "The requested audit dossier does not exist."}</p>
           <div className="mt-5 flex justify-center gap-2.5">
             <Link
               to="/dashboard"
-              className="rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-xs font-bold text-slate-800 hover:bg-slate-50"
+              className="rounded-xl border border-border bg-accent px-4 py-2 text-xs font-bold text-foreground hover:bg-muted"
             >
               Go to Dashboard
             </Link>
             <Link
               to="/master-audit"
-              className="rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 text-xs font-bold text-white"
+              className="rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground"
             >
               Run New Audit
             </Link>
@@ -138,7 +138,7 @@ export const ReportPermalinkPage: React.FC = () => {
     : 'Unknown Date';
 
   return (
-    <div className="min-h-screen bg-white pb-20 text-slate-900 selection:bg-slate-900 selection:text-white font-mono">
+    <div className="min-h-screen bg-background pb-20 text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
       <SEOHead
         title={`Audit Report: ${report.url}`}
         description={`Diagnostic telemetry trace for ${report.url} on CatalystLab.`}
@@ -146,11 +146,11 @@ export const ReportPermalinkPage: React.FC = () => {
       />
       
       {/* Top Bar Navigation */}
-      <section className="border-b border-slate-200 bg-slate-50 px-4 py-3 sm:px-6 lg:px-8">
+      <section className="border-b border-border bg-muted px-4 py-3 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <Link
             to="/dashboard"
-            className="flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
+            className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Back to Dashboard</span>
@@ -159,7 +159,7 @@ export const ReportPermalinkPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
               title="Copy Share Link"
             >
               {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Share2 className="h-3.5 w-3.5 text-amber-600" />}
@@ -168,17 +168,17 @@ export const ReportPermalinkPage: React.FC = () => {
 
             <button
               onClick={handleBrowserPrint}
-              className="hidden sm:flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer"
+              className="hidden sm:flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
               title="Print via Browser Utility"
             >
-              <Printer className="h-3.5 w-3.5 text-slate-500" />
+              <Printer className="h-3.5 w-3.5 text-muted-foreground" />
               <span>Print</span>
             </button>
 
             <button
               onClick={handleExportPdf}
               disabled={isExportingPdf}
-              className="flex items-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 px-3.5 py-1.5 text-xs font-bold text-white transition-colors disabled:opacity-50 shadow-sm cursor-pointer"
+              className="flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary-hover border border-border px-3.5 py-1.5 text-xs font-bold text-primary-foreground transition-colors disabled:opacity-50 shadow-sm cursor-pointer"
               title="Export Current Audit Results as PDF"
             >
               <Download className="h-3.5 w-3.5 text-amber-400" />
@@ -192,34 +192,34 @@ export const ReportPermalinkPage: React.FC = () => {
       <main id="report-dossier-content" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
         
         {/* Header Information Banner */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm text-slate-900">
+        <div className="rounded-2xl border border-border bg-background p-6 shadow-sm text-foreground">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <span className="text-xs uppercase font-bold px-2 py-0.5 rounded border bg-amber-50 text-amber-700 border-amber-200">
                   {meta.name}
                 </span>
-                <span className="flex items-center gap-1 rounded bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600 border border-slate-200">
+                <span className="flex items-center gap-1 rounded bg-accent px-2 py-0.5 text-[11px] text-muted-foreground border border-border">
                   <ShieldCheck className="h-3 w-3 text-emerald-600" />
                   Immutable Permalink
                 </span>
               </div>
 
-              <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 break-all">
+              <h1 className="text-lg sm:text-xl font-extrabold text-foreground break-all">
                 {report.url}
               </h1>
 
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-600">
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
-                  <Calendar className="h-3 w-3 text-slate-400" />
+                  <Calendar className="h-3 w-3 text-muted-foreground" />
                   {formattedDate}
                 </span>
                 <span>•</span>
-                <span className="text-slate-500">ID: {report.id}</span>
+                <span className="text-muted-foreground">ID: {report.id}</span>
                 {report.ownerEmail && (
                   <>
                     <span>•</span>
-                    <span className="text-slate-500">Audited by: {report.ownerEmail}</span>
+                    <span className="text-muted-foreground">Audited by: {report.ownerEmail}</span>
                   </>
                 )}
               </div>
@@ -228,7 +228,7 @@ export const ReportPermalinkPage: React.FC = () => {
             <div className="shrink-0 flex items-center gap-2">
               <Link
                 to={`/master-audit?url=${encodeURIComponent(report.url)}`}
-                className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-100 px-3.5 py-2 text-xs font-bold text-slate-800 hover:bg-slate-50 transition-colors"
+                className="flex items-center gap-1.5 rounded-xl border border-border bg-accent px-3.5 py-2 text-xs font-bold text-foreground hover:bg-muted transition-colors"
               >
                 <RotateCw className="h-3 w-3 text-amber-600" />
                 <span>Re-run Audit</span>
@@ -238,7 +238,7 @@ export const ReportPermalinkPage: React.FC = () => {
         </div>
 
         {/* Output Terminal View */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm overflow-hidden">
+        <div className="rounded-2xl border border-border bg-background p-2 shadow-sm overflow-hidden">
           <TerminalOutput
             title={`Full Diagnostic Trace: ${meta.name}`}
             icon={meta.icon}

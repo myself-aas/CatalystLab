@@ -257,7 +257,7 @@ export const ComparePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16] pb-24 text-slate-100 selection:bg-[#06B6D4]/30 selection:text-white">
+    <div className="min-h-screen bg-[#090D16] pb-24 text-foreground selection:bg-[#06B6D4]/30 selection:text-primary-foreground">
       <SEOHead
         title="Side-by-Side Delta Comparison"
         description="Benchmark performance, security headers, and DOM complexity between two competing websites in real-time."
@@ -266,7 +266,7 @@ export const ComparePage: React.FC = () => {
       />
 
       {/* Header */}
-      <section className="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-slate-950 via-[#0B101D] to-[#090D16] px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden border-b border-border/80 bg-gradient-to-b from-slate-950 via-[#0B101D] to-[#090D16] px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#06b6d420_0%,transparent_75%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#33415515_1px,transparent_1px),linear-gradient(to_bottom,#33415515_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
@@ -276,13 +276,13 @@ export const ComparePage: React.FC = () => {
             <span>SIDE-BY-SIDE COMPARATIVE TELEMETRY</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-[1.08]">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.08]">
             Head-to-Head Telemetry{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-cyan-400 to-blue-500">
               Delta Matrix
             </span>
           </h1>
-          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto font-sans font-normal leading-relaxed">
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto font-sans font-normal leading-relaxed">
             Benchmark performance, security headers, and DOM complexity between two competing web architectures with synchronous multi-engine delta calculations.
           </p>
         </div>

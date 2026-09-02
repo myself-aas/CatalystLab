@@ -75,23 +75,23 @@ export const LiveCronLogStream: React.FC = () => {
       case 'BENCHMARK':
         return 'bg-purple-500/10 text-[#D946EF] border-purple-500/30';
       default:
-        return 'bg-slate-500/10 text-slate-400 border-slate-700';
+        return 'bg-muted0/10 text-muted-foreground border-border';
     }
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#080D1A] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs">
+    <div className="flex flex-col h-full bg-[#080D1A] border border-border rounded-2xl overflow-hidden shadow-2xl font-mono text-xs">
       {/* Stream Header */}
-      <div className="p-3.5 bg-[#0B101D] border-b border-slate-800 flex items-center justify-between gap-2">
+      <div className="p-3.5 bg-[#0B101D] border-b border-border flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="relative flex items-center justify-center">
-            <Radio className={`h-4 w-4 ${autoStreamActive ? 'text-[#00FF66] animate-pulse' : 'text-slate-500'}`} />
+            <Radio className={`h-4 w-4 ${autoStreamActive ? 'text-[#00FF66] animate-pulse' : 'text-muted-foreground'}`} />
             {autoStreamActive && (
               <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-ping" />
             )}
           </div>
-          <span className="font-bold text-slate-100 tracking-wide">Live Telemetry Cron Stream</span>
-          <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-800 text-slate-400 border border-slate-700">
+          <span className="font-bold text-foreground tracking-wide">Live Telemetry Cron Stream</span>
+          <span className="px-1.5 py-0.5 rounded text-[10px] bg-muted text-muted-foreground border border-border">
             {cronLogs.length} events
           </span>
         </div>
@@ -104,7 +104,7 @@ export const LiveCronLogStream: React.FC = () => {
             className={`p-1.5 rounded-lg border transition-all cursor-pointer flex items-center gap-1 text-[11px] ${
               autoStreamActive 
                 ? 'bg-emerald-500/10 border-emerald-500/30 text-[#00FF66] hover:bg-emerald-500/20' 
-                : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200'
+                : 'bg-muted border-border text-muted-foreground hover:text-muted-foreground'
             }`}
             title={autoStreamActive ? 'Pause auto-stream' : 'Resume auto-stream'}
           >
@@ -115,7 +115,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={() => triggerSyntheticProbe(focusEngine || undefined)}
-            className="p-1.5 rounded-lg bg-[#0E1526] border border-slate-800 text-slate-300 hover:text-[#00F0FF] hover:border-[#06B6D4]/40 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-[#0E1526] border border-border text-muted-foreground hover:text-[#00F0FF] hover:border-[#06B6D4]/40 transition-colors cursor-pointer"
             title="Trigger manual synthetic probe"
           >
             <RefreshCw className="h-3 w-3" />
@@ -124,7 +124,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={clearLogs}
-            className="p-1.5 rounded-lg bg-[#0E1526] border border-slate-800 text-slate-400 hover:text-[#FF0055] hover:border-rose-500/30 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-[#0E1526] border border-border text-muted-foreground hover:text-[#FF0055] hover:border-rose-500/30 transition-colors cursor-pointer"
             title="Clear logs"
           >
             <Trash2 className="h-3 w-3" />
@@ -133,9 +133,9 @@ export const LiveCronLogStream: React.FC = () => {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="px-3 py-2 bg-[#060912] border-b border-slate-800/80 flex items-center justify-between gap-2 text-[11px] overflow-x-auto no-scrollbar">
+      <div className="px-3 py-2 bg-[#060912] border-b border-border/80 flex items-center justify-between gap-2 text-[11px] overflow-x-auto no-scrollbar">
         <div className="flex items-center gap-1 shrink-0">
-          <Filter className="h-3 w-3 text-slate-500 mr-1" />
+          <Filter className="h-3 w-3 text-muted-foreground mr-1" />
           {['ALL', 'CRON', 'INFO', 'WARN', 'BENCHMARK'].map((lvl) => (
             <button
               key={lvl}
@@ -143,8 +143,8 @@ export const LiveCronLogStream: React.FC = () => {
               onClick={() => setSelectedLevel(lvl)}
               className={`px-2 py-0.5 rounded border transition-colors cursor-pointer ${
                 selectedLevel === lvl
-                  ? 'bg-[#06B6D4] text-slate-950 font-bold border-[#06B6D4]'
-                  : 'bg-[#0B101D] text-slate-400 border-slate-800 hover:text-slate-200'
+                  ? 'bg-[#06B6D4] text-foreground font-bold border-[#06B6D4]'
+                  : 'bg-[#0B101D] text-muted-foreground border-border hover:text-muted-foreground'
               }`}
             >
               {lvl}
@@ -152,7 +152,7 @@ export const LiveCronLogStream: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 text-[10px] text-slate-400 shrink-0">
+        <div className="flex items-center gap-2 text-[10px] text-muted-foreground shrink-0">
           <label className="flex items-center gap-1 cursor-pointer select-none">
             <input
               type="checkbox"
@@ -178,15 +178,15 @@ export const LiveCronLogStream: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="group p-2 rounded-lg bg-[#0B101D] border border-slate-800/80 hover:border-slate-700 transition-all text-left space-y-1"
+              className="group p-2 rounded-lg bg-[#0B101D] border border-border/80 hover:border-border transition-all text-left space-y-1"
             >
               <div className="flex items-center justify-between gap-2 text-[10px]">
                 <div className="flex items-center gap-1.5 truncate">
                   <span className={`px-1.5 py-0.5 rounded border font-bold ${getLevelBadgeClass(log.level)}`}>
                     {log.level}
                   </span>
-                  <span className="text-slate-400">{log.timestamp}</span>
-                  <span className="text-slate-400 truncate">[{log.popRegion}]</span>
+                  <span className="text-muted-foreground">{log.timestamp}</span>
+                  <span className="text-muted-foreground truncate">[{log.popRegion}]</span>
                 </div>
 
                 <div className="flex items-center gap-1 shrink-0">
@@ -198,7 +198,7 @@ export const LiveCronLogStream: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleCopyLog(log)}
-                    className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+                    className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-primary-hover text-muted-foreground hover:text-muted-foreground transition-all cursor-pointer"
                     title="Copy event JSON"
                   >
                     {copiedId === log.id ? (
@@ -210,7 +210,7 @@ export const LiveCronLogStream: React.FC = () => {
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-200 leading-relaxed break-words font-sans">
+              <div className="text-[11px] text-muted-foreground leading-relaxed break-words font-sans">
                 {log.message}
               </div>
             </motion.div>
@@ -218,19 +218,19 @@ export const LiveCronLogStream: React.FC = () => {
         </AnimatePresence>
 
         {filteredLogs.length === 0 && (
-          <div className="py-12 text-center text-slate-500 space-y-2">
-            <Terminal className="h-6 w-6 mx-auto text-slate-600" />
+          <div className="py-12 text-center text-muted-foreground space-y-2">
+            <Terminal className="h-6 w-6 mx-auto text-muted-foreground" />
             <p>No log events matching level &quot;{selectedLevel}&quot;</p>
           </div>
         )}
       </div>
 
       {/* Stream Footer Telemetry Bar */}
-      <div className="p-2 bg-[#0B101D] border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
+      <div className="p-2 bg-[#0B101D] border-t border-border flex items-center justify-between text-[10px] text-muted-foreground">
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1">
             <span className="h-1.5 w-1.5 rounded-full bg-[#00F0FF] animate-pulse" />
-            <span className="text-slate-300">Target:</span> {activeDomain}
+            <span className="text-muted-foreground">Target:</span> {activeDomain}
           </span>
           {focusEngine && (
             <span className="text-[#00F0FF] font-bold">
@@ -238,7 +238,7 @@ export const LiveCronLogStream: React.FC = () => {
             </span>
           )}
         </div>
-        <span className="text-slate-400">Protocol: WS-TLS/1.3</span>
+        <span className="text-muted-foreground">Protocol: WS-TLS/1.3</span>
       </div>
     </div>
   );

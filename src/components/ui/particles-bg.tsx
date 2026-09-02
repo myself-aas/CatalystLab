@@ -132,7 +132,7 @@ export default function ParticlesComponent() {
       style={{ x, y }}
       transition={{ opacity: { duration: 0.5, ease: "easeInOut" } }}
       id="particles-js"
-      className="fixed inset-0 w-full h-full z-0 pointer-events-auto bg-white opacity-90 transition-opacity duration-700"
+      className="fixed inset-0 w-full h-full z-0 pointer-events-auto bg-background opacity-90 transition-opacity duration-700"
     />
   );
 }

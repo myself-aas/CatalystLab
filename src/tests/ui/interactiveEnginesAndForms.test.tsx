@@ -43,10 +43,12 @@ describe('Browserbase UI-Test: Interactive Forms, Engines & Controls', () => {
     localStorage.clear();
   });
 
-  it('renders HeroSection and handles URL input and preset chip selection', () => {
+  it('renders HeroSection and handles URL input, preset chip selection, and mobile mode switcher', () => {
     render(<HeroSection />, { wrapper });
 
-    const input = screen.getByPlaceholderText(/example\.com/i);
+    const inputs = screen.getAllByPlaceholderText(/example\.com/i);
+    expect(inputs.length).toBeGreaterThanOrEqual(1);
+    const input = inputs[0];
     expect(input).toBeInTheDocument();
 
     // Type custom URL
@@ -57,6 +59,20 @@ describe('Browserbase UI-Test: Interactive Forms, Engines & Controls', () => {
     const presetChips = screen.queryAllByText(/stripe.com|cloudflare.com|github.com|vercel.com/i);
     if (presetChips.length > 0) {
       fireEvent.click(presetChips[0]);
+    }
+
+    // Test mobile interactive mode switcher buttons
+    const globeTab = screen.queryByRole('button', { name: /3D Mesh/i });
+    if (globeTab) {
+      fireEvent.click(globeTab);
+    }
+    const telemetryTab = screen.queryByRole('button', { name: /Live HUD/i });
+    if (telemetryTab) {
+      fireEvent.click(telemetryTab);
+    }
+    const auditTab = screen.queryByRole('button', { name: /Audit Terminal/i });
+    if (auditTab) {
+      fireEvent.click(auditTab);
     }
   });
 

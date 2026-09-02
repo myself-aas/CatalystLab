@@ -91,7 +91,7 @@ export const PexelsImage: React.FC<PexelsImageProps> = ({
       case 'catalyst-grade-neutral':
         return 'duotone-neutral';
       default:
-        return 'bg-slate-900/40';
+        return 'bg-primary/40';
     }
   };
 
@@ -122,8 +122,7 @@ export const PexelsImage: React.FC<PexelsImageProps> = ({
           height={finalHeight}
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
-          fetchPriority={priority ? 'high' : 'auto'}
-          
+          {...(priority ? { fetchpriority: 'high' } : {})}
           aria-hidden={isDecorative ? 'true' : undefined}
           onLoad={() => setIsLoaded(true)}
           onError={handleError}

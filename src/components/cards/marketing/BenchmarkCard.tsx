@@ -53,10 +53,10 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
             <Zap className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-slate-500 block">
+            <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-muted-foreground block">
               {category}
             </span>
-            <h4 className="text-base font-bold text-slate-900 font-sans tracking-tight">
+            <h4 className="text-base font-bold text-foreground font-sans tracking-tight">
               {engineName}
             </h4>
           </div>
@@ -68,28 +68,28 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       </div>
 
       {description && (
-        <p className="text-xs text-slate-600 font-sans mb-4 leading-relaxed">
+        <p className="text-xs text-muted-foreground font-sans mb-4 leading-relaxed">
           {description}
         </p>
       )}
 
       {/* R5 Stat-Pair Divider Pattern (Legacy vs CatalystLab) - Refined Light Theme */}
-      <div className="w-full grid grid-cols-2 divide-x divide-slate-100 bg-slate-50 rounded-xl border border-slate-100 p-3 my-2 shadow-sm">
+      <div className="w-full grid grid-cols-2 divide-x divide-slate-100 bg-muted rounded-xl border border-border p-3 my-2 shadow-sm">
         {/* Legacy Column */}
         <div className="pr-3 flex flex-col justify-between">
-          <span className="text-[10px] font-sans font-bold text-slate-500 uppercase tracking-widest">
+          <span className="text-[10px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
             {legacyTitle}
           </span>
           <div className="mt-1">
-            <span className="text-lg font-black text-slate-500">
+            <span className="text-lg font-black text-muted-foreground">
               {legacyValue}
             </span>
-            <span className="block text-[11px] font-sans text-slate-400 mt-0.5">
+            <span className="block text-[11px] font-sans text-muted-foreground mt-0.5">
               {legacyLabel}
             </span>
             {/* Visual Indicator */}
-            <div className="mt-2 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
-               <div className="h-full bg-slate-400 w-1/2" />
+            <div className="mt-2 h-1 w-full bg-accent rounded-full overflow-hidden">
+               <div className="h-full bg-muted w-1/2" />
             </div>
           </div>
         </div>

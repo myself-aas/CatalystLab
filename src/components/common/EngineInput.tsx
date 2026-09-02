@@ -25,11 +25,11 @@ export const EngineInput: React.FC<EngineInputProps> = ({
   return (
     <form 
       onSubmit={onSubmit} 
-      className="p-1.5 sm:p-2 rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white/90 backdrop-blur-md w-full shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-zinc-300 transition-all duration-300 group focus-within:shadow-[0_12px_40px_rgba(0,0,0,0.1)] focus-within:border-zinc-400"
+      className="p-1.5 sm:p-2 rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-background/90 backdrop-blur-md w-full shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-zinc-300 transition-all duration-300 group focus-within:shadow-[0_12px_40px_rgba(0,0,0,0.1)] focus-within:border-zinc-400"
     >
       <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-2.5 w-full">
         {/* Terminal Text Input Box */}
-        <div className="flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-zinc-50 border border-zinc-200/80 text-zinc-900 font-mono text-sm sm:text-base flex-1 w-full focus-within:bg-white focus-within:border-zinc-900/30 focus-within:ring-2 focus-within:ring-zinc-900/10 transition-all">
+        <div className="flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-zinc-50 border border-zinc-200/80 text-zinc-900 font-mono text-sm sm:text-base flex-1 w-full focus-within:bg-background focus-within:border-zinc-900/30 focus-within:ring-2 focus-within:ring-zinc-900/10 transition-all">
           <span className="text-amber-600 shrink-0 font-bold tracking-tight select-none flex items-center gap-1">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>&gt;_</span>
@@ -69,7 +69,7 @@ export const EngineInput: React.FC<EngineInputProps> = ({
         <button 
           type="submit" 
           disabled={disabled || isLoading}
-          className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-zinc-950 hover:bg-zinc-800 active:bg-black text-white font-mono font-semibold text-sm sm:text-base transition-all duration-200 active:scale-[0.98] cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed border border-zinc-900 shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
+          className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-zinc-950 hover:bg-zinc-800 active:bg-primary text-primary-foreground font-mono font-semibold text-sm sm:text-base transition-all duration-200 active:scale-[0.98] cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed border border-zinc-900 shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
         >
           {isLoading ? (
             <RotateCw className="h-4 w-4 animate-spin text-amber-400" />

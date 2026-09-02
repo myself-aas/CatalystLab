@@ -175,7 +175,7 @@ export const BlogsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#060912] text-slate-100 font-mono selection:bg-[#06B6D4]/30 selection:text-white">
+    <div className="min-h-screen bg-[#060912] text-foreground font-mono selection:bg-[#06B6D4]/30 selection:text-primary-foreground">
       <SEOHead
         title="Telemetry Research Feed & Technical Publications | CatalystLab"
         description="Explore biochemical telemetry research, Core Web Vitals optimizations, AI agent crawler readiness protocols, and edge latency benchmarks."
@@ -185,9 +185,9 @@ export const BlogsPage: React.FC = () => {
 
       {/* Admin Quick Access Bar */}
       {user && (
-        <div className="border-b border-slate-800 bg-[#080D1A]">
+        <div className="border-b border-border bg-[#080D1A]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-white">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-primary-foreground">
               <Sparkles className="h-3 w-3 text-[#00F0FF]" />
               <span>
                 {isAdmin ? 'Admin Mode Active — Publishing & editing privileges enabled' : 'Author Access Active'}
@@ -196,7 +196,7 @@ export const BlogsPage: React.FC = () => {
             <div className="flex items-center gap-2">
               <Link
                 to="/blogs/create"
-                className="inline-flex items-center gap-1 rounded-lg bg-[#06B6D4] hover:bg-[#00F0FF] px-3 py-1 text-xs font-bold text-slate-950 transition-all shadow-sm"
+                className="inline-flex items-center gap-1 rounded-lg bg-[#06B6D4] hover:bg-[#00F0FF] px-3 py-1 text-xs font-bold text-foreground transition-all shadow-sm"
               >
                 <Plus className="h-3 w-3 stroke-[3]" />
                 <span>Write Article</span>
@@ -204,7 +204,7 @@ export const BlogsPage: React.FC = () => {
               {isAdmin && (
                 <Link
                   to="/admin"
-                  className="inline-flex items-center gap-1 rounded-lg border border-slate-800 bg-[#0B101D] px-3 py-1 text-xs font-bold text-slate-300 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1 rounded-lg border border-border bg-[#0B101D] px-3 py-1 text-xs font-bold text-muted-foreground hover:text-primary-foreground transition-colors"
                 >
                   <Settings className="h-3 w-3" />
                   <span>CMS Studio</span>
@@ -216,7 +216,7 @@ export const BlogsPage: React.FC = () => {
       )}
 
       {/* Hero Header Section */}
-      <section className="relative overflow-hidden border-b border-slate-800 bg-[#080D1A] py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden border-b border-border bg-[#080D1A] py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#1e293b80_0%,#080D1A_75%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#33415515_1px,transparent_1px),linear-gradient(to_bottom,#33415515_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
@@ -226,13 +226,13 @@ export const BlogsPage: React.FC = () => {
             <span>TELEMETRY RESEARCH FEED &bull; 8-VECTOR SDLC DIAGNOSTICS</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight font-sans leading-[1.08]">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-primary-foreground tracking-tight font-sans leading-[1.08]">
             Engineering Insights &amp;{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-cyan-400 to-blue-500">
               Edge Telemetry Research
             </span>
           </h1>
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto font-sans font-normal">
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto font-sans font-normal">
             Deep-dive technical diagnostics, Next.js rendering benchmarks, AI crawler readiness protocols, and multi-region infrastructure analyses written by our core architects.
           </p>
 
@@ -243,12 +243,12 @@ export const BlogsPage: React.FC = () => {
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-semibold font-mono transition-all cursor-pointer active:scale-95 shadow-sm ${
                 showSandbox
                   ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-[#00F0FF] shadow-cyan-900/30'
-                  : 'bg-[#0B101D] border-slate-700 text-slate-300 hover:text-white hover:border-slate-600'
+                  : 'bg-[#0B101D] border-border text-muted-foreground hover:text-primary-foreground hover:border-border'
               }`}
             >
               <TerminalIcon className="h-4 w-4" />
               <span>{showSandbox ? 'Hide Live Sandbox' : 'Open Live Telemetry Sandbox'}</span>
-              <span className={`h-2 w-2 rounded-full ${showSandbox ? 'bg-[#00FF66] animate-pulse' : 'bg-slate-500'}`} />
+              <span className={`h-2 w-2 rounded-full ${showSandbox ? 'bg-[#00FF66] animate-pulse' : 'bg-muted0'}`} />
             </button>
           </div>
         </div>
@@ -276,12 +276,12 @@ export const BlogsPage: React.FC = () => {
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 space-y-6">
         
         {/* Section Header with Search & Filter Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-slate-800">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">
           <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-sans">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-primary-foreground tracking-tight font-sans">
               All Technical Publications
             </h2>
-            <p className="text-slate-400 text-xs mt-0.5 font-sans">
+            <p className="text-muted-foreground text-xs mt-0.5 font-sans">
               Showing {filteredAndSortedPosts.length} article{filteredAndSortedPosts.length === 1 ? '' : 's'} tagged by biochemical catalyst
             </p>
           </div>
@@ -290,7 +290,7 @@ export const BlogsPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             {/* Search Input */}
             <div className="relative min-w-[220px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
               <label htmlFor="blog-search" className="sr-only">Search blogs</label>
               <input
                 id="blog-search"
@@ -298,14 +298,14 @@ export const BlogsPage: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search topics, tags, or words..."
-                className="w-full rounded-xl border border-slate-800 bg-[#080D1A] pl-9 pr-7 py-1.5 text-xs text-white placeholder:text-slate-400 focus:border-[#06B6D4] focus:outline-none transition-colors font-mono"
+                className="w-full rounded-xl border border-border bg-[#080D1A] pl-9 pr-7 py-1.5 text-xs text-primary-foreground placeholder:text-muted-foreground focus:border-[#06B6D4] focus:outline-none transition-colors font-mono"
               />
               {searchQuery && (
                 <button 
                   type="button"
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-xs text-slate-400 hover:text-white"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-xs text-muted-foreground hover:text-primary-foreground"
                 >
                   <X className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
@@ -316,7 +316,7 @@ export const BlogsPage: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="rounded-xl border border-slate-800 bg-[#080D1A] px-3 py-1.5 text-xs font-semibold text-white focus:border-[#06B6D4] focus:outline-none cursor-pointer font-mono"
+              className="rounded-xl border border-border bg-[#080D1A] px-3 py-1.5 text-xs font-semibold text-primary-foreground focus:border-[#06B6D4] focus:outline-none cursor-pointer font-mono"
             >
               <option value="newest">Sort: Newest First</option>
               <option value="popular">Sort: Most Popular</option>
@@ -337,13 +337,13 @@ export const BlogsPage: React.FC = () => {
                 aria-pressed={isActive}
                 className={`min-h-9 shrink-0 rounded-xl px-3 py-1 text-xs font-bold transition-all cursor-pointer font-mono flex items-center gap-1.5 ${
                   isActive
-                    ? 'bg-[#06B6D4] text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
-                    : 'bg-[#080D1A] border border-slate-800 text-slate-400 hover:text-white hover:bg-[#0E1526]'
+                    ? 'bg-[#06B6D4] text-foreground shadow-[0_0_10px_rgba(6,182,212,0.3)]'
+                    : 'bg-[#080D1A] border border-border text-muted-foreground hover:text-primary-foreground hover:bg-[#0E1526]'
                 }`}
               >
                 <span>{topic.label}</span>
                 {topic.enzyme && (
-                  <span className={`text-[10px] ${isActive ? 'text-slate-900 font-normal' : 'text-slate-400'}`}>
+                  <span className={`text-[10px] ${isActive ? 'text-foreground font-normal' : 'text-muted-foreground'}`}>
                     ({topic.enzyme})
                   </span>
                 )}
@@ -387,10 +387,10 @@ export const BlogsPage: React.FC = () => {
             })}
           </div>
         ) : (
-          <div className="rounded-2xl border border-slate-800 bg-[#080D1A] p-12 text-center">
-            <BookOpen className="mx-auto h-8 w-8 text-slate-400 mb-2" />
-            <h3 className="text-sm font-bold text-white">No articles matched your filter</h3>
-            <p className="text-xs text-slate-400 mt-1">Try searching for other catalysts like VitalZyme, EcoHolo, or RiskProtease.</p>
+          <div className="rounded-2xl border border-border bg-[#080D1A] p-12 text-center">
+            <BookOpen className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
+            <h3 className="text-sm font-bold text-primary-foreground">No articles matched your filter</h3>
+            <p className="text-xs text-muted-foreground mt-1">Try searching for other catalysts like VitalZyme, EcoHolo, or RiskProtease.</p>
           </div>
         )}
       </main>

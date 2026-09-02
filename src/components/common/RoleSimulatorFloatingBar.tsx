@@ -76,22 +76,22 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                   }}
                   className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
                     isSelected
-                      ? 'bg-cyan-500/20 border border-cyan-400/50 text-white shadow-sm'
+                      ? 'bg-cyan-500/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
                       : 'hover:bg-[#152238] text-[#c5d3e8] border border-transparent'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <Icon className={`h-4 w-4 shrink-0 ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`} />
+                    <Icon className={`h-4 w-4 shrink-0 ${isSelected ? 'text-cyan-400' : 'text-muted-foreground'}`} />
                     <span className="truncate">{item.label}</span>
                     {isReal && (
-                      <span className="text-[10px] bg-slate-700/60 text-slate-300 px-1.5 py-0.5 rounded font-mono">
+                      <span className="text-[10px] bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded font-mono">
                         (Auth)
                       </span>
                     )}
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="text-[10px] font-mono text-slate-400">
+                    <span className="text-[10px] font-mono text-muted-foreground">
                       {item.badge}
                     </span>
                     {isSelected && <Check className="h-3.5 w-3.5 text-cyan-400" />}
@@ -101,8 +101,8 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
             })}
           </div>
 
-          <div className="mt-3 pt-2.5 border-t border-[#415a77]/30 flex items-center justify-between text-[10px] font-mono text-slate-400">
-            <span>Effective: <strong className="text-white">{currentConfig.displayName}</strong></span>
+          <div className="mt-3 pt-2.5 border-t border-[#415a77]/30 flex items-center justify-between text-[10px] font-mono text-muted-foreground">
+            <span>Effective: <strong className="text-primary-foreground">{currentConfig.displayName}</strong></span>
             <span>Compute: <strong className="text-cyan-300">{currentConfig.dailyComputeUnits > 90000 ? '∞' : currentConfig.dailyComputeUnits}</strong></span>
           </div>
         </div>
@@ -125,7 +125,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
             {currentConfig.shortLabel}
           </span>
         </div>
-        {isOpen ? <ChevronDown className="h-3.5 w-3.5 text-slate-400" /> : <ChevronUp className="h-3.5 w-3.5 text-slate-400" />}
+        {isOpen ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" /> : <ChevronUp className="h-3.5 w-3.5 text-muted-foreground" />}
       </button>
     </aside>
   );

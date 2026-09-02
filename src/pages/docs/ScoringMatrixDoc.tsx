@@ -30,7 +30,7 @@ export const ScoringMatrixDoc: React.FC = () => {
         </p>
 
         {/* Master Formula Box */}
-        <div className="rounded-xl border border-[#e2e8f0] bg-white p-5 font-mono text-sm text-[#0b192c] space-y-2 mt-4">
+        <div className="rounded-xl border border-[#e2e8f0] bg-background p-5 font-mono text-sm text-[#0b192c] space-y-2 mt-4">
           <div className="text-sky-700 font-bold">// Master Composite Score Formula:</div>
           <div className="bg-[#f8fafc] p-3.5 rounded-lg border border-[#e2e8f0] text-sm font-semibold text-[#0b192c] leading-relaxed">
             Score = (0.20 &times; Health) + (0.20 &times; Latency) + (0.15 &times; AI_Ready) + (0.15 &times; Security) + (0.15 &times; Accessibility) + (0.15 &times; Eco) - Penalties
@@ -41,7 +41,7 @@ export const ScoringMatrixDoc: React.FC = () => {
       {/* Vector Weight Breakdown */}
       <section id="weight-breakdown" className="space-y-4 border-t border-[#e2e8f0] pt-8">
         <h2 className="text-2xl font-bold text-[#0b192c]">Evaluation Vector Weights</h2>
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white">
+        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
               <tr>
@@ -100,7 +100,7 @@ export const ScoringMatrixDoc: React.FC = () => {
           Critical architectural errors trigger instant score deductions regardless of individual vector scores:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-white">
+        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
               <tr>

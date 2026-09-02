@@ -118,7 +118,7 @@ export default {
 };`;
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 pb-24 selection:bg-slate-900 selection:text-white">
+    <div className="min-h-screen bg-background text-foreground pb-24 selection:bg-primary selection:text-primary-foreground">
       <SEOHead
         title="Automated Plugins & Domain Monitoring Watchdog | CatalystLab"
         description="Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains."
@@ -127,13 +127,13 @@ export default {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-slate-50 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200">
+      <section className="relative overflow-hidden bg-muted py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-border">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="flex flex-wrap items-center gap-2.5 mb-5">
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 backdrop-blur-md px-3.5 py-1.5 text-xs font-mono text-slate-800 shadow-xs">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur-md px-3.5 py-1.5 text-xs font-mono text-foreground shadow-xs">
               <Radio className="h-3.5 w-3.5 text-blue-600 animate-pulse" />
               <span className="font-semibold">Products &amp; Continuous Telemetry</span>
             </span>
@@ -147,34 +147,34 @@ export default {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 max-w-3xl leading-[1.08] font-sans">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground max-w-3xl leading-[1.08] font-sans">
             Automated Plugins &amp;{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
               Custom Domain Watchdogs
             </span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed font-sans font-normal">
+          <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed font-sans font-normal">
             Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains. Prevent Core Web Vitals regressions, OWASP header drift, and AI readiness drops before users notice.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a 
               href="#domain-configurator"
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-5 py-3 text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans"
             >
               <Sliders className="h-4 w-4 text-blue-400" />
               <span>Configure Domain Monitor</span>
             </a>
             <Link
               to="/dashboard?tab=monitoring"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 hover:text-slate-900 hover:border-slate-300 px-5 py-3 text-xs sm:text-sm transition-all shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans font-semibold"
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-background hover:bg-muted text-foreground hover:text-foreground hover:border-border px-5 py-3 text-xs sm:text-sm transition-all shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans font-semibold"
             >
               <Activity className="h-4 w-4 text-emerald-600" />
               <span>View Monitored Domains</span>
             </Link>
             <Link
               to="/api-docs"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-transparent text-slate-600 hover:text-slate-900 px-4 py-3 text-xs sm:text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-transparent text-muted-foreground hover:text-foreground px-4 py-3 text-xs sm:text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
             >
               <Code2 className="h-4 w-4" />
               <span>API Docs →</span>
@@ -188,16 +188,16 @@ export default {
         bgImage="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         overlayOpacity={0.88}
         height="min-h-[320px]"
-        className="border-y border-slate-200"
+        className="border-y border-border"
       >
         <div className="max-w-4xl mx-auto px-6 text-center space-y-4">
-          <span className="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
+          <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
             Cloud Infrastructure Parallax
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-sans tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground font-sans tracking-tight">
             Autonomous Telemetry &amp; Real-Time Watchdogs
           </h2>
-          <p className="text-sm text-slate-600 font-sans max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm text-muted-foreground font-sans max-w-xl mx-auto leading-relaxed">
             Engineered for high-scale microservices, automated CI/CD pipelines, and rigorous web security compliance.
           </p>
         </div>
@@ -210,26 +210,26 @@ export default {
         <section>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
-              <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5 mb-2">
-                <Layers className="h-4 w-4 text-slate-700" />
+              <div className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 mb-2">
+                <Layers className="h-4 w-4 text-muted-foreground" />
                 <span>Integration Suite</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight font-sans">
                 CatalystLab Plugin &amp; Watchdog Ecosystem
               </h2>
-              <p className="text-sm text-slate-600 mt-2 max-w-xl font-sans leading-relaxed">
+              <p className="text-sm text-muted-foreground mt-2 max-w-xl font-sans leading-relaxed">
                 Choose from our pre-built plugins, serverless workers, and webhook bridges to connect any custom domain, CMS, or pipeline.
               </p>
             </div>
 
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center gap-1.5 bg-slate-50/50 p-1.5 rounded-2xl border border-slate-200">
+            <div className="flex flex-wrap items-center gap-1.5 bg-muted/50 p-1.5 rounded-2xl border border-border">
               <button
                 onClick={() => setSelectedCategory('all')}
                 className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
                   selectedCategory === 'all' 
-                    ? 'bg-slate-900 text-white shadow-sm' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-primary text-primary-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 All Products
@@ -238,8 +238,8 @@ export default {
                 onClick={() => setSelectedCategory('monitoring')}
                 className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
                   selectedCategory === 'monitoring' 
-                    ? 'bg-slate-900 text-white shadow-sm' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-primary text-primary-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 Domain Watchdogs
@@ -248,8 +248,8 @@ export default {
                 onClick={() => setSelectedCategory('cicd')}
                 className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
                   selectedCategory === 'cicd' 
-                    ? 'bg-slate-900 text-white shadow-sm' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-primary text-primary-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 CI/CD Quality Gates
@@ -258,8 +258,8 @@ export default {
                 onClick={() => setSelectedCategory('webhooks')}
                 className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
                   selectedCategory === 'webhooks' 
-                    ? 'bg-slate-900 text-white shadow-sm' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-primary text-primary-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 Webhooks &amp; Edge
@@ -272,21 +272,21 @@ export default {
             
             {/* Product 1: Custom Domain Automated Watchdog */}
             {(selectedCategory === 'all' || selectedCategory === 'monitoring') && (
-              <div className="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all">
+              <div className="flex flex-col justify-between rounded-3xl border border-border bg-background p-6 shadow-sm hover:shadow-md hover:border-border transition-all">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-5">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-800 border border-slate-200">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-foreground border border-border">
                       <Radio className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] font-mono font-bold bg-slate-50 text-slate-700 border border-slate-200 px-2.5 py-1 rounded-lg">
+                    <span className="text-[10px] font-mono font-bold bg-muted text-muted-foreground border border-border px-2.5 py-1 rounded-lg">
                       Automated Cron
                     </span>
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900 font-sans">Custom Domain Telemetry Watchdog</h3>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed font-sans">
+                  <h3 className="text-lg font-extrabold text-foreground font-sans">Custom Domain Telemetry Watchdog</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed font-sans">
                     Continuous synthetic monitoring on custom domains. Automatically re-evaluates Core Web Vitals, DOM tree depth, TLS certificates, and HTTP response times at hourly, 6-hour, or daily cadences.
                   </p>
-                  <ul className="mt-5 space-y-2 text-xs text-slate-600 font-sans">
+                  <ul className="mt-5 space-y-2 text-xs text-muted-foreground font-sans">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                       <span>Zero-code synthetic health pings</span>
@@ -301,11 +301,11 @@ export default {
                     </li>
                   </ul>
                 </div>
-                <div className="mt-8 pt-5 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500">Tier: Dev / Pro</span>
+                <div className="mt-8 pt-5 border-t border-border flex items-center justify-between">
+                  <span className="text-xs font-mono text-muted-foreground">Tier: Dev / Pro</span>
                   <a
                     href="#domain-configurator"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold font-sans text-slate-900 hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold font-sans text-foreground hover:underline"
                   >
                     <span>Configure Now</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -316,7 +316,7 @@ export default {
 
             {/* Product 2: CI/CD Quality Gate */}
             {(selectedCategory === 'all' || selectedCategory === 'cicd') && (
-              <div className="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all">
+              <div className="flex flex-col justify-between rounded-3xl border border-border bg-background p-6 shadow-sm hover:shadow-md hover:border-border transition-all">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-5">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-700 border border-amber-200">
@@ -326,11 +326,11 @@ export default {
                       CI / CD Quality Gate
                     </span>
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900 font-sans">GitHub &amp; GitLab Actions Quality Gate</h3>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed font-sans">
+                  <h3 className="text-lg font-extrabold text-foreground font-sans">GitHub &amp; GitLab Actions Quality Gate</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed font-sans">
                     Prevent broken PRs from hitting production. Integrate our official GitHub Action or GitLab CI step to block merges if Core Web Vitals score drops below your required SLA threshold.
                   </p>
-                  <ul className="mt-5 space-y-2 text-xs text-slate-600 font-sans">
+                  <ul className="mt-5 space-y-2 text-xs text-muted-foreground font-sans">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                       <span>Configurable fail thresholds (e.g. score &lt; 85)</span>
@@ -345,11 +345,11 @@ export default {
                     </li>
                   </ul>
                 </div>
-                <div className="mt-8 pt-5 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500">catalystlab/audit-action@v2</span>
+                <div className="mt-8 pt-5 border-t border-border flex items-center justify-between">
+                  <span className="text-xs font-mono text-muted-foreground">catalystlab/audit-action@v2</span>
                   <a
                     href="#integration-code"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold font-sans text-slate-900 hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold font-sans text-foreground hover:underline"
                   >
                     <span>View YAML</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -360,7 +360,7 @@ export default {
 
             {/* Product 3: Cloudflare Worker */}
             {(selectedCategory === 'all' || selectedCategory === 'webhooks') && (
-              <div className="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all">
+              <div className="flex flex-col justify-between rounded-3xl border border-border bg-background p-6 shadow-sm hover:shadow-md hover:border-border transition-all">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-5">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 border border-blue-200">
@@ -370,11 +370,11 @@ export default {
                       Edge Telemetry
                     </span>
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900 font-sans">Cloudflare Edge Interceptor</h3>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed font-sans">
+                  <h3 className="text-lg font-extrabold text-foreground font-sans">Cloudflare Edge Interceptor</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed font-sans">
                     Lightweight Cloudflare Worker or Vercel Edge middleware that captures real user TTFB, TLS handshake duration, and edge cache hit ratios in non-blocking background threads.
                   </p>
-                  <ul className="mt-5 space-y-2 text-xs text-slate-600 font-sans">
+                  <ul className="mt-5 space-y-2 text-xs text-muted-foreground font-sans">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                       <span>&lt;0.5ms execution overhead</span>
@@ -389,11 +389,11 @@ export default {
                     </li>
                   </ul>
                 </div>
-                <div className="mt-8 pt-5 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-500">Edge Middleware</span>
+                <div className="mt-8 pt-5 border-t border-border flex items-center justify-between">
+                  <span className="text-xs font-mono text-muted-foreground">Edge Middleware</span>
                   <a
                     href="#integration-code"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold font-sans text-slate-900 hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold font-sans text-foreground hover:underline"
                   >
                     <span>View Worker</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -406,16 +406,16 @@ export default {
         </section>
 
         {/* Section 2: Interactive Domain Monitoring Configurator */}
-        <section id="domain-configurator" className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm hover:shadow-md transition-shadow">
+        <section id="domain-configurator" className="rounded-3xl border border-border bg-background p-6 sm:p-10 shadow-sm hover:shadow-md transition-shadow">
           <div className="max-w-3xl mb-10">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 px-3.5 py-1 text-xs font-mono font-bold mb-3 shadow-sm">
-              <Sliders className="h-3.5 w-3.5 text-slate-900" />
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-accent border border-border text-muted-foreground px-3.5 py-1 text-xs font-mono font-bold mb-3 shadow-sm">
+              <Sliders className="h-3.5 w-3.5 text-foreground" />
               <span>Interactive Config Studio</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight font-sans">
               Configure Automated Monitoring on Your Custom Domain
             </h2>
-            <p className="text-sm text-slate-600 mt-3 leading-relaxed font-sans max-w-2xl">
+            <p className="text-sm text-muted-foreground mt-3 leading-relaxed font-sans max-w-2xl">
               Select check frequency, toggle diagnostic engines, and set alert dispatch destinations to generate ready-to-deploy configuration code.
             </p>
           </div>
@@ -426,27 +426,27 @@ export default {
               
               {/* Domain Input */}
               <div>
-                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 mb-2">
+                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Target Custom Domain or Endpoint URL
                 </label>
                 <div className="relative">
-                  <Globe className="absolute left-4 top-3.5 h-4 w-4 text-slate-400" />
+                  <Globe className="absolute left-4 top-3.5 h-4 w-4 text-muted-foreground" />
                   <input
                     type="text"
                     value={targetDomain}
                     onChange={(e) => setTargetDomain(e.target.value)}
                     placeholder="e.g. app.mycompany.com"
-                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 pl-11 pr-4 py-3 text-sm font-mono text-slate-900 placeholder:text-slate-400 focus:border-slate-400 focus:bg-white focus:outline-none transition-all shadow-sm"
+                    className="w-full rounded-2xl border border-border bg-muted pl-11 pr-4 py-3 text-sm font-mono text-foreground placeholder:text-muted-foreground focus:border-border focus:bg-background focus:outline-none transition-all shadow-sm"
                   />
                 </div>
-                <p className="text-[11px] font-mono text-slate-500 mt-2">
+                <p className="text-[11px] font-mono text-muted-foreground mt-2">
                   Synthetic check requests are dispatched from 42 distributed Edge PoPs globally.
                 </p>
               </div>
 
               {/* Monitoring Cadence Frequency */}
               <div>
-                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 mb-2">
+                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Automated Check Cadence
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -462,8 +462,8 @@ export default {
                       onClick={() => setFrequency(item.id as any)}
                       className={`flex flex-col items-center justify-center rounded-2xl p-3 border text-center transition-all cursor-pointer ${
                         frequency === item.id 
-                          ? 'border-slate-900 bg-slate-900 text-white shadow-sm' 
-                          : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:border-slate-300 hover:text-slate-900'
+                          ? 'border-border bg-primary text-primary-foreground shadow-sm' 
+                          : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:border-border hover:text-foreground'
                       }`}
                     >
                       <span className="text-xs font-bold font-sans">{item.label}</span>
@@ -477,7 +477,7 @@ export default {
 
               {/* Diagnostic Engines Toggle */}
               <div>
-                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 mb-2">
+                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Active Continuous Engines
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
@@ -498,14 +498,14 @@ export default {
                         onClick={() => toggleEngine(engine.key as any)}
                         className={`flex items-center gap-3 p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                           isEnabled 
-                            ? 'border-slate-900 bg-slate-900 text-white shadow-sm' 
-                            : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:border-slate-300 hover:text-slate-900'
+                            ? 'border-border bg-primary text-primary-foreground shadow-sm' 
+                            : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:border-border hover:text-foreground'
                         }`}
                       >
-                        <Icon className={`h-4 w-4 shrink-0 ${isEnabled ? 'text-white' : 'text-slate-500'}`} />
+                        <Icon className={`h-4 w-4 shrink-0 ${isEnabled ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
                         <div className="truncate">
-                          <div className={`text-xs font-bold font-sans truncate ${isEnabled ? 'text-white' : 'text-slate-800'}`}>{engine.label}</div>
-                          <div className={`text-[10px] font-mono truncate ${isEnabled ? 'text-white/80' : 'text-slate-500'}`}>
+                          <div className={`text-xs font-bold font-sans truncate ${isEnabled ? 'text-primary-foreground' : 'text-foreground'}`}>{engine.label}</div>
+                          <div className={`text-[10px] font-mono truncate ${isEnabled ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
                             {engine.desc}
                           </div>
                         </div>
@@ -517,7 +517,7 @@ export default {
 
               {/* Alert Destination */}
               <div>
-                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 mb-2">
+                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Regression Alert Channel
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-3">
@@ -534,8 +534,8 @@ export default {
                         onClick={() => setAlertChannel(item.id as any)}
                         className={`flex items-center justify-center gap-2 p-3 rounded-2xl border text-xs font-semibold font-sans transition-all cursor-pointer ${
                           alertChannel === item.id
-                            ? 'border-slate-900 bg-slate-900 text-white shadow-sm'
-                            : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:border-slate-300 hover:text-slate-900'
+                            ? 'border-border bg-primary text-primary-foreground shadow-sm'
+                            : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:border-border hover:text-foreground'
                         }`}
                       >
                         <Icon className="h-4 w-4" />
@@ -551,7 +551,7 @@ export default {
                     value={webhookUrl}
                     onChange={(e) => setWebhookUrl(e.target.value)}
                     placeholder="https://api.yourdomain.com/webhooks/catalystlab"
-                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs font-mono text-slate-900 focus:border-slate-400 focus:bg-white focus:outline-none transition-all shadow-sm"
+                    className="w-full rounded-2xl border border-border bg-muted px-4 py-3 text-xs font-mono text-foreground focus:border-border focus:bg-background focus:outline-none transition-all shadow-sm"
                   />
                 )}
               </div>
@@ -559,22 +559,22 @@ export default {
             </div>
 
             {/* Right Column: Code Block */}
-            <div className="lg:col-span-6 flex flex-col h-full rounded-3xl border border-slate-200 bg-slate-900 text-slate-300 p-6 shadow-md overflow-hidden relative">
+            <div className="lg:col-span-6 flex flex-col h-full rounded-3xl border border-border bg-primary text-muted-foreground p-6 shadow-md overflow-hidden relative">
               {/* Subtle top glare */}
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               
               <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
                 <div className="flex items-center gap-2.5">
                   <div className="flex space-x-1.5">
-                    <div className="h-2.5 w-2.5 rounded-full bg-slate-700" />
-                    <div className="h-2.5 w-2.5 rounded-full bg-slate-700" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-muted" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-muted" />
                     <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
                   </div>
-                  <span className="text-xs font-mono font-medium text-slate-400">catalystlab-config.json</span>
+                  <span className="text-xs font-mono font-medium text-muted-foreground">catalystlab-config.json</span>
                 </div>
                 <button
                   onClick={() => copyToClipboard(generateConfigJson(), 'config-json')}
-                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white px-3 py-1.5 text-xs font-sans font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-background/5 hover:bg-background/10 text-muted-foreground hover:text-foreground px-3 py-1.5 text-xs font-sans font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
                 >
                   {copiedSnippet === 'config-json' ? (
                     <>
@@ -591,20 +591,20 @@ export default {
               </div>
 
               {/* Code display */}
-              <pre className="flex-1 overflow-x-auto text-[13px] font-mono leading-relaxed text-slate-300 bg-black/40 p-4 rounded-xl border border-white/5 custom-scrollbar">
+              <pre className="flex-1 overflow-x-auto text-[13px] font-mono leading-relaxed text-muted-foreground bg-foreground/40 p-4 rounded-xl border border-white/5 custom-scrollbar">
                 {generateConfigJson()}
               </pre>
 
               {/* Action Buttons */}
               <div className="mt-5 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-[11px] font-mono text-slate-500 text-center sm:text-left">
+                <div className="text-[11px] font-mono text-muted-foreground text-center sm:text-left">
                   Ready to deploy to your background cron runner or CI/CD pipeline.
                 </div>
                 <Link
                   to={`/dashboard?tab=monitoring&domain=${encodeURIComponent(targetDomain)}`}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-sans font-bold px-5 py-2.5 text-xs transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-5 py-2.5 text-xs transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
                 >
-                  <PlusCircle className="h-4 w-4 text-slate-700" />
+                  <PlusCircle className="h-4 w-4 text-muted-foreground" />
                   <span>Add to My Dashboard</span>
                 </Link>
               </div>
@@ -621,14 +621,14 @@ export default {
         {/* Section 3: Code Integration Snippets */}
         <section id="integration-code">
           <div className="mb-8">
-            <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5 mb-2">
-              <Code2 className="h-4 w-4 text-slate-700" />
+            <div className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 mb-2">
+              <Code2 className="h-4 w-4 text-muted-foreground" />
               <span>Developer Integrations</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight font-sans">
               Ready-to-Paste Deployment Snippets
             </h2>
-            <p className="text-sm text-slate-600 mt-2 font-sans">
+            <p className="text-sm text-muted-foreground mt-2 font-sans">
               Select your stack below to integrate automated telemetry in less than 3 minutes.
             </p>
           </div>
@@ -636,51 +636,51 @@ export default {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* GitHub Action */}
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm flex flex-col justify-between">
+            <div className="rounded-3xl border border-border bg-background p-6 text-foreground shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-slate-900">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-foreground">
                     <Terminal className="h-4 w-4 text-amber-600" />
                     <span>.github/workflows/catalyst-gate.yml</span>
                   </div>
                   <button
                     onClick={() => copyToClipboard(sampleGithubActionYaml, 'gh-yaml')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs font-sans font-medium text-slate-600 border border-slate-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-accent text-xs font-sans font-medium text-muted-foreground border border-border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
                   >
                     {copiedSnippet === 'gh-yaml' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedSnippet === 'gh-yaml' ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
-                <pre className="overflow-x-auto text-[12px] font-mono leading-relaxed text-slate-600 bg-slate-50 p-4 rounded-2xl border border-slate-200 custom-scrollbar">
+                <pre className="overflow-x-auto text-[12px] font-mono leading-relaxed text-muted-foreground bg-muted p-4 rounded-2xl border border-border custom-scrollbar">
                   {sampleGithubActionYaml}
                 </pre>
               </div>
-              <p className="text-[11px] font-mono text-slate-500 mt-4">
+              <p className="text-[11px] font-mono text-muted-foreground mt-4">
                 Runs automatically on PR and push events to verify regression gates.
               </p>
             </div>
 
             {/* Cloudflare Edge Worker */}
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm flex flex-col justify-between">
+            <div className="rounded-3xl border border-border bg-background p-6 text-foreground shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-slate-900">
-                    <Globe className="h-4 w-4 text-slate-700" />
+                  <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-foreground">
+                    <Globe className="h-4 w-4 text-muted-foreground" />
                     <span>Cloudflare Worker / Edge Interceptor</span>
                   </div>
                   <button
                     onClick={() => copyToClipboard(sampleCloudflareWorker, 'cf-worker')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs font-sans font-medium text-slate-600 border border-slate-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-accent text-xs font-sans font-medium text-muted-foreground border border-border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
                   >
                     {copiedSnippet === 'cf-worker' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedSnippet === 'cf-worker' ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
-                <pre className="overflow-x-auto text-[12px] font-mono leading-relaxed text-slate-600 bg-slate-50 p-4 rounded-2xl border border-slate-200 max-h-60 custom-scrollbar">
+                <pre className="overflow-x-auto text-[12px] font-mono leading-relaxed text-muted-foreground bg-muted p-4 rounded-2xl border border-border max-h-60 custom-scrollbar">
                   {sampleCloudflareWorker}
                 </pre>
               </div>
-              <p className="text-[11px] font-mono text-slate-500 mt-4">
+              <p className="text-[11px] font-mono text-muted-foreground mt-4">
                 Captures real edge execution metrics with non-blocking background dispatch.
               </p>
             </div>
@@ -689,20 +689,20 @@ export default {
         </section>
 
         {/* Section 4: Enterprise & SLA CTA Banner */}
-        <section className="rounded-3xl border border-slate-200 bg-slate-900 p-8 sm:p-12 text-white shadow-md relative overflow-hidden">
+        <section className="rounded-3xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-md relative overflow-hidden">
           {/* subtle noise/pattern could go here */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-800 via-transparent to-transparent opacity-50" />
           
           <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="space-y-4 text-center lg:text-left max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-800 px-3.5 py-1 text-xs font-mono text-slate-300">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-3.5 py-1 text-xs font-mono text-muted-foreground">
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>Enterprise Custom Domain Networks</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white font-sans">
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-primary-foreground font-sans">
                 Need Dedicated Telemetry Probes for 100+ Domains?
               </h2>
-              <p className="text-sm text-slate-400 leading-relaxed font-sans">
+              <p className="text-sm text-muted-foreground leading-relaxed font-sans">
                 We offer custom private PoPs, SOC2 Type II compliance reports, automated SAML/SSO provisioning, and dedicated Slack channels with our core telemetry engineers.
               </p>
             </div>
@@ -710,14 +710,14 @@ export default {
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <Link
                 to="/pricing"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-sans font-bold px-6 py-3 text-sm transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-6 py-3 text-sm transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
               >
                 <span>View Enterprise Pricing</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted hover:bg-muted/80 text-primary-foreground px-6 py-3 text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
               >
                 <span>Contact Engineering</span>
               </Link>

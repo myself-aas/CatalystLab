@@ -468,7 +468,7 @@ func main() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-24 text-black selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-background pb-24 text-foreground selection:bg-primary selection:text-primary-foreground">
       <SEOHead
         title="Live REST API Playground"
         description="Interactive REST test harness for single diagnostic engines and composite master audits."
@@ -477,7 +477,7 @@ func main() {
       />
       
       {/* Top Header Hero */}
-      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 px-4 py-10 sm:py-12 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden border-b border-border bg-muted px-4 py-10 sm:py-12 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
@@ -485,22 +485,22 @@ func main() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white border border-slate-200/90 text-slate-900 shadow-xs backdrop-blur-md">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-background border border-border/90 text-foreground shadow-xs backdrop-blur-md">
                 <Terminal className="h-6 w-6 text-blue-600" />
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-sans">
+                  <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight font-sans">
                     Engine Test{' '}
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                       Playground
                     </span>
                   </h1>
-                  <span className="rounded-full bg-slate-200/80 border border-slate-300/80 px-3 py-1 text-xs font-mono font-bold text-slate-800">
+                  <span className="rounded-full bg-accent/80 border border-border/80 px-3 py-1 text-xs font-mono font-bold text-foreground">
                     {endpointPath}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-600 mt-1 font-mono">
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 font-mono">
                   Interactive REST test harness for single diagnostic engines and composite master audits.
                 </p>
               </div>
@@ -510,7 +510,7 @@ func main() {
             <div className="flex flex-wrap items-center gap-3 font-mono">
               <Link
                 to="/dashboard?tab=api-keys"
-                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-all shadow-xs"
+                className="flex items-center gap-2 rounded-xl border border-border bg-background hover:bg-muted px-4 py-2 text-xs font-bold text-muted-foreground hover:text-foreground transition-all shadow-xs"
               >
                 <Key className="h-3.5 w-3.5 text-amber-500" />
                 <span>API Keys &amp; White-Label</span>
@@ -518,7 +518,7 @@ func main() {
               
               <Link
                 to="/api-docs"
-                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition-all shadow-xs"
+                className="flex items-center gap-2 rounded-xl border border-border bg-background hover:bg-muted px-4 py-2 text-xs font-bold text-muted-foreground hover:text-foreground transition-all shadow-xs"
               >
                 <FileJson className="h-3.5 w-3.5 text-blue-600" />
                 <span>OpenAPI Docs</span>
@@ -549,8 +549,8 @@ func main() {
                 onClick={() => handleEngineChange(eng.id)}
                 className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-bold whitespace-nowrap transition-all border shrink-0 cursor-pointer ${
                   isSelected
-                    ? 'border-slate-200 bg-black text-white shadow-sm'
-                    : 'border-slate-200 bg-white text-slate-600 hover:text-black hover:bg-slate-100'
+                    ? 'border-border bg-primary text-primary-foreground shadow-sm'
+                    : 'border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 <span className={`h-2 w-2 rounded-full ${
@@ -558,7 +558,7 @@ func main() {
                 }`} />
                 <span>{eng.name}</span>
                 <span className={`text-[10px] px-1 py-0.5 rounded ${
-                  isSelected ? 'bg-slate-200 text-black' : 'bg-slate-100 text-slate-500'
+                  isSelected ? 'bg-accent text-foreground' : 'bg-accent text-muted-foreground'
                 }`}>
                   {eng.cost} {eng.cost === 1 ? 'unit' : 'units'}
                 </span>
@@ -573,24 +573,24 @@ func main() {
           {/* LEFT COLUMN: REQUEST PAYLOAD BUILDER */}
           <div className="lg:col-span-5 space-y-4 font-mono">
             
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xl space-y-3.5">
+            <div className="rounded-2xl border border-border bg-background p-4 shadow-xl space-y-3.5">
               
               {/* Header & Mode Switch */}
-              <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+              <div className="flex items-center justify-between border-b border-border pb-2.5">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="h-3.5 w-3.5 text-black" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-black">
+                  <SlidersHorizontal className="h-3.5 w-3.5 text-foreground" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
                     Request Payload Builder
                   </h3>
                 </div>
 
-                <div className="flex items-center gap-1 bg-slate-50 p-0.5 rounded-lg border border-slate-200">
+                <div className="flex items-center gap-1 bg-muted p-0.5 rounded-lg border border-border">
                   <button
                     onClick={() => setBuilderMode('visual')}
                     className={`px-2 py-0.5 text-xs font-bold rounded transition-colors cursor-pointer ${
                       builderMode === 'visual'
-                        ? 'bg-black text-white shadow-xs'
-                        : 'text-slate-500 hover:text-black'
+                        ? 'bg-primary text-primary-foreground shadow-xs'
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     Visual
@@ -599,8 +599,8 @@ func main() {
                     onClick={() => setBuilderMode('json')}
                     className={`px-2 py-0.5 text-xs font-bold rounded transition-colors cursor-pointer ${
                       builderMode === 'json'
-                        ? 'bg-black text-white shadow-xs'
-                        : 'text-slate-500 hover:text-black'
+                        ? 'bg-primary text-primary-foreground shadow-xs'
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     Raw JSON
@@ -609,17 +609,17 @@ func main() {
               </div>
 
               {/* Endpoint Banner Info */}
-              <div className="rounded-xl bg-slate-50 border border-slate-200 p-2.5 text-xs space-y-1">
+              <div className="rounded-xl bg-muted border border-border p-2.5 text-xs space-y-1">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 font-bold text-black">
-                    <span className="rounded bg-black px-1.5 py-0.5 text-[10px] text-white">POST</span>
+                  <div className="flex items-center gap-1.5 font-bold text-foreground">
+                    <span className="rounded bg-primary px-1.5 py-0.5 text-[10px] text-primary-foreground">POST</span>
                     <span>{endpointPath}</span>
                   </div>
                   <span className="text-[10px] font-bold text-amber-500 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
                     Cost: {activeEngine.cost} Unit
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
+                <p className="text-[11px] text-muted-foreground leading-relaxed font-sans">
                   {activeEngine.description}
                 </p>
               </div>
@@ -630,17 +630,17 @@ func main() {
                   
                   {/* Target URL Input */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                    <label className="block text-xs font-bold text-muted-foreground mb-1">
                       Target Domain / URL <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
-                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
+                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                       <input
                         type="url"
                         value={targetUrl}
                         onChange={(e) => setTargetUrl(e.target.value)}
                         placeholder="https://example.com"
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-8 pr-3 py-1.5 text-xs text-black placeholder:text-slate-400 focus:border-slate-300 focus:outline-none"
+                        className="w-full rounded-xl border border-border bg-muted pl-8 pr-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-border focus:outline-none"
                       />
                     </div>
                   </div>
@@ -648,13 +648,13 @@ func main() {
                   {/* Engine Parameter (if single engine) */}
                   {!isMaster && (
                     <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">
+                      <label className="block text-xs font-bold text-muted-foreground mb-1">
                         Diagnostic Engine
                       </label>
                       <select
                         value={selectedEngineId}
                         onChange={(e) => handleEngineChange(e.target.value)}
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-black focus:outline-none"
+                        className="w-full rounded-xl border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:outline-none"
                       >
                         {ENGINE_OPTIONS.filter(e => e.id !== 'master').map((opt) => (
                           <option key={opt.id} value={opt.id}>
@@ -668,7 +668,7 @@ func main() {
                   {/* Region selection for Latency / Master */}
                   {(selectedEngineId === 'latency' || isMaster) && (
                     <div>
-                      <label className="block text-xs font-bold text-slate-600 mb-1">
+                      <label className="block text-xs font-bold text-muted-foreground mb-1">
                         Global Edge PoP Regions
                       </label>
                       <div className="grid grid-cols-3 gap-1.5">
@@ -692,8 +692,8 @@ func main() {
                               }}
                               className={`rounded-lg border px-1.5 py-1 text-[11px] text-center transition-colors cursor-pointer ${
                                 active
-                                  ? 'border-slate-300 bg-black text-white font-bold'
-                                  : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-black hover:bg-slate-100'
+                                  ? 'border-border bg-primary text-primary-foreground font-bold'
+                                  : 'border-border bg-muted text-muted-foreground hover:text-foreground hover:bg-accent'
                               }`}
                             >
                               {reg.label}
@@ -705,22 +705,22 @@ func main() {
                   )}
 
                   {/* Force Fresh Cache Bypass */}
-                  <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-2.5">
+                  <div className="flex items-center justify-between rounded-xl border border-border bg-muted p-2.5">
                     <div>
-                      <div className="text-xs font-bold text-black">Bypass Server Cache (forceFresh)</div>
-                      <div className="text-[10px] text-slate-500 font-sans">Forces a live DNS/HTTP probe bypass</div>
+                      <div className="text-xs font-bold text-foreground">Bypass Server Cache (forceFresh)</div>
+                      <div className="text-[10px] text-muted-foreground font-sans">Forces a live DNS/HTTP probe bypass</div>
                     </div>
                     <input
                       type="checkbox"
                       checked={forceFresh}
                       onChange={(e) => setForceFresh(e.target.checked)}
-                      className="h-3.5 w-3.5 rounded border-slate-300 bg-white text-black focus:ring-0"
+                      className="h-3.5 w-3.5 rounded border-border bg-background text-foreground focus:ring-0"
                     />
                   </div>
 
                   {/* White-Label Custom Brand Tag */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-600 mb-1">
+                    <label className="block text-xs font-bold text-muted-foreground mb-1">
                       White-Label Custom Brand Tag
                     </label>
                     <input
@@ -728,7 +728,7 @@ func main() {
                       placeholder="e.g. Acme Telemetry Enterprise"
                       value={customBrandHeader}
                       onChange={(e) => setCustomBrandHeader(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-black placeholder:text-slate-400 focus:border-slate-300 focus:outline-none"
+                      className="w-full rounded-xl border border-border bg-muted px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-border focus:outline-none"
                     />
                   </div>
 
@@ -736,7 +736,7 @@ func main() {
               ) : (
                 /* RAW JSON EDITOR */
                 <div>
-                  <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
                     <span>payload.json</span>
                     <button
                       type="button"
@@ -746,7 +746,7 @@ func main() {
                           setRawJsonPayload(JSON.stringify(parsed, null, 2));
                         } catch (e) { logger.error("Ignored error:", e); }
                       }}
-                      className="text-black hover:underline cursor-pointer"
+                      className="text-foreground hover:underline cursor-pointer"
                     >
                       Prettify JSON
                     </button>
@@ -755,16 +755,16 @@ func main() {
                     rows={8}
                     value={rawJsonPayload}
                     onChange={(e) => setRawJsonPayload(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-mono text-slate-800 focus:outline-none focus:border-slate-300"
+                    className="w-full rounded-xl border border-border bg-muted p-3 text-xs font-mono text-foreground focus:outline-none focus:border-border"
                     placeholder="{\n  &quot;engine&quot;: &quot;health&quot;,\n  &quot;url&quot;: &quot;https://example.com&quot;\n}"
                   />
                 </div>
               )}
 
               {/* AUTHENTICATION & HEADER ACCORDION */}
-              <div className="border-t border-slate-200 pt-3 space-y-2">
+              <div className="border-t border-border pt-3 space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-black">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
                     <Key className="h-3 w-3 text-amber-500" />
                     <span>Auth Headers</span>
                   </div>
@@ -772,14 +772,14 @@ func main() {
                     <button
                       type="button"
                       onClick={() => setAuthMode('session')}
-                      className={`px-2 py-0.5 rounded cursor-pointer ${authMode === 'session' ? 'bg-black text-white font-bold' : 'text-slate-500'}`}
+                      className={`px-2 py-0.5 rounded cursor-pointer ${authMode === 'session' ? 'bg-primary text-primary-foreground font-bold' : 'text-muted-foreground'}`}
                     >
                       Session
                     </button>
                     <button
                       type="button"
                       onClick={() => setAuthMode('apiKey')}
-                      className={`px-2 py-0.5 rounded cursor-pointer ${authMode === 'apiKey' ? 'bg-black text-white font-bold' : 'text-slate-500'}`}
+                      className={`px-2 py-0.5 rounded cursor-pointer ${authMode === 'apiKey' ? 'bg-primary text-primary-foreground font-bold' : 'text-muted-foreground'}`}
                     >
                       API Key
                     </button>
@@ -792,7 +792,7 @@ func main() {
                       <select
                         value={selectedApiKey}
                         onChange={(e) => setSelectedApiKey(e.target.value)}
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-black"
+                        className="w-full rounded-xl border border-border bg-muted px-3 py-1.5 text-xs text-foreground"
                       >
                         {userApiKeys.map((k) => (
                           <option key={k.id} value={k.keyPrefix.replace('...', '')}>
@@ -810,8 +810,8 @@ func main() {
                     )}
                   </div>
                 ) : (
-                  <div className="text-[11px] text-slate-500">
-                    Executing context: <strong className="text-black">{user?.email || 'Anonymous Client'}</strong> ({rateStatus.tierLabel})
+                  <div className="text-[11px] text-muted-foreground">
+                    Executing context: <strong className="text-foreground">{user?.email || 'Anonymous Client'}</strong> ({rateStatus.tierLabel})
                   </div>
                 )}
               </div>
@@ -822,15 +822,15 @@ func main() {
                   type="button"
                   onClick={handleRunEngine}
                   disabled={executing || (rateStatus.remaining <= 0 && !isAdmin)}
-                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-white shadow-md transition-all active:scale-[0.98] cursor-pointer ${
+                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-primary-foreground shadow-md transition-all active:scale-[0.98] cursor-pointer ${
                     rateStatus.remaining <= 0 && !isAdmin
                       ? 'bg-rose-600 border border-rose-500 cursor-not-allowed opacity-80'
-                      : 'bg-black hover:bg-slate-800 border border-slate-300'
+                      : 'bg-primary hover:bg-primary-hover border border-border'
                   }`}
                 >
                   {executing ? (
                     <>
-                      <RefreshCw className="h-3.5 w-3.5 animate-spin text-black" />
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin text-foreground" />
                       <span>Executing Diagnostic Engine...</span>
                     </>
                   ) : rateStatus.remaining <= 0 && !isAdmin ? (
@@ -851,15 +851,15 @@ func main() {
 
             {/* Quick Historical Requests Log */}
             {history.length > 0 && (
-              <div className="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-black">
-                    <History className="h-3.5 w-3.5 text-black" />
+              <div className="rounded-2xl border border-border bg-background p-3.5 shadow-sm">
+                <div className="flex items-center justify-between border-b border-border pb-2 mb-2">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                    <History className="h-3.5 w-3.5 text-foreground" />
                     <span>Recent Session Probes ({history.length})</span>
                   </div>
                   <button
                     onClick={() => setHistory([])}
-                    className="text-[11px] text-slate-500 hover:text-black cursor-pointer"
+                    className="text-[11px] text-muted-foreground hover:text-foreground cursor-pointer"
                   >
                     Clear
                   </button>
@@ -870,7 +870,7 @@ func main() {
                     <div
                       key={item.id}
                       onClick={() => handleLoadFromHistory(item)}
-                      className="flex items-center justify-between p-1.5 rounded-lg hover:bg-slate-100 border border-transparent hover:border-slate-200 cursor-pointer transition-colors text-xs"
+                      className="flex items-center justify-between p-1.5 rounded-lg hover:bg-accent border border-transparent hover:border-border cursor-pointer transition-colors text-xs"
                     >
                       <div className="flex items-center gap-1.5 overflow-hidden">
                         <span className={`text-[10px] font-mono font-bold px-1 py-0.5 rounded ${
@@ -878,10 +878,10 @@ func main() {
                         }`}>
                           {item.status}
                         </span>
-                        <span className="font-semibold text-black truncate">{item.engine}</span>
+                        <span className="font-semibold text-foreground truncate">{item.engine}</span>
                       </div>
 
-                      <div className="flex items-center gap-1.5 shrink-0 text-slate-500">
+                      <div className="flex items-center gap-1.5 shrink-0 text-muted-foreground">
                         <span>{item.latencyMs}ms</span>
                         <RotateCcw className="h-3 w-3" />
                       </div>
@@ -896,14 +896,14 @@ func main() {
           {/* RIGHT COLUMN: RESPONSE INSPECTOR */}
           <div className="lg:col-span-7 space-y-4 font-mono">
             
-            <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-xl flex flex-col min-h-[560px]">
+            <div className="rounded-2xl border border-border bg-background overflow-hidden shadow-xl flex flex-col min-h-[560px]">
               
               {/* Response Inspector Tab Header */}
-              <div className="border-b border-slate-200 bg-slate-50 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+              <div className="border-b border-border bg-muted px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5">
-                    <Server className="h-3.5 w-3.5 text-black" />
-                    <span className="text-xs font-bold text-black uppercase tracking-wider">
+                    <Server className="h-3.5 w-3.5 text-foreground" />
+                    <span className="text-xs font-bold text-foreground uppercase tracking-wider">
                       Response Inspector
                     </span>
                   </div>
@@ -921,14 +921,14 @@ func main() {
                       </span>
 
                       {responseTimeMs !== null && (
-                        <span className="flex items-center gap-0.5 text-[10px] text-slate-500">
+                        <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
                           <Clock className="h-2.5 w-2.5" />
                           {responseTimeMs}ms
                         </span>
                       )}
 
                       {responseSizeKb !== null && (
-                        <span className="text-[10px] text-slate-500">
+                        <span className="text-[10px] text-muted-foreground">
                           • {responseSizeKb}KB
                         </span>
                       )}
@@ -944,8 +944,8 @@ func main() {
                       onClick={() => setInspectorTab(tab)}
                       className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors capitalize cursor-pointer ${
                         inspectorTab === tab
-                          ? 'bg-black text-white shadow-xs'
-                          : 'text-slate-500 hover:text-black hover:bg-slate-100'
+                          ? 'bg-primary text-primary-foreground shadow-xs'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                       }`}
                     >
                       {tab === 'snippets' ? 'SDK Snippet' : tab}
@@ -959,18 +959,18 @@ func main() {
                 
                 {executing ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-black mb-3" />
-                    <h4 className="text-sm font-bold text-black">Dispatching Probe to CatalystLab Engines</h4>
-                    <p className="text-xs text-slate-600 mt-1 max-w-sm font-sans">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-black mb-3" />
+                    <h4 className="text-sm font-bold text-foreground">Dispatching Probe to CatalystLab Engines</h4>
+                    <p className="text-xs text-muted-foreground mt-1 max-w-sm font-sans">
                       Executing SSL handshake, network latency, and security headers diagnostics...
                     </p>
                   </div>
                 ) : !responsePayload && responseStatus === null ? (
                   <div className="flex flex-col items-center justify-center py-24 text-center">
-                    <Terminal className="h-10 w-10 text-slate-400 mb-3" />
-                    <h4 className="text-sm font-bold text-black">Ready for Engine Execution</h4>
-                    <p className="text-xs text-slate-600 mt-1 max-w-sm font-sans">
-                      Configure your payload on the left and click <strong className="text-black">Dispatch Request</strong> to inspect real-time JSON responses and telemetry.
+                    <Terminal className="h-10 w-10 text-muted-foreground mb-3" />
+                    <h4 className="text-sm font-bold text-foreground">Ready for Engine Execution</h4>
+                    <p className="text-xs text-muted-foreground mt-1 max-w-sm font-sans">
+                      Configure your payload on the left and click <strong className="text-foreground">Dispatch Request</strong> to inspect real-time JSON responses and telemetry.
                     </p>
                   </div>
                 ) : (
@@ -981,7 +981,7 @@ func main() {
                         
                         {/* Score & Health Header */}
                         {responsePayload?.score !== undefined || responsePayload?.output?.score !== undefined ? (
-                          <div className="rounded-xl bg-slate-50 border border-slate-200 p-4 text-black shadow-md">
+                          <div className="rounded-xl bg-muted border border-border p-4 text-foreground shadow-md">
                             <div className="flex items-center justify-between">
                               <div>
                                 <span className="text-xs text-emerald-500 font-bold uppercase tracking-wider">
@@ -989,15 +989,15 @@ func main() {
                                 </span>
                                 <div className="text-2xl font-black mt-0.5">
                                   {responsePayload?.score ?? responsePayload?.output?.score ?? 95}
-                                  <span className="text-xs font-normal text-slate-500"> / 100</span>
+                                  <span className="text-xs font-normal text-muted-foreground"> / 100</span>
                                 </div>
                               </div>
 
                               <div className="text-right">
-                                <div className="text-xs font-bold text-black">
+                                <div className="text-xs font-bold text-foreground">
                                   {responsePayload?.engine || selectedEngineId.toUpperCase()} ENGINE
                                 </div>
-                                <div className="text-[11px] text-slate-500 mt-0.5 truncate max-w-xs">
+                                <div className="text-[11px] text-muted-foreground mt-0.5 truncate max-w-xs">
                                   {targetUrl}
                                 </div>
                               </div>
@@ -1021,8 +1021,8 @@ func main() {
                         )}
 
                         {/* Telemetry Output Summary */}
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
-                          <h4 className="text-xs font-bold text-black uppercase tracking-wider mb-2">
+                        <div className="rounded-xl border border-border bg-muted p-3.5">
+                          <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-2">
                             Parsed Output Summary
                           </h4>
 
@@ -1031,24 +1031,24 @@ func main() {
                               {Object.entries(responsePayload.output).map(([key, val]) => {
                                 if (typeof val === 'object' && val !== null) {
                                   return (
-                                    <div key={key} className="border-b border-slate-200 pb-2">
-                                      <span className="font-bold text-black">{key}:</span>
-                                      <pre className="mt-1 rounded bg-white p-2 text-xs font-mono text-slate-700 overflow-x-auto border border-slate-200">
+                                    <div key={key} className="border-b border-border pb-2">
+                                      <span className="font-bold text-foreground">{key}:</span>
+                                      <pre className="mt-1 rounded bg-background p-2 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
                                         {JSON.stringify(val, null, 2)}
                                       </pre>
                                     </div>
                                   );
                                 }
                                 return (
-                                  <div key={key} className="flex items-center justify-between border-b border-slate-200 pb-1">
-                                    <span className="text-slate-500">{key}</span>
-                                    <span className="font-bold text-black">{String(val)}</span>
+                                  <div key={key} className="flex items-center justify-between border-b border-border pb-1">
+                                    <span className="text-muted-foreground">{key}</span>
+                                    <span className="font-bold text-foreground">{String(val)}</span>
                                   </div>
                                 );
                               })}
                             </div>
                           ) : (
-                            <pre className="rounded bg-white p-3 text-xs font-mono text-slate-700 border border-slate-200">
+                            <pre className="rounded bg-background p-3 text-xs font-mono text-muted-foreground border border-border">
                               {JSON.stringify(responsePayload, null, 2)}
                             </pre>
                           )}
@@ -1061,7 +1061,7 @@ func main() {
                     {inspectorTab === 'json' && (
                       <div className="space-y-2.5">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-muted-foreground">
                             Content-Type: application/json
                           </span>
                           <button
@@ -1070,7 +1070,7 @@ func main() {
                               setCopiedResponse(true);
                               setTimeout(() => setCopiedResponse(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-black hover:bg-slate-100 cursor-pointer"
+                            className="flex items-center gap-1 rounded-lg border border-border bg-muted px-2.5 py-1 text-xs font-semibold text-foreground hover:bg-accent cursor-pointer"
                           >
                             {copiedResponse ? (
                               <>
@@ -1079,14 +1079,14 @@ func main() {
                               </>
                             ) : (
                               <>
-                                <Copy className="h-3 w-3 text-slate-500" />
+                                <Copy className="h-3 w-3 text-muted-foreground" />
                                 <span>Copy JSON</span>
                               </>
                             )}
                           </button>
                         </div>
 
-                        <div className="rounded-xl bg-white p-3.5 text-xs font-mono text-slate-800 overflow-x-auto border border-slate-200 shadow-inner max-h-[440px]">
+                        <div className="rounded-xl bg-background p-3.5 text-xs font-mono text-foreground overflow-x-auto border border-border shadow-inner max-h-[440px]">
                           <pre>{JSON.stringify(responsePayload, null, 2)}</pre>
                         </div>
                       </div>
@@ -1095,12 +1095,12 @@ func main() {
                     {/* TAB 3: RESPONSE HEADERS */}
                     {inspectorTab === 'headers' && (
                       <div className="space-y-2.5">
-                        <div className="text-xs font-bold text-black mb-1.5">
+                        <div className="text-xs font-bold text-foreground mb-1.5">
                           HTTP Response Headers
                         </div>
-                        <div className="rounded-xl border border-slate-200 overflow-x-auto bg-white">
+                        <div className="rounded-xl border border-border overflow-x-auto bg-background">
                           <table className="w-full text-left text-xs">
-                            <thead className="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600">
+                            <thead className="bg-muted border-b border-border text-xs font-bold text-muted-foreground">
                               <tr>
                                 <th className="px-3.5 py-2">Header Name</th>
                                 <th className="px-3.5 py-2">Value</th>
@@ -1109,14 +1109,14 @@ func main() {
                             <tbody className="divide-y divide-slate-200">
                               {Object.entries(responseHeaders).length > 0 ? (
                                 Object.entries(responseHeaders).map(([key, val]) => (
-                                  <tr key={key} className="hover:bg-slate-50">
-                                    <td className="px-3.5 py-1.5 text-black font-semibold">{key}</td>
-                                    <td className="px-3.5 py-1.5 text-black break-all">{val}</td>
+                                  <tr key={key} className="hover:bg-muted">
+                                    <td className="px-3.5 py-1.5 text-foreground font-semibold">{key}</td>
+                                    <td className="px-3.5 py-1.5 text-foreground break-all">{val}</td>
                                   </tr>
                                 ))
                               ) : (
                                 <tr>
-                                  <td colSpan={2} className="px-3.5 py-3 text-center text-slate-500">
+                                  <td colSpan={2} className="px-3.5 py-3 text-center text-muted-foreground">
                                     No custom headers returned.
                                   </td>
                                 </tr>
@@ -1138,8 +1138,8 @@ func main() {
                                 onClick={() => setCodeSnippetLang(lang)}
                                 className={`px-2 py-0.5 text-xs font-bold uppercase rounded transition-colors cursor-pointer ${
                                   codeSnippetLang === lang
-                                    ? 'bg-black text-white shadow-xs'
-                                    : 'bg-slate-50 text-slate-500 hover:text-black'
+                                    ? 'bg-primary text-primary-foreground shadow-xs'
+                                    : 'bg-muted text-muted-foreground hover:text-foreground'
                                 }`}
                               >
                                 {lang}
@@ -1153,7 +1153,7 @@ func main() {
                               setCopiedSnippet(true);
                               setTimeout(() => setCopiedSnippet(false), 2000);
                             }}
-                            className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-black hover:bg-slate-100 cursor-pointer"
+                            className="flex items-center gap-1 rounded-lg border border-border bg-muted px-2.5 py-1 text-xs font-semibold text-foreground hover:bg-accent cursor-pointer"
                           >
                             {copiedSnippet ? (
                               <>
@@ -1162,14 +1162,14 @@ func main() {
                               </>
                             ) : (
                               <>
-                                <Copy className="h-3 w-3 text-slate-500" />
+                                <Copy className="h-3 w-3 text-muted-foreground" />
                                 <span>Copy Snippet</span>
                               </>
                             )}
                           </button>
                         </div>
 
-                        <div className="rounded-xl bg-white p-3.5 text-xs font-mono text-black overflow-x-auto border border-slate-200 shadow-inner max-h-[440px]">
+                        <div className="rounded-xl bg-background p-3.5 text-xs font-mono text-foreground overflow-x-auto border border-border shadow-inner max-h-[440px]">
                           <pre>{getCodeSnippet()}</pre>
                         </div>
                       </div>

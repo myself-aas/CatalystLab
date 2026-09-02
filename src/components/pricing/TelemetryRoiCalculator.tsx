@@ -61,24 +61,24 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-8 font-mono text-slate-900">
+    <div className="rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-8 font-mono text-foreground">
       {/* Title Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border">
         <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-900 text-xs font-bold">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent border border-border text-foreground text-xs font-bold">
             <Calculator className="h-3.5 w-3.5" />
             <span>INTERACTIVE ROI SIMULATOR</span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight font-sans">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-sans">
             Telemetry Efficiency &amp; Cost ROI Calculator
           </h3>
-          <p className="text-xs text-slate-600 font-sans">
+          <p className="text-xs text-muted-foreground font-sans">
             Model engineering hours reclaimed and downtime averted by automating all 8 synthetic diagnostic vectors.
           </p>
         </div>
 
-        <div className="px-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-right">
-          <span className="text-[10px] text-slate-500 block uppercase font-bold">Estimated Net Savings</span>
+        <div className="px-4 py-2.5 rounded-2xl bg-muted border border-border text-right">
+          <span className="text-[10px] text-muted-foreground block uppercase font-bold">Estimated Net Savings</span>
           <span className="text-xl font-extrabold text-emerald-600 font-mono">${annualDollarSavings.toLocaleString()} / yr</span>
         </div>
       </div>
@@ -90,11 +90,11 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           {/* Slider 1: Monthly Synthetic Probes */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <label htmlFor="roi-slider-probes" className="text-slate-800 font-bold flex items-center gap-1.5 cursor-pointer">
-                <Zap className="h-3.5 w-3.5 text-slate-900" aria-hidden="true" />
+              <label htmlFor="roi-slider-probes" className="text-foreground font-bold flex items-center gap-1.5 cursor-pointer">
+                <Zap className="h-3.5 w-3.5 text-foreground" aria-hidden="true" />
                 Monthly Synthetic Probes &amp; Telemetry Calls
               </label>
-              <span className="text-slate-900 font-bold font-mono">
+              <span className="text-foreground font-bold font-mono">
                 {monthlyProbes.toLocaleString()} probes/mo
               </span>
             </div>
@@ -111,9 +111,9 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               aria-valuenow={monthlyProbes}
               aria-valuetext={`${monthlyProbes.toLocaleString()} probes per month`}
               onChange={(e) => setMonthlyProbes(Number(e.target.value))}
-              className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-slate-900"
+              className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer accent-slate-900"
             />
-            <div className="flex justify-between text-[10px] text-slate-400">
+            <div className="flex justify-between text-[10px] text-muted-foreground">
               <span>10k (Hobby)</span>
               <span>500k (Pro)</span>
               <span>2.5M+ (Enterprise)</span>
@@ -123,7 +123,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           {/* Slider 2: Monitored Production Domains */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <label htmlFor="roi-slider-domains" className="text-slate-800 font-bold flex items-center gap-1.5 cursor-pointer">
+              <label htmlFor="roi-slider-domains" className="text-foreground font-bold flex items-center gap-1.5 cursor-pointer">
                 <Sliders className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
                 Active Production Endpoints / Domains
               </label>
@@ -144,9 +144,9 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               aria-valuenow={productionDomains}
               aria-valuetext={`${productionDomains} domains`}
               onChange={(e) => setProductionDomains(Number(e.target.value))}
-              className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+              className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer accent-emerald-600"
             />
-            <div className="flex justify-between text-[10px] text-slate-400">
+            <div className="flex justify-between text-[10px] text-muted-foreground">
               <span>1 domain</span>
               <span>10 domains</span>
               <span>50+ domains</span>
@@ -156,7 +156,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           {/* Slider 3: Engineering Team Seats */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <label htmlFor="roi-slider-seats" className="text-slate-800 font-bold flex items-center gap-1.5 cursor-pointer">
+              <label htmlFor="roi-slider-seats" className="text-foreground font-bold flex items-center gap-1.5 cursor-pointer">
                 <Clock className="h-3.5 w-3.5 text-indigo-600" aria-hidden="true" />
                 Engineering &amp; DevOps Seats
               </label>
@@ -177,9 +177,9 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               aria-valuenow={engineerSeats}
               aria-valuetext={`${engineerSeats} seats`}
               onChange={(e) => setEngineerSeats(Number(e.target.value))}
-              className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+              className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer accent-indigo-600"
             />
-            <div className="flex justify-between text-[10px] text-slate-400">
+            <div className="flex justify-between text-[10px] text-muted-foreground">
               <span>1 seat</span>
               <span>10 seats</span>
               <span>30+ seats</span>
@@ -191,48 +191,48 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
         <div className="lg:col-span-6 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             {/* Metric 1 */}
-            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
-                <Clock className="h-3 w-3 text-slate-700" />
+            <div className="p-3.5 rounded-2xl bg-muted border border-border space-y-1">
+              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
+                <Clock className="h-3 w-3 text-muted-foreground" />
                 DevOps Time Saved
               </div>
-              <div className="text-xl font-extrabold text-slate-900 font-mono">
-                {hoursSavedPerMonth} hrs<span className="text-xs text-slate-500 font-normal">/mo</span>
+              <div className="text-xl font-extrabold text-foreground font-mono">
+                {hoursSavedPerMonth} hrs<span className="text-xs text-muted-foreground font-normal">/mo</span>
               </div>
               <div className="text-[10px] text-emerald-700 font-bold">Automated CI/CD Gates</div>
             </div>
 
             {/* Metric 2 */}
-            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
+            <div className="p-3.5 rounded-2xl bg-muted border border-border space-y-1">
+              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
                 <ShieldCheck className="h-3 w-3 text-emerald-600" />
                 Outages Prevented
               </div>
-              <div className="text-xl font-extrabold text-slate-900 font-mono">
-                ~{incidentsPreventedPerYear} incidents<span className="text-xs text-slate-500 font-normal">/yr</span>
+              <div className="text-xl font-extrabold text-foreground font-mono">
+                ~{incidentsPreventedPerYear} incidents<span className="text-xs text-muted-foreground font-normal">/yr</span>
               </div>
               <div className="text-[10px] text-emerald-700 font-bold">Zero client-script errors</div>
             </div>
 
             {/* Metric 3 */}
-            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
+            <div className="p-3.5 rounded-2xl bg-muted border border-border space-y-1">
+              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
                 <Leaf className="h-3 w-3 text-emerald-600" />
                 Carbon Offset
               </div>
-              <div className="text-xl font-extrabold text-slate-900 font-mono">
-                {carbonAvoidedKg} kg<span className="text-xs text-slate-500 font-normal"> CO2e/yr</span>
+              <div className="text-xl font-extrabold text-foreground font-mono">
+                {carbonAvoidedKg} kg<span className="text-xs text-muted-foreground font-normal"> CO2e/yr</span>
               </div>
               <div className="text-[10px] text-emerald-700 font-bold">Green Web Protocol</div>
             </div>
 
             {/* Metric 4 */}
-            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
+            <div className="p-3.5 rounded-2xl bg-muted border border-border space-y-1">
+              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
                 <DollarSign className="h-3 w-3 text-amber-600" />
                 Net Productivity
               </div>
-              <div className="text-xl font-extrabold text-slate-900 font-mono">
+              <div className="text-xl font-extrabold text-foreground font-mono">
                 {Math.round((annualDollarSavings / (engineerSeats * 120000)) * 100)}%
               </div>
               <div className="text-[10px] text-amber-700 font-bold">Engineering Velocity</div>
@@ -240,20 +240,20 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           </div>
 
           {/* Recommended Plan Match Box */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="p-4 rounded-2xl bg-muted border border-border flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <div className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">
+              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Optimal Plan Recommendation:
               </div>
-              <div className="text-base font-extrabold text-slate-900 mt-0.5">
-                {planName} <span className="text-slate-500 font-normal text-xs">({planPrice})</span>
+              <div className="text-base font-extrabold text-foreground mt-0.5">
+                {planName} <span className="text-muted-foreground font-normal text-xs">({planPrice})</span>
               </div>
             </div>
 
             <button
               type="button"
               onClick={handleApplyPlan}
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer text-xs"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary-hover transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer text-xs"
             >
               <span>Deploy {planName}</span>
               <ArrowRight className="h-3.5 w-3.5" />

@@ -15,7 +15,7 @@ import {
 
 export const NotFoundPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col justify-between relative overflow-hidden pt-20 pb-12">
+    <div className="min-h-screen bg-primary text-primary-foreground flex flex-col justify-between relative overflow-hidden pt-20 pb-12">
       <SEOHead
         title="404 - Node Unreachable | CatalystLab Anycast Mesh"
         description="The requested routing endpoint could not be resolved across any of our 42 global Edge PoPs."
@@ -36,33 +36,33 @@ export const NotFoundPage: React.FC = () => {
               <span>HTTP 404 • ANYCAST NODE UNREACHABLE</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary-foreground tracking-tight leading-tight">
               Route Lost in the Global Mesh.
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-400 font-sans leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg text-muted-foreground font-sans leading-relaxed max-w-xl">
               The packet could not be routed to any of our 42 Anycast PoPs. The requested URL may have migrated, expired, or had its BGP routing table revised.
             </p>
 
             {/* Diagnostic Terminal Block */}
-            <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-left font-mono text-xs text-slate-300 space-y-1.5 shadow-2xl backdrop-blur-md">
-              <div className="flex items-center justify-between text-[11px] text-slate-400 pb-2 border-b border-slate-800">
+            <div className="p-4 rounded-2xl bg-primary/80 border border-border text-left font-mono text-xs text-muted-foreground space-y-1.5 shadow-2xl backdrop-blur-md">
+              <div className="flex items-center justify-between text-[11px] text-muted-foreground pb-2 border-b border-border">
                 <span className="flex items-center gap-1.5">
                   <Terminal className="h-3.5 w-3.5 text-cyan-400" />
                   <span>EDGE_GATEWAY_TRACE</span>
                 </span>
                 <span className="text-amber-400">ERR_DNS_UNRESOLVED</span>
               </div>
-              <div className="text-slate-400">Origin: <span className="text-cyan-300">Client Anycast Ingress</span></div>
-              <div className="text-slate-400">Mesh Status: <span className="text-emerald-400">42 PoPs Operational</span></div>
-              <div className="text-slate-400 text-[11px]">Recommended action: Return to root routing matrix or dispatch domain diagnostic.</div>
+              <div className="text-muted-foreground">Origin: <span className="text-cyan-300">Client Anycast Ingress</span></div>
+              <div className="text-muted-foreground">Mesh Status: <span className="text-emerald-400">42 PoPs Operational</span></div>
+              <div className="text-muted-foreground text-[11px]">Recommended action: Return to root routing matrix or dispatch domain diagnostic.</div>
             </div>
 
             {/* Quick Action Navigation Buttons */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
               <Link
                 to="/"
-                className="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer"
+                className="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-foreground font-bold font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer"
               >
                 <Home className="h-4 w-4" />
                 <span>Return to Home</span>
@@ -70,7 +70,7 @@ export const NotFoundPage: React.FC = () => {
               
               <Link
                 to="/launch-audit"
-                className="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white font-bold font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
+                className="px-5 py-3 rounded-xl bg-primary hover:bg-primary-hover border border-border text-primary-foreground font-bold font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
               >
                 <Activity className="h-4 w-4 text-cyan-400" />
                 <span>Launch New Audit</span>
@@ -78,9 +78,9 @@ export const NotFoundPage: React.FC = () => {
 
               <Link
                 to="/pricing"
-                className="px-5 py-3 rounded-xl bg-slate-900/60 hover:bg-slate-800/80 border border-slate-800 text-slate-300 font-medium font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all cursor-pointer"
+                className="px-5 py-3 rounded-xl bg-primary/60 hover:bg-primary-hover/80 border border-border text-muted-foreground font-medium font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all cursor-pointer"
               >
-                <Layers className="h-4 w-4 text-slate-400" />
+                <Layers className="h-4 w-4 text-muted-foreground" />
                 <span>View 42-PoP Pricing</span>
               </Link>
             </div>
@@ -89,8 +89,8 @@ export const NotFoundPage: React.FC = () => {
 
           {/* Right Column: 3D Static Mesh Globe with Ambient Glow */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
-            <div className="w-full bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative">
-              <div className="absolute top-3 left-4 text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="w-full bg-primary/40 border border-border/80 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative">
+              <div className="absolute top-3 left-4 text-[10px] font-mono text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                 <Globe2 className="h-3.5 w-3.5 text-cyan-400" />
                 <span>STATIC POPS IDLE FRAME</span>
               </div>
@@ -107,7 +107,7 @@ export const NotFoundPage: React.FC = () => {
                 />
               </div>
 
-              <div className="text-[11px] font-mono text-slate-400 text-center">
+              <div className="text-[11px] font-mono text-muted-foreground text-center">
                 All 42 Global Anycast Nodes operating normally.
               </div>
             </div>
@@ -117,7 +117,7 @@ export const NotFoundPage: React.FC = () => {
       </main>
 
       {/* Footer minimal tag */}
-      <footer className="text-center text-xs font-mono text-slate-400 relative z-10">
+      <footer className="text-center text-xs font-mono text-muted-foreground relative z-10">
         CatalystLab Edge Telemetry Architecture • 42 Anycast PoPs
       </footer>
     </div>

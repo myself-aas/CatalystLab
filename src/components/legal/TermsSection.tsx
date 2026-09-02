@@ -60,19 +60,19 @@ export const TermsSection: React.FC = () => {
     <div className="space-y-8 font-mono">
       {/* Terms Header Card */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 text-slate-900 shadow-sm">
+        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-sm">
           <div className="flex items-center gap-2 text-xs text-amber-600 mb-1">
             <Scale className="h-4 w-4" />
             <span>OPERATING AGREEMENT • REV 2026.8</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight font-sans">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-sans">
             Terms of Service &amp; Acceptable Use
           </h2>
-          <p className="mt-2 text-xs text-slate-600 max-w-3xl leading-relaxed font-sans">
+          <p className="mt-2 text-xs text-muted-foreground max-w-3xl leading-relaxed font-sans">
             By accessing CatalystLab&apos;s automated audit suite, diagnostic consoles, and reporting APIs, you agree to comply with our ethical scanning guidelines and operational terms.
           </p>
 
-          <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-slate-200 pt-4 text-xs text-slate-500">
+          <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-border pt-4 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <Award className="h-3.5 w-3.5 text-amber-600" />
               <span>Report Ownership: 100% User Retained</span>
@@ -88,12 +88,12 @@ export const TermsSection: React.FC = () => {
 
       {/* Permitted vs Prohibited Interactive Matrix */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
           <div className="flex items-center gap-2 mb-1.5">
             <ShieldAlert className="h-4 w-4 text-amber-600" />
-            <h3 className="text-base font-bold text-slate-900 font-sans">Ethical Use &amp; Scanning Authorization Matrix</h3>
+            <h3 className="text-base font-bold text-foreground font-sans">Ethical Use &amp; Scanning Authorization Matrix</h3>
           </div>
-          <p className="text-xs text-slate-600 mb-5 font-sans">
+          <p className="text-xs text-muted-foreground mb-5 font-sans">
             CatalystLab provides non-destructive synthetic probes. Scans must remain within authorized boundaries.
           </p>
 
@@ -106,7 +106,7 @@ export const TermsSection: React.FC = () => {
               </div>
               <ul className="space-y-2">
                 {permitted.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs text-slate-800 font-sans">
+                  <li key={idx} className="flex items-start gap-2 text-xs text-foreground font-sans">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
                     <span>{item}</span>
                   </li>
@@ -122,7 +122,7 @@ export const TermsSection: React.FC = () => {
               </div>
               <ul className="space-y-2">
                 {prohibited.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs text-slate-800 font-sans">
+                  <li key={idx} className="flex items-start gap-2 text-xs text-foreground font-sans">
                     <span className="h-1.5 w-1.5 rounded-full bg-red-500 mt-1.5 shrink-0" />
                     <span>{item}</span>
                   </li>
@@ -135,26 +135,26 @@ export const TermsSection: React.FC = () => {
 
       {/* Interactive Service Level Agreement (SLA) & Concurrency Viewer */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 text-slate-900 shadow-sm">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
             <div>
               <div className="flex items-center gap-2 text-xs text-amber-600 mb-1">
                 <Zap className="h-3.5 w-3.5" />
                 <span>SLA &amp; UPTIME COMMITMENT</span>
               </div>
-              <h3 className="text-base font-bold text-slate-900 font-sans">Service Reliability &amp; Performance Guarantees</h3>
+              <h3 className="text-base font-bold text-foreground font-sans">Service Reliability &amp; Performance Guarantees</h3>
             </div>
 
             {/* Tier Selector */}
-            <div className="flex items-center rounded-xl bg-slate-100 p-1 border border-slate-200">
+            <div className="flex items-center rounded-xl bg-accent p-1 border border-border">
               {(['free', 'pro', 'enterprise'] as const).map((tier) => (
                 <button
                   key={tier}
                   onClick={() => setActiveTier(tier)}
                   className={`rounded-lg px-3 py-1.5 text-xs font-bold capitalize transition-all cursor-pointer ${
                     activeTier === tier
-                      ? 'bg-white text-slate-900 border border-slate-200 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-background text-foreground border border-border shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {tier}
@@ -164,30 +164,30 @@ export const TermsSection: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
-              <span className="text-[10px] uppercase font-bold text-slate-500">Availability SLA</span>
+            <div className="rounded-xl border border-border bg-muted p-3.5">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground">Availability SLA</span>
               <div className="text-base font-extrabold text-amber-600 mt-0.5">
                 {slaTiers[activeTier].availability}
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
-              <span className="text-[10px] uppercase font-bold text-slate-500">Diagnostic Concurrency</span>
+            <div className="rounded-xl border border-border bg-muted p-3.5">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground">Diagnostic Concurrency</span>
               <div className="text-base font-extrabold text-emerald-600 mt-0.5">
                 {slaTiers[activeTier].concurrency}
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
-              <span className="text-[10px] uppercase font-bold text-slate-500">Rate Quota</span>
+            <div className="rounded-xl border border-border bg-muted p-3.5">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground">Rate Quota</span>
               <div className="text-base font-extrabold text-amber-600 mt-0.5">
                 {slaTiers[activeTier].rateLimit}
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
-              <span className="text-[10px] uppercase font-bold text-slate-500">Support Target</span>
-              <div className="text-base font-extrabold text-slate-900 mt-0.5">
+            <div className="rounded-xl border border-border bg-muted p-3.5">
+              <span className="text-[10px] uppercase font-bold text-muted-foreground">Support Target</span>
+              <div className="text-base font-extrabold text-foreground mt-0.5">
                 {slaTiers[activeTier].supportSla}
               </div>
             </div>
@@ -197,23 +197,23 @@ export const TermsSection: React.FC = () => {
 
       {/* Core Legal Terms Specifications */}
       <LazyReveal direction="up">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-4 text-xs text-slate-600 leading-relaxed">
+        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-4 text-xs text-muted-foreground leading-relaxed">
           <section className="space-y-1.5">
-            <h4 className="text-sm font-bold text-slate-900 font-sans">1. Intellectual Property &amp; Dossier Ownership</h4>
+            <h4 className="text-sm font-bold text-foreground font-sans">1. Intellectual Property &amp; Dossier Ownership</h4>
             <p className="font-sans">
               All synthetic audit dossiers, radar diagrams, and compliance evaluations generated by CatalystLab are the exclusive property of the requesting user. CatalystLab retains all rights, titles, and interests in the underlying diagnostic algorithms, container workers, and source codebase.
             </p>
           </section>
 
           <section className="space-y-1.5">
-            <h4 className="text-sm font-bold text-slate-900 font-sans">2. Limitation of Liability</h4>
+            <h4 className="text-sm font-bold text-foreground font-sans">2. Limitation of Liability</h4>
             <p className="font-sans">
               Diagnostic outputs reflect simulated synthetic requests. Under no circumstance shall CatalystLab or its developers be held liable for third-party hosting outages, DNS propagation anomalies, or misconfigured web firewalls.
             </p>
           </section>
 
           <section className="space-y-1.5">
-            <h4 className="text-sm font-bold text-slate-900 font-sans">3. Term &amp; Termination</h4>
+            <h4 className="text-sm font-bold text-foreground font-sans">3. Term &amp; Termination</h4>
             <p className="font-sans">
               Users may terminate their account at any time. CatalystLab reserves the right to suspend API credentials that violate acceptable use or attempt unauthorized probe flood attacks.
             </p>

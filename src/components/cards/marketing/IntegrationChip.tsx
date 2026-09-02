@@ -28,20 +28,20 @@ export const IntegrationChip: React.FC<IntegrationChipProps> = ({
     <div
       className={twMerge(
         clsx(
-          'inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 font-sans text-xs text-slate-700 transition-all duration-200 shadow-sm select-none shrink-0 group',
-          active && 'hover:border-slate-300 hover:shadow-md',
+          'inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-background hover:bg-muted border border-border hover:border-border font-sans text-xs text-muted-foreground transition-all duration-200 shadow-sm select-none shrink-0 group',
+          active && 'hover:border-border hover:shadow-md',
           className
         )
       )}
       {...props}
     >
-      {icon && <span className="inline-flex shrink-0 text-slate-400 group-hover:text-slate-600 transition-colors">{icon}</span>}
+      {icon && <span className="inline-flex shrink-0 text-muted-foreground group-hover:text-muted-foreground transition-colors">{icon}</span>}
       <div className="flex flex-col min-w-0">
-        <span className="font-semibold text-slate-900 truncate group-hover:text-slate-700 transition-colors">
+        <span className="font-semibold text-foreground truncate group-hover:text-muted-foreground transition-colors">
           {name}
         </span>
         {category && (
-          <span className="text-[10px] text-slate-500 truncate">
+          <span className="text-[10px] text-muted-foreground truncate">
             {category}
           </span>
         )}

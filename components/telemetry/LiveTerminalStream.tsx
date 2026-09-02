@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { Terminal, Play, Pause, Trash2, Copy, Check, Filter, ArrowDown } from 'lucide-react';
 
 export interface TerminalLogEntry {
@@ -24,16 +23,17 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
   title = 'Live Telemetry SSE Execution Stream',
 }) => {
   const [autoScroll, setAutoScroll] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const [copied, setCopied] = useState(false);
   const [filterQuery, setFilterQuery] = useState('');
-  const [levelFilter, setLevelFilter] = useState<'all' | 'error' | 'warn' | 'success'>('all');
+  const [levelFilter, setLevelFilter] = useState<'all' | 'error' | 'warn' | 'success' | 'info'>('all');
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (autoScroll && scrollRef.current) {
+    if (autoScroll && !isHovered && scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [logs, autoScroll]);
+  }, [logs, autoScroll, isHovered]);
 
   const handleCopy = () => {
     const text = logs.map(l => `[${l.timestamp}] [${l.level.toUpperCase()}] ${l.message}`).join('\n');
@@ -49,9 +49,9 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
   });
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-[#090D16] shadow-2xl overflow-hidden flex flex-col font-mono">
+    <div className="rounded-xl border border-slate-800 bg-[#090D16] shadow-2xl overflow-hidden flex flex-col font-mono relative">
       {/* Terminal Bar Chrome */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-[#111726]/90 border-b border-slate-800">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-[#111726]/90 border-b border-slate-800 z-20">
         <div className="flex items-center gap-2.5">
           <div className="flex gap-1.5">
             <span className="w-3 h-3 rounded-full bg-[#EF4444]/80 inline-block" />
@@ -72,16 +72,16 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           {/* Level Filter */}
           <div className="flex items-center rounded-lg bg-slate-900 border border-slate-800 p-0.5 text-[10px]">
-            {(['all', 'error', 'warn', 'success'] as const).map(lvl => (
+            {(['all', 'info', 'warn', 'error', 'success'] as const).map(lvl => (
               <button
                 key={lvl}
                 onClick={() => setLevelFilter(lvl)}
                 className={`px-2 py-0.5 rounded capitalize transition-colors ${
                   levelFilter === lvl
-                    ? 'bg-slate-800 text-slate-100 font-semibold'
+                    ? 'bg-slate-800 text-cyan-300 font-semibold border border-slate-700'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -90,18 +90,36 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
             ))}
           </div>
 
-          {/* Auto-Scroll Toggle */}
+          {/* Auto-Scroll Toggle with Hover Indicator */}
           <button
             onClick={() => setAutoScroll(!autoScroll)}
             className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs border transition-colors ${
               autoScroll
-                ? 'bg-slate-800 border-slate-700 text-slate-200'
+                ? isHovered
+                  ? 'border-amber-500/50 bg-amber-500/15 text-amber-300'
+                  : 'bg-slate-800 border-slate-700 text-cyan-300'
                 : 'bg-slate-900/60 border-slate-800 text-slate-400'
             }`}
             title={autoScroll ? 'Pause Auto-Scroll' : 'Resume Auto-Scroll'}
           >
-            {autoScroll ? <Pause className="w-3 h-3 text-[#06B6D4]" /> : <Play className="w-3 h-3" />}
-            <span className="text-[10px] hidden sm:inline">{autoScroll ? 'Auto-Scroll ON' : 'Paused'}</span>
+            {autoScroll ? (
+              isHovered ? (
+                <>
+                  <Pause className="w-3 h-3 text-amber-400" />
+                  <span className="text-[10px] hidden sm:inline text-amber-300">Paused (Hover)</span>
+                </>
+              ) : (
+                <>
+                  <Pause className="w-3 h-3 text-[#06B6D4]" />
+                  <span className="text-[10px] hidden sm:inline">Auto-Scroll ON</span>
+                </>
+              )
+            ) : (
+              <>
+                <Play className="w-3 h-3" />
+                <span className="text-[10px] hidden sm:inline">Locked</span>
+              </>
+            )}
           </button>
 
           {/* Copy Button */}
@@ -128,7 +146,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
       </div>
 
       {/* Filter search line */}
-      <div className="flex items-center gap-2 px-4 py-1.5 bg-black/40 border-b border-slate-800/60 text-xs">
+      <div className="flex items-center gap-2 px-4 py-1.5 bg-black/40 border-b border-slate-800/60 text-xs z-20">
         <Filter className="w-3 h-3 text-slate-500" />
         <input
           type="text"
@@ -147,50 +165,68 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
         )}
       </div>
 
-      {/* Terminal Viewport */}
+      {/* Terminal Viewport with Scanline overlay and Pause-on-hover */}
       <div
-        ref={scrollRef}
-        className="p-4 overflow-y-auto max-h-[380px] min-h-[220px] space-y-1.5 text-xs select-text scrollbar-thin scrollbar-thumb-slate-800"
+        className="relative overflow-hidden"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {filteredLogs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-slate-600 space-y-2">
-            <Terminal className="w-8 h-8 opacity-40" />
-            <p className="text-[11px]">No active execution logs to display.</p>
-          </div>
-        ) : (
-          filteredLogs.map((log) => (
-            <div
-              key={log.id}
-              className="flex items-start gap-2 leading-relaxed hover:bg-slate-900/40 px-1 py-0.5 rounded transition-colors group"
-            >
-              <span className="text-slate-600 text-[10px] select-none flex-shrink-0 pt-0.5">
-                {log.timestamp}
-              </span>
-              {log.engineId && (
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-800/80 text-[#06B6D4] border border-slate-700/50 flex-shrink-0">
-                  {log.engineId}
-                </span>
-              )}
-              <span
-                className={`break-all ${
-                  log.level === 'error'
-                    ? 'text-[#EF4444] font-semibold'
-                    : log.level === 'warn'
-                    ? 'text-[#F59E0B]'
-                    : log.level === 'success'
-                    ? 'text-[#10B981]'
-                    : 'text-slate-300'
-                }`}
-              >
-                {log.message}
-              </span>
+        {/* Simulated CRT Scanline Overlay */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.35)_50%)] bg-[length:100%_4px] opacity-25"
+        />
+
+        <div
+          ref={scrollRef}
+          role="log"
+          aria-live="polite"
+          aria-atomic="false"
+          aria-label={title}
+          className="p-4 overflow-y-auto max-h-[380px] min-h-[220px] space-y-1.5 text-xs select-text scrollbar-thin scrollbar-thumb-slate-800 relative z-0"
+        >
+          {filteredLogs.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-slate-600 space-y-2">
+              <Terminal className="w-8 h-8 opacity-40" />
+              <p className="text-[11px]">No active execution logs to display.</p>
             </div>
-          ))
-        )}
+          ) : (
+            filteredLogs.map((log) => (
+              <div
+                key={log.id}
+                className="flex items-start gap-2 leading-relaxed hover:bg-slate-900/60 px-1 py-0.5 rounded transition-colors group font-mono text-xs"
+              >
+                <span className="text-slate-600 text-[10px] select-none flex-shrink-0 pt-0.5 w-16">
+                  {log.timestamp}
+                </span>
+                {log.engineId && (
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-800/90 text-[#06B6D4] border border-slate-700/60 flex-shrink-0 font-bold">
+                    {log.engineId}
+                  </span>
+                )}
+                <span
+                  className={`break-all ${
+                    log.level === 'error'
+                      ? 'text-[#EF4444] font-semibold'
+                      : log.level === 'warn'
+                      ? 'text-[#F59E0B]'
+                      : log.level === 'success'
+                      ? 'text-[#10B981]'
+                      : log.message.includes('[EXECUTING]') || log.message.includes('[START]')
+                      ? 'text-purple-400'
+                      : 'text-slate-300'
+                  }`}
+                >
+                  {log.message}
+                </span>
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
       {/* Terminal Status Footer */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#111726]/60 border-t border-slate-800 text-[10px] text-slate-500">
+      <div className="flex items-center justify-between px-4 py-2 bg-[#111726]/60 border-t border-slate-800 text-[10px] text-slate-500 z-20">
         <div className="flex items-center gap-3">
           <span>{filteredLogs.length} events streamed</span>
           <span>•</span>

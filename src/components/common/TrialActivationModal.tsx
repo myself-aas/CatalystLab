@@ -66,10 +66,10 @@ export const TrialActivationModal: React.FC = () => {
   const paidTiers: SubscriptionPlanId[] = ['starter', 'pro', 'team', 'enterprise'];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-primary/80 backdrop-blur-md animate-fadeIn">
       <div 
         id="trial-activation-modal-card"
-        className="relative w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden text-white animate-scaleUp"
+        className="relative w-full max-w-2xl bg-primary border border-border/80 rounded-2xl shadow-2xl overflow-hidden text-primary-foreground animate-scaleUp"
       >
         {/* Header gradient bar */}
         <div className="h-2 bg-gradient-to-r from-emerald-500 via-cyan-500 to-indigo-500" />
@@ -77,7 +77,7 @@ export const TrialActivationModal: React.FC = () => {
         {/* Close Button */}
         <button 
           onClick={closeTrialModal}
-          className="absolute top-5 right-5 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          className="absolute top-5 right-5 p-2 text-muted-foreground hover:text-primary-foreground rounded-lg hover:bg-background/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           aria-label="Close Modal"
         >
           <X className="w-5 h-5" />
@@ -89,21 +89,21 @@ export const TrialActivationModal: React.FC = () => {
             <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <Zap className="w-3.5 h-3.5" /> 7-Day Free Trial
             </span>
-            <span className="inline-flex items-center gap-1 text-xs text-slate-400">
-              <CreditCard className="w-3.5 h-3.5 text-slate-500" /> No credit card required
+            <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+              <CreditCard className="w-3.5 h-3.5 text-muted-foreground" /> No credit card required
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary-foreground mt-1">
             Unlock Full <span className="text-cyan-500">{plan.name} Tier</span> for 7 Days
           </h2>
-          <p className="text-sm text-slate-300 mt-2 leading-relaxed">
+          <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
             Experience our 8 parallel diagnostic engines, automated CI/CD runners, and high-frequency edge latency probes with zero billing lock-in.
           </p>
 
           {/* Tier Switcher within Modal */}
           <div className="mt-6">
-            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+            <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
               Select Trial Tier:
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -117,18 +117,18 @@ export const TrialActivationModal: React.FC = () => {
                     onClick={() => setSelectedPlan(tierKey)}
                     className={`relative p-3 rounded-xl text-left border transition-all ${
                       isSelected 
-                        ? 'bg-cyan-500/10 border-cyan-500 shadow-md text-white' 
-                        : 'bg-white/60 border-slate-700/60 text-slate-300 hover:border-slate-500'
+                        ? 'bg-cyan-500/10 border-cyan-500 shadow-md text-primary-foreground' 
+                        : 'bg-background/60 border-border/60 text-muted-foreground hover:border-border'
                     }`}
                   >
                     {item.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-cyan-500 text-black">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-cyan-500 text-foreground">
                         POPULAR
                       </span>
                     )}
-                    <div className="text-xs font-medium text-slate-400">{item.name}</div>
-                    <div className="text-lg font-bold text-white mt-0.5">
-                      ${item.priceMonthly}<span className="text-xs text-slate-400 font-normal">/mo</span>
+                    <div className="text-xs font-medium text-muted-foreground">{item.name}</div>
+                    <div className="text-lg font-bold text-primary-foreground mt-0.5">
+                      ${item.priceMonthly}<span className="text-xs text-muted-foreground font-normal">/mo</span>
                     </div>
                     <div className="text-[11px] text-emerald-400 font-medium mt-1">
                       {item.dailyComputeUnits} units/day
@@ -140,9 +140,9 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Active Plan Highlights Box */}
-          <div className="mt-6 p-4 rounded-xl bg-white/5 border border-slate-700/80">
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-3 border-b border-slate-700/40">
-              <span className="flex items-center gap-1.5 text-white">
+          <div className="mt-6 p-4 rounded-xl bg-background/5 border border-border/80">
+            <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground pb-3 border-b border-border/40">
+              <span className="flex items-center gap-1.5 text-primary-foreground">
                 <Cpu className="w-4 h-4 text-cyan-500" /> {plan.dailyComputeUnits} Daily Compute Units
               </span>
               <span className="text-emerald-400 font-mono">
@@ -152,7 +152,7 @@ export const TrialActivationModal: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-3">
               {plan.features.slice(0, 6).map((feat, idx) => (
-                <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
+                <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
                   <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <span>{feat.text}</span>
                 </div>
@@ -169,10 +169,10 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Action Footer */}
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-700/60">
-            <div className="text-xs text-slate-400 text-center sm:text-left">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border/60">
+            <div className="text-xs text-muted-foreground text-center sm:text-left">
               {user ? (
-                <span>Signed in as <strong className="text-white">{user.email}</strong></span>
+                <span>Signed in as <strong className="text-primary-foreground">{user.email}</strong></span>
               ) : (
                 <span>Requires Google sign-in (1-click, no password needed)</span>
               )}
@@ -182,7 +182,7 @@ export const TrialActivationModal: React.FC = () => {
               <button
                 type="button"
                 onClick={closeTrialModal}
-                className="w-1/2 sm:w-auto px-4 py-2.5 text-xs font-semibold text-slate-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-1/2 sm:w-auto px-4 py-2.5 text-xs font-semibold text-muted-foreground hover:text-primary-foreground rounded-lg hover:bg-background/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
               >
                 Cancel
               </button>
@@ -193,8 +193,8 @@ export const TrialActivationModal: React.FC = () => {
                 disabled={loading || success}
                 className={`w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition-all shadow-lg flex items-center justify-center gap-2 ${
                   success
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-black hover:bg-gray-800 border border-gray-200 text-white'
+                    ? 'bg-emerald-500 text-primary-foreground'
+                    : 'bg-primary hover:bg-muted border border-border text-primary-foreground'
                 }`}
               >
                 {loading ? (
@@ -209,7 +209,7 @@ export const TrialActivationModal: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4 text-black" />
+                    <Sparkles className="w-4 h-4 text-foreground" />
                     <span>Activate 7-Day Trial</span>
                   </>
                 )}

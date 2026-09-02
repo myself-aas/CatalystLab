@@ -47,6 +47,18 @@ declare global {
 
 const REQ_ID_HEADER = 'x-request-id';
 
+const ASSET_OR_DEV_MODULE_REGEX = /\.(tsx?|jsx?|css|map|ico|png|jpe?g|svg|webp|woff2?|ttf|eot)(\?.*)?$/i;
+
+function isAssetOrDevModule(url: string): boolean {
+  return (
+    url.startsWith('/src/') ||
+    url.startsWith('/@') ||
+    url.startsWith('/node_modules/') ||
+    url.includes('/.vite/') ||
+    ASSET_OR_DEV_MODULE_REGEX.test(url)
+  );
+}
+
 /**
  * Assigns a correlation ID to every request (honoring an inbound
  * `x-request-id` for trace propagation) and emits one structured log line
@@ -59,6 +71,12 @@ export function requestLoggingMiddleware(req: Request, res: Response, next: Next
     : crypto.randomUUID();
   req.requestId = requestId;
   res.setHeader(REQ_ID_HEADER, requestId);
+
+  // Skip verbose request logging for Vite dev bundle modules and static assets
+  if (isAssetOrDevModule(req.originalUrl || req.url || '')) {
+    next();
+    return;
+  }
 
   const startAt = process.hrtime.bigint();
   res.on('finish', () => {

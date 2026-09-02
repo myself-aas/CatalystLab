@@ -24,30 +24,30 @@ export const CicdDevOpsDoc: React.FC = () => {
           <Workflow className="h-3.5 w-3.5" />
           <span>DevOps &amp; Pipeline Automation</span>
         </div>
-        <h1 className="text-3xl font-extrabold text-white tracking-tight font-sans">
+        <h1 className="text-3xl font-extrabold text-primary-foreground tracking-tight font-sans">
           CI/CD Quality Gates &amp; Automation
         </h1>
-        <p className="text-sm text-slate-300 leading-relaxed font-sans">
+        <p className="text-sm text-muted-foreground leading-relaxed font-sans">
           Prevent performance regressions and security vulnerabilities before staging or production deployments. Embed CatalystLab audits directly into your pull request merge checks using GitHub Actions or GitLab CI.
         </p>
       </section>
 
       {/* Interactive Pipeline Visualizer */}
-      <section id="pipeline-visualizer" className="space-y-4 border-t border-slate-800 pt-8 font-mono">
-        <h2 className="text-xl font-bold text-white font-sans flex items-center gap-2">
+      <section id="pipeline-visualizer" className="space-y-4 border-t border-border pt-8 font-mono">
+        <h2 className="text-xl font-bold text-primary-foreground font-sans flex items-center gap-2">
           <GitPullRequest className="h-5 w-5 text-[#00F0FF]" />
           <span>Interactive Pull Request Quality Gate Visualizer</span>
         </h2>
-        <p className="text-xs text-slate-400 font-sans">
+        <p className="text-xs text-muted-foreground font-sans">
           Test how synthetic telemetry failure blocks merges until performance &amp; security regressions are remediated:
         </p>
         <PipelineVisualizer />
       </section>
 
       {/* GitHub Actions */}
-      <section id="github-actions" className="space-y-4 border-t border-slate-800 pt-8 font-mono">
-        <h2 className="text-xl font-bold text-white font-sans">GitHub Actions Workflow (.github/workflows/quality-gate.yml)</h2>
-        <p className="text-xs text-slate-400 font-sans">
+      <section id="github-actions" className="space-y-4 border-t border-border pt-8 font-mono">
+        <h2 className="text-xl font-bold text-primary-foreground font-sans">GitHub Actions Workflow (.github/workflows/quality-gate.yml)</h2>
+        <p className="text-xs text-muted-foreground font-sans">
           Trigger a Master Audit whenever a preview PR URL is deployed:
         </p>
 
@@ -88,9 +88,9 @@ jobs:
       </section>
 
       {/* GitLab CI */}
-      <section id="gitlab-ci" className="space-y-4 border-t border-slate-800 pt-8 font-mono">
-        <h2 className="text-xl font-bold text-white font-sans">GitLab CI/CD Recipe (.gitlab-ci.yml)</h2>
-        <p className="text-xs text-slate-400 font-sans">
+      <section id="gitlab-ci" className="space-y-4 border-t border-border pt-8 font-mono">
+        <h2 className="text-xl font-bold text-primary-foreground font-sans">GitLab CI/CD Recipe (.gitlab-ci.yml)</h2>
+        <p className="text-xs text-muted-foreground font-sans">
           Integrate quality auditing into GitLab pipelines:
         </p>
 
@@ -117,9 +117,9 @@ catalystlab_audit:
       </section>
 
       {/* Webhooks & Alerts */}
-      <section id="webhooks-alerts" className="space-y-4 border-t border-slate-800 pt-8 font-mono">
-        <h2 className="text-xl font-bold text-white font-sans">Automated Telemetry Webhooks (Slack / Discord)</h2>
-        <p className="text-xs text-slate-400 font-sans">
+      <section id="webhooks-alerts" className="space-y-4 border-t border-border pt-8 font-mono">
+        <h2 className="text-xl font-bold text-primary-foreground font-sans">Automated Telemetry Webhooks (Slack / Discord)</h2>
+        <p className="text-xs text-muted-foreground font-sans">
           Configure real-time notifications for automated uptime probes or degraded quality scores directly into your engineering Slack or Discord channels.
         </p>
       </section>

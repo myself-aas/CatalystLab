@@ -109,7 +109,7 @@ export const WorkflowSection: React.FC = () => {
     <section
       id="workflow-section"
       ref={containerRef}
-      className="relative py-24 lg:py-32 bg-white text-slate-900 border-b border-slate-200 overflow-hidden"
+      className="relative py-24 lg:py-32 bg-background text-foreground border-b border-border overflow-hidden"
     >
       {/* Subtle Background Glows */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
@@ -124,17 +124,17 @@ export const WorkflowSection: React.FC = () => {
               <Network className="h-3.5 w-3.5 text-indigo-600" />
               <span>SYNCHRONOUS EXECUTION PIPELINE</span>
             </div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground">
               Autonomous 4-Stage Workflow
             </h2>
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mt-4 font-medium leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mt-4 font-medium leading-relaxed">
               From global edge DNS resolution to instant zero-latency remediation patches in under 1,060ms total execution time.
             </p>
           </LazyReveal>
 
-          <div className="flex items-center gap-2 text-sm font-sans font-medium text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded-xl shadow-sm">
+          <div className="flex items-center gap-2 text-sm font-sans font-medium text-muted-foreground bg-muted border border-border p-3 rounded-xl shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-            <span>TOTAL LATENCY: <strong className="text-slate-900 font-mono text-base">1.06s</strong> (P95)</span>
+            <span>TOTAL LATENCY: <strong className="text-foreground font-mono text-base">1.06s</strong> (P95)</span>
           </div>
         </div>
 
@@ -146,7 +146,7 @@ export const WorkflowSection: React.FC = () => {
           {/* Central Vertical Connecting Line on Large Screens */}
           <div className="hidden lg:block absolute left-1/2 top-8 bottom-8 -translate-x-1/2 w-0.5 pointer-events-none">
             {/* Background Track Line */}
-            <div className="w-full h-full bg-slate-200 rounded-full" />
+            <div className="w-full h-full bg-accent rounded-full" />
             
             {/* Animated SVG Filling Stroke */}
             <motion.div
@@ -196,7 +196,7 @@ export const WorkflowSection: React.FC = () => {
                   <div className="hidden lg:flex lg:col-span-2 lg:order-2 justify-center items-center relative">
                     <motion.div
                       whileHover={{ scale: 1.15 }}
-                      className="w-16 h-16 rounded-2xl bg-white border-2 border-indigo-500 shadow-md flex items-center justify-center relative z-10"
+                      className="w-16 h-16 rounded-2xl bg-background border-2 border-indigo-500 shadow-md flex items-center justify-center relative z-10"
                     >
                       <Icon className="w-7 h-7 text-indigo-600" />
                     </motion.div>
@@ -209,8 +209,8 @@ export const WorkflowSection: React.FC = () => {
                     }`}
                   >
                     <LazyReveal direction={isEven ? 'right' : 'left'} delay={idx * 0.1 + 0.1}>
-                      <div className="p-6 rounded-3xl border border-slate-200 bg-slate-50 shadow-sm">
-                        <div className="flex items-center justify-between text-xs font-sans font-bold text-slate-500 uppercase tracking-widest mb-4">
+                      <div className="p-6 rounded-3xl border border-border bg-muted shadow-sm">
+                        <div className="flex items-center justify-between text-xs font-sans font-bold text-muted-foreground uppercase tracking-widest mb-4">
                           <span className="flex items-center gap-2">
                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                             <span>STAGE EXECUTION TELEMETRY</span>
@@ -219,7 +219,7 @@ export const WorkflowSection: React.FC = () => {
                         </div>
 
                         {/* Progress Bar & Telemetry Matrix */}
-                        <div className="h-2.5 w-full bg-slate-200 rounded-full overflow-hidden shadow-inner">
+                        <div className="h-2.5 w-full bg-accent rounded-full overflow-hidden shadow-inner">
                           <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: `${(idx + 1) * 25}%` }}
@@ -230,12 +230,12 @@ export const WorkflowSection: React.FC = () => {
                         </div>
 
                         <div className="mt-5 grid grid-cols-2 gap-3 font-mono text-[11px]">
-                          <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-1">
-                            <span className="text-slate-500 font-sans font-bold text-[10px] uppercase tracking-wider">DIAGNOSTIC STATUS</span>
+                          <div className="p-3 rounded-xl bg-background border border-border shadow-sm flex flex-col gap-1">
+                            <span className="text-muted-foreground font-sans font-bold text-[10px] uppercase tracking-wider">DIAGNOSTIC STATUS</span>
                             <span className="font-bold text-emerald-600 text-sm">VERIFIED OK</span>
                           </div>
-                          <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col gap-1">
-                            <span className="text-slate-500 font-sans font-bold text-[10px] uppercase tracking-wider">PARITY DRIFT</span>
+                          <div className="p-3 rounded-xl bg-background border border-border shadow-sm flex flex-col gap-1">
+                            <span className="text-muted-foreground font-sans font-bold text-[10px] uppercase tracking-wider">PARITY DRIFT</span>
                             <span className="font-bold text-indigo-600 text-sm">0.00% DRIFT</span>
                           </div>
                         </div>
@@ -256,7 +256,7 @@ export const WorkflowSection: React.FC = () => {
             <Link
               to="/methodology"
               id="workflow-view-methodology-link"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-sans text-sm font-bold transition-all shadow-md active:scale-95 hover:shadow-lg"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground font-sans text-sm font-bold transition-all shadow-md active:scale-95 hover:shadow-lg"
             >
               <span>Inspect Full RFC & Engine Methodology Specification</span>
               <ArrowRight className="w-4 h-4 text-indigo-300" />

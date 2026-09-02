@@ -7,28 +7,28 @@ import { CardChipProps, EnzymeHue } from '../types';
 import { useCardContext } from './CardContext';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-1.5 px-3 py-1 rounded-[10px] text-xs font-mono font-bold tracking-tight whitespace-nowrap shrink-0 transition-all duration-200 select-none text-white',
+  'inline-flex items-center gap-1.5 px-3 py-1 rounded-[10px] text-xs font-mono font-bold tracking-tight whitespace-nowrap shrink-0 transition-all duration-200 select-none text-primary-foreground',
   {
     variants: {
       variant: {
-        default: 'bg-black/60 text-white border border-white/20 shadow-sm backdrop-blur-md',
-        live: 'bg-black/60 text-white border border-white/25 shadow-[0_0_12px_rgba(16,185,129,0.25)] backdrop-blur-md',
-        accent: 'bg-white/15 text-white border border-white/25 shadow-md backdrop-blur-md',
-        rating: 'bg-black/60 text-white border border-amber-400/40 shadow-sm backdrop-blur-md',
-        glass: 'bg-white/15 hover:bg-white/25 text-white border border-white/25 backdrop-blur-lg shadow-sm',
-        solid: 'bg-black text-white border border-white/20 shadow-sm',
-        enzyme: 'text-white border border-white/20 bg-black/60 shadow-sm backdrop-blur-md',
+        default: 'bg-foreground/60 text-primary-foreground border border-white/20 shadow-sm backdrop-blur-md',
+        live: 'bg-foreground/60 text-primary-foreground border border-white/25 shadow-[0_0_12px_rgba(16,185,129,0.25)] backdrop-blur-md',
+        accent: 'bg-background/15 text-primary-foreground border border-white/25 shadow-md backdrop-blur-md',
+        rating: 'bg-foreground/60 text-primary-foreground border border-amber-400/40 shadow-sm backdrop-blur-md',
+        glass: 'bg-background/15 hover:bg-background/25 text-primary-foreground border border-white/25 backdrop-blur-lg shadow-sm',
+        solid: 'bg-primary text-primary-foreground border border-white/20 shadow-sm',
+        enzyme: 'text-primary-foreground border border-white/20 bg-foreground/60 shadow-sm backdrop-blur-md',
       },
       hue: {
-        vitalzyme: 'border-emerald-400/40 bg-black/60 text-white',
-        riskprotease: 'border-rose-400/40 bg-black/60 text-white',
-        llmkinase: 'border-purple-400/40 bg-black/60 text-white',
-        edgevmax: 'border-cyan-400/40 bg-black/60 text-white',
-        ecoholo: 'border-emerald-400/40 bg-black/60 text-white',
-        synthshift: 'border-amber-400/40 bg-black/60 text-white',
-        gitlygase: 'border-blue-400/40 bg-black/60 text-white',
-        alloster: 'border-fuchsia-400/40 bg-black/60 text-white',
-        neutral: 'border-white/20 bg-black/60 text-white',
+        vitalzyme: 'border-emerald-400/40 bg-foreground/60 text-primary-foreground',
+        riskprotease: 'border-rose-400/40 bg-foreground/60 text-primary-foreground',
+        llmkinase: 'border-purple-400/40 bg-foreground/60 text-primary-foreground',
+        edgevmax: 'border-cyan-400/40 bg-foreground/60 text-primary-foreground',
+        ecoholo: 'border-emerald-400/40 bg-foreground/60 text-primary-foreground',
+        synthshift: 'border-amber-400/40 bg-foreground/60 text-primary-foreground',
+        gitlygase: 'border-blue-400/40 bg-foreground/60 text-primary-foreground',
+        alloster: 'border-fuchsia-400/40 bg-foreground/60 text-primary-foreground',
+        neutral: 'border-white/20 bg-foreground/60 text-primary-foreground',
       },
     },
     defaultVariants: {

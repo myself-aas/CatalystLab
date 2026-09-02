@@ -83,13 +83,13 @@ export const ContactInquiriesAdminView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Header Controls */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-border bg-background p-5 shadow-xs">
         <div>
-          <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
             <Mail className="h-5 w-5 text-[#415a77]" />
             <span>Captured Email Leads &amp; Inquiries</span>
           </h2>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Collected via the Get in Touch section and Email Capture pop-up modal.
           </p>
         </div>
@@ -98,7 +98,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
           <button
             type="button"
             onClick={fetchInquiries}
-            className="flex items-center gap-1.5 rounded-xl border border-gray-300 bg-gray-50 px-3 py-2 text-xs font-mono font-semibold text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl border border-border bg-muted px-3 py-2 text-xs font-mono font-semibold text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -108,7 +108,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
             type="button"
             onClick={exportCSV}
             disabled={inquiries.length === 0}
-            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] text-white px-3.5 py-2 text-xs font-mono font-bold hover:bg-[#162a45] transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] text-primary-foreground px-3.5 py-2 text-xs font-mono font-bold hover:bg-[#162a45] transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export CSV</span>
@@ -118,18 +118,18 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
-          <div className="text-xs font-mono font-semibold text-gray-500 uppercase">Total Captured</div>
-          <div className="text-2xl font-black text-gray-900 mt-1">{inquiries.length}</div>
+        <div className="rounded-2xl border border-border bg-background p-4 shadow-xs">
+          <div className="text-xs font-mono font-semibold text-muted-foreground uppercase">Total Captured</div>
+          <div className="text-2xl font-black text-foreground mt-1">{inquiries.length}</div>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
-          <div className="text-xs font-mono font-semibold text-gray-500 uppercase">Latest 24 Hours</div>
+        <div className="rounded-2xl border border-border bg-background p-4 shadow-xs">
+          <div className="text-xs font-mono font-semibold text-muted-foreground uppercase">Latest 24 Hours</div>
           <div className="text-2xl font-black text-[#415a77] mt-1">
             {inquiries.filter(i => Date.now() - i.createdAt < 24 * 60 * 60 * 1000).length}
           </div>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
-          <div className="text-xs font-mono font-semibold text-gray-500 uppercase">Storage Status</div>
+        <div className="rounded-2xl border border-border bg-background p-4 shadow-xs">
+          <div className="text-xs font-mono font-semibold text-muted-foreground uppercase">Storage Status</div>
           <div className="flex items-center gap-1.5 mt-1 text-sm font-bold text-emerald-600">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Firestore Synchronized</span>
@@ -139,7 +139,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
       {/* Search Bar */}
       <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-muted-foreground">
           <Search className="h-4 w-4" />
         </div>
         <input
@@ -147,36 +147,36 @@ export const ContactInquiriesAdminView: React.FC = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter by email, company, name, or keywords..."
-          className="w-full rounded-xl border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-xs font-mono text-gray-900 placeholder-gray-400 focus:border-[#415a77] focus:outline-none focus:ring-1 focus:ring-[#415a77]/30 transition-all shadow-xs"
+          className="w-full rounded-xl border border-border bg-background py-2.5 pl-10 pr-4 text-xs font-mono text-foreground placeholder-gray-400 focus:border-[#415a77] focus:outline-none focus:ring-1 focus:ring-[#415a77]/30 transition-all shadow-xs"
         />
       </div>
 
       {/* Inquiries Table / List */}
-      <div className="rounded-2xl border border-slate-200 bg-white shadow-xs overflow-hidden">
+      <div className="rounded-2xl border border-border bg-background shadow-xs overflow-hidden">
         {loading ? (
-          <div className="py-16 text-center text-gray-500 font-mono text-xs">
+          <div className="py-16 text-center text-muted-foreground font-mono text-xs">
             <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-[#415a77]" />
             <span>Fetching submissions from database...</span>
           </div>
         ) : filteredInquiries.length === 0 ? (
-          <div className="py-16 text-center text-gray-500 font-mono text-xs space-y-2">
-            <Inbox className="h-8 w-8 mx-auto text-gray-300" />
-            <div className="text-sm font-semibold text-gray-700">No contact inquiries found</div>
-            <p className="text-gray-400 max-w-sm mx-auto">
+          <div className="py-16 text-center text-muted-foreground font-mono text-xs space-y-2">
+            <Inbox className="h-8 w-8 mx-auto text-muted-foreground" />
+            <div className="text-sm font-semibold text-muted-foreground">No contact inquiries found</div>
+            <p className="text-muted-foreground max-w-sm mx-auto">
               New submissions via the Get in Touch section and pop-up modal will appear here in real-time.
             </p>
           </div>
         ) : (
           <div className="divide-y divide-gray-100">
             {filteredInquiries.map((item) => (
-              <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-gray-50/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
-                    <span className="font-mono text-sm font-bold text-gray-900">{item.email}</span>
+                    <span className="font-mono text-sm font-bold text-foreground">{item.email}</span>
                     <button
                       type="button"
                       onClick={() => handleCopy(item.email, item.id || String(item.createdAt))}
-                      className="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="p-1 rounded-md text-muted-foreground hover:text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                       title="Copy email"
                     >
                       {copiedId === (item.id || String(item.createdAt)) ? (
@@ -186,13 +186,13 @@ export const ContactInquiriesAdminView: React.FC = () => {
                       )}
                     </button>
                     {item.source && (
-                      <span className="rounded-md bg-gray-100 px-2 py-0.5 text-[10px] font-mono text-gray-600 border border-gray-200">
+                      <span className="rounded-md bg-accent px-2 py-0.5 text-[10px] font-mono text-muted-foreground border border-border">
                         {item.source}
                       </span>
                     )}
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs font-mono text-gray-500">
+                  <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
                     <Clock className="h-3 w-3" />
                     <span>{new Date(item.createdAt).toLocaleString()}</span>
                   </div>
@@ -200,16 +200,16 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
                 {/* Optional Metadata Row */}
                 {(item.name || item.company) && (
-                  <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-600">
+                  <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                     {item.name && (
                       <span className="flex items-center gap-1">
-                        <User className="h-3 w-3 text-gray-400" />
+                        <User className="h-3 w-3 text-muted-foreground" />
                         <span className="font-medium">{item.name}</span>
                       </span>
                     )}
                     {item.company && (
                       <span className="flex items-center gap-1">
-                        <Building2 className="h-3 w-3 text-gray-400" />
+                        <Building2 className="h-3 w-3 text-muted-foreground" />
                         <span>{item.company}</span>
                       </span>
                     )}
@@ -218,7 +218,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
                 {/* Message Content */}
                 {item.message && (
-                  <div className="mt-2.5 rounded-xl border border-gray-100 bg-gray-50/60 p-3 text-xs text-gray-700 leading-relaxed font-sans">
+                  <div className="mt-2.5 rounded-xl border border-border bg-muted/60 p-3 text-xs text-muted-foreground leading-relaxed font-sans">
                     {item.message}
                   </div>
                 )}
