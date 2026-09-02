@@ -74,7 +74,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       )}
 
       {/* R5 Stat-Pair Divider Pattern (Legacy vs CatalystLab) - Refined Light Theme */}
-      <div className="w-full grid grid-cols-2 divide-x divide-slate-100 bg-muted rounded-xl border border-border p-3 my-2 shadow-sm">
+      <div className="w-full grid grid-cols-2 divide-x divide-border bg-muted rounded-xl border border-border p-3 my-2 shadow-sm">
         {/* Legacy Column */}
         <div className="pr-3 flex flex-col justify-between">
           <span className="text-[10px] font-sans font-bold text-muted-foreground uppercase tracking-widest">

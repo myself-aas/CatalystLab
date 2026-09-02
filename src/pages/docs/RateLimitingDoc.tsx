@@ -22,16 +22,16 @@ export const RateLimitingDoc: React.FC = () => {
           <Sliders className="h-3.5 w-3.5" />
           <span>Traffic Control & Fair Quotas</span>
         </div>
-        <h1 className="text-3xl font-extrabold text-[#0b192c] tracking-tight">
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
           Multi-Tier Sliding Rate Limiter
         </h1>
-        <p className="text-base text-[#415a77] leading-relaxed">
+        <p className="text-base text-muted-foreground leading-relaxed">
           CatalystLab employs a hybrid client-device and IP rate limiter to protect upstream infrastructure, prevent abuse, and ensure fair resource allocation across all users.
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background mt-4">
+        <div className="overflow-x-auto rounded-xl border border-border bg-background mt-4">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
+            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
               <tr>
                 <th className="py-2.5 px-3">User Tier</th>
                 <th className="py-2.5 px-3">Daily Single Scans</th>
@@ -40,26 +40,26 @@ export const RateLimitingDoc: React.FC = () => {
                 <th className="py-2.5 px-3">Reset Window</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-[#0b192c]">
+            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
               <tr>
                 <td className="py-2.5 px-3 font-semibold">Anonymous Visitor</td>
                 <td className="py-2.5 px-3 font-mono">5 scans / day</td>
                 <td className="py-2.5 px-3 font-mono">1 audit / day</td>
-                <td className="py-2.5 px-3 text-[#64748b]"><code>vis_&#123;deviceId|IP&#125;</code></td>
+                <td className="py-2.5 px-3 text-muted-foreground"><code>vis_&#123;deviceId|IP&#125;</code></td>
                 <td className="py-2.5 px-3">Midnight UTC</td>
               </tr>
               <tr>
                 <td className="py-2.5 px-3 font-semibold text-sky-700">Authenticated User (Google)</td>
                 <td className="py-2.5 px-3 font-mono text-emerald-700 font-bold">10 scans / day</td>
                 <td className="py-2.5 px-3 font-mono text-emerald-700 font-bold">3 audits / day</td>
-                <td className="py-2.5 px-3 text-[#64748b]"><code>user_&#123;UID|Email&#125;</code></td>
+                <td className="py-2.5 px-3 text-muted-foreground"><code>user_&#123;UID|Email&#125;</code></td>
                 <td className="py-2.5 px-3">Midnight UTC</td>
               </tr>
               <tr>
                 <td className="py-2.5 px-3 font-semibold text-purple-700">SuperAdmin Tier</td>
                 <td className="py-2.5 px-3 font-mono text-purple-700 font-bold">Unlimited</td>
                 <td className="py-2.5 px-3 font-mono text-purple-700 font-bold">Unlimited</td>
-                <td className="py-2.5 px-3 text-[#64748b]">Verified Admin Email</td>
+                <td className="py-2.5 px-3 text-muted-foreground">Verified Admin Email</td>
                 <td className="py-2.5 px-3">N/A</td>
               </tr>
             </tbody>
@@ -68,17 +68,17 @@ export const RateLimitingDoc: React.FC = () => {
       </section>
 
       {/* Identification & Fingerprinting */}
-      <section id="client-fingerprint" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Identification & Client Device Fingerprinting</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="client-fingerprint" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Identification & Client Device Fingerprinting</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Anonymous traffic uses an in-browser persistent client UUID combined with remote client IP address hashing. When users sign in with Google Firebase Auth, their account transitions to the Authenticated Tier with elevated quotas and automatic audit history synchronization.
         </p>
       </section>
 
       {/* Sliding Window */}
-      <section id="sliding-window" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Sliding Token Bucket Algorithm</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="sliding-window" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Sliding Token Bucket Algorithm</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           The rate limiter maintains an in-memory and Firestore timestamp queue. Requests that exceed the daily quota trigger an HTTP 429 response with time remaining until the next quota replenishment.
         </p>
 
@@ -111,13 +111,13 @@ function checkUserQuota(key: string, isMaster: boolean, tier: 'visitor' | 'user'
       </section>
 
       {/* Response Headers */}
-      <section id="headers-response" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Standard Rate Limit Headers</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="headers-response" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Standard Rate Limit Headers</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           All API responses carry rate limit telemetry headers to allow programmatic clients to monitor quota:
         </p>
 
-        <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 font-mono text-xs space-y-1">
+        <div className="rounded-xl border border-border bg-background p-4 font-mono text-xs space-y-1">
           <div><strong className="text-sky-700">X-RateLimit-Limit:</strong> 10</div>
           <div><strong className="text-sky-700">X-RateLimit-Remaining:</strong> 7</div>
           <div><strong className="text-sky-700">X-RateLimit-Reset:</strong> 1755859200 (Midnight UTC)</div>

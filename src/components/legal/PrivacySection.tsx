@@ -220,7 +220,7 @@ export const PrivacySection: React.FC = () => {
                       <th className="py-2.5 px-3 rounded-r-lg">Third-Party Access</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 text-muted-foreground">
+                  <tbody className="divide-y divide-border text-muted-foreground">
                     <tr className="hover:bg-muted transition-colors">
                       <td className="py-3 px-3 font-bold text-foreground">Target URLs</td>
                       <td className="py-3 px-3 text-[11px]">Domain name &amp; endpoint paths entered</td>

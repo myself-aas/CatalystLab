@@ -78,7 +78,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full bg-[#0d1b2a] border border-[#415a77]/60 rounded-3xl shadow-2xl shadow-black/60 overflow-hidden text-primary-foreground"
+            className="relative w-full bg-[#0d1b2a] border border-border rounded-3xl shadow-2xl shadow-black/60 overflow-hidden text-primary-foreground"
           >
             {/* Close Button */}
             <button
@@ -137,7 +137,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="developer@enterprise.io"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-primary/90 text-primary-foreground placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#00F0FF] focus:border-transparent transition-all"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-primary/90 text-primary-foreground placeholder-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-[#00F0FF] focus:border-transparent transition-all"
                         />
                       </div>
                     </div>

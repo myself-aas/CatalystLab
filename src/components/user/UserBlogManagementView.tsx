@@ -116,9 +116,9 @@ export const UserBlogManagementView: React.FC = () => {
             <span className="rounded-lg bg-sky-100 text-sky-800 p-1.5 border border-sky-200">
               <BookOpen className="h-4 w-4" />
             </span>
-            <h2 className="text-xl font-bold text-[#0b192c]">My Published Articles & Drafts</h2>
+            <h2 className="text-xl font-bold text-foreground">My Published Articles & Drafts</h2>
           </div>
-          <p className="text-xs text-[#64748b] mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             Author and manage your architecture and telemetry articles on CatalystLab.
           </p>
         </div>
@@ -126,7 +126,7 @@ export const UserBlogManagementView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={fetchPosts}
-            className="p-2.5 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="p-2.5 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Refresh articles"
           >
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -159,14 +159,14 @@ export const UserBlogManagementView: React.FC = () => {
       <div className="space-y-3">
         {loading ? (
           <div className="py-16 text-center text-muted-foreground text-sm flex flex-col items-center justify-center">
-            <RefreshCw className="h-7 w-7 animate-spin text-[#0b192c] mb-3" />
-            <div className="font-semibold text-[#0b192c]">Loading Articles...</div>
+            <RefreshCw className="h-7 w-7 animate-spin text-foreground mb-3" />
+            <div className="font-semibold text-foreground">Loading Articles...</div>
             <div className="text-xs text-muted-foreground mt-1">Fetching your published research dossier.</div>
           </div>
         ) : filteredPosts.length === 0 ? (
           <div className="py-16 text-center text-muted-foreground rounded-2xl border border-dashed border-border bg-background p-8 shadow-xs">
             <BookOpen className="mx-auto h-10 w-10 text-muted-foreground mb-3" />
-            <h3 className="text-base font-bold text-[#0b192c]">No Articles Found</h3>
+            <h3 className="text-base font-bold text-foreground">No Articles Found</h3>
             <p className="mt-1 text-xs text-muted-foreground max-w-sm mx-auto">
               You haven't written any articles yet, or no articles match your search filter.
             </p>
@@ -184,7 +184,7 @@ export const UserBlogManagementView: React.FC = () => {
             return (
               <div
                 key={post.id || post.slug}
-                className="rounded-2xl border border-border bg-background p-4 sm:p-5 shadow-xs transition-all hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-2xl border border-border bg-background p-4 sm:p-5 shadow-xs transition-all hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   
@@ -213,8 +213,8 @@ export const UserBlogManagementView: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-[#0b192c] truncate">
-                      <Link to={`/dashboard/blogs/edit/${articleIdOrSlug}`} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                    <h3 className="text-base font-bold text-foreground truncate">
+                      <Link to={`/dashboard/blogs/edit/${articleIdOrSlug}`} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                         {post.title}
                       </Link>
                     </h3>
@@ -233,7 +233,7 @@ export const UserBlogManagementView: React.FC = () => {
                       href={`/blogs/${post.slug || post.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1 rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="View live article"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -243,7 +243,7 @@ export const UserBlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleCopyLink(post)}
-                      className="p-2 rounded-xl border border-border bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="p-2 rounded-xl border border-border bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Copy public link"
                     >
                       {copiedId === (post.id || post.slug) ? (
@@ -256,7 +256,7 @@ export const UserBlogManagementView: React.FC = () => {
                     {/* Dedicated Edit Page Navigation */}
                     <Link
                       to={`/dashboard/blogs/edit/${articleIdOrSlug}`}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3.5 py-1.5 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3.5 py-1.5 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
                       <span>Edit Article</span>
@@ -265,7 +265,7 @@ export const UserBlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleToggleStatus(post)}
-                      className="rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {post.status === 'published' ? 'Draft' : 'Publish'}
                     </button>
@@ -273,7 +273,7 @@ export const UserBlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleDeletePost(post)}
-                      className="p-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="p-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Delete article"
                     >
                       <Trash2 className="h-3.5 w-3.5" />

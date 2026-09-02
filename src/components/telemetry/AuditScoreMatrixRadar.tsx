@@ -582,7 +582,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
           </div>
 
           {/* Matrix Rows */}
-          <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+          <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-border">
             {filteredMatrix.map((dim) => {
               const Icon = dim.icon;
               const isHovered = hoveredAxis === dim.id;

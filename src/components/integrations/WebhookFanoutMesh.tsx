@@ -88,7 +88,7 @@ export const WebhookFanoutMesh: React.FC = () => {
     <div className="rounded-3xl border border-border bg-primary text-primary-foreground p-6 sm:p-10 shadow-2xl relative overflow-hidden">
       {/* Background ambient light */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(6,182,212,0.12)_0%,transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#33415515_1px,transparent_1px),linear-gradient(to_bottom,#33415515_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
 
       <div className="relative z-10">
         {/* Header */}

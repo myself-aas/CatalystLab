@@ -76,11 +76,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b'}} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b'}} dx={-10} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: 'currentColor'}} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: 'currentColor'}} dx={-10} />
                 <Tooltip 
                   contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ color: '#0f172a', fontWeight: 'bold' }}
+                  itemStyle={{ color: 'var(--app-foreground)', fontWeight: 'bold' }}
                 />
                 <Area type="monotone" dataKey="value" stroke="#38bdf8" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
               </AreaChart>

@@ -274,7 +274,7 @@ export const BlogPostPage: React.FC = () => {
                 <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
                   Related Stories
                 </div>
-                <div className="divide-y divide-slate-200 space-y-2.5 pt-1">
+                <div className="divide-y divide-border space-y-2.5 pt-1">
                   {relatedPosts.map((r) => (
                     <div key={r.id} className="pt-2.5 first:pt-0">
                       <Link

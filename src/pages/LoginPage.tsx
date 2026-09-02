@@ -317,7 +317,7 @@ export const LoginPage: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@company.com"
-                      className="block w-full rounded-xl border border-border bg-muted pl-9 pr-3.5 py-2 text-xs font-mono text-foreground placeholder-slate-400 focus:border-border focus:outline-none transition-colors"
+                      className="block w-full rounded-xl border border-border bg-muted pl-9 pr-3.5 py-2 text-xs font-mono text-foreground placeholder-muted-foreground focus:border-border focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -348,7 +348,7 @@ export const LoginPage: React.FC = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••••••"
-                      className="block w-full rounded-xl border border-border bg-muted pl-9 pr-9 py-2 text-xs font-mono text-foreground placeholder-slate-400 focus:border-border focus:outline-none transition-colors"
+                      className="block w-full rounded-xl border border-border bg-muted pl-9 pr-9 py-2 text-xs font-mono text-foreground placeholder-muted-foreground focus:border-border focus:outline-none transition-colors"
                     />
                     <button
                       type="button"
@@ -407,7 +407,7 @@ export const LoginPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@company.com"
-                    className="block w-full rounded-xl border border-border bg-muted pl-9 pr-3.5 py-2 text-xs font-mono text-foreground placeholder-slate-400 focus:border-border focus:outline-none transition-colors"
+                    className="block w-full rounded-xl border border-border bg-muted pl-9 pr-3.5 py-2 text-xs font-mono text-foreground placeholder-muted-foreground focus:border-border focus:outline-none transition-colors"
                   />
                 </div>
               </div>

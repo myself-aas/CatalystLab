@@ -39,9 +39,9 @@ export const PlaygroundCatalogPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-[#0b192c]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Hero Banner */}
-      <div className="border-b border-[#e2e8f0] bg-background pt-12 pb-14">
+      <div className="border-b border-border bg-background pt-12 pb-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div className="max-w-3xl space-y-4">
@@ -49,7 +49,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
                 <Terminal className="h-3.5 w-3.5" />
                 <span>Interactive Developer Playground</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#0b192c]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground">
                 API & Engine Test Sandbox
               </h1>
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
@@ -61,9 +61,9 @@ export const PlaygroundCatalogPage: React.FC = () => {
             <div className="rounded-2xl border border-border bg-muted p-5 shadow-sm space-y-2 min-w-[240px]">
               <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
                 <span>Active Quota Tier</span>
-                <span className="font-bold uppercase text-[#0b192c]">{rateStatus.tier}</span>
+                <span className="font-bold uppercase text-foreground">{rateStatus.tier}</span>
               </div>
-              <div className="text-2xl font-black text-[#0b192c]">
+              <div className="text-2xl font-black text-foreground">
                 {rateStatus.isUnlimited ? '∞ Unlimited' : `${rateStatus.remaining} / ${rateStatus.limit}`}
               </div>
               <p className="text-[11px] text-muted-foreground">
@@ -87,9 +87,9 @@ export const PlaygroundCatalogPage: React.FC = () => {
           <div className="flex-1 space-y-10 min-w-0">
             
             {/* Quick Test Launch Form */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6">
+            <section className="rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-6">
               <div>
-                <h2 className="text-xl font-bold text-[#0b192c] flex items-center gap-2">
+                <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                   <Zap className="h-5 w-5 text-amber-500" />
                   <span>Launch Live Diagnostic Test</span>
                 </h2>
@@ -125,7 +125,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
             {/* Diagnostic Engines Sandbox Catalog */}
             <section className="space-y-6">
               <div>
-                <h2 className="text-xl font-bold text-[#0b192c]">Interactive Engine Consoles</h2>
+                <h2 className="text-xl font-bold text-foreground">Interactive Engine Consoles</h2>
                 <p className="text-xs text-muted-foreground mt-0.5">Click any engine to open its dedicated interactive test sandbox</p>
               </div>
 
@@ -136,19 +136,19 @@ export const PlaygroundCatalogPage: React.FC = () => {
                     <Link
                       key={engine.id}
                       to={`/playground/${engine.id}`}
-                      className="group rounded-3xl border border-[#e2e8f0] bg-background p-6 shadow-sm hover:shadow-md hover:border-[#415a77]/40 transition-all flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="group rounded-3xl border border-border bg-background p-6 shadow-sm hover:shadow-md hover:border-border transition-all flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 border border-sky-100 text-[#0b192c]">
-                            <Icon className="h-5 w-5 text-[#415a77] group-hover:scale-110 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" />
+                          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 border border-sky-100 text-foreground">
+                            <Icon className="h-5 w-5 text-muted-foreground group-hover:scale-110 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                           </div>
                           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-accent text-muted-foreground">
                             {engine.category}
                           </span>
                         </div>
 
-                        <h3 className="text-lg font-bold text-[#0b192c] group-hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                        <h3 className="text-lg font-bold text-foreground group-hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                           {engine.name}
                         </h3>
                         <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
@@ -160,7 +160,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
                         <span className="font-mono text-muted-foreground">
                           Cost: <strong>{engine.cost} scan credit</strong>
                         </span>
-                        <span className="font-bold text-sky-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                        <span className="font-bold text-sky-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                           <span>Open Console</span>
                           <ArrowRight className="h-3.5 w-3.5" />
                         </span>

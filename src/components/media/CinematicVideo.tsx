@@ -136,7 +136,7 @@ export const CinematicVideo: React.FC<CinematicVideoProps> = ({
           />
         ) : (
           <div
-            className="w-full h-full bg-gradient-to-br from-slate-950 via-[#0A0F20] to-[#04060E]"
+            className="w-full h-full bg-gradient-to-br from-background via-[#0A0F20] to-[#04060E]"
             aria-label={finalAlt}
           />
         )}

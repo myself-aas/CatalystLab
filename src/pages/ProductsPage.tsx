@@ -128,7 +128,7 @@ export default {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-muted py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-border">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
         <div className="relative z-10 mx-auto max-w-7xl">
@@ -160,21 +160,21 @@ export default {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a 
               href="#domain-configurator"
-              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-5 py-3 text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-5 py-3 text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring font-sans"
             >
               <Sliders className="h-4 w-4 text-blue-400" />
               <span>Configure Domain Monitor</span>
             </a>
             <Link
               to="/dashboard?tab=monitoring"
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-background hover:bg-muted text-foreground hover:text-foreground hover:border-border px-5 py-3 text-xs sm:text-sm transition-all shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 font-sans font-semibold"
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-background hover:bg-muted text-foreground hover:text-foreground hover:border-border px-5 py-3 text-xs sm:text-sm transition-all shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring font-sans font-semibold"
             >
               <Activity className="h-4 w-4 text-emerald-600" />
               <span>View Monitored Domains</span>
             </Link>
             <Link
               to="/api-docs"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-transparent text-muted-foreground hover:text-foreground px-4 py-3 text-xs sm:text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-transparent text-muted-foreground hover:text-foreground px-4 py-3 text-xs sm:text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Code2 className="h-4 w-4" />
               <span>API Docs →</span>
@@ -574,7 +574,7 @@ export default {
                 </div>
                 <button
                   onClick={() => copyToClipboard(generateConfigJson(), 'config-json')}
-                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-background/5 hover:bg-background/10 text-muted-foreground hover:text-foreground px-3 py-1.5 text-xs font-sans font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-background/5 hover:bg-background/10 text-muted-foreground hover:text-foreground px-3 py-1.5 text-xs font-sans font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {copiedSnippet === 'config-json' ? (
                     <>
@@ -602,7 +602,7 @@ export default {
                 </div>
                 <Link
                   to={`/dashboard?tab=monitoring&domain=${encodeURIComponent(targetDomain)}`}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-5 py-2.5 text-xs transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-5 py-2.5 text-xs transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <PlusCircle className="h-4 w-4 text-muted-foreground" />
                   <span>Add to My Dashboard</span>
@@ -645,7 +645,7 @@ export default {
                   </div>
                   <button
                     onClick={() => copyToClipboard(sampleGithubActionYaml, 'gh-yaml')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-accent text-xs font-sans font-medium text-muted-foreground border border-border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-accent text-xs font-sans font-medium text-muted-foreground border border-border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copiedSnippet === 'gh-yaml' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedSnippet === 'gh-yaml' ? 'Copied' : 'Copy'}</span>
@@ -670,7 +670,7 @@ export default {
                   </div>
                   <button
                     onClick={() => copyToClipboard(sampleCloudflareWorker, 'cf-worker')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-accent text-xs font-sans font-medium text-muted-foreground border border-border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-accent text-xs font-sans font-medium text-muted-foreground border border-border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copiedSnippet === 'cf-worker' ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copiedSnippet === 'cf-worker' ? 'Copied' : 'Copy'}</span>
@@ -691,7 +691,7 @@ export default {
         {/* Section 4: Enterprise & SLA CTA Banner */}
         <section className="rounded-3xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-md relative overflow-hidden">
           {/* subtle noise/pattern could go here */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-800 via-transparent to-transparent opacity-50" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-background via-transparent to-transparent opacity-50" />
           
           <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="space-y-4 text-center lg:text-left max-w-2xl">
@@ -710,14 +710,14 @@ export default {
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <Link
                 to="/pricing"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-6 py-3 text-sm transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-6 py-3 text-sm transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <span>View Enterprise Pricing</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted hover:bg-muted/80 text-primary-foreground px-6 py-3 text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted hover:bg-muted/80 text-primary-foreground px-6 py-3 text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <span>Contact Engineering</span>
               </Link>

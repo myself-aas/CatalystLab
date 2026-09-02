@@ -248,20 +248,20 @@ func main() {
   const codeSnippet = generateSnippet();
 
   return (
-    <div className="min-h-screen bg-background text-[#0b192c]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Rate Limit Modal Alert */}
       {rateLimitAlertOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4">
           <div className="w-full max-w-lg rounded-2xl bg-background p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-[#0b192c]">Rate Limit Exceeded</h3>
-              <button onClick={() => setRateLimitAlertOpen(false)} className="text-muted-foreground hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">✕</button>
+              <h3 className="text-lg font-bold text-foreground">Rate Limit Exceeded</h3>
+              <button onClick={() => setRateLimitAlertOpen(false)} className="text-muted-foreground hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">✕</button>
             </div>
             <RateLimitThresholdAlert currentStatus={rateStatus} />
             <div className="flex justify-end">
               <button
                 onClick={() => setRateLimitAlertOpen(false)}
-                className="rounded-xl bg-[#0b192c] px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-[#152238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-xl bg-background px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Close
               </button>
@@ -271,21 +271,21 @@ func main() {
       )}
 
       {/* Header Banner */}
-      <div className="border-b border-[#e2e8f0] bg-background pt-10 pb-12">
+      <div className="border-b border-border bg-background pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
-              <Link to="/playground" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <Link to="/playground" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 Playground
               </Link>
               <span>/</span>
-              <span className="text-[#0b192c] font-bold">{activeEngineConfig.name}</span>
+              <span className="text-foreground font-bold">{activeEngineConfig.name}</span>
             </div>
 
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2.5">
-                  <h1 className="text-2xl sm:text-3xl font-black text-[#0b192c]">
+                  <h1 className="text-2xl sm:text-3xl font-black text-foreground">
                     {activeEngineConfig.name} Console
                   </h1>
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-sky-100 text-sky-800">
@@ -300,14 +300,14 @@ func main() {
               <div className="flex items-center gap-3">
                 <Link
                   to="/playground"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>All Consoles</span>
                 </Link>
                 <Link
                   to="/api-reference/category/engines"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-50 border border-sky-200 px-3.5 py-2 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-50 border border-sky-200 px-3.5 py-2 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Code2 className="h-3.5 w-3.5 text-sky-600" />
                   <span>API Docs</span>
@@ -329,16 +329,16 @@ func main() {
           <div className="flex-1 space-y-8 min-w-0">
             
             {/* Target Configuration Card */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6">
+            <section className="rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
-                  <Sliders className="h-5 w-5 text-[#415a77]" />
-                  <h2 className="text-lg font-bold text-[#0b192c]">Request Parameters</h2>
+                  <Sliders className="h-5 w-5 text-muted-foreground" />
+                  <h2 className="text-lg font-bold text-foreground">Request Parameters</h2>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
                   <span>Quota Cost:</span>
-                  <strong className="text-[#0b192c] bg-accent px-2 py-0.5 rounded">
+                  <strong className="text-foreground bg-accent px-2 py-0.5 rounded">
                     {activeEngineConfig.cost} scan credit
                   </strong>
                 </div>
@@ -369,7 +369,7 @@ func main() {
                     ) : (
                       <div className="rounded-xl border border-dashed border-border bg-muted px-3 py-2 text-[11px] text-muted-foreground flex items-center justify-between">
                         <span>No saved API keys</span>
-                        <Link to="/dashboard" className="text-sky-700 font-bold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+                        <Link to="/dashboard" className="text-sky-700 font-bold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                           Create
                         </Link>
                       </div>
@@ -390,12 +390,12 @@ func main() {
             </section>
 
             {/* Execution Telemetry & Terminal Output */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6">
+            <section className="rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2.5">
                   <Terminal className="h-5 w-5 text-emerald-600" />
                   <div>
-                    <h2 className="text-lg font-bold text-[#0b192c]">Live Execution Console</h2>
+                    <h2 className="text-lg font-bold text-foreground">Live Execution Console</h2>
                     <p className="text-[11px] text-muted-foreground font-mono">
                       Runtime: Python 3.11 Container • Sandboxed VM
                     </p>
@@ -422,7 +422,7 @@ func main() {
               </div>
 
               {/* Terminal View */}
-              <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto min-h-[160px] border border-[#415a77]/30 shadow-inner">
+              <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto min-h-[160px] border border-border shadow-inner">
                 {loading && (
                   <div className="flex items-center gap-2 text-amber-400 mb-2">
                     <RotateCw className="h-3.5 w-3.5 animate-spin" />
@@ -437,16 +437,16 @@ func main() {
 
             {/* Structured JSON Response Inspector */}
             {jsonResponse && (
-              <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-4">
+              <section className="rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-4">
                 <div className="flex items-center justify-between border-b border-border pb-4">
                   <div className="flex items-center gap-2">
                     <FileJson className="h-5 w-5 text-amber-500" />
-                    <h2 className="text-lg font-bold text-[#0b192c]">Parsed JSON Response Payload</h2>
+                    <h2 className="text-lg font-bold text-foreground">Parsed JSON Response Payload</h2>
                   </div>
 
                   <button
                     onClick={() => handleCopy('json', JSON.stringify(jsonResponse, null, 2))}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copiedKey === 'json' ? (
                       <>
@@ -462,7 +462,7 @@ func main() {
                   </button>
                 </div>
 
-                <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30 max-h-[400px]">
+                <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border max-h-[400px]">
                   <pre className="text-sky-300 leading-relaxed">
                     {JSON.stringify(jsonResponse, null, 2)}
                   </pre>
@@ -471,11 +471,11 @@ func main() {
             )}
 
             {/* Copyable cURL & SDK Snippet Generator (Language dropdown, NO TABVIEW!) */}
-            <section className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-4">
+            <section className="rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
                 <div className="flex items-center gap-2">
-                  <Code2 className="h-5 w-5 text-[#415a77]" />
-                  <h2 className="text-lg font-bold text-[#0b192c]">Code Export</h2>
+                  <Code2 className="h-5 w-5 text-muted-foreground" />
+                  <h2 className="text-lg font-bold text-foreground">Code Export</h2>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -496,7 +496,7 @@ func main() {
 
                   <button
                     onClick={() => handleCopy('code', codeSnippet)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     {copiedKey === 'code' ? (
                       <>
@@ -513,7 +513,7 @@ func main() {
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
+              <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
                 <pre className="text-amber-300 whitespace-pre leading-relaxed">
                   {codeSnippet}
                 </pre>

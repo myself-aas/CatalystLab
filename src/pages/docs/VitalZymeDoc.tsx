@@ -22,18 +22,18 @@ export const VitalZymeDoc: React.FC = () => {
           <Activity className="h-3.5 w-3.5" />
           <span>SDLC Phase 4: DOM & Performance Engine</span>
         </div>
-        <h1 className="text-3xl font-extrabold text-[#0b192c] tracking-tight">
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
           VitalZyme: DOM Health & Core Web Vitals Engine
         </h1>
-        <p className="text-base text-[#415a77] leading-relaxed">
+        <p className="text-base text-muted-foreground leading-relaxed">
           VitalZyme parses the complete HTML Abstract Syntax Tree (AST) using non-evaluating streaming parsers to quantify maximum tree depth, total element count, image dimension layout stability, synchronous render-blocking scripts, and wire transfer compression ratios.
         </p>
       </section>
 
       {/* DOM Traversal */}
-      <section id="dom-traversal" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">DOM Tree Recursion Algorithm</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="dom-traversal" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">DOM Tree Recursion Algorithm</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Calculates precise nesting depth and total node counts without browser memory leaks:
         </p>
 
@@ -77,11 +77,11 @@ export function analyzeDomTree(html: string) {
       </section>
 
       {/* Metrics Thresholds */}
-      <section id="metrics-thresholds" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">DOM & Performance Evaluation Thresholds</h2>
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
+      <section id="metrics-thresholds" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">DOM & Performance Evaluation Thresholds</h2>
+        <div className="overflow-x-auto rounded-xl border border-border bg-background">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
+            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Metric</th>
                 <th className="py-2.5 px-3">Good (Pass)</th>
@@ -89,7 +89,7 @@ export function analyzeDomTree(html: string) {
                 <th className="py-2.5 px-3">Critical (Fail)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-[#0b192c]">
+            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
               <tr>
                 <td className="py-2.5 px-3 font-semibold">DOM Tree Depth</td>
                 <td className="py-2.5 px-3 font-mono text-emerald-700 font-bold">&le; 24 levels</td>
@@ -120,9 +120,9 @@ export function analyzeDomTree(html: string) {
       </section>
 
       {/* NGINX Recipe */}
-      <section id="nginx-optimization" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Production NGINX Compression Configuration</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="nginx-optimization" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Production NGINX Compression Configuration</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Enable Gzip and Brotli compression to shrink HTML payloads by up to 82%:
         </p>
 

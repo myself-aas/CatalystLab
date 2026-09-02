@@ -817,7 +817,7 @@ export const UserDashboardPage: React.FC = () => {
                       <th className="px-4 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200">
+                  <tbody className="divide-y divide-border">
                     {filteredReports.map((report) => {
                       const domain = extractDomainFromUrl(report.url);
                       const isMaster = report.engine === 'all' || report.engine === 'master';

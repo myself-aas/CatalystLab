@@ -19,18 +19,18 @@ import { CardMedia } from './CardMedia';
 import { useSpotlight } from '../hooks/useSpotlight';
 
 export const cardVariants = cva(
-  'group relative overflow-hidden transition-all duration-300 ease-out border text-left',
+  'group relative overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] border text-left',
   {
     variants: {
       variant: {
         immersive:
-          'bg-zinc-950/60 text-primary-foreground rounded-[16px] border border-zinc-800/80 shadow-lg backdrop-blur-xl hover:border-zinc-700/80 hover:bg-zinc-900/60 transition-colors',
+          'bg-gradient-to-b from-white/[0.07] to-white/[0.02] text-foreground rounded-2xl border border-white/[0.06] shadow-linear-card backdrop-blur-xl hover:border-white/10 hover:bg-white/[0.08] hover:shadow-linear-card-hover',
         surface:
-          'bg-zinc-950/40 text-zinc-100 rounded-[16px] border border-zinc-800/80 shadow-sm p-3.5 sm:p-4 hover:border-zinc-700 hover:bg-zinc-900/40 hover:shadow-cyan-500/10 transition-all',
+          'bg-white/[0.04] text-foreground rounded-2xl border border-white/[0.06] shadow-sm p-3.5 sm:p-4 hover:border-white/10 hover:bg-white/[0.07] hover:shadow-linear-card-hover',
         terminal:
-          'bg-zinc-950/90 text-zinc-100 rounded-[16px] border border-zinc-800 scanline-overlay font-mono shadow-md backdrop-blur-xl p-5 sm:p-6 hover:border-zinc-700 hover:shadow-indigo-500/10 transition-colors',
+          'bg-[#0a0a0c]/90 text-foreground rounded-2xl border border-white/[0.08] scanline-overlay font-mono shadow-linear-card backdrop-blur-xl p-5 sm:p-6 hover:border-accent/40 hover:shadow-linear-card-hover',
         swatch:
-          'bg-zinc-900/80 text-zinc-200 rounded-[16px] border border-zinc-800 p-4 font-mono shadow-md hover:border-zinc-700 hover:bg-zinc-800/80 transition-colors',
+          'bg-white/[0.05] text-foreground rounded-2xl border border-white/[0.06] p-4 font-mono shadow-sm hover:border-white/10 hover:bg-white/[0.08]',
       },
       hue: {
         vitalzyme: 'card-hue-vitalzyme',
@@ -44,11 +44,11 @@ export const cardVariants = cva(
         neutral: 'card-hue-neutral',
       },
       lift: {
-        true: 'hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_var(--card-glow,rgba(0,0,0,0.5))]',
+        true: 'hover:-translate-y-1 hover:shadow-linear-card-hover',
         false: '',
       },
       active: {
-        true: 'card-active-lift -translate-y-4 scale-[1.01]',
+        true: 'card-active-lift -translate-y-2 scale-[1.005]',
         false: '',
       },
     },

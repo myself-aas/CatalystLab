@@ -25,10 +25,10 @@ export const SystemOverviewDoc: React.FC = () => {
           <span className="h-1.5 w-1.5 rounded-full bg-sky-600" />
           <span>CatalystLab Core Architecture</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0b192c] tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
           System Overview & Engineering Philosophy
         </h1>
-        <p className="text-base text-[#415a77] leading-relaxed">
+        <p className="text-base text-muted-foreground leading-relaxed">
           CatalystLab is an enterprise-grade automated telemetry and web quality intelligence platform. It orchestrates synchronous diagnostics across 8 isolated evaluation modules to measure Core Web Vitals, AI LLM crawler accessibility, Git repository hygiene, multi-region edge latency, OWASP compliance, and green hosting carbon metrics.
         </p>
       </section>
@@ -70,44 +70,44 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* Key Architectural Tenets */}
       <section className="space-y-4">
-        <h2 className="text-xl font-bold text-[#0b192c]">Four Core Principles</h2>
+        <h2 className="text-xl font-bold text-foreground">Four Core Principles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
-            <div className="flex items-center gap-2 font-bold text-[#0b192c]">
+          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+            <div className="flex items-center gap-2 font-bold text-foreground">
               <Zap className="h-4 w-4 text-amber-500" />
               <span>1. Sub-Second Determinism</span>
             </div>
-            <p className="text-[#64748b] leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               Every audit returns within 800ms to 2.5s with zero cold-boot overhead, enabling seamless integration into CI/CD build gates.
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
-            <div className="flex items-center gap-2 font-bold text-[#0b192c]">
+          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+            <div className="flex items-center gap-2 font-bold text-foreground">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               <span>2. Zero-Trust Security</span>
             </div>
-            <p className="text-[#64748b] leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               Strict SSRF mitigation, regex shell escapes, memory caps, and process timeouts protect against malicious target domains.
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
-            <div className="flex items-center gap-2 font-bold text-[#0b192c]">
+          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+            <div className="flex items-center gap-2 font-bold text-foreground">
               <Activity className="h-4 w-4 text-sky-600" />
               <span>3. Standardized Output Schema</span>
             </div>
-            <p className="text-[#64748b] leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               All 8 engines emit uniform JSON telemetry with score indexes (0–100), passing statuses, and actionable remediation instructions.
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#e2e8f0] bg-background p-4 shadow-xs space-y-1.5">
-            <div className="flex items-center gap-2 font-bold text-[#0b192c]">
+          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+            <div className="flex items-center gap-2 font-bold text-foreground">
               <Database className="h-4 w-4 text-purple-600" />
               <span>4. Durable Permalinks</span>
             </div>
-            <p className="text-[#64748b] leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               Dossier snapshots are automatically indexed into permanent shareable reports (e.g. <code>/reports/example-com</code>).
             </p>
           </div>
@@ -116,14 +116,14 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* SDLC Catalysts Summary */}
       <section id="engines-summary" className="space-y-4">
-        <h2 className="text-xl font-bold text-[#0b192c]">The 8 SDLC Catalysts</h2>
-        <p className="text-sm text-[#415a77]">
+        <h2 className="text-xl font-bold text-foreground">The 8 SDLC Catalysts</h2>
+        <p className="text-sm text-muted-foreground">
           CatalystLab divides modern web telemetry into 8 specialized diagnostic vectors:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
+        <div className="overflow-x-auto rounded-xl border border-border bg-background">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
+            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Phase / Engine</th>
                 <th className="py-2.5 px-3">Diagnostic Vector</th>
@@ -131,69 +131,69 @@ export const SystemOverviewDoc: React.FC = () => {
                 <th className="py-2.5 px-3">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-[#0b192c]">
+            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-semibold text-orange-600">1. SynthShift</td>
-                <td className="py-2 px-3 text-[#415a77]">Platform Migration & System Blueprint</td>
+                <td className="py-2 px-3 text-muted-foreground">Platform Migration & System Blueprint</td>
                 <td className="py-2 px-3 text-xs font-mono">Firebase + Mongo Schemas</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/synthshift" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/synthshift" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-semibold text-green-700">2. GitLygase</td>
-                <td className="py-2 px-3 text-[#415a77]">Git Repository SecOps & Hygiene</td>
+                <td className="py-2 px-3 text-muted-foreground">Git Repository SecOps & Hygiene</td>
                 <td className="py-2 px-3 text-xs font-mono">License, SECURITY.md, CI</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/gitlygase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/gitlygase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-semibold text-emerald-700">3. EcoHolo</td>
-                <td className="py-2 px-3 text-[#415a77]">Sustainable Web Carbon Footprint</td>
+                <td className="py-2 px-3 text-muted-foreground">Sustainable Web Carbon Footprint</td>
                 <td className="py-2 px-3 text-xs font-mono">SWD v4 (g CO2 / view)</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/ecoholo" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/ecoholo" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-semibold text-sky-700">4. VitalZyme</td>
-                <td className="py-2 px-3 text-[#415a77]">Core Web Vitals & DOM Tree Depth</td>
+                <td className="py-2 px-3 text-muted-foreground">Core Web Vitals & DOM Tree Depth</td>
                 <td className="py-2 px-3 text-xs font-mono">Tree Depth, Total Nodes</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/vitalzyme" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/vitalzyme" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-semibold text-pink-700">5. EdgeVmax</td>
-                <td className="py-2 px-3 text-[#415a77]">Multi-PoP Global Edge Latency</td>
+                <td className="py-2 px-3 text-muted-foreground">Multi-PoP Global Edge Latency</td>
                 <td className="py-2 px-3 text-xs font-mono">12-Region Synthetic TTFB</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/edgevmax" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/edgevmax" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-semibold text-amber-700">6. RiskProtease</td>
-                <td className="py-2 px-3 text-[#415a77]">OWASP Security & Compliance</td>
+                <td className="py-2 px-3 text-muted-foreground">OWASP Security & Compliance</td>
                 <td className="py-2 px-3 text-xs font-mono">HSTS, CSP, WCAG 2.2 AA</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/riskprotease" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/riskprotease" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-semibold text-purple-700">7. LLM-Kinase</td>
-                <td className="py-2 px-3 text-[#415a77]">AI Readiness & llms.txt Discovery</td>
+                <td className="py-2 px-3 text-muted-foreground">AI Readiness & llms.txt Discovery</td>
                 <td className="py-2 px-3 text-xs font-mono">GPTBot, JSON-LD Schemas</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/llm-kinase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/llm-kinase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-semibold text-indigo-700">8. AllosterSearch</td>
-                <td className="py-2 px-3 text-[#415a77]">AI Search Engine Optimization (LLMO)</td>
+                <td className="py-2 px-3 text-muted-foreground">AI Search Engine Optimization (LLMO)</td>
                 <td className="py-2 px-3 text-xs font-mono">RAG Density, E-E-A-T Index</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/allostersearch" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">Explore Docs →</Link>
+                  <Link to="/docs/allostersearch" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
             </tbody>
@@ -203,11 +203,11 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* Next Steps */}
       <section id="next-steps" className="space-y-4">
-        <h2 className="text-xl font-bold text-[#0b192c]">Next Steps</h2>
+        <h2 className="text-xl font-bold text-foreground">Next Steps</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
           <Link
             to="/products#webhook-mesh"
-            className="rounded-xl border border-sky-300 bg-sky-50/50 p-4 hover:border-sky-400 hover:bg-sky-50 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-sky-300 bg-sky-50/50 p-4 hover:border-sky-400 hover:bg-sky-50 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="font-bold text-sky-900 group-hover:text-sky-700 flex items-center justify-between">
               <span>Edge Mesh &amp; Webhooks</span>
@@ -218,35 +218,35 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/architecture"
-            className="rounded-xl border border-[#e2e8f0] bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-border bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-foreground group-hover:text-sky-700 flex items-center justify-between">
               <span>Full-Stack Architecture</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
-            <p className="text-xs text-[#64748b] mt-1">Explore ingress, worker processes & Firestore storage.</p>
+            <p className="text-xs text-muted-foreground mt-1">Explore ingress, worker processes & Firestore storage.</p>
           </Link>
 
           <Link
             to="/docs/api"
-            className="rounded-xl border border-[#e2e8f0] bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-border bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-foreground group-hover:text-sky-700 flex items-center justify-between">
               <span>REST API Spec</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
-            <p className="text-xs text-[#64748b] mt-1">Programmatic endpoint schemas and execution parameters.</p>
+            <p className="text-xs text-muted-foreground mt-1">Programmatic endpoint schemas and execution parameters.</p>
           </Link>
 
           <Link
             to="/docs/synthshift"
-            className="rounded-xl border border-[#e2e8f0] bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-border bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="font-bold text-[#0b192c] group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-foreground group-hover:text-sky-700 flex items-center justify-between">
               <span>Engine Deep-Dives</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
-            <p className="text-xs text-[#64748b] mt-1">Detailed blueprints, calculations, and remediation guides.</p>
+            <p className="text-xs text-muted-foreground mt-1">Detailed blueprints, calculations, and remediation guides.</p>
           </Link>
         </div>
       </section>

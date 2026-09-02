@@ -189,7 +189,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       
       {/* Header Banner */}
       <section className="relative overflow-hidden border-b border-border bg-muted px-4 py-14 sm:py-18 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
         <div className="relative z-10 mx-auto max-w-4xl text-center">

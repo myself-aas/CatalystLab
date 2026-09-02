@@ -226,16 +226,16 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
   const chartData = getChartInsights();
 
   return (
-    <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] p-6 sm:p-8 text-primary-foreground shadow-xl space-y-6">
+    <div className="rounded-3xl border border-border bg-background p-6 sm:p-8 text-primary-foreground shadow-xl space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#415a77]/30 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8]">
             <Sparkles className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-lg font-extrabold text-[#f8fafc]">Automated Audit Insights & Deep-Dive Analysis</h3>
-            <p className="text-xs text-[#c5d3e8] mt-0.5">
+            <h3 className="text-lg font-extrabold text-foreground">Automated Audit Insights & Deep-Dive Analysis</h3>
+            <p className="text-xs text-muted-foreground mt-0.5">
               Deterministic, human-readable intelligence synthesized directly from {meta.name} telemetry data
             </p>
           </div>
@@ -244,7 +244,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
 
       {/* 1. Executive Telemetry Synthesis */}
       <div className="space-y-4">
-        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30">
+        <div className="p-5 rounded-2xl bg-muted/80 border border-border">
           <h4 className="text-sm font-bold text-[#38bdf8] mb-2 flex items-center gap-2">
             <Activity className="h-4 w-4" />
             <span>Executive Telemetry Synthesis</span>
@@ -255,32 +255,32 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
+          <div className="p-4 rounded-2xl bg-muted/50 border border-border flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/30">
               <AlertTriangle className="h-4 w-4" />
             </div>
             <div>
-              <div className="text-xs text-[#c5d3e8]">Critical Constraints</div>
+              <div className="text-xs text-muted-foreground">Critical Constraints</div>
               <div className="text-lg font-bold text-rose-400">{issues.critical} Items Flagged</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
+          <div className="p-4 rounded-2xl bg-muted/50 border border-border flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30">
               <TrendingUp className="h-4 w-4" />
             </div>
             <div>
-              <div className="text-xs text-[#c5d3e8]">Performance Warnings</div>
+              <div className="text-xs text-muted-foreground">Performance Warnings</div>
               <div className="text-lg font-bold text-amber-400">{issues.warning} Warnings</div>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-[#152238]/50 border border-[#415a77]/30 flex items-center gap-3">
+          <div className="p-4 rounded-2xl bg-muted/50 border border-border flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
               <ShieldCheck className="h-4 w-4" />
             </div>
             <div>
-              <div className="text-xs text-[#c5d3e8]">Optimized Parameters</div>
+              <div className="text-xs text-muted-foreground">Optimized Parameters</div>
               <div className="text-lg font-bold text-emerald-400">{issues.info} Verified</div>
             </div>
           </div>
@@ -290,7 +290,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
       {/* 2. Structured Telemetry & Chart Breakdowns (Stacked Grid, No Tabviews) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-2">
         {/* Chart 1 Insight Card */}
-        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3 flex flex-col justify-between">
+        <div className="p-5 rounded-2xl bg-muted/80 border border-border space-y-3 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
@@ -303,7 +303,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
               <p className="text-[#94a3b8]">{chartData.chart1.summary}</p>
             </div>
           </div>
-          <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
+          <div className="p-3 rounded-xl bg-background border border-border flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <strong className="text-primary-foreground block">Action:</strong>
@@ -313,7 +313,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
         </div>
 
         {/* Chart 2 Insight Card */}
-        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3 flex flex-col justify-between">
+        <div className="p-5 rounded-2xl bg-muted/80 border border-border space-y-3 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
@@ -326,7 +326,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
               <p className="text-[#94a3b8]">{chartData.chart2.summary}</p>
             </div>
           </div>
-          <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
+          <div className="p-3 rounded-xl bg-background border border-border flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <strong className="text-primary-foreground block">Action:</strong>
@@ -336,7 +336,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
         </div>
 
         {/* Chart 3 Insight Card */}
-        <div className="p-5 rounded-2xl bg-[#152238]/80 border border-[#415a77]/30 space-y-3 flex flex-col justify-between">
+        <div className="p-5 rounded-2xl bg-muted/80 border border-border space-y-3 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
@@ -349,7 +349,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
               <p className="text-[#94a3b8]">{chartData.chart3.summary}</p>
             </div>
           </div>
-          <div className="p-3 rounded-xl bg-[#0b192c] border border-[#415a77]/40 flex items-start gap-2 text-xs mt-3">
+          <div className="p-3 rounded-xl bg-background border border-border flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <strong className="text-primary-foreground block">Action:</strong>

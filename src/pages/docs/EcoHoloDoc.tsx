@@ -22,18 +22,18 @@ export const EcoHoloDoc: React.FC = () => {
           <Leaf className="h-3.5 w-3.5" />
           <span>SDLC Phase 3: Carbon Footprint Engine</span>
         </div>
-        <h1 className="text-3xl font-extrabold text-[#0b192c] tracking-tight">
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
           EcoHolo: Sustainable Web & Carbon Audit Engine
         </h1>
-        <p className="text-base text-[#415a77] leading-relaxed">
+        <p className="text-base text-muted-foreground leading-relaxed">
           EcoHolo measures the environmental impact of web endpoints using the Sustainable Web Design (SWD) Model v4 standard. It quantifies data transfer energy consumption (kWh), estimates greenhouse gas emissions (g CO2 per page view), and queries the Green Web Foundation API to verify renewable energy usage.
         </p>
       </section>
 
       {/* SWD Formula */}
-      <section id="swd-formula" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">SWD Model v4 Mathematical Calculation</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="swd-formula" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">SWD Model v4 Mathematical Calculation</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           The SWD v4 algorithm divides digital energy into four operational segments: data center (15%), network transmission (14%), user device (52%), and hardware manufacturing embodied carbon (19%):
         </p>
 
@@ -65,11 +65,11 @@ export function calculateCarbonEmissions(bytesTransferred: number, isGreenHosted
       </section>
 
       {/* Carbon Rating Thresholds */}
-      <section id="carbon-thresholds" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Carbon Rating Thresholds (A+ to F)</h2>
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
+      <section id="carbon-thresholds" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Carbon Rating Thresholds (A+ to F)</h2>
+        <div className="overflow-x-auto rounded-xl border border-border bg-background">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
+            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Rating Tier</th>
                 <th className="py-2.5 px-3">Grams CO2 / Page Load</th>
@@ -77,29 +77,29 @@ export function calculateCarbonEmissions(bytesTransferred: number, isGreenHosted
                 <th className="py-2.5 px-3">Target Payload</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-[#0b192c]">
+            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-bold text-emerald-700">A+ (Eco Elite)</td>
                 <td className="py-2 px-3 font-mono font-bold text-emerald-700">&le; 0.095 g</td>
-                <td className="py-2 px-3 text-[#64748b]">Cleaner than 95% of the web</td>
+                <td className="py-2 px-3 text-muted-foreground">Cleaner than 95% of the web</td>
                 <td className="py-2 px-3 font-mono text-xs">&lt; 150 KB</td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-bold text-emerald-600">A (Sustainable)</td>
                 <td className="py-2 px-3 font-mono font-bold text-emerald-600">0.096 – 0.185 g</td>
-                <td className="py-2 px-3 text-[#64748b]">Cleaner than 85% of the web</td>
+                <td className="py-2 px-3 text-muted-foreground">Cleaner than 85% of the web</td>
                 <td className="py-2 px-3 font-mono text-xs">&lt; 400 KB</td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-bold text-sky-600">B (Good)</td>
                 <td className="py-2 px-3 font-mono font-bold text-sky-600">0.186 – 0.340 g</td>
-                <td className="py-2 px-3 text-[#64748b]">Cleaner than 70% of the web</td>
+                <td className="py-2 px-3 text-muted-foreground">Cleaner than 70% of the web</td>
                 <td className="py-2 px-3 font-mono text-xs">&lt; 800 KB</td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-bold text-amber-600">C (Moderate)</td>
                 <td className="py-2 px-3 font-mono font-bold text-amber-600">0.341 – 0.530 g</td>
-                <td className="py-2 px-3 text-[#64748b]">Industry standard baseline</td>
+                <td className="py-2 px-3 text-muted-foreground">Industry standard baseline</td>
                 <td className="py-2 px-3 font-mono text-xs">&lt; 1.5 MB</td>
               </tr>
               <tr>
@@ -114,9 +114,9 @@ export function calculateCarbonEmissions(bytesTransferred: number, isGreenHosted
       </section>
 
       {/* Green Web Foundation */}
-      <section id="green-hosting" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Green Web Foundation Integration</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="green-hosting" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Green Web Foundation Integration</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           The engine queries the Green Web Foundation WHOIS database to verify whether the host Autonomous System Number (ASN) runs on verified renewable energy contracts.
         </p>
       </section>

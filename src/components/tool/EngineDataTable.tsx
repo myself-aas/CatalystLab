@@ -21,7 +21,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({ engineType, ta
               <th className="px-6 py-3">Value</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-border">
             {tableData && tableData.length > 0 ? tableData.map((row, i) => (
               <tr key={i} className="hover:bg-muted/50">
                 <td className="px-6 py-4 font-medium text-foreground">{row.metric || 'Item ' + i}</td>

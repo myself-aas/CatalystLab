@@ -125,19 +125,19 @@ export const UserRateLimitAllocationCard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Resource Allocation Banner */}
-      <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 sm:p-8 shadow-sm">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#e2e8f0]">
+      <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-border">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/10 text-[#415a77]">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/10 text-muted-foreground">
                 <Cpu className="h-4 w-4" />
               </span>
-              <h3 className="text-xl font-bold text-[#0b192c]">Daily Compute Quota & Allocation</h3>
-              <span className="rounded-md bg-[#f1f5f9] border border-[#e2e8f0] px-2.5 py-0.5 text-xs font-bold text-[#415a77] uppercase tracking-wider">
+              <h3 className="text-xl font-bold text-foreground">Daily Compute Quota & Allocation</h3>
+              <span className="rounded-md bg-muted border border-border px-2.5 py-0.5 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 {status.tierLabel}
               </span>
             </div>
-            <p className="text-sm text-[#415a77]">
+            <p className="text-sm text-muted-foreground">
               Fair-share GPU & worker concurrency middleware with sliding burst regulation and zero-loss multi-engine deduplication.
             </p>
           </div>
@@ -146,7 +146,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             <button
               onClick={loadStatus}
               disabled={loading}
-              className="flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-background px-4 py-2 text-xs font-bold text-[#415a77] hover:bg-[#f8fafc] hover:border-border transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2 text-xs font-bold text-muted-foreground hover:bg-background hover:border-border transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
@@ -165,11 +165,11 @@ export const UserRateLimitAllocationCard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
           
           {/* Main Units Meter */}
-          <div className="md:col-span-1 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-5 flex flex-col justify-between">
+          <div className="md:col-span-1 rounded-xl bg-background border border-border p-5 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold text-[#415a77] uppercase tracking-wider">Units Remaining</span>
-                <span className="text-xs font-mono font-bold text-[#0b192c]">
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Units Remaining</span>
+                <span className="text-xs font-mono font-bold text-foreground">
                   {status.isUnlimited ? '∞ Unlimited' : `${status.remaining} / ${status.limit} Units`}
                 </span>
               </div>
@@ -184,18 +184,18 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                 />
               </div>
 
-              <div className="flex items-center justify-between mt-2 text-[11px] text-[#415a77]">
+              <div className="flex items-center justify-between mt-2 text-[11px] text-muted-foreground">
                 <span>{status.used} Units Used Today</span>
                 <span>{percentRemaining}% Available</span>
               </div>
             </div>
 
             <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs">
-              <span className="text-[#415a77] flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-[#415a77]" />
+              <span className="text-muted-foreground flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5 text-muted-foreground" />
                 Daily Reset In:
               </span>
-              <span className="font-mono font-bold text-[#0b192c] bg-background px-2 py-0.5 rounded border border-border">
+              <span className="font-mono font-bold text-foreground bg-background px-2 py-0.5 rounded border border-border">
                 {status.formattedResetTime} (Midnight UTC)
               </span>
             </div>
@@ -205,30 +205,30 @@ export const UserRateLimitAllocationCard: React.FC = () => {
           <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
             
             {/* Master Audits Box */}
-            <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-5">
+            <div className="rounded-xl bg-background border border-border p-5">
               <div className="flex items-center justify-between mb-2">
-                <span className="flex items-center gap-1.5 text-xs font-bold text-[#0b192c]">
-                  <Sparkles className="h-4 w-4 text-[#415a77]" />
+                <span className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                  <Sparkles className="h-4 w-4 text-muted-foreground" />
                   Master Audits (All 8 Engines)
                 </span>
-                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold text-muted-foreground">
                   {MASTER_AUDIT_COST} Units / Run
                 </span>
               </div>
               <div className="mt-3">
-                <div className="text-2xl font-black text-[#0b192c]">
-                  {status.isUnlimited ? '∞' : status.masterRemaining} <span className="text-xs font-normal text-[#415a77]">available today</span>
+                <div className="text-2xl font-black text-foreground">
+                  {status.isUnlimited ? '∞' : status.masterRemaining} <span className="text-xs font-normal text-muted-foreground">available today</span>
                 </div>
-                <p className="mt-1 text-[11px] text-[#415a77] leading-relaxed">
+                <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
                   Triggers all 8 telemetry scanners concurrently. Deduplicated session keys ensure zero double-billing.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
-                <span className="text-[11px] text-[#415a77]">Total Limit: {status.isUnlimited ? '∞' : `${status.masterLimit} / day`}</span>
+                <span className="text-[11px] text-muted-foreground">Total Limit: {status.isUnlimited ? '∞' : `${status.masterLimit} / day`}</span>
                 <button
                   onClick={() => handleSimulateCheck(MASTER_AUDIT_COST)}
                   disabled={testingUnit !== null}
-                  className="text-[11px] font-bold text-[#415a77] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="text-[11px] font-bold text-muted-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Verify Master Quota →
                 </button>
@@ -236,30 +236,30 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             </div>
 
             {/* Single Engines Box */}
-            <div className="rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-5">
+            <div className="rounded-xl bg-background border border-border p-5">
               <div className="flex items-center justify-between mb-2">
-                <span className="flex items-center gap-1.5 text-xs font-bold text-[#0b192c]">
-                  <Layers className="h-4 w-4 text-[#415a77]" />
+                <span className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                  <Layers className="h-4 w-4 text-muted-foreground" />
                   Single Diagnostic Engines
                 </span>
-                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold text-[#415a77]">
+                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold text-muted-foreground">
                   {SINGLE_ENGINE_COST} Unit / Run
                 </span>
               </div>
               <div className="mt-3">
-                <div className="text-2xl font-black text-[#0b192c]">
-                  {status.isUnlimited ? '∞' : status.singleRemaining} <span className="text-xs font-normal text-[#415a77]">available today</span>
+                <div className="text-2xl font-black text-foreground">
+                  {status.isUnlimited ? '∞' : status.singleRemaining} <span className="text-xs font-normal text-muted-foreground">available today</span>
                 </div>
-                <p className="mt-1 text-[11px] text-[#415a77] leading-relaxed">
+                <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
                   Individual scans for DOM Health, Edge TTFB Latency, /llms.txt AI crawler parity, SecOps, or ESG Carbon.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
-                <span className="text-[11px] text-[#415a77]">Total Limit: {status.isUnlimited ? '∞' : `${status.singleLimit} / day`}</span>
+                <span className="text-[11px] text-muted-foreground">Total Limit: {status.isUnlimited ? '∞' : `${status.singleLimit} / day`}</span>
                 <button
                   onClick={() => handleSimulateCheck(SINGLE_ENGINE_COST)}
                   disabled={testingUnit !== null}
-                  className="text-[11px] font-bold text-[#415a77] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="text-[11px] font-bold text-muted-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Verify Single Quota →
                 </button>
@@ -287,7 +287,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             </div>
             <button 
               onClick={() => setTestResult(null)}
-              className="text-xs font-bold underline opacity-70 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="text-xs font-bold underline opacity-70 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Dismiss
             </button>
@@ -299,63 +299,63 @@ export const UserRateLimitAllocationCard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Rate Limiting Rules & Headers */}
-        <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 shadow-sm flex flex-col justify-between">
+        <div className="rounded-2xl border border-border bg-background p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="h-5 w-5 text-[#415a77]" />
-              <h4 className="text-base font-bold text-[#0b192c]">HTTP Rate Limiting Standards</h4>
+              <ShieldCheck className="h-5 w-5 text-muted-foreground" />
+              <h4 className="text-base font-bold text-foreground">HTTP Rate Limiting Standards</h4>
             </div>
-            <p className="text-xs text-[#415a77] mb-4 leading-relaxed">
-              CatalystLab complies with IETF RateLimit Header specifications. Every response from <code className="text-[#0b192c] font-mono font-bold bg-[#f1f5f9] px-1.5 py-0.5 rounded">/api/run-engine</code> and <code className="text-[#0b192c] font-mono font-bold bg-[#f1f5f9] px-1.5 py-0.5 rounded">/api/v1/*</code> includes the following real-time rate headers:
+            <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+              CatalystLab complies with IETF RateLimit Header specifications. Every response from <code className="text-foreground font-mono font-bold bg-muted px-1.5 py-0.5 rounded">/api/run-engine</code> and <code className="text-foreground font-mono font-bold bg-muted px-1.5 py-0.5 rounded">/api/v1/*</code> includes the following real-time rate headers:
             </p>
 
-            <div className="space-y-2 rounded-xl bg-[#f8fafc] border border-[#e2e8f0] p-4 text-xs font-mono">
+            <div className="space-y-2 rounded-xl bg-background border border-border p-4 text-xs font-mono">
               <div className="flex items-center justify-between border-b border-border pb-1.5">
-                <span className="text-[#415a77]">X-RateLimit-Limit:</span>
-                <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'unlimited' : status.limit}</span>
+                <span className="text-muted-foreground">X-RateLimit-Limit:</span>
+                <span className="font-bold text-foreground">{status.isUnlimited ? 'unlimited' : status.limit}</span>
               </div>
               <div className="flex items-center justify-between border-b border-border pb-1.5">
-                <span className="text-[#415a77]">X-RateLimit-Remaining:</span>
-                <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'unlimited' : status.remaining}</span>
+                <span className="text-muted-foreground">X-RateLimit-Remaining:</span>
+                <span className="font-bold text-foreground">{status.isUnlimited ? 'unlimited' : status.remaining}</span>
               </div>
               <div className="flex items-center justify-between border-b border-border pb-1.5">
-                <span className="text-[#415a77]">X-RateLimit-Used:</span>
-                <span className="font-bold text-[#0b192c]">{status.used}</span>
+                <span className="text-muted-foreground">X-RateLimit-Used:</span>
+                <span className="font-bold text-foreground">{status.used}</span>
               </div>
               <div className="flex items-center justify-between border-b border-border pb-1.5">
-                <span className="text-[#415a77]">X-RateLimit-Tier:</span>
-                <span className="font-bold text-[#0b192c]">{status.tier}</span>
+                <span className="text-muted-foreground">X-RateLimit-Tier:</span>
+                <span className="font-bold text-foreground">{status.tier}</span>
               </div>
               <div className="flex items-center justify-between pt-0.5">
-                <span className="text-[#415a77]">RateLimit-Policy:</span>
-                <span className="font-bold text-[#0b192c]">{status.isUnlimited ? 'none' : `${status.limit};w=86400`}</span>
+                <span className="text-muted-foreground">RateLimit-Policy:</span>
+                <span className="font-bold text-foreground">{status.isUnlimited ? 'none' : `${status.limit};w=86400`}</span>
               </div>
             </div>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-[#e2e8f0] flex items-center gap-2 text-[11px] text-[#415a77]">
-            <Info className="h-4 w-4 text-[#415a77] shrink-0" />
+          <div className="mt-5 pt-4 border-t border-border flex items-center gap-2 text-[11px] text-muted-foreground">
+            <Info className="h-4 w-4 text-muted-foreground shrink-0" />
             <span>Burst regulator allows up to 45 requests/min for registered developer accounts.</span>
           </div>
         </div>
 
         {/* Developer Integration & cURL */}
-        <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 shadow-sm flex flex-col justify-between">
+        <div className="rounded-2xl border border-border bg-background p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Terminal className="h-5 w-5 text-[#415a77]" />
-                <h4 className="text-base font-bold text-[#0b192c]">CI/CD & CLI Header Inspection</h4>
+                <Terminal className="h-5 w-5 text-muted-foreground" />
+                <h4 className="text-base font-bold text-foreground">CI/CD & CLI Header Inspection</h4>
               </div>
               <button
                 onClick={handleCopyCurl}
-                className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-1 text-xs font-bold text-[#415a77] hover:bg-[#e2e8f0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1 text-xs font-bold text-muted-foreground hover:bg-[#e2e8f0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {copiedCurl ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>{copiedCurl ? 'Copied' : 'Copy cURL'}</span>
               </button>
             </div>
-            <p className="text-xs text-[#415a77] mb-3 leading-relaxed">
+            <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
               Inspect rate limit response headers directly from your terminal or continuous integration test workflows:
             </p>
 
@@ -364,11 +364,11 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             </pre>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-[#e2e8f0] flex items-center justify-between text-xs">
-            <span className="text-[#415a77]">Need a dedicated Pro API key?</span>
+          <div className="mt-5 pt-4 border-t border-border flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">Need a dedicated Pro API key?</span>
             <a 
               href="/api-docs" 
-              className="font-bold text-[#415a77] hover:text-[#0b192c] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="font-bold text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Explore API Catalog & Keys →
             </a>
@@ -378,20 +378,20 @@ export const UserRateLimitAllocationCard: React.FC = () => {
       </div>
 
       {/* 5-Tier Subscription Plans & 7-Day Free Trial Tier Management */}
-      <div className="rounded-2xl border border-[#415a77]/20 bg-background p-6 sm:p-8 shadow-sm">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#e2e8f0]">
+      <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border">
           <div>
             <div className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5 text-[#415a77]" />
-              <h4 className="text-lg font-bold text-[#0b192c]">Subscription &amp; Compute Tier</h4>
+              <CreditCard className="h-5 w-5 text-muted-foreground" />
+              <h4 className="text-lg font-bold text-foreground">Subscription &amp; Compute Tier</h4>
               {isTrialActive && (
                 <span className="rounded-full bg-emerald-100 text-emerald-700 px-2.5 py-0.5 text-xs font-bold border border-emerald-300 flex items-center gap-1">
                   <Zap className="h-3 w-3" /> 7-Day Trial ({trialDaysRemaining}d remaining)
                 </span>
               )}
             </div>
-            <p className="text-xs text-[#415a77] mt-1">
-              Current active plan: <strong className="text-[#0b192c] uppercase">{currentPlan.name}</strong> ({currentPlan.dailyComputeUnits} units/day). Upgrade anytime or activate a 7-day free trial without a credit card.
+            <p className="text-xs text-muted-foreground mt-1">
+              Current active plan: <strong className="text-foreground uppercase">{currentPlan.name}</strong> ({currentPlan.dailyComputeUnits} units/day). Upgrade anytime or activate a 7-day free trial without a credit card.
             </p>
           </div>
 
@@ -416,25 +416,25 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                 className={`rounded-xl p-4 border flex flex-col justify-between transition-all ${
                   isCurrent 
                     ? 'border-black bg-muted shadow-md ring-1 ring-black/40' 
-                    : 'border-[#e2e8f0] bg-[#f8fafc] hover:border-border'
+                    : 'border-border bg-background hover:border-border'
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-[#0b192c]">{item.name}</span>
+                    <span className="font-bold text-sm text-foreground">{item.name}</span>
                     {isCurrent && (
                       <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
                         ACTIVE
                       </span>
                     )}
                   </div>
-                  <div className="mt-2 text-xl font-black text-[#0b192c]">
+                  <div className="mt-2 text-xl font-black text-foreground">
                     ${item.priceMonthly}<span className="text-xs font-normal text-muted-foreground">/mo</span>
                   </div>
                   <div className="mt-1 text-xs font-bold text-emerald-700">
                     {item.dailyComputeUnits} units / day
                   </div>
-                  <p className="mt-2 text-[11px] text-[#415a77] line-clamp-2">
+                  <p className="mt-2 text-[11px] text-muted-foreground line-clamp-2">
                     {item.tagline}
                   </p>
                 </div>
@@ -450,7 +450,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   ) : tierKey === 'free' ? (
                     <Link
                       to="/pricing"
-                      className="block text-center w-full py-1.5 rounded-lg text-xs font-bold border border-border text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="block text-center w-full py-1.5 rounded-lg text-xs font-bold border border-border text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       Free Plan
                     </Link>

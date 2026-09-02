@@ -45,7 +45,7 @@ export const ApiNavSidebar: React.FC = () => {
   return (
     <aside className="w-full lg:w-72 shrink-0 space-y-6">
       {/* Overview Section */}
-      <div className="rounded-2xl border border-[#e2e8f0] bg-background p-4 shadow-sm">
+      <div className="rounded-2xl border border-border bg-background p-4 shadow-sm">
         <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground mb-3">
           API Overview
         </h4>
@@ -54,12 +54,12 @@ export const ApiNavSidebar: React.FC = () => {
             to="/api-reference"
             className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
               location.pathname === '/api-reference' || location.pathname === '/api-docs'
-                ? 'bg-[#0b192c] text-primary-foreground'
+                ? 'bg-background text-primary-foreground'
                 : 'text-muted-foreground hover:bg-accent hover:text-foreground'
             }`}
           >
             <div className="flex items-center gap-2">
-              <Code2 className="h-4 w-4 text-[#415a77]" />
+              <Code2 className="h-4 w-4 text-muted-foreground" />
               <span>Overview & Quickstart</span>
             </div>
             <ChevronRight className="h-3.5 w-3.5 opacity-60" />
@@ -67,7 +67,7 @@ export const ApiNavSidebar: React.FC = () => {
 
           <Link
             to="/playground"
-            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center gap-2">
               <Terminal className="h-4 w-4 text-emerald-600" />
@@ -81,7 +81,7 @@ export const ApiNavSidebar: React.FC = () => {
       </div>
 
       {/* Categories Menu */}
-      <div className="rounded-2xl border border-[#e2e8f0] bg-background p-4 shadow-sm">
+      <div className="rounded-2xl border border-border bg-background p-4 shadow-sm">
         <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground mb-3">
           Endpoint Categories
         </h4>
@@ -98,7 +98,7 @@ export const ApiNavSidebar: React.FC = () => {
                 to={path}
                 className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
                   active
-                    ? 'bg-[#0b192c] text-primary-foreground font-bold'
+                    ? 'bg-background text-primary-foreground font-bold'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                 }`}
               >
@@ -115,30 +115,30 @@ export const ApiNavSidebar: React.FC = () => {
       </div>
 
       {/* Quick Links / Docs */}
-      <div className="rounded-2xl border border-[#e2e8f0] bg-background p-4 shadow-sm">
+      <div className="rounded-2xl border border-border bg-background p-4 shadow-sm">
         <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground mb-3">
           Documentation Guides
         </h4>
         <nav className="space-y-1 text-xs">
           <Link
             to="/docs/rate-limiting"
-            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-muted-foreground hover:text-[#0b192c] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <ShieldCheck className="h-3.5 w-3.5 text-[#415a77]" />
+            <ShieldCheck className="h-3.5 w-3.5 text-muted-foreground" />
             <span>Rate Limiting & Tier Quotas</span>
           </Link>
           <Link
             to="/docs/orchestrator"
-            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-muted-foreground hover:text-[#0b192c] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Layers className="h-3.5 w-3.5 text-[#415a77]" />
+            <Layers className="h-3.5 w-3.5 text-muted-foreground" />
             <span>Orchestrator Architecture</span>
           </Link>
           <Link
             to="/docs/cicd"
-            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-muted-foreground hover:text-[#0b192c] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Terminal className="h-3.5 w-3.5 text-[#415a77]" />
+            <Terminal className="h-3.5 w-3.5 text-muted-foreground" />
             <span>CI/CD & GitHub Actions</span>
           </Link>
         </nav>

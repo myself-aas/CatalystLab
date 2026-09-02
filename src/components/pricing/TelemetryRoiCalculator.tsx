@@ -111,7 +111,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               aria-valuenow={monthlyProbes}
               aria-valuetext={`${monthlyProbes.toLocaleString()} probes per month`}
               onChange={(e) => setMonthlyProbes(Number(e.target.value))}
-              className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer accent-slate-900"
+              className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer accent-foreground"
             />
             <div className="flex justify-between text-[10px] text-muted-foreground">
               <span>10k (Hobby)</span>

@@ -254,7 +254,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
                 <th className="py-3 px-4 font-semibold text-right">Variance Delta</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-border">
               {COMPARISON_DIMENSIONS.map((dim) => {
                 const resA = dim.getValue(reportA);
                 const resB = dim.getValue(reportB);

@@ -162,7 +162,7 @@ export default function HeroSection6() {
   return (
     <div className="relative w-full min-h-screen [--color-primary:#003AF9] overflow-hidden bg-primary text-primary-foreground">
       {/* Radial Gradient Background */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(125%_125%_at_50%_10%,#020617_40%,var(--color-primary)_100%)] opacity-90" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(125%_125%_at_50%_10%,var(--app-background)_40%,var(--app-primary)_100%)] opacity-90" />
 
       {/* Navbar */}
       <nav className="w-full flex justify-between items-center py-4 px-4 sm:px-6 border-b border-white/10 relative z-10">
@@ -255,7 +255,7 @@ export default function HeroSection6() {
                 alt="CatalystLab Telemetry Dashboard"
                 className="object-cover object-top w-full h-[320px] sm:h-[440px] md:h-[520px]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
             </motion.div>
 
             {/* iPhone Frame */}
@@ -278,7 +278,7 @@ export default function HeroSection6() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="absolute -bottom-2 left-0 right-0 h-40 md:h-52 bg-gradient-to-t from-slate-950 via-slate-950/90 to-transparent z-30 pointer-events-none rounded-md"
+            className="absolute -bottom-2 left-0 right-0 h-40 md:h-52 bg-gradient-to-t from-background via-background/90 to-transparent z-30 pointer-events-none rounded-md"
           />
         </div>
       </div>

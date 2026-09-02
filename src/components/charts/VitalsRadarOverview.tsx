@@ -47,7 +47,7 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.mem
           return (
             <div
               key={dim.name}
-              className="rounded-xl border border-black/30 bg-muted p-4 transition-all hover:border-black/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="rounded-xl border border-black/30 bg-muted p-4 transition-all hover:border-black/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div className="flex items-center justify-between gap-2 mb-3">
                 <span

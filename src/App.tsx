@@ -5,7 +5,10 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { Navbar } from "./components/layout/Navbar";
+import { Sidebar } from './components/layout/Sidebar';
+import { Navbar } from './components/layout/Navbar';
+import { MobileBottomNav } from './components/layout/MobileBottomNav';
+import { LinearAmbientBackground } from "./components/layout/LinearAmbientBackground";
 import { StickyHUD } from "./components/layout/StickyHUD";
 import { TrialBanner } from "./components/common/TrialBanner";
 import { TrialActivationModal } from "./components/common/TrialActivationModal";
@@ -100,13 +103,14 @@ const isDarkAuthoredRoute = (pathname: string) =>
 
 export const App: React.FC = () => {
   const location = useLocation();
-  const pagePolarity = isDarkAuthoredRoute(location.pathname) ? "page-dark" : "page-light";
+  const pagePolarity = isDarkAuthoredRoute(location.pathname) ? "theme-dark" : "theme-light";
   const [isGetInTouchOpen, setIsGetInTouchOpen] = useState(false);
   const [getInTouchTopic, setGetInTouchTopic] = useState("general");
   const [getInTouchSource, setGetInTouchSource] = useState("app-global");
 
   const [isPaymentCheckoutOpen, setIsPaymentCheckoutOpen] = useState(false);
   const [paymentPlanId, setPaymentPlanId] = useState<SubscriptionPlanId>('pro');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
     const handleOpenModal = (e: Event) => {
@@ -138,21 +142,25 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <div className="app-shell flex min-h-screen flex-col bg-background text-foreground animate-app-fade-in">
-        <a
-          href="#main-content"
-          className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:text-foreground focus:outline focus:outline-2 focus:outline-primary"
-        >
-          Skip to main content
-        </a>
-        <ScrollToTop />
-        <TrialBanner />
-        <Navbar />
-      {location.pathname !== '/' && location.pathname !== '/index.html' && <DynamicBanner />}
-      <GlobalBreadcrumb />
-      <main id="main-content" className={`${pagePolarity} flex-1`}>
-        <AnimatePresence mode="wait">
-          <PageTransition key={location.pathname} className="min-h-full">
+      <div className="app-shell flex min-h-screen bg-background text-foreground animate-app-fade-in relative pb-16 lg:pb-0">
+        <Sidebar mobileOpen={isMobileSidebarOpen} onCloseMobile={() => setIsMobileSidebarOpen(false)} />
+        <MobileBottomNav onOpenMenu={() => setIsMobileSidebarOpen(true)} />
+        <div className="flex-1 flex flex-col min-w-0 relative">
+          <LinearAmbientBackground />
+          <a
+            href="#main-content"
+            className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:text-foreground focus:outline focus:outline-2 focus:outline-primary"
+          >
+            Skip to main content
+          </a>
+          <ScrollToTop />
+          <TrialBanner />
+          <Navbar onOpenMobileMenu={() => setIsMobileSidebarOpen(true)} />
+          {location.pathname !== '/' && location.pathname !== '/index.html' && <DynamicBanner />}
+          <GlobalBreadcrumb />
+          <main id="main-content" className={`${pagePolarity} flex-1`}>
+            <AnimatePresence mode="wait">
+              <PageTransition key={location.pathname} className="min-h-full">
             <Suspense fallback={<RouteLoadingSkeleton />}>
               <ErrorBoundary variant="route">
               <Routes location={location} key={location.pathname}>
@@ -565,6 +573,7 @@ export const App: React.FC = () => {
         initialTopic={getInTouchTopic}
         sourceContext={getInTouchSource}
       />
+      </div>
     </div>
     </>
   );

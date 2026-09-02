@@ -7,7 +7,7 @@ const METRICS = [
   {
     id: 'cwv',
     icon: Zap,
-    accent: '#06B6D4',
+    accent: '#5E6AD2',
     title: 'Core Web Vitals & DOM Depth',
     description: 'Measure LCP, INP, and CLS with precision down to the millisecond. Pinpoint exactly which assets are blocking critical render paths.',
     value: '99.9%',
@@ -48,29 +48,29 @@ const METRICS = [
 
 export const FeaturedAuditMetrics: React.FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-primary border-t border-white/6 relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-transparent border-t border-border-default relative overflow-hidden">
       {/* Background Ambience */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
         {/* Header Block */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/25 bg-cyan-950/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-cyan-400 mb-3">
-              <Cpu className="size-3.5" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-border-default bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent-bright mb-3 backdrop-blur-md">
+              <Cpu className="size-3.5 text-accent" />
               <span>Full-Spectrum Diagnostics</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-primary-foreground tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight leading-tight text-gradient-linear">
               Deep visibility. Zero overhead.
             </h2>
-            <p className="mt-3 text-muted-foreground text-base sm:text-lg leading-relaxed">
+            <p className="mt-3 text-foreground-muted text-base sm:text-lg leading-relaxed">
               Our autonomous engines perform multi-dimensional analysis without requiring you to install any SDKs or modify your source code.
             </p>
           </div>
 
-          <div className="hidden lg:flex items-center gap-3 text-xs font-mono text-muted-foreground">
-            <span className="flex size-2 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="hidden lg:flex items-center gap-3 text-xs font-mono text-foreground-muted">
+            <span className="flex size-2 rounded-full bg-accent animate-pulse" />
             <span>Telemetry Pipeline: Active (42 Nodes)</span>
           </div>
         </div>
@@ -84,7 +84,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative p-6 sm:p-8 rounded-[1.75rem] bg-foreground/70 border border-white/8 hover:border-white/20 hover:bg-primary/60 transition-all duration-300 flex flex-col justify-between min-h-[300px] overflow-hidden backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.4)]"
+              className="group relative p-6 sm:p-8 rounded-2xl bg-white/[0.04] border border-border-default hover:border-border-hover hover:bg-white/[0.07] transition-all duration-300 flex flex-col justify-between min-h-[300px] overflow-hidden backdrop-blur-xl shadow-linear-card hover:shadow-linear-card-hover"
             >
               {/* Corner Ambient Glow */}
               <div 
@@ -106,15 +106,15 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     <metric.icon className="size-5" />
                   </div>
 
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground bg-background/5 border border-white/8 px-2.5 py-1 rounded-full">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-foreground-muted bg-white/[0.04] border border-border-default px-2.5 py-1 rounded-full">
                     {metric.tag}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-semibold text-primary-foreground tracking-tight flex items-center gap-2">
+                <h3 className="text-xl font-semibold text-foreground tracking-tight flex items-center gap-2">
                   {metric.title}
                 </h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed text-sm max-w-[45ch]">
+                <p className="mt-3 text-foreground-muted leading-relaxed text-sm max-w-[45ch]">
                   {metric.description}
                 </p>
               </div>
@@ -134,13 +134,13 @@ export const FeaturedAuditMetrics: React.FC = () => {
               )}
 
               {/* Bottom Metric Readout */}
-              <div className="relative z-10 mt-8 pt-5 border-t border-white/6 flex items-baseline justify-between">
+              <div className="relative z-10 mt-8 pt-5 border-t border-border-default flex items-baseline justify-between">
                 <div className="flex items-baseline gap-3">
-                  <span className="text-3xl font-semibold text-primary-foreground font-mono tracking-tight">{metric.value}</span>
-                  <span className="text-xs text-muted-foreground font-medium font-mono">{metric.label}</span>
+                  <span className="text-3xl font-semibold text-foreground font-mono tracking-tight">{metric.value}</span>
+                  <span className="text-xs text-foreground-muted font-medium font-mono">{metric.label}</span>
                 </div>
 
-                <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-primary-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <ArrowUpRight className="size-4 text-foreground-muted group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </div>
             </motion.div>
           ))}

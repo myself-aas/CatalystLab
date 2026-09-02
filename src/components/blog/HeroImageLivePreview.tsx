@@ -148,7 +148,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="p-1.5 rounded-lg border border-border bg-muted text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="p-1.5 rounded-lg border border-border bg-muted text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Expand Fullscreen Banner Preview"
           >
             <Maximize2 className="h-3.5 w-3.5" />
@@ -164,7 +164,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             <button
               type="button"
               onClick={handleRandomize}
-              className="text-amber-600 hover:text-cyan-200 font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="text-amber-600 hover:text-cyan-200 font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               🎲 Random Preset
             </button>
@@ -172,7 +172,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={() => onUrlChange('')}
-                className="text-rose-400 hover:text-rose-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="text-rose-400 hover:text-rose-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Clear
               </button>
@@ -192,7 +192,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             <button
               type="button"
               onClick={handleCopyUrl}
-              className="p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               title="Copy Image URL"
             >
               {copiedUrl ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
@@ -202,7 +202,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 href={effectiveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 title="Open raw image"
               >
                 <ExternalLink className="h-3 w-3" />
@@ -304,7 +304,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={handleRandomize}
-                className="mt-3 inline-flex items-center gap-1 rounded-lg bg-rose-500/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-rose-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="mt-3 inline-flex items-center gap-1 rounded-lg bg-rose-500/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-rose-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Sparkles className="h-3 w-3" />
                 <span>Try Curated Preset</span>
@@ -385,11 +385,11 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               )}
 
               {/* Hover Quick Actions */}
-              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <button
                   type="button"
                   onClick={() => setFitMode(fitMode === 'cover' ? 'contain' : 'cover')}
-                  className="px-2 py-1 rounded-md bg-primary/80 border border-border text-[10px] font-mono text-foreground hover:text-foreground backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="px-2 py-1 rounded-md bg-primary/80 border border-border text-[10px] font-mono text-foreground hover:text-foreground backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   title="Toggle Fit Mode"
                 >
                   {fitMode === 'cover' ? 'Fit: Cover' : 'Fit: Contain'}
@@ -397,7 +397,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(true)}
-                  className="p-1 rounded-md bg-primary/80 border border-border text-foreground hover:text-foreground backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="p-1 rounded-md bg-primary/80 border border-border text-foreground hover:text-foreground backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   title="Fullscreen"
                 >
                   <Maximize2 className="h-3 w-3" />
@@ -466,7 +466,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-2 rounded-xl border border-border bg-muted text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="p-2 rounded-xl border border-border bg-muted text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -513,7 +513,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-cyan-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-cyan-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Close Preview
               </button>

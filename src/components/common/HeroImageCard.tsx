@@ -22,7 +22,7 @@ export interface HeroImageCardProps {
   /**
    * Classes for the bottom gradient.
    * For 'solid', use e.g., 'from-teal-800 via-teal-800/80'.
-   * Defaults to 'from-slate-950 via-slate-900/80'
+   * Defaults to 'from-background via-background/80'
    */
   bottomGradientClasses?: string;
   
@@ -43,7 +43,7 @@ export function HeroImageCard({
   footer,
   topRight,
   overlayStyle = 'glass',
-  bottomGradientClasses = 'from-slate-950 via-slate-900/80',
+  bottomGradientClasses = 'from-background via-background/80',
   aspectRatio = 'aspect-[4/5]',
   className = '',
   onClick,

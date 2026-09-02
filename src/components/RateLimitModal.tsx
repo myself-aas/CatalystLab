@@ -43,7 +43,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         <button
           onClick={onClose}
           aria-label="Close Rate Limit Modal"
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <X className="h-5 w-5" />
         </button>
@@ -180,7 +180,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                   } catch (e) { logger.error("Ignored error:", e); }
                 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <LogIn className="h-3.5 w-3.5" />
                 <span>Sign In for 50 Units Free</span>
@@ -192,7 +192,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                     openTrialModal('pro');
                   }}
-                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span>Start 7-Day Trial</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -200,7 +200,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <Link
                   to="/pricing"
                   onClick={onClose}
-                  className="rounded-xl bg-accent border border-border px-3.5 py-2 text-xs font-bold text-foreground hover:bg-accent transition-colors text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="rounded-xl bg-accent border border-border px-3.5 py-2 text-xs font-bold text-foreground hover:bg-accent transition-colors text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Plans
                 </Link>

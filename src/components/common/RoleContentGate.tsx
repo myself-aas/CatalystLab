@@ -63,14 +63,14 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
 
   // Blur overlay mode
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-dashed border-[#415a77]/50 bg-primary/40 p-4">
+    <div className="relative overflow-hidden rounded-2xl border border-dashed border-border bg-primary/40 p-4">
       {/* Blurred background preview */}
       <div className="pointer-events-none filter blur-sm opacity-30 select-none aria-hidden">
         {children}
       </div>
 
       {/* Foreground Role Lock Callout */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-[#0b192c]/85 backdrop-blur-xs z-10">
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-background/85 backdrop-blur-xs z-10">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 mb-3 shadow-lg">
           {isGuest ? <Lock className="h-6 w-6" /> : <Crown className="h-6 w-6 text-amber-400" />}
         </div>
@@ -91,7 +91,7 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
           {isGuest ? (
             <button
               onClick={() => login()}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <LogIn className="h-3.5 w-3.5" />
               <span>Sign In</span>
@@ -99,7 +99,7 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
           ) : (
             <button
               onClick={() => openTrialModal('pro')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Zap className="h-3.5 w-3.5" />
               <span>Start 7-Day Free Trial</span>

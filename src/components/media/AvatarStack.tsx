@@ -106,7 +106,7 @@ const AvatarSingle: React.FC<{
             className="w-full h-full object-cover grayscale-[0.2] contrast-[1.05] hover:grayscale-0 transition-all duration-300"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-cyan-900 to-slate-900 flex items-center justify-center text-[10px] font-bold text-cyan-200">
+          <div className="w-full h-full bg-gradient-to-br from-cyan-900 to-background flex items-center justify-center text-[10px] font-bold text-cyan-200">
             {avatar.name.slice(0, 2).toUpperCase()}
           </div>
         )}

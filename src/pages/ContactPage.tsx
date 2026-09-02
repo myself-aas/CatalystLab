@@ -156,7 +156,7 @@ export const ContactPage: React.FC = () => {
       
       {/* Header Banner */}
       <section className="relative overflow-hidden border-b border-border bg-muted px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
         <div className="relative z-10 mx-auto max-w-6xl">
@@ -168,7 +168,7 @@ export const ContactPage: React.FC = () => {
               </div>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.08]">
                 Developer Inquiries &amp;{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-800">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-background">
                   Support Portal
                 </span>
               </h1>
@@ -238,7 +238,7 @@ export const ContactPage: React.FC = () => {
                           onClick={() => setDepartment(dep.id)}
                           className={`flex items-start gap-3 rounded-2xl p-4 text-left border transition-all cursor-pointer ${
                             isSelected
-                              ? 'border-border bg-muted text-foreground shadow-sm ring-1 ring-slate-900'
+                              ? 'border-border bg-muted text-foreground shadow-sm ring-1 ring-ring'
                               : 'border-border bg-background text-foreground hover:border-border hover:bg-muted/50'
                           }`}
                         >
@@ -298,7 +298,7 @@ export const ContactPage: React.FC = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Jane Doe (DevOps Lead)"
-                      className="w-full rounded-xl border border-border bg-muted/50 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm"
+                      className="w-full rounded-xl border border-border bg-muted/50 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-ring transition-all shadow-sm"
                     />
                   </div>
 
@@ -312,7 +312,7 @@ export const ContactPage: React.FC = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="jane@company.com"
-                      className="w-full rounded-xl border border-border bg-muted/50 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm"
+                      className="w-full rounded-xl border border-border bg-muted/50 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-ring transition-all shadow-sm"
                     />
                   </div>
                 </div>
@@ -327,7 +327,7 @@ export const ContactPage: React.FC = () => {
                     value={targetUrl}
                     onChange={(e) => setTargetUrl(e.target.value)}
                     placeholder="https://example.com or github.com/owner/repo"
-                    className="w-full rounded-xl border border-border bg-muted/50 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm font-mono"
+                    className="w-full rounded-xl border border-border bg-muted/50 px-3.5 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-ring transition-all shadow-sm font-mono"
                   />
                 </div>
 
@@ -342,7 +342,7 @@ export const ContactPage: React.FC = () => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Provide details about the diagnostic engine, unexpected metric values, or custom infrastructure requirements..."
-                    className="w-full rounded-xl border border-border bg-muted/50 p-3.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-slate-900 transition-all shadow-sm font-sans"
+                    className="w-full rounded-xl border border-border bg-muted/50 p-3.5 text-xs text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-border focus:outline-none focus:ring-1 focus:ring-ring transition-all shadow-sm font-sans"
                   />
                 </div>
 
@@ -353,7 +353,7 @@ export const ContactPage: React.FC = () => {
                     id="attach-diag"
                     checked={attachDiagnostics}
                     onChange={(e) => setAttachDiagnostics(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 rounded border-border bg-background text-foreground focus:ring-slate-900 cursor-pointer"
+                    className="mt-0.5 h-4 w-4 rounded border-border bg-background text-foreground focus:ring-ring cursor-pointer"
                   />
                   <label htmlFor="attach-diag" className="cursor-pointer leading-relaxed">
                     <strong className="text-foreground">Attach Client Telemetry Context:</strong> Includes browser user-agent, viewport resolution, and network socket handshake latency to help engineers reproduce your issue quickly.

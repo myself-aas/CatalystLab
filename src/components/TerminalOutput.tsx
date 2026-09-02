@@ -492,7 +492,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           aria-live="polite"
           aria-atomic="false"
           aria-label={title}
-          className={`p-4 font-mono text-xs overflow-y-auto bg-[#090D16] selection:bg-cyan-500/30 selection:text-primary-foreground relative z-0 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent ${
+          className={`p-4 font-mono text-xs overflow-y-auto bg-[#090D16] selection:bg-cyan-500/30 selection:text-primary-foreground relative z-0 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent ${
             expanded ? 'max-h-[640px]' : maxHeight
           }`}
         >

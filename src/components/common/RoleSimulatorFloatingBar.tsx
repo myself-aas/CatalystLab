@@ -38,8 +38,8 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
     >
       {/* Expanded Role Selection Popover */}
       {isOpen && (
-        <div className="mb-2 w-80 rounded-2xl border border-[#415a77]/50 bg-[#0b192c]/95 p-4 shadow-2xl backdrop-blur-xl text-[#f8fafc] animate-in fade-in slide-in-from-bottom-2 duration-150">
-          <div className="flex items-center justify-between border-b border-[#415a77]/30 pb-3 mb-3">
+        <div className="mb-2 w-80 rounded-2xl border border-border bg-background/95 p-4 shadow-2xl backdrop-blur-xl text-foreground animate-in fade-in slide-in-from-bottom-2 duration-150">
+          <div className="flex items-center justify-between border-b border-border pb-3 mb-3">
             <div className="flex items-center gap-2">
               <Shield className="h-4 w-4 text-cyan-400" />
               <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
@@ -49,7 +49,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
             {isSimulating && (
               <button
                 onClick={resetSimulation}
-                className="flex items-center gap-1 text-[11px] font-semibold text-amber-300 hover:text-amber-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="flex items-center gap-1 text-[11px] font-semibold text-amber-300 hover:text-amber-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 title="Reset to real authenticated role"
               >
                 <RotateCcw className="h-3 w-3" />
@@ -58,7 +58,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
             )}
           </div>
 
-          <p className="text-[11px] text-[#c5d3e8] mb-3 leading-relaxed">
+          <p className="text-[11px] text-muted-foreground mb-3 leading-relaxed">
             Preview how routes, navigation bars, pricing states, blog studios, and telemetry features dynamically adapt per role.
           </p>
 
@@ -77,7 +77,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                   className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
                     isSelected
                       ? 'bg-cyan-500/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
-                      : 'hover:bg-[#152238] text-[#c5d3e8] border border-transparent'
+                      : 'hover:bg-muted text-muted-foreground border border-transparent'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -101,7 +101,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
             })}
           </div>
 
-          <div className="mt-3 pt-2.5 border-t border-[#415a77]/30 flex items-center justify-between text-[10px] font-mono text-muted-foreground">
+          <div className="mt-3 pt-2.5 border-t border-border flex items-center justify-between text-[10px] font-mono text-muted-foreground">
             <span>Effective: <strong className="text-primary-foreground">{currentConfig.displayName}</strong></span>
             <span>Compute: <strong className="text-cyan-300">{currentConfig.dailyComputeUnits > 90000 ? '∞' : currentConfig.dailyComputeUnits}</strong></span>
           </div>
@@ -114,7 +114,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
         className={`flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md ${
           isSimulating
             ? 'border-amber-400/60 bg-amber-950/80 text-amber-200 hover:bg-amber-900/90'
-            : 'border-[#415a77]/60 bg-[#0b192c]/90 text-[#f8fafc] hover:bg-[#152238]'
+            : 'border-border bg-background/90 text-foreground hover:bg-muted'
         }`}
         title="Toggle RBAC & Role Preview Simulator"
       >

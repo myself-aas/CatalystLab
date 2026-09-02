@@ -94,9 +94,9 @@ export const BlogCard: React.FC<BlogCardProps> = ({
     >
       {/* Inset Rounded Media with subtle ring border (R2-A Signature) */}
       <div className="p-3 pb-0">
-        <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-700/50 shadow-inner bg-primary flex items-center justify-center h-44 sm:h-48">
+        <div className="relative rounded-xl overflow-hidden ring-1 ring-border shadow-inner bg-primary flex items-center justify-center h-44 sm:h-48">
           {isEdgeArticle ? (
-            <div className="w-full h-full flex items-center justify-center relative bg-gradient-to-b from-slate-900 to-slate-950 overflow-hidden">
+            <div className="w-full h-full flex items-center justify-center relative bg-gradient-to-b from-background to-background overflow-hidden">
               <EdgeMeshGlobe
                 variant="thumb"
                 interactive={false}

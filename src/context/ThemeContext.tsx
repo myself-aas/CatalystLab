@@ -34,7 +34,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     
     const updateTheme = () => {
       const isSystemDark = mediaQuery.matches;
-      const effectiveTheme: ResolvedTheme = 'light';
+      const effectiveTheme: ResolvedTheme = theme === 'system' ? (isSystemDark ? 'dark' : 'light') : theme;
       
       setResolvedTheme(effectiveTheme);
       
@@ -50,7 +50,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
 
       // Keep the browser chrome tint in sync with the app theme
-      const themeColor = effectiveTheme === 'dark' ? '#060912' : '#f8fafc';
+      const themeColor = effectiveTheme === 'dark' ? '#050506' : '#f8fafc';
       let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])');
       if (!meta) {
         meta = document.createElement('meta');

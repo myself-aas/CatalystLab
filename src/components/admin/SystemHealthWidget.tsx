@@ -179,18 +179,18 @@ export const SystemHealthWidget: React.FC = () => {
   });
 
   return (
-    <div className="rounded-3xl border border-[#415a77]/30 bg-[#0b192c] text-[#f8fafc] shadow-xl overflow-hidden mb-8">
+    <div className="rounded-3xl border border-border bg-background text-foreground shadow-xl overflow-hidden mb-8">
       
       {/* Header Banner */}
-      <div className="border-b border-[#415a77]/30 bg-[#152238]/80 p-6">
+      <div className="border-b border-border bg-muted/80 p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#415a77]/25 text-[#c5d3e8] border border-[#415a77]/40 shadow-inner">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground border border-border shadow-inner">
               <Activity className="h-6 w-6 text-cyan-400 animate-pulse" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-extrabold text-[#f8fafc] tracking-tight">
+                <h2 className="text-xl font-extrabold text-foreground tracking-tight">
                   System Health & Audit Telemetry
                 </h2>
                 <span className="inline-flex items-center gap-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 px-2.5 py-0.5 text-[11px] font-bold text-cyan-300 font-mono">
@@ -198,7 +198,7 @@ export const SystemHealthWidget: React.FC = () => {
                   LIVE FIRESTORE STREAM
                 </span>
               </div>
-              <p className="mt-0.5 text-xs text-[#c5d3e8]">
+              <p className="mt-0.5 text-xs text-muted-foreground">
                 Real-time diagnostic health scoring, latency tracking, and execution audit logs from Cloud Firestore.
               </p>
             </div>
@@ -209,7 +209,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-black/40 bg-primary px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:text-primary-foreground hover:bg-muted transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-black/40 bg-primary px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:text-primary-foreground hover:bg-muted transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
               title="Sync latest Firestore audit logs"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? 'animate-spin text-cyan-400' : ''}`} />
@@ -219,7 +219,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleRunDiagnosticAudit}
               disabled={runningDiagnostic}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
             >
               <Play className={`h-3.5 w-3.5 ${runningDiagnostic ? 'animate-spin' : ''}`} />
               <span>{runningDiagnostic ? 'Probing Engines...' : 'Run Diagnostics'}</span>
@@ -240,11 +240,11 @@ export const SystemHealthWidget: React.FC = () => {
       </div>
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#415a77]/20 border-b border-[#415a77]/30">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-muted border-b border-border">
         
         {/* Overall Status */}
-        <div className="bg-[#0b192c] p-5">
-          <div className="flex items-center justify-between text-xs text-[#c5d3e8] font-medium">
+        <div className="bg-background p-5">
+          <div className="flex items-center justify-between text-xs text-muted-foreground font-medium">
             <span>Operational State</span>
             <Server className="h-4 w-4 text-muted-foreground" />
           </div>
@@ -257,19 +257,19 @@ export const SystemHealthWidget: React.FC = () => {
                     ? 'bg-amber-400' 
                     : 'bg-rose-500'
               }`} />
-              <span className="text-xl font-black text-[#f8fafc]">
+              <span className="text-xl font-black text-foreground">
                 {systemStatus === 'optimal' ? '100% Nominal' : systemStatus === 'warning' ? 'Warning' : 'Degraded'}
               </span>
             </div>
           </div>
-          <div className="mt-1 text-[11px] text-[#c5d3e8]/70">
+          <div className="mt-1 text-[11px] text-muted-foreground/70">
             {healthyCount} healthy out of {totalAuditCount} logged audits
           </div>
         </div>
 
         {/* Audit Success Rate */}
-        <div className="bg-[#0b192c] p-5">
-          <div className="flex items-center justify-between text-xs text-[#c5d3e8] font-medium">
+        <div className="bg-background p-5">
+          <div className="flex items-center justify-between text-xs text-muted-foreground font-medium">
             <span>Audit Success Rate</span>
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
           </div>
@@ -277,29 +277,29 @@ export const SystemHealthWidget: React.FC = () => {
             <span className="text-2xl font-black text-emerald-400 font-mono">{successRate}%</span>
             <span className="text-xs text-emerald-300 font-semibold">Reliability</span>
           </div>
-          <div className="mt-1 text-[11px] text-[#c5d3e8]/70">
+          <div className="mt-1 text-[11px] text-muted-foreground/70">
             Zero critical pipeline halts in past 24h
           </div>
         </div>
 
         {/* Diagnostic Latency */}
-        <div className="bg-[#0b192c] p-5">
-          <div className="flex items-center justify-between text-xs text-[#c5d3e8] font-medium">
+        <div className="bg-background p-5">
+          <div className="flex items-center justify-between text-xs text-muted-foreground font-medium">
             <span>Avg Engine Latency</span>
             <Zap className="h-4 w-4 text-cyan-400" />
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black text-cyan-300 font-mono">{avgLatency}ms</span>
-            <span className="text-xs text-[#c5d3e8]">TTFB Round-Trip</span>
+            <span className="text-xs text-muted-foreground">TTFB Round-Trip</span>
           </div>
-          <div className="mt-1 text-[11px] text-[#c5d3e8]/70">
+          <div className="mt-1 text-[11px] text-muted-foreground/70">
             Computed from live execution logs
           </div>
         </div>
 
         {/* Database & Infrastructure */}
-        <div className="bg-[#0b192c] p-5">
-          <div className="flex items-center justify-between text-xs text-[#c5d3e8] font-medium">
+        <div className="bg-background p-5">
+          <div className="flex items-center justify-between text-xs text-muted-foreground font-medium">
             <span>Databases (Firestore & Atlas)</span>
             <Database className="h-4 w-4 text-purple-400" />
           </div>
@@ -311,7 +311,7 @@ export const SystemHealthWidget: React.FC = () => {
               Atlas {mongoStatus.pingMs}ms
             </span>
           </div>
-          <div className="mt-1 text-[11px] text-[#c5d3e8]/70 font-mono truncate">
+          <div className="mt-1 text-[11px] text-muted-foreground/70 font-mono truncate">
             Firestore (asia-south1) • Atlas ({mongoStatus.database})
           </div>
         </div>
@@ -322,20 +322,20 @@ export const SystemHealthWidget: React.FC = () => {
       <div className="p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
-            <Terminal className="h-4 w-4 text-[#c5d3e8]" />
-            <h3 className="text-sm font-bold text-[#f8fafc] uppercase tracking-wider">
+            <Terminal className="h-4 w-4 text-muted-foreground" />
+            <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
               Live Audit Log Stream ({filteredLogs.length})
             </h3>
           </div>
 
           {/* Filter Chips */}
-          <div className="flex items-center gap-1.5 bg-[#152238] p-1 rounded-xl border border-[#415a77]/30 text-xs">
+          <div className="flex items-center gap-1.5 bg-muted p-1 rounded-xl border border-border text-xs">
             <button
               onClick={() => setSelectedFilter('all')}
               className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
                 selectedFilter === 'all' 
-                  ? 'bg-[#415a77] text-[#f8fafc] shadow-sm' 
-                  : 'text-[#c5d3e8] hover:text-[#f8fafc]'
+                  ? 'bg-[#415a77] text-foreground shadow-sm' 
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               All ({totalAuditCount})
@@ -345,7 +345,7 @@ export const SystemHealthWidget: React.FC = () => {
               className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
                 selectedFilter === 'healthy' 
                   ? 'bg-emerald-600 text-primary-foreground shadow-sm' 
-                  : 'text-[#c5d3e8] hover:text-emerald-300'
+                  : 'text-muted-foreground hover:text-emerald-300'
               }`}
             >
               Healthy ({healthyCount})
@@ -356,7 +356,7 @@ export const SystemHealthWidget: React.FC = () => {
                 className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
                   selectedFilter === 'warning' 
                     ? 'bg-amber-600 text-primary-foreground shadow-sm' 
-                    : 'text-[#c5d3e8] hover:text-amber-300'
+                    : 'text-muted-foreground hover:text-amber-300'
                 }`}
               >
                 Warnings ({warningCount})
@@ -368,7 +368,7 @@ export const SystemHealthWidget: React.FC = () => {
                 className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
                   selectedFilter === 'critical' 
                     ? 'bg-rose-600 text-primary-foreground shadow-sm' 
-                    : 'text-[#c5d3e8] hover:text-rose-300'
+                    : 'text-muted-foreground hover:text-rose-300'
                 }`}
               >
                 Critical ({criticalCount})
@@ -379,12 +379,12 @@ export const SystemHealthWidget: React.FC = () => {
 
         {/* Log Entries Container */}
         {loading ? (
-          <div className="py-12 text-center text-xs text-[#c5d3e8] font-mono">
+          <div className="py-12 text-center text-xs text-muted-foreground font-mono">
             <RefreshCw className="h-5 w-5 animate-spin mx-auto mb-2 text-cyan-400" />
             Loading Firestore live audit log stream...
           </div>
         ) : filteredLogs.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[#415a77]/30 bg-[#152238]/40 p-8 text-center text-xs text-[#c5d3e8]">
+          <div className="rounded-2xl border border-dashed border-border bg-muted/40 p-8 text-center text-xs text-muted-foreground">
             No audit logs found for the selected filter.
           </div>
         ) : (
@@ -404,7 +404,7 @@ export const SystemHealthWidget: React.FC = () => {
               return (
                 <div
                   key={log.id || `log-${index}`}
-                  className="rounded-xl border border-[#415a77]/30 bg-[#152238]/60 hover:bg-[#152238] transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="rounded-xl border border-border bg-muted/60 hover:bg-muted transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <div 
                     onClick={() => setExpandedLogId(isExpanded ? null : (log.id || `log-${index}`))}
@@ -421,25 +421,25 @@ export const SystemHealthWidget: React.FC = () => {
                       }`} />
 
                       {/* Engine Tag */}
-                      <span className="rounded bg-[#415a77]/40 px-1.5 py-0.5 text-[10px] font-bold text-[#c5d3e8] border border-[#415a77]/30 uppercase shrink-0">
+                      <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground border border-border uppercase shrink-0">
                         {log.engine || 'SYSTEM'}
                       </span>
 
                       {/* Action Title */}
-                      <span className="font-bold text-[#f8fafc] truncate font-sans text-xs">
+                      <span className="font-bold text-foreground truncate font-sans text-xs">
                         {log.action}
                       </span>
 
                       {/* Target */}
                       {log.target && (
-                        <span className="text-[#c5d3e8]/70 hidden md:inline truncate text-[11px]">
+                        <span className="text-muted-foreground/70 hidden md:inline truncate text-[11px]">
                           → {log.target}
                         </span>
                       )}
                     </div>
 
                     {/* Metadata & Timestamp */}
-                    <div className="flex items-center gap-3 shrink-0 self-end sm:self-center text-[11px] text-[#c5d3e8]">
+                    <div className="flex items-center gap-3 shrink-0 self-end sm:self-center text-[11px] text-muted-foreground">
                       {log.executionTimeMs !== undefined && (
                         <span className="text-cyan-300 font-semibold">
                           {log.executionTimeMs}ms
@@ -458,8 +458,8 @@ export const SystemHealthWidget: React.FC = () => {
 
                   {/* Expanded Detail Panel */}
                   {isExpanded && (
-                    <div className="border-t border-[#415a77]/20 bg-[#0b192c]/80 p-3.5 text-[11px] text-[#c5d3e8] space-y-1.5">
-                      <div className="flex justify-between items-center text-[#f8fafc]">
+                    <div className="border-t border-border bg-background/80 p-3.5 text-[11px] text-muted-foreground space-y-1.5">
+                      <div className="flex justify-between items-center text-foreground">
                         <span className="font-semibold">Audit Record ID:</span>
                         <span className="font-mono text-cyan-300">{log.id || 'N/A'}</span>
                       </div>
@@ -476,7 +476,7 @@ export const SystemHealthWidget: React.FC = () => {
                         </div>
                       )}
                       {log.details && (
-                        <div className="mt-2 pt-2 border-t border-[#415a77]/20 text-[#ebe9e6] font-sans leading-relaxed">
+                        <div className="mt-2 pt-2 border-t border-border text-[#ebe9e6] font-sans leading-relaxed">
                           {log.details}
                         </div>
                       )}

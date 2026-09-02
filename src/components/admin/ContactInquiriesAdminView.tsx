@@ -86,7 +86,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-border bg-background p-5 shadow-xs">
         <div>
           <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-            <Mail className="h-5 w-5 text-[#415a77]" />
+            <Mail className="h-5 w-5 text-muted-foreground" />
             <span>Captured Email Leads &amp; Inquiries</span>
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -98,7 +98,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
           <button
             type="button"
             onClick={fetchInquiries}
-            className="flex items-center gap-1.5 rounded-xl border border-border bg-muted px-3 py-2 text-xs font-mono font-semibold text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl border border-border bg-muted px-3 py-2 text-xs font-mono font-semibold text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -108,7 +108,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
             type="button"
             onClick={exportCSV}
             disabled={inquiries.length === 0}
-            className="flex items-center gap-1.5 rounded-xl bg-[#0b192c] text-primary-foreground px-3.5 py-2 text-xs font-mono font-bold hover:bg-[#162a45] transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1.5 rounded-xl bg-background text-primary-foreground px-3.5 py-2 text-xs font-mono font-bold hover:bg-[#162a45] transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export CSV</span>
@@ -124,7 +124,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
         </div>
         <div className="rounded-2xl border border-border bg-background p-4 shadow-xs">
           <div className="text-xs font-mono font-semibold text-muted-foreground uppercase">Latest 24 Hours</div>
-          <div className="text-2xl font-black text-[#415a77] mt-1">
+          <div className="text-2xl font-black text-muted-foreground mt-1">
             {inquiries.filter(i => Date.now() - i.createdAt < 24 * 60 * 60 * 1000).length}
           </div>
         </div>
@@ -155,7 +155,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
       <div className="rounded-2xl border border-border bg-background shadow-xs overflow-hidden">
         {loading ? (
           <div className="py-16 text-center text-muted-foreground font-mono text-xs">
-            <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-[#415a77]" />
+            <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-muted-foreground" />
             <span>Fetching submissions from database...</span>
           </div>
         ) : filteredInquiries.length === 0 ? (
@@ -169,14 +169,14 @@ export const ContactInquiriesAdminView: React.FC = () => {
         ) : (
           <div className="divide-y divide-gray-100">
             {filteredInquiries.map((item) => (
-              <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
                     <span className="font-mono text-sm font-bold text-foreground">{item.email}</span>
                     <button
                       type="button"
                       onClick={() => handleCopy(item.email, item.id || String(item.createdAt))}
-                      className="p-1 rounded-md text-muted-foreground hover:text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                      className="p-1 rounded-md text-muted-foreground hover:text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Copy email"
                     >
                       {copiedId === (item.id || String(item.createdAt)) ? (

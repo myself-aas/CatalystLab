@@ -19,7 +19,7 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
       className={twMerge(
         clsx(
           'w-full flex items-center justify-between',
-          layout === 'inline-dividers' && (isSurface ? 'divide-x divide-slate-200 dark:divide-slate-800/80' : 'divide-x divide-white/20'),
+          layout === 'inline-dividers' && (isSurface ? 'divide-x divide-border' : 'divide-x divide-white/20'),
           className
         )
       )}

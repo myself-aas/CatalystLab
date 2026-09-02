@@ -22,18 +22,18 @@ export const GitLygaseDoc: React.FC = () => {
           <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
           <span>SDLC Phase 2: Repository Scanner</span>
         </div>
-        <h1 className="text-3xl font-extrabold text-[#0b192c] tracking-tight">
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
           GitLygase: Repository SecOps & Hygiene Engine
         </h1>
-        <p className="text-base text-[#415a77] leading-relaxed">
+        <p className="text-base text-muted-foreground leading-relaxed">
           GitLygase audits Git repositories for security compliance policies, open source licensing (MIT, Apache 2.0, GPL, BSD), vulnerability disclosure protocols (<code>SECURITY.md</code>), automated dependency updates, and continuous integration workflows.
         </p>
       </section>
 
       {/* Security Disclosure */}
-      <section id="security-disclosure" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">SECURITY.md Vulnerability Disclosure Policy</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="security-disclosure" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">SECURITY.md Vulnerability Disclosure Policy</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Repositories without a clear vulnerability policy risk public exploit disclosure. GitLygase validates the presence of a standardized <code>.github/SECURITY.md</code>:
         </p>
 
@@ -60,9 +60,9 @@ Our security team will acknowledge receipt within 24 hours and issue a patch wit
       </section>
 
       {/* Dependabot CI */}
-      <section id="dependabot-ci" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Automated Dependabot Security Config</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="dependabot-ci" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Automated Dependabot Security Config</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Enforce daily package vulnerability scans across npm, Docker, and GitHub Actions:
         </p>
 
@@ -89,11 +89,11 @@ updates:
       </section>
 
       {/* License Detection */}
-      <section id="license-detection" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">SPDX License Compliance Matrix</h2>
-        <div className="overflow-x-auto rounded-xl border border-[#e2e8f0] bg-background">
+      <section id="license-detection" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">SPDX License Compliance Matrix</h2>
+        <div className="overflow-x-auto rounded-xl border border-border bg-background">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-[#e2e8f0] bg-[#f8fafc] text-[#415a77] font-semibold">
+            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
               <tr>
                 <th className="py-2.5 px-3">SPDX Identifier</th>
                 <th className="py-2.5 px-3">Commercial Use</th>
@@ -101,17 +101,17 @@ updates:
                 <th className="py-2.5 px-3">Compliance Risk</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-[#0b192c]">
+            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-mono font-bold text-emerald-700">MIT / BSD-3-Clause</td>
                 <td className="py-2 px-3 text-emerald-700">Permitted</td>
-                <td className="py-2 px-3 text-[#64748b]">None (Attribution only)</td>
+                <td className="py-2 px-3 text-muted-foreground">None (Attribution only)</td>
                 <td className="py-2 px-3 text-emerald-700 font-bold">Low / Permissive</td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-mono font-bold text-sky-700">Apache-2.0</td>
                 <td className="py-2 px-3 text-emerald-700">Permitted</td>
-                <td className="py-2 px-3 text-[#64748b]">Patent Grant Required</td>
+                <td className="py-2 px-3 text-muted-foreground">Patent Grant Required</td>
                 <td className="py-2 px-3 text-emerald-700 font-bold">Low / Permissive</td>
               </tr>
               <tr>

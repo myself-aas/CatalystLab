@@ -161,7 +161,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               aria-label="Target domain or URL for telemetry audit"
               aria-describedby={`${inputId}-description`}
               aria-busy={isLoading}
-              className={`w-full bg-transparent text-foreground placeholder-slate-400 font-mono focus:outline-none transition-colors ${
+              className={`w-full bg-transparent text-foreground placeholder-muted-foreground font-mono focus:outline-none transition-colors ${
                 isHero
                   ? 'text-sm sm:text-base py-2'
                   : isCompact

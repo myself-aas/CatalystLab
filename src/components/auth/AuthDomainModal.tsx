@@ -59,12 +59,12 @@ export const AuthDomainModal: React.FC = () => {
       aria-modal="true"
       aria-labelledby="auth-domain-title"
     >
-      <div className="relative w-full max-w-xl rounded-2xl border border-[#415a77]/40 bg-[#0b192c] p-6 sm:p-7 shadow-2xl text-[#f8fafc]">
+      <div className="relative w-full max-w-xl rounded-2xl border border-border bg-background p-6 sm:p-7 shadow-2xl text-foreground">
         
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute right-4 top-4 rounded-xl p-1.5 text-[#c5d3e8] hover:bg-[#152238] hover:text-[#f8fafc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          className="absolute right-4 top-4 rounded-xl p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Close dialog"
         >
           <X className="h-5 w-5" />
@@ -76,25 +76,25 @@ export const AuthDomainModal: React.FC = () => {
             <ShieldAlert className="h-6 w-6" />
           </div>
           <div>
-            <h3 id="auth-domain-title" className="text-lg font-bold text-[#f8fafc]">
+            <h3 id="auth-domain-title" className="text-lg font-bold text-foreground">
               Firebase Auth Domain Whitelist Required
             </h3>
-            <p className="text-xs text-[#c5d3e8] mt-1 leading-relaxed">
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Google Sign-In requires your current Cloud Run preview domain to be registered in your Firebase project authorized domains list.
             </p>
           </div>
         </div>
 
         {/* Domain Display & Copy Box */}
-        <div className="mb-5 rounded-xl border border-[#415a77]/40 bg-[#152238] p-3.5">
-          <div className="flex items-center justify-between text-xs text-[#c5d3e8] mb-1.5">
+        <div className="mb-5 rounded-xl border border-border bg-muted p-3.5">
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
             <span className="font-semibold uppercase tracking-wider text-[10px] text-[#8ea8c3]">Current Host Domain</span>
             <span className="font-mono text-[10px] text-amber-300 font-bold">Action Required in Firebase</span>
           </div>
-          <div className="flex items-center justify-between gap-2 rounded-lg bg-[#0b192c] border border-[#415a77]/30 px-3 py-2">
+          <div className="flex items-center justify-between gap-2 rounded-lg bg-background border border-border px-3 py-2">
             <div className="flex items-center gap-2 truncate">
               <Globe className="h-4 w-4 shrink-0 text-[#38bdf8]" />
-              <span className="font-mono text-xs font-bold text-[#f8fafc] truncate select-all">
+              <span className="font-mono text-xs font-bold text-foreground truncate select-all">
                 {currentHostname}
               </span>
             </div>
@@ -123,24 +123,24 @@ export const AuthDomainModal: React.FC = () => {
         </div>
 
         {/* Setup Steps */}
-        <div className="mb-5 rounded-xl border border-[#415a77]/30 bg-[#0d1b2a] p-4 text-xs text-[#c5d3e8] space-y-2.5">
-          <div className="font-bold text-[#f8fafc] flex items-center gap-1.5">
+        <div className="mb-5 rounded-xl border border-border bg-[#0d1b2a] p-4 text-xs text-muted-foreground space-y-2.5">
+          <div className="font-bold text-foreground flex items-center gap-1.5">
             <Key className="h-3.5 w-3.5 text-[#38bdf8]" />
             <span>How to Authorize This Domain in Firebase Console:</span>
           </div>
-          <ol className="list-decimal list-inside space-y-1.5 text-[#c5d3e8] text-[11px] leading-relaxed">
+          <ol className="list-decimal list-inside space-y-1.5 text-muted-foreground text-[11px] leading-relaxed">
             <li>
               Open <a 
                 href={domainConfig.consoleAuthUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="font-bold text-[#38bdf8] hover:underline inline-flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="font-bold text-[#38bdf8] hover:underline inline-flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Firebase Console Settings <ExternalLink className="h-3 w-3 inline" />
-              </a> (Project: <code className="text-[#f8fafc]">{domainConfig.projectId}</code>).
+              </a> (Project: <code className="text-foreground">{domainConfig.projectId}</code>).
             </li>
             <li>Scroll down to the <strong>Authorized domains</strong> section and click <strong>Add domain</strong>.</li>
-            <li>Paste <code className="rounded bg-[#152238] px-1 py-0.5 text-[#f8fafc] font-mono">{currentHostname}</code> and click <strong>Save</strong>.</li>
+            <li>Paste <code className="rounded bg-muted px-1 py-0.5 text-foreground font-mono">{currentHostname}</code> and click <strong>Save</strong>.</li>
           </ol>
         </div>
 
@@ -150,14 +150,14 @@ export const AuthDomainModal: React.FC = () => {
             <Sparkles className="h-4 w-4 text-[#38bdf8]" />
             <span>Preview Sandbox Session (Instant Testing)</span>
           </div>
-          <p className="text-[11px] text-[#c5d3e8] mb-3 leading-relaxed">
+          <p className="text-[11px] text-muted-foreground mb-3 leading-relaxed">
             You can also immediately test and verify all platform capabilities (including Superadmin Command Center, Site Probes, User Quotas, and Audit Dossiers) using a local preview session:
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={handleSignInAsSuperadmin}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#52718e] transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#52718e] transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
               <span>Sign In as Superadmin</span>
@@ -165,7 +165,7 @@ export const AuthDomainModal: React.FC = () => {
 
             <button
               onClick={handleSignInAsDeveloper}
-              className="flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/50 bg-[#152238] px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1a2d48] transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3.5 py-2.5 text-xs font-bold text-foreground hover:bg-[#1a2d48] transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <UserCheck className="h-4 w-4 text-[#38bdf8]" />
               <span>Sign In as Developer</span>
@@ -174,12 +174,12 @@ export const AuthDomainModal: React.FC = () => {
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-[#415a77]/30 text-xs">
+        <div className="flex items-center justify-between pt-2 border-t border-border text-xs">
           <a
             href={domainConfig.consoleAuthUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-[#c5d3e8] hover:text-primary-foreground transition-colors flex items-center gap-1 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="text-muted-foreground hover:text-primary-foreground transition-colors flex items-center gap-1 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span>Open Firebase Settings</span>
             <ExternalLink className="h-3.5 w-3.5" />
@@ -187,7 +187,7 @@ export const AuthDomainModal: React.FC = () => {
 
           <button
             onClick={handleClose}
-            className="rounded-xl border border-[#415a77]/40 bg-[#152238] px-4 py-2 text-xs font-bold text-[#f8fafc] hover:bg-[#0d1b2a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="rounded-xl border border-border bg-muted px-4 py-2 text-xs font-bold text-foreground hover:bg-[#0d1b2a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Continue as Guest
           </button>

@@ -26,18 +26,18 @@ if (!rootElement) throw new Error('Failed to find the root element');
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <ErrorBoundary variant="root">
     <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <SubscriptionProvider>
-            <RoleSecurityProvider>
-              <App />
-            </RoleSecurityProvider>
-          </SubscriptionProvider>
-        </AuthProvider>
-      </ThemeProvider>
+      <ErrorBoundary variant="root">
+        <ThemeProvider>
+          <AuthProvider>
+            <SubscriptionProvider>
+              <RoleSecurityProvider>
+                <App />
+              </RoleSecurityProvider>
+            </SubscriptionProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
     </BrowserRouter>
-  </ErrorBoundary>
   </React.StrictMode>
 );

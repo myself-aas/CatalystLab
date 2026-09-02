@@ -25,8 +25,8 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={mockData}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b'}} />
-              <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b'}} />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: 'currentColor'}} />
+              <YAxis axisLine={false} tickLine={false} tick={{fill: 'currentColor'}} />
               <Tooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }} />
               <Bar dataKey="value" fill="#38bdf8" radius={[4, 4, 0, 0]} />
             </BarChart>

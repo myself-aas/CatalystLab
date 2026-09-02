@@ -46,7 +46,7 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
 
       {/* Overlay Layers */}
       {overlay && (
-        <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/90 via-slate-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-background/90 via-background/40 to-transparent" />
       )}
 
       {/* Dark gradient scrim overlay */}

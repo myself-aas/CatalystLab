@@ -56,22 +56,22 @@ export const ApiCategoryPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-[#0b192c]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Category Header */}
-      <div className="border-b border-[#e2e8f0] bg-background pt-10 pb-12">
+      <div className="border-b border-border bg-background pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
-              <Link to="/api-reference" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <Link to="/api-reference" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 API Reference
               </Link>
               <span>/</span>
-              <span className="text-[#0b192c] font-bold">{categoryName}</span>
+              <span className="text-foreground font-bold">{categoryName}</span>
             </div>
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl sm:text-4xl font-black text-[#0b192c]">
+                <h1 className="text-3xl sm:text-4xl font-black text-foreground">
                   {categoryName}
                 </h1>
                 <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
@@ -82,14 +82,14 @@ export const ApiCategoryPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/api-reference"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
                   <span>All Categories</span>
                 </Link>
                 <Link
                   to="/playground"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b192c] px-3.5 py-2 text-xs font-bold text-primary-foreground hover:bg-[#152238] transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-background px-3.5 py-2 text-xs font-bold text-primary-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Terminal className="h-3.5 w-3.5 text-emerald-400" />
                   <span>Open Playground</span>
@@ -122,7 +122,7 @@ export const ApiCategoryPage: React.FC = () => {
                   <article
                     key={ep.id}
                     id={ep.id}
-                    className="rounded-3xl border border-[#e2e8f0] bg-background p-6 sm:p-8 shadow-sm space-y-6 scroll-mt-24"
+                    className="rounded-3xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-6 scroll-mt-24"
                   >
                     {/* Endpoint Header */}
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-border pb-5">
@@ -136,11 +136,11 @@ export const ApiCategoryPage: React.FC = () => {
                           }`}>
                             {ep.method}
                           </span>
-                          <span className="font-mono text-sm font-bold text-[#0b192c]">
+                          <span className="font-mono text-sm font-bold text-foreground">
                             {ep.path}
                           </span>
                         </div>
-                        <h2 className="text-lg font-bold text-[#0b192c]">
+                        <h2 className="text-lg font-bold text-foreground">
                           {ep.summary}
                         </h2>
                       </div>
@@ -149,7 +149,7 @@ export const ApiCategoryPage: React.FC = () => {
                       {ep.engineId && (
                         <Link
                           to={`/playground/${ep.engineId}`}
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-colors shrink-0 self-start lg:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-colors shrink-0 self-start lg:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           <Terminal className="h-3.5 w-3.5 text-emerald-600" />
                           <span>Test in Playground</span>
@@ -192,8 +192,8 @@ export const ApiCategoryPage: React.FC = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-100 font-mono text-muted-foreground">
                               {ep.parameters.map((p) => (
-                                <tr key={p.name} className="hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
-                                  <td className="p-3 font-bold text-[#0b192c]">{p.name}</td>
+                                <tr key={p.name} className="hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                                  <td className="p-3 font-bold text-foreground">{p.name}</td>
                                   <td className="p-3 text-sky-700">{p.type}</td>
                                   <td className="p-3 text-muted-foreground">{p.in}</td>
                                   <td className="p-3">
@@ -224,7 +224,7 @@ export const ApiCategoryPage: React.FC = () => {
                           )}
                         </div>
                         <p className="text-xs text-muted-foreground">{ep.requestBody.description}</p>
-                        <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
+                        <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
                           <pre className="text-emerald-400">
                             {JSON.stringify(ep.requestBody.defaultPayload, null, 2)}
                           </pre>
@@ -259,7 +259,7 @@ export const ApiCategoryPage: React.FC = () => {
 
                           <button
                             onClick={() => handleCopy(ep.id, snippet)}
-                            className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-background px-3 py-1 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer ml-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           >
                             {copiedMap[ep.id] ? (
                               <>
@@ -276,7 +276,7 @@ export const ApiCategoryPage: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
+                      <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
                         <pre className="text-sky-300 whitespace-pre leading-relaxed">
                           {snippet}
                         </pre>
@@ -290,7 +290,7 @@ export const ApiCategoryPage: React.FC = () => {
                           Response Payload (Status {ep.responses[0].status})
                         </h3>
                         <p className="text-xs text-muted-foreground">{ep.responses[0].description}</p>
-                        <div className="rounded-2xl bg-[#0b192c] p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-[#415a77]/30">
+                        <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
                           <pre className="text-amber-300">
                             {JSON.stringify(ep.responses[0].example, null, 2)}
                           </pre>

@@ -74,7 +74,7 @@ export const EnterpriseScaleChart: React.FC = () => {
     <section className="py-12 lg:py-14 bg-accent text-primary-foreground relative overflow-hidden border-b border-border">
       {/* Background Glow Elements */}
       <div className="absolute top-1/3 left-1/3 w-[450px] h-[450px] bg-[#38bdf8]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-[#415a77]/20 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-muted rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(65,90,119,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(65,90,119,0.08)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -82,14 +82,14 @@ export const EnterpriseScaleChart: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <LazyReveal direction="up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#415a77]/60 bg-[#0d1b2a] px-3 py-0.5 text-sm font-mono text-[#c5d3e8] mb-2 shadow-[0_0_20px_rgba(65,90,119,0.2)]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-[#0d1b2a] px-3 py-0.5 text-sm font-mono text-muted-foreground mb-2 shadow-[0_0_20px_rgba(65,90,119,0.2)]">
               <Server className="h-3 w-3 text-[#38bdf8]" />
               <span>Enterprise SLA & Governance</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-primary-foreground">
               Scale & Compliance Engine
             </h2>
-            <p className="text-sm sm:text-base text-[#c5d3e8] max-w-xl mt-1 leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mt-1 leading-relaxed">
               Multi-threaded AST engines and continuous compliance reporting for production infrastructures.
             </p>
           </LazyReveal>
@@ -98,9 +98,9 @@ export const EnterpriseScaleChart: React.FC = () => {
             type="button"
             onClick={triggerSimulation}
             disabled={simulationActive}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#c5d3e8] text-[#0b192c] hover:bg-background text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#c5d3e8] text-foreground hover:bg-background text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Sparkles className={`h-3.5 w-3.5 text-[#0b192c] ${simulationActive ? 'animate-spin' : ''}`} />
+            <Sparkles className={`h-3.5 w-3.5 text-foreground ${simulationActive ? 'animate-spin' : ''}`} />
             <span>{simulationActive ? 'Simulating SLA Load...' : 'Simulate Enterprise Load'}</span>
           </button>
         </div>
@@ -118,7 +118,7 @@ export const EnterpriseScaleChart: React.FC = () => {
                 className={`text-left p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
                   isActive
                     ? 'bg-[#162a45] border-[#38bdf8] shadow-[0_0_20px_rgba(56,189,248,0.2)] ring-1 ring-[#38bdf8]'
-                    : 'bg-[#0d1b2a]/80 border-[#415a77]/40 hover:bg-[#132742] hover:border-[#415a77]'
+                    : 'bg-[#0d1b2a]/80 border-border hover:bg-[#132742] hover:border-[#415a77]'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -143,13 +143,13 @@ export const EnterpriseScaleChart: React.FC = () => {
         </div>
 
         {/* Dynamic Detail & Dial Card */}
-        <div className="bg-[#0b192c]/95 border border-[#415a77]/60 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-xl">
+        <div className="bg-background/95 border border-border rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
             {/* Left Content */}
             <div className="lg:col-span-8 space-y-3">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono uppercase tracking-wider text-[#8ea8c3] bg-[#0d1b2a] px-2 py-0.5 rounded border border-[#415a77]/40">
+                <span className="text-xs font-mono uppercase tracking-wider text-[#8ea8c3] bg-[#0d1b2a] px-2 py-0.5 rounded border border-border">
                   {current.subtitle}
                 </span>
                 <span className="text-sm font-mono font-bold text-emerald-400 flex items-center gap-1">
@@ -162,14 +162,14 @@ export const EnterpriseScaleChart: React.FC = () => {
                 {current.title}
               </h3>
 
-              <p className="text-sm text-[#c5d3e8] leading-relaxed max-w-2xl">
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
                 {current.desc}
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-3 text-sm font-mono">
                 <Link
                   to="/launch-audit"
-                  className="inline-flex items-center gap-1.5 bg-[#c5d3e8] hover:bg-background text-[#0b192c] px-3.5 py-1.5 rounded-xl font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 bg-[#c5d3e8] hover:bg-background text-foreground px-3.5 py-1.5 rounded-xl font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span>Audit Infrastructure SLA</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -181,7 +181,7 @@ export const EnterpriseScaleChart: React.FC = () => {
             </div>
 
             {/* Right Metric Dial */}
-            <div className="lg:col-span-4 flex flex-col items-center justify-center p-3 bg-[#0d1b2a] rounded-2xl border border-[#415a77]/40">
+            <div className="lg:col-span-4 flex flex-col items-center justify-center p-3 bg-[#0d1b2a] rounded-2xl border border-border">
               <div className="text-2xl sm:text-3xl font-black font-mono text-primary-foreground tracking-tight">
                 {current.dialValue}
               </div>

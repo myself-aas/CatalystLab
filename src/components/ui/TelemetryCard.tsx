@@ -128,7 +128,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
   return (
     <div
       id={cardId}
-      className={`rounded-2xl border border-zinc-800/80 bg-zinc-950/40 backdrop-blur-xl shadow-sm transition-all duration-300 hover:border-zinc-700 hover:shadow-md overflow-hidden ${className}`}
+      className={`rounded-2xl border border-border bg-card/40 backdrop-blur-xl shadow-sm transition-all duration-300 hover:border-border hover:shadow-md overflow-hidden ${className}`}
     >
       {/* Card Header & Primary Display */}
       <div className="p-4 sm:p-5">
@@ -145,17 +145,17 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
               </span>
 
               {shortCode && (
-                <span className="text-[10px] font-mono font-medium text-zinc-400 bg-zinc-900/80 px-1.5 py-0.5 rounded-md border border-zinc-800/80">
+                <span className="text-[10px] font-mono font-medium text-muted-foreground bg-card/80 px-1.5 py-0.5 rounded-md border border-border">
                   {shortCode}
                 </span>
               )}
 
-              <span className="text-[10px] font-mono font-medium text-zinc-400 bg-zinc-900/50 border border-zinc-800/80 px-2 py-0.5 rounded-md">
+              <span className="text-[10px] font-mono font-medium text-muted-foreground bg-card/50 border border-border px-2 py-0.5 rounded-md">
                 {category}
               </span>
             </div>
 
-            <h3 className="text-sm sm:text-base font-bold text-zinc-100 truncate font-sans tracking-tight">
+            <h3 className="text-sm sm:text-base font-bold text-card-foreground truncate font-sans tracking-tight">
               {techTranslation}
             </h3>
           </div>
@@ -175,7 +175,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             >
               <Activity className="w-4 h-4 animate-pulse" />
               <span>{score}</span>
-              <span className="text-[10px] font-medium text-zinc-400">/100</span>
+              <span className="text-[10px] font-medium text-muted-foreground">/100</span>
             </div>
             <span className="text-[10px] font-mono text-muted-foreground mt-1.5">
               {executionTimeMs}ms • {status}
@@ -184,10 +184,10 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
         </div>
 
         {/* Primary Metric Pulse Showcase */}
-        <div className="mt-5 p-3.5 rounded-xl bg-zinc-900/50 border border-zinc-800/80 flex items-center justify-between gap-4 shadow-inner">
+        <div className="mt-5 p-3.5 rounded-xl bg-card/50 border border-border flex items-center justify-between gap-4 shadow-inner">
           <div className="flex items-center gap-3">
             {/* Animated Pulse Ring */}
-            <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-zinc-950/40 backdrop-blur-xl border border-zinc-800/80 shadow-sm">
+            <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-card/40 backdrop-blur-xl border border-border shadow-sm">
               <span
                 style={{ backgroundColor: themeColor }}
                 className="w-2 h-2 rounded-full animate-ping absolute opacity-75"
@@ -199,15 +199,15 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             </div>
 
             <div>
-              <p className="text-[10px] font-sans font-bold text-zinc-400 uppercase tracking-widest">
+              <p className="text-[10px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
                 {primaryMetric.label}
               </p>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-base sm:text-lg font-black font-mono text-zinc-100 tracking-tight">
+                <span className="text-base sm:text-lg font-black font-mono text-card-foreground tracking-tight">
                   {primaryMetric.value}
                 </span>
                 {primaryMetric.unit && (
-                  <span className="text-xs font-mono font-medium text-zinc-400">
+                  <span className="text-xs font-mono font-medium text-muted-foreground">
                     {primaryMetric.unit}
                   </span>
                 )}
@@ -226,7 +226,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
         </div>
 
         {/* Control Footer Bar */}
-        <div className="mt-4 pt-3 border-t border-zinc-800/80 flex items-center justify-between gap-2">
+        <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2">
           <button
             type="button"
             id={`${cardId}-toggle-subvectors`}
@@ -250,7 +250,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
               id={`${cardId}-copy-payload`}
               onClick={handleCopyVectorPayload}
               title="Copy Vector JSON"
-              className="p-1.5 rounded-lg text-muted-foreground hover:text-muted-foreground hover:bg-zinc-900/80 transition-colors"
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-muted-foreground hover:bg-card/80 transition-colors"
             >
               {copiedHash ? (
                 <Check className="w-3.5 h-3.5 text-emerald-500" />
@@ -265,7 +265,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                 id={`${cardId}-inspect`}
                 onClick={onInspectDetails}
                 title="Deep Inspect Engine AST"
-                className="flex items-center gap-1 text-[11px] font-sans font-bold text-zinc-400 hover:text-zinc-300 hover:bg-zinc-900/80 px-2 py-1.5 rounded-lg transition-colors border border-transparent hover:border-zinc-800/80"
+                className="flex items-center gap-1 text-[11px] font-sans font-bold text-muted-foreground hover:text-card-foreground hover:bg-card/80 px-2 py-1.5 rounded-lg transition-colors border border-transparent hover:border-border"
               >
                 <span>Inspect</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -284,10 +284,10 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.28, ease: 'easeInOut' }}
-            className="border-t border-zinc-800/80 bg-zinc-900/50 px-4 py-4 sm:px-5"
+            className="border-t border-border bg-card/50 px-4 py-4 sm:px-5"
           >
-            <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800/80/60">
-              <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-zinc-400 flex items-center gap-1.5">
+            <div className="flex items-center justify-between pb-3 mb-3 border-b border-border/60">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
                 <Terminal className="w-3 h-3 text-indigo-500" />
                 <span>MICRO-ANALYZER DIAGNOSTIC VECTORS (6/6)</span>
               </span>
@@ -306,10 +306,10 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                   <div
                     key={vector.id || `vec-${idx}`}
                     id={`${cardId}-vector-${idx}`}
-                    className="p-3 rounded-xl bg-zinc-950/40 backdrop-blur-xl border border-zinc-800/80 hover:border-zinc-700 hover:shadow-sm transition-all flex flex-col justify-between gap-2 shadow-sm"
+                    className="p-3 rounded-xl bg-card/40 backdrop-blur-xl border border-border hover:border-border hover:shadow-sm transition-all flex flex-col justify-between gap-2 shadow-sm"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-sans font-bold text-zinc-100 truncate tracking-tight">
+                      <span className="text-xs font-sans font-bold text-card-foreground truncate tracking-tight">
                         {vector.name}
                       </span>
                       <span
@@ -320,11 +320,11 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-baseline justify-between gap-2 pt-2 mt-0.5 border-t border-zinc-800/50">
-                      <span className="text-sm font-black font-mono text-zinc-100">
+                    <div className="flex items-baseline justify-between gap-2 pt-2 mt-0.5 border-t border-border">
+                      <span className="text-sm font-black font-mono text-card-foreground">
                         {vector.value}
                         {vector.unit && (
-                          <span className="text-[10px] font-medium text-zinc-400 ml-0.5">
+                          <span className="text-[10px] font-medium text-muted-foreground ml-0.5">
                             {vector.unit}
                           </span>
                         )}
@@ -336,7 +336,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                       )}
                     </div>
 
-                    <p className="text-[10.5px] text-zinc-400 leading-snug line-clamp-2 mt-0.5 font-sans">
+                    <p className="text-[10.5px] text-muted-foreground leading-snug line-clamp-2 mt-0.5 font-sans">
                       {vector.description}
                     </p>
                   </div>

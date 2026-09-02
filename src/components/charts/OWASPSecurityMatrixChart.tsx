@@ -177,7 +177,7 @@ header {
           </thead>
           <tbody className="divide-y divide-black/20 text-foreground">
             {headersList.map((header) => (
-              <tr key={header.name} className="hover:bg-background/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400">
+              <tr key={header.name} className="hover:bg-background/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                 <td className="px-4 py-3 font-mono font-semibold text-foreground">
                   <div>{header.name}</div>
                   <div className="text-[11px] text-muted-foreground font-sans md:hidden mt-0.5">{header.desc}</div>
@@ -234,7 +234,7 @@ header {
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 rounded-lg border border-black/40 bg-foreground/25 px-3 py-1 text-xs font-semibold text-foreground hover:bg-foreground/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center gap-1.5 rounded-lg border border-black/40 bg-foreground/25 px-3 py-1 text-xs font-semibold text-foreground hover:bg-foreground/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               {copiedSnippet ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5 text-muted-foreground" />}
               <span>{copiedSnippet ? 'Copied' : 'Copy'}</span>

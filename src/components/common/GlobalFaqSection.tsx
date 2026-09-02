@@ -199,7 +199,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={`Search ${totalQuestions} questions across all tabs (e.g. CI/CD, TTFB, /llms.txt)...`}
-                  className="w-full pl-11 pr-10 py-3 rounded-xl bg-muted border border-border text-xs font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-border transition-all shadow-sm"
+                  className="w-full pl-11 pr-10 py-3 rounded-xl bg-muted border border-border text-xs font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-border transition-all shadow-sm"
                 />
                 {searchQuery && (
                   <button

@@ -41,19 +41,19 @@ const SPECS = [
 
 export const ArchitectureComparator: React.FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-primary border-t border-white/6 relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-transparent border-t border-border-default relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="mb-12 md:mb-16 max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-950/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-emerald-400 mb-3">
-            <Server className="size-3.5" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-border-default bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent-bright mb-3 backdrop-blur-md">
+            <Server className="size-3.5 text-accent" />
             <span>Infrastructure Specifications</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-primary-foreground tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight leading-tight text-gradient-linear">
             Enterprise architecture.
           </h2>
-          <p className="mt-3 text-muted-foreground text-base sm:text-lg leading-relaxed">
+          <p className="mt-3 text-foreground-muted text-base sm:text-lg leading-relaxed">
             Built on a globally distributed edge mesh, CatalystLab scales elastically to handle millions of synthetic requests while maintaining sub-second analysis latency.
           </p>
         </div>
@@ -67,18 +67,18 @@ export const ArchitectureComparator: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative overflow-hidden p-6 rounded-2xl bg-foreground/70 border border-white/8 hover:bg-primary/60 hover:border-white/20 transition-all duration-300 flex flex-col justify-between min-h-[260px] backdrop-blur-xl shadow-lg"
+              className="group relative overflow-hidden p-6 rounded-2xl bg-white/[0.04] border border-border-default hover:bg-white/[0.07] hover:border-border-hover transition-all duration-300 flex flex-col justify-between min-h-[260px] backdrop-blur-xl shadow-linear-card hover:shadow-linear-card-hover"
             >
               {/* Top Bar: Name & Live Status Ping */}
               <div className="flex items-start justify-between relative z-10">
                 <div>
-                  <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-medium">{spec.name}</h3>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-cyan-400 mt-1 block">
+                  <h3 className="text-xs font-mono uppercase tracking-wider text-foreground-muted font-medium">{spec.name}</h3>
+                  <span className="font-mono text-[9px] uppercase tracking-widest text-accent-bright mt-1 block">
                     {spec.badge}
                   </span>
                 </div>
 
-                <div className="size-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                <div className="size-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_rgba(94,106,210,0.8)]" />
               </div>
               
               {/* Interactive Edge Globe for Latency Card */}
@@ -100,10 +100,10 @@ export const ArchitectureComparator: React.FC = () => {
               {/* Bottom Stat Value & Description */}
               <div className="relative z-10 mt-6">
                 <div className="flex items-baseline gap-1.5 mb-3">
-                  <span className="text-4xl font-semibold text-primary-foreground font-mono tracking-tight">{spec.value}</span>
-                  <span className="text-sm text-muted-foreground font-mono font-medium">{spec.unit}</span>
+                  <span className="text-4xl font-semibold text-foreground font-mono tracking-tight">{spec.value}</span>
+                  <span className="text-sm text-foreground-muted font-mono font-medium">{spec.unit}</span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed border-t border-white/6 pt-3.5">
+                <p className="text-xs text-foreground-muted leading-relaxed border-t border-border-default pt-3.5">
                   {spec.why}
                 </p>
               </div>

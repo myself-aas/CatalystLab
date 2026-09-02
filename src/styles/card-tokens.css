@@ -3,75 +3,75 @@
    ========================================================================== */
 
 :root {
-  /* --- Unified Modular Card Design Tokens --- */
-  --bg-dark-base: #060912;
-  --bg-dark-container: #0b101d;
-  --bg-dark-elevated: #131c31;
-  --text-primary-white: #FFFFFF;
-  --text-muted-secondary: #94a3b8;
+  /* --- Unified Modular Card Design Tokens (Linear / Modern Deep Space) --- */
+  --bg-dark-base: #050506;
+  --bg-dark-container: #0a0a0c;
+  --bg-dark-elevated: #0f0f12;
+  --text-primary-white: #EDEDEF;
+  --text-muted-secondary: #8A8F98;
   
-  /* --- Structural Geometry & Mathematical Nested Radius Math --- */
-  --card-radius-outer: 24px;
-  --card-radius-inner: 16px;
+  /* --- Structural Geometry (16px Card Radius per Linear Design System) --- */
+  --card-radius-outer: 16px;
+  --card-radius-inner: 12px;
   --card-radius-pill: 9999px;
-  --card-radius-chip: 8px;
-  --trail-card-radius-outer: 24px;
-  --trail-card-radius-inner: 16px;
+  --card-radius-chip: 6px;
+  --trail-card-radius-outer: 16px;
+  --trail-card-radius-inner: 12px;
 
   /* --- Per-Enzyme Biochemical Hue Tokens (HSL Values) --- */
   --hue-vitalzyme: 142 71% 45%;        /* Emerald / Core Health */
   --hue-riskprotease: 0 84% 60%;       /* Crimson / OWASP SecOps */
   --hue-llmkinase: 262 83% 58%;        /* Violet / LLMO & Discovery */
-  --hue-edgevmax: 189 94% 43%;         /* Cyan / Edge TTFB & DNS */
+  --hue-edgevmax: 236 57% 60%;         /* Indigo / Edge TTFB & Linear Primary */
   --hue-ecoholo: 160 84% 39%;          /* Mint Green / Carbon & ESG */
   --hue-synthshift: 38 92% 50%;        /* Amber / Platform Migration */
   --hue-gitlygase: 217 91% 60%;        /* Electric Blue / CI/CD DevOps */
   --hue-alloster: 300 90% 55%;         /* Magenta Fuchsia / AI Search */
-  --hue-neutral: 240 5% 65%;           /* Neutral Slate */
+  --hue-neutral: 236 57% 60%;          /* Linear Indigo Neutral */
 
-  /* --- Bento 2.0 Diffusion Shadows & Bloom --- */
-  --card-shadow-diffusion: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
-  --card-shadow-ambient: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  --card-shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.65);
-  --card-bloom-active: 0 30px 60px -12px rgba(0, 0, 0, 0.85);
+  /* --- Linear / Modern Multi-Layer Shadows & Ambient Glows --- */
+  --card-shadow-diffusion: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
+  --card-shadow-ambient: 0 2px 20px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(94, 106, 210, 0.12);
+  --card-bloom-active: 0 0 0 1px rgba(94, 106, 210, 0.5), 0 12px 48px -8px rgba(94, 106, 210, 0.35);
 
-  /* --- Liquid Glass Refractions --- */
-  --glass-bg: rgba(11, 16, 29, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-inner-border: rgba(255, 255, 255, 0.06);
-  --glass-shadow-inner: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  /* --- Liquid Glass Refractions (Deep Space) --- */
+  --glass-bg: rgba(10, 10, 12, 0.70);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-inner-border: rgba(255, 255, 255, 0.04);
+  --glass-shadow-inner: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 
   /* --- High-Contrast Text Scrim Overlays --- */
   --scrim-immersive: linear-gradient(
     to top,
-    hsl(240 14% 4% / 0.98) 0%,
-    hsl(240 14% 4% / 0.92) 28%,
-    hsl(240 14% 4% / 0.70) 55%,
-    hsl(240 14% 4% / 0.35) 75%,
+    rgba(5, 5, 6, 0.98) 0%,
+    rgba(5, 5, 6, 0.90) 28%,
+    rgba(5, 5, 6, 0.65) 55%,
+    rgba(5, 5, 6, 0.25) 75%,
     transparent 100%
   );
 
   --scrim-destination: linear-gradient(
     to top,
-    hsl(240 14% 5% / 0.98) 0%,
-    hsl(240 14% 5% / 0.85) 45%,
-    hsl(240 14% 5% / 0.40) 70%,
+    rgba(5, 5, 6, 0.98) 0%,
+    rgba(5, 5, 6, 0.85) 45%,
+    rgba(5, 5, 6, 0.35) 70%,
     transparent 100%
   );
 
   --scrim-event: linear-gradient(
     to top,
-    hsl(240 14% 5% / 0.99) 0%,
-    hsl(240 14% 5% / 0.92) 35%,
-    hsl(240 14% 5% / 0.60) 65%,
+    rgba(5, 5, 6, 0.99) 0%,
+    rgba(5, 5, 6, 0.90) 35%,
+    rgba(5, 5, 6, 0.55) 65%,
     transparent 100%
   );
 
   --scrim-listing: linear-gradient(
     to top,
-    hsl(240 14% 4% / 0.98) 0%,
-    hsl(240 14% 4% / 0.88) 40%,
-    hsl(240 14% 4% / 0.40) 75%,
+    rgba(5, 5, 6, 0.98) 0%,
+    rgba(5, 5, 6, 0.85) 40%,
+    rgba(5, 5, 6, 0.35) 75%,
     transparent 100%
   );
 
@@ -80,10 +80,10 @@
   --spot-y: 50%;
   --spot-opacity: 0;
 
-  /* Default glow fallback (overridden by .card-hue-* utilities) */
-  --card-glow: hsla(189 94% 43% / 0.35);
-  --card-hue: 240 5% 65%;
-  --card-accent: hsl(240 5% 65%);
+  /* Default glow & accent: Linear Indigo */
+  --card-glow: rgba(94, 106, 210, 0.28);
+  --card-hue: 236 57% 60%;
+  --card-accent: #5E6AD2;
 }
 
 /* --- Enzyme Token Utilities --- */
@@ -141,37 +141,39 @@
   --card-glow: rgba(255, 255, 255, 0.12);
 }
 
-/* --- Card Motion, Bento & Glow Enhancements --- */
+/* --- Card Motion, Bento & Glow Enhancements (Linear / Modern) --- */
 .card-spotlight-overlay {
   background: radial-gradient(
-    600px circle at var(--spot-x) var(--spot-y),
-    hsla(var(--card-hue, 240 5% 65%) / 0.14),
-    transparent 70%
+    400px circle at var(--spot-x) var(--spot-y),
+    rgba(94, 106, 210, 0.18),
+    transparent 80%
   );
   pointer-events: none;
 }
 
 .card-surface-ring {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .card-active-lift {
-  transform: translateY(-12px);
-  box-shadow: 0 30px 60px -15px hsla(var(--card-hue, 240 5% 65%) / 0.45), 0 0 0 1px hsla(var(--card-hue, 240 5% 65%) / 0.6);
+  transform: translateY(-8px);
+  box-shadow: 0 0 0 1px rgba(94, 106, 210, 0.4), 0 20px 48px -10px rgba(94, 106, 210, 0.3);
 }
 
-.bento-surface-old {
-  background: rgba(11, 16, 29, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+.bento-surface {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
   border-radius: var(--card-radius-outer);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.bento-surface-old {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+.bento-surface:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(94, 106, 210, 0.12);
+  transform: translateY(-2px);
 }
 

@@ -43,7 +43,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-foreground">
         <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#415a77] border-t-cyan-400" />
-        <span className="mt-3 text-sm font-mono text-[#c5d3e8]">Verifying RBAC Permissions...</span>
+        <span className="mt-3 text-sm font-mono text-muted-foreground">Verifying RBAC Permissions...</span>
       </div>
     );
   }
@@ -53,7 +53,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     if (effectiveRole !== 'superadmin') {
       return (
         <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 text-foreground">
-          <div className="w-full max-w-lg rounded-3xl border border-[#415a77]/30 bg-[#0d1b2a] p-8 text-center shadow-2xl">
+          <div className="w-full max-w-lg rounded-3xl border border-border bg-[#0d1b2a] p-8 text-center shadow-2xl">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 mb-6">
               <Lock className="h-8 w-8" />
             </div>
@@ -67,8 +67,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               Access Restricted
             </h1>
             
-            <p className="mt-3 text-sm text-[#c5d3e8] leading-relaxed">
-              The route <code className="text-cyan-300 font-mono bg-[#152238] px-1.5 py-0.5 rounded">{location.pathname}</code> is protected by strict frontend &amp; backend security rules requiring superadmin privileges.
+            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+              The route <code className="text-cyan-300 font-mono bg-muted px-1.5 py-0.5 rounded">{location.pathname}</code> is protected by strict frontend &amp; backend security rules requiring superadmin privileges.
             </p>
 
             {isSimulating && (
@@ -76,7 +76,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 <span>You are currently previewing as <strong>{ROLE_CONFIGS[effectiveRole].displayName}</strong>.</span>
                 <button
                   onClick={() => setSimulatedRole('superadmin')}
-                  className="mt-2 block w-full rounded-lg bg-cyan-600/40 py-1.5 font-bold hover:bg-cyan-600/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="mt-2 block w-full rounded-lg bg-cyan-600/40 py-1.5 font-bold hover:bg-cyan-600/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Switch Preview to Superadmin
                 </button>
@@ -86,7 +86,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 onClick={() => navigate(-1)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#152238] px-5 py-2.5 text-xs font-semibold text-foreground hover:bg-[#1e2f4a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-5 py-2.5 text-xs font-semibold text-foreground hover:bg-[#1e2f4a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <span>Go Back</span>
@@ -94,7 +94,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               
               <Link
                 to="/"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#33475e] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#33475e] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Return Home
               </Link>
@@ -112,9 +112,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 text-foreground">
-        <div className="w-full max-w-lg rounded-3xl border border-[#415a77]/30 bg-background p-8 sm:p-10 text-center shadow-2xl text-foreground">
+        <div className="w-full max-w-lg rounded-3xl border border-border bg-background p-8 sm:p-10 text-center shadow-2xl text-foreground">
           
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#415a77]/25 text-[#c5d3e8] border border-[#415a77]/40 mb-6">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-muted text-muted-foreground border border-border mb-6">
             {isUpgradeNeeded ? <Crown className="h-8 w-8 text-amber-400" /> : <Lock className="h-8 w-8 text-cyan-300" />}
           </div>
 
@@ -127,7 +127,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             {fallbackTitle || (isUpgradeNeeded ? 'Subscription Upgrade Required' : 'Authentication Required')}
           </h1>
           
-          <p className="mt-3 text-sm text-[#c5d3e8] leading-relaxed">
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
             {fallbackDescription || (
               isGuest 
                 ? 'Sign in to access persistent developer tools, saved audits, and publishing features.'
@@ -135,8 +135,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             )}
           </p>
 
-          <div className="mt-6 rounded-2xl border border-[#415a77]/30 bg-[#152238] p-4 text-xs text-left">
-            <div className="flex justify-between items-center text-[#c5d3e8] mb-1">
+          <div className="mt-6 rounded-2xl border border-border bg-muted p-4 text-xs text-left">
+            <div className="flex justify-between items-center text-muted-foreground mb-1">
               <span>Your Current Role:</span>
               <span className={`font-bold uppercase ${ROLE_CONFIGS[effectiveRole].colorClass}`}>
                 {ROLE_CONFIGS[effectiveRole].displayName}
@@ -152,7 +152,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <div className="space-y-2">
                 <Link
                   to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <LogIn className="h-4 w-4" />
                   <span>Sign In (Email, Gmail, GitHub)</span>
@@ -167,7 +167,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
                 <button
                   onClick={() => loginWithLocalSession({ email: 'developer@catalystlab.io', isAdmin: false })}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/30 bg-[#0d1b2a] py-2 text-[11px] font-semibold text-muted-foreground hover:text-primary-foreground hover:bg-[#152238] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-[#0d1b2a] py-2 text-[11px] font-semibold text-muted-foreground hover:text-primary-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
                   <span>Instant Sandbox Preview Mode</span>
@@ -177,7 +177,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <div className="space-y-2">
                 <button
                   onClick={() => openTrialModal('pro')}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Zap className="h-4 w-4" />
                   <span>Start 7-Day Pro Free Trial</span>
@@ -185,7 +185,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
                 <Link
                   to="/pricing"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/40 bg-[#152238] py-2.5 text-xs font-semibold text-foreground hover:bg-[#1e2f4a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted py-2.5 text-xs font-semibold text-foreground hover:bg-[#1e2f4a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span>Explore Telemetry Pricing Plans</span>
                 </Link>
@@ -196,7 +196,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <div className="pt-2">
                 <button
                   onClick={resetSimulation}
-                  className="inline-flex items-center gap-1.5 text-xs text-amber-300 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                  className="inline-flex items-center gap-1.5 text-xs text-amber-300 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <RotateCcw className="h-3 w-3" />
                   <span>Reset Role Simulation (Actual: {ROLE_CONFIGS[actualRole].displayName})</span>
@@ -207,7 +207,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             <div className="pt-2">
               <Link
                 to="/"
-                className="text-xs text-muted-foreground hover:text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                className="text-xs text-muted-foreground hover:text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 ← Return to Platform Home
               </Link>

@@ -43,12 +43,12 @@ export const CardByline: React.FC<CardBylineProps> = ({
         {authorUrl ? (
           <a
             href={authorUrl}
-            className="font-medium text-primary-foreground hover:text-cyan-300 underline underline-offset-2 decoration-slate-500 hover:decoration-cyan-300 transition-colors truncate"
+            className="font-medium text-primary-foreground hover:text-cyan-300 underline underline-offset-2 decoration-muted-foreground hover:decoration-cyan-300 transition-colors truncate"
           >
             {author}
           </a>
         ) : (
-          <span className="font-medium text-primary-foreground underline underline-offset-2 decoration-slate-500 truncate">
+          <span className="font-medium text-primary-foreground underline underline-offset-2 decoration-muted-foreground truncate">
             {author}
           </span>
         )}

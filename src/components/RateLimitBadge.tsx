@@ -16,7 +16,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
     return (
       <div 
         onClick={onOpenInfo}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-foreground shadow-sm cursor-pointer hover:border-[#415a77] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-foreground shadow-sm cursor-pointer hover:border-[#415a77] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         title="Primary Superadmin - Unlimited Audits"
       >
         <Crown className="h-3.5 w-3.5 text-muted-foreground" />
@@ -74,7 +74,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
           <button
             type="button"
             onClick={() => login()}
-            className="flex items-center gap-1 rounded-lg bg-primary hover:bg-primary-hover border border-border px-2.5 py-1 text-[11px] font-bold text-primary-foreground transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center gap-1 rounded-lg bg-primary hover:bg-primary-hover border border-border px-2.5 py-1 text-[11px] font-bold text-primary-foreground transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Sign in for 10 audits per day"
           >
             <LogIn className="h-3 w-3" />
@@ -86,7 +86,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
           <button
             type="button"
             onClick={onOpenInfo}
-            className="text-foreground hover:text-foreground p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="text-foreground hover:text-foreground p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="View Rate Limit Tiers"
           >
             <Info className="h-3.5 w-3.5" />

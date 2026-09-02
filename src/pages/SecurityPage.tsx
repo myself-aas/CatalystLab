@@ -15,7 +15,7 @@ export const SecurityPage: React.FC = () => {
 
       {/* Dedicated Hero Header */}
       <section className="relative overflow-hidden border-b border-border bg-muted px-4 py-14 sm:py-18 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
         <div className="relative z-10 mx-auto max-w-5xl">
@@ -27,7 +27,7 @@ export const SecurityPage: React.FC = () => {
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight font-sans leading-[1.1]">
                 Security Disclosure &amp;{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-slate-900">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-background">
                   Safe Harbor
                 </span>
               </h1>

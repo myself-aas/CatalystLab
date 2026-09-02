@@ -7,7 +7,7 @@
    ========================================================================== */
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root, [data-theme="light"], .theme-light {
+:root, [data-theme="light"], .theme-light, .page-light {
   color-scheme: light;
 
   /* Re-mapped Palette Bases (Light-Gray default) */
@@ -85,7 +85,23 @@
   --app-destructive-foreground: #ffffff;
   --app-border: #dbe3ee;
   --app-input: #b6c2d4;
-  --app-ring: #0891b2;
+  --app-ring: #5E6AD2;
+
+  /* Linear / Modern Design System Tokens (Light Mode equivalents) */
+  --background-deep: #f1f5f9;
+  --background-base: #f8fafc;
+  --background-elevated: #ffffff;
+  --surface: rgba(0, 0, 0, 0.03);
+  --surface-hover: rgba(0, 0, 0, 0.05);
+  --foreground: #090d16;
+  --foreground-muted: #52627c;
+  --foreground-subtle: rgba(9, 13, 22, 0.60);
+  --accent: #5E6AD2;
+  --accent-bright: #4C56B5;
+  --accent-glow: rgba(94, 106, 210, 0.20);
+  --border-default: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-accent: rgba(94, 106, 210, 0.30);
 
   /* Legacy aliases for backward compatibility */
   --color-background: var(--app-background);
@@ -134,124 +150,140 @@
   --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-html.dark, [data-theme="dark"] {
+html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   color-scheme: dark;
 
-  /* Re-mapped Palette Bases (Inverted for Dark Mode) */
-  --theme-slate-50: #0e1526;
-  --theme-slate-100: #141d33;
-  --theme-slate-200: #1e2a45;
-  --theme-slate-300: #243252;
-  --theme-slate-400: #3d4d70;
-  --theme-slate-500: #475569;
-  --theme-slate-600: #8595ad;
-  --theme-slate-700: #94a3b8;
-  --theme-slate-800: #cbd5e1;
-  --theme-slate-900: #e2e8f0;
-  --theme-slate-950: #f1f5f9;
+  /* --- Linear / Modern Design System Tokens --- */
+  --background-deep: #020203;
+  --background-base: #050506;
+  --background-elevated: #0a0a0c;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --foreground: #EDEDEF;
+  --foreground-muted: #8A8F98;
+  --foreground-subtle: rgba(255, 255, 255, 0.60);
+  --accent: #5E6AD2;
+  --accent-bright: #6872D9;
+  --accent-glow: rgba(94, 106, 210, 0.30);
+  --border-default: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(94, 106, 210, 0.30);
 
-  --theme-gray-50: #111827;
-  --theme-gray-100: #1f2937;
-  --theme-gray-200: #374151;
-  --theme-gray-300: #4b5563;
-  --theme-gray-400: #6b7280;
-  --theme-gray-500: #9ca3af;
-  --theme-gray-600: #d1d5db;
-  --theme-gray-700: #e5e7eb;
-  --theme-gray-800: #f3f4f6;
-  --theme-gray-900: #f9fafb;
+  /* Re-mapped Palette Bases (Deep Space Technical Grays) */
+  --theme-slate-50: #050506;
+  --theme-slate-100: #0a0a0c;
+  --theme-slate-200: #0f0f12;
+  --theme-slate-300: #18181c;
+  --theme-slate-400: #222228;
+  --theme-slate-500: #33333d;
+  --theme-slate-600: #555562;
+  --theme-slate-700: #8a8f98;
+  --theme-slate-800: #b3b7be;
+  --theme-slate-900: #d4d6db;
+  --theme-slate-950: #ededef;
+
+  --theme-gray-50: #050506;
+  --theme-gray-100: #0a0a0c;
+  --theme-gray-200: #0f0f12;
+  --theme-gray-300: #18181c;
+  --theme-gray-400: #222228;
+  --theme-gray-500: #33333d;
+  --theme-gray-600: #555562;
+  --theme-gray-700: #8a8f98;
+  --theme-gray-800: #b3b7be;
+  --theme-gray-900: #d4d6db;
   --theme-gray-950: #ffffff;
 
-  --theme-zinc-50: #09090b;
-  --theme-zinc-100: #18181b;
-  --theme-zinc-200: #27272a;
-  --theme-zinc-300: #3f3f46;
-  --theme-zinc-400: #52525b;
-  --theme-zinc-500: #71717a;
-  --theme-zinc-600: #a1a1aa;
-  --theme-zinc-700: #d4d4d8;
-  --theme-zinc-800: #e4e4e7;
-  --theme-zinc-900: #f4f4f5;
-  --theme-zinc-950: #fafafa;
+  --theme-zinc-50: #050506;
+  --theme-zinc-100: #0a0a0c;
+  --theme-zinc-200: #0f0f12;
+  --theme-zinc-300: #18181c;
+  --theme-zinc-400: #222228;
+  --theme-zinc-500: #33333d;
+  --theme-zinc-600: #555562;
+  --theme-zinc-700: #8a8f98;
+  --theme-zinc-800: #b3b7be;
+  --theme-zinc-900: #d4d6db;
+  --theme-zinc-950: #ededef;
 
-  /* App Substrate */
-  --bg-app: #060912;
-  --bg-void: #000000;
-  --bg-panel: #0b101d;
-  --bg-panel-hover: #131c31;
-  --bg-surface: #0b101d;
-  --bg-surface-elevated: #131c31;
+  /* App Substrate (Deep Space) */
+  --bg-app: #050506;
+  --bg-void: #020203;
+  --bg-panel: #0a0a0c;
+  --bg-panel-hover: rgba(255, 255, 255, 0.08);
+  --bg-surface: rgba(255, 255, 255, 0.05);
+  --bg-surface-elevated: #0a0a0c;
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-inverse: #090d16;
+  --text-primary: #EDEDEF;
+  --text-secondary: #8A8F98;
+  --text-muted: rgba(255, 255, 255, 0.60);
+  --text-inverse: #050506;
   
-  --border-subtle: #1e293b;
-  --border-medium: #334155;
-  --border-bright: #475569;
-  --border-focus: #22d3ee;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.10);
+  --border-bright: rgba(255, 255, 255, 0.16);
+  --border-focus: #5E6AD2;
 
-  /* Semantic Core */
-  --app-background: #060912;
-  --app-foreground: #f8fafc;
-  --app-card: #0b101d;
-  --app-card-foreground: #f8fafc;
-  --app-popover: #131c31;
-  --app-popover-foreground: #f8fafc;
-  --app-primary: #06b6d4;
-  --app-primary-hover: #22d3ee;
-  --app-primary-foreground: #03050a;
-  --app-secondary: #10b981;
-  --app-secondary-foreground: #03050a;
-  --app-muted: #0e1526;
-  --app-muted-foreground: #94a3b8;
-  --app-accent: #10172a;
-  --app-accent-foreground: #f8fafc;
+  /* Semantic Core (Linear Indigo & Deep Space) */
+  --app-background: #050506;
+  --app-foreground: #EDEDEF;
+  --app-card: rgba(255, 255, 255, 0.05);
+  --app-card-foreground: #EDEDEF;
+  --app-popover: #0a0a0c;
+  --app-popover-foreground: #EDEDEF;
+  --app-primary: #5E6AD2;
+  --app-primary-hover: #6872D9;
+  --app-primary-foreground: #FFFFFF;
+  --app-secondary: #5E6AD2;
+  --app-secondary-foreground: #FFFFFF;
+  --app-muted: #0a0a0c;
+  --app-muted-foreground: #8A8F98;
+  --app-accent: #5E6AD2;
+  --app-accent-foreground: #FFFFFF;
   --app-destructive: #fb7185;
-  --app-destructive-foreground: #1c0508;
-  --app-border: #223049;
-  --app-input: #334155;
-  --app-ring: #22d3ee;
+  --app-destructive-foreground: #FFFFFF;
+  --app-border: rgba(255, 255, 255, 0.06);
+  --app-input: rgba(255, 255, 255, 0.08);
+  --app-ring: #5E6AD2;
 
   /* Legacy aliases for backward compatibility */
   --color-background: var(--app-background);
   --color-foreground: var(--app-foreground);
-  --color-surface: #0b101d;
-  --color-surface-panel: #0b101d;
-  --color-surface-muted: #0e1526;
-  --color-surface-subtle: #090e1a;
+  --color-surface: var(--bg-surface);
+  --color-surface-panel: var(--bg-panel);
+  --color-surface-muted: var(--app-muted);
+  --color-surface-subtle: var(--background-deep);
   --color-surface-tint-orange: rgba(245, 158, 11, 0.08);
   --color-surface-tint-red: rgba(239, 68, 68, 0.08);
   --color-primary: var(--app-primary);
   --color-primary-hover: var(--app-primary-hover);
   --color-secondary: var(--app-secondary);
-  --color-secondary-hover: #00ff66;
+  --color-secondary-hover: #6872D9;
   --color-muted: var(--app-muted-foreground);
   --color-border: var(--app-border);
-  --color-border-subtle: #1e293b;
-  --color-border-strong: #334155;
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-medium);
   --button-bg: var(--app-primary);
   --button-text: var(--app-primary-foreground);
   --button-hover: var(--app-primary-hover);
   --slide-bg: var(--app-background);
 
-  /* Glass & Utilities */
-  --glass-bg: rgba(11, 16, 29, 0.85);
-  --glass-border: rgba(30, 41, 59, 0.8);
-  --glass-blur: 16px;
+  /* Glass & Utilities (Linear Deep Space) */
+  --glass-bg: rgba(10, 10, 12, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-blur: 20px;
   --glass-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.6);
   --scrollbar-track: transparent;
-  --scrollbar-thumb: rgba(148, 163, 184, 0.35);
-  --scrollbar-thumb-hover: rgba(148, 163, 184, 0.6);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.25);
   
-  --color-focus-ring: #22d3ee;
-  --color-link: #67e8f9;
+  --color-focus-ring: #5E6AD2;
+  --color-link: #6872D9;
   --color-success: #34d399;
   --color-warning: #fbbf24;
   --color-danger: #fb7185;
-  --surface-overlay: rgba(6, 9, 18, 0.88);
-  --surface-overlay-strong: rgba(6, 9, 18, 0.96);
+  --surface-overlay: rgba(5, 5, 6, 0.88);
+  --surface-overlay-strong: rgba(5, 5, 6, 0.96);
 }
 
 @theme inline {
@@ -319,9 +351,29 @@ html.dark, [data-theme="dark"] {
   --color-surface-muted: var(--app-muted);
   --color-surface-subtle: var(--app-background);
   --color-border-strong: var(--border-medium);
+
+  /* Linear / Modern Design System Tokens */
+  --color-background-deep: var(--background-deep, #020203);
+  --color-background-base: var(--background-base, #050506);
+  --color-background-elevated: var(--background-elevated, #0a0a0c);
+  --color-surface-base: var(--surface, rgba(255, 255, 255, 0.05));
+  --color-surface-hover: var(--surface-hover, rgba(255, 255, 255, 0.08));
+  --color-accent-bright: var(--accent-bright, #6872D9);
+  --color-accent-glow: var(--accent-glow, rgba(94, 106, 210, 0.30));
+  --color-border-default: var(--border-default, rgba(255, 255, 255, 0.06));
+  --color-border-hover: var(--border-hover, rgba(255, 255, 255, 0.10));
+  --color-border-accent: var(--border-accent, rgba(94, 106, 210, 0.30));
 }
 
 @theme {
+  /* Linear Indigo Core */
+  --color-linear-indigo: #5E6AD2;
+  --color-linear-indigo-bright: #6872D9;
+  --color-linear-indigo-glow: rgba(94, 106, 210, 0.30);
+  --color-linear-space-deep: #020203;
+  --color-linear-space-base: #050506;
+  --color-linear-space-elevated: #0a0a0c;
+
   /* Palette Accents */
   --color-accent-amber: #f59e0b;
   --color-accent-amber-light: #fcd34d;
@@ -360,12 +412,12 @@ html.dark, [data-theme="dark"] {
   }
 
   ::selection {
-    background-color: rgba(6, 182, 212, 0.32);
+    background-color: rgba(94, 106, 210, 0.35);
     color: var(--app-foreground);
   }
 
   [data-theme="dark"] ::selection {
-    background-color: rgba(6, 182, 212, 0.35);
+    background-color: rgba(94, 106, 210, 0.40);
     color: #ffffff;
   }
 
@@ -458,6 +510,78 @@ html.dark, [data-theme="dark"] {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
+}
+
+/* ==========================================================================
+   LINEAR / MODERN DESIGN SYSTEM UTILITIES & EFFECTS
+   ========================================================================== */
+@layer utilities {
+  /* Multi-Layer Shadows */
+  .shadow-linear-card {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  .shadow-linear-card-hover {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(94, 106, 210, 0.12);
+  }
+
+  .shadow-linear-cta {
+    box-shadow: 0 0 0 1px rgba(94, 106, 210, 0.5), 0 4px 16px rgba(94, 106, 210, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+  }
+
+  .shadow-linear-inner {
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+  }
+
+  /* Linear Typographic Gradients */
+  .text-gradient-linear {
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0.70) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-accent {
+    background: linear-gradient(135deg, #5E6AD2 0%, #818cf8 50%, #5E6AD2 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: linearShimmer 6s ease infinite;
+  }
+
+  /* Linear Grid Pattern Layer */
+  .linear-grid-overlay {
+    background-size: 64px 64px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  }
+}
+
+@keyframes linearShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes linearBlobFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-24px) rotate(1.5deg) scale(1.03);
+  }
+}
+
+.animate-linear-blob {
+  animation: linearBlobFloat 10s ease-in-out infinite;
+}
+
+.animate-linear-blob-delayed {
+  animation: linearBlobFloat 12s ease-in-out infinite 2.5s;
+}
+
+.animate-linear-blob-slow {
+  animation: linearBlobFloat 15s ease-in-out infinite 5s;
 }
 
 /* ==========================================================================

@@ -130,7 +130,7 @@ export const ReportsDirectoryPage: React.FC = () => {
       
       {/* Header Banner */}
       <section className="relative overflow-hidden border-b border-border bg-muted px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#ffffff_0%,#f8fafc_65%,#f1f5f9_100%)] pointer-events-none z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
         <div className="relative z-10 mx-auto max-w-5xl space-y-6">
@@ -142,7 +142,7 @@ export const ReportsDirectoryPage: React.FC = () => {
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight font-sans leading-[1.1]">
                 Web Performance, Security &amp;{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-800">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-background">
                   AI Readiness Dossiers
                 </span>
               </h1>
@@ -183,7 +183,7 @@ export const ReportsDirectoryPage: React.FC = () => {
 
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-6 py-3 text-sm font-bold font-sans transition-all shrink-0 shadow-sm cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                className="flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-6 py-3 text-sm font-bold font-sans transition-all shrink-0 shadow-sm cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <span>Open Dossier</span>
                 <ArrowRight className="h-4 w-4 text-amber-400" />
@@ -342,7 +342,7 @@ export const ReportsDirectoryPage: React.FC = () => {
             </p>
             <button
               onClick={() => login()}
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-6 py-3 text-sm font-bold font-sans shadow-sm transition-all cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-6 py-3 text-sm font-bold font-sans shadow-sm transition-all cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Sign In to Your Account
             </button>

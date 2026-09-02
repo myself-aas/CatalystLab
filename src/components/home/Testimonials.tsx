@@ -10,7 +10,7 @@ const QUOTES = [
     role: "VP of Infrastructure",
     company: "Finserve",
     initial: "E",
-    accent: "#06B6D4",
+    accent: "#5E6AD2",
   },
   {
     id: 2,
@@ -34,15 +34,15 @@ const QUOTES = [
 
 export const Testimonials: React.FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-primary border-t border-white/6 relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-transparent border-t border-border-default relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
         <div className="mb-12 md:mb-16 max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-primary/60 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-3">
-            <MessageSquare className="size-3.5 text-cyan-400" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-border-default bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent-bright mb-3 backdrop-blur-md">
+            <MessageSquare className="size-3.5 text-accent" />
             <span>Field Validation</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-primary-foreground tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground tracking-tight leading-tight text-gradient-linear">
             Validated by engineering leaders.
           </h2>
         </div>
@@ -55,18 +55,18 @@ export const Testimonials: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative p-8 rounded-[1.75rem] bg-foreground/70 border border-white/8 hover:bg-primary/60 hover:border-white/20 transition-all duration-300 flex flex-col justify-between overflow-hidden backdrop-blur-xl shadow-[0_16px_40px_rgba(0,0,0,0.4)] min-h-[280px]"
+              className="group relative p-8 rounded-2xl bg-white/[0.04] border border-border-default hover:bg-white/[0.07] hover:border-border-hover transition-all duration-300 flex flex-col justify-between overflow-hidden backdrop-blur-xl shadow-linear-card hover:shadow-linear-card-hover min-h-[280px]"
             >
               {/* Subtle Quote Mark */}
-              <div className="absolute top-6 right-6 text-primary-foreground/5 group-hover:text-primary-foreground/10 transition-colors pointer-events-none">
+              <div className="absolute top-6 right-6 text-foreground/5 group-hover:text-foreground/10 transition-colors pointer-events-none">
                 <Quote className="size-10" />
               </div>
 
-              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base relative z-10 font-normal">
+              <p className="text-foreground-muted leading-relaxed text-sm sm:text-base relative z-10 font-normal">
                 "{quote.body}"
               </p>
               
-              <div className="mt-8 pt-5 border-t border-white/6 flex items-center gap-3.5 relative z-10">
+              <div className="mt-8 pt-5 border-t border-border-default flex items-center gap-3.5 relative z-10">
                 <div 
                   style={{ backgroundColor: `${quote.accent}15`, borderColor: `${quote.accent}30`, color: quote.accent }}
                   className="size-10 rounded-xl border flex-shrink-0 flex items-center justify-center font-mono font-bold text-sm shadow-sm"
@@ -74,8 +74,8 @@ export const Testimonials: React.FC = () => {
                   {quote.initial}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-primary-foreground tracking-tight">{quote.author}</p>
-                  <p className="text-xs text-muted-foreground font-mono mt-0.5">{quote.role}, {quote.company}</p>
+                  <p className="text-sm font-semibold text-foreground tracking-tight">{quote.author}</p>
+                  <p className="text-xs text-foreground-muted font-mono mt-0.5">{quote.role}, {quote.company}</p>
                 </div>
               </div>
             </motion.div>

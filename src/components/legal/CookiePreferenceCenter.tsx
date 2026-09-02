@@ -235,7 +235,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   <th className="py-2.5 px-3 rounded-r-lg">Duration</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-muted-foreground">
+              <tbody className="divide-y divide-border text-muted-foreground">
                 {cookieList.map((item, idx) => (
                   <tr key={idx} className="hover:bg-muted transition-colors">
                     <td className="py-3 px-3 font-bold text-amber-700 font-mono">{item.name}</td>

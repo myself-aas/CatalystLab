@@ -50,7 +50,7 @@ export const UserApiKeyManagementView: React.FC = () => {
                 <th className="px-6 py-4 text-right rounded-tr-2xl">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-border">
               {keys.map(key => (
                 <tr key={key.id} className="hover:bg-muted/50 transition-colors">
                   <td className="px-6 py-4 font-medium text-foreground flex items-center gap-2">

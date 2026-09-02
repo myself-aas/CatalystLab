@@ -136,7 +136,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     g.append('path')
       .attr('d', arcBg as any)
-      .attr('fill', '#f1f5f9')
+      .attr('fill', 'var(--app-muted)')
       .attr('stroke', '#cbd5e1')
       .attr('stroke-width', 1)
       .attr('opacity', 0.8);
@@ -192,7 +192,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
-      .attr('fill', '#0f172a')
+      .attr('fill', 'var(--app-foreground)')
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 2);
 
@@ -210,7 +210,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('y1', 0)
       .attr('x2', 0)
       .attr('y2', -needleLength)
-      .attr('stroke', '#0f172a')
+      .attr('stroke', 'var(--app-foreground)')
       .attr('stroke-width', compact ? 2 : 2.5)
       .attr('stroke-linecap', 'round');
 
@@ -300,7 +300,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     g.append('path')
       .attr('d', arcBg as any)
-      .attr('fill', '#f1f5f9')
+      .attr('fill', 'var(--app-muted)')
       .attr('stroke', '#cbd5e1')
       .attr('stroke-width', 1)
       .attr('opacity', 0.8);
@@ -363,7 +363,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
-      .attr('fill', '#0f172a')
+      .attr('fill', 'var(--app-foreground)')
       .attr('stroke', '#ffffff')
       .attr('stroke-width', 2);
 
@@ -377,7 +377,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('y1', 0)
       .attr('x2', 0)
       .attr('y2', -needleLength)
-      .attr('stroke', '#0f172a')
+      .attr('stroke', 'var(--app-foreground)')
       .attr('stroke-width', compact ? 2 : 2.5)
       .attr('stroke-linecap', 'round');
 

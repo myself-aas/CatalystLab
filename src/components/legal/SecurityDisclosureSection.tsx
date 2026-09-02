@@ -301,7 +301,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
               </div>
 
               <div className="rounded-lg border border-border bg-muted p-3 flex items-start gap-2.5 text-xs text-muted-foreground">
-                <input type="checkbox" required className="mt-0.5 h-3.5 w-3.5 rounded border-border text-foreground focus:ring-slate-900" id="safe-harbor" />
+                <input type="checkbox" required className="mt-0.5 h-3.5 w-3.5 rounded border-border text-foreground focus:ring-ring" id="safe-harbor" />
                 <label htmlFor="safe-harbor" className="cursor-pointer font-sans">
                   I agree to keep this vulnerability confidential until CatalystLab releases a patched container build and authorizes coordinated disclosure.
                 </label>

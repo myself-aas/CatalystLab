@@ -46,7 +46,7 @@ describe('Browserbase UI-Test: Interactive Forms, Engines & Controls', () => {
   it('renders HeroSection and handles URL input, preset chip selection, and mobile mode switcher', () => {
     render(<HeroSection />, { wrapper });
 
-    const inputs = screen.getAllByPlaceholderText(/example\.com/i);
+    const inputs = screen.getAllByPlaceholderText(/your-domain\.com/i);
     expect(inputs.length).toBeGreaterThanOrEqual(1);
     const input = inputs[0];
     expect(input).toBeInTheDocument();

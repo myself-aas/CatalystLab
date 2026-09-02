@@ -39,7 +39,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
   return (
     <aside className="w-full lg:w-72 shrink-0 space-y-6">
       {/* Overview Card */}
-      <div className="rounded-2xl border border-[#e2e8f0] bg-background p-4 shadow-sm">
+      <div className="rounded-2xl border border-border bg-background p-4 shadow-sm">
         <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground mb-3">
           Playground Hub
         </h4>
@@ -48,7 +48,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
             to="/playground"
             className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
               location.pathname === '/playground'
-                ? 'bg-[#0b192c] text-primary-foreground'
+                ? 'bg-background text-primary-foreground'
                 : 'text-muted-foreground hover:bg-accent hover:text-foreground'
             }`}
           >
@@ -61,7 +61,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
 
           <Link
             to="/api-reference"
-            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center gap-2">
               <Code2 className="h-4 w-4 text-sky-600" />
@@ -73,7 +73,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
       </div>
 
       {/* Engine Consoles List */}
-      <div className="rounded-2xl border border-[#e2e8f0] bg-background p-4 shadow-sm">
+      <div className="rounded-2xl border border-border bg-background p-4 shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
             Engine Consoles
@@ -95,12 +95,12 @@ export const PlaygroundNavSidebar: React.FC = () => {
                 to={path}
                 className={`flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-colors ${
                   active
-                    ? 'bg-[#0b192c] text-primary-foreground font-bold'
+                    ? 'bg-background text-primary-foreground font-bold'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <Icon className={`h-3.5 w-3.5 shrink-0 ${active ? 'text-emerald-400' : 'text-[#415a77]'}`} />
+                  <Icon className={`h-3.5 w-3.5 shrink-0 ${active ? 'text-emerald-400' : 'text-muted-foreground'}`} />
                   <span className="truncate">{engine.name}</span>
                 </div>
                 <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded shrink-0 ${

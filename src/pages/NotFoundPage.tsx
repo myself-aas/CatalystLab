@@ -23,7 +23,7 @@ export const NotFoundPage: React.FC = () => {
 
       {/* Ambient background grid & glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(6,182,212,0.12)_0%,transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#33415515_1px,transparent_1px),linear-gradient(to_bottom,#33415515_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 my-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">

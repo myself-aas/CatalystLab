@@ -16,8 +16,8 @@ export const BlogEditorPage: React.FC = () => {
           </div>
         </div>
         
-        <input type="text" placeholder="Post Title..." className="w-full text-4xl font-bold border-none outline-none mb-8 placeholder-slate-300" />
-        <textarea placeholder="Write your post here..." className="w-full h-96 resize-none outline-none text-lg text-muted-foreground placeholder-slate-400"></textarea>
+        <input type="text" placeholder="Post Title..." className="w-full text-4xl font-bold border-none outline-none mb-8 placeholder-muted-foreground" />
+        <textarea placeholder="Write your post here..." className="w-full h-96 resize-none outline-none text-lg text-muted-foreground placeholder-muted-foreground"></textarea>
       </div>
     </div>
   );

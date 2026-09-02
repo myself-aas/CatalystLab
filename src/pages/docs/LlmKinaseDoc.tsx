@@ -22,18 +22,18 @@ export const LlmKinaseDoc: React.FC = () => {
           <Cpu className="h-3.5 w-3.5" />
           <span>SDLC Phase 7: AI Readiness Engine</span>
         </div>
-        <h1 className="text-3xl font-extrabold text-[#0b192c] tracking-tight">
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
           LLM-Kinase: AI Crawler Readiness & Manifest Engine
         </h1>
-        <p className="text-base text-[#415a77] leading-relaxed">
+        <p className="text-base text-muted-foreground leading-relaxed">
           LLM-Kinase evaluates a domain's accessibility to generative AI models and Retrieval-Augmented Generation (RAG) pipelines by checking for <code>/llms.txt</code>, testing AI bot user-agent permissions in <code>robots.txt</code>, and verifying Schema.org JSON-LD structured data.
         </p>
       </section>
 
       {/* llms.txt Standard */}
-      <section id="llms-txt-standard" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">The /llms.txt Standard Specification</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="llms-txt-standard" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">The /llms.txt Standard Specification</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           The <code>/llms.txt</code> file serves as a structured Markdown roadmap for Large Language Models to digest core API documentation, technical architectures, and developer resources:
         </p>
 
@@ -58,9 +58,9 @@ export const LlmKinaseDoc: React.FC = () => {
       </section>
 
       {/* AI Bot User-Agents */}
-      <section id="crawler-user-agents" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">AI Crawler User-Agent Directives</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="crawler-user-agents" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">AI Crawler User-Agent Directives</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Ensure your <code>robots.txt</code> explicitly grants indexing rights to AI search engines while protecting private API endpoints:
         </p>
 
@@ -85,9 +85,9 @@ Allow: /`}
       </section>
 
       {/* JSON-LD Entity Graph */}
-      <section id="json-ld-entity" className="space-y-4 border-t border-[#e2e8f0] pt-8">
-        <h2 className="text-2xl font-bold text-[#0b192c]">Schema.org JSON-LD Structured Data</h2>
-        <p className="text-sm text-[#415a77] leading-relaxed">
+      <section id="json-ld-entity" className="space-y-4 border-t border-border pt-8">
+        <h2 className="text-2xl font-bold text-foreground">Schema.org JSON-LD Structured Data</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed">
           Structured JSON-LD entity data allows LLMs to extract key facts without parsing ambiguous HTML:
         </p>
 

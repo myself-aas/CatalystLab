@@ -22,7 +22,7 @@ export const UserManagementView: React.FC = () => {
               <th className="px-6 py-3">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-border">
             {users.map(u => (
               <tr key={u.uid} className="hover:bg-muted/50">
                 <td className="px-6 py-4">{u.email}</td>

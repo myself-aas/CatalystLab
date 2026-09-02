@@ -156,7 +156,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
           )}
         />
       ) : (
-        <div className="w-full h-full bg-gradient-to-br from-slate-950 via-[#0A0F20] to-[#04060E]" aria-label={finalAlt} />
+        <div className="w-full h-full bg-gradient-to-br from-background via-[#0A0F20] to-[#04060E]" aria-label={finalAlt} />
       )}
 
       {/* 3. Enzyme Biochemical Duotone Color Overlay Layer */}

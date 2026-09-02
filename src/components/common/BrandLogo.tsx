@@ -20,51 +20,53 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 }) => {
   const sizeClasses = {
     sm: {
-      box: 'h-6 w-6 rounded-md',
-      icon: 'h-3.5 w-3.5',
-      title: 'text-base',
-      badge: 'text-xs px-1 py-0.5',
+      box: 'size-6 rounded-md',
+      icon: 'size-3.5',
+      title: 'text-base font-bold leading-6 tracking-tight',
+      badge: 'text-[10px] px-1.5 py-0.5',
     },
     md: {
-      box: 'h-8 w-8 rounded-lg',
-      icon: 'h-4 w-4',
-      title: 'text-lg',
-      badge: 'text-xs px-1.5 py-0.5',
+      box: 'size-[28px] rounded-md',
+      icon: 'size-[16px]',
+      title: 'text-[22px] leading-none font-bold tracking-tight',
+      badge: 'text-[11px] px-2 py-0.5',
     },
     lg: {
       box: 'h-10 w-10 rounded-xl',
       icon: 'h-5 w-5',
-      title: 'text-xl',
-      badge: 'text-xs px-2 py-0.5',
+      title: 'text-xl tracking-tight',
+      badge: 'text-xs px-2.5 py-0.5',
     },
     xl: {
       box: 'h-12 w-12 rounded-xl',
       icon: 'h-6 w-6',
-      title: 'text-2xl sm:text-3xl',
-      badge: 'text-sm px-2.5 py-1',
+      title: 'text-2xl sm:text-3xl tracking-tight',
+      badge: 'text-xs px-3 py-1',
     },
   };
 
   const current = sizeClasses[size];
 
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
-      {/* Engineered Terminal Icon Box */}
+    <div className={`group/logo flex items-center gap-2.5 select-none ${className}`}>
+      {/* Engineered Terminal / Catalyst Logo Mark with Ambient Glow & High Contrast */}
       <div 
-        className={`flex ${current.box} items-center justify-center bg-primary text-cyan-400 border border-border/80 shadow-xs select-none font-bold shrink-0 transition-transform active:scale-95`}
+        className={`relative flex ${current.box} items-center justify-center bg-white dark:bg-[#0c0c12] border border-slate-300 dark:border-white/10 shadow-[0_1px_3px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,1)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] group-hover/logo:border-accent/60 group-hover/logo:shadow-[0_0_14px_rgba(94,106,210,0.35)] shrink-0 transition-all duration-300 active:scale-95`}
         aria-hidden="true"
       >
-        <Terminal className={`${current.icon} text-cyan-400`} />
+        <Terminal className={`${current.icon} text-indigo-600 dark:text-indigo-400 group-hover/logo:text-accent-bright transition-all duration-300 group-hover/logo:scale-110`} />
+        {/* Subtle accent corner beacon with crisp ring contrast */}
+        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-500 ring-2 ring-background shadow-[0_0_6px_rgba(16,185,129,0.8)] animate-pulse" />
       </div>
 
       {showText && (
-        <span className={`font-bold tracking-tight transition-colors duration-200 ${darkText ? 'text-foreground' : 'text-foreground'} ${current.title}`}>
-          Catalyst<span className="text-cyan-400">Lab</span>
+        <span className={`font-bold tracking-tight transition-colors duration-200 ${darkText ? 'text-slate-950' : 'text-slate-900 dark:text-[#EDEDEF]'} ${current.title}`}>
+          Catalyst<span className={`font-bold ${darkText ? 'text-indigo-700' : 'text-indigo-600 dark:text-[#818cf8]'}`}>Lab</span>
         </span>
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded-md bg-cyan-950/60 font-mono font-semibold text-cyan-400 border border-cyan-500/30 uppercase ${current.badge}`}>
+        <span className={`rounded-full bg-indigo-50 dark:bg-accent/15 font-mono font-semibold text-indigo-700 dark:text-accent-bright border border-indigo-200 dark:border-accent/30 uppercase tracking-wider ${current.badge}`}>
           {badgeText}
         </span>
       )}
