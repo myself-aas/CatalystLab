@@ -1,5 +1,6 @@
 const HTTP_TIMEOUT_MS = 10000;
 import * as cheerio from 'cheerio';
+import { guardedFetch } from './networkSecurity';
 import { URL } from 'url';
 import { getEmailSecurityProfile, getSslCertificateInfo, enumerateSubdomains } from './securityAudit';
 
@@ -74,12 +75,12 @@ async function runHealthEngine(url: string): Promise<string> {
   let fetchTime = 120;
 
   try {
-    const res = await fetch(url, {
+    const res = await guardedFetch(url, {
       headers: {
         'User-Agent': 'CatalystLab-HealthScanner/2.0',
         'Accept-Encoding': 'gzip, deflate, br'
       },
-      signal: AbortSignal.timeout(HTTP_TIMEOUT_MS)
+      timeoutMs: HTTP_TIMEOUT_MS
     });
 
     fetchTime = Math.round(performance.now() - startTime);
@@ -235,7 +236,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   // Check llms.txt
   try {
-    const resLlms = await fetch(`${baseUrl}/llms.txt`, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const resLlms = await guardedFetch(`${baseUrl}/llms.txt`, { timeoutMs: HTTP_TIMEOUT_MS });
     if (resLlms.status === 200) {
       logs.push(`  [+] PASS: /llms.txt found. Explicit LLM instructions provided.`);
       llmsFound = true;
@@ -250,7 +251,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   // Check AI plugin manifest
   try {
-    const resPlugin = await fetch(`${baseUrl}/.well-known/ai-plugin.json`, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const resPlugin = await guardedFetch(`${baseUrl}/.well-known/ai-plugin.json`, { timeoutMs: HTTP_TIMEOUT_MS });
     if (resPlugin.status === 200) {
       logs.push(`  [+] PASS: /.well-known/ai-plugin.json found. App acts as an AI tool/agent.`);
     } else {
@@ -260,7 +261,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   logs.push(`\n[*] 2. Checking robots.txt for AI Bot Directives...`);
   try {
-    const resRobots = await fetch(`${baseUrl}/robots.txt`, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const resRobots = await guardedFetch(`${baseUrl}/robots.txt`, { timeoutMs: HTTP_TIMEOUT_MS });
     if (resRobots.status === 200) {
       robotsFound = true;
       const robotsTxt = (await resRobots.text()).toLowerCase();
@@ -281,7 +282,7 @@ async function runAiReadinessEngine(url: string): Promise<string> {
 
   logs.push(`\n[*] 3. Evaluating DOM Semantic Purity & Chunking...`);
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 
@@ -362,7 +363,7 @@ async function runEcoEngine(url: string): Promise<string> {
   let totalMb = 1.2;
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
     const htmlBytes = Buffer.byteLength(htmlText, 'utf8');
     const $ = cheerio.load(htmlText);
@@ -450,7 +451,7 @@ async function runComplianceEngine(url: string): Promise<string> {
   let secProfile: any = null;
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 
@@ -623,7 +624,7 @@ async function runLatencyEngine(url: string): Promise<string> {
 
   try {
     const startTime = performance.now();
-    const res = await fetch(url, { method: 'HEAD', signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const res = await guardedFetch(url, { method: 'HEAD', timeoutMs: HTTP_TIMEOUT_MS });
     localTtfb = Math.round(performance.now() - startTime);
 
     logs.push(`[*] 1. Direct Edge Probe & Handshake:`);
@@ -788,7 +789,7 @@ async function runMigrationEngine(url: string): Promise<string> {
   let detectedStack = 'Static / Custom Web App';
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 
@@ -858,7 +859,7 @@ async function runLlmoEngine(url: string): Promise<string> {
   let jsonLdCount = 0;
 
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(HTTP_TIMEOUT_MS) });
+    const res = await guardedFetch(url, { timeoutMs: HTTP_TIMEOUT_MS });
     const htmlText = await res.text();
     const $ = cheerio.load(htmlText);
 

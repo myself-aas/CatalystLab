@@ -2,6 +2,7 @@ import { StateCreator } from 'zustand';
 import { AlertChannelDocument } from '../types';
 import { dispatchOptimisticMutation } from '../middleware/mongoSyncMiddleware';
 import { AppState } from '../useAppStore';
+import { errorMessage } from '../../lib/utils';
 
 export interface AlertsSlice {
   alerts: AlertChannelDocument[];
@@ -157,7 +158,7 @@ export const createAlertsSlice: StateCreator<
       }
       return { success: true, message: 'Webhook simulated successfully' };
     } catch (e: unknown) {
-      return { success: false, message: e.message || 'Dispatch error' };
+      return { success: false, message: errorMessage(e) || 'Dispatch error' };
     }
   }
 });

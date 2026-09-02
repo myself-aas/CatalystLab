@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'motion/react';
 import { CardMediaProps, AspectPreset, EnzymeHue } from '../types';
 import { useCardContext } from './CardContext';
 import { getMediaAsset, MediaAsset } from '../../../lib/media/registry';
+import { logger } from '../../../lib/logger';
 
 const aspectMap: Record<AspectPreset, string> = {
   '16/9': 'aspect-[16/9]',
@@ -54,11 +55,11 @@ export const CardMedia: React.FC<CardMediaProps> = ({
 
   const handleError = () => {
     if (sourceIdx < sourceList.length - 1) {
-      console.warn(`[media] CardMedia source ${sourceIdx} failed. Trying fallback ${sourceIdx + 1}...`);
+      logger.warn(`[media] CardMedia source ${sourceIdx} failed. Trying fallback ${sourceIdx + 1}...`);
       setSourceIdx((prev) => prev + 1);
     } else {
       setIsDegraded(true);
-      console.warn(`[media] slot <${assetId || 'card-media'}> degraded`);
+      logger.warn(`[media] slot <${assetId || 'card-media'}> degraded`);
     }
   };
 
@@ -142,7 +143,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
           alt={finalAlt}
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
-          fetchpriority={priority ? 'high' : 'auto'}
+          fetchPriority={priority ? 'high' : 'auto'}
           onLoad={() => setIsLoaded(true)}
           onError={handleError}
           className={twMerge(

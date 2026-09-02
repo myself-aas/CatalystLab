@@ -46,7 +46,7 @@ export const NotFoundPage: React.FC = () => {
 
             {/* Diagnostic Terminal Block */}
             <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-left font-mono text-xs text-slate-300 space-y-1.5 shadow-2xl backdrop-blur-md">
-              <div className="flex items-center justify-between text-[11px] text-slate-500 pb-2 border-b border-slate-800">
+              <div className="flex items-center justify-between text-[11px] text-slate-400 pb-2 border-b border-slate-800">
                 <span className="flex items-center gap-1.5">
                   <Terminal className="h-3.5 w-3.5 text-cyan-400" />
                   <span>EDGE_GATEWAY_TRACE</span>
@@ -55,7 +55,7 @@ export const NotFoundPage: React.FC = () => {
               </div>
               <div className="text-slate-400">Origin: <span className="text-cyan-300">Client Anycast Ingress</span></div>
               <div className="text-slate-400">Mesh Status: <span className="text-emerald-400">42 PoPs Operational</span></div>
-              <div className="text-slate-500 text-[11px]">Recommended action: Return to root routing matrix or dispatch domain diagnostic.</div>
+              <div className="text-slate-400 text-[11px]">Recommended action: Return to root routing matrix or dispatch domain diagnostic.</div>
             </div>
 
             {/* Quick Action Navigation Buttons */}
@@ -90,7 +90,7 @@ export const NotFoundPage: React.FC = () => {
           {/* Right Column: 3D Static Mesh Globe with Ambient Glow */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
             <div className="w-full bg-slate-900/40 border border-slate-800/80 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative">
-              <div className="absolute top-3 left-4 text-[10px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="absolute top-3 left-4 text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                 <Globe2 className="h-3.5 w-3.5 text-cyan-400" />
                 <span>STATIC POPS IDLE FRAME</span>
               </div>
@@ -117,7 +117,7 @@ export const NotFoundPage: React.FC = () => {
       </main>
 
       {/* Footer minimal tag */}
-      <footer className="text-center text-xs font-mono text-slate-600 relative z-10">
+      <footer className="text-center text-xs font-mono text-slate-400 relative z-10">
         CatalystLab Edge Telemetry Architecture • 42 Anycast PoPs
       </footer>
     </div>

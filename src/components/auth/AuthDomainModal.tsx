@@ -157,7 +157,7 @@ export const AuthDomainModal: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={handleSignInAsSuperadmin}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-white hover:bg-[#52718e] transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
               <span>Sign In as Superadmin</span>
@@ -165,7 +165,7 @@ export const AuthDomainModal: React.FC = () => {
 
             <button
               onClick={handleSignInAsDeveloper}
-              className="flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/50 bg-[#152238] px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1a2d48] transition-all active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="flex items-center justify-center gap-2 rounded-xl border border-[#415a77]/50 bg-[#152238] px-3.5 py-2.5 text-xs font-bold text-[#f8fafc] hover:bg-[#1a2d48] transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <UserCheck className="h-4 w-4 text-[#38bdf8]" />
               <span>Sign In as Developer</span>

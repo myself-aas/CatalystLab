@@ -10,7 +10,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { calculateReadingTime } from '../utils/readingTime';
 import { HeroImageLivePreview } from '../components/blog/HeroImageLivePreview';
 import {
-  ArrowLeft,
+  ArrowLeft, 
   Save,
   Send,
   Eye,
@@ -52,6 +52,8 @@ import {
   Heading2,
   Heading3
 } from 'lucide-react';
+import { errorMessage } from '../lib/utils';
+import { logger } from '../lib/logger';
 
 const CATEGORIES = [
   'AI & LLMO',
@@ -253,7 +255,7 @@ export const BlogEditorPage: React.FC = () => {
           }
         })
         .catch((err) => {
-          console.error('Error fetching blog for editing:', err);
+          logger.error('Error fetching blog for editing:', err);
           showNotification('Could not load blog post from server.', 'error');
         })
         .finally(() => {
@@ -435,8 +437,8 @@ export const BlogEditorPage: React.FC = () => {
         }, 800);
       }
     } catch (err: unknown) {
-      console.error('Failed to save article:', err);
-      showNotification(`Failed to save article: ${err.message || 'Unknown error'}`, 'error');
+      logger.error('Failed to save article:', err);
+      showNotification(`Failed to save article: ${errorMessage(err) || 'Unknown error'}`, 'error');
     } finally {
       setSaving(false);
     }
@@ -455,8 +457,8 @@ export const BlogEditorPage: React.FC = () => {
         navigate('/blogs');
       }, 600);
     } catch (err: unknown) {
-      console.error('Delete failed:', err);
-      showNotification(`Failed to delete: ${err.message}`, 'error');
+      logger.error('Delete failed:', err);
+      showNotification(`Failed to delete: ${errorMessage(err)}`, 'error');
       setSaving(false);
     }
   };

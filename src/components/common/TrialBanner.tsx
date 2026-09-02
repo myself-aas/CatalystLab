@@ -27,7 +27,7 @@ export const TrialBanner: React.FC = () => {
           <div className="flex items-center gap-3">
             <Link
               to="/pricing"
-              className="inline-flex items-center gap-1 font-semibold text-emerald-400 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+              className="inline-flex items-center gap-1 font-semibold text-emerald-400 hover:text-emerald-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               View Plan Features <ArrowRight className="w-3.5 h-3.5" />
             </Link>

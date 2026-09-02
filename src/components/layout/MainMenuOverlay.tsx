@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { 
@@ -36,6 +36,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
   const { hasPermission, roleConfig } = useRoleSecurity();
   const [expandedServices, setExpandedServices] = useState(true);
   const [expandedResources, setExpandedResources] = useState(true);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   // Close on Escape key press
   useEffect(() => {
@@ -48,16 +49,45 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Lock body scroll when open
+  // Lock body scroll when open + move focus into the dialog
   useEffect(() => {
     if (isOpen) {
+      const previousOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+      const firstFocusable = overlayRef.current?.querySelector<HTMLElement>(
+        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'
+      );
+      firstFocusable?.focus({ preventScroll: true });
+      return () => {
+        document.body.style.overflow = previousOverflow;
+      };
     }
-    return () => {
-      document.body.style.overflow = 'unset';
+    return undefined;
+  }, [isOpen]);
+
+  // Basic focus trap: keep Tab cycling inside the open dialog
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const handleTabTrap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !overlayRef.current) return;
+      const focusables = Array.from(
+        overlayRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
+    window.addEventListener('keydown', handleTabTrap);
+    return () => window.removeEventListener('keydown', handleTabTrap);
   }, [isOpen]);
 
   const isCurrentActive = (path: string) => {
@@ -89,7 +119,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.98 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          id="main-menu-overlay" 
+          id="main-menu-overlay" ref={overlayRef} 
           className="mobile-nav-menu fixed inset-0 z-[100] flex flex-col bg-background text-foreground overflow-y-auto"
           role="dialog"
           aria-modal="true"
@@ -109,13 +139,13 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
         <div className="flex items-center gap-3">
           <ThemeToggle />
 
-          <span className="hidden sm:inline-block text-xs text-zinc-500 font-mono">
-            PRESS <kbd className="rounded border border-zinc-300 bg-zinc-100 px-1.5 py-0.5 text-zinc-800 font-bold">ESC</kbd> TO CLOSE
+          <span className="hidden sm:inline-block text-xs text-muted-foreground font-mono">
+            PRESS <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-foreground font-bold">ESC</kbd> TO CLOSE
           </span>
 
           <button
             onClick={onClose}
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-800 transition-colors hover:bg-zinc-200 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-muted text-foreground transition-colors hover:bg-accent cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Close navigation menu"
           >
             <X className="h-5 w-5" />
@@ -129,7 +159,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           
           {/* Primary Structured Navigation Menu */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <nav className="mobile-nav-links flex flex-col space-y-5 text-black" aria-label="Main Menu">
+            <nav className="mobile-nav-links flex flex-col space-y-5" aria-label="Main Menu">
               
               {/* 1. Home */}
               <div>
@@ -152,8 +182,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <span 
                     className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight transition-colors ${
                       isCurrentActive('/') 
-                        ? 'text-black' 
-                        : 'text-zinc-700 hover:text-black'
+                        ? 'text-foreground' 
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     Home
@@ -176,14 +206,14 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         →
                       </span>
                     </div>
-                    <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-black">
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground">
                       Services
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setExpandedServices(!expandedServices)}
-                    className="p-2.5 rounded-xl text-zinc-600 hover:text-black hover:bg-zinc-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
+                    className="p-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
                     aria-label="Toggle Services sub-menu"
                   >
                     <ChevronDown className={`h-6 w-6 transition-transform duration-200 ${expandedServices ? 'rotate-180' : ''}`} />
@@ -191,7 +221,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 </div>
 
                 {expandedServices && (
-                  <div className="flex flex-col space-y-2.5 pt-2 pl-6 border-l-2 border-zinc-200 ml-2">
+                  <div className="flex flex-col space-y-2.5 pt-2 pl-6 border-l-2 border-border ml-2">
                     <Link
                       to="/pricing"
                       onClick={onClose}
@@ -211,8 +241,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       <span 
                         className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/pricing') 
-                            ? 'text-black font-extrabold' 
-                            : 'text-zinc-700 hover:text-black'
+                            ? 'text-foreground font-extrabold' 
+                            : 'text-muted-foreground hover:text-foreground'
                         }`}
                       >
                         Pricing Plans
@@ -238,8 +268,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       <span 
                         className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/products') || isCurrentActive('/plugins')
-                            ? 'text-black font-extrabold' 
-                            : 'text-zinc-700 hover:text-black'
+                            ? 'text-foreground font-extrabold' 
+                            : 'text-muted-foreground hover:text-foreground'
                         }`}
                       >
                         Products & Plugins
@@ -264,14 +294,14 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                         →
                       </span>
                     </div>
-                    <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-black">
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground">
                       Resources
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setExpandedResources(!expandedResources)}
-                    className="p-2.5 rounded-xl text-zinc-600 hover:text-black hover:bg-zinc-100 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
+                    className="p-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
                     aria-label="Toggle Resources sub-menu"
                   >
                     <ChevronDown className={`h-6 w-6 transition-transform duration-200 ${expandedResources ? 'rotate-180' : ''}`} />
@@ -279,7 +309,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 </div>
 
                 {expandedResources && (
-                  <div className="flex flex-col space-y-2.5 pt-2 pl-6 border-l-2 border-zinc-200 ml-2">
+                  <div className="flex flex-col space-y-2.5 pt-2 pl-6 border-l-2 border-border ml-2">
                     <Link
                       to="/docs"
                       onClick={onClose}
@@ -299,8 +329,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       <span 
                         className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/docs') 
-                            ? 'text-black font-extrabold' 
-                            : 'text-zinc-700 hover:text-black'
+                            ? 'text-foreground font-extrabold' 
+                            : 'text-muted-foreground hover:text-foreground'
                         }`}
                       >
                         Documentation
@@ -326,8 +356,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       <span 
                         className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/api-reference') || isCurrentActive('/api-docs')
-                            ? 'text-black font-extrabold' 
-                            : 'text-zinc-700 hover:text-black'
+                            ? 'text-foreground font-extrabold' 
+                            : 'text-muted-foreground hover:text-foreground'
                         }`}
                       >
                         API Reference
@@ -353,8 +383,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       <span 
                         className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/playground') 
-                            ? 'text-black font-extrabold' 
-                            : 'text-zinc-700 hover:text-black'
+                            ? 'text-foreground font-extrabold' 
+                            : 'text-muted-foreground hover:text-foreground'
                         }`}
                       >
                         Interactive Playground
@@ -380,8 +410,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       <span 
                         className={`text-xl sm:text-2xl font-bold font-mono tracking-tight transition-colors ${
                           isCurrentActive('/blogs') 
-                            ? 'text-black font-extrabold' 
-                            : 'text-zinc-700 hover:text-black'
+                            ? 'text-foreground font-extrabold' 
+                            : 'text-muted-foreground hover:text-foreground'
                         }`}
                       >
                         Engineering Blogs
@@ -412,8 +442,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <span 
                     className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight transition-colors ${
                       isCurrentActive('/about') 
-                        ? 'text-black' 
-                        : 'text-zinc-700 hover:text-black'
+                        ? 'text-foreground' 
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     About Us
@@ -442,8 +472,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   <span 
                     className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-tight transition-colors ${
                       isCurrentActive('/contact') 
-                        ? 'text-black' 
-                        : 'text-zinc-700 hover:text-black'
+                        ? 'text-foreground' 
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     Contact
@@ -481,7 +511,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       key={eng.name}
                       to={eng.path}
                       onClick={onClose}
-                      className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 transition-colors hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs"
+                      className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-100 transition-colors hover:border-primary hover:bg-accent shadow-2xs"
                     >
                       <Icon className="h-4 w-4 text-primary shrink-0" />
                       <span className="truncate font-medium">{eng.name}</span>
@@ -500,7 +530,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/compare"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <Scale className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">Side-by-Side</span>
@@ -509,7 +539,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/reports"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <FileText className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">Audit Reports</span>
@@ -518,7 +548,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/products"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <Radio className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">Domain Watchdog</span>
@@ -527,7 +557,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link
                   to="/dashboard"
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-amber-50/50 dark:hover:bg-zinc-800 shadow-2xs font-medium"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2.5 text-zinc-900 dark:text-zinc-100 hover:border-primary hover:bg-accent shadow-2xs font-medium"
                 >
                   <LayoutDashboard className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">My Dashboard</span>
@@ -555,7 +585,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                     <div className="min-w-0">
                       <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100 truncate flex items-center gap-1.5">
                         <span className="truncate">{user.displayName || user.email?.split('@')[0]}</span>
-                        <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded border uppercase ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
+                        <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border uppercase ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
                           {roleConfig.shortLabel}
                         </span>
                       </div>
@@ -619,11 +649,11 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
       {/* Bottom Footer Bar inside Overlay */}
       <div className="mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-zinc-200 dark:border-zinc-800 px-6 py-4 text-xs font-mono text-zinc-500 dark:text-zinc-400 sm:px-8 gap-3 shrink-0">
         <div className="flex items-center gap-4 flex-wrap">
-          <Link to="/privacy" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Privacy</Link>
-          <Link to="/terms" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Terms</Link>
-          <Link to="/cookies" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Cookies</Link>
-          <Link to="/security" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">SecOps</Link>
-          <Link to="/methodology" onClick={onClose} className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">Audit Methodology</Link>
+          <Link to="/privacy" onClick={onClose} className="hover:text-foreground transition-colors">Privacy</Link>
+          <Link to="/terms" onClick={onClose} className="hover:text-foreground transition-colors">Terms</Link>
+          <Link to="/cookies" onClick={onClose} className="hover:text-foreground transition-colors">Cookies</Link>
+          <Link to="/security" onClick={onClose} className="hover:text-foreground transition-colors">SecOps</Link>
+          <Link to="/methodology" onClick={onClose} className="hover:text-foreground transition-colors">Audit Methodology</Link>
         </div>
 
         <div>

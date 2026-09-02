@@ -170,7 +170,7 @@ export const StickyHUD: React.FC = () => {
                     className="flex items-start gap-2 text-slate-300 font-mono hover:bg-slate-800/30 p-1 rounded transition-colors"
                   >
                     <span className="text-slate-500 shrink-0 text-[10px]">{log.timestamp}</span>
-                    <span className={`px-1 rounded text-[9px] font-bold shrink-0 ${
+                    <span className={`px-1 rounded text-[10px] font-bold shrink-0 ${
                       log.level === 'CRON' ? 'bg-[#06B6D4]/20 text-[#00F0FF]' :
                       log.level === 'WARN' ? 'bg-amber-950/60 text-amber-300 border border-amber-500/30' :
                       log.level === 'BENCHMARK' ? 'bg-purple-950/60 text-purple-300 border border-purple-500/30' :
@@ -241,7 +241,7 @@ export const StickyHUD: React.FC = () => {
                       <div className="font-bold text-[11px]" style={{ color: isSelected ? '#00F0FF' : enzyme.color }}>
                         {enzyme.label}
                       </div>
-                      <div className="text-[9px] text-slate-400 truncate mt-0.5 font-sans">
+                      <div className="text-[10px] text-slate-400 truncate mt-0.5 font-sans">
                         {enzyme.name}
                       </div>
                     </button>

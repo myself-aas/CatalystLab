@@ -4,7 +4,7 @@ import type { BlogPost } from '../../types';
 import { getUserBlogPosts, saveBlogPost, deleteBlogPost } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import { getArticleReadingTime } from '../../utils/readingTime';
-import { 
+import {
   BookOpen, 
   Plus, 
   Edit3, 
@@ -18,6 +18,8 @@ import {
   Check,
   Send
 } from 'lucide-react';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 export const UserBlogManagementView: React.FC = () => {
   const { user } = useAuth();
@@ -39,7 +41,7 @@ export const UserBlogManagementView: React.FC = () => {
       const fetched = await getUserBlogPosts(user.email);
       setPosts(fetched);
     } catch (error) {
-      console.error('Failed to fetch user blogs:', error);
+      logger.error('Failed to fetch user blogs:', error);
     } finally {
       setLoading(false);
     }
@@ -59,8 +61,8 @@ export const UserBlogManagementView: React.FC = () => {
         showNotification('Article deleted successfully.');
       }
     } catch (err: unknown) {
-      console.error('Failed to delete post:', err);
-      showNotification(`Failed to delete post: ${err.message}`);
+      logger.error('Failed to delete post:', err);
+      showNotification(`Failed to delete post: ${errorMessage(err)}`);
     }
   };
 
@@ -71,7 +73,7 @@ export const UserBlogManagementView: React.FC = () => {
       setPosts(posts.map((p) => (p.id === post.id ? { ...p, status: newStatus } : p)));
       showNotification(`Article ${newStatus === 'published' ? 'published' : 'saved as draft'}.`);
     } catch (err: unknown) {
-      console.error('Failed to toggle status:', err);
+      logger.error('Failed to toggle status:', err);
     }
   };
 

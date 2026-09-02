@@ -26,6 +26,7 @@ import {
   Leaf,
   X
 } from 'lucide-react';
+import { logger } from '../../lib/logger';
 
 interface LatestBlogsSectionProps {
   title?: string;
@@ -60,7 +61,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
       if (saved) {
         setBookmarkedIds(new Set(JSON.parse(saved)));
       }
-    } catch (e) { console.error("Ignored error:", e); }
+    } catch (e) { logger.error("Ignored error:", e); }
   }, []);
 
   const toggleBookmark = (id: string, e: React.MouseEvent) => {
@@ -75,7 +76,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
       }
       try {
         localStorage.setItem('catalyst_bookmarked_blogs', JSON.stringify(Array.from(next)));
-      } catch (e) { console.error("Ignored error:", e); }
+      } catch (e) { logger.error("Ignored error:", e); }
       return next;
     });
   };
@@ -122,7 +123,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
           setPosts(merged);
         }
       } catch (err) {
-        console.warn("Could not fetch remote blogs, using local seeds:", err);
+        logger.warn("Could not fetch remote blogs, using local seeds:", err);
         if (isMounted) {
           setPosts(allFallbackPosts);
         }
@@ -291,7 +292,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
             <div className="lg:col-span-5 h-full">
               <BlogCard
                 id={heroPost.id || heroPost.slug}
-                slug={heroPost.slug || heroPost.id}
+                slug={heroPost.slug || heroPost.id || ''}
                 title={heroPost.title}
                 excerpt={heroPost.excerpt || 'Explore deep-dive telemetry diagnostics, modern SSR hydration patterns, and benchmark data from production engines.'}
                 category={heroPost.category || 'Featured'}
@@ -325,7 +326,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <div key={post.slug || post.id || idx} className="h-full">
                     <BlogCard
                       id={post.id || post.slug}
-                      slug={post.slug || post.id}
+                      slug={post.slug || post.id || ''}
                       title={post.title}
                       excerpt={post.excerpt || 'Real-time telemetry and edge diagnostic research.'}
                       category={post.category || 'Research'}

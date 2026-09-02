@@ -15,7 +15,6 @@ describe('Browserbase UI-Test: Fullscreen Cards & 3D Parallax Systems', () => {
         description="High-frequency DOM tree depth and layout stability metrics analyzer."
         score="98/100"
         badge="Enterprise"
-        category="Architecture"
         metric="12.4ms"
         metricLabel="Avg Response"
       />

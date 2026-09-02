@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Activity,
   ChevronDown,
@@ -313,7 +313,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                         {vector.name}
                       </span>
                       <span
-                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] font-sans font-bold uppercase tracking-widest border ${badge.color}`}
+                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-sans font-bold uppercase tracking-widest border ${badge.color}`}
                       >
                         <BadgeIcon className="w-2.5 h-2.5" />
                         <span>{badge.label}</span>

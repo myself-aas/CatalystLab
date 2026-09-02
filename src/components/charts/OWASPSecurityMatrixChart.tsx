@@ -166,7 +166,7 @@ header {
       </div>
 
       {/* Interactive Headers Table */}
-      <div className="overflow-hidden rounded-xl border border-black/30 bg-white">
+      <div className="overflow-x-auto rounded-xl border border-black/30 bg-white">
         <table className="w-full text-left text-xs">
           <thead className="border-b border-black/25 bg-white font-semibold text-slate-500">
             <tr>

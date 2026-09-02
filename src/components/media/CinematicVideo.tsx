@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useReducedMotion } from 'motion/react';
 import { getMediaAsset, MediaAsset, MediaTreatment, DEFAULT_BLUR_SHIMMER } from '../../lib/media/registry';
+import { logger } from '../../lib/logger';
 
 export interface CinematicVideoProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   assetId?: string;
@@ -57,13 +58,13 @@ export const CinematicVideo: React.FC<CinematicVideoProps> = ({
   // R3: Advance source chain on error
   const handleVideoError = () => {
     if (currentSourceIndex < sourceList.length - 1) {
-      console.warn(
+      logger.warn(
         `[media] Video source ${currentSourceIndex} failed for slot <${assetId || 'unknown'}>. Trying fallback source ${currentSourceIndex + 1}...`
       );
       setCurrentSourceIndex((prev) => prev + 1);
     } else {
       setIsDegraded(true);
-      console.warn(`[media] slot <${assetId || 'cinematic-video'}> degraded: all video sources failed`);
+      logger.warn(`[media] slot <${assetId || 'cinematic-video'}> degraded: all video sources failed`);
     }
   };
 

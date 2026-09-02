@@ -22,6 +22,7 @@ import {
 import { SEOHead } from '../components/common/SEOHead';
 import { ParallaxSection } from '../components/common/ParallaxSection';
 import { WebhookFanoutMesh } from '../components/integrations/WebhookFanoutMesh';
+import { logger } from '../lib/logger';
 
 export const ProductsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'monitoring' | 'cicd' | 'webhooks'>('all');
@@ -109,7 +110,7 @@ export default {
           edgePoP: request.cf?.colo || 'UNKNOWN',
           status: response.status
         })
-      }).catch(err => console.error('Telemetry dispatch error:', err))
+      }).catch(err => logger.error('Telemetry dispatch error:', err))
     );
 
     return response;

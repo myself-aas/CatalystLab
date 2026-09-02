@@ -23,7 +23,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       box: 'h-6 w-6 rounded-md',
       icon: 'h-3.5 w-3.5',
       title: 'text-base',
-      badge: 'text-xs px-1 py-0.2',
+      badge: 'text-xs px-1 py-0.5',
     },
     md: {
       box: 'h-8 w-8 rounded-lg',

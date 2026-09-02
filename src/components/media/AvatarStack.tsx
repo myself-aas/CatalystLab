@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { getMediaAsset, MediaAsset } from '../../lib/media/registry';
+import { logger } from '../../lib/logger';
 
 export interface AvatarItem {
   id: string;
@@ -73,13 +74,13 @@ const AvatarSingle: React.FC<{
 
   const handleError = () => {
     if (sourceIdx < sources.length - 1) {
-      console.warn(
+      logger.warn(
         `[media] Avatar source ${sourceIdx} failed for <${avatar.name}>. Trying next fallback source ${sourceIdx + 1}...`
       );
       setSourceIdx((prev) => prev + 1);
     } else {
       setIsDegraded(true);
-      console.warn(`[media] slot <avatar-${avatar.id}> degraded`);
+      logger.warn(`[media] slot <avatar-${avatar.id}> degraded`);
     }
   };
 

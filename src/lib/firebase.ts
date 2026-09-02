@@ -37,6 +37,7 @@ import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, Co
 import { calculateReadingTime } from '../utils/readingTime';
 
 import firebaseConfig from '../../firebase-applet-config.json';
+import { logger } from './logger';
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
@@ -134,7 +135,7 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     operationType,
     path
   };
-  console.warn('Firestore Operation Notice:', JSON.stringify(errInfo));
+  logger.warn('Firestore Operation Notice:', JSON.stringify(errInfo));
   return errInfo;
 }
 
@@ -158,7 +159,7 @@ function saveLocalReport(report: AuditReport): void {
     // Keep max 50 recent reports
     localStorage.setItem(LOCAL_REPORTS_KEY, JSON.stringify(reports.slice(0, 50)));
   } catch (err) {
-    console.warn('Failed to cache report locally:', err);
+    logger.warn('Failed to cache report locally:', err);
   }
 }
 
@@ -168,7 +169,7 @@ function deleteLocalReport(reportId: string): void {
     const reports = getLocalReports().filter(r => r.id !== reportId);
     localStorage.setItem(LOCAL_REPORTS_KEY, JSON.stringify(reports));
   } catch (err) {
-    console.warn('Failed to delete local report:', err);
+    logger.warn('Failed to delete local report:', err);
   }
 }
 
@@ -235,9 +236,9 @@ export const loginWithGoogle = async (): Promise<User> => {
   } catch (error: unknown) {
     const errorDetails = formatAuthError(error);
     if (errorDetails.isUnauthorizedDomain) {
-      console.warn("Firebase Auth Notice: Domain requires whitelisting:", errorDetails.domain);
+      logger.warn("Firebase Auth Notice: Domain requires whitelisting:", errorDetails.domain);
     } else if (!errorDetails.isUserCancelled) {
-      console.error("Google login failed:", error);
+      logger.error("Google login failed:", error);
     }
     const enhancedError = new Error(errorDetails.message);
     Object.assign(enhancedError, errorDetails);
@@ -252,9 +253,9 @@ export const loginWithGithub = async (): Promise<User> => {
   } catch (error: unknown) {
     const errorDetails = formatAuthError(error);
     if (errorDetails.isUnauthorizedDomain) {
-      console.warn("Firebase Auth Notice: Domain requires whitelisting:", errorDetails.domain);
+      logger.warn("Firebase Auth Notice: Domain requires whitelisting:", errorDetails.domain);
     } else if (!errorDetails.isUserCancelled) {
-      console.error("GitHub login failed:", error);
+      logger.error("GitHub login failed:", error);
     }
     const enhancedError = new Error(errorDetails.message);
     Object.assign(enhancedError, errorDetails);
@@ -268,7 +269,7 @@ export const loginWithEmail = async (email: string, password: string): Promise<U
     return result.user;
   } catch (error: unknown) {
     const errorDetails = formatAuthError(error);
-    console.error("Email login failed:", error);
+    logger.error("Email login failed:", error);
     const enhancedError = new Error(errorDetails.message);
     Object.assign(enhancedError, errorDetails);
     throw enhancedError;
@@ -284,13 +285,13 @@ export const signUpWithEmail = async (email: string, password: string, displayNa
           displayName: displayName.trim()
         });
       } catch (profileErr) {
-        console.warn("Could not update user display name:", profileErr);
+        logger.warn("Could not update user display name:", profileErr);
       }
     }
     return result.user;
   } catch (error: unknown) {
     const errorDetails = formatAuthError(error);
-    console.error("Email sign up failed:", error);
+    logger.error("Email sign up failed:", error);
     const enhancedError = new Error(errorDetails.message);
     Object.assign(enhancedError, errorDetails);
     throw enhancedError;
@@ -302,7 +303,7 @@ export const sendPasswordReset = async (email: string): Promise<void> => {
     await sendPasswordResetEmail(auth, email.trim());
   } catch (error: unknown) {
     const errorDetails = formatAuthError(error);
-    console.error("Password reset failed:", error);
+    logger.error("Password reset failed:", error);
     const enhancedError = new Error(errorDetails.message);
     Object.assign(enhancedError, errorDetails);
     throw enhancedError;
@@ -313,7 +314,7 @@ export const logout = async (): Promise<void> => {
   try {
     await signOut(auth);
   } catch (error) {
-    console.error("Logout failed:", error);
+    logger.error("Logout failed:", error);
     throw error;
   }
 };
@@ -617,7 +618,7 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
     posts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     return posts;
   } catch (error) {
-    console.warn("Could not fetch blogs from Firestore, using initial dataset:", error);
+    logger.warn("Could not fetch blogs from Firestore, using initial dataset:", error);
     return INITIAL_SEEDED_BLOGS;
   }
 };
@@ -640,7 +641,7 @@ export const getUserBlogPosts = async (email: string): Promise<BlogPost[]> => {
     posts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     return posts;
   } catch (error) {
-    console.warn("Could not fetch user blogs from Firestore, using initial dataset:", error);
+    logger.warn("Could not fetch user blogs from Firestore, using initial dataset:", error);
     return INITIAL_SEEDED_BLOGS.filter(post => post.authorEmail === email);
   }
 };
@@ -656,7 +657,7 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
       return { id: docSnap.id, ...(docSnap.data() as Omit<BlogPost, 'id'>) };
     }
   } catch (err) {
-    console.warn("Error querying blog by slug:", err);
+    logger.warn("Error querying blog by slug:", err);
   }
   // Fallback to seed
   const found = INITIAL_SEEDED_BLOGS.find(p => p.slug === slug || p.id === slug);
@@ -721,13 +722,13 @@ export const saveBlogPost = async (post: Partial<BlogPost>): Promise<string> => 
       await updateDoc(docRef, postPayload as any);
       try {
         await setDoc(doc(db, "blogPosts", post.id), postPayload as any, { merge: true });
-      } catch (e) { console.error("Ignored error:", e); }
+      } catch (e) { logger.error("Ignored error:", e); }
       return post.id;
     } else {
       const docRef = await addDoc(collection(db, path), postPayload);
       try {
         await setDoc(doc(db, "blogPosts", docRef.id), postPayload as any);
-      } catch (e) { console.error("Ignored error:", e); }
+      } catch (e) { logger.error("Ignored error:", e); }
       return docRef.id;
     }
   } catch (error) {
@@ -743,7 +744,7 @@ export const deleteBlogPost = async (postId: string): Promise<boolean> => {
     await deleteDoc(docRef);
     try {
       await deleteDoc(doc(db, "blogPosts", postId));
-    } catch (e) { console.error("Ignored error:", e); }
+    } catch (e) { logger.error("Ignored error:", e); }
     return true;
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, path);
@@ -802,7 +803,7 @@ export const getMonitoredSites = async (): Promise<MonitoredSite[]> => {
     sites.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     return sites;
   } catch (error) {
-    console.warn("Could not fetch monitored sites from Firestore, using initial set:", error);
+    logger.warn("Could not fetch monitored sites from Firestore, using initial set:", error);
     return INITIAL_MONITORED_SITES;
   }
 };
@@ -926,7 +927,7 @@ export const getApiKeys = async (ownerId?: string): Promise<ApiKey[]> => {
     if (raw) {
       localKeys = JSON.parse(raw);
     }
-  } catch (e) { console.error("Ignored error:", e); }
+  } catch (e) { logger.error("Ignored error:", e); }
 
   const path = "api_keys";
   try {
@@ -941,11 +942,11 @@ export const getApiKeys = async (ownerId?: string): Promise<ApiKey[]> => {
       keys.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
       try {
         localStorage.setItem(localKey, JSON.stringify(keys));
-      } catch (e) { console.error("Ignored error:", e); }
+      } catch (e) { logger.error("Ignored error:", e); }
       return keys;
     }
   } catch (error) {
-    console.warn("Could not query API keys from Firestore, checking local storage:", error);
+    logger.warn("Could not query API keys from Firestore, checking local storage:", error);
   }
 
   if (localKeys.length > 0) {
@@ -1000,7 +1001,7 @@ export const createApiKey = async (params: {
       secretKeyHash: secretKey.substring(0, 20) // masked verification
     });
   } catch (error) {
-    console.warn("Firestore save notice for api_key, caching locally:", error);
+    logger.warn("Firestore save notice for api_key, caching locally:", error);
   }
 
   // Persist locally
@@ -1009,7 +1010,7 @@ export const createApiKey = async (params: {
     const existing = await getApiKeys(ownerId);
     const updated = [newApiKey, ...existing.filter(k => k.id !== keyId)];
     localStorage.setItem(localKey, JSON.stringify(updated));
-  } catch (e) { console.error("Ignored error:", e); }
+  } catch (e) { logger.error("Ignored error:", e); }
 
   return {
     apiKey: newApiKey,
@@ -1046,13 +1047,13 @@ export const rotateApiKey = async (keyId: string): Promise<{ apiKey: ApiKey; new
       status: 'active'
     });
   } catch (error) {
-    console.warn("Could not update rotated key in Firestore, updating local cache:", error);
+    logger.warn("Could not update rotated key in Firestore, updating local cache:", error);
   }
 
   try {
     const updatedList = currentKeys.map(k => k.id === keyId ? updatedKey : k);
     localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch (e) { console.error("Ignored error:", e); }
+  } catch (e) { logger.error("Ignored error:", e); }
 
   return {
     apiKey: updatedKey,
@@ -1072,14 +1073,14 @@ export const revokeApiKey = async (keyId: string): Promise<boolean> => {
       revokedAt: Date.now()
     });
   } catch (error) {
-    console.warn("Could not revoke in Firestore, updating local storage:", error);
+    logger.warn("Could not revoke in Firestore, updating local storage:", error);
   }
 
   try {
     const currentKeys = await getApiKeys(ownerId);
     const updatedList = currentKeys.map(k => k.id === keyId ? { ...k, status: 'revoked' as const } : k);
     localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch (e) { console.error("Ignored error:", e); }
+  } catch (e) { logger.error("Ignored error:", e); }
 
   return true;
 };
@@ -1093,14 +1094,14 @@ export const deleteApiKey = async (keyId: string): Promise<boolean> => {
     const docRef = doc(db, "api_keys", keyId);
     await deleteDoc(docRef);
   } catch (error) {
-    console.warn("Could not delete from Firestore, deleting from local cache:", error);
+    logger.warn("Could not delete from Firestore, deleting from local cache:", error);
   }
 
   try {
     const currentKeys = await getApiKeys(ownerId);
     const updatedList = currentKeys.filter(k => k.id !== keyId);
     localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch (e) { console.error("Ignored error:", e); }
+  } catch (e) { logger.error("Ignored error:", e); }
 
   return true;
 };
@@ -1214,7 +1215,7 @@ export const getFirestoreAuditLogs = async (limitCount = 30): Promise<FirestoreA
       return logs;
     }
   } catch (err) {
-    console.warn("Could not query audit_logs collection:", err);
+    logger.warn("Could not query audit_logs collection:", err);
   }
 
   // Also query reports collection as fallback audit logs
@@ -1244,7 +1245,7 @@ export const getFirestoreAuditLogs = async (limitCount = 30): Promise<FirestoreA
         return derived;
       }
     }
-  } catch (e) { console.error("Ignored error:", e); }
+  } catch (e) { logger.error("Ignored error:", e); }
 
   return INITIAL_AUDIT_LOGS;
 };
@@ -1275,12 +1276,12 @@ export const subscribeFirestoreAuditLogs = (
         callback(INITIAL_AUDIT_LOGS);
       }
     }, (error) => {
-      console.warn("Audit logs subscription listener warning:", error);
+      logger.warn("Audit logs subscription listener warning:", error);
       callback(INITIAL_AUDIT_LOGS);
     });
     return unsubscribe;
   } catch (err) {
-    console.warn("Failed to attach audit logs onSnapshot listener:", err);
+    logger.warn("Failed to attach audit logs onSnapshot listener:", err);
     callback(INITIAL_AUDIT_LOGS);
     return () => {};
   }
@@ -1308,7 +1309,7 @@ export const logSystemAuditEvent = async (
     const docRef = await addDoc(collection(db, path), logEntry);
     return docRef.id;
   } catch (error) {
-    console.warn("Could not save audit log to Firestore:", error);
+    logger.warn("Could not save audit log to Firestore:", error);
     return `log-local-${Date.now()}`;
   }
 };
@@ -1334,7 +1335,7 @@ export function saveLocalInquiry(inquiry: ContactInquiry): void {
     list.unshift(inquiry);
     localStorage.setItem(LOCAL_INQUIRIES_KEY, JSON.stringify(list.slice(0, 100)));
   } catch (err) {
-    console.warn('Failed to cache inquiry locally:', err);
+    logger.warn('Failed to cache inquiry locally:', err);
   }
 }
 
@@ -1389,7 +1390,7 @@ export const getContactInquiriesForAdmin = async (): Promise<ContactInquiry[]> =
     });
     if (results.length > 0) return results;
   } catch (err) {
-    console.warn("Could not query contact_inquiries from Firestore:", err);
+    logger.warn("Could not query contact_inquiries from Firestore:", err);
   }
   return getLocalInquiries();
 };
@@ -1415,7 +1416,7 @@ export function saveLocalSubscription(subscription: UserSubscription): void {
   try {
     localStorage.setItem(LOCAL_SUB_PREFIX + subscription.ownerId, JSON.stringify(subscription));
   } catch (err) {
-    console.warn('Failed to cache subscription locally:', err);
+    logger.warn('Failed to cache subscription locally:', err);
   }
 }
 

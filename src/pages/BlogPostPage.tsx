@@ -5,6 +5,7 @@ import { getBlogPostBySlug, getBlogPosts } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
 import { ScanRevealFigure } from '../components/media/ScanRevealFigure';
+import { PexelsImage } from '../components/media/PexelsImage';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 import { 
@@ -16,6 +17,7 @@ import {
   Edit3
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { logger } from '../lib/logger';
 
 export const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -40,7 +42,7 @@ export const BlogPostPage: React.FC = () => {
           .slice(0, 3);
         setRelatedPosts(related);
       } catch (err) {
-        console.error("Error loading blog post:", err);
+        logger.error("Error loading blog post:", err);
       } finally {
         setLoading(false);
       }
@@ -60,7 +62,7 @@ export const BlogPostPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center bg-white text-slate-600 font-mono">
-        <span className="material-symbols-outlined text-3xl animate-spin text-slate-900 mb-2">progress_activity</span>
+        <span aria-hidden="true" className="material-symbols-outlined text-3xl animate-spin text-slate-900 mb-2">progress_activity</span>
         <p className="text-xs font-bold">Loading technical briefing...</p>
       </div>
     );

@@ -97,13 +97,14 @@ export async function executeEcoCarbonEngine(targetUrl: string): Promise<EngineR
 
   // Asset rankings
   const totalAssetsKb = htmlKb + jsKb + cssKb + imgKb + fontsKb || 1;
-  const assetWeightRankings: EcoCarbonMetrics['assetWeightRankings'] = [
+  const assetWeightEntries: EcoCarbonMetrics['assetWeightRankings'] = [
     { type: 'images', kb: imgKb, percentage: Math.round((imgKb / totalAssetsKb) * 100) },
     { type: 'js', kb: jsKb, percentage: Math.round((jsKb / totalAssetsKb) * 100) },
     { type: 'html', kb: htmlKb, percentage: Math.round((htmlKb / totalAssetsKb) * 100) },
     { type: 'css', kb: cssKb, percentage: Math.round((cssKb / totalAssetsKb) * 100) },
     { type: 'fonts', kb: fontsKb, percentage: Math.round((fontsKb / totalAssetsKb) * 100) },
-  ].sort((a, b) => b.kb - a.kb);
+  ];
+  const assetWeightRankings = [...assetWeightEntries].sort((a, b) => b.kb - a.kb);
 
   // Grade & Percentile
   let ecoGrade: EcoCarbonMetrics['ecoGrade'] = 'A+';

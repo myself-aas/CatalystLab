@@ -22,7 +22,7 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
   action,
   children,
   className,
-  imageUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop',
+  imageUrl = 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
   imageAlt = 'Card image',
   overlay = true,
 }) => {

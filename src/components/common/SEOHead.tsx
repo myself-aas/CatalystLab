@@ -5,6 +5,8 @@ export interface SEOProps {
   description: string;
   keywords?: string[];
   canonicalUrl?: string;
+  /** Path-only canonical (e.g. '/blogs'); composed with the site origin. */
+  canonicalPath?: string;
   ogType?: 'website' | 'article';
   ogImage?: string;
   author?: string;
@@ -17,6 +19,7 @@ export const SEOHead: React.FC<SEOProps> = ({
   description,
   keywords = [],
   canonicalUrl,
+  canonicalPath,
   ogType = 'website',
   ogImage = 'https://www.catalystlab.tech/og-banner.png',
   author = 'CatalystLab Telemetry Team',
@@ -24,7 +27,8 @@ export const SEOHead: React.FC<SEOProps> = ({
   structuredData
 }) => {
   const fullTitle = title.includes('CatalystLab') ? title : `${title} | CatalystLab Documentation & Developer Hub`;
-  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://www.catalystlab.tech');
+  const SITE_ORIGIN = 'https://www.catalystlab.tech';
+  const currentUrl = canonicalUrl || (canonicalPath ? `${SITE_ORIGIN}${canonicalPath}` : typeof window !== 'undefined' ? window.location.href : SITE_ORIGIN);
 
   useEffect(() => {
     // Document title

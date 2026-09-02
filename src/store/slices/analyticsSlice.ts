@@ -1,6 +1,7 @@
 import { StateCreator } from 'zustand';
 import { AnalyticsSummaryResult } from '../../lib/analyticsEngine';
 import { AppState } from '../useAppStore';
+import { logger } from '../../lib/logger';
 
 export interface AnalyticsSlice {
   timeframe: '24h' | '7d' | '30d' | 'all';
@@ -78,7 +79,7 @@ export const createAnalyticsSlice: StateCreator<
         set({ analyticsLoading: false });
       }
     } catch (err) {
-      console.warn('[Zustand AnalyticsSlice] Telemetry stats fallback notice:', err);
+      logger.warn('[Zustand AnalyticsSlice] Telemetry stats fallback notice:', err);
       set({ analyticsLoading: false });
     }
   },

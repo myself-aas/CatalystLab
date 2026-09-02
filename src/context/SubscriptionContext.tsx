@@ -10,6 +10,7 @@ import {
   saveLocalSubscription 
 } from '../lib/firebase';
 import { getRateLimitStatus, fetchServerRateLimitStatus, RateLimitStatus } from '../utils/rateLimiter';
+import { logger } from '../lib/logger';
 
 interface SubscriptionContextType {
   planId: SubscriptionPlanId;
@@ -96,7 +97,7 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const sub = await getUserSubscription(user.uid);
       calculateTrialState(sub);
     } catch (err) {
-      console.warn('Could not refresh subscription from cloud:', err);
+      logger.warn('Could not refresh subscription from cloud:', err);
       const localSub = getLocalSubscription(user.uid);
       calculateTrialState(localSub);
     } finally {
@@ -133,7 +134,7 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
         await fetchServerRateLimitStatus(signedInUser, chosenPlan, true);
         return true;
       } catch (err) {
-        console.error('Failed to start trial:', err);
+        logger.error('Failed to start trial:', err);
         return false;
       }
     }
@@ -145,7 +146,7 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       await fetchServerRateLimitStatus(user, chosenPlan, true);
       return true;
     } catch (err) {
-      console.error('Failed to start trial:', err);
+      logger.error('Failed to start trial:', err);
       return false;
     }
   };
@@ -167,7 +168,7 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       calculateTrialState(sub);
       return true;
     } catch (err) {
-      console.error('Failed to change subscription plan:', err);
+      logger.error('Failed to change subscription plan:', err);
       return false;
     }
   };
@@ -185,7 +186,7 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const sub = await changeUserSubscription(user.uid, user.email || '', 'free');
       calculateTrialState(sub);
     } catch (err) {
-      console.error('Failed to cancel trial:', err);
+      logger.error('Failed to cancel trial:', err);
     }
   };
 

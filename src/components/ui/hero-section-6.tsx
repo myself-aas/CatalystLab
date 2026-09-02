@@ -251,7 +251,7 @@ export default function HeroSection6() {
               className="relative w-full rounded-2xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-900"
             >
               <img
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80"
+                src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="CatalystLab Telemetry Dashboard"
                 className="object-cover object-top w-full h-[320px] sm:h-[440px] md:h-[520px]"
               />
@@ -266,7 +266,7 @@ export default function HeroSection6() {
                 transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
               >
                 <Iphone15Pro
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80"
+                  src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1"
                   className="w-full h-[260px] md:h-[380px] lg:h-[440px]"
                 />
               </motion.div>

@@ -39,7 +39,7 @@ export const StackedDateChip: React.FC<StackedDateChipProps> = ({
       {weekday && (
         <span
           className={clsx(
-            'text-[9px] font-semibold uppercase',
+            'text-[10px] font-semibold uppercase',
             variant === 'solid' ? 'text-slate-600' : 'text-slate-200'
           )}
         >

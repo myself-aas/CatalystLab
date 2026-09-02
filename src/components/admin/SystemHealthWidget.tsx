@@ -5,7 +5,7 @@ import {
   subscribeFirestoreAuditLogs, 
   logSystemAuditEvent 
 } from '../../lib/firebase';
-import { 
+import {
   Activity, 
   ShieldCheck, 
   ShieldAlert, 
@@ -25,6 +25,8 @@ import {
   Layers,
   Sparkles
 } from 'lucide-react';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 export const SystemHealthWidget: React.FC = () => {
   const [logs, setLogs] = useState<FirestoreAuditLog[]>([]);
@@ -71,9 +73,9 @@ export const SystemHealthWidget: React.FC = () => {
             });
           }
         }
-      } catch (e) { console.error("Ignored error:", e); }
+      } catch (e) { logger.error("Ignored error:", e); }
     } catch (err) {
-      console.warn("Error fetching Firestore audit logs:", err);
+      logger.warn("Error fetching Firestore audit logs:", err);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -144,7 +146,7 @@ export const SystemHealthWidget: React.FC = () => {
     } catch (err: unknown) {
       setLivePingStatus({
         active: false,
-        message: `Diagnostic test warning: ${err?.message || 'Logged with fallback'}`
+        message: `Diagnostic test warning: ${errorMessage(err) || 'Logged with fallback'}`
       });
     } finally {
       setRunningDiagnostic(false);

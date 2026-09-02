@@ -4,7 +4,7 @@ import type { BlogPost } from '../../types';
 import { getBlogPosts, saveBlogPost, deleteBlogPost } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import { getArticleReadingTime } from '../../utils/readingTime';
-import { 
+import {
   BookOpen, 
   Plus, 
   Edit3, 
@@ -25,6 +25,8 @@ import {
   TrendingUp,
   BarChart2
 } from 'lucide-react';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 const CATEGORIES = [
   'All Categories',
@@ -55,7 +57,7 @@ export const BlogManagementView: React.FC = () => {
       const data = await getBlogPosts();
       setPosts(data);
     } catch (err) {
-      console.error('Error fetching blog posts:', err);
+      logger.error('Error fetching blog posts:', err);
     } finally {
       setLoading(false);
     }
@@ -77,8 +79,8 @@ export const BlogManagementView: React.FC = () => {
       setPosts(posts.map((p) => (p.id === post.id ? { ...p, status: newStatus } : p)));
       showNotification(`Article status updated to ${newStatus}.`);
     } catch (err: unknown) {
-      console.error('Error toggling status:', err);
-      showNotification(`Failed to toggle status: ${err.message}`);
+      logger.error('Error toggling status:', err);
+      showNotification(`Failed to toggle status: ${errorMessage(err)}`);
     }
   };
 
@@ -93,8 +95,8 @@ export const BlogManagementView: React.FC = () => {
         showNotification('Article deleted successfully.');
       }
     } catch (err: unknown) {
-      console.error('Failed to delete post:', err);
-      showNotification(`Failed to delete post: ${err.message}`);
+      logger.error('Failed to delete post:', err);
+      showNotification(`Failed to delete post: ${errorMessage(err)}`);
     }
   };
 

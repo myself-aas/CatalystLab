@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Terminal, Code2, Play, ExternalLink, Key, Zap, CheckCircle2 } from 'lucide-react';
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
+import { logger } from '../../lib/logger';
 
 export const ApiReferenceDoc: React.FC = () => {
   const toc = [
@@ -106,7 +107,7 @@ export const ApiReferenceDoc: React.FC = () => {
 });
 
 const data = await response.json();
-console.log("Quality Score:", data.score);`}
+logger.debug("Quality Score:", data.score);`}
         />
       </section>
 

@@ -10,6 +10,7 @@ import {
   hasPermission as checkPermission,
   checkRouteAccess
 } from '../utils/rolePermissions';
+import { logger } from '../lib/logger';
 
 interface RoleSecurityContextType {
   actualRole: UserRole;
@@ -68,7 +69,7 @@ export const RoleSecurityProvider: React.FC<{ children: React.ReactNode }> = ({ 
         localStorage.removeItem(ROLE_SIMULATION_KEY);
       }
     } catch (err) {
-      console.warn('Failed to store simulated role in storage:', err);
+      logger.warn('Failed to store simulated role in storage:', err);
     }
   };
 

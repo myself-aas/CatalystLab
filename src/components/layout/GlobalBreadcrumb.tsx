@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { serializeJsonLd } from '../../lib/structuredData';
 import { 
   Home, 
   ChevronRight, 
@@ -114,7 +115,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
       return {
         sectionCategory: 'Documentation',
         categoryIcon: BookOpen,
-        categoryColor: 'text-sky-600 bg-sky-50 border-sky-200',
+        categoryColor: 'text-sky-700 bg-sky-500/10 border-sky-500/30 dark:text-sky-300',
         crumbs: [
           { label: 'Documentation', isCurrent: true, icon: BookOpen }
         ],
@@ -126,7 +127,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Documentation',
       categoryIcon: BookOpen,
-      categoryColor: 'text-sky-600 bg-sky-50 border-sky-200',
+      categoryColor: 'text-sky-700 bg-sky-500/10 border-sky-500/30 dark:text-sky-300',
       crumbs: [
         { label: 'Documentation', href: '/docs', icon: BookOpen },
         { label: title, isCurrent: true }
@@ -142,7 +143,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
       return {
         sectionCategory: 'Developer',
         categoryIcon: Terminal,
-        categoryColor: 'text-indigo-600 bg-indigo-50 border-indigo-200',
+        categoryColor: 'text-indigo-700 bg-indigo-500/10 border-indigo-500/30 dark:text-indigo-300',
         crumbs: [
           { label: 'API Reference', href: '/api-reference', icon: Terminal },
           { label: `Category: ${formatSlugToTitle(categorySlug)}`, isCurrent: true }
@@ -154,7 +155,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Developer',
       categoryIcon: Terminal,
-      categoryColor: 'text-indigo-600 bg-indigo-50 border-indigo-200',
+      categoryColor: 'text-indigo-700 bg-indigo-500/10 border-indigo-500/30 dark:text-indigo-300',
       crumbs: [
         { label: 'API Reference & Endpoints', isCurrent: true, icon: Terminal }
       ],
@@ -168,7 +169,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
       return {
         sectionCategory: 'Interactive',
         categoryIcon: Terminal,
-        categoryColor: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+        categoryColor: 'text-emerald-700 bg-emerald-500/10 border-emerald-500/30 dark:text-emerald-300',
         crumbs: [
           { label: 'API Playground', isCurrent: true, icon: Terminal }
         ],
@@ -182,7 +183,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Interactive',
       categoryIcon: Terminal,
-      categoryColor: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+      categoryColor: 'text-emerald-700 bg-emerald-500/10 border-emerald-500/30 dark:text-emerald-300',
       crumbs: [
         { label: 'API Playground', href: '/playground', icon: Terminal },
         { label: `${engineName} Console`, isCurrent: true }
@@ -196,7 +197,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Engines',
       categoryIcon: Sparkles,
-      categoryColor: 'text-purple-600 bg-purple-50 border-purple-200',
+      categoryColor: 'text-purple-700 bg-purple-500/10 border-purple-500/30 dark:text-purple-300',
       crumbs: [
         { label: 'Master Audit Execution', isCurrent: true, icon: Sparkles }
       ],
@@ -221,7 +222,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Engines',
       categoryIcon: engine.icon,
-      categoryColor: 'text-cyan-700 bg-cyan-50 border-cyan-200',
+      categoryColor: 'text-cyan-700 bg-cyan-500/10 border-cyan-500/30 dark:text-cyan-300',
       crumbs: [
         { label: 'Diagnostic Engines', href: '/launch-audit' },
         { label: engine.name, isCurrent: true, icon: engine.icon }
@@ -238,7 +239,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
       return {
         sectionCategory: 'Intelligence',
         categoryIcon: BarChart3,
-        categoryColor: 'text-amber-700 bg-amber-50 border-amber-200',
+        categoryColor: 'text-amber-700 bg-amber-500/10 border-amber-500/30 dark:text-amber-300',
         crumbs: [
           { label: 'Audit Dossiers & Reports', isCurrent: true, icon: BarChart3 }
         ],
@@ -249,7 +250,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Intelligence',
       categoryIcon: BarChart3,
-      categoryColor: 'text-amber-700 bg-amber-50 border-amber-200',
+      categoryColor: 'text-amber-700 bg-amber-500/10 border-amber-500/30 dark:text-amber-300',
       crumbs: [
         { label: 'Audit Reports', href: '/reports', icon: BarChart3 },
         { label: formatSlugToTitle(reportSlug), isCurrent: true }
@@ -262,7 +263,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Intelligence',
       categoryIcon: Scale,
-      categoryColor: 'text-blue-700 bg-blue-50 border-blue-200',
+      categoryColor: 'text-blue-700 bg-blue-500/10 border-blue-500/30 dark:text-blue-300',
       crumbs: [
         { label: 'Audit Intelligence', href: '/reports' },
         { label: 'Domain Comparison Matrix', isCurrent: true, icon: Scale }
@@ -292,7 +293,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
       return {
         sectionCategory: 'Workspace',
         categoryIcon: Activity,
-        categoryColor: 'text-teal-700 bg-teal-50 border-teal-200',
+        categoryColor: 'text-teal-700 bg-teal-500/10 border-teal-500/30 dark:text-teal-300',
         crumbs: [
           { label: 'User Dashboard', isCurrent: true, icon: Activity }
         ],
@@ -304,7 +305,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Workspace',
       categoryIcon: Activity,
-      categoryColor: 'text-teal-700 bg-teal-50 border-teal-200',
+      categoryColor: 'text-teal-700 bg-teal-500/10 border-teal-500/30 dark:text-teal-300',
       crumbs: [
         { label: 'User Dashboard', href: '/dashboard', icon: Activity },
         { label: matchedSub.label, isCurrent: true, icon: matchedSub.icon }
@@ -327,7 +328,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
       return {
         sectionCategory: 'Management',
         categoryIcon: ShieldAlert,
-        categoryColor: 'text-rose-700 bg-rose-50 border-rose-200',
+        categoryColor: 'text-rose-700 bg-rose-500/10 border-rose-500/30 dark:text-rose-300',
         crumbs: [
           { label: 'Admin Command Center', isCurrent: true, icon: ShieldAlert }
         ],
@@ -339,7 +340,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Management',
       categoryIcon: ShieldAlert,
-      categoryColor: 'text-rose-700 bg-rose-50 border-rose-200',
+      categoryColor: 'text-rose-700 bg-rose-500/10 border-rose-500/30 dark:text-rose-300',
       crumbs: [
         { label: 'Admin Command Center', href: '/admin', icon: ShieldAlert },
         { label: matchedAdmin.label, isCurrent: true, icon: matchedAdmin.icon }
@@ -353,7 +354,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Services',
       categoryIcon: DollarSign,
-      categoryColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+      categoryColor: 'text-emerald-700 bg-emerald-500/10 border-emerald-500/30 dark:text-emerald-300',
       crumbs: [
         { label: 'Services', href: '/pricing' },
         { label: 'Pricing Plans & Quotas', isCurrent: true, icon: DollarSign }
@@ -366,7 +367,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Services',
       categoryIcon: Package,
-      categoryColor: 'text-violet-700 bg-violet-50 border-violet-200',
+      categoryColor: 'text-violet-700 bg-violet-500/10 border-violet-500/30 dark:text-violet-300',
       crumbs: [
         { label: 'Services', href: '/pricing' },
         { label: 'Products & Ecosystem Integrations', isCurrent: true, icon: Package }
@@ -383,7 +384,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
       return {
         sectionCategory: 'Resources',
         categoryIcon: BookOpen,
-        categoryColor: 'text-amber-800 bg-amber-50 border-amber-200',
+        categoryColor: 'text-amber-700 bg-amber-500/10 border-amber-500/30 dark:text-amber-300',
         crumbs: [
           { label: 'Engineering Blog', isCurrent: true, icon: BookOpen }
         ],
@@ -394,7 +395,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Resources',
       categoryIcon: BookOpen,
-      categoryColor: 'text-amber-800 bg-amber-50 border-amber-200',
+      categoryColor: 'text-amber-700 bg-amber-500/10 border-amber-500/30 dark:text-amber-300',
       crumbs: [
         { label: 'Engineering Blog', href: '/blogs', icon: BookOpen },
         { label: formatSlugToTitle(blogSlug), isCurrent: true }
@@ -408,7 +409,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Platform',
       categoryIcon: HelpCircle,
-      categoryColor: 'text-slate-700 bg-slate-100 border-slate-200',
+      categoryColor: 'text-slate-700 bg-slate-500/10 border-slate-500/30 dark:text-slate-300',
       crumbs: [
         { label: 'Platform Methodology & Standards', isCurrent: true, icon: HelpCircle }
       ],
@@ -420,7 +421,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Support',
       categoryIcon: Mail,
-      categoryColor: 'text-blue-700 bg-blue-50 border-blue-200',
+      categoryColor: 'text-blue-700 bg-blue-500/10 border-blue-500/30 dark:text-blue-300',
       crumbs: [
         { label: 'Contact & Advisory Support', isCurrent: true, icon: Mail }
       ],
@@ -440,7 +441,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Legal & Trust',
       categoryIcon: ShieldCheck,
-      categoryColor: 'text-slate-700 bg-slate-100 border-slate-200',
+      categoryColor: 'text-slate-700 bg-slate-500/10 border-slate-500/30 dark:text-slate-300',
       crumbs: [
         { label: 'Legal & Compliance', href: '/terms' },
         { label: legalRoutes[cleanPath], isCurrent: true, icon: ShieldCheck }
@@ -465,7 +466,7 @@ export function resolveBreadcrumbs(pathname: string, search: string = ''): Bread
     return {
       sectionCategory: 'Navigation',
       categoryIcon: Layers,
-      categoryColor: 'text-gray-700 bg-gray-100 border-gray-200',
+      categoryColor: 'text-gray-700 bg-gray-500/10 border-gray-500/30 dark:text-gray-300',
       crumbs: trail,
       parentHref: segments.length > 1 ? '/' + segments.slice(0, segments.length - 1).join('/') : '/'
     };
@@ -524,12 +525,12 @@ export const GlobalBreadcrumb: React.FC = () => {
     <aside 
       id="global-breadcrumb-bar" 
       aria-label="Site Hierarchy Breadcrumb Bar" 
-      className="sticky top-16 z-40 border-b border-slate-800/80 bg-[#060912]/90 backdrop-blur-xl shadow-sm text-slate-300 transition-all"
+      className="sticky top-16 z-40 border-b border-border bg-background/90 backdrop-blur-xl shadow-sm text-foreground transition-all"
     >
       {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
       />
 
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:px-6 lg:px-8">
@@ -541,7 +542,7 @@ export const GlobalBreadcrumb: React.FC = () => {
           {parentHref && crumbs.length > 1 && (
             <button
               onClick={() => navigate(parentHref)}
-              className="mr-1 inline-flex h-7 w-7 items-center justify-center rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 hover:border-slate-600 hover:bg-slate-700 hover:text-white transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+              className="mr-1 inline-flex h-7 w-7 items-center justify-center rounded-lg border-border bg-muted text-muted-foreground hover:border-border-strong hover:bg-accent hover:text-foreground transition-colors shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
               title="Navigate Up One Level"
               aria-label="Navigate Up One Level"
             >
@@ -555,20 +556,20 @@ export const GlobalBreadcrumb: React.FC = () => {
             <span>{sectionCategory}</span>
           </div>
 
-          <div className="hidden sm:block text-slate-700 shrink-0 font-mono">/</div>
+          <div className="hidden sm:block text-muted-foreground/60 shrink-0 font-mono">/</div>
 
           {/* Semantic Navigation Breadcrumb Trail */}
-          <nav aria-label="Breadcrumb" className="flex items-center text-xs sm:text-sm text-slate-400">
+          <nav aria-label="Breadcrumb" className="flex items-center text-xs sm:text-sm text-muted-foreground">
             <ol className="flex items-center gap-1.5 list-none m-0 p-0 flex-nowrap">
               
               {/* Home Item */}
               <li className="flex items-center shrink-0">
                 <Link
                   to="/"
-                  className="flex items-center gap-1 text-slate-400 hover:text-cyan-400 hover:underline font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+                  className="flex items-center gap-1 text-muted-foreground hover:text-primary hover:underline font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
                   title="CatalystLab Platform Home"
                 >
-                  <Home className="h-3.5 w-3.5 text-slate-400 hover:text-cyan-400" />
+                  <Home className="h-3.5 w-3.5 text-muted-foreground hover:text-primary" />
                   <span className="hidden xs:inline">Home</span>
                 </Link>
               </li>
@@ -580,19 +581,19 @@ export const GlobalBreadcrumb: React.FC = () => {
 
                 return (
                   <li key={idx} className="flex items-center gap-1.5 shrink-0">
-                    <ChevronRight className="h-3.5 w-3.5 text-slate-600 shrink-0" aria-hidden="true" />
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/60 shrink-0" aria-hidden="true" />
                     
                     {crumb.href && !isLast ? (
                       <Link
                         to={crumb.href}
-                        className="flex items-center gap-1 font-medium text-slate-400 hover:text-cyan-400 hover:underline transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+                        className="flex items-center gap-1 font-medium text-muted-foreground hover:text-primary hover:underline transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
                       >
                         {CrumbIcon && <CrumbIcon className="h-3 w-3" />}
                         <span>{crumb.label}</span>
                       </Link>
                     ) : (
                       <span 
-                        className="flex items-center gap-1 font-semibold text-slate-100 whitespace-nowrap truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-xl"
+                        className="flex items-center gap-1 font-semibold text-foreground whitespace-nowrap truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-xl"
                         aria-current={isLast ? 'page' : undefined}
                         title={crumb.label}
                       >
@@ -611,7 +612,7 @@ export const GlobalBreadcrumb: React.FC = () => {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleCopyLink}
-            className="flex items-center gap-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 px-2.5 py-1 text-xs font-semibold text-slate-300 hover:border-slate-600 hover:bg-slate-700 hover:text-white transition-all cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+            className="flex items-center gap-1.5 rounded-lg border-border bg-muted px-2.5 py-1 text-xs font-semibold text-muted-foreground hover:border-border-strong hover:bg-accent hover:text-foreground transition-all cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
             title="Copy Page Link"
           >
             {copied ? (
@@ -621,7 +622,7 @@ export const GlobalBreadcrumb: React.FC = () => {
               </>
             ) : (
               <>
-                <Copy className="h-3 w-3 text-slate-400" />
+                <Copy className="h-3 w-3 text-muted-foreground" />
                 <span className="hidden xs:inline">Copy Link</span>
               </>
             )}

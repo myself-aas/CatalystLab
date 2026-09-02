@@ -38,6 +38,8 @@ import {
 import { getApiKeys } from '../../lib/firebase';
 import { ApiKey } from '../../types';
 import { RateLimitThresholdAlert } from '../../components/RateLimitThresholdAlert';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 export const EnginePlaygroundPage: React.FC = () => {
   const { engineId } = useParams<{ engineId: string }>();
@@ -159,9 +161,9 @@ export const EnginePlaygroundPage: React.FC = () => {
       recordClientRequestAttempt(requiredCost, user, isAdmin);
       setRateStatus(getRateLimitStatus(user, isAdmin));
     } catch (err: unknown) {
-      console.error('Playground execution error:', err);
-      setErrorMsg(err.message || 'Execution failed. Please check network connectivity.');
-      setOutput(prev => `${prev}\n[ERROR] Execution failed: ${err.message}`);
+      logger.error('Playground execution error:', err);
+      setErrorMsg(errorMessage(err) || 'Execution failed. Please check network connectivity.');
+      setOutput(prev => `${prev}\n[ERROR] Execution failed: ${errorMessage(err)}`);
     } finally {
       setLoading(false);
     }
@@ -191,7 +193,7 @@ export const EnginePlaygroundPage: React.FC = () => {
 });
 
 const data = await response.json();
-console.log(data);`;
+logger.debug(data);`;
     }
 
     if (codeLanguage === 'python') {

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useId } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { Terminal, CornerDownLeft, Loader2, X, Globe, Shield, Sparkles, Check } from 'lucide-react';
 
 export interface TerminalInputProps {

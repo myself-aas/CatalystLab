@@ -18,6 +18,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { BrandLogo } from '../components/common/BrandLogo';
 import { SEOHead } from '../components/common/SEOHead';
+import { errorMessage } from '../lib/utils';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ export const LoginPage: React.FC = () => {
         navigate(redirectPath, { replace: true });
       }
     } catch (err: unknown) {
-      setLocalMessage({ type: 'error', text: err?.message || 'Google sign-in failed.' });
+      setLocalMessage({ type: 'error', text: errorMessage(err) || 'Google sign-in failed.' });
     } finally {
       setIsSubmitting(false);
       setAuthMethod(null);
@@ -92,7 +93,7 @@ export const LoginPage: React.FC = () => {
         navigate(redirectPath, { replace: true });
       }
     } catch (err: unknown) {
-      setLocalMessage({ type: 'error', text: err?.message || 'GitHub sign-in failed.' });
+      setLocalMessage({ type: 'error', text: errorMessage(err) || 'GitHub sign-in failed.' });
     } finally {
       setIsSubmitting(false);
       setAuthMethod(null);
@@ -121,7 +122,7 @@ export const LoginPage: React.FC = () => {
         navigate(redirectPath, { replace: true });
       }
     } catch (err: unknown) {
-      setLocalMessage({ type: 'error', text: err?.message || 'Invalid credentials or login failed.' });
+      setLocalMessage({ type: 'error', text: errorMessage(err) || 'Invalid credentials or login failed.' });
     } finally {
       setIsSubmitting(false);
       setAuthMethod(null);
@@ -147,7 +148,7 @@ export const LoginPage: React.FC = () => {
         text: `Password recovery email dispatched to ${email}. Check your inbox and spam folder.` 
       });
     } catch (err: unknown) {
-      setLocalMessage({ type: 'error', text: err?.message || 'Failed to dispatch password recovery email.' });
+      setLocalMessage({ type: 'error', text: errorMessage(err) || 'Failed to dispatch password recovery email.' });
     } finally {
       setIsSubmitting(false);
     }

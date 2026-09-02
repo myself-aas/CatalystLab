@@ -694,7 +694,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
 
             {/* Engine badge */}
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#1e293b] text-[#f8fafc] border border-[#415a77]/50">
-              <span className="material-symbols-outlined text-sm text-[#38bdf8]">{meta.icon}</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-sm text-[#38bdf8]">{meta.icon}</span>
               <span>{meta.name}</span>
             </span>
           </div>
@@ -704,7 +704,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({
             <span>Comprehensive Telemetry Audit Table</span>
           </h3>
           <p className="text-xs text-[#c5d3e8] mt-1 max-w-2xl leading-relaxed">
-            Vector-by-vector verification metrics and engineering benchmarks executed by the dedicated <strong>{meta.name}</strong> engine for <code className="text-[#38bdf8] bg-[#152238] px-1.5 py-0.5 rounded">{targetUrl}</code>.
+            Vector-by-vector verification metrics and engineering benchmarks executed by the dedicated <strong>{meta.name}</strong> engine for <code className="text-[#38bdf8] bg-[#152238] px-1.5 py-0.5 rounded break-all">{targetUrl}</code>.
           </p>
         </div>
 

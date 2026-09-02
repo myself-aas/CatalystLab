@@ -114,7 +114,7 @@ describe('Browserbase UI-Test: Modals, Drawers & Overlay Systems', () => {
       <GetInTouchEmailModal
         isOpen={true}
         onClose={handleClose}
-        topic="enterprise"
+        initialTopic="enterprise"
         sourceContext="test-suite"
       />,
       { wrapper }

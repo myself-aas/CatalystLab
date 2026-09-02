@@ -38,7 +38,7 @@ export const HeroSection: React.FC = () => {
             <p className="mt-6 max-w-[48ch] text-base leading-relaxed text-zinc-400 md:text-lg">
               Execute multi-dimensional health audits in seconds. Assess Core Web Vitals, security posture, and infrastructure bottlenecks without deploying agents.
             </p>
-            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-xs text-zinc-500">
+            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-xs text-zinc-400">
               <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-emerald-400" /> No agents required</span>
               <span className="inline-flex items-center gap-2"><Activity className="h-4 w-4 text-cyan-300" /> 40+ signals</span>
               <span className="inline-flex items-center gap-2"><Zap className="h-4 w-4 text-amber-300" /> Results in seconds</span>
@@ -53,7 +53,7 @@ export const HeroSection: React.FC = () => {
             className="mt-10 w-full max-w-md relative"
           >
             <div className="relative flex items-center rounded-2xl border border-white/10 bg-white/[0.06] p-1.5 shadow-[0_16px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl transition-all focus-within:border-cyan-300/50 focus-within:ring-4 focus-within:ring-cyan-300/10">
-              <div className="pl-3 pr-2 text-zinc-500">
+              <div className="pl-3 pr-2 text-zinc-400">
                 <Terminal className="w-5 h-5" />
               </div>
               <input
@@ -62,7 +62,7 @@ export const HeroSection: React.FC = () => {
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
                 required
-                className="w-full bg-transparent border-none text-white placeholder-zinc-500 focus:outline-none focus:ring-0 text-base py-3 md:text-sm"
+                className="w-full bg-transparent border-none text-white placeholder-zinc-400 focus:outline-none focus:ring-0 text-base py-3 md:text-sm"
               />
               <button 
                 type="submit"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { LazyReveal } from '../common/LazyAnimate';
 import { TelemetryCard, type SubVectorItem } from '../ui/TelemetryCard';
 import { CodeBlock } from '../ui/CodeBlock';

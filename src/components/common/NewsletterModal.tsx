@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Mail, Sparkles, X, CheckCircle2, ArrowRight } from 'lucide-react';
 import { db } from '../../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { logger } from '../../lib/logger';
 
 export interface NewsletterModalProps {
   defaultOpen?: boolean;
@@ -58,7 +59,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
         handleClose();
       }, 3000);
     } catch (error) {
-      console.error('Error saving subscriber:', error);
+      logger.error('Error saving subscriber:', error);
     } finally {
       setIsSubmitting(false);
     }

@@ -20,6 +20,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { BrandLogo } from '../components/common/BrandLogo';
 import { SEOHead } from '../components/common/SEOHead';
+import { errorMessage } from '../lib/utils';
 
 export const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ export const SignUpPage: React.FC = () => {
         navigate(redirectPath, { replace: true });
       }
     } catch (err: unknown) {
-      setLocalError(err?.message || 'Google account creation failed.');
+      setLocalError(errorMessage(err) || 'Google account creation failed.');
     } finally {
       setIsSubmitting(false);
       setAuthMethod(null);
@@ -111,7 +112,7 @@ export const SignUpPage: React.FC = () => {
         navigate(redirectPath, { replace: true });
       }
     } catch (err: unknown) {
-      setLocalError(err?.message || 'GitHub account creation failed.');
+      setLocalError(errorMessage(err) || 'GitHub account creation failed.');
     } finally {
       setIsSubmitting(false);
       setAuthMethod(null);
@@ -152,7 +153,7 @@ export const SignUpPage: React.FC = () => {
         navigate(redirectPath, { replace: true });
       }
     } catch (err: unknown) {
-      setLocalError(err?.message || 'Account registration failed.');
+      setLocalError(errorMessage(err) || 'Account registration failed.');
     } finally {
       setIsSubmitting(false);
       setAuthMethod(null);
@@ -201,22 +202,22 @@ export const SignUpPage: React.FC = () => {
           <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
             <Zap className="h-4 w-4 text-amber-500 mx-auto mb-1" />
             <div className="text-[11px] font-bold text-slate-900">50 Free Units</div>
-            <div className="text-[9px] text-slate-500">Refreshed daily</div>
+            <div className="text-[10px] text-slate-500">Refreshed daily</div>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
             <Layers className="h-4 w-4 text-slate-600 mx-auto mb-1" />
             <div className="text-[11px] font-bold text-slate-900">8 Engines</div>
-            <div className="text-[9px] text-slate-500">Deep telemetry</div>
+            <div className="text-[10px] text-slate-500">Deep telemetry</div>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
             <KeyRound className="h-4 w-4 text-emerald-600 mx-auto mb-1" />
             <div className="text-[11px] font-bold text-slate-900">REST API</div>
-            <div className="text-[9px] text-slate-500">CI/CD hooks</div>
+            <div className="text-[10px] text-slate-500">CI/CD hooks</div>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
             <ShieldCheck className="h-4 w-4 text-amber-600 mx-auto mb-1" />
             <div className="text-[11px] font-bold text-slate-900">Zero Risk</div>
-            <div className="text-[9px] text-slate-500">No card required</div>
+            <div className="text-[10px] text-slate-500">No card required</div>
           </div>
         </div>
 

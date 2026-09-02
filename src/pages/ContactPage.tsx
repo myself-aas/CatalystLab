@@ -15,6 +15,7 @@ import {
 import { LazyReveal } from '../components/common/LazyAnimate';
 import { SEOHead } from '../components/common/SEOHead';
 import { submitContactInquiry } from '../lib/firebase';
+import { logger } from '../lib/logger';
 
 export const ContactPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -136,7 +137,7 @@ export const ContactPage: React.FC = () => {
       setTicketId(generatedTicket);
       setSubmitted(true);
     } catch (err: unknown) {
-      console.warn("Contact inquiry submission warning:", err);
+      logger.warn("Contact inquiry submission warning:", err);
       setTicketId(generatedTicket);
       setSubmitted(true);
     } finally {
@@ -363,7 +364,7 @@ export const ContactPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 py-3.5 text-xs font-bold text-white shadow-sm active:scale-98 disabled:opacity-60 cursor-pointer transition-colors"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 py-3.5 text-xs font-bold text-white shadow-sm active:scale-[0.98] disabled:opacity-60 cursor-pointer transition-colors"
                 >
                   {isSubmitting ? (
                     <>

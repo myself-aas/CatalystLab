@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
 import { resolveBreadcrumbs } from '../layout/GlobalBreadcrumb';
+import { serializeJsonLd } from '../../lib/structuredData';
 
 export interface BreadcrumbItem {
   label: string;
@@ -54,7 +55,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' 
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
       />
       <ol className="flex flex-wrap items-center gap-1.5 list-none m-0 p-0">
         <li className="flex items-center">

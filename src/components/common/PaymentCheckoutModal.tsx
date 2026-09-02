@@ -81,15 +81,15 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
       <div 
         id="payment-checkout-modal-card"
-        className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden text-slate-900 animate-scaleUp"
+        className="relative w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden text-foreground animate-scaleUp"
       >
         {/* Top Header Gradient Bar */}
-        <div className={`h-2 bg-gradient-to-r ${gateway === '2checkout' ? 'from-amber-500 via-amber-600 to-amber-700' : 'from-slate-700 via-slate-800 to-slate-900'} transition-all duration-300`} />
+        <div className={`h-2 bg-gradient-to-r ${gateway === '2checkout' ? 'from-amber-500 via-amber-600 to-amber-700' : 'from-cyan-500 via-cyan-600 to-cyan-700'} transition-all duration-300`} />
 
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+          className="absolute top-5 right-5 p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
           aria-label="Close Checkout"
         >
           <X className="w-5 h-5" />
@@ -101,21 +101,21 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
             <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-full bg-amber-50 text-amber-800 border border-amber-300">
               <Lock className="w-3.5 h-3.5 text-amber-600" /> Secure Checkout
             </span>
-            <span className="inline-flex items-center gap-1 text-xs text-slate-500">
+            <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> 256-Bit Encrypted
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 mt-1">
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground mt-1">
             Upgrade to <span className="text-amber-600">{plan.name}</span>
           </h2>
-          <p className="text-sm text-slate-600 mt-1 leading-relaxed">
+          <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
             Choose your preferred global payment gateway below for secure instant access.
           </p>
 
           {/* Gateway Selector */}
           <div className="mt-6">
-            <div className="text-xs font-mono font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            <div className="text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-2">
               Select Payment Gateway:
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -124,15 +124,15 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 onClick={() => setGateway('2checkout')}
                 className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between ${
                   gateway === '2checkout'
-                    ? 'bg-amber-50/70 border-amber-500 text-slate-900 shadow-sm'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
+                    ? 'bg-amber-50/70 border-amber-500 text-foreground shadow-sm'
+                    : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
                 }`}
               >
                 <div>
-                  <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                  <div className="text-xs font-bold text-foreground flex items-center gap-1.5">
                     <CreditCard className="w-4 h-4 text-amber-600" /> 2Checkout (Verifone)
                   </div>
-                  <div className="text-[11px] text-slate-500 mt-0.5">Global Primary Gateway</div>
+                  <div className="text-[11px] text-muted-foreground mt-0.5">Global Primary Gateway</div>
                 </div>
                 {gateway === '2checkout' && <Check className="w-4 h-4 text-amber-600 shrink-0" />}
               </button>
@@ -142,24 +142,24 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 onClick={() => setGateway('dodopay')}
                 className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between ${
                   gateway === 'dodopay'
-                    ? 'bg-slate-100 border-slate-900 text-slate-900 shadow-sm'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
+                    ? 'bg-accent border-foreground text-foreground shadow-sm'
+                    : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
                 }`}
               >
                 <div>
-                  <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                    <Zap className="w-4 h-4 text-slate-700" /> Dodo Payments
+                  <div className="text-xs font-bold text-foreground flex items-center gap-1.5">
+                    <Zap className="w-4 h-4 text-muted-foreground" /> Dodo Payments
                   </div>
-                  <div className="text-[11px] text-slate-500 mt-0.5">Secure Backup Gateway</div>
+                  <div className="text-[11px] text-muted-foreground mt-0.5">Secure Backup Gateway</div>
                 </div>
-                {gateway === 'dodopay' && <Check className="w-4 h-4 text-slate-900 shrink-0" />}
+                {gateway === 'dodopay' && <Check className="w-4 h-4 text-foreground shrink-0" />}
               </button>
             </div>
           </div>
 
           {/* Tier Selector */}
           <div className="mt-5">
-            <div className="text-xs font-mono font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            <div className="text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-2">
               Subscription Plan:
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -174,18 +174,18 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                     onClick={() => setSelectedPlan(tierKey)}
                     className={`relative p-3 rounded-xl text-left border transition-all ${
                       isSelected 
-                        ? 'bg-amber-50/80 border-amber-500 text-slate-900 shadow-sm' 
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
+                        ? 'bg-amber-50/80 border-amber-500 text-foreground shadow-sm' 
+                        : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
                     }`}
                   >
                     {tierItem.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-600 text-white shadow-xs">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-600 text-white shadow-xs">
                         POPULAR
                       </span>
                     )}
-                    <div className="text-xs font-semibold text-slate-700">{tierItem.name}</div>
-                    <div className="text-lg font-bold text-slate-900 mt-0.5 font-mono">
-                      ${tierPrice}<span className="text-[11px] text-slate-500 font-normal">/{billingCycle === 'annual' ? 'yr' : 'mo'}</span>
+                    <div className="text-xs font-semibold text-muted-foreground">{tierItem.name}</div>
+                    <div className="text-lg font-bold text-foreground mt-0.5 font-mono">
+                      ${tierPrice}<span className="text-[11px] text-muted-foreground font-normal">/{billingCycle === 'annual' ? 'yr' : 'mo'}</span>
                     </div>
                   </button>
                 );
@@ -194,14 +194,14 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
           </div>
 
           {/* Billing Cycle Selector */}
-          <div className="mt-5 flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
-            <span className="text-xs font-bold text-slate-900">Billing Cycle</span>
+          <div className="mt-5 flex items-center justify-between p-3 rounded-xl bg-muted border border-border">
+            <span className="text-xs font-bold text-foreground">Billing Cycle</span>
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => setBillingCycle('monthly')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  billingCycle === 'monthly' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                  billingCycle === 'monthly' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 Monthly
@@ -210,7 +210,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 type="button"
                 onClick={() => setBillingCycle('annual')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                  billingCycle === 'annual' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                  billingCycle === 'annual' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 <span>Annual</span>
@@ -220,16 +220,16 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
           </div>
 
           {/* Summary Box */}
-          <div className="mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+          <div className="mt-5 p-4 rounded-xl bg-muted border border-border space-y-2">
+            <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
               <span>Selected Plan ({plan.name} - {billingCycle})</span>
-              <span className="text-slate-900 font-mono font-bold">${price}.00</span>
+              <span className="text-foreground font-mono font-bold">${price}.00</span>
             </div>
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+            <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
               <span>Gateway Engine</span>
               <span className="text-amber-700 font-mono font-bold uppercase">{gateway === 'dodopay' ? 'Dodo Payments (Backup)' : '2Checkout (Verifone)'}</span>
             </div>
-            <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-sm font-bold text-slate-900">
+            <div className="pt-2 border-t border-border flex items-center justify-between text-sm font-bold text-foreground">
               <span>Total Due Today</span>
               <span className="text-amber-700 font-mono text-base font-extrabold">${price}.00 USD</span>
             </div>
@@ -248,22 +248,22 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 <RefreshCw className="w-4 h-4 animate-spin text-amber-600" />
                 <span>Redirecting to {gateway === 'dodopay' ? 'Dodo Payments' : '2Checkout'} Sandbox Gateway...</span>
               </span>
-              <a href={checkoutUrl} target="_blank" rel="noreferrer" className="text-slate-900 font-bold underline flex items-center gap-1 font-mono">
+              <a href={checkoutUrl} target="_blank" rel="noreferrer" className="text-foreground font-bold underline flex items-center gap-1 font-mono">
                 Open URL <ExternalLink className="w-3 h-3" />
               </a>
             </div>
           )}
 
           {/* Footer Actions */}
-          <div className="mt-6 flex items-center justify-between pt-4 border-t border-slate-200">
-            <div className="text-xs text-slate-600">
-              {user ? <span>Account: <strong className="text-slate-900">{user.email}</strong></span> : <span>Signed in as Guest</span>}
+          <div className="mt-6 flex items-center justify-between pt-4 border-t border-border">
+            <div className="text-xs text-muted-foreground">
+              {user ? <span>Account: <strong className="text-foreground">{user.email}</strong></span> : <span>Signed in as Guest</span>}
             </div>
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors"
+                className="px-4 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground rounded-lg hover:bg-accent transition-colors"
               >
                 Cancel
               </button>
@@ -274,7 +274,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-2 ${
                   success
                     ? 'bg-emerald-600 text-white'
-                    : 'bg-slate-900 hover:bg-slate-800 text-white border border-slate-800'
+                    : 'bg-foreground hover:bg-foreground/90 text-white border border-border'
                 }`}
               >
                 {loading ? (

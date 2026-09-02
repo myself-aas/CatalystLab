@@ -24,7 +24,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {
       // localStorage may be inaccessible in sandboxed environments
     }
-    return 'light';
+    return 'system';
   });
 
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light');
@@ -48,6 +48,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         root.setAttribute('data-theme', 'light');
         root.style.colorScheme = 'light';
       }
+
+      // Keep the browser chrome tint in sync with the app theme
+      const themeColor = effectiveTheme === 'dark' ? '#060912' : '#f8fafc';
+      let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', 'theme-color');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', themeColor);
     };
 
     updateTheme();

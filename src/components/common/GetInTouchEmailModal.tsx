@@ -14,6 +14,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { submitContactInquiry } from '../../lib/firebase';
+import { logger } from '../../lib/logger';
 
 interface GetInTouchEmailModalProps {
   isOpen: boolean;
@@ -108,7 +109,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
       setInquiryId(id);
       setSubmitted(true);
     } catch (err: unknown) {
-      console.error('Failed to submit email inquiry:', err);
+      logger.error('Failed to submit email inquiry:', err);
       setErrorMessage('Could not complete submission. Please verify your connection.');
     } finally {
       setIsSubmitting(false);
@@ -186,7 +187,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="w-full rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-98 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="w-full rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     Done & Close
                   </button>
@@ -319,7 +320,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-98 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#c5d3e8] hover:bg-white text-[#0b192c] py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
                   >
                     {isSubmitting ? (
                       <>

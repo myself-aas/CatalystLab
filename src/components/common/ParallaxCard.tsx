@@ -5,6 +5,8 @@ interface ParallaxCardProps {
   children: React.ReactNode;
   className?: string;
   maxRotate?: number;
+  /** Parallax intensity multiplier for the translate effect. */
+  speed?: number;
 }
 
 export const ParallaxCard: React.FC<ParallaxCardProps> = ({

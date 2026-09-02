@@ -17,7 +17,9 @@ import {
 import { SDLC_CATALYSTS_LIST, TOTAL_EXPERTS_REPLACED } from '../../data/engines';
 import type { AuditReport } from '../../types';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
+import { errorMessage } from '../../lib/utils';
+import { logger } from '../../lib/logger';
 
 const catImages = [
   'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -159,7 +161,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
       setPingTestStatus({
         loading: false,
         success: false,
-        message: err.message || 'Failed to dispatch test ping.'
+        message: errorMessage(err) || 'Failed to dispatch test ping.'
       });
     }
   };
@@ -196,7 +198,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
         setRealtimeVisitors(data.stats.activeVisitorsNow || 38);
       }
     } catch (e) {
-      console.warn('[Analytics Dashboard] Telemetry query fallback notice:', e);
+      logger.warn('[Analytics Dashboard] Telemetry query fallback notice:', e);
     } finally {
       setLoading(false);
     }
@@ -272,7 +274,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
         });
       }
     } catch (err: unknown) {
-      setDispatchStatus({ loading: false, type: 'email', success: false, message: err.message });
+      setDispatchStatus({ loading: false, type: 'email', success: false, message: errorMessage(err) });
     }
   };
 
@@ -298,7 +300,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           : `Slack dispatch failed: ${data.error || 'Check webhook URL'}`
       });
     } catch (err: unknown) {
-      setDispatchStatus({ loading: false, type: 'slack', success: false, message: err.message });
+      setDispatchStatus({ loading: false, type: 'slack', success: false, message: errorMessage(err) });
     }
   };
 
@@ -324,7 +326,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           : `Discord dispatch failed: ${data.error || 'Check webhook URL'}`
       });
     } catch (err: unknown) {
-      setDispatchStatus({ loading: false, type: 'discord', success: false, message: err.message });
+      setDispatchStatus({ loading: false, type: 'discord', success: false, message: errorMessage(err) });
     }
   };
 
@@ -377,7 +379,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
         });
       }
     } catch (err: unknown) {
-      setDispatchStatus({ loading: false, type: 'anomaly', success: false, message: err.message });
+      setDispatchStatus({ loading: false, type: 'anomaly', success: false, message: errorMessage(err) });
     }
   };
 
@@ -486,7 +488,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 <div>
                   <div className="flex items-center gap-1">
                     <p className="text-[10px] font-bold text-[#415a77] uppercase tracking-wider">Unique Visitors</p>
-                    <span className="text-[9px] bg-[#f1f5f9] text-[#415a77] px-1 py-0.2 rounded font-mono" title="SHA256(IP + UA + Salt)">
+                    <span className="text-[10px] bg-[#f1f5f9] text-[#415a77] px-1 py-0.5 rounded font-mono" title="SHA256(IP + UA + Salt)">
                       Cookieless
                     </span>
                   </div>
@@ -533,7 +535,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 <div>
                   <div className="flex items-center gap-1">
                     <p className="text-[10px] font-bold text-[#415a77] uppercase tracking-wider">Bounce Rate</p>
-                    <span className="text-[9px] bg-rose-50 text-rose-700 px-1 py-0.2 rounded font-mono">
+                    <span className="text-[10px] bg-rose-50 text-rose-700 px-1 py-0.5 rounded font-mono">
                       Single Event
                     </span>
                   </div>
@@ -559,7 +561,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 <div>
                   <div className="flex items-center gap-1">
                     <p className="text-[10px] font-bold text-[#415a77] uppercase tracking-wider">Avg Session Time</p>
-                    <span className="text-[9px] bg-emerald-50 text-emerald-700 px-1 py-0.2 rounded font-mono">
+                    <span className="text-[10px] bg-emerald-50 text-emerald-700 px-1 py-0.5 rounded font-mono">
                       $subtract
                     </span>
                   </div>
@@ -1604,17 +1606,17 @@ jobs:
                   imageAlt={catalyst.name}
                   title={
                     <h3 className="font-extrabold text-xl sm:text-2xl leading-tight flex items-center gap-2">
-                       <span className="material-symbols-outlined text-[24px] text-white/80">{catalyst.icon}</span>
+                       <span aria-hidden="true" className="material-symbols-outlined text-[24px] text-white/80">{catalyst.icon}</span>
                        {catalyst.name}
                     </h3>
                   }
                   badge={
                     <div className="flex gap-1.5 items-center">
-                      <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded border border-white/20 bg-black/40 backdrop-blur-md text-white tracking-wider shadow-sm">
+                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border border-white/20 bg-black/40 backdrop-blur-md text-white tracking-wider shadow-sm">
                         {catalyst.sdlcPhase}
                       </span>
                       {catalyst.shortCode && (
-                        <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded border border-white/20 bg-black/40 backdrop-blur-md text-white shadow-sm">
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-white/20 bg-black/40 backdrop-blur-md text-white shadow-sm">
                           {catalyst.shortCode}
                         </span>
                       )}

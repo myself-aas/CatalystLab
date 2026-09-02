@@ -1,5 +1,6 @@
 import { MongoClient, Db } from 'mongodb';
 import crypto from 'crypto';
+import { errorMessage } from './utils';
 
 let client: MongoClient | null = null;
 let db: Db | null = null;
@@ -108,9 +109,9 @@ export async function initAnalyticsDB(): Promise<Db | null> {
     mongoConnectionStatus = {
       connected: false,
       database: 'catalyst_analytics',
-      error: err?.message || 'Connection failed'
+      error: errorMessage(err) || 'Connection failed'
     };
-    console.error('[MongoDB] Connection initialization notice (running with resilient in-memory fallback):', err?.message || err);
+    console.error('[MongoDB] Connection initialization notice (running with resilient in-memory fallback):', errorMessage(err) || err);
     return null;
   }
 }

@@ -16,6 +16,7 @@ import {
   Cpu,
   Layers
 } from 'lucide-react';
+import { logger } from '../../lib/logger';
 
 export const TrialActivationModal: React.FC = () => {
   const { 
@@ -56,7 +57,7 @@ export const TrialActivationModal: React.FC = () => {
         }, 1600);
       }
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     } finally {
       setLoading(false);
     }
@@ -121,7 +122,7 @@ export const TrialActivationModal: React.FC = () => {
                     }`}
                   >
                     {item.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500 text-black">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-cyan-500 text-black">
                         POPULAR
                       </span>
                     )}
@@ -139,7 +140,7 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Active Plan Highlights Box */}
-          <div className="mt-6 p-4 rounded-xl bg-white/80 border border-slate-700/80">
+          <div className="mt-6 p-4 rounded-xl bg-white/5 border border-slate-700/80">
             <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-3 border-b border-slate-700/40">
               <span className="flex items-center gap-1.5 text-white">
                 <Cpu className="w-4 h-4 text-cyan-500" /> {plan.dailyComputeUnits} Daily Compute Units

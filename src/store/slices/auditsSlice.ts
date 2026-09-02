@@ -3,6 +3,7 @@ import { AuditRecordDocument } from '../types';
 import { EngineType } from '../../types';
 import { dispatchOptimisticMutation } from '../middleware/mongoSyncMiddleware';
 import { AppState } from '../useAppStore';
+import { authorizedFetch } from '../../lib/authHeaders';
 
 export interface AuditsSlice {
   auditRecords: AuditRecordDocument[];
@@ -75,7 +76,7 @@ export const createAuditsSlice: StateCreator<
   executeAuditEngine: async (url: string, engine: EngineType) => {
     set({ activeRunningEngine: engine, auditsLoading: true });
     try {
-      const res = await fetch('/api/run-engine', {
+      const res = await authorizedFetch('/api/run-engine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url, engine })

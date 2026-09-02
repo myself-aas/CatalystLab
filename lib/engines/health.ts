@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import type { Element as DomElement } from 'domhandler';
 import type { WebsiteHealthMetrics, EngineResult } from '../../types/telemetry';
 
 const HTTP_TIMEOUT_MS = 12000;
@@ -40,7 +41,7 @@ export async function executeHealthEngine(targetUrl: string): Promise<EngineResu
 
     // Calculate DOM Depth and Element Count
     let maxDepth = 0;
-    function calculateDepth(element: cheerio.Cheerio<cheerio.Element>, currentDepth: number) {
+    function calculateDepth(element: cheerio.Cheerio<DomElement>, currentDepth: number) {
       if (currentDepth > maxDepth) maxDepth = currentDepth;
       element.children().each((_, child) => {
         if (child.type === 'tag') {

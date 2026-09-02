@@ -20,6 +20,7 @@ import {
   Star
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { logger } from '../lib/logger';
 
 const FEATURED_BENCHMARKS = [
   {
@@ -92,7 +93,7 @@ export const ReportsDirectoryPage: React.FC = () => {
           const data = await getUserReports();
           setUserReports(data);
         } catch (e) {
-          console.error("Failed to load user reports:", e);
+          logger.error("Failed to load user reports:", e);
         }
       }
     };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getMediaAsset, MediaAsset, MediaTreatment, DEFAULT_BLUR_SHIMMER } from '../../lib/media/registry';
+import { logger } from '../../lib/logger';
 
 export interface PexelsImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   assetId?: string;
@@ -62,13 +63,13 @@ export const PexelsImage: React.FC<PexelsImageProps> = ({
   // R3 Fallback Chain: advance source on error, degrade if exhausted
   const handleError = () => {
     if (sourceIndex < sourceList.length - 1) {
-      console.warn(
+      logger.warn(
         `[media] Source ${sourceIndex} failed for slot <${assetId || 'image'}>. Trying next fallback source ${sourceIndex + 1}...`
       );
       setSourceIndex((prev) => prev + 1);
     } else {
       setIsDegraded(true);
-      console.warn(`[media] slot <${assetId || 'image'}> degraded`);
+      logger.warn(`[media] slot <${assetId || 'image'}> degraded`);
     }
   };
 
@@ -121,7 +122,7 @@ export const PexelsImage: React.FC<PexelsImageProps> = ({
           height={finalHeight}
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
-          fetchpriority={priority ? 'high' : 'auto'}
+          fetchPriority={priority ? 'high' : 'auto'}
           
           aria-hidden={isDecorative ? 'true' : undefined}
           onLoad={() => setIsLoaded(true)}

@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
@@ -11,15 +15,35 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "strict": false,
+    "strict": true,
     "useUnknownInCatchVariables": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*", "./*"]
+      "@/*": [
+        "./src/*",
+        "./*"
+      ],
+      "@server/*": [
+        "./server/*"
+      ]
     }
   },
-  "include": ["src", "server.ts", "vite.config.ts", "lib", "types", "components", "app", "prisma"]
+  "include": [
+    "src",
+    "server.ts",
+    "vite.config.ts",
+    "lib",
+    "types",
+    "components",
+    "app",
+    "prisma"
+  ],
+  "exclude": [
+    "app",
+    "dist",
+    "node_modules"
+  ]
 }

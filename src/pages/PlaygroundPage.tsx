@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEOHead } from '../components/common/SEOHead';
+import { logger } from '../lib/logger';
 
 interface EngineOption {
   id: string;
@@ -235,7 +236,7 @@ export const PlaygroundPage: React.FC = () => {
             setSelectedApiKey(keys[0].keyPrefix.replace('...', ''));
           }
         } catch (e) {
-          console.error("Error loading keys in playground:", e);
+          logger.error("Error loading keys in playground:", e);
         }
       }
     };
@@ -417,8 +418,8 @@ export const PlaygroundPage: React.FC = () => {
 });
 
 const data = await response.json();
-console.log('Status:', data.success);
-console.log('Engine Output:', data.output);`;
+logger.debug('Status:', data.success);
+logger.debug('Engine Output:', data.output);`;
     }
 
     if (codeSnippetLang === 'python') {
@@ -556,7 +557,7 @@ func main() {
                   eng.id === 'master' ? 'bg-amber-500' : 'bg-emerald-500'
                 }`} />
                 <span>{eng.name}</span>
-                <span className={`text-[10px] px-1 py-0.2 rounded ${
+                <span className={`text-[10px] px-1 py-0.5 rounded ${
                   isSelected ? 'bg-slate-200 text-black' : 'bg-slate-100 text-slate-500'
                 }`}>
                   {eng.cost} {eng.cost === 1 ? 'unit' : 'units'}
@@ -611,7 +612,7 @@ func main() {
               <div className="rounded-xl bg-slate-50 border border-slate-200 p-2.5 text-xs space-y-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 font-bold text-black">
-                    <span className="rounded bg-black px-1.5 py-0.2 text-[10px] text-white">POST</span>
+                    <span className="rounded bg-black px-1.5 py-0.5 text-[10px] text-white">POST</span>
                     <span>{endpointPath}</span>
                   </div>
                   <span className="text-[10px] font-bold text-amber-500 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
@@ -743,7 +744,7 @@ func main() {
                         try {
                           const parsed = JSON.parse(rawJsonPayload);
                           setRawJsonPayload(JSON.stringify(parsed, null, 2));
-                        } catch (e) { console.error("Ignored error:", e); }
+                        } catch (e) { logger.error("Ignored error:", e); }
                       }}
                       className="text-black hover:underline cursor-pointer"
                     >
@@ -821,7 +822,7 @@ func main() {
                   type="button"
                   onClick={handleRunEngine}
                   disabled={executing || (rateStatus.remaining <= 0 && !isAdmin)}
-                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-white shadow-md transition-all active:scale-98 cursor-pointer ${
+                  className={`flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold text-white shadow-md transition-all active:scale-[0.98] cursor-pointer ${
                     rateStatus.remaining <= 0 && !isAdmin
                       ? 'bg-rose-600 border border-rose-500 cursor-not-allowed opacity-80'
                       : 'bg-black hover:bg-slate-800 border border-slate-300'
@@ -872,7 +873,7 @@ func main() {
                       className="flex items-center justify-between p-1.5 rounded-lg hover:bg-slate-100 border border-transparent hover:border-slate-200 cursor-pointer transition-colors text-xs"
                     >
                       <div className="flex items-center gap-1.5 overflow-hidden">
-                        <span className={`text-[10px] font-mono font-bold px-1 py-0.2 rounded ${
+                        <span className={`text-[10px] font-mono font-bold px-1 py-0.5 rounded ${
                           item.status === 200 ? 'bg-emerald-50 text-emerald-500 border border-emerald-200' : 'bg-rose-50 text-rose-600 border border-rose-200'
                         }`}>
                           {item.status}
@@ -909,7 +910,7 @@ func main() {
 
                   {responseStatus !== null && (
                     <div className="flex items-center gap-1.5 ml-2">
-                      <span className={`rounded px-1.5 py-0.2 text-[10px] font-bold ${
+                      <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${
                         responseStatus === 200 
                           ? 'bg-emerald-50 text-emerald-500 border border-emerald-200'
                           : responseStatus === 429
@@ -1097,7 +1098,7 @@ func main() {
                         <div className="text-xs font-bold text-black mb-1.5">
                           HTTP Response Headers
                         </div>
-                        <div className="rounded-xl border border-slate-200 overflow-hidden bg-white">
+                        <div className="rounded-xl border border-slate-200 overflow-x-auto bg-white">
                           <table className="w-full text-left text-xs">
                             <thead className="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600">
                               <tr>

@@ -12,6 +12,7 @@ import {
   type AuthErrorInfo,
   formatAuthError
 } from '../lib/firebase';
+import { logger } from '../lib/logger';
 
 export const SUPERADMIN_EMAILS = [
   'shuvo.1807016@bau.edu.bd',
@@ -111,7 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setHasSuperadminClaim(hasClaim || isPrimaryEmail);
         return;
       } catch (err) {
-        console.warn("Could not retrieve custom token claims:", err);
+        logger.warn("Could not retrieve custom token claims:", err);
       }
     }
 
@@ -126,7 +127,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await checkUserClaims(currentUser);
         try {
           localStorage.removeItem(LOCAL_SESSION_KEY);
-        } catch (e) { console.error("Ignored error:", e); }
+        } catch (e) { logger.error("Ignored error:", e); }
       } else {
         // Check for local preview session fallback
         const local = getStoredLocalSession();
@@ -154,7 +155,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const hasClaim = claims.role === 'superadmin' || claims.superadmin === true;
         setHasSuperadminClaim(hasClaim || SUPERADMIN_EMAILS.includes(user.email?.toLowerCase() || ''));
       } catch (err) {
-        console.warn("Failed to refresh token claims:", err);
+        logger.warn("Failed to refresh token claims:", err);
       }
     }
   };
@@ -260,7 +261,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       localStorage.setItem(LOCAL_SESSION_KEY, JSON.stringify(mockUser));
     } catch (err) {
-      console.warn("Failed to persist local session:", err);
+      logger.warn("Failed to persist local session:", err);
     }
 
     setUser(mockUser);
@@ -270,12 +271,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     try {
       localStorage.removeItem(LOCAL_SESSION_KEY);
-    } catch (e) { console.error("Ignored error:", e); }
+    } catch (e) { logger.error("Ignored error:", e); }
     
     try {
       await fbLogout();
     } catch (error) {
-      console.warn("Firebase signout notice:", error);
+      logger.warn("Firebase signout notice:", error);
     }
     
     setUser(null);

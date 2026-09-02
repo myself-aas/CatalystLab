@@ -30,6 +30,7 @@ import { BlogCard } from '../components/cards/content/BlogCard';
 import { EnzymeHue } from '../components/cards/types';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
+import { logger } from '../lib/logger';
 
 export const BlogsPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
@@ -47,7 +48,7 @@ export const BlogsPage: React.FC = () => {
     try {
       const saved = localStorage.getItem('catalyst_bookmarked_blogs');
       if (saved) setBookmarkedIds(new Set(JSON.parse(saved)));
-    } catch (e) { console.error("Ignored error:", e); }
+    } catch (e) { logger.error("Ignored error:", e); }
   }, []);
 
   const toggleBookmark = (id: string, e: React.MouseEvent) => {
@@ -59,7 +60,7 @@ export const BlogsPage: React.FC = () => {
       else next.add(id);
       try {
         localStorage.setItem('catalyst_bookmarked_blogs', JSON.stringify(Array.from(next)));
-      } catch (e) { console.error("Ignored error:", e); }
+      } catch (e) { logger.error("Ignored error:", e); }
       return next;
     });
   };
@@ -105,7 +106,7 @@ export const BlogsPage: React.FC = () => {
 
         if (isMounted) setPosts(merged);
       } catch (err) {
-        console.warn("Error fetching remote blogs, using local seeds:", err);
+        logger.warn("Error fetching remote blogs, using local seeds:", err);
         if (isMounted) setPosts(allFallbackPosts);
       } finally {
         if (isMounted) setLoading(false);
@@ -289,7 +290,7 @@ export const BlogsPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             {/* Search Input */}
             <div className="relative min-w-[220px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <label htmlFor="blog-search" className="sr-only">Search blogs</label>
               <input
                 id="blog-search"
@@ -297,14 +298,14 @@ export const BlogsPage: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search topics, tags, or words..."
-                className="w-full rounded-xl border border-slate-800 bg-[#080D1A] pl-9 pr-7 py-1.5 text-xs text-white placeholder:text-slate-500 focus:border-[#06B6D4] focus:outline-none transition-colors font-mono"
+                className="w-full rounded-xl border border-slate-800 bg-[#080D1A] pl-9 pr-7 py-1.5 text-xs text-white placeholder:text-slate-400 focus:border-[#06B6D4] focus:outline-none transition-colors font-mono"
               />
               {searchQuery && (
                 <button 
                   type="button"
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-xs text-slate-500 hover:text-white"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-xs text-slate-400 hover:text-white"
                 >
                   <X className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
@@ -342,7 +343,7 @@ export const BlogsPage: React.FC = () => {
               >
                 <span>{topic.label}</span>
                 {topic.enzyme && (
-                  <span className={`text-[10px] ${isActive ? 'text-slate-900 font-normal' : 'text-slate-500'}`}>
+                  <span className={`text-[10px] ${isActive ? 'text-slate-900 font-normal' : 'text-slate-400'}`}>
                     ({topic.enzyme})
                   </span>
                 )}
@@ -363,7 +364,7 @@ export const BlogsPage: React.FC = () => {
                 <BlogCard
                   key={post.slug || post.id}
                   id={post.id || post.slug}
-                  slug={post.slug || post.id}
+                  slug={post.slug || post.id || ''}
                   title={post.title}
                   excerpt={post.excerpt || 'Read the comprehensive breakdown covering real telemetry vectors, implementation guides, and performance benchmarks.'}
                   category={post.category || 'Telemetry'}
@@ -387,7 +388,7 @@ export const BlogsPage: React.FC = () => {
           </div>
         ) : (
           <div className="rounded-2xl border border-slate-800 bg-[#080D1A] p-12 text-center">
-            <BookOpen className="mx-auto h-8 w-8 text-slate-600 mb-2" />
+            <BookOpen className="mx-auto h-8 w-8 text-slate-400 mb-2" />
             <h3 className="text-sm font-bold text-white">No articles matched your filter</h3>
             <p className="text-xs text-slate-400 mt-1">Try searching for other catalysts like VitalZyme, EcoHolo, or RiskProtease.</p>
           </div>
