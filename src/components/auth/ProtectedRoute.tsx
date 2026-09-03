@@ -15,6 +15,7 @@ import {
   KeyRound,
   RotateCcw
 } from 'lucide-react';
+import { RouteLoadingSkeleton } from '../common/RouteLoadingSkeleton';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -40,12 +41,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const navigate = useNavigate();
 
   if (authLoading) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-foreground">
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#415a77] border-t-cyan-400" />
-        <span className="mt-3 text-sm font-mono text-muted-foreground">Verifying RBAC Permissions...</span>
-      </div>
-    );
+    return <RouteLoadingSkeleton />;
   }
 
   // Check superadmin requirement

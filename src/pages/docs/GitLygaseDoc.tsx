@@ -3,19 +3,11 @@ import { GitBranch, CheckCircle2, ShieldCheck, AlertCircle, Terminal, FileCode }
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const GitLygaseDoc: React.FC = () => {
-  const toc = [
-    { id: 'gitlygase-overview', title: 'Phase 2: GitLygase Overview' },
-    { id: 'security-disclosure', title: 'SECURITY.md Policy Standard' },
-    { id: 'dependabot-ci', title: 'Dependabot CI/CD Automation' },
-    { id: 'license-detection', title: 'SPDX License Compliance' },
-  ];
-
   return (
     <DocsLayout
       title="2. GitLygase (SDLC Phase 2) — Git Repo Scanner & SecOps"
       description="Automated repository hygiene, SPDX license validation, vulnerability disclosure standards, and Dependabot CI/CD security."
       canonicalPath="/docs/gitlygase"
-      toc={toc}
     >
       <section id="gitlygase-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-3 py-0.5 text-xs font-semibold text-green-800">

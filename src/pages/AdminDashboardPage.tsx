@@ -17,6 +17,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { AdminDashboardSkeleton } from '../components/skeleton';
 
 export const AdminDashboardPage: React.FC = () => {
   const { user, login, logout, isAdmin, loading, loginWithLocalSession, setShowDomainModal } = useAuth();
@@ -27,12 +28,7 @@ export const AdminDashboardPage: React.FC = () => {
   const isMonitoring = !isBlogs && !isInquiries;
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-background py-24 text-center text-muted-foreground font-mono">
-        <RefreshCw className="h-6 w-6 animate-spin text-foreground mx-auto mb-3" />
-        <div className="text-sm font-semibold">Verifying superadmin authorization...</div>
-      </div>
-    );
+    return <AdminDashboardSkeleton />;
   }
 
   // Access Control: Strict Superadmin Authorization Gate

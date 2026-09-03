@@ -1,0 +1,251 @@
+/* ==========================================================================
+   REACT.DEV DESIGN SYSTEM TOKENS
+   Faithfully inspired by https://github.com/reactjs/react.dev
+   Featuring authentic React Cyan branding, dual-theme wash substrates,
+   callout tokens (Note, Pitfall, DeepDive, Wip, Challenge), and code styling.
+   ========================================================================== */
+
+:root, [data-theme="light"], .theme-light {
+  /* React Brand Palette */
+  --react-cyan: #087ea4;
+  --react-cyan-hover: #0e98c7;
+  --react-cyan-active: #066584;
+  --react-cyan-glow: rgba(8, 126, 164, 0.20);
+  --react-cyan-subtle: rgba(8, 126, 164, 0.08);
+
+  /* Wash & Canvas Substrates */
+  --react-wash: #f6f7f9;
+  --react-card: #ffffff;
+  --react-card-hover: #ffffff;
+  --react-border: #e5e7eb;
+  --react-border-subtle: #f1f5f9;
+  --react-border-strong: #d1d5db;
+
+  /* Typography */
+  --react-text-primary: #23272f;
+  --react-text-secondary: #5e687e;
+  --react-text-tertiary: #99a1b3;
+  --react-link: #087ea4;
+  --react-link-hover: #0e98c7;
+
+  /* Callout Semantic Surfaces */
+  --callout-note-bg: rgba(8, 126, 164, 0.05);
+  --callout-note-border: #087ea4;
+  --callout-note-text: #087ea4;
+  
+  --callout-pitfall-bg: rgba(239, 68, 68, 0.06);
+  --callout-pitfall-border: #ef4444;
+  --callout-pitfall-text: #b91c1c;
+
+  --callout-deepdive-bg: rgba(99, 102, 241, 0.05);
+  --callout-deepdive-border: #6366f1;
+  --callout-deepdive-text: #4338ca;
+
+  --callout-wip-bg: rgba(245, 158, 11, 0.06);
+  --callout-wip-border: #f59e0b;
+  --callout-wip-text: #b45309;
+
+  --callout-challenge-bg: rgba(16, 185, 129, 0.06);
+  --callout-challenge-border: #10b981;
+  --callout-challenge-text: #047857;
+
+  /* Code Blocks */
+  --react-code-bg: #16181d;
+  --react-code-header-bg: #23272f;
+  --react-code-border: #343a46;
+  --react-code-text: #f6f7f9;
+  --react-code-line-highlight: rgba(88, 196, 220, 0.14);
+}
+
+html.dark, [data-theme="dark"], .theme-dark {
+  /* React Brand Palette (Dark Mode) */
+  --react-cyan: #149eca;
+  --react-cyan-hover: #58c4dc;
+  --react-cyan-active: #087ea4;
+  --react-cyan-glow: rgba(88, 196, 220, 0.28);
+  --react-cyan-subtle: rgba(88, 196, 220, 0.12);
+
+  /* Wash & Canvas Substrates */
+  --react-wash: #16181d;
+  --react-card: #23272f;
+  --react-card-hover: #2b303b;
+  --react-border: #343a46;
+  --react-border-subtle: #282c34;
+  --react-border-strong: #404756;
+
+  /* Typography */
+  --react-text-primary: #f6f7f9;
+  --react-text-secondary: #99a1b3;
+  --react-text-tertiary: #657189;
+  --react-link: #149eca;
+  --react-link-hover: #58c4dc;
+
+  /* Callout Semantic Surfaces (Dark Mode) */
+  --callout-note-bg: rgba(20, 158, 202, 0.10);
+  --callout-note-border: #58c4dc;
+  --callout-note-text: #58c4dc;
+  
+  --callout-pitfall-bg: rgba(239, 68, 68, 0.12);
+  --callout-pitfall-border: #f87171;
+  --callout-pitfall-text: #fca5a5;
+
+  --callout-deepdive-bg: rgba(99, 102, 241, 0.12);
+  --callout-deepdive-border: #818cf8;
+  --callout-deepdive-text: #c7d2fe;
+
+  --callout-wip-bg: rgba(245, 158, 11, 0.12);
+  --callout-wip-border: #fbbf24;
+  --callout-wip-text: #fde68a;
+
+  --callout-challenge-bg: rgba(16, 185, 129, 0.12);
+  --callout-challenge-border: #34d399;
+  --callout-challenge-text: #a7f3d0;
+
+  /* Code Blocks */
+  --react-code-bg: #16181d;
+  --react-code-header-bg: #23272f;
+  --react-code-border: #343a46;
+  --react-code-text: #f6f7f9;
+  --react-code-line-highlight: rgba(88, 196, 220, 0.18);
+}
+
+/* React.dev Callout Utilities */
+.react-callout {
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-left-width: 4px;
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.react-callout-note {
+  background-color: var(--callout-note-bg);
+  border-color: var(--callout-note-border);
+}
+
+.react-callout-pitfall {
+  background-color: var(--callout-pitfall-bg);
+  border-color: var(--callout-pitfall-border);
+}
+
+.react-callout-deepdive {
+  background-color: var(--callout-deepdive-bg);
+  border: 1px solid var(--callout-deepdive-border);
+  border-left-width: 4px;
+}
+
+.react-callout-wip {
+  background-color: var(--callout-wip-bg);
+  border-color: var(--callout-wip-border);
+}
+
+.react-callout-challenge {
+  background-color: var(--callout-challenge-bg);
+  border-color: var(--callout-challenge-border);
+}
+
+/* React.dev Code Blocks */
+.react-code-container {
+  background-color: var(--react-code-bg);
+  border: 1px solid var(--react-code-border);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.react-code-header {
+  background-color: var(--react-code-header-bg);
+  border-bottom: 1px solid var(--react-code-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--react-text-secondary);
+}
+
+/* React Button Utilities */
+.react-btn-primary {
+  background-color: var(--react-cyan);
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.react-btn-primary:hover {
+  background-color: var(--react-cyan-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--react-cyan-glow);
+}
+
+.react-btn-secondary {
+  background-color: transparent;
+  color: var(--react-text-primary);
+  border: 1px solid var(--react-border);
+  border-radius: 9999px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+}
+
+.react-btn-secondary:hover {
+  background-color: var(--react-border-subtle);
+  border-color: var(--react-border-strong);
+}
+
+/* React Navigation Sidebar Active Pill */
+.react-nav-link-active {
+  background-color: var(--react-cyan-subtle);
+  color: var(--react-cyan);
+  font-weight: 600;
+  border-radius: 0.75rem;
+  position: relative;
+}
+
+.react-nav-link-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 3px;
+  background-color: var(--react-cyan);
+  border-radius: 0 2px 2px 0;
+}
+
+/* React Table of Contents Active Link */
+.react-toc-active {
+  color: var(--react-cyan);
+  font-weight: 600;
+}
+
+/* Anchor Link on Hover */
+.react-heading-anchor {
+  opacity: 0;
+  margin-left: 0.35rem;
+  color: var(--react-cyan);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+h1:hover .react-heading-anchor,
+h2:hover .react-heading-anchor,
+h3:hover .react-heading-anchor,
+h4:hover .react-heading-anchor {
+  opacity: 1;
+}

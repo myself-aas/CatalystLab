@@ -213,9 +213,9 @@ export const MasterAuditExecutionPage: React.FC = () => {
         canonicalUrl="https://www.catalystlab.tech/master-audit"
       />
 
-      <section className="relative overflow-hidden border-b border-white/[0.06] px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+      <section className="relative overflow-hidden border-b border-white/[0.06] py-14 sm:py-20 w-full">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[#5E6AD2]/15 blur-[140px]" />
-        <div className="relative z-10 mx-auto max-w-4xl text-center">
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="mb-8 flex items-center justify-between">
             <Link
               to="/"

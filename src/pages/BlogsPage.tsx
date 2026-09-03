@@ -31,11 +31,12 @@ import { EnzymeHue } from '../components/cards/types';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 import { logger } from '../lib/logger';
+import { BlogCardSkeleton } from '../components/skeleton';
 
 export const BlogsPage: React.FC = () => {
   const { user, isAdmin } = useAuth();
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('All');
   const [sortBy, setSortBy] = useState<'newest' | 'popular' | 'readTime'>('newest');
@@ -216,11 +217,11 @@ export const BlogsPage: React.FC = () => {
       )}
 
       {/* Hero Header Section */}
-      <section className="relative overflow-hidden border-b border-border bg-[#080D1A] py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden border-b border-border bg-[#080D1A] py-16 sm:py-20 w-full">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_75%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-5">
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-950/40 px-4 py-1.5 text-xs font-mono font-bold text-[#00F0FF] uppercase tracking-wider shadow-xs backdrop-blur-md">
             <BookOpen className="h-3.5 w-3.5" />
             <span>TELEMETRY RESEARCH FEED &bull; 8-VECTOR SDLC DIAGNOSTICS</span>
@@ -353,7 +354,13 @@ export const BlogsPage: React.FC = () => {
         </div>
 
         {/* Articles Grid (3 Columns) */}
-        {filteredAndSortedPosts.length > 0 ? (
+        {loading && posts.length === 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="status" aria-label="Loading technical articles...">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <BlogCardSkeleton key={idx} />
+            ))}
+          </div>
+        ) : filteredAndSortedPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredAndSortedPosts.map((post, idx) => {
               const isBookmarked = bookmarkedIds.has(post.id || post.slug);

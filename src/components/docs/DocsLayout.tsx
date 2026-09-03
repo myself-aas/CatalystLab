@@ -128,16 +128,10 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
   );
 };
 
-interface TocItem {
-  id: string;
-  title: string;
-}
-
 interface DocsLayoutProps {
   title: string;
   description: string;
   canonicalPath: string;
-  toc?: TocItem[];
   children: React.ReactNode;
 }
 
@@ -145,15 +139,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   title,
   description,
   canonicalPath,
-  toc = [],
   children,
 }) => {
   const location = useLocation();
   const searchRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-    const [feedbackGiven, setFeedbackGiven] = useState<'yes' | 'no' | null>(null);
-    const [cliOpen, setCliOpen] = useState(false);
+  const [feedbackGiven, setFeedbackGiven] = useState<'yes' | 'no' | null>(null);
+  const [cliOpen, setCliOpen] = useState(false);
   const [injectedCommand, setInjectedCommand] = useState('catalyst run --engine vitalzyme');
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(DOC_NAVIGATION.map((g) => [g.group, true]))
@@ -179,17 +172,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
       }
       if (e.key === 'Escape') {
         setMobileNavOpen(false);
-        setMobileTocOpen(false);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  
   useEffect(() => {
     setMobileNavOpen(false);
-    setMobileTocOpen(false);
   }, [location.pathname]);
 
   const allNavItems = DOC_NAVIGATION.flatMap((g) => g.items);
@@ -389,21 +379,6 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   <time dateTime="2026-09-03">Last updated 2026-09-03 UTC</time>
                 </div>
               </header>
-
-              {toc.length > 0 && (
-                <aside className="mb-8 rounded-lg border border-[#dadce0] bg-[#f8f9fa] p-4 dark:border-white/10 dark:bg-[#303134]">
-                  <p className="mb-2 text-[13px] font-medium text-[#202124] dark:text-[#e8eaed]">Page summary</p>
-                  <ul className="list-disc space-y-1 pl-5 text-[14px] leading-6 text-[#3c4043] dark:text-[#9aa0a6]">
-                    {toc.slice(0, 4).map((item) => (
-                      <li key={item.id}>
-                        <button type="button" onClick={() => scrollToTocSection(item.id)} className="text-left text-[#5E6AD2] hover:underline dark:text-[#6872D9]">
-                          {item.title}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </aside>
-              )}
 
               <div className="docs-content docs-devsite-article">{children}</div>
 

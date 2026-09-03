@@ -4,20 +4,11 @@ import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 import { PipelineVisualizer } from '../../components/integrations/PipelineVisualizer';
 
 export const CicdDevOpsDoc: React.FC = () => {
-  const toc = [
-    { id: 'cicd-overview', title: 'CI/CD Automation Overview' },
-    { id: 'pipeline-visualizer', title: 'Interactive Merge-Blocker Visualizer' },
-    { id: 'github-actions', title: 'GitHub Actions Quality Gate' },
-    { id: 'gitlab-ci', title: 'GitLab CI/CD Pipeline' },
-    { id: 'webhooks-alerts', title: 'Automated Telemetry Webhooks' },
-  ];
-
   return (
     <DocsLayout
       title="CI/CD Quality Gates & DevOps Automation"
       description="Automate Core Web Vitals, AST code hygiene, and security score audits in GitHub Actions and GitLab CI pipelines."
       canonicalPath="/docs/cicd"
-      toc={toc}
     >
       <section id="cicd-overview" className="space-y-4 font-mono">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-3 py-0.5 text-xs font-semibold text-[#00F0FF]">

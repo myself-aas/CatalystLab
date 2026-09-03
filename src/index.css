@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./styles/card-tokens.css";
+@import "./styles/react-dev-tokens.css";
 
 /* ==========================================================================
    CATALYSTLAB DESIGN SYSTEM — THEME-AWARE SEMANTIC TOKENS

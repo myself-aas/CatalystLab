@@ -21,7 +21,6 @@ import {
   type GetInTouchModalEventDetail,
 } from "./components/common/GetInTouchEmailModal";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
-import { RoleSimulatorFloatingBar } from "./components/common/RoleSimulatorFloatingBar";
 import { RouteLoadingSkeleton } from "./components/common/RouteLoadingSkeleton";
 import type { SubscriptionPlanId } from "./types";
 import { useTheme } from "./context/ThemeContext";
@@ -51,6 +50,7 @@ const LegalPage = React.lazy(() => import("./pages/LegalPage").then(m => ({ defa
 const SecurityPage = React.lazy(() => import("./pages/SecurityPage").then(m => ({ default: m.SecurityPage })));
 const PricingPage = React.lazy(() => import("./pages/PricingPage").then(m => ({ default: m.PricingPage })));
 const ProductsPage = React.lazy(() => import("./pages/ProductsPage").then(m => ({ default: m.ProductsPage })));
+const ReactDevDesignPage = React.lazy(() => import("./pages/playground/ReactDevDesignPage").then(m => ({ default: m.ReactDevDesignPage })));
 const DocsPage = React.lazy(() => import("./pages/DocsPage").then(m => ({ default: m.DocsPage })));
 const SystemOverviewDoc = React.lazy(() => import("./pages/docs/SystemOverviewDoc").then(m => ({ default: m.SystemOverviewDoc })));
 const ArchitectureDoc = React.lazy(() => import("./pages/docs/ArchitectureDoc").then(m => ({ default: m.ArchitectureDoc })));
@@ -249,6 +249,7 @@ export const App: React.FC = () => {
               <Route path="/developer/api" element={<ApiDocsPage />} />
               <Route path="/playground" element={<PlaygroundPage />} />
               <Route path="/playground.html" element={<PlaygroundPage />} />
+              <Route path="/design-system" element={<ReactDevDesignPage />} />
 
               <Route path="/about" element={<MethodologyPage />} />
               <Route path="/about.html" element={<MethodologyPage />} />
@@ -563,7 +564,6 @@ export const App: React.FC = () => {
       </main>
       <Footer />
       <StickyHUD />
-      <RoleSimulatorFloatingBar />
       <AuthDomainModal />
       <TrialActivationModal />
       <NewsletterModal />

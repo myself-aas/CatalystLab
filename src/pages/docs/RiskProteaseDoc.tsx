@@ -3,19 +3,11 @@ import { ShieldCheck, CheckCircle2, AlertTriangle, Lock, Eye } from 'lucide-reac
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const RiskProteaseDoc: React.FC = () => {
-  const toc = [
-    { id: 'riskprotease-overview', title: 'Phase 6: RiskProtease Overview' },
-    { id: 'owasp-compliance', title: 'OWASP Defense-in-Depth Headers' },
-    { id: 'wcag-accessibility', title: 'WCAG 2.2 AA Contrast Standards' },
-    { id: 'cookie-consent', title: 'GDPR / CCPA Consent Auditing' },
-  ];
-
   return (
     <DocsLayout
       title="6. RiskProtease (SDLC Phase 6) — OWASP SecOps & Compliance"
       description="OWASP security headers, HSTS preloading, CSP directives, WCAG 2.2 AA accessibility, and GDPR privacy consent auditing."
       canonicalPath="/docs/riskprotease"
-      toc={toc}
     >
       <section id="riskprotease-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-0.5 text-xs font-semibold text-amber-800">

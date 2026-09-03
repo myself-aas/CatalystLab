@@ -48,6 +48,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { useLocation, useParams } from 'react-router-dom';
 import { GitBranch } from 'lucide-react';
 import { logger } from '../lib/logger';
+import { UserDashboardSkeleton, SkeletonCard, SkeletonTable } from '../components/skeleton';
 
 export const UserDashboardPage: React.FC = () => {
   const { user, isAdmin, loading: authLoading, loginWithLocalSession, setShowDomainModal } = useAuth();
@@ -213,14 +214,7 @@ export const UserDashboardPage: React.FC = () => {
   const userName = user?.displayName?.split(' ')[0] || user?.email?.split('@')[0] || 'Developer';
 
   if (authLoading) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-background font-mono">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-amber-500" />
-          <span className="text-xs text-muted-foreground">Synchronizing user telemetry...</span>
-        </div>
-      </div>
-    );
+    return <UserDashboardSkeleton />;
   }
 
   if (!user) {
@@ -676,10 +670,15 @@ export const UserDashboardPage: React.FC = () => {
 
             {/* Reports List / Grid */}
             {loading ? (
-              <div className="py-16 text-center text-muted-foreground font-mono text-xs">
-                <RotateCw className="mx-auto h-6 w-6 animate-spin text-amber-500 mb-2.5" />
-                <div>Fetching telemetry dossier records...</div>
-              </div>
+              viewMode === 'grid' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="status" aria-label="Loading reports...">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <SkeletonCard key={i} />
+                  ))}
+                </div>
+              ) : (
+                <SkeletonTable rows={5} columns={4} />
+              )
             ) : filteredReports.length === 0 ? (
               <div className="rounded-2xl border border-border bg-background p-10 text-center shadow-sm font-mono">
                 <FileText className="mx-auto h-10 w-10 text-muted-foreground mb-3" />

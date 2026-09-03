@@ -3,19 +3,11 @@ import { Activity, CheckCircle2, Zap, Server, Code } from 'lucide-react';
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const VitalZymeDoc: React.FC = () => {
-  const toc = [
-    { id: 'vitalzyme-overview', title: 'Phase 4: VitalZyme Overview' },
-    { id: 'dom-traversal', title: 'DOM Tree Recursion Algorithm' },
-    { id: 'metrics-thresholds', title: 'Core Web Vitals Thresholds' },
-    { id: 'nginx-optimization', title: 'NGINX Wire Compression Recipe' },
-  ];
-
   return (
     <DocsLayout
       title="4. VitalZyme (SDLC Phase 4) — Website DOM Health & Payload"
       description="Deep recursive DOM tree inspection, wire payload size analysis, render-blocking scripts, and NGINX compression configuration."
       canonicalPath="/docs/vitalzyme"
-      toc={toc}
     >
       <section id="vitalzyme-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-0.5 text-xs font-semibold text-[#6872D9]">

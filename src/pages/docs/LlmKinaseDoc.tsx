@@ -3,19 +3,11 @@ import { Cpu, CheckCircle2, Search, FileText, Code } from 'lucide-react';
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const LlmKinaseDoc: React.FC = () => {
-  const toc = [
-    { id: 'llmkinase-overview', title: 'Phase 7: LLM-Kinase Overview' },
-    { id: 'llms-txt-standard', title: '/llms.txt Standard Specification' },
-    { id: 'crawler-user-agents', title: 'AI Crawler User-Agent Directives' },
-    { id: 'json-ld-entity', title: 'Schema.org JSON-LD Knowledge Graph' },
-  ];
-
   return (
     <DocsLayout
       title="7. LLM-Kinase (SDLC Phase 7) — AI Crawler Readiness & llms.txt"
       description="Discovery and validation of /llms.txt standard manifests, AI crawler robots.txt rules, and Schema.org JSON-LD knowledge graphs."
       canonicalPath="/docs/llm-kinase"
-      toc={toc}
     >
       <section id="llmkinase-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50 px-3 py-0.5 text-xs font-semibold text-purple-800">

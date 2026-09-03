@@ -127,11 +127,11 @@ export default {
       />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-muted py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-border">
+      <section className="relative overflow-hidden bg-muted py-16 sm:py-20 border-b border-border w-full">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
-        <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="relative z-10 w-full px-4 sm:px-8 lg:px-12">
           <div className="flex flex-wrap items-center gap-2.5 mb-5">
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur-md px-3.5 py-1.5 text-xs font-mono text-foreground shadow-xs">
               <Radio className="h-3.5 w-3.5 text-blue-600 animate-pulse" />

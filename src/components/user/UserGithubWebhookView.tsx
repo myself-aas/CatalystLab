@@ -4,6 +4,7 @@ import { getConnectedGithubRepos, getGithubTelemetryEvents } from '../../lib/fir
 import { GithubRepo, GithubTelemetryEvent } from '../../types';
 import { GitBranch, Plus, Trash2, ExternalLink, Activity } from 'lucide-react';
 import { motion } from 'motion/react';
+import { SkeletonCard } from '../skeleton';
 
 export const UserGithubWebhookView: React.FC = () => {
   const { user } = useAuth();
@@ -33,7 +34,10 @@ export const UserGithubWebhookView: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center p-10"><Activity className="animate-spin text-muted-foreground w-8 h-8" /></div>
+        <div className="space-y-4" role="status" aria-label="Loading connected repositories...">
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
       ) : repos.length === 0 ? (
         <div className="text-center p-12 bg-background border border-border rounded-2xl shadow-sm">
           <GitBranch className="w-12 h-12 text-muted-foreground mx-auto mb-4" />

@@ -10,6 +10,7 @@ export type CoreEngineType =
   | 'llmo';
 
 export * from './card';
+export * from './design-system';
 
 export type SdlcCatalystType =
   | 'planning_arch'

@@ -89,13 +89,9 @@ export const StickyHUD: React.FC = () => {
     <aside
       id="telemetry-sticky-hud"
       aria-label="Real-time Telemetry Sticky HUD"
-      className={`fixed inset-x-0 z-40 pointer-events-none flex flex-col items-center justify-end px-2.5 sm:px-6 transition-all duration-300 ${
-        showAppChrome
-          ? 'bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] lg:bottom-[max(0.75rem,env(safe-area-inset-bottom))]'
-          : 'bottom-[max(0.75rem,env(safe-area-inset-bottom))]'
-      }`}
+      className="fixed bottom-6 right-6 z-50 pointer-events-none flex flex-col items-end justify-end transition-all duration-300"
     >
-      <div className="w-full max-w-5xl pointer-events-auto flex flex-col items-center transition-all duration-300">
+      <div className="w-auto max-w-xl pointer-events-auto flex flex-col items-end transition-all duration-300">
         
         {/* Expandable Live Terminal Log Drawer */}
         <AnimatePresence>
@@ -236,26 +232,34 @@ export const StickyHUD: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Primary Sticky HUD Ribbon or Minimized Pill */}
+        {/* Primary Sticky HUD Ribbon or Minimized Floating Action Button */}
         {isMinimized ? (
           <motion.button
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.8, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 12 }}
             type="button"
             onClick={toggleHudExpanded}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border-default bg-card/95 dark:bg-[#07070a]/95 backdrop-blur-xl shadow-linear-card font-mono text-xs text-foreground hover:border-accent/50 transition-all cursor-pointer pointer-events-auto"
-            aria-label="Expand telemetry HUD"
+            className="group relative flex items-center justify-center size-14 rounded-2xl border border-accent/40 bg-card/95 dark:bg-[#07070a]/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition-all duration-200 cursor-pointer pointer-events-auto"
+            aria-label="Open Telemetry HUD Terminal"
+            title="Open Telemetry HUD Terminal"
           >
-            <span className="relative flex size-2">
+            <span className="absolute -top-1 -right-1 flex size-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+              <span className="relative inline-flex size-3 rounded-full bg-emerald-400 border-2 border-background" />
             </span>
-            <Activity className="size-3.5 text-accent-bright" />
-            <span className="font-semibold text-[11px] text-foreground">HUD</span>
-            <span className="text-foreground-muted/60">•</span>
-            <span className="text-[11px] text-foreground-muted">{averageLatencyMs}ms</span>
-            <ChevronUp className="size-3.5 text-foreground-muted ml-0.5" />
+            <svg 
+              className="size-6 text-accent-bright group-hover:scale-110 transition-transform duration-200"
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <polyline points="4 17 10 11 4 5" />
+              <line x1="12" y1="19" x2="20" y2="19" />
+            </svg>
           </motion.button>
         ) : (
           <div className="relative w-full max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-2xl border border-border-default bg-card/90 dark:bg-[#07070a]/90 backdrop-blur-xl shadow-linear-card font-mono text-xs transition-all duration-300">

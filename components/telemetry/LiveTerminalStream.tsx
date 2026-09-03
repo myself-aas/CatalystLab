@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'motion/react';
 import { Terminal, Play, Pause, Trash2, Copy, Check, Filter, ArrowDown } from 'lucide-react';
 
 export interface TerminalLogEntry {
@@ -49,7 +50,10 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
   });
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-[#090D16] shadow-2xl overflow-hidden flex flex-col font-mono relative">
+    <motion.div 
+      whileHover={{ scale: 1.01, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+      className="rounded-xl border border-slate-800 bg-[#090D16] shadow-2xl overflow-hidden flex flex-col font-mono relative"
+    >
       {/* Terminal Bar Chrome */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-[#111726]/90 border-b border-slate-800 z-20">
         <div className="flex items-center gap-2.5">
@@ -242,6 +246,6 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };

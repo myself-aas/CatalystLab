@@ -3,19 +3,11 @@ import { Workflow, CheckCircle2, Play, Activity, Server, Zap } from 'lucide-reac
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const OrchestratorDoc: React.FC = () => {
-  const toc = [
-    { id: 'orchestrator-overview', title: 'Master Suite Overview' },
-    { id: 'concurrency-engine', title: 'Concurrent Execution Pipeline' },
-    { id: 'correlation-matrix', title: 'Cross-Engine Correlation Analysis' },
-    { id: 'report-snapshot', title: 'Unified Snapshot Permalinks' },
-  ];
-
   return (
     <DocsLayout
       title="9. Master Suite Orchestrator — Full 8-Engine Concurrency"
       description="Concurrent orchestration across all 8 diagnostic engines with cross-vector correlation analysis and unified dossier generation."
       canonicalPath="/docs/orchestrator"
-      toc={toc}
     >
       <section id="orchestrator-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-0.5 text-xs font-semibold text-[#6872D9]">

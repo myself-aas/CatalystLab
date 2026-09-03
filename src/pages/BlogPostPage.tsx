@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { logger } from '../lib/logger';
+import { BlogPostSkeleton } from '../components/skeleton';
 
 export const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -60,12 +61,7 @@ export const BlogPostPage: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center bg-background text-muted-foreground font-mono">
-        <span aria-hidden="true" className="material-symbols-outlined text-3xl animate-spin text-foreground mb-2">progress_activity</span>
-        <p className="text-xs font-bold">Loading technical briefing...</p>
-      </div>
-    );
+    return <BlogPostSkeleton />;
   }
 
   if (!post) {

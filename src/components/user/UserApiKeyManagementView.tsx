@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { getApiKeys } from '../../lib/firebase';
 import { ApiKey } from '../../types';
 import { Key, Plus, Copy, Trash2, ShieldCheck, Activity } from 'lucide-react';
+import { SkeletonTable } from '../skeleton';
 
 export const UserApiKeyManagementView: React.FC = () => {
   const { user } = useAuth();
@@ -32,7 +33,7 @@ export const UserApiKeyManagementView: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center p-10"><Activity className="animate-spin text-muted-foreground w-8 h-8" /></div>
+        <SkeletonTable rows={3} columns={4} />
       ) : keys.length === 0 ? (
         <div className="text-center p-12 bg-background border border-border rounded-2xl shadow-sm">
           <Key className="w-12 h-12 text-muted-foreground mx-auto mb-4" />

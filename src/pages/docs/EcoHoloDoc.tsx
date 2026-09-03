@@ -3,19 +3,11 @@ import { Leaf, CheckCircle2, ShieldCheck, Zap, Globe, BarChart3 } from 'lucide-r
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const EcoHoloDoc: React.FC = () => {
-  const toc = [
-    { id: 'ecoholo-overview', title: 'Phase 3: EcoHolo Overview' },
-    { id: 'swd-formula', title: 'Sustainable Web Design (SWD v4) Formula' },
-    { id: 'carbon-thresholds', title: 'Carbon Rating Thresholds' },
-    { id: 'green-hosting', title: 'Green Web Foundation Verification' },
-  ];
-
   return (
     <DocsLayout
       title="3. EcoHolo (SDLC Phase 3) — Sustainable Web Carbon Footprint"
       description="Sustainable Web Design Model v4 calculation, greenhouse gas emissions per page view, and renewable energy hosting verification."
       canonicalPath="/docs/ecoholo"
-      toc={toc}
     >
       <section id="ecoholo-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-0.5 text-xs font-semibold text-emerald-800">

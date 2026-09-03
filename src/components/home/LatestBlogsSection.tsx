@@ -27,6 +27,7 @@ import {
   X
 } from 'lucide-react';
 import { logger } from '../../lib/logger';
+import { BlogCardSkeleton } from '../skeleton';
 
 interface LatestBlogsSectionProps {
   title?: string;
@@ -285,7 +286,20 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
 
         
         {/* 1 + 4 Grid Layout */}
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        {loading && posts.length === 0 ? (
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch" role="status" aria-label="Loading research articles...">
+            <div className="lg:col-span-5 h-full">
+              <BlogCardSkeleton />
+            </div>
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <BlogCardSkeleton />
+              <BlogCardSkeleton />
+              <BlogCardSkeleton />
+              <BlogCardSkeleton />
+            </div>
+          </div>
+        ) : (
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Hero Card */}
           {heroPost && (
@@ -350,6 +364,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
             </AnimatePresence>
           </div>
         </div>
+        )}
         {/* Bottom Ecosystem & Trust Bar */}
         {showEcosystemBar && (
           <div className="mt-10 pt-6 border-t border-border font-sans">

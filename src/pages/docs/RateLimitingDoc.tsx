@@ -3,19 +3,11 @@ import { Sliders, CheckCircle2, Shield, User, Sparkles } from 'lucide-react';
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const RateLimitingDoc: React.FC = () => {
-  const toc = [
-    { id: 'tier-matrix', title: 'Tier Allotment Matrix' },
-    { id: 'client-fingerprint', title: 'Identification & Fingerprinting' },
-    { id: 'sliding-window', title: 'Sliding Token Algorithm' },
-    { id: 'headers-response', title: 'Rate Limit Response Headers' },
-  ];
-
   return (
     <DocsLayout
       title="Sliding Token Rate Limiter"
       description="Multi-tier quota limits for anonymous, authenticated, and SuperAdmin users with token-bucket sliding windows."
       canonicalPath="/docs/rate-limiting"
-      toc={toc}
     >
       <section id="tier-matrix" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-0.5 text-xs font-semibold text-indigo-800">

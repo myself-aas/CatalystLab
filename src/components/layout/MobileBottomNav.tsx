@@ -18,7 +18,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMenu }) 
   ];
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 lg:hidden bg-white/95 backdrop-blur-xl border-t border-[#dadce0] pb-[env(safe-area-inset-bottom)] dark:bg-[#202124]/95 dark:border-white/10">
+    <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden backdrop-blur-lg bg-black/80 border-t border-white/10 pb-[env(safe-area-inset-bottom)]">
       {/* Hairline Top Glow Border */}
       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
       

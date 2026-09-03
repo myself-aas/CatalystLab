@@ -3,19 +3,11 @@ import { SearchCode, CheckCircle2, Sparkles, FileText, Globe } from 'lucide-reac
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const AllosterSearchDoc: React.FC = () => {
-  const toc = [
-    { id: 'allostersearch-overview', title: 'Phase 8: AllosterSearch Overview' },
-    { id: 'rag-density', title: 'RAG Extractability & Factual Density' },
-    { id: 'semantic-hierarchy', title: 'Semantic Heading Hierarchy' },
-    { id: 'eeat-authority', title: 'E-E-A-T Author Authority Signals' },
-  ];
-
   return (
     <DocsLayout
       title="8. AllosterSearch (SDLC Phase 8) — AI Search Optimization (LLMO)"
       description="Large Language Model Optimization (LLMO), factual information density, RAG chunk extraction, and author authority signals."
       canonicalPath="/docs/allostersearch"
-      toc={toc}
     >
       <section id="allostersearch-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-0.5 text-xs font-semibold text-indigo-800">

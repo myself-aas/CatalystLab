@@ -3,19 +3,11 @@ import { Gauge, CheckCircle2, AlertTriangle, ShieldCheck, Zap } from 'lucide-rea
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const ScoringMatrixDoc: React.FC = () => {
-  const toc = [
-    { id: 'scoring-formula', title: 'Master Scoring Formula' },
-    { id: 'weight-breakdown', title: 'Vector Weight Breakdown' },
-    { id: 'penalties-deductions', title: 'Deterministic Penalty System' },
-    { id: 'grade-tiers', title: 'Grade Classification Tiers' },
-  ];
-
   return (
     <DocsLayout
       title="Scoring Formula & Weights Calculus"
       description="Mathematical calculation of the 0–100 Master Quality Score composite index and evaluation vector weights."
       canonicalPath="/docs/scoring-matrix"
-      toc={toc}
     >
       <section id="scoring-formula" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-0.5 text-xs font-semibold text-amber-800">

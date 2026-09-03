@@ -36,6 +36,7 @@ import {
 import { SEOHead } from '../components/common/SEOHead';
 import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
+import { DomainReportSkeleton } from '../components/skeleton';
 
 export const DomainReportArticlePage: React.FC = () => {
   const { slug, id } = useParams<{ slug?: string; id?: string }>();
@@ -208,21 +209,7 @@ export const DomainReportArticlePage: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex min-h-[75vh] items-center justify-center bg-background px-4 font-mono">
-        <div className="flex flex-col items-center gap-4 text-center max-w-md">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-border border-t-black" />
-          <h2 className="text-base font-bold text-foreground">
-            {isAuditingLive ? 'Compiling Benchmark Dossier...' : 'Retrieving Audit Record...'}
-          </h2>
-          <p className="text-xs text-muted-foreground font-sans leading-relaxed">
-            {isAuditingLive 
-              ? `Executing 8 specialized diagnostic engines across DOM depth, OWASP headers, WCAG accessibility, and edge latency for ${displayDomain}...`
-              : 'Formatting telemetry figures, interactive charts, and architectural takeaways...'}
-          </p>
-        </div>
-      </div>
-    );
+    return <DomainReportSkeleton />;
   }
 
   if (error || !telemetry || !report) {

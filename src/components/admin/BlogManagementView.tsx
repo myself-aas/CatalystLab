@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { errorMessage } from '../../lib/utils';
 import { logger } from '../../lib/logger';
+import { SkeletonTable } from '../skeleton';
 
 const CATEGORIES = [
   'All Categories',
@@ -243,11 +244,7 @@ export const BlogManagementView: React.FC = () => {
       {/* Articles Stream / List */}
       <div className="space-y-3">
         {loading ? (
-          <div className="py-16 text-center text-muted-foreground text-sm flex flex-col items-center justify-center">
-            <RefreshCw className="h-7 w-7 animate-spin text-amber-600 mb-3" />
-            <div className="font-semibold text-foreground">Loading CMS Articles...</div>
-            <div className="text-xs text-muted-foreground mt-1">Querying telemetry and publication archives.</div>
-          </div>
+          <SkeletonTable rows={4} columns={4} />
         ) : filteredPosts.length === 0 ? (
           <div className="py-16 text-center text-muted-foreground rounded-2xl border border-border bg-background/70 p-8 shadow-xl">
             <BookOpen className="mx-auto h-10 w-10 text-amber-600/40 mb-3" />

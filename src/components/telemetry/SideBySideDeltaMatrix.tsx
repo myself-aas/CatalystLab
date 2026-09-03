@@ -7,6 +7,7 @@ import {
   Zap
 } from 'lucide-react';
 import type { MasterTelemetryReport, DiagnosticEngineId } from '../../types/telemetry';
+import { Skeleton, SkeletonTable } from '../skeleton';
 
 export interface SideBySideDeltaMatrixProps {
   reportA?: MasterTelemetryReport | null;
@@ -209,8 +210,28 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
         </form>
       </div>
 
-      {/* Winner Summary Banner */}
-      <div className="rounded-xl border border-border bg-[#111726]/80 p-5 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Comparison Content */}
+      {isLoading ? (
+        <div className="space-y-6" role="status" aria-label="Synthesizing comparative delta...">
+          <div className="rounded-xl border border-border bg-card/80 p-5 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <Skeleton className="w-12 h-12 rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-3.5 w-36 rounded-xs" />
+                <Skeleton className="h-6 w-48 rounded-md" />
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-14 w-20 rounded-lg" />
+              <Skeleton className="h-14 w-20 rounded-lg" />
+            </div>
+          </div>
+          <SkeletonTable rows={6} columns={4} />
+        </div>
+      ) : (
+        <>
+          {/* Winner Summary Banner */}
+          <div className="rounded-xl border border-border bg-[#111726]/80 p-5 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-500/5 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-md shadow-amber-500/10">
             <Trophy className="w-6 h-6" />
@@ -310,6 +331,8 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
           </table>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 };

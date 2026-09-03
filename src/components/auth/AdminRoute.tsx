@@ -14,6 +14,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { logger } from '../../lib/logger';
+import { AdminDashboardSkeleton } from '../skeleton';
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -85,20 +86,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
 
   // Loading state while auth initializes or token claims are being resolved
   if (authLoading || (verifyingClaims && !claimCheckDone)) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-foreground">
-        <div className="relative flex items-center justify-center mb-6">
-          <div className="h-16 w-16 rounded-2xl border border-border bg-muted flex items-center justify-center shadow-xl">
-            <KeyRound className="h-8 w-8 text-muted-foreground animate-pulse" />
-          </div>
-          <div className="absolute -inset-1 rounded-2xl border border-cyan-500/20 animate-ping pointer-events-none" />
-        </div>
-        <div className="text-lg font-bold tracking-tight text-foreground">Verifying Superadmin Authorization</div>
-        <p className="mt-2 text-xs font-mono text-muted-foreground max-w-sm text-center">
-          Validating Firebase token claims (<code className="text-cyan-300">role: superadmin</code>) & cryptographic access rules...
-        </p>
-      </div>
-    );
+    return <AdminDashboardSkeleton />;
   }
 
   const isAuthorized = Boolean(tokenSuperadminVerified || hasSuperadminClaim || isAdmin);

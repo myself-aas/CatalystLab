@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { logger } from '../lib/logger';
+import { SkeletonCard } from '../components/skeleton';
 
 const FEATURED_BENCHMARKS = [
   {
@@ -83,17 +84,21 @@ export const ReportsDirectoryPage: React.FC = () => {
   const { user, login } = useAuth();
   const navigate = useNavigate();
   const [userReports, setUserReports] = useState<AuditReport[]>([]);
+  const [loadingReports, setLoadingReports] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [domainInput, setDomainInput] = useState('');
 
   useEffect(() => {
     const load = async () => {
       if (user) {
+        setLoadingReports(true);
         try {
           const data = await getUserReports();
           setUserReports(data);
         } catch (e) {
           logger.error("Failed to load user reports:", e);
+        } finally {
+          setLoadingReports(false);
         }
       }
     };
@@ -209,14 +214,14 @@ export const ReportsDirectoryPage: React.FC = () => {
         </div>
 
         {/* User Saved Reports (If authenticated & has reports) */}
-        {user && userReports.length > 0 && (
+        {user && (loadingReports || userReports.length > 0) && (
           <section className="space-y-6">
             <div className="flex items-center justify-between border-b border-border pb-3">
               <h2 className="text-sm font-extrabold text-foreground flex items-center gap-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent text-muted-foreground border border-border">
                   <Zap className="h-3.5 w-3.5 text-amber-500" />
                 </span>
-                <span>Your Saved Audit Reports ({filteredUserReports.length})</span>
+                <span>Your Saved Audit Reports {loadingReports ? '' : `(${filteredUserReports.length})`}</span>
               </h2>
               <Link to="/dashboard" className="text-sm font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
                 <span>Manage in Dashboard</span>
@@ -224,45 +229,53 @@ export const ReportsDirectoryPage: React.FC = () => {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredUserReports.map((r) => {
-                const meta = ENGINES_MAP[r.engine] || { name: r.engine };
-                const domainSlug = urlToDomainSlug(r.url);
-                const domainName = extractDomainFromUrl(r.url);
+            {loadingReports ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" role="status" aria-label="Loading your saved reports...">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {filteredUserReports.map((r) => {
+                  const meta = ENGINES_MAP[r.engine] || { name: r.engine };
+                  const domainSlug = urlToDomainSlug(r.url);
+                  const domainName = extractDomainFromUrl(r.url);
 
-                return (
-                  <Link
-                    key={r.id || domainSlug}
-                    to={`/reports/${domainSlug}`}
-                    className="group relative rounded-2xl border border-border bg-background p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all block text-foreground"
-                  >
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-muted text-muted-foreground border border-border shadow-sm">
-                        <Activity className="h-4 w-4" />
-                      </span>
-                      <span className="text-[10px] uppercase font-bold text-muted-foreground bg-accent px-2.5 py-1 rounded-md border border-border tracking-wider">
-                        {meta.name}
-                      </span>
-                    </div>
+                  return (
+                    <Link
+                      key={r.id || domainSlug}
+                      to={`/reports/${domainSlug}`}
+                      className="group relative rounded-2xl border border-border bg-background p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all block text-foreground"
+                    >
+                      <div className="flex items-center justify-between gap-2 mb-4">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-muted text-muted-foreground border border-border shadow-sm">
+                          <Activity className="h-4 w-4" />
+                        </span>
+                        <span className="text-[10px] uppercase font-bold text-muted-foreground bg-accent px-2.5 py-1 rounded-md border border-border tracking-wider">
+                          {meta.name}
+                        </span>
+                      </div>
 
-                    <div className="font-extrabold text-base text-foreground group-hover:text-amber-600 transition-colors truncate font-sans">
-                      {domainName}
-                    </div>
-                    <div className="text-xs text-muted-foreground truncate mt-1 font-sans">
-                      {r.url}
-                    </div>
+                      <div className="font-extrabold text-base text-foreground group-hover:text-amber-600 transition-colors truncate font-sans">
+                        {domainName}
+                      </div>
+                      <div className="text-xs text-muted-foreground truncate mt-1 font-sans">
+                        {r.url}
+                      </div>
 
-                    <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-sans">
-                      <span>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'Recent'}</span>
-                      <span className="flex items-center gap-1 font-bold text-muted-foreground group-hover:text-foreground transition-colors">
-                        <span>View Dossier</span>
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+                      <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-sans">
+                        <span>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'Recent'}</span>
+                        <span className="flex items-center gap-1 font-bold text-muted-foreground group-hover:text-foreground transition-colors">
+                          <span>View Dossier</span>
+                          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </section>
         )}
 

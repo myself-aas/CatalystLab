@@ -33,15 +33,15 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden pt-6 pb-10 sm:pt-10 sm:pb-16">
+    <section className="relative overflow-hidden w-full max-w-none min-h-[90vh] flex flex-col justify-center pt-28 pb-16 sm:pt-36 sm:pb-24">
       <div
         data-testid="hero-contrast-scrim"
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#e8f0fe] via-transparent to-white dark:from-[#174ea6]/40 dark:to-[#202124]"
       />
 
-      <motion.div style={{ opacity, scale, y }} className="relative z-10">
-        <div className="mx-auto max-w-5xl px-4 text-center sm:px-6">
+      <motion.div style={{ opacity, scale, y }} className="relative z-10 w-full px-4 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-5xl text-center">
           <Link
             to="/docs"
             className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#dadce0] bg-white px-3.5 py-1 text-xs font-medium text-[#5f6368] transition-colors duration-200 hover:border-[#1a73e8]/40 hover:text-[#1a73e8] dark:border-white/10 dark:bg-white/5 dark:text-[#9aa0a6]"
@@ -62,7 +62,7 @@ export const HeroSection: React.FC = () => {
 
           <form
             onSubmit={handleAudit}
-            className="mx-auto flex max-w-2xl flex-col gap-2 rounded-full border border-[#dadce0] bg-white p-1.5 shadow-[0_1px_2px_rgba(60,64,67,0.15)] transition-all duration-300 focus-within:border-[#1a73e8] focus-within:ring-1 focus-within:ring-[#1a73e8] sm:flex-row dark:border-white/15 dark:bg-[#303134]"
+            className="mx-auto flex max-w-2xl flex-col gap-2 rounded-2xl border border-[#dadce0] bg-white p-1.5 shadow-[0_1px_2px_rgba(60,64,67,0.15)] transition-all duration-300 focus-within:border-[#1a73e8] focus-within:ring-1 focus-within:ring-[#1a73e8] sm:flex-row dark:border-white/15 dark:bg-[#303134]"
           >
             <div className="flex flex-1 items-center px-4 py-2">
               <Zap className="mr-3 size-4 shrink-0 text-[#5f6368]" />
@@ -79,7 +79,7 @@ export const HeroSection: React.FC = () => {
             </div>
             <button
               type="submit"
-              className="group/cta relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#1a73e8] px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-[#1967d2] active:scale-[0.98]"
+              className="group/cta relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#1a73e8] px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-[#1967d2] active:scale-[0.98]"
             >
               <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out group-hover/cta:translate-x-full" />
               <span>Run Master Audit</span>

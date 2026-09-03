@@ -16,11 +16,11 @@ export const DiagnosticEnginesPage: React.FC = () => {
       />
 
       {/* Top Banner Hero */}
-      <section className="relative overflow-hidden border-b border-border bg-muted pt-14 pb-16 sm:pt-16 sm:pb-20">
+      <section className="relative overflow-hidden border-b border-border bg-muted pt-14 pb-16 sm:pt-16 sm:pb-20 w-full">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full px-4 sm:px-8 lg:px-12">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
             <div className="max-w-3xl space-y-4">
               <div className="flex flex-wrap items-center gap-2">

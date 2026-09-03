@@ -5,21 +5,11 @@ import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 import { logger } from '../../lib/logger';
 
 export const ApiReferenceDoc: React.FC = () => {
-  const toc = [
-    { id: 'api-overview', title: 'REST API Overview' },
-    { id: 'authentication', title: 'Authentication & API Keys' },
-    { id: 'run-engine', title: 'POST /api/run-engine' },
-    { id: 'monitor-probe', title: 'POST /api/monitor/probe' },
-    { id: 'system-health', title: 'GET /api/monitor/system-health' },
-    { id: 'response-schema', title: 'Standard JSON Response Schema' },
-  ];
-
   return (
     <DocsLayout
       title="REST API Specification & Endpoint Reference"
       description="REST API documentation, POST /api/run-engine, probe telemetry, system health, and JSON schemas."
       canonicalPath="/docs/api"
-      toc={toc}
     >
       <section id="api-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-0.5 text-xs font-semibold text-[#6872D9]">

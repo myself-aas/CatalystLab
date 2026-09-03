@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { errorMessage } from '../../lib/utils';
 import { logger } from '../../lib/logger';
+import { Skeleton } from '../skeleton';
 
 export const SystemHealthWidget: React.FC = () => {
   const [logs, setLogs] = useState<FirestoreAuditLog[]>([]);
@@ -379,9 +380,17 @@ export const SystemHealthWidget: React.FC = () => {
 
         {/* Log Entries Container */}
         {loading ? (
-          <div className="py-12 text-center text-xs text-muted-foreground font-mono">
-            <RefreshCw className="h-5 w-5 animate-spin mx-auto mb-2 text-cyan-400" />
-            Loading Firestore live audit log stream...
+          <div className="space-y-2 p-1" role="status" aria-label="Loading Firestore audit stream...">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div key={idx} className="flex items-center justify-between p-3 rounded-lg border border-border bg-card/40">
+                <div className="flex items-center gap-3 w-3/4">
+                  <Skeleton className="h-5 w-16 rounded-xs" />
+                  <Skeleton className="h-4 w-40 rounded-xs" />
+                  <Skeleton className="h-3.5 w-24 rounded-xs" />
+                </div>
+                <Skeleton className="h-4 w-16 rounded-xs" />
+              </div>
+            ))}
           </div>
         ) : filteredLogs.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border bg-muted/40 p-8 text-center text-xs text-muted-foreground">

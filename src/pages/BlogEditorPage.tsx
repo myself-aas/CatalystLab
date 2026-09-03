@@ -6,6 +6,7 @@ import { getBlogPostById, saveBlogPost } from '../lib/firebase';
 import { logger } from '../lib/logger';
 import { errorMessage } from '../lib/utils';
 import { ArrowLeft, Eye, RotateCw, Save } from 'lucide-react';
+import { BlogEditorSkeleton } from '../components/skeleton';
 
 const CATEGORIES = [
   'Engineering',
@@ -168,10 +169,7 @@ export const BlogEditorPage: React.FC = () => {
         )}
 
         {loading ? (
-          <div className="flex items-center gap-2 font-mono text-sm text-[#8A8F98]">
-            <RotateCw className="size-4 animate-spin" />
-            Loading article…
-          </div>
+          <BlogEditorSkeleton />
         ) : preview ? (
           <article className="space-y-4 rounded-2xl border border-white/[0.06] bg-white/[0.04] p-6">
             <p className="font-mono text-[11px] uppercase tracking-wider text-[#6872D9]">{category} · {status}</p>

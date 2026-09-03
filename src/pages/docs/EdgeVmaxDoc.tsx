@@ -3,19 +3,11 @@ import { Globe, CheckCircle2, Zap, Server, ShieldCheck } from 'lucide-react';
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const EdgeVmaxDoc: React.FC = () => {
-  const toc = [
-    { id: 'edgevmax-overview', title: 'Phase 5: EdgeVmax Overview' },
-    { id: 'pops-matrix', title: '12 Global Anycast PoPs' },
-    { id: 'ttfb-measurements', title: 'TTFB Breakdown & Synthetic Timing' },
-    { id: 'edge-cache-worker', title: 'Cloudflare Edge Worker Cache Recipe' },
-  ];
-
   return (
     <DocsLayout
       title="5. EdgeVmax (SDLC Phase 5) — Global Edge Latency & Anycast"
       description="Multi-region Time to First Byte (TTFB) synthetic measurements across 12 Anycast global points of presence and Cloudflare Worker caching."
       canonicalPath="/docs/edgevmax"
-      toc={toc}
     >
       <section id="edgevmax-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-pink-200 bg-pink-50 px-3 py-0.5 text-xs font-semibold text-pink-800">

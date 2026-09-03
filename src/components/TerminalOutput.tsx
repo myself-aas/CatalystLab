@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { motion } from 'motion/react';
 import {
   Copy,
   Check,
@@ -321,7 +322,10 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   };
 
   return (
-    <div className="flex flex-col rounded-xl border border-border bg-[#090D16] shadow-2xl overflow-hidden transition-all duration-300 group focus-within:ring-1 focus-within:ring-cyan-500/50 relative">
+    <motion.div 
+      whileHover={{ scale: 1.01, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+      className="flex flex-col rounded-xl border border-border bg-[#090D16] shadow-2xl overflow-hidden transition-all duration-300 group focus-within:ring-1 focus-within:ring-cyan-500/50 relative"
+    >
       {/* Terminal Bar Chrome */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/90 bg-[#111726]/95 px-4 py-3 select-none backdrop-blur-md z-20">
         <div className="flex items-center gap-3">
@@ -547,6 +551,6 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

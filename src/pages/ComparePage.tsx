@@ -266,11 +266,11 @@ export const ComparePage: React.FC = () => {
       />
 
       {/* Header */}
-      <section className="relative overflow-hidden border-b border-white/[0.06] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="relative overflow-hidden border-b border-white/[0.06] py-16 sm:py-20 w-full">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#06b6d420_0%,transparent_75%)] pointer-events-none z-0" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
-        <div className="relative z-10 mx-auto max-w-4xl text-center space-y-4">
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-4 py-1.5 text-xs font-mono font-bold text-[#00F0FF] shadow-xs backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-[#00F0FF] animate-pulse" />
             <span>SIDE-BY-SIDE COMPARATIVE TELEMETRY</span>

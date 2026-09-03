@@ -76,12 +76,230 @@ const PRESET_CHIPS = [
   'Pricing & Plans'
 ];
 
+
+export interface NavItem {
+  title: string;
+  path?: string;
+  icon?: any;
+  badge?: string;
+  badgeColor?: string;
+  children?: NavItem[];
+  permission?: string;
+}
+
+export const MAIN_MENU_DATA: NavItem[] = [
+  {
+    title: 'Home',
+    path: '/',
+    icon: Home,
+  },
+  {
+    title: 'Catalysts',
+    icon: Activity,
+    children: [
+      { title: 'VitalZyme Engine', path: '/health', icon: Activity, badge: 'Vitals' },
+      { title: 'LLM-Kinase Engine', path: '/ai-readiness', icon: Cpu, badge: 'AI' },
+      { title: 'GitLygase Engine', path: '/repo-scanner', icon: Terminal, badge: 'SecOps' },
+      { title: 'EdgeVmax Engine', path: '/latency', icon: Globe, badge: 'Global' },
+      { title: 'EcoHolo Engine', path: '/eco-audit', icon: Leaf, badge: 'Carbon' },
+      { title: 'RiskProtease Engine', path: '/compliance', icon: ShieldCheck, badge: 'OWASP' },
+      { title: 'SynthShift Engine', path: '/migration', icon: GitBranch, badge: 'Migration' },
+      { title: 'AllosterSearch Engine', path: '/llmo', icon: Sparkles, badge: 'LLMO' }
+    ]
+  },
+  {
+    title: 'Platform Tools',
+    icon: Layers,
+    children: [
+      { title: 'Master Audit Launch', path: '/launch-audit', icon: Sparkles, badgeColor: 'emerald' },
+      { title: 'Products & Watchdog', path: '/products', icon: Radio, badge: 'Continuous', badgeColor: 'emerald' },
+      { title: 'Side-by-Side Compare', path: '/compare', icon: Scale, badge: 'Radar' },
+      { title: 'GitHub Webhooks', path: '/dashboard/webhooks', icon: GitBranch },
+      { title: 'Pricing & Plans', path: '/pricing', icon: CreditCard }
+    ]
+  },
+  {
+    title: 'Resources & Developer APIs',
+    icon: BookOpen,
+    children: [
+      { title: 'Documentation & Architecture', path: '/docs', icon: BookOpen, badge: '14 Modules' },
+      { title: 'REST API Reference', path: '/api-docs', icon: Code2, badge: 'v2.4', badgeColor: 'purple' },
+      { title: 'Interactive Playground', path: '/playground', icon: Terminal, badge: 'Sandbox' },
+      { title: 'Engineering Blogs', path: '/blogs', icon: FileText, badge: 'Articles' },
+      { title: 'Audit Methodology', path: '/methodology', icon: Compass, badge: 'Weights' },
+    ]
+  },
+  {
+    title: 'About Us',
+    path: '/about',
+    icon: Info,
+  },
+  {
+    title: 'Contact',
+    path: '/contact',
+    icon: Mail,
+  },
+  {
+    title: 'Admin Console',
+    path: '/admin',
+    icon: ShieldCheck,
+    permission: 'page:view_admin'
+  }
+];
+
+const isAnyChildActive = (item: NavItem, currentPath: string): boolean => {
+  if (item.path && (currentPath === item.path || (item.path !== '/' && currentPath.startsWith(item.path)))) return true;
+  if (item.children) {
+    return item.children.some(child => isAnyChildActive(child, currentPath));
+  }
+  return false;
+};
+
+const CollapsibleMenuItem = ({ 
+  item, 
+  level = 0,
+  currentPath,
+  onClose,
+  hasPermission
+}: { 
+  item: NavItem, 
+  level?: number, 
+  currentPath: string, 
+  onClose: () => void,
+  hasPermission: (p: string) => boolean 
+}) => {
+  const [isExpanded, setIsExpanded] = useState(() => isAnyChildActive(item, currentPath));
+
+  if (item.permission && !hasPermission(item.permission)) return null;
+
+  const isActive = item.path ? (currentPath === item.path || (item.path !== '/' && currentPath.startsWith(item.path))) : false;
+  const childActive = isAnyChildActive(item, currentPath);
+
+  const Icon = item.icon;
+
+  if (item.children) {
+    return (
+      <div className="flex flex-col w-full">
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={cn(
+            "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-200 border w-full",
+            level > 0 ? "py-2 px-3 border-transparent" : "py-2.5 border-transparent hover:border-border-default hover:bg-white/[0.04]",
+            childActive && level === 0 ? "bg-white/[0.02]" : ""
+          )}
+          style={{ paddingLeft: level > 0 ? `${Math.max(0.875, level * 1.25 + 0.875)}rem` : undefined }}
+          aria-expanded={isExpanded}
+        >
+          <div className="flex items-center gap-3">
+            {Icon && (
+              <div className={cn(
+                "rounded-lg border flex items-center justify-center transition-colors border-border-default bg-white/[0.03] text-foreground-muted group-hover:text-foreground group-hover:border-accent/30",
+                level === 0 ? "size-8.5" : "size-7"
+              )}>
+                <Icon className={level === 0 ? "size-4" : "size-3.5"} />
+              </div>
+            )}
+            <span className={cn(
+              "font-semibold tracking-tight transition-colors text-foreground-muted group-hover:text-foreground",
+              level === 0 ? "text-sm sm:text-base" : "text-xs font-medium"
+            )}>
+              {item.title}
+            </span>
+          </div>
+          <ChevronDown className={cn("size-4 text-foreground-muted/40 transition-transform duration-200", isExpanded && "rotate-180 text-accent-bright")} />
+        </button>
+
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="flex flex-col overflow-hidden"
+            >
+              <div className="pt-1 pb-1 space-y-0.5">
+                {item.children.map((child, index) => (
+                  <CollapsibleMenuItem 
+                    key={index} 
+                    item={child} 
+                    level={level + 1} 
+                    currentPath={currentPath}
+                    onClose={onClose}
+                    hasPermission={hasPermission}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      to={item.path || "#"}
+      onClick={onClose}
+      className={cn(
+        "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-200 border w-full",
+        isActive
+          ? "border-accent/40 bg-accent/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+          : "border-transparent hover:border-border-default hover:bg-white/[0.04]",
+        level > 0 ? "py-2 px-3" : "py-2.5"
+      )}
+      style={{ paddingLeft: level > 0 ? `${Math.max(0.875, level * 1.25 + 0.875)}rem` : undefined }}
+      aria-current={isActive ? "page" : undefined}
+    >
+      <div className="flex items-center gap-3">
+        {Icon && (
+          <div className={cn(
+            "rounded-lg border flex items-center justify-center transition-colors",
+            isActive
+              ? "border-accent/40 bg-accent/20 text-accent-bright"
+              : "border-border-default bg-white/[0.03] text-foreground-muted group-hover:text-foreground group-hover:border-accent/30",
+            level === 0 ? "size-8.5" : "size-7"
+          )}>
+            <Icon className={level === 0 ? "size-4" : "size-3.5"} />
+          </div>
+        )}
+        <span className={cn(
+          "font-semibold tracking-tight transition-colors",
+          isActive ? "text-foreground" : "text-foreground-muted group-hover:text-foreground",
+          level === 0 ? "text-sm sm:text-base" : "text-xs font-medium text-foreground-muted hover:text-foreground",
+          level > 0 && isActive && "text-accent-bright font-semibold"
+        )}>
+          {item.title}
+        </span>
+      </div>
+      
+      <div className="flex items-center gap-2">
+        {item.badge && (
+          <span className={cn(
+            "text-[10px] font-mono px-1.5 py-0.5 rounded border",
+            item.badgeColor === 'emerald' ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" :
+            item.badgeColor === 'purple' ? "border-purple-500/30 bg-purple-500/10 text-purple-400" :
+            "border-border-default bg-white/[0.04] text-foreground-muted"
+          )}>
+            {item.badge}
+          </span>
+        )}
+        {level === 0 && (
+          <ChevronRight className={cn(
+            "size-4 transition-all",
+            isActive ? "text-accent-bright" : "text-foreground-muted/40 group-hover:text-foreground-muted group-hover:translate-x-1"
+          )} />
+        )}
+      </div>
+    </Link>
+  );
+}
+
 export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClose }) => {
+
   const location = useLocation();
   const { user, logout } = useAuth();
   const { hasPermission, roleConfig } = useRoleSecurity();
-  const [expandedServices, setExpandedServices] = useState(true);
-  const [expandedResources, setExpandedResources] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const overlayRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -145,8 +363,6 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
     return false;
   };
 
-  const isServicesActive = location.pathname.startsWith('/pricing') || location.pathname.startsWith('/products') || location.pathname.startsWith('/plugins') || location.pathname.startsWith('/compare');
-  const isResourcesActive = location.pathname.startsWith('/docs') || location.pathname.startsWith('/api') || location.pathname.startsWith('/playground') || location.pathname.startsWith('/blogs') || location.pathname.startsWith('/methodology');
 
   const engines = [
     { name: 'VitalZyme', sub: 'DOM & TTFB', path: '/health', icon: Activity },
@@ -192,42 +408,64 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-          id="main-menu-overlay" 
-          ref={overlayRef} 
-          className="mobile-nav-menu fixed inset-0 z-[100] flex flex-col bg-background/95 backdrop-blur-2xl text-foreground overflow-y-auto"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Main Navigation Menu"
-        >
+        <div className="fixed inset-0 z-[100] flex justify-end">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="absolute inset-0 bg-background/60 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          <motion.div 
+            initial={{ x: '100%', opacity: 0.5 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '100%', opacity: 0.5 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            id="main-menu-overlay" 
+            ref={overlayRef} 
+            className="relative w-[85vw] max-w-sm sm:max-w-md h-full bg-background border-l border-border-default text-foreground overflow-y-auto shadow-2xl flex flex-col z-10"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Main Navigation Menu"
+          >
           {/* Ambient Lighting Blobs */}
-          <div className="pointer-events-none absolute -top-40 left-1/4 h-[500px] w-[500px] rounded-full bg-accent/15 blur-[140px]" />
-          <div className="pointer-events-none absolute bottom-10 right-10 h-[400px] w-[400px] rounded-full bg-purple-600/10 blur-[130px]" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0a0a0f_0%,transparent_70%)] opacity-60" />
+          <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+            <div className="absolute -top-40 left-1/4 h-[500px] w-[500px] rounded-full bg-accent/15 blur-[140px]" />
+            <div className="absolute bottom-10 right-10 h-[400px] w-[400px] rounded-full bg-purple-600/10 blur-[130px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0a0a0f_0%,transparent_70%)] opacity-60" />
+          </div>
 
           {/* Top Header Bar inside Drawer */}
           <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5 shrink-0 border-b border-border-default sticky top-0 bg-background/85 backdrop-blur-xl z-20 shadow-linear-card">
-            <div className="flex items-center gap-3">
-              <Link 
-                to="/" 
-                onClick={onClose}
-                className="transition-transform active:scale-95 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50" 
-                aria-label="CatalystLab Home"
-              >
-                <BrandLogo size="md" />
-              </Link>
-
-              <div className="hidden sm:flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-2.5 py-1 text-[11px] font-mono text-accent-bright">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-accent shadow-[0_0_8px_rgba(94,106,210,0.8)]" />
-                </span>
-                <span>Edge Telemetry Active</span>
-              </div>
+            {/* User Profile / Login Link */}
+            <div className="flex items-center">
+              {user ? (
+                <Link to="/admin" onClick={onClose} className="flex items-center gap-2.5 rounded-lg p-1 hover:bg-white/[0.04] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50">
+                  <div className="size-8 rounded-full overflow-hidden bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
+                    {user.photoURL ? (
+                      <img src={user.photoURL} alt={user.displayName || 'User profile'} className="size-full object-cover" referrerPolicy="no-referrer" />
+                    ) : (
+                      <span className="text-sm font-bold text-accent-bright">{user.email?.charAt(0).toUpperCase() || 'U'}</span>
+                    )}
+                  </div>
+                  <div className="flex flex-col text-left max-w-[140px] hidden sm:flex">
+                    <span className="text-sm font-semibold text-foreground truncate">{user.displayName || 'Platform User'}</span>
+                    <span className="text-[10px] text-foreground-muted truncate">{user.email}</span>
+                  </div>
+                </Link>
+              ) : (
+                <Link 
+                  to="/login" 
+                  onClick={onClose}
+                  className="flex items-center gap-2 rounded-full border border-border-default bg-card/60 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-card-hover hover:border-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50" 
+                >
+                  <div className="size-5 rounded-full bg-white/[0.08] flex items-center justify-center shrink-0">
+                    <UserPlus className="size-3 text-foreground-muted" />
+                  </div>
+                  Sign In
+                </Link>
+              )}
             </div>
 
             <div className="flex items-center gap-2.5 sm:gap-3">
@@ -246,7 +484,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
               {/* Close Button with high contrast and accessible touch area */}
               <button
                 onClick={onClose}
-                className="group flex size-10 items-center justify-center rounded-full border border-border-default bg-card/90 text-foreground transition-all duration-200 hover:bg-card-hover hover:border-accent/40 active:scale-95 cursor-pointer shadow-linear-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+                className="group flex size-11 items-center justify-center rounded-full border border-border-default bg-card/90 text-foreground transition-all duration-200 hover:bg-card-hover hover:border-accent/40 active:scale-95 cursor-pointer shadow-linear-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
                 aria-label="Close navigation menu"
               >
                 <X className="size-5 text-foreground-muted group-hover:text-foreground group-hover:rotate-90 transition-all duration-300" />
@@ -259,15 +497,15 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             
             {/* Dedicated High-Contrast Mobile Search Bar inside Drawer */}
             <div className="mb-6 w-full max-w-2xl">
-              <div className="relative flex items-center rounded-2xl border border-border-default bg-card/90 backdrop-blur-xl px-3.5 py-2.5 shadow-linear-card focus-within:border-accent/60 focus-within:ring-2 focus-within:ring-accent/20 transition-all">
-                <Search className="size-4.5 text-accent-bright shrink-0 mr-3" />
+              <div className="relative flex items-center rounded-2xl border border-border-default bg-card/90 backdrop-blur-xl px-3 py-1.5 shadow-linear-card focus-within:border-accent/60 focus-within:ring-2 focus-within:ring-accent/20 transition-all">
+                <Search className="size-4 text-accent-bright shrink-0 mr-2.5" />
                 <input
                   ref={searchInputRef}
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search 8 diagnostic engines, documentation, APIs, and tools..."
-                  className="w-full bg-transparent text-[13px] sm:text-sm text-foreground placeholder:text-foreground-muted/60 focus:outline-none font-mono"
+                  placeholder="Search diagnostic engines and tools..."
+                  className="w-full bg-transparent text-xs sm:text-[13px] text-foreground placeholder:text-foreground-muted/60 focus:outline-none font-mono"
                   aria-label="Search navigation and engines"
                 />
                 {searchQuery && (
@@ -369,413 +607,26 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
               </div>
             ) : null}
 
-            {/* Standard Navigation Columns Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-              
-              {/* Primary Structured Navigation Menu (Left Column) */}
-              <div className="lg:col-span-7 flex flex-col space-y-3">
-                <nav className="mobile-nav-links flex flex-col space-y-2.5" aria-label="Main Menu">
-                  
-                  {/* 1. Home */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.18, delay: 0.04 }}
-                  >
-                    <Link
-                      to="/"
-                      onClick={onClose}
-                      className={cn(
-                        'group flex items-center justify-between rounded-xl px-3.5 py-2.5 transition-all duration-200 border',
-                        isCurrentActive('/')
-                          ? 'border-accent/40 bg-accent/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]'
-                          : 'border-transparent hover:border-border-default hover:bg-white/[0.04]'
-                      )}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={cn(
-                          'size-8.5 rounded-lg border flex items-center justify-center transition-colors',
-                          isCurrentActive('/')
-                            ? 'border-accent/40 bg-accent/20 text-accent-bright'
-                            : 'border-border-default bg-white/[0.03] text-foreground-muted group-hover:text-foreground group-hover:border-accent/30'
-                        )}>
-                          <Home className="size-4" />
-                        </div>
-                        <span className={cn(
-                          'text-base sm:text-lg font-semibold tracking-tight transition-colors',
-                          isCurrentActive('/') ? 'text-foreground' : 'text-foreground-muted group-hover:text-foreground'
-                        )}>
-                          Home
-                        </span>
-                      </div>
-                      <ChevronRight className="size-4 text-foreground-muted/40 group-hover:text-foreground-muted group-hover:translate-x-1 transition-all" />
-                    </Link>
-                  </motion.div>
-
-                  {/* 2. Services & Architecture Accordion */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.18, delay: 0.08 }}
-                    className="flex flex-col rounded-xl border border-border-default bg-card/40 p-2 overflow-hidden"
-                  >
-                    <div className="flex items-center justify-between px-2 py-1">
-                      <div className="flex items-center gap-3">
-                        <div className={cn(
-                          'size-8.5 rounded-lg border flex items-center justify-center transition-colors',
-                          isServicesActive
-                            ? 'border-accent/40 bg-accent/20 text-accent-bright'
-                            : 'border-border-default bg-white/[0.03] text-foreground-muted'
-                        )}>
-                          <Layers className="size-4" />
-                        </div>
-                        <span className="text-base sm:text-lg font-semibold tracking-tight text-foreground">
-                          Services &amp; Platform
-                        </span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setExpandedServices(!expandedServices)}
-                        className="p-1.5 rounded-lg text-foreground-muted hover:text-foreground hover:bg-white/[0.06] transition-colors cursor-pointer"
-                        aria-label="Toggle Services sub-menu"
-                      >
-                        <ChevronDown className={cn('size-4.5 transition-transform duration-200', expandedServices && 'rotate-180 text-accent-bright')} />
-                      </button>
-                    </div>
-
-                    <AnimatePresence>
-                      {expandedServices && (
-                        <motion.div 
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                          className="flex flex-col space-y-1 pt-1.5 overflow-hidden"
-                        >
-                          <Link
-                            to="/pricing"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/pricing')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <CreditCard className="size-3.5 text-accent-bright" />
-                              <span className="font-medium">Pricing &amp; Plans</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-border-default bg-white/[0.04] text-foreground-muted">
-                              RFC 2026
-                            </span>
-                          </Link>
-
-                          <Link
-                            to="/products"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/products')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <Radio className="size-3.5 text-emerald-400" />
-                              <span className="font-medium">Products &amp; Watchdog</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
-                              Continuous
-                            </span>
-                          </Link>
-
-                          <Link
-                            to="/dashboard/webhooks"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/dashboard/webhooks')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <GitBranch className="size-3.5 text-indigo-400" />
-                              <span className="font-medium">GitHub CI/CD Webhooks</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-border-default bg-white/[0.04] text-foreground-muted">
-                              Real-time
-                            </span>
-                          </Link>
-
-                          <Link
-                            to="/compare"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/compare')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <Scale className="size-3.5 text-amber-400" />
-                              <span className="font-medium">Side-by-Side Domain Compare</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-border-default bg-white/[0.04] text-foreground-muted">
-                              Dual Radar
-                            </span>
-                          </Link>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-
-                  {/* 3. Resources Accordion */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.18, delay: 0.12 }}
-                    className="flex flex-col rounded-xl border border-border-default bg-card/40 p-2 overflow-hidden"
-                  >
-                    <div className="flex items-center justify-between px-2 py-1">
-                      <div className="flex items-center gap-3">
-                        <div className={cn(
-                          'size-8.5 rounded-lg border flex items-center justify-center transition-colors',
-                          isResourcesActive
-                            ? 'border-accent/40 bg-accent/20 text-accent-bright'
-                            : 'border-border-default bg-white/[0.03] text-foreground-muted'
-                        )}>
-                          <BookOpen className="size-4" />
-                        </div>
-                        <span className="text-base sm:text-lg font-semibold tracking-tight text-foreground">
-                          Resources &amp; Developer APIs
-                        </span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setExpandedResources(!expandedResources)}
-                        className="p-1.5 rounded-lg text-foreground-muted hover:text-foreground hover:bg-white/[0.06] transition-colors cursor-pointer"
-                        aria-label="Toggle Resources sub-menu"
-                      >
-                        <ChevronDown className={cn('size-4.5 transition-transform duration-200', expandedResources && 'rotate-180 text-accent-bright')} />
-                      </button>
-                    </div>
-
-                    <AnimatePresence>
-                      {expandedResources && (
-                        <motion.div 
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                          className="flex flex-col space-y-1 pt-1.5 overflow-hidden"
-                        >
-                          <Link
-                            to="/docs"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/docs')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <BookOpen className="size-3.5 text-accent-bright" />
-                              <span className="font-medium">Documentation &amp; Architecture</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-border-default bg-white/[0.04] text-foreground-muted">
-                              14 Modules
-                            </span>
-                          </Link>
-
-                          <Link
-                            to="/api-docs"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/api-docs')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <Code2 className="size-3.5 text-purple-400" />
-                              <span className="font-medium">REST API Reference</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-purple-500/30 bg-purple-500/10 text-purple-400">
-                              v2.4
-                            </span>
-                          </Link>
-
-                          <Link
-                            to="/playground"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/playground')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <Terminal className="size-3.5 text-cyan-400" />
-                              <span className="font-medium">Interactive Playground</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-border-default bg-white/[0.04] text-foreground-muted">
-                              Sandbox
-                            </span>
-                          </Link>
-
-                          <Link
-                            to="/blogs"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/blogs')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <FileText className="size-3.5 text-emerald-400" />
-                              <span className="font-medium">Engineering Blogs</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-border-default bg-white/[0.04] text-foreground-muted">
-                              Articles
-                            </span>
-                          </Link>
-
-                          <Link
-                            to="/methodology"
-                            onClick={onClose}
-                            className={cn(
-                              'group flex items-center justify-between rounded-lg px-3 py-2 text-[13px] transition-all',
-                              isCurrentActive('/methodology')
-                                ? 'bg-accent/15 text-accent-bright font-medium'
-                                : 'text-foreground-muted hover:text-foreground hover:bg-white/[0.05]'
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5">
-                              <Compass className="size-3.5 text-indigo-400" />
-                              <span className="font-medium">Audit Methodology</span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-border-default bg-white/[0.04] text-foreground-muted">
-                              Weights
-                            </span>
-                          </Link>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-
-                  {/* 4. About Us */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.18, delay: 0.16 }}
-                  >
-                    <Link
-                      to="/about"
-                      onClick={onClose}
-                      className={cn(
-                        'group flex items-center justify-between rounded-xl px-3.5 py-2.5 transition-all duration-200 border',
-                        isCurrentActive('/about')
-                          ? 'border-accent/40 bg-accent/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]'
-                          : 'border-transparent hover:border-border-default hover:bg-white/[0.04]'
-                      )}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={cn(
-                          'size-8.5 rounded-lg border flex items-center justify-center transition-colors',
-                          isCurrentActive('/about')
-                            ? 'border-accent/40 bg-accent/20 text-accent-bright'
-                            : 'border-border-default bg-white/[0.03] text-foreground-muted group-hover:text-foreground group-hover:border-accent/30'
-                        )}>
-                          <Info className="size-4" />
-                        </div>
-                        <span className={cn(
-                          'text-base sm:text-lg font-semibold tracking-tight transition-colors',
-                          isCurrentActive('/about') ? 'text-foreground' : 'text-foreground-muted group-hover:text-foreground'
-                        )}>
-                          About Us
-                        </span>
-                      </div>
-                      <ChevronRight className="size-4 text-foreground-muted/40 group-hover:text-foreground-muted group-hover:translate-x-1 transition-all" />
-                    </Link>
-                  </motion.div>
-
-                  {/* 5. Contact */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.18, delay: 0.2 }}
-                  >
-                    <Link
-                      to="/contact"
-                      onClick={onClose}
-                      className={cn(
-                        'group flex items-center justify-between rounded-xl px-3.5 py-2.5 transition-all duration-200 border',
-                        isCurrentActive('/contact')
-                          ? 'border-accent/40 bg-accent/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]'
-                          : 'border-transparent hover:border-border-default hover:bg-white/[0.04]'
-                      )}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={cn(
-                          'size-8.5 rounded-lg border flex items-center justify-center transition-colors',
-                          isCurrentActive('/contact')
-                            ? 'border-accent/40 bg-accent/20 text-accent-bright'
-                            : 'border-border-default bg-white/[0.03] text-foreground-muted group-hover:text-foreground group-hover:border-accent/30'
-                        )}>
-                          <Mail className="size-4" />
-                        </div>
-                        <span className={cn(
-                          'text-base sm:text-lg font-semibold tracking-tight transition-colors',
-                          isCurrentActive('/contact') ? 'text-foreground' : 'text-foreground-muted group-hover:text-foreground'
-                        )}>
-                          Contact
-                        </span>
-                      </div>
-                      <ChevronRight className="size-4 text-foreground-muted/40 group-hover:text-foreground-muted group-hover:translate-x-1 transition-all" />
-                    </Link>
-                  </motion.div>
-
-                  {/* 6. Admin (Conditional) */}
-                  {hasPermission('page:view_admin') && (
+            <div className="flex flex-col space-y-4">
+              <nav className="mobile-nav-links flex flex-col space-y-2" aria-label="Main Menu">
+                  {MAIN_MENU_DATA.map((item, index) => (
                     <motion.div
+                      key={index}
                       initial={{ opacity: 0, x: -8 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.18, delay: 0.24 }}
+                      transition={{ duration: 0.18, delay: 0.04 + index * 0.04 }}
                     >
-                      <Link
-                        to="/admin"
-                        onClick={onClose}
-                        className={cn(
-                          'group flex items-center justify-between rounded-xl px-3.5 py-2.5 transition-all duration-200 border',
-                          isCurrentActive('/admin')
-                            ? 'border-accent/40 bg-accent/10'
-                            : 'border-transparent hover:border-border-default hover:bg-white/[0.04]'
-                        )}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="size-8.5 rounded-lg border border-accent/40 bg-accent/20 text-accent-bright flex items-center justify-center">
-                            <ShieldCheck className="size-4" />
-                          </div>
-                          <span className="text-base sm:text-lg font-semibold tracking-tight text-accent-bright">
-                            Admin Console
-                          </span>
-                        </div>
-                        <ChevronRight className="size-4 text-accent-bright" />
-                      </Link>
+                      <CollapsibleMenuItem
+                        item={item}
+                        currentPath={location.pathname}
+                        onClose={onClose}
+                        hasPermission={hasPermission}
+                      />
                     </motion.div>
-                  )}
-
+                  ))}
                 </nav>
 
-                {/* Mobile Direct Audit Launch Banner */}
+              {/* Mobile Direct Audit Launch Banner */}
                 <div className="pt-2">
                   <Link
                     to="/launch-audit"
@@ -795,180 +646,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                     <ArrowRight className="size-4.5 text-white/80 group-hover/launch:translate-x-1 transition-transform" />
                   </Link>
                 </div>
-
-              </div>
-
-              {/* Secondary Telemetry & Engine Hub Card (Right Column) */}
-              <div className="lg:col-span-5 flex flex-col space-y-4 rounded-2xl border border-border-default bg-card/90 backdrop-blur-xl p-4 sm:p-5 shadow-linear-card font-mono relative overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-                
-                {/* 8 Diagnostic Engines Grid */}
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <span className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
-                      <span className="relative flex size-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                        <span className="relative inline-flex size-2 rounded-full bg-accent" />
-                      </span>
-                      <span>8 Diagnostic Engines</span>
-                    </span>
-                    <Link 
-                      to="/docs" 
-                      onClick={onClose}
-                      className="text-[11px] font-semibold text-accent-bright hover:underline transition-colors flex items-center gap-1"
-                    >
-                      <span>Architecture</span>
-                      <ArrowRight className="size-3" />
-                    </Link>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    {engines.map((eng) => {
-                      const Icon = eng.icon;
-                      return (
-                        <Link
-                          key={eng.name}
-                          to={eng.path}
-                          onClick={onClose}
-                          className="group flex flex-col justify-between rounded-xl border border-border-default bg-white/[0.02] p-2.5 transition-all duration-150 hover:border-accent/40 hover:bg-white/[0.06] hover:shadow-2xs"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <Icon className="size-3.5 text-accent-bright shrink-0 group-hover:scale-110 transition-transform" />
-                            <span className="truncate text-xs font-medium text-foreground">{eng.name}</span>
-                          </div>
-                          <span className="text-[10px] text-foreground-muted truncate font-normal">
-                            {eng.sub}
-                          </span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Quick Tools & Insights */}
-                <div className="border-t border-border-default pt-3.5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-foreground-muted block mb-2">
-                    Platform Tools
-                  </span>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <Link
-                      to="/compare"
-                      onClick={onClose}
-                      className="flex items-center gap-2 rounded-xl border border-border-default bg-white/[0.02] p-2 text-foreground hover:border-accent/40 hover:bg-white/[0.05] transition-all font-medium"
-                    >
-                      <Scale className="size-3.5 text-accent-bright shrink-0" />
-                      <span className="truncate">Side-by-Side</span>
-                    </Link>
-
-                    <Link
-                      to="/reports"
-                      onClick={onClose}
-                      className="flex items-center gap-2 rounded-xl border border-border-default bg-white/[0.02] p-2 text-foreground hover:border-accent/40 hover:bg-white/[0.05] transition-all font-medium"
-                    >
-                      <FileText className="size-3.5 text-emerald-400 shrink-0" />
-                      <span className="truncate">Saved Audits</span>
-                    </Link>
-
-                    <Link
-                      to="/products"
-                      onClick={onClose}
-                      className="flex items-center gap-2 rounded-xl border border-border-default bg-white/[0.02] p-2 text-foreground hover:border-accent/40 hover:bg-white/[0.05] transition-all font-medium"
-                    >
-                      <Radio className="size-3.5 text-rose-400 shrink-0" />
-                      <span className="truncate">Watchdog Hub</span>
-                    </Link>
-
-                    <Link
-                      to="/dashboard"
-                      onClick={onClose}
-                      className="flex items-center gap-2 rounded-xl border border-border-default bg-white/[0.02] p-2 text-foreground hover:border-accent/40 hover:bg-white/[0.05] transition-all font-medium"
-                    >
-                      <LayoutDashboard className="size-3.5 text-accent-bright shrink-0" />
-                      <span className="truncate">Dashboard</span>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* User Account / Auth Status in Menu */}
-                <div className="border-t border-border-default pt-3.5">
-                  {user ? (
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/[0.03] border border-border-default rounded-xl p-3 shadow-2xs">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        {user.photoURL ? (
-                          <img 
-                            src={user.photoURL} 
-                            alt="User profile avatar" 
-                            className="size-8 rounded-lg object-cover border border-border-default shrink-0" 
-                          />
-                        ) : (
-                          <div className="flex size-8 items-center justify-center rounded-lg bg-accent/20 border border-accent/30 text-xs font-bold text-accent-bright shrink-0">
-                            {(user.displayName || user.email || 'U')[0].toUpperCase()}
-                          </div>
-                        )}
-                        <div className="min-w-0">
-                          <div className="text-xs font-bold text-foreground truncate flex items-center gap-1.5">
-                            <span className="truncate">{user.displayName || user.email?.split('@')[0]}</span>
-                            <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border uppercase ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
-                              {roleConfig.shortLabel}
-                            </span>
-                          </div>
-                          <div className="text-[10px] text-foreground-muted truncate">
-                            {user.email}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 shrink-0">
-                        {hasPermission('page:view_admin') && (
-                          <Link
-                            to="/admin"
-                            onClick={onClose}
-                            className="flex items-center gap-1 rounded-lg border border-border-default bg-card px-2.5 py-1.5 text-xs font-bold text-foreground hover:bg-card-hover transition-colors"
-                          >
-                            <ShieldCheck className="size-3 text-accent-bright" />
-                            <span>Admin</span>
-                          </Link>
-                        )}
-                        <button
-                          onClick={() => {
-                            logout();
-                            onClose();
-                          }}
-                          className="flex items-center gap-1 rounded-lg border border-rose-500/30 bg-rose-500/10 px-2.5 py-1.5 text-xs font-semibold text-rose-400 hover:bg-rose-500/20 transition-colors cursor-pointer"
-                          title="Sign Out"
-                        >
-                          <LogOut className="size-3" />
-                          <span>Sign Out</span>
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col sm:flex-row items-center gap-2">
-                      <Link
-                        to="/login"
-                        onClick={onClose}
-                        className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-card border border-border-default py-2 text-xs font-medium text-foreground hover:bg-card-hover hover:border-accent/40 transition-all shadow-linear-card"
-                      >
-                        <LogIn className="size-3.5 text-foreground-muted" />
-                        <span>Sign In</span>
-                      </Link>
-                      <Link
-                        to="/signup"
-                        onClick={onClose}
-                        className="flex flex-1 w-full items-center justify-center gap-1.5 rounded-xl bg-accent hover:bg-accent-bright text-white py-2 text-xs font-medium shadow-linear-cta transition-all"
-                      >
-                        <UserPlus className="size-3.5" />
-                        <span>Create Account</span>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-
-              </div>
-
             </div>
           </div>
-
           {/* Bottom Footer Bar inside Overlay */}
           <div className="relative mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-border-default px-6 py-4 text-xs font-mono text-foreground-muted sm:px-8 gap-3 shrink-0 mt-auto bg-background/60">
             <div className="flex items-center gap-4 flex-wrap">
@@ -985,6 +664,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             </div>
           </div>
         </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );

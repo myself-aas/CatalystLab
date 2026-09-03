@@ -6,13 +6,6 @@ import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 export const SynthShiftDoc: React.FC = () => {
   const [copiedPrompt, setCopiedPrompt] = useState(false);
 
-  const toc = [
-    { id: 'synthshift-overview', title: 'Phase 1: SynthShift Overview' },
-    { id: 'nosql-schema', title: 'MongoDB Atlas NoSQL Schema' },
-    { id: 'compound-indexes', title: 'Compound Indexes & Capacity' },
-    { id: 'master-prompt', title: 'Google AI Studio Master Prompt' },
-  ];
-
   const masterPromptText = `You are a Principal Software Architect. Design a production-grade system migration plan from a legacy monolithic stack to a modern serverless hybrid architecture utilizing:
 1. Google Cloud Firebase Authentication (Client-side token exchange)
 2. Node.js Express API Ingress + Python Engine micro-workers
@@ -27,7 +20,6 @@ Please provide the exact collection schemas, indexing commands, and zero-downtim
       title="1. SynthShift (SDLC Phase 1) — Platform Migration Blueprint"
       description="System design blueprint, database schemas, MongoDB Atlas indexes, and pre-aggregated capacity tracking for modern full-stack migrations."
       canonicalPath="/docs/synthshift"
-      toc={toc}
     >
       <section id="synthshift-overview" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50 px-3 py-0.5 text-xs font-semibold text-orange-800">

@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { errorMessage } from '../../lib/utils';
 import { logger } from '../../lib/logger';
+import { SkeletonTable } from '../skeleton';
 
 export const UserBlogManagementView: React.FC = () => {
   const { user } = useAuth();
@@ -158,11 +159,7 @@ export const UserBlogManagementView: React.FC = () => {
       {/* Articles List */}
       <div className="space-y-3">
         {loading ? (
-          <div className="py-16 text-center text-muted-foreground text-sm flex flex-col items-center justify-center">
-            <RefreshCw className="h-7 w-7 animate-spin text-foreground mb-3" />
-            <div className="font-semibold text-foreground">Loading Articles...</div>
-            <div className="text-xs text-muted-foreground mt-1">Fetching your published research dossier.</div>
-          </div>
+          <SkeletonTable rows={4} columns={4} />
         ) : filteredPosts.length === 0 ? (
           <div className="py-16 text-center text-muted-foreground rounded-2xl border border-dashed border-border bg-background p-8 shadow-xs">
             <BookOpen className="mx-auto h-10 w-10 text-muted-foreground mb-3" />

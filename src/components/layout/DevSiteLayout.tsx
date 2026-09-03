@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 
 export interface SiteNavItem {
   id: string;
@@ -58,29 +58,14 @@ export const SITE_NAVIGATION: SiteNavGroup[] = [
   },
 ];
 
-interface TocItem {
-  id: string;
-  title: string;
-}
-
 interface DevSiteLayoutProps {
   children: React.ReactNode;
 }
 
-const slugify = (value: string, index: number) => {
-  const base = value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-    .slice(0, 48);
-  return base || `section-${index}`;
-};
-
 export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
   const location = useLocation();
-  const articleRef = React.useRef<HTMLDivElement>(null);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-      const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(SITE_NAVIGATION.map((g) => [g.group, true]))
   );
 
@@ -88,22 +73,12 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
 
   useEffect(() => {
     setMobileNavOpen(false);
-    
   }, [location.pathname]);
 
-  
-  
   const isCurrent = (path: string) => {
     if (path === '/') return currentPath === '/' || currentPath === '/index.html';
     return currentPath === path || currentPath.startsWith(`${path}/`);
   };
-
-  const related = useMemo(() => {
-    const all = SITE_NAVIGATION.flatMap((g) => g.items);
-    const idx = all.findIndex((item) => isCurrent(item.path) && item.path !== '/');
-    if (idx < 0) return all.filter((item) => item.path !== currentPath).slice(0, 5);
-    return [all[idx - 1], all[idx + 1], all[idx + 2]].filter(Boolean) as SiteNavItem[];
-  }, [currentPath]);
 
   
   const NavTree = (
@@ -189,10 +164,10 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
         <div className="min-w-0 flex-1">
 
           <div className="flex">
-            <div ref={articleRef} className="devsite-article min-w-0 flex-1 px-4 py-6 sm:px-8 lg:px-10 xl:max-w-[960px]">
+            <div className={`min-w-0 flex-1 ${currentPath === '/' ? 'p-0 max-w-none' : 'devsite-article px-4 py-6 sm:px-8 lg:px-10 xl:max-w-[960px]'}`}>
               {children}
             </div>
-                      </div>
+          </div>
         </div>
       </div>
     </div>

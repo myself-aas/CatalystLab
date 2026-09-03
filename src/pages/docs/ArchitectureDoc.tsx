@@ -4,19 +4,11 @@ import { Layers, Server, Cpu, Database, Activity, Code, ShieldCheck } from 'luci
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const ArchitectureDoc: React.FC = () => {
-  const toc = [
-    { id: 'stack-layers', title: 'Layered Architecture' },
-    { id: 'ingress-gateway', title: 'Node.js Ingress Gateway' },
-    { id: 'engine-workers', title: 'Python & Native AST Workers' },
-    { id: 'persistence-layer', title: 'Firestore Persistence & Permalinks' },
-  ];
-
   return (
     <DocsLayout
       title="Full-Stack Architecture"
       description="In-depth analysis of CatalystLab's high-concurrency Node.js Express server, sandboxed Python workers, AST Cheerio parsers, and Firestore cloud storage."
       canonicalPath="/docs/architecture"
-      toc={toc}
     >
       <section id="stack-layers" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50 px-3 py-0.5 text-xs font-semibold text-purple-800">

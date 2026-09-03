@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { logger } from '../lib/logger';
+import { ReportPermalinkSkeleton } from '../components/skeleton';
 
 export const ReportPermalinkPage: React.FC = () => {
   const { id: paramId } = useParams<{ id: string }>();
@@ -86,14 +87,7 @@ export const ReportPermalinkPage: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-amber-500" />
-          <span className="text-xs text-muted-foreground font-mono">Retrieving immutable audit dossier from Firestore...</span>
-        </div>
-      </div>
-    );
+    return <ReportPermalinkSkeleton />;
   }
 
   if (error || !report) {

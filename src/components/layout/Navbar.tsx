@@ -162,11 +162,13 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
     <>
       <header
         className={cn(
-          'sticky top-0 z-50 border-b border-[#dadce0] bg-white dark:border-white/10 dark:bg-[#202124]',
-          isScrolled && 'shadow-[0_1px_2px_rgba(60,64,67,0.15)]'
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          isScrolled
+            ? 'border-b border-[#dadce0]/80 bg-white/80 backdrop-blur-md shadow-[0_1px_3px_rgba(60,64,67,0.1)] dark:border-white/10 dark:bg-[#202124]/80'
+            : 'border-b border-transparent bg-transparent'
         )}
       >
-        <div className="mx-auto flex h-16 min-h-12 max-w-[1600px] items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="w-full flex h-16 min-h-12 items-center justify-between gap-4 px-4 sm:px-8 lg:px-12">
 
           <Link
             to="/"
@@ -307,7 +309,7 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
                   setMenuOverlayOpen(true);
                 }
               }}
-              className="inline-flex size-9 items-center justify-center rounded-full text-[#5f6368] transition-colors hover:bg-[#f1f3f4] lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/50 dark:text-[#9aa0a6] dark:hover:bg-white/5"
+              className="inline-flex size-11 items-center justify-center rounded-full text-[#5f6368] transition-colors hover:bg-[#f1f3f4] lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/50 dark:text-[#9aa0a6] dark:hover:bg-white/5 active:scale-95"
               aria-label="Open navigation menu"
             >
               <Menu className="size-5" />

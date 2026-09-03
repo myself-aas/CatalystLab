@@ -46,9 +46,9 @@ export const PricingPage: React.FC = () => {
         description="Transparent diagnostic tiers from community scans to enterprise air-gapped runners."
       />
 
-      <section className="relative overflow-hidden px-4 pb-8 pt-16 sm:px-6 sm:pt-24 lg:px-8">
+      <section className="relative overflow-hidden pb-8 pt-16 sm:pt-24 w-full">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[380px] w-[720px] -translate-x-1/2 rounded-full bg-[#5E6AD2]/15 blur-[140px]" />
-        <div className="relative z-10 mx-auto max-w-3xl text-center">
+        <div className="relative z-10 w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-[#6872D9]">
             <CreditCard className="size-3.5 text-[#5E6AD2]" />
             <span>Compute units, not seats-first</span>

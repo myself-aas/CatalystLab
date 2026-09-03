@@ -3,19 +3,11 @@ import { ShieldCheck, CheckCircle2, AlertTriangle, Lock, Server } from 'lucide-r
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 
 export const SecurityDoc: React.FC = () => {
-  const toc = [
-    { id: 'zero-trust-model', title: 'Zero-Trust Sandbox Model' },
-    { id: 'ssrf-protection', title: 'SSRF & Address Verification' },
-    { id: 'command-injection', title: 'Shell Escape Sanitization' },
-    { id: 'owasp-hardening', title: 'OWASP Security Headers' },
-  ];
-
   return (
     <DocsLayout
       title="Zero-Trust Probe Sandbox & Security"
       description="SSRF mitigation, CLI injection protection, memory buffer limits, and OWASP response header hardening."
       canonicalPath="/docs/security-sandbox"
-      toc={toc}
     >
       <section id="zero-trust-model" className="space-y-4">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-0.5 text-xs font-semibold text-emerald-800">

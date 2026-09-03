@@ -17,6 +17,7 @@ import {
 import { getContactInquiriesForAdmin } from '../../lib/firebase';
 import type { ContactInquiry } from '../../types';
 import { logger } from '../../lib/logger';
+import { SkeletonTable } from '../skeleton';
 
 export const ContactInquiriesAdminView: React.FC = () => {
   const [inquiries, setInquiries] = useState<ContactInquiry[]>([]);
@@ -152,81 +153,76 @@ export const ContactInquiriesAdminView: React.FC = () => {
       </div>
 
       {/* Inquiries Table / List */}
-      <div className="rounded-2xl border border-border bg-background shadow-xs overflow-hidden">
-        {loading ? (
-          <div className="py-16 text-center text-muted-foreground font-mono text-xs">
-            <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2 text-muted-foreground" />
-            <span>Fetching submissions from database...</span>
-          </div>
-        ) : filteredInquiries.length === 0 ? (
-          <div className="py-16 text-center text-muted-foreground font-mono text-xs space-y-2">
-            <Inbox className="h-8 w-8 mx-auto text-muted-foreground" />
-            <div className="text-sm font-semibold text-muted-foreground">No contact inquiries found</div>
-            <p className="text-muted-foreground max-w-sm mx-auto">
-              New submissions via the Get in Touch section and pop-up modal will appear here in real-time.
-            </p>
-          </div>
-        ) : (
-          <div className="divide-y divide-gray-100">
-            {filteredInquiries.map((item) => (
-              <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-2.5">
-                    <span className="font-mono text-sm font-bold text-foreground">{item.email}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy(item.email, item.id || String(item.createdAt))}
-                      className="p-1 rounded-md text-muted-foreground hover:text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      title="Copy email"
-                    >
-                      {copiedId === (item.id || String(item.createdAt)) ? (
-                        <Check className="h-3.5 w-3.5 text-emerald-600" />
-                      ) : (
-                        <Copy className="h-3.5 w-3.5" />
-                      )}
-                    </button>
-                    {item.source && (
-                      <span className="rounded-md bg-accent px-2 py-0.5 text-[10px] font-mono text-muted-foreground border border-border">
-                        {item.source}
-                      </span>
+      {loading ? (
+        <SkeletonTable rows={5} columns={4} />
+      ) : filteredInquiries.length === 0 ? (
+        <div className="rounded-2xl border border-border bg-background shadow-xs overflow-hidden py-16 text-center text-muted-foreground font-mono text-xs space-y-2">
+          <Inbox className="h-8 w-8 mx-auto text-muted-foreground" />
+          <div className="text-sm font-semibold text-muted-foreground">No contact inquiries found</div>
+          <p className="text-muted-foreground max-w-sm mx-auto">
+            New submissions via the Get in Touch section and pop-up modal will appear here in real-time.
+          </p>
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-border bg-background shadow-xs overflow-hidden divide-y divide-gray-100">
+          {filteredInquiries.map((item) => (
+            <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-2.5">
+                  <span className="font-mono text-sm font-bold text-foreground">{item.email}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(item.email, item.id || String(item.createdAt))}
+                    className="p-1 rounded-md text-muted-foreground hover:text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    title="Copy email"
+                  >
+                    {copiedId === (item.id || String(item.createdAt)) ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-600" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
                     )}
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
-                    <Clock className="h-3 w-3" />
-                    <span>{new Date(item.createdAt).toLocaleString()}</span>
-                  </div>
+                  </button>
+                  {item.source && (
+                    <span className="rounded-md bg-accent px-2 py-0.5 text-[10px] font-mono text-muted-foreground border border-border">
+                      {item.source}
+                    </span>
+                  )}
                 </div>
 
-                {/* Optional Metadata Row */}
-                {(item.name || item.company) && (
-                  <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                    {item.name && (
-                      <span className="flex items-center gap-1">
-                        <User className="h-3 w-3 text-muted-foreground" />
-                        <span className="font-medium">{item.name}</span>
-                      </span>
-                    )}
-                    {item.company && (
-                      <span className="flex items-center gap-1">
-                        <Building2 className="h-3 w-3 text-muted-foreground" />
-                        <span>{item.company}</span>
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {/* Message Content */}
-                {item.message && (
-                  <div className="mt-2.5 rounded-xl border border-border bg-muted/60 p-3 text-xs text-muted-foreground leading-relaxed font-sans">
-                    {item.message}
-                  </div>
-                )}
+                <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+                  <Clock className="h-3 w-3" />
+                  <span>{new Date(item.createdAt).toLocaleString()}</span>
+                </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+              {/* Optional Metadata Row */}
+              {(item.name || item.company) && (
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                  {item.name && (
+                    <span className="flex items-center gap-1">
+                      <User className="h-3 w-3 text-muted-foreground" />
+                      <span className="font-medium">{item.name}</span>
+                    </span>
+                  )}
+                  {item.company && (
+                    <span className="flex items-center gap-1">
+                      <Building2 className="h-3 w-3 text-muted-foreground" />
+                      <span>{item.company}</span>
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Message Content */}
+              {item.message && (
+                <div className="mt-2.5 rounded-xl border border-border bg-muted/60 p-3 text-xs text-muted-foreground leading-relaxed font-sans">
+                  {item.message}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

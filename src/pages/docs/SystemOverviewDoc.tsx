@@ -5,19 +5,11 @@ import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
 import { ParallaxSection } from '../../components/common/ParallaxSection';
 
 export const SystemOverviewDoc: React.FC = () => {
-  const toc = [
-    { id: 'overview-philosophy', title: 'Philosophy & Tenets' },
-    { id: 'zero-eval-model', title: 'Zero Client-Script Execution' },
-    { id: 'engines-summary', title: 'The 8 SDLC Catalysts' },
-    { id: 'next-steps', title: 'Next Steps & Integration' },
-  ];
-
   return (
     <DocsLayout
       title="System Overview & Philosophy"
       description="System overview, core architectural tenets, non-evaluating streaming telemetry, and the 8 automated diagnostic engines of CatalystLab."
       canonicalPath="/docs"
-      toc={toc}
     >
       {/* Hero Header */}
       <section id="overview-philosophy" className="space-y-4">
