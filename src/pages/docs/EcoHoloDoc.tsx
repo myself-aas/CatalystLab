@@ -67,9 +67,9 @@ export function calculateCarbonEmissions(bytesTransferred: number, isGreenHosted
       {/* Carbon Rating Thresholds */}
       <section id="carbon-thresholds" className="space-y-4 border-t border-border pt-8">
         <h2 className="text-2xl font-bold text-foreground">Carbon Rating Thresholds (A+ to F)</h2>
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Rating Tier</th>
                 <th className="py-2.5 px-3">Grams CO2 / Page Load</th>
@@ -77,7 +77,7 @@ export function calculateCarbonEmissions(bytesTransferred: number, isGreenHosted
                 <th className="py-2.5 px-3">Target Payload</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-bold text-emerald-700">A+ (Eco Elite)</td>
                 <td className="py-2 px-3 font-mono font-bold text-emerald-700">&le; 0.095 g</td>

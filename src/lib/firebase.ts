@@ -33,7 +33,7 @@ import {
   limit,
   onSnapshot
 } from 'firebase/firestore';
-import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry, UserSubscription, SubscriptionPlanId, GithubRepo, GithubTelemetryEvent } from '../types';
+import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry, UserSubscription, SubscriptionPlanId, GithubRepo, GithubTelemetryEvent, UserProfile } from '../types';
 import { calculateReadingTime } from '../utils/readingTime';
 
 import firebaseConfig from '../../firebase-applet-config.json';
@@ -492,6 +492,22 @@ export const getUserReports = async (): Promise<AuditReport[]> => {
   }
 };
 
+export const getAllUsers = async (): Promise<UserProfile[]> => {
+  const reports = await getAllReportsForAdmin();
+  const map = new Map<string, UserProfile>();
+  for (const report of reports) {
+    const uid = report.ownerId || report.ownerEmail || 'unknown';
+    if (map.has(uid)) continue;
+    map.set(uid, {
+      uid,
+      email: report.ownerEmail || 'unknown',
+      role: report.ownerId === 'guest' ? 'guest' : 'user',
+      displayName: report.ownerEmail?.split('@')[0],
+    });
+  }
+  return Array.from(map.values());
+};
+
 export const getAllReportsForAdmin = async (): Promise<AuditReport[]> => {
   const path = "reports";
   try {
@@ -861,11 +877,13 @@ export const deleteMonitoredSite = async (siteId: string): Promise<boolean> => {
 const LOCAL_API_KEYS_STORAGE_PREFIX = 'catalyst_api_keys_';
 
 function generateSecureApiKey(): string {
-  const chars = '0123456789abcdef';
-  let hex = '';
-  for (let i = 0; i < 32; i++) {
-    hex += chars[Math.floor(Math.random() * chars.length)];
+  const bytes = new Uint8Array(16);
+  if (typeof globalThis.crypto?.getRandomValues === 'function') {
+    globalThis.crypto.getRandomValues(bytes);
+  } else {
+    throw new Error('Secure random generator unavailable.');
   }
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
   return `cat_live_${hex}`;
 }
 

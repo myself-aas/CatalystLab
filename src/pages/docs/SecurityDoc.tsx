@@ -100,34 +100,34 @@ export const SecurityDoc: React.FC = () => {
           Every HTTP response emitted by CatalystLab carries hardened headers to prevent clickjacking, MIME-sniffing, and cross-site scripting:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2 px-3">Header Name</th>
                 <th className="py-2 px-3">Production Value</th>
                 <th className="py-2 px-3">Protection Vector</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-mono font-semibold">Strict-Transport-Security</td>
-                <td className="py-2 px-3 font-mono text-xs text-sky-700">max-age=63072000; includeSubDomains; preload</td>
+                <td className="py-2 px-3 font-mono text-xs text-[#6872D9]">max-age=63072000; includeSubDomains; preload</td>
                 <td className="py-2 px-3 text-muted-foreground">Forces HTTPS across all subdomains for 2 years</td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-mono font-semibold">X-Content-Type-Options</td>
-                <td className="py-2 px-3 font-mono text-xs text-sky-700">nosniff</td>
+                <td className="py-2 px-3 font-mono text-xs text-[#6872D9]">nosniff</td>
                 <td className="py-2 px-3 text-muted-foreground">Prevents browser MIME-type sniffing exploits</td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-mono font-semibold">X-Frame-Options</td>
-                <td className="py-2 px-3 font-mono text-xs text-sky-700">SAMEORIGIN</td>
+                <td className="py-2 px-3 font-mono text-xs text-[#6872D9]">SAMEORIGIN</td>
                 <td className="py-2 px-3 text-muted-foreground">Blocks malicious clickjacking frames</td>
               </tr>
               <tr>
                 <td className="py-2 px-3 font-mono font-semibold">Referrer-Policy</td>
-                <td className="py-2 px-3 font-mono text-xs text-sky-700">strict-origin-when-cross-origin</td>
+                <td className="py-2 px-3 font-mono text-xs text-[#6872D9]">strict-origin-when-cross-origin</td>
                 <td className="py-2 px-3 text-muted-foreground">Shields user privacy in outgoing referrers</td>
               </tr>
             </tbody>

@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
+import crypto from 'crypto';
 import { verifyHmacSha256 } from '../../src/lib/webhookSecurity';
 import { createEngineRateLimitMiddleware, SINGLE_ENGINE_COST } from '../core/rateLimit';
 import { logger } from '../core/logger';
+import { requireIdentity, isDemoUnauthAllowed } from '../core/authz';
+import { getAttachedIdentity } from '../../src/lib/serverAuth';
 
 // GitHub repository webhooks (HMAC-verified), real-time telemetry SSE,
 // connected repo management, and the dev-only synthetic event simulator.
@@ -9,7 +12,7 @@ import { logger } from '../core/logger';
 export function registerGithubRoutes(app: express.Express): void {
 
 // --- GITHUB REPOSITORY WEBHOOKS & REAL-TIME TELEMETRY ENGINE ---
-const githubSseSubscribers = new Set<Response>();
+const githubSseSubscribers = new Map<Response, string>();
 const serverConnectedRepos = new Map<string, any>([
   [
     'gh_repo_default_01',
@@ -107,10 +110,13 @@ const serverTelemetryEvents: any[] = [
 
 function broadcastGithubTelemetry(event: any) {
   const payload = `data: ${JSON.stringify(event)}\n\n`;
-  githubSseSubscribers.forEach((res) => {
+  githubSseSubscribers.forEach((uid, res) => {
+    if (uid && uid !== 'demo' && event.ownerId && event.ownerId !== uid) {
+      return;
+    }
     try {
       res.write(payload);
-    } catch (err) {
+    } catch {
       githubSseSubscribers.delete(res);
     }
   });
@@ -118,17 +124,17 @@ function broadcastGithubTelemetry(event: any) {
 
 // SSE Stream for Real-Time GitHub Telemetry Events
 app.get('/api/v1/integrations/github/events/stream', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
+  const uid = getAttachedIdentity(req)?.uid || (isDemoUnauthAllowed() ? 'demo' : '');
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders?.();
 
-  // Initial connection handshake
   res.write(`event: connected\ndata: ${JSON.stringify({ status: 'connected', timestamp: Date.now() })}\n\n`);
 
-  githubSseSubscribers.add(res);
+  githubSseSubscribers.set(res, uid);
 
-  // Heartbeat ping every 25s
   const pingInterval = setInterval(() => {
     try {
       res.write(`event: ping\ndata: ${JSON.stringify({ ping: Date.now() })}\n\n`);
@@ -189,7 +195,7 @@ const handleGithubWebhook = async (req: Request, res: Response) => {
     ? (rawBody.pull_request?.head?.ref || 'feature-branch')
     : (rawBody.ref?.replace('refs/heads/', '') || repo.defaultBranch || 'main');
 
-  const commitHash = rawBody.head_commit?.id?.substring(0, 7) || rawBody.after?.substring(0, 7) || Math.random().toString(16).substring(2, 9);
+  const commitHash = rawBody.head_commit?.id?.substring(0, 7) || rawBody.after?.substring(0, 7) || crypto.randomBytes(4).toString('hex').substring(0, 7);
   const commitMessage = rawBody.head_commit?.message || rawBody.commits?.[0]?.message || 'Auto-scan triggered via GitHub webhook';
   const commitUrl = rawBody.head_commit?.url || (rawBody.repository?.html_url ? `${rawBody.repository.html_url}/commit/${commitHash}` : undefined);
   const author = rawBody.head_commit?.author?.name || rawBody.sender?.login || rawBody.pusher?.name || 'github-actor';
@@ -308,7 +314,11 @@ function toPublicRepo(repo: { [key: string]: unknown }): { [key: string]: unknow
 
 // List connected GitHub Repositories
 app.get('/api/v1/integrations/github/repos', (req: Request, res: Response) => {
-  const repos = Array.from(serverConnectedRepos.values()).map(toPublicRepo);
+  if (!requireIdentity(req, res)) return;
+  const uid = getAttachedIdentity(req)?.uid;
+  const all = Array.from(serverConnectedRepos.values());
+  const scoped = uid ? all.filter((r) => r.ownerId === uid) : (isDemoUnauthAllowed() ? all : []);
+  const repos = scoped.map(toPublicRepo);
   res.json({
     success: true,
     count: repos.length,
@@ -318,6 +328,7 @@ app.get('/api/v1/integrations/github/repos', (req: Request, res: Response) => {
 
 // Connect a new GitHub Repository
 app.post('/api/v1/integrations/github/repos', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { repoUrl, name, defaultBranch = 'main', autoScanEngines } = req.body;
   if (!repoUrl && !name) {
     res.status(400).json({ success: false, error: 'Repository URL or name is required.' });
@@ -326,7 +337,7 @@ app.post('/api/v1/integrations/github/repos', (req: Request, res: Response) => {
 
   const repoName = name || repoUrl.replace('https://github.com/', '').replace('.git', '');
   const repoId = `gh_repo_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-  const randomSecret = 'cat_whsec_' + Math.random().toString(16).substring(2, 14) + Math.random().toString(16).substring(2, 10);
+  const randomSecret = 'cat_whsec_' + crypto.randomBytes(16).toString('hex');
   const host = req.get('host') || 'localhost:3000';
   const protocol = req.protocol || 'http';
   const webhookUrl = `${protocol}://${host}/api/v1/integrations/github/webhook?repoId=${repoId}`;
@@ -338,7 +349,7 @@ app.post('/api/v1/integrations/github/repos', (req: Request, res: Response) => {
     defaultBranch,
     webhookSecret: randomSecret,
     webhookUrl,
-    ownerId: 'usr_default',
+    ownerId: getAttachedIdentity(req)?.uid || (isDemoUnauthAllowed() ? 'usr_default' : ''),
     status: 'active',
     eventsCount: 0,
     lastEventAt: null,
@@ -364,6 +375,7 @@ app.post('/api/v1/integrations/github/repos', (req: Request, res: Response) => {
 
 // Disconnect GitHub Repository
 app.delete('/api/v1/integrations/github/repos/:id', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { id } = req.params;
   if (serverConnectedRepos.has(id)) {
     serverConnectedRepos.delete(id);
@@ -391,9 +403,14 @@ app.post('/api/v1/integrations/github/repos/:id/test-payload', createEngineRateL
     res.status(404).json({ success: false, error: `Unknown repository '${id}'.` });
     return;
   }
+  const testUid = getAttachedIdentity(req)?.uid;
+  if (testUid && repo.ownerId && repo.ownerId !== testUid) {
+    res.status(403).json({ success: false, error: 'Not the repository owner.' });
+    return;
+  }
 
   const targetBranch = branch || (eventType === 'pull_request' ? 'feature/realtime-radar' : repo.defaultBranch || 'main');
-  const commitHash = Math.random().toString(16).substring(2, 9);
+  const commitHash = crypto.randomBytes(4).toString('hex').substring(0, 7);
   const simulatedScore = Math.floor(Math.random() * 8) + 91; // 91-98
   const status = simulatedScore >= 85 ? 'passed' : 'warning';
   const isPr = eventType === 'pull_request';
@@ -465,8 +482,15 @@ app.post('/api/v1/integrations/github/repos/:id/test-payload', createEngineRateL
 
 // Get GitHub Telemetry Events History
 app.get('/api/v1/integrations/github/events', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { repoId } = req.query;
+  const uid = getAttachedIdentity(req)?.uid;
   let events = serverTelemetryEvents;
+  if (uid) {
+    events = events.filter((e) => e.ownerId === uid);
+  } else if (!isDemoUnauthAllowed()) {
+    events = [];
+  }
   if (repoId) {
     events = events.filter((e) => e.repoId === repoId);
   }

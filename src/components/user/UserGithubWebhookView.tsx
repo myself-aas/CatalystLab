@@ -49,7 +49,7 @@ export const UserGithubWebhookView: React.FC = () => {
                   <GitBranch className="w-5 h-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground">{repo.owner}/{repo.name}</h4>
+                  <h4 className="font-bold text-foreground">{repo.name}</h4>
                   <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                     Active Webhook

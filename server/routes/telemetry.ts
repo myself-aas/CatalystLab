@@ -7,6 +7,7 @@ import { generateAnomalyAlertHtml, sendEmailViaMailgun, AnomalyAlertData } from 
 import { sendSlackWebhook, sendDiscordWebhook } from '../../src/lib/webhookService';
 import { telemetryEventSchema } from '../../src/lib/validation';
 import { logger } from '../core/logger';
+import { requireSuperadmin } from '../core/authz';
 
 // First-party telemetry script serving, event ingestion (ad-blocker proof
 // proxy strategy), and the zero-cost analytical query pipelines.
@@ -77,11 +78,15 @@ const handleTelemetryEvent = (req: Request, res: Response): void => {
 
   // 2. Local Zero-Cost Geo-IP Resolution (Behind Cloudflare/Vercel proxy headers)
   const rawIp = (
-    (req.headers['cf-connecting-ip'] as string) ||
-    (req.headers['x-forwarded-for'] as string) ||
-    (req.headers['x-real-ip'] as string) ||
-    req.socket.remoteAddress ||
-    ''
+    process.env.TRUST_PROXY === 'true'
+      ? (
+          (req.headers['cf-connecting-ip'] as string) ||
+          (req.headers['x-forwarded-for'] as string) ||
+          (req.headers['x-real-ip'] as string) ||
+          req.socket.remoteAddress ||
+          ''
+        )
+      : (req.socket.remoteAddress || '')
   ).split(',')[0].trim();
 
   const geo = geoip.lookup(rawIp);
@@ -215,6 +220,9 @@ app.post('/api/analytics/anomalies/check', async (req: Request, res: Response): 
     const result = await detectTrafficAnomalies(domain);
 
     let notificationsDispatched = { email: false, slack: false, discord: false };
+    if (notify) {
+      if (!requireSuperadmin(req, res)) return;
+    }
 
     if (notify && result.hasAnomaly && result.type && result.type !== 'healthy') {
       const anomalyData: AnomalyAlertData = {

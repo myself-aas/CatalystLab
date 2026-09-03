@@ -25,6 +25,11 @@
   <link rel="stylesheet" href="/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="/firebase-bundle.js"></script>
+  <script>
+window.CLEscape=window.CLEscape||function(s){return String(s==null?'':s).replace(/[&<>"'`]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]);});};
+window.CLColorize=window.CLColorize||function(r){return window.CLEscape(r);};
+</script>
+<script src="/xss-guard.js"></script>
 </head>
 <body>
   <!-- Top Navigation -->
@@ -237,9 +242,12 @@
         </div>
       </section>
 
+<script src="/xss-guard.js"></script>
       <script>
         function colorizeTerminal(output) {
-          return output
+          if (window.CLColorize) return window.CLColorize(output);
+          const safe = window.CLEscape ? window.CLEscape(output) : String(output || '');
+          return safe
             .replace(/\[\+\] PASS:/g, '<span style="color: #4ade80;">[+] PASS:</span>')
             .replace(/\[-\] FAIL:/g, '<span style="color: #f87171;">[-] FAIL:</span>')
             .replace(/\[\~\] WARNING:/g, '<span style="color: #facc15;">[~] WARNING:</span>')
@@ -254,7 +262,7 @@
 
         async function runEngine(url, engine) {
           const terminal = document.getElementById(`term-${engine}`);
-          terminal.innerHTML = `[sys] Spawning ${engine} container...\n[sys] Target locked: ${url}\n[sys] Processing...`;
+          terminal.innerHTML = `[sys] Spawning ${engine} container...\n[sys] Target locked: ${window.CLEscape(url)}\n[sys] Processing...`;
           
           if (engine === 'repo' && !url.includes('github.com') && !url.includes('gitlab.com') && !url.includes('bitbucket.org')) {
               terminal.innerHTML = `<span style="color:#facc15">[~] Skipped. Repo Scanner requires a github, gitlab, or bitbucket URL.</span>`;
@@ -271,7 +279,7 @@
             if (data.success) {
               terminal.innerHTML = colorizeTerminal(data.output);
             } else {
-              terminal.innerHTML = `<span style="color:#f87171;">Error: ${data.error}</span>`;
+              terminal.innerHTML = `<span style="color:#f87171;">Error: ${window.CLEscape(data.error)}</span>`;
             }
           } catch (e) {
              terminal.innerHTML = `<span style="color:#f87171;">Network Error.</span>`;

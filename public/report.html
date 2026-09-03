@@ -139,6 +139,11 @@
     </main>
   </div>
 
+<script>
+window.CLEscape=window.CLEscape||function(s){return String(s==null?'':s).replace(/[&<>"'`]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]);});};
+window.CLColorize=window.CLColorize||function(r){return window.CLEscape(r);};
+</script>
+<script src="/xss-guard.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -241,7 +246,7 @@
         }) : 'Unknown date';
 
         document.getElementById('reportMeta').innerHTML = `
-          <strong>Target:</strong> <a href="${report.url}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${report.url}</a> &nbsp;•&nbsp;
+          <strong>Target:</strong> <a href="${window.CLEscape(report.url)}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${window.CLEscape(report.url)}</a> &nbsp;•&nbsp;
           <strong>Engine:</strong> <span style="text-transform: capitalize;">${report.engine}</span> &nbsp;•&nbsp;
           <strong>Recorded:</strong> ${dateFormatted}
         `;
@@ -255,7 +260,7 @@
         if (shareBanner) shareBanner.style.display = 'flex';
         
         // Render saved output
-        document.getElementById('terminalOutput').innerHTML = report.output;
+        document.getElementById('terminalOutput').innerHTML = (window.CLColorize ? window.CLColorize(report.output) : report.output);
         
       } catch (e) {
         console.error("Error loading report:", e);

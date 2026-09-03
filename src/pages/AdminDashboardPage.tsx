@@ -100,27 +100,28 @@ export const AdminDashboardPage: React.FC = () => {
               )}
             </div>
 
-            {/* Sandbox Quick Access Button */}
-            <div className="pt-3 border-t border-border flex flex-col sm:flex-row items-center justify-center gap-2">
+            {import.meta.env.DEV && (
+            <div className="flex flex-col items-center justify-center gap-2 border-t border-white/[0.06] pt-3 sm:flex-row">
               <button
                 onClick={() => loginWithLocalSession({
                   email: 'asifahmedshuvo.aas@gmail.com',
                   displayName: 'Asif Ahmed Shuvo (Superadmin)',
                   isAdmin: true
                 })}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-all shadow-xs cursor-pointer whitespace-nowrap"
+                className="inline-flex w-full cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-bold text-emerald-300 transition-all hover:bg-emerald-500/20 sm:w-auto"
               >
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-                <span>Activate Preview Session</span>
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                <span>Dev-only preview session</span>
               </button>
 
               <button
                 onClick={() => setShowDomainModal(true)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-all cursor-pointer whitespace-nowrap"
+                className="inline-flex w-full cursor-pointer items-center justify-center gap-1 whitespace-nowrap rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-all hover:text-foreground sm:w-auto"
               >
                 <span>Domain Auth Helper</span>
               </button>
             </div>
+            )}
           </div>
         </div>
       </div>

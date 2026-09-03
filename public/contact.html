@@ -353,6 +353,11 @@
 
   <script src="/script.js"></script>
 
+<script>
+window.CLEscape=window.CLEscape||function(s){return String(s==null?'':s).replace(/[&<>"'`]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]);});};
+window.CLColorize=window.CLColorize||function(r){return window.CLEscape(r);};
+</script>
+<script src="/xss-guard.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const loginBtn = document.getElementById('loginBtn');

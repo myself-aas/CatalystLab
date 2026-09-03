@@ -21,8 +21,8 @@ export const SystemOverviewDoc: React.FC = () => {
     >
       {/* Hero Header */}
       <section id="overview-philosophy" className="space-y-4">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50 px-3 py-0.5 text-xs font-semibold text-sky-800">
-          <span className="h-1.5 w-1.5 rounded-full bg-sky-600" />
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-0.5 text-xs font-semibold text-[#6872D9]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#5E6AD2]" />
           <span>CatalystLab Core Architecture</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
@@ -52,11 +52,11 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* Callout Note */}
       <section id="zero-eval-model" className="space-y-4">
-        <div className="rounded-xl border-l-4 border-sky-500 bg-sky-50/70 p-5 text-sm text-sky-950">
+        <div className="rounded-xl border-l-4 border-[#5E6AD2] bg-[#5E6AD2]/10 p-5 text-sm text-[#EDEDEF]">
           <div className="flex items-start gap-3">
-            <Info className="h-5 w-5 text-sky-700 shrink-0 mt-0.5" />
+            <Info className="h-5 w-5 text-[#6872D9] shrink-0 mt-0.5" />
             <div className="space-y-2">
-              <h2 className="font-bold text-sky-950 text-base">Zero Client-Script Execution Model</h2>
+              <h2 className="font-bold text-[#EDEDEF] text-base">Zero Client-Script Execution Model</h2>
               <p className="leading-relaxed">
                 Unlike traditional headless browser clusters (Puppeteer / Playwright) that load and execute unvetted client-side JavaScript—introducing security vulnerabilities, crypto-mining risks, and high memory overhead—CatalystLab utilizes high-speed non-evaluating streaming HTTP/TLS socket timing probes, Abstract Syntax Tree (AST) HTML parsers, and DNS anycast radars.
               </p>
@@ -72,7 +72,7 @@ export const SystemOverviewDoc: React.FC = () => {
       <section className="space-y-4">
         <h2 className="text-xl font-bold text-foreground">Four Core Principles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-foreground">
               <Zap className="h-4 w-4 text-amber-500" />
               <span>1. Sub-Second Determinism</span>
@@ -82,7 +82,7 @@ export const SystemOverviewDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-foreground">
               <ShieldCheck className="h-4 w-4 text-emerald-600" />
               <span>2. Zero-Trust Security</span>
@@ -92,7 +92,7 @@ export const SystemOverviewDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-foreground">
               <Activity className="h-4 w-4 text-sky-600" />
               <span>3. Standardized Output Schema</span>
@@ -102,7 +102,7 @@ export const SystemOverviewDoc: React.FC = () => {
             </p>
           </div>
 
-          <div className="rounded-xl border border-border bg-background p-4 shadow-xs space-y-1.5">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-foreground">
               <Database className="h-4 w-4 text-purple-600" />
               <span>4. Durable Permalinks</span>
@@ -121,9 +121,9 @@ export const SystemOverviewDoc: React.FC = () => {
           CatalystLab divides modern web telemetry into 8 specialized diagnostic vectors:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Phase / Engine</th>
                 <th className="py-2.5 px-3">Diagnostic Vector</th>
@@ -131,69 +131,69 @@ export const SystemOverviewDoc: React.FC = () => {
                 <th className="py-2.5 px-3">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
-                <td className="py-2 px-3 font-semibold text-orange-600">1. SynthShift</td>
+                <td className="py-2 px-3 font-semibold text-orange-400">1. SynthShift</td>
                 <td className="py-2 px-3 text-muted-foreground">Platform Migration & System Blueprint</td>
                 <td className="py-2 px-3 text-xs font-mono">Firebase + Mongo Schemas</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/synthshift" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/synthshift" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-semibold text-green-700">2. GitLygase</td>
+                <td className="py-2 px-3 font-semibold text-emerald-400">2. GitLygase</td>
                 <td className="py-2 px-3 text-muted-foreground">Git Repository SecOps & Hygiene</td>
                 <td className="py-2 px-3 text-xs font-mono">License, SECURITY.md, CI</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/gitlygase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/gitlygase" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-semibold text-emerald-700">3. EcoHolo</td>
+                <td className="py-2 px-3 font-semibold text-emerald-400">3. EcoHolo</td>
                 <td className="py-2 px-3 text-muted-foreground">Sustainable Web Carbon Footprint</td>
                 <td className="py-2 px-3 text-xs font-mono">SWD v4 (g CO2 / view)</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/ecoholo" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/ecoholo" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-semibold text-sky-700">4. VitalZyme</td>
+                <td className="py-2 px-3 font-semibold text-[#6872D9]">4. VitalZyme</td>
                 <td className="py-2 px-3 text-muted-foreground">Core Web Vitals & DOM Tree Depth</td>
                 <td className="py-2 px-3 text-xs font-mono">Tree Depth, Total Nodes</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/vitalzyme" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/vitalzyme" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-semibold text-pink-700">5. EdgeVmax</td>
+                <td className="py-2 px-3 font-semibold text-pink-400">5. EdgeVmax</td>
                 <td className="py-2 px-3 text-muted-foreground">Multi-PoP Global Edge Latency</td>
                 <td className="py-2 px-3 text-xs font-mono">12-Region Synthetic TTFB</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/edgevmax" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/edgevmax" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-semibold text-amber-700">6. RiskProtease</td>
+                <td className="py-2 px-3 font-semibold text-amber-400">6. RiskProtease</td>
                 <td className="py-2 px-3 text-muted-foreground">OWASP Security & Compliance</td>
                 <td className="py-2 px-3 text-xs font-mono">HSTS, CSP, WCAG 2.2 AA</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/riskprotease" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/riskprotease" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-semibold text-purple-700">7. LLM-Kinase</td>
+                <td className="py-2 px-3 font-semibold text-violet-400">7. LLM-Kinase</td>
                 <td className="py-2 px-3 text-muted-foreground">AI Readiness & llms.txt Discovery</td>
                 <td className="py-2 px-3 text-xs font-mono">GPTBot, JSON-LD Schemas</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/llm-kinase" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/llm-kinase" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-semibold text-indigo-700">8. AllosterSearch</td>
+                <td className="py-2 px-3 font-semibold text-indigo-300">8. AllosterSearch</td>
                 <td className="py-2 px-3 text-muted-foreground">AI Search Engine Optimization (LLMO)</td>
                 <td className="py-2 px-3 text-xs font-mono">RAG Density, E-E-A-T Index</td>
                 <td className="py-2 px-3">
-                  <Link to="/docs/allostersearch" className="text-sky-700 hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+                  <Link to="/docs/allostersearch" className="text-[#6872D9] hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
                 </td>
               </tr>
             </tbody>
@@ -207,20 +207,20 @@ export const SystemOverviewDoc: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
           <Link
             to="/products#webhook-mesh"
-            className="rounded-xl border border-sky-300 bg-sky-50/50 p-4 hover:border-sky-400 hover:bg-sky-50 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-xl border border-[#5E6AD2]/30 bg-[#5E6AD2]/10 p-4 hover:border-[#5E6AD2]/50 hover:bg-[#5E6AD2]/15 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="font-bold text-sky-900 group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-[#EDEDEF] group-hover:text-[#6872D9] flex items-center justify-between">
               <span>Edge Mesh &amp; Webhooks</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
-            <p className="text-xs text-sky-800/80 mt-1">Interactive 42-PoP Anycast mesh & webhook fan-out live visualizer.</p>
+            <p className="text-xs text-[#8A8F98] mt-1">Interactive 42-PoP Anycast mesh & webhook fan-out live visualizer.</p>
           </Link>
 
           <Link
             to="/docs/architecture"
-            className="rounded-xl border border-border bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 hover:border-[#5E6AD2]/40 hover:bg-white/[0.06] transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="font-bold text-foreground group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-foreground group-hover:text-[#6872D9] flex items-center justify-between">
               <span>Full-Stack Architecture</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
@@ -229,9 +229,9 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/api"
-            className="rounded-xl border border-border bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 hover:border-[#5E6AD2]/40 hover:bg-white/[0.06] transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="font-bold text-foreground group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-foreground group-hover:text-[#6872D9] flex items-center justify-between">
               <span>REST API Spec</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>
@@ -240,9 +240,9 @@ export const SystemOverviewDoc: React.FC = () => {
 
           <Link
             to="/docs/synthshift"
-            className="rounded-xl border border-border bg-background p-4 hover:border-sky-300 hover:bg-sky-50/40 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 hover:border-[#5E6AD2]/40 hover:bg-white/[0.06] transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <div className="font-bold text-foreground group-hover:text-sky-700 flex items-center justify-between">
+            <div className="font-bold text-foreground group-hover:text-[#6872D9] flex items-center justify-between">
               <span>Engine Deep-Dives</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </div>

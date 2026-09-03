@@ -22,7 +22,7 @@ export const ApiReferenceDoc: React.FC = () => {
       toc={toc}
     >
       <section id="api-overview" className="space-y-4">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50 px-3 py-0.5 text-xs font-semibold text-sky-800">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-0.5 text-xs font-semibold text-[#6872D9]">
           <Terminal className="h-3.5 w-3.5" />
           <span>OpenAPI 3.1 Specification</span>
         </div>

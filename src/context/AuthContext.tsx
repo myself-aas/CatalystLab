@@ -13,13 +13,10 @@ import {
   formatAuthError
 } from '../lib/firebase';
 import { logger } from '../lib/logger';
+import { isSuperadminClaim } from '../lib/authClaims';
 
-export const SUPERADMIN_EMAILS = [
-  'shuvo.1807016@bau.edu.bd',
-  'shuvoasifahmed@gmail.com',
-  'asifahmedshuvo.aas@gmail.com',
-  'asifahmedshuvo.aa9@gmail.com'
-];
+/** @deprecated Superadmin is exclusively a signed custom claim. Kept empty so legacy imports compile. */
+export const SUPERADMIN_EMAILS: string[] = [];
 
 const LOCAL_SESSION_KEY = 'catalystlab_local_session';
 
@@ -72,6 +69,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 function getStoredLocalSession(): User | null {
+  if (!import.meta.env.DEV) return null;
   if (typeof window === 'undefined') return null;
   try {
     const raw = localStorage.getItem(LOCAL_SESSION_KEY);
@@ -88,10 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [authError, setAuthError] = useState<AuthErrorInfo | null>(null);
   const [showDomainModal, setShowDomainModal] = useState(false);
   const [tokenClaims, setTokenClaims] = useState<Record<string, any>>({});
-  const [hasSuperadminClaim, setHasSuperadminClaim] = useState<boolean>(() => {
-    const local = getStoredLocalSession();
-    return Boolean(local?.email && SUPERADMIN_EMAILS.includes(local.email.toLowerCase()));
-  });
+  const [hasSuperadminClaim, setHasSuperadminClaim] = useState<boolean>(false);
 
   const checkUserClaims = async (currentUser: User | null) => {
     if (!currentUser) {
@@ -100,23 +95,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
 
-    const email = currentUser.email?.toLowerCase() || '';
-    const isPrimaryEmail = SUPERADMIN_EMAILS.includes(email);
-
     if (typeof (currentUser as any).getIdTokenResult === 'function') {
       try {
         const result = await (currentUser as any).getIdTokenResult();
         const claims = result?.claims || {};
         setTokenClaims(claims);
-        const hasClaim = claims.role === 'superadmin' || claims.superadmin === true;
-        setHasSuperadminClaim(hasClaim || isPrimaryEmail);
+        setHasSuperadminClaim(isSuperadminClaim(claims));
         return;
       } catch (err) {
         logger.warn("Could not retrieve custom token claims:", err);
       }
     }
 
-    setHasSuperadminClaim(isPrimaryEmail);
+    setHasSuperadminClaim(false);
   };
 
   useEffect(() => {
@@ -152,8 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const result = await (user as any).getIdTokenResult(true);
         const claims = result?.claims || {};
         setTokenClaims(claims);
-        const hasClaim = claims.role === 'superadmin' || claims.superadmin === true;
-        setHasSuperadminClaim(hasClaim || SUPERADMIN_EMAILS.includes(user.email?.toLowerCase() || ''));
+        setHasSuperadminClaim(isSuperadminClaim(claims));
       } catch (err) {
         logger.warn("Failed to refresh token claims:", err);
       }
@@ -236,6 +226,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const loginWithLocalSession = (params?: LocalSessionParams) => {
+    if (!import.meta.env.DEV) {
+      logger.warn('Sandbox local sessions are disabled outside development.');
+      return;
+    }
     const isAdmin = params?.isAdmin ?? true;
     const email = params?.email || (isAdmin ? 'asifahmedshuvo.aas@gmail.com' : 'developer@catalystlab.io');
     const displayName = params?.displayName || (isAdmin ? 'Asif Ahmed Shuvo (Superadmin)' : 'CatalystLab Developer');
@@ -265,6 +259,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     setUser(mockUser);
+    setHasSuperadminClaim(isAdmin);
     setAuthError(null);
   };
 
@@ -280,6 +275,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     
     setUser(null);
+    setHasSuperadminClaim(false);
+    setTokenClaims({});
     setAuthError(null);
   };
 
@@ -287,10 +284,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setAuthError(null);
   };
 
-  // Strictly enforce superadmin access for specified emails or custom claim
-  const userEmail = user?.email?.toLowerCase() || '';
-  const isEmailAdmin = Boolean(user && SUPERADMIN_EMAILS.includes(userEmail));
-  const isAdmin = isEmailAdmin || hasSuperadminClaim;
+  const isAdmin = hasSuperadminClaim;
 
   return (
     <AuthContext.Provider value={{ 

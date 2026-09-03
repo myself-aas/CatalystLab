@@ -18,7 +18,7 @@ export const VitalZymeDoc: React.FC = () => {
       toc={toc}
     >
       <section id="vitalzyme-overview" className="space-y-4">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50 px-3 py-0.5 text-xs font-semibold text-sky-800">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-0.5 text-xs font-semibold text-[#6872D9]">
           <Activity className="h-3.5 w-3.5" />
           <span>SDLC Phase 4: DOM & Performance Engine</span>
         </div>
@@ -79,9 +79,9 @@ export function analyzeDomTree(html: string) {
       {/* Metrics Thresholds */}
       <section id="metrics-thresholds" className="space-y-4 border-t border-border pt-8">
         <h2 className="text-2xl font-bold text-foreground">DOM & Performance Evaluation Thresholds</h2>
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Metric</th>
                 <th className="py-2.5 px-3">Good (Pass)</th>
@@ -89,7 +89,7 @@ export function analyzeDomTree(html: string) {
                 <th className="py-2.5 px-3">Critical (Fail)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2.5 px-3 font-semibold">DOM Tree Depth</td>
                 <td className="py-2.5 px-3 font-mono text-emerald-700 font-bold">&le; 24 levels</td>

@@ -30,6 +30,7 @@ export interface TelemetryHUDState {
   scanProgress: number; // 0 - 100%
   currentScanningEngine: EngineType | null;
   hudExpanded: boolean;
+  isMinimized: boolean;
   cronLogs: CronLogEntry[];
   
   // Edge Mesh Globe States
@@ -160,6 +161,7 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
   scanProgress: 0,
   currentScanningEngine: null,
   hudExpanded: false,
+  isMinimized: true,
   cronLogs: INITIAL_LOGS,
 
   // Edge Mesh Globe initial state
@@ -210,9 +212,12 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
     }));
   },
 
-  setHudExpanded: (expanded) => set({ hudExpanded: expanded }),
+  setHudExpanded: (expanded) => set({ hudExpanded: expanded, isMinimized: !expanded }),
 
-  toggleHudExpanded: () => set((state) => ({ hudExpanded: !state.hudExpanded })),
+  toggleHudExpanded: () => set((state) => ({
+    hudExpanded: !state.hudExpanded,
+    isMinimized: state.hudExpanded,
+  })),
 
   addCronLog: (entry) => {
     const now = new Date();

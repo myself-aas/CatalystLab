@@ -14,7 +14,8 @@ import { TrialBanner } from "./components/common/TrialBanner";
 import { TrialActivationModal } from "./components/common/TrialActivationModal";
 import { GlobalBreadcrumb } from "./components/layout/GlobalBreadcrumb";
 import { Footer } from "./components/layout/Footer";
-import { DynamicBanner } from "./components/layout/DynamicBanner";
+import { DevSiteLayout } from "./components/layout/DevSiteLayout";
+
 import { AuthDomainModal } from "./components/auth/AuthDomainModal";
 import {
   GetInTouchEmailModal,
@@ -24,6 +25,7 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { RoleSimulatorFloatingBar } from "./components/common/RoleSimulatorFloatingBar";
 import { RouteLoadingSkeleton } from "./components/common/RouteLoadingSkeleton";
 import type { SubscriptionPlanId } from "./types";
+import { useTheme } from "./context/ThemeContext";
 
 // Critical landing page kept synchronous for instant FCP / LCP
 import { MasterAuditPage } from "./pages/MasterAuditPage";
@@ -46,6 +48,7 @@ const ContactPage = React.lazy(() => import("./pages/ContactPage").then(m => ({ 
 const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage").then(m => ({ default: m.PrivacyPage })));
 const TermsPage = React.lazy(() => import("./pages/TermsPage").then(m => ({ default: m.TermsPage })));
 const CookiePolicyPage = React.lazy(() => import("./pages/CookiePolicyPage").then(m => ({ default: m.CookiePolicyPage })));
+const LegalPage = React.lazy(() => import("./pages/LegalPage").then(m => ({ default: m.LegalPage })));
 const SecurityPage = React.lazy(() => import("./pages/SecurityPage").then(m => ({ default: m.SecurityPage })));
 const PricingPage = React.lazy(() => import("./pages/PricingPage").then(m => ({ default: m.PricingPage })));
 const ProductsPage = React.lazy(() => import("./pages/ProductsPage").then(m => ({ default: m.ProductsPage })));
@@ -82,28 +85,22 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-/**
- * Routes authored with the always-dark "telemetry terminal" palette.
- * `<main>` gets a polarity class so index.css can remap every hardcoded
- * utility on the page to match the active theme (dark ↔ light).
- */
-const DARK_AUTHORED_ROUTES: RegExp[] = [
-  /^\/$/,
-  /^\/index\.html$/,
-  /^\/(audit|launch-audit|master-audit)(\.html)?$/,
-  /^\/blogs(\.html)?$/,
-  /^\/compare(\.html)?$/,
-  /^\/404(\.html)?$/,
-  /^\/(app|hud)$/,
-  /^\/dashboard\/hud$/,
-];
+const DevSiteLayoutWrapper: React.FC<{ enabled: boolean; children: React.ReactNode }> = ({
+  enabled,
+  children,
+}) => (enabled ? <DevSiteLayout>{children}</DevSiteLayout> : <>{children}</>);
 
-const isDarkAuthoredRoute = (pathname: string) =>
-  DARK_AUTHORED_ROUTES.some((re) => re.test(pathname));
+/** App chrome (sidebar + mobile tab bar) — product surfaces only. */
+const APP_CHROME_RE = /^\/(dashboard|admin|app|hud|user-dashboard)(\/|$|\.html$)/;
 
 export const App: React.FC = () => {
   const location = useLocation();
-  const pagePolarity = isDarkAuthoredRoute(location.pathname) ? "theme-dark" : "theme-light";
+  const showAppChrome = APP_CHROME_RE.test(location.pathname);
+  const { resolvedTheme } = useTheme();
+  const isDocsRoute = /^\/docs(\/|$|\.html$)/.test(location.pathname);
+  const isAuthRoute = /^\/(login|signin|signup|register)(\.html)?$/.test(location.pathname);
+  const useDevSiteLayout = !isDocsRoute && !showAppChrome && !isAuthRoute;
+  const pagePolarity = resolvedTheme === "dark" ? "theme-dark" : "theme-light";
   const [isGetInTouchOpen, setIsGetInTouchOpen] = useState(false);
   const [getInTouchTopic, setGetInTouchTopic] = useState("general");
   const [getInTouchSource, setGetInTouchSource] = useState("app-global");
@@ -142,11 +139,15 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <div className="app-shell flex min-h-screen bg-background text-foreground animate-app-fade-in relative pb-16 lg:pb-0">
-        <Sidebar mobileOpen={isMobileSidebarOpen} onCloseMobile={() => setIsMobileSidebarOpen(false)} />
-        <MobileBottomNav onOpenMenu={() => setIsMobileSidebarOpen(true)} />
-        <div className="flex-1 flex flex-col min-w-0 relative">
-          <LinearAmbientBackground />
+      <div className={`app-shell flex min-h-screen text-foreground animate-app-fade-in relative ${showAppChrome ? "pb-16 lg:pb-0" : ""} ${resolvedTheme === "dark" ? "bg-transparent" : "bg-background"}`}>
+        {resolvedTheme === "dark" && <LinearAmbientBackground />}
+        {showAppChrome && (
+          <Sidebar mobileOpen={isMobileSidebarOpen} onCloseMobile={() => setIsMobileSidebarOpen(false)} />
+        )}
+        {showAppChrome && (
+          <MobileBottomNav onOpenMenu={() => setIsMobileSidebarOpen(true)} />
+        )}
+        <div className="flex-1 flex flex-col min-w-0 relative z-10">
           <a
             href="#main-content"
             className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:text-foreground focus:outline focus:outline-2 focus:outline-primary"
@@ -155,14 +156,14 @@ export const App: React.FC = () => {
           </a>
           <ScrollToTop />
           <TrialBanner />
-          <Navbar onOpenMobileMenu={() => setIsMobileSidebarOpen(true)} />
-          {location.pathname !== '/' && location.pathname !== '/index.html' && <DynamicBanner />}
-          <GlobalBreadcrumb />
+          <Navbar onOpenMobileMenu={showAppChrome ? () => setIsMobileSidebarOpen(true) : undefined} />
+          {!useDevSiteLayout && !isDocsRoute && <GlobalBreadcrumb />}
           <main id="main-content" className={`${pagePolarity} flex-1`}>
             <AnimatePresence mode="wait">
               <PageTransition key={location.pathname} className="min-h-full">
             <Suspense fallback={<RouteLoadingSkeleton />}>
               <ErrorBoundary variant="route">
+              <DevSiteLayoutWrapper enabled={useDevSiteLayout}>
               <Routes location={location} key={location.pathname}>
               <Route path="/" element={<MasterAuditPage />} />
               <Route path="/index.html" element={<Navigate to="/" replace />} />
@@ -532,6 +533,8 @@ export const App: React.FC = () => {
               <Route path="/contact.html" element={<ContactPage />} />
 
               {/* Dedicated Legal & Trust Pages */}
+              <Route path="/legal" element={<LegalPage />} />
+              <Route path="/legal.html" element={<LegalPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/privacy.html" element={<PrivacyPage />} />
 
@@ -551,6 +554,7 @@ export const App: React.FC = () => {
               {/* Catch-all */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
+              </DevSiteLayoutWrapper>
               </ErrorBoundary>
           </Suspense>
         </PageTransition>

@@ -40,6 +40,11 @@
     </main>
   </div>
 
+<script>
+window.CLEscape=window.CLEscape||function(s){return String(s==null?'':s).replace(/[&<>"'`]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]);});};
+window.CLColorize=window.CLColorize||function(r){return window.CLEscape(r);};
+</script>
+<script src="/xss-guard.js"></script>
   <script>
     document.getElementById('latencyForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -51,7 +56,7 @@
       btn.disabled = true;
       btn.innerHTML = '<span class="loading-spinner"></span> Pinging Nodes...';
       resultsSection.style.display = 'block';
-      terminal.innerHTML = `[sys] Initializing Global Edge Latency Radar...\n[sys] Target locked: ${url}\n[sys] Spawning simulated node trace route...`;
+      terminal.innerHTML = `[sys] Initializing Global Edge Latency Radar...\n[sys] Target locked: ${window.CLEscape(url)}\n[sys] Spawning simulated node trace route...`;
 
       try {
         const response = await fetch('/api/run-engine', {
@@ -62,20 +67,12 @@
         
         const data = await response.json();
         if (data.success) {
-          let coloredOutput = data.output
-            .replace(/\[\+\] PASS:/g, '<span style="color: #4ade80;">[+] PASS:</span>')
-            .replace(/\[-\] FAIL:/g, '<span style="color: #f87171;">[-] FAIL:</span>')
-            .replace(/\[\~\] WARNING:/g, '<span style="color: #facc15;">[~] WARNING:</span>')
-            .replace(/🔴 STATUS:/g, '<span style="color: #f87171; font-weight:bold;">🔴 STATUS:</span>')
-            .replace(/🟢 STATUS:/g, '<span style="color: #4ade80; font-weight:bold;">🟢 STATUS:</span>')
-            .replace(/🟡 STATUS:/g, '<span style="color: #facc15; font-weight:bold;">🟡 STATUS:</span>');
-            
-          terminal.innerHTML = coloredOutput;
+          terminal.innerHTML = window.CLColorize(data.output);
 
           // Auto-save to Firestore if authenticated
           if (window.CatalystFirebase && window.currentUser) {
             try {
-              const reportId = await window.CatalystFirebase.saveReport(url, 'latency', coloredOutput, {
+              const reportId = await window.CatalystFirebase.saveReport(url, 'latency', data.output, {
                 title: 'LATENCY Audit: ' + url
               });
               const shareLink = window.location.origin + '/report.html?id=' + reportId;
@@ -95,11 +92,11 @@
                   <div>
                     <strong style="color: #4ade80;">✓ Audit Saved to Dashboard!</strong>
                     <div style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.2rem;">
-                      Permalink: <a href="${shareLink}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${shareLink}</a>
+                      Permalink: <a href="${window.CLEscape(shareLink)}" target="_blank" style="color: #38bdf8; text-decoration: underline;">${window.CLEscape(shareLink)}</a>
                     </div>
                   </div>
                   <div style="display: flex; gap: 0.5rem;">
-                    <button onclick="navigator.clipboard.writeText('${shareLink}'); alert('Copied link!');" class="btn btn-outline" style="padding: 0.35rem 0.7rem; font-size: 0.8rem;">🔗 Copy Link</button>
+                    <button onclick="navigator.clipboard.writeText('${window.CLEscape(shareLink)}'); alert('Copied link!');" class="btn btn-outline" style="padding: 0.35rem 0.7rem; font-size: 0.8rem;">🔗 Copy Link</button>
                     <a href="/dashboard.html" class="btn btn-primary" style="padding: 0.35rem 0.7rem; font-size: 0.8rem;">📊 Dashboard</a>
                   </div>
                 </div>
@@ -111,7 +108,7 @@
           }
     
         } else {
-          terminal.innerHTML = `<span style="color:#f87171;">Error executing engine: ${data.error}</span>`;
+          terminal.innerHTML = `<span style="color:#f87171;">Error executing engine: ${window.CLEscape(data.error)}</span>`;
         }
       } catch (err) {
         terminal.innerHTML = `<span style="color:#f87171;">Network Error: Could not connect to API.</span>`;

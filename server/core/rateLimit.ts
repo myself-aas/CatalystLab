@@ -1,6 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
 import crypto from 'crypto';
 import { getAttachedIdentity, identityToEntitlements } from '../../src/lib/serverAuth';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 
 // In-memory tiered rate limiting core. See docs / RateLimitingDoc for the
 // tier matrix. Fail-closed identity: authenticated tiers come exclusively
@@ -76,6 +78,38 @@ function isValidConfiguredApiKey(key: string): boolean {
   return configured.some((candidate) => timingSafeStringEqual(candidate, key));
 }
 
+function clientIp(req: Request): string {
+  // Only honor X-Forwarded-For when the process is behind a trusted proxy.
+  if (process.env.TRUST_PROXY === 'true') {
+    const xff = req.headers['x-forwarded-for'];
+    if (typeof xff === 'string' && xff.trim()) {
+      return xff.split(',')[0].trim();
+    }
+  }
+  return req.socket.remoteAddress || '127.0.0.1';
+}
+
+let upstashLimiter: Ratelimit | null | undefined;
+function getUpstashLimiter(): Ratelimit | null {
+  if (upstashLimiter !== undefined) return upstashLimiter;
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) {
+    upstashLimiter = null;
+    return null;
+  }
+  try {
+    upstashLimiter = new Ratelimit({
+      redis: new Redis({ url, token }),
+      limiter: Ratelimit.slidingWindow(120, '1 m'),
+      prefix: 'catalystlab:rl'
+    });
+  } catch {
+    upstashLimiter = null;
+  }
+  return upstashLimiter;
+}
+
 export function resolveClientIdentity(req: Request): {
   identifier: string;
   tier: RateLimitTier;
@@ -89,9 +123,12 @@ export function resolveClientIdentity(req: Request): {
   visitorId?: string;
   sessionId?: string;
 } {
-  const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || req.socket.remoteAddress || '127.0.0.1';
+  const ip = clientIp(req);
   const rawSessionId = (req.body?.auditSessionId || req.headers['x-audit-session'] || req.query?.auditSessionId || '') as string;
-  const apiKey = (req.headers['x-api-key'] || req.headers['authorization']?.replace('Bearer ', '')) as string;
+  // API keys are accepted only via x-api-key — never Authorization: Bearer
+  // (Bearer is reserved for Firebase ID tokens).
+  const apiKeyHeader = req.headers['x-api-key'];
+  const apiKey = typeof apiKeyHeader === 'string' ? apiKeyHeader : '';
 
   // SECURITY (Phase 0, fail closed): plan tiers, trials, and superadmin access
   // are NEVER derived from client-supplied headers/body/query. Client claims
@@ -212,7 +249,27 @@ export function evaluateAndChargeRateLimit(
   const identity = resolveClientIdentity(req);
   const now = Date.now();
 
-  // Superadmin bypass
+  // Superadmin / unlimited: skip consumption and burst tracking entirely.
+  if (identity.limit === null) {
+    if (!res.headersSent) {
+      res.setHeader('X-RateLimit-Limit', 'unlimited');
+      res.setHeader('X-RateLimit-Remaining', 'unlimited');
+      res.setHeader('X-RateLimit-Tier', identity.tier);
+    }
+    return {
+      allowed: true,
+      tier: identity.tier,
+      tierLabel: identity.tierLabel,
+      limit: null,
+      unitsUsed: 0,
+      unitsRemaining: Number.POSITIVE_INFINITY,
+      costCharged: 0,
+      resetAt: resetAt.toISOString(),
+      resetInSeconds,
+      formattedResetTime
+    };
+  }
+
   const storeKey = `${dateKey}_${identity.identifier}`;
   const record = getOrCreateRateLimitRecord(storeKey, identity.tier);
 
@@ -258,7 +315,7 @@ export function evaluateAndChargeRateLimit(
     }
   }
 
-  const limit = identity.limit || FREE_USER_DAILY_UNITS;
+  const limit = identity.limit ?? FREE_USER_DAILY_UNITS;
   const projectedUsed = record.unitsUsed + costToCharge;
 
   // 3. Quota Exceeded Check
@@ -330,7 +387,7 @@ export function evaluateAndChargeRateLimit(
 
 // Express Rate-Limiting Middleware for Engine Endpoints
 export function createEngineRateLimitMiddleware(options: { cost?: number; isMaster?: boolean } = {}) {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const cost = options.isMaster ? MASTER_AUDIT_COST : (options.cost || SINGLE_ENGINE_COST);
     const result = evaluateAndChargeRateLimit(req, res, cost);
 
@@ -349,6 +406,27 @@ export function createEngineRateLimitMiddleware(options: { cost?: number; isMast
         error: result.error
       });
       return;
+    }
+
+    const distributed = getUpstashLimiter();
+    if (distributed && result.limit !== null) {
+      try {
+        const identity = resolveClientIdentity(req);
+        const { success } = await distributed.limit(identity.identifier);
+        if (!success) {
+          res.status(429).json({
+            success: false,
+            rateLimitExceeded: true,
+            error: 'Distributed rate limit exceeded. Retry shortly.'
+          });
+          return;
+        }
+      } catch {
+        if (process.env.NODE_ENV === 'production') {
+          res.status(503).json({ success: false, error: 'Rate limiter unavailable.' });
+          return;
+        }
+      }
     }
 
     (req as any).rateLimitStatus = result;

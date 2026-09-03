@@ -20,6 +20,10 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
   const { effectiveRole, actualRole, isSimulating, setSimulatedRole, resetSimulation } = useRoleSecurity();
   const [isOpen, setIsOpen] = useState(false);
 
+  if (!import.meta.env.DEV) {
+    return null;
+  }
+
   const roles: { role: UserRole; icon: React.ComponentType<{ className?: string }>; label: string; badge: string }[] = [
     { role: 'anonymous', icon: User, label: 'Guest Visitor', badge: 'Public' },
     { role: 'user', icon: Sparkles, label: 'Free Developer', badge: '50 units' },

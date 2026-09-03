@@ -48,44 +48,44 @@
   --theme-zinc-950: #09090b;
 
   /* App Substrate */
-  --bg-app: #f8fafc;
+  --bg-app: #ffffff;
   --bg-void: #ffffff;
   --bg-panel: #ffffff;
-  --bg-panel-hover: #f1f5f9;
-  --bg-surface: #f8fafc;
+  --bg-panel-hover: #f1f3f4;
+  --bg-surface: #f8f9fa;
   --bg-surface-elevated: #ffffff;
   
-  --text-primary: #090d16;
-  --text-secondary: #334155;
-  --text-muted: #5b6b84;
+  --text-primary: #202124;
+  --text-secondary: #3c4043;
+  --text-muted: #5f6368;
   --text-inverse: #ffffff;
   
-  --border-subtle: #e2e8f0;
-  --border-medium: #cbd5e1;
-  --border-bright: #94a3b8;
-  --border-focus: #0e7490;
+  --border-subtle: #dadce0;
+  --border-medium: #dadce0;
+  --border-bright: #80868b;
+  --border-focus: #1a73e8;
 
   /* Semantic Core */
-  --app-background: #f8fafc;
-  --app-foreground: #090d16;
+  --app-background: #ffffff;
+  --app-foreground: #202124;
   --app-card: #ffffff;
-  --app-card-foreground: #090d16;
+  --app-card-foreground: #202124;
   --app-popover: #ffffff;
   --app-popover-foreground: #090d16;
-  --app-primary: #0e7490;
-  --app-primary-hover: #0891b2;
+  --app-primary: #1a73e8;
+  --app-primary-hover: #1967d2;
   --app-primary-foreground: #ffffff;
-  --app-secondary: #059669;
+  --app-secondary: #188038;
   --app-secondary-foreground: #ffffff;
-  --app-muted: #f1f5f9;
-  --app-muted-foreground: #52627c;
-  --app-accent: #eef2f7;
-  --app-accent-foreground: #090d16;
-  --app-destructive: #dc2626;
+  --app-muted: #f8f9fa;
+  --app-muted-foreground: #5f6368;
+  --app-accent: #e8f0fe;
+  --app-accent-foreground: #1967d2;
+  --app-destructive: #d93025;
   --app-destructive-foreground: #ffffff;
-  --app-border: #dbe3ee;
-  --app-input: #b6c2d4;
-  --app-ring: #5E6AD2;
+  --app-border: #dadce0;
+  --app-input: #80868b;
+  --app-ring: #1a73e8;
 
   /* Linear / Modern Design System Tokens (Light Mode equivalents) */
   --background-deep: #f1f5f9;
@@ -96,12 +96,12 @@
   --foreground: #090d16;
   --foreground-muted: #52627c;
   --foreground-subtle: rgba(9, 13, 22, 0.60);
-  --accent: #5E6AD2;
-  --accent-bright: #4C56B5;
-  --accent-glow: rgba(94, 106, 210, 0.20);
-  --border-default: #e2e8f0;
-  --border-hover: #cbd5e1;
-  --border-accent: rgba(94, 106, 210, 0.30);
+  --accent: #1a73e8;
+  --accent-bright: #1967d2;
+  --accent-glow: rgba(26, 115, 232, 0.20);
+  --border-default: #dadce0;
+  --border-hover: #bdc1c6;
+  --border-accent: rgba(26, 115, 232, 0.30);
 
   /* Legacy aliases for backward compatibility */
   --color-background: var(--app-background);
@@ -147,7 +147,7 @@
 
   /* Font Stacks */
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: "Inter", "Geist Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 html.dark, [data-theme="dark"], .theme-dark, .page-dark {
@@ -358,11 +358,14 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-background-elevated: var(--background-elevated, #0a0a0c);
   --color-surface-base: var(--surface, rgba(255, 255, 255, 0.05));
   --color-surface-hover: var(--surface-hover, rgba(255, 255, 255, 0.08));
+  --color-foreground-muted: var(--foreground-muted, #8A8F98);
+  --color-foreground-subtle: var(--foreground-subtle, rgba(255, 255, 255, 0.60));
   --color-accent-bright: var(--accent-bright, #6872D9);
   --color-accent-glow: var(--accent-glow, rgba(94, 106, 210, 0.30));
   --color-border-default: var(--border-default, rgba(255, 255, 255, 0.06));
   --color-border-hover: var(--border-hover, rgba(255, 255, 255, 0.10));
   --color-border-accent: var(--border-accent, rgba(94, 106, 210, 0.30));
+  --font-sans: "Inter", "Geist Sans", system-ui, sans-serif;
 }
 
 @theme {
@@ -911,6 +914,78 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   .ds-control { min-height: 2.75rem; border-radius: 0.65rem; }
   .ds-muted { color: var(--app-muted-foreground); }
+
+  .docs-devsite-article h1,
+  .docs-devsite-article h2,
+  .docs-devsite-article h3,
+  .docs-content h1,
+  .docs-content h2,
+  .docs-content h3 {
+    color: #202124;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+  .docs-devsite-article h2,
+  .docs-content h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid #dadce0;
+  }
+  .docs-devsite-article h3,
+  .docs-content h3 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-top: 1.5rem;
+  }
+  .docs-content p,
+  .docs-content li {
+    color: #3c4043;
+  }
+  .docs-content a {
+    color: #1a73e8;
+    text-decoration: none;
+  }
+  .docs-content a:hover {
+    text-decoration: underline;
+  }
+  .docs-content code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: #c5221f;
+    background: #f1f3f4;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+  .docs-content pre code {
+    color: inherit;
+    background: transparent;
+    padding: 0;
+  }
+
+  .dark .docs-devsite-article h1,
+  .dark .docs-devsite-article h2,
+  .dark .docs-devsite-article h3,
+  .dark .docs-content h1,
+  .dark .docs-content h2,
+  .dark .docs-content h3 {
+    color: #e8eaed;
+  }
+  .dark .docs-devsite-article h2,
+  .dark .docs-content h2 {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+  }
+  .dark .docs-content p,
+  .dark .docs-content li {
+    color: #9aa0a6;
+  }
+  .dark .docs-content a {
+    color: #8ab4f8;
+  }
+  .dark .docs-content code {
+    color: #f28b82;
+    background: rgba(255, 255, 255, 0.08);
+  }
 }
 
 /* Tabular figures for telemetry numbers */
@@ -962,6 +1037,41 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     background: #f8f8fa !important;
     border: 1px solid #e5e5e5 !important;
   }
+}
+
+/* ==========================================================================
+   DEVSITE / GOOGLE DOCS POLARITY
+   Map Linear dark hardcoded utilities to Material light when not in dark mode.
+   ========================================================================== */
+html:not(.dark) .text-gradient-linear {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: #202124;
+  color: #202124;
+}
+html:not(.dark) .text-\[\#EDEDEF\] { color: #202124; }
+html:not(.dark) .text-\[\#8A8F98\] { color: #5f6368; }
+html:not(.dark) .text-\[\#6872D9\] { color: #1a73e8; }
+html:not(.dark) .text-\[\#5E6AD2\] { color: #1a73e8; }
+html:not(.dark) .bg-\[\#020203\],
+html:not(.dark) .bg-\[\#050506\],
+html:not(.dark) .bg-\[\#060912\],
+html:not(.dark) .bg-\[\#0B101D\],
+html:not(.dark) .bg-\[\#080D1A\],
+html:not(.dark) .bg-\[\#0E1526\] { background-color: #ffffff; }
+html:not(.dark) .bg-\[\#5E6AD2\] { background-color: #1a73e8; }
+html:not(.dark) .hover\:bg-\[\#6872D9\]:hover { background-color: #1967d2; }
+html:not(.dark) .border-white\/\[0\.06\],
+html:not(.dark) .border-white\/\[0\.10\] { border-color: #dadce0; }
+html:not(.dark) .bg-white\/\[0\.03\],
+html:not(.dark) .bg-white\/\[0\.04\],
+html:not(.dark) .bg-white\/\[0\.05\],
+html:not(.dark) .bg-white\/\[0\.08\] { background-color: #f8f9fa; }
+html:not(.dark) .shadow-linear-card {
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15), 0 2px 6px rgba(60, 64, 67, 0.08);
+}
+html:not(.dark) .shadow-linear-cta {
+  box-shadow: 0 1px 2px rgba(26, 115, 232, 0.3);
 }
 
 /* ==========================================================================

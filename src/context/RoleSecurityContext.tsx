@@ -78,11 +78,13 @@ export const RoleSecurityProvider: React.FC<{ children: React.ReactNode }> = ({ 
   };
 
   const hasPermission = (permission: AppPermission): boolean => {
-    return checkPermission(effectiveRole, permission);
+    const trialLocked = isTrialActive && !isSimulating;
+    return checkPermission(effectiveRole, permission, trialLocked);
   };
 
   const canAccessRoute = (pathname: string) => {
-    return checkRouteAccess(pathname, effectiveRole);
+    const trialLocked = isTrialActive && !isSimulating;
+    return checkRouteAccess(pathname, effectiveRole, trialLocked);
   };
 
   return (

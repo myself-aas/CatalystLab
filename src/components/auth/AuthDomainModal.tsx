@@ -144,7 +144,7 @@ export const AuthDomainModal: React.FC = () => {
           </ol>
         </div>
 
-        {/* Sandbox Quick Access Mode */}
+        {import.meta.env.DEV && (
         <div className="mb-5 rounded-xl border border-blue-500/30 bg-blue-950/20 p-4">
           <div className="flex items-center gap-2 text-xs font-bold text-[#38bdf8] mb-2">
             <Sparkles className="h-4 w-4 text-[#38bdf8]" />
@@ -165,13 +165,14 @@ export const AuthDomainModal: React.FC = () => {
 
             <button
               onClick={handleSignInAsDeveloper}
-              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3.5 py-2.5 text-xs font-bold text-foreground hover:bg-[#1a2d48] transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3.5 py-2.5 text-xs font-bold text-foreground transition-all hover:bg-[#1a2d48] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <UserCheck className="h-4 w-4 text-[#38bdf8]" />
               <span>Sign In as Developer</span>
             </button>
           </div>
         </div>
+        )}
 
         {/* Footer Actions */}
         <div className="flex items-center justify-between pt-2 border-t border-border text-xs">

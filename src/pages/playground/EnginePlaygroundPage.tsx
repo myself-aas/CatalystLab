@@ -124,7 +124,7 @@ export const EnginePlaygroundPage: React.FC = () => {
 
     try {
       // Execute request
-      const endpointPath = activeEngineConfig.id === 'master' ? '/api/run-master-audit' : '/api/run-engine';
+      const endpointPath = activeEngineConfig.id === 'master' ? '/api/v1/audit/master' : '/api/run-engine';
       const payload = activeEngineConfig.id === 'master' 
         ? { url: targetUrl.trim() }
         : { url: targetUrl.trim(), engine: activeEngineConfig.id };
@@ -172,7 +172,7 @@ export const EnginePlaygroundPage: React.FC = () => {
   // Generate runnable code snippets based on selected language
   const generateSnippet = () => {
     const baseUrl = 'https://api.catalystlab.io/v1';
-    const path = activeEngineConfig.id === 'master' ? '/api/run-master-audit' : '/api/run-engine';
+    const path = activeEngineConfig.id === 'master' ? '/api/v1/audit/master' : '/api/run-engine';
     const bodyObj = activeEngineConfig.id === 'master'
       ? { url: targetUrl }
       : { url: targetUrl, engine: activeEngineConfig.id };

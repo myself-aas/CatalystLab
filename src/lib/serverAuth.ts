@@ -143,7 +143,7 @@ async function getFirestore(): Promise<import('firebase-admin/firestore').Firest
 
 /**
  * Reads the user's subscription entitlements from Firestore
- * (``user_subscriptions`` where userId == uid), cached for 60 seconds.
+ * (``user_subscriptions/{uid}``, matching firestore.rules ownerId/doc id).
  * Falls back to the free plan whenever Firestore is unavailable.
  */
 export async function fetchEntitlements(uid: string): Promise<{ plan: string; isTrialActive: boolean }> {
@@ -156,17 +156,17 @@ export async function fetchEntitlements(uid: string): Promise<{ plan: string; is
   try {
     const db = await getFirestore();
     if (db) {
-      const snapshot = await db
-        .collection('user_subscriptions')
-        .where('userId', '==', uid)
-        .limit(1)
-        .get();
-      if (!snapshot.empty) {
-        const doc = snapshot.docs[0].data();
-        data = {
-          plan: typeof doc.planId === 'string' ? doc.planId : 'free',
-          isTrialActive: doc.status === 'trialing' || doc.isTrialActive === true
-        };
+      const snap = await db.collection('user_subscriptions').doc(uid).get();
+      if (snap.exists) {
+        const doc = snap.data() || {};
+        const ownerOk = doc.ownerId == null || doc.ownerId === uid;
+        const statusOk = doc.status === 'active' || doc.status === 'trialing';
+        if (ownerOk && statusOk && typeof doc.planId === 'string') {
+          data = {
+            plan: doc.planId,
+            isTrialActive: doc.status === 'trialing'
+          };
+        }
       }
     }
   } catch (err: unknown) {

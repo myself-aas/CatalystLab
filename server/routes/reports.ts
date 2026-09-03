@@ -8,9 +8,9 @@ export function registerReportRoutes(app: import('express').Express): void {
 app.get('/api/v1/reports', (req: Request, res: Response) => {
   const { search, limit } = req.query;
   const sampleReports = [
-    { id: 'rep_001', url: 'https://example.com', engine: 'all', score: 92, title: 'Master Multi-Engine Audit: example.com', slug: 'example-com', createdAt: Date.now() - 3600000 },
-    { id: 'rep_002', url: 'https://react.dev', engine: 'health', score: 96, title: 'Website Health & DOM: react.dev', slug: 'react-dev', createdAt: Date.now() - 7200000 },
-    { id: 'rep_003', url: 'https://github.com', engine: 'repo', score: 94, title: 'Repo Hygiene: github.com', slug: 'github-com', createdAt: Date.now() - 10800000 }
+    { id: 'rep_001', url: 'https://example.com', engine: 'all', score: null, title: 'Master Multi-Engine Audit: example.com', slug: 'example-com', createdAt: Date.now() - 3600000 },
+    { id: 'rep_002', url: 'https://react.dev', engine: 'health', score: null, title: 'Website Health & DOM: react.dev', slug: 'react-dev', createdAt: Date.now() - 7200000 },
+    { id: 'rep_003', url: 'https://github.com', engine: 'repo', score: null, title: 'Repo Hygiene: github.com', slug: 'github-com', createdAt: Date.now() - 10800000 }
   ];
   let filtered = sampleReports;
   if (search && typeof search === 'string') {
@@ -32,8 +32,8 @@ app.get('/api/v1/reports/permalink/:slug', (req: Request, res: Response) => {
     slug,
     url: cleanUrl,
     engine: 'all',
-    score: 92,
-    grade: 'A',
+    score: null,
+    grade: null,
     title: `Telemetry Audit Dossier: ${cleanUrl}`,
     summary: `Automated 8-engine architecture and telemetry evaluation for ${cleanUrl}. Passed 48 quality assertions.`,
     createdAt: Date.now()
@@ -47,7 +47,7 @@ app.post('/api/v1/reports/:id/export', (req: Request, res: Response) => {
     success: true,
     reportId: id,
     format,
-    content: `# CatalystLab Telemetry Dossier (${id})\nGenerated: ${new Date().toISOString()}\n\n## Summary\n- Composite Quality Score: 92/100 (Grade A)\n- Status: Production Ready\n- Security: OWASP Compliant (HSTS, CSP)`
+    content: `# CatalystLab Telemetry Dossier (${id})\nGenerated: ${new Date().toISOString()}\n\n## Summary\nLive engine scores are not synthesized by this export endpoint.\nRe-run POST /api/v1/audit/master for a measured composite.`
   });
 });
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Shield } from 'lucide-react';
 import { getAllUsers } from '../../lib/firebase';
 import type { UserProfile } from '../../types';
 

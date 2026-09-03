@@ -7,7 +7,7 @@ import { ScanRevealFigure } from '../components/media/ScanRevealFigure';
 
 export const MethodologyPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground font-mono selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-screen bg-transparent font-mono text-[#EDEDEF]">
       <SEOHead
         title="Engineering Methodology & Architectural Philosophy — CatalystLab"
         description="Learn about CatalystLab, our 8-engine telemetry architecture, deterministic benchmarks, and zero-trust engineering standards."
@@ -34,7 +34,7 @@ export const MethodologyPage: React.FC = () => {
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground font-sans leading-[1.08]">
             Deterministic Web Telemetry{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-background">
+            <span className="bg-gradient-to-r from-[#5E6AD2] via-[#6872D9] to-[#38bdf8] bg-clip-text text-transparent">
               Architecture
             </span>
           </h1>

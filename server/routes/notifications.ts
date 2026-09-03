@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { getAnalyticsStats } from '../../src/lib/analyticsEngine';
 import { generateWeeklyReportHtml, generateAnomalyAlertHtml, sendEmailViaMailgun, AnalyticsWeeklyData, AnomalyAlertData } from '../../src/lib/emailService';
-import { sendSlackWebhook, sendDiscordWebhook, sendGenericWebhook, WebhookPayloadData } from '../../src/lib/webhookService';
+import { sendSlackWebhook, sendDiscordWebhook, sendGenericWebhook } from '../../src/lib/webhookService';
+import { validatePublicUrl } from '../../src/lib/networkSecurity';
+import { requireSuperadminInProduction } from '../core/authz';
 
 // Notification pipelines: Mailgun email (digests, anomaly alerts) and
 // outbound telemetry webhooks (Slack / Discord / generic).
@@ -15,7 +17,8 @@ export function registerNotificationRoutes(app: import('express').Express): void
 // Dispatch Weekly Email Dossier via Mailgun
 app.post('/api/notifications/email/weekly-digest', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { domain = 'catalystlab.tech', recipientEmail, configOverride } = req.body;
+    if (!requireSuperadminInProduction(req, res)) return;
+    const { domain = 'catalystlab.tech', recipientEmail } = req.body;
 
     if (!recipientEmail) {
       res.status(400).json({ success: false, error: 'recipientEmail is required.' });
@@ -46,8 +49,7 @@ app.post('/api/notifications/email/weekly-digest', async (req: Request, res: Res
     const emailResult = await sendEmailViaMailgun({
       to: recipientEmail,
       subject: `📊 CatalystLab Weekly Telemetry Dossier: ${domain}`,
-      html,
-      configOverride
+      html
     });
 
     res.json({
@@ -66,6 +68,7 @@ app.post('/api/notifications/email/weekly-digest', async (req: Request, res: Res
 // Dispatch Instant Anomaly Alert Email via Mailgun
 app.post('/api/notifications/email/anomaly-alert', async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!requireSuperadminInProduction(req, res)) return;
     const {
       domain = 'catalystlab.tech',
       recipientEmail,
@@ -115,7 +118,8 @@ app.post('/api/notifications/email/anomaly-alert', async (req: Request, res: Res
 // Test Email Verification Endpoint
 app.post('/api/notifications/email/send-test', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { recipientEmail, configOverride } = req.body;
+    if (!requireSuperadminInProduction(req, res)) return;
+    const { recipientEmail } = req.body;
     if (!recipientEmail) {
       res.status(400).json({ success: false, error: 'recipientEmail is required.' });
       return;
@@ -137,8 +141,7 @@ app.post('/api/notifications/email/send-test', async (req: Request, res: Respons
     const result = await sendEmailViaMailgun({
       to: recipientEmail,
       subject: '✅ CatalystLab Mailgun Connection Test',
-      html: testHtml,
-      configOverride
+      html: testHtml
     });
 
     res.json({
@@ -156,6 +159,7 @@ app.post('/api/notifications/email/send-test', async (req: Request, res: Respons
 // Get HTML Preview of Weekly Digest or Anomaly Alert
 app.get('/api/notifications/email/preview-html', async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!requireSuperadminInProduction(req, res)) return;
     const type = (req.query.type as string) || 'weekly';
     const domain = (req.query.domain as string) || 'catalystlab.tech';
 
@@ -206,6 +210,7 @@ app.get('/api/notifications/email/preview-html', async (req: Request, res: Respo
 // Generic Webhook Dispatcher
 app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!requireSuperadminInProduction(req, res)) return;
     const { slackWebhookUrl, discordWebhookUrl, genericWebhookUrl, webhookSecret, payload } = req.body;
     const results: Record<string, any> = {};
 
@@ -216,7 +221,12 @@ app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Respon
       results.discord = await sendDiscordWebhook(discordWebhookUrl, payload);
     }
     if (genericWebhookUrl) {
-      results.generic = await sendGenericWebhook(genericWebhookUrl, payload, webhookSecret);
+      const validation = await validatePublicUrl(String(genericWebhookUrl));
+      if (!validation.valid) {
+        results.generic = { success: false, destination: 'generic', error: validation.error || 'Target URL blocked by SSRF guard.' };
+      } else {
+        results.generic = await sendGenericWebhook(validation.normalizedUrl || genericWebhookUrl, payload, webhookSecret);
+      }
     }
 
     res.json({
@@ -231,6 +241,7 @@ app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Respon
 // Test Slack Webhook
 app.post('/api/notifications/webhook/test-slack', async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!requireSuperadminInProduction(req, res)) return;
     const { webhookUrl, domain = 'catalystlab.tech' } = req.body;
     if (!webhookUrl) {
       res.status(400).json({ success: false, error: 'webhookUrl is required.' });
@@ -261,6 +272,7 @@ app.post('/api/notifications/webhook/test-slack', async (req: Request, res: Resp
 // Test Discord Webhook
 app.post('/api/notifications/webhook/test-discord', async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!requireSuperadminInProduction(req, res)) return;
     const { webhookUrl, domain = 'catalystlab.tech' } = req.body;
     if (!webhookUrl) {
       res.status(400).json({ success: false, error: 'webhookUrl is required.' });

@@ -1,3 +1,4 @@
+export * from './LinearCard';
 export * from './TerminalInput';
 export * from './TelemetryCard';
 export * from './CodeBlock';

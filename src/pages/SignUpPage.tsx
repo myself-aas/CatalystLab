@@ -173,7 +173,7 @@ export const SignUpPage: React.FC = () => {
   const activeErrorMessage = localError || authError?.message;
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-background text-foreground selection:bg-primary selection:text-primary-foreground py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="relative flex min-h-[calc(100vh-140px)] flex-col justify-center overflow-hidden bg-transparent px-4 py-12 text-[#EDEDEF] sm:px-6 lg:px-8">
       <SEOHead
         title="Sign Up for CatalystLab | Free Developer Telemetry & Forensic Audit Account"
         description="Create your free CatalystLab account to run 8 specialized web diagnostic engines, obtain REST API tokens, and monitor production sites with automated watchdogs."
@@ -222,7 +222,7 @@ export const SignUpPage: React.FC = () => {
         </div>
 
         {/* Card Container */}
-        <div className="mt-5 rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
+        <div className="mt-5 rounded-2xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card backdrop-blur-xl sm:p-8">
           
           {/* Error Alert Banner */}
           {activeErrorMessage && (
@@ -484,22 +484,23 @@ export const SignUpPage: React.FC = () => {
             </form>
           </div>
 
-          {/* Sandbox Developer Demo Bypass */}
-          <div className="mt-5 pt-4 border-t border-border">
-            <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground mb-2">
-              <span className="flex items-center gap-1 font-semibold text-muted-foreground">
-                <Terminal className="h-3 w-3 text-amber-600" />
-                <span>Instant Sandbox Onboarding:</span>
+          {import.meta.env.DEV && (
+          <div className="mt-5 border-t border-white/[0.06] pt-4">
+            <div className="mb-2 flex items-center justify-between font-mono text-[11px] text-[#8A8F98]">
+              <span className="flex items-center gap-1 font-semibold">
+                <Terminal className="h-3 w-3 text-amber-400" />
+                <span>Dev-only sandbox onboarding:</span>
               </span>
             </div>
             <button
               type="button"
               onClick={handleSandboxSignUp}
-              className="w-full rounded-lg border border-border bg-accent px-3 py-1.5 text-[11px] font-mono font-bold text-muted-foreground hover:bg-muted hover:text-foreground transition-colors text-center cursor-pointer"
+              className="w-full cursor-pointer rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 text-center font-mono text-[11px] font-bold text-[#8A8F98] transition-colors hover:text-[#EDEDEF]"
             >
               Test Onboarding in Sandbox Mode (1-Click)
             </button>
           </div>
+          )}
         </div>
 
         {/* Switch to Sign In */}

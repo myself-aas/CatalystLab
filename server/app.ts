@@ -29,6 +29,9 @@ import { registerClientLogRoutes } from './routes/clientLogs';
 export async function createApp(): Promise<express.Express> {
   const app = express();
   const isProduction = process.env.NODE_ENV === 'production';
+  if (process.env.TRUST_PROXY === 'true') {
+    app.set('trust proxy', 1);
+  }
 
   // Compute sha256 hashes of inline <script> blocks in the built index.html
   // so production CSP can drop 'unsafe-inline' entirely (the pre-paint theme
@@ -65,7 +68,7 @@ export async function createApp(): Promise<express.Express> {
             : ["'self'", "'unsafe-inline'", "https://apis.google.com", "https://*.googleapis.com", "https://*.gstatic.com"],
           styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://*.gstatic.com"],
           fontSrc: ["'self'", "data:", "https://fonts.gstatic.com", "https://fonts.googleapis.com"],
-          imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+          imgSrc: ["'self'", "data:", "blob:", "https:"],
           connectSrc: [
             "'self'",
             "https://*.googleapis.com",
@@ -165,10 +168,7 @@ export async function createApp(): Promise<express.Express> {
       return next(err);
     }
     if (err.name === 'MongooseError' || err.name === 'MongoNetworkError' || err.message?.includes('buffering timed out') || err.message?.includes('Mongo')) {
-      logger.warn({ requestId: req.requestId }, 'Database offline — returning mock empty response');
-      if (req.method === 'GET') {
-        return res.json(req.path.endsWith('s') || req.path.endsWith('s/') ? [] : {});
-      }
+      logger.warn({ requestId: req.requestId }, 'Database offline — returning 503');
       return res.status(503).json({ error: 'Service temporarily unavailable (database offline)' });
     }
     next(err);

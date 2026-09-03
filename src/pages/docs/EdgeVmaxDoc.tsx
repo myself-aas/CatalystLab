@@ -35,7 +35,7 @@ export const EdgeVmaxDoc: React.FC = () => {
         <h2 className="text-2xl font-bold text-foreground">12 Global Evaluation Points of Presence</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
           <div className="rounded-xl border border-border bg-background p-3.5 space-y-1">
-            <strong className="text-sky-700 font-bold block">North America</strong>
+            <strong className="text-[#6872D9] font-bold block">North America</strong>
             <ul className="text-xs text-muted-foreground space-y-0.5">
               <li>• us-east (Ashburn, VA)</li>
               <li>• us-central (Iowa)</li>
@@ -68,16 +68,16 @@ export const EdgeVmaxDoc: React.FC = () => {
           The engine computes socket timing phases to pinpoint whether latency originates in DNS, TLS negotiation, or slow backend database processing:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Connection Phase</th>
                 <th className="py-2.5 px-3">Target Latency</th>
                 <th className="py-2.5 px-3">Root Cause if Slow</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-semibold">DNS Lookup</td>
                 <td className="py-2 px-3 font-mono text-emerald-700 font-bold">&lt; 25 ms</td>

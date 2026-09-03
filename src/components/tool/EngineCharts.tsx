@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import type { EngineType } from '../../types';
 
 interface EngineChartsProps {
@@ -7,40 +7,42 @@ interface EngineChartsProps {
   metrics: any;
 }
 
-const COLORS = ['#38bdf8', '#34d399', '#fbbf24', '#f43f5e'];
-
-const mockData = [
-  { name: 'A', value: 400 },
-  { name: 'B', value: 300 },
-  { name: 'C', value: 300 },
-  { name: 'D', value: 200 },
-];
+const COLORS = ['#5E6AD2', '#38bdf8', '#34d399', '#fbbf24', '#f43f5e'];
 
 export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics }) => {
+  const data: { name: string; value: number }[] = Array.isArray(metrics?.plot1)
+    ? metrics.plot1.filter((d: { name?: string; value?: number }) => typeof d?.value === 'number')
+    : Object.entries(metrics || {})
+        .filter(([, v]) => typeof v === 'number')
+        .slice(0, 8)
+        .map(([name, value]) => ({ name: String(name).slice(0, 18), value: Number(value) }));
+
+  if (data.length === 0) return null;
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-      <div className="bg-background border border-border rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-bold text-foreground mb-4 capitalize">{engineType} Metrics</h3>
+    <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card">
+        <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-[#EDEDEF]">{engineType} metrics</h3>
         <div className="h-[250px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={mockData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: 'currentColor'}} />
-              <YAxis axisLine={false} tickLine={false} tick={{fill: 'currentColor'}} />
-              <Tooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }} />
-              <Bar dataKey="value" fill="#38bdf8" radius={[4, 4, 0, 0]} />
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.06)" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#8A8F98', fontSize: 11 }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#8A8F98', fontSize: 11 }} />
+              <Tooltip contentStyle={{ backgroundColor: '#1c1c1f', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#EDEDEF' }} />
+              <Bar dataKey="value" fill="#5E6AD2" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
-      
-      <div className="bg-background border border-border rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-bold text-foreground mb-4 capitalize">Distribution</h3>
-        <div className="h-[250px] w-full flex justify-center items-center">
+
+      <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card">
+        <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-[#EDEDEF]">Distribution</h3>
+        <div className="flex h-[250px] w-full items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
-                data={mockData}
+                data={data}
                 cx="50%"
                 cy="50%"
                 innerRadius={60}
@@ -49,11 +51,11 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
                 dataKey="value"
                 stroke="none"
               >
-                {mockData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {data.map((entry, index) => (
+                  <Cell key={`${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }} />
+              <Tooltip contentStyle={{ backgroundColor: '#1c1c1f', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#EDEDEF' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>

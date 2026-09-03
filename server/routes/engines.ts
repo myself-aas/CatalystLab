@@ -15,9 +15,24 @@ import { logger } from '../core/logger';
 // Audit engines: URL reachability, single engine runs, uptime probes,
 // system health, the v1 catalog, master audits (JSON + SSE stream), compare.
 
+function extractScoreFromOutput(output: string | undefined): number | null {
+  if (!output) return null;
+  const match = output.match(/(?:composite\s*)?score[:\s]+(\d{1,3})/i);
+  if (!match) return null;
+  const n = Number(match[1]);
+  if (!Number.isFinite(n) || n < 0 || n > 100) return null;
+  return n;
+}
+
+function averageScores(values: Array<number | null>): number | null {
+  const nums = values.filter((v): v is number => typeof v === 'number');
+  if (nums.length === 0) return null;
+  return Math.round(nums.reduce((a, b) => a + b, 0) / nums.length);
+}
+
 export function registerEngineRoutes(app: express.Express): void {
 
-app.post('/api/check-url', async (req: Request, res: Response): Promise<void> => {
+app.post('/api/check-url', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE_COST }), async (req: Request, res: Response): Promise<void> => {
   try {
     const parsedBody = checkUrlSchema.safeParse(req.body);
     if (!parsedBody.success || !parsedBody.data.url) {
@@ -101,7 +116,7 @@ app.post('/api/run-engine', createEngineRateLimitMiddleware({ cost: SINGLE_ENGIN
 });
 
 // Site Probe for Monitoring & Uptime
-app.post('/api/monitor/probe', async (req: Request, res: Response): Promise<void> => {
+app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE_COST }), async (req: Request, res: Response): Promise<void> => {
   try {
     const parsedProbe = monitorProbeSchema.safeParse(req.body);
     if (!parsedProbe.success) {
@@ -474,28 +489,48 @@ const handleMasterAuditStream = async (req: Request, res: Response): Promise<voi
   res.end();
 };
 
-app.get('/api/scan/stream', handleMasterAuditStream);
-app.post('/api/scan/stream', handleMasterAuditStream);
-app.get('/api/v1/audit/master/stream', handleMasterAuditStream);
-app.post('/api/v1/audit/master/stream', handleMasterAuditStream);
-app.get('/api/master-audit/stream', handleMasterAuditStream);
-app.post('/api/master-audit/stream', handleMasterAuditStream);
+const masterStreamLimiter = createEngineRateLimitMiddleware({ cost: MASTER_AUDIT_COST, isMaster: true });
+app.get('/api/scan/stream', masterStreamLimiter, handleMasterAuditStream);
+app.post('/api/scan/stream', masterStreamLimiter, handleMasterAuditStream);
+app.get('/api/v1/audit/master/stream', masterStreamLimiter, handleMasterAuditStream);
+app.post('/api/v1/audit/master/stream', masterStreamLimiter, handleMasterAuditStream);
+app.get('/api/master-audit/stream', masterStreamLimiter, handleMasterAuditStream);
+app.post('/api/master-audit/stream', masterStreamLimiter, handleMasterAuditStream);
 
 // 3. Side-by-side Audit Compare
-app.post('/api/v1/audit/compare', async (req: Request, res: Response) => {
+app.post('/api/v1/audit/compare', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE_COST }), async (req: Request, res: Response) => {
   const { urlA, urlB } = req.body;
   if (!urlA || !urlB) {
     res.status(400).json({ success: false, error: 'urlA and urlB parameters are required.' });
     return;
   }
+  const [guardA, guardB] = await Promise.all([validatePublicUrl(String(urlA)), validatePublicUrl(String(urlB))]);
+  if (!guardA.valid || !guardB.valid) {
+    res.status(400).json({
+      success: false,
+      error: guardA.error || guardB.error || 'One or both targets were blocked by the SSRF guard.'
+    });
+    return;
+  }
+  const targetA = guardA.normalizedUrl || urlA;
+  const targetB = guardB.normalizedUrl || urlB;
+  const [outA, outB] = await Promise.all([
+    runNativeEngine(String(targetA), 'health').catch(() => ''),
+    runNativeEngine(String(targetB), 'health').catch(() => '')
+  ]);
+  const scoreA = extractScoreFromOutput(outA);
+  const scoreB = extractScoreFromOutput(outB);
+  const winner = scoreA != null && scoreB != null
+    ? (scoreA >= scoreB ? targetA : targetB)
+    : null;
+  const scoreDelta = scoreA != null && scoreB != null ? scoreA - scoreB : null;
   res.json({
     success: true,
-    domainA: { url: urlA, score: 92, status: 'pass' },
-    domainB: { url: urlB, score: 88, status: 'pass' },
-    winner: urlA,
+    domainA: { url: targetA, score: scoreA, status: scoreA == null ? 'unknown' : scoreA >= 85 ? 'pass' : 'fail' },
+    domainB: { url: targetB, score: scoreB, status: scoreB == null ? 'unknown' : scoreB >= 85 ? 'pass' : 'fail' },
+    winner,
     differential: {
-      scoreDelta: '+4 pts',
-      latencyDelta: '-32ms (Faster)'
+      scoreDelta: scoreDelta == null ? null : `${scoreDelta >= 0 ? '+' : ''}${scoreDelta} pts`
     },
     timestamp: Date.now()
   });

@@ -91,9 +91,9 @@ updates:
       {/* License Detection */}
       <section id="license-detection" className="space-y-4 border-t border-border pt-8">
         <h2 className="text-2xl font-bold text-foreground">SPDX License Compliance Matrix</h2>
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2.5 px-3">SPDX Identifier</th>
                 <th className="py-2.5 px-3">Commercial Use</th>
@@ -101,7 +101,7 @@ updates:
                 <th className="py-2.5 px-3">Compliance Risk</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-mono font-bold text-emerald-700">MIT / BSD-3-Clause</td>
                 <td className="py-2 px-3 text-emerald-700">Permitted</td>
@@ -109,7 +109,7 @@ updates:
                 <td className="py-2 px-3 text-emerald-700 font-bold">Low / Permissive</td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-mono font-bold text-sky-700">Apache-2.0</td>
+                <td className="py-2 px-3 font-mono font-bold text-[#6872D9]">Apache-2.0</td>
                 <td className="py-2 px-3 text-emerald-700">Permitted</td>
                 <td className="py-2 px-3 text-muted-foreground">Patent Grant Required</td>
                 <td className="py-2 px-3 text-emerald-700 font-bold">Low / Permissive</td>

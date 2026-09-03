@@ -165,13 +165,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                   <span>Create Free Account &rarr;</span>
                 </Link>
 
+                {import.meta.env.DEV && (
                 <button
                   onClick={() => loginWithLocalSession({ email: 'developer@catalystlab.io', isAdmin: false })}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-[#0d1b2a] py-2 text-[11px] font-semibold text-muted-foreground hover:text-primary-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.04] py-2 text-[11px] font-semibold text-[#8A8F98] transition-colors hover:text-[#EDEDEF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
-                  <span>Instant Sandbox Preview Mode</span>
+                  <span>Dev-only sandbox preview</span>
                 </button>
+                )}
               </div>
             ) : isUpgradeNeeded ? (
               <div className="space-y-2">
