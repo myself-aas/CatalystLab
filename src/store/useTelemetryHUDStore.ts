@@ -161,7 +161,7 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
   scanProgress: 0,
   currentScanningEngine: null,
   hudExpanded: false,
-  isMinimized: true,
+  isMinimized: typeof window !== 'undefined' ? window.innerWidth < 1024 : false,
   cronLogs: INITIAL_LOGS,
 
   // Edge Mesh Globe initial state

@@ -21,13 +21,25 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (saved === 'light' || saved === 'dark' || saved === 'system') {
         return saved;
       }
+      if (typeof document !== 'undefined') {
+        const existing = document.documentElement.getAttribute('data-theme');
+        if (existing === 'light' || existing === 'dark') {
+          return existing;
+        }
+      }
     } catch {
       // localStorage may be inaccessible in sandboxed environments
     }
-    return 'light';
+    return 'dark';
   });
 
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light');
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => {
+    if (typeof document !== 'undefined') {
+      const existing = document.documentElement.getAttribute('data-theme');
+      if (existing === 'light' || existing === 'dark') return existing;
+    }
+    return 'dark';
+  });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -41,16 +53,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const root = document.documentElement;
       if (effectiveTheme === 'dark') {
         root.classList.add('dark');
+        root.classList.remove('light');
         root.setAttribute('data-theme', 'dark');
         root.style.colorScheme = 'dark';
       } else {
         root.classList.remove('dark');
+        root.classList.add('light');
         root.setAttribute('data-theme', 'light');
         root.style.colorScheme = 'light';
       }
 
       // Keep the browser chrome tint in sync with the app theme
-      const themeColor = effectiveTheme === 'dark' ? '#202124' : '#ffffff';
+      const themeColor = effectiveTheme === 'dark' ? '#050506' : '#f8fafc';
       let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])');
       if (!meta) {
         meta = document.createElement('meta');

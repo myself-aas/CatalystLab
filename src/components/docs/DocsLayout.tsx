@@ -104,7 +104,7 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
           <button
             type="button"
             onClick={handleRunInCli}
-            className="inline-flex h-8 items-center gap-1 rounded px-2 text-[12px] font-medium text-[#1a73e8] hover:bg-[#e8f0fe] dark:text-[#8ab4f8] dark:hover:bg-white/5"
+            className="inline-flex h-8 items-center gap-1 rounded px-2 text-[12px] font-medium text-[#5E6AD2] hover:bg-[#e8f0fe] dark:text-[#6872D9] dark:hover:bg-white/5"
             title="Run in CLI"
           >
             <Play className="size-3 fill-current" />
@@ -152,10 +152,8 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   const searchRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [mobileTocOpen, setMobileTocOpen] = useState(false);
-  const [feedbackGiven, setFeedbackGiven] = useState<'yes' | 'no' | null>(null);
-  const [activeTocId, setActiveTocId] = useState('');
-  const [cliOpen, setCliOpen] = useState(false);
+    const [feedbackGiven, setFeedbackGiven] = useState<'yes' | 'no' | null>(null);
+    const [cliOpen, setCliOpen] = useState(false);
   const [injectedCommand, setInjectedCommand] = useState('catalyst run --engine vitalzyme');
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(DOC_NAVIGATION.map((g) => [g.group, true]))
@@ -188,23 +186,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  useEffect(() => {
-    if (toc.length === 0) return;
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 140;
-      for (let i = toc.length - 1; i >= 0; i--) {
-        const el = document.getElementById(toc[i].id);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveTocId(toc[i].id);
-          break;
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [toc]);
-
+  
   useEffect(() => {
     setMobileNavOpen(false);
     setMobileTocOpen(false);
@@ -228,22 +210,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
     [searchQuery]
   );
 
-  const scrollToTocSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setActiveTocId(id);
-      setMobileTocOpen(false);
-    }
-  };
-
+  
   const isCurrent = (path: string) =>
     path === currentPath || (path === '/docs' && (currentPath === '/docs' || currentPath === '/docs/overview'));
 
   const NavTree = (
     <nav aria-label="Documentation" className="docs-sidenav-inner">
       <Link to="/docs" className="mb-4 flex items-center gap-2 px-1 no-underline">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-[#1a73e8] text-white text-sm font-bold">C</span>
+        <span className="flex size-8 items-center justify-center rounded-lg bg-[#5E6AD2] text-white text-sm font-bold">C</span>
         <span className="leading-tight">
           <span className="block text-[13px] font-medium text-[#202124] dark:text-[#e8eaed]">CatalystLab</span>
           <span className="block text-[11px] text-[#5f6368] dark:text-[#9aa0a6]">Documentation</span>
@@ -259,7 +233,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter docs"
           aria-label="Filter documentation"
-          className="h-9 w-full rounded-full border border-[#dadce0] bg-white pl-9 pr-10 text-[13px] text-[#202124] outline-none placeholder:text-[#80868b] focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] dark:border-white/15 dark:bg-[#303134] dark:text-[#e8eaed]"
+          className="h-9 w-full rounded-full border border-[#dadce0] bg-white pl-9 pr-10 text-[13px] text-[#202124] outline-none placeholder:text-[#80868b] focus:border-[#5E6AD2] focus:ring-1 focus:ring-[#1a73e8] dark:border-white/15 dark:bg-[#303134] dark:text-[#e8eaed]"
         />
         <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-[#dadce0] bg-[#f8f9fa] px-1.5 py-0.5 font-mono text-[10px] text-[#5f6368] dark:border-white/15 dark:bg-[#3c4043] dark:text-[#9aa0a6]">
           /
@@ -273,7 +247,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             <button
               type="button"
               onClick={() => setOpenGroups((prev) => ({ ...prev, [group.group]: !expanded }))}
-              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-[12px] font-medium uppercase tracking-wide text-[#5f6368] hover:bg-[#f1f3f4] dark:text-[#9aa0a6] dark:hover:bg-white/5"
+              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-[11px] font-bold uppercase tracking-[0.1em] text-[#8A8F98] hover:bg-[#f1f3f4] dark:text-[#9aa0a6] dark:hover:bg-white/5"
               aria-expanded={expanded}
             >
               {group.group}
@@ -290,14 +264,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                         onClick={() => setMobileNavOpen(false)}
                         className={`flex min-h-9 items-center justify-between rounded-r-full border-l-[3px] py-1.5 pl-3 pr-3 text-[13px] leading-snug no-underline ${
                           active
-                            ? 'border-[#1a73e8] bg-[#e8f0fe] font-medium text-[#1967d2] dark:border-[#8ab4f8] dark:bg-[#174ea6]/30 dark:text-[#8ab4f8]'
+                            ? 'border-[#5E6AD2] bg-[#5E6AD2]/10 font-semibold text-[#5E6AD2] dark:border-[#6872D9] dark:bg-[#5E6AD2]/15 dark:text-[#6872D9]'
                             : 'border-transparent text-[#3c4043] hover:bg-[#f1f3f4] dark:text-[#e8eaed] dark:hover:bg-white/5'
                         }`}
                         aria-current={active ? 'page' : undefined}
                       >
                         <span className="truncate">{item.title}</span>
                         {item.badge && (
-                          <span className="ml-2 shrink-0 rounded-full bg-[#e8f0fe] px-1.5 py-0.5 font-mono text-[10px] text-[#1967d2] dark:bg-[#174ea6]/40 dark:text-[#8ab4f8]">
+                          <span className="ml-2 shrink-0 rounded-full bg-[#5E6AD2]/10 px-1.5 py-0.5 font-mono text-[10px] text-[#5E6AD2] dark:bg-[#174ea6]/40 dark:text-[#6872D9]">
                             {item.badge}
                           </span>
                         )}
@@ -313,34 +287,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
     </nav>
   );
 
-  const TocList = toc.length > 0 && (
-    <nav aria-label="On this page">
-      <p className="mb-3 text-[12px] font-medium uppercase tracking-wide text-[#5f6368] dark:text-[#9aa0a6]">
-        On this page
-      </p>
-      <ul className="space-y-0.5 border-l border-[#dadce0] dark:border-white/15">
-        {toc.map((item) => {
-          const active = activeTocId === item.id;
-          return (
-            <li key={item.id}>
-              <button
-                type="button"
-                onClick={() => scrollToTocSection(item.id)}
-                className={`block w-full border-l-2 py-1 pl-3 pr-2 text-left text-[13px] leading-snug ${
-                  active
-                    ? '-ml-px border-[#1a73e8] font-medium text-[#1a73e8] dark:border-[#8ab4f8] dark:text-[#8ab4f8]'
-                    : 'border-transparent text-[#5f6368] hover:text-[#202124] dark:text-[#9aa0a6] dark:hover:text-[#e8eaed]'
-                }`}
-              >
-                {item.title}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  );
-
+  
   return (
     <div className="docs-devsite min-h-screen bg-[#fff] text-[#202124] dark:bg-[#202124] dark:text-[#e8eaed]">
       <SEOHead
@@ -401,35 +348,15 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               >
                 <Menu className="size-5" />
               </button>
-              <nav aria-label="Breadcrumb" className="hidden min-w-0 items-center gap-1 text-[13px] text-[#5f6368] sm:flex dark:text-[#9aa0a6]">
-                <Link to="/" className="hover:text-[#1a73e8] dark:hover:text-[#8ab4f8]">Home</Link>
-                <ChevronRight className="size-3.5 shrink-0 opacity-60" />
-                <Link to="/docs" className="hover:text-[#1a73e8] dark:hover:text-[#8ab4f8]">Docs</Link>
-                {currentItem && currentItem.path !== '/docs' && (
-                  <>
-                    <ChevronRight className="size-3.5 shrink-0 opacity-60" />
-                    <span className="truncate text-[#202124] dark:text-[#e8eaed]">{currentItem.title}</span>
-                  </>
-                )}
-              </nav>
             </div>
             <div className="flex items-center gap-1">
-              {toc.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setMobileTocOpen((v) => !v)}
-                  className="inline-flex h-9 items-center gap-1 rounded-full px-3 text-[13px] font-medium text-[#1a73e8] hover:bg-[#e8f0fe] xl:hidden dark:text-[#8ab4f8] dark:hover:bg-white/5"
-                >
-                  On this page
-                  <ChevronDown className={`size-4 ${mobileTocOpen ? 'rotate-180' : ''}`} />
-                </button>
-              )}
+              
               <button
                 type="button"
                 onClick={() => setCliOpen((v) => !v)}
                 className={`inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium ${
                   cliOpen
-                    ? 'bg-[#e8f0fe] text-[#1967d2] dark:bg-[#174ea6]/40 dark:text-[#8ab4f8]'
+                    ? 'bg-[#e8f0fe] text-[#1967d2] dark:bg-[#174ea6]/40 dark:text-[#6872D9]'
                     : 'text-[#5f6368] hover:bg-[#f1f3f4] dark:text-[#9aa0a6] dark:hover:bg-white/5'
                 }`}
               >
@@ -446,17 +373,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             </div>
           </div>
 
-          {mobileTocOpen && toc.length > 0 && (
-            <div className="border-b border-[#dadce0] bg-white px-4 py-3 xl:hidden dark:border-white/10 dark:bg-[#202124]">
-              {TocList}
-            </div>
-          )}
+          
 
           <div className="flex">
             <article className="min-w-0 flex-1 px-4 py-8 sm:px-8 lg:px-12 xl:max-w-[860px]">
               <header className="mb-8">
-                <p className="mb-2 text-[13px] font-medium text-[#1a73e8] dark:text-[#8ab4f8]">CatalystLab documentation</p>
-                <h1 className="text-[2rem] font-normal leading-tight tracking-tight text-[#202124] sm:text-[2.5rem] dark:text-[#e8eaed]">
+                <p className="mb-2 text-[13px] font-medium text-[#5E6AD2] dark:text-[#6872D9]">CatalystLab documentation</p>
+                <h1 className="text-4xl font-display font-medium leading-tight text-[#202124] sm:text-5xl dark:text-[#e8eaed]">
                   {title}
                 </h1>
                 <p className="mt-3 max-w-[42rem] text-[16px] leading-7 text-[#3c4043] dark:text-[#9aa0a6]">{description}</p>
@@ -473,7 +396,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   <ul className="list-disc space-y-1 pl-5 text-[14px] leading-6 text-[#3c4043] dark:text-[#9aa0a6]">
                     {toc.slice(0, 4).map((item) => (
                       <li key={item.id}>
-                        <button type="button" onClick={() => scrollToTocSection(item.id)} className="text-left text-[#1a73e8] hover:underline dark:text-[#8ab4f8]">
+                        <button type="button" onClick={() => scrollToTocSection(item.id)} className="text-left text-[#5E6AD2] hover:underline dark:text-[#6872D9]">
                           {item.title}
                         </button>
                       </li>
@@ -488,13 +411,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 {prevItem ? (
                   <Link
                     to={prevItem.path}
-                    className="group flex flex-col gap-1 rounded-lg border border-[#dadce0] p-4 no-underline hover:border-[#1a73e8] dark:border-white/15 dark:hover:border-[#8ab4f8]"
+                    className="group flex flex-col gap-1 rounded-lg border border-[#dadce0] p-4 no-underline hover:border-[#5E6AD2] dark:border-white/15 dark:hover:border-[#8ab4f8]"
                   >
-                    <span className="inline-flex items-center gap-1 text-[12px] font-medium uppercase tracking-wide text-[#5f6368] dark:text-[#9aa0a6]">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#8A8F98] dark:text-[#9aa0a6]">
                       <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
                       Previous
                     </span>
-                    <span className="text-[15px] text-[#1a73e8] dark:text-[#8ab4f8]">{prevItem.title}</span>
+                    <span className="text-[15px] text-[#5E6AD2] dark:text-[#6872D9]">{prevItem.title}</span>
                   </Link>
                 ) : (
                   <div />
@@ -502,13 +425,13 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 {nextItem && (
                   <Link
                     to={nextItem.path}
-                    className="group flex flex-col items-end gap-1 rounded-lg border border-[#dadce0] p-4 text-right no-underline hover:border-[#1a73e8] sm:col-start-2 dark:border-white/15 dark:hover:border-[#8ab4f8]"
+                    className="group flex flex-col items-end gap-1 rounded-lg border border-[#dadce0] p-4 text-right no-underline hover:border-[#5E6AD2] sm:col-start-2 dark:border-white/15 dark:hover:border-[#8ab4f8]"
                   >
-                    <span className="inline-flex items-center gap-1 text-[12px] font-medium uppercase tracking-wide text-[#5f6368] dark:text-[#9aa0a6]">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#8A8F98] dark:text-[#9aa0a6]">
                       Next
                       <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
                     </span>
-                    <span className="text-[15px] text-[#1a73e8] dark:text-[#8ab4f8]">{nextItem.title}</span>
+                    <span className="text-[15px] text-[#5E6AD2] dark:text-[#6872D9]">{nextItem.title}</span>
                   </Link>
                 )}
               </nav>
@@ -555,21 +478,16 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-[#dadce0] pt-5 text-[12px] text-[#5f6368] dark:border-white/10 dark:text-[#9aa0a6]">
                 <p>Except as otherwise noted, the content of this page is licensed for CatalystLab developer documentation.</p>
                 <div className="flex gap-4">
-                  <Link to="/blogs" className="inline-flex items-center gap-1 hover:text-[#1a73e8] dark:hover:text-[#8ab4f8]">
+                  <Link to="/blogs" className="inline-flex items-center gap-1 hover:text-[#5E6AD2] dark:hover:text-[#8ab4f8]">
                     <BookOpen className="size-3.5" /> Blog
                   </Link>
-                  <Link to="/contact" className="inline-flex items-center gap-1 hover:text-[#1a73e8] dark:hover:text-[#8ab4f8]">
+                  <Link to="/contact" className="inline-flex items-center gap-1 hover:text-[#5E6AD2] dark:hover:text-[#8ab4f8]">
                     <HelpCircle className="size-3.5" /> Support
                   </Link>
                 </div>
               </footer>
             </article>
 
-            {toc.length > 0 && (
-              <aside className="hidden w-[220px] shrink-0 xl:block">
-                <div className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto py-8 pr-4">{TocList}</div>
-              </aside>
-            )}
           </div>
         </div>
       </div>

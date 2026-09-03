@@ -25,7 +25,7 @@ export const SystemOverviewDoc: React.FC = () => {
           <span className="h-1.5 w-1.5 rounded-full bg-[#5E6AD2]" />
           <span>CatalystLab Core Architecture</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+        <h1 className="text-4xl sm:text-5xl font-display font-medium text-foreground">
           System Overview & Engineering Philosophy
         </h1>
         <p className="text-base text-muted-foreground leading-relaxed">
@@ -44,7 +44,7 @@ export const SystemOverviewDoc: React.FC = () => {
           <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider">
             Zero-Eval Architecture
           </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground font-sans tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-display font-medium text-foreground tracking-normal">
             Deterministic Telemetry &amp; TLS Probing
           </h2>
         </div>
@@ -70,7 +70,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* Key Architectural Tenets */}
       <section className="space-y-4">
-        <h2 className="text-xl font-bold text-foreground">Four Core Principles</h2>
+        <h2 className="text-2xl font-display font-medium text-foreground">Four Core Principles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4 space-y-1.5">
             <div className="flex items-center gap-2 font-bold text-foreground">
@@ -116,7 +116,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* SDLC Catalysts Summary */}
       <section id="engines-summary" className="space-y-4">
-        <h2 className="text-xl font-bold text-foreground">The 8 SDLC Catalysts</h2>
+        <h2 className="text-2xl font-display font-medium text-foreground">The 8 SDLC Catalysts</h2>
         <p className="text-sm text-muted-foreground">
           CatalystLab divides modern web telemetry into 8 specialized diagnostic vectors:
         </p>
@@ -203,7 +203,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
       {/* Next Steps */}
       <section id="next-steps" className="space-y-4">
-        <h2 className="text-xl font-bold text-foreground">Next Steps</h2>
+        <h2 className="text-2xl font-display font-medium text-foreground">Next Steps</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
           <Link
             to="/products#webhook-mesh"

@@ -144,10 +144,16 @@
   --content-max-width: 1400px;
   --page-gutter: clamp(1rem, 3vw, 2rem);
   --control-min-size: 2.75rem;
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --mobile-nav-height: 4rem;
 
   /* Font Stacks */
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sans: "Inter", "Geist Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Playfair Display", serif;
 }
 
 html.dark, [data-theme="dark"], .theme-dark, .page-dark {
@@ -284,6 +290,11 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-danger: #fb7185;
   --surface-overlay: rgba(5, 5, 6, 0.88);
   --surface-overlay-strong: rgba(5, 5, 6, 0.96);
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --mobile-nav-height: 4rem;
 }
 
 @theme inline {
@@ -365,10 +376,12 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-border-default: var(--border-default, rgba(255, 255, 255, 0.06));
   --color-border-hover: var(--border-hover, rgba(255, 255, 255, 0.10));
   --color-border-accent: var(--border-accent, rgba(94, 106, 210, 0.30));
-  --font-sans: "Inter", "Geist Sans", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Playfair Display", serif;
 }
 
 @theme {
+  --font-display: "Playfair Display", serif;
   /* Linear Indigo Core */
   --color-linear-indigo: #5E6AD2;
   --color-linear-indigo-bright: #6872D9;
@@ -395,16 +408,24 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
 }
 @layer base {
   html {
+    height: 100%;
     scroll-behavior: smooth;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
     background-color: var(--app-background);
     color: var(--app-foreground);
+    overflow-x: hidden;
   }
 
   body {
+    min-height: 100%;
+    min-height: 100dvh;
+    width: 100%;
     font-family: var(--font-sans);
+  --font-display: "Playfair Display", serif;
     background-color: var(--app-background);
     color: var(--app-foreground);
     line-height: 1.6;
@@ -412,6 +433,38 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     font-weight: 400;
     overflow-x: hidden;
     transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  #root {
+    min-height: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    isolation: isolate;
+    overflow-x: hidden;
+  }
+
+  /* Accessible touch target minimums on coarse pointer mobile devices */
+  @media (pointer: coarse) {
+    button,
+    [role="button"],
+    input[type="submit"],
+    input[type="button"],
+    input[type="reset"] {
+      min-height: 44px;
+    }
+  }
+
+  /* Responsive containment for code, pre, and scroll containers on mobile */
+  pre, code {
+    max-width: 100%;
+  }
+
+  .overflow-y-auto,
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
   }
 
   ::selection {
@@ -914,16 +967,16 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   .ds-control { min-height: 2.75rem; border-radius: 0.65rem; }
   .ds-muted { color: var(--app-muted-foreground); }
-
   .docs-devsite-article h1,
   .docs-devsite-article h2,
   .docs-devsite-article h3,
   .docs-content h1,
   .docs-content h2,
   .docs-content h3 {
+    font-family: var(--font-display);
     color: #202124;
-    letter-spacing: -0.02em;
-    font-weight: 400;
+    letter-spacing: normal;
+    font-weight: 500;
   }
   .docs-devsite-article h2,
   .docs-content h2 {
@@ -943,7 +996,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     color: #3c4043;
   }
   .docs-content a {
-    color: #1a73e8;
+    color: #5E6AD2;
     text-decoration: none;
   }
   .docs-content a:hover {
@@ -980,7 +1033,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     color: #9aa0a6;
   }
   .dark .docs-content a {
-    color: #8ab4f8;
+    color: #6872D9;
   }
   .dark .docs-content code {
     color: #f28b82;
@@ -1051,15 +1104,15 @@ html:not(.dark) .text-gradient-linear {
 }
 html:not(.dark) .text-\[\#EDEDEF\] { color: #202124; }
 html:not(.dark) .text-\[\#8A8F98\] { color: #5f6368; }
-html:not(.dark) .text-\[\#6872D9\] { color: #1a73e8; }
-html:not(.dark) .text-\[\#5E6AD2\] { color: #1a73e8; }
+html:not(.dark) .text-\[\#6872D9\] { color: #5E6AD2; }
+html:not(.dark) .text-\[\#5E6AD2\] { color: #5E6AD2; }
 html:not(.dark) .bg-\[\#020203\],
 html:not(.dark) .bg-\[\#050506\],
 html:not(.dark) .bg-\[\#060912\],
 html:not(.dark) .bg-\[\#0B101D\],
 html:not(.dark) .bg-\[\#080D1A\],
 html:not(.dark) .bg-\[\#0E1526\] { background-color: #ffffff; }
-html:not(.dark) .bg-\[\#5E6AD2\] { background-color: #1a73e8; }
+html:not(.dark) .bg-\[\#5E6AD2\] { background-color: #5E6AD2; }
 html:not(.dark) .hover\:bg-\[\#6872D9\]:hover { background-color: #1967d2; }
 html:not(.dark) .border-white\/\[0\.06\],
 html:not(.dark) .border-white\/\[0\.10\] { border-color: #dadce0; }

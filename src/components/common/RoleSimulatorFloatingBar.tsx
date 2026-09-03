@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRoleSecurity } from '../../context/RoleSecurityContext';
 import { UserRole, ROLE_CONFIGS } from '../../utils/rolePermissions';
 import { 
@@ -19,10 +20,13 @@ import {
 export const RoleSimulatorFloatingBar: React.FC = () => {
   const { effectiveRole, actualRole, isSimulating, setSimulatedRole, resetSimulation } = useRoleSecurity();
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   if (!import.meta.env.DEV) {
     return null;
   }
+
+  const showAppChrome = /^\/(dashboard|admin|app|hud|user-dashboard)(\/|$|\.html$)/.test(location.pathname);
 
   const roles: { role: UserRole; icon: React.ComponentType<{ className?: string }>; label: string; badge: string }[] = [
     { role: 'anonymous', icon: User, label: 'Guest Visitor', badge: 'Public' },
@@ -38,11 +42,15 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
   return (
     <aside 
       aria-label="Role and Security Preview Panel" 
-      className="fixed bottom-4 right-4 z-40 flex flex-col items-end"
+      className={`fixed right-3 sm:right-4 z-40 flex flex-col items-end transition-all duration-300 ${
+        showAppChrome
+          ? 'bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] lg:bottom-4'
+          : 'bottom-[max(1rem,env(safe-area-inset-bottom))]'
+      }`}
     >
       {/* Expanded Role Selection Popover */}
       {isOpen && (
-        <div className="mb-2 w-80 rounded-2xl border border-border bg-background/95 p-4 shadow-2xl backdrop-blur-xl text-foreground animate-in fade-in slide-in-from-bottom-2 duration-150">
+        <div className="mb-2 w-[calc(100vw-1.5rem)] max-w-xs sm:w-80 max-h-[70vh] overflow-y-auto rounded-2xl border border-border bg-background/95 p-4 shadow-2xl backdrop-blur-xl text-foreground animate-in fade-in slide-in-from-bottom-2 duration-150">
           <div className="flex items-center justify-between border-b border-border pb-3 mb-3">
             <div className="flex items-center gap-2">
               <Shield className="h-4 w-4 text-cyan-400" />
@@ -115,7 +123,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
       {/* Floating Pill Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md ${
+        className={`flex min-h-[44px] items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md ${
           isSimulating
             ? 'border-amber-400/60 bg-amber-950/80 text-amber-200 hover:bg-amber-900/90'
             : 'border-border bg-background/90 text-foreground hover:bg-muted'

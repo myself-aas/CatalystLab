@@ -190,19 +190,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         description={meta.description}
         canonicalUrl={`https://www.catalystlab.tech/tool/${engineType}`}
       />
-
       <section className="relative overflow-hidden border-b border-white/[0.06] px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[#5E6AD2]/15 blur-[140px]" />
-
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          <div className="mb-8 flex items-center justify-between">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:text-[#EDEDEF]"
-            >
-              <ArrowLeft className="size-3.5" />
-              <span>Back to Master Audit</span>
-            </Link>
+          <div className="mb-8 flex justify-end">
             <Link
               to={`/docs#${meta.docsAnchor || 'overview'}`}
               className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:text-[#EDEDEF]"

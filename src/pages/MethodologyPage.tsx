@@ -21,11 +21,6 @@ export const MethodologyPage: React.FC = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
         <div className="relative z-10 max-w-7xl mx-auto space-y-4">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-muted-foreground">
-            <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
-            <span className="text-foreground">Methodology &amp; Philosophy</span>
-          </div>
           
           <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/90 backdrop-blur-md px-3.5 py-1 text-xs font-mono font-bold text-foreground uppercase tracking-wider shadow-xs">
             <Sparkles className="h-3.5 w-3.5 text-blue-600" />

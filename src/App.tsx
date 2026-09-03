@@ -12,7 +12,6 @@ import { LinearAmbientBackground } from "./components/layout/LinearAmbientBackgr
 import { StickyHUD } from "./components/layout/StickyHUD";
 import { TrialBanner } from "./components/common/TrialBanner";
 import { TrialActivationModal } from "./components/common/TrialActivationModal";
-import { GlobalBreadcrumb } from "./components/layout/GlobalBreadcrumb";
 import { Footer } from "./components/layout/Footer";
 import { DevSiteLayout } from "./components/layout/DevSiteLayout";
 
@@ -139,7 +138,10 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <div className={`app-shell flex min-h-screen text-foreground animate-app-fade-in relative ${showAppChrome ? "pb-16 lg:pb-0" : ""} ${resolvedTheme === "dark" ? "bg-transparent" : "bg-background"}`}>
+      <div 
+        data-theme={resolvedTheme}
+        className={`app-shell ${pagePolarity} flex min-h-screen min-h-dvh flex-col lg:flex-row w-full max-w-full overflow-x-hidden text-foreground animate-app-fade-in relative ${showAppChrome ? "pb-[calc(4rem+env(safe-area-inset-bottom,0px))] lg:pb-0" : "pb-[env(safe-area-inset-bottom,0px)]"} ${resolvedTheme === "dark" ? "bg-transparent" : "bg-background"}`}
+      >
         {resolvedTheme === "dark" && <LinearAmbientBackground />}
         {showAppChrome && (
           <Sidebar mobileOpen={isMobileSidebarOpen} onCloseMobile={() => setIsMobileSidebarOpen(false)} />
@@ -147,7 +149,7 @@ export const App: React.FC = () => {
         {showAppChrome && (
           <MobileBottomNav onOpenMenu={() => setIsMobileSidebarOpen(true)} />
         )}
-        <div className="flex-1 flex flex-col min-w-0 relative z-10">
+        <div className="flex-1 flex flex-col min-w-0 w-full max-w-full relative z-10">
           <a
             href="#main-content"
             className="sr-only rounded-br-lg p-4 font-semibold text-primary shadow-lg focus:not-sr-only focus:absolute focus:z-[100] focus:bg-background focus:text-foreground focus:outline focus:outline-2 focus:outline-primary"
@@ -157,8 +159,7 @@ export const App: React.FC = () => {
           <ScrollToTop />
           <TrialBanner />
           <Navbar onOpenMobileMenu={showAppChrome ? () => setIsMobileSidebarOpen(true) : undefined} />
-          {!useDevSiteLayout && !isDocsRoute && <GlobalBreadcrumb />}
-          <main id="main-content" className={`${pagePolarity} flex-1`}>
+          <main id="main-content" className={`${pagePolarity} flex-1 w-full max-w-full overflow-x-hidden`}>
             <AnimatePresence mode="wait">
               <PageTransition key={location.pathname} className="min-h-full">
             <Suspense fallback={<RouteLoadingSkeleton />}>

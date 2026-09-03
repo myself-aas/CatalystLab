@@ -61,13 +61,6 @@ export const ApiCategoryPage: React.FC = () => {
       <div className="border-b border-border bg-background pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
-              <Link to="/api-reference" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                API Reference
-              </Link>
-              <span>/</span>
-              <span className="text-foreground font-bold">{categoryName}</span>
-            </div>
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>

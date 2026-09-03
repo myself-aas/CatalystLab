@@ -274,13 +274,6 @@ func main() {
       <div className="border-b border-border bg-background pt-10 pb-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
-              <Link to="/playground" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                Playground
-              </Link>
-              <span>/</span>
-              <span className="text-foreground font-bold">{activeEngineConfig.name}</span>
-            </div>
 
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div>
