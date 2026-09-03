@@ -45,7 +45,7 @@ Please provide the exact collection schemas, indexing commands, and zero-downtim
           <h2 className="font-bold text-foreground text-sm uppercase tracking-wider">Reference Architecture</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div className="rounded-lg bg-background border border-border p-3">
-              <strong className="text-sky-700 block mb-1">Auth & Ingress Layer</strong>
+              <strong className="text-[#6872D9] block mb-1">Auth & Ingress Layer</strong>
               Firebase Auth + Express Node.js Gateway with rate limiting & OWASP headers.
             </div>
             <div className="rounded-lg bg-background border border-border p-3">

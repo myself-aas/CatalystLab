@@ -1,27 +1,18 @@
 import React, { useState } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Home, 
-  LayoutDashboard, 
-  CheckSquare, 
-  Users, 
-  BarChart2, 
-  FolderOpen, 
-  Settings, 
-  Search,
+import {
+  LayoutDashboard,
+  CheckSquare,
+  BarChart2,
+  FolderOpen,
+  Settings,
   Activity,
-  Terminal,
-  Cpu,
-  Globe,
   Sun,
   Moon,
-  MoreVertical,
   LogOut,
   LogIn,
   ChevronRight,
-  Menu,
-  X,
   Sidebar as SidebarIcon
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
@@ -34,19 +25,26 @@ interface SidebarProps {
   onCloseMobile: () => void;
 }
 
+interface SidebarLink {
+  name: string;
+  icon: typeof LayoutDashboard;
+  path: string;
+  badge?: string;
+}
+
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [enginesExpanded, setEnginesExpanded] = useState(true);
-  const { user, logOut } = useAuth();
+  const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
-  const location = useLocation();
 
-  const TOP_LINKS = [
-    { name: 'Home', icon: Home, path: '/' },
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-    { name: 'Reports', icon: CheckSquare, path: '/reports', badge: '12' },
-    { name: 'Blogs', icon: Users, path: '/blogs' },
-    { name: 'Methodology', icon: BarChart2, path: '/methodology' },
+  const TOP_LINKS: SidebarLink[] = [
+    { name: 'Overview', icon: LayoutDashboard, path: '/dashboard' },
+    { name: 'Audits', icon: CheckSquare, path: '/dashboard/audits' },
+    { name: 'Reports', icon: FolderOpen, path: '/reports' },
+    { name: 'Webhooks', icon: Activity, path: '/dashboard/webhooks' },
+    { name: 'Monitoring', icon: BarChart2, path: '/dashboard/monitoring' },
+    { name: 'API Keys', icon: Settings, path: '/dashboard/api-keys' },
   ];
 
   const ENGINES = [
@@ -68,8 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
   };
 
   const SidebarContent = (
-    <div className="flex h-full flex-col bg-[#F9FAFB] dark:bg-card border-r border-border-default overflow-hidden transition-colors">
-      {/* Header */}
+    <div className="flex h-full flex-col bg-white border-r border-[#dadce0] overflow-hidden dark:bg-[#202124] dark:border-white/10">
       <div className={cn("flex items-center h-16 shrink-0 px-4", isExpanded ? "justify-between" : "justify-center")}>
         {isExpanded && (
           <Link to="/" className="flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-md" onClick={onCloseMobile}>
@@ -85,7 +82,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         </button>
       </div>
 
-      {/* Main Nav */}
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1 scrollbar-none">
         {TOP_LINKS.map((item) => (
           <NavLink
@@ -94,24 +90,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             onClick={onCloseMobile}
             className={({ isActive }) => cn(
               "group relative flex items-center h-[36px] rounded-lg px-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-              isActive 
-                ? "bg-black/5 dark:bg-white/10 text-foreground font-medium" 
-                : "text-foreground-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground"
+              isActive
+                ? "bg-white/[0.08] text-[#EDEDEF] font-medium"
+                : "text-[#8A8F98] hover:bg-white/[0.05] hover:text-[#EDEDEF]"
             )}
           >
             <item.icon className={cn("size-[18px] shrink-0", !isExpanded && "mx-auto")} />
-            
+
             {isExpanded && (
               <span className="ml-3 text-[14px] flex-1 truncate">{item.name}</span>
             )}
-            
+
             {isExpanded && item.badge && (
               <span className="text-[11px] font-medium text-foreground-muted bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
                 {item.badge}
               </span>
             )}
 
-            {/* Tooltip for collapsed state */}
             {!isExpanded && (
               <div className="absolute left-full ml-2 px-2 py-1 bg-foreground text-background text-xs font-medium rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 flex items-center shadow-lg">
                 <div className="absolute -left-1 top-1/2 -translate-y-1/2 border-y-4 border-y-transparent border-r-4 border-r-foreground" />
@@ -121,7 +116,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
           </NavLink>
         ))}
 
-        {/* Folders (Engines) Accordion */}
         <div className="pt-4 pb-1">
           <button
             onClick={() => {
@@ -144,19 +138,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             ) : (
               <FolderOpen className="size-[18px]" />
             )}
-            
+
             {isExpanded && (
               <span className="ml-2 text-[14px] flex-1 text-left">Engines</span>
             )}
-
-            {!isExpanded && (
-              <div className="absolute left-full ml-2 px-2 py-1 bg-foreground text-background text-xs font-medium rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 flex items-center shadow-lg">
-                <div className="absolute -left-1 top-1/2 -translate-y-1/2 border-y-4 border-y-transparent border-r-4 border-r-foreground" />
-                Engines
-              </div>
-            )}
           </button>
-          
+
           <AnimatePresence initial={false}>
             {isExpanded && enginesExpanded && (
               <motion.div
@@ -174,8 +161,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                       onClick={onCloseMobile}
                       className={({ isActive }) => cn(
                         "flex items-center h-[32px] rounded-lg px-2.5 text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                        isActive 
-                          ? "bg-black/5 dark:bg-white/10 text-foreground font-medium" 
+                        isActive
+                          ? "bg-black/5 dark:bg-white/10 text-foreground font-medium"
                           : "text-foreground-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground"
                       )}
                     >
@@ -189,9 +176,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         </div>
       </div>
 
-      {/* Footer Area */}
       <div className="px-3 py-4 space-y-4 border-t border-border-default/50 shrink-0">
-        {/* Theme Toggle segmented control */}
         {isExpanded ? (
           <div className="flex p-0.5 bg-black/5 dark:bg-white/5 rounded-lg">
             <button
@@ -224,7 +209,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
           </button>
         )}
 
-        {/* User Profile */}
         <div className={cn("flex items-center", isExpanded ? "gap-3 px-2" : "justify-center")}>
           <div className="size-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0 border border-accent/30 overflow-hidden">
             {user?.photoURL ? (
@@ -235,7 +219,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               </span>
             )}
           </div>
-          
+
           {isExpanded && (
             <>
               <div className="flex-1 min-w-0">
@@ -246,10 +230,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                   {user?.email || 'Sign in to sync'}
                 </p>
               </div>
-              
-              <button className="p-1 rounded text-foreground-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none">
-                <MoreVertical className="size-[18px]" />
-              </button>
+
+              {user ? (
+                <button
+                  type="button"
+                  onClick={() => logout()}
+                  className="p-1 rounded text-foreground-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
+                  title="Sign out"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="size-[18px]" />
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={onCloseMobile}
+                  className="p-1 rounded text-foreground-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
+                  title="Sign in"
+                  aria-label="Sign in"
+                >
+                  <LogIn className="size-[18px]" />
+                </Link>
+              )}
             </>
           )}
         </div>
@@ -259,7 +261,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
       <motion.aside
         initial={false}
         animate={isExpanded ? 'expanded' : 'collapsed'}
@@ -270,7 +271,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         {SidebarContent}
       </motion.aside>
 
-      {/* Mobile Drawer Overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <>

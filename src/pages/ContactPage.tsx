@@ -146,7 +146,7 @@ export const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 text-foreground selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-screen bg-transparent pb-24 text-[#EDEDEF]">
       <SEOHead
         title="Developer Support & Inquiries"
         description="Contact the CatalystLab telemetry and engineering team. Get support for synthetic audits, DOM performance diagnostics, API access, and enterprise quotas."
@@ -168,7 +168,7 @@ export const ContactPage: React.FC = () => {
               </div>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.08]">
                 Developer Inquiries &amp;{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-background">
+                <span className="bg-gradient-to-r from-[#5E6AD2] via-[#6872D9] to-[#38bdf8] bg-clip-text text-transparent">
                   Support Portal
                 </span>
               </h1>
@@ -178,8 +178,8 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Live Status Indicator Pill */}
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/90 backdrop-blur-md p-4 sm:p-5 shrink-0 shadow-xs font-mono">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
+            <div className="shrink-0 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 font-mono backdrop-blur-md sm:p-5">
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-300">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>SUPPORT STATUS: ACTIVE</span>
               </div>

@@ -57,16 +57,10 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="relative z-20 border-t border-border-default bg-[#020203] text-foreground-muted overflow-hidden">
-      {/* Layer 1: Ambient Lighting Glow */}
-      <div className="pointer-events-none absolute -top-48 left-1/2 -translate-x-1/2 h-96 w-[1000px] rounded-full bg-accent/10 blur-[150px]" />
-      <div className="pointer-events-none absolute bottom-0 right-10 h-72 w-72 rounded-full bg-purple-900/10 blur-[120px]" />
-      
-      {/* Hairline Accent Glow Line on Top Edge */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+    <footer id="main-footer" className="relative z-20 border-t border-[#dadce0] bg-[#f8f9fa] text-[#5f6368] overflow-hidden dark:border-white/10 dark:bg-[#202124] dark:text-[#9aa0a6]">
 
       {/* Interactive Quick Audit Callout Header */}
-      <div className="relative border-b border-border-default bg-card/30 backdrop-blur-md">
+      <div className="relative border-b border-[#dadce0] bg-white dark:border-white/10 dark:bg-[#303134]">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="space-y-1">
@@ -358,6 +352,12 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li className="pt-2 border-t border-border-default">
+                <Link to="/legal" className="hover:text-foreground group flex items-center gap-1.5 py-0.5" aria-label="Open legal and compliance hub">
+                  <FileCheck className="size-3 text-foreground-muted" />
+                  <span>Legal Hub</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/privacy" className="hover:text-foreground group flex items-center gap-1.5 py-0.5" aria-label="Read privacy policy and data compliance details">
                   <Lock className="size-3 text-foreground-muted" />
                   <span>Privacy Policy (GDPR / CCPA)</span>

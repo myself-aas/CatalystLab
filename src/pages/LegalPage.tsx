@@ -7,10 +7,13 @@ export const LegalPage: React.FC = () => {
   const location = useLocation();
   const path = location.pathname;
 
-  let title = 'Privacy Policy';
-  let content = 'We respect your privacy. CatalystLab stores diagnostic telemetry reports securely in Firestore under your authenticated user ID. We never sell your data or expose private credentials.';
+  let title = 'Legal & Compliance';
+  let content = 'Policies covering privacy, acceptable use, cookies, and coordinated vulnerability disclosure for the CatalystLab telemetry platform.';
 
-  if (path.includes('terms')) {
+  if (path.includes('privacy')) {
+    title = 'Privacy Policy';
+    content = 'We respect your privacy. CatalystLab stores diagnostic telemetry reports securely in Firestore under your authenticated user ID. We never sell your data or expose private credentials.';
+  } else if (path.includes('terms')) {
     title = 'Terms & Conditions';
     content = 'By using CatalystLab telemetry tools, you agree to scan only URLs and repositories that you own or have explicit authorization to inspect. Diagnostic results are provided on an as-is basis.';
   } else if (path.includes('cookies')) {
@@ -42,6 +45,12 @@ export const LegalPage: React.FC = () => {
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="space-y-4 rounded-2xl border border-border bg-background p-6 text-xs sm:text-sm leading-relaxed text-foreground shadow-xl sm:p-8 font-sans">
           <p className="text-foreground leading-relaxed">{content}</p>
+          <ul className="grid gap-2 sm:grid-cols-2 text-sm">
+            <li><Link to="/privacy" className="font-semibold underline">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="font-semibold underline">Terms of Service</Link></li>
+            <li><Link to="/cookies" className="font-semibold underline">Cookie Preferences</Link></li>
+            <li><Link to="/security" className="font-semibold underline">Security Disclosure</Link></li>
+          </ul>
           <p className="text-xs text-muted-foreground pt-2 border-t border-border">
             For questions or requests regarding data retention or legal compliance, please refer to our{' '}
             <Link to="/contact" className="font-semibold text-foreground underline hover:text-foreground">Contact Support</Link> portal.

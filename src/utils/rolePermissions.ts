@@ -1,5 +1,4 @@
 import type { User } from '../lib/firebase';
-import { SUPERADMIN_EMAILS } from '../context/AuthContext';
 import { SubscriptionPlanId } from '../types';
 
 export type UserRole = 
@@ -229,8 +228,7 @@ export function resolveUserRole(
     return 'anonymous';
   }
 
-  const email = user.email?.toLowerCase() || '';
-  if (isAdmin || SUPERADMIN_EMAILS.includes(email)) {
+  if (isAdmin) {
     return 'superadmin';
   }
 
@@ -243,8 +241,9 @@ export function resolveUserRole(
     case 'team':
       return 'team';
     case 'pro':
-    case 'starter':
       return 'pro';
+    case 'starter':
+      return 'user';
     case 'free':
     default:
       return 'user';
@@ -254,9 +253,12 @@ export function resolveUserRole(
 /**
  * Check if a given role has a specific permission
  */
-export function hasPermission(role: UserRole, permission: AppPermission): boolean {
+export function hasPermission(role: UserRole, permission: AppPermission, isTrialActive = false): boolean {
   const config = ROLE_CONFIGS[role];
   if (!config) return false;
+  if (permission === 'feature:write_blogs' && isTrialActive && role !== 'superadmin') {
+    return false;
+  }
   return config.permissions.includes(permission);
 }
 
@@ -265,7 +267,8 @@ export function hasPermission(role: UserRole, permission: AppPermission): boolea
  */
 export function checkRouteAccess(
   pathname: string,
-  role: UserRole
+  role: UserRole,
+  isTrialActive = false
 ): { allowed: boolean; reason?: string; requiredRole?: UserRole; requiredPlan?: string } {
   // Admin Routes: Superadmin Only
   if (pathname.startsWith('/admin')) {

@@ -469,7 +469,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                 const isHovered = hoveredAxis === dim.id;
 
                 // Determine text-anchor based on horizontal position
-                let textAnchor = 'middle';
+                let textAnchor: 'inherit' | 'end' | 'start' | 'middle' = 'middle';
                 if (Math.cos(angle) > 0.3) textAnchor = 'start';
                 else if (Math.cos(angle) < -0.3) textAnchor = 'end';
 

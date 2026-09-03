@@ -616,6 +616,11 @@
     <span id="toastMsg">Action completed successfully</span>
   </div>
 
+<script>
+window.CLEscape=window.CLEscape||function(s){return String(s==null?'':s).replace(/[&<>"'`]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]);});};
+window.CLColorize=window.CLColorize||function(r){return window.CLEscape(r);};
+</script>
+<script src="/xss-guard.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       let rawReports = [];
@@ -667,13 +672,14 @@
 
       function getEngineBadge(engine) {
         const eng = String(engine || '').toLowerCase();
+        const label = window.CLEscape(engine || 'Audit');
         if (eng.includes('master')) return `<span class="engine-pill engine-master">Master Audit</span>`;
         if (eng.includes('health') || eng.includes('website')) return `<span class="engine-pill engine-health">Website Health</span>`;
         if (eng.includes('ai') || eng.includes('llm')) return `<span class="engine-pill engine-ai">AI Readiness</span>`;
         if (eng.includes('repo') || eng.includes('git')) return `<span class="engine-pill engine-repo">Repo Hygiene</span>`;
         if (eng.includes('latency') || eng.includes('radar')) return `<span class="engine-pill engine-latency">Edge Latency</span>`;
         if (eng.includes('eco') || eng.includes('carbon')) return `<span class="engine-pill engine-eco">Eco Carbon</span>`;
-        return `<span class="engine-pill engine-other">${engine || 'Audit'}</span>`;
+        return `<span class="engine-pill engine-other">${label}</span>`;
       }
 
       function getCleanHostname(urlStr) {
@@ -761,8 +767,8 @@
             }) : 'Unknown date';
 
             // Clean text preview of output
-            const previewText = report.output ? 
-              report.output.replace(/<[^>]*>?/gm, '').substring(0, 160) + '...' : 
+            const previewText = (window.CLColorize ? window.CLColorize(report.output) : report.output) ? 
+              (window.CLColorize ? window.CLColorize(report.output) : report.output).replace(/<[^>]*>?/gm, '').substring(0, 160) + '...' : 
               'Scan results saved in Firestore database.';
 
             return `
@@ -770,8 +776,8 @@
                 <div>
                   <div class="audit-card-header">
                     <div>
-                      <h4 class="audit-domain-title"><span class="material-symbols-outlined">public</span> ${host}</h4>
-                      <span class="audit-url-sub">${report.url}</span>
+                      <h4 class="audit-domain-title"><span class="material-symbols-outlined">public</span> ${window.CLEscape(host)}</h4>
+                      <span class="audit-url-sub">${window.CLEscape(report.url)}</span>
                     </div>
                     ${getEngineBadge(report.engine)}
                   </div>
@@ -782,15 +788,15 @@ ${previewText}
                 </div>
 
                 <div class="audit-card-footer">
-                  <span class="audit-date-stamp"><span class="material-symbols-outlined">calendar_today</span> ${dateStr}</span>
+                  <span class="audit-date-stamp"><span class="material-symbols-outlined">calendar_today</span> ${window.CLEscape(dateStr)}</span>
                   <div class="audit-action-btns">
-                    <a href="/report.html?id=${report.id}" class="btn-icon-action" title="Open Full Report">
+                    <a href="/report.html?id=${encodeURIComponent(report.id)}" class="btn-icon-action" title="Open Full Report">
                       <span class="material-symbols-outlined">visibility</span> View
                     </a>
-                    <button class="btn-icon-action" onclick="copyPermalink('${report.id}')" title="Copy Share Link">
+                    <button class="btn-icon-action" data-copy-id="${window.CLEscape(report.id)}" title="Copy Share Link">
                       <span class="material-symbols-outlined">link</span> Share
                     </button>
-                    <button class="btn-icon-action btn-icon-danger" onclick="deleteSavedAudit('${report.id}', '${host}')" title="Delete from Dashboard">
+                    <button class="btn-icon-action btn-icon-danger" data-delete-id="${window.CLEscape(report.id)}" data-delete-host="${window.CLEscape(host)}" title="Delete from Dashboard">
                       <span class="material-symbols-outlined">delete</span>
                     </button>
                   </div>
@@ -814,15 +820,15 @@ ${previewText}
               <tr id="row-${report.id}">
                 <td>
                   <strong style="color: #f8fafc; font-size: 0.95rem;">${host}</strong>
-                  <div style="font-size: 0.75rem; color: #94a3b8;">${report.url}</div>
+                  <div style="font-size: 0.75rem; color: #94a3b8;">${window.CLEscape(report.url)}</div>
                 </td>
                 <td>${getEngineBadge(report.engine)}</td>
-                <td style="color: #94a3b8; font-size: 0.8rem;">${dateStr}</td>
+                <td style="color: #94a3b8; font-size: 0.8rem;">${window.CLEscape(dateStr)}</td>
                 <td>
                   <div style="display: flex; gap: 0.4rem;">
-                    <a href="/report.html?id=${report.id}" class="btn-icon-action" title="Open Report"><span class="material-symbols-outlined">visibility</span> View</a>
-                    <button class="btn-icon-action" onclick="copyPermalink('${report.id}')" title="Copy Share Link"><span class="material-symbols-outlined">link</span> Share</button>
-                    <button class="btn-icon-action btn-icon-danger" onclick="deleteSavedAudit('${report.id}', '${host}')" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                    <a href="/report.html?id=${encodeURIComponent(report.id)}" class="btn-icon-action" title="Open Report"><span class="material-symbols-outlined">visibility</span> View</a>
+                    <button class="btn-icon-action" data-copy-id="${window.CLEscape(report.id)}" title="Copy Share Link"><span class="material-symbols-outlined">link</span> Share</button>
+                    <button class="btn-icon-action btn-icon-danger" data-delete-id="${window.CLEscape(report.id)}" data-delete-host="${window.CLEscape(host)}" title="Delete"><span class="material-symbols-outlined">delete</span></button>
                   </div>
                 </td>
               </tr>
@@ -900,10 +906,10 @@ ${previewText}
             dashUserEmail.textContent = user.email || '';
             
             if (user.photoURL) {
-              userAvatarContainer.innerHTML = `<img src="${user.photoURL}" alt="${user.displayName}" class="user-avatar-img" referrerpolicy="no-referrer">`;
+              userAvatarContainer.innerHTML = `<img src="${(window.CLSafeHttpsUrl?window.CLSafeHttpsUrl(user.photoURL):window.CLEscape(user.photoURL))}" alt="${window.CLEscape(user.displayName)}" class="user-avatar-img" referrerpolicy="no-referrer">`;
             } else {
               const initial = (user.displayName || user.email || 'U')[0].toUpperCase();
-              userAvatarContainer.innerHTML = `<div class="user-avatar-fallback">${initial}</div>`;
+              userAvatarContainer.innerHTML = `<div class="user-avatar-fallback">${window.CLEscape(initial)}</div>`;
             }
 
             loadUserAuditHistory();
@@ -929,6 +935,22 @@ ${previewText}
       }
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => window.CatalystFirebase.logout());
+      }
+
+      const resultsRoot = document.getElementById('dashResultsContainer');
+      if (resultsRoot && !resultsRoot.dataset.bound) {
+        resultsRoot.dataset.bound = '1';
+        resultsRoot.addEventListener('click', (ev) => {
+          const copyBtn = ev.target.closest('[data-copy-id]');
+          if (copyBtn) {
+            window.copyPermalink(copyBtn.getAttribute('data-copy-id'));
+            return;
+          }
+          const delBtn = ev.target.closest('[data-delete-id]');
+          if (delBtn) {
+            window.deleteSavedAudit(delBtn.getAttribute('data-delete-id'), delBtn.getAttribute('data-delete-host') || '');
+          }
+        });
       }
 
       if (auditSearchInput) auditSearchInput.addEventListener('input', renderReports);

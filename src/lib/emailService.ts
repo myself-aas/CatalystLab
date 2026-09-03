@@ -300,7 +300,11 @@ export async function sendEmailViaMailgun(options: {
   text?: string;
   configOverride?: Partial<MailgunConfig>;
 }): Promise<{ success: boolean; messageId?: string; error?: string; mock?: boolean }> {
-  const config = { ...getMailgunConfig(), ...options.configOverride };
+  // Never honor client-supplied Mailgun credentials (apiKey/host/domain).
+  const safeOverride = options.configOverride
+    ? { fromEmail: options.configOverride.fromEmail, fromName: options.configOverride.fromName }
+    : {};
+  const config = { ...getMailgunConfig(), ...safeOverride };
 
   if (!config.apiKey || config.apiKey === 'YOUR_MAILGUN_API_KEY') {
     console.log(`[Mailgun Mock Dispatch] Sent email to ${Array.isArray(options.to) ? options.to.join(', ') : options.to} | Subject: "${options.subject}" (Mock Mode: MAILGUN_API_KEY not set)`);

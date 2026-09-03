@@ -3,11 +3,12 @@ import {
   getUtcMidnight,
   resolveClientIdentity,
   dailyRateLimitStore,
-  FREE_USER_DAILY_UNITS,
   PRO_API_DAILY_UNITS,
   MASTER_AUDIT_COST,
   SINGLE_ENGINE_COST
 } from '../core/rateLimit';
+import crypto from 'crypto';
+import { requireIdentity } from '../core/authz';
 
 // Account surface: current user, quota introspection, API key management,
 // workflow automation evaluation, and the integrations catalog.
@@ -21,14 +22,14 @@ app.get('/api/v1/users/me', (req: Request, res: Response) => {
   const storeKey = `${getUtcMidnight().dateKey}_${identity.identifier}`;
   const record = dailyRateLimitStore.get(storeKey);
   const unitsUsed = record ? record.unitsUsed : 0;
-  const limit = identity.limit || FREE_USER_DAILY_UNITS;
-  const unitsRemaining = identity.tier === 'superadmin' ? Infinity : Math.max(0, limit - unitsUsed);
+  const limit = identity.limit;
+  const unitsRemaining = limit === null ? Infinity : Math.max(0, limit - unitsUsed);
 
   res.json({
     success: true,
     user: {
-      uid: identity.userId || 'usr_developer',
-      email: identity.cleanEmail || 'developer@example.com',
+      uid: identity.userId || null,
+      email: identity.cleanEmail || null,
       tier: identity.tier,
       tierLabel: identity.tierLabel,
       dailyQuotaUnits: limit,
@@ -49,8 +50,8 @@ app.get('/api/v1/users/me/quota', (req: Request, res: Response) => {
   const storeKey = `${getUtcMidnight().dateKey}_${identity.identifier}`;
   const record = dailyRateLimitStore.get(storeKey);
   const unitsUsed = record ? record.unitsUsed : 0;
-  const limit = identity.limit || FREE_USER_DAILY_UNITS;
-  const unitsRemaining = identity.tier === 'superadmin' ? Infinity : Math.max(0, limit - unitsUsed);
+  const limit = identity.limit;
+  const unitsRemaining = limit === null ? Infinity : Math.max(0, limit - unitsUsed);
 
   res.json({
     success: true,
@@ -68,6 +69,7 @@ app.get('/api/v1/users/me/quota', (req: Request, res: Response) => {
 });
 
 app.get('/api/v1/users/me/api-keys', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const identity = resolveClientIdentity(req);
   res.json({
     success: true,
@@ -113,8 +115,9 @@ app.get('/api/v1/users/me/api-keys', (req: Request, res: Response) => {
 });
 
 app.post('/api/v1/users/me/api-keys', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { name = 'CI/CD Pipeline Key', scopes = ['execute:engines', 'read:reports'], environment = 'production', whiteLabelConfig = {} } = req.body;
-  const randomHex = Math.random().toString(16).substring(2, 14) + Math.random().toString(16).substring(2, 14) + Math.random().toString(16).substring(2, 10);
+  const randomHex = crypto.randomBytes(24).toString('hex');
   const keyId = `key_${Date.now()}`;
   const secretKey = `cat_live_${randomHex}`;
   
@@ -134,8 +137,9 @@ app.post('/api/v1/users/me/api-keys', (req: Request, res: Response) => {
 });
 
 app.post('/api/v1/users/me/api-keys/:id/rotate', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { id } = req.params;
-  const randomHex = Math.random().toString(16).substring(2, 14) + Math.random().toString(16).substring(2, 14) + Math.random().toString(16).substring(2, 10);
+  const randomHex = crypto.randomBytes(24).toString('hex');
   const newSecretKey = `cat_live_${randomHex}`;
 
   res.json({
@@ -150,6 +154,7 @@ app.post('/api/v1/users/me/api-keys/:id/rotate', (req: Request, res: Response) =
 });
 
 app.post('/api/v1/users/me/api-keys/:id/revoke', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { id } = req.params;
   res.json({
     success: true,
@@ -161,6 +166,7 @@ app.post('/api/v1/users/me/api-keys/:id/revoke', (req: Request, res: Response) =
 });
 
 app.delete('/api/v1/users/me/api-keys/:id', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { id } = req.params;
   res.json({
     success: true,
@@ -189,27 +195,18 @@ app.get('/api/v1/workflows', (req: Request, res: Response) => {
   });
 });
 
-app.post('/api/v1/automation/ci-cd/evaluate', (req: Request, res: Response) => {
+app.post('/api/v1/automation/ci-cd/evaluate', async (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { url, thresholds = {} } = req.body;
   if (!url) {
     res.status(400).json({ success: false, error: 'URL parameter is required.' });
     return;
   }
-  const minScore = thresholds.minCompositeScore || 85;
-  const simulatedScore = 92;
-  const passed = simulatedScore >= minScore;
-
-  res.status(passed ? 200 : 422).json({
-    passed,
+  res.status(501).json({
+    success: false,
+    error: 'CI/CD evaluate requires a live engine run. Use POST /api/v1/audit/master instead of a simulated score.',
     url,
-    score: simulatedScore,
-    assertions: [
-      { rule: `minCompositeScore >= ${minScore}`, expected: minScore, actual: simulatedScore, status: passed ? 'pass' : 'fail' },
-      { rule: 'maxDomDepth <= 32', expected: 32, actual: 14, status: 'pass' },
-      { rule: 'maxTtfbMs <= 350', expected: 350, actual: 142, status: 'pass' },
-      { rule: 'requireHsts === true', expected: true, actual: true, status: 'pass' }
-    ],
-    summary: passed ? 'All quality assertions passed. CI/CD deployment approved.' : 'Quality gate violated.'
+    thresholds
   });
 });
 
@@ -228,23 +225,15 @@ app.get('/api/v1/integrations', (req: Request, res: Response) => {
 });
 
 app.post('/api/v1/integrations/webhook/test', (req: Request, res: Response) => {
+  if (!requireIdentity(req, res)) return;
   const { targetWebhookUrl } = req.body;
   if (!targetWebhookUrl) {
     res.status(400).json({ success: false, error: 'targetWebhookUrl is required.' });
     return;
   }
-  res.json({
-    success: true,
-    delivered: true,
-    statusCode: 200,
-    responseTimeMs: 68,
-    signatureHeaderSent: 'sha256=3a4b5c6d7e8f9012...',
-    payloadSent: {
-      event: 'audit.completed',
-      url: 'https://example.com',
-      score: 92,
-      timestamp: Date.now()
-    }
+  res.status(501).json({
+    success: false,
+    error: 'Webhook delivery test is not simulated. Configure a real destination via /api/notifications/webhook/dispatch.'
   });
 });
 

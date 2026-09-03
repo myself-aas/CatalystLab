@@ -126,6 +126,11 @@
     </main>
   </div>
 
+<script>
+window.CLEscape=window.CLEscape||function(s){return String(s==null?'':s).replace(/[&<>"'`]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]);});};
+window.CLColorize=window.CLColorize||function(r){return window.CLEscape(r);};
+</script>
+<script src="/xss-guard.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const loginBtn = document.getElementById('loginBtn');
@@ -163,14 +168,14 @@
             <div class="glass-panel" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.75rem;">
-                  <h3 style="font-size: 1.1rem; color: #f8fafc; margin: 0; word-break: break-all;">🌐 ${host}</h3>
-                  <span style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase;">${report.engine || 'Audit'}</span>
+                  <h3 style="font-size: 1.1rem; color: #f8fafc; margin: 0; word-break: break-all;">🌐 ${window.CLEscape(host)}</h3>
+                  <span style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase;">${window.CLEscape ? window.CLEscape(report.engine || 'Audit') : (report.engine || 'Audit')}</span>
                 </div>
-                <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem; word-break: break-all;">${report.url}</div>
+                <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem; word-break: break-all;">${window.CLEscape(report.url)}</div>
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 0.75rem;">
-                <span style="font-size: 0.75rem; color: #64748b;">📅 ${dateStr}</span>
-                <a href="/report.html?id=${report.id}" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+                <span style="font-size: 0.75rem; color: #64748b;">📅 ${window.CLEscape(dateStr)}</span>
+                <a href="/report.html?id=${encodeURIComponent(report.id)}" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
                   View Report →
                 </a>
               </div>

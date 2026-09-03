@@ -29,9 +29,9 @@ export const RateLimitingDoc: React.FC = () => {
           CatalystLab employs a hybrid client-device and IP rate limiter to protect upstream infrastructure, prevent abuse, and ensure fair resource allocation across all users.
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-border bg-background mt-4">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03] mt-4">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2.5 px-3">User Tier</th>
                 <th className="py-2.5 px-3">Daily Single Scans</th>
@@ -40,7 +40,7 @@ export const RateLimitingDoc: React.FC = () => {
                 <th className="py-2.5 px-3">Reset Window</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2.5 px-3 font-semibold">Anonymous Visitor</td>
                 <td className="py-2.5 px-3 font-mono">5 scans / day</td>
@@ -49,7 +49,7 @@ export const RateLimitingDoc: React.FC = () => {
                 <td className="py-2.5 px-3">Midnight UTC</td>
               </tr>
               <tr>
-                <td className="py-2.5 px-3 font-semibold text-sky-700">Authenticated User (Google)</td>
+                <td className="py-2.5 px-3 font-semibold text-[#6872D9]">Authenticated User (Google)</td>
                 <td className="py-2.5 px-3 font-mono text-emerald-700 font-bold">10 scans / day</td>
                 <td className="py-2.5 px-3 font-mono text-emerald-700 font-bold">3 audits / day</td>
                 <td className="py-2.5 px-3 text-muted-foreground"><code>user_&#123;UID|Email&#125;</code></td>
@@ -118,10 +118,10 @@ function checkUserQuota(key: string, isMaster: boolean, tier: 'visitor' | 'user'
         </p>
 
         <div className="rounded-xl border border-border bg-background p-4 font-mono text-xs space-y-1">
-          <div><strong className="text-sky-700">X-RateLimit-Limit:</strong> 10</div>
-          <div><strong className="text-sky-700">X-RateLimit-Remaining:</strong> 7</div>
-          <div><strong className="text-sky-700">X-RateLimit-Reset:</strong> 1755859200 (Midnight UTC)</div>
-          <div><strong className="text-sky-700">X-RateLimit-Tier:</strong> user</div>
+          <div><strong className="text-[#6872D9]">X-RateLimit-Limit:</strong> 10</div>
+          <div><strong className="text-[#6872D9]">X-RateLimit-Remaining:</strong> 7</div>
+          <div><strong className="text-[#6872D9]">X-RateLimit-Reset:</strong> 1755859200 (Midnight UTC)</div>
+          <div><strong className="text-[#6872D9]">X-RateLimit-Tier:</strong> user</div>
         </div>
       </section>
     </DocsLayout>

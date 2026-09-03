@@ -171,7 +171,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
   return (
     <section 
       id="faq-section"
-      className="bg-background py-16 sm:py-20 px-4 sm:px-6 lg:px-8 font-sans text-foreground border-t border-border"
+      className="bg-transparent py-16 sm:py-20 lg:py-32 px-4 sm:px-6 lg:px-8 font-sans text-foreground border-t border-white/[0.06]"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}

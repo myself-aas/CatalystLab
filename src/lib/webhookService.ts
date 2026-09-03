@@ -241,11 +241,30 @@ export async function sendDiscordWebhook(webhookUrl: string, data: WebhookPayloa
  */
 export async function sendGenericWebhook(webhookUrl: string, data: WebhookPayloadData, secret?: string): Promise<WebhookResult> {
   const start = performance.now();
-  if (!webhookUrl || !webhookUrl.startsWith('http')) {
+  if (!webhookUrl || !webhookUrl.startsWith('https://')) {
     return {
       success: false,
       destination: 'generic',
-      error: 'Invalid target webhook URL scheme (must begin with http:// or https://)'
+      error: 'Invalid target webhook URL scheme (must begin with https://)'
+    };
+  }
+
+  try {
+    const { validatePublicUrl } = await import('./networkSecurity');
+    const validation = await validatePublicUrl(webhookUrl);
+    if (!validation.valid) {
+      return {
+        success: false,
+        destination: 'generic',
+        error: validation.error || 'Target URL blocked by SSRF guard.'
+      };
+    }
+    webhookUrl = validation.normalizedUrl || webhookUrl;
+  } catch (err: any) {
+    return {
+      success: false,
+      destination: 'generic',
+      error: err?.message || 'Webhook target failed SSRF validation.'
     };
   }
 

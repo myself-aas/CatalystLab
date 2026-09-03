@@ -135,7 +135,12 @@ describe('evaluateAndChargeRateLimit', () => {
       expect(evaluateAndChargeRateLimit(fakeReq(), fakeRes(), 1).allowed).toBe(true);
     }
     // A different client IP still has its full budget.
-    const other = fakeReq({ 'x-forwarded-for': '198.51.100.9' });
+    const other = {
+      headers: {},
+      query: {},
+      body: {},
+      socket: { remoteAddress: '198.51.100.9' }
+    } as unknown as Request;
     expect(evaluateAndChargeRateLimit(other, fakeRes(), 1).allowed).toBe(true);
   });
 });

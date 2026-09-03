@@ -31,7 +31,7 @@ export const ScoringMatrixDoc: React.FC = () => {
 
         {/* Master Formula Box */}
         <div className="rounded-xl border border-border bg-background p-5 font-mono text-sm text-foreground space-y-2 mt-4">
-          <div className="text-sky-700 font-bold">// Master Composite Score Formula:</div>
+          <div className="text-[#6872D9] font-bold">// Master Composite Score Formula:</div>
           <div className="bg-background p-3.5 rounded-lg border border-border text-sm font-semibold text-foreground leading-relaxed">
             Score = (0.20 &times; Health) + (0.20 &times; Latency) + (0.15 &times; AI_Ready) + (0.15 &times; Security) + (0.15 &times; Accessibility) + (0.15 &times; Eco) - Penalties
           </div>
@@ -41,9 +41,9 @@ export const ScoringMatrixDoc: React.FC = () => {
       {/* Vector Weight Breakdown */}
       <section id="weight-breakdown" className="space-y-4 border-t border-border pt-8">
         <h2 className="text-2xl font-bold text-foreground">Evaluation Vector Weights</h2>
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2.5 px-3">Evaluation Vector</th>
                 <th className="py-2.5 px-3">Optimal Target</th>
@@ -51,7 +51,7 @@ export const ScoringMatrixDoc: React.FC = () => {
                 <th className="py-2.5 px-3">Direct Impact</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2.5 px-3 font-semibold">DOM Health & Depth</td>
                 <td className="py-2.5 px-3 text-muted-foreground">&le; 32 levels, &lt; 800 nodes</td>
@@ -68,7 +68,7 @@ export const ScoringMatrixDoc: React.FC = () => {
                 <td className="py-2.5 px-3 font-semibold">AI Search Readiness</td>
                 <td className="py-2.5 px-3 text-muted-foreground">llms.txt + JSON-LD Schemas</td>
                 <td className="py-2.5 px-3 font-mono font-bold">15%</td>
-                <td className="py-2.5 px-3 text-sky-700 font-medium">Perplexity/GPT Citation</td>
+                <td className="py-2.5 px-3 text-[#6872D9] font-medium">Perplexity/GPT Citation</td>
               </tr>
               <tr>
                 <td className="py-2.5 px-3 font-semibold">OWASP SecOps & SSL</td>
@@ -100,16 +100,16 @@ export const ScoringMatrixDoc: React.FC = () => {
           Critical architectural errors trigger instant score deductions regardless of individual vector scores:
         </p>
 
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <div className="overflow-x-auto rounded-xl border border-white/[0.06] bg-white/[0.03]">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-border bg-background text-muted-foreground font-semibold">
+            <thead className="border-b border-white/[0.06] bg-white/[0.02] text-[#8A8F98] font-semibold">
               <tr>
                 <th className="py-2 px-3">Critical Violation</th>
                 <th className="py-2 px-3">Penalty Deduction</th>
                 <th className="py-2 px-3">Remediation Urgency</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e8f0] text-foreground">
+            <tbody className="divide-y divide-white/[0.06] text-foreground">
               <tr>
                 <td className="py-2 px-3 font-semibold text-rose-700">Missing SSL / Insecure HTTP</td>
                 <td className="py-2 px-3 font-mono font-bold text-rose-700">-25 pts</td>
@@ -146,7 +146,7 @@ export const ScoringMatrixDoc: React.FC = () => {
           </div>
 
           <div className="rounded-xl border border-sky-200 bg-sky-50/50 p-4 text-center">
-            <div className="text-2xl font-black text-sky-700">75 – 89</div>
+            <div className="text-2xl font-black text-[#6872D9]">75 – 89</div>
             <div className="font-bold text-foreground mt-1">Grade B (Good)</div>
             <p className="text-xs text-muted-foreground mt-1">Minor Optimizations</p>
           </div>

@@ -50,12 +50,11 @@ function allow(identifier: string): boolean {
 export function registerClientLogRoutes(app: express.Express): void {
   app.post('/api/client-logs', express.json({ limit: '64kb' }), (req: Request, res: Response) => {
     const identity = getAttachedIdentity(req);
-    const identifier =
-      identity?.uid ||
-      (typeof req.headers['x-forwarded-for'] === 'string'
+    const forwarded =
+      process.env.TRUST_PROXY === 'true' && typeof req.headers['x-forwarded-for'] === 'string'
         ? req.headers['x-forwarded-for'].split(',')[0].trim()
-        : req.socket.remoteAddress) ||
-      'unknown';
+        : '';
+    const identifier = identity?.uid || forwarded || req.socket.remoteAddress || 'unknown';
 
     if (!allow(identifier)) {
       res.status(429).json({ success: false, error: 'Too many log reports' });

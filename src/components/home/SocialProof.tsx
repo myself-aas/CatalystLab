@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
-import { ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 const LOGOS = [
   { name: 'Vercel', slug: 'vercel' },
@@ -13,41 +12,35 @@ const LOGOS = [
 
 export const SocialProof: React.FC = () => {
   return (
-    <section className="py-12 md:py-16 border-t border-border-default bg-transparent relative">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8">
-        
-        {/* Subtle Top Header with Live Production Verification */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 md:mb-10 border-b border-border-default pb-4">
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs uppercase tracking-wider text-foreground-muted">
-              Trusted by infrastructure &amp; platform teams worldwide
+    <section className="relative border-t border-white/[0.06] py-12 md:py-16">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 md:px-8">
+        <div className="mb-8 flex flex-col items-center justify-between gap-4 border-b border-white/[0.06] pb-4 sm:flex-row md:mb-10">
+          <p className="font-mono text-xs uppercase tracking-widest text-[#8A8F98]">
+            Trusted by infrastructure &amp; platform teams
+          </p>
+          <div className="flex items-center gap-4 font-mono text-xs text-[#8A8F98]">
+            <span className="inline-flex items-center gap-1.5 text-[#6872D9]">
+              <span className="size-1.5 rounded-full bg-[#5E6AD2]" />
+              99.99% diagnostic SLA
             </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs font-mono text-foreground-muted">
-            <span className="inline-flex items-center gap-1.5 text-accent-bright">
-              <span className="size-1.5 rounded-full bg-accent animate-pulse" />
-              99.99% Diagnostic SLA
-            </span>
-            <span className="text-foreground-muted/40">|</span>
-            <span className="inline-flex items-center gap-1 text-foreground-muted">
-              <ShieldCheck className="size-3.5 text-accent" />
-              SOC2 Type II Aligned
+            <span className="text-white/20">|</span>
+            <span className="inline-flex items-center gap-1">
+              <ShieldCheck className="size-3.5 text-[#5E6AD2]" />
+              SOC2 Type II aligned
             </span>
           </div>
         </div>
 
-        {/* Enterprise Logos Grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-6 md:gap-10 items-center justify-items-center">
+        <div className="grid grid-cols-3 items-center justify-items-center gap-6 sm:grid-cols-6 md:gap-10">
           {LOGOS.map((logo) => (
             <div
               key={logo.slug}
-              className="group flex items-center justify-center p-3 rounded-xl border border-border-default bg-white/[0.02] hover:bg-white/[0.06] hover:border-border-hover transition-all duration-300 w-full max-w-[160px] h-14"
+              className="group flex h-14 w-full max-w-[160px] items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.06]"
             >
               <img
                 src={`https://cdn.simpleicons.org/${logo.slug}/ffffff`}
                 alt={logo.name}
-                className="h-5 md:h-6 w-auto object-contain opacity-40 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 brightness-100 filter"
+                className="h-5 w-auto object-contain opacity-40 brightness-100 transition-all duration-300 group-hover:scale-[1.04] group-hover:opacity-100 md:h-6"
                 loading="lazy"
               />
             </div>
@@ -59,4 +52,3 @@ export const SocialProof: React.FC = () => {
 };
 
 export default SocialProof;
-

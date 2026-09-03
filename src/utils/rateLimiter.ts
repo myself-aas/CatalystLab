@@ -1,5 +1,4 @@
 import type { User } from '../lib/firebase';
-import { SUPERADMIN_EMAILS } from '../context/AuthContext';
 import type { SubscriptionPlanId } from '../types';
 
 export interface RateLimitStatus {
@@ -24,7 +23,7 @@ function getStoreKey(user: User | null) {
 }
 
 export function getRateLimitStatus(user: User | null, isAdmin: boolean, planId: SubscriptionPlanId = 'free', isTrial = false, trialDaysLeft = 0): RateLimitStatus {
-  const isSuperadmin = isAdmin || SUPERADMIN_EMAILS.includes(user?.email?.toLowerCase() || '');
+  const isSuperadmin = Boolean(isAdmin);
   const limits: Record<SubscriptionPlanId | 'visitor', number> = { visitor: VISITOR_DAILY_LIMIT, free: FREE_DAILY_LIMIT, starter: STARTER_DAILY_LIMIT, pro: PRO_DAILY_LIMIT, team: TEAM_DAILY_LIMIT, enterprise: ENTERPRISE_DAILY_LIMIT };
   const limit = limits[user ? planId : 'visitor'] || VISITOR_DAILY_LIMIT;
   const used = typeof localStorage !== 'undefined' ? parseInt(localStorage.getItem(getStoreKey(user)) || '0', 10) : 0;

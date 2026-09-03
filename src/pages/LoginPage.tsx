@@ -175,7 +175,7 @@ export const LoginPage: React.FC = () => {
   const activeErrorMessage = localMessage?.type === 'error' ? localMessage.text : authError?.message;
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center bg-background text-foreground selection:bg-primary selection:text-primary-foreground py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="relative flex min-h-[calc(100vh-140px)] flex-col justify-center overflow-hidden bg-transparent px-4 py-12 text-[#EDEDEF] sm:px-6 lg:px-8">
       <SEOHead
         title="Sign In to CatalystLab | Access Diagnostic Telemetry & API Tokens"
         description="Sign in to your CatalystLab account using Email, Google (Gmail), or GitHub to manage web health dossiers, REST API keys, and automated site monitoring."
@@ -201,11 +201,11 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Card Container */}
-        <div className="mt-7 rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
+        <div className="mt-7 rounded-2xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card backdrop-blur-xl sm:p-8">
           
           {/* Error / Feedback Alert Banner */}
           {activeErrorMessage && (
-            <div className="mb-5 rounded-xl border border-rose-300 bg-rose-50 p-3.5 text-xs text-rose-800">
+            <div className="mb-5 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-xs text-rose-200">
               <div className="flex items-start gap-2.5">
                 <AlertCircle className="h-4 w-4 text-rose-600 shrink-0 mt-0.5" />
                 <div className="flex-1 space-y-1">
@@ -228,7 +228,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Success Banner */}
           {localMessage?.type === 'success' && (
-            <div className="mb-5 rounded-xl border border-emerald-300 bg-emerald-50 p-3.5 text-xs text-emerald-800">
+            <div className="mb-5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-xs text-emerald-200">
               <div className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                 <p className="font-medium text-emerald-900 leading-snug">{localMessage.text}</p>
@@ -439,34 +439,34 @@ export const LoginPage: React.FC = () => {
             </form>
           )}
 
-          {/* Sandbox Developer Demo Bypass */}
-          <div className="mt-5 pt-4 border-t border-border">
-            <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground mb-2">
-              <span className="flex items-center gap-1 font-semibold text-muted-foreground">
-                <Terminal className="h-3 w-3 text-muted-foreground" />
-                <span>Instant Developer Preview:</span>
+          {import.meta.env.DEV && (
+          <div className="mt-5 border-t border-white/[0.06] pt-4">
+            <div className="mb-2 flex items-center justify-between font-mono text-[11px] text-[#8A8F98]">
+              <span className="flex items-center gap-1 font-semibold">
+                <Terminal className="h-3 w-3" />
+                <span>Dev-only sandbox:</span>
               </span>
-              <span className="text-[10px]">1-click sandbox session</span>
+              <span className="text-[10px]">not shipped in production</span>
             </div>
-            
             <div className="grid grid-cols-2 gap-2 font-mono">
               <button
                 type="button"
                 onClick={() => handleSandboxLogin('pro')}
-                className="rounded-lg border border-border bg-muted px-2.5 py-1.5 text-[11px] font-bold text-muted-foreground hover:bg-accent hover:text-foreground transition-colors text-center cursor-pointer"
+                className="cursor-pointer rounded-lg border border-white/[0.06] bg-white/[0.04] px-2.5 py-1.5 text-center text-[11px] font-bold text-[#8A8F98] transition-colors hover:text-[#EDEDEF]"
               >
                 Dev User Preview
               </button>
               <button
                 type="button"
                 onClick={() => handleSandboxLogin('superadmin')}
-                className="rounded-lg border border-amber-300 bg-amber-50 px-2.5 py-1.5 text-[11px] font-bold text-amber-900 hover:bg-amber-100 transition-colors text-center cursor-pointer flex items-center justify-center gap-1"
+                className="flex cursor-pointer items-center justify-center gap-1 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-center text-[11px] font-bold text-amber-200 transition-colors hover:bg-amber-500/20"
               >
-                <Shield className="h-3 w-3 text-amber-600" />
+                <Shield className="h-3 w-3" />
                 <span>Superadmin</span>
               </button>
             </div>
           </div>
+          )}
         </div>
 
         {/* Switch to Sign Up */}

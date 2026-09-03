@@ -525,7 +525,7 @@ export const GlobalBreadcrumb: React.FC = () => {
     <aside 
       id="global-breadcrumb-bar" 
       aria-label="Site Hierarchy Breadcrumb Bar" 
-      className="sticky top-16 z-40 border-b border-border bg-background/90 backdrop-blur-xl shadow-sm text-foreground transition-all"
+      className="sticky top-16 z-40 border-b border-[#dadce0] bg-white/95 backdrop-blur text-[#202124] transition-all dark:border-white/10 dark:bg-[#202124]/95 dark:text-[#e8eaed]"
     >
       {/* Schema.org Structured Data */}
       <script

@@ -252,14 +252,15 @@ export const UserDashboardPage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-center gap-2 font-mono">
+          {import.meta.env.DEV && (
+          <div className="mt-5 flex flex-col items-center justify-center gap-2 border-t border-white/[0.06] pt-4 font-mono sm:flex-row">
             <button
               onClick={() => loginWithLocalSession({
                 email: 'developer@catalystlab.io',
                 displayName: 'CatalystLab Developer',
                 isAdmin: false
               })}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-accent px-3 py-1.5 text-xs font-bold text-amber-600 hover:bg-muted transition-all cursor-pointer"
+              className="inline-flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 text-xs font-bold text-amber-300 transition-all hover:text-[#EDEDEF] sm:w-auto"
             >
               <Sparkles className="h-3.5 w-3.5" />
               <span>Preview Developer Session</span>
@@ -267,18 +268,19 @@ export const UserDashboardPage: React.FC = () => {
 
             <button
               onClick={() => setShowDomainModal(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-lg border border-border bg-accent px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              className="inline-flex w-full cursor-pointer items-center justify-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-[#8A8F98] transition-colors hover:text-[#EDEDEF] sm:w-auto"
             >
               <span>Domain Helper</span>
             </button>
           </div>
+          )}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24 text-foreground ">
+    <div className="min-h-screen bg-transparent pb-24 text-[#EDEDEF]">
       <SEOHead
         title="Developer Telemetry Dashboard & Audits — CatalystLab"
         description="View real-time audit dossiers, rate limit allocations, domain uptime monitoring, and API keys."

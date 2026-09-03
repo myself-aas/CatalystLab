@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth, SUPERADMIN_EMAILS } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import { isSuperadminClaim } from '../../lib/authClaims';
 import { 
   ShieldCheck, 
   ShieldAlert, 
@@ -51,23 +52,14 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
 
       setVerifyingClaims(true);
       try {
-        const email = user.email?.toLowerCase() || '';
-        const isEmailSuperadmin = SUPERADMIN_EMAILS.includes(email);
-
         if (typeof (user as any).getIdTokenResult === 'function') {
-          // Force token refresh to fetch latest custom claims from Firebase Auth
           const tokenResult = await (user as any).getIdTokenResult();
           const claims = tokenResult?.claims || {};
-          const claimHasSuperadmin = claims.role === 'superadmin' || claims.superadmin === true;
-
           if (isMounted) {
-            setTokenSuperadminVerified(claimHasSuperadmin || isEmailSuperadmin);
+            setTokenSuperadminVerified(isSuperadminClaim(claims));
           }
-        } else {
-          // Local session or preview mode
-          if (isMounted) {
-            setTokenSuperadminVerified(isEmailSuperadmin || hasSuperadminClaim || isAdmin);
-          }
+        } else if (isMounted) {
+          setTokenSuperadminVerified(hasSuperadminClaim || isAdmin);
         }
       } catch (err) {
         logger.warn("Direct token claim verification warning:", err);
@@ -177,7 +169,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
                       if (user && typeof (user as any).getIdTokenResult === 'function') {
                         const token = await (user as any).getIdTokenResult(true);
                         const claims = token?.claims || {};
-                        if (claims.role === 'superadmin' || claims.superadmin === true || SUPERADMIN_EMAILS.includes(user.email?.toLowerCase() || '')) {
+                        if (isSuperadminClaim(claims)) {
                           setTokenSuperadminVerified(true);
                         }
                       }
@@ -208,8 +200,8 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
               )}
             </div>
 
-            {/* Sandbox Quick Access Button */}
-            <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-center gap-2">
+            {import.meta.env.DEV && (
+            <div className="flex flex-col items-center justify-center gap-2 border-t border-white/[0.06] pt-4 sm:flex-row">
               <button
                 onClick={() => {
                   loginWithLocalSession({
@@ -219,19 +211,20 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
                   });
                   setTokenSuperadminVerified(true);
                 }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-4 py-2 text-xs font-bold text-emerald-300 hover:bg-emerald-900/40 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-4 py-2 text-xs font-bold text-emerald-300 shadow-sm transition-all hover:bg-emerald-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
               >
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Activate Preview Superadmin Session</span>
+                <span>Dev-only superadmin session</span>
               </button>
 
               <button
                 onClick={() => setShowDomainModal(true)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-border bg-muted px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-border bg-muted px-3.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
               >
                 <span>Domain Auth Helper</span>
               </button>
             </div>
+            )}
           </div>
         </div>
       </div>

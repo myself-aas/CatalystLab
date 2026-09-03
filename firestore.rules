@@ -10,27 +10,32 @@ service cloud.firestore {
     function isSignedIn() { return request.auth != null; }
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
     
-    // Primary Superadmins registry & Custom Claim verification
+    // Superadmin is exclusively a signed custom claim — never an email list.
     function isSuperAdmin() {
       return isSignedIn() && (
         request.auth.token.role == 'superadmin' ||
-        request.auth.token.superadmin == true ||
-        request.auth.token.email == 'shuvo.1807016@bau.edu.bd' ||
-        request.auth.token.email == 'shuvoasifahmed@gmail.com' ||
-        request.auth.token.email == 'asifahmedshuvo.aas@gmail.com' ||
-        request.auth.token.email == 'asifahmedshuvo.aa9@gmail.com'
+        request.auth.token.superadmin == true
       );
     }
 
     function hasSuperAdminClaim() {
-      return isSignedIn() && (
-        request.auth.token.role == 'superadmin' ||
-        request.auth.token.superadmin == true ||
-        request.auth.token.email == 'shuvo.1807016@bau.edu.bd' ||
-        request.auth.token.email == 'shuvoasifahmed@gmail.com' ||
-        request.auth.token.email == 'asifahmedshuvo.aas@gmail.com' ||
-        request.auth.token.email == 'asifahmedshuvo.aa9@gmail.com'
-      );
+      return isSuperAdmin();
+    }
+
+    function subscriptionDoc() {
+      return get(/databases/$(database)/documents/user_subscriptions/$(request.auth.uid)).data;
+    }
+
+    function isProPublisher() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/user_subscriptions/$(request.auth.uid))
+        && subscriptionDoc().ownerId == request.auth.uid
+        && subscriptionDoc().planId in ['pro', 'team', 'enterprise']
+        && subscriptionDoc().status == 'active';
+    }
+
+    function canPublishBlog() {
+      return hasSuperAdminClaim() || isProPublisher();
     }
     
     function isValidReport(data) {
@@ -40,7 +45,8 @@ service cloud.firestore {
         && data.engine is string && data.engine.size() <= 100
         && data.output is string && data.output.size() <= 500000
         && data.createdAt is number
-        && data.ownerId is string && (data.ownerId == request.auth.uid || data.ownerId == 'guest');
+        && data.ownerId is string && data.ownerId == request.auth.uid
+        && (!data.keys().hasAny(['public']) || data.public is bool);
     }
 
     function isValidBlogPost(data) {
@@ -63,7 +69,7 @@ service cloud.firestore {
         && data.name is string && data.name.size() <= 100
         && data.url is string && data.url.size() <= 500
         && data.createdAt is number
-        && data.ownerId is string;
+        && data.ownerId is string && data.ownerId == request.auth.uid;
     }
 
     function isValidApiKey(data) {
@@ -85,12 +91,20 @@ service cloud.firestore {
     }
 
     function isValidUserSubscription(data) {
-      return data.keys().hasAll(['userId', 'planId', 'status', 'createdAt', 'updatedAt'])
-        && data.userId is string && data.userId == request.auth.uid
+      return data.keys().hasAll(['ownerId', 'planId', 'status', 'createdAt'])
+        && data.ownerId is string && data.ownerId == request.auth.uid
         && data.planId in ['free', 'starter', 'pro', 'team', 'enterprise']
-        && data.status in ['active', 'trialing', 'canceled', 'past_due']
-        && data.createdAt is number
-        && data.updatedAt is number;
+        && data.status in ['active', 'trialing', 'canceled', 'expired', 'past_due']
+        && data.createdAt is number;
+    }
+
+    // Clients may start a free plan or a time-boxed trial. Paid "active"
+    // entitlements are server/admin writes only (prevents self-upgrade).
+    function isClientSafeSubscription(data) {
+      return isValidUserSubscription(data) && (
+        data.planId == 'free' ||
+        (data.status == 'trialing' && data.planId == 'starter')
+      );
     }
 
     function isValidGithubRepo(data) {
@@ -142,17 +156,20 @@ service cloud.firestore {
     // User Subscriptions Collection (Owner or Superadmin)
     match /user_subscriptions/{userId} {
       allow get: if isSignedIn() && (request.auth.uid == userId || isSuperAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isSuperAdmin());
+      allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
       allow create, update: if isSignedIn()
                     && isValidId(userId)
                     && request.auth.uid == userId
-                    && isValidUserSubscription(incoming());
+                    && (isSuperAdmin() || isClientSafeSubscription(incoming()));
       allow delete: if isSignedIn() && isSuperAdmin();
     }
     
     // Reports Collection
     match /reports/{reportId} {
-      allow get: if isValidId(reportId);
+      allow get: if isValidId(reportId) && (
+        (isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin()))
+        || resource.data.public == true
+      );
       allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
       allow create: if isSignedIn() 
                     && isValidId(reportId)
@@ -173,27 +190,33 @@ service cloud.firestore {
     // Blog Posts Collection (Public Read, Only users with 'role: superadmin' claim can create, update, or delete)
     match /blogPosts/{blogPostId} {
       allow get, list: if true;
-      allow create: if hasSuperAdminClaim()
+      allow create: if canPublishBlog()
                     && isValidId(blogPostId)
-                    && isValidBlogPost(incoming());
-      allow update: if hasSuperAdminClaim()
+                    && isValidBlogPost(incoming())
+                    && incoming().authorEmail == request.auth.token.email;
+      allow update: if canPublishBlog()
                     && isValidId(blogPostId)
-                    && isValidBlogPost(incoming());
-      allow delete: if hasSuperAdminClaim()
-                    && isValidId(blogPostId);
+                    && isValidBlogPost(incoming())
+                    && (hasSuperAdminClaim() || existing().authorEmail == request.auth.token.email);
+      allow delete: if canPublishBlog()
+                    && isValidId(blogPostId)
+                    && (hasSuperAdminClaim() || existing().authorEmail == request.auth.token.email);
     }
 
     // Blogs Collection alias
     match /blogs/{blogId} {
       allow get, list: if true;
-      allow create: if hasSuperAdminClaim()
+      allow create: if canPublishBlog()
                     && isValidId(blogId)
-                    && isValidBlogPost(incoming());
-      allow update: if hasSuperAdminClaim()
+                    && isValidBlogPost(incoming())
+                    && incoming().authorEmail == request.auth.token.email;
+      allow update: if canPublishBlog()
                     && isValidId(blogId)
-                    && isValidBlogPost(incoming());
-      allow delete: if hasSuperAdminClaim()
-                    && isValidId(blogId);
+                    && isValidBlogPost(incoming())
+                    && (hasSuperAdminClaim() || existing().authorEmail == request.auth.token.email);
+      allow delete: if canPublishBlog()
+                    && isValidId(blogId)
+                    && (hasSuperAdminClaim() || existing().authorEmail == request.auth.token.email);
     }
 
     // API Keys Collection (Owner or Superadmin)
@@ -236,7 +259,7 @@ service cloud.firestore {
 
     // Test collection for initial connectivity verification
     match /test/{testId} {
-      allow get: if isValidId(testId);
+      allow get: if isSignedIn() && isValidId(testId);
     }
   }
 }

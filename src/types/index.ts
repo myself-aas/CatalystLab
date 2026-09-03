@@ -262,6 +262,13 @@ export interface SubscriptionPlan {
   ctaTextTrial: string;
 }
 
+export interface UserProfile {
+  uid: string;
+  email: string;
+  role: 'admin' | 'user' | 'guest';
+  displayName?: string;
+}
+
 export interface UserSubscription {
   id?: string;
   ownerId: string;

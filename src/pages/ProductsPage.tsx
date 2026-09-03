@@ -118,7 +118,7 @@ export default {
 };`;
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-24 selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-screen bg-transparent pb-24 text-[#EDEDEF]">
       <SEOHead
         title="Automated Plugins & Domain Monitoring Watchdog | CatalystLab"
         description="Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains."
@@ -149,7 +149,7 @@ export default {
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground max-w-3xl leading-[1.08] font-sans">
             Automated Plugins &amp;{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            <span className="bg-gradient-to-r from-[#5E6AD2] to-[#6872D9] bg-clip-text text-transparent">
               Custom Domain Watchdogs
             </span>
           </h1>

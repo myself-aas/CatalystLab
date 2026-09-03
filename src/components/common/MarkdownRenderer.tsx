@@ -1,4 +1,5 @@
 import React from 'react';
+import { sanitizeHref } from '../../lib/sanitizeHref';
 
 interface MarkdownRendererProps {
   content: string;
@@ -65,17 +66,22 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
       // Link [text](url)
       const linkMatch = remaining.match(/^\[([^\]]+)\]\(([^)]+)\)/);
       if (linkMatch) {
-        parts.push(
-          <a
-            key={keyIdx++}
-            href={linkMatch[2]}
-            target="_blank"
-            rel="noreferrer"
-            className="text-cyan-700 dark:text-cyan-400 underline font-semibold hover:text-cyan-900 dark:hover:text-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
-          >
-            {linkMatch[1]}
-          </a>
-        );
+        const safeHref = sanitizeHref(linkMatch[2]);
+        if (safeHref) {
+          parts.push(
+            <a
+              key={keyIdx++}
+              href={safeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-700 dark:text-cyan-400 underline font-semibold hover:text-cyan-900 dark:hover:text-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+            >
+              {linkMatch[1]}
+            </a>
+          );
+        } else {
+          parts.push(linkMatch[1]);
+        }
         remaining = remaining.slice(linkMatch[0].length);
         continue;
       }

@@ -1,4 +1,4 @@
-import { EngineInput } from "../components/common/EngineInput";
+import { EngineInput } from '../components/common/EngineInput';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -10,17 +10,18 @@ import { saveReport } from '../lib/firebase';
 import { urlToDomainSlug } from '../utils/slugUtils';
 import { getRateLimitStatus, recordAuditLaunch, getVisitorDeviceId } from '../utils/rateLimiter';
 import type { EngineType } from '../types';
-import { 
-  ExternalLink, 
-  CheckCircle2, 
-  ArrowLeft, 
-  ShieldCheck, 
-  FileText, 
-  Activity, 
-  Code, 
-  BookOpen 
+import {
+  ExternalLink,
+  CheckCircle2,
+  ArrowLeft,
+  ShieldCheck,
+  FileText,
+  Activity,
+  Code,
+  BookOpen,
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { LinearCard } from '../components/ui/LinearCard';
 import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
 
@@ -32,7 +33,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   const meta = ENGINES_MAP[engineType];
   const location = useLocation();
   const { user, isAdmin, login } = useAuth();
-  
+
   const [targetUrl, setTargetUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState('');
@@ -81,11 +82,11 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
         userId: user.uid,
         userEmail: user.email || undefined,
         auditSessionId,
-        visitorId
+        visitorId,
       });
       setSavedReportId(docId);
     } catch (saveErr) {
-      logger.error("Firestore manual save error:", saveErr);
+      logger.error('Firestore manual save error:', saveErr);
     }
   };
 
@@ -118,14 +119,14 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
       const response = await authorizedFetch('/api/run-engine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          url: cleanUrl, 
+        body: JSON.stringify({
+          url: cleanUrl,
           engine: engineType,
           userEmail: user?.email || undefined,
           userId: user?.uid || undefined,
           visitorId,
-          auditSessionId
-        })
+          auditSessionId,
+        }),
       });
       const data = await response.json();
 
@@ -149,15 +150,16 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
             userId: user.uid,
             userEmail: user.email || undefined,
             auditSessionId,
-            visitorId
+            visitorId,
           });
           setSavedReportId(docId);
         } catch (saveErr) {
-          logger.error("Firestore auto-save error:", saveErr);
+          logger.error('Firestore auto-save error:', saveErr);
         }
       }
-    } catch (err: any) {
-      setOutput(`[!] Error: Network communication failure (${err.message}).`);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'unknown';
+      setOutput(`[!] Error: Network communication failure (${message}).`);
     } finally {
       setLoading(false);
     }
@@ -168,9 +170,11 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
     triggerAudit(targetUrl);
   };
 
-  const permalinkUrl = targetUrl 
-    ? `${window.location.origin}/reports/${urlToDomainSlug(targetUrl)}` 
-    : (savedReportId ? `${window.location.origin}/reports/${savedReportId}` : '');
+  const permalinkUrl = targetUrl
+    ? `${window.location.origin}/reports/${urlToDomainSlug(targetUrl)}`
+    : savedReportId
+      ? `${window.location.origin}/reports/${savedReportId}`
+      : '';
 
   const handleCopy = () => {
     if (!permalinkUrl) return;
@@ -180,166 +184,148 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20 text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
+    <div className="min-h-screen bg-transparent pb-20 font-sans text-[#EDEDEF]">
       <SEOHead
         title={`${meta.catalystName || meta.name} Catalyst`}
         description={meta.description}
         canonicalUrl={`https://www.catalystlab.tech/tool/${engineType}`}
       />
-      
-      {/* Header Banner */}
-      <section className="relative overflow-hidden border-b border-border bg-muted px-4 py-14 sm:py-18 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
+
+      <section className="relative overflow-hidden border-b border-white/[0.06] px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+        <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[#5E6AD2]/15 blur-[140px]" />
 
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <Link
-              to="/master-audit"
-              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-muted-foreground hover:text-foreground transition-colors bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-border shadow-2xs"
+              to="/"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:text-[#EDEDEF]"
             >
-              <ArrowLeft className="h-3.5 w-3.5" />
+              <ArrowLeft className="size-3.5" />
               <span>Back to Master Audit</span>
             </Link>
-
             <Link
               to={`/docs#${meta.docsAnchor || 'overview'}`}
-              className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-foreground hover:text-blue-600 transition-colors bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-border shadow-2xs"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:text-[#EDEDEF]"
             >
-              <BookOpen className="h-3.5 w-3.5 text-blue-600" />
-              <span>Engine Documentation</span>
-              <ExternalLink className="h-3 w-3" />
+              <BookOpen className="size-3.5 text-[#5E6AD2]" />
+              <span>Engine docs</span>
+              <ExternalLink className="size-3" />
             </Link>
           </div>
 
-          <div className="flex flex-col items-center mb-4">
-            {meta.image ? (
-              <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 rounded-2xl overflow-hidden shadow-md border border-border/90 bg-background">
-                <img 
-                  src={meta.image} 
-                  alt={meta.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ) : (
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-background text-foreground text-3xl shadow-md mb-4 border border-border/90">
-                <span aria-hidden="true" className="material-symbols-outlined text-3xl text-blue-600">{meta.icon}</span>
-              </div>
-            )}
+          <div
+            className="mx-auto mb-5 flex size-14 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] shadow-linear-card"
+            style={{ color: meta.color, borderColor: `${meta.color}40` }}
+          >
+            <span aria-hidden="true" className="material-symbols-outlined text-3xl">
+              {meta.icon}
+            </span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
-            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full border border-border bg-background text-foreground shadow-2xs">
+          <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
+            <span className="rounded-full border border-white/[0.06] bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-[#8A8F98]">
               {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-2xs">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-              <span>Replaces: {meta.departmentReplaced}</span>
-            </span>
-            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-muted-foreground bg-background px-3 py-1 rounded-full border border-border shadow-2xs">
-              <Code className="h-3.5 w-3.5 text-blue-600" />
-              <span>Python 3.11 ({meta.pythonScript})</span>
+            <span className="inline-flex items-center gap-1 rounded-full border border-[#5E6AD2]/30 bg-[#5E6AD2]/10 px-3 py-1 font-mono text-[11px] text-[#6872D9]">
+              <ShieldCheck className="size-3.5" />
+              Replaces {meta.departmentReplaced}
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground font-sans leading-[1.1]">
+          <h1 className="text-gradient-linear text-3xl font-semibold tracking-tight sm:text-5xl">
             {meta.catalystName || `${meta.name} Catalyst`}
           </h1>
-
-          <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed font-sans font-normal">
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[#8A8F98] sm:text-base">
             {meta.description}
           </p>
 
-          {/* Form */}
-          <div className="mt-8 mx-auto max-w-xl">
-            <EngineInput 
+          <div className="mx-auto mt-8 max-w-xl text-left">
+            <EngineInput
               value={targetUrl}
               onChange={setTargetUrl}
               onSubmit={handleSubmit}
               isLoading={loading}
               buttonText="Run Scan"
               loadingText="Scanning..."
-              placeholder={isRepoEngine ? "@catalystlab-search: (https://github.com/..." : "@catalystlab-search: (https://..."}
+              placeholder={
+                isRepoEngine ? 'https://github.com/org/repo' : 'https://your-domain.com'
+              }
+              inputId="hero-audit-url-input"
             />
           </div>
         </div>
       </section>
 
-      {/* Rate Limit Modal */}
       <RateLimitModal
         isOpen={rateLimitModalOpen}
         onClose={() => setRateLimitModalOpen(false)}
         reason={rateLimitReason}
       />
 
-      {/* Results Section */}
-      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8 space-y-6">
-        
-        {/* Saved Permalink Banner */}
+      <main className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
         {savedReportId && (
-          <div className="rounded-2xl border border-border bg-background p-4 shadow-sm text-foreground">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <LinearCard className="p-4 sm:p-5" lift={false}>
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div className="flex items-start gap-3">
-                <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+                <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-[#5E6AD2]" />
                 <div>
-                  <h3 className="text-sm font-bold text-foreground">
-                    Audit Saved to Your User Dashboard!
-                  </h3>
-                  <div className="text-xs text-muted-foreground mt-0.5">
-                    Shareable Permalink: <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-amber-700 hover:underline">{permalinkUrl}</a>
-                  </div>
+                  <h3 className="text-sm font-semibold text-[#EDEDEF]">Saved to your dashboard</h3>
+                  <p className="mt-0.5 text-xs text-[#8A8F98]">
+                    Permalink:{' '}
+                    <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-[#6872D9] hover:underline">
+                      {permalinkUrl}
+                    </a>
+                  </p>
                 </div>
               </div>
-
-              <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <div className="flex flex-wrap items-center gap-2">
                 <button
                   onClick={handleCopy}
-                  className="rounded-lg border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-accent transition-colors cursor-pointer"
+                  className="rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-[#EDEDEF] hover:bg-white/[0.08]"
                 >
-                  {copiedLink ? 'Copied' : 'Copy Link'}
+                  {copiedLink ? 'Copied' : 'Copy link'}
                 </button>
                 <Link
                   to={`/reports/${urlToDomainSlug(targetUrl)}`}
-                  className="flex items-center gap-1 rounded-lg bg-primary hover:bg-primary-hover px-3 py-1.5 text-xs font-bold text-primary-foreground transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1 rounded-lg bg-[#5E6AD2] px-3 py-1.5 text-xs font-medium text-white shadow-linear-cta hover:bg-[#6872D9]"
                 >
-                  <FileText className="h-3 w-3 text-amber-400" />
-                  <span>Read Article Dossier</span>
+                  <FileText className="size-3" />
+                  Read dossier
                 </Link>
               </div>
             </div>
-          </div>
+          </LinearCard>
         )}
 
         {(output || loading) && (
-          <div className="flex gap-2 border-b border-border pb-2">
+          <div className="flex gap-2 border-b border-white/[0.06] pb-2">
             <button
               onClick={() => setViewMode('dashboard')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 viewMode === 'dashboard'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-background text-muted-foreground hover:text-foreground border border-border'
+                  ? 'bg-[#5E6AD2] text-white shadow-linear-cta'
+                  : 'border border-white/[0.06] bg-white/[0.04] text-[#8A8F98] hover:text-[#EDEDEF]'
               }`}
             >
-              <Activity className="h-3.5 w-3.5" />
-              Executive Visual Dashboard
+              <Activity className="size-3.5" />
+              Executive dashboard
             </button>
             <button
               onClick={() => setViewMode('terminal')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
                 viewMode === 'terminal'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-background text-muted-foreground hover:text-foreground border border-border'
+                  ? 'bg-[#5E6AD2] text-white shadow-linear-cta'
+                  : 'border border-white/[0.06] bg-white/[0.04] text-[#8A8F98] hover:text-[#EDEDEF]'
               }`}
             >
-              <Code className="h-3.5 w-3.5" />
-              Raw Terminal Output
+              <Code className="size-3.5" />
+              Raw terminal
             </button>
           </div>
         )}
 
         {viewMode === 'dashboard' && output && !loading && !output.startsWith('[!] Error') && (
-          <EngineReportDashboard 
+          <EngineReportDashboard
             engineType={engineType}
             targetUrl={targetUrl}
             output={output}
@@ -363,22 +349,19 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
           </div>
         )}
 
-        {/* Auth prompt if not logged in */}
         {!user && !loading && output && !output.startsWith('[!] Error') && (
-          <div className="rounded-2xl border border-border bg-background p-4 text-center shadow-sm max-w-2xl mx-auto">
-            <p className="text-xs text-muted-foreground flex items-center justify-center gap-1.5 font-sans">
-              <span aria-hidden="true" className="material-symbols-outlined text-sm text-amber-600">lightbulb</span>
-              <span><strong>Want to save this report to your history?</strong> Sign in with Google to enable permanent cloud storage and permalinks.</span>
+          <LinearCard className="mx-auto max-w-2xl p-5 text-center" lift={false}>
+            <p className="text-sm text-[#8A8F98]">
+              <strong className="text-[#EDEDEF]">Want this in your history?</strong> Sign in to keep the dossier and permalink.
             </p>
             <button
               onClick={() => login()}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary-hover px-3.5 py-1.5 text-xs font-bold text-primary-foreground transition-colors cursor-pointer shadow-sm"
+              className="mt-3 inline-flex items-center rounded-lg bg-[#5E6AD2] px-4 py-2 text-xs font-medium text-white shadow-linear-cta hover:bg-[#6872D9]"
             >
-              Sign In with Google
+              Sign in with Google
             </button>
-          </div>
+          </LinearCard>
         )}
-
       </main>
     </div>
   );

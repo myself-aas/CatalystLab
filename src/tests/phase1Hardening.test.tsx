@@ -34,9 +34,7 @@ vi.mock('firebase-admin/auth', () => ({
 vi.mock('firebase-admin/firestore', () => ({
   getFirestore: () => ({
     collection: () => ({
-      where: () => ({
-        limit: () => ({ get: firestoreGetMock })
-      })
+      doc: () => ({ get: firestoreGetMock })
     })
   })
 }));
@@ -129,7 +127,7 @@ describe('attachIdentity middleware (Phase 1: server-derived tiers)', () => {
     resetVerifierCache();
     verifyIdTokenMock.mockReset();
     firestoreGetMock.mockReset();
-    firestoreGetMock.mockResolvedValue({ empty: true, docs: [] });
+    firestoreGetMock.mockResolvedValue({ exists: false, data: () => undefined });
     process.env.FIREBASE_SERVICE_ACCOUNT_JSON = JSON.stringify({ project_id: 'test', client_email: 'x', private_key: 'y' });
   });
 
@@ -176,8 +174,8 @@ describe('attachIdentity middleware (Phase 1: server-derived tiers)', () => {
   it('maps Firestore subscription docs to plan + trial entitlements', async () => {
     verifyIdTokenMock.mockResolvedValue({ uid: 'uid-3' });
     firestoreGetMock.mockResolvedValue({
-      empty: false,
-      docs: [{ data: () => ({ planId: 'pro', status: 'trialing' }) }]
+      exists: true,
+      data: () => ({ planId: 'pro', status: 'trialing', ownerId: 'uid-3' })
     });
     const { req, next } = makeReqRes('Bearer valid-token');
     const res = { status: vi.fn().mockReturnThis(), json: vi.fn() } as unknown as import('express').Response;
