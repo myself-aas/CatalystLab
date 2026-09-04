@@ -21,12 +21,12 @@ const SPAN: Record<number, string> = {
 
 export const EnzymeGrid: React.FC = () => {
   return (
-    <section id="engines" className="relative overflow-hidden border-t border-white/[0.06] py-16 md:py-24 lg:py-32">
+    <section id="engines" className="relative overflow-hidden border-t border-border py-16 md:py-24 lg:py-32">
       <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 md:px-8">
         <SectionHeader
           eyebrow={
             <>
-              <Layers className="size-3.5 text-[#5E6AD2]" />
+              <Layers className="size-3.5 text-primary" />
               <span>Eight autonomous engines</span>
             </>
           }
@@ -47,7 +47,7 @@ export const EnzymeGrid: React.FC = () => {
               <LinearCard className="relative flex h-full min-h-[200px] flex-col justify-between p-6">
                 <Link
                   to={engine.route}
-                  className="absolute inset-0 z-30 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5E6AD2]/50"
+                  className="absolute inset-0 z-30 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   aria-label={`Open ${engine.catalystName}`}
                 />
                 <div>
@@ -62,18 +62,18 @@ export const EnzymeGrid: React.FC = () => {
                     >
                       {engine.shortCode}
                     </span>
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-[#8A8F98]">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                       Phase {engine.sdlcPhaseNumber}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold tracking-tight text-[#EDEDEF]">{engine.catalystName}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#8A8F98]">{engine.description}</p>
+                  <h3 className="text-xl font-semibold tracking-tight text-foreground">{engine.catalystName}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{engine.description}</p>
                 </div>
-                <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4 text-xs text-[#8A8F98]">
+                <div className="mt-6 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                   <span className="font-mono uppercase tracking-widest">
                     {(engine.lifecycleFocus ?? engine.sdlcPhase).split(',')[0]}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-[#EDEDEF]/80">
+                  <span className="inline-flex items-center gap-1 text-foreground/80">
                     Open
                     <ArrowUpRight className="size-3.5" />
                   </span>

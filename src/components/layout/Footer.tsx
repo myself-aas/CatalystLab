@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { 
   ArrowUp, 
   Terminal, 
@@ -39,10 +39,8 @@ import { cn } from '../../lib/utils';
 
 export const Footer: React.FC = () => {
   const [copiedCli, setCopiedCli] = useState(false);
-  const [quickAuditUrl, setQuickAuditUrl] = useState('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
-  const navigate = useNavigate();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -52,16 +50,6 @@ export const Footer: React.FC = () => {
     navigator.clipboard.writeText('npx catalystlab audit https://yoursite.com');
     setCopiedCli(true);
     setTimeout(() => setCopiedCli(false), 2500);
-  };
-
-  const handleQuickAuditSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!quickAuditUrl.trim()) return;
-    let url = quickAuditUrl.trim();
-    if (!/^https?:\/\//i.test(url)) {
-      url = 'https://' + url;
-    }
-    navigate(`/launch-audit?url=${encodeURIComponent(url)}`);
   };
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
@@ -74,54 +62,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-white/10 bg-[#030712] text-slate-300 overflow-hidden m-0 p-0">
-
-      {/* Interactive Quick Audit Callout Header */}
-      <div className="relative border-b border-white/10 bg-[#030712]/90 backdrop-blur-md">
-        <div className="w-full max-w-none px-6 lg:px-12 py-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-accent shadow-[0_0_8px_rgba(94,106,210,0.8)]" />
-                </span>
-                <span className="text-xs font-mono font-semibold uppercase tracking-wider text-accent-bright">
-                  Continuous Telemetry Engine
-                </span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
-                Run an instant diagnostic audit on any production domain
-              </h3>
-              <p className="text-xs sm:text-sm text-foreground-muted max-w-xl">
-                Synthesize DOM performance, OWASP SecOps headers, llms.txt AI readiness, and edge latency across 42 global PoPs.
-              </p>
-            </div>
-
-            <form onSubmit={handleQuickAuditSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 max-w-md w-full">
-              <div className="relative flex-1">
-                <Globe className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-foreground-muted/60" />
-                <input
-                  type="text"
-                  value={quickAuditUrl}
-                  onChange={(e) => setQuickAuditUrl(e.target.value)}
-                  placeholder="domain.com or https://..."
-                  className="w-full h-10 rounded-xl border border-border-default bg-white/[0.03] pl-10 pr-3 text-xs font-mono text-foreground placeholder:text-foreground-muted/50 focus:border-accent/60 focus:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-inner"
-                />
-              </div>
-              <button
-                type="submit"
-                className="relative group/btn overflow-hidden inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-accent px-4 text-xs font-medium text-white transition-all duration-200 hover:bg-accent-bright active:scale-95 shadow-linear-cta shrink-0 cursor-pointer"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-out" />
-                <Sparkles className="size-3.5 text-indigo-200" />
-                <span>Launch Audit</span>
-                <ArrowRight className="size-3.5 text-white/80 group-hover/btn:translate-x-0.5 transition-transform" />
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-white/10 bg-background text-slate-300 overflow-hidden m-0 p-0">
 
       {/* Main Multi-Column Footer Menu */}
       <div className="relative w-full max-w-none px-6 lg:px-12 py-14 z-40">
@@ -155,7 +96,7 @@ export const Footer: React.FC = () => {
                 <button
                   type="button"
                   onClick={copyCliCommand}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-[11px] font-mono text-foreground-muted hover:text-foreground border border-border-default hover:border-accent/40 transition-all cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 active:scale-95"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-muted/40 hover:bg-muted/80 text-[11px] font-mono text-foreground-muted hover:text-foreground border border-border-default hover:border-accent/40 transition-all cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 active:scale-95"
                   title="Copy CLI command"
                 >
                   {copiedCli ? (
@@ -195,7 +136,7 @@ export const Footer: React.FC = () => {
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="developer@company.com"
                     required
-                    className="w-full h-9 rounded-xl border border-border-default bg-white/[0.03] px-3 text-xs font-mono text-foreground placeholder:text-foreground-muted/50 focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all"
+                    className="w-full h-9 rounded-xl border border-border-default bg-muted/30 px-3 text-xs font-mono text-foreground placeholder:text-foreground-muted/50 focus:border-accent/60 focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all"
                   />
                   <button
                     type="submit"
@@ -250,11 +191,11 @@ export const Footer: React.FC = () => {
 
             {/* Enterprise Trust Badges */}
             <div className="flex flex-wrap items-center gap-2 pt-2">
-              <div className="inline-flex items-center gap-1.5 rounded-lg border border-border-default bg-white/[0.04] px-2.5 py-1 text-[11px] font-mono text-foreground-muted">
+              <div className="inline-flex items-center gap-1.5 rounded-lg border border-border-default bg-muted/40 px-2.5 py-1 text-[11px] font-mono text-foreground-muted">
                 <Shield className="size-3.5 text-emerald-400" />
                 <span>SOC 2 Type II Certified</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 rounded-lg border border-border-default bg-white/[0.04] px-2.5 py-1 text-[11px] font-mono text-foreground-muted">
+              <div className="inline-flex items-center gap-1.5 rounded-lg border border-border-default bg-muted/40 px-2.5 py-1 text-[11px] font-mono text-foreground-muted">
                 <Award className="size-3.5 text-indigo-400" />
                 <span>ISO 27001 Compliant</span>
               </div>
@@ -492,7 +433,7 @@ export const Footer: React.FC = () => {
             <p className="text-xs text-foreground-muted font-mono">
               &copy; 2026 <strong className="text-foreground font-semibold">CatalystLab</strong>. Enterprise Telemetry &amp; Automated Web Quality Intelligence.
             </p>
-            <span className="text-[11px] font-mono text-foreground-muted bg-white/[0.04] px-2 py-0.5 rounded-full border border-border-default">
+            <span className="text-[11px] font-mono text-foreground-muted bg-muted/40 px-2 py-0.5 rounded-full border border-border-default">
               Engine v2.4
             </span>
             <SyncStatusBadge />

@@ -128,8 +128,8 @@ export function CoverFlowCarousel({
     <section
       className={`relative w-full min-h-[760px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
       style={{
-        backgroundColor: "#0c0a09",
-        color: "#ffffff",
+        backgroundColor: "hsl(var(--background))",
+        color: "hsl(var(--foreground))",
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
       onMouseEnter={() => setIsHovered(true)}
@@ -163,20 +163,20 @@ export function CoverFlowCarousel({
         {/* Eyebrow */}
         {sectionLabel && (
           <div className="flex items-center gap-3 mb-8">
-            <span style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, transparent, #c5a880)" }} />
+            <span style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, transparent, hsl(var(--primary)))" }} />
             <h3
               style={{
                 fontSize: "0.75rem",
                 fontWeight: 700,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
-                color: "#c5a880",
+                color: "hsl(var(--primary))",
                 margin: 0,
               }}
             >
               {sectionLabel}
             </h3>
-            <span style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, #c5a880, transparent)" }} />
+            <span style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, hsl(var(--primary)), transparent)" }} />
           </div>
         )}
 
@@ -232,7 +232,7 @@ export function CoverFlowCarousel({
                   height: "500px",
                   borderRadius: "18px",
                   overflow: "hidden",
-                  backgroundColor: "#171311",
+                  backgroundColor: "hsl(var(--card))",
                   border: "1px solid rgba(255, 255, 255, 0.12)",
                   transform,
                   opacity,
@@ -322,7 +322,7 @@ export function CoverFlowCarousel({
                         fontWeight: 900,
                         textTransform: "uppercase",
                         letterSpacing: "0.04em",
-                        color: "#ffffff",
+                        color: "hsl(var(--foreground))",
                         margin: 0,
                         lineHeight: 1.1,
                         textShadow: "0 3px 12px rgba(0,0,0,0.95)",
@@ -338,7 +338,7 @@ export function CoverFlowCarousel({
                           fontWeight: 700,
                           textTransform: "uppercase",
                           letterSpacing: "0.06em",
-                          color: "#f3f0ea",
+                          color: "hsl(var(--foreground))",
                           lineHeight: 1.2,
                           textShadow: "0 3px 10px rgba(0,0,0,0.9)",
                         }}
@@ -351,7 +351,7 @@ export function CoverFlowCarousel({
                       style={{
                         width: "34px",
                         height: "2px",
-                        backgroundColor: "#c5a880",
+                        backgroundColor: "hsl(var(--primary))",
                         borderRadius: "2px",
                         margin: "5px auto 4px",
                         boxShadow: "0 0 8px rgba(197,168,128,0.7)",
@@ -388,8 +388,8 @@ export function CoverFlowCarousel({
                         gap: "6px",
                         padding: "7px 18px",
                         borderRadius: "9999px",
-                        background: "linear-gradient(135deg, #c5a880 0%, #a48256 100%)",
-                        color: "#110d0c",
+                        background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)) 100%)",
+                        color: "hsl(var(--primary-foreground))",
                         fontSize: "0.72rem",
                         fontWeight: 800,
                         letterSpacing: "0.14em",
@@ -424,7 +424,7 @@ export function CoverFlowCarousel({
             borderRadius: "50%",
             backgroundColor: "rgba(0,0,0,0.55)",
             border: "1px solid rgba(255,255,255,0.2)",
-            color: "#ffffff",
+            color: "hsl(var(--foreground))",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -451,7 +451,7 @@ export function CoverFlowCarousel({
             borderRadius: "50%",
             backgroundColor: "rgba(0,0,0,0.55)",
             border: "1px solid rgba(255,255,255,0.2)",
-            color: "#ffffff",
+            color: "hsl(var(--foreground))",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -476,7 +476,7 @@ export function CoverFlowCarousel({
                 height: "8px",
                 width: idx === currentIndex ? "28px" : "8px",
                 borderRadius: "9999px",
-                backgroundColor: idx === currentIndex ? "#c5a880" : "rgba(255,255,255,0.25)",
+                backgroundColor: idx === currentIndex ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))",
                 border: "none",
                 cursor: "pointer",
                 boxShadow: idx === currentIndex ? "0 0 10px rgba(197,168,128,0.7)" : "none",

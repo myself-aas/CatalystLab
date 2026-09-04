@@ -100,7 +100,7 @@ export const PexelsImage: React.FC<PexelsImageProps> = ({
   return (
     <div
       data-media-degraded={isDegraded ? 'true' : undefined}
-      className={`relative overflow-hidden bg-[#060914] ${containerClassName}`}
+      className={`relative overflow-hidden bg-background ${containerClassName}`}
       style={{ aspectRatio: `${finalWidth} / ${finalHeight}` }}
     >
       {/* 1. Low-opacity placeholder shimmer during image load (zero CLS) */}
@@ -108,7 +108,7 @@ export const PexelsImage: React.FC<PexelsImageProps> = ({
         <div
           aria-hidden="true"
           style={{ backgroundImage: `url(${DEFAULT_BLUR_SHIMMER})` }}
-          className="absolute inset-0 bg-[#0A0F20] animate-pulse z-0 bg-cover"
+          className="absolute inset-0 bg-muted/40 animate-pulse z-0 bg-cover"
         />
       )}
 
@@ -133,7 +133,7 @@ export const PexelsImage: React.FC<PexelsImageProps> = ({
         />
       ) : (
         <div
-          className="w-full h-full bg-gradient-to-br from-background via-[#0A0F20] to-[#04060E]"
+          className="w-full h-full bg-gradient-to-br from-background via-muted/40 to-background"
           aria-label={finalAlt}
         />
       )}

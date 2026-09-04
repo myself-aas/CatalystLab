@@ -66,7 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
   };
 
   const SidebarContent = (
-    <div className="flex h-full flex-col bg-white border-r border-[#dadce0] overflow-hidden dark:bg-[#202124] dark:border-white/10">
+    <div className="flex h-full flex-col bg-white border-r border-border overflow-hidden dark:bg-background dark:border-white/10">
       <div className={cn("flex items-center h-16 shrink-0 px-4", isExpanded ? "justify-between" : "justify-center")}>
         {isExpanded && (
           <Link to="/" className="flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-md" onClick={onCloseMobile}>
@@ -76,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         )}
         <button
           onClick={toggleSidebar}
-          className="p-1.5 rounded-md text-foreground-muted hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="p-1.5 rounded-md ds-muted hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           <SidebarIcon className="size-[18px]" />
         </button>
@@ -91,8 +91,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             className={({ isActive }) => cn(
               "group relative flex items-center h-[36px] rounded-lg px-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
               isActive
-                ? "bg-white/[0.08] text-[#EDEDEF] font-medium"
-                : "text-[#8A8F98] hover:bg-white/[0.05] hover:text-[#EDEDEF]"
+                ? "bg-primary text-primary-foreground shadow-sm border border-border font-medium"
+                : "bg-background ds-muted hover:text-foreground hover:bg-muted border border-transparent hover:border-border"
             )}
           >
             <item.icon className={cn("size-[18px] shrink-0", !isExpanded && "mx-auto")} />
@@ -102,7 +102,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             )}
 
             {isExpanded && item.badge && (
-              <span className="text-[11px] font-medium text-foreground-muted bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
+              <span className="text-[11px] font-medium ds-muted bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
                 {item.badge}
               </span>
             )}
@@ -123,7 +123,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               setEnginesExpanded(!enginesExpanded);
             }}
             className={cn(
-              "w-full flex items-center h-[36px] rounded-lg px-2.5 transition-colors text-foreground-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+              "w-full flex items-center h-[36px] rounded-lg px-2.5 transition-colors ds-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
               !isExpanded && "justify-center"
             )}
           >
@@ -162,8 +162,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                       className={({ isActive }) => cn(
                         "flex items-center h-[32px] rounded-lg px-2.5 text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                         isActive
-                          ? "bg-black/5 dark:bg-white/10 text-foreground font-medium"
-                          : "text-foreground-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground"
+                          ? "bg-primary/10 text-primary font-bold border border-primary/20"
+                          : "ds-muted hover:bg-muted hover:text-foreground border border-transparent"
                       )}
                     >
                       <span className="truncate">{engine.name}</span>
@@ -183,7 +183,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               onClick={() => setTheme('light')}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                theme === 'light' ? "bg-white text-black shadow-sm dark:bg-black dark:text-white" : "text-foreground-muted hover:text-foreground"
+                theme === 'light' ? "bg-white text-black shadow-sm dark:bg-black dark:text-white" : "ds-muted hover:text-foreground"
               )}
             >
               <Sun className="size-[15px]" />
@@ -193,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               onClick={() => setTheme('dark')}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                theme === 'dark' ? "bg-white text-black shadow-sm dark:bg-black dark:text-white" : "text-foreground-muted hover:text-foreground"
+                theme === 'dark' ? "bg-white text-black shadow-sm dark:bg-black dark:text-white" : "ds-muted hover:text-foreground"
               )}
             >
               <Moon className="size-[15px]" />
@@ -203,7 +203,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         ) : (
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="w-full flex items-center justify-center h-[36px] rounded-lg text-foreground-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="w-full flex items-center justify-center h-[36px] rounded-lg ds-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             {theme === 'dark' ? <Sun className="size-[18px]" /> : <Moon className="size-[18px]" />}
           </button>
@@ -226,7 +226,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <p className="text-[13px] font-medium text-foreground truncate">
                   {user?.displayName || 'Guest User'}
                 </p>
-                <p className="text-[12px] text-foreground-muted truncate">
+                <p className="text-[12px] ds-muted truncate">
                   {user?.email || 'Sign in to sync'}
                 </p>
               </div>
@@ -235,7 +235,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <button
                   type="button"
                   onClick={() => logout()}
-                  className="p-1 rounded text-foreground-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
                   title="Sign out"
                   aria-label="Sign out"
                 >
@@ -245,7 +245,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <Link
                   to="/login"
                   onClick={onCloseMobile}
-                  className="p-1 rounded text-foreground-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
                   title="Sign in"
                   aria-label="Sign in"
                 >

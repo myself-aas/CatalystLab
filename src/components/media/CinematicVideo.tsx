@@ -124,7 +124,7 @@ export const CinematicVideo: React.FC<CinematicVideoProps> = ({
       <div
         ref={containerRef}
         data-media-degraded={isDegraded ? 'true' : undefined}
-        className={`relative overflow-hidden bg-[#060914] ${containerClassName}`}
+        className={`relative overflow-hidden bg-background ${containerClassName}`}
       >
         {finalPoster ? (
           <img
@@ -136,7 +136,7 @@ export const CinematicVideo: React.FC<CinematicVideoProps> = ({
           />
         ) : (
           <div
-            className="w-full h-full bg-gradient-to-br from-background via-[#0A0F20] to-[#04060E]"
+            className="w-full h-full bg-gradient-to-br from-background via-muted/40 to-background"
             aria-label={finalAlt}
           />
         )}
@@ -161,14 +161,14 @@ export const CinematicVideo: React.FC<CinematicVideoProps> = ({
     <div
       ref={containerRef}
       data-media-degraded={isDegraded ? 'true' : undefined}
-      className={`relative overflow-hidden bg-[#060914] ${containerClassName}`}
+      className={`relative overflow-hidden bg-background ${containerClassName}`}
     >
       {/* 1. Low-opacity placeholder shimmer until video is ready */}
       {!isVideoLoaded && (
         <div
           aria-hidden="true"
           style={{ backgroundImage: `url(${DEFAULT_BLUR_SHIMMER})` }}
-          className="absolute inset-0 bg-[#0A0F20] animate-pulse z-0 bg-cover"
+          className="absolute inset-0 bg-muted/40 animate-pulse z-0 bg-cover"
         />
       )}
 

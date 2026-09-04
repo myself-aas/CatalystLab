@@ -228,12 +228,6 @@ html.dark, [data-theme="dark"], .theme-dark {
   border-radius: 0 2px 2px 0;
 }
 
-/* React Table of Contents Active Link */
-.react-toc-active {
-  color: var(--react-cyan);
-  font-weight: 600;
-}
-
 /* Anchor Link on Hover */
 .react-heading-anchor {
   opacity: 0;

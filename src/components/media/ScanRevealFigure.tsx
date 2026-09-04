@@ -18,7 +18,7 @@ export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
   sources,
   caption,
   duration = 0.9,
-  laserColor = '#00F0FF',
+  laserColor = 'hsl(var(--primary))',
   children,
   aspectRatio = '16/9',
   className = '',
@@ -36,7 +36,7 @@ export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
   return (
     <figure
       ref={containerRef}
-      className={`relative overflow-hidden rounded-2xl border border-border bg-[#060914] group catalyst-media-interactive ${containerClassName}`}
+      className={`relative overflow-hidden rounded-2xl border border-border bg-background group catalyst-media-interactive ${containerClassName}`}
     >
       {/* 1. Clipping Container with Scan Reveal Animation */}
       <motion.div
@@ -88,9 +88,9 @@ export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
 
       {/* 2. Optional Caption */}
       {caption && (
-        <figcaption className="px-4 py-2.5 bg-[#0A0F20]/90 border-t border-border/80 font-mono text-[11px] text-muted-foreground flex items-center justify-between">
+        <figcaption className="px-4 py-2.5 bg-muted/40 border-t border-border/80 font-mono text-[11px] text-muted-foreground flex items-center justify-between">
           <span className="truncate">{caption}</span>
-          <span className="text-[#06B6D4] text-[10px] uppercase font-bold shrink-0 ml-2">
+          <span className="text-cyan-400 text-[10px] uppercase font-bold shrink-0 ml-2">
             [VERIFIED ASSET]
           </span>
         </figcaption>

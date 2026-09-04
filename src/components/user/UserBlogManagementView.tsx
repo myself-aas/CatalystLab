@@ -119,7 +119,7 @@ export const UserBlogManagementView: React.FC = () => {
             </span>
             <h2 className="text-xl font-bold text-foreground">My Published Articles & Drafts</h2>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs ds-muted mt-1">
             Author and manage your architecture and telemetry articles on CatalystLab.
           </p>
         </div>
@@ -127,7 +127,7 @@ export const UserBlogManagementView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={fetchPosts}
-            className="p-2.5 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="p-2.5 ds-card ds-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Refresh articles"
           >
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -146,13 +146,13 @@ export const UserBlogManagementView: React.FC = () => {
 
       {/* Search Input */}
       <div className="relative">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 ds-muted" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter your articles by title, topic, or keyword..."
-          className="w-full rounded-xl border border-border bg-background pl-9 pr-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-[#0b192c] focus:outline-none"
+          className="w-full ds-control bg-background border border-border pl-9 pr-4 py-2.5 text-xs text-foreground placeholder:ds-muted focus:border-primary focus:outline-none"
         />
       </div>
 
@@ -161,10 +161,10 @@ export const UserBlogManagementView: React.FC = () => {
         {loading ? (
           <SkeletonTable rows={4} columns={4} />
         ) : filteredPosts.length === 0 ? (
-          <div className="py-16 text-center text-muted-foreground rounded-2xl border border-dashed border-border bg-background p-8 shadow-xs">
-            <BookOpen className="mx-auto h-10 w-10 text-muted-foreground mb-3" />
+          <div className="py-16 text-center ds-muted rounded-2xl border border-dashed border-border bg-background p-8 shadow-xs">
+            <BookOpen className="mx-auto h-10 w-10 ds-muted mb-3" />
             <h3 className="text-base font-bold text-foreground">No Articles Found</h3>
-            <p className="mt-1 text-xs text-muted-foreground max-w-sm mx-auto">
+            <p className="mt-1 text-xs ds-muted max-w-sm mx-auto">
               You haven't written any articles yet, or no articles match your search filter.
             </p>
             <Link
@@ -181,7 +181,7 @@ export const UserBlogManagementView: React.FC = () => {
             return (
               <div
                 key={post.id || post.slug}
-                className="rounded-2xl border border-border bg-background p-4 sm:p-5 shadow-xs transition-all hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="ds-card p-4 sm:p-5 shadow-xs transition-all hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   
@@ -198,7 +198,7 @@ export const UserBlogManagementView: React.FC = () => {
                       }`}>
                         {post.status === 'published' ? 'Published' : 'Draft'}
                       </span>
-                      <span className="text-xs text-muted-foreground font-mono">
+                      <span className="text-xs ds-muted font-mono">
                         {new Date(post.createdAt || Date.now()).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
@@ -217,7 +217,7 @@ export const UserBlogManagementView: React.FC = () => {
                     </h3>
 
                     {post.excerpt && (
-                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                      <p className="text-xs ds-muted line-clamp-2 leading-relaxed">
                         {post.excerpt}
                       </p>
                     )}
@@ -230,7 +230,7 @@ export const UserBlogManagementView: React.FC = () => {
                       href={`/blogs/${post.slug || post.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="inline-flex items-center gap-1 ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="View live article"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -240,7 +240,7 @@ export const UserBlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleCopyLink(post)}
-                      className="p-2 rounded-xl border border-border bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="p-2 ds-card ds-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Copy public link"
                     >
                       {copiedId === (post.id || post.slug) ? (
@@ -262,7 +262,7 @@ export const UserBlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleToggleStatus(post)}
-                      className="rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {post.status === 'published' ? 'Draft' : 'Publish'}
                     </button>

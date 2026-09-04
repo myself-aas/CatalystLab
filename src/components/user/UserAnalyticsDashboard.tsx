@@ -26,7 +26,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-2xl font-bold text-foreground tracking-tight">Analytics Overview</h2>
-          <p className="text-muted-foreground text-sm mt-1">Monitor your audit performance and traffic.</p>
+          <p className="ds-muted text-sm mt-1">Monitor your audit performance and traffic.</p>
         </div>
       </div>
 
@@ -52,7 +52,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
               </span>
             </div>
             <div className="mt-4">
-              <p className="text-muted-foreground text-xs uppercase tracking-wider font-semibold">{stat.label}</p>
+              <p className="ds-eyebrow">{stat.label}</p>
               <p className="text-3xl font-bold text-foreground mt-1">{stat.value}</p>
             </div>
           </motion.div>

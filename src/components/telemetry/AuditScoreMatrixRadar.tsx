@@ -262,7 +262,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
 
   return (
     <div
-      className={`rounded-2xl border border-border bg-[#090D16] shadow-2xl p-5 sm:p-6 text-foreground backdrop-blur-xl ${className}`}
+      className={`rounded-2xl border border-border bg-card shadow-2xl p-5 sm:p-6 text-foreground backdrop-blur-xl ${className}`}
     >
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-border/80 pb-5">

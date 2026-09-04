@@ -33,12 +33,6 @@ export interface ChallengeProps {
   solution?: React.ReactNode;
 }
 
-export interface TableOfContentsItem {
-  id: string;
-  title: string;
-  level: 2 | 3;
-}
-
 export interface NavItem {
   id: string;
   path: string;

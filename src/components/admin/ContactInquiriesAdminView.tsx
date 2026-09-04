@@ -84,13 +84,13 @@ export const ContactInquiriesAdminView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Header Controls */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-2xl border border-border bg-background p-5 shadow-xs">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ds-card p-5 shadow-xs">
         <div>
           <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-            <Mail className="h-5 w-5 text-muted-foreground" />
+            <Mail className="h-5 w-5 ds-muted" />
             <span>Captured Email Leads &amp; Inquiries</span>
           </h2>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <p className="text-xs ds-muted mt-0.5">
             Collected via the Get in Touch section and Email Capture pop-up modal.
           </p>
         </div>
@@ -99,7 +99,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
           <button
             type="button"
             onClick={fetchInquiries}
-            className="flex items-center gap-1.5 rounded-xl border border-border bg-muted px-3 py-2 text-xs font-mono font-semibold text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center gap-1.5 ds-card px-3 py-2 text-xs font-mono font-semibold ds-muted hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -109,7 +109,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
             type="button"
             onClick={exportCSV}
             disabled={inquiries.length === 0}
-            className="flex items-center gap-1.5 rounded-xl bg-background text-primary-foreground px-3.5 py-2 text-xs font-mono font-bold hover:bg-[#162a45] transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center gap-1.5 rounded-xl bg-background text-primary-foreground px-3.5 py-2 text-xs font-mono font-bold hover:bg-muted/80 transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export CSV</span>
@@ -119,18 +119,18 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-2xl border border-border bg-background p-4 shadow-xs">
-          <div className="text-xs font-mono font-semibold text-muted-foreground uppercase">Total Captured</div>
+        <div className="ds-card p-4 shadow-xs">
+          <div className="ds-eyebrow">Total Captured</div>
           <div className="text-2xl font-black text-foreground mt-1">{inquiries.length}</div>
         </div>
-        <div className="rounded-2xl border border-border bg-background p-4 shadow-xs">
-          <div className="text-xs font-mono font-semibold text-muted-foreground uppercase">Latest 24 Hours</div>
-          <div className="text-2xl font-black text-muted-foreground mt-1">
+        <div className="ds-card p-4 shadow-xs">
+          <div className="ds-eyebrow">Latest 24 Hours</div>
+          <div className="text-2xl font-black ds-muted mt-1">
             {inquiries.filter(i => Date.now() - i.createdAt < 24 * 60 * 60 * 1000).length}
           </div>
         </div>
-        <div className="rounded-2xl border border-border bg-background p-4 shadow-xs">
-          <div className="text-xs font-mono font-semibold text-muted-foreground uppercase">Storage Status</div>
+        <div className="ds-card p-4 shadow-xs">
+          <div className="ds-eyebrow">Storage Status</div>
           <div className="flex items-center gap-1.5 mt-1 text-sm font-bold text-emerald-600">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>Firestore Synchronized</span>
@@ -140,7 +140,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
       {/* Search Bar */}
       <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-muted-foreground">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 ds-muted">
           <Search className="h-4 w-4" />
         </div>
         <input
@@ -148,7 +148,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter by email, company, name, or keywords..."
-          className="w-full rounded-xl border border-border bg-background py-2.5 pl-10 pr-4 text-xs font-mono text-foreground placeholder-gray-400 focus:border-[#415a77] focus:outline-none focus:ring-1 focus:ring-[#415a77]/30 transition-all shadow-xs"
+          className="w-full ds-control bg-background border border-border py-2.5 pl-10 pr-4 text-xs font-mono text-foreground placeholder-gray-400 focus:border-border focus:outline-none focus:ring-1 focus:ring-ring/30 transition-all shadow-xs"
         />
       </div>
 
@@ -156,15 +156,15 @@ export const ContactInquiriesAdminView: React.FC = () => {
       {loading ? (
         <SkeletonTable rows={5} columns={4} />
       ) : filteredInquiries.length === 0 ? (
-        <div className="rounded-2xl border border-border bg-background shadow-xs overflow-hidden py-16 text-center text-muted-foreground font-mono text-xs space-y-2">
-          <Inbox className="h-8 w-8 mx-auto text-muted-foreground" />
-          <div className="text-sm font-semibold text-muted-foreground">No contact inquiries found</div>
-          <p className="text-muted-foreground max-w-sm mx-auto">
+        <div className="ds-card overflow-hidden py-16 text-center ds-muted font-mono text-xs space-y-2">
+          <Inbox className="h-8 w-8 mx-auto ds-muted" />
+          <div className="text-sm font-semibold ds-muted">No contact inquiries found</div>
+          <p className="ds-muted max-w-sm mx-auto">
             New submissions via the Get in Touch section and pop-up modal will appear here in real-time.
           </p>
         </div>
       ) : (
-        <div className="rounded-2xl border border-border bg-background shadow-xs overflow-hidden divide-y divide-gray-100">
+        <div className="ds-card overflow-hidden divide-y divide-gray-100 p-4">
           {filteredInquiries.map((item) => (
             <div key={item.id || item.createdAt} className="p-4 sm:p-5 hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -173,7 +173,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleCopy(item.email, item.id || String(item.createdAt))}
-                    className="p-1 rounded-md text-muted-foreground hover:text-muted-foreground hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="p-1 rounded-md ds-muted hover:ds-muted hover:bg-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     title="Copy email"
                   >
                     {copiedId === (item.id || String(item.createdAt)) ? (
@@ -183,13 +183,13 @@ export const ContactInquiriesAdminView: React.FC = () => {
                     )}
                   </button>
                   {item.source && (
-                    <span className="rounded-md bg-accent px-2 py-0.5 text-[10px] font-mono text-muted-foreground border border-border">
+                    <span className="rounded-md bg-accent px-2 py-0.5 text-[10px] font-mono ds-muted border border-border">
                       {item.source}
                     </span>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+                <div className="flex items-center gap-2 text-xs font-mono ds-muted">
                   <Clock className="h-3 w-3" />
                   <span>{new Date(item.createdAt).toLocaleString()}</span>
                 </div>
@@ -197,16 +197,16 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
               {/* Optional Metadata Row */}
               {(item.name || item.company) && (
-                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs ds-muted">
                   {item.name && (
                     <span className="flex items-center gap-1">
-                      <User className="h-3 w-3 text-muted-foreground" />
+                      <User className="h-3 w-3 ds-muted" />
                       <span className="font-medium">{item.name}</span>
                     </span>
                   )}
                   {item.company && (
                     <span className="flex items-center gap-1">
-                      <Building2 className="h-3 w-3 text-muted-foreground" />
+                      <Building2 className="h-3 w-3 ds-muted" />
                       <span>{item.company}</span>
                     </span>
                   )}
@@ -215,7 +215,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
 
               {/* Message Content */}
               {item.message && (
-                <div className="mt-2.5 rounded-xl border border-border bg-muted/60 p-3 text-xs text-muted-foreground leading-relaxed font-sans">
+                <div className="mt-2.5 ds-card p-3 text-xs ds-muted leading-relaxed font-sans">
                   {item.message}
                 </div>
               )}

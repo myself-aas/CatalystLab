@@ -142,7 +142,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
           <div className="h-2.5 w-full rounded-full bg-background overflow-hidden border border-border">
             <div
               className={`h-full transition-all ${
-                payloadKb < 50 ? 'bg-emerald-400' : payloadKb < 150 ? 'bg-[#415a77]' : 'bg-[#c5d3e8]'
+                payloadKb < 50 ? 'bg-emerald-400' : payloadKb < 150 ? 'bg-muted-foreground' : 'bg-muted'
               }`}
               style={{ width: `${Math.min(100, (payloadKb / 200) * 100)}%` }}
             />

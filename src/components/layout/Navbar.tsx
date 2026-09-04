@@ -152,10 +152,10 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
   const navLinkClass = (active: boolean) =>
     cn(
       'group relative inline-flex min-h-9 items-center px-3 text-[14px] font-medium tracking-tight transition-colors rounded-md cursor-pointer',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/50',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50',
       active
-        ? 'text-[#1967d2] bg-[#e8f0fe] dark:text-[#8ab4f8] dark:bg-[#174ea6]/30'
-        : 'text-[#3c4043] hover:bg-[#f1f3f4] dark:text-[#e8eaed] dark:hover:bg-white/5'
+        ? 'text-primary bg-primary/10'
+        : 'text-muted-foreground hover:text-foreground hover:bg-accent'
     );
 
   return (
@@ -164,7 +164,7 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled
-            ? 'border-b border-[#dadce0]/80 bg-white/80 backdrop-blur-md shadow-[0_1px_3px_rgba(60,64,67,0.1)] dark:border-white/10 dark:bg-[#202124]/80'
+            ? 'border-b border-border bg-background/80 backdrop-blur-md shadow-sm'
             : 'border-b border-transparent bg-transparent'
         )}
       >
@@ -172,7 +172,7 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
 
           <Link
             to="/"
-            className="flex items-center shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/50"
+            className="flex items-center shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
             aria-label="CatalystLab home"
           >
             <BrandLogo size="md" />
@@ -209,7 +209,7 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
                         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                         role="menu"
                         aria-label={`${label} menu`}
-                        className="absolute left-0 top-[calc(100%+0.6rem)] w-[360px] rounded-lg border border-[#dadce0] bg-white p-2 shadow-[0_8px_24px_rgba(60,64,67,0.15)] z-50 overflow-hidden dark:border-white/10 dark:bg-[#303134]"
+                        className="absolute left-0 top-[calc(100%+0.6rem)] w-[360px] rounded-lg border border-border bg-card p-2 shadow-xl z-50 overflow-hidden"
                       >
                         <div className="flex flex-col gap-1">
                           {resolvedMenu[key].map((item) => {
@@ -219,23 +219,23 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
                                 key={item.to}
                                 to={item.to}
                                 role="menuitem"
-                                className="group flex items-start gap-3 rounded-md p-2.5 transition-colors hover:bg-[#f1f3f4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/50 dark:hover:bg-white/5"
+                                className="group flex items-start gap-3 rounded-md p-2.5 transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                               >
-                                <div className="size-8 rounded-md bg-[#e8f0fe] flex items-center justify-center text-[#1a73e8] shrink-0 mt-0.5 dark:bg-[#174ea6]/40 dark:text-[#8ab4f8]">
+                                <div className="size-8 rounded-md bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-0.5">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-[13px] font-medium text-[#202124] group-hover:text-[#1a73e8] dark:text-[#e8eaed] dark:group-hover:text-[#8ab4f8]">
+                                    <span className="text-[13px] font-medium text-foreground group-hover:text-primary">
                                       {item.label}
                                     </span>
                                     {item.badge && (
-                                      <span className="rounded bg-[#e8f0fe] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[#1967d2] dark:bg-[#174ea6]/40 dark:text-[#8ab4f8]">
+                                      <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-primary">
                                         {item.badge}
                                       </span>
                                     )}
                                   </div>
-                                  <span className="text-xs leading-relaxed text-[#5f6368] line-clamp-1 mt-0.5 block dark:text-[#9aa0a6]">
+                                  <span className="text-xs leading-relaxed text-muted-foreground line-clamp-1 mt-0.5 block">
                                     {item.description}
                                   </span>
                                 </div>
@@ -277,12 +277,12 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
             {user ? (
               <Link
                 to="/dashboard"
-                className="hidden h-9 items-center gap-2 rounded-full border border-[#dadce0] bg-white px-3.5 text-[13px] font-medium text-[#202124] transition-colors hover:bg-[#f1f3f4] sm:flex dark:border-white/15 dark:bg-[#303134] dark:text-[#e8eaed]"
+                className="hidden h-9 items-center gap-2 rounded-full border border-border bg-background px-3.5 text-[13px] font-medium text-foreground transition-colors hover:bg-accent sm:flex"
                 aria-label="Open dashboard"
               >
-                <LayoutDashboard aria-hidden="true" className="size-3.5 text-[#1a73e8]" />
+                <LayoutDashboard aria-hidden="true" className="size-3.5 text-primary" />
                 <span className="max-w-[100px] truncate">{user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Dashboard'}</span>
-                <span className="rounded-full bg-[#e8f0fe] px-2 py-0.5 font-mono text-[10px] uppercase text-[#1967d2] font-bold dark:bg-[#174ea6]/40 dark:text-[#8ab4f8]">
+                <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase text-primary font-bold">
                   {roleConfig.shortLabel}
                 </span>
               </Link>
@@ -293,7 +293,7 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
                 </Link>
                 <Link
                   to="/signup"
-                  className="inline-flex h-9 items-center justify-center rounded-full bg-[#1a73e8] px-4 text-[13px] font-medium text-white hover:bg-[#1967d2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/50"
+                  className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-[13px] font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 >
                   Sign up
                 </Link>
@@ -309,7 +309,7 @@ export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobi
                   setMenuOverlayOpen(true);
                 }
               }}
-              className="inline-flex size-11 items-center justify-center rounded-full text-[#5f6368] transition-colors hover:bg-[#f1f3f4] lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a73e8]/50 dark:text-[#9aa0a6] dark:hover:bg-white/5 active:scale-95"
+              className="inline-flex size-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 active:scale-95"
               aria-label="Open navigation menu"
             >
               <Menu className="size-5" />

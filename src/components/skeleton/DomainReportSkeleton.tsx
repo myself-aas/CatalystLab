@@ -15,18 +15,6 @@ export const DomainReportSkeleton: React.FC = () => {
       {/* Header Banner */}
       <section className="relative overflow-hidden border-b border-border bg-muted/60 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-6xl space-y-6">
-          {/* Breadcrumb row */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Skeleton className="h-4 w-4 rounded-xs" />
-              <Skeleton className="h-4 w-28 rounded-xs" />
-            </div>
-            <div className="flex items-center gap-2">
-              <Skeleton className="h-8 w-20 rounded-lg" />
-              <Skeleton className="h-8 w-28 rounded-lg" />
-            </div>
-          </div>
-
           {/* Domain Title & Grade Banner */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-2">
             <div className="space-y-3">

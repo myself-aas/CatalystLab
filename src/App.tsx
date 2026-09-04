@@ -38,6 +38,7 @@ const DomainReportArticlePage = React.lazy(() => import("./pages/DomainReportArt
 const ReportsDirectoryPage = React.lazy(() => import("./pages/ReportsDirectoryPage").then(m => ({ default: m.ReportsDirectoryPage })));
 const ComparePage = React.lazy(() => import("./pages/ComparePage").then(m => ({ default: m.ComparePage })));
 const ToolPage = React.lazy(() => import("./pages/ToolPage").then(m => ({ default: m.ToolPage })));
+const AboutPage = React.lazy(() => import("./pages/AboutPage").then(m => ({ default: m.AboutPage })));
 const MethodologyPage = React.lazy(() => import("./pages/MethodologyPage").then(m => ({ default: m.MethodologyPage })));
 const BlogsPage = React.lazy(() => import("./pages/BlogsPage").then(m => ({ default: m.BlogsPage })));
 const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage").then(m => ({ default: m.BlogPostPage })));
@@ -251,8 +252,8 @@ export const App: React.FC = () => {
               <Route path="/playground.html" element={<PlaygroundPage />} />
               <Route path="/design-system" element={<ReactDevDesignPage />} />
 
-              <Route path="/about" element={<MethodologyPage />} />
-              <Route path="/about.html" element={<MethodologyPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/about.html" element={<AboutPage />} />
 
               {/* User Dashboard & Telemetry Command Center HUD */}
               <Route path="/app" element={<CommandCenterPage />} />

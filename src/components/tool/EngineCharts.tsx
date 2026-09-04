@@ -22,7 +22,7 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
   return (
     <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card">
-        <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-[#EDEDEF]">{engineType} metrics</h3>
+        <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-foreground">{engineType} metrics</h3>
         <div className="h-[250px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data}>
@@ -37,7 +37,7 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
       </div>
 
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card">
-        <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-[#EDEDEF]">Distribution</h3>
+        <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-foreground">Distribution</h3>
         <div className="flex h-[250px] w-full items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>

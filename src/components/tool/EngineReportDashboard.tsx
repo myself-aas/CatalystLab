@@ -28,13 +28,13 @@ export const EngineReportDashboard: React.FC<EngineReportDashboardProps> = ({
     <div className="mx-auto w-full max-w-6xl space-y-6">
       <LinearCard className="flex items-center justify-between p-6" lift={false}>
         <div>
-          <h2 className="text-xl font-semibold capitalize tracking-tight text-[#EDEDEF]">{engineType} report</h2>
-          <p className="mt-1 font-mono text-sm text-[#8A8F98]">Target: {targetUrl}</p>
+          <h2 className="text-xl font-semibold capitalize tracking-tight text-foreground">{engineType} report</h2>
+          <p className="mt-1 font-mono text-sm text-muted-foreground">Target: {targetUrl}</p>
         </div>
         {parsed.healthScore > 0 && (
-          <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] px-4 py-2 text-right">
-            <div className="text-[10px] uppercase tracking-wider text-[#8A8F98]">Score</div>
-            <div className="font-mono text-2xl font-semibold text-[#EDEDEF]">{parsed.healthScore}</div>
+          <div className="rounded-xl border border-border bg-muted/40 px-4 py-2 text-right">
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Score</div>
+            <div className="font-mono text-2xl font-semibold text-foreground">{parsed.healthScore}</div>
           </div>
         )}
       </LinearCard>
@@ -61,7 +61,7 @@ export const EngineReportDashboard: React.FC<EngineReportDashboardProps> = ({
 
       {hasTable && <EngineDataTable engineType={engineType} tableData={parsed.tableData} />}
 
-      <LinearCard className="overflow-x-auto p-4 font-mono text-sm whitespace-pre-wrap text-[#8A8F98]" lift={false}>
+      <LinearCard className="overflow-x-auto p-4 font-mono text-sm whitespace-pre-wrap text-muted-foreground" lift={false}>
         {output || 'No raw output generated.'}
       </LinearCard>
     </div>

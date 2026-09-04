@@ -106,7 +106,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-cyan-500/25 bg-[#0d1f38] p-4 sm:p-5 shadow-xl space-y-4 text-foreground">
+    <div className="rounded-2xl border border-cyan-500/25 bg-card p-4 sm:p-5 shadow-xl space-y-4 text-foreground">
       
       {/* 1. Header & Live Indicator */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">

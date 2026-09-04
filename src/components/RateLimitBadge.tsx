@@ -16,7 +16,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
     return (
       <div 
         onClick={onOpenInfo}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-foreground shadow-sm cursor-pointer hover:border-[#415a77] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-foreground shadow-sm cursor-pointer hover:border-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         title="Primary Superadmin - Unlimited Audits"
       >
         <Crown className="h-3.5 w-3.5 text-muted-foreground" />

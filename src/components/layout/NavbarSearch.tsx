@@ -322,7 +322,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
       case 'Blog':
         return 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30';
       default:
-        return 'bg-white/[0.04] text-foreground-muted border-border-default';
+        return 'bg-muted/40 text-foreground-muted border-border-default';
     }
   };
 
@@ -382,7 +382,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   setQuery('');
                   inputRef.current?.focus();
                 }}
-                className="p-1 rounded-md hover:bg-white/[0.08] transition-colors shrink-0 text-foreground-muted hover:text-foreground"
+                className="p-1 rounded-md hover:bg-muted/80 transition-colors shrink-0 text-foreground-muted hover:text-foreground"
                 title="Clear input"
               >
                 <X className="size-3" />
@@ -394,7 +394,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   setIsOpen(false);
                   setQuery('');
                 }}
-                className="px-1.5 py-0.5 rounded-md text-[10px] font-mono shrink-0 transition-colors bg-white/[0.06] text-foreground-muted hover:text-foreground"
+                className="px-1.5 py-0.5 rounded-md text-[10px] font-mono shrink-0 transition-colors bg-muted/60 text-foreground-muted hover:text-foreground"
                 title="Close search"
               >
                 Esc
@@ -415,7 +415,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
             className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-2xl border border-border-default bg-card/95 shadow-linear-card z-50 overflow-hidden font-mono text-xs backdrop-blur-2xl text-foreground"
           >
             {/* Header label inside dropdown */}
-            <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-border-default bg-white/[0.02] text-[10px] uppercase tracking-wider text-foreground-muted">
+            <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-border-default bg-muted/20 text-[10px] uppercase tracking-wider text-foreground-muted">
               <span>{query ? `Suggestions for "${query}"` : 'Quick Navigation'}</span>
               <span className="text-[10px] font-normal normal-case opacity-75">↑↓ Navigate • ↵ Select</span>
             </div>
@@ -432,8 +432,8 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                       onMouseEnter={() => setSelectedIndex(idx)}
                       className={`flex items-start gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-150 ${
                         isSelected
-                          ? 'bg-white/[0.08] text-foreground shadow-2xs'
-                          : 'hover:bg-white/[0.04] text-foreground-muted'
+                          ? 'bg-muted/80 text-foreground shadow-2xs'
+                          : 'hover:bg-muted/40 text-foreground-muted'
                       }`}
                     >
                       {/* Left icon according to category */}
@@ -500,12 +500,12 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
 
             {/* Quick action chips when not typing */}
             {!query && (
-              <div className="px-3 py-2 border-t border-border-default bg-white/[0.02] flex flex-wrap items-center gap-1.5 text-[10px] text-foreground-muted">
+              <div className="px-3 py-2 border-t border-border-default bg-muted/20 flex flex-wrap items-center gap-1.5 text-[10px] text-foreground-muted">
                 <span>Trending:</span>
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[0])}
-                  className="px-2 py-0.5 rounded-md hover:bg-white/[0.08] text-foreground font-medium cursor-pointer transition-colors"
+                  className="px-2 py-0.5 rounded-md hover:bg-muted/80 text-foreground font-medium cursor-pointer transition-colors"
                 >
                   Health
                 </button>
@@ -513,7 +513,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[1])}
-                  className="px-2 py-0.5 rounded-md hover:bg-white/[0.08] text-foreground font-medium cursor-pointer transition-colors"
+                  className="px-2 py-0.5 rounded-md hover:bg-muted/80 text-foreground font-medium cursor-pointer transition-colors"
                 >
                   llms.txt
                 </button>
@@ -521,7 +521,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[2])}
-                  className="px-2 py-0.5 rounded-md hover:bg-white/[0.08] text-foreground font-medium cursor-pointer transition-colors"
+                  className="px-2 py-0.5 rounded-md hover:bg-muted/80 text-foreground font-medium cursor-pointer transition-colors"
                 >
                   OWASP
                 </button>
@@ -529,7 +529,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 <button
                   type="button"
                   onClick={() => handleSelect(STATIC_SUGGESTIONS[11])}
-                  className="px-2 py-0.5 rounded-md hover:bg-white/[0.08] text-foreground font-medium cursor-pointer transition-colors"
+                  className="px-2 py-0.5 rounded-md hover:bg-muted/80 text-foreground font-medium cursor-pointer transition-colors"
                 >
                   API
                 </button>

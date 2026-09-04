@@ -181,16 +181,16 @@ export const PipelineVisualizer: React.FC = () => {
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-[#080D1A] p-5 sm:p-6 shadow-2xl font-mono text-foreground space-y-6">
+    <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-2xl font-mono text-foreground space-y-6">
       {/* Visualizer Title Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#00F0FF] text-[11px] font-bold">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/30 text-cyan-400 text-[11px] font-bold">
             <GitPullRequest className="h-3.5 w-3.5" />
             <span>CI/CD PIPELINE MERGE-BLOCKER VISUALIZER</span>
           </div>
           <h3 className="text-base sm:text-lg font-bold text-primary-foreground tracking-tight font-sans">
-            Pull Request #412: <span className="font-mono text-[#00F0FF]">feat/optimize-edge-bundle</span>
+            Pull Request #412: <span className="font-mono text-cyan-400">feat/optimize-edge-bundle</span>
           </h3>
         </div>
 
@@ -200,7 +200,7 @@ export const PipelineVisualizer: React.FC = () => {
             type="button"
             onClick={runPassingSimulation}
             disabled={isSimulating}
-            className="px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-[#00FF66] hover:bg-emerald-900/60 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-900/60 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
           >
             <CheckCircle2 className="h-3.5 w-3.5" />
             <span>Simulate Pass</span>
@@ -232,15 +232,15 @@ export const PipelineVisualizer: React.FC = () => {
                 isFailed
                   ? 'bg-rose-950/20 border-rose-500/40'
                   : isPassed
-                  ? 'bg-[#060912] border-border/80 hover:border-border'
-                  : 'bg-[#0B101D] border-border animate-pulse'
+                  ? 'bg-background border-border/80 hover:border-border'
+                  : 'bg-muted/40 border-border animate-pulse'
               }`}
             >
               <div className="flex items-center gap-3">
                 <div className="shrink-0">
-                  {isPassed && <CheckCircle2 className="h-5 w-5 text-[#00FF66]" />}
+                  {isPassed && <CheckCircle2 className="h-5 w-5 text-emerald-400" />}
                   {isFailed && <XCircle className="h-5 w-5 text-rose-500" />}
-                  {isRunning && <span className="h-5 w-5 rounded-full border-2 border-[#00F0FF] border-t-transparent animate-spin block" />}
+                  {isRunning && <span className="h-5 w-5 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin block" />}
                 </div>
 
                 <div className="space-y-0.5">
@@ -257,7 +257,7 @@ export const PipelineVisualizer: React.FC = () => {
               <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
                 <div className="text-right">
                   <span className="text-[10px] text-muted-foreground block uppercase">Gate Score / Req</span>
-                  <span className={`text-xs font-bold ${isFailed ? 'text-rose-400' : 'text-[#00FF66]'}`}>
+                  <span className={`text-xs font-bold ${isFailed ? 'text-rose-400' : 'text-emerald-400'}`}>
                     {stage.score}/100 <span className="text-muted-foreground font-normal">(min {stage.threshold})</span>
                   </span>
                 </div>
@@ -266,7 +266,7 @@ export const PipelineVisualizer: React.FC = () => {
                   isFailed
                     ? 'bg-rose-900/60 text-rose-300 border border-rose-600/40'
                     : isPassed
-                    ? 'bg-emerald-900/40 text-[#00FF66] border border-emerald-600/40'
+                    ? 'bg-emerald-900/40 text-emerald-400 border border-emerald-600/40'
                     : 'bg-muted text-muted-foreground'
                 }`}>
                   {stage.status}
@@ -286,7 +286,7 @@ export const PipelineVisualizer: React.FC = () => {
         <div className="flex items-center gap-3">
           <div className={`p-2.5 rounded-xl border ${
             prStatus === 'mergeable'
-              ? 'bg-emerald-900/40 border-emerald-500/40 text-[#00FF66]'
+              ? 'bg-emerald-900/40 border-emerald-500/40 text-emerald-400'
               : 'bg-rose-900/40 border-rose-500/40 text-rose-400'
           }`}>
             {prStatus === 'mergeable' ? <GitMerge className="h-5 w-5" /> : <Lock className="h-5 w-5" />}
@@ -311,7 +311,7 @@ export const PipelineVisualizer: React.FC = () => {
           disabled={prStatus === 'blocked'}
           className={`w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
             prStatus === 'mergeable'
-              ? 'bg-[#00FF66] text-foreground hover:bg-emerald-400 shadow-[0_0_15px_rgba(0,255,102,0.3)]'
+              ? 'bg-emerald-400 text-foreground hover:bg-emerald-400 shadow-[0_0_15px_rgba(0,255,102,0.3)]'
               : 'bg-muted text-muted-foreground cursor-not-allowed border border-border'
           }`}
         >

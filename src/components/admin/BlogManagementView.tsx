@@ -158,7 +158,7 @@ export const BlogManagementView: React.FC = () => {
               Article Editorial CMS Studio
             </h2>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs ds-muted mt-1">
             Author and orchestrate technical benchmark publications, telemetry analyses, and architecture briefs.
           </p>
         </div>
@@ -166,7 +166,7 @@ export const BlogManagementView: React.FC = () => {
         <div className="flex items-center gap-2.5">
           <button
             onClick={fetchPosts}
-            className="p-2.5 rounded-xl border border-border bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="p-2.5 ds-card ds-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Refresh articles"
           >
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -185,20 +185,20 @@ export const BlogManagementView: React.FC = () => {
 
       {/* Quick Metrics Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="rounded-2xl border border-border bg-background/90 p-4">
-          <div className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Total Articles</div>
+        <div className="ds-card p-4">
+          <div className="ds-eyebrow">Total Articles</div>
           <div className="text-2xl font-black text-foreground mt-1">{posts.length}</div>
         </div>
-        <div className="rounded-2xl border border-border bg-background/90 p-4">
-          <div className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">Published</div>
+        <div className="ds-card p-4">
+          <div className="ds-eyebrow">Published</div>
           <div className="text-2xl font-black text-emerald-300 mt-1">{publishedCount}</div>
         </div>
-        <div className="rounded-2xl border border-border bg-background/90 p-4">
-          <div className="text-[11px] font-semibold text-amber-400 uppercase tracking-wider">Drafts</div>
+        <div className="ds-card p-4">
+          <div className="ds-eyebrow">Drafts</div>
           <div className="text-2xl font-black text-amber-300 mt-1">{draftCount}</div>
         </div>
-        <div className="rounded-2xl border border-border bg-background/90 p-4">
-          <div className="text-[11px] font-semibold text-sky-400 uppercase tracking-wider">Cumulative Views</div>
+        <div className="ds-card p-4">
+          <div className="ds-eyebrow">Cumulative Views</div>
           <div className="text-2xl font-black text-sky-300 mt-1">{totalViews.toLocaleString()}</div>
         </div>
       </div>
@@ -206,13 +206,13 @@ export const BlogManagementView: React.FC = () => {
       {/* Search & Filter Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-background/90 border border-border p-3 rounded-2xl">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 ds-muted" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by title, excerpt, author, or keyword..."
-            className="w-full rounded-xl border border-border bg-background pl-9 pr-4 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:border-black focus:outline-none"
+            className="w-full ds-control bg-background border border-border pl-9 pr-4 py-2 text-xs text-foreground placeholder:ds-muted focus:border-black focus:outline-none"
           />
         </div>
 
@@ -220,7 +220,7 @@ export const BlogManagementView: React.FC = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="rounded-xl border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
+            className="ds-card px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -232,7 +232,7 @@ export const BlogManagementView: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value as any)}
-            className="rounded-xl border border-border bg-background px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
+            className="ds-card px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
           >
             <option value="all">All Statuses</option>
             <option value="published">Published Only</option>
@@ -246,10 +246,10 @@ export const BlogManagementView: React.FC = () => {
         {loading ? (
           <SkeletonTable rows={4} columns={4} />
         ) : filteredPosts.length === 0 ? (
-          <div className="py-16 text-center text-muted-foreground rounded-2xl border border-border bg-background/70 p-8 shadow-xl">
+          <div className="py-16 text-center ds-muted ds-card p-8 shadow-xl">
             <BookOpen className="mx-auto h-10 w-10 text-amber-600/40 mb-3" />
             <h3 className="text-base font-bold text-foreground">No Matching Articles Found</h3>
-            <p className="mt-1 text-xs text-muted-foreground max-w-sm mx-auto">
+            <p className="mt-1 text-xs ds-muted max-w-sm mx-auto">
               {searchQuery ? 'Try clearing your search query or category filters.' : 'Get started by creating your first deep-dive technical article.'}
             </p>
             <Link
@@ -266,7 +266,7 @@ export const BlogManagementView: React.FC = () => {
             return (
               <div
                 key={post.id || post.slug}
-                className="rounded-2xl border border-border bg-background/90 p-4 sm:p-5 shadow-md transition-all hover:border-cyan-500/40 hover:bg-[#0d1f38] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="ds-card p-4 sm:p-5 shadow-md transition-all hover:border-cyan-500/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   
@@ -283,7 +283,7 @@ export const BlogManagementView: React.FC = () => {
                       }`}>
                         {post.status === 'published' ? 'Published' : 'Draft'}
                       </span>
-                      <span className="text-xs text-muted-foreground font-mono">
+                      <span className="text-xs ds-muted font-mono">
                         {new Date(post.createdAt || Date.now()).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
@@ -302,18 +302,18 @@ export const BlogManagementView: React.FC = () => {
                     </h3>
 
                     {post.excerpt && (
-                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                      <p className="text-xs ds-muted line-clamp-2 leading-relaxed">
                         {post.excerpt}
                       </p>
                     )}
 
                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      <span className="text-[11px] font-mono text-muted-foreground">By {post.authorName || 'CatalystLab Team'}</span>
+                      <span className="text-[11px] font-mono ds-muted">By {post.authorName || 'CatalystLab Team'}</span>
                       {post.tags && post.tags.length > 0 && (
                         <>
-                          <span className="text-muted-foreground">•</span>
+                          <span className="ds-muted">•</span>
                           {post.tags.slice(0, 4).map((t) => (
-                            <span key={t} className="rounded bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                            <span key={t} className="rounded bg-muted px-2 py-0.5 text-[10px] font-medium ds-muted">
                               #{t}
                             </span>
                           ))}
@@ -330,7 +330,7 @@ export const BlogManagementView: React.FC = () => {
                       href={`/blogs/${post.slug || post.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="inline-flex items-center gap-1 ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="View live article"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -341,7 +341,7 @@ export const BlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleCopyLink(post)}
-                      className="p-2 rounded-xl border border-border bg-muted text-muted-foreground hover:text-amber-600 hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="p-2 ds-card ds-muted hover:text-amber-600 hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Copy public link"
                     >
                       {copiedId === (post.id || post.slug) ? (
@@ -364,7 +364,7 @@ export const BlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleToggleStatus(post)}
-                      className="rounded-xl border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {post.status === 'published' ? 'Draft' : 'Publish'}
                     </button>

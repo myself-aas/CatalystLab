@@ -12,20 +12,20 @@ const LOGOS = [
 
 export const SocialProof: React.FC = () => {
   return (
-    <section className="relative border-t border-white/[0.06] py-12 md:py-16">
+    <section className="relative border-t border-border py-12 md:py-16">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 md:px-8">
-        <div className="mb-8 flex flex-col items-center justify-between gap-4 border-b border-white/[0.06] pb-4 sm:flex-row md:mb-10">
-          <p className="font-mono text-xs uppercase tracking-widest text-[#8A8F98]">
+        <div className="mb-8 flex flex-col items-center justify-between gap-4 border-b border-border pb-4 sm:flex-row md:mb-10">
+          <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
             Trusted by infrastructure &amp; platform teams
           </p>
-          <div className="flex items-center gap-4 font-mono text-xs text-[#8A8F98]">
-            <span className="inline-flex items-center gap-1.5 text-[#6872D9]">
-              <span className="size-1.5 rounded-full bg-[#5E6AD2]" />
+          <div className="flex items-center gap-4 font-mono text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5 text-primary">
+              <span className="size-1.5 rounded-full bg-primary" />
               99.99% diagnostic SLA
             </span>
             <span className="text-white/20">|</span>
             <span className="inline-flex items-center gap-1">
-              <ShieldCheck className="size-3.5 text-[#5E6AD2]" />
+              <ShieldCheck className="size-3.5 text-primary" />
               SOC2 Type II aligned
             </span>
           </div>
@@ -35,7 +35,7 @@ export const SocialProof: React.FC = () => {
           {LOGOS.map((logo) => (
             <div
               key={logo.slug}
-              className="group flex h-14 w-full max-w-[160px] items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.06]"
+              className="group flex h-14 w-full max-w-[160px] items-center justify-center rounded-xl border border-border bg-muted/20 p-3 transition-all duration-300 hover:border-white/10 hover:bg-muted/60"
             >
               <img
                 src={`https://cdn.simpleicons.org/${logo.slug}/ffffff`}

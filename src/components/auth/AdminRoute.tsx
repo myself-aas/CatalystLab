@@ -128,7 +128,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
                 </span>
               </div>
 
-              <div className="mt-2 text-[#ebe9e6] font-sans text-xs flex items-center gap-1.5">
+              <div className="mt-2 text-foreground font-sans text-xs flex items-center gap-1.5">
                 <ShieldAlert className="h-3.5 w-3.5 shrink-0 text-amber-400" />
                 <span>Sign in with an authorized primary superadmin email or grant custom claims.</span>
               </div>
@@ -143,7 +143,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 to="/"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-5 py-2.5 text-xs font-semibold text-foreground hover:bg-[#1e2f4a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-5 py-2.5 text-xs font-semibold text-foreground hover:bg-muted/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 <span>Return to Home</span>
@@ -171,7 +171,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
 
                   <button
                     onClick={() => logout().then(() => login())}
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-xs font-bold text-foreground hover:bg-[#52718e] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-5 py-2.5 text-xs font-bold text-foreground hover:bg-muted-foreground/80 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <LogIn className="h-3.5 w-3.5" />
                     <span>Switch Account</span>
@@ -180,7 +180,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
               ) : (
                 <button
                   onClick={() => login()}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-5 py-2.5 text-xs font-bold text-foreground hover:bg-[#52718e] transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-5 py-2.5 text-xs font-bold text-foreground hover:bg-muted-foreground/80 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <LogIn className="h-3.5 w-3.5" />
                   <span>Sign In with Google</span>
@@ -189,7 +189,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
             </div>
 
             {import.meta.env.DEV && (
-            <div className="flex flex-col items-center justify-center gap-2 border-t border-white/[0.06] pt-4 sm:flex-row">
+            <div className="flex flex-col items-center justify-center gap-2 border-t border-border pt-4 sm:flex-row">
               <button
                 onClick={() => {
                   loginWithLocalSession({

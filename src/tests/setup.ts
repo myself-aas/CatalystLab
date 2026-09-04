@@ -2,9 +2,8 @@ import '@testing-library/jest-dom';
 
 // Vitest is never production. Allow unauthenticated demo surfaces so the
 // route suite can exercise GitHub/notifications without Firebase Admin.
-if (process.env.NODE_ENV === 'test') {
-  process.env.ALLOW_UNAUTH_DEMO = process.env.ALLOW_UNAUTH_DEMO || 'true';
-}
+process.env.NODE_ENV = 'test';
+process.env.ALLOW_UNAUTH_DEMO = 'true';
 
 // Suppress known non-fatal test warnings (act updates from async firebase auth listener, react-router flags)
 const originalError = console.error;

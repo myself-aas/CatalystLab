@@ -10,36 +10,36 @@ import { FinalCTA } from '../components/home/FinalCTA';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const MasterAuditPage: React.FC = () => {
-  useEffect(() => {
-    const focusAuditInput = () => {
-      const inputEl = document.getElementById('hero-audit-url-input') as HTMLInputElement | null;
-      if (inputEl) {
-        inputEl.focus({ preventScroll: true });
-      }
-    };
-    focusAuditInput();
-    const timer = setTimeout(focusAuditInput, 100);
-    return () => clearTimeout(timer);
-  }, []);
+ useEffect(() => {
+ const focusAuditInput = () => {
+ const inputEl = document.getElementById('hero-audit-url-input') as HTMLInputElement | null;
+ if (inputEl) {
+ inputEl.focus({ preventScroll: true });
+ }
+ };
+ focusAuditInput();
+ const timer = setTimeout(focusAuditInput, 100);
+ return () => clearTimeout(timer);
+ }, []);
 
-  return (
-    <div className="min-h-full bg-transparent font-sans text-foreground">
-      <SEOHead
-        title="Precision Telemetry & Autonomous Web Health Auditing"
-        description="Run immediate multi-dimensional audits on any domain."
-        canonicalUrl="https://www.catalystlab.tech/"
-      />
+ return (
+ <div className="min-h-full bg-transparent font-sans text-foreground">
+ <SEOHead
+ title="Precision Telemetry & Autonomous Web Health Auditing"
+ description="Run immediate multi-dimensional audits on any domain."
+ canonicalUrl="https://www.catalystlab.tech/"
+ />
 
-      <HeroSection />
-      <SocialProof />
-      <FeaturedAuditMetrics />
-      <EnzymeGrid />
-      <HowItWorks />
-      <Testimonials />
-      <FaqAccordion />
-      <FinalCTA />
-    </div>
-  );
+ <HeroSection />
+ <SocialProof />
+ <FeaturedAuditMetrics />
+ <EnzymeGrid />
+ <HowItWorks />
+ <Testimonials />
+ <FaqAccordion />
+ <FinalCTA />
+ </div>
+ );
 };
 
 export default MasterAuditPage;

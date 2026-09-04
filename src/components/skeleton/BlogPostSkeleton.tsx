@@ -12,17 +12,6 @@ export const BlogPostSkeleton: React.FC = () => {
     >
       <span className="sr-only">Loading technical briefing...</span>
 
-      {/* Top Breadcrumb / Action Bar */}
-      <section className="border-b border-border bg-muted/60 px-4 py-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-4xl items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-4 w-4 rounded-xs" />
-            <Skeleton className="h-4 w-32 rounded-xs" />
-          </div>
-          <Skeleton className="h-8 w-20 rounded-lg" />
-        </div>
-      </section>
-
       {/* Article Header & Metadata */}
       <header className="mx-auto max-w-4xl px-4 pt-12 pb-8 sm:px-6 lg:px-8">
         <div className="space-y-4">

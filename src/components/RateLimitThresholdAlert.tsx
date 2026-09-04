@@ -79,8 +79,8 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
       <div className={`rounded-xl border border-border bg-background/90 px-4 py-3 text-xs text-foreground backdrop-blur-md shadow-sm ${className}`}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/30 text-[#38bdf8] border border-[#38bdf8]/30">
-              <Crown className="h-4 w-4 text-[#38bdf8]" />
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/30 text-sky-400 border border-sky-400/30">
+              <Crown className="h-4 w-4 text-sky-400" />
             </div>
             <div>
               <div className="font-bold text-foreground flex items-center gap-1.5">
@@ -88,7 +88,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
                 <span className="rounded-md bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 text-[10px] font-mono font-bold border border-emerald-500/40">UNLIMITED</span>
               </div>
               <p className="text-[11px] text-muted-foreground mt-0.5">
-                All single engine scans (<code className="text-[#38bdf8]">{endpointPath}</code>) and master audits execute with zero quota deductions.
+                All single engine scans (<code className="text-sky-400">{endpointPath}</code>) and master audits execute with zero quota deductions.
               </p>
             </div>
           </div>

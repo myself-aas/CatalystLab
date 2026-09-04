@@ -8,31 +8,31 @@ import { useCardContext } from './CardContext';
 import { useMagnetic } from '../hooks/useMagnetic';
 
 const pillVariants = cva(
-  'group/btn inline-flex items-center justify-center font-medium text-xs tracking-tight transition-all duration-200 select-none whitespace-nowrap shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506] focus-visible:ring-[#5E6AD2]',
+  'group/btn inline-flex items-center justify-center font-medium text-xs tracking-tight transition-all duration-200 select-none whitespace-nowrap shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary',
   {
     variants: {
       variant: {
         solid:
-          'bg-[#5E6AD2] text-white hover:bg-[#6872D9] shadow-linear-cta py-2 px-4 active:scale-[0.98]',
+          'bg-primary text-white hover:bg-primary/90 shadow-linear-cta py-2 px-4 active:scale-[0.98]',
         glass:
-          'bg-white/[0.06] hover:bg-white/[0.10] text-foreground border border-white/[0.08] hover:border-white/[0.15] backdrop-blur-md shadow-sm py-2 px-4',
+          'bg-muted/60 hover:bg-white/[0.10] text-foreground border border-white/[0.08] hover:border-white/[0.15] backdrop-blur-md shadow-sm py-2 px-4',
         'immersive-glow':
-          'bg-[#5E6AD2] hover:bg-[#6872D9] text-white border border-white/20 shadow-linear-cta py-2.5 px-5 w-full justify-between backdrop-blur-xl',
+          'bg-primary hover:bg-primary/90 text-white border border-white/20 shadow-linear-cta py-2.5 px-5 w-full justify-between backdrop-blur-xl',
         minimal:
           'bg-transparent text-foreground-muted hover:text-foreground py-1.5 px-3 border border-transparent hover:border-white/10 rounded-full transition-colors',
         'full-width':
-          'w-full py-2.5 px-5 text-sm bg-white/[0.06] hover:bg-white/[0.10] text-foreground border border-white/[0.08] hover:border-white/[0.15] backdrop-blur-lg justify-between shadow-sm',
+          'w-full py-2.5 px-5 text-sm bg-muted/60 hover:bg-white/[0.10] text-foreground border border-white/[0.08] hover:border-white/[0.15] backdrop-blur-lg justify-between shadow-sm',
       },
       hue: {
         vitalzyme: 'focus-visible:ring-emerald-400 hover:border-emerald-400/40',
         riskprotease: 'focus-visible:ring-rose-400 hover:border-rose-400/40',
         llmkinase: 'focus-visible:ring-purple-400 hover:border-purple-400/40',
-        edgevmax: 'focus-visible:ring-[#5E6AD2] hover:border-[#5E6AD2]/40',
+        edgevmax: 'focus-visible:ring-primary hover:border-primary/40',
         ecoholo: 'focus-visible:ring-emerald-400 hover:border-emerald-400/40',
         synthshift: 'focus-visible:ring-amber-400 hover:border-amber-400/40',
         gitlygase: 'focus-visible:ring-blue-400 hover:border-blue-400/40',
         alloster: 'focus-visible:ring-fuchsia-400 hover:border-fuchsia-400/40',
-        neutral: 'focus-visible:ring-[#5E6AD2]',
+        neutral: 'focus-visible:ring-primary',
       },
     },
     defaultVariants: {

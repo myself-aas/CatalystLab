@@ -112,9 +112,9 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
       if (inCodeBlock) {
         // Flush code block
         elements.push(
-          <div key={`code-${i}`} className="my-5 overflow-hidden rounded-xl border border-border/80 bg-[#0B101D] shadow-xl">
+          <div key={`code-${i}`} className="my-5 overflow-hidden rounded-xl border border-border/80 bg-muted/40 shadow-xl">
             {codeBlockLang && (
-              <div className="flex items-center justify-between border-b border-border bg-[#080C16] px-4 py-1.5 text-xs font-mono text-cyan-400">
+              <div className="flex items-center justify-between border-b border-border bg-card px-4 py-1.5 text-xs font-mono text-cyan-400">
                 <span className="font-bold">{codeBlockLang}</span>
                 <span className="text-muted-foreground text-[11px]">code snippet</span>
               </div>

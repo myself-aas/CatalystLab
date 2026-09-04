@@ -226,9 +226,9 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
   };
 
   return (
-    <div className={`flex flex-col h-full bg-[#060912] border border-border rounded-2xl overflow-hidden shadow-2xl font-mono text-xs ${className}`}>
+    <div className={`flex flex-col h-full bg-background border border-border rounded-2xl overflow-hidden shadow-2xl font-mono text-xs ${className}`}>
       {/* Terminal Title Bar */}
-      <div className="p-3 bg-[#0B101D] border-b border-border flex items-center justify-between gap-2">
+      <div className="p-3 bg-muted/40 border-b border-border flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
             <span className="h-3 w-3 rounded-full bg-rose-500/80 border border-rose-600/50" />
@@ -236,7 +236,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
             <span className="h-3 w-3 rounded-full bg-emerald-500/80 border border-emerald-600/50" />
           </div>
           <span className="text-muted-foreground font-bold ml-1 flex items-center gap-1.5">
-            <TerminalIcon className="h-3.5 w-3.5 text-[#00F0FF]" />
+            <TerminalIcon className="h-3.5 w-3.5 text-cyan-400" />
             CLI Simulator &bull; zsh / catalyst
           </span>
         </div>
@@ -245,15 +245,15 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
           <button
             type="button"
             onClick={copyTerminalOutput}
-            className="p-1 rounded-md bg-[#0E1526] border border-border text-muted-foreground hover:text-primary-foreground transition-colors cursor-pointer"
+            className="p-1 rounded-md bg-muted/60 border border-border text-muted-foreground hover:text-primary-foreground transition-colors cursor-pointer"
             title="Copy terminal session"
           >
-            {copied ? <Check className="h-3.5 w-3.5 text-[#00FF66]" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
           </button>
           <button
             type="button"
             onClick={() => setLogs([])}
-            className="p-1 rounded-md bg-[#0E1526] border border-border text-muted-foreground hover:text-[#FF0055] transition-colors cursor-pointer"
+            className="p-1 rounded-md bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 transition-colors cursor-pointer"
             title="Clear terminal"
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -262,7 +262,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
       </div>
 
       {/* Preset Command Shortcuts */}
-      <div className="px-3 py-2 bg-[#080D1A] border-b border-border/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-[11px]">
+      <div className="px-3 py-2 bg-card border-b border-border/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-[11px]">
         <span className="text-muted-foreground text-[10px] shrink-0 font-bold">PRESETS:</span>
         {[
           'catalyst run --engine vitalzyme',
@@ -275,7 +275,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
             key={preset}
             type="button"
             onClick={() => handleCommand(preset)}
-            className="px-2 py-0.5 rounded bg-[#0B101D] border border-border text-muted-foreground hover:text-[#00F0FF] hover:border-[#06B6D4]/40 transition-colors shrink-0 cursor-pointer"
+            className="px-2 py-0.5 rounded bg-muted/40 border border-border text-muted-foreground hover:text-cyan-400 hover:border-primary/40 transition-colors shrink-0 cursor-pointer"
           >
             {preset}
           </button>
@@ -290,7 +290,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
         {logs.map((log) => (
           <div key={log.id} className="leading-relaxed">
             {log.type === 'input' && (
-              <div className="flex items-start gap-2 text-[#00F0FF] font-bold">
+              <div className="flex items-start gap-2 text-cyan-400 font-bold">
                 <ChevronRight className="h-3.5 w-3.5 shrink-0 mt-0.5 text-cyan-400" />
                 <span className="text-primary-foreground">{log.content.replace(/^\$\s*/, '')}</span>
               </div>
@@ -304,7 +304,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
 
             {log.type === 'json' && (
               <div className="pl-5 my-1">
-                <pre className="p-2.5 rounded-lg bg-[#080D1A] border border-border/80 text-emerald-400 whitespace-pre-wrap font-mono text-[11px] overflow-x-auto">
+                <pre className="p-2.5 rounded-lg bg-card border border-border/80 text-emerald-400 whitespace-pre-wrap font-mono text-[11px] overflow-x-auto">
                   {log.content}
                 </pre>
               </div>
@@ -320,7 +320,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
 
         {isExecuting && (
           <div className="flex items-center gap-2 text-muted-foreground pl-5 animate-pulse">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#00F0FF]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
             <span>Executing probe via daemon...</span>
           </div>
         )}
@@ -329,8 +329,8 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
       </div>
 
       {/* Command Input Prompt */}
-      <div className="p-3 bg-[#080D1A] border-t border-border flex items-center gap-2">
-        <span aria-hidden="true" className="text-[#00F0FF] font-bold select-none">&gt;_</span>
+      <div className="p-3 bg-card border-t border-border flex items-center gap-2">
+        <span aria-hidden="true" className="text-cyan-400 font-bold select-none">&gt;_</span>
         <input
           ref={inputRef}
           type="text"
@@ -346,7 +346,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
           onClick={() => handleCommand(inputVal)}
           disabled={!inputVal.trim()}
           aria-label="Execute command"
-          className="p-1.5 rounded-lg bg-[#06B6D4] text-foreground hover:bg-[#00F0FF] disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
           title="Run command (Enter)"
         >
           <CornerDownLeft className="h-3.5 w-3.5" aria-hidden="true" />

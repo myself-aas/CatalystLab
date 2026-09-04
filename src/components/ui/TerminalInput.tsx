@@ -81,8 +81,8 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
         onClick={() => inputRef.current?.focus()}
         className={`relative group rounded-xl transition-all duration-300 cursor-text ${
           isFocused
-            ? 'border-[#06B6D4] shadow-[0_0_25px_rgba(6,182,212,0.35)] bg-[#0A0F1D]/95'
-            : 'border-border/90 hover:border-border bg-[#090D16]/90 shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
+            ? 'border-primary shadow-linear-cta bg-card/95'
+            : 'border-border hover:border-border/80 bg-card/90 shadow-linear-card'
         } border backdrop-blur-xl ${
           isHero ? 'p-2 sm:p-3' : isCompact ? 'p-1.5' : 'p-2'
         }`}
@@ -93,19 +93,19 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
             <div className="flex items-center gap-2">
               {/* Traffic light LEDs */}
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/80 shadow-[0_0_8px_rgba(239,68,68,0.4)]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]/80 shadow-[0_0_8px_rgba(245,158,11,0.4)]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]/80 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
               </div>
               <span className="text-[11px] font-mono text-muted-foreground tracking-wider flex items-center gap-1.5 ml-2">
-                <Terminal className="w-3 h-3 text-[#06B6D4]" />
+                <Terminal className="w-3 h-3 text-primary" />
                 <span>TELEMETRY_SHELL_v2.4</span>
               </span>
             </div>
 
             <div className="flex items-center gap-2">
               {badgeText && (
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#06B6D4]/10 text-[#06B6D4] border border-[#06B6D4]/30">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-primary/10 text-primary border border-primary/30">
                   {badgeText}
                 </span>
               )}
@@ -120,8 +120,8 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
         <form onSubmit={handleSubmit} className="flex items-center gap-2 px-2">
           {/* Prompt Indicator */}
           <div aria-hidden="true" className="flex items-center gap-1.5 shrink-0 select-none text-xs sm:text-sm font-mono font-bold">
-            <span className="text-[#10B981] hidden sm:inline">{promptPrefix}</span>
-            <span className="text-[#06B6D4] font-bold">&gt;</span>
+            <span className="text-emerald-400 hidden sm:inline">{promptPrefix}</span>
+            <span className="text-primary font-bold">&gt;</span>
             <span className="text-muted-foreground font-mono">\</span>
             <span className="text-muted-foreground font-mono">_</span>
           </div>
@@ -138,7 +138,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
             className="hidden md:flex items-center gap-1 px-2 py-1 rounded bg-muted border border-border/60 text-[11px] font-mono text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             title="Toggle Protocol"
           >
-            <Shield className="w-2.5 h-2.5 text-[#10B981]" aria-hidden="true" />
+            <Shield className="w-2.5 h-2.5 text-emerald-400" aria-hidden="true" />
             <span>{protocol}</span>
           </button>
 
@@ -174,7 +174,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
             {isFocused && !value && !isLoading && (
               <span
                 aria-hidden="true"
-                className="pointer-events-none w-2 h-4 sm:h-5 bg-[#00F0FF] animate-pulse ml-0.5 inline-block opacity-80"
+                className="pointer-events-none w-2 h-4 sm:h-5 bg-primary animate-pulse ml-0.5 inline-block opacity-80"
               />
             )}
           </div>
@@ -213,13 +213,13 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
                 !value.trim() || disabled
                   ? 'bg-muted text-muted-foreground border border-border/40 cursor-not-allowed'
                   : isLoading
-                  ? 'bg-[#06B6D4]/20 text-[#06B6D4] border border-[#06B6D4]/40 cursor-wait'
-                  : 'bg-gradient-to-r from-[#06B6D4] via-[#10B981] to-[#00FF66] text-foreground shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:brightness-110 active:scale-95'
+                  ? 'bg-primary/20 text-primary border border-primary/40 cursor-wait'
+                  : 'bg-primary text-primary-foreground shadow-linear-cta hover:bg-primary/90 active:scale-95'
               }`}
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#06B6D4]" aria-hidden="true" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" aria-hidden="true" />
                   <span className="hidden sm:inline">DISPATCHING...</span>
                   <span className="sm:hidden">SCAN</span>
                 </>
@@ -248,7 +248,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               className="mt-2 pt-2 px-3 border-t border-border/50 flex items-center justify-between text-[11px] font-mono text-muted-foreground"
             >
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4] animate-ping" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
                 <span>{statusMessage}</span>
               </div>
               <span className="text-muted-foreground hidden sm:inline">8 Micro-Analyzers Ready</span>

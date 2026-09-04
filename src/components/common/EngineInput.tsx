@@ -27,10 +27,10 @@ export const EngineInput: React.FC<EngineInputProps> = ({
   return (
     <form
       onSubmit={onSubmit}
-      className="group flex w-full flex-col gap-2 rounded-2xl border border-white/[0.06] bg-white/[0.04] p-1.5 shadow-linear-card backdrop-blur-xl transition-all duration-300 focus-within:border-[#5E6AD2]/50 focus-within:ring-2 focus-within:ring-[#5E6AD2]/20 sm:flex-row"
+      className="group flex w-full flex-col gap-2 rounded-2xl border border-border bg-muted/40 p-1.5 shadow-linear-card backdrop-blur-xl transition-all duration-300 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 sm:flex-row"
     >
       <div className="flex flex-1 items-center px-4 py-2">
-        <Zap className="mr-3 size-4 shrink-0 text-[#8A8F98]" />
+        <Zap className="mr-3 size-4 shrink-0 text-muted-foreground" />
         <input
           id={inputId}
           type="text"
@@ -44,13 +44,13 @@ export const EngineInput: React.FC<EngineInputProps> = ({
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
-          className="w-full min-w-0 border-none bg-transparent text-sm font-normal text-[#EDEDEF] placeholder:text-[#8A8F98]/70 outline-none sm:text-base"
+          className="w-full min-w-0 border-none bg-transparent text-sm font-normal text-foreground placeholder:text-muted-foreground/70 outline-none sm:text-base"
         />
         {value && !isLoading && (
           <button
             type="button"
             onClick={() => onChange('')}
-            className="rounded-md p-1 text-[#8A8F98] transition-colors hover:bg-white/[0.06] hover:text-[#EDEDEF]"
+            className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
             title="Clear input"
             aria-label="Clear input"
           >
@@ -61,7 +61,7 @@ export const EngineInput: React.FC<EngineInputProps> = ({
       <button
         type="submit"
         disabled={disabled || isLoading}
-        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#5E6AD2] px-6 py-3 text-sm font-medium text-white shadow-linear-cta transition-all duration-200 hover:bg-[#6872D9] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white shadow-linear-cta transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isLoading ? (
           <RotateCw className="size-4 animate-spin" />

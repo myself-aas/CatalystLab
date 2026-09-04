@@ -221,7 +221,7 @@ export const LazyShimmer: React.FC<{
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}
-          className={`relative overflow-hidden bg-[#e2e8f0] ${className}`}
+          className={`relative overflow-hidden bg-muted ${className}`}
         >
           <motion.div
             className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent"

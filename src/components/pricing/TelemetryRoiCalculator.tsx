@@ -58,9 +58,9 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.08] to-white/[0.02] p-6 sm:p-8 shadow-linear-card space-y-8 font-mono text-[#EDEDEF] backdrop-blur-xl">
+    <div className="rounded-2xl border border-border bg-gradient-to-b from-muted/40 to-muted/10 p-6 sm:p-8 shadow-linear-card space-y-8 font-mono text-foreground backdrop-blur-xl">
       {/* Title Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.06]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border">
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent border border-border text-foreground text-xs font-bold">
             <Calculator className="h-3.5 w-3.5" />
@@ -74,9 +74,9 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           </p>
         </div>
 
-        <div className="px-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/[0.06] text-right">
-          <span className="text-[10px] text-[#8A8F98] block uppercase font-bold">Estimated Net Savings</span>
-          <span className="text-xl font-extrabold text-[#EDEDEF] font-mono">${annualDollarSavings.toLocaleString()} / yr</span>
+        <div className="px-4 py-2.5 rounded-2xl bg-muted/40 border border-border text-right">
+          <span className="text-[10px] text-muted-foreground block uppercase font-bold">Estimated Net Savings</span>
+          <span className="text-xl font-extrabold text-foreground font-mono">${annualDollarSavings.toLocaleString()} / yr</span>
         </div>
       </div>
 
@@ -108,7 +108,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               aria-valuenow={monthlyProbes}
               aria-valuetext={`${monthlyProbes.toLocaleString()} probes per month`}
               onChange={(e) => setMonthlyProbes(Number(e.target.value))}
-              className="w-full h-2 bg-white/[0.08] rounded-lg appearance-none cursor-pointer accent-[#5E6AD2]"
+              className="w-full h-2 bg-muted/40 rounded-lg appearance-none cursor-pointer accent-primary"
             />
             <div className="flex justify-between text-[10px] text-muted-foreground">
               <span>10k (Hobby)</span>
@@ -124,7 +124,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
                 <Sliders className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
                 Active Production Endpoints / Domains
               </label>
-              <span className="text-[#6872D9] font-bold font-mono">
+              <span className="text-primary font-bold font-mono">
                 {productionDomains} domains
               </span>
             </div>
@@ -188,7 +188,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
         <div className="lg:col-span-6 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             {/* Metric 1 */}
-            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.06] space-y-1">
+            <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
               <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
                 <Clock className="h-3 w-3 text-muted-foreground" />
                 DevOps Time Saved
@@ -196,11 +196,11 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               <div className="text-xl font-extrabold text-foreground font-mono">
                 {hoursSavedPerMonth} hrs<span className="text-xs text-muted-foreground font-normal">/mo</span>
               </div>
-              <div className="text-[10px] text-[#6872D9] font-bold">Automated CI/CD Gates</div>
+              <div className="text-[10px] text-primary font-bold">Automated CI/CD Gates</div>
             </div>
 
             {/* Metric 2 */}
-            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.06] space-y-1">
+            <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
               <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
                 <ShieldCheck className="h-3 w-3 text-emerald-600" />
                 Outages Prevented
@@ -208,11 +208,11 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               <div className="text-xl font-extrabold text-foreground font-mono">
                 ~{incidentsPreventedPerYear} incidents<span className="text-xs text-muted-foreground font-normal">/yr</span>
               </div>
-              <div className="text-[10px] text-[#6872D9] font-bold">Zero client-script errors</div>
+              <div className="text-[10px] text-primary font-bold">Zero client-script errors</div>
             </div>
 
             {/* Metric 3 */}
-            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.06] space-y-1">
+            <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
               <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
                 <Leaf className="h-3 w-3 text-emerald-600" />
                 Carbon Offset
@@ -220,11 +220,11 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               <div className="text-xl font-extrabold text-foreground font-mono">
                 {carbonAvoidedKg} kg<span className="text-xs text-muted-foreground font-normal"> CO2e/yr</span>
               </div>
-              <div className="text-[10px] text-[#6872D9] font-bold">Green Web Protocol</div>
+              <div className="text-[10px] text-primary font-bold">Green Web Protocol</div>
             </div>
 
             {/* Metric 4 */}
-            <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.06] space-y-1">
+            <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
               <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
                 <DollarSign className="h-3 w-3 text-amber-600" />
                 Net Productivity
@@ -232,12 +232,12 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               <div className="text-xl font-extrabold text-foreground font-mono">
                 {Math.round((annualDollarSavings / (engineerSeats * 120000)) * 100)}%
               </div>
-              <div className="text-[10px] text-[#8A8F98] font-bold">Engineering Velocity</div>
+              <div className="text-[10px] text-muted-foreground font-bold">Engineering Velocity</div>
             </div>
           </div>
 
           {/* Recommended Plan Match Box */}
-          <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="p-4 rounded-2xl bg-muted/40 border border-border flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                 Optimal Plan Recommendation:
@@ -250,7 +250,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
             <button
               type="button"
               onClick={handleApplyPlan}
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#5E6AD2] text-white font-medium hover:bg-[#6872D9] transition-all flex items-center justify-center gap-1.5 shadow-linear-cta cursor-pointer text-xs"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-all flex items-center justify-center gap-1.5 shadow-linear-cta cursor-pointer text-xs"
             >
               <span>Deploy {planName}</span>
               <ArrowRight className="h-3.5 w-3.5" />

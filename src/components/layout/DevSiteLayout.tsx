@@ -84,10 +84,10 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
   const NavTree = (
     <nav aria-label="Site sections" className="devsite-sidenav">
       <Link to="/" className="mb-4 flex items-center gap-2 px-1 no-underline">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-[#1a73e8] text-sm font-bold text-white">C</span>
+        <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">C</span>
         <span className="leading-tight">
-          <span className="block text-[13px] font-medium text-[#202124] dark:text-[#e8eaed]">CatalystLab</span>
-          <span className="block text-[11px] text-[#5f6368] dark:text-[#9aa0a6]">Developer platform</span>
+          <span className="block text-[13px] font-medium text-foreground">CatalystLab</span>
+          <span className="block text-[11px] text-muted-foreground">Developer platform</span>
         </span>
       </Link>
 
@@ -98,7 +98,7 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
             <button
               type="button"
               onClick={() => setOpenGroups((prev) => ({ ...prev, [group.group]: !expanded }))}
-              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-[12px] font-medium uppercase tracking-wide text-[#5f6368] hover:bg-[#f1f3f4] dark:text-[#9aa0a6] dark:hover:bg-white/5"
+              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-[12px] font-medium uppercase tracking-wide text-muted-foreground hover:bg-accent hover:text-foreground"
               aria-expanded={expanded}
             >
               {group.group}
@@ -113,16 +113,16 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
                       <Link
                         to={item.path}
                         onClick={() => setMobileNavOpen(false)}
-                        className={`flex min-h-9 items-center justify-between rounded-r-full border-l-[3px] py-1.5 pl-3 pr-3 text-[13px] leading-snug no-underline ${
+                        className={`flex min-h-9 items-center justify-between rounded-r-full border-l-[3px] py-1.5 pl-3 pr-3 text-[13px] leading-snug no-underline transition-colors ${
                           active
-                            ? 'border-[#1a73e8] bg-[#e8f0fe] font-medium text-[#1967d2] dark:border-[#8ab4f8] dark:bg-[#174ea6]/30 dark:text-[#8ab4f8]'
-                            : 'border-transparent text-[#3c4043] hover:bg-[#f1f3f4] dark:text-[#e8eaed] dark:hover:bg-white/5'
+                            ? 'border-primary bg-primary/10 font-medium text-primary'
+                            : 'border-transparent text-foreground/80 hover:bg-accent hover:text-foreground'
                         }`}
                         aria-current={active ? 'page' : undefined}
                       >
                         <span className="truncate">{item.title}</span>
                         {item.badge && (
-                          <span className="ml-2 shrink-0 rounded-full bg-[#e8f0fe] px-1.5 py-0.5 font-mono text-[10px] text-[#1967d2] dark:bg-[#174ea6]/40 dark:text-[#8ab4f8]">
+                          <span className="ml-2 shrink-0 rounded-full bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary">
                             {item.badge}
                           </span>
                         )}
@@ -140,19 +140,19 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
 
   
   return (
-    <div className="devsite-shell min-h-full bg-[#fff] text-[#202124] dark:bg-[#202124] dark:text-[#e8eaed]">
+    <div className="devsite-shell min-h-full bg-background text-foreground">
       <div className="flex min-h-[calc(100vh-4rem)]">
-        <aside className="hidden w-[268px] shrink-0 border-r border-[#dadce0] lg:block dark:border-white/10">
+        <aside className="hidden w-[268px] shrink-0 border-r border-border lg:block">
           <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto px-3 py-5">{NavTree}</div>
         </aside>
 
         {mobileNavOpen && (
           <div className="fixed inset-0 z-50 lg:hidden">
             <button type="button" className="absolute inset-0 bg-black/40" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} />
-            <div className="absolute inset-y-0 left-0 w-[min(86vw,300px)] overflow-y-auto bg-white px-3 py-5 shadow-xl dark:bg-[#202124]">
+            <div className="absolute inset-y-0 left-0 w-[min(86vw,300px)] overflow-y-auto bg-card px-3 py-5 shadow-xl">
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-sm font-medium">Menu</span>
-                <button type="button" onClick={() => setMobileNavOpen(false)} className="flex size-9 items-center justify-center rounded-full hover:bg-[#f1f3f4]" aria-label="Close">
+                <button type="button" onClick={() => setMobileNavOpen(false)} className="flex size-9 items-center justify-center rounded-full hover:bg-accent" aria-label="Close">
                   <X className="size-5" />
                 </button>
               </div>

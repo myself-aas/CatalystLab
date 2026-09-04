@@ -65,29 +65,29 @@ export const LiveCronLogStream: React.FC = () => {
   const getLevelBadgeClass = (level: CronLogEntry['level']) => {
     switch (level) {
       case 'CRON':
-        return 'bg-cyan-500/10 text-[#00F0FF] border-cyan-500/30';
+        return 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30';
       case 'INFO':
-        return 'bg-emerald-500/10 text-[#00FF66] border-emerald-500/30';
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
       case 'WARN':
-        return 'bg-amber-500/10 text-[#FFB800] border-amber-500/30';
+        return 'bg-amber-500/10 text-amber-500 border-amber-500/30';
       case 'ERROR':
-        return 'bg-rose-500/10 text-[#FF0055] border-rose-500/30';
+        return 'bg-rose-500/10 text-rose-500 border-rose-500/30';
       case 'BENCHMARK':
-        return 'bg-purple-500/10 text-[#D946EF] border-purple-500/30';
+        return 'bg-purple-500/10 text-fuchsia-500 border-purple-500/30';
       default:
         return 'bg-muted0/10 text-muted-foreground border-border';
     }
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#080D1A] border border-border rounded-2xl overflow-hidden shadow-2xl font-mono text-xs">
+    <div className="flex flex-col h-full bg-card border border-border rounded-2xl overflow-hidden shadow-2xl font-mono text-xs">
       {/* Stream Header */}
-      <div className="p-3.5 bg-[#0B101D] border-b border-border flex items-center justify-between gap-2">
+      <div className="p-3.5 bg-muted/40 border-b border-border flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="relative flex items-center justify-center">
-            <Radio className={`h-4 w-4 ${autoStreamActive ? 'text-[#00FF66] animate-pulse' : 'text-muted-foreground'}`} />
+            <Radio className={`h-4 w-4 ${autoStreamActive ? 'text-emerald-400 animate-pulse' : 'text-muted-foreground'}`} />
             {autoStreamActive && (
-              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-ping" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
             )}
           </div>
           <span className="font-bold text-foreground tracking-wide">Live Telemetry Cron Stream</span>
@@ -103,7 +103,7 @@ export const LiveCronLogStream: React.FC = () => {
             onClick={toggleAutoStream}
             className={`p-1.5 rounded-lg border transition-all cursor-pointer flex items-center gap-1 text-[11px] ${
               autoStreamActive 
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-[#00FF66] hover:bg-emerald-500/20' 
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20' 
                 : 'bg-muted border-border text-muted-foreground hover:text-muted-foreground'
             }`}
             title={autoStreamActive ? 'Pause auto-stream' : 'Resume auto-stream'}
@@ -115,7 +115,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={() => triggerSyntheticProbe(focusEngine || undefined)}
-            className="p-1.5 rounded-lg bg-[#0E1526] border border-border text-muted-foreground hover:text-[#00F0FF] hover:border-[#06B6D4]/40 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-cyan-400 hover:border-cyan-500/40 transition-colors cursor-pointer"
             title="Trigger manual synthetic probe"
           >
             <RefreshCw className="h-3 w-3" />
@@ -124,7 +124,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={clearLogs}
-            className="p-1.5 rounded-lg bg-[#0E1526] border border-border text-muted-foreground hover:text-[#FF0055] hover:border-rose-500/30 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 hover:border-rose-500/30 transition-colors cursor-pointer"
             title="Clear logs"
           >
             <Trash2 className="h-3 w-3" />
@@ -133,7 +133,7 @@ export const LiveCronLogStream: React.FC = () => {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="px-3 py-2 bg-[#060912] border-b border-border/80 flex items-center justify-between gap-2 text-[11px] overflow-x-auto no-scrollbar">
+      <div className="px-3 py-2 bg-background border-b border-border/80 flex items-center justify-between gap-2 text-[11px] overflow-x-auto no-scrollbar">
         <div className="flex items-center gap-1 shrink-0">
           <Filter className="h-3 w-3 text-muted-foreground mr-1" />
           {['ALL', 'CRON', 'INFO', 'WARN', 'BENCHMARK'].map((lvl) => (
@@ -143,8 +143,8 @@ export const LiveCronLogStream: React.FC = () => {
               onClick={() => setSelectedLevel(lvl)}
               className={`px-2 py-0.5 rounded border transition-colors cursor-pointer ${
                 selectedLevel === lvl
-                  ? 'bg-[#06B6D4] text-foreground font-bold border-[#06B6D4]'
-                  : 'bg-[#0B101D] text-muted-foreground border-border hover:text-muted-foreground'
+                  ? 'bg-cyan-500 text-foreground font-bold border-cyan-500'
+                  : 'bg-muted/40 text-muted-foreground border-border hover:text-muted-foreground'
               }`}
             >
               {lvl}
@@ -158,7 +158,7 @@ export const LiveCronLogStream: React.FC = () => {
               type="checkbox"
               checked={autoScroll}
               onChange={(e) => setAutoScroll(e.target.checked)}
-              className="accent-[#06B6D4] rounded"
+              className="accent-cyan-500 rounded"
             />
             <span>Auto-top</span>
           </label>
@@ -168,7 +168,7 @@ export const LiveCronLogStream: React.FC = () => {
       {/* Log Feed Container */}
       <div 
         ref={logsContainerRef}
-        className="flex-1 overflow-y-auto p-2.5 space-y-1.5 min-h-[320px] max-h-[640px] font-mono select-text bg-[#060912]/80"
+        className="flex-1 overflow-y-auto p-2.5 space-y-1.5 min-h-[320px] max-h-[640px] font-mono select-text bg-background/80"
       >
         <AnimatePresence initial={false}>
           {filteredLogs.map((log) => (
@@ -178,7 +178,7 @@ export const LiveCronLogStream: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="group p-2 rounded-lg bg-[#0B101D] border border-border/80 hover:border-border transition-all text-left space-y-1"
+              className="group p-2 rounded-lg bg-muted/40 border border-border/80 hover:border-border transition-all text-left space-y-1"
             >
               <div className="flex items-center justify-between gap-2 text-[10px]">
                 <div className="flex items-center gap-1.5 truncate">
@@ -202,7 +202,7 @@ export const LiveCronLogStream: React.FC = () => {
                     title="Copy event JSON"
                   >
                     {copiedId === log.id ? (
-                      <Check className="h-3 w-3 text-[#00FF66]" />
+                      <Check className="h-3 w-3 text-emerald-400" />
                     ) : (
                       <Copy className="h-3 w-3" />
                     )}
@@ -226,14 +226,14 @@ export const LiveCronLogStream: React.FC = () => {
       </div>
 
       {/* Stream Footer Telemetry Bar */}
-      <div className="p-2 bg-[#0B101D] border-t border-border flex items-center justify-between text-[10px] text-muted-foreground">
+      <div className="p-2 bg-muted/40 border-t border-border flex items-center justify-between text-[10px] text-muted-foreground">
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#00F0FF] animate-pulse" />
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span className="text-muted-foreground">Target:</span> {activeDomain}
           </span>
           {focusEngine && (
-            <span className="text-[#00F0FF] font-bold">
+            <span className="text-cyan-400 font-bold">
               [Focus: {focusEngine.toUpperCase()}]
             </span>
           )}

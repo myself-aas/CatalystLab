@@ -230,7 +230,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8]">
+          <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/30 text-primary">
             <Sparkles className="h-5 w-5" />
           </div>
           <div>
@@ -245,11 +245,11 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
       {/* 1. Executive Telemetry Synthesis */}
       <div className="space-y-4">
         <div className="p-5 rounded-2xl bg-muted/80 border border-border">
-          <h4 className="text-sm font-bold text-[#38bdf8] mb-2 flex items-center gap-2">
+          <h4 className="text-sm font-bold text-primary mb-2 flex items-center gap-2">
             <Activity className="h-4 w-4" />
             <span>Executive Telemetry Synthesis</span>
           </h4>
-          <p className="text-xs sm:text-sm text-[#cbd5e1] leading-relaxed">
+          <p className="text-xs sm:text-sm text-foreground leading-relaxed">
             {getExecutiveSummary()}
           </p>
         </div>
@@ -293,21 +293,21 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
         <div className="p-5 rounded-2xl bg-muted/80 border border-border space-y-3 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
+              <h4 className="text-sm font-bold text-primary flex items-center gap-1.5">
                 <BarChart3 className="h-4 w-4" />
                 <span>{chartData.chart1.title}</span>
               </h4>
             </div>
-            <div className="space-y-2 text-xs text-[#cbd5e1] leading-relaxed">
+            <div className="space-y-2 text-xs text-foreground leading-relaxed">
               <p><strong>Finding:</strong> {chartData.chart1.keyFinding}</p>
-              <p className="text-[#94a3b8]">{chartData.chart1.summary}</p>
+              <p className="text-muted-foreground">{chartData.chart1.summary}</p>
             </div>
           </div>
           <div className="p-3 rounded-xl bg-background border border-border flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <strong className="text-primary-foreground block">Action:</strong>
-              <span className="text-[#94a3b8]">{chartData.chart1.recommendation}</span>
+              <span className="text-muted-foreground">{chartData.chart1.recommendation}</span>
             </div>
           </div>
         </div>
@@ -316,21 +316,21 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
         <div className="p-5 rounded-2xl bg-muted/80 border border-border space-y-3 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
+              <h4 className="text-sm font-bold text-primary flex items-center gap-1.5">
                 <Layers className="h-4 w-4" />
                 <span>{chartData.chart2.title}</span>
               </h4>
             </div>
-            <div className="space-y-2 text-xs text-[#cbd5e1] leading-relaxed">
+            <div className="space-y-2 text-xs text-foreground leading-relaxed">
               <p><strong>Finding:</strong> {chartData.chart2.keyFinding}</p>
-              <p className="text-[#94a3b8]">{chartData.chart2.summary}</p>
+              <p className="text-muted-foreground">{chartData.chart2.summary}</p>
             </div>
           </div>
           <div className="p-3 rounded-xl bg-background border border-border flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <strong className="text-primary-foreground block">Action:</strong>
-              <span className="text-[#94a3b8]">{chartData.chart2.recommendation}</span>
+              <span className="text-muted-foreground">{chartData.chart2.recommendation}</span>
             </div>
           </div>
         </div>
@@ -339,21 +339,21 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
         <div className="p-5 rounded-2xl bg-muted/80 border border-border space-y-3 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-bold text-[#38bdf8] flex items-center gap-1.5">
+              <h4 className="text-sm font-bold text-primary flex items-center gap-1.5">
                 <Activity className="h-4 w-4" />
                 <span>{chartData.chart3.title}</span>
               </h4>
             </div>
-            <div className="space-y-2 text-xs text-[#cbd5e1] leading-relaxed">
+            <div className="space-y-2 text-xs text-foreground leading-relaxed">
               <p><strong>Finding:</strong> {chartData.chart3.keyFinding}</p>
-              <p className="text-[#94a3b8]">{chartData.chart3.summary}</p>
+              <p className="text-muted-foreground">{chartData.chart3.summary}</p>
             </div>
           </div>
           <div className="p-3 rounded-xl bg-background border border-border flex items-start gap-2 text-xs mt-3">
             <Zap className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
             <div>
               <strong className="text-primary-foreground block">Action:</strong>
-              <span className="text-[#94a3b8]">{chartData.chart3.recommendation}</span>
+              <span className="text-muted-foreground">{chartData.chart3.recommendation}</span>
             </div>
           </div>
         </div>

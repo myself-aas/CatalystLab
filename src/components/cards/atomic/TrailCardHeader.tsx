@@ -11,7 +11,7 @@ export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
 
   return (
     <div 
-      className="relative w-full aspect-[4/3] overflow-hidden rounded-t-[16px] bg-[#0D0D0D] select-none"
+      className="relative w-full aspect-[4/3] overflow-hidden rounded-t-[16px] bg-card select-none"
       id={`trail-header-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
     >
       {/* Background Image with smooth scaling on parent hover */}

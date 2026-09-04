@@ -100,10 +100,10 @@ export const StickyHUD: React.FC = () => {
               initial={{ opacity: 0, y: 16, height: 0 }}
               animate={{ opacity: 1, y: 0, height: 'auto' }}
               exit={{ opacity: 0, y: 16, height: 0 }}
-              className="mb-2 rounded-2xl border border-border-default bg-card/95 dark:bg-[#07070a]/95 backdrop-blur-xl shadow-linear-card overflow-hidden font-mono text-xs"
+              className="mb-2 rounded-2xl border border-border-default bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-linear-card overflow-hidden font-mono text-xs"
             >
               {/* Drawer Header */}
-              <div className="flex items-center justify-between px-4 py-2.5 bg-card/80 dark:bg-[#0a0a0c]/80 border-b border-border-default">
+              <div className="flex items-center justify-between px-4 py-2.5 bg-card/80 dark:bg-muted/80 border-b border-border-default">
                 <div className="flex items-center gap-2">
                   <TerminalIcon className="size-3.5 text-accent-bright" />
                   <span className="font-semibold text-foreground uppercase tracking-wider text-[11px]">
@@ -122,7 +122,7 @@ export const StickyHUD: React.FC = () => {
                     className={`px-2 py-0.5 rounded text-[10px] font-semibold transition-colors cursor-pointer ${
                       autoStreamActive
                         ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-white/[0.04] text-foreground-muted border border-border-default'
+                        : 'bg-muted/40 text-foreground-muted border border-border-default'
                     }`}
                   >
                     {autoStreamActive ? 'STREAM ACTIVE' : 'STREAM PAUSED'}
@@ -131,7 +131,7 @@ export const StickyHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowLogDrawer(false)}
-                    className="inline-flex size-7 items-center justify-center rounded-lg text-foreground-muted hover:text-foreground hover:bg-white/[0.06] transition-colors"
+                    className="inline-flex size-7 items-center justify-center rounded-lg text-foreground-muted hover:text-foreground hover:bg-muted/60 transition-colors"
                     aria-label="Close telemetry log"
                   >
                     <X aria-hidden="true" className="size-3.5" />
@@ -147,14 +147,14 @@ export const StickyHUD: React.FC = () => {
                 {cronLogs.map((log) => (
                   <div 
                     key={log.id} 
-                    className="flex items-start gap-2 text-foreground-muted font-mono hover:bg-white/[0.03] p-1 rounded transition-colors"
+                    className="flex items-start gap-2 text-foreground-muted font-mono hover:bg-muted/30 p-1 rounded transition-colors"
                   >
                     <span className="text-foreground-muted/70 shrink-0 text-[10px]">{log.timestamp}</span>
                     <span className={`px-1.5 py-0.2 rounded text-[10px] font-semibold shrink-0 ${
                       log.level === 'CRON' ? 'bg-accent/15 text-accent-bright border border-accent/25' :
                       log.level === 'WARN' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' :
                       log.level === 'BENCHMARK' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' :
-                      'bg-white/[0.04] text-foreground-muted border border-border-default'
+                      'bg-muted/40 text-foreground-muted border border-border-default'
                     }`}>
                       {log.level}
                     </span>
@@ -180,7 +180,7 @@ export const StickyHUD: React.FC = () => {
               id="telemetry-engine-selector"
               role="region"
               aria-label="Telemetry engine focus selector"
-              className="mb-2 p-3 rounded-2xl border border-border-default bg-card/95 dark:bg-[#07070a]/95 backdrop-blur-xl shadow-linear-card font-mono text-xs"
+              className="mb-2 p-3 rounded-2xl border border-border-default bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-linear-card font-mono text-xs"
             >
               <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-border-default text-foreground-muted text-[11px]">
                 <span className="font-semibold text-foreground flex items-center gap-1.5">
@@ -215,7 +215,7 @@ export const StickyHUD: React.FC = () => {
                       className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
                         isSelected
                           ? 'bg-accent/15 border-accent/60 text-foreground shadow-2xs'
-                          : 'bg-white/[0.03] border-border-default text-foreground-muted hover:text-foreground hover:border-accent/30'
+                          : 'bg-muted/30 border-border-default text-foreground-muted hover:text-foreground hover:border-accent/30'
                       }`}
                     >
                       <div className="font-semibold text-[11px]" style={{ color: isSelected ? 'var(--accent-bright, #6872D9)' : enzyme.color }}>
@@ -240,7 +240,7 @@ export const StickyHUD: React.FC = () => {
             exit={{ opacity: 0, scale: 0.8, y: 12 }}
             type="button"
             onClick={toggleHudExpanded}
-            className="group relative flex items-center justify-center size-14 rounded-2xl border border-accent/40 bg-card/95 dark:bg-[#07070a]/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition-all duration-200 cursor-pointer pointer-events-auto"
+            className="group relative flex items-center justify-center size-14 rounded-2xl border border-accent/40 bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition-all duration-200 cursor-pointer pointer-events-auto"
             aria-label="Open Telemetry HUD Terminal"
             title="Open Telemetry HUD Terminal"
           >
@@ -262,11 +262,11 @@ export const StickyHUD: React.FC = () => {
             </svg>
           </motion.button>
         ) : (
-          <div className="relative w-full max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-2xl border border-border-default bg-card/90 dark:bg-[#07070a]/90 backdrop-blur-xl shadow-linear-card font-mono text-xs transition-all duration-300">
+          <div className="relative w-full max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-2xl border border-border-default bg-card/90 dark:bg-card/90 backdrop-blur-xl shadow-linear-card font-mono text-xs transition-all duration-300">
             
             {/* Top Scanline / Scanning Progress Bar */}
             {isScanning ? (
-              <div className="h-1 bg-white/[0.06] overflow-hidden relative">
+              <div className="h-1 bg-muted/60 overflow-hidden relative">
                 <motion.div
                   className="h-full bg-gradient-to-r from-accent via-indigo-400 to-emerald-400"
                   style={{ width: `${scanProgress}%` }}
@@ -285,7 +285,7 @@ export const StickyHUD: React.FC = () => {
                 {/* System Load Meter */}
                 <div 
                   title="Aggregate Real-Time Edge Processing & Memory Load"
-                  className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-white/[0.04] dark:bg-white/[0.03] border border-border-default"
+                  className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-muted/40 dark:bg-muted/30 border border-border-default"
                 >
                   <div className="flex items-center gap-1.5">
                     <Activity className="size-3.5 text-accent-bright" />
@@ -297,7 +297,7 @@ export const StickyHUD: React.FC = () => {
                     <span className={`text-xs font-semibold ${getLoadColor(systemLoad).split(' ')[0]}`}>
                       {systemLoad.toFixed(1)}%
                     </span>
-                    <div className="w-10 h-1.5 bg-white/[0.08] rounded-full overflow-hidden hidden sm:block">
+                    <div className="w-10 h-1.5 bg-muted/80 rounded-full overflow-hidden hidden sm:block">
                       <div 
                         className={`h-full transition-all duration-500 ${getLoadColor(systemLoad).split(' ')[1]}`}
                         style={{ width: `${Math.min(100, systemLoad)}%` }}
@@ -309,7 +309,7 @@ export const StickyHUD: React.FC = () => {
                 {/* Edge Anycast PoPs Status */}
                 <div 
                   title="Global Distributed Anycast Points of Presence"
-                  className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-xl bg-white/[0.04] dark:bg-white/[0.03] border border-border-default text-[11px] text-foreground-muted"
+                  className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-xl bg-muted/40 dark:bg-muted/30 border border-border-default text-[11px] text-foreground-muted"
                 >
                   <Globe className="size-3.5 text-emerald-400" />
                   <span>
@@ -322,7 +322,7 @@ export const StickyHUD: React.FC = () => {
                 {/* Scroll Depth Telemetry */}
                 <div 
                   title="Page Telemetry Scroll Traversal"
-                  className="hidden xl:flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white/[0.04] dark:bg-white/[0.03] border border-border-default text-[10px] text-foreground-muted"
+                  className="hidden xl:flex items-center gap-1.5 px-2 py-1 rounded-xl bg-muted/40 dark:bg-muted/30 border border-border-default text-[10px] text-foreground-muted"
                 >
                   <span>DEPTH:</span>
                   <span className="text-foreground font-semibold">{scrollDepthPercentage}%</span>
@@ -339,7 +339,7 @@ export const StickyHUD: React.FC = () => {
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[11px] font-semibold transition-all cursor-pointer ${
                     focusEngine
                       ? 'bg-accent/15 border-accent/60 text-accent-bright shadow-2xs'
-                      : 'bg-white/[0.04] dark:bg-white/[0.03] border-border-default text-foreground-muted hover:border-accent/40 hover:text-foreground'
+                      : 'bg-muted/40 dark:bg-muted/30 border-border-default text-foreground-muted hover:border-accent/40 hover:text-foreground'
                   }`}
                 >
                   <Cpu className="size-3" />
@@ -356,7 +356,7 @@ export const StickyHUD: React.FC = () => {
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[11px] font-semibold transition-all cursor-pointer ${
                     showLogDrawer
                       ? 'bg-accent/15 border-accent/60 text-foreground'
-                      : 'bg-white/[0.04] dark:bg-white/[0.03] border-border-default text-foreground-muted hover:text-foreground'
+                      : 'bg-muted/40 dark:bg-muted/30 border-border-default text-foreground-muted hover:text-foreground'
                   }`}
                 >
                   <TerminalIcon className="size-3 text-accent-bright" />
@@ -399,7 +399,7 @@ export const StickyHUD: React.FC = () => {
                   onClick={toggleHudExpanded}
                   title="Minimize HUD"
                   aria-label="Minimize HUD"
-                  className="inline-flex size-7 sm:size-8 items-center justify-center rounded-lg hover:bg-white/[0.06] text-foreground-muted hover:text-foreground transition-colors cursor-pointer"
+                  className="inline-flex size-7 sm:size-8 items-center justify-center rounded-lg hover:bg-muted/60 text-foreground-muted hover:text-foreground transition-colors cursor-pointer"
                 >
                   <ChevronDown className="size-3.5" />
                 </button>

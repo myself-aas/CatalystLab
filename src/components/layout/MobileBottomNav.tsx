@@ -31,7 +31,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMenu }) 
               to={item.path}
               className={({ isActive }) => cn(
                 "relative flex flex-col items-center justify-center w-full h-full gap-1 transition-all group",
-                isActive ? "text-foreground font-medium" : "text-foreground-muted hover:text-foreground"
+                isActive ? "text-foreground font-medium" : "ds-muted hover:text-foreground"
               )}
             >
               {isActive && (
@@ -47,7 +47,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMenu }) 
               )}>
                 <item.icon className={cn("size-5 transition-transform duration-200", isActive && "scale-110")} />
               </div>
-              <span className={cn("text-[11px] font-medium tracking-tight transition-colors", isActive ? "text-accent-bright font-semibold" : "text-foreground-muted")}>
+              <span className={cn("text-[11px] font-medium tracking-tight transition-colors", isActive ? "text-accent-bright font-semibold" : "ds-muted")}>
                 {item.name}
               </span>
             </NavLink>
@@ -55,12 +55,12 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMenu }) 
         })}
         <button
           onClick={onOpenMenu}
-          className="relative flex flex-col items-center justify-center w-full h-full gap-1 text-foreground-muted hover:text-foreground transition-all group active:scale-95"
+          className="relative flex flex-col items-center justify-center w-full h-full gap-1 ds-muted hover:text-foreground transition-all group active:scale-95"
         >
           <div className="p-1 rounded-xl group-hover:bg-black/5 dark:group-hover:bg-white/5 transition-colors">
             <Menu className="size-5 transition-transform duration-200 group-hover:scale-110" />
           </div>
-          <span className="text-[11px] font-medium tracking-tight text-foreground-muted group-hover:text-foreground transition-colors">
+          <span className="text-[11px] font-medium tracking-tight ds-muted group-hover:text-foreground transition-colors">
             Menu
           </span>
         </button>

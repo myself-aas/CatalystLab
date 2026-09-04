@@ -17,32 +17,32 @@ export const HeroAuditMock: React.FC = () => {
   return (
     <div
       aria-hidden="true"
-      className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0a0a0c]/80 shadow-linear-card backdrop-blur-2xl"
+      className="relative mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-border bg-card/80 shadow-linear-card backdrop-blur-2xl"
     >
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#5E6AD2]/60 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
 
-      <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
+      <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="size-2.5 rounded-full bg-[#ff5f57]" />
-          <span className="size-2.5 rounded-full bg-[#febc2e]" />
-          <span className="size-2.5 rounded-full bg-[#28c840]" />
+          <span className="size-2.5 rounded-full bg-rose-500" />
+          <span className="size-2.5 rounded-full bg-amber-500" />
+          <span className="size-2.5 rounded-full bg-emerald-500" />
         </div>
-        <div className="hidden items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-1 font-mono text-[11px] text-[#8A8F98] sm:flex">
-          <span className="size-1.5 rounded-full bg-[#5E6AD2] shadow-[0_0_8px_rgba(94,106,210,0.8)]" />
+        <div className="hidden items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-1 font-mono text-[11px] text-muted-foreground sm:flex">
+          <span className="size-1.5 rounded-full bg-primary shadow-linear-cta" />
           catalystlab · master-audit · stripe.com
         </div>
-        <div className="font-mono text-[11px] uppercase tracking-widest text-[#6872D9]">
+        <div className="font-mono text-[11px] uppercase tracking-widest text-primary">
           Composite 92
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12">
-        <div className="border-b border-white/[0.06] p-5 lg:col-span-7 lg:border-b-0 lg:border-r">
+        <div className="border-b border-border p-5 lg:col-span-7 lg:border-b-0 lg:border-r">
           <div className="mb-4 flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-[#8A8F98]">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               Engine matrix
             </p>
-            <span className="rounded-full border border-[#5E6AD2]/30 bg-[#5E6AD2]/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-[#6872D9]">
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-primary">
               Live
             </span>
           </div>
@@ -50,20 +50,20 @@ export const HeroAuditMock: React.FC = () => {
             {ROWS.map((row) => (
               <div
                 key={row.engine}
-                className="flex items-center gap-3 rounded-xl border border-white/[0.05] bg-white/[0.03] px-3 py-2.5"
+                className="flex items-center gap-3 rounded-xl border border-border bg-muted/20 px-3 py-2.5"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline justify-between gap-3">
-                    <span className="text-sm font-medium text-[#EDEDEF]">{row.engine}</span>
-                    <span className="font-mono text-sm tabular-nums text-[#EDEDEF]">{row.score}</span>
+                    <span className="text-sm font-medium text-foreground">{row.engine}</span>
+                    <span className="font-mono text-sm tabular-nums text-foreground">{row.score}</span>
                   </div>
-                  <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/[0.06]">
+                  <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-muted">
                     <div
-                      className="h-full rounded-full bg-[#5E6AD2]"
+                      className="h-full rounded-full bg-primary"
                       style={{ width: `${row.score}%` }}
                     />
                   </div>
-                  <p className="mt-1 font-mono text-[10px] tracking-wide text-[#8A8F98]">{row.vector}</p>
+                  <p className="mt-1 font-mono text-[10px] tracking-wide text-muted-foreground">{row.vector}</p>
                 </div>
               </div>
             ))}
@@ -80,26 +80,26 @@ export const HeroAuditMock: React.FC = () => {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-3"
+                className="rounded-xl border border-border bg-muted/20 p-3"
               >
-                <stat.icon className="mb-2 size-3.5 text-[#5E6AD2]" />
-                <p className="font-mono text-[10px] uppercase tracking-widest text-[#8A8F98]">
+                <stat.icon className="mb-2 size-3.5 text-primary" />
+                <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                   {stat.label}
                 </p>
-                <p className="mt-0.5 font-mono text-lg font-semibold tracking-tight text-[#EDEDEF]">
+                <p className="mt-0.5 font-mono text-lg font-semibold tracking-tight text-foreground">
                   {stat.value}
                 </p>
               </div>
             ))}
           </div>
-          <div className="flex-1 rounded-xl border border-white/[0.06] bg-[#050506] p-3 font-mono text-[11px] leading-relaxed text-[#8A8F98]">
-            <p className="text-[#6872D9]">$ catalystlab audit stripe.com</p>
+          <div className="flex-1 rounded-xl border border-border bg-background p-3 font-mono text-[11px] leading-relaxed text-muted-foreground">
+            <p className="text-primary">$ catalystlab audit stripe.com</p>
             <p className="mt-1">→ resolved 42 anycast PoPs · 11ms</p>
             <p>→ 8 engines parallel · 420ms</p>
             <p>→ dossier synthesized · 190ms</p>
-            <p className="mt-2 text-[#EDEDEF]">
-              PASS <span className="text-[#8A8F98]">composite 92 / 100</span>
-              <span className="ml-1 inline-block h-3 w-1.5 translate-y-0.5 bg-[#5E6AD2] align-middle terminal-cursor" />
+            <p className="mt-2 text-foreground">
+              PASS <span className="text-muted-foreground">composite 92 / 100</span>
+              <span className="ml-1 inline-block h-3 w-1.5 translate-y-0.5 bg-primary align-middle terminal-cursor" />
             </p>
           </div>
         </div>

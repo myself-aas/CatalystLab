@@ -78,7 +78,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full bg-[#0d1b2a] border border-border rounded-3xl shadow-2xl shadow-black/60 overflow-hidden text-primary-foreground"
+            className="relative w-full bg-background border border-border rounded-3xl shadow-2xl shadow-black/60 overflow-hidden text-primary-foreground"
           >
             {/* Close Button */}
             <button
@@ -90,7 +90,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
             </button>
 
             {/* Header Accent */}
-            <div className="h-2 w-full bg-gradient-to-r from-[#00F0FF] via-[#06B6D4] to-[#00FF66]" />
+            <div className="h-2 w-full bg-gradient-to-r from-cyan-400 via-cyan-500 to-emerald-400" />
 
             <div className="p-6 sm:p-8">
               {isSuccess ? (
@@ -137,7 +137,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="developer@enterprise.io"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-primary/90 text-primary-foreground placeholder-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-[#00F0FF] focus:border-transparent transition-all"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-primary/90 text-primary-foreground placeholder-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
                         />
                       </div>
                     </div>
@@ -145,7 +145,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#00F0FF] to-[#06B6D4] text-foreground font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 text-foreground font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
                     >
                       <span>{isSubmitting ? 'Joining...' : 'Subscribe to Telemetry'}</span>
                       <ArrowRight className="h-4 w-4" />

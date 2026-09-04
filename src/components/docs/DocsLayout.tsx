@@ -97,14 +97,14 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
   };
 
   return (
-    <div className="docs-codeblock my-5 overflow-hidden rounded-lg border border-[#dadce0] dark:border-white/10 bg-[#f8f9fa] dark:bg-[#202124]">
-      <div className="flex items-center justify-between border-b border-[#dadce0] dark:border-white/10 px-3 py-1.5 text-xs">
-        <span className="font-medium text-[#5f6368] dark:text-[#9aa0a6]">{title || language}</span>
+    <div className="docs-codeblock my-5 overflow-hidden rounded-lg border border-border bg-muted/40 dark:bg-card">
+      <div className="flex items-center justify-between border-b border-border px-3 py-1.5 text-xs">
+        <span className="font-medium text-muted-foreground">{title || language}</span>
         <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={handleRunInCli}
-            className="inline-flex h-8 items-center gap-1 rounded px-2 text-[12px] font-medium text-[#5E6AD2] hover:bg-[#e8f0fe] dark:text-[#6872D9] dark:hover:bg-white/5"
+            className="inline-flex h-8 items-center gap-1 rounded px-2 text-[12px] font-medium text-primary hover:bg-primary/10"
             title="Run in CLI"
           >
             <Play className="size-3 fill-current" />
@@ -113,15 +113,15 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex h-8 items-center gap-1 rounded px-2 text-[12px] font-medium text-[#5f6368] hover:bg-[#e8eaed] dark:text-[#9aa0a6] dark:hover:bg-white/5"
+            className="inline-flex h-8 items-center gap-1 rounded px-2 text-[12px] font-medium text-muted-foreground hover:bg-accent"
             title="Copy code"
           >
-            {copied ? <Check className="size-3.5 text-[#188038]" /> : <Copy className="size-3.5" />}
+            {copied ? <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" /> : <Copy className="size-3.5" />}
             {copied ? 'Copied' : 'Copy'}
           </button>
         </div>
       </div>
-      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed text-[#202124] dark:text-[#e8eaed]">
+      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed text-foreground">
         <code>{code}</code>
       </pre>
     </div>
@@ -207,15 +207,15 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   const NavTree = (
     <nav aria-label="Documentation" className="docs-sidenav-inner">
       <Link to="/docs" className="mb-4 flex items-center gap-2 px-1 no-underline">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-[#5E6AD2] text-white text-sm font-bold">C</span>
+        <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">C</span>
         <span className="leading-tight">
-          <span className="block text-[13px] font-medium text-[#202124] dark:text-[#e8eaed]">CatalystLab</span>
-          <span className="block text-[11px] text-[#5f6368] dark:text-[#9aa0a6]">Documentation</span>
+          <span className="block text-[13px] font-medium text-foreground">CatalystLab</span>
+          <span className="block text-[11px] text-muted-foreground">Documentation</span>
         </span>
       </Link>
 
       <div className="relative mb-4">
-        <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-[#5f6368]" />
+        <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <input
           ref={searchRef}
           type="search"
@@ -223,9 +223,9 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter docs"
           aria-label="Filter documentation"
-          className="h-9 w-full rounded-full border border-[#dadce0] bg-white pl-9 pr-10 text-[13px] text-[#202124] outline-none placeholder:text-[#80868b] focus:border-[#5E6AD2] focus:ring-1 focus:ring-[#1a73e8] dark:border-white/15 dark:bg-[#303134] dark:text-[#e8eaed]"
+          className="h-9 w-full rounded-full border border-border bg-background pl-9 pr-10 text-[13px] text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
         />
-        <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-[#dadce0] bg-[#f8f9fa] px-1.5 py-0.5 font-mono text-[10px] text-[#5f6368] dark:border-white/15 dark:bg-[#3c4043] dark:text-[#9aa0a6]">
+        <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-border bg-muted/50 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
           /
         </kbd>
       </div>
@@ -237,7 +237,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             <button
               type="button"
               onClick={() => setOpenGroups((prev) => ({ ...prev, [group.group]: !expanded }))}
-              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-[11px] font-bold uppercase tracking-[0.1em] text-[#8A8F98] hover:bg-[#f1f3f4] dark:text-[#9aa0a6] dark:hover:bg-white/5"
+              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground hover:bg-accent"
               aria-expanded={expanded}
             >
               {group.group}
@@ -254,14 +254,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                         onClick={() => setMobileNavOpen(false)}
                         className={`flex min-h-9 items-center justify-between rounded-r-full border-l-[3px] py-1.5 pl-3 pr-3 text-[13px] leading-snug no-underline ${
                           active
-                            ? 'border-[#5E6AD2] bg-[#5E6AD2]/10 font-semibold text-[#5E6AD2] dark:border-[#6872D9] dark:bg-[#5E6AD2]/15 dark:text-[#6872D9]'
-                            : 'border-transparent text-[#3c4043] hover:bg-[#f1f3f4] dark:text-[#e8eaed] dark:hover:bg-white/5'
+                            ? 'border-primary bg-primary/10 font-semibold text-primary'
+                            : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-accent'
                         }`}
                         aria-current={active ? 'page' : undefined}
                       >
                         <span className="truncate">{item.title}</span>
                         {item.badge && (
-                          <span className="ml-2 shrink-0 rounded-full bg-[#5E6AD2]/10 px-1.5 py-0.5 font-mono text-[10px] text-[#5E6AD2] dark:bg-[#174ea6]/40 dark:text-[#6872D9]">
+                          <span className="ml-2 shrink-0 rounded-full bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary">
                             {item.badge}
                           </span>
                         )}
@@ -279,7 +279,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
   
   return (
-    <div className="docs-devsite min-h-screen bg-[#fff] text-[#202124] dark:bg-[#202124] dark:text-[#e8eaed]">
+    <div className="docs-devsite min-h-screen bg-background text-foreground">
       <SEOHead
         title={`${title} | CatalystLab Documentation`}
         description={description}
@@ -308,17 +308,17 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
       />
 
       <div className="flex min-h-[calc(100vh-4rem)]">
-        <aside className="hidden w-[268px] shrink-0 border-r border-[#dadce0] lg:block dark:border-white/10">
+        <aside className="hidden w-[268px] shrink-0 border-r border-border lg:block">
           <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto px-3 py-5">{NavTree}</div>
         </aside>
 
         {mobileNavOpen && (
           <div className="fixed inset-0 z-50 lg:hidden">
             <button type="button" className="absolute inset-0 bg-black/40" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} />
-            <div className="absolute inset-y-0 left-0 w-[min(86vw,300px)] overflow-y-auto bg-white px-3 py-5 shadow-xl dark:bg-[#202124]">
+            <div className="absolute inset-y-0 left-0 w-[min(86vw,300px)] overflow-y-auto bg-card px-3 py-5 shadow-xl">
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-sm font-medium">Docs</span>
-                <button type="button" onClick={() => setMobileNavOpen(false)} className="flex size-9 items-center justify-center rounded-full hover:bg-[#f1f3f4]" aria-label="Close">
+                <button type="button" onClick={() => setMobileNavOpen(false)} className="flex size-9 items-center justify-center rounded-full hover:bg-accent" aria-label="Close">
                   <X className="size-5" />
                 </button>
               </div>
@@ -328,12 +328,12 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         )}
 
         <div className="min-w-0 flex-1">
-          <div className="sticky top-16 z-30 flex h-12 items-center justify-between gap-3 border-b border-[#dadce0] bg-white/95 px-4 backdrop-blur lg:px-8 dark:border-white/10 dark:bg-[#202124]/95">
+          <div className="sticky top-16 z-30 flex h-12 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 backdrop-blur lg:px-8">
             <div className="flex min-w-0 items-center gap-2">
               <button
                 type="button"
                 onClick={() => setMobileNavOpen(true)}
-                className="flex size-9 items-center justify-center rounded-full hover:bg-[#f1f3f4] lg:hidden dark:hover:bg-white/5"
+                className="flex size-9 items-center justify-center rounded-full hover:bg-accent lg:hidden"
                 aria-label="Open documentation menu"
               >
                 <Menu className="size-5" />
@@ -346,8 +346,8 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 onClick={() => setCliOpen((v) => !v)}
                 className={`inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium ${
                   cliOpen
-                    ? 'bg-[#e8f0fe] text-[#1967d2] dark:bg-[#174ea6]/40 dark:text-[#6872D9]'
-                    : 'text-[#5f6368] hover:bg-[#f1f3f4] dark:text-[#9aa0a6] dark:hover:bg-white/5'
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 <TerminalIcon className="size-4" />
@@ -355,7 +355,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               </button>
               <Link
                 to="/contact"
-                className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium text-[#5f6368] hover:bg-[#f1f3f4] dark:text-[#9aa0a6] dark:hover:bg-white/5"
+                className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent"
               >
                 <MessageSquare className="size-4" />
                 <span className="hidden md:inline">Send feedback</span>
@@ -368,12 +368,12 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <div className="flex">
             <article className="min-w-0 flex-1 px-4 py-8 sm:px-8 lg:px-12 xl:max-w-[860px]">
               <header className="mb-8">
-                <p className="mb-2 text-[13px] font-medium text-[#5E6AD2] dark:text-[#6872D9]">CatalystLab documentation</p>
-                <h1 className="text-4xl font-display font-medium leading-tight text-[#202124] sm:text-5xl dark:text-[#e8eaed]">
+                <p className="mb-2 text-[13px] font-medium text-primary">CatalystLab documentation</p>
+                <h1 className="text-4xl font-display font-medium leading-tight text-foreground sm:text-5xl">
                   {title}
                 </h1>
-                <p className="mt-3 max-w-[42rem] text-[16px] leading-7 text-[#3c4043] dark:text-[#9aa0a6]">{description}</p>
-                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-[#5f6368] dark:text-[#9aa0a6]">
+                <p className="mt-3 max-w-[42rem] text-[16px] leading-7 text-muted-foreground">{description}</p>
+                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-muted-foreground">
                   <span>Stay organized with collections</span>
                   <span aria-hidden="true">·</span>
                   <time dateTime="2026-09-03">Last updated 2026-09-03 UTC</time>
@@ -382,17 +382,17 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
               <div className="docs-content docs-devsite-article">{children}</div>
 
-              <nav className="mt-12 grid grid-cols-1 gap-3 border-t border-[#dadce0] pt-6 sm:grid-cols-2 dark:border-white/10" aria-label="Page pagination">
+              <nav className="mt-12 grid grid-cols-1 gap-3 border-t border-border pt-6 sm:grid-cols-2" aria-label="Page pagination">
                 {prevItem ? (
                   <Link
                     to={prevItem.path}
-                    className="group flex flex-col gap-1 rounded-lg border border-[#dadce0] p-4 no-underline hover:border-[#5E6AD2] dark:border-white/15 dark:hover:border-[#8ab4f8]"
+                    className="group flex flex-col gap-1 rounded-lg border border-border p-4 no-underline hover:border-primary"
                   >
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#8A8F98] dark:text-[#9aa0a6]">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                       <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
                       Previous
                     </span>
-                    <span className="text-[15px] text-[#5E6AD2] dark:text-[#6872D9]">{prevItem.title}</span>
+                    <span className="text-[15px] text-primary">{prevItem.title}</span>
                   </Link>
                 ) : (
                   <div />
@@ -400,22 +400,22 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 {nextItem && (
                   <Link
                     to={nextItem.path}
-                    className="group flex flex-col items-end gap-1 rounded-lg border border-[#dadce0] p-4 text-right no-underline hover:border-[#5E6AD2] sm:col-start-2 dark:border-white/15 dark:hover:border-[#8ab4f8]"
+                    className="group flex flex-col items-end gap-1 rounded-lg border border-border p-4 text-right no-underline hover:border-primary sm:col-start-2"
                   >
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#8A8F98] dark:text-[#9aa0a6]">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                       Next
                       <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
                     </span>
-                    <span className="text-[15px] text-[#5E6AD2] dark:text-[#6872D9]">{nextItem.title}</span>
+                    <span className="text-[15px] text-primary">{nextItem.title}</span>
                   </Link>
                 )}
               </nav>
 
-              <div className="mt-8 rounded-lg border border-[#dadce0] p-5 dark:border-white/15">
+              <div className="mt-8 rounded-lg border border-border p-5">
                 <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                   <div>
-                    <p className="text-[15px] font-medium text-[#202124] dark:text-[#e8eaed]">Was this helpful?</p>
-                    <p className="text-[13px] text-[#5f6368] dark:text-[#9aa0a6]">Except as otherwise noted, content is licensed for developer use.</p>
+                    <p className="text-[15px] font-medium text-foreground">Was this helpful?</p>
+                    <p className="text-[13px] text-muted-foreground">Except as otherwise noted, content is licensed for developer use.</p>
                   </div>
                   <div className="flex gap-2">
                     <button
@@ -423,8 +423,8 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       onClick={() => setFeedbackGiven('yes')}
                       className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
                         feedbackGiven === 'yes'
-                          ? 'border-[#188038] bg-[#e6f4ea] text-[#188038]'
-                          : 'border-[#dadce0] text-[#3c4043] hover:bg-[#f1f3f4] dark:border-white/15 dark:text-[#e8eaed] dark:hover:bg-white/5'
+                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                          : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >
                       <ThumbsUp className="size-4" /> Yes
@@ -434,8 +434,8 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       onClick={() => setFeedbackGiven('no')}
                       className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
                         feedbackGiven === 'no'
-                          ? 'border-[#d93025] bg-[#fce8e6] text-[#d93025]'
-                          : 'border-[#dadce0] text-[#3c4043] hover:bg-[#f1f3f4] dark:border-white/15 dark:text-[#e8eaed] dark:hover:bg-white/5'
+                          ? 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                          : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >
                       <ThumbsDown className="size-4" /> No
@@ -443,20 +443,20 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   </div>
                 </div>
                 {feedbackGiven && (
-                  <p className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-[#188038]">
+                  <p className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-emerald-600 dark:text-emerald-400">
                     <CheckCircle2 className="size-4" />
                     Thank you for your feedback.
                   </p>
                 )}
               </div>
 
-              <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-[#dadce0] pt-5 text-[12px] text-[#5f6368] dark:border-white/10 dark:text-[#9aa0a6]">
+              <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground">
                 <p>Except as otherwise noted, the content of this page is licensed for CatalystLab developer documentation.</p>
                 <div className="flex gap-4">
-                  <Link to="/blogs" className="inline-flex items-center gap-1 hover:text-[#5E6AD2] dark:hover:text-[#8ab4f8]">
+                  <Link to="/blogs" className="inline-flex items-center gap-1 hover:text-primary">
                     <BookOpen className="size-3.5" /> Blog
                   </Link>
-                  <Link to="/contact" className="inline-flex items-center gap-1 hover:text-[#5E6AD2] dark:hover:text-[#8ab4f8]">
+                  <Link to="/contact" className="inline-flex items-center gap-1 hover:text-primary">
                     <HelpCircle className="size-3.5" /> Support
                   </Link>
                 </div>
@@ -468,10 +468,10 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
       </div>
 
       {cliOpen && (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#dadce0] bg-white shadow-[0_-8px_32px_rgba(32,33,36,0.12)] dark:border-white/10 dark:bg-[#202124] lg:left-[268px]">
-          <div className="flex items-center justify-between border-b border-[#dadce0] px-4 py-2 dark:border-white/10">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card shadow-xl lg:left-[268px]">
+          <div className="flex items-center justify-between border-b border-border px-4 py-2">
             <span className="text-[13px] font-medium">Try it in the CLI</span>
-            <button type="button" onClick={() => setCliOpen(false)} className="flex size-8 items-center justify-center rounded-full hover:bg-[#f1f3f4] dark:hover:bg-white/5" aria-label="Close CLI">
+            <button type="button" onClick={() => setCliOpen(false)} className="flex size-8 items-center justify-center rounded-full hover:bg-accent" aria-label="Close CLI">
               <X className="size-4" />
             </button>
           </div>

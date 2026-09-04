@@ -70,14 +70,14 @@ export const CatalystCarouselRail: React.FC<CatalystCarouselRailProps> = ({
       <div
         aria-hidden="true"
         className={clsx(
-          'absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#060911] to-transparent pointer-events-none z-20 transition-opacity duration-300',
+          'absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent pointer-events-none z-20 transition-opacity duration-300',
           canScrollLeft ? 'opacity-100' : 'opacity-0'
         )}
       />
       <div
         aria-hidden="true"
         className={clsx(
-          'absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#060911] to-transparent pointer-events-none z-20 transition-opacity duration-300',
+          'absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent pointer-events-none z-20 transition-opacity duration-300',
           canScrollRight ? 'opacity-100' : 'opacity-0'
         )}
       />

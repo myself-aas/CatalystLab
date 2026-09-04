@@ -184,8 +184,8 @@ const CollapsibleMenuItem = ({
           onClick={() => setIsExpanded(!isExpanded)}
           className={cn(
             "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-200 border w-full",
-            level > 0 ? "py-2 px-3 border-transparent" : "py-2.5 border-transparent hover:border-border-default hover:bg-white/[0.04]",
-            childActive && level === 0 ? "bg-white/[0.02]" : ""
+            level > 0 ? "py-2 px-3 border-transparent" : "py-2.5 border-transparent hover:border-border hover:bg-muted/40",
+            childActive && level === 0 ? "bg-muted/20" : ""
           )}
           style={{ paddingLeft: level > 0 ? `${Math.max(0.875, level * 1.25 + 0.875)}rem` : undefined }}
           aria-expanded={isExpanded}
@@ -193,20 +193,20 @@ const CollapsibleMenuItem = ({
           <div className="flex items-center gap-3">
             {Icon && (
               <div className={cn(
-                "rounded-lg border flex items-center justify-center transition-colors border-border-default bg-white/[0.03] text-foreground-muted group-hover:text-foreground group-hover:border-accent/30",
+                "rounded-lg border flex items-center justify-center transition-colors border-border bg-muted/30 ds-muted group-hover:text-foreground group-hover:border-accent/30",
                 level === 0 ? "size-8.5" : "size-7"
               )}>
                 <Icon className={level === 0 ? "size-4" : "size-3.5"} />
               </div>
             )}
             <span className={cn(
-              "font-semibold tracking-tight transition-colors text-foreground-muted group-hover:text-foreground",
+              "font-semibold tracking-tight transition-colors ds-muted group-hover:text-foreground",
               level === 0 ? "text-sm sm:text-base" : "text-xs font-medium"
             )}>
               {item.title}
             </span>
           </div>
-          <ChevronDown className={cn("size-4 text-foreground-muted/40 transition-transform duration-200", isExpanded && "rotate-180 text-accent-bright")} />
+          <ChevronDown className={cn("size-4 ds-muted/40 transition-transform duration-200", isExpanded && "rotate-180 text-accent-bright")} />
         </button>
 
         <AnimatePresence>
@@ -241,11 +241,12 @@ const CollapsibleMenuItem = ({
     <Link
       to={item.path || "#"}
       onClick={onClose}
+      aria-label={item.path === '/' ? 'CatalystLab Home' : undefined}
       className={cn(
         "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-200 border w-full",
         isActive
           ? "border-accent/40 bg-accent/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
-          : "border-transparent hover:border-border-default hover:bg-white/[0.04]",
+          : "border-transparent hover:border-border hover:bg-muted/40",
         level > 0 ? "py-2 px-3" : "py-2.5"
       )}
       style={{ paddingLeft: level > 0 ? `${Math.max(0.875, level * 1.25 + 0.875)}rem` : undefined }}
@@ -257,7 +258,7 @@ const CollapsibleMenuItem = ({
             "rounded-lg border flex items-center justify-center transition-colors",
             isActive
               ? "border-accent/40 bg-accent/20 text-accent-bright"
-              : "border-border-default bg-white/[0.03] text-foreground-muted group-hover:text-foreground group-hover:border-accent/30",
+              : "border-border bg-muted/30 ds-muted group-hover:text-foreground group-hover:border-accent/30",
             level === 0 ? "size-8.5" : "size-7"
           )}>
             <Icon className={level === 0 ? "size-4" : "size-3.5"} />
@@ -265,8 +266,8 @@ const CollapsibleMenuItem = ({
         )}
         <span className={cn(
           "font-semibold tracking-tight transition-colors",
-          isActive ? "text-foreground" : "text-foreground-muted group-hover:text-foreground",
-          level === 0 ? "text-sm sm:text-base" : "text-xs font-medium text-foreground-muted hover:text-foreground",
+          isActive ? "text-foreground" : "ds-muted group-hover:text-foreground",
+          level === 0 ? "text-sm sm:text-base" : "text-xs font-medium ds-muted hover:text-foreground",
           level > 0 && isActive && "text-accent-bright font-semibold"
         )}>
           {item.title}
@@ -279,7 +280,7 @@ const CollapsibleMenuItem = ({
             "text-[10px] font-mono px-1.5 py-0.5 rounded border",
             item.badgeColor === 'emerald' ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" :
             item.badgeColor === 'purple' ? "border-purple-500/30 bg-purple-500/10 text-purple-400" :
-            "border-border-default bg-white/[0.04] text-foreground-muted"
+            "border-border bg-muted/40 ds-muted"
           )}>
             {item.badge}
           </span>
@@ -287,7 +288,7 @@ const CollapsibleMenuItem = ({
         {level === 0 && (
           <ChevronRight className={cn(
             "size-4 transition-all",
-            isActive ? "text-accent-bright" : "text-foreground-muted/40 group-hover:text-foreground-muted group-hover:translate-x-1"
+            isActive ? "text-accent-bright" : "ds-muted/40 group-hover:ds-muted group-hover:translate-x-1"
           )} />
         )}
       </div>
@@ -424,7 +425,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             id="main-menu-overlay" 
             ref={overlayRef} 
-            className="relative w-[85vw] max-w-sm sm:max-w-md h-full bg-background border-l border-border-default text-foreground overflow-y-auto shadow-2xl flex flex-col z-10"
+            className="relative w-[85vw] max-w-sm sm:max-w-md h-full bg-background border-l border-border text-foreground overflow-y-auto shadow-2xl flex flex-col z-10"
             role="dialog"
             aria-modal="true"
             aria-label="Main Navigation Menu"
@@ -437,11 +438,11 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           </div>
 
           {/* Top Header Bar inside Drawer */}
-          <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5 shrink-0 border-b border-border-default sticky top-0 bg-background/85 backdrop-blur-xl z-20 shadow-linear-card">
+          <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5 shrink-0 border-b border-border sticky top-0 bg-background/85 backdrop-blur-xl z-20 shadow-linear-card">
             {/* User Profile / Login Link */}
             <div className="flex items-center">
               {user ? (
-                <Link to="/admin" onClick={onClose} className="flex items-center gap-2.5 rounded-lg p-1 hover:bg-white/[0.04] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50">
+                <Link to="/admin" onClick={onClose} className="flex items-center gap-2.5 rounded-lg p-1 hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50">
                   <div className="size-8 rounded-full overflow-hidden bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
                     {user.photoURL ? (
                       <img src={user.photoURL} alt={user.displayName || 'User profile'} className="size-full object-cover" referrerPolicy="no-referrer" />
@@ -451,17 +452,17 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   </div>
                   <div className="flex flex-col text-left max-w-[140px] hidden sm:flex">
                     <span className="text-sm font-semibold text-foreground truncate">{user.displayName || 'Platform User'}</span>
-                    <span className="text-[10px] text-foreground-muted truncate">{user.email}</span>
+                    <span className="text-[10px] ds-muted truncate">{user.email}</span>
                   </div>
                 </Link>
               ) : (
                 <Link 
                   to="/login" 
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-full border border-border-default bg-card/60 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-card-hover hover:border-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50" 
+                  className="flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-card-hover hover:border-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50" 
                 >
-                  <div className="size-5 rounded-full bg-white/[0.08] flex items-center justify-center shrink-0">
-                    <UserPlus className="size-3 text-foreground-muted" />
+                  <div className="size-5 rounded-full bg-muted/80 flex items-center justify-center shrink-0">
+                    <UserPlus className="size-3 ds-muted" />
                   </div>
                   Sign In
                 </Link>
@@ -471,23 +472,23 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             <div className="flex items-center gap-2.5 sm:gap-3">
               {/* Dark Mode Toggle inside hamburger menu drawer */}
               <div 
-                className="flex items-center rounded-full border border-border-default bg-card/80 p-0.5 shadow-2xs"
+                className="flex items-center rounded-full border border-border bg-card/80 p-0.5 shadow-2xs"
                 title="Toggle Dark / Light Mode"
               >
                 <ThemeToggle />
               </div>
 
-              <span className="hidden md:inline-flex items-center gap-1.5 text-xs text-foreground-muted font-mono">
-                PRESS <kbd className="rounded-md border border-border-default bg-white/[0.06] px-1.5 py-0.5 text-foreground font-semibold text-[10px]">ESC</kbd> TO CLOSE
+              <span className="hidden md:inline-flex items-center gap-1.5 text-xs ds-muted font-mono">
+                PRESS <kbd className="rounded-md border border-border bg-muted/60 px-1.5 py-0.5 text-foreground font-semibold text-[10px]">ESC</kbd> TO CLOSE
               </span>
 
               {/* Close Button with high contrast and accessible touch area */}
               <button
                 onClick={onClose}
-                className="group flex size-11 items-center justify-center rounded-full border border-border-default bg-card/90 text-foreground transition-all duration-200 hover:bg-card-hover hover:border-accent/40 active:scale-95 cursor-pointer shadow-linear-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+                className="group flex size-11 items-center justify-center rounded-full border border-border bg-card/90 text-foreground transition-all duration-200 hover:bg-card-hover hover:border-accent/40 active:scale-95 cursor-pointer shadow-linear-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
                 aria-label="Close navigation menu"
               >
-                <X className="size-5 text-foreground-muted group-hover:text-foreground group-hover:rotate-90 transition-all duration-300" />
+                <X className="size-5 ds-muted group-hover:text-foreground group-hover:rotate-90 transition-all duration-300" />
               </button>
             </div>
           </div>
@@ -497,7 +498,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             
             {/* Dedicated High-Contrast Mobile Search Bar inside Drawer */}
             <div className="mb-6 w-full max-w-2xl">
-              <div className="relative flex items-center rounded-2xl border border-border-default bg-card/90 backdrop-blur-xl px-3 py-1.5 shadow-linear-card focus-within:border-accent/60 focus-within:ring-2 focus-within:ring-accent/20 transition-all">
+              <div className="relative flex items-center rounded-2xl border border-border bg-card/90 backdrop-blur-xl px-3 py-1.5 shadow-linear-card focus-within:border-accent/60 focus-within:ring-2 focus-within:ring-accent/20 transition-all">
                 <Search className="size-4 text-accent-bright shrink-0 mr-2.5" />
                 <input
                   ref={searchInputRef}
@@ -505,14 +506,14 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search diagnostic engines and tools..."
-                  className="w-full bg-transparent text-xs sm:text-[13px] text-foreground placeholder:text-foreground-muted/60 focus:outline-none font-mono"
+                  className="w-full bg-transparent text-xs sm:text-[13px] text-foreground placeholder:ds-muted/60 focus:outline-none font-mono"
                   aria-label="Search navigation and engines"
                 />
                 {searchQuery && (
                   <button 
                     type="button"
                     onClick={() => setSearchQuery('')}
-                    className="text-xs font-mono text-foreground-muted hover:text-foreground p-1 rounded-md hover:bg-white/[0.08] transition-colors"
+                    className="text-xs font-mono ds-muted hover:text-foreground p-1 rounded-md hover:bg-muted/80 transition-colors"
                     aria-label="Clear search"
                   >
                     <X className="size-4" />
@@ -522,7 +523,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 
               {/* Quick Preset Filter Chips */}
               <div className="flex items-center gap-1.5 flex-wrap mt-2.5">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-foreground-muted mr-1">
+                <span className="text-[10px] font-mono uppercase tracking-wider ds-muted mr-1">
                   Quick:
                 </span>
                 {PRESET_CHIPS.map((chip) => (
@@ -534,7 +535,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                       'rounded-full px-2.5 py-1 text-[11px] font-mono transition-all cursor-pointer border',
                       (chip === 'All Engines' && !searchQuery) || searchQuery.toLowerCase() === chip.toLowerCase()
                         ? 'border-accent/40 bg-accent/15 text-accent-bright font-semibold'
-                        : 'border-border-default bg-card/60 text-foreground-muted hover:text-foreground hover:border-accent/30 hover:bg-white/[0.04]'
+                        : 'border-border bg-card/60 ds-muted hover:text-foreground hover:border-accent/30 hover:bg-muted/40'
                     )}
                   >
                     {chip}
@@ -545,8 +546,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 
             {/* Live Search Results View (If search query active) */}
             {searchQuery.trim() ? (
-              <div className="mb-8 rounded-2xl border border-border-default bg-card/80 backdrop-blur-xl p-4 sm:p-6 shadow-linear-card">
-                <div className="flex items-center justify-between mb-4 pb-2 border-b border-border-default">
+              <div className="mb-8 rounded-2xl border border-border bg-card/80 backdrop-blur-xl p-4 sm:p-6 shadow-linear-card">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-border">
                   <span className="text-xs font-mono font-semibold uppercase tracking-wider text-foreground flex items-center gap-2">
                     <Search className="size-3.5 text-accent-bright" />
                     <span>Search Results ({searchResults.length})</span>
@@ -569,12 +570,12 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                           key={res.path}
                           to={res.path}
                           onClick={onClose}
-                          className="group flex flex-col justify-between rounded-xl border border-border-default bg-white/[0.02] p-3 transition-all duration-200 hover:border-accent/50 hover:bg-white/[0.06] hover:shadow-2xs"
+                          className="group flex flex-col justify-between rounded-xl border border-border bg-muted/20 p-3 transition-all duration-200 hover:border-accent/50 hover:bg-muted/60 hover:shadow-2xs"
                         >
                           <div>
                             <div className="flex items-center justify-between mb-1.5">
                               <div className="flex items-center gap-2">
-                                <div className="size-7 rounded-lg border border-border-default bg-card/80 flex items-center justify-center text-accent-bright group-hover:scale-105 transition-transform">
+                                <div className="size-7 rounded-lg border border-border bg-card/80 flex items-center justify-center text-accent-bright group-hover:scale-105 transition-transform">
                                   <Icon className="size-3.5" />
                                 </div>
                                 <span className="text-[13px] font-semibold text-foreground tracking-tight group-hover:text-accent-bright transition-colors">
@@ -585,11 +586,11 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                                 {res.category}
                               </span>
                             </div>
-                            <p className="text-xs text-foreground-muted line-clamp-2 leading-relaxed mt-1">
+                            <p className="text-xs ds-muted line-clamp-2 leading-relaxed mt-1">
                               {res.desc}
                             </p>
                           </div>
-                          <div className="mt-2.5 pt-2 border-t border-border-default/50 flex items-center justify-between text-[11px] font-mono text-accent-bright">
+                          <div className="mt-2.5 pt-2 border-t border-border/50 flex items-center justify-between text-[11px] font-mono text-accent-bright">
                             <span>Open Vector</span>
                             <ArrowRight className="size-3 group-hover:translate-x-1 transition-transform" />
                           </div>
@@ -599,9 +600,9 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                   </div>
                 ) : (
                   <div className="py-8 text-center">
-                    <Search className="size-8 text-foreground-muted/40 mx-auto mb-2" />
+                    <Search className="size-8 ds-muted/40 mx-auto mb-2" />
                     <p className="text-sm font-medium text-foreground">No matches found for "{searchQuery}"</p>
-                    <p className="text-xs text-foreground-muted mt-1 font-mono">Try keywords like vitals, security, latency, api, or pricing.</p>
+                    <p className="text-xs ds-muted mt-1 font-mono">Try keywords like vitals, security, latency, api, or pricing.</p>
                   </div>
                 )}
               </div>
@@ -649,7 +650,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             </div>
           </div>
           {/* Bottom Footer Bar inside Overlay */}
-          <div className="relative mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-border-default px-6 py-4 text-xs font-mono text-foreground-muted sm:px-8 gap-3 shrink-0 mt-auto bg-background/60">
+          <div className="relative mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-border px-6 py-4 text-xs font-mono ds-muted sm:px-8 gap-3 shrink-0 mt-auto bg-background/60">
             <div className="flex items-center gap-4 flex-wrap">
               <Link to="/privacy" onClick={onClose} className="hover:text-foreground transition-colors" aria-label="Read privacy policy and GDPR details">Privacy</Link>
               <Link to="/terms" onClick={onClose} className="hover:text-foreground transition-colors" aria-label="Read terms of service agreement">Terms</Link>

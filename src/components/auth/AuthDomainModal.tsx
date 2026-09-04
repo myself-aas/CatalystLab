@@ -88,12 +88,12 @@ export const AuthDomainModal: React.FC = () => {
         {/* Domain Display & Copy Box */}
         <div className="mb-5 rounded-xl border border-border bg-muted p-3.5">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-semibold uppercase tracking-wider text-[10px] text-[#8ea8c3]">Current Host Domain</span>
+            <span className="font-semibold uppercase tracking-wider text-[10px] text-muted-foreground">Current Host Domain</span>
             <span className="font-mono text-[10px] text-amber-300 font-bold">Action Required in Firebase</span>
           </div>
           <div className="flex items-center justify-between gap-2 rounded-lg bg-background border border-border px-3 py-2">
             <div className="flex items-center gap-2 truncate">
-              <Globe className="h-4 w-4 shrink-0 text-[#38bdf8]" />
+              <Globe className="h-4 w-4 shrink-0 text-primary" />
               <span className="font-mono text-xs font-bold text-foreground truncate select-all">
                 {currentHostname}
               </span>
@@ -103,7 +103,7 @@ export const AuthDomainModal: React.FC = () => {
               className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition-all shrink-0 ${
                 copied 
                   ? 'bg-emerald-600 text-primary-foreground' 
-                  : 'bg-[#415a77] text-primary-foreground hover:bg-[#52718e]'
+                  : 'bg-muted-foreground text-primary-foreground hover:bg-muted-foreground/80'
               }`}
               title="Copy hostname to clipboard"
             >
@@ -123,9 +123,9 @@ export const AuthDomainModal: React.FC = () => {
         </div>
 
         {/* Setup Steps */}
-        <div className="mb-5 rounded-xl border border-border bg-[#0d1b2a] p-4 text-xs text-muted-foreground space-y-2.5">
+        <div className="mb-5 rounded-xl border border-border bg-muted p-4 text-xs text-muted-foreground space-y-2.5">
           <div className="font-bold text-foreground flex items-center gap-1.5">
-            <Key className="h-3.5 w-3.5 text-[#38bdf8]" />
+            <Key className="h-3.5 w-3.5 text-primary" />
             <span>How to Authorize This Domain in Firebase Console:</span>
           </div>
           <ol className="list-decimal list-inside space-y-1.5 text-muted-foreground text-[11px] leading-relaxed">
@@ -134,7 +134,7 @@ export const AuthDomainModal: React.FC = () => {
                 href={domainConfig.consoleAuthUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="font-bold text-[#38bdf8] hover:underline inline-flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="font-bold text-primary hover:underline inline-flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Firebase Console Settings <ExternalLink className="h-3 w-3 inline" />
               </a> (Project: <code className="text-foreground">{domainConfig.projectId}</code>).
@@ -146,8 +146,8 @@ export const AuthDomainModal: React.FC = () => {
 
         {import.meta.env.DEV && (
         <div className="mb-5 rounded-xl border border-blue-500/30 bg-blue-950/20 p-4">
-          <div className="flex items-center gap-2 text-xs font-bold text-[#38bdf8] mb-2">
-            <Sparkles className="h-4 w-4 text-[#38bdf8]" />
+          <div className="flex items-center gap-2 text-xs font-bold text-primary mb-2">
+            <Sparkles className="h-4 w-4 text-primary" />
             <span>Preview Sandbox Session (Instant Testing)</span>
           </div>
           <p className="text-[11px] text-muted-foreground mb-3 leading-relaxed">
@@ -157,7 +157,7 @@ export const AuthDomainModal: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={handleSignInAsSuperadmin}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#415a77] px-3.5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#52718e] transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-3.5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-muted-foreground/80 transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
               <span>Sign In as Superadmin</span>
@@ -165,9 +165,9 @@ export const AuthDomainModal: React.FC = () => {
 
             <button
               onClick={handleSignInAsDeveloper}
-              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3.5 py-2.5 text-xs font-bold text-foreground transition-all hover:bg-[#1a2d48] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3.5 py-2.5 text-xs font-bold text-foreground transition-all hover:bg-muted/80 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <UserCheck className="h-4 w-4 text-[#38bdf8]" />
+              <UserCheck className="h-4 w-4 text-primary" />
               <span>Sign In as Developer</span>
             </button>
           </div>
@@ -188,7 +188,7 @@ export const AuthDomainModal: React.FC = () => {
 
           <button
             onClick={handleClose}
-            className="rounded-xl border border-border bg-muted px-4 py-2 text-xs font-bold text-foreground hover:bg-[#0d1b2a] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-xl border border-border bg-muted px-4 py-2 text-xs font-bold text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Continue as Guest
           </button>

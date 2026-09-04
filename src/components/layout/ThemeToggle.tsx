@@ -66,8 +66,8 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
                   className={cn(
                     'flex w-full items-center justify-between gap-2 rounded-xl px-2.5 py-1.5 text-xs font-medium transition-colors cursor-pointer',
                     theme === opt.value
-                      ? 'bg-white/[0.08] text-foreground font-semibold shadow-2xs'
-                      : 'text-foreground-muted hover:bg-white/[0.04] hover:text-foreground'
+                      ? 'bg-muted/80 text-foreground font-semibold shadow-2xs'
+                      : 'text-foreground-muted hover:bg-muted/40 hover:text-foreground'
                   )}
                 >
                   <div className="flex items-center gap-2">

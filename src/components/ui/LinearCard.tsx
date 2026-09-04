@@ -35,19 +35,19 @@ export function LinearCard<T extends React.ElementType = 'div'>({
       ref={ref}
       {...spotlightProps}
       className={cn(
-        'group/card relative overflow-hidden rounded-2xl border border-white/[0.06]',
-        'bg-gradient-to-b from-white/[0.08] to-white/[0.02]',
-        'shadow-linear-card backdrop-blur-xl',
+        'group/card relative overflow-hidden rounded-2xl border border-border dark:border-border',
+        'bg-card text-card-foreground dark:bg-gradient-to-b dark:from-white/[0.08] dark:to-white/[0.02]',
+        'shadow-sm dark:shadow-linear-card backdrop-blur-xl',
         'transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
         lift &&
-          'hover:-translate-y-1 hover:border-white/10 hover:bg-white/[0.07] hover:shadow-linear-card-hover',
+          'hover:-translate-y-1 hover:border-primary/40 dark:hover:border-white/10 hover:shadow-md dark:hover:shadow-linear-card-hover',
         className
       )}
       {...rest}
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"
       />
       {spotlight && (
         <div

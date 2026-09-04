@@ -105,7 +105,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           if (!part) return null;
           if (part.startsWith('"') || part.startsWith("'") || part.startsWith('`')) {
             return (
-              <span key={i} className="text-[#00FF66]">
+              <span key={i} className="text-emerald-400">
                 {part}
               </span>
             );
@@ -116,21 +116,21 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             )
           ) {
             return (
-              <span key={i} className="text-[#00F0FF] font-semibold">
+              <span key={i} className="text-cyan-400 font-semibold">
                 {part}
               </span>
             );
           }
           if (['true', 'false', 'null'].includes(part)) {
             return (
-              <span key={i} className="text-[#FFB800]">
+              <span key={i} className="text-amber-500">
                 {part}
               </span>
             );
           }
           if (/\b\d+\b/.test(part)) {
             return (
-              <span key={i} className="text-[#A855F7]">
+              <span key={i} className="text-purple-500">
                 {part}
               </span>
             );
@@ -145,19 +145,19 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     <div
       ref={containerRef}
       id={blockId}
-      className={`relative rounded-xl border border-border bg-[#070A12] shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden font-mono text-xs sm:text-sm ${className}`}
+      className={`relative rounded-xl border border-border bg-card shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden font-mono text-xs sm:text-sm ${className}`}
     >
       {/* Code Header Bar */}
-      <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#0B101B] border-b border-border/80 select-none">
+      <div className="flex items-center justify-between px-3.5 py-2.5 bg-muted/40 border-b border-border/80 select-none">
         <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
           </div>
 
           <div className="flex items-center gap-1.5 ml-2 text-muted-foreground text-xs font-semibold">
-            <FileCode className="w-3.5 h-3.5 text-[#06B6D4]" />
+            <FileCode className="w-3.5 h-3.5 text-primary" />
             <span className="text-muted-foreground">{filename}</span>
           </div>
 
@@ -174,7 +174,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
               id={`${blockId}-fast-forward`}
               onClick={handleFastForward}
               title="Fast Forward Typing"
-              className="flex items-center gap-1 px-2 py-1 rounded bg-muted hover:bg-muted/80 text-[11px] text-[#06B6D4] transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded bg-muted hover:bg-muted/80 text-[11px] text-primary transition-colors"
             >
               <FastForward className="w-3 h-3" />
               <span className="hidden sm:inline">Skip</span>
@@ -201,8 +201,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-[#10B981]" />
-                <span className="text-[#10B981]">Copied</span>
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="text-emerald-500">Copied</span>
               </>
             ) : (
               <>
@@ -239,7 +239,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
                     <motion.span
                       animate={{ opacity: [1, 0] }}
                       transition={{ repeat: Infinity, duration: 0.8 }}
-                      className="inline-block w-2 h-4 bg-[#00F0FF] align-middle ml-0.5"
+                      className="inline-block w-2 h-4 bg-cyan-400 align-middle ml-0.5"
                     />
                   )}
                 </span>
@@ -250,7 +250,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
       </div>
 
       {/* Subtle Bottom Glow Strip */}
-      <div className="h-0.5 bg-gradient-to-r from-transparent via-[#06B6D4]/40 to-transparent" />
+      <div className="h-0.5 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
     </div>
   );
 };

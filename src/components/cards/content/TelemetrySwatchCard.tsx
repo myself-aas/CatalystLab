@@ -128,7 +128,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
       variant="swatch"
       hue={hue}
       lift={true}
-      className={`p-4 sm:p-5 flex flex-col justify-between border border-border bg-[#0A0F1E] ${className || ''}`}
+      className={`p-4 sm:p-5 flex flex-col justify-between border border-border bg-card ${className || ''}`}
     >
       <div>
         {/* Header: Metric Key & Status Badge */}

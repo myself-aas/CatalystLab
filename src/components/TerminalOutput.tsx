@@ -324,10 +324,10 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   return (
     <motion.div 
       whileHover={{ scale: 1.01, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-      className="flex flex-col rounded-xl border border-border bg-[#090D16] shadow-2xl overflow-hidden transition-all duration-300 group focus-within:ring-1 focus-within:ring-cyan-500/50 relative"
+      className="flex flex-col rounded-xl border border-border bg-card shadow-2xl overflow-hidden transition-all duration-300 group focus-within:ring-1 focus-within:ring-cyan-500/50 relative"
     >
       {/* Terminal Bar Chrome */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/90 bg-[#111726]/95 px-4 py-3 select-none backdrop-blur-md z-20">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/90 bg-muted/80 px-4 py-3 select-none backdrop-blur-md z-20">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80 shadow-sm" />
@@ -496,7 +496,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           aria-live="polite"
           aria-atomic="false"
           aria-label={title}
-          className={`p-4 font-mono text-xs overflow-y-auto bg-[#090D16] selection:bg-cyan-500/30 selection:text-primary-foreground relative z-0 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent ${
+          className={`p-4 font-mono text-xs overflow-y-auto bg-card selection:bg-cyan-500/30 selection:text-primary-foreground relative z-0 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent ${
             expanded ? 'max-h-[640px]' : maxHeight
           }`}
         >
@@ -528,7 +528,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
       </div>
 
       {/* Footer Status Bar */}
-      <div className="flex items-center justify-between px-4 py-1.5 bg-[#111726]/80 border-t border-border/80 text-[10px] font-mono text-muted-foreground z-20 select-none">
+      <div className="flex items-center justify-between px-4 py-1.5 bg-muted/40 border-t border-border/80 text-[10px] font-mono text-muted-foreground z-20 select-none">
         <div className="flex items-center gap-2">
           <span>{filteredLines.length} lines</span>
           {filterQuery && <span className="text-cyan-400">(filtered)</span>}

@@ -74,7 +74,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
 
   const getSecurityGrade = () => {
     const checks = [hasCsp, hasHsts, hasCoop].filter(Boolean).length;
-    if (checks === 3) return { grade: 'A+', color: 'text-[#00FF66]', bg: 'bg-emerald-950/40 border-emerald-500/40' };
+    if (checks === 3) return { grade: 'A+', color: 'text-emerald-400', bg: 'bg-emerald-950/40 border-emerald-500/40' };
     if (checks === 2) return { grade: 'B', color: 'text-amber-400', bg: 'bg-amber-950/40 border-amber-500/40' };
     return { grade: 'F', color: 'text-rose-400', bg: 'bg-rose-950/40 border-rose-500/40' };
   };
@@ -86,19 +86,19 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
   };
 
   return (
-    <div className={`my-6 rounded-2xl border border-border bg-[#080D1A] overflow-hidden shadow-2xl font-mono ${className}`}>
+    <div className={`my-6 rounded-2xl border border-border bg-card overflow-hidden shadow-2xl font-mono ${className}`}>
       {/* Sandbox Header */}
-      <div className="p-3.5 bg-[#0B101D] border-b border-border flex flex-wrap items-center justify-between gap-3">
+      <div className="p-3.5 bg-muted/40 border-b border-border flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#00F0FF] animate-pulse" />
+          <span className="h-2.5 w-2.5 rounded-full bg-cyan-400 animate-pulse" />
           <span className="text-xs font-bold text-primary-foreground flex items-center gap-1.5">
-            <TerminalIcon className="h-3.5 w-3.5 text-[#00F0FF]" />
+            <TerminalIcon className="h-3.5 w-3.5 text-cyan-400" />
             {title || `Interactive Telemetry Sandbox [${activeSandbox.toUpperCase()}]`}
           </span>
         </div>
 
         {/* Engine Switcher */}
-        <div className="flex items-center gap-1 bg-[#060912] p-1 rounded-xl border border-border text-[10px]">
+        <div className="flex items-center gap-1 bg-background p-1 rounded-xl border border-border text-[10px]">
           {(['vitalzyme', 'edgevmax', 'riskprotease', 'ecoholo'] as SandboxType[]).map((st) => (
             <button
               key={st}
@@ -106,7 +106,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
               onClick={() => setActiveSandbox(st)}
               className={`px-2 py-0.5 rounded-md font-bold uppercase transition-all cursor-pointer ${
                 activeSandbox === st
-                  ? 'bg-[#06B6D4] text-foreground shadow-xs'
+                  ? 'bg-primary text-foreground shadow-xs'
                   : 'text-muted-foreground hover:text-primary-foreground'
               }`}
             >
@@ -127,14 +127,14 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
           <div className="space-y-4">
             <div className="flex items-center justify-between text-muted-foreground text-[11px]">
               <span>Simulate Core Web Vitals payload impact:</span>
-              <span className="text-[#00F0FF] font-bold">Composite Score: {getVitalZymeScore()}/100</span>
+              <span className="text-cyan-400 font-bold">Composite Score: {getVitalZymeScore()}/100</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="space-y-1.5 bg-[#060912] p-3 rounded-xl border border-border/80">
+              <div className="space-y-1.5 bg-background p-3 rounded-xl border border-border/80">
                 <div className="flex justify-between font-bold">
                   <span className="text-muted-foreground">LCP</span>
-                  <span className="text-[#00F0FF]">{lcpMs}ms</span>
+                  <span className="text-cyan-400">{lcpMs}ms</span>
                 </div>
                 <input
                   type="range"
@@ -143,15 +143,15 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   step={50}
                   value={lcpMs}
                   onChange={(e) => setLcpMs(Number(e.target.value))}
-                  className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-[#06B6D4]"
+                  className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
                 />
                 <span className="text-[10px] text-muted-foreground block">&lt;1200ms: Optimal</span>
               </div>
 
-              <div className="space-y-1.5 bg-[#060912] p-3 rounded-xl border border-border/80">
+              <div className="space-y-1.5 bg-background p-3 rounded-xl border border-border/80">
                 <div className="flex justify-between font-bold">
                   <span className="text-muted-foreground">CLS</span>
-                  <span className="text-[#00FF66]">{clsVal}</span>
+                  <span className="text-emerald-400">{clsVal}</span>
                 </div>
                 <input
                   type="range"
@@ -160,12 +160,12 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   step={0.01}
                   value={clsVal}
                   onChange={(e) => setClsVal(Number(e.target.value))}
-                  className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-[#00FF66]"
+                  className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-emerald-400"
                 />
                 <span className="text-[10px] text-muted-foreground block">&lt;0.05: Zero shift</span>
               </div>
 
-              <div className="space-y-1.5 bg-[#060912] p-3 rounded-xl border border-border/80">
+              <div className="space-y-1.5 bg-background p-3 rounded-xl border border-border/80">
                 <div className="flex justify-between font-bold">
                   <span className="text-muted-foreground">INP</span>
                   <span className="text-purple-400">{inpMs}ms</span>
@@ -190,7 +190,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
           <div className="space-y-4">
             <div className="flex items-center justify-between text-muted-foreground text-[11px]">
               <span>Edge Anycast TLS 1.3 &amp; HTTP/3 TTFB Simulator:</span>
-              <span className="text-[#00F0FF] font-bold">Measured TTFB: {getEdgeLatency()}ms</span>
+              <span className="text-cyan-400 font-bold">Measured TTFB: {getEdgeLatency()}ms</span>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -201,8 +201,8 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   onClick={() => setSelectedPoP(pop)}
                   className={`px-3 py-1.5 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
                     selectedPoP === pop
-                      ? 'bg-[#06B6D4]/20 border-[#06B6D4] text-[#00F0FF] font-bold'
-                      : 'bg-[#060912] border-border text-muted-foreground hover:text-primary-foreground'
+                      ? 'bg-primary/20 border-primary text-cyan-400 font-bold'
+                      : 'bg-background border-border text-muted-foreground hover:text-primary-foreground'
                   }`}
                 >
                   PoP: {pop}
@@ -216,7 +216,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   type="checkbox"
                   checked={enableHttp3}
                   onChange={(e) => setEnableHttp3(e.target.checked)}
-                  className="rounded border-border bg-primary text-[#06B6D4] focus:ring-0"
+                  className="rounded border-border bg-primary text-primary focus:ring-0"
                 />
                 <span>Enable HTTP/3 (QUIC 0-RTT Connection Resumption)</span>
               </label>
@@ -240,32 +240,32 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-[#060912] border border-border text-muted-foreground cursor-pointer">
+              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-background border border-border text-muted-foreground cursor-pointer">
                 <input
                   type="checkbox"
                   checked={hasCsp}
                   onChange={(e) => setHasCsp(e.target.checked)}
-                  className="rounded text-[#06B6D4]"
+                  className="rounded text-primary"
                 />
                 <span>Strict CSP Nonces</span>
               </label>
 
-              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-[#060912] border border-border text-muted-foreground cursor-pointer">
+              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-background border border-border text-muted-foreground cursor-pointer">
                 <input
                   type="checkbox"
                   checked={hasHsts}
                   onChange={(e) => setHasHsts(e.target.checked)}
-                  className="rounded text-[#06B6D4]"
+                  className="rounded text-primary"
                 />
                 <span>HSTS Preload (2y)</span>
               </label>
 
-              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-[#060912] border border-border text-muted-foreground cursor-pointer">
+              <label className="flex items-center gap-2 p-2.5 rounded-xl bg-background border border-border text-muted-foreground cursor-pointer">
                 <input
                   type="checkbox"
                   checked={hasCoop}
                   onChange={(e) => setHasCoop(e.target.checked)}
-                  className="rounded text-[#06B6D4]"
+                  className="rounded text-primary"
                 />
                 <span>COOP / COEP Isolation</span>
               </label>

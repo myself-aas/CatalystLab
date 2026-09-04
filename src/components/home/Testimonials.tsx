@@ -36,12 +36,12 @@ const QUOTES = [
 
 export const Testimonials: React.FC = () => {
   return (
-    <section className="relative overflow-hidden border-t border-white/[0.06] py-16 md:py-24 lg:py-32">
+    <section className="relative overflow-hidden border-t border-border py-16 md:py-24 lg:py-32">
       <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 md:px-8">
         <SectionHeader
           eyebrow={
             <>
-              <MessageSquare className="size-3.5 text-[#5E6AD2]" />
+              <MessageSquare className="size-3.5 text-primary" />
               <span>Field validation</span>
             </>
           }
@@ -59,10 +59,10 @@ export const Testimonials: React.FC = () => {
             >
               <LinearCard className="flex min-h-[280px] flex-col justify-between p-8">
                 <Quote className="absolute right-6 top-6 size-10 text-white/5" />
-                <p className="relative text-sm leading-relaxed text-[#8A8F98] sm:text-base">
+                <p className="relative text-sm leading-relaxed text-muted-foreground sm:text-base">
                   &ldquo;{quote.body}&rdquo;
                 </p>
-                <div className="relative mt-8 flex items-center gap-3.5 border-t border-white/[0.06] pt-5">
+                <div className="relative mt-8 flex items-center gap-3.5 border-t border-border pt-5">
                   <div
                     className="flex size-10 shrink-0 items-center justify-center rounded-xl border font-mono text-sm font-bold"
                     style={{
@@ -74,8 +74,8 @@ export const Testimonials: React.FC = () => {
                     {quote.initial}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold tracking-tight text-[#EDEDEF]">{quote.author}</p>
-                    <p className="mt-0.5 font-mono text-xs text-[#8A8F98]">
+                    <p className="text-sm font-semibold tracking-tight text-foreground">{quote.author}</p>
+                    <p className="mt-0.5 font-mono text-xs text-muted-foreground">
                       {quote.role}, {quote.company}
                     </p>
                   </div>

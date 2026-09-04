@@ -74,11 +74,11 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         role="alert"
         className={
           isRoot
-            ? 'min-h-screen flex items-center justify-center bg-[#060912] text-foreground p-6'
+            ? 'min-h-screen flex items-center justify-center bg-background text-foreground p-6'
             : 'min-h-[60vh] flex items-center justify-center p-6'
         }
       >
-        <div className="max-w-lg w-full rounded-2xl border border-border/60 bg-[#0B101D] p-8 text-center shadow-2xl">
+        <div className="max-w-lg w-full rounded-2xl border border-border/60 bg-muted/40 p-8 text-center shadow-2xl">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10 text-amber-400">
             <AlertTriangle className="h-6 w-6" aria-hidden="true" />
           </div>

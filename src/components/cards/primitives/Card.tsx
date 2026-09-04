@@ -24,13 +24,13 @@ export const cardVariants = cva(
     variants: {
       variant: {
         immersive:
-          'bg-gradient-to-b from-white/[0.07] to-white/[0.02] text-foreground rounded-2xl border border-white/[0.06] shadow-linear-card backdrop-blur-xl hover:border-white/10 hover:bg-white/[0.08] hover:shadow-linear-card-hover',
+          'bg-gradient-to-b from-white/[0.07] to-white/[0.02] text-foreground rounded-2xl border border-border shadow-linear-card backdrop-blur-xl hover:border-white/10 hover:bg-muted/80 hover:shadow-linear-card-hover',
         surface:
-          'bg-white/[0.04] text-foreground rounded-2xl border border-white/[0.06] shadow-sm p-3.5 sm:p-4 hover:border-white/10 hover:bg-white/[0.07] hover:shadow-linear-card-hover',
+          'bg-muted/40 text-foreground rounded-2xl border border-border shadow-sm p-3.5 sm:p-4 hover:border-white/10 hover:bg-white/[0.07] hover:shadow-linear-card-hover',
         terminal:
-          'bg-[#0a0a0c]/90 text-foreground rounded-2xl border border-white/[0.08] scanline-overlay font-mono shadow-linear-card backdrop-blur-xl p-5 sm:p-6 hover:border-accent/40 hover:shadow-linear-card-hover',
+          'bg-card/90 text-foreground rounded-2xl border border-white/[0.08] scanline-overlay font-mono shadow-linear-card backdrop-blur-xl p-5 sm:p-6 hover:border-accent/40 hover:shadow-linear-card-hover',
         swatch:
-          'bg-white/[0.05] text-foreground rounded-2xl border border-white/[0.06] p-4 font-mono shadow-sm hover:border-white/10 hover:bg-white/[0.08]',
+          'bg-muted/50 text-foreground rounded-2xl border border-border p-4 font-mono shadow-sm hover:border-white/10 hover:bg-muted/80',
       },
       hue: {
         vitalzyme: 'card-hue-vitalzyme',
