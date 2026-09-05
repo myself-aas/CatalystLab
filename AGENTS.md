@@ -172,3 +172,27 @@ If sources conflict, prefer: **repository conventions > security constraints > p
 - For UI changes, include responsiveness and accessibility validation as first-class checks.
 - For dependency or platform changes, include updates/upgrades validation and fallback planning.
 - Always finish with review + audit + improvements recommendations, even when the implemented change is small.
+
+## 11. Godmode Skill Source Registry (Public Repos + Web)
+
+Use this registry to load external skill sources relevant to the current lifecycle phase before composing final output. Treat these as **source packs** that must be reconciled with local repository constraints.
+
+| Phase | Skill Source Packs |
+|---|---|
+| Planning | `papers-we-love/papers-we-love`, `oborchers/fractional-cto`, `andrewyng/openworker`, `multica-ai/andrej-karpathy-skills`, `rohitg00/ai-engineering-from-scratch`, `shauryr/S2QA`, `github/awesome-copilot` |
+| Designing | `googlemaps/agent-skills`, `google-gemini/gemini-skills`, `google-labs-code/stitch-skills`, `marin-community/marin`, `nextlevelbuilder/ui-ux-pro-max-skill`, `ibelick/ui-skills`, `enaqx/awesome-react` |
+| Development | `reactjs/react.dev`, `remotion-dev/remotion`, `ionic-team/capacitor`, `material-components/material-components-android`, `android/skills`, `callstackincubator/agent-skills`, `anthropics/skills`, `markdown-viewer/skills`, `Leonxlnx/taste-skill`, `obra/superpowers` |
+| Responsiveness | `reactjs/react.dev`, `enaqx/awesome-react`, `nextlevelbuilder/ui-ux-pro-max-skill`, `ibelick/ui-skills`, `material-components/material-components-android`, `remotion-dev/remotion`, `pbakaus/impeccable` |
+| Security | `swisskyrepo/PayloadsAllTheThings`, `trimstray/the-book-of-secret-knowledge`, `asgeirtj/system_prompts_leaks`, `x1xhlol/system-prompts-and-models-of-ai-tools`, `thedotmack/claude-mem`, `Robotti-io/copilot-security-instructions`, `DietrichGebert/ponytail` |
+| Updates & Upgrades | `vinta/awesome-python`, `awesome-selfhosted/awesome-selfhosted`, `kvcache-ai/AgentENV`, `bytedance/deer-flow`, `getpaseo/paseo`, `Kong/insomnia`, `plausible/analytics` |
+| Review | `github/awesome-copilot`, `SebastienDegodez/copilot-instructions`, `alirezarezvani/claude-skills`, `vipulgupta2048/awesome-documentation`, `MunGell/awesome-for-beginners` |
+| Audit | `swisskyrepo/PayloadsAllTheThings`, `trimstray/the-book-of-secret-knowledge`, `plausible/analytics`, `Kong/insomnia`, `neutree-ai/openapi-to-skills`, `shauryr/S2QA` |
+| Improvements | `github/awesome-copilot`, `SebastienDegodez/copilot-instructions`, `google-gemini/gemini-skills`, `callstackincubator/agent-skills`, `alirezarezvani/claude-skills`, `vipulgupta2048/awesome-documentation` |
+
+## 12. Godmode Integration Protocol
+
+- Start every non-trivial task with at least one source from the phase currently being executed.
+- Expand to adjacent phases when risk crosses boundaries (for example, design affecting security or upgrades affecting auditability).
+- For conflicting recommendations, resolve in this order: **CatalystLab local conventions > security constraints > platform standards > external source pack guidance**.
+- Do not copy external repo patterns blindly; adapt to CatalystLab’s `ds-*`, `framer-*`, SSRF/payment safety rules, and existing architecture docs.
+- For any externally inspired change, include phase tags in reasoning (`[Planning]`, `[Security]`, etc.) and conclude with explicit review + audit + improvements checkpoints.
