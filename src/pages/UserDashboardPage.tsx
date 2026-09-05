@@ -343,15 +343,15 @@ export const UserDashboardPage: React.FC = () => {
  className="p-3.5 rounded-xl bg-[#0F0F0F] border border-white/5 hover:border-white/20 transition-all cursor-pointer group"
  >
  <div className="flex items-center justify-between text-xs font-mono mb-1.5">
- <span className="text-white font-medium truncate max-w-[160px]">{report.targetDomain}</span>
+ <span className="text-white font-medium truncate max-w-[160px]">{extractDomainFromUrl(report.url)}</span>
  <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
- (report.overallScore ?? 0) >= 90 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
+ (report.score ?? 0) >= 90 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
  }`}>
- {report.overallScore ?? 85}/100
+ {report.score ?? 85}/100
  </span>
  </div>
  <div className="text-[11px] text-[#666666] flex items-center justify-between font-mono">
- <span>{report.engineId ? report.engineId.toUpperCase() : 'MASTER AUDIT'}</span>
+ <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
  <span>{new Date(report.createdAt).toLocaleDateString()}</span>
  </div>
  </div>

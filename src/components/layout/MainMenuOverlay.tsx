@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useRoleSecurity } from '../../context/RoleSecurityContext';
+import { AppPermission } from '../../utils/rolePermissions';
 import { BrandLogo } from '../common/BrandLogo';
 import { ThemeToggle } from './ThemeToggle';
 import { cn } from '../../lib/utils';
@@ -51,7 +52,7 @@ export interface NavItem {
   badge?: string;
   badgeColor?: string;
   children?: NavItem[];
-  permission?: string;
+  permission?: AppPermission;
 }
 
 export const useMainMenuData = (user: any): NavItem[] => {
@@ -172,7 +173,7 @@ const CollapsibleMenuItem = ({
   level?: number, 
   currentPath: string, 
   onClose: () => void,
-  hasPermission: (p: string) => boolean,
+  hasPermission: (permission: AppPermission) => boolean,
   expandedId: string | null,
   onToggle: (id: string) => void,
   index?: number

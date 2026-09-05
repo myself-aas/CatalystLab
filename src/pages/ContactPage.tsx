@@ -18,7 +18,7 @@ import { submitContactInquiry } from '../lib/firebase';
 import { logger } from '../lib/logger';
 import { GlobalFaqSection } from '../components/common/GlobalFaqSection';
 import { MASTER_FAQ_CATEGORIES } from '../data/faqData';
-import type { FaqCategory } from '../types';
+import type { FaqCategory } from '../components/common/GlobalFaqSection';
 
 export const ContactPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);

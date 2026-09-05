@@ -222,9 +222,11 @@ export interface ContactInquiry {
   message?: string;
   source?: string;
   company?: string;
+  department?: string;
   status?: 'new' | 'contacted' | 'resolved' | 'archived';
   createdAt: number;
   ownerId?: string;
+  metadata?: Record<string, string | number | boolean>;
 }
 
 export type SubscriptionPlanId = 'free' | 'starter' | 'pro' | 'team' | 'enterprise';

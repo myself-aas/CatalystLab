@@ -76,18 +76,12 @@ const handleTelemetryEvent = (req: Request, res: Response): void => {
     return;
   }
 
-  // 2. Local Zero-Cost Geo-IP Resolution (Behind Cloudflare/Vercel proxy headers)
-  const rawIp = (
-    process.env.TRUST_PROXY === 'true'
-      ? (
-          (req.headers['cf-connecting-ip'] as string) ||
-          (req.headers['x-forwarded-for'] as string) ||
-          (req.headers['x-real-ip'] as string) ||
-          req.socket.remoteAddress ||
-          ''
-        )
-      : (req.socket.remoteAddress || '')
-  ).split(',')[0].trim();
+  // 2. Local Zero-Cost Geo-IP Resolution (Behind Cloudflare/Vercel proxy headers).
+  // Express `req.ip` is derived from `trust proxy` when TRUST_PROXY=true and
+  // otherwise falls back to the direct socket address. We never manually trust
+  // client-supplied X-Forwarded-For / X-Real-IP headers, which would allow
+  // spoofed visitor hashing and geo attribution.
+  const rawIp = String(req.ip || req.socket.remoteAddress || '').split(',')[0].trim();
 
   const geo = geoip.lookup(rawIp);
   const country = geo ? geo.country : 'Unknown';

@@ -98,12 +98,12 @@ service cloud.firestore {
         && data.createdAt is number;
     }
 
-    // Clients may start a free plan or a time-boxed trial. Paid "active"
-    // entitlements are server/admin writes only (prevents self-upgrade).
+    // Clients may only manage the free plan directly. Every paid entitlement
+    // (including time-boxed trials) is provisioned by the trusted server /
+    // admind SDK endpoint and is never a client-write path.
     function isClientSafeSubscription(data) {
       return isValidUserSubscription(data) && (
-        data.planId == 'free' ||
-        (data.status == 'trialing' && data.planId == 'starter')
+        data.planId == 'free' && data.status == 'active'
       );
     }
 

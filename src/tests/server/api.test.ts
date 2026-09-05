@@ -287,6 +287,18 @@ describe('Account surface', () => {
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
   });
+
+  it('fails closed when an unauthenticated trial is requested', async () => {
+    const res = await request(app).post('/api/v1/users/me/trial').send({ planId: 'pro' });
+    expect(res.status).toBe(401);
+    expect(res.body.success).toBe(false);
+  });
+
+  it('fails closed when an unauthenticated subscription change is requested', async () => {
+    const res = await request(app).post('/api/v1/users/me/subscription/request').send({ planId: 'pro' });
+    expect(res.status).toBe(401);
+    expect(res.body.success).toBe(false);
+  });
 });
 
 describe('Notifications surface', () => {

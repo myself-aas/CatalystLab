@@ -1,5 +1,7 @@
 # Reaudit — CatalystLab (`arena/01a06478-catalystlab`)
 
+> **Superseded (2026-09-05):** see [`PRODUCTION_READINESS_AUDIT.md`](./PRODUCTION_READINESS_AUDIT.md) for the current findings and the fixes applied in this pass (hard gates are now green; trial/entitlement provisioning is server-side; legacy `app/`/`api/` and root `fix_*` scripts are archived).
+
 **Verdict: Request Changes**
 
 The previous Critical/Major/Low pass landed most of the intended controls (`tsc` clean, 175/175 tests). This reaudit checks those fixes on disk and looks for leftover holes. Original C1–C6 are largely closed; **two Critical items remain** (one is an incomplete C4, one is a new ACL bypass against the Pro-only blog constraint). Dual `app/`+`src/` merge is still deferred.

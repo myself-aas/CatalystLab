@@ -377,12 +377,18 @@ app.post('/api/v1/integrations/github/repos', (req: Request, res: Response) => {
 app.delete('/api/v1/integrations/github/repos/:id', (req: Request, res: Response) => {
   if (!requireIdentity(req, res)) return;
   const { id } = req.params;
-  if (serverConnectedRepos.has(id)) {
-    serverConnectedRepos.delete(id);
-    res.json({ success: true, message: `Repository '${id}' disconnected successfully.` });
-  } else {
+  const repo = serverConnectedRepos.get(id);
+  if (!repo) {
     res.status(404).json({ success: false, error: 'Repository not found.' });
+    return;
   }
+  const uid = getAttachedIdentity(req)?.uid;
+  if (uid && repo.ownerId && repo.ownerId !== uid) {
+    res.status(403).json({ success: false, error: 'Not the repository owner.' });
+    return;
+  }
+  serverConnectedRepos.delete(id);
+  res.json({ success: true, message: `Repository '${id}' disconnected successfully.` });
 });
 
 // Simulate / Test GitHub Commit or PR Webhook Trigger

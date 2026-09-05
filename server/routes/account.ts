@@ -9,9 +9,15 @@ import {
 } from '../core/rateLimit';
 import crypto from 'crypto';
 import { requireIdentity } from '../core/authz';
+import { logger } from '../core/logger';
+import { getAttachedIdentity, getAdminFirestore } from '../../src/lib/serverAuth';
 
 // Account surface: current user, quota introspection, API key management,
-// workflow automation evaluation, and the integrations catalog.
+// entitlement/trial provisioning, workflow automation evaluation, and the
+// integrations catalog.
+
+const TRIAL_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
+const TRIAL_PLAN_IDS = new Set(['starter', 'pro', 'team', 'enterprise']);
 
 export function registerAccountRoutes(app: import('express').Express): void {
 
@@ -66,6 +72,108 @@ app.get('/api/v1/users/me/quota', (req: Request, res: Response) => {
     resetInSeconds,
     formattedResetTime
   });
+});
+
+// Server-provisioned 7-day trial. A trial is the ONLY way a client gets a
+// paid-tier entitlement without a signed gateway webhook. Admin writes bypass
+// Firestore client rules so paid `trialing` documents cannot be self-created.
+app.post('/api/v1/users/me/trial', async (req: Request, res: Response): Promise<void> => {
+  if (!requireIdentity(req, res)) return;
+  const identity = getAttachedIdentity(req);
+  if (!identity?.uid) {
+    res.status(401).json({ success: false, error: 'Authentication required.' });
+    return;
+  }
+
+  const planId = typeof req.body?.planId === 'string' ? req.body.planId : 'starter';
+  if (!TRIAL_PLAN_IDS.has(planId)) {
+    res.status(400).json({ success: false, error: `planId must be one of: ${Array.from(TRIAL_PLAN_IDS).join(', ')}.` });
+    return;
+  }
+
+  const db = await getAdminFirestore();
+  if (!db) {
+    res.status(503).json({ success: false, error: 'Subscription provisioning is not configured on this deployment.' });
+    return;
+  }
+
+  try {
+    const ref = db.collection('user_subscriptions').doc(identity.uid);
+    const existing = await ref.get();
+    if (existing.exists) {
+      const current = existing.data() || {};
+      const isAlreadyEntitled =
+        current.ownerId === identity.uid &&
+        (current.status === 'active' || current.status === 'trialing') &&
+        current.planId !== 'free';
+      if (isAlreadyEntitled) {
+        res.status(409).json({ success: false, error: 'An active subscription or trial already exists for this account.' });
+        return;
+      }
+      const alreadyUsedTrial = Boolean(current.trialStartedAt) && current.planId !== 'free';
+      if (alreadyUsedTrial) {
+        res.status(409).json({ success: false, error: 'A 7-day trial has already been used for this account.' });
+        return;
+      }
+    }
+
+    const now = Date.now();
+    const subscription = {
+      ownerId: identity.uid,
+      ownerEmail: identity.email || '',
+      planId,
+      status: 'trialing',
+      billingCycle: req.body?.billingCycle === 'annual' ? 'annual' : 'monthly',
+      trialStartedAt: now,
+      trialEndsAt: now + TRIAL_DURATION_MS,
+      createdAt: existing.exists ? (existing.data()?.createdAt || now) : now,
+      updatedAt: now
+    };
+    await ref.set(subscription, { merge: false });
+
+    res.status(201).json({ success: true, subscription });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Trial provisioning failed.';
+    logger.error({ err, uid: identity.uid }, '[Trial] Provisioning failed');
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// Accept a client's paid downgrade/cancellation request. Paid ACTIVE upgrades
+// are never granted from the client; they must arrive from a verified payment
+// webhook. This endpoint only allows reverting to `free`.
+app.post('/api/v1/users/me/subscription/request', async (req: Request, res: Response): Promise<void> => {
+  if (!requireIdentity(req, res)) return;
+  const identity = getAttachedIdentity(req);
+  if (!identity?.uid) {
+    res.status(401).json({ success: false, error: 'Authentication required.' });
+    return;
+  }
+  const planId = req.body?.planId;
+  if (planId !== 'free') {
+    res.status(501).json({
+      success: false,
+      error: 'Paid plan changes require a verified payment webhook. Only downgrade to free is supported without gateway integration.'
+    });
+    return;
+  }
+  const db = await getAdminFirestore();
+  if (!db) {
+    res.status(503).json({ success: false, error: 'Subscription provisioning is not configured on this deployment.' });
+    return;
+  }
+  const now = Date.now();
+  await db.collection('user_subscriptions').doc(identity.uid).set({
+    ownerId: identity.uid,
+    ownerEmail: identity.email || '',
+    planId: 'free',
+    status: 'active',
+    billingCycle: 'monthly',
+    trialStartedAt: null,
+    trialEndsAt: null,
+    updatedAt: now
+  }, { merge: true });
+  res.json({ success: true, subscription: { ownerId: identity.uid, planId: 'free', status: 'active' } });
 });
 
 app.get('/api/v1/users/me/api-keys', (req: Request, res: Response) => {

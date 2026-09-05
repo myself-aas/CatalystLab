@@ -245,6 +245,14 @@ export function getAttachedIdentity(req: Request): VerifiedIdentity | null {
   return (req as Request & { verifiedIdentity?: VerifiedIdentity }).verifiedIdentity ?? null;
 }
 
+/**
+ * Admin-only Firestore handle used by server routes to provision entitlements.
+ * Returns ``null`` when Firebase Admin is not configured (callers fail closed).
+ */
+export async function getAdminFirestore(): Promise<import('firebase-admin/firestore').Firestore | null> {
+  return getFirestore();
+}
+
 /** Test hook: reset cached verifier/Firestore handles between unit tests. */
 export function resetVerifierCache(): void {
   cachedVerifier = undefined;

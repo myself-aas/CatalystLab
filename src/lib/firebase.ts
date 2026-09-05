@@ -1363,17 +1363,29 @@ export const submitContactInquiry = async (data: {
   message?: string;
   source?: string;
   company?: string;
+  department?: string;
+  metadata?: Record<string, string | number | boolean>;
 }): Promise<string> => {
   const path = "contact_inquiries";
   const currentUser = auth.currentUser;
   const inquiryId = `inq_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
   
+  const metadata = data.metadata && typeof data.metadata === 'object'
+    ? Object.fromEntries(
+        Object.entries(data.metadata)
+          .filter(([, v]) => ['string', 'number', 'boolean'].includes(typeof v))
+          .map(([k, v]) => [String(k).substring(0, 40), typeof v === 'string' ? String(v).substring(0, 500) : v])
+      )
+    : undefined;
+
   const payload: Omit<ContactInquiry, 'id'> = {
     email: String(data.email || '').trim().toLowerCase().substring(0, 256),
     ...(data.name?.trim() ? { name: String(data.name).trim().substring(0, 150) } : {}),
     ...(data.message?.trim() ? { message: String(data.message).trim().substring(0, 2000) } : {}),
     source: String(data.source || 'get-in-touch-popup').substring(0, 100),
     ...(data.company?.trim() ? { company: String(data.company).trim().substring(0, 200) } : {}),
+    ...(data.department?.trim() ? { department: String(data.department).trim().substring(0, 40) } : {}),
+    ...(metadata && Object.keys(metadata).length > 0 ? { metadata } : {}),
     status: 'new',
     createdAt: Date.now(),
     ownerId: currentUser?.uid || 'guest'
@@ -1461,32 +1473,50 @@ export const getUserSubscription = async (userId: string): Promise<UserSubscript
 export const startUserTrial = async (
   userId: string,
   userEmail: string,
-  planId: SubscriptionPlanId = 'pro'
+  planId: SubscriptionPlanId = 'starter'
 ): Promise<UserSubscription> => {
   const path = `user_subscriptions/${userId}`;
-  const now = Date.now();
-  const trialDurationMs = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
-  const trialEndsAt = now + trialDurationMs;
+  // Free is never a trial; a client-requested "free" trial maps to the only
+  // client-safe paid trial product (Starter). Paid tier trials are provisioned
+  // by the server endpoint so Firestore client rules stay authoritative.
+  const chosenPlan = planId === 'free' ? 'starter' : planId;
+
+  let token = '';
+  if (auth.currentUser) {
+    token = await auth.currentUser.getIdToken();
+  } else if (auth.currentUser == null) {
+    // Keep the production API failure mode explicit instead of silently
+    // granting an entitlement on an unauthenticated request.
+    throw new Error('Sign in is required to start a trial.');
+  }
+
+  const res = await fetch('/api/v1/users/me/trial', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    },
+    body: JSON.stringify({ planId: chosenPlan })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const error = data?.error || 'Trial activation failed. Please try again.';
+    handleFirestoreError(error, OperationType.WRITE, path);
+    throw new Error(error);
+  }
 
   const subscription: UserSubscription = {
     id: userId,
     ownerId: userId,
     ownerEmail: userEmail,
-    planId: planId === 'free' ? 'pro' : planId,
+    planId: data.subscription?.planId || chosenPlan,
     status: 'trialing',
-    billingCycle: 'monthly',
-    trialStartedAt: now,
-    trialEndsAt,
-    createdAt: now,
-    updatedAt: now
+    billingCycle: data.subscription?.billingCycle || 'monthly',
+    trialStartedAt: data.subscription?.trialStartedAt || Date.now(),
+    trialEndsAt: data.subscription?.trialEndsAt || (Date.now() + 7 * 24 * 60 * 60 * 1000),
+    createdAt: data.subscription?.createdAt || Date.now(),
+    updatedAt: data.subscription?.updatedAt || Date.now()
   };
-
-  try {
-    const docRef = doc(db, 'user_subscriptions', userId);
-    await setDoc(docRef, subscription, { merge: true });
-  } catch (err) {
-    handleFirestoreError(err, OperationType.WRITE, path);
-  }
 
   saveLocalSubscription(subscription);
   return subscription;
@@ -1499,30 +1529,44 @@ export const changeUserSubscription = async (
   billingCycle: 'monthly' | 'annual' = 'monthly'
 ): Promise<UserSubscription> => {
   const path = `user_subscriptions/${userId}`;
+  // Paid `active` entitlements must never be written by the browser. The
+  // server accepts only the free downgrade path (cancel trial / cancel plan);
+  // paid upgrades are provisioned exclusively from signed payment webhooks.
+  let token = '';
+  if (auth.currentUser) {
+    token = await auth.currentUser.getIdToken();
+  } else {
+    throw new Error('Sign in is required to change your subscription.');
+  }
+
+  const res = await fetch('/api/v1/users/me/subscription/request', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    },
+    body: JSON.stringify({ planId, billingCycle })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const error = data?.error || 'Subscription change failed. Please try again.';
+    handleFirestoreError(error, OperationType.WRITE, path);
+    throw new Error(error);
+  }
+
   const now = Date.now();
-
-  const current = getLocalSubscription(userId);
-  const isTrial = current?.status === 'trialing' && current?.trialEndsAt && current.trialEndsAt > now;
-
   const subscription: UserSubscription = {
     id: userId,
     ownerId: userId,
     ownerEmail: userEmail,
-    planId,
-    status: planId === 'free' ? 'active' : (isTrial ? 'trialing' : 'active'),
+    planId: 'free',
+    status: 'active',
     billingCycle,
-    trialStartedAt: current?.trialStartedAt || null,
-    trialEndsAt: current?.trialEndsAt || null,
-    createdAt: current?.createdAt || now,
+    trialStartedAt: null,
+    trialEndsAt: null,
+    createdAt: now,
     updatedAt: now
   };
-
-  try {
-    const docRef = doc(db, 'user_subscriptions', userId);
-    await setDoc(docRef, subscription, { merge: true });
-  } catch (err) {
-    handleFirestoreError(err, OperationType.WRITE, path);
-  }
 
   saveLocalSubscription(subscription);
   return subscription;

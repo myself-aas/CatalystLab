@@ -2,7 +2,9 @@
 
 Website-quality intelligence platform: a Vite 6 + React 18 SPA with an integrated Express 4 server that runs website-audit **engines** against user-supplied URLs, metered by a tiered rate limiter, with Firebase auth/Firestore on the client, MongoDB analytics, and fail-closed payment-gateway integrations.
 
-> Review remediation status: **Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ✅** — see [`CODE_REVIEW.md`](./CODE_REVIEW.md) for the full audit and roadmap.
+> Review remediation status: **Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ✅** — see [`CODE_REVIEW.md`](./CODE_REVIEW.md) for the historical audit, and [`PRODUCTION_READINESS_AUDIT.md`](./PRODUCTION_READINESS_AUDIT.md) for the current full audit, findings, and phased plan.
+
+> **Current state (2026-09-05):** all four mandatory local gates are green — `npx tsc --noEmit` (0 errors), `npm run lint` (0 problems), `npm test` (177 passed), `npm run build` (succeeds, vendor bundle budget still needs Phase 3 splitting).
 
 ## Quickstart
 
@@ -21,12 +23,14 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 | --- | --- |
 | `npm run dev` | tsx server.ts (Express + Vite middleware, HMR off for proxy compatibility) |
 | `npm run build` | Production bundle to `dist/` |
-| `npm test` | Vitest suite (168 tests: UI + server route suite) |
+| `npm test` | Vitest suite (177 tests: UI + server route suite) |
 | `npm run test:coverage` | Same suite with v8 coverage, thresholds gated on `server/**` |
+| `npm run typecheck` | `tsc --noEmit` (hard gate, must stay clean) |
 | `npm run lint` | ESLint (0 warnings tolerated) |
 | `npm run check:bundle` | Enforce JS bundle-size budgets after `npm run build` |
+| `npm run ci` | Run the full local gate: lint → typecheck → test → build → bundle budget |
 
-CI (`.github/workflows/ci.yml`) runs lint, `tsc --noEmit` (**hard gate** — the tree compiles clean under `strict: true`), the test suite, and the production build.
+CI currently only runs media verification (`.github/workflows/media-verify.yml`). The local full gate is `npm run ci`. Add the CI job from [`PRODUCTION_READINESS_AUDIT.md`](./PRODUCTION_READINESS_AUDIT.md) Phase 1 before shipping so lint, `tsc --noEmit` (**hard gate** — the tree must compile clean under `strict: true`), the 177-test suite, the production build, and the bundle budget all run on every PR.
 
 ## Environment variables
 
@@ -62,6 +66,7 @@ src/                      React SPA (279 files) — pages, components, stores, e
 ## Security model (summary)
 
 - **Identity**: tiers are derived server-side from verified Firebase ID tokens (`firebase-admin`); client headers (`x-user-email`, `subscription-plan`, …) are never trusted. Superadmin requires a signed custom claim.
+- **Entitlements**: paid plans and trials are provisioned by the server (`POST /api/v1/users/me/trial`) or signed payment webhooks — never by the browser. Firestore rules permit only `free/active` client writes, and client cached state can never upgrade the displayed entitlement on a failed server write.
 - **Payments**: fail closed. `/api/payments/verify` never grants entitlements; webhooks require HMAC-SHA256 over the raw body; missing gateway credentials → `503`.
 - **Webhooks**: GitHub deliveries verify `x-hub-signature-256` over the raw body; unknown `repoId`s are rejected, never auto-provisioned. Repo secrets are never echoed back to clients.
 - **SSRF**: every engine request goes through the guard — scheme allowlist, private/loophead range blocking, DNS resolution pinned to the validated address (anti-rebinding), response-size caps, TLS verification on.
@@ -76,7 +81,7 @@ src/                      React SPA (279 files) — pages, components, stores, e
 ## Testing
 
 ```bash
-npm test                 # 168 tests — UI (jsdom) + server routes (node + supertest)
+npm test                 # 177 tests — UI (jsdom) + server routes (node + supertest)
 npm run test:coverage    # coverage gate: server/** ≥70% lines/statements/functions
 ```
 

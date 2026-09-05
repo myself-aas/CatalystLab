@@ -5,7 +5,6 @@ import { SearchButton } from './SearchButton';
 import { Sidebar } from './Sidebar';
 import { NavGroup } from '../../../types/design-system';
 import { Menu, X, Moon, Sun, Monitor } from 'lucide-react';
-import { useTheme } from '../../layout/ThemeToggle'; // Adjust path if needed
 
 const GithubIcon = () => (
   <svg 
