@@ -84,7 +84,7 @@ export const SevenDayTrialSection: React.FC = () => {
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-1" />
             </div>
 
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-[1.15]">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] text-foreground tracking-tight leading-[1.15]">
               Audit, monitor, <br className="hidden sm:inline" />
               &amp; scale your stack
             </h2>

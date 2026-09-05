@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Terminal, Copy, Check, Play, FastForward, RotateCcw, FileCode, CheckCircle2 } from 'lucide-react';
+import { Terminal, Play, FastForward, RotateCcw, FileCode, CheckCircle2 } from 'lucide-react';
+import { CopyButton } from './CopyButton';
 
 export interface CodeBlockProps {
   code: string;
@@ -192,25 +193,13 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             </button>
           )}
 
-          <button
-            type="button"
+          <CopyButton
+            text={code}
             id={`${blockId}-copy`}
-            onClick={handleCopy}
             title="Copy Code to Clipboard"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-muted hover:bg-muted/80 text-xs text-muted-foreground transition-colors"
-          >
-            {copied ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="text-emerald-500">Copied</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5 text-muted-foreground" />
-                <span className="hidden sm:inline">Copy</span>
-              </>
-            )}
-          </button>
+            label="Copy"
+            copiedLabel="Copied"
+          />
         </div>
       </div>
 

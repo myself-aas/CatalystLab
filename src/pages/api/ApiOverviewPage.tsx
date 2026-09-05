@@ -168,7 +168,7 @@ export const ApiOverviewPage: React.FC = () => {
  </div>
 
  {/* Code Snippet Box */}
- <div className="relative rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto shadow-inner border border-border">
+ <div className="relative rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x shadow-inner border border-border">
  <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
  <span className="text-[11px] text-muted-foreground uppercase font-bold">
  POST /api/run-engine ({selectedLanguage.toUpperCase()})

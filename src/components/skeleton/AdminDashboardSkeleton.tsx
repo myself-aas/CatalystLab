@@ -33,7 +33,7 @@ export const AdminDashboardSkeleton: React.FC = () => {
           </div>
 
           {/* Tab Navigation Pill Row */}
-          <div className="flex items-center gap-2 pt-6 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-2 pt-6 overflow-x-auto scrollbar-none touch-pan-x no-scrollbar">
             <Skeleton variant="pill" className="h-9 w-36" />
             <Skeleton variant="pill" className="h-9 w-32" />
             <Skeleton variant="pill" className="h-9 w-36" />

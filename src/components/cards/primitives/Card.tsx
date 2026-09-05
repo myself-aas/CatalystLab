@@ -19,18 +19,18 @@ import { CardMedia } from './CardMedia';
 import { useSpotlight } from '../hooks/useSpotlight';
 
 export const cardVariants = cva(
-  'group relative overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] border text-left',
+  'group relative overflow-hidden transition-[transform,border-color,background-color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] border text-left',
   {
     variants: {
       variant: {
         immersive:
-          'bg-gradient-to-b from-white/[0.07] to-white/[0.02] text-foreground rounded-2xl border border-border shadow-linear-card backdrop-blur-xl hover:border-white/10 hover:bg-muted/80 hover:shadow-linear-card-hover',
+          'bg-gradient-to-b from-white/[0.07] to-white/[0.02] text-foreground rounded-2xl border border-border shadow-linear-card backdrop-blur-xl hover:border-white/25 hover:bg-muted/80 hover:shadow-linear-card-hover',
         surface:
-          'bg-muted/40 text-foreground rounded-2xl border border-border shadow-sm p-3.5 sm:p-4 hover:border-white/10 hover:bg-white/[0.07] hover:shadow-linear-card-hover',
+          'bg-muted/40 text-foreground rounded-2xl border border-border shadow-sm p-3.5 sm:p-4 hover:border-white/25 hover:bg-white/[0.07] hover:shadow-linear-card-hover',
         terminal:
-          'bg-card/90 text-foreground rounded-2xl border border-white/[0.08] scanline-overlay font-mono shadow-linear-card backdrop-blur-xl p-5 sm:p-6 hover:border-accent/40 hover:shadow-linear-card-hover',
+          'bg-card/90 text-foreground rounded-2xl border border-white/[0.08] scanline-overlay font-mono shadow-linear-card backdrop-blur-xl p-5 sm:p-6 hover:border-white/25 hover:shadow-linear-card-hover',
         swatch:
-          'bg-muted/50 text-foreground rounded-2xl border border-border p-4 font-mono shadow-sm hover:border-white/10 hover:bg-muted/80',
+          'bg-muted/50 text-foreground rounded-2xl border border-border p-4 font-mono shadow-sm hover:border-white/25 hover:bg-muted/80',
       },
       hue: {
         vitalzyme: 'card-hue-vitalzyme',
@@ -44,7 +44,7 @@ export const cardVariants = cva(
         neutral: 'card-hue-neutral',
       },
       lift: {
-        true: 'hover:-translate-y-1 hover:shadow-linear-card-hover',
+        true: 'hover:-translate-y-[2px] hover:border-white/25 hover:shadow-linear-card-hover',
         false: '',
       },
       active: {
@@ -131,7 +131,7 @@ export const CardRoot: React.FC<CardProps> = ({
         {enableSpotlight && (
           <div
             className={clsx(
-              'absolute inset-0 card-spotlight-overlay opacity-0 transition-opacity duration-500 z-10',
+              'pointer-events-none absolute inset-0 card-spotlight-overlay opacity-0 transition-opacity duration-300 z-10',
               isHovered && 'opacity-100'
             )}
           />

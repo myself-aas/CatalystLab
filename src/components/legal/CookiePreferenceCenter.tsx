@@ -224,7 +224,7 @@ export const CookiePreferenceCenter: React.FC = () => {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto scrollbar-none touch-pan-x">
             <table className="w-full text-left text-xs border-collapse font-mono">
               <thead>
                 <tr className="border-b border-border bg-muted text-foreground font-bold">

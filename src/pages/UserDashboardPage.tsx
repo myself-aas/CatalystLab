@@ -22,6 +22,7 @@ import {
  Grid, 
  List, 
  ShieldCheck, 
+ ShieldAlert,
  Activity, 
  Globe, 
  Calendar,
@@ -44,6 +45,8 @@ import { UserDomainMonitoringRadar } from '../components/user/UserDomainMonitori
 import { UserAnalyticsDashboard } from '../components/user/UserAnalyticsDashboard';
 import { UserApiKeyManagementView } from '../components/user/UserApiKeyManagementView';
 import { UserGithubWebhookView } from '../components/user/UserGithubWebhookView';
+import { DashboardShell } from '../components/dashboard/DashboardShell';
+import { FramerDossierCockpit } from '../components/dashboard/FramerDossierCockpit';
 import { SEOHead } from '../components/common/SEOHead';
 import { useLocation, useParams } from 'react-router-dom';
 import { GitBranch } from 'lucide-react';
@@ -57,20 +60,26 @@ export const UserDashboardPage: React.FC = () => {
  const location = useLocation();
  const { tab } = useParams<{ tab: string }>();
 
- const getActiveView = (): 'analytics' | 'audits' | 'rate-limits' | 'api-keys' | 'monitoring' | 'blogs' | 'webhooks' => {
- if (tab && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs', 'webhooks', 'github'].includes(tab)) {
- return (tab === 'github' ? 'webhooks' : tab) as any;
+ const getActiveView = (): string => {
+ if (tab) {
+   if (tab === 'github') return 'patches';
+   if (tab === 'webhooks') return 'patches';
+   return tab;
  }
- if (location.pathname.endsWith('/webhooks') || location.pathname.endsWith('/github')) return 'webhooks';
+ if (location.pathname.endsWith('/webhooks') || location.pathname.endsWith('/github')) return 'patches';
  if (location.pathname.endsWith('/audits')) return 'audits';
  if (location.pathname.endsWith('/rate-limits')) return 'rate-limits';
  if (location.pathname.endsWith('/api-keys')) return 'api-keys';
  if (location.pathname.endsWith('/monitoring')) return 'monitoring';
  if (location.pathname.endsWith('/blogs')) return 'blogs';
+ if (location.pathname.endsWith('/security')) return 'security';
+ if (location.pathname.endsWith('/engines')) return 'engines';
+ if (location.pathname.endsWith('/patches')) return 'patches';
  const params = new URLSearchParams(location.search);
  const tabParam = params.get('tab');
- if (tabParam && ['analytics', 'audits', 'rate-limits', 'api-keys', 'monitoring', 'blogs', 'webhooks', 'github'].includes(tabParam)) {
- return (tabParam === 'github' ? 'webhooks' : tabParam) as any;
+ if (tabParam) {
+   if (tabParam === 'github' || tabParam === 'webhooks') return 'patches';
+   return tabParam;
  }
  return 'analytics';
  };
@@ -89,6 +98,16 @@ export const UserDashboardPage: React.FC = () => {
  const [quickViewReport, setQuickViewReport] = useState<AuditReport | null>(null);
 
  const [rateStatus, setRateStatus] = useState<RateLimitStatus>(() => getRateLimitStatus(user, isAdmin));
+ const [targetDomain, setTargetDomain] = useState<string>('acme.corp');
+ const [isScanning, setIsScanning] = useState<boolean>(false);
+
+ const handleRefreshScan = () => {
+   setIsScanning(true);
+   setTimeout(() => {
+     setIsScanning(false);
+     fetchReports();
+   }, 1200);
+ };
 
  const fetchReports = async () => {
  if (!user) {
@@ -219,376 +238,162 @@ export const UserDashboardPage: React.FC = () => {
 
  if (!user) {
  return (
- <div className="min-h-[80vh] flex items-center justify-center py-16 bg-background text-foreground">
- <div className="ds-card p-8 text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-accent text-amber-600 mb-4 border border-border">
- <LogIn className="h-6 w-6"/>
+ <div className="min-h-screen flex items-center justify-center py-20 px-4 bg-[#000000] text-white relative overflow-hidden font-sans">
+ <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(0,102,255,0.12),transparent_70%)] pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
+
+ <div className="w-full max-w-md p-8 bg-[#0B0B0B] border border-white/12 rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#141414] border border-white/15 text-[#00D2FF] mb-5 shadow-inner">
+ <LogIn className="h-5 w-5" />
  </div>
- <h2 className="text-xl font-extrabold text-foreground">Developer Access Required</h2>
- <p className="mt-2 text-xs ds-muted leading-relaxed">
- Sign in to access your persistent audit dossiers, real-time rate limit allocations, domain uptime monitoring, and technical research articles.
+ <h2 className="text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-white">Developer Access Required</h2>
+ <p className="mt-2 text-xs sm:text-[13px] text-[#999999] leading-relaxed">
+ Sign in to access real-time telemetry dossiers, autonomous patch branches, domain uptime monitoring, and API tokens.
  </p>
- 
- <div className="mt-6 space-y-2.5 font-mono">
+
+ <div className="mt-6 space-y-3 font-mono text-xs">
  <Link
  to="/login?redirect=/dashboard"
- className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-sm transition-all cursor-pointer"
+ className="flex w-full items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-black font-semibold hover:bg-neutral-200 transition-all shadow-[0_0_18px_rgba(255,255,255,0.25)] cursor-pointer"
  >
- <LogIn className="h-4 w-4"/>
+ <LogIn className="h-3.5 w-3.5" />
  <span>Sign In with Email or Google</span>
  </Link>
 
  <Link
  to="/signup?redirect=/dashboard"
- className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-accent px-5 py-2.5 text-xs font-bold text-foreground hover:bg-muted transition-all cursor-pointer"
+ className="flex w-full items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#141414] border border-white/10 text-white font-medium hover:border-white/25 hover:bg-[#1A1A1A] transition-all cursor-pointer"
  >
  <span>Create Free Developer Account &rarr;</span>
  </Link>
  </div>
 
- {import.meta.env.DEV && (
- <div className="mt-5 flex flex-col items-center justify-center gap-2 border-t border-border pt-4 font-mono sm:flex-row">
+ <div className="mt-6 pt-5 border-t border-white/10 flex flex-col items-center justify-center gap-2 font-mono sm:flex-row">
  <button
  onClick={() => loginWithLocalSession({
  email: 'developer@catalystlab.io',
  displayName: 'CatalystLab Developer',
  isAdmin: false
  })}
- className="ds-card w-full items-center gap-1.5 text-xs font-bold text-amber-300 ds-card-interactive p-4"
+ className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs hover:bg-emerald-500/20 transition-all cursor-pointer"
  >
- <Sparkles className="h-3.5 w-3.5"/>
+ <Sparkles className="h-3.5 w-3.5" />
  <span>Preview Developer Session</span>
  </button>
-
- <button
- onClick={() => setShowDomainModal(true)}
- className="ds-card w-full items-center gap-1 text-xs font-medium ds-muted ds-card-interactive p-4"
- >
- <span>Domain Helper</span>
- </button>
  </div>
- )}
  </div>
  </div>
  );
  }
 
  return (
- <div className="min-h-screen bg-transparent pb-24 text-foreground">
+ <DashboardShell
+ activeView={activeTab}
+ onViewChange={(view) => {
+ navigate(`/dashboard?tab=${view}`);
+ }}
+ targetDomain={targetDomain}
+ onTargetDomainChange={setTargetDomain}
+ onRefreshScan={handleRefreshScan}
+ isScanning={isScanning}
+ >
  <SEOHead
  title="Developer Telemetry Dashboard & Audits — CatalystLab"
  description="View real-time audit dossiers, rate limit allocations, domain uptime monitoring, and API keys."
  canonicalUrl="https://www.catalystlab.tech/dashboard"
  />
- 
- {/* Top Header Section */}
- <section className="border-b border-border bg-muted ds-section">
- <div className="ds-page-shell">
- <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
- 
- {/* User Greeting & Status */}
- <div className="flex items-center gap-4">
- {user.photoURL ? (
- <img 
- src={user.photoURL} 
- alt={user.displayName || 'User Avatar'} 
- 
- className="h-12 w-12 rounded-xl border border-border object-cover shadow-sm"
+
+ <div className="space-y-6">
+ {/* TAB 0: ANALYTICS & 8 ENGINES COCKPIT */}
+ {(activeTab === 'analytics' || activeTab === 'engines') && (
+ <div className="space-y-8">
+ <FramerDossierCockpit
+ targetDomain={targetDomain}
+ onRefreshScan={handleRefreshScan}
+ isScanning={isScanning}
  />
+
+ {/* Quick Recent Dossiers Vault Strip */}
+ <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-5 shadow-xl">
+ <div className="flex items-center justify-between mb-4">
+ <div className="flex items-center gap-2 font-mono">
+ <span className="text-xs uppercase tracking-wider text-[#666666]">Telemetry Dossiers</span>
+ <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white">
+ {reports.length} Recorded
+ </span>
+ </div>
+ <button
+ onClick={() => navigate('/dashboard?tab=audits')}
+ className="text-xs font-mono text-[#00D2FF] hover:underline cursor-pointer"
+ >
+ Open Full Audit Vault &rarr;
+ </button>
+ </div>
+
+ {reports.length === 0 ? (
+ <div className="p-8 text-center border border-dashed border-white/10 rounded-xl text-xs text-[#666666] font-mono">
+ No telemetry audits recorded yet. Run a domain inspection above or click "Run Audit" to record your first dossier.
+ </div>
  ) : (
- <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-base shadow-sm">
- {userName.charAt(0).toUpperCase()}
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+ {reports.slice(0, 6).map((report) => (
+ <div
+ key={report.id}
+ onClick={() => setQuickViewReport(report)}
+ className="p-3.5 rounded-xl bg-[#0F0F0F] border border-white/5 hover:border-white/20 transition-all cursor-pointer group"
+ >
+ <div className="flex items-center justify-between text-xs font-mono mb-1.5">
+ <span className="text-white font-medium truncate max-w-[160px]">{report.targetDomain}</span>
+ <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
+ (report.overallScore ?? 0) >= 90 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
+ }`}>
+ {report.overallScore ?? 85}/100
+ </span>
+ </div>
+ <div className="text-[11px] text-[#666666] flex items-center justify-between font-mono">
+ <span>{report.engineId ? report.engineId.toUpperCase() : 'MASTER AUDIT'}</span>
+ <span>{new Date(report.createdAt).toLocaleDateString()}</span>
+ </div>
+ </div>
+ ))}
+ </div>
+ )}
+ </div>
  </div>
  )}
 
- <div>
- <div className="flex flex-wrap items-center gap-2">
- <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-foreground">
- {getGreeting()}, {userName}!
- </h1>
- <span className={`rounded-md border py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider ${roleConfig.badgeBg} ${roleConfig.badgeText} ${roleConfig.badgeBorder}`}>
- {roleConfig.displayName}
- </span>
+ {/* TAB: AUTOMATED PR PATCHES */}
+ {activeTab === 'patches' && (
+ <div className="space-y-6">
+ <div className="p-5 rounded-2xl bg-[#0A0A0A] border border-white/10 font-mono">
+ <div className="flex items-center gap-2 text-xs text-[#00D2FF] mb-1">
+ <GitBranch className="size-3.5" />
+ <span>GHLyase · Autonomous Patch Deployment Pipeline</span>
  </div>
- <div className="flex flex-wrap items-center gap-2.5 mt-1 text-xs ds-muted font-mono">
- <span>{user.email}</span>
- <span>•</span>
- <span className="flex items-center gap-1.5 text-emerald-600 font-bold">
- <span className="relative flex h-2 w-2">
- <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 px-4 py-2"></span>
- <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 px-4 py-2"></span>
- </span>
- 8 SDLC Engines Operational
- </span>
- </div>
- </div>
- </div>
-
- {/* Quick Header Actions */}
- <div className="flex flex-wrap items-center gap-2.5 font-mono">
- <Link
- to="/master-audit"
- className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-sm"
- >
- <Sparkles className="h-3.5 w-3.5 text-amber-500"/>
- <span>Run Master Audit</span>
- </Link>
- <Link
- to="/api-docs"
- className="ds-card flex items-center gap-1.5 text-xs font-bold ds-muted ds-card-interactive p-4"
- >
- <FileText className="h-3.5 w-3.5 ds-muted"/>
- <span>API Reference</span>
- </Link>
- </div>
-
- </div>
- </div>
- </section>
-
- {/* 4-Bento KPI Metrics Row */}
- <section className="ds-page-shell mt-7">
- <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
- 
- {/* Card 1: Daily Resource Allocation */}
- <Link 
- to="/dashboard/rate-limits"
- className="ds-card group p-4 flex flex-col ds-card-interactive"
- >
- <div className="flex items-center justify-between">
- <span className="ds-eyebrow flex items-center gap-1.5">
- <Cpu className="h-3.5 w-3.5"/>
- Compute Quota
- </span>
- <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200 font-bold">
- {rateStatus.formattedResetTime}
- </span>
- </div>
-
- <div className="my-2.5">
- <div className="text-2xl font-black text-foreground">
- {rateStatus.isUnlimited ? 'Unlimited' : `${rateStatus.remaining} / ${rateStatus.limit}`}
- <span className="text-xs font-normal ds-muted ml-1">Units</span>
- </div>
- <p className="text-[11px] ds-muted mt-0.5">
- {rateStatus.isUnlimited 
- ? 'Zero throttling applied' 
- : `${rateStatus.masterRemaining} Master or ${rateStatus.singleRemaining} Single audits`}
+ <h2 className="text-base font-semibold text-white font-sans">Automated GitHub Pull Request Patches</h2>
+ <p className="text-xs text-[#888888] font-sans mt-1 max-w-xl">
+ When CatalystLab engines detect Core Web Vitals degradation, render-blocking scripts, or OWASP transport gaps, GHLyase automatically compiles AST patches and dispatches verified PRs directly to your GitHub repository.
  </p>
  </div>
-
- <div className="flex items-center justify-between pt-2.5 border-t border-border text-xs font-bold ds-muted group-hover:text-foreground">
- <span>Inspect Allocations</span>
- <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1"/>
+ <UserGithubWebhookView />
  </div>
- </Link>
+ )}
 
- {/* Card 2: Saved Dossiers */}
- <Link 
- to="/dashboard/audits"
- className="ds-card group p-4 flex flex-col ds-card-interactive"
- >
- <div className="flex items-center justify-between">
- <span className="ds-eyebrow flex items-center gap-1.5">
- <FileText className="h-3.5 w-3.5"/>
- Saved Reports
- </span>
- <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
- <CheckCircle2 className="h-3 w-3"/>
- Synced
- </span>
+ {/* TAB: SECURITY */}
+ {activeTab === 'security' && (
+ <div className="space-y-6">
+ <div className="p-5 rounded-2xl bg-[#0A0A0A] border border-white/10 font-mono">
+ <div className="flex items-center gap-2 text-xs text-amber-400 mb-1">
+ <ShieldAlert className="size-3.5" />
+ <span>RiskProtease · OWASP Transport Security Vault</span>
  </div>
-
- <div className="my-2.5">
- <div className="text-2xl font-black text-foreground">
- {totalAudits}
- <span className="text-xs font-normal ds-muted ml-1">Dossiers</span>
- </div>
- <p className="text-[11px] ds-muted mt-0.5">
- Permanent Firestore telemetry records with PDF export
+ <h2 className="text-base font-semibold text-white font-sans">Security Alerts &amp; Compliance Logs</h2>
+ <p className="text-xs text-[#888888] font-sans mt-1 max-w-xl">
+ Continuous inspection of TLS 1.3 cipher negotiation, Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), and Permissions-Policy headers.
  </p>
  </div>
-
- <div className="flex items-center justify-between pt-2.5 border-t border-border text-xs font-bold ds-muted group-hover:text-foreground">
- <span>View All Reports</span>
- <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1"/>
+ <FramerDossierCockpit targetDomain={targetDomain} />
  </div>
- </Link>
-
- {/* Card 3: Average Benchmark Score */}
- <Link 
- to="/dashboard"
- className="ds-card group p-4 flex flex-col ds-card-interactive"
- >
- <div className="flex items-center justify-between">
- <span className="ds-eyebrow flex items-center gap-1.5">
- <Activity className="h-3.5 w-3.5"/>
- System Health
- </span>
- <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded border ${
- avgScore >= 90 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
- }`}>
- Grade {avgScore >= 90 ? 'A+' : 'A'}
- </span>
- </div>
-
- <div className="my-2.5">
- <div className="text-2xl font-black text-foreground">
- {avgScore}
- <span className="text-xs font-normal ds-muted ml-1">/ 100</span>
- </div>
- <p className="text-[11px] ds-muted mt-0.5">
- Composite benchmark across all audited domains
- </p>
- </div>
-
- <div className="pt-2.5 border-t border-border flex items-center justify-between text-xs font-bold ds-muted group-hover:text-foreground">
- <span>View Full Analytics</span>
- <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1"/>
- </div>
- </Link>
-
- {/* Card 4: Monitored Endpoints */}
- <Link 
- to="/dashboard/monitoring"
- className="ds-card group p-4 flex flex-col ds-card-interactive"
- >
- <div className="flex items-center justify-between">
- <span className="ds-eyebrow flex items-center gap-1.5">
- <Globe className="h-3.5 w-3.5"/>
- Monitored Hosts
- </span>
- <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
- <ShieldCheck className="h-3 w-3"/>
- 100% SSL
- </span>
- </div>
-
- <div className="my-2.5">
- <div className="text-2xl font-black text-foreground">
- {uniqueDomains}
- <span className="text-xs font-normal ds-muted ml-1">Domains</span>
- </div>
- <p className="text-[11px] ds-muted mt-0.5">
- Real-time TTFB radar &amp; certificate expiry alerts
- </p>
- </div>
-
- <div className="flex items-center justify-between pt-2.5 border-t border-border text-xs font-bold ds-muted group-hover:text-foreground">
- <span>Open Monitoring Radar</span>
- <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1"/>
- </div>
- </Link>
-
- </div>
- </section>
-
- {/* Main Navigation Links with Dedicated URLs */}
- <section className="ds-page-shell mt-7 font-mono">
- <div className="flex flex-wrap items-center gap-2 border-b border-border pb-3">
- 
- <Link
- to="/dashboard"
- className={`flex items-center gap-2 rounded-lg py-1.5 text-xs font-bold transition-all ${
- activeTab === 'analytics'
- ? 'bg-primary text-primary-foreground shadow-sm border border-border'
- : 'bg-background ds-muted hover:text-foreground hover:bg-muted border border-border'
- }`}
- >
- <Activity className="h-3.5 w-3.5 text-emerald-500"/>
- <span>Real-Time Analytics</span>
- </Link>
-
- <Link
- to="/dashboard/audits"
- className={`flex items-center gap-2 rounded-lg py-1.5 text-xs font-bold transition-all ${
- activeTab === 'audits'
- ? 'bg-primary text-primary-foreground shadow-sm border border-border'
- : 'bg-background ds-muted hover:text-foreground hover:bg-muted border border-border'
- }`}
- >
- <FileText className="h-3.5 w-3.5 text-amber-500"/>
- <span>Audit Reports &amp; Dossiers</span>
- <span className={`ml-1 rounded px-2.5 py-0.5 text-[10px] ${
- activeTab === 'audits' ? 'bg-muted text-primary-foreground' : 'bg-accent ds-muted'
- }`}>
- {reports.length}
- </span>
- </Link>
-
- <Link
- to="/dashboard/rate-limits"
- className={`flex items-center gap-2 rounded-lg py-1.5 text-xs font-bold transition-all ${
- activeTab === 'rate-limits'
- ? 'bg-primary text-primary-foreground shadow-sm border border-border'
- : 'bg-background ds-muted hover:text-foreground hover:bg-muted border border-border'
- }`}
- >
- <Cpu className="h-3.5 w-3.5 text-amber-500"/>
- <span>Rate Limits</span>
- </Link>
-
- <Link
- to="/dashboard/api-keys"
- className={`flex items-center gap-2 rounded-lg py-1.5 text-xs font-bold transition-all ${
- activeTab === 'api-keys'
- ? 'bg-primary text-primary-foreground shadow-sm border border-border'
- : 'bg-background ds-muted hover:text-foreground hover:bg-muted border border-border'
- }`}
- >
- <Key className="h-3.5 w-3.5 text-amber-500"/>
- <span>API Keys &amp; Tokens</span>
- </Link>
-
- <Link
- to="/dashboard/monitoring"
- className={`flex items-center gap-2 rounded-lg py-1.5 text-xs font-bold transition-all ${
- activeTab === 'monitoring'
- ? 'bg-primary text-primary-foreground shadow-sm border border-border'
- : 'bg-background ds-muted hover:text-foreground hover:bg-muted border border-border'
- }`}
- >
- <Activity className="h-3.5 w-3.5 text-amber-500"/>
- <span>Domain Health Radar</span>
- </Link>
-
- <Link
- to="/dashboard/webhooks"
- className={`flex items-center gap-2 rounded-lg py-1.5 text-xs font-bold transition-all ${
- activeTab === 'webhooks'
- ? 'bg-primary text-primary-foreground shadow-sm border border-border'
- : 'bg-background ds-muted hover:text-foreground hover:bg-muted border border-border'
- }`}
- >
- <GitBranch className="h-3.5 w-3.5 text-blue-500"/>
- <span>GitHub Webhooks</span>
- <span className="relative flex h-2 w-2 ml-0.5">
- <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 px-4 py-2"></span>
- <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 px-4 py-2"></span>
- </span>
- </Link>
-
- <Link
- to="/dashboard/blogs"
- className={`flex items-center gap-2 rounded-lg py-1.5 text-xs font-bold transition-all ${
- activeTab === 'blogs'
- ? 'bg-primary text-primary-foreground shadow-sm border border-border'
- : 'bg-background ds-muted hover:text-foreground hover:bg-muted border border-border'
- }`}
- >
- <BookOpen className="h-3.5 w-3.5 text-amber-500"/>
- <span>My Technical Articles</span>
- </Link>
-
- </div>
- </section>
-
- {/* Tab Contents */}
- <section className="ds-page-shell mt-5">
- 
- {/* TAB 0: ANALYTICS */}
- {activeTab === 'analytics' && (
- <UserAnalyticsDashboard reports={reports} />
  )}
 
  {/* TAB 1: AUDIT REPORTS & DOSSIERS */}
@@ -928,9 +733,8 @@ export const UserDashboardPage: React.FC = () => {
  <UserGithubWebhookView />
  )}
 
- </section>
-
  </div>
+ </DashboardShell>
  );
 };
 

@@ -54,7 +54,7 @@ export const LazyReveal: React.FC<LazyRevealProps> = ({
       transition={{
         duration,
         delay,
-        ease: [0.22, 1, 0.36, 1], // Natural custom smooth cubic-bezier
+        ease: [0.16, 1, 0.3, 1], // Framer spring curve
       }}
       className={className}
       {...rest}
@@ -136,7 +136,7 @@ export const LazyStaggerItem: React.FC<{
           scale: 1,
           transition: {
             duration: 0.4,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.16, 1, 0.3, 1],
           },
         },
       }}
@@ -158,7 +158,7 @@ export const PageTransition: React.FC<{
       exit={{ opacity: 0, y: -6 }}
       transition={{
         duration: 0.28,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.16, 1, 0.3, 1],
       }}
       className={className}
     >
@@ -190,9 +190,8 @@ export const LazyCard: React.FC<
         whileHover={
           hoverEffect
             ? {
-                y: -4,
-                scale: 1.006,
-                transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
+                y: -2,
+                transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
               }
             : undefined
         }

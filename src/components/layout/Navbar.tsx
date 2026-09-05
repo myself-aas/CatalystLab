@@ -1,404 +1,465 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'motion/react';
-import {
-  ChevronDown,
-  ShieldCheck,
-  CreditCard,
-  Radio,
+import { AnimatePresence, motion } from 'motion/react';
+import { 
+  Menu, 
+  X, 
+  ChevronDown, 
+  Activity, 
+  ShieldCheck, 
+  Cpu, 
+  Code2, 
+  Globe, 
+  Leaf, 
+  Search, 
   GitBranch,
-  BookOpen,
-  Code2,
-  Terminal,
-  FileText,
-  Scale,
-  Compass,
-  LayoutDashboard,
-  Menu,
-  Activity,
-  Cpu,
-  Leaf,
-  Sparkles,
-  Layers,
-  Search,
-  Globe
+  ArrowRight
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import { useRoleSecurity } from '../../context/RoleSecurityContext';
-import { MainMenuOverlay } from './MainMenuOverlay';
-import { NavbarSearch } from './NavbarSearch';
 import { BrandLogo } from '../common/BrandLogo';
-import { ThemeToggle } from './ThemeToggle';
-import { cn } from '../../lib/utils';
 
-type MenuKey = 'products' | 'resources' | null;
-
-interface MegaMenuItem {
-  label: string;
-  description: string;
-  to: string;
-  badge?: string;
-  icon: React.ComponentType<{ className?: string }>;
+interface EngineItem {
+  id: string;
+  name: string;
+  tagline: string;
+  tag: string;
+  tagColor: string;
+  path: string;
+  icon: React.ElementType;
 }
 
-interface MegaMenuConfig {
-  columns: {
-    title: string;
-    items: MegaMenuItem[];
-  }[];
-  featured?: {
-    title: string;
-    description: string;
-    to: string;
-    image?: string;
-    actionLabel: string;
-  };
-}
-
-const getMenuItems = (user: any): Record<'products' | 'resources', MegaMenuConfig> => ({
-  products: {
-    columns: [
-      {
-        title: 'Diagnostic Engines (Matrix)',
-        items: [
-          { label: 'VitalZyme Engine', description: 'DOM & TTFB Analysis', to: '/health', icon: Activity, badge: 'Vitals' },
-          { label: 'LLM-Kinase Engine', description: 'llms.txt Readiness', to: '/ai-readiness', icon: Cpu, badge: 'AI' },
-          { label: 'RiskProtease Engine', description: 'OWASP Security Scanner', to: '/compliance', icon: ShieldCheck, badge: 'OWASP' },
-          { label: 'GitLygase Engine', description: 'Repo Hygiene & Security', to: '/repo-scanner', icon: Terminal, badge: 'SecOps' },
-          { label: 'EcoHolo Engine', description: 'Carbon & CO2e Profiling', to: '/eco-audit', icon: Leaf },
-          { label: 'SynthShift Engine', description: 'Migration Analysis', to: '/migration', icon: GitBranch },
-          { label: 'AllosterSearch', description: 'SEO & LLMO Scoring', to: '/llmo', icon: Search },
-          { label: 'EdgeVmax Engine', description: 'Multi-Region Latency', to: '/latency', icon: Globe },
-        ]
-      },
-      {
-        title: 'Platform Tools',
-        items: [
-          { label: 'Master Audit Launch', description: 'Run all engines concurrently', to: '/launch-audit', icon: Sparkles, badge: 'New' },
-          { label: 'Side-by-Side Compare', description: 'Multi-domain architecture', to: '/compare', icon: Scale },
-          { label: 'Products & Watchdog', description: 'Continuous domain monitoring', to: '/products', icon: Radio },
-          { label: 'GitHub Webhooks', description: 'Commit & PR telemetry', to: user ? '/dashboard/webhooks' : '/login?redirect=/dashboard/webhooks', icon: GitBranch },
-        ]
-      }
-    ],
-    featured: {
-      title: 'Web Performance Deep Dive',
-      description: 'Read our latest article on DOM metrics and render-blocking resources.',
-      to: '/blogs',
-      actionLabel: 'Read Article'
-    }
+const PERFORMANCE_ENGINES: EngineItem[] = [
+  {
+    id: 'vitalzyme',
+    name: 'VitalZyme',
+    tagline: 'LCP/INP & Core Web Vitals diagnostic runtime',
+    tag: 'CrUX P95',
+    tagColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+    path: '/engine/vitalzyme',
+    icon: Activity
   },
-  resources: {
-    columns: [
-      {
-        title: 'Developer Hub',
-        items: [
-          { label: 'Documentation', description: 'Platform architecture & guides', to: '/docs', icon: BookOpen },
-          { label: 'REST API reference', description: 'Integrate via CatalystLab SDKs', to: '/api-docs', icon: Code2, badge: 'v2.4' },
-          { label: 'API playground', description: 'Live diagnostic endpoints', to: '/playground', icon: Terminal },
-        ]
-      },
-      {
-        title: 'Knowledge Base',
-        items: [
-          { label: 'Engineering blogs', description: 'Web performance deep dives', to: '/blogs', icon: FileText },
-          { label: 'Audit Methodology', description: 'Scoring weights across 8 engines', to: '/methodology', icon: Compass, badge: 'RFC' },
-        ]
-      }
-    ]
+  {
+    id: 'edgekinase',
+    name: 'EdgeKinase',
+    tagline: 'TLS 1.3, TCP handshake & 38-PoP edge latency',
+    tag: '0-RTT',
+    tagColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
+    path: '/engine/edgekinase',
+    icon: Globe
   },
-});
+  {
+    id: 'ecoholo',
+    name: 'EcoHolo',
+    tagline: 'CO2 carbon emission & green hosting index',
+    tag: 'Green-e',
+    tagColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+    path: '/engine/ecoholo',
+    icon: Leaf
+  },
+  {
+    id: 'allostersearch',
+    name: 'AllosterSearch',
+    tagline: 'Sub-50ms search index & crawl budget audit',
+    tag: 'RFC 9110',
+    tagColor: 'text-sky-400 bg-sky-500/10 border-sky-500/20',
+    path: '/engine/allostersearch',
+    icon: Search
+  }
+];
 
-export const Navbar: React.FC<{ onOpenMobileMenu?: () => void }> = ({ onOpenMobileMenu }) => {
-  const { user } = useAuth();
-  const { hasPermission, roleConfig } = useRoleSecurity();
-  const menuItems = getMenuItems(user);
-  const [menuOverlayOpen, setMenuOverlayOpen] = useState(false);
-  const [openMenu, setOpenMenu] = useState<MenuKey>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+const SECURITY_AI_ENGINES: EngineItem[] = [
+  {
+    id: 'riskprotease',
+    name: 'RiskProtease',
+    tagline: 'OWASP Top 10 transport & CSP directive hardening',
+    tag: 'SOC2 A+',
+    tagColor: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+    path: '/engine/riskprotease',
+    icon: ShieldCheck
+  },
+  {
+    id: 'synthshift',
+    name: 'SynthShift',
+    tagline: 'AST schema diff viewer & script chunk optimizer',
+    tag: 'AST Diff',
+    tagColor: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+    path: '/engine/synthshift',
+    icon: Code2
+  },
+  {
+    id: 'llmkinase',
+    name: 'LLM-Kinase',
+    tagline: 'AI crawler discovery & /llms.txt manifest probe',
+    tag: 'AEO 98%',
+    tagColor: 'text-violet-400 bg-violet-500/10 border-violet-500/20',
+    path: '/engine/llmkinase',
+    icon: Cpu
+  },
+  {
+    id: 'ghlyase',
+    name: 'GHLyase',
+    tagline: 'Automated GitHub PR patch branch generation',
+    tag: 'Auto-PR',
+    tagColor: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
+    path: '/engine/ghlyase',
+    icon: GitBranch
+  }
+];
+
+const DIRECT_LINKS = [
+  { label: 'Pipeline', to: '/pipeline' },
+  { label: 'Benchmarks', to: '/compare' },
+  { label: 'Docs', to: '/docs' },
+  { label: 'Pricing', to: '/pricing' }
+];
+
+export const Navbar: React.FC = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isEnginesOpen, setIsEnginesOpen] = useState(false);
+  const megaMenuTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
-  const navRef = useRef<HTMLElement>(null);
-  
-  const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useMotionValueEvent(scrollY, 'change', (current) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    
-    // Hide when scrolling down past 150px, show when scrolling up
-    if (current > previous && current > 150) {
-      setHidden(true);
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setIsEnginesOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
     } else {
-      setHidden(false);
+      document.body.style.overflow = '';
     }
-
-    // Clear the existing timeout when scrolling happens
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-
-    // Set a timeout to reveal the header when scrolling pauses/stops
-    if (current > 150) {
-      scrollTimeoutRef.current = setTimeout(() => {
-        setHidden(false);
-      }, 600); // Reveal after 600ms of no scrolling
-    }
-  });
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
     return () => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
+      document.body.style.overflow = '';
     };
-  }, []);
+  }, [isMobileMenuOpen]);
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    const handlePointerDown = (event: PointerEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) setOpenMenu(null);
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpenMenu(null);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    document.addEventListener('pointerdown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('pointerdown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
-  useEffect(() => setOpenMenu(null), [location.pathname]);
-
-  const isActive = (path: string) => {
-    if (path === '/') return location.pathname === '/' || location.pathname === '/index.html';
-    if (path === '/about') return location.pathname === '/about' || location.pathname === '/methodology';
-    return location.pathname.startsWith(path);
+  const handleMouseEnter = () => {
+    if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
+    setIsEnginesOpen(true);
   };
 
-  const groupIsActive = (key: Exclude<MenuKey, null>) => {
-    return menuItems[key].columns.some(col => col.items.some(item => isActive(item.to.split('?')[0])));
+  const handleMouseLeave = () => {
+    megaMenuTimeout.current = setTimeout(() => {
+      setIsEnginesOpen(false);
+    }, 180);
   };
-
-  const navLinkClass = (active: boolean) =>
-    cn(
-      'group relative inline-flex min-h-9 items-center px-3 text-[14px] font-medium tracking-tight transition-colors rounded-md cursor-pointer',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50',
-      active
-        ? 'text-primary bg-primary/10'
-        : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-    );
 
   return (
     <>
-      <motion.header
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50',
-          isScrolled
-            ? 'border-b border-border bg-background/80 backdrop-blur-md shadow-sm'
-            : 'border-b border-transparent bg-transparent'
-        )}
-        animate={{
-          y: hidden ? '-100%' : 0,
-          opacity: hidden ? 0 : 1,
-        }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-      >
-        <div className="w-full flex h-16 min-h-12 items-center justify-between gap-4 px-4 sm:px-8 lg:px-12">
+      <header className="fixed top-4 md:top-6 inset-x-0 mx-auto z-50 w-[calc(100%-2rem)] max-w-5xl">
+        <nav className="backdrop-blur-xl bg-black/65 border border-white/10 rounded-full px-4 sm:px-6 py-2.5 shadow-2xl flex items-center justify-between transition-all">
+          {/* Left Anchor: Monogram + Wordmark + Live Node Chip */}
+          <div className="flex items-center gap-3 shrink-0">
+            <Link to="/" className="flex items-center gap-2 group focus:outline-none">
+              <BrandLogo size="md" />
+            </Link>
 
-          <Link
-            to="/"
-            className="flex items-center shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-            aria-label="CatalystLab home"
-          >
-            <BrandLogo size="md" />
-          </Link>
+            {/* Live Node Chip */}
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+              </span>
+              <span>38/38 PoPs Active</span>
+            </div>
+          </div>
 
-          <nav ref={navRef} className="hidden items-center gap-0.5 lg:flex" aria-label="Primary navigation">
-            <ul className="flex items-center gap-1 m-0 p-0 list-none">
-              <li>
-                <Link to="/" className={navLinkClass(isActive('/'))} aria-current={isActive('/') ? 'page' : undefined}>
-                  Home
-                </Link>
-              </li>
+          {/* Center Navigation: Engines Mega-Menu + Direct Links */}
+          <div className="hidden md:flex items-center gap-6">
+            {/* Engines Mega-Menu Trigger */}
+            <div 
+              className="relative"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button
+                type="button"
+                onClick={() => setIsEnginesOpen(!isEnginesOpen)}
+                className={`flex items-center gap-1 text-sm transition-colors duration-150 focus:outline-none cursor-pointer ${
+                  isEnginesOpen ? 'text-white' : 'text-[#999999] hover:text-white'
+                }`}
+                aria-expanded={isEnginesOpen}
+              >
+                <span>Engines</span>
+                <ChevronDown className={`size-3.5 transition-transform duration-200 ${isEnginesOpen ? 'rotate-180 text-white' : 'text-[#666666]'}`} />
+              </button>
 
-              {(Object.keys(menuItems) as Array<Exclude<MenuKey, null>>).map((key) => {
-                const isOpen = openMenu === key;
-                const label = key === 'products' ? 'Products & Hub' : 'Resources';
-                const config = menuItems[key];
+              {/* 520px Floating Glass Mega-Panel */}
+              <AnimatePresence>
+                {isEnginesOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute -left-20 top-full pt-3 w-[540px] z-50 pointer-events-auto"
+                  >
+                    <div className="bg-[#0A0A0A]/95 border border-white/12 rounded-2xl p-4 shadow-2xl backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden">
+                      {/* Subsurface Radial Radiance */}
+                      <div 
+                        className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-20 blur-2xl"
+                        style={{ background: 'radial-gradient(circle, #0066FF 0%, transparent 70%)' }}
+                      />
 
-                return (
-                  <li key={key} className="relative">
-                    <button
-                      type="button"
-                      className={cn(navLinkClass(isOpen || groupIsActive(key)), 'gap-1.5')}
-                      aria-expanded={isOpen}
-                      aria-haspopup="true"
-                      aria-controls={`mega-menu-${key}`}
-                      onClick={() => setOpenMenu(isOpen ? null : key)}
-                    >
-                      <span>{label}</span>
-                      <ChevronDown aria-hidden="true" className={cn('size-3.5 transition-transform duration-200', isOpen && 'rotate-180')} />
-                    </button>
-
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          id={`mega-menu-${key}`}
-                          initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 4, scale: 0.99 }}
-                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                          role="region"
-                          aria-label={`${label} mega menu`}
-                          className={cn(
-                            "absolute left-1/2 -translate-x-1/2 top-[calc(100%+0.75rem)] rounded-xl border border-border bg-card shadow-2xl z-50 overflow-hidden flex",
-                            key === 'products' ? 'w-[900px]' : 'w-[700px]'
-                          )}
-                        >
-                          {/* Columns Section */}
-                          <div className="flex-1 flex flex-row gap-6 p-6">
-                            {config.columns.map((col, idx) => (
-                              <div key={idx} className={col.items.length > 4 ? "flex-[2]" : "flex-1"}>
-                                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">{col.title}</h3>
-                                <ul className={cn("grid gap-1 list-none m-0 p-0", col.items.length > 4 ? "grid-cols-2 gap-x-4" : "grid-cols-1")}>
-                                  {col.items.map((item) => {
-                                    const Icon = item.icon;
-                                    // Adjust path for auth dependencies if necessary (e.g. webhooks)
-                                    const resolvedTo = item.label === 'GitHub Webhooks' ? (user ? '/dashboard/webhooks' : '/login?redirect=/dashboard/webhooks') : item.to;
-                                    return (
-                                      <li key={resolvedTo}>
-                                        <Link
-                                          to={resolvedTo}
-                                          className="group flex items-start gap-3 rounded-md p-2 transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                                          aria-current={isActive(resolvedTo.split('?')[0]) ? 'page' : undefined}
-                                        >
-                                          <div className="size-8 rounded-md bg-primary/10 flex items-center justify-center text-primary shrink-0 mt-0.5">
-                                            <Icon className="size-4" aria-hidden="true" />
-                                          </div>
-                                          <div className="flex-1 min-w-0">
-                                            <div className="flex items-center justify-between gap-2">
-                                              <span className="text-[13px] font-semibold text-foreground group-hover:text-primary transition-colors">
-                                                {item.label}
-                                              </span>
-                                              {item.badge && (
-                                                <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-primary shrink-0">
-                                                  {item.badge}
-                                                </span>
-                                              )}
-                                            </div>
-                                            <span className="text-xs leading-relaxed text-muted-foreground line-clamp-1 mt-0.5 block">
-                                              {item.description}
-                                            </span>
-                                          </div>
-                                        </Link>
-                                      </li>
-                                    );
-                                  })}
-                                </ul>
+                      {/* Column 1: Core Performance */}
+                      <div className="space-y-1.5">
+                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-[#666666] flex items-center justify-between border-b border-white/5 pb-1 mb-1">
+                          <span>Core Performance</span>
+                          <span className="text-[#00D2FF]">4 Engines</span>
+                        </div>
+                        {PERFORMANCE_ENGINES.map((engine) => {
+                          const Icon = engine.icon;
+                          return (
+                            <Link
+                              key={engine.id}
+                              to={engine.path}
+                              onClick={() => setIsEnginesOpen(false)}
+                              className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-150 border border-transparent hover:border-white/10"
+                            >
+                              <div className="size-8 rounded-lg bg-[#111111] border border-white/10 flex items-center justify-center shrink-0 text-white/80 group-hover:text-[#00D2FF] group-hover:border-[#00D2FF]/40 transition-colors">
+                                <Icon className="size-4" />
                               </div>
-                            ))}
-                          </div>
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-xs font-medium text-white group-hover:text-[#00D2FF] transition-colors truncate">
+                                    {engine.name}
+                                  </span>
+                                  <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded border ${engine.tagColor}`}>
+                                    {engine.tag}
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-[#666666] group-hover:text-[#999999] leading-snug line-clamp-1 mt-0.5">
+                                  {engine.tagline}
+                                </p>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
 
-                          {/* Featured Section */}
-                          {config.featured && (
-                            <div className="w-[240px] bg-muted/30 border-l border-border p-6 flex flex-col justify-center">
-                              <h3 className="text-sm font-semibold text-foreground mb-2">{config.featured.title}</h3>
-                              <p className="text-xs text-muted-foreground leading-relaxed mb-4">{config.featured.description}</p>
-                              <Link 
-                                to={config.featured.to}
-                                className="inline-flex items-center justify-center h-8 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors w-full"
-                              >
-                                {config.featured.actionLabel}
-                              </Link>
-                            </div>
-                          )}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </li>
-                );
-              })}
+                      {/* Column 2: Security & AI */}
+                      <div className="space-y-1.5 border-l border-white/5 pl-3">
+                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-[#666666] flex items-center justify-between border-b border-white/5 pb-1 mb-1">
+                          <span>Security &amp; AI AST</span>
+                          <span className="text-purple-400">4 Engines</span>
+                        </div>
+                        {SECURITY_AI_ENGINES.map((engine) => {
+                          const Icon = engine.icon;
+                          return (
+                            <Link
+                              key={engine.id}
+                              to={engine.path}
+                              onClick={() => setIsEnginesOpen(false)}
+                              className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-150 border border-transparent hover:border-white/10"
+                            >
+                              <div className="size-8 rounded-lg bg-[#111111] border border-white/10 flex items-center justify-center shrink-0 text-white/80 group-hover:text-purple-400 group-hover:border-purple-400/40 transition-colors">
+                                <Icon className="size-4" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-xs font-medium text-white group-hover:text-purple-400 transition-colors truncate">
+                                    {engine.name}
+                                  </span>
+                                  <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded border ${engine.tagColor}`}>
+                                    {engine.tag}
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-[#666666] group-hover:text-[#999999] leading-snug line-clamp-1 mt-0.5">
+                                  {engine.tagline}
+                                </p>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
 
-              <li>
-                <Link to="/about" className={navLinkClass(isActive('/about'))} aria-current={isActive('/about') ? 'page' : undefined}>
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className={navLinkClass(isActive('/contact'))} aria-current={isActive('/contact') ? 'page' : undefined}>
-                  Contact
-                </Link>
-              </li>
-
-              {hasPermission('page:view_admin') && (
-                <li>
-                  <Link to="/admin" className={cn(navLinkClass(isActive('/admin')), 'gap-1.5')}>
-                    <ShieldCheck aria-hidden="true" className="size-3.5" />
-                    Admin
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </nav>
-
-          <div className="flex shrink-0 items-center gap-2">
-            <div className="hidden lg:flex items-center gap-2">
-              <NavbarSearch isScrolled={isScrolled} />
-              <ThemeToggle />
+                      {/* Bottom Quick Hub Bar */}
+                      <div className="col-span-2 mt-1 pt-2.5 border-t border-white/10 flex items-center justify-between px-2 text-xs">
+                        <Link 
+                          to="/engines" 
+                          onClick={() => setIsEnginesOpen(false)}
+                          className="text-[#999999] hover:text-white flex items-center gap-1 text-[11px] font-mono group"
+                        >
+                          <span>Explore All 8 Telemetry Engines</span>
+                          <ArrowRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
+                        </Link>
+                        <span className="text-[10px] font-mono text-[#666666]">
+                          Zero-SDK &bull; RFC 9110 Compliant
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {user ? (
+            {/* Direct Navigation Links */}
+            {DIRECT_LINKS.map((link) => (
               <Link
-                to="/dashboard"
-                className="hidden h-9 items-center gap-2 rounded-full border border-border bg-background px-3.5 text-[13px] font-medium text-foreground transition-colors hover:bg-accent sm:flex"
-                aria-label="Open command center dashboard"
+                key={link.to}
+                to={link.to}
+                className="text-sm text-[#999999] hover:text-white transition-colors duration-150 focus:outline-none"
               >
-                <LayoutDashboard aria-hidden="true" className="size-3.5 text-primary" />
-                <span className="max-w-[100px] truncate">{user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'Dashboard'}</span>
-                <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase text-primary font-bold">
-                  {roleConfig.shortLabel}
-                </span>
+                {link.label}
               </Link>
-            ) : (
-              <div className="hidden items-center gap-2 sm:flex">
-                <Link to="/login" className={navLinkClass(false)}>
-                  Log in
-                </Link>
-                <Link
-                  to="/signup"
-                  className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-[13px] font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                >
-                  Sign up
-                </Link>
-              </div>
-            )}
-
-            <button
-              type="button"
-              onClick={() => {
-                if (onOpenMobileMenu) {
-                  onOpenMobileMenu();
-                } else {
-                  setMenuOverlayOpen(true);
-                }
-              }}
-              className="inline-flex size-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 active:scale-95"
-              aria-expanded={menuOverlayOpen}
-              aria-haspopup="dialog"
-              aria-label="Open mobile navigation menu"
-            >
-              <Menu className="size-5" aria-hidden="true" />
-            </button>
+            ))}
           </div>
-        </div>
-      </motion.header>
-      {!onOpenMobileMenu && <MainMenuOverlay isOpen={menuOverlayOpen} onClose={() => setMenuOverlayOpen(false)} />}
+
+          {/* Right Action Area */}
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              to="/login"
+              className="text-xs sm:text-sm text-[#999999] hover:text-white px-3 py-1.5 transition-colors duration-150 focus:outline-none font-medium"
+            >
+              Log in
+            </Link>
+            <Link
+              to="/launch-audit"
+              className="bg-white text-black font-semibold hover:bg-neutral-200 rounded-full px-4 py-1.5 text-xs sm:text-sm shadow-[0_0_18px_rgba(255,255,255,0.35)] flex items-center gap-1.5 transition-all active:scale-95 focus:outline-none"
+            >
+              <span>Run Audit</span>
+              <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+
+          {/* Mobile Menu Trigger Container (44px min touch target) */}
+          <button
+            type="button"
+            className="md:hidden text-white focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -mr-2"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open mobile navigation menu"
+          >
+            <Menu className="size-5" />
+          </button>
+        </nav>
+      </header>
+
+      {/* Responsive Full-Screen Mobile Sheet */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col"
+          >
+            {/* Top Sheet Bar */}
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <Link to="/" className="flex items-center gap-2 focus:outline-none" onClick={() => setIsMobileMenuOpen(false)}>
+                  <BrandLogo size="md" />
+                </Link>
+                <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>38 PoPs</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="text-white focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Close mobile menu"
+              >
+                <X className="size-6" />
+              </button>
+            </div>
+            
+            {/* Scrollable Sheet Content */}
+            <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-6">
+              {/* Direct Links */}
+              <div className="space-y-1">
+                <div className="text-[11px] font-mono uppercase tracking-wider text-[#666666] mb-2">
+                  Navigation
+                </div>
+                {DIRECT_LINKS.map((link, idx) => (
+                  <motion.div
+                    key={link.to}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 + idx * 0.04 }}
+                  >
+                    <Link
+                      to={link.to}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-xl font-medium text-white min-h-[44px] flex items-center justify-between py-2 border-b border-white/5"
+                    >
+                      <span>{link.label}</span>
+                      <ArrowRight className="size-4 text-[#666666]" />
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* 8 Autonomous Engines Grid */}
+              <div className="space-y-2">
+                <div className="text-[11px] font-mono uppercase tracking-wider text-[#666666] flex items-center justify-between">
+                  <span>8 Autonomous Engines</span>
+                  <Link 
+                    to="/engines" 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-[#00D2FF] text-[11px] font-mono"
+                  >
+                    View All &rarr;
+                  </Link>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[...PERFORMANCE_ENGINES, ...SECURITY_AI_ENGINES].map((engine) => (
+                    <Link
+                      key={engine.id}
+                      to={engine.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="p-2.5 rounded-xl bg-[#0D0D0D] border border-white/10 flex flex-col gap-1 hover:border-white/20 transition-all min-h-[58px]"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-white truncate">{engine.name}</span>
+                        <span className={`text-[8px] font-mono px-1 rounded border ${engine.tagColor}`}>
+                          {engine.tag}
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-[#666666] truncate">{engine.tagline}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="mt-auto pt-4 flex flex-col gap-3"
+              >
+                <Link
+                  to="/launch-audit"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full bg-white text-black font-semibold hover:bg-neutral-200 rounded-xl px-4 py-3.5 min-h-[48px] flex justify-center items-center gap-2 transition-colors shadow-[0_0_24px_rgba(255,255,255,0.25)] text-sm"
+                >
+                  <span>Run Autonomous Audit</span>
+                  <ArrowRight className="size-4" />
+                </Link>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full text-center text-[#999999] hover:text-white bg-[#111111] border border-white/10 rounded-xl min-h-[44px] flex justify-center items-center font-medium text-xs transition-colors"
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    to="/signup"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full text-center text-white bg-[#161616] border border-white/15 rounded-xl min-h-[44px] flex justify-center items-center font-medium text-xs transition-colors"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

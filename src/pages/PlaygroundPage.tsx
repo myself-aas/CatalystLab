@@ -540,7 +540,7 @@ func main() {
  />
 
  {/* Engine Category Pills */}
- <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin font-mono">
+ <div className="flex items-center gap-2 overflow-x-auto scrollbar-none touch-pan-x pb-1 scrollbar-thin font-mono">
  {ENGINE_OPTIONS.map((eng) => {
  const isSelected = selectedEngineId === eng.id;
  return (
@@ -1033,7 +1033,7 @@ func main() {
  return (
  <div key={key} className="border-b border-border pb-2">
  <span className="font-bold text-foreground">{key}:</span>
- <pre className="mt-1 rounded bg-background p-2 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
+ <pre className="mt-1 rounded bg-background p-2 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border">
  {JSON.stringify(val, null, 2)}
  </pre>
  </div>
@@ -1086,7 +1086,7 @@ func main() {
  </button>
  </div>
 
- <div className="rounded-xl bg-background p-3.5 text-xs font-mono text-foreground overflow-x-auto border border-border shadow-inner max-h-[440px]">
+ <div className="rounded-xl bg-background p-3.5 text-xs font-mono text-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border shadow-inner max-h-[440px]">
  <pre>{JSON.stringify(responsePayload, null, 2)}</pre>
  </div>
  </div>
@@ -1098,7 +1098,7 @@ func main() {
  <div className="text-xs font-bold text-foreground mb-1.5">
  HTTP Response Headers
  </div>
- <div className="rounded-xl border border-border overflow-x-auto bg-background">
+ <div className="rounded-xl border border-border overflow-x-auto scrollbar-none touch-pan-x bg-background">
  <table className="w-full text-left text-xs">
  <thead className="bg-muted border-b border-border text-xs font-bold text-muted-foreground">
  <tr>
@@ -1169,7 +1169,7 @@ func main() {
  </button>
  </div>
 
- <div className="rounded-xl bg-background p-3.5 text-xs font-mono text-foreground overflow-x-auto border border-border shadow-inner max-h-[440px]">
+ <div className="rounded-xl bg-background p-3.5 text-xs font-mono text-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border shadow-inner max-h-[440px]">
  <pre>{getCodeSnippet()}</pre>
  </div>
  </div>

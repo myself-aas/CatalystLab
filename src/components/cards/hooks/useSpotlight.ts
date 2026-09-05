@@ -19,11 +19,13 @@ export function useSpotlight<T extends HTMLElement = HTMLElement>(
       if (!enabled || prefersReducedMotion || !elementRef.current) return;
 
       const rect = elementRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = Math.round(e.clientX - rect.left);
+      const y = Math.round(e.clientY - rect.top);
 
-      elementRef.current.style.setProperty('--spot-x', `${Math.round(x)}px`);
-      elementRef.current.style.setProperty('--spot-y', `${Math.round(y)}px`);
+      elementRef.current.style.setProperty('--spot-x', `${x}px`);
+      elementRef.current.style.setProperty('--spot-y', `${y}px`);
+      elementRef.current.style.setProperty('--mouse-x', `${x}px`);
+      elementRef.current.style.setProperty('--mouse-y', `${y}px`);
     },
     [enabled, prefersReducedMotion]
   );
@@ -49,4 +51,18 @@ export function useSpotlight<T extends HTMLElement = HTMLElement>(
       onMouseLeave: handleMouseLeave,
     },
   };
+}
+
+/**
+ * Lightweight inline mousemove handler that updates CSS variables on the card directly
+ * without causing component re-renders.
+ */
+export function onSpotlightMouseMove(e: React.MouseEvent<HTMLElement>) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = Math.round(e.clientX - rect.left);
+  const y = Math.round(e.clientY - rect.top);
+  e.currentTarget.style.setProperty('--spot-x', `${x}px`);
+  e.currentTarget.style.setProperty('--spot-y', `${y}px`);
+  e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+  e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
 }

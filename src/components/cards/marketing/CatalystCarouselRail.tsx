@@ -125,7 +125,7 @@ export const CatalystCarouselRail: React.FC<CatalystCarouselRailProps> = ({
       {/* Snap Scrollable Horizontal Container */}
       <div
         ref={containerRef}
-        className="w-full flex items-center gap-5 overflow-x-auto snap-x snap-mandatory py-6 px-4 no-scrollbar scroll-smooth focus-visible:outline-none"
+        className="w-full flex items-center gap-5 overflow-x-auto scrollbar-none touch-pan-x snap-x snap-mandatory py-6 px-4 no-scrollbar scroll-smooth focus-visible:outline-none"
       >
         {children}
       </div>

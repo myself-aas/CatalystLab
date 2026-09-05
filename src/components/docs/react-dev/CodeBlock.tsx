@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { cn } from '../../../lib/utils';
-import { Check, Copy, Terminal } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 import { CodeBlockProps } from '../../../types/design-system';
+import { CopyButton } from '../../ui/CopyButton';
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({ 
   code, 
@@ -12,14 +13,6 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   className,
   id
 }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const isTerminal = language === 'bash' || language === 'sh' || language === 'terminal';
   const lines = code.trim().split('\n');
 
@@ -33,27 +26,28 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             <span className="font-mono">{filename || (isTerminal ? 'Terminal' : '')}</span>
           </div>
           
-          <button 
-            onClick={handleCopy}
-            className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:text-foreground focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-border rounded px-1.5 py-0.5 -mr-1.5"
-            aria-label="Copy code"
-          >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            <span className="text-[10px] uppercase font-bold tracking-wider">{copied ? 'Copied' : 'Copy'}</span>
-          </button>
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+            <CopyButton
+              text={code}
+              variant="terminal"
+              label="Copy"
+              copiedLabel="Copied"
+              className="py-0.5 px-2 text-[10px]"
+            />
+          </div>
         </div>
       )}
 
       {/* Code Body */}
       <div className="relative">
         {!filename && !isTerminal && (
-          <button 
-            onClick={handleCopy}
-            className="absolute top-2.5 right-2.5 p-2 bg-background/10 hover:bg-background/20 rounded-lg text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-all duration-200 focus-visible:opacity-100"
-            title="Copy code"
-          >
-            {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-          </button>
+          <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-all duration-200 z-10">
+            <CopyButton
+              text={code}
+              variant="icon"
+              title="Copy code"
+            />
+          </div>
         )}
         
         <pre className={cn(

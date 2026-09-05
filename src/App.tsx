@@ -72,6 +72,7 @@ const ApiDocsPage = React.lazy(() => import("./pages/ApiDocsPage").then(m => ({ 
 const PlaygroundPage = React.lazy(() => import("./pages/PlaygroundPage").then(m => ({ default: m.PlaygroundPage })));
 const LoginPage = React.lazy(() => import("./pages/LoginPage").then(m => ({ default: m.LoginPage })));
 const SignUpPage = React.lazy(() => import("./pages/SignUpPage").then(m => ({ default: m.SignUpPage })));
+const ForgotPasswordPage = React.lazy(() => import("./pages/ForgotPasswordPage").then(m => ({ default: m.ForgotPasswordPage })));
 const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage").then(m => ({ default: m.NotFoundPage })));
 
 const ScrollToTop: React.FC = () => {
@@ -98,7 +99,7 @@ export const App: React.FC = () => {
   const { resolvedTheme } = useTheme();
   const isDocsRoute = /^\/docs(\/|$|\.html$)/.test(location.pathname);
   const isAuthRoute = /^\/(login|signin|signup|register)(\.html)?$/.test(location.pathname);
-  const useDevSiteLayout = !isDocsRoute && !showAppChrome && !isAuthRoute;
+  const useDevSiteLayout = false; // Drawer removed from public routes
   const pagePolarity = resolvedTheme === "dark" ? "theme-dark" : "theme-light";
   const [isGetInTouchOpen, setIsGetInTouchOpen] = useState(false);
   const [getInTouchTopic, setGetInTouchTopic] = useState("general");
@@ -127,11 +128,39 @@ export const App: React.FC = () => {
       setIsPaymentCheckoutOpen(true);
     };
 
+    const handleMouseMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Drive variables globally so any card can use them
+      // In Framer designs, they usually track per-card or globally. 
+      // For simplicity, we can do it globally or just let cards read the global cursor position.
+      // We set it on the document body or :root for var(--mouse-x) and var(--mouse-y).
+      // Note: card-specific tracking requires coordinates relative to the card, but global tracking is easier.
+      // The CSS is: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ...)
+      // Let's set the global custom properties. But we actually need them relative to the card bounds for a true Framer effect.
+      // So let's attach to any element that has `.group` or `.relative` in a card.
+      // Instead, we can just do it on the document, and if it's relative, it will be offset. Let's provide absolute px.
+      // Actually, a better Framer effect loops over cards and sets relative values.
+    };
+
     window.addEventListener("catalyst:open-get-in-touch", handleOpenModal);
     window.addEventListener("catalyst:open-payment-checkout", handleOpenPayment);
+    
+    // Framer subsurface glow global tracker
+    const updateMousePos = (e: MouseEvent) => {
+      document.querySelectorAll('.group').forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
+        (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+      });
+    };
+    window.addEventListener('mousemove', updateMousePos);
+
     return () => {
       window.removeEventListener("catalyst:open-get-in-touch", handleOpenModal);
       window.removeEventListener("catalyst:open-payment-checkout", handleOpenPayment);
+      window.removeEventListener('mousemove', updateMousePos);
     };
   }, []);
 
@@ -186,6 +215,7 @@ export const App: React.FC = () => {
               {/* Diagnostic Hub (Engine Matrix) */}
               <Route path="/hub" element={<DiagnosticHubPage />} />
               <Route path="/engines" element={<DiagnosticHubPage />} />
+              <Route path="/services" element={<DiagnosticHubPage />} />
 
               {/* Authentication: Sign In & Registration Suite */}
               <Route path="/login" element={<LoginPage />} />
@@ -196,6 +226,9 @@ export const App: React.FC = () => {
               <Route path="/signup.html" element={<SignUpPage />} />
               <Route path="/register" element={<SignUpPage />} />
               <Route path="/register.html" element={<SignUpPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/forgot-password.html" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ForgotPasswordPage />} />
 
               {/* Services: Pricing & Products */}
               <Route path="/pricing" element={<PricingPage />} />

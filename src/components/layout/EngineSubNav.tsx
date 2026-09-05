@@ -25,7 +25,7 @@ export const EngineSubNav: React.FC = () => {
         
         <div 
           ref={scrollRef}
-          className="flex h-full w-full items-center gap-1 overflow-x-auto scrollbar-hide hide-scrollbar px-2"
+          className="flex h-full w-full items-center gap-1 overflow-x-auto scrollbar-none touch-pan-x scrollbar-hide hide-scrollbar px-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {SDLC_CATALYSTS_LIST.map((engine, index) => (

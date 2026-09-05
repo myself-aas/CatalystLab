@@ -178,7 +178,7 @@ export const AboutPage: React.FC = () => {
  <span>Autonomous Telemetry Infrastructure</span>
  </div>
 
- <h1 className="text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.03em] text-foreground leading-[1.08] max-w-4xl mx-auto">
+ <h1 className="text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[1.05] font-semibold tracking-[-0.03em] text-foreground leading-[1.08] max-w-4xl mx-auto">
  Engineering the standard in{' '}
  <span className="text-gradient-linear">
  autonomous web telemetry

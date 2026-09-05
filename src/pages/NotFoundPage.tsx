@@ -36,7 +36,7 @@ export const NotFoundPage: React.FC = () => {
  <span>HTTP 404 • ANYCAST NODE UNREACHABLE</span>
  </div>
 
- <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary-foreground tracking-tight leading-tight">
+ <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] font-black text-primary-foreground tracking-tight leading-tight">
  Route Lost in the Global Mesh.
  </h1>
 

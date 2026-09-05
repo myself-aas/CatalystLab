@@ -74,7 +74,7 @@ export const WorkflowStepCard: React.FC<WorkflowStepCardProps> = ({
       </p>
 
       {commandSnippet && (
-        <div className="p-3 rounded-xl bg-primary border border-border font-mono text-xs text-emerald-400 flex items-center justify-between overflow-x-auto shadow-inner">
+        <div className="p-3 rounded-xl bg-primary border border-border font-mono text-xs text-emerald-400 flex items-center justify-between overflow-x-auto scrollbar-none touch-pan-x shadow-inner">
           <span className="truncate">{commandSnippet}</span>
           <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-3" />
         </div>

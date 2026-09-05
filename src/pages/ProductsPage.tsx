@@ -591,7 +591,7 @@ export default {
  </div>
 
  {/* Code display */}
- <pre className="flex-1 overflow-x-auto text-[13px] font-mono leading-relaxed text-muted-foreground bg-foreground/40 p-4 rounded-xl border border-white/5 custom-scrollbar">
+ <pre className="flex-1 overflow-x-auto scrollbar-none touch-pan-x text-[13px] font-mono leading-relaxed text-muted-foreground bg-foreground/40 p-4 rounded-xl border border-white/5 custom-scrollbar">
  {generateConfigJson()}
  </pre>
 
@@ -651,7 +651,7 @@ export default {
  <span>{copiedSnippet === 'gh-yaml' ? 'Copied' : 'Copy'}</span>
  </button>
  </div>
- <pre className="overflow-x-auto text-[12px] font-mono leading-relaxed text-muted-foreground bg-muted p-4 rounded-2xl border border-border custom-scrollbar">
+ <pre className="overflow-x-auto scrollbar-none touch-pan-x text-[12px] font-mono leading-relaxed text-muted-foreground bg-muted p-4 rounded-2xl border border-border custom-scrollbar">
  {sampleGithubActionYaml}
  </pre>
  </div>
@@ -676,7 +676,7 @@ export default {
  <span>{copiedSnippet === 'cf-worker' ? 'Copied' : 'Copy'}</span>
  </button>
  </div>
- <pre className="overflow-x-auto text-[12px] font-mono leading-relaxed text-muted-foreground bg-muted p-4 rounded-2xl border border-border max-h-60 custom-scrollbar">
+ <pre className="overflow-x-auto scrollbar-none touch-pan-x text-[12px] font-mono leading-relaxed text-muted-foreground bg-muted p-4 rounded-2xl border border-border max-h-60 custom-scrollbar">
  {sampleCloudflareWorker}
  </pre>
  </div>

@@ -166,7 +166,7 @@ header {
       </div>
 
       {/* Interactive Headers Table */}
-      <div className="overflow-x-auto rounded-xl border border-black/30 bg-background">
+      <div className="overflow-x-auto scrollbar-none touch-pan-x rounded-xl border border-black/30 bg-background">
         <table className="w-full text-left text-xs">
           <thead className="border-b border-black/25 bg-background font-semibold text-muted-foreground">
             <tr>
@@ -242,7 +242,7 @@ header {
           </div>
         </div>
 
-        <pre className="overflow-x-auto rounded-lg bg-background p-3.5 font-mono text-[11px] text-muted-foreground border border-black/30">
+        <pre className="overflow-x-auto scrollbar-none touch-pan-x rounded-lg bg-background p-3.5 font-mono text-[11px] text-muted-foreground border border-black/30">
           <code>{currentSnippet}</code>
         </pre>
       </div>

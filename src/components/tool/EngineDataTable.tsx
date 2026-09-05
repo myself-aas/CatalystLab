@@ -12,7 +12,7 @@ export const EngineDataTable: React.FC<EngineDataTableProps> = ({ engineType, ta
       <div className="p-4 border-b border-border bg-muted">
         <h3 className="text-lg font-bold text-foreground capitalize">{engineType} Data</h3>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto scrollbar-none touch-pan-x">
         <table className="w-full text-sm text-left">
           <thead className="bg-muted border-b border-border text-muted-foreground uppercase text-xs font-semibold">
             <tr>

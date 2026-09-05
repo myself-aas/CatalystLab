@@ -291,7 +291,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.15 }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                           >
                             <div className="px-4 sm:px-5 pb-4 pt-1 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border whitespace-pre-line font-sans">
                               {res.item.answer}
@@ -455,7 +455,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: 'auto' }}
                               exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.15 }}
+                              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                             >
                               <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border whitespace-pre-line font-sans">
                                 {item.answer}

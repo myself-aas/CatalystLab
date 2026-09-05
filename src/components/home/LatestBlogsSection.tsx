@@ -243,7 +243,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
 
         {/* Category Filter Pills */}
         {showFilterTabs && (
-          <div className="mt-6 flex items-center gap-2.5 overflow-x-auto pb-3 no-scrollbar">
+          <div className="mt-6 flex items-center gap-2.5 overflow-x-auto scrollbar-none touch-pan-x pb-3 no-scrollbar">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;

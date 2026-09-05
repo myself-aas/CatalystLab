@@ -359,7 +359,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               Inspect rate limit response headers directly from your terminal or continuous integration test workflows:
             </p>
 
-            <pre className="rounded-xl bg-background p-4 text-[11px] font-mono text-emerald-600 overflow-x-auto leading-relaxed border border-border">
+            <pre className="rounded-xl bg-background p-4 text-[11px] font-mono text-emerald-600 overflow-x-auto scrollbar-none touch-pan-x leading-relaxed border border-border">
               <code>{curlExample}</code>
             </pre>
           </div>

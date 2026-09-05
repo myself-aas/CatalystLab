@@ -10,22 +10,22 @@ export const GitLygaseDoc: React.FC = () => {
  canonicalPath="/docs/gitlygase"
  >
  <section id="gitlygase-overview"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 py-0.5 text-xs font-semibold text-green-800">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/10 py-0.5 text-xs font-semibold text-green-400">
  <span className="h-1.5 w-1.5 rounded-full bg-green-600"/>
  <span>SDLC Phase 2: Repository Scanner</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
  GitLygase: Repository SecOps & Hygiene Engine
  </h1>
- <p className="text-base text-muted-foreground leading-relaxed">
+ <p className="text-base text-[#A1A1AA] leading-relaxed">
  GitLygase audits Git repositories for security compliance policies, open source licensing (MIT, Apache 2.0, GPL, BSD), vulnerability disclosure protocols (<code>SECURITY.md</code>), automated dependency updates, and continuous integration workflows.
  </p>
  </section>
 
  {/* Security Disclosure */}
  <section id="security-disclosure"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">SECURITY.md Vulnerability Disclosure Policy</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">SECURITY.md Vulnerability Disclosure Policy</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  Repositories without a clear vulnerability policy risk public exploit disclosure. GitLygase validates the presence of a standardized <code>.github/SECURITY.md</code>:
  </p>
 
@@ -53,8 +53,8 @@ Our security team will acknowledge receipt within 24 hours and issue a patch wit
 
  {/* Dependabot CI */}
  <section id="dependabot-ci"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">Automated Dependabot Security Config</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">Automated Dependabot Security Config</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  Enforce daily package vulnerability scans across npm, Docker, and GitHub Actions:
  </p>
 
@@ -82,10 +82,10 @@ updates:
 
  {/* License Detection */}
  <section id="license-detection"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">SPDX License Compliance Matrix</h2>
- <div className="ds-card p-4">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">SPDX License Compliance Matrix</h2>
+ <div className="ds-card p-4 overflow-x-auto scrollbar-none touch-pan-x">
  <table className="w-full text-left text-sm">
- <thead className="border-b border-border bg-muted/20 text-muted-foreground font-semibold">
+ <thead className="border-b border-border bg-muted/20 text-[#A1A1AA] font-semibold">
  <tr>
  <th className="py-2.5">SPDX Identifier</th>
  <th className="py-2.5">Commercial Use</th>
@@ -93,17 +93,17 @@ updates:
  <th className="py-2.5">Compliance Risk</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-white/[0.06] text-foreground">
+ <tbody className="divide-y divide-white/[0.06] text-[#EDEDED]">
  <tr>
  <td className="py-2 font-mono font-bold text-emerald-700">MIT / BSD-3-Clause</td>
  <td className="py-2 text-emerald-700">Permitted</td>
- <td className="py-2 text-muted-foreground">None (Attribution only)</td>
+ <td className="py-2 text-[#A1A1AA]">None (Attribution only)</td>
  <td className="py-2 text-emerald-700 font-bold">Low / Permissive</td>
  </tr>
  <tr>
  <td className="py-2 font-mono font-bold text-primary">Apache-2.0</td>
  <td className="py-2 text-emerald-700">Permitted</td>
- <td className="py-2 text-muted-foreground">Patent Grant Required</td>
+ <td className="py-2 text-[#A1A1AA]">Patent Grant Required</td>
  <td className="py-2 text-emerald-700 font-bold">Low / Permissive</td>
  </tr>
  <tr>

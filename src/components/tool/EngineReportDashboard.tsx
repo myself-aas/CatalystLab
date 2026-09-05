@@ -61,7 +61,7 @@ export const EngineReportDashboard: React.FC<EngineReportDashboardProps> = ({
 
       {hasTable && <EngineDataTable engineType={engineType} tableData={parsed.tableData} />}
 
-      <LinearCard className="overflow-x-auto p-4 font-mono text-sm whitespace-pre-wrap text-muted-foreground" lift={false}>
+      <LinearCard className="overflow-x-auto scrollbar-none touch-pan-x p-4 font-mono text-sm whitespace-pre-wrap text-muted-foreground" lift={false}>
         {output || 'No raw output generated.'}
       </LinearCard>
     </div>

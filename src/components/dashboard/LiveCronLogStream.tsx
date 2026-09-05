@@ -133,7 +133,7 @@ export const LiveCronLogStream: React.FC = () => {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="px-3 py-2 bg-background border-b border-border/80 flex items-center justify-between gap-2 text-[11px] overflow-x-auto no-scrollbar">
+      <div className="px-3 py-2 bg-background border-b border-border/80 flex items-center justify-between gap-2 text-[11px] overflow-x-auto scrollbar-none touch-pan-x no-scrollbar">
         <div className="flex items-center gap-1 shrink-0">
           <Filter className="h-3 w-3 text-muted-foreground mr-1" />
           {['ALL', 'CRON', 'INFO', 'WARN', 'BENCHMARK'].map((lvl) => (

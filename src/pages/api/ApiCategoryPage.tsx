@@ -172,7 +172,7 @@ export const ApiCategoryPage: React.FC = () => {
  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
  Query / Path Parameters
  </h3>
- <div className="overflow-x-auto rounded-2xl border border-border">
+ <div className="overflow-x-auto scrollbar-none touch-pan-x rounded-2xl border border-border">
  <table className="w-full text-left text-xs"aria-label="Query parameters">
  <thead className="bg-muted border-b border-border text-muted-foreground font-mono">
  <tr>
@@ -217,7 +217,7 @@ export const ApiCategoryPage: React.FC = () => {
  )}
  </div>
  <p className="text-xs text-muted-foreground">{ep.requestBody.description}</p>
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
+ <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border">
  <pre className="text-emerald-400">
  {JSON.stringify(ep.requestBody.defaultPayload, null, 2)}
  </pre>
@@ -269,7 +269,7 @@ export const ApiCategoryPage: React.FC = () => {
  </div>
  </div>
 
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
+ <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border">
  <pre className="text-sky-300 whitespace-pre leading-relaxed">
  {snippet}
  </pre>
@@ -283,7 +283,7 @@ export const ApiCategoryPage: React.FC = () => {
  Response Payload (Status {ep.responses[0].status})
  </h3>
  <p className="text-xs text-muted-foreground">{ep.responses[0].description}</p>
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
+ <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border">
  <pre className="text-amber-300">
  {JSON.stringify(ep.responses[0].example, null, 2)}
  </pre>

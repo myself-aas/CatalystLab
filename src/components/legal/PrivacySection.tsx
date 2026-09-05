@@ -209,7 +209,7 @@ export const PrivacySection: React.FC = () => {
                 Transparent accounting of exactly what metadata our 8 diagnostic engines process during a scan.
               </p>
 
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto scrollbar-none touch-pan-x">
                 <table className="w-full text-left text-xs border-collapse font-mono">
                   <thead>
                     <tr className="border-b border-border bg-muted text-foreground font-bold">

@@ -327,7 +327,7 @@ export const BlogsPage: React.FC = () => {
  </div>
 
  {/* [Enzyme] Biochemical Topic Pills Bar */}
- <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+ <div className="flex items-center gap-2 overflow-x-auto scrollbar-none touch-pan-x pb-2 no-scrollbar">
  {topicsList.map((topic) => {
  const isActive = selectedTopic === topic.key;
  return (

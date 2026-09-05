@@ -173,7 +173,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
             </button>
           </div>
 
-          <div className="rounded-xl border border-border bg-muted p-3 font-mono text-[11px] text-muted-foreground overflow-x-auto leading-relaxed">
+          <div className="rounded-xl border border-border bg-muted p-3 font-mono text-[11px] text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x leading-relaxed">
             <pre>{pgpKey}</pre>
           </div>
 

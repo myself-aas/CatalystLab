@@ -41,7 +41,7 @@ export const UserApiKeyManagementView: React.FC = () => {
           <p className="ds-muted mt-2 max-w-md mx-auto">Generate a secure token to authenticate your backend servers or CI/CD pipelines.</p>
         </div>
       ) : (
-        <div className="overflow-x-auto bg-background border border-border rounded-2xl shadow-sm">
+        <div className="overflow-x-auto scrollbar-none touch-pan-x bg-background border border-border rounded-2xl shadow-sm">
           <table className="w-full text-sm text-left">
             <thead className="bg-muted border-b border-border ds-muted ds-eyebrow">
               <tr>

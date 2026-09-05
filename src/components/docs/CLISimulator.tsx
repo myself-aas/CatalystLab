@@ -3,8 +3,6 @@ import {
   Terminal as TerminalIcon, 
   Play, 
   Trash2, 
-  Copy, 
-  Check, 
   Maximize2, 
   Minimize2, 
   Sparkles,
@@ -13,6 +11,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { CopyButton } from '../ui/CopyButton';
 
 export interface TerminalLog {
   id: string;
@@ -122,7 +121,6 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
   const [inputVal, setInputVal] = useState(initialCommand || '');
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
-  const [copied, setCopied] = useState(false);
   const [isExecuting, setIsExecuting] = useState(false);
 
   const terminalEndRef = useRef<HTMLDivElement>(null);
@@ -218,13 +216,6 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
     }
   };
 
-  const copyTerminalOutput = () => {
-    const text = logs.map(l => l.content).join('\n\n');
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <div className={`flex flex-col h-full bg-background border border-border rounded-2xl overflow-hidden shadow-2xl font-mono text-xs ${className}`}>
       {/* Terminal Title Bar */}
@@ -242,14 +233,11 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
         </div>
 
         <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={copyTerminalOutput}
-            className="p-1 rounded-md bg-muted/60 border border-border text-muted-foreground hover:text-primary-foreground transition-colors cursor-pointer"
+          <CopyButton
+            text={logs.map(l => l.content).join('\n\n')}
+            variant="icon"
             title="Copy terminal session"
-          >
-            {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-          </button>
+          />
           <button
             type="button"
             onClick={() => setLogs([])}

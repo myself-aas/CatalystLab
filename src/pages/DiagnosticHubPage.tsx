@@ -1,113 +1,190 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Activity, 
-  Cpu, 
-  Terminal, 
-  Leaf, 
-  ShieldCheck, 
-  GitBranch, 
-  Search, 
-  Globe,
   ArrowRight,
-  Zap,
-  Sparkles
+  Sparkles,
+  Terminal,
+  Activity,
+  Cpu,
+  Leaf,
+  ShieldCheck,
+  GitBranch,
+  Search,
+  Globe,
+  CheckCircle2,
+  Clock
 } from 'lucide-react';
 import { PageTransition } from '../components/common/LazyAnimate';
-import { cn } from '../lib/utils';
+import { ENGINES_MAP } from '../data/engines';
 
-interface EngineCard {
-  id: string;
-  title: string;
-  description: string;
-  icon: any;
-  to: string;
-  badge?: string;
-  color: string;
-}
+import { 
+  PerfWidget, 
+  LatencyWidget, 
+  EcoWidget, 
+  SecurityWidget, 
+  RepoWidget, 
+  AiWidget, 
+  MigrationWidget, 
+  LlmoWidget 
+} from '../components/hub/SimulationWidgets';
 
-const engines: EngineCard[] = [
+
+const CATEGORIES = [
+  { id: 'all', label: 'All', count: 8 },
+  { id: 'perf', label: 'Core Performance', count: 3 },
+  { id: 'sec', label: 'Security & OWASP', count: 2 },
+  { id: 'ai', label: 'AI Discoverability', count: 3 }
+];
+
+const ENGINE_DETAILS = [
   {
-    id: 'vitalzyme',
-    title: 'VitalZyme Engine',
-    description: 'Deep DOM & TTFB performance analysis. Identifies render-blocking resources and layout shifts.',
+    id: 'health', // VitalZyme
+    cat: 'perf',
+    title: 'VitalZyme',
+    desc: 'Deep DOM & TTFB performance analysis. Identifies render-blocking resources and layout shifts.',
     icon: Activity,
-    to: '/health',
-    badge: 'Popular',
-    color: 'text-blue-500 bg-blue-500/10 border-blue-500/20'
+    color: '#00F298',
+    status: 'Operational',
+    specs: [
+      { label: 'Frequency', value: 'Per-deploy / 5m pulse' },
+      { label: 'CPU Impact', value: '< 1% (Passive)' },
+      { label: 'Protocols', value: 'HTTP/2, HTTP/3, TLS 1.3' },
+      { label: 'Standards', value: 'W3C Navigation Timing API' }
+    ],
+    widget: 'perf'
   },
   {
-    id: 'llm-kinase',
-    title: 'LLM-Kinase Engine',
-    description: 'Validates llms.txt readiness and AI crawler accessibility for semantic ingestion.',
-    icon: Cpu,
-    to: '/ai-readiness',
-    badge: 'AI Ready',
-    color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20'
-  },
-  {
-    id: 'riskprotease',
-    title: 'RiskProtease Engine',
-    description: 'OWASP Top 10 compliance checker. Scans headers, CSPs, and common vulnerability endpoints.',
-    icon: ShieldCheck,
-    to: '/compliance',
-    badge: 'SecOps',
-    color: 'text-red-500 bg-red-500/10 border-red-500/20'
-  },
-  {
-    id: 'gitlygase',
-    title: 'GitLygase Engine',
-    description: 'Repository hygiene, CI/CD pipeline health, and code structure telemetry.',
-    icon: Terminal,
-    to: '/repo-scanner',
-    color: 'text-zinc-500 bg-zinc-500/10 border-zinc-500/20'
-  },
-  {
-    id: 'ecoholo',
-    title: 'EcoHolo Engine',
-    description: 'Carbon and CO2e profiling. Measure the environmental impact of your digital footprint.',
-    icon: Leaf,
-    to: '/eco-audit',
-    color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
-  },
-  {
-    id: 'synthshift',
-    title: 'SynthShift Engine',
-    description: 'Cross-framework migration complexity analysis. Calculate costs of moving between tech stacks.',
-    icon: GitBranch,
-    to: '/migration',
-    color: 'text-orange-500 bg-orange-500/10 border-orange-500/20'
-  },
-  {
-    id: 'allostersearch',
-    title: 'AllosterSearch Engine',
-    description: 'LLM Optimization (LLMO) and geographic SEO visibility scoring.',
-    icon: Search,
-    to: '/llmo',
-    color: 'text-purple-500 bg-purple-500/10 border-purple-500/20'
-  },
-  {
-    id: 'edgevmax',
-    title: 'EdgeVmax Engine',
-    description: 'Multi-region 42-PoP latency testing and edge caching validation.',
+    id: 'latency', // EdgeKinase
+    cat: 'perf',
+    title: 'EdgeKinase',
+    desc: 'Multi-region 42-PoP latency testing and edge caching validation.',
     icon: Globe,
-    to: '/latency',
-    color: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20'
+    color: '#00D2FF',
+    status: 'Operational',
+    specs: [
+      { label: 'Frequency', value: 'Continuous (Global PoPs)' },
+      { label: 'CPU Impact', value: 'Zero (Edge-bound)' },
+      { label: 'Protocols', value: 'Anycast DNS, TCP/UDP' },
+      { label: 'Standards', value: 'RFC 1035, RFC 793' }
+    ],
+    widget: 'latency'
+  },
+  {
+    id: 'eco', // EcoHolo
+    cat: 'perf',
+    title: 'EcoHolo',
+    desc: 'Carbon and CO2e profiling. Measure the environmental impact of your digital footprint.',
+    icon: Leaf,
+    color: '#00F298',
+    status: 'Beta',
+    specs: [
+      { label: 'Frequency', value: 'Post-render' },
+      { label: 'CPU Impact', value: 'Low' },
+      { label: 'Protocols', value: 'HTTP/s' },
+      { label: 'Standards', value: 'Sustainable Web Manifesto' }
+    ],
+    widget: 'eco'
+  },
+  {
+    id: 'compliance', // RiskProtease
+    cat: 'sec',
+    title: 'RiskProtease',
+    desc: 'OWASP Top 10 compliance checker. Scans headers, CSPs, and common vulnerability endpoints.',
+    icon: ShieldCheck,
+    color: '#FF9900',
+    status: 'Operational',
+    specs: [
+      { label: 'Frequency', value: 'Pre-flight / CI Gate' },
+      { label: 'CPU Impact', value: 'Medium (Parsing)' },
+      { label: 'Protocols', value: 'HTTPS, WSS' },
+      { label: 'Standards', value: 'OWASP ASVS v4.0' }
+    ],
+    widget: 'sec'
+  },
+  {
+    id: 'repo', // GitLygase
+    cat: 'sec',
+    title: 'GitLygase',
+    desc: 'Repository hygiene, CI/CD pipeline health, and code structure telemetry.',
+    icon: Terminal,
+    color: '#FF9900',
+    status: 'Operational',
+    specs: [
+      { label: 'Frequency', value: 'On Commit' },
+      { label: 'CPU Impact', value: 'Variable' },
+      { label: 'Protocols', value: 'Git, SSH' },
+      { label: 'Standards', value: 'GitOps, DORA' }
+    ],
+    widget: 'repo'
+  },
+  {
+    id: 'ai_ready', // LLM-Kinase
+    cat: 'ai',
+    title: 'LLM-Kinase',
+    desc: 'Validates llms.txt readiness and AI crawler accessibility for semantic ingestion.',
+    icon: Cpu,
+    color: '#8A2BE2',
+    status: 'Operational',
+    specs: [
+      { label: 'Frequency', value: 'On-demand' },
+      { label: 'CPU Impact', value: 'Low' },
+      { label: 'Protocols', value: 'HTTP/s' },
+      { label: 'Standards', value: 'robots.txt, llms.txt' }
+    ],
+    widget: 'ai'
+  },
+  {
+    id: 'llmo', // AllosterSearch
+    cat: 'ai',
+    title: 'AllosterSearch',
+    desc: 'LLM Optimization (LLMO) and geographic SEO visibility scoring.',
+    icon: Search,
+    color: '#8A2BE2',
+    status: 'Operational',
+    specs: [
+      { label: 'Frequency', value: 'Daily crawl' },
+      { label: 'CPU Impact', value: 'None' },
+      { label: 'Protocols', value: 'HTTPS' },
+      { label: 'Standards', value: 'Schema.org JSON-LD' }
+    ],
+    widget: 'llmo'
+  },
+  {
+    id: 'migration', // SynthShift
+    cat: 'ai', // Mapping SynthShift to AI for 3 AI Discoverability items
+    title: 'SynthShift',
+    desc: 'Cross-framework migration complexity analysis and schema structure validation.',
+    icon: GitBranch,
+    color: '#8A2BE2',
+    status: 'Operational',
+    specs: [
+      { label: 'Frequency', value: 'CI/CD Pipeline' },
+      { label: 'CPU Impact', value: 'High' },
+      { label: 'Protocols', value: 'AST Parsing' },
+      { label: 'Standards', value: 'ECMAScript, JSX' }
+    ],
+    widget: 'migration'
   }
 ];
 
 export const DiagnosticHubPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('all');
+
+  const filteredEngines = ENGINE_DETAILS.filter(
+    (eng) => activeTab === 'all' || eng.cat === activeTab
+  );
+
   return (
     <PageTransition>
-      <div className="min-h-[100dvh] pt-24 pb-20 px-4 sm:px-8 lg:px-12 w-full max-w-7xl mx-auto flex flex-col gap-12">
+      <div className="min-h-[100dvh] pt-24 pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-12">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
-              Diagnostic <span className="text-primary">Hub</span>
+            <h1 className="framer-hero-title text-white mb-4">
+              Diagnostic Hub.
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            <p className="framer-body-text">
               The Engine Matrix. Select a specialized vector to analyze your domain's architecture, 
               security, and performance directly from the command center.
             </p>
@@ -115,58 +192,121 @@ export const DiagnosticHubPage: React.FC = () => {
           
           <Link
             to="/launch-audit"
-            className="group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+            className="group flex h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm sm:text-base font-semibold text-black transition-all hover:bg-neutral-200 shrink-0"
           >
-            <Sparkles className="size-4 opacity-80" />
+            <Sparkles className="size-4" />
             Launch Master Audit
-            <ArrowRight className="size-4 opacity-70 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Engine Matrix Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {engines.map((engine, i) => (
-            <motion.div
-              key={engine.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-            >
-              <Link 
-                to={engine.to}
-                className="group relative flex flex-col h-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+        {/* Engine Filter Tabs */}
+        <div className="flex overflow-x-auto scrollbar-none touch-pan-x no-scrollbar pb-4 -mb-4">
+          <div className="flex items-center gap-2 p-1.5 bg-[#0B0B0B] border border-white/10 rounded-full">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveTab(cat.id)}
+                className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+                  activeTab === cat.id ? 'text-black' : 'text-[#999999] hover:text-white'
+                }`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300 pointer-events-none" />
+                {activeTab === cat.id && (
+                  <motion.div
+                    layoutId="hub-active-tab"
+                    className="absolute inset-0 bg-white rounded-full z-0"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">{cat.label} ({cat.count})</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Card Matrix */}
+        <div className="flex flex-col gap-6 mt-4">
+          <AnimatePresence mode="popLayout">
+            {filteredEngines.map((engine, idx) => (
+              <motion.div
+                key={engine.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                className="group relative bg-[#0B0B0B] border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row hover:border-white/25 transition-colors"
+              >
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-0"
+                  style={{ background: 'var(--glow-card-subsurface)' }}
+                />
                 
-                <div className="flex items-start justify-between mb-6 relative z-10">
-                  <div className={cn(
-                    "flex size-12 items-center justify-center rounded-xl border transition-transform duration-300 group-hover:scale-110",
-                    engine.color
-                  )}>
-                    <engine.icon className="size-5" />
+                {/* Left Side: Specs & Info */}
+                <div className="p-6 sm:p-8 flex-1 border-b md:border-b-0 md:border-r border-white/10 relative z-10 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="flex size-12 items-center justify-center rounded-xl bg-white/5 border border-white/10" style={{ color: engine.color }}>
+                          <engine.icon className="size-6" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-semibold text-white tracking-tight">{engine.title}</h3>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            {engine.status === 'Operational' ? (
+                              <CheckCircle2 className="size-3.5 text-emerald-400" />
+                            ) : (
+                              <Clock className="size-3.5 text-amber-400" />
+                            )}
+                            <span className="text-xs font-mono text-[#999999] uppercase tracking-widest">{engine.status}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm sm:text-base text-[#999999] leading-relaxed mb-8">
+                      {engine.desc}
+                    </p>
                   </div>
-                  {engine.badge && (
-                    <span className="inline-flex h-6 items-center rounded-full bg-primary/10 px-2.5 text-[10px] font-bold uppercase tracking-widest text-primary">
-                      {engine.badge}
-                    </span>
-                  )}
+
+                  <div className="grid grid-cols-2 gap-4">
+                    {engine.specs.map((spec, i) => (
+                      <div key={i} className="flex flex-col gap-1">
+                        <span className="text-[11px] font-mono text-[#666666] uppercase tracking-wider">{spec.label}</span>
+                        <span className="text-sm font-medium text-white">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="flex-1 relative z-10">
-                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {engine.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {engine.description}
-                  </p>
+                {/* Right Side: Live Simulation Widget */}
+                <div className="w-full md:w-[45%] lg:w-[40%] bg-[#050505] relative z-10 p-6 sm:p-8 flex items-center justify-center">
+                  {/* Mock Widget Container */}
+                  <div className="w-full h-full min-h-[220px] border border-white/5 rounded-2xl bg-[#0A0A0A] flex flex-col items-center justify-center p-0 relative overflow-hidden group/widget">
+                    {/* Background Grid Pattern */}
+                    <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '16px 16px' }} />
+                    
+                    {engine.widget === 'perf' && <PerfWidget />}
+                    {engine.widget === 'latency' && <LatencyWidget />}
+                    {engine.widget === 'eco' && <EcoWidget />}
+                    {engine.widget === 'sec' && <SecurityWidget />}
+                    {engine.widget === 'repo' && <RepoWidget />}
+                    {engine.widget === 'ai' && <AiWidget />}
+                    {engine.widget === 'migration' && <MigrationWidget />}
+                    {engine.widget === 'llmo' && <LlmoWidget />}
+                    
+                    <Link
+                      to={ENGINES_MAP[engine.id]?.route || '/hub'}
+                      className="absolute inset-0 z-20 focus:outline-none"
+                    />
+                    
+                    <div className="absolute bottom-4 right-4 flex items-center gap-1 text-xs font-medium text-white opacity-0 group-hover/widget:opacity-100 transition-opacity z-30">
+                      Inspect <ArrowRight className="size-3" />
+                    </div>
+                  </div>
                 </div>
-
-                <div className="mt-6 flex items-center text-sm font-medium text-primary opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 relative z-10">
-                  Launch Engine <ArrowRight className="ml-1.5 size-4" />
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </PageTransition>

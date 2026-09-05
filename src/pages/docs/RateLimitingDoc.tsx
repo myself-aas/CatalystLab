@@ -10,20 +10,20 @@ export const RateLimitingDoc: React.FC = () => {
  canonicalPath="/docs/rate-limiting"
  >
  <section id="tier-matrix"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 py-0.5 text-xs font-semibold text-indigo-800">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 py-0.5 text-xs font-semibold text-indigo-400">
  <Sliders className="h-3.5 w-3.5"/>
  <span>Traffic Control & Fair Quotas</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
  Multi-Tier Sliding Rate Limiter
  </h1>
- <p className="text-base text-muted-foreground leading-relaxed">
+ <p className="text-base text-[#A1A1AA] leading-relaxed">
  CatalystLab employs a hybrid client-device and IP rate limiter to protect upstream infrastructure, prevent abuse, and ensure fair resource allocation across all users.
  </p>
 
- <div className="ds-card p-4">
+ <div className="ds-card p-4 overflow-x-auto scrollbar-none touch-pan-x">
  <table className="w-full text-left text-sm">
- <thead className="border-b border-border bg-muted/20 text-muted-foreground font-semibold">
+ <thead className="border-b border-border bg-muted/20 text-[#A1A1AA] font-semibold">
  <tr>
  <th className="py-2.5">User Tier</th>
  <th className="py-2.5">Daily Single Scans</th>
@@ -32,26 +32,26 @@ export const RateLimitingDoc: React.FC = () => {
  <th className="py-2.5">Reset Window</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-white/[0.06] text-foreground">
+ <tbody className="divide-y divide-white/[0.06] text-[#EDEDED]">
  <tr>
  <td className="py-2.5 font-semibold">Anonymous Visitor</td>
  <td className="py-2.5 font-mono">5 scans / day</td>
  <td className="py-2.5 font-mono">1 audit / day</td>
- <td className="py-2.5 text-muted-foreground"><code>vis_&#123;deviceId|IP&#125;</code></td>
+ <td className="py-2.5 text-[#A1A1AA]"><code>vis_&#123;deviceId|IP&#125;</code></td>
  <td className="py-2.5">Midnight UTC</td>
  </tr>
  <tr>
  <td className="py-2.5 font-semibold text-primary">Authenticated User (Google)</td>
  <td className="py-2.5 font-mono text-emerald-700 font-bold">10 scans / day</td>
  <td className="py-2.5 font-mono text-emerald-700 font-bold">3 audits / day</td>
- <td className="py-2.5 text-muted-foreground"><code>user_&#123;UID|Email&#125;</code></td>
+ <td className="py-2.5 text-[#A1A1AA]"><code>user_&#123;UID|Email&#125;</code></td>
  <td className="py-2.5">Midnight UTC</td>
  </tr>
  <tr>
  <td className="py-2.5 font-semibold text-purple-700">SuperAdmin Tier</td>
  <td className="py-2.5 font-mono text-purple-700 font-bold">Unlimited</td>
  <td className="py-2.5 font-mono text-purple-700 font-bold">Unlimited</td>
- <td className="py-2.5 text-muted-foreground">Verified Admin Email</td>
+ <td className="py-2.5 text-[#A1A1AA]">Verified Admin Email</td>
  <td className="py-2.5">N/A</td>
  </tr>
  </tbody>
@@ -61,16 +61,16 @@ export const RateLimitingDoc: React.FC = () => {
 
  {/* Identification & Fingerprinting */}
  <section id="client-fingerprint"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">Identification & Client Device Fingerprinting</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">Identification & Client Device Fingerprinting</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  Anonymous traffic uses an in-browser persistent client UUID combined with remote client IP address hashing. When users sign in with Google Firebase Auth, their account transitions to the Authenticated Tier with elevated quotas and automatic audit history synchronization.
  </p>
  </section>
 
  {/* Sliding Window */}
  <section id="sliding-window"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">Sliding Token Bucket Algorithm</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">Sliding Token Bucket Algorithm</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  The rate limiter maintains an in-memory and Firestore timestamp queue. Requests that exceed the daily quota trigger an HTTP 429 response with time remaining until the next quota replenishment.
  </p>
 
@@ -104,8 +104,8 @@ function checkUserQuota(key: string, isMaster: boolean, tier: 'visitor' | 'user'
 
  {/* Response Headers */}
  <section id="headers-response"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">Standard Rate Limit Headers</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">Standard Rate Limit Headers</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  All API responses carry rate limit telemetry headers to allow programmatic clients to monitor quota:
  </p>
 

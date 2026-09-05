@@ -119,7 +119,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
                 <span className="text-muted-foreground text-[11px]">code snippet</span>
               </div>
             )}
-            <pre className="overflow-x-auto p-4 font-mono text-sm text-foreground leading-relaxed">
+            <pre className="overflow-x-auto scrollbar-none touch-pan-x p-4 font-mono text-sm text-foreground leading-relaxed">
               <code>{codeBlockContent.join('\n')}</code>
             </pre>
           </div>

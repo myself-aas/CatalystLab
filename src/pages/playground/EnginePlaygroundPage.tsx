@@ -415,7 +415,7 @@ func main() {
  </div>
 
  {/* Terminal View */}
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto min-h-[160px] border border-border shadow-inner">
+ <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x min-h-[160px] border border-border shadow-inner">
  {loading && (
  <div className="flex items-center gap-2 text-amber-400 mb-2">
  <RotateCw className="h-3.5 w-3.5 animate-spin"/>
@@ -455,7 +455,7 @@ func main() {
  </button>
  </div>
 
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border max-h-[400px]">
+ <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border max-h-[400px]">
  <pre className="text-sky-300 leading-relaxed">
  {JSON.stringify(jsonResponse, null, 2)}
  </pre>
@@ -506,7 +506,7 @@ func main() {
  </div>
  </div>
 
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto border border-border">
+ <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border">
  <pre className="text-amber-300 whitespace-pre leading-relaxed">
  {codeSnippet}
  </pre>

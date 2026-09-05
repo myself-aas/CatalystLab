@@ -265,7 +265,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
 
       {/* Differential Matrix Table */}
       <div className="rounded-xl border border-border bg-card overflow-hidden shadow-2xl">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto scrollbar-none touch-pan-x">
           <table className="w-full text-left font-mono text-xs border-collapse">
             <thead>
               <tr className="bg-muted/40 border-b border-border text-muted-foreground">

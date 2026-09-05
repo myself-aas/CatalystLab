@@ -10,22 +10,22 @@ export const RiskProteaseDoc: React.FC = () => {
  canonicalPath="/docs/riskprotease"
  >
  <section id="riskprotease-overview"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 py-0.5 text-xs font-semibold text-amber-800">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 py-0.5 text-xs font-semibold text-amber-400">
  <ShieldCheck className="h-3.5 w-3.5"/>
  <span>SDLC Phase 6: SecOps & Compliance Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
  RiskProtease: OWASP Security & Compliance Guard
  </h1>
- <p className="text-base text-muted-foreground leading-relaxed">
+ <p className="text-base text-[#A1A1AA] leading-relaxed">
  RiskProtease executes automated penetration and compliance checks, auditing TLS cipher suites, Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), WCAG 2.2 AA color contrast ratios, ARIA semantic landmarks, and GDPR cookie banners.
  </p>
  </section>
 
  {/* OWASP Compliance */}
  <section id="owasp-compliance"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">OWASP Security Headers Implementation</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">OWASP Security Headers Implementation</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  Configure baseline defensive headers to secure web applications against XSS, clickjacking, and packet sniffing:
  </p>
 
@@ -60,22 +60,22 @@ app.use(helmet({
 
  {/* WCAG Accessibility */}
  <section id="wcag-accessibility"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">WCAG 2.2 AA Contrast Standards</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">WCAG 2.2 AA Contrast Standards</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  The engine computes relative luminance formulas to verify color contrast ratios between text and background elements:
  </p>
 
  <div className="ds-card p-4 text-sm space-y-2">
- <div><strong className="text-foreground">Standard Body Text (&lt; 18pt):</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">4.5:1</span></div>
- <div><strong className="text-foreground">Large Headings (&ge; 18pt or &ge; 14pt bold):</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">3.0:1</span></div>
- <div><strong className="text-foreground">Interactive UI Components & Form Borders:</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">3.0:1</span></div>
+ <div><strong className="text-[#EDEDED]">Standard Body Text (&lt; 18pt):</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">4.5:1</span></div>
+ <div><strong className="text-[#EDEDED]">Large Headings (&ge; 18pt or &ge; 14pt bold):</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">3.0:1</span></div>
+ <div><strong className="text-[#EDEDED]">Interactive UI Components & Form Borders:</strong> Minimum contrast ratio of <span className="font-mono font-bold text-emerald-700">3.0:1</span></div>
  </div>
  </section>
 
  {/* Cookie Consent */}
  <section id="cookie-consent"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-foreground">GDPR / CCPA Consent & Tracker Detection</h2>
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <h2 className="text-2xl font-bold text-[#EDEDED]">GDPR / CCPA Consent & Tracker Detection</h2>
+ <p className="text-sm text-[#A1A1AA] leading-relaxed">
  Verifies whether third-party tracking scripts (Google Analytics, Meta Pixel, Hotjar) execute prior to explicit user cookie consent.
  </p>
  </section>

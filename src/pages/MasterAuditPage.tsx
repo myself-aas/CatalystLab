@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { HeroSection } from '../components/home/HeroSection';
 import { SocialProof } from '../components/home/SocialProof';
-import { FeaturedAuditMetrics } from '../components/home/FeaturedAuditMetrics';
 import { EnzymeGrid } from '../components/home/EnzymeGrid';
 import { HowItWorks } from '../components/home/HowItWorks';
 import { Testimonials } from '../components/home/Testimonials';
@@ -32,7 +31,6 @@ export const MasterAuditPage: React.FC = () => {
 
  <HeroSection />
  <SocialProof />
- <FeaturedAuditMetrics />
  <EnzymeGrid />
  <HowItWorks />
  <Testimonials />

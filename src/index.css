@@ -8,6 +8,61 @@
    ========================================================================== */
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  /* Surface Layers */
+  --bg-canvas: #000000;                     /* Absolute ground */
+  --bg-surface-lowest: #050505;              /* Recessed wells / code backgrounds */
+  --bg-surface-low: #0a0a0a;                 /* Base cards and bento containers */
+  --bg-surface-card: #111111;                /* Nested widgets and active items */
+  --bg-surface-elevated: #161616;            /* Hover states, popovers, tooltips */
+  --bg-glass-overlay: rgba(10, 10, 10, 0.65); /* Floating pill and nav blur */
+
+  /* Hairline Borders (Alpha Transparency) */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --border-glow: rgba(0, 102, 255, 0.40);
+
+  /* Typography & Foreground */
+  --text-primary: #FFFFFF;
+  --text-secondary: #999999;
+  --text-tertiary: #666666;
+  --text-disabled: #444444;
+
+  /* CatalystLab Engine Accents (Framer-Tuned) */
+  --accent-framer-blue: #0066FF;             /* Primary CTA & Core AI trigger */
+  --accent-cyan-edge: #00D2FF;               /* EdgeKinase & Handshake telemetry */
+  --accent-emerald-vital: #00F298;           /* VitalZyme, CWV 99.9%, Live pings */
+  --accent-violet-synth: #8A2BE2;            /* SynthShift & Schema transformations */
+  --accent-amber-sec: #FF9900;               /* RiskProtease & OWASP alerts */
+
+  /* Radiance & Shadows */
+  --glow-radial-hero: radial-gradient(circle 600px at 50% 0%, rgba(0, 102, 255, 0.15), transparent 70%);
+  --glow-card-subsurface: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 60%);
+  --shadow-hairline: 0 0 0 1px var(--border-default);
+  --shadow-elevated: 0 12px 36px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border-default);
+}
+
+/* --- Framer Card Hover Physics & Interactions --- */
+.framer-card-hover {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease-out;
+  will-change: transform;
+}
+
+.framer-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.framer-card-interactive {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease-out;
+}
+
+.framer-card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
 :root, [data-theme="light"], .theme-light, .page-light {
   color-scheme: light;
 
@@ -153,8 +208,7 @@
 
   /* Font Stacks */
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-display: "Playfair Display", serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 html.dark, [data-theme="dark"], .theme-dark, .page-dark {
@@ -172,8 +226,6 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --accent: #5E6AD2;
   --accent-bright: #6872D9;
   --accent-glow: rgba(94, 106, 210, 0.30);
-  --border-default: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(255, 255, 255, 0.10);
   --border-accent: rgba(94, 106, 210, 0.30);
 
   /* Re-mapped Palette Bases (Deep Space Technical Grays) */
@@ -377,12 +429,10 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-border-default: var(--border-default, rgba(255, 255, 255, 0.06));
   --color-border-hover: var(--border-hover, rgba(255, 255, 255, 0.10));
   --color-border-accent: var(--border-accent, rgba(94, 106, 210, 0.30));
-  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-display: "Playfair Display", serif;
+  --font-sans: "Inter", system-ui, sans-serif;
 }
 
 @theme {
-  --font-display: "Playfair Display", serif;
   /* Linear Indigo Core */
   --color-linear-indigo: #5E6AD2;
   --color-linear-indigo-bright: #6872D9;
@@ -416,8 +466,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
     touch-action: manipulation;
-    background-color: var(--app-background);
-    color: var(--app-foreground);
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     overflow-x: hidden;
   }
 
@@ -426,9 +476,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     min-height: 100dvh;
     width: 100%;
     font-family: var(--font-sans);
-  --font-display: "Playfair Display", serif;
-    background-color: var(--app-background);
-    color: var(--app-foreground);
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     line-height: 1.6;
     font-size: 1rem;
     font-weight: 400;
@@ -542,6 +591,26 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
    TAILWINDCSS-ANIMATE COMPAT UTILITIES (used by menus, popovers, modals)
    ========================================================================== */
 @layer utilities {
+  /* Framer-grade Fluid Typography & Negative Tracking */
+  .framer-hero-title {
+    @apply text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[1.05];
+  }
+  .framer-section-headline {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12];
+  }
+  .framer-card-title {
+    @apply text-lg sm:text-xl font-medium tracking-[-0.02em];
+  }
+  .framer-body-text {
+    @apply text-sm sm:text-base text-[#999999] leading-relaxed tracking-[-0.01em];
+  }
+  .framer-micro-tag {
+    @apply text-[11px] font-mono tracking-[0.04em] uppercase;
+  }
+  .framer-code-terminal {
+    @apply font-mono text-xs sm:text-[13px] leading-relaxed text-[#00D2FF];
+  }
+
   .animate-in {
     animation: tw-animate-enter 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
@@ -968,77 +1037,91 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   .ds-control { min-height: 2.75rem; border-radius: 0.65rem; }
   .ds-muted { color: var(--app-muted-foreground); }
+  
   .docs-devsite-article h1,
   .docs-devsite-article h2,
   .docs-devsite-article h3,
   .docs-content h1,
   .docs-content h2,
   .docs-content h3 {
-    font-family: var(--font-display);
-    color: #202124;
-    letter-spacing: normal;
-    font-weight: 500;
+    font-family: var(--font-sans);
+    color: #EDEDED;
+    letter-spacing: -0.02em;
+    font-weight: 600;
   }
+  
   .docs-devsite-article h2,
   .docs-content h2 {
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    padding-bottom: 0.35rem;
-    border-bottom: 1px solid #dadce0;
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
+  
   .docs-devsite-article h3,
   .docs-content h3 {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     font-weight: 500;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
   }
+  
   .docs-content p,
   .docs-content li {
-    color: #3c4043;
+    color: #A1A1AA;
+    line-height: 1.7;
+    margin-bottom: 1rem;
   }
+  
   .docs-content a {
-    color: #5E6AD2;
+    color: #0066FF;
     text-decoration: none;
+    transition: color 0.15s ease;
   }
+  
   .docs-content a:hover {
+    color: #00D2FF;
     text-decoration: underline;
   }
+  
   .docs-content code {
     font-family: var(--font-mono);
     font-size: 0.85em;
-    color: #c5221f;
-    background: #f1f3f4;
-    padding: 0.1em 0.35em;
+    color: #00D2FF;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2em 0.4em;
     border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
+  
+  .docs-content pre {
+    background: #050505 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
   .docs-content pre code {
     color: inherit;
     background: transparent;
     padding: 0;
+    border: none;
   }
-
-  .dark .docs-devsite-article h1,
-  .dark .docs-devsite-article h2,
-  .dark .docs-devsite-article h3,
-  .dark .docs-content h1,
-  .dark .docs-content h2,
-  .dark .docs-content h3 {
-    color: #e8eaed;
+  
+  /* Inline Warning Callouts */
+  .docs-content blockquote {
+    border-left: 3px solid #FF9900;
+    background: rgba(255, 153, 0, 0.05);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+    color: #EDEDED;
   }
-  .dark .docs-devsite-article h2,
-  .dark .docs-content h2 {
-    border-bottom-color: rgba(255, 255, 255, 0.12);
-  }
-  .dark .docs-content p,
-  .dark .docs-content li {
-    color: #9aa0a6;
-  }
-  .dark .docs-content a {
-    color: #6872D9;
-  }
-  .dark .docs-content code {
-    color: #f28b82;
-    background: rgba(255, 255, 255, 0.08);
+  .docs-content blockquote p {
+    color: #EDEDED;
+    margin-bottom: 0;
   }
 }
 

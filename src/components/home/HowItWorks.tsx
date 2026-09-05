@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Bot, Cpu, FileCheck, Network } from 'lucide-react';
-import { LinearCard } from '../ui/LinearCard';
 import { SectionHeader } from './SectionHeader';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -11,30 +10,30 @@ const STEPS = [
   {
     n: '01',
     icon: Network,
-    title: 'Ingest & resolve',
-    time: '140ms',
-    body: 'Anycast DNS across 42 PoPs. TLS 1.3 0-RTT, ALPN, HTTP/3 viability — before a single engine fires.',
+    title: 'Ingest & Resolve',
+    time: '0ms - 120ms',
+    body: 'Multi-region DNS & TLS 1.3 handshake resolution.',
   },
   {
     n: '02',
     icon: Cpu,
-    title: 'Eight engines, parallel',
-    time: '420ms',
-    body: 'Vitals, OWASP headers, carbon, repo hygiene, edge TTFB, and more execute on one synchronous bus.',
+    title: 'Eight Engines Parallel',
+    time: '120ms - 640ms',
+    body: 'Asynchronous bytecode and DOM tree telemetry.',
   },
   {
     n: '03',
     icon: Bot,
-    title: 'AI discoverability',
-    time: '310ms',
-    body: 'Parse /llms.txt, crawler policy, and Schema.org so RAG systems can cite you without hallucinating structure.',
+    title: 'AI Discoverability',
+    time: '640ms - 880ms',
+    body: 'LLM crawlability, robots.txt, and semantic schema check.',
   },
   {
     n: '04',
     icon: FileCheck,
-    title: 'Dossier & patches',
-    time: '190ms',
-    body: 'Composite score plus production-ready NGINX, Workers, and Next.js remediations — not a PDF graveyard.',
+    title: 'Dossier & Patches',
+    time: '880ms - 1060ms',
+    body: 'One-click PR branch generation with verified patch diffs.',
   },
 ];
 
@@ -42,56 +41,73 @@ export const HowItWorks: React.FC = () => {
   return (
     <section
       id="workflow-section"
-      className="relative overflow-hidden border-t border-border py-16 md:py-24 lg:py-32"
+      className="relative overflow-hidden py-16 md:py-24 lg:py-32"
     >
-      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 md:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <SectionHeader
           eyebrow={
             <>
-              <Network className="size-3.5 text-primary" />
+              <Network className="size-3.5 text-[#0066FF]" />
               <span>Synchronous pipeline</span>
             </>
           }
-          title="Four gates. 1.06s P95."
+          title="Four Gates. 1.06s P95."
           description="From edge resolution to a shareable remediation dossier — no queue, no waterfall, no waiting on a vendor dashboard."
-          action={
-            <Link
-              to="/methodology"
-              id="workflow-view-methodology-link"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-4 py-2.5 text-sm font-medium text-foreground transition-all duration-200 hover:border-white/10 hover:bg-muted/80"
-            >
-              Methodology
-              <ArrowRight className="size-4 text-muted-foreground" />
-            </Link>
-          }
         />
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {STEPS.map((step, i) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={step.n}
-                id={`workflow-step-${step.n}`}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
-              >
-                <LinearCard className="flex h-full min-h-[260px] flex-col p-6">
-                  <div className="mb-6 flex items-center justify-between">
-                    <div className="flex size-10 items-center justify-center rounded-xl border border-white/10 bg-muted/40 text-primary">
-                      <Icon className="size-4" />
-                    </div>
-                    <span className="font-mono text-xs text-muted-foreground">{step.time}</span>
+        <div className="relative mt-12 md:mt-16">
+          {/* Desktop Connecting Line */}
+          <div className="hidden md:block absolute top-[28px] left-8 right-8 h-[2px] bg-white/10 z-0">
+            <motion.div
+              className="h-full bg-gradient-to-r from-[#0066FF]/0 via-[#0066FF] to-[#0066FF]/0"
+              initial={{ x: '-100%' }}
+              whileInView={{ x: '100%' }}
+              transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
+            />
+          </div>
+
+          <div className="flex flex-col gap-8 relative pl-6 border-l border-white/10 md:pl-0 md:border-l-0 md:grid md:grid-cols-4 md:gap-4 z-10">
+            {STEPS.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.n}
+                  id={`workflow-step-${step.n}`}
+                  className="relative flex flex-col items-start md:items-center text-left md:text-center"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
+                >
+                  {/* Node Dot for Mobile */}
+                  <div className="md:hidden absolute -left-[31px] top-1.5 size-3 rounded-full bg-[#0066FF] shadow-[0_0_10px_rgba(0,102,255,0.8)]" />
+
+                  {/* Desktop Node */}
+                  <div className="hidden md:flex mb-6 relative size-14 items-center justify-center rounded-2xl bg-[#0B0B0B] border border-white/10 text-white z-10 shadow-xl transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[2px] hover:border-white/25 hover:shadow-[0_0_20px_-4px_rgba(0,102,255,0.4)]">
+                    <Icon className="size-6 text-[#0066FF]" />
                   </div>
-                  <p className="font-mono text-[11px] uppercase tracking-widest text-primary">Gate {step.n}</p>
-                  <h3 className="mt-2 text-xl font-semibold tracking-tight text-foreground">{step.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-                </LinearCard>
-              </motion.div>
-            );
-          })}
+
+                  <div className="md:hidden mb-4 size-10 flex items-center justify-center rounded-xl bg-[#0B0B0B] border border-white/10 text-white shadow-xl transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[1px] hover:border-white/25">
+                    <Icon className="size-5 text-[#0066FF]" />
+                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-white">
+                    {step.n}. {step.title}
+                  </h3>
+                  
+                  <div className="my-3">
+                    <span className="text-emerald-400 font-mono text-xs bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full inline-block">
+                      {step.time}
+                    </span>
+                  </div>
+
+                  <p className="text-sm leading-relaxed text-[#999999] md:max-w-[260px]">
+                    {step.body}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
