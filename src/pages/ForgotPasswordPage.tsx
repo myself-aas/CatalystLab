@@ -113,7 +113,7 @@ export const ForgotPasswordPage: React.FC = () => {
       />
 
       {/* Centered Floating Glass Modal Frame */}
-      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
         {/* Top Brand Anchor */}
         <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
           <Link to="/" className="flex items-center gap-2 group focus:outline-none">

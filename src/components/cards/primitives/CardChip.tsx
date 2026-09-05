@@ -7,7 +7,7 @@ import { CardChipProps, EnzymeHue } from '../types';
 import { useCardContext } from './CardContext';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-1.5 px-3 py-1 rounded-[10px] text-xs font-mono font-bold tracking-tight whitespace-nowrap shrink-0 transition-all duration-200 select-none text-primary-foreground',
+  'inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono font-bold tracking-tight whitespace-nowrap shrink-0 transition-all duration-200 select-none text-primary-foreground',
   {
     variants: {
       variant: {

@@ -1077,6 +1077,32 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   .ds-input::placeholder { color: var(--app-muted-foreground); opacity: 0.75; }
   .ds-input:focus { outline: none; border-color: var(--app-ring); box-shadow: 0 0 0 1px var(--app-ring); }
   .ds-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .ds-select {
+    width: 100%;
+    min-height: 2.75rem;
+    border-radius: 0.65rem;
+    padding-inline: 0.875rem 2.25rem;
+    background: var(--app-muted);
+    color: var(--app-foreground);
+    border: 1px solid var(--app-border);
+    font-size: 0.875rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .ds-select:focus { outline: none; border-color: var(--app-ring); box-shadow: 0 0 0 1px var(--app-ring); }
+  .ds-select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .ds-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--app-muted-foreground);
+  }
   
   .docs-devsite-article h1,
   .docs-devsite-article h2,

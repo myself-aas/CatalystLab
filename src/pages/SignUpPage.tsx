@@ -193,7 +193,7 @@ export const SignUpPage: React.FC = () => {
       />
 
       {/* Centered Floating Glass Modal Frame */}
-      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
         {/* Top Brand Anchor */}
         <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
           <Link to="/" className="flex items-center gap-2 group focus:outline-none">
@@ -345,7 +345,7 @@ export const SignUpPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Full Name */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+            <label className="ds-label block mb-1">
               Full Name
             </label>
             <div className="relative">
@@ -355,7 +355,7 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Alex Mercer"
                 required
-                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                className="ds-input pl-9 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary"
               />
               <UserIcon className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
             </div>
@@ -363,7 +363,7 @@ export const SignUpPage: React.FC = () => {
 
           {/* Work Email */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+            <label className="ds-label block mb-1">
               Work Email
             </label>
             <div className="relative">
@@ -373,7 +373,7 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="alex@acme.corp"
                 required
-                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                className="ds-input pl-9 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary"
               />
               <Mail className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
             </div>
@@ -381,7 +381,7 @@ export const SignUpPage: React.FC = () => {
 
           {/* Organization Domain */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
+            <label className="ds-label block mb-1">
               Primary Organization Domain
             </label>
             <div className="relative">
@@ -390,7 +390,7 @@ export const SignUpPage: React.FC = () => {
                 value={orgDomain}
                 onChange={(e) => setOrgDomain(e.target.value)}
                 placeholder="acme.corp"
-                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
+                className="ds-input pl-9 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary font-mono"
               />
               <Globe className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
             </div>
@@ -418,7 +418,7 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Minimum 8 characters"
                 required
-                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 pr-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
+                className="ds-input pl-9 pr-9 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary font-mono"
               />
               <Lock className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
               <button
@@ -461,7 +461,7 @@ export const SignUpPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-white text-black font-semibold hover:bg-neutral-200 rounded-xl py-3 px-4 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer mt-3"
+            className="ds-btn w-full bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] active:scale-[0.98] mt-3"
           >
             {authMethod === 'email' ? (
               <>

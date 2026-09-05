@@ -147,10 +147,10 @@ export const PricingPage: React.FC = () => {
  <button
  type="button"
  onClick={() => openCheckout(plan.id)}
- className={`mt-8 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.98] ${
+ className={`ds-btn mt-8 h-11 w-full text-sm font-medium active:scale-[0.98] ${
  popular
- ? 'bg-primary text-primary-foreground shadow-linear-cta hover:bg-primary/90'
- : 'border border-border bg-card text-foreground hover:bg-accent'
+  ? 'bg-primary text-primary-foreground shadow-linear-cta hover:bg-primary/90'
+  : 'border border-border bg-card text-foreground hover:bg-accent'
  }`}
  >
  {plan.ctaTextTrial}
@@ -174,7 +174,7 @@ export const PricingPage: React.FC = () => {
  <span className="font-mono text-3xl font-semibold text-foreground">$0</span>
  <Link
  to="/signup"
- className="ds-card h-11 items-center text-sm font-medium ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary h-11 text-sm font-medium"
  >
  Start free
  </Link>
@@ -191,7 +191,7 @@ export const PricingPage: React.FC = () => {
  <button
  type="button"
  onClick={() => openCheckout('enterprise')}
- className="inline-flex h-11 shrink-0 items-center gap-2 rounded-lg bg-primary text-sm font-medium text-primary-foreground shadow-linear-cta transition-all hover:bg-primary/90 active:scale-[0.98] px-4 py-2"
+ className="ds-btn h-11 shrink-0 bg-primary text-primary-foreground shadow-linear-cta hover:bg-primary/90 text-sm font-medium px-4 active:scale-[0.98]"
  >
  Talk to us
  <ArrowRight className="size-4"/>

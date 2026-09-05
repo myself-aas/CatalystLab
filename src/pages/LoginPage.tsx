@@ -162,7 +162,7 @@ export const LoginPage: React.FC = () => {
       />
 
       {/* Centered Floating Glass Modal Frame */}
-      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
         {/* Top Brand Anchor */}
         <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
           <Link to="/" className="flex items-center gap-2 group focus:outline-none">
@@ -227,7 +227,7 @@ export const LoginPage: React.FC = () => {
             type="button"
             onClick={handleGithubLogin}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl bg-surface border border-border hover:border-border-strong hover:bg-surface text-white text-xs sm:text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm font-medium"
           >
             {authMethod === 'github' ? (
               <RotateCw className="size-4 animate-spin text-white" />
@@ -243,7 +243,7 @@ export const LoginPage: React.FC = () => {
             type="button"
             onClick={handleGoogleLogin}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl bg-surface border border-border hover:border-border-strong hover:bg-surface text-white text-xs sm:text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm font-medium"
           >
             {authMethod === 'google' ? (
               <RotateCw className="size-4 animate-spin text-white" />
@@ -284,7 +284,7 @@ export const LoginPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="engineer@acme.corp"
                 required
-                className="w-full bg-background border border-border rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                className="ds-input pl-10 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary"
               />
               <Mail className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
             </div>
@@ -301,7 +301,7 @@ export const LoginPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
                 required
-                className="w-full bg-background border border-border rounded-xl px-4 py-3 pl-10 pr-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
+                className="ds-input pl-10 pr-10 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary font-mono"
               />
               <Lock className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
               <button
@@ -338,7 +338,7 @@ export const LoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-white text-black font-semibold hover:bg-neutral-200 rounded-xl py-3 px-4 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer mt-2"
+            className="ds-btn w-full bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] active:scale-[0.98] mt-2"
           >
             {authMethod === 'email' ? (
               <>

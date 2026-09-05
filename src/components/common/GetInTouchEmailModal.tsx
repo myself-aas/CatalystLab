@@ -220,7 +220,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Topic Selector Pills */}
                   <div>
-                    <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                    <label className="ds-label block mb-1.5">
                       Inquiry Topic
                     </label>
                     <div className="grid grid-cols-2 gap-1.5">
@@ -243,7 +243,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
 
                   {/* Email Input (Required) */}
                   <div>
-                    <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                    <label className="ds-label block mb-1">
                       Work Email <span className="text-primary">*</span>
                     </label>
                     <div className="relative">
@@ -256,7 +256,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@company.com"
-                        className="w-full rounded-xl border border-border bg-background py-2.5 pl-9 pr-3 text-sm sm:text-base font-mono text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                        className="ds-input pl-9 font-mono text-sm sm:text-base"
                       />
                     </div>
                   </div>
@@ -264,7 +264,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   {/* Name & Company (Optional 2-Col Grid) */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                      <label className="ds-label block mb-1">
                         Your Name (Optional)
                       </label>
                       <div className="relative">
@@ -276,13 +276,13 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="Alex Mercer"
-                          className="w-full rounded-xl border border-border bg-background py-2 pl-8 pr-3 text-sm font-mono text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-all"
+                          className="ds-input pl-8 font-mono"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                      <label className="ds-label block mb-1">
                         Company / Domain (Optional)
                       </label>
                       <div className="relative">
@@ -294,7 +294,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           value={company}
                           onChange={(e) => setCompany(e.target.value)}
                           placeholder="acme-corp.com"
-                          className="w-full rounded-xl border border-border bg-background py-2 pl-8 pr-3 text-sm font-mono text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-all"
+                          className="ds-input pl-8 font-mono"
                         />
                       </div>
                     </div>
@@ -302,7 +302,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
 
                   {/* Message Input (Optional) */}
                   <div>
-                    <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                    <label className="ds-label block mb-1">
                       Message / Notes (Optional)
                     </label>
                     <div className="relative">
@@ -311,7 +311,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Tell us what you're building or what questions you have..."
-                        className="w-full rounded-xl border border-border bg-background p-2.5 text-sm font-mono text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-all resize-none"
+                        className="ds-input p-2.5 font-mono resize-none"
                       />
                     </div>
                   </div>
@@ -320,7 +320,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="ds-btn ds-btn-primary w-full font-mono font-bold shadow-md active:scale-[0.98]"
                   >
                     {isSubmitting ? (
                       <>

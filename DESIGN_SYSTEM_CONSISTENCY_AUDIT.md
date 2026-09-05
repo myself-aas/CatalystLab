@@ -134,3 +134,60 @@ Replace hardcoded grayscale utilities **only inside className strings** with the
 - Added canonical `.ds-btn*` and `.ds-input` primitives and migrated the Contact form to them.
 - Scoped always-dark standalone pages with `data-theme="dark"` for coherent light-mode toggling.
 - Documented the accent-colour decision (keep legacy Framer-blue/engine hues as intentional accents, migrate when product aligns on Linear indigo).
+
+---
+
+## Appendix A — Complete page inventory
+
+### React routed pages (`src/pages/**`, 53 files)
+Core:
+`AboutPage, AdminDashboardPage, ApiDocsPage, BlogEditorPage, BlogPostPage, BlogsPage, CommandCenterPage, ComparePage, ContactPage, CookiePolicyPage, DiagnosticEnginesPage, DiagnosticHubPage, DocsPage, DomainReportArticlePage, ForgotPasswordPage, LegalPage, LoginPage, MasterAuditExecutionPage, MasterAuditPage, MethodologyPage, NotFoundPage, PlaygroundPage, PricingPage, PrivacyPage, ProductsPage, ReportPermalinkPage, ReportsDirectoryPage, SecurityPage, SignUpPage, TermsPage, ToolPage, UserDashboardPage`
+
+API docs:
+`api/ApiCategoryPage, api/ApiOverviewPage`
+
+Docs modules:
+`docs/AllosterSearchDoc, docs/ApiReferenceDoc, docs/ArchitectureDoc, docs/CicdDevOpsDoc, docs/EcoHoloDoc, docs/EdgeVmaxDoc, docs/GitLygaseDoc, docs/LlmKinaseDoc, docs/OrchestratorDoc, docs/RateLimitingDoc, docs/RiskProteaseDoc, docs/ScoringMatrixDoc, docs/SecurityDoc, docs/SynthShiftDoc, docs/SystemOverviewDoc, docs/VitalZymeDoc`
+
+Playground:
+`playground/EnginePlaygroundPage, playground/PlaygroundCatalogPage, playground/ReactDevDesignPage`
+
+### Standalone static pages (`public/*.html`, 21 files)
+`admin.html, ai-readiness.html, blogs.html, compare.html, compliance.html, contact.html, cookies.html, dashboard.html, eco-audit.html, health.html, index.html, latency.html, llmo.html, methodology.html, migration.html, privacy.html, repo-scanner.html, report.html, reports.html, security.html, terms.html`
+
+### Route definitions (`src/App.tsx`)
+`/`, `/about`, `/api-docs`, `/api-reference`, `/app`, `/audit`, `/blog/:slug`, `/blogs`, `/blogs/:slug`, `/compare`, `/contact`, `/cookies`, `/dashboard/hud`, `/design-system`, `/developer/api`, `/docs`, `/docs/*` (16 doc routes), `/engines`, `/forgot-password`, `/hub`, `/hud`, `/insights`, `/integrations`, `/legal`, `/llmo`, `/login`, `/methodology`, `/playground`, `/plugins`, `/pricing`, `/privacy`, `/products`, `/register`, `/report`, `/report/:id`, `/reports`, `/reset-password`, `/security`, `/services`, `/signin`, `/signup`, `/terms`, `/404`, `*` — plus `.html` aliases for most.
+
+---
+
+## Appendix B — Steps 2–4 execution record (this pass)
+
+### Step 2 — Promote shared primitives (started)
+- Added `.ds-select` and `.ds-label` to `src/index.css` (`.ds-input` and `.ds-btn*` were added in the earlier pass).
+- Refactored the form-heavy pages/modals to the canonical primitives:
+  - `GetInTouchEmailModal` — email/name/company inputs + textarea → `.ds-input`, labels → `.ds-label`, submit → `.ds-btn ds-btn-primary`.
+  - `NewsletterModal` — input → `.ds-input`, label → `.ds-label`, CTA → `.ds-btn` (gradient preserved).
+  - `LoginPage` — social buttons → `.ds-btn ds-btn-secondary`, email/password → `.ds-input`, submit → `.ds-btn` (white CTA preserved).
+  - `SignUpPage` — name/email/domain/password → `.ds-input`, labels → `.ds-label`, submit → `.ds-btn`.
+  - `ContactPage` — submit → `.ds-btn` (white CTA preserved).
+  - `PricingPage` — plan/community/enterprise CTAs → `.ds-btn`/`.ds-btn-secondary`/`.ds-btn-primary` (gradient & shadow variants preserved).
+- Usage now: `.ds-input` ×15, `.ds-btn` ×10, `.ds-label` ×9, `.ds-btn-secondary` ×3, `.ds-btn-primary` ×1.
+
+### Step 3 — Unify radius + type (done for bespoke radii)
+- Removed every bespoke `rounded-[24px]/[28px]/[14px]/[10px]`.
+- Mapped: `28px → rounded-3xl`, `24px → rounded-3xl`, `14px → rounded-xl`, `10px → rounded-lg` across `DiagnosticEngineCard`, `CardMedia`, `CardChip`, `LiveTelemetryPanel`, `CatalystCarouselCard`, `EngineVectorCard`.
+- Verified no `rounded-[xxpx]` utilities remain in `src/`.
+- Considered a `--radius-*` token server; the Tailwind scale is now used exclusively, so no CSS-var server is needed for the surface set.
+
+### Step 4 — Consolidate cards/panels (started)
+- Added `ds-card` to hand-rolled panels so they inherit the canonical border/radius/background:
+  - `LoginPage`, `SignUpPage`, `ForgotPasswordPage` auth cards.
+  - `ContactPage` glass form panel.
+  - `DiagnosticHubPage` engine feature card + widget panel.
+- Normalized `border-white/10|5|25` → `border-border`/`border-border-strong` in `DiagnosticHubPage`, `ComparePage`, `PricingPage` (auth/docs/dashboard done earlier).
+
+### Remaining for Step 2–4 (documented, not yet done)
+- Migrate the remaining hand-rolled buttons (Navbar, home marketing, docs top nav, admin/user cockpit action buttons, blog editor toolbar) to `.ds-btn*`.
+- Migrate remaining inputs/selects (BlogEditor, ApiPlayground, MasterAuditExecution, UserRateLimitAllocationCard, admin filters) to `.ds-input`/`.ds-select`.
+- Consolidate the remaining hand-rolled panels (`LiveTelemetryPanel`, `FramerDossierCockpit` widgets, `SimulationWidgets`, `CinematicMedia`, `ScanRevealFigure`) onto `Card`/`.ds-card`.
+- Align the ever-dark marketing sections (Hero, EnzymeGrid, WorkflowSection, Footer) to the `data-theme="dark"` wrapper pattern or migrate them to tokens.

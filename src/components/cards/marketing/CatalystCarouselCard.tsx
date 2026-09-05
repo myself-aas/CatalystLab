@@ -47,7 +47,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
       onClick={onSelect}
       className={twMerge(
         clsx(
-          'w-[260px] sm:w-[280px] md:w-[300px] h-[380px] sm:h-[420px] rounded-[24px] p-5 sm:p-6 flex flex-col justify-between shrink-0 snap-start cursor-pointer select-none transition-all duration-300 relative overflow-hidden',
+          'w-[260px] sm:w-[280px] md:w-[300px] h-[380px] sm:h-[420px] rounded-3xl p-5 sm:p-6 flex flex-col justify-between shrink-0 snap-start cursor-pointer select-none transition-all duration-300 relative overflow-hidden',
           isActive && 'ring-2 ring-white/40 shadow-[0_25px_50px_-12px_var(--card-glow)]',
           className
         )

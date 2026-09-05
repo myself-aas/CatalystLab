@@ -109,7 +109,7 @@ export const ContactPage: React.FC = () => {
           <div className="relative group">
             <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-[#0066FF]/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
             
-            <div className="relative z-10 bg-surface/90 backdrop-blur-xl border border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
+            <div className="relative z-10 ds-card bg-surface/90 backdrop-blur-xl border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
               {submitted ? (
                 <div className="flex flex-col items-center justify-center text-center py-12 gap-4">
                   <div className="size-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
@@ -209,7 +209,7 @@ export const ContactPage: React.FC = () => {
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="w-full bg-white text-black hover:bg-neutral-200 font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-white/5 disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+                    className="ds-btn w-full bg-white text-black hover:bg-neutral-200 font-semibold shadow-lg shadow-white/5 active:scale-[0.98] mt-2"
                   >
                     {isSubmitting ? (
                       <>

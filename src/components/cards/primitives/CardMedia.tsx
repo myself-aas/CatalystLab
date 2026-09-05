@@ -117,7 +117,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
       className={twMerge(
         clsx(
           'relative overflow-hidden w-full select-none bg-primary',
-          isSurface && 'rounded-[14px] ring-1 ring-black/5 dark:ring-white/10 shadow-sm',
+          isSurface && 'rounded-xl ring-1 ring-black/5 dark:ring-white/10 shadow-sm',
           isImmersive && 'absolute inset-0 z-0 h-full',
           aspectClassName || aspectMap[aspect],
           className

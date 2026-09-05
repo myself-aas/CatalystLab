@@ -12,7 +12,7 @@ export const DiagnosticEngineCard: React.FC<Props> = ({ engine }) => {
 
   return (
     <motion.div
-      className="rounded-[28px] overflow-hidden shadow-lg border border-black/20 bg-background"
+      className="rounded-3xl overflow-hidden shadow-lg border border-black/20 bg-background"
       variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
       initial="hidden"
       animate="visible"

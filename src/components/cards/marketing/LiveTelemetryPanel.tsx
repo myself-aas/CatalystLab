@@ -32,7 +32,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       lift={false}
       className={twMerge(
         clsx(
-          'relative w-full rounded-[24px] border border-white/15 bg-muted/40/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between min-h-[460px]',
+          'relative w-full rounded-3xl border border-white/15 bg-muted/40/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between min-h-[460px]',
           className
         )
       )}

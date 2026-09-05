@@ -201,7 +201,7 @@ export const DiagnosticHubPage: React.FC = () => {
 
         {/* Engine Filter Tabs */}
         <div className="flex overflow-x-auto scrollbar-none touch-pan-x no-scrollbar pb-4 -mb-4">
-          <div className="flex items-center gap-2 p-1.5 bg-surface border border-white/10 rounded-full">
+          <div className="flex items-center gap-2 p-1.5 bg-surface border border-border rounded-full">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
@@ -234,7 +234,7 @@ export const DiagnosticHubPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="group relative bg-surface border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row hover:border-white/25 transition-colors"
+                className="group relative ds-card bg-surface border-border rounded-2xl overflow-hidden flex flex-col md:flex-row hover:border-border-strong transition-colors"
               >
                 <div
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-0"
@@ -242,11 +242,11 @@ export const DiagnosticHubPage: React.FC = () => {
                 />
                 
                 {/* Left Side: Specs & Info */}
-                <div className="p-6 sm:p-8 flex-1 border-b md:border-b-0 md:border-r border-white/10 relative z-10 flex flex-col justify-between">
+                <div className="p-6 sm:p-8 flex-1 border-b md:border-b-0 md:border-r border-border relative z-10 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-3">
-                        <div className="flex size-12 items-center justify-center rounded-xl bg-white/5 border border-white/10" style={{ color: engine.color }}>
+                        <div className="flex size-12 items-center justify-center rounded-xl bg-white/5 border border-border" style={{ color: engine.color }}>
                           <engine.icon className="size-6" />
                         </div>
                         <div>
@@ -281,7 +281,7 @@ export const DiagnosticHubPage: React.FC = () => {
                 {/* Right Side: Live Simulation Widget */}
                 <div className="w-full md:w-[45%] lg:w-[40%] bg-background relative z-10 p-6 sm:p-8 flex items-center justify-center">
                   {/* Mock Widget Container */}
-                  <div className="w-full h-full min-h-[220px] border border-white/5 rounded-2xl bg-surface flex flex-col items-center justify-center p-0 relative overflow-hidden group/widget">
+                  <div className="w-full h-full min-h-[220px] ds-card bg-surface border-border rounded-2xl flex flex-col items-center justify-center p-0 relative overflow-hidden group/widget">
                     {/* Background Grid Pattern */}
                     <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '16px 16px' }} />
                     

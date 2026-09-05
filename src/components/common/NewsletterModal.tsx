@@ -123,7 +123,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                   {/* Form */}
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                      <label htmlFor="newsletter-email" className="block text-xs font-mono font-bold text-muted-foreground mb-1">
+                      <label htmlFor="newsletter-email" className="ds-label block mb-1">
                         Email Address
                       </label>
                       <div className="relative">
@@ -137,7 +137,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="developer@enterprise.io"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-primary/90 text-primary-foreground placeholder-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
+                          className="ds-input pl-10 font-mono text-sm bg-primary/90 text-primary-foreground focus:ring-2 focus:ring-cyan-400"
                         />
                       </div>
                     </div>
@@ -145,7 +145,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 text-foreground font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
+                      className="ds-btn w-full bg-gradient-to-r from-cyan-400 to-cyan-500 text-foreground font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 active:scale-[0.98]"
                     >
                       <span>{isSubmitting ? 'Joining...' : 'Subscribe to Telemetry'}</span>
                       <ArrowRight className="h-4 w-4" />
