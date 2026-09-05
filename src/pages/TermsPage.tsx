@@ -47,7 +47,7 @@ export const TermsPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell: lg: space-y-8">
+ <main className="ds-page-shell lg: space-y-8">
  <TermsSection />
 
  {/* Global Trust Footer Card */}

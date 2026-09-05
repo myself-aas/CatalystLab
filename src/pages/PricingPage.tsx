@@ -86,7 +86,7 @@ export const PricingPage: React.FC = () => {
  </div>
  </section>
 
- <section className="ds-page-shell: lg:">
+ <section className="ds-page-shell lg:">
  <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
  {featured.map((plan, i) => {
  const price = annual ? plan.priceAnnualMonthly : plan.priceMonthly;

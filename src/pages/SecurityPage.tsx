@@ -52,7 +52,7 @@ export const SecurityPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell: lg:">
+ <main className="ds-page-shell lg:">
  <SecurityDisclosureSection />
  </main>
  </div>

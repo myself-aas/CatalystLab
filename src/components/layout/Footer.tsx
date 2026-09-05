@@ -53,7 +53,7 @@ interface FooterColumn {
 }
 
 const BADGE_VARIANTS: Record<string, string> = {
-  default: 'text-neutral-400 bg-white/[0.04] border-white/[0.08] group-hover:border-white/20 group-hover:text-neutral-200',
+  default: 'text-neutral-400 bg-white/[0.04] border-white/[0.08] group-hover:border-border-strong group-hover:text-neutral-200',
   cyan: 'text-[#00D2FF] bg-[#00D2FF]/10 border-[#00D2FF]/20 group-hover:border-[#00D2FF]/40 group-hover:bg-[#00D2FF]/15',
   emerald: 'text-[#00F298] bg-[#00F298]/10 border-[#00F298]/20 group-hover:border-[#00F298]/40 group-hover:bg-[#00F298]/15',
   violet: 'text-[#A78BFA] bg-[#8A2BE2]/15 border-[#8A2BE2]/25 group-hover:border-[#8A2BE2]/50 group-hover:bg-[#8A2BE2]/20',
@@ -173,7 +173,7 @@ export const Footer: React.FC = () => {
             </div>
           </div>
           
-          <div className="flex items-center gap-2 bg-[#0A0A0A] border border-white/10 rounded-xl px-3 py-1.5 font-mono text-xs text-[#999999] shadow-xs">
+          <div className="flex items-center gap-2 bg-surface border border-border rounded-xl px-3 py-1.5 font-mono text-xs text-muted-foreground shadow-xs">
             <span className="text-[#00D2FF] font-semibold">$</span>
             <span className="text-white select-all">curl -sSL api.catalystlab.tech/v2/audit</span>
             <CopyButton
@@ -196,19 +196,19 @@ export const Footer: React.FC = () => {
             >
               <BrandLogo size="md" />
             </Link>
-            <p className="text-xs sm:text-sm leading-relaxed text-[#999999] max-w-xl">
+            <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground max-w-xl">
               Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics. Auditing Core Web Vitals, OWASP SecOps, WCAG Accessibility, Eco-Carbon, and AI Readiness across 38 global edge nodes.
             </p>
             <div className="flex flex-wrap items-center gap-2 pt-1">
-              <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] font-mono text-[#999999]">
+              <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] font-mono text-muted-foreground">
                 <Shield className="size-3.5 text-emerald-400" />
                 <span>SOC 2 Type II Certified</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] font-mono text-[#999999]">
+              <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] font-mono text-muted-foreground">
                 <Award className="size-3.5 text-[#00D2FF]" />
                 <span>ISO 27001 Compliant</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] font-mono text-[#999999]">
+              <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] font-mono text-muted-foreground">
                 <Lock className="size-3.5 text-purple-400" />
                 <span>Zero-SDK Architecture</span>
               </div>
@@ -216,7 +216,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="rounded-2xl border border-white/10 bg-[#0A0A0A] p-4 sm:p-5 shadow-2xl relative overflow-hidden">
+            <div className="rounded-2xl border border-border bg-surface p-4 sm:p-5 shadow-2xl relative overflow-hidden">
               <div className="flex items-center justify-between gap-2 mb-2">
                 <div className="flex items-center gap-2 text-xs font-semibold text-white font-mono uppercase tracking-wider">
                   <Mail className="size-3.5 text-[#00D2FF]" />
@@ -224,7 +224,7 @@ export const Footer: React.FC = () => {
                 </div>
                 <span className="text-[10px] font-mono text-neutral-500 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">Monthly</span>
               </div>
-              <p className="text-xs text-[#999999] leading-relaxed mb-3">
+              <p className="text-xs text-muted-foreground leading-relaxed mb-3">
                 Monthly engineering telemetry on Core Web Vitals, OWASP advisories, and automated AST diff patch branches.
               </p>
               {newsletterSubscribed ? (
@@ -241,7 +241,7 @@ export const Footer: React.FC = () => {
                     placeholder="engineer@company.com"
                     required
                     aria-label="Work email address for newsletter"
-                    className="w-full h-9 rounded-xl border border-white/10 bg-[#050505] px-3 text-xs font-mono text-white placeholder-neutral-600 focus:border-[#0066FF] focus:outline-none focus:ring-1 focus:ring-[#0066FF] transition-all"
+                    className="w-full h-9 rounded-xl border border-border bg-background px-3 text-xs font-mono text-white placeholder-neutral-600 focus:border-[#0066FF] focus:outline-none focus:ring-1 focus:ring-[#0066FF] transition-all"
                   />
                   <button
                     type="submit"
@@ -280,11 +280,11 @@ export const Footer: React.FC = () => {
                   <li key={link.to + link.label}>
                     <Link
                       to={link.to}
-                      className="group flex items-center justify-between py-1.5 px-2 -mx-2 rounded-lg text-xs sm:text-[13px] text-[#999999] hover:text-white hover:bg-white/[0.03] transition-all duration-150"
+                      className="group flex items-center justify-between py-1.5 px-2 -mx-2 rounded-lg text-xs sm:text-[13px] text-muted-foreground hover:text-white hover:bg-white/[0.03] transition-all duration-150"
                       aria-label={link.ariaLabel || link.label}
                     >
                       <span className="flex items-center gap-2 truncate">
-                        <link.icon className="size-3.5 shrink-0 text-[#666666] group-hover:text-[#00D2FF] group-hover:scale-110 transition-all duration-150" />
+                        <link.icon className="size-3.5 shrink-0 text-muted-foreground group-hover:text-[#00D2FF] group-hover:scale-110 transition-all duration-150" />
                         <span className="truncate group-hover:translate-x-0.5 transition-transform duration-150">
                           {link.label}
                         </span>
@@ -313,7 +313,7 @@ export const Footer: React.FC = () => {
         {/* Tier 5: Bottom Metadata Bar & Actions */}
         <div className="mt-8 flex flex-col items-center justify-between border-t border-white/[0.08] pt-6 sm:flex-row gap-4 z-50">
           <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-            <p className="text-xs text-[#999999] font-mono">
+            <p className="text-xs text-muted-foreground font-mono">
               &copy; 2026 <strong className="text-white font-semibold">CatalystLab Inc.</strong> Multi-Dimensional Web Health &amp; Edge Telemetry Platform.
             </p>
             <span className="text-[11px] font-mono text-neutral-400 bg-white/[0.04] px-2 py-0.5 rounded-full border border-white/[0.08]">
@@ -328,7 +328,7 @@ export const Footer: React.FC = () => {
               href="https://github.com"
               target="_blank"
               rel="noreferrer"
-              className="size-8 rounded-lg border border-white/10 bg-[#0A0A0A] hover:bg-[#161616] hover:border-white/25 flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
+              className="size-8 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
               aria-label="CatalystLab GitHub repository"
             >
               <Code2 className="size-4" />
@@ -337,7 +337,7 @@ export const Footer: React.FC = () => {
               href="https://twitter.com"
               target="_blank"
               rel="noreferrer"
-              className="size-8 rounded-lg border border-white/10 bg-[#0A0A0A] hover:bg-[#161616] hover:border-white/25 flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
+              className="size-8 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
               aria-label="CatalystLab on X / Twitter"
             >
               <Share2 className="size-4" />
@@ -346,7 +346,7 @@ export const Footer: React.FC = () => {
               href="https://discord.com"
               target="_blank"
               rel="noreferrer"
-              className="size-8 rounded-lg border border-white/10 bg-[#0A0A0A] hover:bg-[#161616] hover:border-white/25 flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
+              className="size-8 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
               aria-label="CatalystLab Discord community"
             >
               <MessageSquare className="size-4" />
@@ -355,7 +355,7 @@ export const Footer: React.FC = () => {
               href="https://linkedin.com"
               target="_blank"
               rel="noreferrer"
-              className="size-8 rounded-lg border border-white/10 bg-[#0A0A0A] hover:bg-[#161616] hover:border-white/25 flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
+              className="size-8 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs"
               aria-label="CatalystLab on LinkedIn"
             >
               <ExternalLink className="size-4" />
@@ -365,7 +365,7 @@ export const Footer: React.FC = () => {
             <button
               type="button"
               onClick={scrollToTop}
-              className="group ml-2 flex items-center gap-1.5 rounded-full border border-white/10 bg-[#0A0A0A] px-3 py-1.5 text-xs font-mono text-neutral-400 transition-all duration-200 hover:border-white/25 hover:text-white hover:bg-[#161616] shadow-2xs cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066FF]"
+              className="group ml-2 flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-mono text-neutral-400 transition-all duration-200 hover:border-border-strong hover:text-white hover:bg-surface-elevated shadow-2xs cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066FF]"
               title="Scroll back to top"
               aria-label="Scroll back to top of page"
             >

@@ -1037,6 +1037,46 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   .ds-control { min-height: 2.75rem; border-radius: 0.65rem; }
   .ds-muted { color: var(--app-muted-foreground); }
+
+  /* Canonical interactive primitives — use instead of hand-rolled button/input
+     stacks so focus rings, radii, and palette stay token-backed everywhere. */
+  .ds-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    border-radius: 0.75rem;
+    padding-inline: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--app-ring); }
+  .ds-btn:active { transform: translateY(1px); }
+  .ds-btn-primary { background: var(--app-primary); color: var(--app-primary-foreground); }
+  .ds-btn-primary:hover { background: var(--app-primary-hover); }
+  .ds-btn-secondary { background: var(--app-muted); color: var(--app-foreground); border-color: var(--app-border); }
+  .ds-btn-secondary:hover { background: var(--app-muted); border-color: var(--app-input); }
+  .ds-btn-ghost { background: transparent; color: var(--app-foreground); }
+  .ds-btn-ghost:hover { background: var(--app-muted); }
+
+  .ds-input {
+    width: 100%;
+    min-height: 2.75rem;
+    border-radius: 0.65rem;
+    padding-inline: 0.875rem;
+    background: var(--app-muted);
+    color: var(--app-foreground);
+    border: 1px solid var(--app-border);
+    font-size: 0.875rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .ds-input::placeholder { color: var(--app-muted-foreground); opacity: 0.75; }
+  .ds-input:focus { outline: none; border-color: var(--app-ring); box-shadow: 0 0 0 1px var(--app-ring); }
+  .ds-input:disabled { opacity: 0.5; cursor: not-allowed; }
   
   .docs-devsite-article h1,
   .docs-devsite-article h2,

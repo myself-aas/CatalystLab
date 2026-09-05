@@ -59,7 +59,7 @@ export const ApiCategoryPage: React.FC = () => {
  <div className="min-h-screen bg-background text-foreground">
  {/* Category Header */}
  <div className="border-b border-border bg-background pt-10 pb-12">
- <div className="ds-page-shell: lg:">
+ <div className="ds-page-shell lg:">
  <div className="space-y-3">
  
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -94,7 +94,7 @@ export const ApiCategoryPage: React.FC = () => {
  </div>
 
  {/* Main Content Layout */}
- <div className="ds-page-shell: lg: py-10">
+ <div className="ds-page-shell lg: py-10">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Sidebar */}

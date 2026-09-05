@@ -358,7 +358,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </header>
 
  {/* Main Editorial Body */}
- <main className="ds-page-shell: lg: space-y-10">
+ <main className="ds-page-shell lg: space-y-10">
 
  {/* Section 1: Executive Summary & Composite Vitals Radar */}
  <section className="space-y-3">

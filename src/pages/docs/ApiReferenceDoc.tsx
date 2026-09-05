@@ -16,10 +16,10 @@ export const ApiReferenceDoc: React.FC = () => {
  <Terminal className="h-3.5 w-3.5"/>
  <span>OpenAPI 3.1 Specification</span>
  </div>
- <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
+ <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
  REST API Specification & Reference
  </h1>
- <p className="text-base text-[#A1A1AA] leading-relaxed">
+ <p className="text-base text-foreground-muted leading-relaxed">
  CatalystLab provides a clean, predictable RESTful API over HTTPS. All endpoints accept and return <code>application/json</code> payloads with standardized telemetry metadata and error objects.
  </p>
 
@@ -45,8 +45,8 @@ export const ApiReferenceDoc: React.FC = () => {
 
  {/* Authentication */}
  <section id="authentication"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Authentication & Quota Headers</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">Authentication & Quota Headers</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Pass your API key in the <code>Authorization: Bearer &lt;key&gt;</code> or <code>X-API-Key</code> request header:
  </p>
 
@@ -66,15 +66,15 @@ export const ApiReferenceDoc: React.FC = () => {
  <span className="rounded-md bg-blue-600 px-3.5 py-1 text-xs font-mono font-bold text-primary-foreground uppercase">
  POST
  </span>
- <h2 className="text-2xl font-bold text-[#EDEDED]">/api/run-engine</h2>
+ <h2 className="text-2xl font-bold text-foreground">/api/run-engine</h2>
  </div>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Executes an isolated diagnostic probe against any public HTTP/HTTPS endpoint.
  </p>
 
  <div className="ds-card p-4 space-y-2 text-sm">
- <h3 className="font-bold text-[#EDEDED] text-xs uppercase tracking-wider">Request Parameters</h3>
- <ul className="space-y-1.5 text-xs font-mono text-[#A1A1AA]">
+ <h3 className="font-bold text-foreground text-xs uppercase tracking-wider">Request Parameters</h3>
+ <ul className="space-y-1.5 text-xs font-mono text-foreground-muted">
  <li>• <code>url</code> (string, required): Full target URL (e.g. <code>https://stripe.com</code>)</li>
  <li>• <code>engine</code> (string, required): One of <code>website-health</code>, <code>edge-latency</code>, <code>ai-readiness</code>, <code>owasp-security</code>, <code>eco-carbon</code>, <code>git-repo</code>, <code>alloster-search</code>, <code>master-suite</code></li>
  <li>• <code>visitorId</code> (string, optional): Client device identifier for sliding rate limits</li>
@@ -107,9 +107,9 @@ logger.debug("Quality Score:", data.score);`}
  <span className="rounded-md bg-blue-600 px-3.5 py-1 text-xs font-mono font-bold text-primary-foreground uppercase">
  POST
  </span>
- <h2 className="text-2xl font-bold text-[#EDEDED]">/api/monitor/probe</h2>
+ <h2 className="text-2xl font-bold text-foreground">/api/monitor/probe</h2>
  </div>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Retrieves instantaneous SSL certificate expiry, DNS timing, and HTTP status code for registered domains.
  </p>
  </section>
@@ -120,17 +120,17 @@ logger.debug("Quality Score:", data.score);`}
  <span className="rounded-md bg-emerald-600 px-3.5 py-1 text-xs font-mono font-bold text-primary-foreground uppercase">
  GET
  </span>
- <h2 className="text-2xl font-bold text-[#EDEDED]">/api/monitor/system-health</h2>
+ <h2 className="text-2xl font-bold text-foreground">/api/monitor/system-health</h2>
  </div>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Returns gateway ingress health, active worker pool capacity, and memory consumption.
  </p>
  </section>
 
  {/* Response Schema */}
  <section id="response-schema"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Standard JSON Response Schema</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">Standard JSON Response Schema</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  All engine responses conform to the standard telemetry envelope:
  </p>
 

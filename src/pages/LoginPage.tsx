@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
   const activeErrorMessage = localMessage?.type === 'error' ? localMessage.text : authError?.message;
 
   return (
-    <div className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
+    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
       <SEOHead
         title="Sign In | CatalystLab Security Gateway"
         description="Authenticate into the CatalystLab telemetry console to access live edge dossiers, AST diffs, and autonomous PR branches."
@@ -162,16 +162,16 @@ export const LoginPage: React.FC = () => {
       />
 
       {/* Centered Floating Glass Modal Frame */}
-      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-[#0B0B0B] border border-white/12 rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
         {/* Top Brand Anchor */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+        <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
           <Link to="/" className="flex items-center gap-2 group focus:outline-none">
             <BrandLogo size="sm" />
             <span className="text-xs font-semibold tracking-[-0.02em] text-white">
               Catalyst<span className="text-[#00D2FF]">Lab</span>
             </span>
           </Link>
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#666666]">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
             Security Gateway
           </span>
         </div>
@@ -187,7 +187,7 @@ export const LoginPage: React.FC = () => {
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight text-white">
             Welcome back to CatalystLab.
           </h1>
-          <p className="text-xs sm:text-sm text-[#999999] leading-relaxed">
+          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
             Access real-time telemetry dossiers, autonomous patch branches, and edge nodes.
           </p>
         </div>
@@ -227,7 +227,7 @@ export const LoginPage: React.FC = () => {
             type="button"
             onClick={handleGithubLogin}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl bg-[#141414] border border-white/10 hover:border-white/25 hover:bg-[#1A1A1A] text-white text-xs sm:text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl bg-surface border border-border hover:border-border-strong hover:bg-surface text-white text-xs sm:text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
           >
             {authMethod === 'github' ? (
               <RotateCw className="size-4 animate-spin text-white" />
@@ -243,7 +243,7 @@ export const LoginPage: React.FC = () => {
             type="button"
             onClick={handleGoogleLogin}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl bg-[#141414] border border-white/10 hover:border-white/25 hover:bg-[#1A1A1A] text-white text-xs sm:text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl bg-surface border border-border hover:border-border-strong hover:bg-surface text-white text-xs sm:text-sm font-medium transition-all cursor-pointer disabled:opacity-50"
           >
             {authMethod === 'google' ? (
               <RotateCw className="size-4 animate-spin text-white" />
@@ -262,10 +262,10 @@ export const LoginPage: React.FC = () => {
         {/* Dividing Rule */}
         <div className="relative my-5">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/10" />
+            <div className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-[10px] font-mono uppercase tracking-wider">
-            <span className="bg-[#0B0B0B] px-2 text-[#666666]">
+            <span className="bg-surface px-2 text-muted-foreground">
               Or Authenticate via Workspace Credentials
             </span>
           </div>
@@ -274,7 +274,7 @@ export const LoginPage: React.FC = () => {
         {/* Form Fields */}
         <form onSubmit={handleEmailPasswordSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#999999] mb-1.5">
+            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
               Work Email
             </label>
             <div className="relative">
@@ -284,14 +284,14 @@ export const LoginPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="engineer@acme.corp"
                 required
-                className="w-full bg-[#050505] border border-white/10 rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                className="w-full bg-background border border-border rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
               />
-              <Mail className="absolute left-3.5 top-3.5 size-4 text-[#666666]" />
+              <Mail className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#999999] mb-1.5">
+            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
               Password
             </label>
             <div className="relative">
@@ -301,13 +301,13 @@ export const LoginPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
                 required
-                className="w-full bg-[#050505] border border-white/10 rounded-xl px-4 py-3 pl-10 pr-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
+                className="w-full bg-background border border-border rounded-xl px-4 py-3 pl-10 pr-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
               />
-              <Lock className="absolute left-3.5 top-3.5 size-4 text-[#666666]" />
+              <Lock className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-3.5 text-[#666666] hover:text-white transition-colors"
+                className="absolute right-3.5 top-3.5 text-muted-foreground hover:text-white transition-colors"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -317,12 +317,12 @@ export const LoginPage: React.FC = () => {
 
           {/* Controls Row */}
           <div className="flex items-center justify-between text-xs pt-1">
-            <label className="flex items-center gap-2 cursor-pointer select-none text-[#999999] hover:text-white transition-colors">
+            <label className="flex items-center gap-2 cursor-pointer select-none text-muted-foreground hover:text-white transition-colors">
               <input
                 type="checkbox"
                 checked={keepActive}
                 onChange={(e) => setKeepActive(e.target.checked)}
-                className="rounded bg-[#050505] border-white/20 text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5"
+                className="rounded bg-background border-white/20 text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5"
               />
               <span>Keep session active (30 days)</span>
             </label>
@@ -354,7 +354,7 @@ export const LoginPage: React.FC = () => {
         </form>
 
         {/* Passkey / CLI Terminal Runner */}
-        <div className="mt-5 p-2.5 rounded-xl bg-[#050505] border border-white/10 flex items-center justify-between gap-2 text-[11px] font-mono text-[#999999]">
+        <div className="mt-5 p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 text-[11px] font-mono text-muted-foreground">
           <div className="flex items-center gap-1.5 truncate">
             <Terminal className="size-3.5 text-[#00D2FF] shrink-0" />
             <span className="truncate">npx catalystlab login</span>
@@ -370,8 +370,8 @@ export const LoginPage: React.FC = () => {
 
         {/* Dev Sandbox Preview Session Helper */}
         {import.meta.env.DEV && (
-          <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2 text-[11px]">
-            <span className="text-[#666666] font-mono">Sandbox bypass:</span>
+          <div className="mt-4 pt-3 border-t border-border flex items-center justify-between gap-2 text-[11px]">
+            <span className="text-muted-foreground font-mono">Sandbox bypass:</span>
             <div className="flex gap-2">
               <button
                 type="button"
@@ -392,7 +392,7 @@ export const LoginPage: React.FC = () => {
         )}
 
         {/* Switch to Sign Up */}
-        <div className="mt-5 pt-4 border-t border-white/10 text-center text-xs text-[#999999]">
+        <div className="mt-5 pt-4 border-t border-border text-center text-xs text-muted-foreground">
           Don&apos;t have an organization workspace yet?{' '}
           <Link to="/signup" className="text-white hover:text-[#00D2FF] font-medium transition-colors">
             Create an account &rarr;

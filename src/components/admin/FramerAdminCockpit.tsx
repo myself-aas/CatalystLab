@@ -109,13 +109,13 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
             <CheckCircle2 className="size-4" />
             <span>{toastMessage}</span>
           </div>
-          <span className="text-[10px] text-[#666666]">System Mesh ACK</span>
+          <span className="text-[10px] text-muted-foreground">System Mesh ACK</span>
         </div>
       )}
 
       {/* MODULE 1: Global 38-PoP Edge Mesh Health Map */}
       {(activeSubTab === 'mesh' || activeSubTab === 'all') && (
-        <div className="p-6 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl space-y-6">
+        <div className="p-6 bg-surface border border-border rounded-2xl shadow-2xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-[#00D2FF] mb-1">
@@ -123,19 +123,19 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                 <span>38-PoP Edge Anycast Topology · Global Ingress Mesh</span>
               </div>
               <h2 className="text-xl font-semibold text-white tracking-[-0.03em]">Global Edge Mesh Health Map</h2>
-              <p className="text-xs text-[#999999] mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5">
                 Real-time sub-millisecond telemetry across global Cloudflare / Fastly Anycast PoPs with automated failover draining.
               </p>
             </div>
 
             {/* Region filter controls */}
-            <div className="flex items-center gap-1.5 p-1 bg-[#111111] border border-white/10 rounded-xl font-mono text-xs">
+            <div className="flex items-center gap-1.5 p-1 bg-surface border border-border rounded-xl font-mono text-xs">
               {(['ALL', 'NA', 'EU', 'APAC', 'SA'] as const).map(reg => (
                 <button
                   key={reg}
                   onClick={() => setSelectedRegion(reg)}
                   className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                    selectedRegion === reg ? 'bg-white text-black font-semibold' : 'text-[#888888] hover:text-white'
+                    selectedRegion === reg ? 'bg-white text-black font-semibold' : 'text-muted-foreground hover:text-white'
                   }`}
                 >
                   {reg}
@@ -149,13 +149,13 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
             {filteredPops.map((pop) => (
               <div
                 key={pop.code}
-                className="p-4 rounded-xl bg-[#0F0F0F] border border-white/8 hover:border-white/20 transition-all group flex flex-col justify-between"
+                className="p-4 rounded-xl bg-surface border border-white/8 hover:border-border-strong transition-all group flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-2 font-mono">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-semibold text-white">{pop.code}</span>
-                      <span className="text-[10px] text-[#666666]">{pop.region}</span>
+                      <span className="text-[10px] text-muted-foreground">{pop.region}</span>
                     </div>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                       pop.status === 'active' 
@@ -167,21 +167,21 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                       {pop.status.toUpperCase()}
                     </span>
                   </div>
-                  <div className="text-xs text-[#999999] truncate mb-3">{pop.city}</div>
+                  <div className="text-xs text-muted-foreground truncate mb-3">{pop.city}</div>
 
                   <div className="space-y-1.5 font-mono text-xs">
                     <div className="flex justify-between">
-                      <span className="text-[#666666]">P95 Latency:</span>
+                      <span className="text-muted-foreground">P95 Latency:</span>
                       <span className="text-white font-medium">{pop.latency}ms</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#666666]">Drop Rate:</span>
+                      <span className="text-muted-foreground">Drop Rate:</span>
                       <span className={pop.packetLoss === 0 ? 'text-emerald-400' : 'text-amber-400'}>
                         {pop.packetLoss}%
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#666666]">Ingress Load:</span>
+                      <span className="text-muted-foreground">Ingress Load:</span>
                       <span className="text-[#00D2FF]">{pop.trafficLoad}%</span>
                     </div>
                   </div>
@@ -195,7 +195,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     className={`w-full py-1.5 px-2 rounded-lg font-mono text-[11px] transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       pop.status === 'draining'
                         ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20'
-                        : 'bg-white/5 text-[#888888] hover:text-white hover:bg-white/10 border border-white/10'
+                        : 'bg-white/5 text-muted-foreground hover:text-white hover:bg-white/10 border border-border'
                     }`}
                   >
                     <RefreshCw className={`size-3 ${drainingNode === pop.code ? 'animate-spin text-[#00D2FF]' : ''}`} />
@@ -210,7 +210,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
 
       {/* MODULE 2: Tenant Quota & Diagnostic Capacity Management */}
       {(activeSubTab === 'tenants' || activeSubTab === 'all') && (
-        <div className="p-6 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl space-y-5">
+        <div className="p-6 bg-surface border border-border rounded-2xl shadow-2xl space-y-5">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-amber-400 mb-1">
@@ -218,16 +218,16 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                 <span>Multi-Tenant Mesh Governance</span>
               </div>
               <h2 className="text-xl font-semibold text-white tracking-[-0.03em]">Tenant Quota &amp; Capacity Control</h2>
-              <p className="text-xs text-[#999999] mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5">
                 Manage organization quotas, allocate compute pools, and apply real-time rate limiting overrides.
               </p>
             </div>
-            <span className="text-xs font-mono text-[#666666]">{tenants.length} Active Organizations</span>
+            <span className="text-xs font-mono text-muted-foreground">{tenants.length} Active Organizations</span>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-white/10 bg-[#070707]">
+          <div className="overflow-x-auto rounded-xl border border-border bg-background">
             <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-[#111111] border-b border-white/10 text-[#888888] uppercase tracking-wider text-[10px]">
+              <thead className="bg-surface border-b border-border text-muted-foreground uppercase tracking-wider text-[10px]">
                 <tr>
                   <th className="p-3.5">Organization</th>
                   <th className="p-3.5">Active Domains</th>
@@ -242,11 +242,11 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                 {tenants.map(tenant => (
                   <tr key={tenant.id} className="hover:bg-white/5 transition-colors">
                     <td className="p-3.5 font-medium text-white">{tenant.name}</td>
-                    <td className="p-3.5 text-[#999999]">{tenant.domains} hosts</td>
+                    <td className="p-3.5 text-muted-foreground">{tenant.domains} hosts</td>
                     <td className="p-3.5 text-[#00D2FF]">{tenant.dailyIngestion}</td>
                     <td className="p-3.5 text-white">{tenant.computeAllocation}</td>
                     <td className="p-3.5">
-                      <span className="px-2 py-0.5 rounded-full bg-white/5 text-[#999999] border border-white/10 text-[10px]">
+                      <span className="px-2 py-0.5 rounded-full bg-white/5 text-muted-foreground border border-border text-[10px]">
                         {tenant.plan}
                       </span>
                     </td>
@@ -279,7 +279,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                         </button>
                         <button
                           onClick={() => handleTenantAction(tenant.id, 'reset')}
-                          className="px-2 py-1 rounded bg-white/5 text-[#888888] hover:text-white text-[10px] cursor-pointer"
+                          className="px-2 py-1 rounded bg-white/5 text-muted-foreground hover:text-white text-[10px] cursor-pointer"
                           title="Reset to default quota"
                         >
                           Reset
@@ -296,7 +296,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
 
       {/* MODULE 3: Engine Health & Error Budget Telemetry */}
       {(activeSubTab === 'compute' || activeSubTab === 'all') && (
-        <div className="p-6 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl space-y-6">
+        <div className="p-6 bg-surface border border-border rounded-2xl shadow-2xl space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-[#00F298] mb-1">
@@ -304,7 +304,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                 <span>SDLC Engine Worker Pools &amp; Compute Budgets</span>
               </div>
               <h2 className="text-xl font-semibold text-white tracking-[-0.03em]">Engine Health &amp; Error Budget Telemetry</h2>
-              <p className="text-xs text-[#999999] mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5">
                 Real-time throughput, memory allocation, and AST parse latency across the 8 autonomous engines.
               </p>
             </div>
@@ -315,26 +315,26 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
-            <div className="p-4 rounded-xl bg-[#0F0F0F] border border-white/8 space-y-1">
-              <div className="text-[10px] uppercase text-[#666666]">Audits Processed / Sec</div>
+            <div className="p-4 rounded-xl bg-surface border border-white/8 space-y-1">
+              <div className="text-[10px] uppercase text-muted-foreground">Audits Processed / Sec</div>
               <div className="text-2xl font-semibold text-white">412.8 <span className="text-xs text-[#00F298]">req/s</span></div>
-              <div className="text-[11px] text-[#888888] font-sans">+14% surge handling capacity</div>
+              <div className="text-[11px] text-muted-foreground font-sans">+14% surge handling capacity</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#0F0F0F] border border-white/8 space-y-1">
-              <div className="text-[10px] uppercase text-[#666666]">Average AST Parse Time</div>
+            <div className="p-4 rounded-xl bg-surface border border-white/8 space-y-1">
+              <div className="text-[10px] uppercase text-muted-foreground">Average AST Parse Time</div>
               <div className="text-2xl font-semibold text-white">18.4 <span className="text-xs text-[#00D2FF]">ms</span></div>
-              <div className="text-[11px] text-[#888888] font-sans">SynthShift sub-20ms AST compilation</div>
+              <div className="text-[11px] text-muted-foreground font-sans">SynthShift sub-20ms AST compilation</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#0F0F0F] border border-white/8 space-y-1">
-              <div className="text-[10px] uppercase text-[#666666]">Worker Memory Load</div>
+            <div className="p-4 rounded-xl bg-surface border border-white/8 space-y-1">
+              <div className="text-[10px] uppercase text-muted-foreground">Worker Memory Load</div>
               <div className="text-2xl font-semibold text-white">3.4 <span className="text-xs text-white">/ 16 GB</span></div>
               <div className="text-[11px] text-emerald-400 font-sans">21.2% memory saturation (Optimal)</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#0F0F0F] border border-white/8 space-y-1">
-              <div className="text-[10px] uppercase text-[#666666]">Remaining Error Budget</div>
+            <div className="p-4 rounded-xl bg-surface border border-white/8 space-y-1">
+              <div className="text-[10px] uppercase text-muted-foreground">Remaining Error Budget</div>
               <div className="text-2xl font-semibold text-white">99.98%</div>
               <div className="text-[11px] text-emerald-400 font-sans">0.002% P0 drop rate (SLA met)</div>
             </div>
@@ -344,7 +344,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
 
       {/* MODULE 4: OWASP Audit & Compliance Vault */}
       {(activeSubTab === 'owasp' || activeSubTab === 'all') && (
-        <div className="p-6 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl space-y-6">
+        <div className="p-6 bg-surface border border-border rounded-2xl shadow-2xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-purple-400 mb-1">
@@ -352,7 +352,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                 <span>Cryptographic Audit Trail · Zero-Trust Verification</span>
               </div>
               <h2 className="text-xl font-semibold text-white tracking-[-0.03em]">OWASP Audit &amp; Compliance Vault</h2>
-              <p className="text-xs text-[#999999] mt-0.5">
+              <p className="text-xs text-muted-foreground mt-0.5">
                 Exportable SOC2 Type II audit packages, ISO 27001 evidence bundles, and SHA-256 verified system logs.
               </p>
             </div>
@@ -367,7 +367,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
               </button>
               <button
                 onClick={() => showToast('Dispatched ISO 27001 Package verification package')}
-                className="px-3 py-2 rounded-xl bg-[#141414] border border-white/10 text-white hover:border-white/25 transition-all cursor-pointer flex items-center gap-2"
+                className="px-3 py-2 rounded-xl bg-surface border border-border text-white hover:border-border-strong transition-all cursor-pointer flex items-center gap-2"
               >
                 <FileCheck className="size-3.5" />
                 <span>ISO 27001 Bundle</span>
@@ -376,25 +376,25 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
           </div>
 
           <div className="space-y-2 font-mono text-xs">
-            <div className="text-[10px] text-[#666666] uppercase tracking-wider">
+            <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
               Cryptographically Verified Immutable System Audit Log
             </div>
-            <div className="p-4 rounded-xl bg-[#050505] border border-white/10 space-y-2 font-mono text-xs text-[#999999]">
+            <div className="p-4 rounded-xl bg-background border border-border space-y-2 font-mono text-xs text-muted-foreground">
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
                 <span className="text-emerald-400">[PASS · SHA-256 e9f4...83a1]</span>
-                <span className="text-[#666666]">2026-09-04 19:10:04 UTC</span>
+                <span className="text-muted-foreground">2026-09-04 19:10:04 UTC</span>
               </div>
               <div className="text-white">Mutual TLS 1.3 Handshake verification verified across 38 Anycast nodes with zero cipher degradation.</div>
-              <div className="text-[11px] text-[#666666]">Issuer: DigiCert Global Root G2 · Algorithm: ECDSA P-384 · OCSP Stapling Active</div>
+              <div className="text-[11px] text-muted-foreground">Issuer: DigiCert Global Root G2 · Algorithm: ECDSA P-384 · OCSP Stapling Active</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#050505] border border-white/10 space-y-2 font-mono text-xs text-[#999999]">
+            <div className="p-4 rounded-xl bg-background border border-border space-y-2 font-mono text-xs text-muted-foreground">
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
                 <span className="text-[#00D2FF]">[PASS · SHA-256 c1b8...901e]</span>
-                <span className="text-[#666666]">2026-09-04 18:42:19 UTC</span>
+                <span className="text-muted-foreground">2026-09-04 18:42:19 UTC</span>
               </div>
               <div className="text-white">Strict-Transport-Security (HSTS) max-age=63072000; includeSubDomains; preload audited across all client zones.</div>
-              <div className="text-[11px] text-[#666666]">Automated compliance with RFC 6797 and OWASP Top 10 A02:2021 Cryptographic Failures.</div>
+              <div className="text-[11px] text-muted-foreground">Automated compliance with RFC 6797 and OWASP Top 10 A02:2021 Cryptographic Failures.</div>
             </div>
           </div>
         </div>

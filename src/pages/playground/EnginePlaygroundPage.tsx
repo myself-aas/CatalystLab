@@ -272,7 +272,7 @@ func main() {
 
  {/* Header Banner */}
  <div className="border-b border-border bg-background pt-10 pb-12">
- <div className="ds-page-shell: lg:">
+ <div className="ds-page-shell lg:">
  <div className="space-y-3">
 
  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -312,7 +312,7 @@ func main() {
  </div>
 
  {/* Main Sandbox Grid */}
- <div className="ds-page-shell: lg: py-10">
+ <div className="ds-page-shell lg: py-10">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Sidebar */}

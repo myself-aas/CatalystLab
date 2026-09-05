@@ -95,9 +95,9 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
   );
 
   return (
-    <div className="flex min-h-screen bg-[#000000] text-white">
+    <div data-theme="dark" className="flex min-h-screen bg-[#000000] text-white">
       {/* 4.1 Left Docked Sidebar (w-16 on tablet/mobile, w-60 on lg) */}
-      <aside className="w-16 lg:w-60 bg-[#070707] border-r border-white/10 flex flex-col justify-between p-3 shrink-0 select-none z-30">
+      <aside className="w-16 lg:w-60 bg-background border-r border-border flex flex-col justify-between p-3 shrink-0 select-none z-30">
         {/* Top: Monogram & Workspace */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-1">
@@ -113,18 +113,18 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           <div className="relative">
             <button
               onClick={() => setWorkspaceMenuOpen(!workspaceMenuOpen)}
-              className="w-full flex items-center justify-between p-2 rounded-xl bg-[#0F0F0F] border border-white/10 hover:border-white/20 text-left transition-all cursor-pointer"
+              className="w-full flex items-center justify-between p-2 rounded-xl bg-surface border border-border hover:border-border-strong text-left transition-all cursor-pointer"
             >
               <div className="truncate">
-                <div className="hidden lg:block text-[10px] font-mono uppercase tracking-wider text-[#666666]">Workspace</div>
+                <div className="hidden lg:block text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Workspace</div>
                 <div className="text-xs font-medium text-white truncate">{currentWorkspace}</div>
               </div>
-              <ChevronDown className="size-3 text-[#666666] shrink-0" />
+              <ChevronDown className="size-3 text-muted-foreground shrink-0" />
             </button>
 
             {workspaceMenuOpen && (
-              <div className="absolute top-full left-0 mt-1.5 w-52 bg-[#0F0F0F] border border-white/12 rounded-xl p-1.5 shadow-2xl z-50 animate-fadeIn">
-                <div className="text-[10px] font-mono uppercase text-[#666666] px-2 py-1">Select Mesh</div>
+              <div className="absolute top-full left-0 mt-1.5 w-52 bg-surface border border-border rounded-xl p-1.5 shadow-2xl z-50 animate-fadeIn">
+                <div className="text-[10px] font-mono uppercase text-muted-foreground px-2 py-1">Select Mesh</div>
                 {['Acme Mesh Prod', 'Staging Edge V2', 'Personal Lab'].map((ws) => (
                   <button
                     key={ws}
@@ -133,7 +133,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                       setWorkspaceMenuOpen(false);
                     }}
                     className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors cursor-pointer ${
-                      currentWorkspace === ws ? 'bg-white/10 text-white font-medium' : 'text-[#999999] hover:text-white'
+                      currentWorkspace === ws ? 'bg-white/10 text-white font-medium' : 'text-muted-foreground hover:text-white'
                     }`}
                   >
                     {ws}
@@ -155,16 +155,16 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                   className={`w-full flex items-center justify-between p-2 rounded-xl text-xs transition-all cursor-pointer ${
                     isActive 
                       ? 'bg-white/10 text-white font-medium shadow-sm' 
-                      : 'text-[#888888] hover:text-white hover:bg-white/5'
+                      : 'text-muted-foreground hover:text-white hover:bg-white/5'
                   }`}
                   title={item.label}
                 >
                   <div className="flex items-center gap-2.5 truncate">
-                    <Icon className={`size-4 shrink-0 ${isActive ? 'text-[#00D2FF]' : 'text-[#666666]'}`} />
+                    <Icon className={`size-4 shrink-0 ${isActive ? 'text-[#00D2FF]' : 'text-muted-foreground'}`} />
                     <span className="hidden lg:inline truncate">{item.label}</span>
                   </div>
                   {item.badge && (
-                    <span className="hidden lg:inline text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-white/5 text-[#999999] border border-white/10">
+                    <span className="hidden lg:inline text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-white/5 text-muted-foreground border border-border">
                       {item.badge}
                     </span>
                   )}
@@ -175,8 +175,8 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         </div>
 
         {/* Bottom User Profile Pill */}
-        <div className="pt-3 border-t border-white/10">
-          <div className="flex items-center justify-between p-1.5 rounded-xl bg-[#0F0F0F] border border-white/5">
+        <div className="pt-3 border-t border-border">
+          <div className="flex items-center justify-between p-1.5 rounded-xl bg-surface border border-white/5">
             <div className="flex items-center gap-2 truncate">
               {user?.photoURL ? (
                 <img 
@@ -185,7 +185,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                   className="size-7 rounded-lg object-cover"
                 />
               ) : (
-                <div className="size-7 rounded-lg bg-[#1A1A1A] border border-white/15 flex items-center justify-center text-xs font-semibold text-[#00D2FF]">
+                <div className="size-7 rounded-lg bg-surface border border-border flex items-center justify-center text-xs font-semibold text-[#00D2FF]">
                   {user?.displayName ? user.displayName[0].toUpperCase() : 'A'}
                 </div>
               )}
@@ -201,7 +201,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
 
             <button
               onClick={handleLogout}
-              className="p-1.5 text-[#666666] hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 text-muted-foreground hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
               title="Sign Out"
             >
               <LogOut className="size-3.5" />
@@ -213,16 +213,16 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
       {/* Main Panel Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         {/* 4.1 Top Utility Chrome */}
-        <header className="sticky top-0 z-20 h-14 bg-[#000000]/80 backdrop-blur-xl border-b border-white/10 px-4 sm:px-6 flex items-center justify-between gap-3">
+        <header className="sticky top-0 z-20 h-14 bg-[#000000]/80 backdrop-blur-xl border-b border-border px-4 sm:px-6 flex items-center justify-between gap-3">
           {/* Active Target Domain Pill & Live Scan Refresh */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0A0A0A] border border-white/10 text-xs font-mono">
-              <span className="text-[#666666]">target:</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface border border-border text-xs font-mono">
+              <span className="text-muted-foreground">target:</span>
               <strong className="text-white font-medium">{targetDomain}</strong>
               <button
                 onClick={onRefreshScan}
                 disabled={isScanning}
-                className="ml-1 p-0.5 text-[#666666] hover:text-white transition-colors cursor-pointer disabled:opacity-50"
+                className="ml-1 p-0.5 text-muted-foreground hover:text-white transition-colors cursor-pointer disabled:opacity-50"
                 title="Refresh scan"
               >
                 <RotateCw className={`size-3.5 ${isScanning ? 'animate-spin text-[#00D2FF]' : ''}`} />
@@ -243,7 +243,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0A0A0A] border border-white/10 hover:border-white/20 text-xs text-[#999999] hover:text-white transition-all cursor-pointer font-mono"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface border border-border hover:border-border-strong text-xs text-muted-foreground hover:text-white transition-all cursor-pointer font-mono"
             >
               <Search className="size-3.5" />
               <span className="hidden sm:inline">Search RFCs &amp; audits...</span>
@@ -272,9 +272,9 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
       {/* Cmd + K Quick Search Modal */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/70 backdrop-blur-md animate-fadeIn">
-          <div className="w-full max-w-xl bg-[#0B0B0B] border border-white/15 rounded-2xl shadow-2xl overflow-hidden font-sans">
+          <div className="w-full max-w-xl bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden font-sans">
             {/* Input row */}
-            <div className="flex items-center gap-3 p-4 border-b border-white/10">
+            <div className="flex items-center gap-3 p-4 border-b border-border">
               <Search className="size-4 text-[#00D2FF] shrink-0" />
               <input
                 type="text"
@@ -285,7 +285,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
               />
               <button
                 onClick={() => setSearchOpen(false)}
-                className="p-1 rounded-lg text-[#666666] hover:text-white hover:bg-white/10"
+                className="p-1 rounded-lg text-muted-foreground hover:text-white hover:bg-white/10"
               >
                 <X className="size-4" />
               </button>
@@ -306,21 +306,21 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                     <div>
                       <div className="text-white font-medium group-hover:text-[#00D2FF] flex items-center gap-1.5">
                         <span>{item.title}</span>
-                        {item.isExternal && <ExternalLink className="size-3 text-[#666666]" />}
+                        {item.isExternal && <ExternalLink className="size-3 text-muted-foreground" />}
                       </div>
-                      <div className="text-[11px] text-[#888888] font-sans mt-0.5">{item.desc}</div>
+                      <div className="text-[11px] text-muted-foreground font-sans mt-0.5">{item.desc}</div>
                     </div>
-                    <span className="text-[10px] text-[#666666] group-hover:text-white">&rarr;</span>
+                    <span className="text-[10px] text-muted-foreground group-hover:text-white">&rarr;</span>
                   </a>
                 ))
               ) : (
-                <div className="p-4 text-center text-xs text-[#666666]">
+                <div className="p-4 text-center text-xs text-muted-foreground">
                   No matching telemetry standards found.
                 </div>
               )}
             </div>
 
-            <div className="p-2.5 bg-[#050505] border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-[#666666] px-4">
+            <div className="p-2.5 bg-background border-t border-border flex items-center justify-between text-[10px] font-mono text-muted-foreground px-4">
               <span>Navigate with arrow keys</span>
               <span>ESC to close</span>
             </div>

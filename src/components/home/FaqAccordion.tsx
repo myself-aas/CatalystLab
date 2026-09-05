@@ -70,7 +70,7 @@ export const FaqAccordion: React.FC = () => {
                   className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
                     activeCategory === cat
                       ? 'bg-white text-black border-white'
-                      : 'bg-white/5 text-[#999999] border-white/10 hover:border-white/30 hover:text-white'
+                      : 'bg-white/5 text-muted-foreground border-white/10 hover:border-white/30 hover:text-white'
                   }`}
                 >
                   {cat}
@@ -85,7 +85,7 @@ export const FaqAccordion: React.FC = () => {
                 return (
                   <div
                     key={idx}
-                    className="border border-white/10 bg-[#0B0B0B] rounded-2xl overflow-hidden"
+                    className="border border-white/10 bg-surface rounded-2xl overflow-hidden"
                   >
                     <button
                       onClick={() => setOpenIndex(isOpen ? null : idx)}
@@ -106,7 +106,7 @@ export const FaqAccordion: React.FC = () => {
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                         >
-                          <div className="px-4 sm:px-5 pb-5 text-[#999999] text-sm leading-relaxed border-t border-white/5 pt-4">
+                          <div className="px-4 sm:px-5 pb-5 text-muted-foreground text-sm leading-relaxed border-t border-white/5 pt-4">
                             {faq.a}
                           </div>
                         </motion.div>
@@ -122,14 +122,14 @@ export const FaqAccordion: React.FC = () => {
           <div className="lg:col-span-7 mt-8 lg:mt-0">
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="bg-[#050505] border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden h-full flex flex-col shadow-2xl relative group transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[2px] hover:border-white/25"
+              className="bg-background border border-white/10 rounded-2xl md:rounded-3xl overflow-hidden h-full flex flex-col shadow-2xl relative group transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[2px] hover:border-white/25"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 style={{ background: 'var(--glow-card-subsurface)' }}
               />
               {/* Terminal Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#0A0A0A] relative z-10">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-surface relative z-10">
                 <div className="flex items-center gap-2">
                   <div className="size-3 rounded-full bg-red-500/20 border border-red-500/50" />
                   <div className="size-3 rounded-full bg-yellow-500/20 border border-yellow-500/50" />
@@ -154,7 +154,7 @@ export const FaqAccordion: React.FC = () => {
               </div>
 
               {/* Terminal Footer */}
-              <div className="p-4 border-t border-white/10 bg-[#0A0A0A] flex justify-end relative z-10">
+              <div className="p-4 border-t border-white/10 bg-surface flex justify-end relative z-10">
                 <CopyButton
                   text={CURL_SNIPPET}
                   variant="terminal"

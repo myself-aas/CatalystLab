@@ -170,7 +170,7 @@ export const SignUpPage: React.FC = () => {
   const activeErrorMessage = localError || authError?.message;
 
   return (
-    <div className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
+    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
       <SEOHead
         title="Sign Up | Initialize Telemetry Console | CatalystLab"
         description="Deploy autonomous web diagnostics in seconds. Zero SDK instrumentation, 100% edge-native inspection across 38 global PoPs."
@@ -193,16 +193,16 @@ export const SignUpPage: React.FC = () => {
       />
 
       {/* Centered Floating Glass Modal Frame */}
-      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-[#0B0B0B] border border-white/12 rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
         {/* Top Brand Anchor */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+        <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
           <Link to="/" className="flex items-center gap-2 group focus:outline-none">
             <BrandLogo size="sm" />
             <span className="text-xs font-semibold tracking-[-0.02em] text-white">
               Catalyst<span className="text-[#00D2FF]">Lab</span>
             </span>
           </Link>
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#666666]">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
             Security Gateway
           </span>
         </div>
@@ -218,20 +218,20 @@ export const SignUpPage: React.FC = () => {
           <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight text-white">
             Deploy autonomous diagnostics in seconds.
           </h1>
-          <p className="text-xs sm:text-sm text-[#999999] leading-relaxed">
+          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
             Zero SDK. Zero code instrumentation. 100% edge-native inspection.
           </p>
         </div>
 
         {/* Interactive Scope Selector (Pill Segmented Control) */}
-        <div className="mb-5 p-1 rounded-xl bg-[#050505] border border-white/10 grid grid-cols-3 gap-1">
+        <div className="mb-5 p-1 rounded-xl bg-background border border-border grid grid-cols-3 gap-1">
           <button
             type="button"
             onClick={() => setScope('developer')}
             className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               scope === 'developer'
-                ? 'bg-[#1C1C1C] text-white border border-white/15 shadow-sm'
-                : 'text-[#666666] hover:text-white'
+                ? 'bg-surface-elevated text-white border border-border shadow-sm'
+                : 'text-muted-foreground hover:text-white'
             }`}
           >
             Individual Dev
@@ -241,8 +241,8 @@ export const SignUpPage: React.FC = () => {
             onClick={() => setScope('team')}
             className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               scope === 'team'
-                ? 'bg-[#1C1C1C] text-white border border-white/15 shadow-sm'
-                : 'text-[#666666] hover:text-white'
+                ? 'bg-surface-elevated text-white border border-border shadow-sm'
+                : 'text-muted-foreground hover:text-white'
             }`}
           >
             Engineering Team
@@ -252,8 +252,8 @@ export const SignUpPage: React.FC = () => {
             onClick={() => setScope('enterprise')}
             className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               scope === 'enterprise'
-                ? 'bg-[#1C1C1C] text-white border border-white/15 shadow-sm'
-                : 'text-[#666666] hover:text-white'
+                ? 'bg-surface-elevated text-white border border-border shadow-sm'
+                : 'text-muted-foreground hover:text-white'
             }`}
           >
             Enterprise Mesh
@@ -261,7 +261,7 @@ export const SignUpPage: React.FC = () => {
         </div>
 
         {/* Tier Scope Context Chip */}
-        <div className="mb-5 p-2 rounded-lg bg-[#0F0F0F] border border-white/5 flex items-center justify-between text-[11px] font-mono text-[#999999]">
+        <div className="mb-5 p-2 rounded-lg bg-surface border border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
           <span>Allocation:</span>
           <span className="text-[#00D2FF]">
             {scope === 'developer' && '1 Domain • 50 Audits/Mo • Free CLI'}
@@ -297,7 +297,7 @@ export const SignUpPage: React.FC = () => {
             type="button"
             onClick={handleGithubSignUp}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-[#141414] border border-white/10 hover:border-white/25 text-white text-xs font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-surface border border-border hover:border-border-strong text-white text-xs font-medium transition-all cursor-pointer disabled:opacity-50"
           >
             {authMethod === 'github' ? (
               <RotateCw className="size-3.5 animate-spin text-white" />
@@ -313,7 +313,7 @@ export const SignUpPage: React.FC = () => {
             type="button"
             onClick={handleGoogleSignUp}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-[#141414] border border-white/10 hover:border-white/25 text-white text-xs font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-surface border border-border hover:border-border-strong text-white text-xs font-medium transition-all cursor-pointer disabled:opacity-50"
           >
             {authMethod === 'google' ? (
               <RotateCw className="size-3.5 animate-spin text-white" />
@@ -332,10 +332,10 @@ export const SignUpPage: React.FC = () => {
         {/* Dividing Rule */}
         <div className="relative my-4">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/10" />
+            <div className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-[10px] font-mono uppercase tracking-wider">
-            <span className="bg-[#0B0B0B] px-2 text-[#666666]">
+            <span className="bg-surface px-2 text-muted-foreground">
               Or Register Direct
             </span>
           </div>
@@ -345,7 +345,7 @@ export const SignUpPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Full Name */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#999999] mb-1">
+            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
               Full Name
             </label>
             <div className="relative">
@@ -355,15 +355,15 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Alex Mercer"
                 required
-                className="w-full bg-[#050505] border border-white/10 rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
               />
-              <UserIcon className="absolute left-3 top-3 size-3.5 text-[#666666]" />
+              <UserIcon className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
             </div>
           </div>
 
           {/* Work Email */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#999999] mb-1">
+            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
               Work Email
             </label>
             <div className="relative">
@@ -373,15 +373,15 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="alex@acme.corp"
                 required
-                className="w-full bg-[#050505] border border-white/10 rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
               />
-              <Mail className="absolute left-3 top-3 size-3.5 text-[#666666]" />
+              <Mail className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
             </div>
           </div>
 
           {/* Organization Domain */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-[#999999] mb-1">
+            <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1">
               Primary Organization Domain
             </label>
             <div className="relative">
@@ -390,9 +390,9 @@ export const SignUpPage: React.FC = () => {
                 value={orgDomain}
                 onChange={(e) => setOrgDomain(e.target.value)}
                 placeholder="acme.corp"
-                className="w-full bg-[#050505] border border-white/10 rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
+                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
               />
-              <Globe className="absolute left-3 top-3 size-3.5 text-[#666666]" />
+              <Globe className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
             </div>
             {/* Domain Verification Preview */}
             {cleanDomain && cleanDomain.includes('.') && (
@@ -406,7 +406,7 @@ export const SignUpPage: React.FC = () => {
           {/* Password */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-mono uppercase tracking-wider text-[#999999]">
+              <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground">
                 Password
               </label>
               <span className="text-[10px] font-mono text-[#00D2FF]">{entropyLabel}</span>
@@ -418,13 +418,13 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Minimum 8 characters"
                 required
-                className="w-full bg-[#050505] border border-white/10 rounded-xl px-4 py-2.5 pl-9 pr-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
+                className="w-full bg-background border border-border rounded-xl px-4 py-2.5 pl-9 pr-9 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all font-mono"
               />
-              <Lock className="absolute left-3 top-3 size-3.5 text-[#666666]" />
+              <Lock className="absolute left-3 top-3 size-3.5 text-muted-foreground" />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-[#666666] hover:text-white transition-colors"
+                className="absolute right-3 top-3 text-muted-foreground hover:text-white transition-colors"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
@@ -442,12 +442,12 @@ export const SignUpPage: React.FC = () => {
 
           {/* Terms & OWASP Compliance */}
           <div className="pt-1">
-            <label className="flex items-start gap-2 cursor-pointer select-none text-[11px] text-[#999999] leading-snug">
+            <label className="flex items-start gap-2 cursor-pointer select-none text-[11px] text-muted-foreground leading-snug">
               <input
                 type="checkbox"
                 checked={agreeTerms}
                 onChange={(e) => setAgreeTerms(e.target.checked)}
-                className="mt-0.5 rounded bg-[#050505] border-white/20 text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5 shrink-0"
+                className="mt-0.5 rounded bg-background border-white/20 text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5 shrink-0"
               />
               <span>
                 I agree to the CatalystLab Terms &amp;{' '}
@@ -477,7 +477,7 @@ export const SignUpPage: React.FC = () => {
         </form>
 
         {/* Bottom Switch */}
-        <div className="mt-5 pt-4 border-t border-white/10 text-center text-xs text-[#999999]">
+        <div className="mt-5 pt-4 border-t border-border text-center text-xs text-muted-foreground">
           Already an authorized workspace member?{' '}
           <Link to="/login" className="text-white hover:text-[#00D2FF] font-medium transition-colors">
             Log in to console &rarr;

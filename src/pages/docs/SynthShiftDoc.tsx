@@ -26,15 +26,15 @@ Please provide the exact collection schemas, indexing commands, and zero-downtim
  <span className="h-1.5 w-1.5 rounded-full bg-orange-600"/>
  <span>SDLC Phase 1: Platform Migration</span>
  </div>
- <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
+ <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
  SynthShift: Architectural System Design Blueprint
  </h1>
- <p className="text-base text-[#A1A1AA] leading-relaxed">
+ <p className="text-base text-foreground-muted leading-relaxed">
  SynthShift provides enterprise technical system design specifications, NoSQL schema models, and capacity planning algorithms for migrating legacy applications to resilient cloud architectures.
  </p>
 
  <div className="ds-card p-5 space-y-3">
- <h2 className="font-bold text-[#EDEDED] text-sm uppercase tracking-wider">Reference Architecture</h2>
+ <h2 className="font-bold text-foreground text-sm uppercase tracking-wider">Reference Architecture</h2>
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
  <div className="rounded-lg bg-background border border-border p-3">
  <strong className="text-primary block mb-1">Auth & Ingress Layer</strong>
@@ -54,8 +54,8 @@ Please provide the exact collection schemas, indexing commands, and zero-downtim
 
  {/* NoSQL Schema */}
  <section id="nosql-schema"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">High-Performance MongoDB Schema</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">High-Performance MongoDB Schema</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Production schema definition for task assignments and team capacity pre-aggregation:
  </p>
 
@@ -99,8 +99,8 @@ taskSchema.index({ projectId: 1, status: 1, assigneeId: 1 });`}
 
  {/* Compound Indexes */}
  <section id="compound-indexes"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Compound Indexes & Capacity Aggregation</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">Compound Indexes & Capacity Aggregation</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Efficient MongoDB aggregation pipeline to compute sprint capacity without full collection scans:
  </p>
 
@@ -127,7 +127,7 @@ taskSchema.index({ projectId: 1, status: 1, assigneeId: 1 });`}
  {/* Master Prompt */}
  <section id="master-prompt"className="space-y-4 border-t border-border pt-8">
  <div className="flex items-center justify-between">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Google AI Studio Master Planning Prompt</h2>
+ <h2 className="text-2xl font-bold text-foreground">Google AI Studio Master Planning Prompt</h2>
  <button
  onClick={() => {
  navigator.clipboard.writeText(masterPromptText);
@@ -143,7 +143,7 @@ taskSchema.index({ projectId: 1, status: 1, assigneeId: 1 });`}
  </>
  ) : (
  <>
- <Copy className="h-3.5 w-3.5 text-[#A1A1AA]"/>
+ <Copy className="h-3.5 w-3.5 text-foreground-muted"/>
  <span>Copy Master Prompt</span>
  </>
  )}

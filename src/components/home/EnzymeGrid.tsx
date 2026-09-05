@@ -49,7 +49,7 @@ export const EnzymeGrid: React.FC = () => {
           >
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="relative flex h-full w-full min-h-[380px] flex-col justify-between p-5 sm:p-7 bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="relative flex h-full w-full min-h-[380px] flex-col justify-between p-5 sm:p-7 bg-surface border border-border rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-border-strong transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -61,7 +61,7 @@ export const EnzymeGrid: React.FC = () => {
                   <span className="rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-[#8A2BE2] border-[#8A2BE2]/30 bg-[#8A2BE2]/10">
                     SS-01
                   </span>
-                  <span className="text-[11px] font-mono text-[#999999] uppercase">
+                  <span className="text-[11px] font-mono text-muted-foreground uppercase">
                     AST Diff & Schema Engine
                   </span>
                 </div>
@@ -72,20 +72,20 @@ export const EnzymeGrid: React.FC = () => {
                   </h3>
                   <Link
                     to="/engines/migration"
-                    className="inline-flex items-center gap-1 text-xs text-[#999999] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-[#999999]">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   Translates deprecated runtime payloads into zero-overhead modern schemas via AST diff patches.
                 </p>
 
                 {/* Interactive AST / Schema Visualizer */}
-                <div className="mt-5 overflow-hidden rounded-xl border border-white/10 bg-[#050505]">
+                <div className="mt-5 overflow-hidden rounded-xl border border-border bg-background">
                   {/* Tabs Bar */}
-                  <div className="flex items-center justify-between border-b border-white/10 bg-white/5 px-3 py-2 text-xs font-mono">
+                  <div className="flex items-center justify-between border-b border-border bg-white/5 px-3 py-2 text-xs font-mono">
                     <div className="flex gap-2">
                       {(['payload', 'diff', 'schema'] as const).map((tab) => (
                         <button
@@ -95,7 +95,7 @@ export const EnzymeGrid: React.FC = () => {
                           className={`rounded-md px-2.5 py-1 transition-all ${
                             synthTab === tab
                               ? 'bg-white/15 text-white shadow-sm'
-                              : 'text-[#666666] hover:text-[#999999]'
+                              : 'text-muted-foreground hover:text-muted-foreground'
                           }`}
                         >
                           {tab === 'payload' && 'Payload'}
@@ -110,7 +110,7 @@ export const EnzymeGrid: React.FC = () => {
                   {/* Tab Contents */}
                   <div className="p-4 font-mono text-xs overflow-x-auto no-scrollbar">
                     {synthTab === 'payload' && (
-                      <pre className="text-[#999999] leading-relaxed">
+                      <pre className="text-muted-foreground leading-relaxed">
 {`{
   "deprecatedModule": "legacy-auth-v1",
   "astTarget": "RFC-7519",
@@ -150,7 +150,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
               </div>
 
-              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-[#999999]">
+              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-widest text-[#8A2BE2]">
                   Bytecode Transformation
                 </span>
@@ -169,7 +169,7 @@ export const EnzymeGrid: React.FC = () => {
           >
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-surface border border-border rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-border-strong transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -193,13 +193,13 @@ export const EnzymeGrid: React.FC = () => {
                   </h3>
                   <Link
                     to="/engines/health"
-                    className="inline-flex items-center gap-1 text-xs text-[#999999] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-[#999999]">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   Microsecond-precision Core Web Vitals diagnostic engine.
                 </p>
 
@@ -216,13 +216,13 @@ export const EnzymeGrid: React.FC = () => {
                     >
                       <div className="absolute bottom-0 inset-x-0 h-0.5 bg-[#00F298]" />
                       <span className="text-white font-mono text-sm font-semibold">{m.val}</span>
-                      <span className="text-[#999999] text-[10px] font-mono mt-0.5">{m.label}</span>
+                      <span className="text-muted-foreground text-[10px] font-mono mt-0.5">{m.label}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-[#999999]">
+              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-widest text-[#00F298]">
                   DOM Telemetry
                 </span>
@@ -241,7 +241,7 @@ export const EnzymeGrid: React.FC = () => {
           >
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-surface border border-border rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-border-strong transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -264,13 +264,13 @@ export const EnzymeGrid: React.FC = () => {
                   </h3>
                   <Link
                     to="/engines/latency"
-                    className="inline-flex items-center gap-1 text-xs text-[#999999] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-[#999999]">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   Global 38-PoP edge handshake and zero-RTT packet telemetry.
                 </p>
 
@@ -282,7 +282,7 @@ export const EnzymeGrid: React.FC = () => {
                     { reg: 'NRT (Tokyo)', lat: '42ms', width: '70%' },
                   ].map((p) => (
                     <div key={p.reg} className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-[#999999] text-[11px]">{p.reg}</span>
+                      <span className="text-muted-foreground text-[11px]">{p.reg}</span>
                       <div className="flex items-center gap-2">
                         <div className="w-14 h-1 bg-white/10 rounded-full overflow-hidden">
                           <div className="h-full bg-[#00D2FF] rounded-full" style={{ width: p.width }} />
@@ -300,7 +300,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
               </div>
 
-              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-[#999999]">
+              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-widest text-[#00D2FF]">
                   Edge Telemetry
                 </span>
@@ -319,7 +319,7 @@ export const EnzymeGrid: React.FC = () => {
           >
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="relative flex h-full w-full min-h-[300px] flex-col justify-between p-5 sm:p-7 bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="relative flex h-full w-full min-h-[300px] flex-col justify-between p-5 sm:p-7 bg-surface border border-border rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-border-strong transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -331,7 +331,7 @@ export const EnzymeGrid: React.FC = () => {
                   <span className="rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-[#FF9900] border-[#FF9900]/30 bg-[#FF9900]/10">
                     RP-04
                   </span>
-                  <span className="text-[11px] font-mono text-[#999999] uppercase">
+                  <span className="text-[11px] font-mono text-muted-foreground uppercase">
                     Transport &amp; Header Security
                   </span>
                 </div>
@@ -342,24 +342,24 @@ export const EnzymeGrid: React.FC = () => {
                   </h3>
                   <Link
                     to="/engines/compliance"
-                    className="inline-flex items-center gap-1 text-xs text-[#999999] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-[#999999]">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   Zero-overhead passive transport packet sniffer evaluating CSP nonces, HSTS preload, and OWASP compliance.
                 </p>
 
                 {/* Realistic macOS Terminal Bar with Claude Code / Framer CLI Tabs */}
-                <div className="mt-4 overflow-hidden rounded-xl border border-white/10 bg-[#050505]">
-                  <div className="flex items-center justify-between border-b border-white/10 bg-[#0A0A0A] px-3.5 py-2">
+                <div className="mt-4 overflow-hidden rounded-xl border border-border bg-background">
+                  <div className="flex items-center justify-between border-b border-border bg-surface px-3.5 py-2">
                     <div className="flex items-center gap-2">
                       <div className="size-2.5 rounded-full bg-red-500/30 border border-red-500/50" />
                       <div className="size-2.5 rounded-full bg-yellow-500/30 border border-yellow-500/50" />
                       <div className="size-2.5 rounded-full bg-green-500/30 border border-green-500/50" />
-                      <div className="ml-2 flex items-center gap-1 text-[11px] font-mono text-[#999999]">
+                      <div className="ml-2 flex items-center gap-1 text-[11px] font-mono text-muted-foreground">
                         <button
                           type="button"
                           onClick={() => setCliTab('claude')}
@@ -390,22 +390,22 @@ export const EnzymeGrid: React.FC = () => {
 
                   <div className="p-3.5 font-mono text-xs overflow-x-auto no-scrollbar flex flex-col gap-1.5 text-[#00D2FF]">
                     <div>
-                      <span className="text-[#999999]">&gt;</span> Strict-Transport-Security:{' '}
+                      <span className="text-muted-foreground">&gt;</span> Strict-Transport-Security:{' '}
                       <span className="text-emerald-400 font-semibold">max-age=63072000; includeSubDomains (OK)</span>
                     </div>
                     <div>
-                      <span className="text-[#999999]">&gt;</span> X-Frame-Options:{' '}
+                      <span className="text-muted-foreground">&gt;</span> X-Frame-Options:{' '}
                       <span className="text-emerald-400 font-semibold">DENY (OK)</span>
                     </div>
                     <div>
-                      <span className="text-[#999999]">&gt;</span> Content-Security-Policy:{' '}
+                      <span className="text-muted-foreground">&gt;</span> Content-Security-Policy:{' '}
                       <span className="text-[#FF9900]">Strict Nonce Enforced (Pass with 0 warnings)</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-[#999999]">
+              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-widest text-[#FF9900]">
                   OWASP A05:2021
                 </span>
@@ -424,7 +424,7 @@ export const EnzymeGrid: React.FC = () => {
           >
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-surface border border-border rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-border-strong transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -447,13 +447,13 @@ export const EnzymeGrid: React.FC = () => {
                   </h3>
                   <Link
                     to="/engines/eco"
-                    className="inline-flex items-center gap-1 text-xs text-[#999999] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-[#999999]">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   Edge transfer byte budget and CO2e emissions calculator.
                 </p>
 
@@ -465,7 +465,7 @@ export const EnzymeGrid: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-sm font-semibold text-white font-mono">0.12g CO2e</div>
-                      <div className="text-[10px] text-[#999999] font-mono">per edge hit</div>
+                      <div className="text-[10px] text-muted-foreground font-mono">per edge hit</div>
                     </div>
                   </div>
                   <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">
@@ -474,7 +474,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
               </div>
 
-              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-[#999999]">
+              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-widest text-emerald-400">
                   Transfer Budget
                 </span>
@@ -493,7 +493,7 @@ export const EnzymeGrid: React.FC = () => {
           >
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-surface border border-border rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-border-strong transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -516,18 +516,18 @@ export const EnzymeGrid: React.FC = () => {
                   </h3>
                   <Link
                     to="/engines/ai_ready"
-                    className="inline-flex items-center gap-1 text-xs text-[#999999] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-[#999999]">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   AEO &amp; AI manifest schema auditor for Gemini, ChatGPT, and Claude.
                 </p>
 
                 {/* AI Manifest Schema Preview */}
-                <div className="mt-4 rounded-xl bg-white/5 p-3 border border-white/5 font-mono text-[11px] text-[#999999]">
+                <div className="mt-4 rounded-xl bg-white/5 p-3 border border-white/5 font-mono text-[11px] text-muted-foreground">
                   <div className="flex items-center justify-between text-[#0066FF] mb-1.5">
                     <span className="flex items-center gap-1">
                       <Cpu className="size-3" /> /llms.txt Parser
@@ -541,7 +541,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
               </div>
 
-              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-[#999999]">
+              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-widest text-[#0066FF]">
                   AI Discoverability
                 </span>
@@ -560,7 +560,7 @@ export const EnzymeGrid: React.FC = () => {
           >
             <div
               onMouseMove={onSpotlightMouseMove}
-              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="relative flex h-full w-full min-h-[250px] flex-col justify-between p-5 sm:p-7 bg-surface border border-border rounded-2xl md:rounded-3xl hover:-translate-y-[2px] hover:border-border-strong transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -583,19 +583,19 @@ export const EnzymeGrid: React.FC = () => {
                   </h3>
                   <Link
                     to="/engines/llmo"
-                    className="inline-flex items-center gap-1 text-xs text-[#999999] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-[#999999]">
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   Sub-50ms search index crawling &amp; semantic token retrieval rate.
                 </p>
 
                 {/* Sub-50ms Discoverability Index */}
                 <div className="mt-4 rounded-xl bg-white/5 p-3 border border-white/5 font-mono text-[11px]">
-                  <div className="flex items-center justify-between text-[#999999] mb-1.5">
+                  <div className="flex items-center justify-between text-muted-foreground mb-1.5">
                     <span className="flex items-center gap-1 text-[#00D2FF]">
                       <Search className="size-3" /> Search Index Rate
                     </span>
@@ -604,14 +604,14 @@ export const EnzymeGrid: React.FC = () => {
                   <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                     <div className="h-full bg-[#00D2FF] rounded-full w-[88%]" />
                   </div>
-                  <div className="mt-2 flex justify-between text-[10px] text-[#999999]">
+                  <div className="mt-2 flex justify-between text-[10px] text-muted-foreground">
                     <span>Vector similarity</span>
                     <span className="text-emerald-400">98.2% accuracy</span>
                   </div>
                 </div>
               </div>
 
-              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-[#999999]">
+              <div className="relative z-10 mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-widest text-[#00D2FF]">
                   Generative Search
                 </span>

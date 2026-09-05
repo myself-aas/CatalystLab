@@ -80,7 +80,7 @@ export const ApiOverviewPage: React.FC = () => {
  <div className="min-h-screen bg-background text-foreground">
  {/* Top Banner Hero */}
  <div className="border-b border-border bg-background pt-12 pb-14">
- <div className="ds-page-shell: lg:">
+ <div className="ds-page-shell lg:">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="ds-page-shell space-y-4">
  <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 py-1 text-xs font-mono font-semibold text-sky-800">
@@ -124,7 +124,7 @@ export const ApiOverviewPage: React.FC = () => {
  </div>
 
  {/* Main Content Layout */}
- <div className="ds-page-shell: lg: py-10">
+ <div className="ds-page-shell lg: py-10">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Left Sidebar */}

@@ -10,7 +10,7 @@ export const ApiDocsPage: React.FC = () => {
  description="Integrate CatalystLab diagnostics into your CI/CD pipelines."
  />
  
- <div className="ds-page-shell: lg:">
+ <div className="ds-page-shell lg:">
  <div className="text-center mb-16">
  <h1 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight mb-6">
  API Documentation

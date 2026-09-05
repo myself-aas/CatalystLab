@@ -530,7 +530,7 @@ func main() {
  </section>
 
  {/* Main Container */}
- <div className="ds-page-shell: lg: mt-5 space-y-5">
+ <div className="ds-page-shell lg: mt-5 space-y-5">
 
  {/* Rate Limit Alert Component */}
  <RateLimitThresholdAlert 

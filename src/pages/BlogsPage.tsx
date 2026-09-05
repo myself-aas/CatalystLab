@@ -187,7 +187,7 @@ export const BlogsPage: React.FC = () => {
  {/* Admin Quick Access Bar */}
  {user && (
  <div className="border-b border-border bg-card">
- <div className="ds-page-shell: lg: py-2 flex items-center justify-between">
+ <div className="ds-page-shell lg: py-2 flex items-center justify-between">
  <div className="flex items-center gap-1.5 text-xs font-bold text-primary-foreground">
  <Sparkles className="h-3 w-3 text-cyan-400"/>
  <span>
@@ -274,7 +274,7 @@ export const BlogsPage: React.FC = () => {
  />
 
  {/* 2. EXPLORE ALL TECHNICAL ARTICLES */}
- <main className="ds-page-shell: lg: py-10 space-y-6">
+ <main className="ds-page-shell lg: py-10 space-y-6">
  
  {/* Section Header with Search & Filter Controls */}
  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">

@@ -201,13 +201,13 @@ export const DiagnosticHubPage: React.FC = () => {
 
         {/* Engine Filter Tabs */}
         <div className="flex overflow-x-auto scrollbar-none touch-pan-x no-scrollbar pb-4 -mb-4">
-          <div className="flex items-center gap-2 p-1.5 bg-[#0B0B0B] border border-white/10 rounded-full">
+          <div className="flex items-center gap-2 p-1.5 bg-surface border border-white/10 rounded-full">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
                 className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeTab === cat.id ? 'text-black' : 'text-[#999999] hover:text-white'
+                  activeTab === cat.id ? 'text-black' : 'text-muted-foreground hover:text-white'
                 }`}
               >
                 {activeTab === cat.id && (
@@ -234,7 +234,7 @@ export const DiagnosticHubPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="group relative bg-[#0B0B0B] border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row hover:border-white/25 transition-colors"
+                className="group relative bg-surface border border-white/10 rounded-3xl overflow-hidden flex flex-col md:flex-row hover:border-white/25 transition-colors"
               >
                 <div
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-0"
@@ -257,13 +257,13 @@ export const DiagnosticHubPage: React.FC = () => {
                             ) : (
                               <Clock className="size-3.5 text-amber-400" />
                             )}
-                            <span className="text-xs font-mono text-[#999999] uppercase tracking-widest">{engine.status}</span>
+                            <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">{engine.status}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                     
-                    <p className="text-sm sm:text-base text-[#999999] leading-relaxed mb-8">
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-8">
                       {engine.desc}
                     </p>
                   </div>
@@ -271,7 +271,7 @@ export const DiagnosticHubPage: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4">
                     {engine.specs.map((spec, i) => (
                       <div key={i} className="flex flex-col gap-1">
-                        <span className="text-[11px] font-mono text-[#666666] uppercase tracking-wider">{spec.label}</span>
+                        <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">{spec.label}</span>
                         <span className="text-sm font-medium text-white">{spec.value}</span>
                       </div>
                     ))}
@@ -279,9 +279,9 @@ export const DiagnosticHubPage: React.FC = () => {
                 </div>
 
                 {/* Right Side: Live Simulation Widget */}
-                <div className="w-full md:w-[45%] lg:w-[40%] bg-[#050505] relative z-10 p-6 sm:p-8 flex items-center justify-center">
+                <div className="w-full md:w-[45%] lg:w-[40%] bg-background relative z-10 p-6 sm:p-8 flex items-center justify-center">
                   {/* Mock Widget Container */}
-                  <div className="w-full h-full min-h-[220px] border border-white/5 rounded-2xl bg-[#0A0A0A] flex flex-col items-center justify-center p-0 relative overflow-hidden group/widget">
+                  <div className="w-full h-full min-h-[220px] border border-white/5 rounded-2xl bg-surface flex flex-col items-center justify-center p-0 relative overflow-hidden group/widget">
                     {/* Background Grid Pattern */}
                     <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '16px 16px' }} />
                     

@@ -148,7 +148,7 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header className="fixed top-4 md:top-6 inset-x-0 mx-auto z-50 w-[calc(100%-2rem)] max-w-5xl">
-        <nav className="backdrop-blur-xl bg-black/65 border border-white/10 rounded-full px-4 sm:px-6 py-2.5 shadow-2xl flex items-center justify-between transition-all">
+        <nav className="backdrop-blur-xl bg-black/65 border border-border rounded-full px-4 sm:px-6 py-2.5 shadow-2xl flex items-center justify-between transition-all">
           {/* Left Anchor: Monogram + Wordmark + Live Node Chip */}
           <div className="flex items-center gap-3 shrink-0">
             <Link to="/" className="flex items-center gap-2 group focus:outline-none">
@@ -177,12 +177,12 @@ export const Navbar: React.FC = () => {
                 type="button"
                 onClick={() => setIsEnginesOpen(!isEnginesOpen)}
                 className={`flex items-center gap-1 text-sm transition-colors duration-150 focus:outline-none cursor-pointer ${
-                  isEnginesOpen ? 'text-white' : 'text-[#999999] hover:text-white'
+                  isEnginesOpen ? 'text-white' : 'text-muted-foreground hover:text-white'
                 }`}
                 aria-expanded={isEnginesOpen}
               >
                 <span>Engines</span>
-                <ChevronDown className={`size-3.5 transition-transform duration-200 ${isEnginesOpen ? 'rotate-180 text-white' : 'text-[#666666]'}`} />
+                <ChevronDown className={`size-3.5 transition-transform duration-200 ${isEnginesOpen ? 'rotate-180 text-white' : 'text-muted-foreground'}`} />
               </button>
 
               {/* 520px Floating Glass Mega-Panel */}
@@ -195,7 +195,7 @@ export const Navbar: React.FC = () => {
                     transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute -left-20 top-full pt-3 w-[540px] z-50 pointer-events-auto"
                   >
-                    <div className="bg-[#0A0A0A]/95 border border-white/12 rounded-2xl p-4 shadow-2xl backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden">
+                    <div className="bg-surface/95 border border-border rounded-2xl p-4 shadow-2xl backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden">
                       {/* Subsurface Radial Radiance */}
                       <div 
                         className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-20 blur-2xl"
@@ -204,7 +204,7 @@ export const Navbar: React.FC = () => {
 
                       {/* Column 1: Core Performance */}
                       <div className="space-y-1.5">
-                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-[#666666] flex items-center justify-between border-b border-white/5 pb-1 mb-1">
+                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground flex items-center justify-between border-b border-white/5 pb-1 mb-1">
                           <span>Core Performance</span>
                           <span className="text-[#00D2FF]">4 Engines</span>
                         </div>
@@ -215,9 +215,9 @@ export const Navbar: React.FC = () => {
                               key={engine.id}
                               to={engine.path}
                               onClick={() => setIsEnginesOpen(false)}
-                              className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-150 border border-transparent hover:border-white/10"
+                              className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-150 border border-transparent hover:border-border"
                             >
-                              <div className="size-8 rounded-lg bg-[#111111] border border-white/10 flex items-center justify-center shrink-0 text-white/80 group-hover:text-[#00D2FF] group-hover:border-[#00D2FF]/40 transition-colors">
+                              <div className="size-8 rounded-lg bg-surface border border-border flex items-center justify-center shrink-0 text-white/80 group-hover:text-[#00D2FF] group-hover:border-[#00D2FF]/40 transition-colors">
                                 <Icon className="size-4" />
                               </div>
                               <div className="min-w-0 flex-1">
@@ -229,7 +229,7 @@ export const Navbar: React.FC = () => {
                                     {engine.tag}
                                   </span>
                                 </div>
-                                <p className="text-[11px] text-[#666666] group-hover:text-[#999999] leading-snug line-clamp-1 mt-0.5">
+                                <p className="text-[11px] text-muted-foreground group-hover:text-muted-foreground leading-snug line-clamp-1 mt-0.5">
                                   {engine.tagline}
                                 </p>
                               </div>
@@ -240,7 +240,7 @@ export const Navbar: React.FC = () => {
 
                       {/* Column 2: Security & AI */}
                       <div className="space-y-1.5 border-l border-white/5 pl-3">
-                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-[#666666] flex items-center justify-between border-b border-white/5 pb-1 mb-1">
+                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground flex items-center justify-between border-b border-white/5 pb-1 mb-1">
                           <span>Security &amp; AI AST</span>
                           <span className="text-purple-400">4 Engines</span>
                         </div>
@@ -251,9 +251,9 @@ export const Navbar: React.FC = () => {
                               key={engine.id}
                               to={engine.path}
                               onClick={() => setIsEnginesOpen(false)}
-                              className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-150 border border-transparent hover:border-white/10"
+                              className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/5 transition-all duration-150 border border-transparent hover:border-border"
                             >
-                              <div className="size-8 rounded-lg bg-[#111111] border border-white/10 flex items-center justify-center shrink-0 text-white/80 group-hover:text-purple-400 group-hover:border-purple-400/40 transition-colors">
+                              <div className="size-8 rounded-lg bg-surface border border-border flex items-center justify-center shrink-0 text-white/80 group-hover:text-purple-400 group-hover:border-purple-400/40 transition-colors">
                                 <Icon className="size-4" />
                               </div>
                               <div className="min-w-0 flex-1">
@@ -265,7 +265,7 @@ export const Navbar: React.FC = () => {
                                     {engine.tag}
                                   </span>
                                 </div>
-                                <p className="text-[11px] text-[#666666] group-hover:text-[#999999] leading-snug line-clamp-1 mt-0.5">
+                                <p className="text-[11px] text-muted-foreground group-hover:text-muted-foreground leading-snug line-clamp-1 mt-0.5">
                                   {engine.tagline}
                                 </p>
                               </div>
@@ -275,16 +275,16 @@ export const Navbar: React.FC = () => {
                       </div>
 
                       {/* Bottom Quick Hub Bar */}
-                      <div className="col-span-2 mt-1 pt-2.5 border-t border-white/10 flex items-center justify-between px-2 text-xs">
+                      <div className="col-span-2 mt-1 pt-2.5 border-t border-border flex items-center justify-between px-2 text-xs">
                         <Link 
                           to="/engines" 
                           onClick={() => setIsEnginesOpen(false)}
-                          className="text-[#999999] hover:text-white flex items-center gap-1 text-[11px] font-mono group"
+                          className="text-muted-foreground hover:text-white flex items-center gap-1 text-[11px] font-mono group"
                         >
                           <span>Explore All 8 Telemetry Engines</span>
                           <ArrowRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
                         </Link>
-                        <span className="text-[10px] font-mono text-[#666666]">
+                        <span className="text-[10px] font-mono text-muted-foreground">
                           Zero-SDK &bull; RFC 9110 Compliant
                         </span>
                       </div>
@@ -299,7 +299,7 @@ export const Navbar: React.FC = () => {
               <Link
                 key={link.to}
                 to={link.to}
-                className="text-sm text-[#999999] hover:text-white transition-colors duration-150 focus:outline-none"
+                className="text-sm text-muted-foreground hover:text-white transition-colors duration-150 focus:outline-none"
               >
                 {link.label}
               </Link>
@@ -310,7 +310,7 @@ export const Navbar: React.FC = () => {
           <div className="hidden md:flex items-center gap-3">
             <Link
               to="/login"
-              className="text-xs sm:text-sm text-[#999999] hover:text-white px-3 py-1.5 transition-colors duration-150 focus:outline-none font-medium"
+              className="text-xs sm:text-sm text-muted-foreground hover:text-white px-3 py-1.5 transition-colors duration-150 focus:outline-none font-medium"
             >
               Log in
             </Link>
@@ -346,7 +346,7 @@ export const Navbar: React.FC = () => {
             className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col"
           >
             {/* Top Sheet Bar */}
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10">
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-border">
               <div className="flex items-center gap-2">
                 <Link to="/" className="flex items-center gap-2 focus:outline-none" onClick={() => setIsMobileMenuOpen(false)}>
                   <BrandLogo size="md" />
@@ -370,7 +370,7 @@ export const Navbar: React.FC = () => {
             <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-6">
               {/* Direct Links */}
               <div className="space-y-1">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-[#666666] mb-2">
+                <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground mb-2">
                   Navigation
                 </div>
                 {DIRECT_LINKS.map((link, idx) => (
@@ -386,7 +386,7 @@ export const Navbar: React.FC = () => {
                       className="text-xl font-medium text-white min-h-[44px] flex items-center justify-between py-2 border-b border-white/5"
                     >
                       <span>{link.label}</span>
-                      <ArrowRight className="size-4 text-[#666666]" />
+                      <ArrowRight className="size-4 text-muted-foreground" />
                     </Link>
                   </motion.div>
                 ))}
@@ -394,7 +394,7 @@ export const Navbar: React.FC = () => {
 
               {/* 8 Autonomous Engines Grid */}
               <div className="space-y-2">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-[#666666] flex items-center justify-between">
+                <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground flex items-center justify-between">
                   <span>8 Autonomous Engines</span>
                   <Link 
                     to="/engines" 
@@ -410,7 +410,7 @@ export const Navbar: React.FC = () => {
                       key={engine.id}
                       to={engine.path}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="p-2.5 rounded-xl bg-[#0D0D0D] border border-white/10 flex flex-col gap-1 hover:border-white/20 transition-all min-h-[58px]"
+                      className="p-2.5 rounded-xl bg-surface border border-border flex flex-col gap-1 hover:border-border-strong transition-all min-h-[58px]"
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-medium text-white truncate">{engine.name}</span>
@@ -418,7 +418,7 @@ export const Navbar: React.FC = () => {
                           {engine.tag}
                         </span>
                       </div>
-                      <span className="text-[10px] text-[#666666] truncate">{engine.tagline}</span>
+                      <span className="text-[10px] text-muted-foreground truncate">{engine.tagline}</span>
                     </Link>
                   ))}
                 </div>
@@ -443,14 +443,14 @@ export const Navbar: React.FC = () => {
                   <Link
                     to="/login"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="w-full text-center text-[#999999] hover:text-white bg-[#111111] border border-white/10 rounded-xl min-h-[44px] flex justify-center items-center font-medium text-xs transition-colors"
+                    className="w-full text-center text-muted-foreground hover:text-white bg-surface border border-border rounded-xl min-h-[44px] flex justify-center items-center font-medium text-xs transition-colors"
                   >
                     Log In
                   </Link>
                   <Link
                     to="/signup"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="w-full text-center text-white bg-[#161616] border border-white/15 rounded-xl min-h-[44px] flex justify-center items-center font-medium text-xs transition-colors"
+                    className="w-full text-center text-white bg-surface-elevated border border-border rounded-xl min-h-[44px] flex justify-center items-center font-medium text-xs transition-colors"
                   >
                     Sign Up
                   </Link>

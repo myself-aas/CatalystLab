@@ -18,7 +18,7 @@ export const CicdDevOpsDoc: React.FC = () => {
  <h1 className="text-3xl font-extrabold text-primary-foreground tracking-tight font-sans">
  CI/CD Quality Gates &amp; Automation
  </h1>
- <p className="text-sm text-[#A1A1AA] leading-relaxed font-sans">
+ <p className="text-sm text-foreground-muted leading-relaxed font-sans">
  Prevent performance regressions and security vulnerabilities before staging or production deployments. Embed CatalystLab audits directly into your pull request merge checks using GitHub Actions or GitLab CI.
  </p>
  </section>
@@ -29,7 +29,7 @@ export const CicdDevOpsDoc: React.FC = () => {
  <GitPullRequest className="h-5 w-5 text-cyan-400"/>
  <span>Interactive Pull Request Quality Gate Visualizer</span>
  </h2>
- <p className="text-xs text-[#A1A1AA] font-sans">
+ <p className="text-xs text-foreground-muted font-sans">
  Test how synthetic telemetry failure blocks merges until performance &amp; security regressions are remediated:
  </p>
  <PipelineVisualizer />
@@ -38,7 +38,7 @@ export const CicdDevOpsDoc: React.FC = () => {
  {/* GitHub Actions */}
  <section id="github-actions"className="space-y-4 border-t border-border pt-8 font-mono">
  <h2 className="text-xl font-bold text-primary-foreground font-sans">GitHub Actions Workflow (.github/workflows/quality-gate.yml)</h2>
- <p className="text-xs text-[#A1A1AA] font-sans">
+ <p className="text-xs text-foreground-muted font-sans">
  Trigger a Master Audit whenever a preview PR URL is deployed:
  </p>
 
@@ -81,7 +81,7 @@ jobs:
  {/* GitLab CI */}
  <section id="gitlab-ci"className="space-y-4 border-t border-border pt-8 font-mono">
  <h2 className="text-xl font-bold text-primary-foreground font-sans">GitLab CI/CD Recipe (.gitlab-ci.yml)</h2>
- <p className="text-xs text-[#A1A1AA] font-sans">
+ <p className="text-xs text-foreground-muted font-sans">
  Integrate quality auditing into GitLab pipelines:
  </p>
 
@@ -110,7 +110,7 @@ catalystlab_audit:
  {/* Webhooks & Alerts */}
  <section id="webhooks-alerts"className="space-y-4 border-t border-border pt-8 font-mono">
  <h2 className="text-xl font-bold text-primary-foreground font-sans">Automated Telemetry Webhooks (Slack / Discord)</h2>
- <p className="text-xs text-[#A1A1AA] font-sans">
+ <p className="text-xs text-foreground-muted font-sans">
  Configure real-time notifications for automated uptime probes or degraded quality scores directly into your engineering Slack or Discord channels.
  </p>
  </section>

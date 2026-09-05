@@ -183,7 +183,7 @@ export const ReportPermalinkPage: React.FC = () => {
  </section>
 
  {/* Main Dossier Content Container */}
- <main id="report-dossier-content"className="ds-page-shell: lg: space-y-6">
+ <main id="report-dossier-content"className="ds-page-shell lg: space-y-6">
  
  {/* Header Information Banner */}
  <div className="ds-card p-6">

@@ -199,7 +199,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell: lg: space-y-12">
+ <main className="ds-page-shell lg: space-y-12">
  
  {/* Search Bar */}
  <div className="relative">

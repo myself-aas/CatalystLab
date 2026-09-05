@@ -23,7 +23,7 @@ export const FinalCTA: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] font-semibold tracking-[-0.035em] leading-[1.12] text-white">
             Ready to analyze your domain?
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-[#999999] tracking-[-0.01em]">
+          <p className="mx-auto mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground tracking-[-0.01em]">
             Eight engines, 42 PoPs, a composite dossier — in the time it takes to paste a URL.
           </p>
         </motion.div>
@@ -50,7 +50,7 @@ export const FinalCTA: React.FC = () => {
           </button>
           <Link
             to="/contact"
-            className="flex h-12 items-center justify-center rounded-full border border-white/20 bg-[#0A0A0A] px-6 text-sm sm:text-base font-medium text-white transition-all hover:bg-white/10"
+            className="flex h-12 items-center justify-center rounded-full border border-white/20 bg-surface px-6 text-sm sm:text-base font-medium text-white transition-all hover:bg-white/10"
           >
             Contact Sales
           </Link>
