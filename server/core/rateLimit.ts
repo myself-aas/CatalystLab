@@ -1,8 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
-import crypto from 'crypto';
 import { getAttachedIdentity, identityToEntitlements } from '../../src/lib/serverAuth';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
+import { API_KEY_PREFIX, findApiKey } from './apiKeys';
+
 
 // In-memory tiered rate limiting core. See docs / RateLimitingDoc for the
 // tier matrix. Fail-closed identity: authenticated tiers come exclusively
@@ -55,30 +56,7 @@ export function getUtcMidnight(): { dateKey: string; resetAt: Date; resetInSecon
   return { dateKey, resetAt, resetInSeconds, formattedResetTime };
 }
 
-function timingSafeStringEqual(a: string, b: string): boolean {
-  const bufA = Buffer.from(a, 'utf8');
-  const bufB = Buffer.from(b, 'utf8');
-  return bufA.length === bufB.length && crypto.timingSafeEqual(bufA, bufB);
-}
-
-/**
- * Validates an API key against the server-configured allowlist
- * (VALID_API_KEYS env var, comma-separated ``cat_live_...`` keys).
- * Constant-time comparison; when the env var is unset the key tier is
- * DISABLED entirely (fail closed) until keys are persisted and hashed.
- */
-function isValidConfiguredApiKey(key: string): boolean {
-  const configured = (process.env.VALID_API_KEYS || '')
-    .split(',')
-    .map((k) => k.trim())
-    .filter(Boolean);
-  if (configured.length === 0) {
-    return false;
-  }
-  return configured.some((candidate) => timingSafeStringEqual(candidate, key));
-}
-
-function clientIp(req: Request): string {
+export function clientIp(req: Request): string {
   // Only honor X-Forwarded-For when the process is behind a trusted proxy.
   if (process.env.TRUST_PROXY === 'true') {
     const xff = req.headers['x-forwarded-for'];
@@ -133,25 +111,30 @@ export function resolveClientIdentity(req: Request): {
   // SECURITY (Phase 0, fail closed): plan tiers, trials, and superadmin access
   // are NEVER derived from client-supplied headers/body/query. Client claims
   // (x-user-email, x-subscription-plan, x-trial-active, ...) were trivially
-  // spoofable and granted unlimited rate budgets. Identity-based tiers return
-  // in the auth middleware phase via verified Firebase ID tokens
-  // (src/lib/serverAuth.ts); until then only cryptographically verified
-  // API keys (env allowlist, constant-time compare) earn elevated limits.
+  // spoofable and granted unlimited rate budgets. Identity-based tiers come
+  // from verified Firebase ID tokens (src/lib/serverAuth.ts); API keys earn
+  // elevated limits only when they resolve against the persisted hashed
+  // store (or the legacy env allowlist) with a constant-time comparison.
 
-  if (apiKey && apiKey.startsWith('cat_live_') && isValidConfiguredApiKey(apiKey)) {
-    return {
-      identifier: `key_${apiKey.substring(0, 16)}`,
-      tier: 'api_pro',
-      tierLabel: 'Developer API Key',
-      subscriptionPlan: 'pro',
-      isTrialActive: false,
-      limit: PRO_API_DAILY_UNITS,
-      burstMax: 120,
-      cleanEmail: undefined,
-      userId: undefined,
-      visitorId: undefined,
-      sessionId: rawSessionId
-    };
+  // API keys resolve against the persisted, hashed store (plus the legacy
+  // environment allowlist fallback). The secret is never stored in plaintext.
+  if (apiKey && apiKey.startsWith(API_KEY_PREFIX)) {
+    const keyRecord = findApiKey(apiKey);
+    if (keyRecord) {
+      return {
+        identifier: `key_${keyRecord.id}`,
+        tier: 'api_pro',
+        tierLabel: 'Developer API Key',
+        subscriptionPlan: 'pro',
+        isTrialActive: false,
+        limit: keyRecord.dailyComputeLimit || PRO_API_DAILY_UNITS,
+        burstMax: 120,
+        cleanEmail: undefined,
+        userId: undefined,
+        visitorId: undefined,
+        sessionId: rawSessionId
+      };
+    }
   }
 
   // Phase 1: authenticated tiers come exclusively from the verified identity

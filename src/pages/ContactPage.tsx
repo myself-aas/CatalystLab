@@ -29,6 +29,7 @@ export const ContactPage: React.FC = () => {
   const [targetUrl, setTargetUrl] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
 
   const departments = [
     { id: 'technical', label: 'Technical Audit' },
@@ -46,6 +47,7 @@ export const ContactPage: React.FC = () => {
         email,
         department,
         message,
+        honeypot,
         metadata: {
           targetUrl: targetUrl || 'Not provided',
           priority: 'medium',
@@ -131,6 +133,19 @@ export const ContactPage: React.FC = () => {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  {/* Honeypot anti-bot field (hidden from humans; bots fill it) */}
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="contact-website">Website</label>
+                    <input
+                      id="contact-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={e => setHoneypot(e.target.value)}
+                    />
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-2">
                       <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Name</label>

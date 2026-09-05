@@ -217,28 +217,72 @@ Current bundle output (pre-splitting): `vendor-firebase` 552 kB (160 kB gzip) is
 
 ## Appendix A — CI workflow to be added by a maintainer
 
+The automation token used by this branch cannot write `.github/workflows/*`, so the workflow is **not pushed**. A repository owner/maintainer with `workflows` write access should create `.github/workflows/ci.yml` from the draft below (and may retire or merge `media-verify.yml`):
+
 ```yaml
 name: CI
+
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, arena/**]
   pull_request:
     branches: [main, master]
+
 jobs:
-  check:
+  quality-gates:
+    name: Typecheck, lint, tests, build, bundle & env preflight
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm test
-      - run: npm run build
-      - run: npm run check:bundle
+
+      - name: Install Dependencies
+        run: npm ci
+
+      # Dev/test mode only — secrets are intentionally absent in PR builds.
+      # Deploy jobs should run `NODE_ENV=production node scripts/check-env.mjs`.
+      - name: Environment Preflight
+        run: npm run check:env
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit & Integration Tests
+        run: npm test
+
+      - name: Production Build
+        run: npm run build
+
+      - name: Bundle Budget
+        run: npm run check:bundle
+
+  media:
+    name: Media endpoint verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Verify Remote Media Endpoints
+        run: npm run media:check
 ```
 
 ---
@@ -249,6 +293,18 @@ jobs:
 - **Payment provisioning** remains a deliberate, documented gap (fail-closed). It is safe but sells an incomplete upgrade path; fix before real revenue.
 - **Single-instance in-memory stores** limit horizontal scaling; document as a known prod constraint until shared stores are wired.
 - **Static `.html` consolidation** is deferred; document which `.html` pages are intended to be canonical.
+
+## 10. Selected production blockers — implementation status
+
+The blockers flagged in §2.3 / §8 that were explicitly selected for remediation are now implemented on `arena/01a06f6f-catalystlab`:
+
+- **API keys are persisted and hashed.** `server/core/apiKeys.ts` stores `api_keys/{ownerId}_{keyId}` with SHA-256 `keyHash`, scopes/environment/expiry, and a legacy `VALID_API_KEYS` allowlist fallback. `server/routes/account.ts` CRUD is owner-scoped; the plaintext secret is returned only on create/rotate. `server/core/rateLimit.ts` resolves `x-api-key` against the store. Client Firestore writes to `api_keys` are denied in `firestore.rules`.
+- **Contact spam controls.** New `server/routes/contact.ts` (`POST /api/v1/contact`) validates with Zod, checks a honeypot, rate-limits per IP/UID (3 / 15 min, 5 / hour), and persists via the Admin SDK. `firestore.rules` denies direct browser creates on `contact_inquiries`; the forms now route through the server and keep a client-side honeypot + localStorage rate gate.
+- **`starter` role is a first-class client role.** `src/utils/rolePermissions.ts` now has a `starter` RoleConfig and `resolveUserRole()` returns it; `RoleSimulatorFloatingBar` and `RoleSecurityContext` accept `starter`.
+- **`/test` Firestore rule is superadmin-only** (public read removed).
+- **Env preflight.** `scripts/check-env.mjs` runs via `npm run check:env` (included in `npm run ci`); `.env.production.example` documents required production settings.
+- **Dead navigation destinations fixed.** Added `/playground/:engineId`; corrected About/React-dev-docs links; verified every static `to=`/`href=` resolves to a route.
+- **CI YAML remains in Appendix A for a maintainer to add** (this automation token lacks `workflows` write permission; `.github/workflows/ci.yml` is intentionally not pushed).
 
 ---
 

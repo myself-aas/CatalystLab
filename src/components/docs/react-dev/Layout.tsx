@@ -79,10 +79,10 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
         {/* Right: Links & Actions */}
         <div className="flex items-center justify-end gap-1 lg:gap-2 lg:w-72">
           <div className="hidden lg:flex items-center">
-            <NavLink href="/learn" active={activePath?.startsWith('/learn')}>Learn</NavLink>
-            <NavLink href="/reference" active={activePath?.startsWith('/reference')}>Reference</NavLink>
-            <NavLink href="/community" active={activePath?.startsWith('/community')}>Community</NavLink>
-            <NavLink href="/blog" active={activePath?.startsWith('/blog')}>Blog</NavLink>
+            <NavLink href="/methodology" active={activePath?.startsWith('/methodology')}>Learn</NavLink>
+            <NavLink href="/api-docs" active={activePath?.startsWith('/api-docs')}>Reference</NavLink>
+            <NavLink href="/insights" active={activePath?.startsWith('/insights')}>Community</NavLink>
+            <NavLink href="/blogs" active={activePath?.startsWith('/blogs')}>Blog</NavLink>
           </div>
           
           <div className="flex items-center gap-2 ml-4 pl-4 border-l border-border hidden sm:flex">

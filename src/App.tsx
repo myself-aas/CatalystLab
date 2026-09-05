@@ -70,6 +70,7 @@ const ApiReferenceDoc = React.lazy(() => import("./pages/docs/ApiReferenceDoc").
 const CicdDevOpsDoc = React.lazy(() => import("./pages/docs/CicdDevOpsDoc").then(m => ({ default: m.CicdDevOpsDoc })));
 const ApiDocsPage = React.lazy(() => import("./pages/ApiDocsPage").then(m => ({ default: m.ApiDocsPage })));
 const PlaygroundPage = React.lazy(() => import("./pages/PlaygroundPage").then(m => ({ default: m.PlaygroundPage })));
+const EnginePlaygroundPage = React.lazy(() => import("./pages/playground/EnginePlaygroundPage").then(m => ({ default: m.EnginePlaygroundPage })));
 const LoginPage = React.lazy(() => import("./pages/LoginPage").then(m => ({ default: m.LoginPage })));
 const SignUpPage = React.lazy(() => import("./pages/SignUpPage").then(m => ({ default: m.SignUpPage })));
 const ForgotPasswordPage = React.lazy(() => import("./pages/ForgotPasswordPage").then(m => ({ default: m.ForgotPasswordPage })));
@@ -279,6 +280,7 @@ export const App: React.FC = () => {
               <Route path="/developer/api" element={<ApiDocsPage />} />
               <Route path="/playground" element={<PlaygroundPage />} />
               <Route path="/playground.html" element={<PlaygroundPage />} />
+              <Route path="/playground/:engineId" element={<EnginePlaygroundPage />} />
               <Route path="/design-system" element={<ReactDevDesignPage />} />
 
               <Route path="/about" element={<AboutPage />} />

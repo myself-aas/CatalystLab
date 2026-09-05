@@ -52,6 +52,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [inquiryId, setInquiryId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [honeypot, setHoneypot] = useState('');
 
   // Reset form states when modal opens
   useEffect(() => {
@@ -103,7 +104,8 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
         name: name.trim() || undefined,
         company: company.trim() || undefined,
         message: fullMessage,
-        source: sourceContext
+        source: sourceContext,
+        honeypot
       });
 
       setInquiryId(id);
@@ -218,6 +220,19 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Honeypot anti-bot field (hidden from humans; bots fill it) */}
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="git-website">Website</label>
+                    <input
+                      id="git-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={e => setHoneypot(e.target.value)}
+                    />
+                  </div>
                   {/* Topic Selector Pills */}
                   <div>
                     <label className="ds-label block mb-1.5">

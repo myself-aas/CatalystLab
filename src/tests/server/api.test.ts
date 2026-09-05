@@ -525,7 +525,7 @@ describe('API-key lifecycle and webhook push processing', () => {
   it('creates, rotates, revokes and deletes an API key (in-memory demo)', async () => {
     const created = await request(app)
       .post('/api/v1/users/me/api-keys')
-      .send({ name: 'ci-key', environment: 'test' });
+      .send({ name: 'ci-key', environment: 'development' });
     expect([200, 201]).toContain(created.status);
     const keyId = created.body.key?.id || created.body.apiKey?.id || created.body.id;
     if (keyId) {

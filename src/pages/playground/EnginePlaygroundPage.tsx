@@ -299,10 +299,10 @@ func main() {
  <span>All Consoles</span>
  </Link>
  <Link
- to="/api-reference/category/engines"
- className="inline-flex items-center gap-1.5 rounded-xl bg-sky-50 border border-sky-200 .5 px-4 py-2 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ to="/api-reference"
+ className="ds-btn ds-btn-secondary inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold"
  >
- <Code2 className="h-3.5 w-3.5 text-sky-600"/>
+ <Code2 className="h-3.5 w-3.5"/>
  <span>API Docs</span>
  </Link>
  </div>

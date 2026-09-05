@@ -223,6 +223,8 @@ export interface ContactInquiry {
   source?: string;
   company?: string;
   department?: string;
+  /** Honeypot anti-bot field. Must always be `''` on accepted records. */
+  honeypot?: string;
   status?: 'new' | 'contacted' | 'resolved' | 'archived';
   createdAt: number;
   ownerId?: string;

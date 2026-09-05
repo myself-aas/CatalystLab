@@ -876,15 +876,19 @@ export const deleteMonitoredSite = async (siteId: string): Promise<boolean> => {
 
 const LOCAL_API_KEYS_STORAGE_PREFIX = 'catalyst_api_keys_';
 
-function generateSecureApiKey(): string {
-  const bytes = new Uint8Array(16);
-  if (typeof globalThis.crypto?.getRandomValues === 'function') {
-    globalThis.crypto.getRandomValues(bytes);
-  } else {
-    throw new Error('Secure random generator unavailable.');
+/** Returns a Firebase ID token for the signed-in user, or `''` when anonymous. */
+async function getAuthToken(): Promise<string> {
+  if (!auth.currentUser) return '';
+  try {
+    return await auth.currentUser.getIdToken();
+  } catch (err: unknown) {
+    logger.warn('Failed to refresh auth token for API-key request:', err);
+    return '';
   }
-  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-  return `cat_live_${hex}`;
+}
+
+function withAuthHeaders(token: string): Record<string, string> {
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
 export const INITIAL_DEMO_API_KEYS: ApiKey[] = [
@@ -938,7 +942,7 @@ export const getApiKeys = async (ownerId?: string): Promise<ApiKey[]> => {
   const resolvedOwnerId = ownerId || auth.currentUser?.uid || 'guest_dev';
   const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${resolvedOwnerId}`;
 
-  // Try local storage first for instant responsiveness
+  // Local cache allows instant render; the server response is authoritative.
   let localKeys: ApiKey[] = [];
   try {
     const raw = localStorage.getItem(localKey);
@@ -947,32 +951,37 @@ export const getApiKeys = async (ownerId?: string): Promise<ApiKey[]> => {
     }
   } catch (e) { logger.error("Ignored error:", e); }
 
-  const path = "api_keys";
   try {
-    const q = query(collection(db, path), where("ownerId", "==", resolvedOwnerId));
-    const querySnapshot = await getDocs(q);
-    const keys: ApiKey[] = [];
-    querySnapshot.forEach((docSnap) => {
-      keys.push({ id: docSnap.id, ...(docSnap.data() as Omit<ApiKey, 'id'>) });
+    const token = await getAuthToken();
+    const res = await fetch('/api/v1/users/me/api-keys', {
+      headers: { ...withAuthHeaders(token) }
     });
-
-    if (keys.length > 0) {
-      keys.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const keys: ApiKey[] = (Array.isArray(data?.keys) ? data.keys : []).map((k: ApiKey & { ownerEmail?: string }) => ({
+        ...k,
+        ownerEmail: k.ownerEmail || auth.currentUser?.email || '',
+        ownerId: k.ownerId || resolvedOwnerId
+      })).sort((a: ApiKey, b: ApiKey) => ((b.createdAt || 0) as number) - ((a.createdAt || 0) as number));
       try {
         localStorage.setItem(localKey, JSON.stringify(keys));
       } catch (e) { logger.error("Ignored error:", e); }
       return keys;
     }
   } catch (error) {
-    logger.warn("Could not query API keys from Firestore, checking local storage:", error);
+    logger.warn("Could not load API keys from the server, checking local cache:", error);
   }
 
   if (localKeys.length > 0) {
     return localKeys;
   }
 
-  // Fallback to sample demo keys for developer exploration
-  return INITIAL_DEMO_API_KEYS;
+  // Demo keys are displayed only in local development; production never
+  // leaks sample keys as if they were real credentials.
+  if (import.meta.env.DEV) {
+    return INITIAL_DEMO_API_KEYS;
+  }
+  return [];
 };
 
 export const createApiKey = async (params: {
@@ -982,147 +991,109 @@ export const createApiKey = async (params: {
   expiresInDays?: number;
   whiteLabelConfig?: WhiteLabelConfig;
 }): Promise<{ apiKey: ApiKey; secretKey: string }> => {
-  const user = auth.currentUser;
-  const ownerId = user?.uid || 'guest_dev';
-  const ownerEmail = user?.email || 'developer@catalystlab.io';
-
-  const secretKey = generateSecureApiKey();
-  const keyPrefix = secretKey.substring(0, 16) + '...';
-  const keyId = `key_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-  const expiresAt = params.expiresInDays 
-    ? Date.now() + params.expiresInDays * 24 * 60 * 60 * 1000 
-    : null;
-
-  const newApiKey: ApiKey = {
-    id: keyId,
-    name: params.name || 'API Client Key',
-    keyPrefix,
-    ownerId,
-    ownerEmail,
-    scopes: params.scopes || ['execute:engines', 'read:reports'],
-    environment: params.environment || 'development',
-    status: 'active',
-    dailyComputeLimit: 500,
-    whiteLabelConfig: params.whiteLabelConfig || {},
-    createdAt: Date.now(),
-    lastRotatedAt: null,
-    lastUsedAt: null,
-    expiresAt,
-    requestCountToday: 0,
-    totalRequests: 0
-  };
-
-  const path = `api_keys/${keyId}`;
-  try {
-    await setDoc(doc(db, "api_keys", keyId), {
-      ...newApiKey,
-      secretKeyHash: secretKey.substring(0, 20) // masked verification
-    });
-  } catch (error) {
-    logger.warn("Firestore save notice for api_key, caching locally:", error);
+  if (!auth.currentUser) {
+    throw new Error('Sign in is required to create an API key.');
+  }
+  const token = await getAuthToken();
+  if (!token) {
+    throw new Error('Your session has expired. Sign in again to create an API key.');
   }
 
-  // Persist locally
-  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
-  try {
-    const existing = await getApiKeys(ownerId);
-    const updated = [newApiKey, ...existing.filter(k => k.id !== keyId)];
-    localStorage.setItem(localKey, JSON.stringify(updated));
-  } catch (e) { logger.error("Ignored error:", e); }
+  const res = await fetch('/api/v1/users/me/api-keys', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...withAuthHeaders(token)
+    },
+    body: JSON.stringify({
+      name: params.name,
+      scopes: params.scopes,
+      environment: params.environment || 'development',
+      expiresInDays: params.expiresInDays,
+      whiteLabelConfig: params.whiteLabelConfig || {}
+    })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const error = data?.error || 'API key creation failed. Please try again.';
+    handleFirestoreError(error, OperationType.WRITE, 'api_keys');
+    throw new Error(error);
+  }
 
-  return {
-    apiKey: newApiKey,
-    secretKey
+  const apiKey: ApiKey = {
+    ...data.apiKey,
+    ownerId: data.apiKey?.ownerId || auth.currentUser.uid,
+    ownerEmail: data.apiKey?.ownerEmail || auth.currentUser.email || ''
   };
+  return { apiKey, secretKey: data.secretKey };
 };
 
 export const rotateApiKey = async (keyId: string): Promise<{ apiKey: ApiKey; newSecretKey: string }> => {
-  const user = auth.currentUser;
-  const ownerId = user?.uid || 'guest_dev';
-  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
-
-  const currentKeys = await getApiKeys(ownerId);
-  const target = currentKeys.find(k => k.id === keyId);
-  if (!target) {
-    throw new Error(`API key '${keyId}' not found.`);
+  if (!auth.currentUser) {
+    throw new Error('Sign in is required to rotate an API key.');
   }
-
-  const newSecretKey = generateSecureApiKey();
-  const newKeyPrefix = newSecretKey.substring(0, 16) + '...';
-
-  const updatedKey: ApiKey = {
-    ...target,
-    keyPrefix: newKeyPrefix,
-    lastRotatedAt: Date.now(),
-    status: 'active'
-  };
-
-  try {
-    const docRef = doc(db, "api_keys", keyId);
-    await updateDoc(docRef, {
-      keyPrefix: newKeyPrefix,
-      lastRotatedAt: Date.now(),
-      status: 'active'
-    });
-  } catch (error) {
-    logger.warn("Could not update rotated key in Firestore, updating local cache:", error);
+  const token = await getAuthToken();
+  if (!token) {
+    throw new Error('Your session has expired. Sign in again to rotate an API key.');
   }
-
-  try {
-    const updatedList = currentKeys.map(k => k.id === keyId ? updatedKey : k);
-    localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch (e) { logger.error("Ignored error:", e); }
-
+  const res = await fetch(`/api/v1/users/me/api-keys/${encodeURIComponent(keyId)}/rotate`, {
+    method: 'POST',
+    headers: { ...withAuthHeaders(token) }
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const error = data?.error || `API key '${keyId}' could not be rotated.`;
+    handleFirestoreError(error, OperationType.WRITE, 'api_keys');
+    throw new Error(error);
+  }
   return {
-    apiKey: updatedKey,
-    newSecretKey
+    apiKey: { ...data.apiKey, ownerEmail: auth.currentUser.email || '' },
+    newSecretKey: data.newSecretKey
   };
 };
 
 export const revokeApiKey = async (keyId: string): Promise<boolean> => {
-  const user = auth.currentUser;
-  const ownerId = user?.uid || 'guest_dev';
-  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
-
-  try {
-    const docRef = doc(db, "api_keys", keyId);
-    await updateDoc(docRef, {
-      status: 'revoked',
-      revokedAt: Date.now()
-    });
-  } catch (error) {
-    logger.warn("Could not revoke in Firestore, updating local storage:", error);
+  if (!auth.currentUser) {
+    throw new Error('Sign in is required to revoke an API key.');
   }
-
-  try {
-    const currentKeys = await getApiKeys(ownerId);
-    const updatedList = currentKeys.map(k => k.id === keyId ? { ...k, status: 'revoked' as const } : k);
-    localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch (e) { logger.error("Ignored error:", e); }
-
+  const token = await getAuthToken();
+  if (!token) {
+    throw new Error('Your session has expired. Sign in again to revoke an API key.');
+  }
+  const res = await fetch(`/api/v1/users/me/api-keys/${encodeURIComponent(keyId)}/revoke`, {
+    method: 'POST',
+    headers: { ...withAuthHeaders(token) }
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const error = data?.error || `API key '${keyId}' could not be revoked.`;
+    handleFirestoreError(error, OperationType.WRITE, 'api_keys');
+    throw new Error(error);
+  }
   return true;
 };
 
 export const deleteApiKey = async (keyId: string): Promise<boolean> => {
-  const user = auth.currentUser;
-  const ownerId = user?.uid || 'guest_dev';
-  const localKey = `${LOCAL_API_KEYS_STORAGE_PREFIX}${ownerId}`;
-
-  try {
-    const docRef = doc(db, "api_keys", keyId);
-    await deleteDoc(docRef);
-  } catch (error) {
-    logger.warn("Could not delete from Firestore, deleting from local cache:", error);
+  if (!auth.currentUser) {
+    throw new Error('Sign in is required to delete an API key.');
   }
-
-  try {
-    const currentKeys = await getApiKeys(ownerId);
-    const updatedList = currentKeys.filter(k => k.id !== keyId);
-    localStorage.setItem(localKey, JSON.stringify(updatedList));
-  } catch (e) { logger.error("Ignored error:", e); }
-
+  const token = await getAuthToken();
+  if (!token) {
+    throw new Error('Your session has expired. Sign in again to delete an API key.');
+  }
+  const res = await fetch(`/api/v1/users/me/api-keys/${encodeURIComponent(keyId)}`, {
+    method: 'DELETE',
+    headers: { ...withAuthHeaders(token) }
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const error = data?.error || `API key '${keyId}' could not be deleted.`;
+    handleFirestoreError(error, OperationType.WRITE, 'api_keys');
+    throw new Error(error);
+  }
   return true;
 };
+
 
 export { onAuthStateChanged };
 export type { User };
@@ -1357,6 +1328,30 @@ export function saveLocalInquiry(inquiry: ContactInquiry): void {
   }
 }
 
+const CONTACT_THROTTLE_MS = 15 * 1000;
+const CONTACT_SESSION_WINDOW_MS = 10 * 60 * 1000;
+const CONTACT_SESSION_MAX = 5;
+const CONTACT_LAST_SUBMIT_KEY = 'catalyst_contact_last_submit_at';
+const CONTACT_WINDOW_COUNT_KEY = 'catalyst_contact_window_submissions';
+
+function readWindowCount(): number {
+  try {
+    const stored = window.localStorage.getItem(CONTACT_WINDOW_COUNT_KEY);
+    return stored ? Number(stored) || 0 : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function recordSubmission(now: number): void {
+  try {
+    window.localStorage.setItem(CONTACT_LAST_SUBMIT_KEY, String(now));
+    window.localStorage.setItem(CONTACT_WINDOW_COUNT_KEY, String(readWindowCount() + 1));
+  } catch {
+    /* no-op */
+  }
+}
+
 export const submitContactInquiry = async (data: {
   email: string;
   name?: string;
@@ -1364,12 +1359,43 @@ export const submitContactInquiry = async (data: {
   source?: string;
   company?: string;
   department?: string;
+  honeypot?: string;
   metadata?: Record<string, string | number | boolean>;
 }): Promise<string> => {
   const path = "contact_inquiries";
   const currentUser = auth.currentUser;
-  const inquiryId = `inq_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-  
+
+  // Client-side honeypot: a real user never fills a hidden field. Short-circuit
+  // before the network call so bots moving fast do not consume server quota.
+  if (data.honeypot && typeof data.honeypot === 'string' && data.honeypot.trim().length > 0) {
+    return `inq_${Date.now()}_honeypot`;
+  }
+
+  // Client-side rate gate: max 1 submission / 15s and max 5 per 10-minute
+  // window per browser. The server re-checks per IP; this is defense-in-depth
+  // against accidental double-submits and casual bots.
+  const now = Date.now();
+  try {
+    const last = Number(window.localStorage.getItem(CONTACT_LAST_SUBMIT_KEY)) || 0;
+    if (now - last < CONTACT_THROTTLE_MS) {
+      throw new Error('Submitting too quickly. Please wait a moment before trying again.');
+    }
+    if (readWindowCount() >= CONTACT_SESSION_MAX) {
+      throw new Error('Too many submissions. Please try again later.');
+    }
+  } catch (err) {
+    if (err instanceof Error && (err.message.startsWith('Submitting') || err.message.startsWith('Too many'))) {
+      throw err;
+    }
+  }
+
+  const email = String(data.email || '').trim().toLowerCase().substring(0, 256);
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error('Please provide a valid email address.');
+  }
+
+  const source = String(data.source || 'get-in-touch-popup').substring(0, 100);
+  const department = data.department?.trim() ? String(data.department).trim().substring(0, 40) : undefined;
   const metadata = data.metadata && typeof data.metadata === 'object'
     ? Object.fromEntries(
         Object.entries(data.metadata)
@@ -1377,32 +1403,53 @@ export const submitContactInquiry = async (data: {
           .map(([k, v]) => [String(k).substring(0, 40), typeof v === 'string' ? String(v).substring(0, 500) : v])
       )
     : undefined;
+  if (metadata && Object.keys(metadata).length > 6) {
+    throw new Error('Too much supplemental information in this submission.');
+  }
 
   const payload: Omit<ContactInquiry, 'id'> = {
-    email: String(data.email || '').trim().toLowerCase().substring(0, 256),
+    email,
     ...(data.name?.trim() ? { name: String(data.name).trim().substring(0, 150) } : {}),
     ...(data.message?.trim() ? { message: String(data.message).trim().substring(0, 2000) } : {}),
-    source: String(data.source || 'get-in-touch-popup').substring(0, 100),
+    source,
     ...(data.company?.trim() ? { company: String(data.company).trim().substring(0, 200) } : {}),
-    ...(data.department?.trim() ? { department: String(data.department).trim().substring(0, 40) } : {}),
+    ...(department ? { department } : {}),
     ...(metadata && Object.keys(metadata).length > 0 ? { metadata } : {}),
+    honeypot: data.honeypot ? String(data.honeypot).substring(0, 512) : '',
     status: 'new',
-    createdAt: Date.now(),
+    createdAt: now,
     ownerId: currentUser?.uid || 'guest'
   };
 
   try {
-    const docRef = doc(db, path, inquiryId);
-    await setDoc(docRef, payload);
+    // Server-side intake: schema validation, honeypot, per-IP rate limiting and
+    // Admin-SDK persistence all live in the trusted Express route. Direct
+    // Firestore client writes are denied by `firestore.rules`.
+    const token = await getAuthToken();
+    const res = await fetch('/api/v1/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...withAuthHeaders(token)
+      },
+      body: JSON.stringify(payload)
+    });
+    const dataJson = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const error = dataJson?.error || 'Could not complete submission. Please try again.';
+      throw new Error(error);
+    }
+    const inquiryId = dataJson?.inquiryId || `inq_${now}_${Math.random().toString(36).substring(2, 9)}`;
+    recordSubmission(now);
     const savedItem: ContactInquiry = { id: inquiryId, ...payload };
     saveLocalInquiry(savedItem);
     return inquiryId;
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, path);
-    // Persist to local backup so user data is never lost
-    const fallbackItem: ContactInquiry = { id: inquiryId, ...payload };
-    saveLocalInquiry(fallbackItem);
-    return inquiryId;
+    // Never pretend a submission was accepted when the server rejected it or
+    // the request failed. The form keeps the user's input so they can retry;
+    // cached tickets are only persisted after the server acknowledged success.
+    throw error;
   }
 };
 

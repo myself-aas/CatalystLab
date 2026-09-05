@@ -9,6 +9,7 @@ import {
   ChevronDown, 
   User, 
   Sparkles, 
+  Rocket, 
   Zap, 
   Users, 
   Building2, 
@@ -31,6 +32,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
   const roles: { role: UserRole; icon: React.ComponentType<{ className?: string }>; label: string; badge: string }[] = [
     { role: 'anonymous', icon: User, label: 'Guest Visitor', badge: 'Public' },
     { role: 'user', icon: Sparkles, label: 'Free Developer', badge: '50 units' },
+    { role: 'starter', icon: Rocket, label: 'Starter Pro', badge: '150 units' },
     { role: 'pro', icon: Zap, label: 'Pro Subscriber', badge: '500 units' },
     { role: 'team', icon: Users, label: 'Team / Agency', badge: '1,500 units' },
     { role: 'enterprise', icon: Building2, label: 'Enterprise', badge: '5,000 units' },
