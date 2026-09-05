@@ -71,7 +71,7 @@ export const EnzymeGrid: React.FC = () => {
                     SynthShift &amp; Schema Validation
                   </h3>
                   <Link
-                    to="/engines/migration"
+                    to={ENGINES_MAP.migration.route}
                     className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
@@ -192,7 +192,7 @@ export const EnzymeGrid: React.FC = () => {
                     VitalZyme
                   </h3>
                   <Link
-                    to="/engines/health"
+                    to={ENGINES_MAP.health.route}
                     className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
@@ -263,7 +263,7 @@ export const EnzymeGrid: React.FC = () => {
                     EdgeKinase &amp; Mesh
                   </h3>
                   <Link
-                    to="/engines/latency"
+                    to={ENGINES_MAP.latency.route}
                     className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
@@ -341,7 +341,7 @@ export const EnzymeGrid: React.FC = () => {
                     RiskProtease &amp; OWASP
                   </h3>
                   <Link
-                    to="/engines/compliance"
+                    to={ENGINES_MAP.compliance.route}
                     className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
@@ -446,7 +446,7 @@ export const EnzymeGrid: React.FC = () => {
                     EcoHolo
                   </h3>
                   <Link
-                    to="/engines/eco"
+                    to={ENGINES_MAP.eco.route}
                     className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
@@ -515,7 +515,7 @@ export const EnzymeGrid: React.FC = () => {
                     LLM-Kinase
                   </h3>
                   <Link
-                    to="/engines/ai_ready"
+                    to={ENGINES_MAP.ai_ready.route}
                     className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect
@@ -582,7 +582,7 @@ export const EnzymeGrid: React.FC = () => {
                     AllosterSearch
                   </h3>
                   <Link
-                    to="/engines/llmo"
+                    to={ENGINES_MAP.llmo.route}
                     className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
                   >
                     Inspect

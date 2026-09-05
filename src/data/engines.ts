@@ -18,7 +18,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-orange-500/10 text-orange-600 border-orange-500/30',
     description: 'Binding disparate systems together for a seamless, risk-free infrastructure migration.',
     pythonScript: 'platform_migration_audit.py',
-    route: '/migration',
+    route: '/docs/synthshift',
     docsAnchor: 'engine-par',
     image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
@@ -76,7 +76,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-green-500/10 text-green-600 border-green-500/30',
     description: 'Repairing, cleaning, and binding your repository structure for flawless code hygiene.',
     pythonScript: 'repo_scanner.py',
-    route: '/repo-scanner',
+    route: '/docs/gitlygase',
     docsAnchor: 'engine-repo-scanner',
     image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
@@ -134,7 +134,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30',
     description: 'Synthesizing your entire digital footprint into a complete, transparent carbon accounting system.',
     pythonScript: 'eco_carbon_audit.py',
-    route: '/eco-audit',
+    route: '/docs/ecoholo',
     docsAnchor: 'engine-eco-audit',
     image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
@@ -192,7 +192,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-sky-500/10 text-sky-600 border-sky-500/30',
     description: 'Optimizing your site’s core vitals to ensure peak health, performance, and unbroken uptime.',
     pythonScript: 'website_health.py',
-    route: '/health',
+    route: '/docs/vitalzyme',
     docsAnchor: 'engine-health',
     image: 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
@@ -251,7 +251,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-pink-500/10 text-pink-600 border-pink-500/30',
     description: 'Pushing global edge networks to maximum velocity to achieve near-zero latency.',
     pythonScript: 'edge_latency.py',
-    route: '/latency',
+    route: '/docs/edgevmax',
     docsAnchor: 'engine-latency',
     image: 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
@@ -309,7 +309,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-amber-500/10 text-amber-600 border-amber-500/30',
     description: 'Actively breaking down system liabilities to ensure absolute security and compliance.',
     pythonScript: 'compliance_risk_audit.py',
-    route: '/compliance',
+    route: '/docs/riskprotease',
     docsAnchor: 'engine-compliance',
     image: 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
@@ -367,7 +367,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-purple-500/10 text-purple-600 border-purple-500/30',
     description: 'Activating and accelerating your data infrastructure to unlock true enterprise AI readiness.',
     pythonScript: 'ai_readiness.py',
-    route: '/ai-readiness',
+    route: '/docs/llm-kinase',
     docsAnchor: 'engine-ai-readiness',
     image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [
@@ -425,7 +425,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     badgeClass: 'bg-cyan-500/10 text-cyan-600 border-cyan-500/30',
     description: 'Dynamically adapting your web architecture to dominate AI search and discovery engines.',
     pythonScript: 'llmo_optimizer.py',
-    route: '/llmo',
+    route: '/docs/allostersearch',
     docsAnchor: 'engine-llmo',
     image: 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     keyVectors: [

@@ -84,7 +84,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
 
   // Quick search results
   const searchResults = [
-    { title: 'VitalZyme Core Web Vitals Audit', desc: 'P95 LCP sub-second optimization engine', href: '/health' },
+    { title: 'VitalZyme Core Web Vitals Audit', desc: 'P95 LCP sub-second optimization engine', href: '/docs/vitalzyme' },
     { title: 'SynthShift AST & DOM Preloader', desc: 'Eliminates render-blocking CSS and JS scripts', href: '/dashboard?tab=engines' },
     { title: 'RiskProtease OWASP Transport Check', desc: 'TLS 1.3, HSTS, CSP and Permissions-Policy audit', href: '/dashboard?tab=security' },
     { title: 'EdgeKinase Anycast DNS Mesh', desc: '38 Global Point-of-Presence latency matrix', href: '/dashboard?tab=monitoring' },

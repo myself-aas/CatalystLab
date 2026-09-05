@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { 
   X, 
-  LogIn, 
   LogOut, 
   UserPlus,
   Activity, 
@@ -12,10 +11,8 @@ import {
   ShieldCheck, 
   Sparkles, 
   LayoutDashboard, 
-  GitBranch, 
   Terminal, 
   Leaf, 
-  Globe, 
   Cpu, 
   ChevronDown, 
   Radio,
@@ -24,9 +21,7 @@ import {
   Code2,
   CreditCard,
   Info,
-  Mail,
   ArrowRight,
-  Search,
   Compass,
   Layers,
   ChevronRight
@@ -55,8 +50,16 @@ export interface NavItem {
   permission?: AppPermission;
 }
 
-export const useMainMenuData = (user: any): NavItem[] => {
+export const useMainMenuData = (user: any, isAdmin = false): NavItem[] => {
   return useMemo(() => {
+    const engineChildren: NavItem[] = [
+      { id: 'all-engines', title: 'View All Engines', path: '/engines', icon: Layers, badge: 'Matrix' },
+      { id: 'vitalzyme', title: 'VitalZyme Engine', path: '/docs/vitalzyme', icon: Activity, badge: 'Vitals' },
+      { id: 'riskprotease', title: 'RiskProtease Engine', path: '/docs/riskprotease', icon: ShieldCheck, badge: 'OWASP' },
+      { id: 'gitlygase', title: 'GitLygase Engine', path: '/docs/gitlygase', icon: Terminal, badge: 'SecOps' },
+      { id: 'llmkinase', title: 'LLM-Kinase Engine', path: '/docs/llm-kinase', icon: Cpu, badge: 'AI' },
+    ];
+
     if (user) {
       return [
         {
@@ -69,12 +72,7 @@ export const useMainMenuData = (user: any): NavItem[] => {
           id: 'diagnostic-hub',
           title: 'Diagnostic Hub (Engines)',
           icon: Activity,
-          children: [
-            { id: 'all-engines', title: 'View All Engines', path: '/hub', icon: Layers, badge: 'Matrix' },
-            { id: 'vitals', title: 'VitalZyme Engine', path: '/health', icon: Activity, badge: 'Vitals' },
-            { id: 'secops', title: 'GitLygase Engine', path: '/repo-scanner', icon: Terminal, badge: 'SecOps' },
-            { id: 'owasp', title: 'RiskProtease Engine', path: '/compliance', icon: ShieldCheck, badge: 'OWASP' },
-          ]
+          children: engineChildren,
         },
         {
           id: 'tools',
@@ -83,7 +81,7 @@ export const useMainMenuData = (user: any): NavItem[] => {
           children: [
             { id: 'products', title: 'Products & Watchdog', path: '/products', icon: Radio, badge: 'Continuous', badgeColor: 'emerald' },
             { id: 'compare', title: 'Side-by-Side Compare', path: '/compare', icon: Scale, badge: 'Radar' },
-            { id: 'webhooks', title: 'GitHub Webhooks', path: '/dashboard/webhooks', icon: GitBranch },
+            { id: 'reports', title: 'Audit Dossiers', path: '/reports', icon: FileText },
           ]
         },
         {
@@ -96,13 +94,15 @@ export const useMainMenuData = (user: any): NavItem[] => {
             { id: 'playground', title: 'Interactive Playground', path: '/playground', icon: Terminal, badge: 'Sandbox' },
           ]
         },
-        {
-          id: 'admin',
-          title: 'Admin Console',
-          path: '/admin',
-          icon: ShieldCheck,
-          permission: 'page:view_admin'
-        }
+        ...(isAdmin
+          ? [{
+              id: 'admin',
+              title: 'Admin Console',
+              path: '/admin',
+              icon: ShieldCheck,
+              permission: 'page:view_admin' as const,
+            }]
+          : []),
       ];
     } else {
       return [
@@ -115,7 +115,7 @@ export const useMainMenuData = (user: any): NavItem[] => {
         {
           id: 'diagnostic-hub',
           title: 'Diagnostic Hub',
-          path: '/hub',
+          path: '/engines',
           icon: Activity,
         },
         {
@@ -148,7 +148,7 @@ export const useMainMenuData = (user: any): NavItem[] => {
         },
       ];
     }
-  }, [user]);
+  }, [user, isAdmin]);
 };
 
 const isAnyChildActive = (item: NavItem, currentPath: string): boolean => {
@@ -324,11 +324,11 @@ const CollapsibleMenuItem = ({
 export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClose }) => {
 
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const { hasPermission, roleConfig } = useRoleSecurity();
   const overlayRef = useRef<HTMLDivElement>(null);
   
-  const menuData = useMainMenuData(user);
+  const menuData = useMainMenuData(user, Boolean(isAdmin));
   
   // Auto-collapse logic: only one root item can be expanded at a time
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -511,7 +511,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           {/* Action-Oriented Pinned CTA - Phase 3 */}
           <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-4 shrink-0 bg-background/80 backdrop-blur-md border-t border-border/50 z-20">
             <Link
-              to="/launch-audit"
+              to="/audit"
               onClick={onClose}
               className="relative group/launch overflow-hidden flex items-center justify-between w-full rounded-2xl bg-accent p-3.5 text-white font-medium shadow-linear-cta transition-transform hover:scale-[1.01] active:scale-[0.99] hover:bg-accent-bright"
               aria-label="Launch Master Audit"
