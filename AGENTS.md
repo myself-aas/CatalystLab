@@ -1,0 +1,136 @@
+# CatalystLab Agent Instructions
+
+You are building components for CatalystLab, a premium, dark-mode-first developer tooling platform. The UI borrows heavily from high-end SaaS ecosystems (Vercel, Framer, Linear). You must strictly adhere to the following primitive variables, layout spacing formulas, and interaction physics. Do not invent new UI paradigms; use the established `ds-*` and `framer-*` class systems.
+
+## 1. Global Layout & Canvas Architecture
+
+Every page must sit atop the canonical layout shell to avoid overlapping with the sticky global transparent navigation bar.
+
+**Page Wrapper Pattern:**
+```tsx
+return (
+  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+    <SEOHead title="..." description="..." />
+    {/* Page Content */}
+  </div>
+);
+```
+
+**Spacing Modifiers (CRITICAL):**
+*   `.ds-page-top`: Use on standard pages to provide perfect clearance under the HUD/Navbar `(var(--page-top-spacing))`.
+*   `.ds-page-top-hero`: Use ONLY on landing/hero sections where you need an extra `1.25rem` clearance padding for visual breathing room.
+
+**Backgrounds & Subsurface Glows:**
+*   **Base:** `bg-background` (Pure Black `#000000`).
+*   **Grid Scrim (Optional Ambient):** `bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20`
+*   **Radial Glow:** Use standard absolute divs with radial gradients to create subsurface ambient light.
+    ```tsx
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+    ```
+
+## 2. Typography & Type Scale (Tailwind Utilities)
+
+Do not use raw text-sizing for core layout headings. Use the canonical `framer-*` type-scale utilities mapped in the global CSS:
+
+*   **`.framer-hero-title`**: Primary page titles. (Massive, tracking `[-0.04em]`, leading `1.05`, bold).
+*   **`.framer-section-headline`**: Secondary H2 headers `(text-3xl sm:text-4xl lg:text-5xl)`.
+*   **`.framer-card-title`**: For standard bento grids and cards. `(text-lg sm:text-xl font-medium tracking-[-0.02em])`.
+*   **`.framer-body-text`**: For all standard descriptive paragraph text. `(text-sm sm:text-base text-[#999999] leading-relaxed)`.
+*   **`.framer-micro-tag`**: For small badge labels, table headers, eyebrows. `(text-[11px] font-mono tracking-[0.04em] uppercase)`.
+*   **`.framer-code-terminal`**: For JSON/AST outputs or console simulation. `(font-mono text-xs text-[#00D2FF])`.
+
+## 3. The `ds-*` Component Primitives
+
+Never hand-roll borders, border-radii, or transitions for base components. Always use the canonical class architecture:
+
+### Cards & Surfaces
+*   `.ds-card`: Default static container. `(1px border var(--app-border), 1rem radius, bg-card)`.
+*   `.ds-card-interactive`: Same as `ds-card` but adds a `160ms` hover physics translation `(translateY(-2px))` and border glow.
+*   **Glassmorphism**: When a card overlays the main canvas, augment `ds-card` with `backdrop-blur-xl`.
+
+### Buttons (160ms ease physics)
+*   `.ds-btn`: Base button class (layout, gap, font-weight, transition).
+*   `.ds-btn-primary`: Action button (`bg-[#0066FF] text-white`).
+*   `.ds-btn-secondary`: Muted button (`bg-muted border-border`).
+*   `.ds-btn-ghost`: Invisible until hover.
+
+### Inputs & Forms
+*   `.ds-input`: Text fields (`min-height 2.75rem, radius 0.65rem, bg-muted, border`).
+*   `.ds-select`: Standard dropdown.
+*   `.ds-label`: Form labels (Uppercase, mono, tracking `0.08em`, bold, text-muted-foreground).
+
+## 4. Color Palette & Thematic Accents
+
+Use the predefined CSS variables injected as Tailwind classes:
+*   **Blue (Core CTA/Primary)**: `text-[#0066FF]` or `bg-[#0066FF]` (Framer Blue).
+*   **Cyan (Edge/Telemetry)**: `text-[#00D2FF]` (Terminal text, mesh networking).
+*   **Emerald (Vital/Success)**: `text-emerald-400` / `bg-emerald-500/10` (Uptime, Live status).
+*   **Violet (Synthetics)**: `text-[#8A2BE2]` (AST diffs, schemas).
+*   **Amber (Security/Warning)**: `text-[#FF9900]` (OWASP, RiskProtease).
+
+*Rule:* Whenever displaying a "badge", use a 10% opacity background of the accent color and a 20% opacity border of the accent color.
+```tsx
+<div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+  Live
+</div>
+```
+
+## 5. React Motion (Animation Physics)
+
+Framer Motion (`motion/react`) is the canonical animation engine. 
+*   **NO standard CSS hover scaling**. If an element scales on hover, it MUST be wrapped in a `<motion.div>` or `<motion.button>`.
+
+**Standard Spring Physics for Interactions:**
+```tsx
+<motion.button
+  whileHover={{ scale: 1.035 }}
+  whileTap={{ scale: 0.97 }}
+  transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }} // Canonical Framer-like snap curve
+  className="ds-btn ds-btn-primary"
+>
+  Click Me
+</motion.button>
+```
+
+**Standard Mount Fade (Scroll or Render):**
+For elements that should gracefully mount, rely on `motion.div`:
+```tsx
+<motion.div
+  initial={{ opacity: 0, y: 15 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4, delay: 0.1 }}
+>
+  {/* Content */}
+</motion.div>
+```
+
+## 6. Tabs & Segmented Controls
+
+Do NOT build complex external tab libraries. Use local state mapping with standard segmented visual buttons wrapped in a pill container:
+
+```tsx
+const [activeTab, setActiveTab] = useState<'payload' | 'schema'>('payload');
+
+{/* Tab Container */}
+<div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-lg font-mono text-xs">
+  {(['payload', 'schema'] as const).map((tab) => (
+    <button
+      key={tab}
+      onClick={() => setActiveTab(tab)}
+      className={\`rounded-md px-3 py-1.5 transition-all \${
+        activeTab === tab
+          ? 'bg-white/15 text-white shadow-sm'
+          : 'text-muted-foreground hover:text-white'
+      }\`}
+    >
+      {tab.toUpperCase()}
+    </button>
+  ))}
+</div>
+```
+
+## 7. Icons
+
+*   Always use `lucide-react` icons. 
+*   Standard size is `size-4` (16px) or `size-5` (20px).
+*   Add `shrink-0` to icons placed inside flex-rows with text to prevent them from squishing.

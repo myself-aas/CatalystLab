@@ -266,7 +266,7 @@ export const ComparePage: React.FC = () => {
  />
 
  {/* Header */}
- <section className="relative overflow-hidden border-b border-border py-16 sm:py-20 w-full">
+ <section className="relative overflow-hidden border-b border-border ds-page-top-hero pb-16 sm:pb-20 w-full">
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#06b6d420_0%,transparent_75%)] pointer-events-none z-0"/>
  <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 

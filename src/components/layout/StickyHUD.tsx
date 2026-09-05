@@ -85,6 +85,10 @@ export const StickyHUD: React.FC = () => {
 
   const activeEnzymeObj = ENZYME_LIST.find((e) => e.id === focusEngine);
 
+  if (showAppChrome) {
+    return null;
+  }
+
   return (
     <aside
       id="telemetry-sticky-hud"

@@ -245,7 +245,7 @@ export const CommandCenterHUD: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 selection:text-primary-foreground pb-16">
+    <div className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-primary/30 selection:text-primary-foreground pb-16">
       {/* Top Telemetry Ticker */}
       <div className="w-full bg-card border-b border-border px-4 py-2.5">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs font-mono">

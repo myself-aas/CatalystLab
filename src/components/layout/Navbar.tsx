@@ -149,8 +149,8 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-4 md:top-6 inset-x-0 mx-auto z-50 w-[calc(100%-2rem)] max-w-5xl">
-        <nav className="backdrop-blur-xl bg-black/65 border border-border rounded-full px-4 sm:px-6 py-2.5 shadow-2xl flex items-center justify-between transition-all">
+      <header className="fixed top-[calc(var(--trial-banner-height,0px)+var(--nav-top-offset,1rem))] inset-x-0 mx-auto z-50 w-[calc(100%-2rem)] max-w-5xl transition-[top] duration-200">
+        <nav className="bg-transparent px-4 sm:px-6 py-2.5 flex items-center justify-between transition-all">
           {/* Left Anchor: Monogram + Wordmark + Live Node Chip */}
           <div className="flex items-center gap-3 shrink-0">
             <Link to="/" className="flex items-center gap-2 group focus:outline-none">

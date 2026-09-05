@@ -170,7 +170,7 @@ export const SignUpPage: React.FC = () => {
   const activeErrorMessage = localError || authError?.message;
 
   return (
-    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-background text-foreground">
+    <div data-theme="dark" className="relative min-h-screen ds-page-top pb-16 flex flex-col items-center px-4 bg-background text-foreground">
       <SEOHead
         title="Sign Up | Initialize Telemetry Console | CatalystLab"
         description="Deploy autonomous web diagnostics in seconds. Zero SDK instrumentation, 100% edge-native inspection across 38 global PoPs."
@@ -193,7 +193,7 @@ export const SignUpPage: React.FC = () => {
       />
 
       {/* Centered Floating Glass Modal Frame */}
-      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md mx-auto my-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
         {/* Top Brand Anchor */}
         <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
           <Link to="/" className="flex items-center gap-2 group focus:outline-none">

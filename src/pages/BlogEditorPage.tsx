@@ -112,7 +112,7 @@ export const BlogEditorPage: React.FC = () => {
  };
 
  return (
- <div className="min-h-screen bg-transparent pb-20 text-foreground">
+ <div className="min-h-screen ds-page-top bg-transparent pb-20 text-foreground">
  <SEOHead
  title={id ? 'Edit Article' : 'New Article'}
  description="Draft and publish CatalystLab engineering articles with SEO metadata, excerpts, and telemetry research notes."

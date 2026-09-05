@@ -15,7 +15,7 @@ import {
 
 export const NotFoundPage: React.FC = () => {
  return (
- <div className="min-h-screen bg-primary text-primary-foreground flex flex-col justify-between relative overflow-hidden pt-20 pb-12">
+ <div className="min-h-screen ds-page-top bg-primary text-primary-foreground flex flex-col justify-between relative overflow-hidden pb-12">
  <SEOHead
  title="404 - Node Unreachable | CatalystLab Anycast Mesh"
  description="The requested routing endpoint could not be resolved across any of our 42 global Edge PoPs."

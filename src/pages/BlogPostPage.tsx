@@ -89,7 +89,7 @@ export const BlogPostPage: React.FC = () => {
  }) : 'Recently Published';
 
  return (
- <div className="min-h-screen bg-background text-foreground font-mono selection:bg-primary selection:text-primary-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-mono selection:bg-primary selection:text-primary-foreground">
  <SEOHead
  title={post.title}
  description={post.excerpt || `Read ${post.title} on CatalystLab Developer Blog.`}
@@ -116,7 +116,7 @@ export const BlogPostPage: React.FC = () => {
  />
 
  {/* Main Split Layout */}
- <div className="ds-page-shell lg: py-8">
+ <div className="ds-page-shell py-8">
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
  
  {/* Main Article Stream (col-span-8) */}

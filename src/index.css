@@ -36,6 +36,24 @@
   --accent-violet-synth: #8A2BE2;            /* SynthShift & Schema transformations */
   --accent-amber-sec: #FF9900;               /* RiskProtease & OWASP alerts */
 
+  /* Layout Geometry & Dynamic Chrome Spacing */
+  --trial-banner-height: 0px;
+  --nav-height: 3.25rem;
+  --nav-top-offset: 1rem;
+  --nav-bottom-clearance: 1.5rem;
+  --nav-total-height: calc(var(--trial-banner-height, 0px) + var(--nav-top-offset) + var(--nav-height));
+  --page-top-spacing: calc(var(--nav-total-height) + var(--nav-bottom-clearance));
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-top-offset: 1.5rem;
+    --nav-bottom-clearance: 2rem;
+  }
+}
+
+:root {
+
   /* Radiance & Shadows */
   --glow-radial-hero: radial-gradient(circle 600px at 50% 0%, rgba(0, 102, 255, 0.15), transparent 70%);
   --glow-card-subsurface: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 60%);
@@ -1013,6 +1031,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
    ========================================================================== */
 @layer components {
   .ds-page-shell { width: min(100% - 2rem, 90rem); margin-inline: auto; }
+  .ds-page-top { padding-top: var(--page-top-spacing); }
+  .ds-page-top-hero { padding-top: calc(var(--page-top-spacing) + 1.25rem); }
   .ds-section { padding-block: clamp(3.5rem, 8vw, 7rem); }
   .ds-eyebrow {
     color: var(--app-primary);

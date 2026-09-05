@@ -213,7 +213,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  canonicalUrl="https://www.catalystlab.tech/master-audit"
  />
 
- <section className="relative overflow-hidden border-b border-border ds-section w-full">
+ <section className="relative overflow-hidden border-b border-border ds-page-top-hero pb-16 sm:pb-24 w-full">
  <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]"/>
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex items-center justify-between">

@@ -1,0 +1,6 @@
+{
+  "name": "Fullscreen Imageview Card System",
+  "description": "Immersive fullscreen imageview card components with dynamic UI/UX layout design, hover zoom animations, and glassmorphism overlays.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

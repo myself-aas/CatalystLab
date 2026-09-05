@@ -177,7 +177,7 @@ export const DiagnosticHubPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="min-h-[100dvh] pt-24 pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-12">
+      <div className="min-h-[100dvh] ds-page-top pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-12">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">

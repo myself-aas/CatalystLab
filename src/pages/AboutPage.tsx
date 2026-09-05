@@ -170,7 +170,7 @@ export const AboutPage: React.FC = () => {
  <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] dark:opacity-100 opacity-30 bg-[size:3.5rem_3.5rem]"/>
 
  {/* Hero Section */}
- <section className="relative z-10 border-b border-border dark:border-white/[0.08] pt-16 pb-20 sm:pt-24 sm:pb-24 w-full">
+ <section className="relative z-10 border-b border-border dark:border-white/[0.08] ds-page-top-hero pb-20 sm:pb-24 w-full">
  <div className="ds-page-shell text-center space-y-6">
  
  <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">

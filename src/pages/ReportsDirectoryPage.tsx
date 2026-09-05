@@ -134,7 +134,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  />
  
  {/* Header Banner */}
- <section className="relative overflow-hidden border-b border-border bg-muted py-16 sm:py-20 sm:px-6 lg:px-8">
+ <section className="relative overflow-hidden border-b border-border bg-muted ds-page-top-hero pb-16 sm:pb-20 sm:px-6 lg:px-8">
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0"/>
  <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 

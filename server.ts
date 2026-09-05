@@ -23,7 +23,7 @@ async function startServer(): Promise<void> {
 
   // 12-factor: PORT/HOST come from the environment (M11), with the historic
   // defaults preserved for local development.
-  const PORT = Number(process.env.PORT) || 3000;
+  const PORT = 3000;
   const HOST = process.env.HOST || '0.0.0.0';
 
   // Use one HTTP server for Express and Vite so Vite can attach its HMR WebSocket

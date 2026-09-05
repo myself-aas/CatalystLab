@@ -72,15 +72,15 @@ export const ContactPage: React.FC = () => {
         description="Direct line to CatalystLab engineering. No sales fluff. Support, enterprise API keys, and custom technical integrations."
       />
 
-      <div data-theme="dark" className="min-h-[100dvh] pt-24 pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-16 lg:gap-24">
+      <div data-theme="dark" className="min-h-[100dvh] ds-page-top pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-16 lg:gap-24">
         
         {/* Split Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start mt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           
           {/* Left Column: Copy & Benchmarks */}
           <div className="flex flex-col gap-8">
             <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] font-semibold tracking-[-0.04em] text-white leading-[1.05] mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.04em] text-white leading-[1.1] mb-6">
                 Direct line to our engineering team.
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed tracking-[-0.01em]">

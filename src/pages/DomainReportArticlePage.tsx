@@ -247,7 +247,7 @@ export const DomainReportArticlePage: React.FC = () => {
  : 'Recent Verification';
 
  return (
- <article id="article-dossier-root"className="min-h-screen bg-background pb-28 text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
+ <article id="article-dossier-root" className="min-h-screen bg-background pb-28 text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
  <SEOHead
  title={`Benchmark: ${displayDomain}`}
  description={`Full-stack performance, security, and AI readiness benchmark for ${displayDomain}.`}
@@ -255,7 +255,7 @@ export const DomainReportArticlePage: React.FC = () => {
  />
  
  {/* Main Hero Header */}
- <header className="border-b border-border bg-muted py-10 sm:px-6 lg:px-8">
+ <header className="border-b border-border bg-muted ds-page-top pb-10 sm:px-6 lg:px-8">
  <div className="ds-page-shell space-y-5">
  
  {/* Badge & Category */}

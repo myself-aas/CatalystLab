@@ -46,7 +46,7 @@ export const PricingPage: React.FC = () => {
  description="Transparent diagnostic tiers from community scans to enterprise air-gapped runners."
  />
 
- <section className="relative overflow-hidden pb-8 pt-16 sm:pt-24 w-full">
+ <section className="relative overflow-hidden ds-page-top-hero pb-8 w-full">
  <div className="pointer-events-none absolute left-1/2 top-0 h-[380px] w-[720px] -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]"/>
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-muted/30 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-primary">
@@ -56,7 +56,7 @@ export const PricingPage: React.FC = () => {
  <h1 className="text-gradient-linear text-4xl font-semibold tracking-[-0.03em] sm:text-6xl">
  Pricing that scales with the mesh.
  </h1>
- <p className="mx-auto mt-4 max-w-3xl mx-auto text-base leading-relaxed text-muted-foreground sm:text-lg">
+ <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
  Start free. Unlock 42 PoPs, CI gates, and white-label dossiers when the lab outgrows a laptop.
  </p>
 

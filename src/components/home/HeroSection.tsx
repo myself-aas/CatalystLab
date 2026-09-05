@@ -33,14 +33,14 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden w-full max-w-none min-h-[90vh] flex flex-col justify-center ds-section pt-28 sm:pt-36">
+    <section className="relative overflow-hidden w-full max-w-none min-h-[90vh] flex flex-col ds-section ds-page-top-hero pb-16">
       <div
         data-testid="hero-contrast-scrim"
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-gradient-to-b from-blue-600/10 via-transparent to-transparent"
       />
 
-      <motion.div style={{ opacity, scale, y }} className="relative z-10 ds-page-shell">
+      <motion.div style={{ opacity, scale, y }} className="relative z-10 ds-page-shell my-auto">
         <div className="text-center">
           <motion.div
             whileHover={{ scale: 1.04 }}

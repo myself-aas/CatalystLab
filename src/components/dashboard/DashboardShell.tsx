@@ -95,9 +95,9 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
   );
 
   return (
-    <div data-theme="dark" className="flex min-h-screen bg-background text-foreground">
+    <div data-theme="dark" className="flex min-h-screen bg-background text-foreground ds-page-top">
       {/* 4.1 Left Docked Sidebar (w-16 on tablet/mobile, w-60 on lg) */}
-      <aside className="w-16 lg:w-60 bg-background border-r border-border flex flex-col justify-between p-3 shrink-0 select-none z-30">
+      <aside className="w-16 lg:w-60 bg-background border-r border-border flex flex-col justify-between p-3 shrink-0 select-none z-30 sticky top-[var(--nav-total-height,0px)] h-[calc(100vh-var(--nav-total-height,0px))]">
         {/* Top: Monogram & Workspace */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-1">
@@ -213,7 +213,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
       {/* Main Panel Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         {/* 4.1 Top Utility Chrome */}
-        <header className="sticky top-0 z-20 h-14 bg-background/80 backdrop-blur-xl border-b border-border px-4 sm:px-6 flex items-center justify-between gap-3">
+        <header className="sticky top-[var(--nav-total-height,0px)] z-20 h-14 bg-background/80 backdrop-blur-xl border-b border-border px-4 sm:px-6 flex items-center justify-between gap-3">
           {/* Active Target Domain Pill & Live Scan Refresh */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface border border-border text-xs font-mono">

@@ -176,7 +176,7 @@ export const BlogsPage: React.FC = () => {
  };
 
  return (
- <div className="min-h-screen bg-background text-foreground font-mono selection:bg-primary/30 selection:text-primary-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-mono selection:bg-primary/30 selection:text-primary-foreground">
  <SEOHead
  title="Telemetry Research Feed & Technical Publications | CatalystLab"
  description="Explore biochemical telemetry research, Core Web Vitals optimizations, AI agent crawler readiness protocols, and edge latency benchmarks."

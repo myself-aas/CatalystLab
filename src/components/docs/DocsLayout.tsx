@@ -331,9 +331,9 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         }}
       />
 
-      <div className="flex min-h-[calc(100vh-4rem)]">
+      <div className="flex min-h-screen ds-page-top">
         <aside className="hidden w-[268px] shrink-0 border-r border-border lg:block">
-          <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto px-3 py-5">{NavTree}</div>
+          <div className="sticky top-[var(--nav-total-height,4.75rem)] h-[calc(100vh-var(--nav-total-height,4.75rem))] overflow-y-auto px-3 py-5">{NavTree}</div>
         </aside>
 
         {mobileNavOpen && (
@@ -352,7 +352,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         )}
 
         <div className="min-w-0 flex-1">
-          <div className="sticky top-16 z-30 flex h-12 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 backdrop-blur lg:px-8">
+          <div className="sticky top-[var(--nav-total-height,4.75rem)] z-30 flex h-12 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 backdrop-blur lg:px-8">
             <div className="flex min-w-0 items-center gap-2">
               <button
                 type="button"
