@@ -196,3 +196,9 @@ Use this registry to load external skill sources relevant to the current lifecyc
 - For conflicting recommendations, resolve in this order: **CatalystLab local conventions > security constraints > platform standards > external source pack guidance**.
 - Do not copy external repo patterns blindly; adapt to CatalystLab’s `ds-*`, `framer-*`, SSRF/payment safety rules, and existing architecture docs.
 - For any externally inspired change, include phase tags in reasoning (`[Planning]`, `[Security]`, etc.) and conclude with explicit review + audit + improvements checkpoints.
+
+## 13. Instruction File Governance
+
+- Canonical instructions live in `/home/runner/work/CatalystLab/CatalystLab/AGENTS.md`.
+- Platform entry points live in `/home/runner/work/CatalystLab/CatalystLab/.github/copilot-instructions.md`, `/home/runner/work/CatalystLab/CatalystLab/CLAUDE.md`, and `/home/runner/work/CatalystLab/CatalystLab/GEMINI.md`.
+- Treat all instruction-governance files as read-only unless `@me-aas` explicitly authorizes edits.
