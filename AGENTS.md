@@ -134,3 +134,41 @@ const [activeTab, setActiveTab] = useState<'payload' | 'schema'>('payload');
 *   Always use `lucide-react` icons. 
 *   Standard size is `size-4` (16px) or `size-5` (20px).
 *   Add `shrink-0` to icons placed inside flex-rows with text to prevent them from squishing.
+
+## 8. SDLC Skill Matrix (Required)
+
+Every meaningful task must map to one or more lifecycle phases and use phase-specific skill sources.
+
+| Phase | Required Skill Focus | Expected Deliverable |
+|---|---|---|
+| Planning | Requirements decomposition, constraints, acceptance criteria, risk identification | Clear task plan with explicit success criteria and risks |
+| Designing | Architecture, API/data contracts, UX flow, component boundaries | Design notes with tradeoffs and interface decisions |
+| Development | Feature implementation, refactor strategy, tests-first mindset | Minimal, correct code changes aligned to existing patterns |
+| Responsiveness | Performance budgets, rendering efficiency, mobile/responsive behavior, accessibility checks | Verified responsive behavior and no regressions across breakpoints |
+| Security | Threat modeling, input validation, secret hygiene, dependency risk checks | Secure-by-default changes and documented mitigations |
+| Updates & Upgrades | Dependency updates, migration notes, compatibility checks, rollback awareness | Safe upgrade plan and validated compatibility |
+| Review | Diff quality review, logic validation, maintainability checks | Reviewer-ready PR with clear rationale and impact summary |
+| Audit | Standards compliance, policy adherence, traceability, reproducibility | Evidence-backed audit findings and remediation actions |
+| Improvements | Post-delivery optimization, technical debt reduction, developer experience improvements | Prioritized improvement backlog with measurable value |
+
+## 9. Skill Sources and Research Protocol
+
+When creating or updating instructions, skills, agents, or prompts, always gather and reconcile guidance from:
+
+1. **Repository-local truth first**: this repo’s files and conventions.
+2. **Public GitHub references** (representative examples):
+   - `github/awesome-copilot`
+   - `microsoft/vscode` (`AGENTS.md`, Copilot customization specs)
+   - `SebastienDegodez/copilot-instructions`
+   - `Robotti-io/copilot-security-instructions`
+3. **Web/Google-indexed guidance** for current SDLC and agentic best practices (planning → maintenance).
+
+If sources conflict, prefer: **repository conventions > security constraints > platform standards > external style preferences**.
+
+## 10. Execution Rules for Versatile Skills
+
+- Select phase-aligned skills before producing output; do not jump to implementation without planning and design intent.
+- For security-sensitive or externally exposed flows, include a security skill pass before finalizing.
+- For UI changes, include responsiveness and accessibility validation as first-class checks.
+- For dependency or platform changes, include updates/upgrades validation and fallback planning.
+- Always finish with review + audit + improvements recommendations, even when the implemented change is small.
