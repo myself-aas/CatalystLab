@@ -1,0 +1,6 @@
+# Instruction governance: only the account holder can approve these changes.
+/AGENTS.md @me-aas
+/CLAUDE.md @me-aas
+/GEMINI.md @me-aas
+/.github/copilot-instructions.md @me-aas
+/.github/CODEOWNERS @me-aas
