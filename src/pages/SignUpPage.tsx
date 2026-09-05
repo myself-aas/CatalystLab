@@ -170,7 +170,7 @@ export const SignUpPage: React.FC = () => {
   const activeErrorMessage = localError || authError?.message;
 
   return (
-    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
+    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-background text-foreground">
       <SEOHead
         title="Sign Up | Initialize Telemetry Console | CatalystLab"
         description="Deploy autonomous web diagnostics in seconds. Zero SDK instrumentation, 100% edge-native inspection across 38 global PoPs."
@@ -261,7 +261,7 @@ export const SignUpPage: React.FC = () => {
         </div>
 
         {/* Tier Scope Context Chip */}
-        <div className="mb-5 p-2 rounded-lg bg-surface border border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+        <div className="mb-5 p-2 rounded-lg bg-surface border border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground">
           <span>Allocation:</span>
           <span className="text-[#00D2FF]">
             {scope === 'developer' && '1 Domain • 50 Audits/Mo • Free CLI'}
@@ -447,7 +447,7 @@ export const SignUpPage: React.FC = () => {
                 type="checkbox"
                 checked={agreeTerms}
                 onChange={(e) => setAgreeTerms(e.target.checked)}
-                className="mt-0.5 rounded bg-background border-white/20 text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5 shrink-0"
+                className="mt-0.5 rounded bg-background border-border-strong text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5 shrink-0"
               />
               <span>
                 I agree to the CatalystLab Terms &amp;{' '}

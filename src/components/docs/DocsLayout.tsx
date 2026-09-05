@@ -111,7 +111,7 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
           />
         </div>
       </div>
-      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed text-white">
+      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed text-foreground">
         <code>{code}</code>
       </pre>
     </div>
@@ -233,7 +233,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
       <Link to="/docs" className="mb-4 flex items-center gap-2 px-1 no-underline">
         <span className="flex size-8 items-center justify-center rounded-lg bg-[#0066FF] text-[#0066FF]-foreground text-sm font-bold">C</span>
         <span className="leading-tight">
-          <span className="block text-[13px] font-medium text-white">CatalystLab</span>
+          <span className="block text-[13px] font-medium text-foreground">CatalystLab</span>
           <span className="block text-[11px] text-muted-foreground">Documentation</span>
         </span>
       </Link>
@@ -247,7 +247,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter docs"
           aria-label="Filter documentation"
-          className="h-9 w-full rounded-full border border-border bg-[#000000] pl-9 pr-10 text-[13px] text-white outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+          className="h-9 w-full rounded-full border border-border bg-background pl-9 pr-10 text-[13px] text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
         />
         <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-border bg-muted/50 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
           /
@@ -303,7 +303,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
   
   return (
-    <div data-theme="dark" className="docs-devsite min-h-screen bg-[#000000] text-white">
+    <div data-theme="dark" className="docs-devsite min-h-screen bg-background text-foreground">
       <SEOHead
         title={`${title} | CatalystLab Documentation`}
         description={description}
@@ -352,7 +352,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         )}
 
         <div className="min-w-0 flex-1">
-          <div className="sticky top-16 z-30 flex h-12 items-center justify-between gap-3 border-b border-border bg-[#000000]/95 px-4 backdrop-blur lg:px-8">
+          <div className="sticky top-16 z-30 flex h-12 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 backdrop-blur lg:px-8">
             <div className="flex min-w-0 items-center gap-2">
               <button
                 type="button"
@@ -393,7 +393,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             <article className="min-w-0 flex-1 px-4 py-8 sm:px-8 lg:px-12 xl:max-w-[860px]">
               <header className="mb-8">
                 <p className="mb-2 text-[13px] font-medium text-[#0066FF]">CatalystLab documentation</p>
-                <h1 className="text-4xl font-display font-medium leading-tight text-white sm:text-5xl">
+                <h1 className="text-4xl font-display font-medium leading-tight text-foreground sm:text-5xl">
                   {title}
                 </h1>
                 <p className="mt-3 max-w-[42rem] text-[16px] leading-7 text-muted-foreground">{description}</p>

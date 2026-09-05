@@ -90,7 +90,7 @@ export const ForgotPasswordPage: React.FC = () => {
   const terminalCommand = `catalystlab auth recover --email ${email.trim() || 'engineer@acme.corp'} --vault`;
 
   return (
-    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
+    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-background text-foreground">
       <SEOHead
         title="Recover Access Key | CatalystLab"
         description="Dispatch a cryptographically signed magic login link or recover workspace credentials via Catalyst CLI."

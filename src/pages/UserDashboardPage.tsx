@@ -238,7 +238,7 @@ export const UserDashboardPage: React.FC = () => {
 
  if (!user) {
  return (
- <div className="min-h-screen flex items-center justify-center py-20 px-4 bg-[#000000] text-white relative overflow-hidden font-sans">
+    <div data-theme="dark" className="min-h-screen flex items-center justify-center py-20 px-4 bg-background text-foreground relative overflow-hidden font-sans">
  <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(0,102,255,0.12),transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
 
@@ -340,7 +340,7 @@ export const UserDashboardPage: React.FC = () => {
  <div
  key={report.id}
  onClick={() => setQuickViewReport(report)}
- className="p-3.5 rounded-xl bg-surface border border-white/5 hover:border-border-strong transition-all cursor-pointer group"
+ className="p-3.5 rounded-xl bg-surface border border-border hover:border-border-strong transition-all cursor-pointer group"
  >
  <div className="flex items-center justify-between text-xs font-mono mb-1.5">
  <span className="text-white font-medium truncate max-w-[160px]">{extractDomainFromUrl(report.url)}</span>

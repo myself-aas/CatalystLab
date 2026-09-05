@@ -148,7 +148,7 @@ export const AdminDashboardPage: React.FC = () => {
 
   // Authorized Superadmin Workspace
   return (
-    <div data-theme="dark" className="min-h-screen bg-[#000000] pb-24 text-white font-sans selection:bg-[#0066FF] selection:text-white">
+    <div data-theme="dark" className="min-h-screen bg-background pb-24 text-foreground font-sans selection:bg-[#0066FF] selection:text-white">
       <SEOHead
         title="Command Center & Infrastructure Radar — CatalystLab Admin"
         description="Continuous uptime monitoring, live Firestore audit logs, diagnostic container telemetry, and blog publishing."
@@ -187,7 +187,7 @@ export const AdminDashboardPage: React.FC = () => {
           </div>
 
           {/* Navigation Links Specification 5.1 */}
-          <div className="pt-2 flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono text-xs border-t border-white/5">
+          <div className="pt-2 flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono text-xs border-t border-border">
             <button
               onClick={() => handleTabChange('mesh')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${

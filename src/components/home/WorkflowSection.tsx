@@ -51,7 +51,8 @@ export const WorkflowSection: React.FC = () => {
     <section
       id="workflow-section"
       ref={containerRef}
-      className="relative py-24 lg:py-32 bg-[#000000] text-white border-b border-border overflow-hidden"
+      data-theme="dark"
+      className="relative py-24 lg:py-32 bg-background text-foreground border-b border-border overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">

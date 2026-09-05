@@ -86,7 +86,7 @@ export const ContactPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
               <div className="flex flex-col gap-2">
                 <Clock className="size-5 text-[#0066FF]" />
                 <span className="text-2xl font-semibold text-white tracking-[-0.02em]">&lt; 18m</span>
@@ -231,7 +231,7 @@ export const ContactPage: React.FC = () => {
 
         {/* FAQ Section mapped from existing */}
         <LazyReveal direction="up">
-          <div className="border-t border-white/10 pt-16 mt-8">
+          <div className="border-t border-border pt-16 mt-8">
              <GlobalFaqSection  
                 categories={MASTER_FAQ_CATEGORIES.slice(0, 3)} 
                 title="Instant Answers & Diagnostic Troubleshooting" 

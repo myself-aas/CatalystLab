@@ -191,3 +191,38 @@ Playground:
 - Migrate remaining inputs/selects (BlogEditor, ApiPlayground, MasterAuditExecution, UserRateLimitAllocationCard, admin filters) to `.ds-input`/`.ds-select`.
 - Consolidate the remaining hand-rolled panels (`LiveTelemetryPanel`, `FramerDossierCockpit` widgets, `SimulationWidgets`, `CinematicMedia`, `ScanRevealFigure`) onto `Card`/`.ds-card`.
 - Align the ever-dark marketing sections (Hero, EnzymeGrid, WorkflowSection, Footer) to the `data-theme="dark"` wrapper pattern or migrate them to tokens.
+
+---
+
+## 6. Completion verification pass (all pages) — this pass
+
+Ran a full inventory-gate across **every React-routed page** (core, API docs, docs modules, playground), all shared layout/component layers, and the standalone `public/*.html` legacy stash.
+
+### Changes in this pass
+
+- **Docs content tokenized in `src/index.css`**
+  - `.docs-content` / `.docs-devsite-article` headings, paragraphs, lists, code, pre, and callouts now use `var(--app-foreground)`, `var(--app-muted-foreground)`, `var(--app-border)`, `var(--app-background)`, `var(--accent-cyan-edge)`, `var(--accent-amber-sec)`.
+  - Removes the last hardcoded `#EDEDED / #A1A1AA / #050505 / rgba(255,255,255,…)` strokes from the docs surface set (all 16 `/docs/*` modules + `/api-docs` docs shell).
+- **Docs shell de-hardcoded** (`src/components/docs/DocsLayout.tsx`)
+  - `bg-[#000000]` → `bg-background`, `bg-[#000000]/95` → `bg-background/95`, code/pre and headings `text-white` → `text-foreground`.
+- **Always-dark page roots now token-backed** (each already carries `data-theme="dark"`)
+  - `LoginPage`, `SignUpPage`, `ForgotPasswordPage`, `AdminDashboardPage`, `DashboardShell`: `bg-[#000000]` → `bg-background`, root `text-white` → `text-foreground`.
+  - `UserDashboardPage` unauth gate now explicitly `data-theme="dark"` + token background (it was an unmarked always-dark surface in light mode).
+  - `WorkflowSection` now wrapped in `data-theme="dark"` so its dark marketing panel is an explicit, token-backed decision.
+- **Search / command-palette input** in `DashboardShell`: `text-white placeholder-[#666666]` → `text-foreground placeholder:text-muted-foreground`.
+- **Border normalization** on the always-dark surfaces (Login, SignUp, Contact, AdminDashboard, UserDashboard, DashboardShell, DocsLayout): remaining `border-white/5|10|20` → `border-border` / `border-border-strong`.
+
+### Verification (machine + gates)
+
+- `src/**` hardcoded grayscale text/surface hexes (`#EDEDEF/#A1A1AA/#999999/#666666/#888888/#EDEDED`, `placeholder-[#666666]`): **0 remaining**.
+- `src/**` literal `bg-[#000000]` on reactive surfaces: **0 remaining**.
+- `rounded-[NNpx]` bespoke radii in `src/**`: **0 remaining**.
+- Shared primitives usage: `ds-page-shell` ×52, `ds-card` ×243, `ds-muted` ×183, `ds-eyebrow` ×15, `ds-btn*` ×14, `ds-input` ×15, `ds-label` ×9.
+- `npx tsc --noEmit` — pass · `npm run lint` — pass · `npm test` — 177 tests pass · `npm run build` — pass.
+
+### Remaining intentional decisions (documented, not regressions)
+
+- **Brand accent hexes** (`#0066FF`, `#00D2FF`, `#00F298`, `#8A2BE2`, `#FF9900`) are kept as the deliberate CatalystLab brand/engine-hue palette, mapped to `--accent-*` where beneficial.
+- **Always-dark product surfaces** (auth, docs devsite, admin/user cockpits, dashboard, hero/workflow/globe marketing panels) are scoped with `data-theme="dark"` so they remain visually dark in both themes — a conscious brand decision, now token-backed.
+- **White border/glow hovers** on the canonical `Card` primitive and dataset panels (`hover:border-white/25`, `border-white/20–25` on dark glass cards) are intentional hover affordances, not drift.
+- **Standalone `public/*.html`** pages (21) are the legacy no-JS/SEO fallback set and are internally consistent through `public/style.css` (shared `container`, `glass-panel`, `btn btn-primary/outline`, `doc-*`, `top-nav`, `footer-*` classes). They are intentionally a separate static system; the React routes for the same URLs are token-backed.

@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
   const activeErrorMessage = localMessage?.type === 'error' ? localMessage.text : authError?.message;
 
   return (
-    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
+    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-background text-foreground">
       <SEOHead
         title="Sign In | CatalystLab Security Gateway"
         description="Authenticate into the CatalystLab telemetry console to access live edge dossiers, AST diffs, and autonomous PR branches."
@@ -322,7 +322,7 @@ export const LoginPage: React.FC = () => {
                 type="checkbox"
                 checked={keepActive}
                 onChange={(e) => setKeepActive(e.target.checked)}
-                className="rounded bg-background border-white/20 text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5"
+                className="rounded bg-background border-border-strong text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5"
               />
               <span>Keep session active (30 days)</span>
             </label>
