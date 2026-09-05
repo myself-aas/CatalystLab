@@ -18,7 +18,7 @@ import { submitContactInquiry } from '../lib/firebase';
 import { logger } from '../lib/logger';
 import { GlobalFaqSection } from '../components/common/GlobalFaqSection';
 import { MASTER_FAQ_CATEGORIES } from '../data/faqData';
-import type { FaqCategory } from '../types';
+import type { FaqCategory } from '../components/common/GlobalFaqSection';
 
 export const ContactPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -29,6 +29,7 @@ export const ContactPage: React.FC = () => {
   const [targetUrl, setTargetUrl] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
 
   const departments = [
     { id: 'technical', label: 'Technical Audit' },
@@ -46,6 +47,7 @@ export const ContactPage: React.FC = () => {
         email,
         department,
         message,
+        honeypot,
         metadata: {
           targetUrl: targetUrl || 'Not provided',
           priority: 'medium',
@@ -70,7 +72,7 @@ export const ContactPage: React.FC = () => {
         description="Direct line to CatalystLab engineering. No sales fluff. Support, enterprise API keys, and custom technical integrations."
       />
 
-      <div className="min-h-[100dvh] pt-24 pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-16 lg:gap-24">
+      <div data-theme="dark" className="min-h-[100dvh] pt-24 pb-20 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-16 lg:gap-24">
         
         {/* Split Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start mt-8">
@@ -81,26 +83,26 @@ export const ContactPage: React.FC = () => {
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] font-semibold tracking-[-0.04em] text-white leading-[1.05] mb-6">
                 Direct line to our engineering team.
               </h1>
-              <p className="text-lg sm:text-xl text-[#999999] leading-relaxed tracking-[-0.01em]">
+              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed tracking-[-0.01em]">
                 No sales fluff. Whether you're debugging an OWASP flag, setting up CI/CD pipeline triggers, or upgrading to Enterprise, you speak directly with the engineers building the engines.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
               <div className="flex flex-col gap-2">
                 <Clock className="size-5 text-[#0066FF]" />
                 <span className="text-2xl font-semibold text-white tracking-[-0.02em]">&lt; 18m</span>
-                <span className="text-xs font-mono text-[#666666] uppercase tracking-wider">Avg Response</span>
+                <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Avg Response</span>
               </div>
               <div className="flex flex-col gap-2">
                 <Globe className="size-5 text-[#00D2FF]" />
                 <span className="text-2xl font-semibold text-white tracking-[-0.02em]">38</span>
-                <span className="text-xs font-mono text-[#666666] uppercase tracking-wider">Edge PoPs</span>
+                <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Edge PoPs</span>
               </div>
               <div className="flex flex-col gap-2">
                 <Activity className="size-5 text-[#00F298]" />
                 <span className="text-2xl font-semibold text-white tracking-[-0.02em]">99.99%</span>
-                <span className="text-xs font-mono text-[#666666] uppercase tracking-wider">P95 SLA</span>
+                <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">P95 SLA</span>
               </div>
             </div>
           </div>
@@ -109,14 +111,14 @@ export const ContactPage: React.FC = () => {
           <div className="relative group">
             <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-[#0066FF]/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
             
-            <div className="relative z-10 bg-[#0B0B0B]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div className="relative z-10 ds-card bg-surface/90 backdrop-blur-xl border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
               {submitted ? (
                 <div className="flex flex-col items-center justify-center text-center py-12 gap-4">
                   <div className="size-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
                     <Send className="size-8" />
                   </div>
                   <h3 className="text-2xl font-semibold text-white tracking-[-0.02em]">Transmission Complete</h3>
-                  <p className="text-[#999999] text-sm leading-relaxed max-w-sm">
+                  <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
                     Ticket <span className="text-white font-mono">{ticketId}</span> dispatched to the {department} queue. A receipt has been sent to {email}.
                   </p>
                   <button 
@@ -131,33 +133,46 @@ export const ContactPage: React.FC = () => {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  {/* Honeypot anti-bot field (hidden from humans; bots fill it) */}
+                  <div className="hidden" aria-hidden="true">
+                    <label htmlFor="contact-website">Website</label>
+                    <input
+                      id="contact-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={e => setHoneypot(e.target.value)}
+                    />
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-2">
-                      <label className="text-xs font-mono text-[#666666] uppercase tracking-wider">Name</label>
+                      <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Name</label>
                       <input 
                         type="text" 
                         required 
                         value={name} 
                         onChange={e => setName(e.target.value)}
                         placeholder="Jane Doe"
-                        className="bg-[#060606] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all placeholder:text-[#444444]"
+                        className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <label className="text-xs font-mono text-[#666666] uppercase tracking-wider">Work Email</label>
+                      <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Work Email</label>
                       <input 
                         type="email" 
                         required 
                         value={email} 
                         onChange={e => setEmail(e.target.value)}
                         placeholder="jane@company.com"
-                        className="bg-[#060606] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all placeholder:text-[#444444]"
+                        className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary"
                       />
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-xs font-mono text-[#666666] uppercase tracking-wider">Topic</label>
+                    <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Topic</label>
                     <div className="grid grid-cols-2 gap-2 relative">
                       {departments.map((dep) => (
                         <button
@@ -167,7 +182,7 @@ export const ContactPage: React.FC = () => {
                           className={`relative px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left overflow-hidden border ${
                             department === dep.id 
                               ? 'text-[#0066FF] border-[#0066FF]/30' 
-                              : 'bg-[#060606] text-[#999999] border-white/10 hover:border-white/20 hover:text-white'
+                              : 'bg-surface text-muted-foreground border-border hover:border-border-strong hover:text-white'
                           }`}
                         >
                           {department === dep.id && (
@@ -184,32 +199,32 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-xs font-mono text-[#666666] uppercase tracking-wider">Target Domain (Optional)</label>
+                    <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Target Domain (Optional)</label>
                     <input 
                       type="text" 
                       value={targetUrl} 
                       onChange={e => setTargetUrl(e.target.value)}
                       placeholder="https://example.com"
-                      className="bg-[#060606] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all placeholder:text-[#444444]"
+                      className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary"
                     />
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-xs font-mono text-[#666666] uppercase tracking-wider">Message</label>
+                    <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Message</label>
                     <textarea 
                       required 
                       rows={4} 
                       value={message} 
                       onChange={e => setMessage(e.target.value)}
                       placeholder="How can we help?"
-                      className="bg-[#060606] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all placeholder:text-[#444444] resize-none"
+                      className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary resize-none"
                     />
                   </div>
 
                   <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="w-full bg-white text-black hover:bg-neutral-200 font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-white/5 disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+                    className="ds-btn w-full bg-white text-black hover:bg-neutral-200 font-semibold shadow-lg shadow-white/5 active:scale-[0.98] mt-2"
                   >
                     {isSubmitting ? (
                       <>
@@ -231,7 +246,7 @@ export const ContactPage: React.FC = () => {
 
         {/* FAQ Section mapped from existing */}
         <LazyReveal direction="up">
-          <div className="border-t border-white/10 pt-16 mt-8">
+          <div className="border-t border-border pt-16 mt-8">
              <GlobalFaqSection  
                 categories={MASTER_FAQ_CATEGORIES.slice(0, 3)} 
                 title="Instant Answers & Diagnostic Troubleshooting" 

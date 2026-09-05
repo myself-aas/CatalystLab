@@ -58,8 +58,8 @@ export const AdminDashboardPage: React.FC = () => {
           description="The CatalystLab Command Center and Infrastructure Radar are strictly restricted to authorized Primary Superadmins."
         />
 
-        <div className="w-full max-w-md p-6 sm:p-8 bg-[#0B0B0B] border border-white/12 rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-[#00D2FF] border border-white/10 mb-4 shadow-inner">
+        <div className="w-full max-w-md p-6 sm:p-8 bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-[#00D2FF] border border-border mb-4 shadow-inner">
             <Lock className="h-6 w-6" />
           </div>
 
@@ -72,21 +72,21 @@ export const AdminDashboardPage: React.FC = () => {
             Superadmin Access Required
           </h1>
           
-          <p className="mt-2 text-xs text-[#999999] leading-relaxed font-sans">
+          <p className="mt-2 text-xs text-muted-foreground leading-relaxed font-sans">
             The CatalystLab Command Center, 38-PoP edge mesh control, and quota allocations are strictly restricted to authorized Primary Superadmins.
           </p>
 
           {user ? (
-            <div className="mt-5 p-3.5 rounded-xl bg-[#050505] border border-white/10 text-xs font-mono text-left space-y-1">
-              <div className="text-[#666666]">Signed in as:</div>
+            <div className="mt-5 p-3.5 rounded-xl bg-background border border-border text-xs font-mono text-left space-y-1">
+              <div className="text-muted-foreground">Signed in as:</div>
               <div className="text-white font-medium truncate">{user.email}</div>
-              <div className="mt-2 text-amber-400 font-sans text-[11px] flex items-center gap-1.5 pt-1.5 border-t border-white/10">
+              <div className="mt-2 text-amber-400 font-sans text-[11px] flex items-center gap-1.5 pt-1.5 border-t border-border">
                 <ShieldAlert className="h-3.5 w-3.5 shrink-0" />
                 <span>This account is not in the Primary Superadmin registry.</span>
               </div>
             </div>
           ) : (
-            <p className="mt-4 text-xs text-[#666666] font-sans">
+            <p className="mt-4 text-xs text-muted-foreground font-sans">
               Authenticate with an authorized superadmin Google account, or activate a sandbox preview session.
             </p>
           )}
@@ -95,7 +95,7 @@ export const AdminDashboardPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
               <Link
                 to="/"
-                className="w-full sm:w-1/2 py-2.5 px-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 text-white text-xs font-mono font-medium transition-all text-center"
+                className="w-full sm:w-1/2 py-2.5 px-4 rounded-xl bg-white/5 border border-border hover:border-border-strong text-white text-xs font-mono font-medium transition-all text-center"
               >
                 &larr; Back to Home
               </Link>
@@ -119,7 +119,7 @@ export const AdminDashboardPage: React.FC = () => {
             </div>
 
             {import.meta.env.DEV && (
-              <div className="flex flex-col gap-2 pt-3 border-t border-white/10">
+              <div className="flex flex-col gap-2 pt-3 border-t border-border">
                 <button
                   onClick={() => loginWithLocalSession({
                     email: 'asifahmedshuvo.aas@gmail.com',
@@ -134,7 +134,7 @@ export const AdminDashboardPage: React.FC = () => {
 
                 <button
                   onClick={() => setShowDomainModal(true)}
-                  className="w-full py-1.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-[#888888] hover:text-white text-[11px] font-mono transition-all cursor-pointer"
+                  className="w-full py-1.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-muted-foreground hover:text-white text-[11px] font-mono transition-all cursor-pointer"
                 >
                   Domain Auth Helper
                 </button>
@@ -148,7 +148,7 @@ export const AdminDashboardPage: React.FC = () => {
 
   // Authorized Superadmin Workspace
   return (
-    <div className="min-h-screen bg-[#000000] pb-24 text-white font-sans selection:bg-[#0066FF] selection:text-white">
+    <div data-theme="dark" className="min-h-screen bg-background pb-24 text-foreground font-sans selection:bg-[#0066FF] selection:text-white">
       <SEOHead
         title="Command Center & Infrastructure Radar — CatalystLab Admin"
         description="Continuous uptime monitoring, live Firestore audit logs, diagnostic container telemetry, and blog publishing."
@@ -156,7 +156,7 @@ export const AdminDashboardPage: React.FC = () => {
       />
 
       {/* Admin Shell Header Banner */}
-      <section className="border-b border-white/10 bg-[#060606] pt-8 pb-6 px-4 sm:px-6 lg:px-10">
+      <section className="border-b border-border bg-surface pt-8 pb-6 px-4 sm:px-6 lg:px-10">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -169,14 +169,14 @@ export const AdminDashboardPage: React.FC = () => {
               <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.04em] text-white">
                 Infrastructure Radar &amp; Control Console
               </h1>
-              <p className="text-xs sm:text-sm text-[#999999] mt-1 max-w-2xl">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
                 Global 38-PoP edge mesh management, multi-tenant quota enforcement, SDLC worker compute telemetry, and OWASP SOC2 compliance logs.
               </p>
             </div>
 
             {/* Superadmin Status Pill */}
             <div className="flex items-center gap-3 shrink-0">
-              <div className="px-3.5 py-2 rounded-xl bg-[#0B0B0B] border border-white/10 flex items-center gap-2.5 font-mono text-xs">
+              <div className="px-3.5 py-2 rounded-xl bg-surface border border-border flex items-center gap-2.5 font-mono text-xs">
                 <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-white truncate max-w-[180px]">{user.email}</span>
                 <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 text-[10px] font-semibold border border-amber-500/20">
@@ -187,13 +187,13 @@ export const AdminDashboardPage: React.FC = () => {
           </div>
 
           {/* Navigation Links Specification 5.1 */}
-          <div className="pt-2 flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono text-xs border-t border-white/5">
+          <div className="pt-2 flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono text-xs border-t border-border">
             <button
               onClick={() => handleTabChange('mesh')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'mesh'
                   ? 'bg-white text-black font-semibold'
-                  : 'text-[#888888] hover:text-white hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
               <Globe className="size-3.5" />
@@ -205,7 +205,7 @@ export const AdminDashboardPage: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'tenants'
                   ? 'bg-white text-black font-semibold'
-                  : 'text-[#888888] hover:text-white hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
               <Sliders className="size-3.5" />
@@ -217,7 +217,7 @@ export const AdminDashboardPage: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'compute'
                   ? 'bg-white text-black font-semibold'
-                  : 'text-[#888888] hover:text-white hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
               <Cpu className="size-3.5" />
@@ -229,7 +229,7 @@ export const AdminDashboardPage: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'owasp'
                   ? 'bg-white text-black font-semibold'
-                  : 'text-[#888888] hover:text-white hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
               <ShieldAlert className="size-3.5" />
@@ -241,7 +241,7 @@ export const AdminDashboardPage: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'monitoring'
                   ? 'bg-white text-black font-semibold'
-                  : 'text-[#888888] hover:text-white hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
               <Activity className="size-3.5" />
@@ -253,7 +253,7 @@ export const AdminDashboardPage: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'blogs'
                   ? 'bg-white text-black font-semibold'
-                  : 'text-[#888888] hover:text-white hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
               <BookOpen className="size-3.5" />
@@ -265,7 +265,7 @@ export const AdminDashboardPage: React.FC = () => {
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'inquiries'
                   ? 'bg-white text-black font-semibold'
-                  : 'text-[#888888] hover:text-white hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
               <Mail className="size-3.5" />

@@ -54,14 +54,14 @@ export const Testimonials: React.FC = () => {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
               onMouseMove={onSpotlightMouseMove}
-              className="bg-[#0B0B0B] border border-white/10 rounded-2xl md:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative group hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="bg-surface border border-white/10 rounded-2xl md:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative group hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 style={{ background: 'var(--glow-card-subsurface)' }}
               />
               <Quote className="absolute right-6 top-6 size-10 text-white/5" />
-              <p className="relative text-base leading-relaxed text-[#999999] sm:text-lg mb-8">
+              <p className="relative text-base leading-relaxed text-muted-foreground sm:text-lg mb-8">
                 &ldquo;{quote.body}&rdquo;
               </p>
               
@@ -76,7 +76,7 @@ export const Testimonials: React.FC = () => {
                     {quote.author}
                     <BadgeCheck className="size-4 text-[#0066FF]" />
                   </p>
-                  <p className="mt-1 font-mono text-xs text-[#999999]">
+                  <p className="mt-1 font-mono text-xs text-muted-foreground">
                     {quote.role} · {quote.company}
                   </p>
                 </div>

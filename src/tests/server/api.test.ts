@@ -287,6 +287,18 @@ describe('Account surface', () => {
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
   });
+
+  it('fails closed when an unauthenticated trial is requested', async () => {
+    const res = await request(app).post('/api/v1/users/me/trial').send({ planId: 'pro' });
+    expect(res.status).toBe(401);
+    expect(res.body.success).toBe(false);
+  });
+
+  it('fails closed when an unauthenticated subscription change is requested', async () => {
+    const res = await request(app).post('/api/v1/users/me/subscription/request').send({ planId: 'pro' });
+    expect(res.status).toBe(401);
+    expect(res.body.success).toBe(false);
+  });
 });
 
 describe('Notifications surface', () => {
@@ -513,7 +525,7 @@ describe('API-key lifecycle and webhook push processing', () => {
   it('creates, rotates, revokes and deletes an API key (in-memory demo)', async () => {
     const created = await request(app)
       .post('/api/v1/users/me/api-keys')
-      .send({ name: 'ci-key', environment: 'test' });
+      .send({ name: 'ci-key', environment: 'development' });
     expect([200, 201]).toContain(created.status);
     const keyId = created.body.key?.id || created.body.apiKey?.id || created.body.id;
     if (keyId) {

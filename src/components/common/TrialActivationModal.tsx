@@ -33,6 +33,7 @@ export const TrialActivationModal: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlanId>(targetTrialPlan || 'pro');
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Sync with prop change
   React.useEffect(() => {
@@ -47,6 +48,7 @@ export const TrialActivationModal: React.FC = () => {
 
   const handleActivate = async () => {
     setLoading(true);
+    setError(null);
     try {
       const ok = await startTrial(selectedPlan);
       if (ok) {
@@ -57,6 +59,8 @@ export const TrialActivationModal: React.FC = () => {
         }, 1600);
       }
     } catch (err) {
+      const message = err instanceof Error ? err.message : 'Trial activation failed. Please try again.';
+      setError(message);
       logger.error(err);
     } finally {
       setLoading(false);
@@ -167,6 +171,12 @@ export const TrialActivationModal: React.FC = () => {
               <span>Zero-risk guarantee: Automatically reverts to Free Community tier after 7 days unless you choose to upgrade.</span>
             </div>
           </div>
+
+          {error && (
+            <div className="mt-4 p-3 rounded-lg bg-rose-950/40 border border-rose-500/30 text-xs text-rose-300" role="alert">
+              <span className="font-semibold">Trial could not be activated.</span> {error}
+            </div>
+          )}
 
           {/* Action Footer */}
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border/60">

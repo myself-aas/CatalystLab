@@ -57,7 +57,7 @@ export const EngineVectorCard: React.FC<EngineVectorCardProps> = ({
       lift
       className={twMerge(
         clsx(
-          'relative flex flex-col justify-between p-5 sm:p-6 min-h-[380px] sm:min-h-[420px] rounded-[24px] overflow-hidden',
+          'relative flex flex-col justify-between p-5 sm:p-6 min-h-[380px] sm:min-h-[420px] rounded-3xl overflow-hidden',
           className
         )
       )}

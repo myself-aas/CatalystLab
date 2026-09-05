@@ -73,21 +73,36 @@ service cloud.firestore {
     }
 
     function isValidApiKey(data) {
-      return data.keys().hasAll(['name', 'keyPrefix', 'ownerId', 'scopes', 'environment', 'status', 'createdAt'])
+      return data.keys().hasAll(['name', 'keyPrefix', 'keyHash', 'ownerId', 'scopes', 'environment', 'status', 'createdAt'])
+        && data.keys().size() <= 20
         && data.name is string && data.name.size() <= 100
         && data.keyPrefix is string && data.keyPrefix.size() <= 50
+        && data.keyHash is string && data.keyHash.size() == 64
         && data.ownerId is string && data.ownerId == request.auth.uid
         && data.scopes is list && data.scopes.size() <= 10
-        && data.environment is string
+        && data.scopes.hasOnly(['execute:engines', 'execute:master-audit', 'read:reports', 'read:monitoring', 'manage:webhooks'])
+        && data.environment is string && data.environment in ['production', 'staging', 'development']
         && data.status in ['active', 'revoked', 'expired']
         && data.createdAt is number;
     }
 
     function isValidContactInquiry(data) {
       return data.keys().hasAll(['email', 'createdAt'])
-        && data.keys().size() >= 2 && data.keys().size() <= 10
-        && data.email is string && data.email.size() <= 256
-        && data.createdAt is number;
+        && data.keys().size() >= 2 && data.keys().size() <= 12
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 256
+        && data.email.matches('.*@.*')
+        && data.createdAt is number
+        && data.createdAt >= request.time - 300
+        && data.createdAt <= request.time + 120
+        && (!data.keys().hasAny(['name']) || (data.name is string && data.name.size() <= 150))
+        && (!data.keys().hasAny(['message']) || (data.message is string && data.message.size() <= 2000))
+        && (!data.keys().hasAny(['company']) || (data.company is string && data.company.size() <= 200))
+        && (!data.keys().hasAny(['department']) || (data.department is string && data.department.size() <= 40))
+        && (!data.keys().hasAny(['source']) || (data.source is string && data.source.size() <= 100))
+        && (!data.keys().hasAny(['status']) || data.status == 'new')
+        && (!data.keys().hasAny(['ownerId']) || (data.ownerId is string && data.ownerId.size() <= 128))
+        && (!data.keys().hasAny(['honeypot']) || data.honeypot == '')
+        && (!data.keys().hasAny(['metadata']) || (data.metadata is map && data.metadata.keys().size() <= 6));
     }
 
     function isValidUserSubscription(data) {
@@ -98,12 +113,12 @@ service cloud.firestore {
         && data.createdAt is number;
     }
 
-    // Clients may start a free plan or a time-boxed trial. Paid "active"
-    // entitlements are server/admin writes only (prevents self-upgrade).
+    // Clients may only manage the free plan directly. Every paid entitlement
+    // (including time-boxed trials) is provisioned by the trusted server /
+    // admind SDK endpoint and is never a client-write path.
     function isClientSafeSubscription(data) {
       return isValidUserSubscription(data) && (
-        data.planId == 'free' ||
-        (data.status == 'trialing' && data.planId == 'starter')
+        data.planId == 'free' && data.status == 'active'
       );
     }
 
@@ -219,18 +234,21 @@ service cloud.firestore {
                     && (hasSuperAdminClaim() || existing().authorEmail == request.auth.token.email);
     }
 
-    // API Keys Collection (Owner or Superadmin)
+    // API Keys Collection (Owner or Superadmin read only).
+    // Keys are created/rotated/revoked/deleted exclusively by the trusted
+    // Express server (Admin SDK); client writes are denied so a browser can
+    // never inject an unverified `cat_live_...` credential.
     match /api_keys/{keyId} {
       allow get: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
       allow list: if isSignedIn() && (resource.data.ownerId == request.auth.uid || isSuperAdmin());
-      allow create: if isSignedIn() 
+      allow create: if isSuperAdmin()
                     && isValidId(keyId)
                     && isValidApiKey(incoming());
-      allow update: if isSignedIn() 
-                    && isValidId(keyId) 
+      allow update: if isSuperAdmin()
+                    && isValidId(keyId)
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
-      allow delete: if isSignedIn() 
-                    && isValidId(keyId) 
+      allow delete: if isSuperAdmin()
+                    && isValidId(keyId)
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
     }
 
@@ -249,17 +267,21 @@ service cloud.firestore {
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
     }
 
-    // Contact Inquiries & Email Leads (Guest & User create, Admin management)
+    // Contact Inquiries & Email Leads (Server create, Admin management).
+    // Direct browser creates are denied: submissions are validated, honeypot
+    // filtered and rate-limited by the trusted Express contact route, which
+    // writes through the Admin SDK (bypassing these client rules).
     match /contact_inquiries/{inquiryId} {
       allow get, list: if isSignedIn() && isSuperAdmin();
-      allow create: if isValidId(inquiryId)
-                    && isValidContactInquiry(incoming());
+      allow create: if false;
       allow update, delete: if isSignedIn() && isSuperAdmin();
     }
 
-    // Test collection for initial connectivity verification
+    // Test collection for initial connectivity verification.
+    // Tightened to superadmin-only (no anonymous public reads/writes).
     match /test/{testId} {
-      allow get: if isSignedIn() && isValidId(testId);
+      allow get, list: if isSuperAdmin();
+      allow create, update, delete: if isSuperAdmin();
     }
   }
 }

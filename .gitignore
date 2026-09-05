@@ -11,10 +11,12 @@ dist/
 .nuxt/
 .output/
 
-# Secrets — never commit real env files. The template (.env.example) is tracked.
+# Secrets — never commit real env files. The templates (.env.example,
+# .env.production.example) are tracked because they contain no credentials.
 .env
 .env.*
 !.env.example
+!.env.production.example
 
 # Logs
 *.log

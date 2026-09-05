@@ -42,7 +42,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <div className="min-h-screen bg-background text-foreground">
  {/* Hero Banner */}
  <div className="border-b border-border bg-background pt-12 pb-14">
- <div className="ds-page-shell: lg:">
+ <div className="ds-page-shell lg:">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="ds-page-shell space-y-4">
  <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 py-1 text-xs font-mono font-semibold text-emerald-800">
@@ -77,7 +77,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  </div>
 
  {/* Main Content */}
- <div className="ds-page-shell: lg: py-10">
+ <div className="ds-page-shell lg: py-10">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Sidebar */}

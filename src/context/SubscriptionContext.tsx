@@ -119,36 +119,26 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
   };
 
   const startTrial = async (targetPlan: SubscriptionPlanId = 'pro'): Promise<boolean> => {
-    const chosenPlan = targetPlan === 'free' ? 'pro' : targetPlan;
-    
-    // If not logged in, prompt sign in first
+    const chosenPlan = targetPlan === 'free' ? 'starter' : targetPlan;
+
+    // If not logged in, prompt sign in first.
     if (!user) {
       const signedInUser = await login();
       if (!signedInUser) {
-        return false;
+        throw new Error('Sign in was cancelled or could not be completed.');
       }
-      try {
-        const sub = await startUserTrial(signedInUser.uid, signedInUser.email || 'user@catalystlab.tech', chosenPlan);
-        calculateTrialState(sub);
-        setTrialModalOpen(false);
-        await fetchServerRateLimitStatus(signedInUser, chosenPlan, true);
-        return true;
-      } catch (err) {
-        logger.error('Failed to start trial:', err);
-        return false;
-      }
-    }
-
-    try {
-      const sub = await startUserTrial(user.uid, user.email || 'user@catalystlab.tech', chosenPlan);
+      const sub = await startUserTrial(signedInUser.uid, signedInUser.email || 'user@catalystlab.tech', chosenPlan);
       calculateTrialState(sub);
       setTrialModalOpen(false);
-      await fetchServerRateLimitStatus(user, chosenPlan, true);
+      await fetchServerRateLimitStatus(signedInUser, chosenPlan, true);
       return true;
-    } catch (err) {
-      logger.error('Failed to start trial:', err);
-      return false;
     }
+
+    const sub = await startUserTrial(user.uid, user.email || 'user@catalystlab.tech', chosenPlan);
+    calculateTrialState(sub);
+    setTrialModalOpen(false);
+    await fetchServerRateLimitStatus(user, chosenPlan, true);
+    return true;
   };
 
   const changePlan = async (
@@ -157,20 +147,17 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
   ): Promise<boolean> => {
     if (!user) {
       const signedInUser = await login();
-      if (!signedInUser) return false;
+      if (!signedInUser) {
+        throw new Error('Sign in was cancelled or could not be completed.');
+      }
       const sub = await changeUserSubscription(signedInUser.uid, signedInUser.email || '', newPlanId, cycle);
       calculateTrialState(sub);
       return true;
     }
 
-    try {
-      const sub = await changeUserSubscription(user.uid, user.email || '', newPlanId, cycle);
-      calculateTrialState(sub);
-      return true;
-    } catch (err) {
-      logger.error('Failed to change subscription plan:', err);
-      return false;
-    }
+    const sub = await changeUserSubscription(user.uid, user.email || '', newPlanId, cycle);
+    calculateTrialState(sub);
+    return true;
   };
 
   const cancelTrial = async (): Promise<void> => {

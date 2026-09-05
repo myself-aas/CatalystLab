@@ -42,7 +42,7 @@ export const LegalPage: React.FC = () => {
  </div>
  </section>
 
- <main className="ds-page-shell: lg:">
+ <main className="ds-page-shell lg:">
  <div className="ds-card space-y-4 p-6 text-xs shadow-xl sm:p-8 font-sans">
  <p className="text-foreground leading-relaxed">{content}</p>
  <ul className="grid gap-2 sm:grid-cols-2 text-sm">

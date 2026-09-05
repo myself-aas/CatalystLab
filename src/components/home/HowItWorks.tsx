@@ -83,11 +83,11 @@ export const HowItWorks: React.FC = () => {
                   <div className="md:hidden absolute -left-[31px] top-1.5 size-3 rounded-full bg-[#0066FF] shadow-[0_0_10px_rgba(0,102,255,0.8)]" />
 
                   {/* Desktop Node */}
-                  <div className="hidden md:flex mb-6 relative size-14 items-center justify-center rounded-2xl bg-[#0B0B0B] border border-white/10 text-white z-10 shadow-xl transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[2px] hover:border-white/25 hover:shadow-[0_0_20px_-4px_rgba(0,102,255,0.4)]">
+                  <div className="hidden md:flex mb-6 relative size-14 items-center justify-center rounded-2xl bg-surface border border-white/10 text-white z-10 shadow-xl transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[2px] hover:border-white/25 hover:shadow-[0_0_20px_-4px_rgba(0,102,255,0.4)]">
                     <Icon className="size-6 text-[#0066FF]" />
                   </div>
 
-                  <div className="md:hidden mb-4 size-10 flex items-center justify-center rounded-xl bg-[#0B0B0B] border border-white/10 text-white shadow-xl transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[1px] hover:border-white/25">
+                  <div className="md:hidden mb-4 size-10 flex items-center justify-center rounded-xl bg-surface border border-white/10 text-white shadow-xl transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[1px] hover:border-white/25">
                     <Icon className="size-5 text-[#0066FF]" />
                   </div>
 
@@ -101,7 +101,7 @@ export const HowItWorks: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-sm leading-relaxed text-[#999999] md:max-w-[260px]">
+                  <p className="text-sm leading-relaxed text-muted-foreground md:max-w-[260px]">
                     {step.body}
                   </p>
                 </motion.div>

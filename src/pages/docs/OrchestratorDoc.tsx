@@ -14,18 +14,18 @@ export const OrchestratorDoc: React.FC = () => {
  <Workflow className="h-3.5 w-3.5"/>
  <span>SDLC Phase 9: Master Suite Orchestrator</span>
  </div>
- <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
+ <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
  Master Suite Orchestrator
  </h1>
- <p className="text-base text-[#A1A1AA] leading-relaxed">
+ <p className="text-base text-foreground-muted leading-relaxed">
  The Master Suite Orchestrator concurrently executes all 8 specialized diagnostic engines against a target domain within a single unified execution thread, cross-correlating metrics to detect hidden infrastructure vulnerabilities.
  </p>
  </section>
 
  {/* Concurrency Engine */}
  <section id="concurrency-engine"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Concurrent Execution Pipeline</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">Concurrent Execution Pipeline</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Using Node.js asynchronous worker pools, all 8 engines launch simultaneously, completing full multi-vector audits in under 3.5 seconds:
  </p>
 
@@ -73,16 +73,16 @@ export const OrchestratorDoc: React.FC = () => {
 
  {/* Correlation Matrix */}
  <section id="correlation-matrix"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Cross-Engine Correlation Analysis</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">Cross-Engine Correlation Analysis</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  The orchestrator compares metrics across engines to generate high-level architectural insights (e.g., correlating high DOM depth from VitalZyme with slow TTFB from EdgeVmax).
  </p>
  </section>
 
  {/* Report Snapshot */}
  <section id="report-snapshot"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Durable Snapshot Permalinks</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">Durable Snapshot Permalinks</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Every Master Audit generates a permanent slug permalink (e.g. <code>/reports/stripe-com</code>) stored in Firestore, featuring interactive sub-engine accordions, JSON telemetry dumps, and executive print-ready PDF views.
  </p>
  </section>

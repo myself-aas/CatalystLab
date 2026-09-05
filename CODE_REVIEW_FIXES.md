@@ -1,5 +1,7 @@
 # Code-review fix reports (chronological)
 
+> **Superseded (2026-09-05):** see [`PRODUCTION_READINESS_AUDIT.md`](./PRODUCTION_READINESS_AUDIT.md) for the current status and the production-readiness fixes applied this pass.
+
 Each item is the original finding, what changed, and how to verify.
 
 ## Critical

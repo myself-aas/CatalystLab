@@ -116,7 +116,7 @@ export const BlogPostPage: React.FC = () => {
  />
 
  {/* Main Split Layout */}
- <div className="ds-page-shell: lg: py-8">
+ <div className="ds-page-shell lg: py-8">
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
  
  {/* Main Article Stream (col-span-8) */}

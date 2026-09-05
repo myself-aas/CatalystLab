@@ -19,6 +19,7 @@ import { registerGithubRoutes } from './routes/github';
 import { registerSystemRoutes } from './routes/system';
 import { registerPaymentRoutes } from './routes/payments';
 import { registerClientLogRoutes } from './routes/clientLogs';
+import { registerContactRoutes } from './routes/contact';
 
 /**
  * Builds the fully-configured Express app (security headers, body limits,
@@ -151,6 +152,7 @@ export async function createApp(): Promise<express.Express> {
   registerSystemRoutes(app);
   registerPaymentRoutes(app);
   registerClientLogRoutes(app);
+  registerContactRoutes(app);
 
   // API 404 catch-all — ensures unhandled /api/* or /stats/* or /telemetry/* requests ALWAYS return JSON and NEVER HTML SPA fallback
   app.all(['/api/*', '/stats/*', '/telemetry/*'], (req: Request, res: Response) => {

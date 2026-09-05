@@ -63,7 +63,7 @@ export const HeroSection: React.FC = () => {
             Autonomous edge intelligence.
           </h1>
 
-          <p className="mx-auto mb-10 max-w-2xl text-base sm:text-lg text-[#999999] leading-relaxed tracking-[-0.01em]">
+          <p className="mx-auto mb-10 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed tracking-[-0.01em]">
             Inspect Core Web Vitals, OWASP transport security, AI manifests, and edge nodes in real time — without an SDK or a single line of instrumentation.
           </p>
 
@@ -71,7 +71,7 @@ export const HeroSection: React.FC = () => {
             onSubmit={handleAudit}
             whileHover={{ scale: 1.015 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto flex max-w-xl flex-col sm:flex-row items-center gap-2 p-1.5 bg-[#0B0B0B] border border-white/12 rounded-2xl sm:rounded-full shadow-2xl focus-within:border-[#0066FF] transition-all"
+            className="mx-auto flex max-w-xl flex-col sm:flex-row items-center gap-2 p-1.5 bg-surface border border-white/12 rounded-2xl sm:rounded-full shadow-2xl focus-within:border-[#0066FF] transition-all"
           >
             <div className="flex flex-1 items-center px-4 py-2 w-full">
               <Zap className="mr-3 size-4 shrink-0 text-neutral-500" />
@@ -98,7 +98,7 @@ export const HeroSection: React.FC = () => {
             </motion.button>
           </motion.form>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs text-[#999999]">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
             <span className="font-mono uppercase tracking-widest text-[11px]">Presets:</span>
             {PRESETS.map((preset) => (
               <motion.button
@@ -118,7 +118,7 @@ export const HeroSection: React.FC = () => {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-[#999999]">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
             <motion.span 
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}

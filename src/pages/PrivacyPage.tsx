@@ -47,7 +47,7 @@ export const PrivacyPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell: lg: space-y-8">
+ <main className="ds-page-shell lg: space-y-8">
  <PrivacySection />
 
  {/* Global Trust Footer Card */}

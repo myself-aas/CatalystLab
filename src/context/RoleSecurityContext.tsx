@@ -46,7 +46,7 @@ export const RoleSecurityProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (typeof window === 'undefined') return null;
     try {
       const stored = localStorage.getItem(ROLE_SIMULATION_KEY);
-      if (stored && ['anonymous', 'user', 'pro', 'team', 'enterprise', 'superadmin'].includes(stored)) {
+      if (stored && ['anonymous', 'user', 'starter', 'pro', 'team', 'enterprise', 'superadmin'].includes(stored)) {
         return stored as UserRole;
       }
       return null;

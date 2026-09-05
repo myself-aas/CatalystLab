@@ -251,7 +251,7 @@ export const AboutPage: React.FC = () => {
  <ArrowRight className="size-3.5 group-hover:translate-x-0.5 transition-transform"/>
  </Link>
  <Link 
- to="/diagnostic-engines"
+ to="/engines"
  className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-card dark:bg-muted/30 hover:bg-accent px-5 py-2.5 text-xs font-medium text-foreground transition-all"
  >
  <span>View All 8 Engines</span>
@@ -416,7 +416,7 @@ export const AboutPage: React.FC = () => {
  <div className="pt-2 flex items-center justify-between text-xs text-muted-foreground border-t border-border dark:border-border">
  <span className="font-mono">Execution Protocol: Isolated Subprocess</span>
  <Link 
- to="/diagnostic-engines"
+ to="/engines"
  className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors px-4 py-2"
  >
  <span>Full Engine Dossier</span>

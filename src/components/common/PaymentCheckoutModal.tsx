@@ -56,18 +56,34 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
       }
 
       setCheckoutUrl(data.checkoutUrl);
-      
-      // Simulate successful payment confirmation after 2.5s for seamless testing preview experience
-      setTimeout(async () => {
-        await changePlan(selectedPlan, billingCycle);
-        setSuccess(true);
-        setLoading(false);
-        setTimeout(() => {
-          setSuccess(false);
-          setCheckoutUrl(null);
-          onClose();
-        }, 2000);
-      }, 2500);
+
+      // Production safety: an entitlement is ONLY granted after the server
+      // confirms the payment with the gateway. This endpoint currently fails
+      // closed when gateway verification is not configured, so a checkout URL
+      // alone can never upgrade an account.
+      const verifyRes = await fetch('/api/payments/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId: data.orderId,
+          planId: selectedPlan,
+          billingCycle,
+          gateway
+        })
+      });
+      const verifyData = await verifyRes.json().catch(() => ({}));
+      if (!verifyData.success) {
+        throw new Error(verifyData.error || 'Payment verification failed.');
+      }
+
+      await changePlan(selectedPlan, billingCycle);
+      setSuccess(true);
+      setLoading(false);
+      setCheckoutUrl(null);
+      setTimeout(() => {
+        setSuccess(false);
+        onClose();
+      }, 2000);
 
     } catch (err: any) {
       setError(err.message || 'Payment processing error');

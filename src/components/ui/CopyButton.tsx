@@ -9,7 +9,7 @@ export interface CopyButtonProps {
   className?: string;
   id?: string;
   title?: string;
-  variant?: 'default' | 'terminal' | 'ghost' | 'pill' | 'minimal';
+  variant?: 'default' | 'terminal' | 'ghost' | 'icon' | 'pill' | 'minimal';
   onCopy?: () => void;
 }
 
@@ -64,12 +64,14 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
       'px-3 py-1.5 rounded-lg text-xs bg-white/10 hover:bg-white/20 text-white border border-white/10 hover:border-white/20',
     terminal:
       'px-3 py-1.5 rounded-md text-xs font-mono bg-white/10 hover:bg-white/15 text-white/90 border border-white/10 shadow-sm',
+    icon:
+      'p-1.5 rounded-md text-xs text-muted-foreground hover:text-white hover:bg-white/10',
     ghost:
-      'p-1.5 rounded-md text-xs text-[#999999] hover:text-white hover:bg-white/10',
+      'p-1.5 rounded-md text-xs text-muted-foreground hover:text-white hover:bg-white/10',
     pill:
       'px-3.5 py-1.5 rounded-full text-xs bg-white/10 hover:bg-white/20 text-white border border-white/12',
     minimal:
-      'p-1 text-xs text-[#999999] hover:text-white transition-colors',
+      'p-1 text-xs text-muted-foreground hover:text-white transition-colors',
   };
 
   return (

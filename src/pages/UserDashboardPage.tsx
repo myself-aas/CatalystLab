@@ -238,16 +238,16 @@ export const UserDashboardPage: React.FC = () => {
 
  if (!user) {
  return (
- <div className="min-h-screen flex items-center justify-center py-20 px-4 bg-[#000000] text-white relative overflow-hidden font-sans">
+    <div data-theme="dark" className="min-h-screen flex items-center justify-center py-20 px-4 bg-background text-foreground relative overflow-hidden font-sans">
  <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(0,102,255,0.12),transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
 
- <div className="w-full max-w-md p-8 bg-[#0B0B0B] border border-white/12 rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#141414] border border-white/15 text-[#00D2FF] mb-5 shadow-inner">
+ <div className="w-full max-w-md p-8 bg-surface border border-border rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-[#00D2FF] mb-5 shadow-inner">
  <LogIn className="h-5 w-5" />
  </div>
  <h2 className="text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-white">Developer Access Required</h2>
- <p className="mt-2 text-xs sm:text-[13px] text-[#999999] leading-relaxed">
+ <p className="mt-2 text-xs sm:text-[13px] text-muted-foreground leading-relaxed">
  Sign in to access real-time telemetry dossiers, autonomous patch branches, domain uptime monitoring, and API tokens.
  </p>
 
@@ -262,13 +262,13 @@ export const UserDashboardPage: React.FC = () => {
 
  <Link
  to="/signup?redirect=/dashboard"
- className="flex w-full items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#141414] border border-white/10 text-white font-medium hover:border-white/25 hover:bg-[#1A1A1A] transition-all cursor-pointer"
+ className="flex w-full items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface border border-border text-white font-medium hover:border-border-strong hover:bg-surface transition-all cursor-pointer"
  >
  <span>Create Free Developer Account &rarr;</span>
  </Link>
  </div>
 
- <div className="mt-6 pt-5 border-t border-white/10 flex flex-col items-center justify-center gap-2 font-mono sm:flex-row">
+ <div className="mt-6 pt-5 border-t border-border flex flex-col items-center justify-center gap-2 font-mono sm:flex-row">
  <button
  onClick={() => loginWithLocalSession({
  email: 'developer@catalystlab.io',
@@ -314,11 +314,11 @@ export const UserDashboardPage: React.FC = () => {
  />
 
  {/* Quick Recent Dossiers Vault Strip */}
- <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-5 shadow-xl">
+ <div className="bg-surface border border-border rounded-2xl p-5 shadow-xl">
  <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-2 font-mono">
- <span className="text-xs uppercase tracking-wider text-[#666666]">Telemetry Dossiers</span>
- <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white">
+ <span className="text-xs uppercase tracking-wider text-muted-foreground">Telemetry Dossiers</span>
+ <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-border text-white">
  {reports.length} Recorded
  </span>
  </div>
@@ -331,7 +331,7 @@ export const UserDashboardPage: React.FC = () => {
  </div>
 
  {reports.length === 0 ? (
- <div className="p-8 text-center border border-dashed border-white/10 rounded-xl text-xs text-[#666666] font-mono">
+ <div className="p-8 text-center border border-dashed border-border rounded-xl text-xs text-muted-foreground font-mono">
  No telemetry audits recorded yet. Run a domain inspection above or click "Run Audit" to record your first dossier.
  </div>
  ) : (
@@ -340,18 +340,18 @@ export const UserDashboardPage: React.FC = () => {
  <div
  key={report.id}
  onClick={() => setQuickViewReport(report)}
- className="p-3.5 rounded-xl bg-[#0F0F0F] border border-white/5 hover:border-white/20 transition-all cursor-pointer group"
+ className="p-3.5 rounded-xl bg-surface border border-border hover:border-border-strong transition-all cursor-pointer group"
  >
  <div className="flex items-center justify-between text-xs font-mono mb-1.5">
- <span className="text-white font-medium truncate max-w-[160px]">{report.targetDomain}</span>
+ <span className="text-white font-medium truncate max-w-[160px]">{extractDomainFromUrl(report.url)}</span>
  <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
- (report.overallScore ?? 0) >= 90 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
+ (report.score ?? 0) >= 90 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
  }`}>
- {report.overallScore ?? 85}/100
+ {report.score ?? 85}/100
  </span>
  </div>
- <div className="text-[11px] text-[#666666] flex items-center justify-between font-mono">
- <span>{report.engineId ? report.engineId.toUpperCase() : 'MASTER AUDIT'}</span>
+ <div className="text-[11px] text-muted-foreground flex items-center justify-between font-mono">
+ <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
  <span>{new Date(report.createdAt).toLocaleDateString()}</span>
  </div>
  </div>
@@ -365,13 +365,13 @@ export const UserDashboardPage: React.FC = () => {
  {/* TAB: AUTOMATED PR PATCHES */}
  {activeTab === 'patches' && (
  <div className="space-y-6">
- <div className="p-5 rounded-2xl bg-[#0A0A0A] border border-white/10 font-mono">
+ <div className="p-5 rounded-2xl bg-surface border border-border font-mono">
  <div className="flex items-center gap-2 text-xs text-[#00D2FF] mb-1">
  <GitBranch className="size-3.5" />
  <span>GHLyase · Autonomous Patch Deployment Pipeline</span>
  </div>
  <h2 className="text-base font-semibold text-white font-sans">Automated GitHub Pull Request Patches</h2>
- <p className="text-xs text-[#888888] font-sans mt-1 max-w-xl">
+ <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">
  When CatalystLab engines detect Core Web Vitals degradation, render-blocking scripts, or OWASP transport gaps, GHLyase automatically compiles AST patches and dispatches verified PRs directly to your GitHub repository.
  </p>
  </div>
@@ -382,13 +382,13 @@ export const UserDashboardPage: React.FC = () => {
  {/* TAB: SECURITY */}
  {activeTab === 'security' && (
  <div className="space-y-6">
- <div className="p-5 rounded-2xl bg-[#0A0A0A] border border-white/10 font-mono">
+ <div className="p-5 rounded-2xl bg-surface border border-border font-mono">
  <div className="flex items-center gap-2 text-xs text-amber-400 mb-1">
  <ShieldAlert className="size-3.5" />
  <span>RiskProtease · OWASP Transport Security Vault</span>
  </div>
  <h2 className="text-base font-semibold text-white font-sans">Security Alerts &amp; Compliance Logs</h2>
- <p className="text-xs text-[#888888] font-sans mt-1 max-w-xl">
+ <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">
  Continuous inspection of TLS 1.3 cipher negotiation, Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), and Permissions-Policy headers.
  </p>
  </div>

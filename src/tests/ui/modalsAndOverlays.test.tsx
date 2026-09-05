@@ -138,9 +138,9 @@ describe('Browserbase UI-Test: Modals, Drawers & Overlay Systems', () => {
     const handleClose = vi.fn();
     render(<MainMenuOverlay isOpen={true} onClose={handleClose} />, { wrapper });
 
-    expect(screen.getByLabelText(/CatalystLab Home/i)).toBeInTheDocument();
-    expect(screen.getByText(/Testing & Vitals/i)).toBeInTheDocument();
-    expect(screen.getByText(/Edge Latency/i)).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /Main Navigation Menu/i })).toBeInTheDocument();
+    expect(screen.getByText(/Diagnostic Hub/i)).toBeInTheDocument();
+    expect(screen.getByText(/Platform Overview/i)).toBeInTheDocument();
 
     // Press Escape to close
     fireEvent.keyDown(window, { key: 'Escape' });

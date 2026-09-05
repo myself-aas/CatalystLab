@@ -14,30 +14,30 @@ export const SecurityDoc: React.FC = () => {
  <ShieldCheck className="h-3.5 w-3.5"/>
  <span>Security & Ingress Protection</span>
  </div>
- <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
+ <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
  Zero-Trust Probe Sandbox
  </h1>
- <p className="text-base text-[#A1A1AA] leading-relaxed">
+ <p className="text-base text-foreground-muted leading-relaxed">
  To guarantee absolute security when analyzing arbitrary public URLs, all network requests and subprocess invocations are strictly sanitized against server-side request forgery (SSRF), command injection, and resource exhaustion.
  </p>
 
- <ul className="space-y-3 text-sm text-[#A1A1AA] mt-4">
+ <ul className="space-y-3 text-sm text-foreground-muted mt-4">
  <li className="ds-card flex items-start gap-2.5 p-4">
  <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5"/>
  <div>
- <strong className="text-[#EDEDED]">Shell Escape Sanitization:</strong> All user-supplied URLs are scrubbed via <code>replace(/(["\\$`])/g, '\\$1')</code> before child process instantiation to eliminate CLI injection vectors.
+ <strong className="text-foreground">Shell Escape Sanitization:</strong> All user-supplied URLs are scrubbed via <code>replace(/(["\\$`])/g, '\\$1')</code> before child process instantiation to eliminate CLI injection vectors.
  </div>
  </li>
  <li className="ds-card flex items-start gap-2.5 p-4">
  <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5"/>
  <div>
- <strong className="text-[#EDEDED]">Memory & Buffer Caps:</strong> Execution buffers are restricted to a maximum of 5MB per audit stream with 40,000ms hard process timeouts.
+ <strong className="text-foreground">Memory & Buffer Caps:</strong> Execution buffers are restricted to a maximum of 5MB per audit stream with 40,000ms hard process timeouts.
  </div>
  </li>
  <li className="ds-card flex items-start gap-2.5 p-4">
  <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5"/>
  <div>
- <strong className="text-[#EDEDED]">OWASP Header Hardening:</strong> Built-in response headers enforce <code>Strict-Transport-Security: max-age=63072000; includeSubDomains; preload</code> and strict CSP rules.
+ <strong className="text-foreground">OWASP Header Hardening:</strong> Built-in response headers enforce <code>Strict-Transport-Security: max-age=63072000; includeSubDomains; preload</code> and strict CSP rules.
  </div>
  </li>
  </ul>
@@ -45,8 +45,8 @@ export const SecurityDoc: React.FC = () => {
 
  {/* SSRF Protection */}
  <section id="ssrf-protection"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">SSRF & Private IP Blocking</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">SSRF & Private IP Blocking</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  The API Gateway blocks requests to private IPv4/IPv6 ranges (e.g. <code>127.0.0.1</code>, <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>, and AWS/GCP metadata IP <code>169.254.169.254</code>) to ensure workers cannot probe internal cluster resources.
  </p>
 
@@ -79,48 +79,48 @@ export const SecurityDoc: React.FC = () => {
 
  {/* Command Injection */}
  <section id="command-injection"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">CLI Command Injection Prevention</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">CLI Command Injection Prevention</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  All subprocess calls invoke parameter arrays directly or escape characters when executing Python scripts. No raw string interpolation is passed to the system shell.
  </p>
  </section>
 
  {/* OWASP Hardening */}
  <section id="owasp-hardening"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">OWASP Security Headers Implemented</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">OWASP Security Headers Implemented</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Every HTTP response emitted by CatalystLab carries hardened headers to prevent clickjacking, MIME-sniffing, and cross-site scripting:
  </p>
 
  <div className="ds-card p-4 overflow-x-auto scrollbar-none touch-pan-x">
  <table className="w-full text-left text-sm">
- <thead className="border-b border-border bg-muted/20 text-[#A1A1AA] font-semibold">
+ <thead className="border-b border-border bg-muted/20 text-foreground-muted font-semibold">
  <tr>
  <th className="py-2">Header Name</th>
  <th className="py-2">Production Value</th>
  <th className="py-2">Protection Vector</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-white/[0.06] text-[#EDEDED]">
+ <tbody className="divide-y divide-white/[0.06] text-foreground">
  <tr>
  <td className="py-2 font-mono font-semibold">Strict-Transport-Security</td>
  <td className="py-2 font-mono text-xs text-primary">max-age=63072000; includeSubDomains; preload</td>
- <td className="py-2 text-[#A1A1AA]">Forces HTTPS across all subdomains for 2 years</td>
+ <td className="py-2 text-foreground-muted">Forces HTTPS across all subdomains for 2 years</td>
  </tr>
  <tr>
  <td className="py-2 font-mono font-semibold">X-Content-Type-Options</td>
  <td className="py-2 font-mono text-xs text-primary">nosniff</td>
- <td className="py-2 text-[#A1A1AA]">Prevents browser MIME-type sniffing exploits</td>
+ <td className="py-2 text-foreground-muted">Prevents browser MIME-type sniffing exploits</td>
  </tr>
  <tr>
  <td className="py-2 font-mono font-semibold">X-Frame-Options</td>
  <td className="py-2 font-mono text-xs text-primary">SAMEORIGIN</td>
- <td className="py-2 text-[#A1A1AA]">Blocks malicious clickjacking frames</td>
+ <td className="py-2 text-foreground-muted">Blocks malicious clickjacking frames</td>
  </tr>
  <tr>
  <td className="py-2 font-mono font-semibold">Referrer-Policy</td>
  <td className="py-2 font-mono text-xs text-primary">strict-origin-when-cross-origin</td>
- <td className="py-2 text-[#A1A1AA]">Shields user privacy in outgoing referrers</td>
+ <td className="py-2 text-foreground-muted">Shields user privacy in outgoing referrers</td>
  </tr>
  </tbody>
  </table>

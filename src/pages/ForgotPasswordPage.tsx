@@ -90,7 +90,7 @@ export const ForgotPasswordPage: React.FC = () => {
   const terminalCommand = `catalystlab auth recover --email ${email.trim() || 'engineer@acme.corp'} --vault`;
 
   return (
-    <div className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-[#000000] text-white">
+    <div data-theme="dark" className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center items-center px-4 py-16 bg-background text-foreground">
       <SEOHead
         title="Recover Access Key | CatalystLab"
         description="Dispatch a cryptographically signed magic login link or recover workspace credentials via Catalyst CLI."
@@ -113,16 +113,16 @@ export const ForgotPasswordPage: React.FC = () => {
       />
 
       {/* Centered Floating Glass Modal Frame */}
-      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 bg-[#0B0B0B] border border-white/12 rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
+      <div className="relative z-10 w-full max-w-md mx-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
         {/* Top Brand Anchor */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+        <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
           <Link to="/" className="flex items-center gap-2 group focus:outline-none">
             <BrandLogo size="sm" />
             <span className="text-xs font-semibold tracking-[-0.02em] text-white">
               Catalyst<span className="text-[#00D2FF]">Lab</span>
             </span>
           </Link>
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#666666]">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
             Security Gateway
           </span>
         </div>
@@ -140,7 +140,7 @@ export const ForgotPasswordPage: React.FC = () => {
               <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight text-white">
                 Recover your access key.
               </h1>
-              <p className="text-xs sm:text-sm text-[#999999] leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Enter your authorized workspace email. We&apos;ll dispatch a cryptographically signed magic login link and token.
               </p>
             </div>
@@ -156,7 +156,7 @@ export const ForgotPasswordPage: React.FC = () => {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[#999999] mb-1.5">
+                <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
                   Authorized Workspace Email
                 </label>
                 <div className="relative">
@@ -166,9 +166,9 @@ export const ForgotPasswordPage: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="engineer@acme.corp"
                     required
-                    className="w-full bg-[#050505] border border-white/10 rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                    className="w-full bg-background border border-border rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
                   />
-                  <Mail className="absolute left-3.5 top-3.5 size-4 text-[#666666]" />
+                  <Mail className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
                 </div>
               </div>
 
@@ -191,15 +191,15 @@ export const ForgotPasswordPage: React.FC = () => {
             </form>
 
             {/* Alternative Terminal Recovery */}
-            <div className="mt-6 pt-5 border-t border-white/10 space-y-2">
-              <div className="flex items-center justify-between text-[11px] font-mono text-[#666666]">
+            <div className="mt-6 pt-5 border-t border-border space-y-2">
+              <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
                 <span className="flex items-center gap-1.5">
                   <Terminal className="size-3.5 text-[#00D2FF]" />
                   <span>Terminal Recovery</span>
                 </span>
                 <span>Catalyst CLI</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-[#050505] border border-white/10 flex items-center justify-between gap-2 font-mono text-[11px] text-[#00D2FF]">
+              <div className="p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 font-mono text-[11px] text-[#00D2FF]">
                 <span className="truncate">$ {terminalCommand}</span>
                 <CopyButton
                   text={`npx ${terminalCommand}`}
@@ -226,14 +226,14 @@ export const ForgotPasswordPage: React.FC = () => {
               <h2 className="text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-white">
                 Secure Token Dispatched
               </h2>
-              <p className="text-xs sm:text-sm text-[#999999] leading-relaxed max-w-xs mx-auto">
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">
                 We sent a signed access token and magic link to{' '}
                 <span className="text-white font-mono">{maskEmail(email)}</span>.
               </p>
             </div>
 
             {/* Expiration Countdown */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#050505] border border-white/10 font-mono text-xs text-[#999999]">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-background border border-border font-mono text-xs text-muted-foreground">
               <Clock className="size-3.5 text-[#00D2FF]" />
               <span>Token expires in: <strong className="text-white">{formatCountdown(countdown)}</strong></span>
             </div>
@@ -244,7 +244,7 @@ export const ForgotPasswordPage: React.FC = () => {
                 type="button"
                 onClick={handleResend}
                 disabled={isSubmitting || countdown > 840}
-                className="w-full bg-[#141414] hover:bg-[#1A1A1A] border border-white/10 hover:border-white/20 text-white text-xs font-medium py-2.5 px-4 rounded-xl transition-all disabled:opacity-40 cursor-pointer"
+                className="w-full bg-surface hover:bg-surface border border-border hover:border-border-strong text-white text-xs font-medium py-2.5 px-4 rounded-xl transition-all disabled:opacity-40 cursor-pointer"
               >
                 {countdown > 840 ? `Resend Available in ${countdown - 840}s` : 'Resend Recovery Link'}
               </button>
@@ -253,10 +253,10 @@ export const ForgotPasswordPage: React.FC = () => {
         )}
 
         {/* Back Link */}
-        <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
+        <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs">
           <Link
             to="/login"
-            className="flex items-center gap-1.5 text-[#999999] hover:text-white transition-colors"
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-white transition-colors"
           >
             <ArrowLeft className="size-3.5" />
             <span>Back to Login</span>

@@ -289,7 +289,7 @@ export const ComparePage: React.FC = () => {
  </section>
 
  {/* Main Matrix Workspace */}
- <main className="ds-page-shell: lg:">
+ <main className="ds-page-shell lg:">
  <SideBySideDeltaMatrix
  reportA={reportA}
  reportB={reportB}

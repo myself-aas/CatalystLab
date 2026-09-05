@@ -47,7 +47,7 @@ export const CookiePolicyPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell: lg:">
+ <main className="ds-page-shell lg:">
  <CookiePreferenceCenter />
  </main>
  </div>

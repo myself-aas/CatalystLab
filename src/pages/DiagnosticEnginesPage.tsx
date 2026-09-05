@@ -61,7 +61,7 @@ export const DiagnosticEnginesPage: React.FC = () => {
  </section>
 
  {/* Main Grid */}
- <main className="ds-page-shell: lg:">
+ <main className="ds-page-shell lg:">
  <motion.div
  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
  variants={{

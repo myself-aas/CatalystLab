@@ -1037,6 +1037,72 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   .ds-control { min-height: 2.75rem; border-radius: 0.65rem; }
   .ds-muted { color: var(--app-muted-foreground); }
+
+  /* Canonical interactive primitives — use instead of hand-rolled button/input
+     stacks so focus rings, radii, and palette stay token-backed everywhere. */
+  .ds-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    border-radius: 0.75rem;
+    padding-inline: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--app-ring); }
+  .ds-btn:active { transform: translateY(1px); }
+  .ds-btn-primary { background: var(--app-primary); color: var(--app-primary-foreground); }
+  .ds-btn-primary:hover { background: var(--app-primary-hover); }
+  .ds-btn-secondary { background: var(--app-muted); color: var(--app-foreground); border-color: var(--app-border); }
+  .ds-btn-secondary:hover { background: var(--app-muted); border-color: var(--app-input); }
+  .ds-btn-ghost { background: transparent; color: var(--app-foreground); }
+  .ds-btn-ghost:hover { background: var(--app-muted); }
+
+  .ds-input {
+    width: 100%;
+    min-height: 2.75rem;
+    border-radius: 0.65rem;
+    padding-inline: 0.875rem;
+    background: var(--app-muted);
+    color: var(--app-foreground);
+    border: 1px solid var(--app-border);
+    font-size: 0.875rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .ds-input::placeholder { color: var(--app-muted-foreground); opacity: 0.75; }
+  .ds-input:focus { outline: none; border-color: var(--app-ring); box-shadow: 0 0 0 1px var(--app-ring); }
+  .ds-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .ds-select {
+    width: 100%;
+    min-height: 2.75rem;
+    border-radius: 0.65rem;
+    padding-inline: 0.875rem 2.25rem;
+    background: var(--app-muted);
+    color: var(--app-foreground);
+    border: 1px solid var(--app-border);
+    font-size: 0.875rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .ds-select:focus { outline: none; border-color: var(--app-ring); box-shadow: 0 0 0 1px var(--app-ring); }
+  .ds-select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .ds-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--app-muted-foreground);
+  }
   
   .docs-devsite-article h1,
   .docs-devsite-article h2,
@@ -1045,7 +1111,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   .docs-content h2,
   .docs-content h3 {
     font-family: var(--font-sans);
-    color: #EDEDED;
+    color: var(--app-foreground);
     letter-spacing: -0.02em;
     font-weight: 600;
   }
@@ -1055,7 +1121,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     font-size: 1.75rem;
     margin-top: 2.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--app-border);
   }
   
   .docs-devsite-article h3,
@@ -1067,7 +1133,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   
   .docs-content p,
   .docs-content li {
-    color: #A1A1AA;
+    color: var(--app-muted-foreground);
     line-height: 1.7;
     margin-bottom: 1rem;
   }
@@ -1079,23 +1145,23 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   
   .docs-content a:hover {
-    color: #00D2FF;
+    color: var(--accent-cyan-edge);
     text-decoration: underline;
   }
   
   .docs-content code {
     font-family: var(--font-mono);
     font-size: 0.85em;
-    color: #00D2FF;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-cyan-edge);
+    background: var(--app-muted);
     padding: 0.2em 0.4em;
     border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--app-border);
   }
   
   .docs-content pre {
-    background: #050505 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--app-background) !important;
+    border: 1px solid var(--app-border);
     border-radius: 12px;
     padding: 1rem;
     overflow-x: auto;
@@ -1112,15 +1178,15 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   
   /* Inline Warning Callouts */
   .docs-content blockquote {
-    border-left: 3px solid #FF9900;
-    background: rgba(255, 153, 0, 0.05);
+    border-left: 3px solid var(--accent-amber-sec);
+    background: color-mix(in srgb, var(--accent-amber-sec) 5%, transparent);
     padding: 1rem 1.25rem;
     margin: 1.5rem 0;
     border-radius: 0 8px 8px 0;
-    color: #EDEDED;
+    color: var(--app-foreground);
   }
   .docs-content blockquote p {
-    color: #EDEDED;
+    color: var(--app-foreground);
     margin-bottom: 0;
   }
 }

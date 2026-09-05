@@ -4,6 +4,7 @@ import { SubscriptionPlanId } from '../types';
 export type UserRole = 
   | 'anonymous' 
   | 'user' 
+  | 'starter' 
   | 'pro' 
   | 'team' 
   | 'enterprise' 
@@ -79,6 +80,31 @@ export const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
     dailyComputeUnits: 50,
     maxMonitoredSites: 1,
     ciParallelRunners: 1,
+    canCreateApiKeys: false,
+    canExportWhiteLabel: false,
+    canWriteBlogs: false,
+    canAccessAdmin: false,
+    isUnlimited: false,
+    permissions: [
+      'page:view_public',
+      'page:view_dashboard',
+      'feature:single_engine_audit',
+      'feature:master_audit',
+      'feature:manage_monitoring'
+    ]
+  },
+  starter: {
+    role: 'starter',
+    displayName: 'Starter Pro',
+    shortLabel: 'Starter',
+    tagline: 'Paid solo tier with 150 daily compute & monitored domains',
+    colorClass: 'text-teal-400',
+    badgeBg: 'bg-teal-500/10',
+    badgeText: 'text-teal-300',
+    badgeBorder: 'border-teal-500/30',
+    dailyComputeUnits: 150,
+    maxMonitoredSites: 3,
+    ciParallelRunners: 2,
     canCreateApiKeys: false,
     canExportWhiteLabel: false,
     canWriteBlogs: false,
@@ -243,7 +269,7 @@ export function resolveUserRole(
     case 'pro':
       return 'pro';
     case 'starter':
-      return 'user';
+      return 'starter';
     case 'free':
     default:
       return 'user';

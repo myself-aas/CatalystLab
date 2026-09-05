@@ -34,7 +34,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'Website Health & DOM Engine',
     category: 'Engine',
     description: 'DOM tree depth (≤32 levels), TTFB, and Core Web Vitals.',
-    route: '/health',
+    route: '/docs/vitalzyme',
     keywords: ['health', 'dom', 'vitals', 'ttfb', 'inp', 'cls', 'lcp', 'performance']
   },
   {
@@ -42,7 +42,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'AI Readiness & llms.txt',
     category: 'Engine',
     description: 'llms.txt manifests, AI bot crawler access, and JSON-LD schema.',
-    route: '/ai-readiness',
+    route: '/docs/llm-kinase',
     keywords: ['ai', 'llms.txt', 'robots.txt', 'gptbot', 'claudebot', 'schema', 'rag']
   },
   {
@@ -50,7 +50,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'OWASP Security & Compliance',
     category: 'Engine',
     description: 'OWASP security headers, CSP, HSTS, and WCAG 2.2 AA accessibility.',
-    route: '/compliance',
+    route: '/docs/riskprotease',
     keywords: ['security', 'owasp', 'csp', 'hsts', 'wcag', 'compliance', 'headers', 'cookie']
   },
   {
@@ -58,7 +58,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'Global Edge Latency Radar',
     category: 'Engine',
     description: '12 Global Edge PoPs, DNS lookup latency, and TLS 1.3 handshake.',
-    route: '/latency',
+    route: '/docs/edgevmax',
     keywords: ['latency', 'edge', 'pops', 'ttfb', 'dns', 'tls', 'speed', 'global']
   },
   {
@@ -66,7 +66,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'Eco-Carbon & Green Hosting',
     category: 'Engine',
     description: 'SWD CO2 carbon footprint model and renewable energy hosting audit.',
-    route: '/eco-audit',
+    route: '/docs/ecoholo',
     keywords: ['eco', 'carbon', 'co2', 'green', 'sustainability', 'energy']
   },
   {
@@ -74,7 +74,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'Git Repository Hygiene & SecOps',
     category: 'Engine',
     description: 'Git security audit, SECURITY.md, license compliance, and commit velocity.',
-    route: '/repo-scanner',
+    route: '/docs/gitlygase',
     keywords: ['repo', 'git', 'github', 'secops', 'license', 'security.md']
   },
   {
@@ -82,7 +82,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'Generative Engine Optimization (LLMO)',
     category: 'Engine',
     description: 'AI Search citation extraction for Perplexity, ChatGPT Search, and Gemini.',
-    route: '/llmo',
+    route: '/docs/allostersearch',
     keywords: ['llmo', 'ai search', 'perplexity', 'chatgpt', 'citation', 'entity']
   },
   {
@@ -90,7 +90,7 @@ const STATIC_SUGGESTIONS: SearchSuggestionItem[] = [
     title: 'Platform Migration Risk Audit',
     category: 'Engine',
     description: 'Technical debt, headless re-platforming risk, and CDN compatibility.',
-    route: '/migration',
+    route: '/docs/synthshift',
     keywords: ['migration', 'risk', 'headless', 're-platforming', 'cms', 'upgrade']
   },
   {

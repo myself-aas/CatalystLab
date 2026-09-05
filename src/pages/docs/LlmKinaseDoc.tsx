@@ -14,18 +14,18 @@ export const LlmKinaseDoc: React.FC = () => {
  <Cpu className="h-3.5 w-3.5"/>
  <span>SDLC Phase 7: AI Readiness Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-[#EDEDED] tracking-tight">
+ <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
  LLM-Kinase: AI Crawler Readiness & Manifest Engine
  </h1>
- <p className="text-base text-[#A1A1AA] leading-relaxed">
+ <p className="text-base text-foreground-muted leading-relaxed">
  LLM-Kinase evaluates a domain's accessibility to generative AI models and Retrieval-Augmented Generation (RAG) pipelines by checking for <code>/llms.txt</code>, testing AI bot user-agent permissions in <code>robots.txt</code>, and verifying Schema.org JSON-LD structured data.
  </p>
  </section>
 
  {/* llms.txt Standard */}
  <section id="llms-txt-standard"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">The /llms.txt Standard Specification</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">The /llms.txt Standard Specification</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  The <code>/llms.txt</code> file serves as a structured Markdown roadmap for Large Language Models to digest core API documentation, technical architectures, and developer resources:
  </p>
 
@@ -51,8 +51,8 @@ export const LlmKinaseDoc: React.FC = () => {
 
  {/* AI Bot User-Agents */}
  <section id="crawler-user-agents"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">AI Crawler User-Agent Directives</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">AI Crawler User-Agent Directives</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Ensure your <code>robots.txt</code> explicitly grants indexing rights to AI search engines while protecting private API endpoints:
  </p>
 
@@ -78,8 +78,8 @@ Allow: /`}
 
  {/* JSON-LD Entity Graph */}
  <section id="json-ld-entity"className="space-y-4 border-t border-border pt-8">
- <h2 className="text-2xl font-bold text-[#EDEDED]">Schema.org JSON-LD Structured Data</h2>
- <p className="text-sm text-[#A1A1AA] leading-relaxed">
+ <h2 className="text-2xl font-bold text-foreground">Schema.org JSON-LD Structured Data</h2>
+ <p className="text-sm text-foreground-muted leading-relaxed">
  Structured JSON-LD entity data allows LLMs to extract key facts without parsing ambiguous HTML:
  </p>
 

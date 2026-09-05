@@ -51,7 +51,8 @@ export const WorkflowSection: React.FC = () => {
     <section
       id="workflow-section"
       ref={containerRef}
-      className="relative py-24 lg:py-32 bg-[#000000] text-white border-b border-white/10 overflow-hidden"
+      data-theme="dark"
+      className="relative py-24 lg:py-32 bg-background text-foreground border-b border-border overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
@@ -59,11 +60,11 @@ export const WorkflowSection: React.FC = () => {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] text-white">
               Four Gates. 1.06s P95.
             </h2>
-            <p className="text-[#999999] text-base sm:text-lg max-w-2xl mt-4 leading-relaxed tracking-[-0.01em]">
+            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-4 leading-relaxed tracking-[-0.01em]">
               From global edge DNS resolution to instant zero-latency remediation patches in under 1,060ms total execution time.
             </p>
           </LazyReveal>
-          <div className="flex items-center gap-2 text-sm font-mono text-[#999999] bg-[#050505] border border-white/10 p-3 rounded-xl shadow-sm">
+          <div className="flex items-center gap-2 text-sm font-mono text-muted-foreground bg-background border border-border p-3 rounded-xl shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-[#00F298] animate-ping" />
             <span>TOTAL LATENCY: <strong className="text-white text-base">1.06s</strong></span>
           </div>
@@ -77,7 +78,7 @@ export const WorkflowSection: React.FC = () => {
             className="hidden lg:block absolute top-[40px] left-[12.5%] h-px bg-gradient-to-r from-[#0066FF] via-[#00D2FF] to-[#00F298] -z-10 shadow-[0_0_10px_rgba(0,102,255,0.5)]" 
           />
           
-          <div className="flex flex-col gap-6 relative pl-6 border-l border-white/10 lg:pl-0 lg:border-l-0 lg:grid lg:grid-cols-4 lg:gap-6">
+          <div className="flex flex-col gap-6 relative pl-6 border-l border-border lg:pl-0 lg:border-l-0 lg:grid lg:grid-cols-4 lg:gap-6">
             {steps.map((step, idx) => {
               const Icon = step.icon;
               return (
@@ -86,7 +87,7 @@ export const WorkflowSection: React.FC = () => {
                     {/* Mobile Node Dot */}
                     <div className="lg:hidden absolute -left-[29px] top-4 w-2 h-2 rounded-full bg-white/20 group-hover:bg-[#0066FF] transition-colors" />
                     
-                    <div className="hidden lg:flex w-[80px] h-[80px] mx-auto bg-[#0B0B0B] border border-white/10 rounded-2xl items-center justify-center relative group-hover:border-white/30 transition-colors shadow-xl">
+                    <div className="hidden lg:flex w-[80px] h-[80px] mx-auto bg-surface border border-border rounded-2xl items-center justify-center relative group-hover:border-white/30 transition-colors shadow-xl">
                       <Icon className="size-8 text-white/50 group-hover:text-white transition-colors" />
                       <div className="absolute -bottom-3 left-1/2 -translate-x-1/2">
                         <span className="text-[#00F298] font-mono text-xs bg-[#00F298]/10 border border-[#00F298]/20 px-2 py-0.5 rounded shadow-sm whitespace-nowrap">
@@ -105,7 +106,7 @@ export const WorkflowSection: React.FC = () => {
                           {step.title.match(/\((.*?)\)/)?.[1]}
                         </span>
                       </div>
-                      <p className="text-sm text-[#999999] leading-relaxed tracking-[-0.01em]">
+                      <p className="text-sm text-muted-foreground leading-relaxed tracking-[-0.01em]">
                         {step.description}
                       </p>
                     </div>
