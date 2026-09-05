@@ -1,3 +1,4 @@
+import { EngineSubNav } from '../components/layout/EngineSubNav';
 import { EngineInput } from '../components/common/EngineInput';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -190,6 +191,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  description={meta.description}
  canonicalUrl={`https://www.catalystlab.tech/tool/${engineType}`}
  />
+ 
+ {/* Sticky Contextual Breadcrumb Nav */}
+ <EngineSubNav />
+
  <section className="relative overflow-hidden border-b border-border ds-section w-full">
  <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]"/>
  <div className="relative z-10 ds-page-shell text-center">

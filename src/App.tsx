@@ -5,9 +5,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { Sidebar } from './components/layout/Sidebar';
 import { Navbar } from './components/layout/Navbar';
-import { MobileBottomNav } from './components/layout/MobileBottomNav';
 import { LinearAmbientBackground } from "./components/layout/LinearAmbientBackground";
 import { StickyHUD } from "./components/layout/StickyHUD";
 import { TrialBanner } from "./components/common/TrialBanner";
@@ -51,6 +49,7 @@ const LegalPage = React.lazy(() => import("./pages/LegalPage").then(m => ({ defa
 const SecurityPage = React.lazy(() => import("./pages/SecurityPage").then(m => ({ default: m.SecurityPage })));
 const PricingPage = React.lazy(() => import("./pages/PricingPage").then(m => ({ default: m.PricingPage })));
 const ProductsPage = React.lazy(() => import("./pages/ProductsPage").then(m => ({ default: m.ProductsPage })));
+const DiagnosticHubPage = React.lazy(() => import("./pages/DiagnosticHubPage").then(m => ({ default: m.DiagnosticHubPage })));
 const ReactDevDesignPage = React.lazy(() => import("./pages/playground/ReactDevDesignPage").then(m => ({ default: m.ReactDevDesignPage })));
 const DocsPage = React.lazy(() => import("./pages/DocsPage").then(m => ({ default: m.DocsPage })));
 const SystemOverviewDoc = React.lazy(() => import("./pages/docs/SystemOverviewDoc").then(m => ({ default: m.SystemOverviewDoc })));
@@ -107,7 +106,6 @@ export const App: React.FC = () => {
 
   const [isPaymentCheckoutOpen, setIsPaymentCheckoutOpen] = useState(false);
   const [paymentPlanId, setPaymentPlanId] = useState<SubscriptionPlanId>('pro');
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
     const handleOpenModal = (e: Event) => {
@@ -144,12 +142,6 @@ export const App: React.FC = () => {
         className={`app-shell ${pagePolarity} flex min-h-screen min-h-dvh flex-col lg:flex-row w-full max-w-full overflow-x-hidden text-foreground animate-app-fade-in relative ${showAppChrome ? "pb-[calc(4rem+env(safe-area-inset-bottom,0px))] lg:pb-0" : "pb-[env(safe-area-inset-bottom,0px)]"} ${resolvedTheme === "dark" ? "bg-transparent" : "bg-background"}`}
       >
         {resolvedTheme === "dark" && <LinearAmbientBackground />}
-        {showAppChrome && (
-          <Sidebar mobileOpen={isMobileSidebarOpen} onCloseMobile={() => setIsMobileSidebarOpen(false)} />
-        )}
-        {showAppChrome && (
-          <MobileBottomNav onOpenMenu={() => setIsMobileSidebarOpen(true)} />
-        )}
         <div className="flex-1 flex flex-col min-w-0 w-full max-w-full relative z-10">
           <a
             href="#main-content"
@@ -159,7 +151,7 @@ export const App: React.FC = () => {
           </a>
           <ScrollToTop />
           <TrialBanner />
-          <Navbar onOpenMobileMenu={showAppChrome ? () => setIsMobileSidebarOpen(true) : undefined} />
+          <Navbar />
           <main id="main-content" className={`${pagePolarity} flex-1 w-full max-w-full overflow-x-hidden`}>
             <AnimatePresence mode="wait">
               <PageTransition key={location.pathname} className="min-h-full">
@@ -190,6 +182,10 @@ export const App: React.FC = () => {
                 path="/master-audit.html"
                 element={<MasterAuditExecutionPage />}
               />
+
+              {/* Diagnostic Hub (Engine Matrix) */}
+              <Route path="/hub" element={<DiagnosticHubPage />} />
+              <Route path="/engines" element={<DiagnosticHubPage />} />
 
               {/* Authentication: Sign In & Registration Suite */}
               <Route path="/login" element={<LoginPage />} />
