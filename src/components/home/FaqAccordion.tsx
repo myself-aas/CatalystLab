@@ -91,7 +91,7 @@ export const FaqAccordion: React.FC = () => {
                       onClick={() => setOpenIndex(isOpen ? null : idx)}
                       className="w-full flex items-center justify-between p-4 sm:p-5 text-left"
                     >
-                      <span className="font-semibold text-white sm:text-lg tracking-[-0.01em]">
+                      <span className="framer-card-title text-white">
                         {faq.q}
                       </span>
                       <div className="shrink-0 ml-4 flex items-center justify-center size-6 rounded-full bg-white/5 text-white/50">
@@ -106,7 +106,7 @@ export const FaqAccordion: React.FC = () => {
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                         >
-                          <div className="px-4 sm:px-5 pb-5 text-muted-foreground text-sm leading-relaxed border-t border-white/5 pt-4">
+                          <div className="px-4 sm:px-5 pb-5 framer-body-text border-t border-white/5 pt-4">
                             {faq.a}
                           </div>
                         </motion.div>

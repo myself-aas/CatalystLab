@@ -41,7 +41,7 @@ export const EngineSubNav: React.FC = () => {
                 )}
               >
                 <span 
-                  className="material-symbols-outlined text-[16px] transition-transform group-hover:scale-110" 
+                  className="material-symbols-outlined text-[16px]" 
                   style={{ color: engine.color }}
                   aria-hidden="true"
                 >

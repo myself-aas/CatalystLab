@@ -101,8 +101,8 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 
         {/* Plan Title & Description */}
         <div className="mb-4">
-          <h3 className="text-lg sm:text-xl font-bold text-foreground font-sans">{name}</h3>
-          <p className="mt-1 text-xs text-muted-foreground leading-relaxed font-sans min-h-[36px]">
+          <h3 className="framer-card-title text-foreground">{name}</h3>
+          <p className="mt-1 framer-body-text min-h-[36px]">
             {description}
           </p>
         </div>

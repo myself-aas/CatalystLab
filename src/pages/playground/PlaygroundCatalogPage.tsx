@@ -39,26 +39,26 @@ export const PlaygroundCatalogPage: React.FC = () => {
  };
 
  return (
- <div className="min-h-screen bg-background text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Hero Banner */}
  <div className="border-b border-border bg-background pt-12 pb-14">
- <div className="ds-page-shell lg:">
+ <div className="ds-page-shell">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
- <div className="ds-page-shell space-y-4">
- <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 py-1 text-xs font-mono font-semibold text-emerald-800">
+ <div className="space-y-4 max-w-2xl">
+ <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 framer-micro-tag text-emerald-400">
  <Terminal className="h-3.5 w-3.5"/>
  <span>Interactive Developer Playground</span>
  </div>
- <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground">
+ <h1 className="framer-section-headline text-foreground">
  API & Engine Test Sandbox
  </h1>
- <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+ <p className="framer-body-text">
  Test real-time audit queries, inspect telemetry JSON payloads, generate cURL code, and validate production endpoints with live Python execution containers.
  </p>
  </div>
 
  {/* Quota Indicator */}
- <div className="ds-card p-5 space-y-2">
+ <div className="ds-card p-5 space-y-2 min-w-[240px]">
  <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
  <span>Active Quota Tier</span>
  <span className="font-bold uppercase text-foreground">{rateStatus.tier}</span>
@@ -103,7 +103,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <select
  value={selectedEngine}
  onChange={(e) => setSelectedEngine(e.target.value)}
- className="ds-card w-full text-sm font-semibold p-4"
+ className="ds-select text-sm font-semibold"
  >
  {PLAYGROUND_ENGINES.map((eng) => (
  <option key={eng.id} value={eng.id}>
@@ -125,8 +125,8 @@ export const PlaygroundCatalogPage: React.FC = () => {
  {/* Diagnostic Engines Sandbox Catalog */}
  <section className="space-y-6">
  <div>
- <h2 className="text-xl font-bold text-foreground">Interactive Engine Consoles</h2>
- <p className="text-xs text-muted-foreground mt-0.5">Click any engine to open its dedicated interactive test sandbox</p>
+ <h2 className="framer-section-headline text-foreground">Interactive Engine Consoles</h2>
+ <p className="framer-body-text mt-1">Click any engine to open its dedicated interactive test sandbox</p>
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -140,18 +140,18 @@ export const PlaygroundCatalogPage: React.FC = () => {
  >
  <div>
  <div className="flex items-center justify-between mb-4">
- <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 border border-sky-100 text-foreground">
- <Icon className="h-5 w-5 text-muted-foreground group-hover:scale-110 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"/>
+ <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-[#00D2FF]">
+ <Icon className="h-5 w-5 text-[#00D2FF] shrink-0 transition-colors"/>
  </div>
- <span className="text-[11px] font-mono font-bold py-0.5 rounded bg-accent text-muted-foreground">
+ <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20">
  {engine.category}
  </span>
  </div>
 
- <h3 className="text-lg font-bold text-foreground group-hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+ <h3 className="framer-card-title text-foreground group-hover:text-[#0066FF] transition-colors">
  {engine.name}
  </h3>
- <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
+ <p className="framer-body-text text-xs mt-2 line-clamp-2">
  Dedicated real-time testing console for {engine.name.toLowerCase()} telemetry.
  </p>
  </div>
@@ -160,9 +160,9 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <span className="font-mono text-muted-foreground">
  Cost: <strong>{engine.cost} scan credit</strong>
  </span>
- <span className="font-bold text-sky-700 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+ <span className="font-bold text-[#0066FF] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
  <span>Open Console</span>
- <ArrowRight className="h-3.5 w-3.5"/>
+ <ArrowRight className="h-3.5 w-3.5 shrink-0"/>
  </span>
  </div>
  </Link>

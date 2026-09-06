@@ -125,7 +125,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  );
 
  return (
- <div className="min-h-screen bg-background pb-24 text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground font-mono">
  <SEOHead
  title="Diagnostic Report Directory"
  description="Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide."
@@ -134,24 +134,20 @@ export const ReportsDirectoryPage: React.FC = () => {
  />
  
  {/* Header Banner */}
- <section className="relative overflow-hidden border-b border-border bg-muted ds-page-top-hero pb-16 sm:pb-20 sm:px-6 lg:px-8">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0"/>
- <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border pb-16 sm:pb-20 sm:px-6 lg:px-8">
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
 
  <div className="relative z-10 max-w-3xl mx-auto space-y-6">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div>
- <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/90 backdrop-blur-md px-3.5 py-1 text-xs font-mono font-bold text-foreground uppercase tracking-wider mb-4 shadow-xs">
- <FileText className="h-3.5 w-3.5 text-blue-600"/>
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-3.5 py-1 framer-micro-tag text-[#0066FF] mb-4">
+ <FileText className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>
  <span>Diagnostic Report Directory</span>
  </div>
- <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight font-sans leading-[1.1]">
- Web Performance, Security &amp;{' '}
- <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-background">
- AI Readiness Dossiers
- </span>
+ <h1 className="framer-hero-title text-foreground">
+ Web Performance, Security &amp; AI Readiness Dossiers
  </h1>
- <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed font-sans font-normal">
+ <p className="mt-3 framer-body-text max-w-3xl leading-relaxed">
  Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide.
  </p>
  </div>
@@ -159,9 +155,9 @@ export const ReportsDirectoryPage: React.FC = () => {
  <div className="flex items-center gap-2 shrink-0">
  <Link
  to="/master-audit"
- className="flex items-center gap-2.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-6 py-3 text-xs sm:text-sm font-bold text-primary-foreground shadow-sm transition-all active:scale-95"
+ className="ds-btn ds-btn-primary text-xs sm:text-sm"
  >
- <Zap className="h-4 w-4 text-blue-400"/>
+ <Zap className="h-4 w-4 text-amber-300 shrink-0"/>
  <span>Run New Audit</span>
  </Link>
  </div>
@@ -169,29 +165,29 @@ export const ReportsDirectoryPage: React.FC = () => {
 
  {/* Quick Domain Inspector Input */}
  <form onSubmit={handleInstantInspect} className="mt-4">
- <div className="ds-card flex flex-col gap-2 p-2">
+ <div className="ds-card flex flex-col sm:flex-row gap-2 p-2">
  <div className="relative flex-1 flex items-center">
  <span className="absolute left-4 text-muted-foreground">
- <Globe className="h-4 w-4"/>
+ <Globe className="h-4 w-4 shrink-0"/>
  </span>
- <label htmlFor="domain-inspect"className="sr-only">Domain to inspect</label>
+ <label htmlFor="domain-inspect" className="sr-only">Domain to inspect</label>
  <input
  id="domain-inspect"
  type="text"
  value={domainInput}
  onChange={(e) => setDomainInput(e.target.value)}
  placeholder="Enter any domain to view dossier (e.g. stripe.com or catalystlab.tech)..."
- className="w-full rounded-xl bg-transparent py-3 pl-11 pr-4 text-sm font-sans text-foreground placeholder:text-muted-foreground focus:outline-none"
+ className="w-full ds-input pl-11 pr-4 text-sm font-sans bg-background"
  required
  />
  </div>
 
  <button
  type="submit"
- className="flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground py-3 text-sm font-bold font-sans transition-all shrink-0 shadow-sm cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="ds-btn ds-btn-primary text-sm shrink-0"
  >
  <span>Open Dossier</span>
- <ArrowRight className="h-4 w-4 text-amber-400"/>
+ <ArrowRight className="h-4 w-4 shrink-0"/>
  </button>
  </div>
  </form>
@@ -199,17 +195,17 @@ export const ReportsDirectoryPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell lg: space-y-12">
+ <main className="ds-page-shell space-y-12">
  
  {/* Search Bar */}
  <div className="relative">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"/>
+ <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground shrink-0"/>
  <input
  type="text"
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="Search report directory by domain name, technology, or category..."
- className="ds-card w-full text-sm font-sans p-4"
+ className="ds-input pl-11 w-full text-sm font-sans bg-background"
  />
  </div>
 
@@ -307,34 +303,34 @@ export const ReportsDirectoryPage: React.FC = () => {
  >
  <div className="flex items-center justify-between gap-2 mb-4">
  <div className="flex items-center gap-2">
- <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-muted text-muted-foreground border border-border shadow-sm">
- <Icon className="h-4 w-4"/>
+ <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-surface text-muted-foreground border border-border shadow-sm">
+ <Icon className="h-4 w-4 shrink-0"/>
  </span>
- <span className="text-[10px] uppercase font-bold text-muted-foreground bg-accent .5 py-1 rounded-md border border-border tracking-wider">
+ <span className="text-[10px] uppercase font-mono text-muted-foreground bg-white/5 px-2 py-0.5 rounded border border-white/10 tracking-wider">
  {item.category}
  </span>
  </div>
- <span className={`text-xs font-bold .5 py-1 rounded-md border ${
+ <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
  isGradeA 
- ? 'border-emerald-200 bg-emerald-50 text-emerald-700' 
- : 'border-amber-200 bg-amber-50 text-amber-700'
+ ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400' 
+ : 'border-amber-500/20 bg-amber-500/10 text-amber-400'
  }`}>
  Grade {item.grade}
  </span>
  </div>
 
- <div className="font-extrabold text-base text-foreground group-hover:text-amber-600 transition-colors truncate font-sans">
+ <div className="framer-card-title text-foreground group-hover:text-[#0066FF] transition-colors truncate">
  {item.domain}
  </div>
- <p className="text-sm text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed font-sans">
+ <p className="framer-body-text text-sm mt-1.5 line-clamp-2">
  {item.title}
  </p>
 
- <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-sans">
- <span className="text-amber-600 font-bold">{item.score}/100 Score</span>
+ <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-mono">
+ <span className="text-[#00D2FF] font-bold">{item.score}/100 Score</span>
  <span className="flex items-center gap-1 font-bold text-muted-foreground group-hover:text-foreground transition-colors">
  <span>Explore Benchmark</span>
- <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"/>
+ <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 shrink-0"/>
  </span>
  </div>
  </Link>
@@ -346,16 +342,16 @@ export const ReportsDirectoryPage: React.FC = () => {
  {/* Guest Call-to-action Banner if not signed in */}
  {!user && (
  <div className="ds-card p-8 sm:p-12 text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-background border border-border text-amber-500 mb-4 shadow-sm">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-amber-400 mb-4 shadow-sm">
  <Sparkles className="h-6 w-6"/>
  </div>
- <h3 className="text-xl sm:text-2xl font-extrabold text-foreground font-sans">Save &amp; Organize Your Custom Domain Audits</h3>
- <p className="mt-3 text-sm text-muted-foreground max-w-3xl mx-auto leading-relaxed font-sans">
+ <h3 className="framer-card-title text-xl sm:text-2xl text-foreground">Save &amp; Organize Your Custom Domain Audits</h3>
+ <p className="mt-3 framer-body-text max-w-3xl mx-auto">
  Sign in to permanently track historical audits, monitor regressions over time, and generate dedicated whitepaper dossiers.
  </p>
  <button
  onClick={() => login()}
- className="mt-6 inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground py-3 text-sm font-bold font-sans shadow-sm transition-all cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="mt-6 ds-btn ds-btn-primary text-sm"
  >
  Sign In to Your Account
  </button>

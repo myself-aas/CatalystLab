@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 
 export interface HeroImageCardProps {
   imageUrl: string;
@@ -58,10 +59,12 @@ export function HeroImageCard({
     >
       {/* Background Image Container */}
       <div className="absolute inset-0 bg-accent">
-        <img
+        <motion.img
           src={imageUrl}
           alt={imageAlt}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="absolute inset-0 h-full w-full object-cover"
+          whileHover={{ scale: 1.035 }}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           loading="lazy"
         />
       </div>

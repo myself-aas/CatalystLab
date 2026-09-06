@@ -219,10 +219,10 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <span>{badgeText}</span>
               </div>
             )}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
+            <h2 className="framer-section-headline text-foreground">
               {title}
             </h2>
-            <p className="text-muted-foreground font-medium text-sm sm:text-base leading-relaxed">
+            <p className="framer-body-text">
               {subtitle}
             </p>
           </div>

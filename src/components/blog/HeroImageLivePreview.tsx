@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { 
   Image as ImageIcon, 
   Eye, 
@@ -418,14 +419,17 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
 
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
             {presetImages.map((preset, idx) => (
-              <button
+              <motion.button
                 key={idx}
                 type="button"
+                whileHover={{ scale: 1.035 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => onUrlChange(preset.url)}
-                className={`relative rounded-xl overflow-hidden border aspect-[16/9] transition-all group/preset ${
+                className={`relative rounded-xl overflow-hidden border aspect-[16/9] transition-colors group/preset cursor-pointer ${
                   imageUrl === preset.url
-                    ? 'border-cyan-400 ring-2 ring-cyan-400/50 scale-102'
-                    : 'border-border hover:border-cyan-400/60 hover:scale-102'
+                    ? 'border-cyan-400 ring-2 ring-cyan-400/50'
+                    : 'border-border hover:border-cyan-400/60'
                 }`}
                 title={preset.title}
               >
@@ -438,7 +442,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover/preset:opacity-100 transition-opacity flex items-center justify-center p-1 text-[10px] font-bold text-foreground text-center line-clamp-2">
                   {preset.title.split(' ')[0]}
                 </div>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>

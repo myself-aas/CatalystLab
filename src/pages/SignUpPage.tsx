@@ -297,7 +297,7 @@ export const SignUpPage: React.FC = () => {
             type="button"
             onClick={handleGithubSignUp}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-surface border border-border hover:border-border-strong text-white text-xs font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm font-medium"
           >
             {authMethod === 'github' ? (
               <RotateCw className="size-3.5 animate-spin text-white" />
@@ -313,7 +313,7 @@ export const SignUpPage: React.FC = () => {
             type="button"
             onClick={handleGoogleSignUp}
             disabled={isSubmitting}
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-surface border border-border hover:border-border-strong text-white text-xs font-medium transition-all cursor-pointer disabled:opacity-50"
+            className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm font-medium"
           >
             {authMethod === 'google' ? (
               <RotateCw className="size-3.5 animate-spin text-white" />
@@ -461,7 +461,7 @@ export const SignUpPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="ds-btn w-full bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] active:scale-[0.98] mt-3"
+            className="ds-btn ds-btn-primary w-full text-xs sm:text-sm mt-3"
           >
             {authMethod === 'email' ? (
               <>

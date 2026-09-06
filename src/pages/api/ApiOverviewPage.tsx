@@ -77,20 +77,20 @@ export const ApiOverviewPage: React.FC = () => {
  });
 
  return (
- <div className="min-h-screen bg-background text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Top Banner Hero */}
  <div className="border-b border-border bg-background pt-12 pb-14">
- <div className="ds-page-shell lg:">
+ <div className="ds-page-shell">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
- <div className="ds-page-shell space-y-4">
- <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 py-1 text-xs font-mono font-semibold text-sky-800">
+ <div className="space-y-4 max-w-2xl">
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#00D2FF]/20 bg-[#00D2FF]/10 px-3 py-1 framer-micro-tag text-[#00D2FF]">
  <Code2 className="h-3.5 w-3.5"/>
  <span>REST API v1.0 • OpenAPI 3.1 Compliant</span>
  </div>
- <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground">
+ <h1 className="framer-section-headline text-foreground">
  CatalystLab API Reference
  </h1>
- <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+ <p className="framer-body-text">
  Automate real-time web audits, performance telemetry, security validation, and AI search readiness directly from your backend services, CI/CD pipelines, and developer workflows.
  </p>
  </div>
@@ -99,23 +99,23 @@ export const ApiOverviewPage: React.FC = () => {
  <div className="flex flex-wrap items-center gap-3">
  <button
  onClick={downloadOpenApi}
- className="ds-card items-center gap-2 text-sm font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
- <Download className="h-4 w-4 text-muted-foreground"/>
+ <Download className="h-4 w-4 shrink-0 text-muted-foreground"/>
  <span>OpenAPI 3.1 (JSON)</span>
  </button>
  <button
  onClick={downloadPostman}
- className="ds-card items-center gap-2 text-sm font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
- <FileJson className="h-4 w-4 text-amber-600"/>
+ <FileJson className="h-4 w-4 shrink-0 text-amber-400"/>
  <span>Postman Collection</span>
  </button>
  <Link
  to="/playground"
- className="inline-flex items-center gap-2 rounded-xl bg-background py-2.5 text-sm font-bold text-primary-foreground shadow-md hover:bg-muted transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="ds-btn ds-btn-primary text-xs"
  >
- <Terminal className="h-4 w-4 text-emerald-400"/>
+ <Terminal className="h-4 w-4 shrink-0 text-emerald-400"/>
  <span>Open Playground</span>
  </Link>
  </div>
@@ -137,25 +137,25 @@ export const ApiOverviewPage: React.FC = () => {
  <section className="ds-card p-6 sm:p-8 space-y-6">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
  <div>
- <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
- <Zap className="h-5 w-5 text-amber-500"/>
+ <h2 className="framer-card-title text-foreground flex items-center gap-2">
+ <Zap className="h-5 w-5 text-amber-400 shrink-0"/>
  <span>Quickstart Guide</span>
  </h2>
- <p className="text-xs text-muted-foreground mt-1">
+ <p className="framer-body-text text-xs mt-1">
  Execute your first diagnostic scan in seconds using your preferred language or cURL.
  </p>
  </div>
 
  {/* Dropdown Language Selector (No Tabview) */}
  <div className="flex items-center gap-2">
- <label htmlFor="quickstart-lang-select"className="text-xs font-semibold text-muted-foreground">
+ <label htmlFor="quickstart-lang-select" className="ds-label">
  Language:
  </label>
  <select
  id="quickstart-lang-select"
  value={selectedLanguage}
  onChange={(e) => setSelectedLanguage(e.target.value as any)}
- className="ds-card text-xs font-bold p-4"
+ className="ds-select text-xs font-mono py-1 min-h-[2.25rem] w-auto"
  >
  <option value="curl">cURL (Bash)</option>
  <option value="javascript">JavaScript (Fetch)</option>
@@ -168,14 +168,14 @@ export const ApiOverviewPage: React.FC = () => {
  </div>
 
  {/* Code Snippet Box */}
- <div className="relative rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x shadow-inner border border-border">
+ <div className="relative rounded-2xl bg-black/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x shadow-inner border border-border/80">
  <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
- <span className="text-[11px] text-muted-foreground uppercase font-bold">
+ <span className="framer-micro-tag text-muted-foreground">
  POST /api/run-engine ({selectedLanguage.toUpperCase()})
  </span>
  <button
  onClick={() => handleCopy('quickstart', quickstartCode)}
- className="flex items-center gap-1 text-[11px] font-bold text-sky-400 hover:text-sky-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="flex items-center gap-1 framer-micro-tag font-bold text-[#0066FF] hover:text-[#00D2FF] cursor-pointer"
  >
  {copiedKey === 'quickstart' ? (
  <>
@@ -190,7 +190,7 @@ export const ApiOverviewPage: React.FC = () => {
  )}
  </button>
  </div>
- <pre className="text-foreground whitespace-pre leading-relaxed">
+ <pre className="text-foreground whitespace-pre leading-relaxed font-mono">
  {quickstartCode}
  </pre>
  </div>
@@ -241,8 +241,8 @@ export const ApiOverviewPage: React.FC = () => {
  <section className="space-y-4">
  <div className="flex items-center justify-between">
  <div>
- <h2 className="text-xl font-bold text-foreground">Browse by Category</h2>
- <p className="text-xs text-muted-foreground mt-0.5">Explore dedicated documentation pages for each API cluster</p>
+ <h2 className="framer-section-headline text-foreground">Browse by Category</h2>
+ <p className="framer-body-text text-xs mt-1">Explore dedicated documentation pages for each API cluster</p>
  </div>
  </div>
 
@@ -259,21 +259,21 @@ export const ApiOverviewPage: React.FC = () => {
  >
  <div>
  <div className="flex items-center justify-between mb-3">
- <span className="text-[11px] font-mono font-bold uppercase text-muted-foreground">
+ <span className="framer-micro-tag text-muted-foreground">
  {endpointsInCat.length} Endpoints
  </span>
- <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"/>
+ <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all"/>
  </div>
- <h3 className="text-base font-bold text-foreground group-hover:text-sky-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+ <h3 className="framer-card-title text-foreground group-hover:text-[#0066FF] transition-colors">
  {cat}
  </h3>
- <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+ <p className="framer-body-text text-xs mt-1 line-clamp-2">
  {endpointsInCat[0]?.description || 'API endpoints for ' + cat}
  </p>
  </div>
- <div className="mt-4 pt-3 border-t border-border flex items-center gap-1.5 text-xs font-semibold text-sky-700">
+ <div className="mt-4 pt-3 border-t border-border flex items-center gap-1.5 text-xs font-semibold text-[#0066FF]">
  <span>View Documentation</span>
- <ArrowRight className="h-3.5 w-3.5"/>
+ <ArrowRight className="h-3.5 w-3.5 shrink-0"/>
  </div>
  </Link>
  );
@@ -285,8 +285,8 @@ export const ApiOverviewPage: React.FC = () => {
  <section className="ds-card p-6 sm:p-8 space-y-6">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
  <div>
- <h2 className="text-xl font-bold text-foreground">All Available Endpoints</h2>
- <p className="text-xs text-muted-foreground mt-0.5">Direct links to dedicated endpoint reference specifications</p>
+ <h2 className="framer-section-headline text-foreground">All Available Endpoints</h2>
+ <p className="framer-body-text text-xs mt-1">Direct links to dedicated endpoint reference specifications</p>
  </div>
  
  {/* Search Bar */}
@@ -297,7 +297,7 @@ export const ApiOverviewPage: React.FC = () => {
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="Search endpoints..."
- className="w-full rounded-xl border border-border pl-9 pr-4 px-4 py-2 text-xs font-medium text-foreground placeholder-gray-400 focus:border-sky-500 focus:outline-none"
+ className="ds-input pl-9 text-xs"
  />
  </div>
  </div>
@@ -308,14 +308,14 @@ export const ApiOverviewPage: React.FC = () => {
  return (
  <div
  key={ep.id}
- className="ds-card flex flex-col gap-3 p-4 ds-card-interactive"
+ className="ds-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 ds-card-interactive"
  >
  <div className="flex items-start sm:items-center gap-3 min-w-0">
- <span className={`.5 py-1 rounded-lg text-xs font-mono font-black uppercase shrink-0 ${
- ep.method === 'POST' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
- ep.method === 'GET' ? 'bg-sky-100 text-sky-800 border border-sky-300' :
- ep.method === 'DELETE' ? 'bg-rose-100 text-rose-800 border border-rose-300' :
- 'bg-amber-100 text-amber-800 border border-amber-300'
+ <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase shrink-0 border ${
+ ep.method === 'POST' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+ ep.method === 'GET' ? 'bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20' :
+ ep.method === 'DELETE' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+ 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
  }`}>
  {ep.method}
  </span>
@@ -324,11 +324,11 @@ export const ApiOverviewPage: React.FC = () => {
  <span className="font-mono text-xs font-bold text-foreground truncate">
  {ep.path}
  </span>
- <span className="text-[10px] font-mono py-0.5 rounded bg-accent text-muted-foreground shrink-0">
+ <span className="framer-micro-tag px-2 py-0.5 rounded bg-white/5 text-muted-foreground shrink-0">
  {ep.category}
  </span>
  </div>
- <p className="text-xs text-muted-foreground mt-0.5 truncate">
+ <p className="framer-body-text text-xs mt-0.5 truncate">
  {ep.summary}
  </p>
  </div>
@@ -337,17 +337,17 @@ export const ApiOverviewPage: React.FC = () => {
  <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
  <Link
  to={`/api-reference/category/${catSlug}#${ep.id}`}
- className="ds-card items-center gap-1.5 text-xs font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
  <span>Spec</span>
- <ChevronRight className="h-3.5 w-3.5"/>
+ <ChevronRight className="h-3.5 w-3.5 shrink-0"/>
  </Link>
  {ep.engineId && (
  <Link
  to={`/playground/${ep.engineId}`}
- className="inline-flex items-center gap-1.5 rounded-xl bg-background py-1.5 text-xs font-bold text-primary-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="ds-btn ds-btn-primary text-xs"
  >
- <Terminal className="h-3 w-3 text-emerald-400"/>
+ <Terminal className="h-3 w-3 shrink-0 text-white"/>
  <span>Test Live</span>
  </Link>
  )}

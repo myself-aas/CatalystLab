@@ -12,56 +12,60 @@ export const DiagnosticEngineCard: React.FC<Props> = ({ engine }) => {
 
   return (
     <motion.div
-      className="rounded-3xl overflow-hidden shadow-lg border border-black/20 bg-background"
+      className="ds-card overflow-hidden flex flex-col justify-between"
       variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
       initial="hidden"
       animate="visible"
       transition={{ duration: 0.4, ease: 'easeOut', staggerChildren: 0.05 }}
-      whileHover={{ y: -4, scale: 1.01, transition: { stiffness: 300, damping: 20 } }}
+      whileHover={{ y: -2, transition: { duration: 0.16 } }}
     >
-      {/* Header */}
-      <div className="p-4 flex items-center justify-between bg-muted border-b border-black/15">
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-primary/15 text-foreground border border-black/25">
-          {engine.category}
-        </span>
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setFavorited((prev) => !prev)}
-          className="p-1.5 rounded-full hover:bg-accent transition-colors"
-          aria-label={favorited ? 'Unfavorite engine' : 'Favorite engine'}
-        >
-          {favorited ? (
-            <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
-          ) : (
-            <Bookmark className="w-5 h-5 text-muted-foreground" />
-          )}
-        </motion.button>
-      </div>
-      {/* Content */}
-      <div className="p-5">
-        <h3 className="text-xl font-bold text-foreground">{engine.name}</h3>
-        <p className="mt-1 text-xs text-foreground">{engine.subtitle}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {engine.metrics.map((m, idx) => (
-            <span
-              key={idx}
-              className="px-2.5 py-1 rounded-lg text-xs font-medium bg-accent text-muted-foreground border border-border"
-            >
-              <strong className="text-foreground">{m.label}:</strong> {m.value}
-            </span>
-          ))}
+      <div>
+        {/* Header */}
+        <div className="p-4 flex items-center justify-between border-b border-border bg-white/[0.02]">
+          <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20">
+            {engine.category}
+          </span>
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setFavorited((prev) => !prev)}
+            className="p-1.5 rounded-full hover:bg-white/5 transition-colors"
+            aria-label={favorited ? 'Unfavorite engine' : 'Favorite engine'}
+          >
+            {favorited ? (
+              <Heart className="w-4 h-4 text-rose-500 fill-rose-500 shrink-0" />
+            ) : (
+              <Bookmark className="w-4 h-4 text-muted-foreground shrink-0" />
+            )}
+          </motion.button>
+        </div>
+        {/* Content */}
+        <div className="p-5 space-y-2">
+          <h3 className="framer-card-title text-foreground">{engine.name}</h3>
+          <p className="framer-body-text text-xs">{engine.subtitle}</p>
+          <div className="mt-4 flex flex-wrap gap-2 pt-2">
+            {engine.metrics.map((m, idx) => (
+              <span
+                key={idx}
+                className="framer-micro-tag px-2 py-1 rounded-md bg-white/5 text-muted-foreground border border-white/10"
+              >
+                <strong className="text-foreground">{m.label}:</strong> {m.value}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
       {/* Action */}
-      <div className="p-5 pt-0 flex items-center justify-between">
+      <div className="p-5 pt-0 flex items-center justify-between mt-4">
         <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="px-4 py-2 rounded-xl text-xs font-bold bg-primary hover:bg-primary-hover text-primary-foreground transition-all shadow-sm cursor-pointer"
+          whileHover={{ scale: 1.035 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+          className="ds-btn ds-btn-primary text-xs"
           aria-label="Run Diagnostic"
         >
           Run Diagnostic
         </motion.button>
-        <span className="text-xs text-muted-foreground font-medium">{engine.badge}</span>
+        <span className="framer-micro-tag text-muted-foreground">{engine.badge}</span>
       </div>
     </motion.div>
   );

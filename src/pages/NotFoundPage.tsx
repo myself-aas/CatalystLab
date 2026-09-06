@@ -15,45 +15,45 @@ import {
 
 export const NotFoundPage: React.FC = () => {
  return (
- <div className="min-h-screen ds-page-top bg-primary text-primary-foreground flex flex-col justify-between relative overflow-hidden pb-12">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground flex flex-col justify-between relative overflow-hidden pb-12">
  <SEOHead
  title="404 - Node Unreachable | CatalystLab Anycast Mesh"
  description="The requested routing endpoint could not be resolved across any of our 42 global Edge PoPs."
  />
 
  {/* Ambient background grid & glow */}
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(6,182,212,0.12)_0%,transparent_70%)] pointer-events-none"/>
- <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none"/>
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none"/>
+ <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none opacity-20"/>
 
- <main className="ds-page-shell lg: w-full relative z-10 my-auto">
+ <main className="ds-page-shell w-full relative z-10 my-auto">
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
  
  {/* Left Column: 404 Diagnostics & Navigation */}
  <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-xs font-mono text-amber-300 backdrop-blur-md">
- <AlertTriangle className="h-4 w-4 text-amber-400"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-1.5 framer-micro-tag text-amber-400 backdrop-blur-md">
+ <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0"/>
  <span>HTTP 404 • ANYCAST NODE UNREACHABLE</span>
  </div>
 
- <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] font-black text-primary-foreground tracking-tight leading-tight">
+ <h1 className="framer-hero-title text-foreground">
  Route Lost in the Global Mesh.
  </h1>
 
- <p className="text-base sm:text-lg text-muted-foreground font-sans leading-relaxed max-w-xl">
+ <p className="framer-body-text max-w-xl">
  The packet could not be routed to any of our 42 Anycast PoPs. The requested URL may have migrated, expired, or had its BGP routing table revised.
  </p>
 
  {/* Diagnostic Terminal Block */}
- <div className="p-4 rounded-2xl bg-primary/80 border border-border text-left font-mono text-xs text-muted-foreground space-y-1.5 shadow-2xl backdrop-blur-md">
+ <div className="ds-card p-4 text-left font-mono text-xs text-muted-foreground space-y-1.5 backdrop-blur-md">
  <div className="flex items-center justify-between text-[11px] text-muted-foreground pb-2 border-b border-border">
  <span className="flex items-center gap-1.5">
- <Terminal className="h-3.5 w-3.5 text-cyan-400"/>
+ <Terminal className="h-3.5 w-3.5 text-[#00D2FF] shrink-0"/>
  <span>EDGE_GATEWAY_TRACE</span>
  </span>
  <span className="text-amber-400">ERR_DNS_UNRESOLVED</span>
  </div>
- <div className="text-muted-foreground">Origin: <span className="text-cyan-300">Client Anycast Ingress</span></div>
+ <div className="text-muted-foreground">Origin: <span className="text-[#00D2FF]">Client Anycast Ingress</span></div>
  <div className="text-muted-foreground">Mesh Status: <span className="text-emerald-400">42 PoPs Operational</span></div>
  <div className="text-muted-foreground text-[11px]">Recommended action: Return to root routing matrix or dispatch domain diagnostic.</div>
  </div>
@@ -62,25 +62,25 @@ export const NotFoundPage: React.FC = () => {
  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
  <Link
  to="/"
- className="py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-foreground font-bold font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer"
+ className="ds-btn ds-btn-primary text-xs sm:text-sm"
  >
- <Home className="h-4 w-4"/>
+ <Home className="h-4 w-4 shrink-0"/>
  <span>Return to Home</span>
  </Link>
  
  <Link
  to="/launch-audit"
- className="py-3 rounded-xl bg-primary hover:bg-primary-hover border border-border text-primary-foreground font-bold font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
+ className="ds-btn ds-btn-secondary text-xs sm:text-sm"
  >
- <Activity className="h-4 w-4 text-cyan-400"/>
+ <Activity className="h-4 w-4 text-[#00D2FF] shrink-0"/>
  <span>Launch New Audit</span>
  </Link>
 
  <Link
  to="/pricing"
- className="py-3 rounded-xl bg-primary/60 hover:bg-primary-hover/80 border border-border text-muted-foreground font-medium font-sans text-xs sm:text-sm inline-flex items-center gap-2 transition-all cursor-pointer"
+ className="ds-btn ds-btn-ghost text-xs sm:text-sm"
  >
- <Layers className="h-4 w-4 text-muted-foreground"/>
+ <Layers className="h-4 w-4 shrink-0"/>
  <span>View 42-PoP Pricing</span>
  </Link>
  </div>
@@ -89,9 +89,9 @@ export const NotFoundPage: React.FC = () => {
 
  {/* Right Column: 3D Static Mesh Globe with Ambient Glow */}
  <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
- <div className="w-full bg-primary/40 border border-border/80 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative">
- <div className="absolute top-3 left-4 text-[10px] font-mono text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
- <Globe2 className="h-3.5 w-3.5 text-cyan-400"/>
+ <div className="w-full ds-card p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative">
+ <div className="absolute top-3 left-4 framer-micro-tag text-muted-foreground flex items-center gap-1.5">
+ <Globe2 className="h-3.5 w-3.5 text-[#00D2FF] shrink-0"/>
  <span>STATIC POPS IDLE FRAME</span>
  </div>
  

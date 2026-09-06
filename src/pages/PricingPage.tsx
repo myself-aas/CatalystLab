@@ -40,32 +40,32 @@ export const PricingPage: React.FC = () => {
  const enterprise = ALL_PLANS_LIST.find((p) => p.id === 'enterprise');
 
  return (
- <div className="relative min-h-screen bg-transparent pb-24 text-foreground">
+ <div data-theme="dark" className="relative min-h-screen ds-page-top bg-background pb-24 text-foreground">
  <SEOHead
  title="Pricing — CatalystLab"
  description="Transparent diagnostic tiers from community scans to enterprise air-gapped runners."
  />
 
- <section className="relative overflow-hidden ds-page-top-hero pb-8 w-full">
- <div className="pointer-events-none absolute left-1/2 top-0 h-[380px] w-[720px] -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]"/>
+ <section className="relative overflow-hidden pb-8 w-full">
+ <div className="pointer-events-none absolute left-1/2 top-0 h-[380px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)]" />
  <div className="relative z-10 ds-page-shell text-center">
- <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-muted/30 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-primary">
- <CreditCard className="size-3.5 text-primary"/>
+ <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-[#0066FF]">
+ <CreditCard className="size-3.5 text-[#0066FF] shrink-0"/>
  <span>Compute units, not seats-first</span>
  </div>
- <h1 className="text-gradient-linear text-4xl font-semibold tracking-[-0.03em] sm:text-6xl">
+ <h1 className="framer-hero-title text-foreground">
  Pricing that scales with the mesh.
  </h1>
- <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+ <p className="mx-auto mt-4 max-w-3xl framer-body-text">
  Start free. Unlock 42 PoPs, CI gates, and white-label dossiers when the lab outgrows a laptop.
  </p>
 
- <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-border bg-muted/30 p-1">
+ <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 font-mono text-xs">
  <button
  type="button"
  onClick={() => setAnnual(false)}
- className={`rounded-full py-1.5 text-sm font-medium transition-all duration-200 ${
- !annual ? 'bg-primary text-primary-foreground shadow-linear-cta' : 'text-muted-foreground hover:text-foreground'
+ className={`rounded-full px-3 py-1.5 transition-all duration-200 ${
+ !annual ? 'bg-white/15 text-white shadow-sm' : 'text-muted-foreground hover:text-white'
  }`}
  >
  Monthly
@@ -73,12 +73,12 @@ export const PricingPage: React.FC = () => {
  <button
  type="button"
  onClick={() => setAnnual(true)}
- className={`inline-flex items-center gap-2 rounded-full py-1.5 text-sm font-medium transition-all duration-200 ${
- annual ? 'bg-primary text-primary-foreground shadow-linear-cta' : 'text-muted-foreground hover:text-foreground'
+ className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition-all duration-200 ${
+ annual ? 'bg-white/15 text-white shadow-sm' : 'text-muted-foreground hover:text-white'
  }`}
  >
  Annual
- <span className="rounded-full bg-white/15 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider">
+ <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 text-[10px]">
  −20%
  </span>
  </button>
@@ -86,7 +86,7 @@ export const PricingPage: React.FC = () => {
  </div>
  </section>
 
- <section className="ds-page-shell lg:">
+ <section className="ds-page-shell">
  <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
  {featured.map((plan, i) => {
  const price = annual ? plan.priceAnnualMonthly : plan.priceMonthly;
@@ -102,22 +102,22 @@ export const PricingPage: React.FC = () => {
  >
  <LinearCard
  className={`flex h-full flex-col p-6 sm:p-8 ${
- popular ? 'border-primary/40 shadow-linear-cta' : ''
+ popular ? 'border-[#0066FF]/40 shadow-linear-cta' : ''
  }`}
  >
  <div className="mb-5 flex items-center justify-between">
- <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+ <span className="framer-micro-tag text-muted-foreground">
  {plan.badge}
  </span>
  {popular && (
- <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/15 py-0.5 font-mono text-[10px] uppercase tracking-wider text-primary">
- <Sparkles className="size-3"/>
+ <span className="inline-flex items-center gap-1 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-2.5 py-0.5 framer-micro-tag text-[#0066FF]">
+ <Sparkles className="size-3 shrink-0"/>
  Recommended
  </span>
  )}
  </div>
- <h2 className="text-2xl font-semibold tracking-tight text-foreground">{plan.name}</h2>
- <p className="mt-2 min-h-[44px] text-sm leading-relaxed text-muted-foreground">{plan.tagline}</p>
+ <h2 className="framer-card-title text-foreground">{plan.name}</h2>
+ <p className="mt-2 min-h-[44px] framer-body-text text-sm">{plan.tagline}</p>
  <div className="mt-6 flex items-baseline gap-1 border-y border-border py-4">
  <span className="font-mono text-4xl font-semibold tracking-tight text-foreground">${price}</span>
  <span className="font-mono text-sm text-muted-foreground">/mo</span>
@@ -147,14 +147,12 @@ export const PricingPage: React.FC = () => {
  <button
  type="button"
  onClick={() => openCheckout(plan.id)}
- className={`ds-btn mt-8 h-11 w-full text-sm font-medium active:scale-[0.98] ${
- popular
-  ? 'bg-primary text-primary-foreground shadow-linear-cta hover:bg-primary/90'
-  : 'border border-border bg-card text-foreground hover:bg-accent'
+ className={`ds-btn mt-8 h-11 w-full text-sm font-medium ${
+ popular ? 'ds-btn-primary' : 'ds-btn-secondary'
  }`}
  >
  {plan.ctaTextTrial}
- <ArrowRight className="size-4"/>
+ <ArrowRight className="size-4 shrink-0"/>
  </button>
  </LinearCard>
  </motion.div>
@@ -166,9 +164,9 @@ export const PricingPage: React.FC = () => {
  {community && (
  <LinearCard className="flex flex-col justify-between gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
  <div>
- <p className="font-mono text-[11px] uppercase tracking-widest text-primary">{community.badge}</p>
- <h3 className="mt-1 text-xl font-semibold text-foreground">{community.name}</h3>
- <p className="mt-1 max-w-3xl mx-auto text-sm text-muted-foreground">{community.tagline}</p>
+ <p className="framer-micro-tag text-[#0066FF]">{community.badge}</p>
+ <h3 className="mt-1 framer-card-title text-foreground">{community.name}</h3>
+ <p className="mt-1 framer-body-text text-sm">{community.tagline}</p>
  </div>
  <div className="flex shrink-0 items-center gap-4">
  <span className="font-mono text-3xl font-semibold text-foreground">$0</span>
@@ -184,24 +182,24 @@ export const PricingPage: React.FC = () => {
  {enterprise && (
  <LinearCard className="flex flex-col justify-between gap-6 border-primary/20 p-6 sm:flex-row sm:items-center sm:p-8">
  <div>
- <p className="font-mono text-[11px] uppercase tracking-widest text-primary">{enterprise.badge}</p>
- <h3 className="mt-1 text-xl font-semibold text-foreground">{enterprise.name}</h3>
- <p className="mt-1 max-w-3xl mx-auto text-sm text-muted-foreground">{enterprise.tagline}</p>
+ <p className="framer-micro-tag text-[#0066FF]">{enterprise.badge}</p>
+ <h3 className="mt-1 framer-card-title text-foreground">{enterprise.name}</h3>
+ <p className="mt-1 framer-body-text text-sm">{enterprise.tagline}</p>
  </div>
  <button
  type="button"
  onClick={() => openCheckout('enterprise')}
- className="ds-btn h-11 shrink-0 bg-primary text-primary-foreground shadow-linear-cta hover:bg-primary/90 text-sm font-medium px-4 active:scale-[0.98]"
+ className="ds-btn ds-btn-primary h-11 shrink-0 text-sm font-medium px-4"
  >
- Talk to us
- <ArrowRight className="size-4"/>
+ <span>Talk to us</span>
+ <ArrowRight className="size-4 shrink-0"/>
  </button>
  </LinearCard>
  )}
  </div>
  </section>
 
- <section className="mx-auto mt-24 max-w-3xl mx-auto lg:">
+ <section className="mx-auto mt-24 max-w-3xl">
  <SectionHeader
  eyebrow={<span>Model the spend</span>}
  title="Hours back. Incidents down."

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { Download, FileText, Shield, Code, Table, Printer, ChevronDown, Check } from 'lucide-react';
 import type { AuditReport } from '../../types';
 import {
@@ -89,75 +90,90 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
           </div>
 
           <div className="py-1 space-y-0.5">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => handleExport('pdf')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
-                <Printer className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+                <Printer className="w-4 h-4 text-cyan-400" />
                 <div>
                   <div className="font-semibold">Executive PDF Dossier</div>
                   <div className="text-[10px] text-muted-foreground">Native high-res print stylesheet</div>
                 </div>
               </div>
               {lastExported === 'pdf' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => handleExport('sarif')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
-                <Shield className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
+                <Shield className="w-4 h-4 text-amber-400" />
                 <div>
                   <div className="font-semibold">OASIS SARIF v2.1.0</div>
                   <div className="text-[10px] text-muted-foreground">GitHub & GitLab Code Scanning</div>
                 </div>
               </div>
               {lastExported === 'sarif' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => handleExport('cyclonedx')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
-                <FileText className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
+                <FileText className="w-4 h-4 text-indigo-400" />
                 <div>
                   <div className="font-semibold">CycloneDX v1.5 SBOM</div>
                   <div className="text-[10px] text-muted-foreground">Security & dependency standard</div>
                 </div>
               </div>
               {lastExported === 'cyclonedx' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => handleExport('csv')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
-                <Table className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                <Table className="w-4 h-4 text-emerald-400" />
                 <div>
                   <div className="font-semibold">Tabular CSV Metrics</div>
                   <div className="text-[10px] text-muted-foreground">Excel / Google Sheets breakdown</div>
                 </div>
               </div>
               {lastExported === 'csv' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-            </button>
+            </motion.button>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => handleExport('json')}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors group cursor-pointer text-left"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-muted-foreground hover:bg-primary-hover/80 hover:text-primary-foreground rounded-lg transition-colors cursor-pointer text-left"
             >
               <div className="flex items-center gap-2.5">
-                <Code className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
+                <Code className="w-4 h-4 text-purple-400" />
                 <div>
                   <div className="font-semibold">Raw Machine JSON</div>
                   <div className="text-[10px] text-muted-foreground">Complete raw telemetry payload</div>
                 </div>
               </div>
               {lastExported === 'json' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-            </button>
+            </motion.button>
           </div>
         </div>
       )}

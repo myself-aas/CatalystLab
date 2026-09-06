@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { CardMediaProps, AspectPreset, EnzymeHue } from '../types';
 import { useCardContext } from './CardContext';
 import { getMediaAsset, MediaAsset } from '../../../lib/media/registry';
@@ -137,7 +137,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
 
       {/* 2. Image Media with Normalized Grayscale & Hover Colorize */}
       {!isDegraded && currentSrc ? (
-        <img
+        <motion.img
           key={currentSrc}
           src={currentSrc}
           alt={finalAlt}
@@ -146,11 +146,12 @@ export const CardMedia: React.FC<CardMediaProps> = ({
           fetchPriority={priority ? 'high' : 'auto'}
           onLoad={() => setIsLoaded(true)}
           onError={handleError}
+          whileHover={enableHoverZoom && !prefersReducedMotion ? { scale: 1.035 } : undefined}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           className={twMerge(
             clsx(
               'w-full h-full object-cover transition-all duration-700 ease-out',
               isLoaded ? 'opacity-100' : 'opacity-0',
-              enableHoverZoom && !prefersReducedMotion && 'group-hover:scale-105',
               enableDuotone && 'grayscale-[65%] contrast-[1.1] brightness-[0.88] group-hover:grayscale-0 group-hover:brightness-95'
             )
           )}

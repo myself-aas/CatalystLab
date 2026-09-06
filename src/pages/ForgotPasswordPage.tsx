@@ -156,7 +156,7 @@ export const ForgotPasswordPage: React.FC = () => {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground mb-1.5">
+                <label className="ds-label block mb-1.5">
                   Authorized Workspace Email
                 </label>
                 <div className="relative">
@@ -166,7 +166,7 @@ export const ForgotPasswordPage: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="engineer@acme.corp"
                     required
-                    className="w-full bg-background border border-border rounded-xl px-4 py-3 pl-10 text-sm text-white placeholder-neutral-600 focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF] outline-none transition-all"
+                    className="ds-input pl-10 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary w-full"
                   />
                   <Mail className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
                 </div>
@@ -175,11 +175,11 @@ export const ForgotPasswordPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-white text-black font-semibold hover:bg-neutral-200 rounded-xl py-3 px-4 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                className="ds-btn ds-btn-primary w-full text-xs sm:text-sm mt-2"
               >
                 {isSubmitting ? (
                   <>
-                    <RotateCw className="size-4 animate-spin text-black" />
+                    <RotateCw className="size-4 animate-spin text-white" />
                     <span>Signing Cryptographic Token...</span>
                   </>
                 ) : (
@@ -244,7 +244,7 @@ export const ForgotPasswordPage: React.FC = () => {
                 type="button"
                 onClick={handleResend}
                 disabled={isSubmitting || countdown > 840}
-                className="w-full bg-surface hover:bg-surface border border-border hover:border-border-strong text-white text-xs font-medium py-2.5 px-4 rounded-xl transition-all disabled:opacity-40 cursor-pointer"
+                className="ds-btn ds-btn-secondary w-full text-xs font-medium py-2.5 px-4"
               >
                 {countdown > 840 ? `Resend Available in ${countdown - 840}s` : 'Resend Recovery Link'}
               </button>

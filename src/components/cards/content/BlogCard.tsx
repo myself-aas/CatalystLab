@@ -185,7 +185,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           </Link>
 
           {/* Excerpt */}
-          <p className="mt-2 text-xs text-muted-foreground line-clamp-2 leading-relaxed font-sans">
+          <p className="mt-2 framer-body-text line-clamp-2">
             {excerpt}
           </p>
         </div>

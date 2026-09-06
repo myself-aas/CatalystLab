@@ -57,13 +57,13 @@ export const HeroSection: React.FC = () => {
             </Link>
           </motion.div>
 
-          <h1 className="mb-6 text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[1.05] text-white drop-shadow-sm">
+          <h1 className="mb-6 framer-hero-title text-white drop-shadow-sm">
             Deep visibility.<br />
             Zero overhead.<br />
             Autonomous edge intelligence.
           </h1>
 
-          <p className="mx-auto mb-10 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed tracking-[-0.01em]">
+          <p className="mx-auto mb-10 max-w-2xl framer-body-text">
             Inspect Core Web Vitals, OWASP transport security, AI manifests, and edge nodes in real time — without an SDK or a single line of instrumentation.
           </p>
 
@@ -91,10 +91,10 @@ export const HeroSection: React.FC = () => {
               whileHover={{ scale: 1.035 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052cc] text-white text-sm font-medium rounded-xl sm:rounded-full px-5 py-2.5 transition-all shadow-[0_0_20px_-3px_rgba(0,102,255,0.5)] flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+              className="ds-btn ds-btn-primary w-full sm:w-auto text-sm font-medium rounded-xl sm:rounded-full px-5 py-2.5 shadow-[0_0_20px_-3px_rgba(0,102,255,0.5)] shrink-0 cursor-pointer"
             >
               <span>Run Instant Audit</span>
-              <ArrowRight className="size-4" />
+              <ArrowRight className="size-4 shrink-0" />
             </motion.button>
           </motion.form>
 

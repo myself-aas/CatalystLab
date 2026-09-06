@@ -80,10 +80,10 @@ export const MeshNetworkSection: React.FC = () => {
               <Radio className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
               <span>Phase 5 • Synchronous Edge Mesh Radar</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-primary-foreground">
+            <h2 className="framer-section-headline text-primary-foreground">
               42-Node Global Anycast Mesh
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground mt-3 leading-relaxed font-normal">
+            <p className="mt-3 framer-body-text">
               Continuous sub-20ms edge verification. Every health audit dispatches synchronous TCP/TLS handshakes and HTTP/3 QUIC probes to nearest cloud gateways.
             </p>
           </LazyReveal>

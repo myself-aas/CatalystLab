@@ -256,40 +256,39 @@ export const ComparePage: React.FC = () => {
  }
  };
 
- return (
- <div className="min-h-screen bg-transparent pb-24 text-foreground">
+  return (
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background pb-24 text-foreground">
  <SEOHead
- title="Side-by-Side Delta Comparison"
+ title="Side-by-Side Delta Comparison — CatalystLab"
  description="Benchmark performance, security headers, and DOM complexity between two competing websites in real-time."
  keywords={['site comparison', 'benchmark websites', 'performance comparison', 'OWASP headers', 'DOM complexity']}
  canonicalUrl="https://www.catalystlab.tech/compare"
  />
 
  {/* Header */}
- <section className="relative overflow-hidden border-b border-border ds-page-top-hero pb-16 sm:pb-20 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,#06b6d420_0%,transparent_75%)] pointer-events-none z-0"/>
- <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border pb-16 sm:pb-20 w-full">
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,210,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
 
  <div className="relative z-10 ds-page-shell text-center space-y-4">
- <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 py-1.5 text-xs font-mono font-bold text-cyan-400 shadow-xs backdrop-blur-md">
- <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 framer-micro-tag text-[#00D2FF] shadow-xs backdrop-blur-md">
+ <span className="h-2 w-2 rounded-full bg-[#00D2FF] animate-pulse shrink-0"/>
  <span>SIDE-BY-SIDE COMPARATIVE TELEMETRY</span>
  </div>
 
- <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-[1.08]">
+ <h1 className="framer-hero-title text-foreground">
  Head-to-Head Telemetry{' '}
- <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-400 to-blue-500">
+ <span className="text-[#00D2FF]">
  Delta Matrix
  </span>
  </h1>
- <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto font-sans font-normal leading-relaxed">
+ <p className="framer-body-text max-w-xl mx-auto">
  Benchmark performance, security headers, and DOM complexity between two competing web architectures with synchronous multi-engine delta calculations.
  </p>
  </div>
  </section>
 
  {/* Main Matrix Workspace */}
- <main className="ds-page-shell lg:">
+ <main className="ds-page-shell mt-8">
  <SideBySideDeltaMatrix
  reportA={reportA}
  reportB={reportB}

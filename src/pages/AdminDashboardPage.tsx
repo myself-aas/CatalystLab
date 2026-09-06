@@ -49,44 +49,44 @@ export const AdminDashboardPage: React.FC = () => {
   // Access Control: Strict Superadmin Authorization Gate
   if (!user || !isAdmin) {
     return (
-      <div className="min-h-screen bg-black text-white font-mono flex items-center justify-center p-4 relative overflow-hidden">
+      <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-mono flex items-center justify-center p-4 relative overflow-hidden">
         {/* Subsurface glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
         
         <SEOHead
           title="Superadmin Access Required — CatalystLab"
           description="The CatalystLab Command Center and Infrastructure Radar are strictly restricted to authorized Primary Superadmins."
         />
 
-        <div className="w-full max-w-md p-6 sm:p-8 bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
+        <div className="w-full max-w-md p-6 sm:p-8 ds-card backdrop-blur-xl relative z-10 text-center">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-[#00D2FF] border border-border mb-4 shadow-inner">
             <Lock className="h-6 w-6" />
           </div>
 
           {/* Admin badge */}
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-wider uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-3">
-            <span>Access Control Restriced</span>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full framer-micro-tag bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-3">
+            <span>Access Control Restricted</span>
           </div>
 
-          <h1 className="text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-white font-sans">
+          <h1 className="framer-card-title text-xl sm:text-2xl text-foreground">
             Superadmin Access Required
           </h1>
           
-          <p className="mt-2 text-xs text-muted-foreground leading-relaxed font-sans">
+          <p className="mt-2 framer-body-text text-xs leading-relaxed">
             The CatalystLab Command Center, 38-PoP edge mesh control, and quota allocations are strictly restricted to authorized Primary Superadmins.
           </p>
 
           {user ? (
             <div className="mt-5 p-3.5 rounded-xl bg-background border border-border text-xs font-mono text-left space-y-1">
               <div className="text-muted-foreground">Signed in as:</div>
-              <div className="text-white font-medium truncate">{user.email}</div>
+              <div className="text-foreground font-medium truncate">{user.email}</div>
               <div className="mt-2 text-amber-400 font-sans text-[11px] flex items-center gap-1.5 pt-1.5 border-t border-border">
                 <ShieldAlert className="h-3.5 w-3.5 shrink-0" />
                 <span>This account is not in the Primary Superadmin registry.</span>
               </div>
             </div>
           ) : (
-            <p className="mt-4 text-xs text-muted-foreground font-sans">
+            <p className="mt-4 framer-body-text text-xs">
               Authenticate with an authorized superadmin Google account, or activate a sandbox preview session.
             </p>
           )}
@@ -95,7 +95,7 @@ export const AdminDashboardPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
               <Link
                 to="/"
-                className="w-full sm:w-1/2 py-2.5 px-4 rounded-xl bg-white/5 border border-border hover:border-border-strong text-white text-xs font-mono font-medium transition-all text-center"
+                className="ds-btn ds-btn-secondary text-xs w-full sm:w-1/2"
               >
                 &larr; Back to Home
               </Link>
@@ -103,16 +103,16 @@ export const AdminDashboardPage: React.FC = () => {
               {user ? (
                 <button
                   onClick={() => logout().then(() => login())}
-                  className="w-full sm:w-1/2 py-2.5 px-4 rounded-xl bg-white text-black font-semibold hover:bg-neutral-200 text-xs font-mono transition-all cursor-pointer shadow-lg"
+                  className="ds-btn ds-btn-primary text-xs w-full sm:w-1/2"
                 >
                   Switch Account
                 </button>
               ) : (
                 <button
                   onClick={() => login()}
-                  className="w-full sm:w-1/2 py-2.5 px-4 rounded-xl bg-white text-black font-semibold hover:bg-neutral-200 text-xs font-mono transition-all cursor-pointer shadow-lg flex items-center justify-center gap-1.5"
+                  className="ds-btn ds-btn-primary text-xs w-full sm:w-1/2 flex items-center justify-center gap-1.5"
                 >
-                  <LogIn className="size-3.5 text-black" />
+                  <LogIn className="size-3.5 shrink-0" />
                   <span>Google SSO</span>
                 </button>
               )}
@@ -126,9 +126,9 @@ export const AdminDashboardPage: React.FC = () => {
                     displayName: 'Asif Ahmed Shuvo (Superadmin)',
                     isAdmin: true
                   })}
-                  className="w-full py-2 px-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-mono transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full py-2 px-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-mono transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
                   <span>Dev-only preview session</span>
                 </button>
 
@@ -156,30 +156,30 @@ export const AdminDashboardPage: React.FC = () => {
       />
 
       {/* Admin Shell Header Banner */}
-      <section className="border-b border-border bg-surface pt-8 pb-6 px-4 sm:px-6 lg:px-10">
+      <section className="border-b border-border bg-card pt-8 pb-6 px-4 sm:px-6 lg:px-10">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               {/* Specification 5.1: Banner Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wide bg-cyan-500/10 text-[#00D2FF] border border-cyan-500/20 mb-2">
-                <Terminal className="size-3.5 text-amber-400" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full framer-micro-tag bg-cyan-500/10 text-[#00D2FF] border border-cyan-500/20 mb-2">
+                <Terminal className="size-3.5 text-amber-400 shrink-0" />
                 <span>[ SYSTEM ADMIN · ROOT PRIVILEGES ENABLED ]</span>
               </div>
               
-              <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.04em] text-white">
+              <h1 className="framer-section-headline text-2xl sm:text-3xl text-foreground">
                 Infrastructure Radar &amp; Control Console
               </h1>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
+              <p className="framer-body-text text-xs sm:text-sm mt-1 max-w-2xl">
                 Global 38-PoP edge mesh management, multi-tenant quota enforcement, SDLC worker compute telemetry, and OWASP SOC2 compliance logs.
               </p>
             </div>
 
             {/* Superadmin Status Pill */}
             <div className="flex items-center gap-3 shrink-0">
-              <div className="px-3.5 py-2 rounded-xl bg-surface border border-border flex items-center gap-2.5 font-mono text-xs">
-                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-white truncate max-w-[180px]">{user.email}</span>
-                <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 text-[10px] font-semibold border border-amber-500/20">
+              <div className="px-3.5 py-2 rounded-xl ds-card flex items-center gap-2.5 font-mono text-xs">
+                <span className="size-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                <span className="text-foreground truncate max-w-[180px]">{user.email}</span>
+                <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 text-[10px] font-semibold border border-amber-500/20 font-mono">
                   ROOT
                 </span>
               </div>
@@ -192,11 +192,11 @@ export const AdminDashboardPage: React.FC = () => {
               onClick={() => handleTabChange('mesh')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'mesh'
-                  ? 'bg-white text-black font-semibold'
+                  ? 'bg-white/15 text-white shadow-sm font-semibold'
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
-              <Globe className="size-3.5" />
+              <Globe className="size-3.5 shrink-0" />
               <span>Global Mesh Topology</span>
             </button>
 
@@ -204,11 +204,11 @@ export const AdminDashboardPage: React.FC = () => {
               onClick={() => handleTabChange('tenants')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'tenants'
-                  ? 'bg-white text-black font-semibold'
+                  ? 'bg-white/15 text-white shadow-sm font-semibold'
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
-              <Sliders className="size-3.5" />
+              <Sliders className="size-3.5 shrink-0" />
               <span>Tenants &amp; Organizations</span>
             </button>
 
@@ -216,11 +216,11 @@ export const AdminDashboardPage: React.FC = () => {
               onClick={() => handleTabChange('compute')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'compute'
-                  ? 'bg-white text-black font-semibold'
+                  ? 'bg-white/15 text-white shadow-sm font-semibold'
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
-              <Cpu className="size-3.5" />
+              <Cpu className="size-3.5 shrink-0" />
               <span>Engine Load &amp; Compute</span>
             </button>
 
@@ -228,11 +228,11 @@ export const AdminDashboardPage: React.FC = () => {
               onClick={() => handleTabChange('owasp')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'owasp'
-                  ? 'bg-white text-black font-semibold'
+                  ? 'bg-white/15 text-white shadow-sm font-semibold'
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
-              <ShieldAlert className="size-3.5" />
+              <ShieldAlert className="size-3.5 shrink-0" />
               <span>OWASP Ingress Rules</span>
             </button>
 
@@ -240,11 +240,11 @@ export const AdminDashboardPage: React.FC = () => {
               onClick={() => handleTabChange('monitoring')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'monitoring'
-                  ? 'bg-white text-black font-semibold'
+                  ? 'bg-white/15 text-white shadow-sm font-semibold'
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
-              <Activity className="size-3.5" />
+              <Activity className="size-3.5 shrink-0" />
               <span>Host Health Radar</span>
             </button>
 
@@ -252,11 +252,11 @@ export const AdminDashboardPage: React.FC = () => {
               onClick={() => handleTabChange('blogs')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'blogs'
-                  ? 'bg-white text-black font-semibold'
+                  ? 'bg-white/15 text-white shadow-sm font-semibold'
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
-              <BookOpen className="size-3.5" />
+              <BookOpen className="size-3.5 shrink-0" />
               <span>Content &amp; Blog CMS</span>
             </button>
 
@@ -264,11 +264,11 @@ export const AdminDashboardPage: React.FC = () => {
               onClick={() => handleTabChange('inquiries')}
               className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
                 activeTab === 'inquiries'
-                  ? 'bg-white text-black font-semibold'
+                  ? 'bg-white/15 text-white shadow-sm font-semibold'
                   : 'text-muted-foreground hover:text-white hover:bg-white/5'
               }`}
             >
-              <Mail className="size-3.5" />
+              <Mail className="size-3.5 shrink-0" />
               <span>Contact Inquiries</span>
             </button>
           </div>

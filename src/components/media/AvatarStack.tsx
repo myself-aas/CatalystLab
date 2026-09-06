@@ -87,10 +87,13 @@ const AvatarSingle: React.FC<{
   const currentSrc = sources[sourceIdx] || avatar.imageUrl || asset?.url || '';
 
   return (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.035, zIndex: 30 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => onHover(avatar)}
       onMouseLeave={() => onHover(null)}
-      className={`relative ${isFirst ? 'ml-0' : sizeClasses} transition-transform duration-300 hover:scale-115 hover:z-30 cursor-pointer`}
+      className={`relative ${isFirst ? 'ml-0' : sizeClasses} cursor-pointer`}
     >
       <div className="w-full h-full rounded-full border-2 border-background overflow-hidden bg-muted shadow-md">
         {!isDegraded && currentSrc ? (

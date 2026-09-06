@@ -510,24 +510,30 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           
           {/* Action-Oriented Pinned CTA - Phase 3 */}
           <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-4 shrink-0 bg-background/80 backdrop-blur-md border-t border-border/50 z-20">
-            <Link
-              to="/audit"
-              onClick={onClose}
-              className="relative group/launch overflow-hidden flex items-center justify-between w-full rounded-2xl bg-accent p-3.5 text-white font-medium shadow-linear-cta transition-transform hover:scale-[1.01] active:scale-[0.99] hover:bg-accent-bright"
-              aria-label="Launch Master Audit"
+            <motion.div
+              whileHover={{ scale: 1.035 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/launch:translate-x-full transition-transform duration-700 ease-out" />
-              <div className="flex items-center gap-3">
-                <div className="size-8.5 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Sparkles className="size-4.5 text-indigo-200" aria-hidden="true" />
+              <Link
+                to="/audit"
+                onClick={onClose}
+                className="relative group/launch overflow-hidden flex items-center justify-between w-full rounded-2xl bg-accent p-3.5 text-white font-medium shadow-linear-cta transition-colors hover:bg-accent-bright"
+                aria-label="Launch Master Audit"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/launch:translate-x-full transition-transform duration-700 ease-out" />
+                <div className="flex items-center gap-3">
+                  <div className="size-8.5 rounded-xl bg-white/10 flex items-center justify-center">
+                    <Sparkles className="size-4.5 text-indigo-200" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <div className="text-[13px] font-semibold">Launch Master Audit</div>
+                    <div className="text-xs text-indigo-200/80">Audit 8 vectors concurrently</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-[13px] font-semibold">Launch Master Audit</div>
-                  <div className="text-xs text-indigo-200/80">Audit 8 vectors concurrently</div>
-                </div>
-              </div>
-              <ArrowRight className="size-4.5 text-white/80 group-hover/launch:translate-x-1 transition-transform" aria-hidden="true" />
-            </Link>
+                <ArrowRight className="size-4.5 text-white/80 group-hover/launch:translate-x-1 transition-transform" aria-hidden="true" />
+              </Link>
+            </motion.div>
           </div>
 
           {/* Bottom Footer Bar inside Overlay */}

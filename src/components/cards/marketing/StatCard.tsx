@@ -47,7 +47,7 @@ export const StatCard: React.FC<StatCardProps> = ({
               {icon}
             </div>
           )}
-          <span className="text-xs font-sans font-bold text-muted-foreground tracking-wider uppercase">
+          <span className="framer-micro-tag text-muted-foreground">
             {label}
           </span>
         </div>
@@ -72,7 +72,7 @@ export const StatCard: React.FC<StatCardProps> = ({
           <span>{value}</span>
         </div>
         {subLabel && (
-          <p className="mt-2 text-sm text-muted-foreground font-sans font-medium line-clamp-2">
+          <p className="mt-2 framer-body-text line-clamp-2">
             {subLabel}
           </p>
         )}

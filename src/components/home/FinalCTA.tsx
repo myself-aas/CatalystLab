@@ -16,14 +16,14 @@ export const FinalCTA: React.FC = () => {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-2xl"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.04em] text-[#0066FF] backdrop-blur-md">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
             <Sparkles className="size-3.5 text-[#0066FF]" />
             <span>Zero SDK overhead</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] font-semibold tracking-[-0.035em] leading-[1.12] text-white">
+          <h2 className="framer-section-headline text-white">
             Ready to analyze your domain?
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground tracking-[-0.01em]">
+          <p className="mx-auto mt-6 max-w-xl framer-body-text">
             Eight engines, 42 PoPs, a composite dossier — in the time it takes to paste a URL.
           </p>
         </motion.div>

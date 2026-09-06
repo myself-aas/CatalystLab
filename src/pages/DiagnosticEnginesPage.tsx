@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 export const DiagnosticEnginesPage: React.FC = () => {
  return (
- <div className="min-h-screen bg-background pb-24 text-foreground selection:bg-primary selection:text-primary-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground">
  <SEOHead
  title="Diagnostic Engines Catalog — CatalystLab"
  description="Explore the 8 standalone automated diagnostic engines of CatalystLab: performance, security, LLM readiness, and carbon intelligence."
@@ -16,33 +16,29 @@ export const DiagnosticEnginesPage: React.FC = () => {
  />
 
  {/* Top Banner Hero */}
- <section className="relative overflow-hidden border-b border-border bg-muted ds-page-top-hero pb-16 sm:pb-20 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0"/>
- <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border bg-background py-12 sm:py-16 w-full">
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.08)_0%,transparent_70%)] pointer-events-none" />
 
- <div className="relative z-10 w-full sm:px-6 lg:px-8">
+ <div className="ds-page-shell">
  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
- <div className="ds-page-shell space-y-4">
+ <div className="space-y-4 max-w-2xl">
  <div className="flex flex-wrap items-center gap-2">
- <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/90 backdrop-blur-md px-3.5 py-1 text-xs font-mono font-bold text-foreground uppercase tracking-wider shadow-xs">
- <Cpu className="h-3.5 w-3.5 text-blue-600"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-foreground">
+ <Cpu className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>
  8 SDLC Micro-Engines
  </span>
- <span className="inline-flex items-center gap-1 rounded-full border border-border bg-background py-1 text-xs font-mono font-semibold text-muted-foreground shadow-xs">
+ <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-muted-foreground">
  Deterministic Probes
  </span>
- <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 py-1 text-xs font-mono font-bold text-emerald-800 shadow-xs">
+ <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 framer-micro-tag text-emerald-400">
  Python 3.11 Runtime
  </span>
  </div>
 
- <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground font-sans leading-[1.1]">
- Diagnostic Engines{' '}
- <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-background">
- Catalog
- </span>
+ <h1 className="framer-section-headline text-foreground">
+ Diagnostic Engines Catalog
  </h1>
- <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-sans font-normal max-w-2xl">
+ <p className="framer-body-text">
  Independent telemetry probes measuring Web Vitals, LLM crawler access, multi-region latency, OWASP compliance, and green hosting carbon metrics.
  </p>
  </div>
@@ -50,10 +46,10 @@ export const DiagnosticEnginesPage: React.FC = () => {
  <div className="shrink-0">
  <Link
  to="/master-audit"
- className="inline-flex items-center gap-2.5 rounded-xl bg-primary hover:bg-primary-hover py-3.5 text-xs sm:text-sm font-bold text-primary-foreground shadow-sm transition-all cursor-pointer font-mono active:scale-95"
+ className="ds-btn ds-btn-primary text-xs sm:text-sm"
  >
  <span>Run Full Master Audit</span>
- <ArrowRight className="h-4 w-4 text-blue-400"/>
+ <ArrowRight className="h-4 w-4 shrink-0"/>
  </Link>
  </div>
  </div>

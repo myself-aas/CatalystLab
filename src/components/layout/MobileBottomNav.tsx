@@ -53,17 +53,20 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMenu }) 
             </NavLink>
           );
         })}
-        <button
+        <motion.button
+          whileHover={{ scale: 1.035 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           onClick={onOpenMenu}
-          className="relative flex flex-col items-center justify-center w-full h-full gap-1 ds-muted hover:text-foreground transition-all group active:scale-95"
+          className="relative flex flex-col items-center justify-center w-full h-full gap-1 ds-muted hover:text-foreground transition-colors group cursor-pointer"
         >
           <div className="p-1 rounded-xl group-hover:bg-black/5 dark:group-hover:bg-white/5 transition-colors">
-            <Menu className="size-5 transition-transform duration-200 group-hover:scale-110" />
+            <Menu className="size-5" />
           </div>
           <span className="text-[11px] font-medium tracking-tight ds-muted group-hover:text-foreground transition-colors">
             Menu
           </span>
-        </button>
+        </motion.button>
       </div>
     </div>
   );

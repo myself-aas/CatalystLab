@@ -57,10 +57,10 @@ export const WorkflowSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <LazyReveal direction="up">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] text-white">
+            <h2 className="framer-section-headline text-white">
               Four Gates. 1.06s P95.
             </h2>
-            <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-4 leading-relaxed tracking-[-0.01em]">
+            <p className="mt-4 max-w-2xl framer-body-text">
               From global edge DNS resolution to instant zero-latency remediation patches in under 1,060ms total execution time.
             </p>
           </LazyReveal>
@@ -97,7 +97,7 @@ export const WorkflowSection: React.FC = () => {
                     </div>
 
                     <div className="lg:text-center lg:mt-6 space-y-2">
-                      <h3 className="text-lg font-medium text-white tracking-[-0.02em]">
+                      <h3 className="framer-card-title text-white">
                         <span className="text-[#0066FF] mr-2 font-mono">{step.number}.</span>
                         {step.title.split(' (')[0]}
                       </h3>
@@ -106,7 +106,7 @@ export const WorkflowSection: React.FC = () => {
                           {step.title.match(/\((.*?)\)/)?.[1]}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed tracking-[-0.01em]">
+                      <p className="framer-body-text">
                         {step.description}
                       </p>
                     </div>

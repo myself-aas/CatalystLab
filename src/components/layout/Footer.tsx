@@ -184,7 +184,7 @@ export const Footer: React.FC = () => {
                           aria-label={link.badge ? `${link.label} — ${link.badge}` : link.label}
                         >
                           <span className="flex items-center gap-2 truncate">
-                            <Icon className="size-3.5 shrink-0 text-muted-foreground group-hover:text-[#00D2FF] group-hover:scale-110 transition-all duration-150" />
+                            <Icon className="size-3.5 shrink-0 text-muted-foreground group-hover:text-[#00D2FF] transition-colors duration-150" />
                             <span className="truncate group-hover:translate-x-0.5 transition-transform duration-150">
                               {link.label}
                             </span>

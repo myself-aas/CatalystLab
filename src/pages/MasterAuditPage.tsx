@@ -22,7 +22,7 @@ export const MasterAuditPage: React.FC = () => {
  }, []);
 
  return (
- <div className="min-h-full bg-transparent font-sans text-foreground">
+  <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Precision Telemetry & Autonomous Web Health Auditing"
  description="Run immediate multi-dimensional audits on any domain."

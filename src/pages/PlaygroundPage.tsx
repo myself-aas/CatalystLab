@@ -468,39 +468,39 @@ func main() {
  };
 
  return (
- <div className="min-h-screen bg-background pb-24 text-foreground selection:bg-primary selection:text-primary-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground selection:bg-[#0066FF] selection:text-white">
  <SEOHead
- title="Live REST API Playground"
+ title="Live REST API Playground — CatalystLab"
  description="Interactive REST test harness for single diagnostic engines and composite master audits."
  keywords={['API playground', 'REST test harness', 'audit API', 'telemetry endpoint']}
  canonicalUrl="https://www.catalystlab.tech/playground"
  />
  
  {/* Top Header Hero */}
- <section className="relative overflow-hidden border-b border-border bg-muted ds-page-top pb-10 sm:pb-12 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border bg-card pt-8 pb-10 sm:pb-12 w-full">
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
  <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 
- <div className="relative z-10 w-full sm:px-6 lg:px-8">
+ <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  
  <div className="flex items-center gap-4">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-background border border-border/90 text-foreground shadow-xs backdrop-blur-md">
- <Terminal className="h-6 w-6 text-blue-600"/>
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-border text-[#00D2FF] shadow-xs backdrop-blur-md shrink-0">
+ <Terminal className="h-6 w-6 text-[#0066FF]"/>
  </div>
  <div>
  <div className="flex flex-wrap items-center gap-2.5">
- <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight font-sans">
+ <h1 className="framer-section-headline text-2xl sm:text-3xl text-foreground font-semibold">
  Engine Test{' '}
- <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+ <span className="text-[#0066FF]">
  Playground
  </span>
  </h1>
- <span className="rounded-full bg-accent/80 border border-border/80 py-1 text-xs font-mono font-bold text-foreground">
+ <span className="rounded-full bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-[#00D2FF]">
  {endpointPath}
  </span>
  </div>
- <p className="text-xs sm:text-sm text-muted-foreground mt-1 font-mono">
+ <p className="framer-body-text text-xs sm:text-sm mt-1 font-mono">
  Interactive REST test harness for single diagnostic engines and composite master audits.
  </p>
  </div>
@@ -510,17 +510,17 @@ func main() {
  <div className="flex flex-wrap items-center gap-3 font-mono">
  <Link
  to="/dashboard?tab=api-keys"
- className="ds-card flex items-center gap-2 text-xs font-bold text-muted-foreground shadow-xs ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
- <Key className="h-3.5 w-3.5 text-amber-500"/>
+ <Key className="h-3.5 w-3.5 text-amber-400 shrink-0"/>
  <span>API Keys &amp; White-Label</span>
  </Link>
  
  <Link
  to="/api-docs"
- className="ds-card flex items-center gap-2 text-xs font-bold text-muted-foreground shadow-xs ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
- <FileJson className="h-3.5 w-3.5 text-blue-600"/>
+ <FileJson className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>
  <span>OpenAPI Docs</span>
  </Link>
  </div>
@@ -640,7 +640,7 @@ func main() {
  value={targetUrl}
  onChange={(e) => setTargetUrl(e.target.value)}
  placeholder="https://example.com"
- className="ds-card w-full text-xs p-4"
+ className="ds-input w-full pl-9 pr-3 text-xs"
  />
  </div>
  </div>
@@ -654,7 +654,7 @@ func main() {
  <select
  value={selectedEngineId}
  onChange={(e) => handleEngineChange(e.target.value)}
- className="ds-card w-full text-xs p-4"
+ className="ds-select w-full text-xs"
  >
  {ENGINE_OPTIONS.filter(e => e.id !== 'master').map((opt) => (
  <option key={opt.id} value={opt.id}>
@@ -728,7 +728,7 @@ func main() {
  placeholder="e.g. Acme Telemetry Enterprise"
  value={customBrandHeader}
  onChange={(e) => setCustomBrandHeader(e.target.value)}
- className="ds-card w-full text-xs p-4"
+ className="ds-input w-full text-xs"
  />
  </div>
 
@@ -755,7 +755,7 @@ func main() {
  rows={8}
  value={rawJsonPayload}
  onChange={(e) => setRawJsonPayload(e.target.value)}
- className="ds-card w-full p-3 text-xs font-mono"
+ className="ds-card w-full p-3 text-xs font-mono focus:outline-none focus:border-[#0066FF]"
  placeholder="{\n &quot;engine&quot;: &quot;health&quot;,\n &quot;url&quot;: &quot;https://example.com&quot;\n}"
  />
  </div>
@@ -772,14 +772,14 @@ func main() {
  <button
  type="button"
  onClick={() => setAuthMode('session')}
- className={` py-0.5 rounded cursor-pointer ${authMode === 'session' ? 'bg-primary text-primary-foreground font-bold' : 'text-muted-foreground'}`}
+ className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'session' ? 'bg-white/15 text-white font-bold' : 'text-muted-foreground hover:text-white'}`}
  >
  Session
  </button>
  <button
  type="button"
  onClick={() => setAuthMode('apiKey')}
- className={` py-0.5 rounded cursor-pointer ${authMode === 'apiKey' ? 'bg-primary text-primary-foreground font-bold' : 'text-muted-foreground'}`}
+ className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'apiKey' ? 'bg-white/15 text-white font-bold' : 'text-muted-foreground hover:text-white'}`}
  >
  API Key
  </button>
@@ -792,7 +792,7 @@ func main() {
  <select
  value={selectedApiKey}
  onChange={(e) => setSelectedApiKey(e.target.value)}
- className="ds-card w-full text-xs p-4"
+ className="ds-select w-full text-xs"
  >
  {userApiKeys.map((k) => (
  <option key={k.id} value={k.keyPrefix.replace('...', '')}>
@@ -801,9 +801,9 @@ func main() {
  ))}
  </select>
  ) : (
- <div className="flex items-center justify-between rounded-xl bg-amber-50 border border-amber-200 p-2 text-xs text-amber-800">
+ <div className="flex items-center justify-between rounded-xl bg-amber-500/10 border border-amber-500/20 p-2 text-xs text-amber-400">
  <span>No saved keys found.</span>
- <Link to="/dashboard?tab=api-keys"className="font-bold underline">
+ <Link to="/dashboard?tab=api-keys" className="font-bold underline">
  Generate Key
  </Link>
  </div>
@@ -822,10 +822,10 @@ func main() {
  type="button"
  onClick={handleRunEngine}
  disabled={executing || (rateStatus.remaining <= 0 && !isAdmin)}
- className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold text-primary-foreground shadow-md transition-all active:scale-[0.98] cursor-pointer ${
+ className={`ds-btn text-xs w-full justify-center ${
  rateStatus.remaining <= 0 && !isAdmin
- ? 'bg-rose-600 border border-rose-500 cursor-not-allowed opacity-80'
- : 'bg-primary hover:bg-primary-hover border border-border'
+ ? 'bg-rose-600/20 text-rose-400 border border-rose-500/30 cursor-not-allowed opacity-80'
+ : 'ds-btn-primary'
  }`}
  >
  {executing ? (
@@ -1153,16 +1153,16 @@ func main() {
  setCopiedSnippet(true);
  setTimeout(() => setCopiedSnippet(false), 2000);
  }}
- className="ds-card flex items-center gap-1 text-xs font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
  {copiedSnippet ? (
  <>
- <Check className="h-3 w-3 text-emerald-500"/>
- <span className="text-emerald-500">Copied</span>
+ <Check className="h-3 w-3 text-emerald-400 shrink-0"/>
+ <span className="text-emerald-400">Copied</span>
  </>
  ) : (
  <>
- <Copy className="h-3 w-3 text-muted-foreground"/>
+ <Copy className="h-3 w-3 text-muted-foreground shrink-0"/>
  <span>Copy Snippet</span>
  </>
  )}

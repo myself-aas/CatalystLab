@@ -602,7 +602,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                   {/* Left: Icon and Name */}
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div
-                      className="p-2 rounded-lg border shrink-0 transition-transform group-hover:scale-105"
+                      className="p-2 rounded-lg border shrink-0"
                       style={{
                         backgroundColor: `${dim.color}15`,
                         borderColor: `${dim.color}40`,

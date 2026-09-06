@@ -67,7 +67,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
 
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     SynthShift &amp; Schema Validation
                   </h3>
                   <Link
@@ -78,7 +78,7 @@ export const EnzymeGrid: React.FC = () => {
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1 framer-body-text">
                   Translates deprecated runtime payloads into zero-overhead modern schemas via AST diff patches.
                 </p>
 
@@ -188,7 +188,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
 
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     VitalZyme
                   </h3>
                   <Link
@@ -199,7 +199,7 @@ export const EnzymeGrid: React.FC = () => {
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1 framer-body-text">
                   Microsecond-precision Core Web Vitals diagnostic engine.
                 </p>
 
@@ -259,7 +259,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
 
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     EdgeKinase &amp; Mesh
                   </h3>
                   <Link
@@ -270,7 +270,7 @@ export const EnzymeGrid: React.FC = () => {
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1 framer-body-text">
                   Global 38-PoP edge handshake and zero-RTT packet telemetry.
                 </p>
 
@@ -337,7 +337,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
 
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     RiskProtease &amp; OWASP
                   </h3>
                   <Link
@@ -348,7 +348,7 @@ export const EnzymeGrid: React.FC = () => {
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1 framer-body-text">
                   Zero-overhead passive transport packet sniffer evaluating CSP nonces, HSTS preload, and OWASP compliance.
                 </p>
 
@@ -442,7 +442,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
 
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     EcoHolo
                   </h3>
                   <Link
@@ -453,7 +453,7 @@ export const EnzymeGrid: React.FC = () => {
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1 framer-body-text">
                   Edge transfer byte budget and CO2e emissions calculator.
                 </p>
 
@@ -511,7 +511,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
 
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     LLM-Kinase
                   </h3>
                   <Link
@@ -522,7 +522,7 @@ export const EnzymeGrid: React.FC = () => {
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1 framer-body-text">
                   AEO &amp; AI manifest schema auditor for Gemini, ChatGPT, and Claude.
                 </p>
 
@@ -578,7 +578,7 @@ export const EnzymeGrid: React.FC = () => {
                 </div>
 
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     AllosterSearch
                   </h3>
                   <Link
@@ -589,7 +589,7 @@ export const EnzymeGrid: React.FC = () => {
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-1 framer-body-text">
                   Sub-50ms search index crawling &amp; semantic token retrieval rate.
                 </p>
 

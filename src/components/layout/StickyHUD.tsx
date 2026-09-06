@@ -242,6 +242,9 @@ export const StickyHUD: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 12 }}
+            whileHover={{ scale: 1.035 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             type="button"
             onClick={toggleHudExpanded}
             className="group relative flex items-center justify-center size-14 rounded-2xl border border-accent/40 bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition-all duration-200 cursor-pointer pointer-events-auto"
@@ -253,7 +256,7 @@ export const StickyHUD: React.FC = () => {
               <span className="relative inline-flex size-3 rounded-full bg-emerald-400 border-2 border-background" />
             </span>
             <svg 
-              className="size-6 text-accent-bright group-hover:scale-110 transition-transform duration-200"
+              className="size-6 text-accent-bright"
               viewBox="0 0 24 24" 
               fill="none" 
               stroke="currentColor" 

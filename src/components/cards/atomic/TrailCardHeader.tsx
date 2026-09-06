@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { TrailCardHeaderProps } from '../../../types/card';
 
 export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
@@ -15,12 +16,14 @@ export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
       id={`trail-header-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
     >
       {/* Background Image with smooth scaling on parent hover */}
-      <img
+      <motion.img
         src={imageUrl}
         alt={altText}
         loading="lazy"
         referrerPolicy="no-referrer"
-        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        whileHover={{ scale: 1.035 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full h-full object-cover"
         onError={(e) => {
           // Fallback image if source fails
           (e.currentTarget as HTMLImageElement).src =

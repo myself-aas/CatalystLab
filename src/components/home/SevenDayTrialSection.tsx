@@ -84,12 +84,12 @@ export const SevenDayTrialSection: React.FC = () => {
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-1" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12] text-foreground tracking-tight leading-[1.15]">
+            <h2 className="framer-section-headline text-foreground">
               Audit, monitor, <br className="hidden sm:inline" />
               &amp; scale your stack
             </h2>
 
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg font-medium">
+            <p className="framer-body-text max-w-lg">
               Less guesswork, more speed. With CatalystLab Pro and Team, eliminate blindspots with 8 concurrent diagnostic engines, automated 24/7 cron audits, full REST API telemetry, and instant webhook alerts — all in one unified workspace.
             </p>
 

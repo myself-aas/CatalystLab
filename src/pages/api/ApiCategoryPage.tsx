@@ -56,18 +56,18 @@ export const ApiCategoryPage: React.FC = () => {
  };
 
  return (
- <div className="min-h-screen bg-background text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Category Header */}
  <div className="border-b border-border bg-background pt-10 pb-12">
- <div className="ds-page-shell lg:">
+ <div className="ds-page-shell">
  <div className="space-y-3">
  
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
  <div>
- <h1 className="text-3xl sm:text-4xl font-black text-foreground">
+ <h1 className="framer-section-headline text-foreground">
  {categoryName}
  </h1>
- <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
+ <p className="framer-body-text mt-1 max-w-2xl">
  Explore endpoint specifications, query schemas, and runnable code generators for {categoryName.toLowerCase()}.
  </p>
  </div>
@@ -75,16 +75,16 @@ export const ApiCategoryPage: React.FC = () => {
  <div className="flex items-center gap-2">
  <Link
  to="/api-reference"
- className="ds-card items-center gap-1.5 text-xs font-semibold text-muted-foreground ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
- <ArrowLeft className="h-3.5 w-3.5"/>
+ <ArrowLeft className="h-3.5 w-3.5 shrink-0"/>
  <span>All Categories</span>
  </Link>
  <Link
  to="/playground"
- className="inline-flex items-center gap-1.5 rounded-xl bg-background .5 px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-muted transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="ds-btn ds-btn-primary text-xs"
  >
- <Terminal className="h-3.5 w-3.5 text-emerald-400"/>
+ <Terminal className="h-3.5 w-3.5 shrink-0 text-white"/>
  <span>Open Playground</span>
  </Link>
  </div>
@@ -121,11 +121,11 @@ export const ApiCategoryPage: React.FC = () => {
  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-border pb-5">
  <div className="space-y-1">
  <div className="flex flex-wrap items-center gap-2.5">
- <span className={`.5 py-1 rounded-lg text-xs font-mono font-black uppercase ${
- ep.method === 'POST' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
- ep.method === 'GET' ? 'bg-sky-100 text-sky-800 border border-sky-300' :
- ep.method === 'DELETE' ? 'bg-rose-100 text-rose-800 border border-rose-300' :
- 'bg-amber-100 text-amber-800 border border-amber-300'
+ <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase shrink-0 border ${
+ ep.method === 'POST' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+ ep.method === 'GET' ? 'bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20' :
+ ep.method === 'DELETE' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+ 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
  }`}>
  {ep.method}
  </span>
@@ -133,7 +133,7 @@ export const ApiCategoryPage: React.FC = () => {
  {ep.path}
  </span>
  </div>
- <h2 className="text-lg font-bold text-foreground">
+ <h2 className="framer-card-title text-foreground">
  {ep.summary}
  </h2>
  </div>
@@ -142,26 +142,26 @@ export const ApiCategoryPage: React.FC = () => {
  {ep.engineId && (
  <Link
  to={`/playground/${ep.engineId}`}
- className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 .5 px-4 py-2 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-colors shrink-0 self-start lg:self-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="ds-btn ds-btn-secondary text-xs shrink-0 self-start lg:self-auto"
  >
- <Terminal className="h-3.5 w-3.5 text-emerald-600"/>
+ <Terminal className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>Test in Playground</span>
  </Link>
  )}
  </div>
 
- <p className="text-sm text-muted-foreground leading-relaxed">
+ <p className="framer-body-text">
  {ep.description}
  </p>
 
  {/* Metadata Pill Grid */}
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
- <div className="flex items-center gap-2 p-3 rounded-xl bg-muted border border-border text-muted-foreground font-mono">
- <Key className="h-4 w-4 text-emerald-600 shrink-0"/>
+ <div className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 text-muted-foreground font-mono">
+ <Key className="h-4 w-4 text-emerald-400 shrink-0"/>
  <span className="truncate"><strong>Auth:</strong> {ep.auth}</span>
  </div>
- <div className="flex items-center gap-2 p-3 rounded-xl bg-muted border border-border text-muted-foreground font-mono">
- <Clock className="h-4 w-4 text-sky-600 shrink-0"/>
+ <div className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 text-muted-foreground font-mono">
+ <Clock className="h-4 w-4 text-[#00D2FF] shrink-0"/>
  <span className="truncate"><strong>Rate Limit:</strong> {ep.rateLimit}</span>
  </div>
  </div>
@@ -233,14 +233,14 @@ export const ApiCategoryPage: React.FC = () => {
  </h3>
 
  <div className="flex items-center gap-2">
- <label htmlFor={`lang-${ep.id}`} className="text-xs font-semibold text-muted-foreground">
+ <label htmlFor={`lang-${ep.id}`} className="ds-label">
  Client:
  </label>
  <select
  id={`lang-${ep.id}`}
  value={currentLang}
  onChange={(e) => setLanguage(ep.id, e.target.value as any)}
- className="ds-card text-xs font-bold p-4"
+ className="ds-select text-xs font-mono py-1 min-h-[2.25rem] w-auto"
  >
  <option value="curl">cURL (Bash)</option>
  <option value="javascript">JavaScript (Fetch)</option>
@@ -252,12 +252,12 @@ export const ApiCategoryPage: React.FC = () => {
 
  <button
  onClick={() => handleCopy(ep.id, snippet)}
- className="ds-card items-center gap-1.5 text-xs font-semibold text-muted-foreground ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
  {copiedMap[ep.id] ? (
  <>
- <Check className="h-3.5 w-3.5 text-emerald-600"/>
- <span className="text-emerald-600">Copied</span>
+ <Check className="h-3.5 w-3.5 text-emerald-400"/>
+ <span className="text-emerald-400">Copied</span>
  </>
  ) : (
  <>
@@ -269,8 +269,8 @@ export const ApiCategoryPage: React.FC = () => {
  </div>
  </div>
 
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border">
- <pre className="text-sky-300 whitespace-pre leading-relaxed">
+ <div className="rounded-2xl bg-black/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border/80">
+ <pre className="text-[#00D2FF] whitespace-pre leading-relaxed">
  {snippet}
  </pre>
  </div>
@@ -279,11 +279,11 @@ export const ApiCategoryPage: React.FC = () => {
  {/* Response Schema & Example */}
  {ep.responses && ep.responses.length > 0 && (
  <div className="space-y-3">
- <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
+ <h3 className="framer-micro-tag text-muted-foreground">
  Response Payload (Status {ep.responses[0].status})
  </h3>
- <p className="text-xs text-muted-foreground">{ep.responses[0].description}</p>
- <div className="rounded-2xl bg-background p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border">
+ <p className="framer-body-text text-xs">{ep.responses[0].description}</p>
+ <div className="rounded-2xl bg-black/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border/80">
  <pre className="text-amber-300">
  {JSON.stringify(ep.responses[0].example, null, 2)}
  </pre>

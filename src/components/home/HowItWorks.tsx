@@ -91,7 +91,7 @@ export const HowItWorks: React.FC = () => {
                     <Icon className="size-5 text-[#0066FF]" />
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-white">
+                  <h3 className="framer-card-title text-white">
                     {step.n}. {step.title}
                   </h3>
                   
@@ -101,7 +101,7 @@ export const HowItWorks: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-sm leading-relaxed text-muted-foreground md:max-w-[260px]">
+                  <p className="framer-body-text md:max-w-[260px]">
                     {step.body}
                   </p>
                 </motion.div>

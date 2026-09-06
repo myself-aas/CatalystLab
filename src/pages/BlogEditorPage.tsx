@@ -111,8 +111,8 @@ export const BlogEditorPage: React.FC = () => {
  }
  };
 
- return (
- <div className="min-h-screen ds-page-top bg-transparent pb-20 text-foreground">
+  return (
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-20 text-foreground">
  <SEOHead
  title={id ? 'Edit Article' : 'New Article'}
  description="Draft and publish CatalystLab engineering articles with SEO metadata, excerpts, and telemetry research notes."
@@ -123,12 +123,12 @@ export const BlogEditorPage: React.FC = () => {
  <div>
  <Link
  to={listPath}
- className="mb-3 inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground px-4 py-2"
+ className="ds-btn ds-btn-ghost text-xs mb-3"
  >
- <ArrowLeft className="size-3.5"/>
+ <ArrowLeft className="size-3.5 shrink-0"/>
  Back to articles
  </Link>
- <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+ <h1 className="framer-section-headline text-foreground">
  {id ? 'Edit article' : 'New post'}
  </h1>
  <p className="mt-1 font-mono text-[11px] text-muted-foreground">/{slugPreview}</p>
@@ -137,25 +137,25 @@ export const BlogEditorPage: React.FC = () => {
  <button
  type="button"
  onClick={() => setPreview((v) => !v)}
- className="ds-card items-center gap-2 text-sm text-muted-foreground ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-sm"
  >
- <Eye className="size-4"/>
+ <Eye className="size-4 shrink-0"/>
  {preview ? 'Edit' : 'Preview'}
  </button>
  <button
  type="button"
  disabled={saving}
  onClick={() => handleSave('draft')}
- className="ds-card items-center gap-2 text-sm p-4"
+ className="ds-btn ds-btn-secondary text-sm"
  >
- {saving ? <RotateCw className="size-4 animate-spin"/> : <Save className="size-4"/>}
+ {saving ? <RotateCw className="size-4 animate-spin shrink-0"/> : <Save className="size-4 shrink-0"/>}
  Save draft
  </button>
  <button
  type="button"
  disabled={saving}
  onClick={() => handleSave('published')}
- className="inline-flex items-center gap-2 rounded-lg bg-primary py-2 text-sm font-medium text-white shadow-linear-cta hover:bg-primary/90 disabled:opacity-50"
+ className="ds-btn ds-btn-primary text-sm disabled:opacity-50"
  >
  Publish
  </button>
@@ -163,7 +163,7 @@ export const BlogEditorPage: React.FC = () => {
  </div>
 
  {error && (
- <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 py-3 text-sm text-rose-200">
+ <div className="mb-4 rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-sm text-rose-300 font-mono">
  {error}
  </div>
  )}
@@ -172,32 +172,32 @@ export const BlogEditorPage: React.FC = () => {
  <BlogEditorSkeleton />
  ) : preview ? (
  <article className="ds-card space-y-4 p-6">
- <p className="font-mono text-[11px] uppercase tracking-wider text-primary">{category} · {status}</p>
- <h2 className="text-3xl font-semibold">{title || 'Untitled'}</h2>
- {excerpt && <p className="text-muted-foreground">{excerpt}</p>}
+ <p className="font-mono text-[11px] uppercase tracking-wider text-[#0066FF]">{category} · {status}</p>
+ <h2 className="framer-section-headline text-foreground">{title || 'Untitled'}</h2>
+ {excerpt && <p className="framer-body-text">{excerpt}</p>}
  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">{content}</pre>
  </article>
  ) : (
- <form className="space-y-5"onSubmit={(e) => { e.preventDefault(); handleSave(status); }}>
+ <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); handleSave(status); }}>
  <input
  type="text"
  value={title}
  onChange={(e) => setTitle(e.target.value)}
  placeholder="Post title"
- className="w-full border-none bg-transparent text-3xl font-semibold text-foreground outline-none placeholder:text-muted-foreground"
+ className="w-full border-none bg-transparent text-2xl sm:text-3xl font-semibold text-foreground outline-none placeholder:text-muted-foreground"
  />
  <textarea
  value={excerpt}
  onChange={(e) => setExcerpt(e.target.value)}
  placeholder="Excerpt for SEO and listing cards"
  rows={2}
- className="ds-card w-full p-3 text-sm"
+ className="ds-input w-full p-3 text-sm h-auto"
  />
  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
  <select
  value={category}
  onChange={(e) => setCategory(e.target.value)}
- className="ds-card text-sm p-4"
+ className="ds-select text-sm"
  >
  {CATEGORIES.map((c) => (
  <option key={c} value={c}>{c}</option>
@@ -208,14 +208,14 @@ export const BlogEditorPage: React.FC = () => {
  value={tags}
  onChange={(e) => setTags(e.target.value)}
  placeholder="Tags, comma separated"
- className="ds-card text-sm p-4"
+ className="ds-input text-sm"
  />
  </div>
  <textarea
  value={content}
  onChange={(e) => setContent(e.target.value)}
  placeholder="Write your post in markdown…"
- className="ds-card h-96 w-full p-4 text-base"
+ className="ds-card h-96 w-full p-4 text-base font-mono focus:outline-none focus:border-[#0066FF]"
  />
  </form>
  )}

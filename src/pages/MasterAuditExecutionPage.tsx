@@ -206,39 +206,39 @@ export const MasterAuditExecutionPage: React.FC = () => {
  const progressPct = Math.round((completedCount / MASTER_ENGINES.length) * 100);
 
  return (
- <div className="min-h-screen bg-transparent pb-20 font-sans text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground pb-20 font-sans">
  <SEOHead
  title="Master Audit Orchestrator"
  description="Run all eight CatalystLab diagnostic engines against a target URL and review the composite telemetry dossier."
  canonicalUrl="https://www.catalystlab.tech/master-audit"
  />
 
- <section className="relative overflow-hidden border-b border-border ds-page-top-hero pb-16 sm:pb-24 w-full">
- <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-primary/15 blur-[140px]"/>
+ <section className="relative overflow-hidden border-b border-border pb-16 sm:pb-24 w-full">
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex items-center justify-between">
  <Link
  to="/"
- className="ds-card items-center gap-1.5 font-mono text-xs ds-muted ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs"
  >
- <ArrowLeft className="size-3.5"/>
+ <ArrowLeft className="size-3.5 shrink-0"/>
  Back to home
  </Link>
- <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[11px] text-primary">
- <ShieldCheck className="size-3.5"/>
+ <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 framer-micro-tag text-[#0066FF]">
+ <ShieldCheck className="size-3.5 shrink-0"/>
  8-engine orchestrator
  </span>
  </div>
 
- <h1 className="text-gradient-linear text-3xl font-semibold tracking-tight sm:text-5xl">
+ <h1 className="framer-hero-title text-foreground">
  Master Audit
  </h1>
- <p className="mx-auto mt-3 max-w-3xl mx-auto text-sm leading-relaxed ds-muted sm:text-base">
+ <p className="mx-auto mt-3 max-w-3xl framer-body-text">
  Dispatch every Catalyst sequentially through the same engine runtime as single-tool scans.
  Composite score is the mean of completed engines.
  </p>
 
- <div className="mx-auto mt-8 max-w-3xl mx-auto text-left">
+ <div className="mx-auto mt-8 max-w-3xl text-left">
  <EngineInput
  value={targetUrl}
  onChange={setTargetUrl}
@@ -264,20 +264,20 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <LinearCard className="p-5"lift={false}>
  <div className="flex items-center justify-between gap-3">
  <div className="flex items-center gap-2 text-sm text-foreground">
- <Activity className="size-4 text-primary"/>
+ <Activity className="size-4 text-[#00D2FF] shrink-0"/>
  {loading
  ? `Engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
  : `${completedCount} of ${MASTER_ENGINES.length} engines finished`}
  </div>
  {compositeScore !== null && (
- <div className="font-mono text-sm text-primary">
+ <div className="font-mono text-sm text-[#00D2FF]">
  Composite {compositeScore}/100
  </div>
  )}
  </div>
  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted/60">
  <div
- className="h-full rounded-full bg-primary transition-all"
+ className="h-full rounded-full bg-[#0066FF] transition-all"
  style={{ width: `${loading ? Math.max(progressPct, 8) : progressPct}%` }}
  />
  </div>

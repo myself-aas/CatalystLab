@@ -49,10 +49,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                     Zyme engine
                   </span>
                 </div>
-                <h3 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                <h3 className="framer-card-title text-foreground sm:text-2xl">
                   Core Web Vitals &amp; DOM depth
                 </h3>
-                <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-muted-foreground sm:text-base">
+                <p className="mt-3 max-w-[52ch] framer-body-text">
                   Measure LCP, INP, and CLS to the millisecond. Isolate render-blocking assets, nested DOM branches, and critical-path CSS without a RUM snippet.
                 </p>
               </div>
@@ -87,8 +87,8 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Sec-protease</span>
               </div>
               <div>
-                <h3 className="text-lg font-semibold tracking-tight text-foreground">OWASP transport</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">HSTS, CSP nonces, TLS 1.3 — audited in-flight.</p>
+                <h3 className="framer-card-title text-foreground">OWASP transport</h3>
+                <p className="mt-2 framer-body-text">HSTS, CSP nonces, TLS 1.3 — audited in-flight.</p>
                 <p className="mt-4 font-mono text-2xl font-semibold text-foreground">14+</p>
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Attack vectors</p>
               </div>
@@ -110,8 +110,8 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">LLM-kinase</span>
               </div>
               <div>
-                <h3 className="text-lg font-semibold tracking-tight text-foreground">AI discoverability</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">/llms.txt, robots, Schema.org — RAG-ready structure.</p>
+                <h3 className="framer-card-title text-foreground">AI discoverability</h3>
+                <p className="mt-2 framer-body-text">/llms.txt, robots, Schema.org — RAG-ready structure.</p>
                 <p className="mt-4 font-mono text-2xl font-semibold text-foreground">&lt; 50ms</p>
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Scan latency</p>
               </div>
@@ -130,10 +130,10 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 <div className="mb-4 flex size-11 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 text-emerald-300">
                   <Globe className="size-5" />
                 </div>
-                <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                <h3 className="framer-card-title text-foreground sm:text-2xl">
                   Global anycast edge mesh
                 </h3>
-                <p className="mt-3 max-w-[48ch] text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 max-w-[48ch] framer-body-text">
                   Ping from 42 PoPs at once. Map TTFB variance, 0-RTT resumption, and CDN cache hit rates on a single radar.
                 </p>
                 <div className="mt-6 flex items-baseline gap-3">

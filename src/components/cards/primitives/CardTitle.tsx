@@ -22,8 +22,8 @@ export const CardTitle: React.FC<CardTitleProps> = ({
           priceStyle
             ? 'text-xl sm:text-2xl font-black font-mono text-primary-foreground'
             : isSurface
-            ? 'text-lg sm:text-xl font-bold text-foreground dark:text-primary-foreground'
-            : 'text-xl sm:text-2xl font-black text-primary-foreground drop-shadow-sm',
+            ? 'framer-card-title text-foreground dark:text-primary-foreground'
+            : 'framer-card-title text-primary-foreground drop-shadow-sm',
           className
         )
       )}

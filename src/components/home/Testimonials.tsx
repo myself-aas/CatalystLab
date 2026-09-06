@@ -61,7 +61,7 @@ export const Testimonials: React.FC = () => {
                 style={{ background: 'var(--glow-card-subsurface)' }}
               />
               <Quote className="absolute right-6 top-6 size-10 text-white/5" />
-              <p className="relative text-base leading-relaxed text-muted-foreground sm:text-lg mb-8">
+              <p className="relative framer-body-text mb-8">
                 &ldquo;{quote.body}&rdquo;
               </p>
               

@@ -117,8 +117,8 @@ export default {
  }
 };`;
 
- return (
- <div className="min-h-screen bg-transparent pb-24 text-foreground">
+  return (
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background pb-24 text-foreground">
  <SEOHead
  title="Automated Plugins & Domain Monitoring Watchdog | CatalystLab"
  description="Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains."
@@ -127,56 +127,55 @@ export default {
  />
 
  {/* Hero Section */}
- <section className="relative overflow-hidden bg-muted ds-page-top-hero pb-16 sm:pb-20 border-b border-border w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,var(--app-card)_0%,var(--app-background)_65%,var(--app-muted)_100%)] pointer-events-none z-0"/>
- <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden bg-card pb-16 sm:pb-20 border-b border-border w-full">
+ <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
 
- <div className="relative z-10 w-full sm:px-6 lg:px-8">
- <div className="flex flex-wrap items-center gap-2.5 mb-5">
- <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/90 backdrop-blur-md px-2.5 py-1.5 text-xs font-mono text-foreground shadow-xs">
- <Radio className="h-3.5 w-3.5 text-blue-600 animate-pulse"/>
+ <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+ <div className="flex flex-wrap items-center justify-center gap-2.5">
+ <span className="inline-flex items-center gap-2 rounded-full border border-border bg-white/5 backdrop-blur-md px-3 py-1 text-xs font-mono text-foreground shadow-xs">
+ <Radio className="h-3.5 w-3.5 text-[#0066FF] animate-pulse shrink-0"/>
  <span className="font-semibold">Products &amp; Continuous Telemetry</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 py-1.5 text-xs font-mono text-emerald-800 font-bold shadow-xs">
- <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
+ <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>Automated Multi-Engine Cron</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 py-1.5 text-xs font-mono text-blue-800 font-semibold shadow-xs">
- <Globe className="h-3.5 w-3.5 text-blue-600"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3 py-1 text-xs font-mono text-[#0066FF] font-semibold shadow-xs">
+ <Globe className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>
  <span>42 Global PoPs</span>
  </span>
  </div>
 
- <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground max-w-3xl mx-auto leading-[1.08] font-sans">
+ <h1 className="framer-hero-title text-foreground">
  Automated Plugins &amp;{' '}
- <span className="bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
+ <span className="text-[#0066FF]">
  Custom Domain Watchdogs
  </span>
  </h1>
- <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed font-sans font-normal">
+ <p className="framer-body-text max-w-3xl mx-auto leading-relaxed">
  Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains. Prevent Core Web Vitals regressions, OWASP header drift, and AI readiness drops before users notice.
  </p>
 
- <div className="mt-8 flex flex-wrap items-center gap-3">
+ <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
  <a 
  href="#domain-configurator"
- className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground px-6 py-3 text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring font-sans"
+ className="ds-btn ds-btn-primary text-xs sm:text-sm"
  >
- <Sliders className="h-4 w-4 text-blue-400"/>
+ <Sliders className="h-4 w-4 shrink-0"/>
  <span>Configure Domain Monitor</span>
  </a>
  <Link
  to="/dashboard?tab=monitoring"
- className="ds-card items-center gap-2 text-xs shadow-xs font-sans font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs sm:text-sm"
  >
- <Activity className="h-4 w-4 text-emerald-600"/>
+ <Activity className="h-4 w-4 text-emerald-400 shrink-0"/>
  <span>View Monitored Domains</span>
  </Link>
  <Link
  to="/api-docs"
- className="inline-flex items-center gap-1.5 rounded-xl border border-transparent text-muted-foreground hover:text-foreground px-6 py-3 text-xs sm:text-sm font-sans font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="ds-btn ds-btn-ghost text-xs sm:text-sm"
  >
- <Code2 className="h-4 w-4"/>
+ <Code2 className="h-4 w-4 shrink-0"/>
  <span>API Docs →</span>
  </Link>
  </div>
@@ -222,44 +221,44 @@ export default {
  </p>
  </div>
 
- {/* Category Filter Pills */}
- <div className="flex flex-wrap items-center gap-1.5 bg-muted/50 p-1.5 rounded-2xl border border-border">
+  {/* Category Filter Pills */}
+ <div className="flex flex-wrap items-center gap-1.5 bg-white/5 p-1.5 rounded-xl border border-border">
  <button
  onClick={() => setSelectedCategory('all')}
- className={` px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'all' 
- ? 'bg-primary text-primary-foreground shadow-sm' 
- : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+ ? 'bg-white/15 text-white shadow-sm' 
+ : 'text-muted-foreground hover:text-white'
  }`}
  >
  All Products
  </button>
  <button
  onClick={() => setSelectedCategory('monitoring')}
- className={` px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'monitoring' 
- ? 'bg-primary text-primary-foreground shadow-sm' 
- : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+ ? 'bg-white/15 text-white shadow-sm' 
+ : 'text-muted-foreground hover:text-white'
  }`}
  >
  Domain Watchdogs
  </button>
  <button
  onClick={() => setSelectedCategory('cicd')}
- className={` px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'cicd' 
- ? 'bg-primary text-primary-foreground shadow-sm' 
- : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+ ? 'bg-white/15 text-white shadow-sm' 
+ : 'text-muted-foreground hover:text-white'
  }`}
  >
  CI/CD Quality Gates
  </button>
  <button
  onClick={() => setSelectedCategory('webhooks')}
- className={` px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'webhooks' 
- ? 'bg-primary text-primary-foreground shadow-sm' 
- : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+ ? 'bg-white/15 text-white shadow-sm' 
+ : 'text-muted-foreground hover:text-white'
  }`}
  >
  Webhooks &amp; Edge

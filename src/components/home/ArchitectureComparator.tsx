@@ -46,14 +46,14 @@ export const ArchitectureComparator: React.FC = () => {
         
         {/* Section Header */}
         <div className="mb-12 md:mb-16 max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-950/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-emerald-400 mb-3">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-950/40 px-3 py-1 framer-micro-tag text-emerald-400 mb-3">
             <Server className="size-3.5" />
             <span>Infrastructure Specifications</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-primary-foreground tracking-tight leading-tight">
+          <h2 className="framer-section-headline text-primary-foreground">
             Enterprise architecture.
           </h2>
-          <p className="mt-3 text-muted-foreground text-base sm:text-lg leading-relaxed">
+          <p className="mt-3 framer-body-text">
             Built on a globally distributed edge mesh, CatalystLab scales elastically to handle millions of synthetic requests while maintaining sub-second analysis latency.
           </p>
         </div>

@@ -156,7 +156,7 @@ export const AboutPage: React.FC = () => {
  const activeEngine = ENGINES_CATALOG.find((e) => e.id === selectedEngine) || ENGINES_CATALOG[0];
 
  return (
- <div className="relative min-h-screen bg-transparent pb-24 text-foreground">
+ <div data-theme="dark" className="relative min-h-screen ds-page-top bg-background pb-24 text-foreground">
  <SEOHead
  title="About Us & Engineering Methodology — CatalystLab"
  description="Learn about CatalystLab, our 8-engine telemetry architecture, deterministic benchmarks, 42-PoP global edge mesh, and zero-trust engineering standards."
@@ -165,54 +165,45 @@ export const AboutPage: React.FC = () => {
  />
 
  {/* Atmospheric Lighting */}
- <div className="pointer-events-none absolute left-1/2 top-0 h-[450px] w-[820px] -translate-x-1/2 rounded-full bg-primary/12 blur-[140px]"/>
- <div className="pointer-events-none absolute right-1/4 top-96 h-[320px] w-[500px] rounded-full bg-cyan-500/8 blur-[160px]"/>
- <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] dark:opacity-100 opacity-30 bg-[size:3.5rem_3.5rem]"/>
+ <div className="pointer-events-none absolute left-1/2 top-0 h-[450px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)]" />
 
  {/* Hero Section */}
- <section className="relative z-10 border-b border-border dark:border-white/[0.08] ds-page-top-hero pb-20 sm:pb-24 w-full">
+ <section className="relative z-10 border-b border-border pb-16 sm:pb-20 w-full">
  <div className="ds-page-shell text-center space-y-6">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
- <Sparkles className="size-3.5 text-primary"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
+ <Sparkles className="size-3.5 text-[#0066FF] shrink-0"/>
  <span>Autonomous Telemetry Infrastructure</span>
  </div>
 
- <h1 className="text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[1.05] font-semibold tracking-[-0.03em] text-foreground leading-[1.08] max-w-4xl mx-auto">
- Engineering the standard in{' '}
- <span className="text-gradient-linear">
- autonomous web telemetry
- </span>
+ <h1 className="framer-hero-title text-foreground max-w-4xl mx-auto">
+ Engineering the standard in autonomous web telemetry
  </h1>
 
- <p className="max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground leading-relaxed font-sans">
+ <p className="max-w-2xl mx-auto framer-body-text">
  CatalystLab eliminates black-box guesswork with 8 parallel, deterministic Python microagents across 42 global edge points of presence, delivering reproducible ground-truth dossiers in seconds.
  </p>
 
  {/* Quick Key Metrics Strip */}
  <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3.5 max-w-4xl mx-auto text-left">
  <div className="ds-card p-4">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"/>
  <div className="text-2xl font-bold font-mono text-foreground">8 Engines</div>
- <div className="text-xs text-muted-foreground mt-1 font-sans">Parallel microagent dispatch</div>
+ <div className="framer-micro-tag text-muted-foreground mt-1">Parallel microagent dispatch</div>
  </div>
 
  <div className="ds-card p-4">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/20 dark:via-white/20 to-transparent"/>
- <div className="text-2xl font-bold font-mono text-cyan-400">42 PoPs</div>
- <div className="text-xs text-muted-foreground mt-1 font-sans">Global edge Anycast mesh</div>
+ <div className="text-2xl font-bold font-mono text-[#00D2FF]">42 PoPs</div>
+ <div className="framer-micro-tag text-muted-foreground mt-1">Global edge Anycast mesh</div>
  </div>
 
  <div className="ds-card p-4">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"/>
- <div className="text-2xl font-bold font-mono text-primary">&lt; 4.8s</div>
- <div className="text-xs text-muted-foreground mt-1 font-sans">Dossier synthesis latency</div>
+ <div className="text-2xl font-bold font-mono text-[#0066FF]">&lt; 4.8s</div>
+ <div className="framer-micro-tag text-muted-foreground mt-1">Dossier synthesis latency</div>
  </div>
 
  <div className="ds-card p-4">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/20 dark:via-white/20 to-transparent"/>
  <div className="text-2xl font-bold font-mono text-emerald-400">100%</div>
- <div className="text-xs text-muted-foreground mt-1 font-sans">Passive, zero-SDK probes</div>
+ <div className="framer-micro-tag text-muted-foreground mt-1">Passive, zero-SDK probes</div>
  </div>
  </div>
 
@@ -224,35 +215,35 @@ export const AboutPage: React.FC = () => {
  
  {/* The Problem & Our Mission */}
  <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
- <LazyReveal direction="left"className="lg:col-span-7 space-y-5">
- <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-primary backdrop-blur-md">
- <Terminal className="size-3.5 text-primary"/>
+ <LazyReveal direction="left" className="lg:col-span-7 space-y-5">
+ <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
+ <Terminal className="size-3.5 text-[#0066FF] shrink-0"/>
  <span>Genesis &amp; Mission</span>
  </div>
 
- <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-foreground">
+ <h2 className="framer-section-headline text-foreground">
  Why modern engineering teams outgrow black-box audit tools
  </h2>
 
- <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-sans">
+ <p className="framer-body-text">
  For more than a decade, web performance auditing has relied on opaque single-number scores from browser extensions and legacy black boxes. These tools fluctuate between consecutive runs, ignore real edge network distribution, and completely overlook critical modern dimensions like zero-trust OWASP headers and SearchGPT/LLM crawler discoverability.
  </p>
 
- <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-sans">
+ <p className="framer-body-text">
  We engineered CatalystLab as a deterministic observability grid. Every audit spins up eight isolated Python 3.11 microagents that test your production stack against verifiable RFC specifications, OWASP standards, and mathematical DOM metrics without installing invasive client-side trackers.
  </p>
 
  <div className="pt-2 flex flex-wrap items-center gap-3">
  <Link 
  to="/master-audit"
- className="inline-flex items-center gap-2 rounded-full bg-primary hover:bg-primary/90 px-5 py-2.5 text-xs font-medium text-primary-foreground shadow-linear-cta transition-all active:scale-[0.98] group"
+ className="ds-btn ds-btn-primary text-xs"
  >
  <span>Launch Master Audit</span>
- <ArrowRight className="size-3.5 group-hover:translate-x-0.5 transition-transform"/>
+ <ArrowRight className="size-3.5 shrink-0"/>
  </Link>
  <Link 
  to="/engines"
- className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-card dark:bg-muted/30 hover:bg-accent px-5 py-2.5 text-xs font-medium text-foreground transition-all"
+ className="ds-btn ds-btn-secondary text-xs"
  >
  <span>View All 8 Engines</span>
  </Link>
@@ -260,17 +251,15 @@ export const AboutPage: React.FC = () => {
  </LazyReveal>
 
  {/* Interactive Live Telemetry HUD */}
- <LazyReveal direction="right"className="lg:col-span-5">
+ <LazyReveal direction="right" className="lg:col-span-5">
  <div className="ds-card p-6 space-y-4 font-mono">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"/>
- 
- <div className="flex items-center justify-between border-b border-border dark:border-white/[0.08] pb-3.5">
+ <div className="flex items-center justify-between border-b border-border pb-3.5">
  <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
- <Activity className="size-4 text-primary"/>
+ <Activity className="size-4 text-[#0066FF] shrink-0"/>
  <span>Telemetry Benchmark Grid</span>
  </div>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-500 dark:text-emerald-400">
- <span className="size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
+ <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"/>
  Grid Live (v2.4)
  </span>
  </div>
@@ -580,27 +569,24 @@ export const AboutPage: React.FC = () => {
 
  {/* Final CTA Banner */}
  <section className="ds-card p-8 sm:p-12 text-center space-y-6">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 dark:via-white/25 to-transparent"/>
- <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[360px] rounded-full bg-primary/15 blur-[120px]"/>
-
  <div className="relative z-10 max-w-2xl mx-auto space-y-4">
- <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.03em] text-foreground">
+ <h2 className="framer-section-headline text-foreground">
  Ready to benchmark your web stack?
  </h2>
- <p className="text-sm text-muted-foreground leading-relaxed font-sans">
+ <p className="framer-body-text">
  Run an instant 8-engine audit on your production domain, or contact our engineering team to request custom worker pools and enterprise quotas.
  </p>
  <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
  <Link
  to="/master-audit"
- className="inline-flex items-center gap-2 rounded-full bg-primary hover:bg-primary/90 px-6 py-3 text-xs font-medium text-primary-foreground shadow-linear-cta transition-all active:scale-[0.98] cursor-pointer"
+ className="ds-btn ds-btn-primary text-xs"
  >
  <span>Launch Master Audit</span>
- <ArrowRight className="size-3.5"/>
+ <ArrowRight className="size-3.5 shrink-0"/>
  </Link>
  <Link
  to="/contact"
- className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-card dark:bg-muted/30 hover:bg-accent px-6 py-3 text-xs font-medium text-foreground transition-all cursor-pointer"
+ className="ds-btn ds-btn-secondary text-xs"
  >
  <span>Contact Engineering</span>
  </Link>

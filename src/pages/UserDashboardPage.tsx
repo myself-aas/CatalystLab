@@ -238,31 +238,31 @@ export const UserDashboardPage: React.FC = () => {
 
  if (!user) {
  return (
-    <div data-theme="dark" className="min-h-screen flex items-center justify-center py-20 px-4 bg-background text-foreground relative overflow-hidden font-sans">
+    <div data-theme="dark" className="min-h-screen ds-page-top flex items-center justify-center py-20 px-4 bg-background text-foreground relative overflow-hidden font-sans">
  <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(0,102,255,0.12),transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
 
- <div className="w-full max-w-md p-8 bg-surface border border-border rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
+ <div className="w-full max-w-md p-8 ds-card bg-surface border-border shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-[#00D2FF] mb-5 shadow-inner">
  <LogIn className="h-5 w-5" />
  </div>
- <h2 className="text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-white">Developer Access Required</h2>
- <p className="mt-2 text-xs sm:text-[13px] text-muted-foreground leading-relaxed">
+ <h2 className="framer-card-title text-xl sm:text-2xl text-white">Developer Access Required</h2>
+ <p className="mt-2 framer-body-text text-xs sm:text-[13px]">
  Sign in to access real-time telemetry dossiers, autonomous patch branches, domain uptime monitoring, and API tokens.
  </p>
 
  <div className="mt-6 space-y-3 font-mono text-xs">
  <Link
  to="/login?redirect=/dashboard"
- className="flex w-full items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-black font-semibold hover:bg-neutral-200 transition-all shadow-[0_0_18px_rgba(255,255,255,0.25)] cursor-pointer"
+ className="ds-btn ds-btn-primary w-full text-xs sm:text-sm"
  >
- <LogIn className="h-3.5 w-3.5" />
+ <LogIn className="h-3.5 w-3.5 shrink-0" />
  <span>Sign In with Email or Google</span>
  </Link>
 
  <Link
  to="/signup?redirect=/dashboard"
- className="flex w-full items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface border border-border text-white font-medium hover:border-border-strong hover:bg-surface transition-all cursor-pointer"
+ className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm"
  >
  <span>Create Free Developer Account &rarr;</span>
  </Link>
@@ -275,9 +275,9 @@ export const UserDashboardPage: React.FC = () => {
  displayName: 'CatalystLab Developer',
  isAdmin: false
  })}
- className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs hover:bg-emerald-500/20 transition-all cursor-pointer"
+ className="ds-btn ds-btn-secondary w-full text-xs text-emerald-400 bg-emerald-500/10 border-emerald-500/20 hover:bg-emerald-500/20"
  >
- <Sparkles className="h-3.5 w-3.5" />
+ <Sparkles className="h-3.5 w-3.5 shrink-0" />
  <span>Preview Developer Session</span>
  </button>
  </div>
@@ -405,26 +405,26 @@ export const UserDashboardPage: React.FC = () => {
  
  {/* Search Bar */}
  <div className="relative flex-1">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 ds-muted"/>
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground"/>
  <input
  type="text"
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="Search domain, engine, or keywords..."
- className="ds-card w-full text-xs p-4"
+ className="ds-input pl-9 w-full text-xs bg-background"
  />
  </div>
 
  {/* Engine Selector Dropdown */}
  <div className="flex flex-wrap items-center gap-2">
- <div className="flex items-center gap-1 text-xs font-bold ds-muted">
- <Filter className="h-3 w-3 ds-muted"/>
+ <div className="flex items-center gap-1 text-xs font-bold text-muted-foreground">
+ <Filter className="h-3 w-3 text-muted-foreground"/>
  <span>Catalyst:</span>
  </div>
  <select
  value={selectedEngine}
  onChange={(e) => setSelectedEngine(e.target.value)}
- className="ds-card text-xs font-bold p-4"
+ className="ds-select text-xs font-mono"
  >
  <option value="all">All Catalysts</option>
  <option value="master">Master Audit (All 8)</option>
@@ -439,7 +439,7 @@ export const UserDashboardPage: React.FC = () => {
  <select
  value={sortBy}
  onChange={(e) => setSortBy(e.target.value as any)}
- className="ds-card text-xs font-bold p-4"
+ className="ds-select text-xs font-mono"
  >
  <option value="newest">Newest First</option>
  <option value="oldest">Oldest First</option>
@@ -496,9 +496,9 @@ export const UserDashboardPage: React.FC = () => {
  <div className="mt-5">
  <Link
  to="/master-audit"
- className="inline-flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-sm"
+ className="ds-btn ds-btn-primary text-xs"
  >
- <Sparkles className="h-3.5 w-3.5 text-amber-500"/>
+ <Sparkles className="h-3.5 w-3.5 text-amber-300 shrink-0"/>
  <span>Run Master Audit</span>
  </Link>
  </div>

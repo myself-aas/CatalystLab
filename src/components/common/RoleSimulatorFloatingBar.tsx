@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { useRoleSecurity } from '../../context/RoleSecurityContext';
 import { UserRole, ROLE_CONFIGS } from '../../utils/rolePermissions';
@@ -123,9 +124,12 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
       )}
 
       {/* Floating Pill Toggle Button */}
-      <button
+      <motion.button
+        whileHover={{ scale: 1.035 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex min-h-[44px] items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md ${
+        className={`flex min-h-[44px] items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-colors cursor-pointer backdrop-blur-md ${
           isSimulating
             ? 'border-amber-400/60 bg-amber-950/80 text-amber-200 hover:bg-amber-900/90'
             : 'border-border bg-background/90 text-foreground hover:bg-muted'
@@ -140,7 +144,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
           </span>
         </div>
         {isOpen ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" /> : <ChevronUp className="h-3.5 w-3.5 text-muted-foreground" />}
-      </button>
+      </motion.button>
     </aside>
   );
 };
