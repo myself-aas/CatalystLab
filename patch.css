@@ -1,0 +1,6 @@
+.ds-nav-active {
+  background-color: color-mix(in srgb, var(--accent-framer-blue) 10%, transparent);
+  color: var(--accent-framer-blue);
+  font-weight: 700;
+  border: 1px solid color-mix(in srgb, var(--accent-framer-blue) 20%, transparent);
+}

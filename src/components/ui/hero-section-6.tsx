@@ -210,7 +210,7 @@ export default function HeroSection6() {
             <span>SYNCHRONOUS TELEMETRY • AUTONOMOUS AGENTS</span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-primary-foreground mb-6 leading-[1.08] px-4 md:px-0">
+          <h1 className="framer-hero-title text-primary-foreground mb-6 px-4 md:px-0">
             Precision Telemetry &amp;
             <br />
             Autonomous Web Auditing

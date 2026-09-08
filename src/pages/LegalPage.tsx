@@ -25,14 +25,14 @@ export const LegalPage: React.FC = () => {
  }
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-20 text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  <SEOHead
  title={`${title} — CatalystLab`}
  description={content}
  canonicalUrl={`https://www.catalystlab.tech${path}`}
  />
- <section className="border-b border-border py-10 sm:px-6 lg:px-8">
- <div className="ds-page-shell space-y-2">
+ <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
+ <div className="ds-page-shell space-y-2 ds-section">
  <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 framer-micro-tag text-muted-foreground">
  <ShieldCheck className="h-3.5 w-3.5 shrink-0"/>
  <span>Compliance &amp; Legal Standards</span>
@@ -42,7 +42,7 @@ export const LegalPage: React.FC = () => {
  </div>
  </section>
 
- <main className="ds-page-shell">
+ <main className="ds-page-shell ds-section">
  <div className="ds-card space-y-4 p-6 sm:p-8">
  <p className="framer-body-text text-foreground">{content}</p>
  <ul className="grid gap-2 sm:grid-cols-2 text-sm font-mono">

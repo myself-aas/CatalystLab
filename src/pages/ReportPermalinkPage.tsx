@@ -98,7 +98,7 @@ export const ReportPermalinkPage: React.FC = () => {
  <AlertCircle className="h-6 w-6"/>
  </div>
  <h2 className="framer-card-title text-foreground">Report Not Found</h2>
- <p className="mt-2 framer-body-text text-xs">{error || "The requested audit dossier does not exist."}</p>
+ <p className="mt-2 framer-body-text text-xs">{error ||"The requested audit dossier does not exist."}</p>
  <div className="mt-5 flex justify-center gap-2.5">
  <Link
  to="/dashboard"
@@ -132,7 +132,7 @@ export const ReportPermalinkPage: React.FC = () => {
  : 'Unknown Date';
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-20 text-foreground font-mono">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-mono">
  <SEOHead
  title={`Audit Report: ${report.url}`}
  description={`Diagnostic telemetry trace for ${report.url} on CatalystLab.`}
@@ -140,7 +140,7 @@ export const ReportPermalinkPage: React.FC = () => {
  />
  
  {/* Top Bar Navigation */}
- <section className="border-b border-border py-3 sm:px-6 lg:px-8">
+ <section className="border-b border-border py-3 sm:px-6 lg:px-8 ds-section">
  <div className="mx-auto flex max-w-3xl items-center justify-between">
  <Link
  to="/dashboard"

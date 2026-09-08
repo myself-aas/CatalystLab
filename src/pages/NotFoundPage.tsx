@@ -15,17 +15,18 @@ import {
 
 export const NotFoundPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground flex flex-col justify-between relative overflow-hidden pb-12">
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground flex flex-col justify-between relative overflow-hidden ds-section">
  <SEOHead
  title="404 - Node Unreachable | CatalystLab Anycast Mesh"
  description="The requested routing endpoint could not be resolved across any of our 42 global Edge PoPs."
  />
 
  {/* Ambient background grid & glow */}
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none"/>
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none opacity-20"/>
 
- <main className="ds-page-shell w-full relative z-10 my-auto">
+ <main className="ds-page-shell w-full relative z-10 my-auto ds-section">
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
  
  {/* Left Column: 404 Diagnostics & Navigation */}

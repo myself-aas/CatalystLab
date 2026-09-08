@@ -32,7 +32,7 @@ export const SystemOverviewDoc: React.FC = () => {
  height="min-h-[260px]"
  className="rounded-xl overflow-hidden my-6 border border-border"
  >
- <div className="ds-page-shell">
+ <div className="ds-page-shell ds-section">
  <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground py-1 text-xs font-mono font-bold uppercase tracking-wider">
  Zero-Eval Architecture
  </span>
@@ -61,16 +61,16 @@ export const SystemOverviewDoc: React.FC = () => {
  </section>
 
  
-        {/* Key Architectural Tenets */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-display font-medium text-foreground">Four Core Principles</h2>
-          
-          <blockquote className="border-l-[3px] border-[#FF9900] bg-[#FF9900]/5 p-4 my-6 rounded-r-lg">
-            <p className="text-foreground m-0 text-sm flex items-center gap-2 font-medium">
-              <ShieldCheck className="size-4 text-[#FF9900]" />
-              <strong>Architectural Warning:</strong> CatalystLab is a strict non-evaluating telemetry layer. It never stores payload data locally and operates in a purely ephemeral streaming context to ensure compliance with SOC2 Type II constraints.
-            </p>
-          </blockquote>
+ {/* Key Architectural Tenets */}
+ <section className="space-y-4 ds-section">
+ <h2 className="text-2xl font-display font-medium text-foreground">Four Core Principles</h2>
+ 
+ <blockquote className="border-l-[3px] border-[#FF9900] bg-[#FF9900]/5 p-4 my-6 rounded-r-lg">
+ <p className="text-foreground m-0 text-sm flex items-center gap-2 font-medium">
+ <ShieldCheck className="size-4 text-[#FF9900]" />
+ <strong>Architectural Warning:</strong> CatalystLab is a strict non-evaluating telemetry layer. It never stores payload data locally and operates in a purely ephemeral streaming context to ensure compliance with SOC2 Type II constraints.
+ </p>
+ </blockquote>
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
  <div className="ds-card p-4 space-y-1.5">

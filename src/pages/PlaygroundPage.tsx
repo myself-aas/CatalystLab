@@ -426,8 +426,7 @@ logger.debug('Engine Output:', data.output);`;
  return `import requests
 
 url ="https://catalystlab.tech${endpointPath}"
-headers = {
-"Content-Type":"application/json"${authMode === 'apiKey' && selectedApiKey ? `,\n"X-API-Key":"${selectedApiKey}"` : ''}
+headers = {"Content-Type":"application/json"${authMode === 'apiKey' && selectedApiKey ? `,\n"X-API-Key":"${selectedApiKey}"` : ''}
 }
 payload = ${bodyStr.replace(/true/g, 'True').replace(/false/g, 'False').replace(/null/g, 'None')}
 
@@ -439,11 +438,7 @@ print("Telemetry:", response.json())`;
  if (codeSnippetLang === 'go') {
  return `package main
 
-import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"net/http"
+import ("bytes""encoding/json""fmt""net/http"
 )
 
 func main() {
@@ -468,7 +463,7 @@ func main() {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground selection:bg-[#0066FF] selection:text-white">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[#0066FF] selection:text-white">
  <SEOHead
  title="Live REST API Playground — CatalystLab"
  description="Interactive REST test harness for single diagnostic engines and composite master audits."
@@ -477,8 +472,9 @@ func main() {
  />
  
  {/* Top Header Hero */}
- <section className="relative overflow-hidden border-b border-border bg-card pt-8 pb-10 sm:pb-12 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border bg-card pt-8 w-full ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 
  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -530,7 +526,7 @@ func main() {
  </section>
 
  {/* Main Container */}
- <div className="ds-page-shell mt-5 space-y-5">
+ <div className="ds-page-shell mt-5 space-y-5 ds-section">
 
  {/* Rate Limit Alert Component */}
  <RateLimitThresholdAlert 
@@ -958,7 +954,7 @@ func main() {
  <div className="flex-1 p-4 overflow-auto">
  
  {executing ? (
- <div className="flex flex-col items-center justify-center py-20 text-center">
+ <div className="flex flex-col items-center justify-center text-center">
  <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-black mb-3"/>
  <h4 className="text-sm font-bold text-foreground">Dispatching Probe to CatalystLab Engines</h4>
  <p className="text-xs text-muted-foreground mt-1 max-w-3xl mx-auto font-sans">
@@ -966,7 +962,7 @@ func main() {
  </p>
  </div>
  ) : !responsePayload && responseStatus === null ? (
- <div className="flex flex-col items-center justify-center py-24 text-center">
+ <div className="flex flex-col items-center justify-center text-center">
  <Terminal className="h-10 w-10 text-muted-foreground mb-3"/>
  <h4 className="text-sm font-bold text-foreground">Ready for Engine Execution</h4>
  <p className="text-xs text-muted-foreground mt-1 max-w-3xl mx-auto font-sans">

@@ -156,7 +156,7 @@ export const AboutPage: React.FC = () => {
  const activeEngine = ENGINES_CATALOG.find((e) => e.id === selectedEngine) || ENGINES_CATALOG[0];
 
  return (
- <div data-theme="dark" className="relative min-h-screen ds-page-top bg-background pb-24 text-foreground">
+ <div data-theme="dark" className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="About Us & Engineering Methodology — CatalystLab"
  description="Learn about CatalystLab, our 8-engine telemetry architecture, deterministic benchmarks, 42-PoP global edge mesh, and zero-trust engineering standards."
@@ -165,13 +165,14 @@ export const AboutPage: React.FC = () => {
  />
 
  {/* Atmospheric Lighting */}
- <div className="pointer-events-none absolute left-1/2 top-0 h-[450px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)]" />
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
 
  {/* Hero Section */}
- <section className="relative z-10 border-b border-border pb-16 sm:pb-20 w-full">
- <div className="ds-page-shell text-center space-y-6">
+ <section className="relative z-10 border-b border-border w-full ds-section">
+ <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center space-y-6 ds-section">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3.5 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
  <Sparkles className="size-3.5 text-[#0066FF] shrink-0"/>
  <span>Autonomous Telemetry Infrastructure</span>
  </div>
@@ -207,16 +208,16 @@ export const AboutPage: React.FC = () => {
  </div>
  </div>
 
- </div>
+ </motion.div>
  </section>
 
  {/* Main Content Workspace */}
- <main className="relative z-10 ds-page-shell py-16 space-y-20">
+ <main className="relative z-10 ds-page-shell space-y-20 ds-section">
  
  {/* The Problem & Our Mission */}
- <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+ <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center ds-section">
  <LazyReveal direction="left" className="lg:col-span-7 space-y-5">
- <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
  <Terminal className="size-3.5 text-[#0066FF] shrink-0"/>
  <span>Genesis &amp; Mission</span>
  </div>
@@ -295,7 +296,7 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Mission Visual Asset Showcase */}
- <section className="relative overflow-hidden rounded-2xl border border-border dark:border-white/[0.08] p-2 bg-card dark:bg-muted/20 shadow-sm dark:shadow-linear-card backdrop-blur-xl">
+ <section className="relative overflow-hidden rounded-2xl border border-border dark:border-white/[0.08] p-2 bg-card dark:bg-muted/20 shadow-sm dark:shadow-linear-card backdrop-blur-xl ds-section">
  <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"/>
  <ScanRevealFigure
  assetId="about-engineering-team"
@@ -306,7 +307,7 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* The 8-Engine Matrix Interactive Showcase */}
- <section className="space-y-8">
+ <section className="space-y-8 ds-section">
  <div className="text-center space-y-3 max-w-2xl mx-auto">
  <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
  <Cpu className="size-3.5 text-primary"/>
@@ -418,7 +419,7 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* 4 Architectural Pillars */}
- <section className="space-y-8">
+ <section className="space-y-8 ds-section">
  <div className="text-center space-y-3 max-w-2xl mx-auto">
  <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
  <Award className="size-3.5 text-primary"/>
@@ -476,7 +477,7 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Global Edge Mesh Network (42 PoPs) */}
- <section className="ds-card p-8 sm:p-10 space-y-8">
+ <section className="ds-card p-8 sm:p-10 space-y-8 ds-section">
  <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"/>
  
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -526,7 +527,7 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Leadership & Core Engineering Team */}
- <section className="space-y-8">
+ <section className="space-y-8 ds-section">
  <div className="text-center space-y-3 max-w-2xl mx-auto">
  <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
  <Users className="size-3.5 text-primary"/>
@@ -568,7 +569,7 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Final CTA Banner */}
- <section className="ds-card p-8 sm:p-12 text-center space-y-6">
+ <section className="ds-card p-8 sm:p-12 text-center space-y-6 ds-section">
  <div className="relative z-10 max-w-2xl mx-auto space-y-4">
  <h2 className="framer-section-headline text-foreground">
  Ready to benchmark your web stack?

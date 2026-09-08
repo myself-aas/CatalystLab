@@ -86,9 +86,7 @@ export const ApiReferenceDoc: React.FC = () => {
  language="typescript"
  code={`const response = await fetch("https://www.catalystlab.tech/api/run-engine", {
  method:"POST",
- headers: {
-"Content-Type":"application/json",
-"X-API-Key":"cat_live_..."
+ headers: {"Content-Type":"application/json","X-API-Key":"cat_live_..."
  },
  body: JSON.stringify({
  url:"https://github.com",
@@ -137,25 +135,9 @@ logger.debug("Quality Score:", data.score);`}
  <CodeSnippet
  title="Standard JSON Output Structure"
  language="json"
- code={`{
-"success": true,
-"engine":"website-health",
-"targetUrl":"https://example.com",
-"timestamp":"2026-08-22T09:40:00Z",
-"durationMs": 942,
-"score": 94,
-"status":"PASS",
-"metrics": {
-"domTreeDepth": 14,
-"totalDomNodes": 412,
-"renderBlockingScripts": 0,
-"wireSizeKb": 24.8,
-"compressionType":"br"
- },
-"recommendations": [
- {
-"priority":"LOW",
-"message":"Add explicit width and height attributes to 2 secondary images."
+ code={`{"success": true,"engine":"website-health","targetUrl":"https://example.com","timestamp":"2026-08-22T09:40:00Z","durationMs": 942,"score": 94,"status":"PASS","metrics": {"domTreeDepth": 14,"totalDomNodes": 412,"renderBlockingScripts": 0,"wireSizeKb": 24.8,"compressionType":"br"
+ },"recommendations": [
+ {"priority":"LOW","message":"Add explicit width and height attributes to 2 secondary images."
  }
  ]
 }`}

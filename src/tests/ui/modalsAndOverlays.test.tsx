@@ -8,6 +8,7 @@ import { PaymentCheckoutModal } from '../../components/common/PaymentCheckoutMod
 import { NewsletterModal } from '../../components/common/NewsletterModal';
 import { GetInTouchEmailModal } from '../../components/common/GetInTouchEmailModal';
 import { MainMenuOverlay } from '../../components/layout/MainMenuOverlay';
+import { AuditDetailModal } from '../../components/dashboard/AuditDetailModal';
 import { AuthProvider } from '../../context/AuthContext';
 import { ThemeProvider } from '../../context/ThemeContext';
 import { SubscriptionProvider, useSubscription } from '../../context/SubscriptionContext';
@@ -145,5 +146,62 @@ describe('Browserbase UI-Test: Modals, Drawers & Overlay Systems', () => {
     // Press Escape to close
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(handleClose).toHaveBeenCalled();
+  });
+
+  it('renders AuditDetailModal with staggered content elements (score cards and text blocks) and responds to close/actions', () => {
+    const handleClose = vi.fn();
+    const handleViewFullReport = vi.fn();
+
+    const mockReport = {
+      id: 'audit-rep-101',
+      url: 'https://acme-corp.catalystlab.io',
+      engine: 'vitalzyme',
+      title: 'Acme Edge Vitals & Latency Probe',
+      score: 96,
+      createdAt: Date.now(),
+      ownerId: 'usr-123',
+      summary: 'TLS 1.3 cryptographic handshake validated with sub-millisecond edge response.',
+      output: '[200 OK] TLS 1.3 negotiated via cipher ECDHE-ECDSA-AES128-GCM-SHA256',
+    };
+
+    render(
+      <AuditDetailModal
+        isOpen={true}
+        report={mockReport}
+        onClose={handleClose}
+        onViewFullReport={handleViewFullReport}
+      />,
+      { wrapper }
+    );
+
+    // Dialog structure & title
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByText(/Acme Edge Vitals & Latency Probe/i)).toBeInTheDocument();
+    expect(screen.getByText(/vitalzyme/i)).toBeInTheDocument();
+    expect(screen.getByText('https://acme-corp.catalystlab.io')).toBeInTheDocument();
+
+    // Score cards
+    expect(screen.getByText('96')).toBeInTheDocument();
+    expect(screen.getByText(/Composite Diagnostic Index/i)).toBeInTheDocument();
+    expect(screen.getByText(/Grade A\+ • Production Optimal/i)).toBeInTheDocument();
+    expect(screen.getByText(/Latency \/ TTFB/i)).toBeInTheDocument();
+    expect(screen.getByText(/Edge Cache/i)).toBeInTheDocument();
+
+    // Text blocks
+    expect(screen.getByText(/Executive Diagnostic Summary/i)).toBeInTheDocument();
+    expect(screen.getByText(/TLS 1.3 cryptographic handshake validated with sub-millisecond edge response\./i)).toBeInTheDocument();
+    expect(screen.getByText(/Raw Telemetry Findings & Output/i)).toBeInTheDocument();
+    expect(screen.getByText(/Recommended Next Action:/i)).toBeInTheDocument();
+
+    // Action button clicks
+    const fullReportBtn = screen.getByRole('button', { name: /View Full Dossier/i });
+    fireEvent.click(fullReportBtn);
+    expect(handleViewFullReport).toHaveBeenCalledWith(mockReport);
+    expect(handleClose).toHaveBeenCalled();
+
+    // Close button
+    const closeBtn = screen.getByLabelText(/Close Audit Detail Modal/i);
+    fireEvent.click(closeBtn);
+    expect(handleClose).toHaveBeenCalledTimes(2);
   });
 });

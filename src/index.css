@@ -38,8 +38,8 @@
 
   /* Layout Geometry & Dynamic Chrome Spacing */
   --trial-banner-height: 0px;
-  --nav-height: 3.25rem;
-  --nav-top-offset: 1rem;
+  --nav-height: 4rem;
+  --nav-top-offset: 0px;
   --nav-bottom-clearance: 1.5rem;
   --nav-total-height: calc(var(--trial-banner-height, 0px) + var(--nav-top-offset) + var(--nav-height));
   --page-top-spacing: calc(var(--nav-total-height) + var(--nav-bottom-clearance));
@@ -47,7 +47,7 @@
 
 @media (min-width: 768px) {
   :root {
-    --nav-top-offset: 1.5rem;
+    --nav-top-offset: 0px;
     --nav-bottom-clearance: 2rem;
   }
 }
@@ -423,6 +423,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-destructive: var(--app-destructive);
   --color-destructive-foreground: var(--app-destructive-foreground);
   --color-border: var(--app-border);
+  --color-border-subtle: var(--border-subtle);
+  --color-app-background: var(--app-background);
   --color-input: var(--app-input);
   --color-ring: var(--app-ring);
   
@@ -1324,4 +1326,10 @@ html:not(.dark) .shadow-linear-cta {
   .catalyst-media-interactive:hover .catalyst-media-img {
     transform: none !important;
   }
+}
+.ds-nav-active {
+  background-color: color-mix(in srgb, var(--accent-framer-blue) 10%, transparent);
+  color: var(--accent-framer-blue);
+  font-weight: 700;
+  border: 1px solid color-mix(in srgb, var(--accent-framer-blue) 20%, transparent);
 }

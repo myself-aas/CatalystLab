@@ -31,7 +31,7 @@ export const ReactDevDesignPage: React.FC = () => {
  activePath="/design-system"
  brandName="Catalyst Design"
  >
- <div className="min-w-0 max-w-3xl mx-auto flex-auto pt-6 pb-24 lg:pb-16 prose prose-cyan dark:prose-invert">
+ <div className="min-w-0 max-w-3xl mx-auto flex-auto pt-6 prose prose-cyan dark:prose-invert">
  <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground mb-4">
  React.dev Design System
  </h1>

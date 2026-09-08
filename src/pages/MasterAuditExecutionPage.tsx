@@ -206,16 +206,17 @@ export const MasterAuditExecutionPage: React.FC = () => {
  const progressPct = Math.round((completedCount / MASTER_ENGINES.length) * 100);
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground pb-20 font-sans">
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground font-sans">
  <SEOHead
  title="Master Audit Orchestrator"
  description="Run all eight CatalystLab diagnostic engines against a target URL and review the composite telemetry dossier."
  canonicalUrl="https://www.catalystlab.tech/master-audit"
  />
 
- <section className="relative overflow-hidden border-b border-border pb-16 sm:pb-24 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
- <div className="relative z-10 ds-page-shell text-center">
+ <section className="relative overflow-hidden border-b border-border w-full ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+ <div className="relative z-10 ds-page-shell text-center ds-section">
  <div className="mb-8 flex items-center justify-between">
  <Link
  to="/"
@@ -259,7 +260,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  reason="limit_reached"
  />
 
- <main className="ds-page-shell space-y-6 py-8 sm:px-6 lg:px-8">
+ <main className="ds-page-shell space-y-6 py-8 sm:px-6 lg:px-8 ds-section">
  {(loading || completedCount > 0) && (
  <LinearCard className="p-5"lift={false}>
  <div className="flex items-center justify-between gap-3">

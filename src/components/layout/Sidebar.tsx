@@ -66,7 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
   };
 
   const SidebarContent = (
-    <div className="flex h-full flex-col bg-white border-r border-border overflow-hidden dark:bg-background dark:border-white/10">
+    <div className="flex h-full flex-col bg-[var(--app-background)] border-r border-[var(--border-subtle)] overflow-hidden">
       <div className={cn("flex items-center h-16 shrink-0 px-4", isExpanded ? "justify-between" : "justify-center")}>
         {isExpanded && (
           <Link to="/" className="flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-md" onClick={onCloseMobile}>
@@ -74,63 +74,76 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             <span className="font-bold text-[15px] tracking-tight">CatalystLab</span>
           </Link>
         )}
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           onClick={toggleSidebar}
-          className="p-1.5 rounded-md ds-muted hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
+          className="p-1.5 rounded-md ds-muted hover:bg-[var(--theme-slate-900)]/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
         >
           <SidebarIcon className="size-[18px]" />
-        </button>
+        </motion.button>
       </div>
 
       <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1 scrollbar-none">
         {TOP_LINKS.map((item) => (
-          <NavLink
+          <motion.div
             key={item.name}
-            to={item.path}
-            onClick={onCloseMobile}
-            className={({ isActive }) => cn(
-              "group relative flex items-center h-[36px] rounded-lg px-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-              isActive
-                ? "bg-primary text-primary-foreground shadow-sm border border-border font-medium"
-                : "bg-background ds-muted hover:text-foreground hover:bg-muted border border-transparent hover:border-border"
-            )}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           >
-            <item.icon className={cn("size-[18px] shrink-0", !isExpanded && "mx-auto")} />
+            <NavLink
+              to={item.path}
+              onClick={onCloseMobile}
+              className={({ isActive }) => cn(
+                "group relative flex items-center h-[36px] rounded-lg px-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+                isActive
+                  ? "ds-nav-active shadow-sm"
+                  : "bg-[var(--app-background)] ds-muted hover:text-foreground hover:bg-[var(--theme-slate-900)]/5 border border-transparent hover:border-[var(--border-subtle)]"
+              )}
+            >
+              <item.icon className={cn("size-[18px] shrink-0", !isExpanded && "mx-auto")} />
 
-            {isExpanded && (
-              <span className="ml-3 text-[14px] flex-1 truncate">{item.name}</span>
-            )}
+              {isExpanded && (
+                <span className="ml-3 text-[14px] flex-1 truncate">{item.name}</span>
+              )}
 
-            {isExpanded && item.badge && (
-              <span className="text-[11px] font-medium ds-muted bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded-md">
-                {item.badge}
-              </span>
-            )}
+              {isExpanded && item.badge && (
+                <span className="text-[11px] font-medium ds-muted bg-[var(--theme-slate-900)]/10 border border-[var(--border-subtle)] px-1.5 py-0.5 rounded-md">
+                  {item.badge}
+                </span>
+              )}
 
-            {!isExpanded && (
-              <div className="absolute left-full ml-2 px-2 py-1 bg-foreground text-background text-xs font-medium rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 flex items-center shadow-lg">
-                <div className="absolute -left-1 top-1/2 -translate-y-1/2 border-y-4 border-y-transparent border-r-4 border-r-foreground" />
-                {item.name}
-              </div>
-            )}
-          </NavLink>
+              {!isExpanded && (
+                <div className="absolute left-full ml-2 px-2 py-1 bg-[var(--theme-slate-900)] text-[var(--app-background)] text-xs font-medium rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 flex items-center shadow-lg">
+                  <div className="absolute -left-1 top-1/2 -translate-y-1/2 border-y-4 border-y-transparent border-r-4 border-r-[var(--theme-slate-900)]" />
+                  {item.name}
+                </div>
+              )}
+            </NavLink>
+          </motion.div>
         ))}
 
         <div className="pt-4 pb-1">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             onClick={() => {
               if (!isExpanded) setIsExpanded(true);
               setEnginesExpanded(!enginesExpanded);
             }}
             className={cn(
-              "w-full flex items-center h-[36px] rounded-lg px-2.5 transition-colors ds-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+              "w-full flex items-center h-[36px] rounded-lg px-2.5 transition-colors ds-muted hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
               !isExpanded && "justify-center"
             )}
           >
             {isExpanded ? (
               <motion.div
                 animate={{ rotate: enginesExpanded ? 90 : 0 }}
-                transition={{ duration: 0.15 }}
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 className="shrink-0"
               >
                 <ChevronRight className="size-4" />
@@ -142,7 +155,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             {isExpanded && (
               <span className="ml-2 text-[14px] flex-1 text-left">Engines</span>
             )}
-          </button>
+          </motion.button>
 
           <AnimatePresence initial={false}>
             {isExpanded && enginesExpanded && (
@@ -150,24 +163,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 className="overflow-hidden"
               >
                 <div className="pl-6 space-y-0.5 pt-1">
                   {ENGINES.map(engine => (
-                    <NavLink
+                    <motion.div
                       key={engine.name}
-                      to={engine.path}
-                      onClick={onCloseMobile}
-                      className={({ isActive }) => cn(
-                        "flex items-center h-[32px] rounded-lg px-2.5 text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                        isActive
-                          ? "bg-primary/10 text-primary font-bold border border-primary/20"
-                          : "ds-muted hover:bg-muted hover:text-foreground border border-transparent"
-                      )}
+                      whileHover={{ x: 3 }}
+                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <span className="truncate">{engine.name}</span>
-                    </NavLink>
+                      <NavLink
+                        to={engine.path}
+                        onClick={onCloseMobile}
+                        className={({ isActive }) => cn(
+                          "flex items-center h-[32px] rounded-lg px-2.5 text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+                          isActive
+                            ? "ds-nav-active"
+                            : "ds-muted hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground border border-transparent hover:border-[var(--border-subtle)]"
+                        )}
+                      >
+                        <span className="truncate">{engine.name}</span>
+                      </NavLink>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -176,37 +194,46 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         </div>
       </div>
 
-      <div className="px-3 py-4 space-y-4 border-t border-border-default/50 shrink-0">
+      <div className="px-3 py-4 space-y-4 border-t border-[var(--border-subtle)] shrink-0">
         {isExpanded ? (
-          <div className="flex p-0.5 bg-black/5 dark:bg-white/5 rounded-lg">
-            <button
+          <div className="flex p-0.5 bg-[var(--theme-slate-900)]/5 border border-[var(--border-subtle)] rounded-lg">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setTheme('light')}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                theme === 'light' ? "bg-white text-black shadow-sm dark:bg-black dark:text-white" : "ds-muted hover:text-foreground"
+                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
+                theme === 'light' ? "bg-[var(--app-background)] text-[var(--theme-slate-900)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
               )}
             >
               <Sun className="size-[15px]" />
               Light
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setTheme('dark')}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                theme === 'dark' ? "bg-white text-black shadow-sm dark:bg-black dark:text-white" : "ds-muted hover:text-foreground"
+                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
+                theme === 'dark' ? "bg-[var(--app-background)] text-[var(--theme-slate-900)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
               )}
             >
               <Moon className="size-[15px]" />
               Dark
-            </button>
+            </motion.button>
           </div>
         ) : (
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="w-full flex items-center justify-center h-[36px] rounded-lg ds-muted hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="w-full flex items-center justify-center h-[36px] rounded-lg ds-muted hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
           >
             {theme === 'dark' ? <Sun className="size-[18px]" /> : <Moon className="size-[18px]" />}
-          </button>
+          </motion.button>
         )}
 
         <div className={cn("flex items-center", isExpanded ? "gap-3 px-2" : "justify-center")}>
@@ -235,7 +262,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <button
                   type="button"
                   onClick={() => logout()}
-                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--theme-slate-900)]/10 transition-colors focus-visible:outline-none cursor-pointer"
                   title="Sign out"
                   aria-label="Sign out"
                 >
@@ -245,7 +272,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <Link
                   to="/login"
                   onClick={onCloseMobile}
-                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-black/5 dark:hover:bg-white/10 transition-colors focus-visible:outline-none"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--theme-slate-900)]/10 transition-colors focus-visible:outline-none"
                   title="Sign in"
                   aria-label="Sign in"
                 >
@@ -265,8 +292,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         initial={false}
         animate={isExpanded ? 'expanded' : 'collapsed'}
         variants={sidebarVariants}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="hidden lg:block shrink-0 h-screen sticky top-0 z-40 bg-background"
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        className="hidden lg:block shrink-0 h-screen sticky top-0 z-40 bg-[var(--app-background)]"
       >
         {SidebarContent}
       </motion.aside>
@@ -278,15 +305,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={onCloseMobile}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 lg:hidden"
+              className="fixed inset-0 bg-[var(--app-background)]/60 backdrop-blur-sm z-50 lg:hidden"
             />
             <motion.aside
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-[280px] z-50 lg:hidden bg-background shadow-2xl"
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-y-0 left-0 w-[280px] z-50 lg:hidden bg-[var(--app-background)] border-r border-[var(--border-subtle)] shadow-2xl"
             >
               {SidebarContent}
             </motion.aside>

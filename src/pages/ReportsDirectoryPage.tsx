@@ -125,7 +125,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  );
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground font-mono">
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground font-mono">
  <SEOHead
  title="Diagnostic Report Directory"
  description="Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide."
@@ -134,8 +134,9 @@ export const ReportsDirectoryPage: React.FC = () => {
  />
  
  {/* Header Banner */}
- <section className="relative overflow-hidden border-b border-border pb-16 sm:pb-20 sm:px-6 lg:px-8">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border sm:px-6 lg:px-8 ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 max-w-3xl mx-auto space-y-6">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -195,7 +196,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell space-y-12">
+ <main className="ds-page-shell space-y-12 ds-section">
  
  {/* Search Bar */}
  <div className="relative">
@@ -211,7 +212,7 @@ export const ReportsDirectoryPage: React.FC = () => {
 
  {/* User Saved Reports (If authenticated & has reports) */}
  {user && (loadingReports || userReports.length > 0) && (
- <section className="space-y-6">
+ <section className="space-y-6 ds-section">
  <div className="flex items-center justify-between border-b border-border pb-3">
  <h2 className="text-sm font-extrabold text-foreground flex items-center gap-2">
  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent text-muted-foreground border border-border">
@@ -276,7 +277,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  )}
 
  {/* Featured Benchmark Articles (Always visible to everyone) */}
- <section className="space-y-6">
+ <section className="space-y-6 ds-section">
  <div className="border-b border-border pb-3">
  <h2 className="text-sm font-extrabold text-foreground flex items-center gap-2">
  <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-amber-50 text-amber-600 border border-amber-200">

@@ -9,9 +9,15 @@
 
 export const FRAMER_EASE = [0.16, 1, 0.3, 1] as const;
 
+/** Global Framer Motion spring curve for navigation toggles, drawers, and hover physics */
+export const GLOBAL_SPRING = {
+  duration: 0.18,
+  ease: FRAMER_EASE,
+} as const;
+
 export const MOTION_TRANSITIONS = {
   micro: {
-    duration: 0.2,
+    duration: 0.18,
     ease: FRAMER_EASE,
   },
   layout: {

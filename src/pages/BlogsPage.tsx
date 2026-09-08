@@ -175,8 +175,8 @@ export const BlogsPage: React.FC = () => {
  });
  };
 
-  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-[#0066FF]/30 selection:text-white">
+ return (
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground font-sans selection:bg-[#0066FF]/30 selection:text-white">
  <SEOHead
  title="Telemetry Research Feed & Technical Publications | CatalystLab"
  description="Explore biochemical telemetry research, Core Web Vitals optimizations, AI agent crawler readiness protocols, and edge latency benchmarks."
@@ -187,7 +187,7 @@ export const BlogsPage: React.FC = () => {
  {/* Admin Quick Access Bar */}
  {user && (
  <div className="border-b border-border bg-card">
- <div className="ds-page-shell py-2 flex items-center justify-between">
+ <div className="ds-page-shell py-2 flex items-center justify-between ds-section">
  <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
  <Sparkles className="h-3 w-3 text-[#00D2FF] shrink-0"/>
  <span>
@@ -217,10 +217,11 @@ export const BlogsPage: React.FC = () => {
  )}
 
  {/* Hero Header Section */}
- <section className="relative overflow-hidden border-b border-border bg-card py-16 sm:py-20 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
 
- <div className="relative z-10 ds-page-shell text-center space-y-5">
+ <div className="relative z-10 ds-page-shell text-center space-y-5 ds-section">
  <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 framer-micro-tag text-[#00D2FF] shadow-xs backdrop-blur-md">
  <BookOpen className="h-3.5 w-3.5 shrink-0"/>
  <span>TELEMETRY RESEARCH FEED &bull; 8-VECTOR SDLC DIAGNOSTICS</span>
@@ -256,7 +257,7 @@ export const BlogsPage: React.FC = () => {
 
  {/* Inline Interactive Mini-Sandbox */}
  {showSandbox && (
- <div className="ds-page-shell pt-6">
+ <div className="ds-page-shell pt-6 ds-section">
  <InteractiveTelemetrySandbox />
  </div>
  )}
@@ -269,11 +270,11 @@ export const BlogsPage: React.FC = () => {
  showViewAllButton={false}
  showFilterTabs={true}
  showEcosystemBar={true}
- className="pt-8 pb-12"
+ className="pt-8 ds-section"
  />
 
  {/* 2. EXPLORE ALL TECHNICAL ARTICLES */}
- <main className="ds-page-shell py-10 space-y-6">
+ <main className="ds-page-shell space-y-6 ds-section">
  
  {/* Section Header with Search & Filter Controls */}
  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">

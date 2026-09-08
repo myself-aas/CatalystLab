@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 export const DiagnosticEnginesPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  <SEOHead
  title="Diagnostic Engines Catalog — CatalystLab"
  description="Explore the 8 standalone automated diagnostic engines of CatalystLab: performance, security, LLM readiness, and carbon intelligence."
@@ -16,10 +16,10 @@ export const DiagnosticEnginesPage: React.FC = () => {
  />
 
  {/* Top Banner Hero */}
- <section className="relative overflow-hidden border-b border-border bg-background py-12 sm:py-16 w-full">
+ <section className="relative overflow-hidden border-b border-border bg-background w-full ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.08)_0%,transparent_70%)] pointer-events-none" />
 
- <div className="ds-page-shell">
+ <div className="ds-page-shell ds-section">
  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
  <div className="flex flex-wrap items-center gap-2">
@@ -57,7 +57,7 @@ export const DiagnosticEnginesPage: React.FC = () => {
  </section>
 
  {/* Main Grid */}
- <main className="ds-page-shell lg:">
+ <main className="ds-page-shell ds-section">
  <motion.div
  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
  variants={{

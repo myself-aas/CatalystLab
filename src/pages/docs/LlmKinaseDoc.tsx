@@ -86,21 +86,8 @@ Allow: /`}
  <CodeSnippet
  title="TechArticle JSON-LD Schema (<script type='application/ld+json'>)"
  language="json"
- code={`{
-"@context":"https://schema.org",
-"@type":"SoftwareApplication",
-"name":"CatalystLab",
-"operatingSystem":"Cloud / Docker",
-"applicationCategory":"DeveloperApplication",
-"offers": {
-"@type":"Offer",
-"price":"0.00",
-"priceCurrency":"USD"
- },
-"author": {
-"@type":"Organization",
-"name":"CatalystLab Telemetry Team",
-"url":"https://www.catalystlab.tech"
+ code={`{"@context":"https://schema.org","@type":"SoftwareApplication","name":"CatalystLab","operatingSystem":"Cloud / Docker","applicationCategory":"DeveloperApplication","offers": {"@type":"Offer","price":"0.00","priceCurrency":"USD"
+ },"author": {"@type":"Organization","name":"CatalystLab Telemetry Team","url":"https://www.catalystlab.tech"
  }
 }`}
  />

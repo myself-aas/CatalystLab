@@ -184,8 +184,8 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  setTimeout(() => setCopiedLink(false), 2000);
  };
 
-  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-20 font-sans text-foreground">
+ return (
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background font-sans text-foreground">
  <SEOHead
  title={`${meta.catalystName || meta.name} Catalyst — CatalystLab`}
  description={meta.description}
@@ -195,9 +195,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  {/* Sticky Contextual Breadcrumb Nav */}
  <EngineSubNav />
 
- <section className="relative overflow-hidden border-b border-border bg-card py-12 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
- <div className="relative z-10 ds-page-shell text-center">
+ <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+ <div className="relative z-10 ds-page-shell text-center ds-section">
  <div className="mb-8 flex justify-end">
  <Link
  to={`/docs#${meta.docsAnchor || 'overview'}`}
@@ -258,7 +259,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  reason={rateLimitReason}
  />
 
- <main className="ds-page-shell space-y-6 py-8">
+ <main className="ds-page-shell space-y-6 py-8 ds-section">
  {savedReportId && (
  <LinearCard className="p-4 sm:p-5" lift={false}>
  <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">

@@ -41,8 +41,8 @@ export const PlaygroundCatalogPage: React.FC = () => {
  return (
  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Hero Banner */}
- <div className="border-b border-border bg-background pt-12 pb-14">
- <div className="ds-page-shell">
+ <div className="border-b border-border bg-background ds-section">
+ <div className="ds-page-shell ds-section">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
  <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 framer-micro-tag text-emerald-400">
@@ -77,7 +77,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  </div>
 
  {/* Main Content */}
- <div className="ds-page-shell lg: py-10">
+ <div className="ds-page-shell ds-section">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Sidebar */}
@@ -87,7 +87,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <div className="flex-1 space-y-10 min-w-0">
  
  {/* Quick Test Launch Form */}
- <section className="ds-card p-6 sm:p-8 space-y-6">
+ <section className="ds-card p-6 sm:p-8 space-y-6 ds-section">
  <div>
  <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
  <Zap className="h-5 w-5 text-amber-500"/>
@@ -123,7 +123,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  </section>
 
  {/* Diagnostic Engines Sandbox Catalog */}
- <section className="space-y-6">
+ <section className="space-y-6 ds-section">
  <div>
  <h2 className="framer-section-headline text-foreground">Interactive Engine Consoles</h2>
  <p className="framer-body-text mt-1">Click any engine to open its dedicated interactive test sandbox</p>

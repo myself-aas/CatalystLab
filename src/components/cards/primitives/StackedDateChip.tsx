@@ -50,6 +50,6 @@ export const StackedDateChip: React.FC<StackedDateChipProps> = ({
           {weekday}
         </span>
       )}
-    </div>
+    </motion.div>
   );
 };

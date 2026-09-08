@@ -117,8 +117,8 @@ export default {
  }
 };`;
 
-  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background pb-24 text-foreground">
+ return (
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Automated Plugins & Domain Monitoring Watchdog | CatalystLab"
  description="Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains."
@@ -127,10 +127,11 @@ export default {
  />
 
  {/* Hero Section */}
- <section className="relative overflow-hidden bg-card pb-16 sm:pb-20 border-b border-border w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden bg-card border-b border-border w-full ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
 
- <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+ <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
  <div className="flex flex-wrap items-center justify-center gap-2.5">
  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-white/5 backdrop-blur-md px-3 py-1 text-xs font-mono text-foreground shadow-xs">
  <Radio className="h-3.5 w-3.5 text-[#0066FF] animate-pulse shrink-0"/>
@@ -179,7 +180,7 @@ export default {
  <span>API Docs →</span>
  </Link>
  </div>
- </div>
+ </motion.div>
  </section>
 
  {/* Immersive Products Parallax Banner */}
@@ -189,7 +190,7 @@ export default {
  height="min-h-[320px]"
  className="border-y border-border"
  >
- <div className="ds-page-shell">
+ <div className="ds-page-shell ds-section">
  <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
  Cloud Infrastructure Parallax
  </span>
@@ -203,7 +204,7 @@ export default {
  </ParallaxSection>
 
  {/* Main Content Container */}
- <div className="ds-page-shell py-16 space-y-20">
+ <div className="ds-page-shell space-y-20 ds-section">
 
  {/* Section 1: Product Suite Catalog */}
  <section>
@@ -221,7 +222,7 @@ export default {
  </p>
  </div>
 
-  {/* Category Filter Pills */}
+ {/* Category Filter Pills */}
  <div className="flex flex-wrap items-center gap-1.5 bg-white/5 p-1.5 rounded-xl border border-border">
  <button
  onClick={() => setSelectedCategory('all')}
@@ -406,7 +407,7 @@ export default {
 
  {/* Section 2: Interactive Domain Monitoring Configurator */}
  <section id="domain-configurator"className="ds-card p-6 sm:p-10 ds-card-interactive">
- <div className="ds-page-shell mb-10">
+ <div className="ds-page-shell mb-10 ds-section">
  <div className="inline-flex items-center gap-1.5 rounded-full bg-accent border border-border text-muted-foreground px-3.5 py-1 text-xs font-mono font-bold mb-3 shadow-sm">
  <Sliders className="h-3.5 w-3.5 text-foreground"/>
  <span>Interactive Config Studio</span>
@@ -688,7 +689,7 @@ export default {
  </section>
 
  {/* Section 4: Enterprise & SLA CTA Banner */}
- <section className="rounded-3xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-md relative overflow-hidden">
+ <section className="rounded-3xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-md relative overflow-hidden ds-section">
  {/* subtle noise/pattern could go here */}
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-background via-transparent to-transparent opacity-50"/>
  

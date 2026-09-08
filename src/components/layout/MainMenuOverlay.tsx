@@ -191,18 +191,21 @@ const CollapsibleMenuItem = ({
   const motionProps = level === 0 ? {
     initial: { opacity: 0, x: -8 },
     animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.18, delay: 0.04 + index * 0.04 }
+    transition: { duration: 0.18, ease: [0.16, 1, 0.3, 1], delay: 0.04 + index * 0.04 }
   } : {};
 
   if (item.children) {
     return (
       <MotionWrapper className="flex flex-col w-full list-none" {...motionProps}>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           onClick={() => onToggle(item.id)}
           className={cn(
-            "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-200 border w-full",
-            level > 0 ? "py-2 px-3 border-transparent" : "py-2.5 border-transparent hover:border-border hover:bg-muted/40",
-            childActive && level === 0 ? "bg-muted/20" : ""
+            "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-150 border w-full cursor-pointer",
+            level > 0 ? "py-2 px-3 border-transparent" : "py-2.5 border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--theme-slate-900)]/5",
+            childActive && level === 0 ? "bg-[var(--theme-slate-900)]/10" : ""
           )}
           style={{ paddingLeft: level > 0 ? `${Math.max(0.875, level * 1.25 + 0.875)}rem` : undefined }}
           aria-expanded={isExpanded}
@@ -211,7 +214,7 @@ const CollapsibleMenuItem = ({
           <div className="flex items-center gap-3">
             {Icon && (
               <div className={cn(
-                "rounded-lg border flex items-center justify-center transition-colors border-border bg-muted/30 ds-muted group-hover:text-foreground group-hover:border-accent/30",
+                "rounded-lg border flex items-center justify-center transition-colors border-[var(--border-subtle)] bg-[var(--theme-slate-900)]/5 ds-muted group-hover:text-foreground group-hover:border-accent/30",
                 level === 0 ? "size-8.5" : "size-7"
               )}>
                 <Icon className={level === 0 ? "size-4" : "size-3.5"} />
@@ -225,7 +228,7 @@ const CollapsibleMenuItem = ({
             </span>
           </div>
           <ChevronDown className={cn("size-4 ds-muted/40 transition-transform duration-200", isExpanded && "rotate-180 text-accent-bright")} aria-hidden="true" />
-        </button>
+        </motion.button>
 
         <AnimatePresence>
           {isExpanded && (
@@ -234,7 +237,7 @@ const CollapsibleMenuItem = ({
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col overflow-hidden"
               role="region"
               aria-label={`${item.title} submenu`}
@@ -263,60 +266,66 @@ const CollapsibleMenuItem = ({
 
   return (
     <MotionWrapper className="list-none w-full" {...motionProps}>
-      <Link
-        to={item.path || "#"}
-        onClick={onClose}
-        className={cn(
-          "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-200 border w-full",
-          isActive
-            ? "border-accent/40 bg-accent/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
-            : "border-transparent hover:border-border hover:bg-muted/40",
-          level > 0 ? "py-2 px-3" : "py-2.5"
-        )}
-        style={{ paddingLeft: level > 0 ? `${Math.max(0.875, level * 1.25 + 0.875)}rem` : undefined }}
-        aria-current={isActive ? "page" : undefined}
+      <motion.div
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="flex items-center gap-3">
-          {Icon && (
-            <div className={cn(
-              "rounded-lg border flex items-center justify-center transition-colors",
-              isActive
-                ? "border-accent/40 bg-accent/20 text-accent-bright"
-                : "border-border bg-muted/30 ds-muted group-hover:text-foreground group-hover:border-accent/30",
-              level === 0 ? "size-8.5" : "size-7"
-            )}>
-              <Icon className={level === 0 ? "size-4" : "size-3.5"} aria-hidden="true" />
-            </div>
+        <Link
+          to={item.path || "#"}
+          onClick={onClose}
+          className={cn(
+            "group flex items-center justify-between rounded-xl px-3.5 transition-all duration-150 border w-full",
+            isActive
+              ? "border-accent/40 bg-accent/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+              : "border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--theme-slate-900)]/5",
+            level > 0 ? "py-2 px-3" : "py-2.5"
           )}
-          <span className={cn(
-            "font-semibold tracking-tight transition-colors",
-            isActive ? "text-foreground" : "ds-muted group-hover:text-foreground",
-            level === 0 ? "text-sm sm:text-base" : "text-xs font-medium ds-muted hover:text-foreground",
-            level > 0 && isActive && "text-accent-bright font-semibold"
-          )}>
-            {item.title}
-          </span>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          {item.badge && (
+          style={{ paddingLeft: level > 0 ? `${Math.max(0.875, level * 1.25 + 0.875)}rem` : undefined }}
+          aria-current={isActive ? "page" : undefined}
+        >
+          <div className="flex items-center gap-3">
+            {Icon && (
+              <div className={cn(
+                "rounded-lg border flex items-center justify-center transition-colors",
+                isActive
+                  ? "border-accent/40 bg-accent/20 text-accent-bright"
+                  : "border-[var(--border-subtle)] bg-[var(--theme-slate-900)]/5 ds-muted group-hover:text-foreground group-hover:border-accent/30",
+                level === 0 ? "size-8.5" : "size-7"
+              )}>
+                <Icon className={level === 0 ? "size-4" : "size-3.5"} aria-hidden="true" />
+              </div>
+            )}
             <span className={cn(
-              "text-[10px] font-mono px-1.5 py-0.5 rounded border",
-              item.badgeColor === 'emerald' ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" :
-              item.badgeColor === 'purple' ? "border-purple-500/30 bg-purple-500/10 text-purple-400" :
-              "border-border bg-muted/40 ds-muted"
+              "font-semibold tracking-tight transition-colors",
+              isActive ? "text-foreground" : "ds-muted group-hover:text-foreground",
+              level === 0 ? "text-sm sm:text-base" : "text-xs font-medium ds-muted hover:text-foreground",
+              level > 0 && isActive && "text-accent-bright font-semibold"
             )}>
-              {item.badge}
+              {item.title}
             </span>
-          )}
-          {level === 0 && (
-            <ChevronRight className={cn(
-              "size-4 transition-all",
-              isActive ? "text-accent-bright" : "ds-muted/40 group-hover:ds-muted group-hover:translate-x-1"
-            )} aria-hidden="true" />
-          )}
-        </div>
-      </Link>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            {item.badge && (
+              <span className={cn(
+                "text-[10px] font-mono px-1.5 py-0.5 rounded border",
+                item.badgeColor === 'emerald' ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" :
+                item.badgeColor === 'purple' ? "border-purple-500/30 bg-purple-500/10 text-purple-400" :
+                "border-[var(--border-subtle)] bg-[var(--theme-slate-900)]/10 ds-muted"
+              )}>
+                {item.badge}
+              </span>
+            )}
+            {level === 0 && (
+              <ChevronRight className={cn(
+                "size-4 transition-all",
+                isActive ? "text-accent-bright" : "ds-muted/40 group-hover:ds-muted group-hover:translate-x-1"
+              )} aria-hidden="true" />
+            )}
+          </div>
+        </Link>
+      </motion.div>
     </MotionWrapper>
   );
 }
@@ -407,18 +416,18 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.22 }}
-            className="absolute inset-0 bg-background/60 backdrop-blur-sm"
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 bg-[var(--app-background)]/60 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div 
             initial={{ x: '100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             id="main-menu-overlay" 
             ref={overlayRef} 
-            className="relative w-[85vw] max-w-sm sm:max-w-md h-[100dvh] bg-background border-l border-border text-foreground flex flex-col shadow-2xl z-10"
+            className="relative w-[85vw] max-w-sm sm:max-w-md h-[100dvh] bg-[var(--app-background)] border-l border-[var(--border-subtle)] text-foreground flex flex-col shadow-2xl z-10"
             role="dialog"
             aria-modal="true"
             aria-label="Main Navigation Menu"
@@ -431,11 +440,11 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           </div>
 
           {/* Top Header Bar inside Drawer */}
-          <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5 shrink-0 border-b border-border bg-background/85 backdrop-blur-xl z-20 shadow-linear-card">
+          <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5 shrink-0 border-b border-[var(--border-subtle)] bg-[var(--app-background)]/85 backdrop-blur-xl z-20 shadow-linear-card">
             {/* User Profile / Login Link */}
             <div className="flex items-center">
               {user ? (
-                <Link to="/admin" onClick={onClose} className="flex items-center gap-2.5 rounded-lg p-1 hover:bg-muted/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50">
+                <Link to="/admin" onClick={onClose} className="flex items-center gap-2.5 rounded-lg p-1 hover:bg-[var(--theme-slate-900)]/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50">
                   <div className="size-8 rounded-full overflow-hidden bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
                     {user.photoURL ? (
                       <img src={user.photoURL} alt={user.displayName || 'User profile'} className="size-full object-cover" referrerPolicy="no-referrer" />
@@ -452,9 +461,9 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
                 <Link 
                   to="/login" 
                   onClick={onClose}
-                  className="flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-card-hover hover:border-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50" 
+                  className="flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--theme-slate-900)]/5 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-[var(--theme-slate-900)]/10 hover:border-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50" 
                 >
-                  <div className="size-5 rounded-full bg-muted/80 flex items-center justify-center shrink-0">
+                  <div className="size-5 rounded-full bg-[var(--theme-slate-900)]/10 flex items-center justify-center shrink-0">
                     <UserPlus className="size-3 ds-muted" aria-hidden="true" />
                   </div>
                   Sign In
@@ -464,24 +473,27 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
 
             <div className="flex items-center gap-2.5 sm:gap-3">
               <div 
-                className="flex items-center rounded-full border border-border bg-card/80 p-0.5 shadow-2xs"
+                className="flex items-center rounded-full border border-[var(--border-subtle)] bg-[var(--theme-slate-900)]/10 p-0.5 shadow-2xs"
                 title="Toggle Dark / Light Mode"
               >
                 <ThemeToggle />
               </div>
 
               <span className="hidden md:inline-flex items-center gap-1.5 text-xs ds-muted font-mono">
-                PRESS <kbd className="rounded-md border border-border bg-muted/60 px-1.5 py-0.5 text-foreground font-semibold text-[10px]">ESC</kbd> TO CLOSE
+                PRESS <kbd className="rounded-md border border-[var(--border-subtle)] bg-[var(--theme-slate-900)]/10 px-1.5 py-0.5 text-foreground font-semibold text-[10px]">ESC</kbd> TO CLOSE
               </span>
 
               {/* Close Button */}
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 onClick={onClose}
-                className="group flex size-11 items-center justify-center rounded-full border border-border bg-card/90 text-foreground transition-all duration-200 hover:bg-card-hover hover:border-accent/40 active:scale-95 cursor-pointer shadow-linear-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+                className="group flex size-11 items-center justify-center rounded-full border border-[var(--border-subtle)] bg-[var(--app-background)] text-foreground transition-all duration-200 hover:border-accent/40 active:scale-95 cursor-pointer shadow-linear-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
                 aria-label="Close navigation menu"
               >
                 <X className="size-5 ds-muted group-hover:text-foreground group-hover:rotate-90 transition-all duration-300" aria-hidden="true" />
-              </button>
+              </motion.button>
             </div>
           </div>
 
@@ -509,7 +521,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           </div>
           
           {/* Action-Oriented Pinned CTA - Phase 3 */}
-          <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-4 shrink-0 bg-background/80 backdrop-blur-md border-t border-border/50 z-20">
+          <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 py-4 shrink-0 bg-[var(--app-background)]/80 backdrop-blur-md border-t border-[var(--border-subtle)] z-20">
             <motion.div
               whileHover={{ scale: 1.035 }}
               whileTap={{ scale: 0.97 }}
@@ -537,7 +549,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({ isOpen, onClos
           </div>
 
           {/* Bottom Footer Bar inside Overlay */}
-          <div className="relative mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-border px-6 py-4 text-xs font-mono ds-muted sm:px-8 gap-3 shrink-0 bg-background/95 backdrop-blur-xl">
+          <div className="relative mx-auto flex w-full max-w-7xl flex-col sm:flex-row items-center justify-between border-t border-[var(--border-subtle)] px-6 py-4 text-xs font-mono ds-muted sm:px-8 gap-3 shrink-0 bg-[var(--app-background)]/95 backdrop-blur-xl">
             <div className="flex items-center gap-4 flex-wrap">
               <Link to="/privacy" onClick={onClose} className="hover:text-foreground transition-colors" aria-label="Read privacy policy and GDPR details">Privacy</Link>
               <Link to="/terms" onClick={onClose} className="hover:text-foreground transition-colors" aria-label="Read terms of service agreement">Terms</Link>

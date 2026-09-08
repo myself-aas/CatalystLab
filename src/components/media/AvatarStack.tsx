@@ -114,7 +114,7 @@ const AvatarSingle: React.FC<{
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

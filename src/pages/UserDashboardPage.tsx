@@ -47,6 +47,9 @@ import { UserApiKeyManagementView } from '../components/user/UserApiKeyManagemen
 import { UserGithubWebhookView } from '../components/user/UserGithubWebhookView';
 import { DashboardShell } from '../components/dashboard/DashboardShell';
 import { FramerDossierCockpit } from '../components/dashboard/FramerDossierCockpit';
+import { DashboardMetricsBentoGrid } from '../components/dashboard/DashboardMetricsBentoGrid';
+import { AuditDetailModal } from '../components/dashboard/AuditDetailModal';
+import { CoverFlowCarousel, defaultCarouselItems } from '../components/ui/3-d-coverflow-carousel';
 import { SEOHead } from '../components/common/SEOHead';
 import { useLocation, useParams } from 'react-router-dom';
 import { GitBranch } from 'lucide-react';
@@ -62,15 +65,17 @@ export const UserDashboardPage: React.FC = () => {
 
  const getActiveView = (): string => {
  if (tab) {
-   if (tab === 'github') return 'patches';
-   if (tab === 'webhooks') return 'patches';
-   return tab;
+ if (tab === 'analytics' || tab === 'home') return 'overview';
+ if (tab === 'github') return 'webhooks';
+ return tab;
  }
- if (location.pathname.endsWith('/webhooks') || location.pathname.endsWith('/github')) return 'patches';
+ if (location.pathname.endsWith('/overview')) return 'overview';
  if (location.pathname.endsWith('/audits')) return 'audits';
- if (location.pathname.endsWith('/rate-limits')) return 'rate-limits';
- if (location.pathname.endsWith('/api-keys')) return 'api-keys';
+ if (location.pathname.endsWith('/reports')) return 'reports';
+ if (location.pathname.endsWith('/webhooks') || location.pathname.endsWith('/github')) return 'webhooks';
  if (location.pathname.endsWith('/monitoring')) return 'monitoring';
+ if (location.pathname.endsWith('/api-keys')) return 'api-keys';
+ if (location.pathname.endsWith('/rate-limits')) return 'rate-limits';
  if (location.pathname.endsWith('/blogs')) return 'blogs';
  if (location.pathname.endsWith('/security')) return 'security';
  if (location.pathname.endsWith('/engines')) return 'engines';
@@ -78,10 +83,11 @@ export const UserDashboardPage: React.FC = () => {
  const params = new URLSearchParams(location.search);
  const tabParam = params.get('tab');
  if (tabParam) {
-   if (tabParam === 'github' || tabParam === 'webhooks') return 'patches';
-   return tabParam;
+ if (tabParam === 'analytics' || tabParam === 'home') return 'overview';
+ if (tabParam === 'github') return 'webhooks';
+ return tabParam;
  }
- return 'analytics';
+ return 'overview';
  };
 
  const activeTab = getActiveView();
@@ -102,11 +108,11 @@ export const UserDashboardPage: React.FC = () => {
  const [isScanning, setIsScanning] = useState<boolean>(false);
 
  const handleRefreshScan = () => {
-   setIsScanning(true);
-   setTimeout(() => {
-     setIsScanning(false);
-     fetchReports();
-   }, 1200);
+ setIsScanning(true);
+ setTimeout(() => {
+ setIsScanning(false);
+ fetchReports();
+ }, 1200);
  };
 
  const fetchReports = async () => {
@@ -238,10 +244,9 @@ export const UserDashboardPage: React.FC = () => {
 
  if (!user) {
  return (
-    <div data-theme="dark" className="min-h-screen ds-page-top flex items-center justify-center py-20 px-4 bg-background text-foreground relative overflow-hidden font-sans">
+ <div data-theme="dark" className="min-h-screen flex items-center justify-center px-4 bg-background text-foreground relative overflow-hidden font-sans">
  <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(0,102,255,0.12),transparent_70%)] pointer-events-none" />
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
-
+ 
  <div className="w-full max-w-md p-8 ds-card bg-surface border-border shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-[#00D2FF] mb-5 shadow-inner">
  <LogIn className="h-5 w-5" />
@@ -304,55 +309,134 @@ export const UserDashboardPage: React.FC = () => {
  />
 
  <div className="space-y-6">
- {/* TAB 0: ANALYTICS & 8 ENGINES COCKPIT */}
- {(activeTab === 'analytics' || activeTab === 'engines') && (
+ {/* TAB 0: OVERVIEW & 8 ENGINES COCKPIT */}
+ {(activeTab === 'overview' || activeTab === 'analytics' || activeTab === 'engines') && (
  <div className="space-y-8">
+ {/* 3-Column Bento-Grid Layout for Platform Metrics (Visual Parity with Audit Dossiers) */}
+ <DashboardMetricsBentoGrid
+ totalAudits={totalAudits}
+ avgScore={avgScore}
+ uniqueDomains={uniqueDomains}
+ rateStatus={rateStatus}
+ targetDomain={targetDomain}
+ onNavigateTab={(tabKey) => navigate(`/dashboard?tab=${tabKey}`)}
+ />
+
+ {/* 3D Coverflow Carousel: Diagnostic Telemetry Engines Showcase */}
+ <div className="ds-card p-4 sm:p-6 overflow-hidden">
+ <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
+ <div className="flex items-center gap-2 font-mono">
+ <span className="text-xs uppercase tracking-wider text-muted-foreground">
+ Diagnostic Telemetry Engines
+ </span>
+ <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono">
+ 3D Coverflow
+ </span>
+ </div>
+ <button
+ onClick={() => navigate('/dashboard?tab=engines')}
+ className="text-xs font-mono text-[#00D2FF] hover:underline cursor-pointer flex items-center gap-1"
+ >
+ <span>Explore 8 Engines</span>
+ <ArrowRight className="size-3" />
+ </button>
+ </div>
+ <CoverFlowCarousel
+ items={defaultCarouselItems}
+ sectionLabel="AUTONOMOUS ARCHITECTURAL AUDITORS"
+ autoplay={true}
+ />
+ </div>
+
+ {/* Autonomous Dossier Engine Cockpit */}
  <FramerDossierCockpit
  targetDomain={targetDomain}
  onRefreshScan={handleRefreshScan}
  isScanning={isScanning}
+ showTopKpi={false}
  />
 
- {/* Quick Recent Dossiers Vault Strip */}
- <div className="bg-surface border border-border rounded-2xl p-5 shadow-xl">
- <div className="flex items-center justify-between mb-4">
+ {/* Quick Recent Dossiers Vault Strip - 3-Column Bento Grid Layout with ds-card and ds-card-interactive */}
+ <div className="ds-card p-5 shadow-xl font-mono">
+ <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
  <div className="flex items-center gap-2 font-mono">
- <span className="text-xs uppercase tracking-wider text-muted-foreground">Telemetry Dossiers</span>
+ <span className="text-xs uppercase tracking-wider text-muted-foreground">Telemetry Dossiers Vault</span>
  <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-border text-white">
  {reports.length} Recorded
  </span>
  </div>
  <button
  onClick={() => navigate('/dashboard?tab=audits')}
- className="text-xs font-mono text-[#00D2FF] hover:underline cursor-pointer"
+ className="text-xs font-mono text-[#00D2FF] hover:underline cursor-pointer flex items-center gap-1"
  >
- Open Full Audit Vault &rarr;
+ <span>Open Full Audit Vault</span>
+ <ArrowRight className="size-3" />
  </button>
  </div>
 
  {reports.length === 0 ? (
  <div className="p-8 text-center border border-dashed border-border rounded-xl text-xs text-muted-foreground font-mono">
- No telemetry audits recorded yet. Run a domain inspection above or click "Run Audit" to record your first dossier.
+ No telemetry audits recorded yet. Run a domain inspection above or click"Run Audit" to record your first dossier.
  </div>
  ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono">
  {reports.slice(0, 6).map((report) => (
  <div
  key={report.id}
  onClick={() => setQuickViewReport(report)}
- className="p-3.5 rounded-xl bg-surface border border-border hover:border-border-strong transition-all cursor-pointer group"
+ className="ds-card ds-card-interactive group p-4 flex flex-col justify-between cursor-pointer"
  >
- <div className="flex items-center justify-between text-xs font-mono mb-1.5">
- <span className="text-white font-medium truncate max-w-[160px]">{extractDomainFromUrl(report.url)}</span>
- <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
- (report.score ?? 0) >= 90 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
- }`}>
- {report.score ?? 85}/100
+ <div>
+ {/* Top Card Bar - Visual Parity with Audit Dossier Cards */}
+ <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
+ <div className="flex items-center gap-2 min-w-0">
+ <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-amber-500 shrink-0">
+ <Globe className="h-3.5 w-3.5" />
+ </div>
+ <div className="min-w-0">
+ <h4 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+ {extractDomainFromUrl(report.url)}
+ </h4>
+ <span className="text-[10px] ds-muted flex items-center gap-1">
+ <Calendar className="h-2.5 w-2.5" />
+ {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
  </span>
  </div>
- <div className="text-[11px] text-muted-foreground flex items-center justify-between font-mono">
+ </div>
+
+ {/* Score Pill */}
+ <div
+ className={`py-0.5 px-2 rounded text-xs font-bold border shrink-0 ${
+ (report.score ?? 0) >= 90
+ ?"bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+ :"bg-amber-500/10 text-amber-400 border-amber-500/20"
+ }`}
+ >
+ {report.score ?? 85}/100
+ </div>
+ </div>
+
+ {/* Middle Content */}
+ <div className="py-3 space-y-1.5">
+ <div className="inline-flex items-center gap-1 rounded bg-accent border border-border py-0.5 px-1.5 text-[10px] font-bold ds-muted">
+ <Sparkles className="h-2.5 w-2.5 text-[#00D2FF]" />
  <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
- <span>{new Date(report.createdAt).toLocaleDateString()}</span>
+ </div>
+ <p className="text-[11px] ds-muted line-clamp-2 leading-relaxed font-sans">
+ {report.summary || report.title || `Autonomous telemetry dossier evaluated for ${report.url}`}
+ </p>
+ </div>
+ </div>
+
+ {/* Card Action Footer */}
+ <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
+ <span className="text-[10px] ds-muted truncate">
+ {new Date(report.createdAt).toLocaleDateString()}
+ </span>
+ <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">
+ <span>Inspect</span>
+ <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+ </span>
  </div>
  </div>
  ))}
@@ -365,7 +449,7 @@ export const UserDashboardPage: React.FC = () => {
  {/* TAB: AUTOMATED PR PATCHES */}
  {activeTab === 'patches' && (
  <div className="space-y-6">
- <div className="p-5 rounded-2xl bg-surface border border-border font-mono">
+ <div className="ds-card p-5 sm:p-6 font-mono">
  <div className="flex items-center gap-2 text-xs text-[#00D2FF] mb-1">
  <GitBranch className="size-3.5" />
  <span>GHLyase · Autonomous Patch Deployment Pipeline</span>
@@ -382,7 +466,7 @@ export const UserDashboardPage: React.FC = () => {
  {/* TAB: SECURITY */}
  {activeTab === 'security' && (
  <div className="space-y-6">
- <div className="p-5 rounded-2xl bg-surface border border-border font-mono">
+ <div className="ds-card p-5 sm:p-6 font-mono">
  <div className="flex items-center gap-2 text-xs text-amber-400 mb-1">
  <ShieldAlert className="size-3.5" />
  <span>RiskProtease · OWASP Transport Security Vault</span>
@@ -704,6 +788,111 @@ export const UserDashboardPage: React.FC = () => {
  </div>
  )}
 
+ {/* TAB: EXECUTIVE TELEMETRY REPORTS & DOSSIERS */}
+ {activeTab === 'reports' && (
+ <div className="space-y-6">
+ <div className="ds-card p-5 sm:p-6 font-mono">
+ <div className="flex items-center gap-2 text-xs text-[#00D2FF] mb-1">
+ <FileText className="size-3.5" />
+ <span>CatalystLab · Telemetry Dossiers &amp; Executive Compliance Reports</span>
+ </div>
+ <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+ <div>
+ <h2 className="text-base font-semibold text-white font-sans">Executive Telemetry Reports &amp; Audit Dossiers</h2>
+ <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">
+ Permanent audit compliance records, Core Web Vitals score distributions, and certified PDF dossier exports across inspected edge domains.
+ </p>
+ </div>
+ <Link
+ to="/master-audit"
+ className="ds-btn ds-btn-primary text-xs shrink-0 self-start sm:self-auto"
+ >
+ <Sparkles className="size-3.5 text-amber-300 shrink-0" />
+ <span>Generate New Report</span>
+ </Link>
+ </div>
+
+ {/* Summary Metrics Grid */}
+ <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-border">
+ <div className="p-3 rounded-xl bg-surface border border-border">
+ <div className="text-[10px] uppercase text-muted-foreground">Total Dossiers</div>
+ <div className="text-lg font-bold text-white mt-0.5">{reports.length}</div>
+ </div>
+ <div className="p-3 rounded-xl bg-surface border border-border">
+ <div className="text-[10px] uppercase text-muted-foreground">Mean Health Score</div>
+ <div className="text-lg font-bold text-emerald-400 mt-0.5">{avgScore}/100</div>
+ </div>
+ <div className="p-3 rounded-xl bg-surface border border-border">
+ <div className="text-[10px] uppercase text-muted-foreground">Unique Edge Meshes</div>
+ <div className="text-lg font-bold text-[#00D2FF] mt-0.5">{uniqueDomains}</div>
+ </div>
+ <div className="p-3 rounded-xl bg-surface border border-border">
+ <div className="text-[10px] uppercase text-muted-foreground">Export Standards</div>
+ <div className="text-lg font-bold text-purple-400 mt-0.5">PDF · JSON · CSV</div>
+ </div>
+ </div>
+ </div>
+
+ {/* Dossiers Archive Grid */}
+ <div className="ds-card p-5 font-mono">
+ <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
+ <div className="flex items-center gap-2">
+ <span className="text-xs uppercase tracking-wider text-muted-foreground">Certified Audit Dossiers Vault</span>
+ <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-border text-white">
+ {reports.length} Recorded
+ </span>
+ </div>
+ </div>
+
+ {reports.length === 0 ? (
+ <div className="p-8 text-center border border-dashed border-border rounded-xl text-xs text-muted-foreground">
+ No audit dossiers recorded yet. Launch a Master Audit to generate your first certified telemetry report.
+ </div>
+ ) : (
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+ {reports.map((report) => (
+ <div
+ key={report.id}
+ className="ds-card ds-card-interactive p-4 flex flex-col justify-between"
+ >
+ <div>
+ <div className="flex items-center justify-between pb-2 border-b border-border">
+ <span className="text-xs font-bold text-white truncate max-w-[160px]">
+ {extractDomainFromUrl(report.url)}
+ </span>
+ <span className="text-xs font-bold text-emerald-400">
+ {report.score || 92}/100
+ </span>
+ </div>
+ <p className="text-[11px] text-muted-foreground my-2 line-clamp-2 font-sans">
+ {report.summary || report.title || `Autonomous telemetry audit dossier evaluated for ${report.url}`}
+ </p>
+ </div>
+ <div className="pt-2 border-t border-border flex items-center justify-between gap-2">
+ <button
+ onClick={(e) => handleDirectExportPdf(report, e)}
+ disabled={exportingId === report.id}
+ className="ds-btn ds-btn-secondary text-[11px] py-1 px-2.5 flex items-center gap-1.5 cursor-pointer"
+ >
+ <Download className={`size-3 ${exportingId === report.id ? 'animate-bounce' : ''}`} />
+ <span>Export PDF</span>
+ </button>
+ <button
+ onClick={() => handleNavigateToReport(report)}
+ className="text-xs text-[#00D2FF] hover:underline flex items-center gap-1 cursor-pointer"
+ >
+ <span>View</span>
+ <ArrowRight className="size-3" />
+ </button>
+ </div>
+ </div>
+ ))}
+ </div>
+ )}
+ </div>
+ </div>
+ )}
+
  {/* TAB 2: COMPUTE QUOTA & RATE LIMITS */}
  {activeTab === 'rate-limits' && (
  <UserRateLimitAllocationCard />
@@ -734,6 +923,14 @@ export const UserDashboardPage: React.FC = () => {
  )}
 
  </div>
+
+ {/* Audit Detail Modal with Staggered Entry Animation */}
+ <AuditDetailModal
+ report={quickViewReport}
+ isOpen={Boolean(quickViewReport)}
+ onClose={() => setQuickViewReport(null)}
+ onViewFullReport={handleNavigateToReport}
+ />
  </DashboardShell>
  );
 };

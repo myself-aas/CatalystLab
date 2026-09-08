@@ -133,7 +133,7 @@ export interface CardBylineProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   className?: string;
 }
 
-export interface StackedDateChipProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface StackedDateChipProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onAnimationStart' | 'onDragStart' | 'onDragEnd' | 'onDrag'> {
   month: string;
   day: string | number;
   weekday?: string;

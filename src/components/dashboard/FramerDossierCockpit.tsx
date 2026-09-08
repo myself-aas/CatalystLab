@@ -27,12 +27,14 @@ interface FramerDossierCockpitProps {
   targetDomain?: string;
   onRefreshScan?: () => void;
   isScanning?: boolean;
+  showTopKpi?: boolean;
 }
 
 export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
   targetDomain = 'acme.corp',
   onRefreshScan,
   isScanning = false,
+  showTopKpi = true,
 }) => {
   const [activeEngineTab, setActiveEngineTab] = useState<'synthshift' | 'vitalzyme' | 'edgekinase' | 'riskprotease'>('synthshift');
   const [diffMode, setDiffMode] = useState<'split' | 'unified'>('split');
@@ -51,104 +53,106 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
   return (
     <div className="space-y-6 text-white font-sans">
       {/* 4.2 A: Top KPI Strip (4 Modular Metrics) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Metric 1: Core Web Vitals Pass Rate */}
-        <div className="p-5 rounded-2xl bg-surface border border-border relative overflow-hidden group hover:border-border-strong transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-              <Activity className="size-3.5 text-[#00F298]" />
-              CWV Pass Rate
-            </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Pass
-            </span>
-          </div>
+      {showTopKpi && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Metric 1: Core Web Vitals Pass Rate */}
+          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <Activity className="size-3.5 text-[#00F298]" />
+                CWV Pass Rate
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Pass
+              </span>
+            </div>
 
-          <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-semibold tracking-[-0.03em] text-white">99.9%</span>
-            <div className="flex items-center text-xs text-[#00F298]">
-              <ArrowUpRight className="size-3 mr-0.5" />
-              <span>+0.4%</span>
+            <div className="flex items-baseline gap-3">
+              <span className="text-3xl font-semibold tracking-[-0.03em] text-white">99.9%</span>
+              <div className="flex items-center text-xs text-[#00F298]">
+                <ArrowUpRight className="size-3 mr-0.5" />
+                <span>+0.4%</span>
+              </div>
+            </div>
+
+            <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+              <span>LCP <strong className="text-white">1.06s</strong></span>
+              <span>INP <strong className="text-white">38ms</strong></span>
+              <span>CLS <strong className="text-white">0.002</strong></span>
             </div>
           </div>
 
-          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-            <span>LCP <strong className="text-white">1.06s</strong></span>
-            <span>INP <strong className="text-white">38ms</strong></span>
-            <span>CLS <strong className="text-white">0.002</strong></span>
+          {/* Metric 2: OWASP Transport Shield */}
+          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <ShieldCheck className="size-3.5 text-[#0066FF]" />
+                OWASP Transport
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                Grade A+
+              </span>
+            </div>
+
+            <div className="flex items-baseline gap-3">
+              <span className="text-3xl font-semibold tracking-[-0.03em] text-white">Grade A+</span>
+            </div>
+
+            <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+              <span className="text-emerald-400 flex items-center gap-1">
+                <Check className="size-3" /> TLS 1.3 Preload
+              </span>
+              <span>0 Unencrypted</span>
+            </div>
+          </div>
+
+          {/* Metric 3: AI Discoverability Index */}
+          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <Cpu className="size-3.5 text-[#8A2BE2]" />
+                AI Discoverability
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                AEO Index
+              </span>
+            </div>
+
+            <div className="flex items-baseline gap-3">
+              <span className="text-3xl font-semibold tracking-[-0.03em] text-white">98/100</span>
+              <span className="text-xs text-purple-400 font-mono">LLM Kinase</span>
+            </div>
+
+            <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+              <span>llms.txt <strong className="text-emerald-400">Valid</strong></span>
+              <span>Schema <strong className="text-emerald-400">JSON-LD</strong></span>
+            </div>
+          </div>
+
+          {/* Metric 4: Active Edge Mesh P95 */}
+          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                <Globe className="size-3.5 text-[#00D2FF]" />
+                Edge Mesh P95
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                38 PoPs
+              </span>
+            </div>
+
+            <div className="flex items-baseline gap-3">
+              <span className="text-3xl font-semibold tracking-[-0.03em] text-white">18.4ms</span>
+              <span className="text-xs text-cyan-400 font-mono">Fastly/CF</span>
+            </div>
+
+            <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
+              <span>Global Handshake</span>
+              <span className="text-emerald-400 font-medium">0% Drops</span>
+            </div>
           </div>
         </div>
-
-        {/* Metric 2: OWASP Transport Shield */}
-        <div className="p-5 rounded-2xl bg-surface border border-border relative overflow-hidden group hover:border-border-strong transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-              <ShieldCheck className="size-3.5 text-[#0066FF]" />
-              OWASP Transport
-            </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-              Grade A+
-            </span>
-          </div>
-
-          <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-semibold tracking-[-0.03em] text-white">Grade A+</span>
-          </div>
-
-          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-            <span className="text-emerald-400 flex items-center gap-1">
-              <Check className="size-3" /> TLS 1.3 Preload
-            </span>
-            <span>0 Unencrypted</span>
-          </div>
-        </div>
-
-        {/* Metric 3: AI Discoverability Index */}
-        <div className="p-5 rounded-2xl bg-surface border border-border relative overflow-hidden group hover:border-border-strong transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-              <Cpu className="size-3.5 text-[#8A2BE2]" />
-              AI Discoverability
-            </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
-              AEO Index
-            </span>
-          </div>
-
-          <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-semibold tracking-[-0.03em] text-white">98/100</span>
-            <span className="text-xs text-purple-400 font-mono">LLM Kinase</span>
-          </div>
-
-          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-            <span>llms.txt <strong className="text-emerald-400">Valid</strong></span>
-            <span>Schema <strong className="text-emerald-400">JSON-LD</strong></span>
-          </div>
-        </div>
-
-        {/* Metric 4: Active Edge Mesh P95 */}
-        <div className="p-5 rounded-2xl bg-surface border border-border relative overflow-hidden group hover:border-border-strong transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-              <Globe className="size-3.5 text-[#00D2FF]" />
-              Edge Mesh P95
-            </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-              38 PoPs
-            </span>
-          </div>
-
-          <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-semibold tracking-[-0.03em] text-white">18.4ms</span>
-            <span className="text-xs text-cyan-400 font-mono">Fastly/CF</span>
-          </div>
-
-          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-            <span>Global Handshake</span>
-            <span className="text-emerald-400 font-medium">0% Drops</span>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* 4.2 B: The 8 Autonomous Engines Real-Time Telemetry Matrix */}
       <div className="p-6 rounded-2xl bg-surface border border-border relative overflow-hidden">

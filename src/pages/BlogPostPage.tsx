@@ -66,7 +66,7 @@ export const BlogPostPage: React.FC = () => {
 
  if (!post) {
  return (
- <div className="ds-page-shell">
+ <div className="ds-page-shell ds-section">
  <h1 className="text-xl font-bold font-sans">Article Not Found</h1>
  <p className="mt-2 text-xs text-muted-foreground font-sans">
  The engineering article you are looking for has been moved or does not exist.
@@ -116,7 +116,7 @@ export const BlogPostPage: React.FC = () => {
  />
 
  {/* Main Split Layout */}
- <div className="ds-page-shell py-8">
+ <div className="ds-page-shell py-8 ds-section">
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
  
  {/* Main Article Stream (col-span-8) */}

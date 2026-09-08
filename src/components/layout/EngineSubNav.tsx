@@ -19,9 +19,9 @@ export const EngineSubNav: React.FC = () => {
   }, []);
 
   return (
-    <div className="sticky top-16 z-40 w-full border-b border-border bg-background/95 backdrop-blur-md shadow-sm">
+    <div className="sticky top-16 z-40 w-full border-b border-[var(--border-subtle)] bg-[var(--app-background)]/95 backdrop-blur-md shadow-sm">
       <div className="mx-auto flex h-12 max-w-7xl items-center px-4 sm:px-8 lg:px-12 relative">
-        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--app-background)] to-transparent pointer-events-none z-10" />
         
         <div 
           ref={scrollRef}
@@ -30,34 +30,40 @@ export const EngineSubNav: React.FC = () => {
         >
           {SDLC_CATALYSTS_LIST.map((engine, index) => (
             <React.Fragment key={engine.id}>
-              <NavLink
-                to={engine.route}
-                className={({ isActive }) => cn(
-                  "group flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
-                  isActive
-                    ? "bg-primary/10 text-primary shadow-[inset_0_0_0_1px_rgba(var(--primary),0.2)]"
-                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
-                )}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span 
-                  className="material-symbols-outlined text-[16px]" 
-                  style={{ color: engine.color }}
-                  aria-hidden="true"
+                <NavLink
+                  to={engine.route}
+                  className={({ isActive }) => cn(
+                    "group flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+                    isActive
+                      ? "bg-primary/10 text-primary shadow-[inset_0_0_0_1px_rgba(var(--primary),0.2)]"
+                      : "text-muted-foreground hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground"
+                  )}
                 >
-                  {engine.icon}
-                </span>
-                <span className="whitespace-nowrap">{engine.catalystName}</span>
-              </NavLink>
+                  <span 
+                    className="material-symbols-outlined text-[16px]" 
+                    style={{ color: engine.color }}
+                    aria-hidden="true"
+                  >
+                    {engine.icon}
+                  </span>
+                  <span className="whitespace-nowrap">{engine.catalystName}</span>
+                </NavLink>
+              </motion.div>
               
               {index < SDLC_CATALYSTS_LIST.length - 1 && (
-                <ChevronRight className="size-3 shrink-0 text-border" aria-hidden="true" />
+                <ChevronRight className="size-3 shrink-0 text-[var(--border-subtle)]" aria-hidden="true" />
               )}
             </React.Fragment>
           ))}
         </div>
 
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--app-background)] to-transparent pointer-events-none z-10" />
       </div>
     </div>
   );

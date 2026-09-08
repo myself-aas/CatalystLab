@@ -5,7 +5,7 @@ import { SEOHead } from '../components/common/SEOHead';
 
 export const SecurityPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Security Policy, PGP Key & Safe Harbor Disclosure"
  description="CatalystLab's RFC-9116 security disclosure program, PGP public key for encrypted reporting, response SLAs, and legal Safe Harbor protection for security researchers."
@@ -14,8 +14,9 @@ export const SecurityPage: React.FC = () => {
  />
 
  {/* Dedicated Hero Header */}
- <section className="relative overflow-hidden border-b border-border py-14 sm:py-18 w-full">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
+ <section className="relative overflow-hidden border-b border-border w-full ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 w-full sm:px-6 lg:px-8">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -48,7 +49,7 @@ export const SecurityPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell">
+ <main className="ds-page-shell ds-section">
  <SecurityDisclosureSection />
  </main>
  </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import FullscreenCard from './components/ui/FullscreenCard';
-import { ShieldCheck, Zap, Bot, Leaf, Cpu, Layers, Sparkles, Search, ArrowRight, RefreshCcw, Activity } from 'lucide-react';
+import { ShieldCheck, Zap, Bot, Leaf, Cpu, Layers, Sparkles, Search, ArrowRight, RefreshCcw, Activity, X } from 'lucide-react';
 
 export function App() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -203,69 +204,122 @@ export function App() {
       </main>
 
       {/* Audit Detail Modal */}
-      {selectedCard && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div 
-            className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"
-            onClick={() => setSelectedCard(null)}
-          />
-          <div className="relative w-full max-w-xl bg-slate-900 text-white rounded-3xl shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200 border border-white/20">
-            <div className="relative h-64 w-full">
-              <img
-                src={selectedCard.imageUrl}
-                alt={selectedCard.title}
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
-              <div className="absolute bottom-4 left-6 right-6">
-                <span className="text-[10px] font-mono uppercase bg-white/20 backdrop-blur-md px-2.5 py-1 rounded border border-white/30 font-bold text-white">
-                  {selectedCard.badge}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-black mt-2 leading-tight text-white">
-                  {selectedCard.title}
-                </h3>
-              </div>
-            </div>
-            
-            <div className="p-6 space-y-4 bg-slate-950">
-              <div className="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10 font-mono">
-                <div>
-                  <span className="text-xs text-white/60 uppercase">{selectedCard.metricLabel}</span>
-                  <div className="text-xl font-black text-emerald-400">{selectedCard.metric}</div>
-                </div>
-                <div className="text-right">
-                  <span className="text-xs text-white/60 uppercase">Score / Phase</span>
-                  <div className="text-xs font-bold text-white bg-white/10 px-2.5 py-1 rounded border border-white/20">{selectedCard.score}</div>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="text-xs font-bold text-white/60 uppercase tracking-wider mb-1">Diagnostic Details</h4>
-                <p className="text-sm text-white/80 leading-relaxed font-sans bg-white/5 p-4 rounded-xl border border-white/10">
-                  {selectedCard.description} Synchronous telemetry probe executed successfully across all edge nodes with zero packet loss and 100% compliant security headers.
-                </p>
-              </div>
-
-              <div className="pt-2 flex justify-end gap-3">
+      <AnimatePresence>
+        {selectedCard && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"
+              onClick={() => setSelectedCard(null)}
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 12 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-xl bg-slate-900 text-white rounded-3xl shadow-2xl overflow-hidden z-10 border border-white/20"
+            >
+              <div className="relative h-64 w-full">
+                <img
+                  src={selectedCard.imageUrl}
+                  alt={selectedCard.title}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
                 <button
                   onClick={() => setSelectedCard(null)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer border border-white/20"
+                  className="absolute top-4 right-4 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white/80 hover:text-white transition-colors cursor-pointer backdrop-blur-md border border-white/10"
+                  aria-label="Close modal"
                 >
-                  Close Modal
+                  <X className="size-4" />
                 </button>
-                <button
-                  onClick={() => { alert(`Action dispatched for ${selectedCard.title}`); setSelectedCard(null); }}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer flex items-center gap-1.5"
-                >
-                  <span>Deploy Patch</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
+                <div className="absolute bottom-4 left-6 right-6">
+                  <span className="text-[10px] font-mono uppercase bg-white/20 backdrop-blur-md px-2.5 py-1 rounded border border-white/30 font-bold text-white">
+                    {selectedCard.badge}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-black mt-2 leading-tight text-white">
+                    {selectedCard.title}
+                  </h3>
+                </div>
               </div>
-            </div>
+              
+              <motion.div 
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.08,
+                      delayChildren: 0.05
+                    }
+                  }
+                }}
+                className="p-6 space-y-4 bg-slate-950"
+              >
+                {/* Score card */}
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, y: 14 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                  className="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10 font-mono"
+                >
+                  <div>
+                    <span className="text-xs text-white/60 uppercase">{selectedCard.metricLabel}</span>
+                    <div className="text-xl font-black text-emerald-400">{selectedCard.metric}</div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs text-white/60 uppercase">Score / Phase</span>
+                    <div className="text-xs font-bold text-white bg-white/10 px-2.5 py-1 rounded border border-white/20">{selectedCard.score}</div>
+                  </div>
+                </motion.div>
+
+                {/* Text block */}
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, y: 14 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                >
+                  <h4 className="text-xs font-bold text-white/60 uppercase tracking-wider mb-1">Diagnostic Details</h4>
+                  <p className="text-sm text-white/80 leading-relaxed font-sans bg-white/5 p-4 rounded-xl border border-white/10">
+                    {selectedCard.description} Synchronous telemetry probe executed successfully across all edge nodes with zero packet loss and 100% compliant security headers.
+                  </p>
+                </motion.div>
+
+                {/* Action buttons */}
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, y: 14 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                  className="pt-2 flex justify-end gap-3"
+                >
+                  <button
+                    onClick={() => setSelectedCard(null)}
+                    className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer border border-white/20"
+                  >
+                    Close Modal
+                  </button>
+                  <button
+                    onClick={() => { alert(`Action dispatched for ${selectedCard.title}`); setSelectedCard(null); }}
+                    className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs transition-all shadow-lg cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>Deploy Patch</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500 font-mono">

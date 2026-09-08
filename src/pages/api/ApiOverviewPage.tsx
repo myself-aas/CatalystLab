@@ -79,8 +79,8 @@ export const ApiOverviewPage: React.FC = () => {
  return (
  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Top Banner Hero */}
- <div className="border-b border-border bg-background pt-12 pb-14">
- <div className="ds-page-shell">
+ <div className="border-b border-border bg-background ds-section">
+ <div className="ds-page-shell ds-section">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
  <div className="inline-flex items-center gap-2 rounded-full border border-[#00D2FF]/20 bg-[#00D2FF]/10 px-3 py-1 framer-micro-tag text-[#00D2FF]">
@@ -124,7 +124,7 @@ export const ApiOverviewPage: React.FC = () => {
  </div>
 
  {/* Main Content Layout */}
- <div className="ds-page-shell lg: py-10">
+ <div className="ds-page-shell ds-section">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Left Sidebar */}
@@ -134,7 +134,7 @@ export const ApiOverviewPage: React.FC = () => {
  <div className="flex-1 space-y-10 min-w-0">
  
  {/* Quickstart Card */}
- <section className="ds-card p-6 sm:p-8 space-y-6">
+ <section className="ds-card p-6 sm:p-8 space-y-6 ds-section">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
  <div>
  <h2 className="framer-card-title text-foreground flex items-center gap-2">
@@ -197,7 +197,7 @@ export const ApiOverviewPage: React.FC = () => {
  </section>
 
  {/* Authentication & Base URL Specifications */}
- <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <section className="grid grid-cols-1 md:grid-cols-2 gap-6 ds-section">
  <div className="ds-card p-6 space-y-3">
  <div className="flex items-center gap-2.5">
  <div className="p-2 rounded-xl bg-sky-50 text-sky-700 border border-sky-200">
@@ -238,7 +238,7 @@ export const ApiOverviewPage: React.FC = () => {
  </section>
 
  {/* Categories Directory Grid */}
- <section className="space-y-4">
+ <section className="space-y-4 ds-section">
  <div className="flex items-center justify-between">
  <div>
  <h2 className="framer-section-headline text-foreground">Browse by Category</h2>
@@ -282,7 +282,7 @@ export const ApiOverviewPage: React.FC = () => {
  </section>
 
  {/* Search & All Endpoints Index */}
- <section className="ds-card p-6 sm:p-8 space-y-6">
+ <section className="ds-card p-6 sm:p-8 space-y-6 ds-section">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
  <div>
  <h2 className="framer-section-headline text-foreground">All Available Endpoints</h2>

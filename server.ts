@@ -60,6 +60,8 @@ async function startServer(): Promise<void> {
   }
 
   httpServer.listen(PORT, HOST, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`  ➜  Local:   http://localhost:${PORT}/`);
     logger.info({ host: HOST, port: PORT, env: process.env.NODE_ENV || 'development' }, '[CatalystLab] Server started');
   });
 }

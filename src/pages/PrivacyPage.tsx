@@ -6,7 +6,7 @@ import { SEOHead } from '../components/common/SEOHead';
 
 export const PrivacyPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background pb-24 text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  <SEOHead
  title="Privacy Policy & Data Protection Architecture"
  description="Learn how CatalystLab processes diagnostic URLs, telemetry traces, and developer authentication with strict zero-monetization guarantees and GDPR compliance."
@@ -15,7 +15,7 @@ export const PrivacyPage: React.FC = () => {
  />
 
  {/* Dedicated Hero Header */}
- <section className="border-b border-border py-10 sm:px-6 lg:px-8">
+ <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
  <div className="mx-auto max-w-5xl">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div className="space-y-2">
@@ -47,7 +47,7 @@ export const PrivacyPage: React.FC = () => {
  </section>
 
  {/* Main Content */}
- <main className="ds-page-shell space-y-8">
+ <main className="ds-page-shell space-y-8 ds-section">
  <PrivacySection />
 
  {/* Global Trust Footer Card */}
