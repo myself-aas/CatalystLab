@@ -143,7 +143,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
           alt={finalAlt}
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
-          fetchPriority={priority ? 'high' : 'auto'}
+          {...(priority ? { fetchpriority: 'high' } : {})}
           onLoad={() => setIsLoaded(true)}
           onError={handleError}
           whileHover={enableHoverZoom && !prefersReducedMotion ? { scale: 1.035 } : undefined}

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { HeroSection } from '../components/home/HeroSection';
-import { SocialProof } from '../components/home/SocialProof';
 import { EnzymeGrid } from '../components/home/EnzymeGrid';
 import { HowItWorks } from '../components/home/HowItWorks';
 import { Testimonials } from '../components/home/Testimonials';
@@ -22,7 +21,7 @@ export const MasterAuditPage: React.FC = () => {
  }, []);
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div data-theme="dark" className="min-h-screen bg-background text-foreground">
  <SEOHead
  title="Precision Telemetry & Autonomous Web Health Auditing"
  description="Run immediate multi-dimensional audits on any domain."
@@ -30,7 +29,6 @@ export const MasterAuditPage: React.FC = () => {
  />
 
  <HeroSection />
- <SocialProof />
  <EnzymeGrid />
  <HowItWorks />
  <Testimonials />

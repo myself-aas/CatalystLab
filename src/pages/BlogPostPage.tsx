@@ -73,7 +73,7 @@ export const BlogPostPage: React.FC = () => {
  </p>
  <Link
  to="/blogs"
- className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all"
+ className="mt-5 ds-btn ds-btn-primary text-xs"
  >
  <ArrowLeft className="h-3.5 w-3.5"/>
  <span>Back to All Articles</span>

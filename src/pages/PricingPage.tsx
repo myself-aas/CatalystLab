@@ -12,7 +12,7 @@ import type { SubscriptionPlan, SubscriptionPlanId } from '../types';
 const EASE = [0.16, 1, 0.3, 1] as const;
 const FEATURED: SubscriptionPlanId[] = ['starter', 'pro', 'team'];
 
-export const PricingPage: React.FC = () => {
+export default function PricingPage() {
  const [annual, setAnnual] = useState(true);
 
  const openCheckout = (planId: SubscriptionPlanId) => {
@@ -210,6 +210,4 @@ export const PricingPage: React.FC = () => {
  </section>
  </div>
  );
-};
-
-export default PricingPage;
+}

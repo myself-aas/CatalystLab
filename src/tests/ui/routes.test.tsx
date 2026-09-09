@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { MasterAuditPage } from '../../pages/MasterAuditPage';
 import { ProductsPage } from '../../pages/ProductsPage';
-import { PricingPage } from '../../pages/PricingPage';
+import PricingPage from '../../pages/PricingPage';
 import { DiagnosticEnginesPage } from '../../pages/DiagnosticEnginesPage';
 import { MethodologyPage } from '../../pages/MethodologyPage';
 import { TermsPage } from '../../pages/TermsPage';

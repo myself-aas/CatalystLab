@@ -35,6 +35,10 @@ interface AuthContextType {
   authError: AuthErrorInfo | null;
   showDomainModal: boolean;
   setShowDomainModal: (open: boolean) => void;
+  targetDomain: string;
+  setTargetDomain: (domain: string) => void;
+  isScanning: boolean;
+  setIsScanning: (scanning: boolean) => void;
   login: () => Promise<User | null>;
   loginWithGoogle: () => Promise<User | null>;
   loginWithGithub: () => Promise<User | null>;
@@ -56,6 +60,10 @@ const AuthContext = createContext<AuthContextType>({
   authError: null,
   showDomainModal: false,
   setShowDomainModal: () => {},
+  targetDomain: 'acme.corp',
+  setTargetDomain: () => {},
+  isScanning: false,
+  setIsScanning: () => {},
   login: async () => null,
   loginWithGoogle: async () => null,
   loginWithGithub: async () => null,
@@ -87,6 +95,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [showDomainModal, setShowDomainModal] = useState(false);
   const [tokenClaims, setTokenClaims] = useState<Record<string, any>>({});
   const [hasSuperadminClaim, setHasSuperadminClaim] = useState<boolean>(false);
+  const [targetDomain, setTargetDomain] = useState<string>('acme.corp');
+  const [isScanning, setIsScanning] = useState<boolean>(false);
 
   const checkUserClaims = async (currentUser: User | null) => {
     if (!currentUser) {
@@ -296,6 +306,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       authError,
       showDomainModal,
       setShowDomainModal,
+      targetDomain,
+      setTargetDomain,
+      isScanning,
+      setIsScanning,
       login, 
       loginWithGoogle,
       loginWithGithub,

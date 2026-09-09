@@ -6,6 +6,7 @@ import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Navbar } from './components/layout/Navbar';
+import { MainMenuOverlay } from './components/layout/MainMenuOverlay';
 import { LinearAmbientBackground } from "./components/layout/LinearAmbientBackground";
 import { StickyHUD } from "./components/layout/StickyHUD";
 import { TrialBanner } from "./components/common/TrialBanner";
@@ -25,6 +26,7 @@ import { useTheme } from "./context/ThemeContext";
 
 // Critical landing page kept synchronous for instant FCP / LCP
 import { MasterAuditPage } from "./pages/MasterAuditPage";
+import { HeroSection } from "./components/home/HeroSection";
 import { AdminRoute } from "./components/auth/AdminRoute";
 
 // Lazy-loaded routes for code-splitting & optimal bundle chunking
@@ -47,7 +49,7 @@ const TermsPage = React.lazy(() => import("./pages/TermsPage").then(m => ({ defa
 const CookiePolicyPage = React.lazy(() => import("./pages/CookiePolicyPage").then(m => ({ default: m.CookiePolicyPage })));
 const LegalPage = React.lazy(() => import("./pages/LegalPage").then(m => ({ default: m.LegalPage })));
 const SecurityPage = React.lazy(() => import("./pages/SecurityPage").then(m => ({ default: m.SecurityPage })));
-const PricingPage = React.lazy(() => import("./pages/PricingPage").then(m => ({ default: m.PricingPage })));
+const PricingPage = React.lazy(() => import("./pages/PricingPage"));
 const ProductsPage = React.lazy(() => import("./pages/ProductsPage").then(m => ({ default: m.ProductsPage })));
 const DiagnosticHubPage = React.lazy(() => import("./pages/DiagnosticHubPage").then(m => ({ default: m.DiagnosticHubPage })));
 const ReactDevDesignPage = React.lazy(() => import("./pages/playground/ReactDevDesignPage").then(m => ({ default: m.ReactDevDesignPage })));
@@ -108,6 +110,20 @@ export const App: React.FC = () => {
 
   const [isPaymentCheckoutOpen, setIsPaymentCheckoutOpen] = useState(false);
   const [paymentPlanId, setPaymentPlanId] = useState<SubscriptionPlanId>('pro');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenMenu = () => setIsMobileMenuOpen(true);
+    const handleCloseMenu = () => setIsMobileMenuOpen(false);
+    
+    window.addEventListener('catalyst:open-mobile-menu', handleOpenMenu);
+    window.addEventListener('catalyst:close-mobile-menu', handleCloseMenu);
+    
+    return () => {
+      window.removeEventListener('catalyst:open-mobile-menu', handleOpenMenu);
+      window.removeEventListener('catalyst:close-mobile-menu', handleCloseMenu);
+    };
+  }, []);
 
   useEffect(() => {
     const handleOpenModal = (e: Event) => {
@@ -169,7 +185,7 @@ export const App: React.FC = () => {
     <>
       <div 
         data-theme={resolvedTheme}
-        className={`app-shell ${pagePolarity} flex min-h-screen min-h-dvh flex-col lg:flex-row w-full max-w-full overflow-x-hidden text-foreground animate-app-fade-in relative ${showAppChrome ? "pb-[calc(4rem+env(safe-area-inset-bottom,0px))] lg:pb-0" : "pb-[env(safe-area-inset-bottom,0px)]"} ${resolvedTheme === "dark" ? "bg-transparent" : "bg-background"}`}
+        className={`app-shell ${pagePolarity} flex flex-col w-full max-w-full text-foreground animate-app-fade-in relative min-h-screen pb-[calc(4rem+env(safe-area-inset-bottom,0px))] lg:pb-0 ${resolvedTheme === "dark" ? "bg-transparent" : "bg-background"}`}
       >
         {resolvedTheme === "dark" && <LinearAmbientBackground />}
         <div className="flex-1 flex flex-col min-w-0 w-full max-w-full relative z-10">
@@ -182,13 +198,20 @@ export const App: React.FC = () => {
           <ScrollToTop />
           <TrialBanner />
           <Navbar />
-          <main id="main-content" className={`${pagePolarity} flex-1 w-full max-w-full overflow-x-hidden`}>
+          
+          <MainMenuOverlay 
+            isOpen={isMobileMenuOpen} 
+            onClose={() => setIsMobileMenuOpen(false)} 
+          />
+
+          <main id="main-content" className={`${pagePolarity} flex-1 w-full max-w-full overflow-x-hidden relative z-0`}>
             <AnimatePresence mode="wait">
               <PageTransition key={location.pathname} className="min-h-full">
             <Suspense fallback={<RouteLoadingSkeleton />}>
               <ErrorBoundary variant="route">
               <DevSiteLayoutWrapper enabled={useDevSiteLayout}>
               <Routes location={location} key={location.pathname}>
+              {/* Homepage: Hero section with Framer Motion-based carousel component displaying 'Autonomous Architectural Auditors' cardview as default view */}
               <Route path="/" element={<MasterAuditPage />} />
               <Route path="/index.html" element={<Navigate to="/" replace />} />
               <Route

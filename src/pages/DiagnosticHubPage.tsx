@@ -192,7 +192,7 @@ export const DiagnosticHubPage: React.FC = () => {
  
  <Link
  to="/launch-audit"
- className="group flex h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm sm:text-base font-semibold text-black transition-all hover:bg-neutral-200 shrink-0"
+ className="ds-btn ds-btn-primary h-12 px-6 text-sm sm:text-base shrink-0 group"
  >
  <Sparkles className="size-4" />
  Launch Master Audit

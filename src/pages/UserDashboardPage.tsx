@@ -39,6 +39,7 @@ import {
  Eye,
  X
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { UserBlogManagementView } from '../components/user/UserBlogManagementView';
 import { UserRateLimitAllocationCard } from '../components/user/UserRateLimitAllocationCard';
 import { UserDomainMonitoringRadar } from '../components/user/UserDomainMonitoringRadar';
@@ -49,7 +50,7 @@ import { DashboardShell } from '../components/dashboard/DashboardShell';
 import { FramerDossierCockpit } from '../components/dashboard/FramerDossierCockpit';
 import { DashboardMetricsBentoGrid } from '../components/dashboard/DashboardMetricsBentoGrid';
 import { AuditDetailModal } from '../components/dashboard/AuditDetailModal';
-import { CoverFlowCarousel, defaultCarouselItems } from '../components/ui/3-d-coverflow-carousel';
+
 import { SEOHead } from '../components/common/SEOHead';
 import { useLocation, useParams } from 'react-router-dom';
 import { GitBranch } from 'lucide-react';
@@ -57,7 +58,17 @@ import { logger } from '../lib/logger';
 import { UserDashboardSkeleton, SkeletonCard, SkeletonTable } from '../components/skeleton';
 
 export const UserDashboardPage: React.FC = () => {
- const { user, isAdmin, loading: authLoading, loginWithLocalSession, setShowDomainModal } = useAuth();
+ const { 
+  user, 
+  isAdmin, 
+  loading: authLoading, 
+  loginWithLocalSession, 
+  setShowDomainModal,
+  targetDomain,
+  setTargetDomain,
+  isScanning,
+  setIsScanning
+ } = useAuth();
  const { roleConfig } = useRoleSecurity();
  const navigate = useNavigate();
  const location = useLocation();
@@ -104,8 +115,6 @@ export const UserDashboardPage: React.FC = () => {
  const [quickViewReport, setQuickViewReport] = useState<AuditReport | null>(null);
 
  const [rateStatus, setRateStatus] = useState<RateLimitStatus>(() => getRateLimitStatus(user, isAdmin));
- const [targetDomain, setTargetDomain] = useState<string>('acme.corp');
- const [isScanning, setIsScanning] = useState<boolean>(false);
 
  const handleRefreshScan = () => {
  setIsScanning(true);
@@ -308,10 +317,45 @@ export const UserDashboardPage: React.FC = () => {
  canonicalUrl="https://www.catalystlab.tech/dashboard"
  />
 
- <div className="space-y-6">
+ <div className="relative min-h-full">
+   {/* Ambient Subsurface Glows */}
+   <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#0066FF]/10 blur-[120px] rounded-full pointer-events-none" />
+   <div className="absolute top-1/2 -right-24 w-80 h-80 bg-[#00D2FF]/5 blur-[100px] rounded-full pointer-events-none" />
+
+   <AnimatePresence mode="wait">
+     <motion.div
+       key={activeTab}
+       initial={{ opacity: 0, y: 15 }}
+       animate={{ opacity: 1, y: 0 }}
+       exit={{ opacity: 0, y: -15 }}
+       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+       className="space-y-6 relative z-10"
+     >
  {/* TAB 0: OVERVIEW & 8 ENGINES COCKPIT */}
  {(activeTab === 'overview' || activeTab === 'analytics' || activeTab === 'engines') && (
  <div className="space-y-8">
+   {/* Welcome Header Section */}
+   <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 pt-12 sm:pt-16">
+     <div>
+       <div className="framer-micro-tag text-[#00D2FF] mb-2">Platform Control Center</div>
+       <h1 className="framer-hero-title text-3xl sm:text-4xl lg:text-5xl text-white">
+         {getGreeting()}, <span className="text-white/60">{userName}</span>
+       </h1>
+       <p className="framer-body-text mt-2 max-w-2xl">
+         Your telemetry mesh is active across <span className="text-white font-medium">{uniqueDomains} domains</span>. 
+         The mean health score is currently <span className="text-emerald-400 font-medium">{avgScore}/100</span>.
+       </p>
+     </div>
+     <div className="flex items-center gap-3">
+       <Link 
+         to="/master-audit" 
+         className="ds-btn ds-btn-primary px-5"
+       >
+         <Sparkles className="size-4 mr-2" />
+         <span>New Master Audit</span>
+       </Link>
+     </div>
+   </div>
  {/* 3-Column Bento-Grid Layout for Platform Metrics (Visual Parity with Audit Dossiers) */}
  <DashboardMetricsBentoGrid
  totalAudits={totalAudits}
@@ -322,31 +366,6 @@ export const UserDashboardPage: React.FC = () => {
  onNavigateTab={(tabKey) => navigate(`/dashboard?tab=${tabKey}`)}
  />
 
- {/* 3D Coverflow Carousel: Diagnostic Telemetry Engines Showcase */}
- <div className="ds-card p-4 sm:p-6 overflow-hidden">
- <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
- <div className="flex items-center gap-2 font-mono">
- <span className="text-xs uppercase tracking-wider text-muted-foreground">
- Diagnostic Telemetry Engines
- </span>
- <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono">
- 3D Coverflow
- </span>
- </div>
- <button
- onClick={() => navigate('/dashboard?tab=engines')}
- className="text-xs font-mono text-[#00D2FF] hover:underline cursor-pointer flex items-center gap-1"
- >
- <span>Explore 8 Engines</span>
- <ArrowRight className="size-3" />
- </button>
- </div>
- <CoverFlowCarousel
- items={defaultCarouselItems}
- sectionLabel="AUTONOMOUS ARCHITECTURAL AUDITORS"
- autoplay={true}
- />
- </div>
 
  {/* Autonomous Dossier Engine Cockpit */}
  <FramerDossierCockpit
@@ -357,88 +376,97 @@ export const UserDashboardPage: React.FC = () => {
  />
 
  {/* Quick Recent Dossiers Vault Strip - 3-Column Bento Grid Layout with ds-card and ds-card-interactive */}
- <div className="ds-card p-5 shadow-xl font-mono">
- <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
- <div className="flex items-center gap-2 font-mono">
- <span className="text-xs uppercase tracking-wider text-muted-foreground">Telemetry Dossiers Vault</span>
- <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-border text-white">
- {reports.length} Recorded
- </span>
- </div>
- <button
- onClick={() => navigate('/dashboard?tab=audits')}
- className="text-xs font-mono text-[#00D2FF] hover:underline cursor-pointer flex items-center gap-1"
- >
- <span>Open Full Audit Vault</span>
- <ArrowRight className="size-3" />
- </button>
- </div>
+<div className="space-y-4">
+<div className="flex items-center justify-between">
+<div className="flex items-center gap-3">
+<div className="framer-micro-tag text-[#0066FF]">Telemetry Vault</div>
+<h2 className="framer-card-title text-white">Recent Audit Dossiers</h2>
+</div>
+<button
+onClick={() => navigate('/dashboard?tab=audits')}
+className="ds-btn ds-btn-secondary py-1 px-3 text-[11px] h-8"
+>
+<span>View All Vaults</span>
+<ArrowRight className="size-3 ml-1.5" />
+</button>
+</div>
 
- {reports.length === 0 ? (
- <div className="p-8 text-center border border-dashed border-border rounded-xl text-xs text-muted-foreground font-mono">
- No telemetry audits recorded yet. Run a domain inspection above or click"Run Audit" to record your first dossier.
- </div>
- ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono">
+{reports.length === 0 ? (
+<div className="ds-card p-12 text-center border-dashed border-white/10">
+<FileText className="size-8 mx-auto text-muted-foreground/30 mb-3" />
+<p className="framer-body-text max-w-xs mx-auto">
+No telemetry audits recorded yet. Run a domain inspection above to record your first dossier.
+</p>
+</div>
+) : (
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
  {reports.slice(0, 6).map((report) => (
- <div
+ <motion.div
  key={report.id}
+ whileHover={{ y: -4 }}
  onClick={() => setQuickViewReport(report)}
- className="ds-card ds-card-interactive group p-4 flex flex-col justify-between cursor-pointer"
+ className="ds-card ds-card-interactive group p-5 flex flex-col justify-between cursor-pointer bg-surface/50 backdrop-blur-sm"
  >
  <div>
  {/* Top Card Bar - Visual Parity with Audit Dossier Cards */}
- <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
- <div className="flex items-center gap-2 min-w-0">
- <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-amber-500 shrink-0">
- <Globe className="h-3.5 w-3.5" />
+ <div className="flex items-start justify-between gap-3 pb-3 border-b border-white/5">
+ <div className="flex items-center gap-3 min-w-0">
+ <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-[#00D2FF] shrink-0 group-hover:border-[#00D2FF]/30 transition-colors">
+ <Globe className="h-4 w-4" />
  </div>
  <div className="min-w-0">
- <h4 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+ <h4 className="text-sm font-semibold text-white truncate group-hover:text-[#00D2FF] transition-colors tracking-tight">
  {extractDomainFromUrl(report.url)}
  </h4>
- <span className="text-[10px] ds-muted flex items-center gap-1">
- <Calendar className="h-2.5 w-2.5" />
- {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
+ <span className="text-[10px] font-mono text-muted-foreground flex items-center gap-1.5 mt-0.5">
+ <Calendar className="h-3 w-3" />
+ {report.createdAt ? new Date(report.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'}
  </span>
  </div>
  </div>
 
  {/* Score Pill */}
  <div
- className={`py-0.5 px-2 rounded text-xs font-bold border shrink-0 ${
+ className={`py-1 px-2.5 rounded-lg text-[11px] font-bold border shrink-0 ${
  (report.score ?? 0) >= 90
  ?"bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
  :"bg-amber-500/10 text-amber-400 border-amber-500/20"
  }`}
  >
- {report.score ?? 85}/100
+ {report.score ?? 85}
  </div>
  </div>
 
  {/* Middle Content */}
- <div className="py-3 space-y-1.5">
- <div className="inline-flex items-center gap-1 rounded bg-accent border border-border py-0.5 px-1.5 text-[10px] font-bold ds-muted">
- <Sparkles className="h-2.5 w-2.5 text-[#00D2FF]" />
+ <div className="py-4 space-y-2">
+ <div className="inline-flex items-center gap-1.5 rounded-full bg-[#0066FF]/10 border border-[#0066FF]/20 py-0.5 px-2 text-[9px] font-mono font-bold text-[#0066FF] uppercase tracking-wider">
+ <Sparkles className="h-2.5 w-2.5" />
  <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
  </div>
- <p className="text-[11px] ds-muted line-clamp-2 leading-relaxed font-sans">
+ <p className="framer-body-text text-[13px] line-clamp-2 leading-relaxed">
  {report.summary || report.title || `Autonomous telemetry dossier evaluated for ${report.url}`}
  </p>
  </div>
  </div>
 
  {/* Card Action Footer */}
- <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
- <span className="text-[10px] ds-muted truncate">
- {new Date(report.createdAt).toLocaleDateString()}
- </span>
- <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">
- <span>Inspect</span>
- <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
- </span>
+ <div className="pt-3 border-t border-white/5 flex items-center justify-between">
+ <div className="flex items-center gap-2">
+   <div className="flex -space-x-1">
+     {[1, 2, 3].map((i) => (
+       <div key={i} className="size-4 rounded-full bg-surface border border-background flex items-center justify-center overflow-hidden">
+         <Activity className="size-2 text-muted-foreground/50" />
+       </div>
+     ))}
+   </div>
+   <span className="text-[10px] font-mono text-muted-foreground">38 PoPs</span>
+ </div>
+ <div className="text-[11px] font-semibold text-[#00D2FF] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+ <span>Open Dossier</span>
+ <ArrowRight className="h-3 w-3" />
  </div>
  </div>
+ </motion.div>
  ))}
  </div>
  )}
@@ -922,6 +950,8 @@ export const UserDashboardPage: React.FC = () => {
  <UserGithubWebhookView />
  )}
 
+     </motion.div>
+   </AnimatePresence>
  </div>
 
  {/* Audit Detail Modal with Staggered Entry Animation */}

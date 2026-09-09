@@ -1,87 +1,273 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  FileCode2,
+} from "lucide-react";
+import { SDLC_CATALYSTS_LIST } from "../../data/engines";
 
 export interface CarouselItem {
+  id?: string;
   tag?: string;
   titleLine1: string;
   titleLine2?: string;
   desc?: string;
   img: string;
+  color?: string;
+  phaseNumber?: number;
   ctaText?: string;
   ctaUrl?: string;
+  shortCode?: string;
+  category?: string;
+  lifecycleFocus?: string;
+  keyVectors?: string[];
+  departmentReplaced?: string;
 }
 
 export interface CoverFlowCarouselProps {
   items?: CarouselItem[];
-  sectionLabel?: string;
   autoplay?: boolean;
   autoplayDelay?: number;
   className?: string;
   onCtaClick?: (item: CarouselItem) => void;
 }
 
-export const defaultDishes: CarouselItem[] = [
-  {
-    tag: "#Signature",
-    titleLine1: "BUTTER CHICKEN",
-    titleLine2: "– DELHI HERITAGE",
-    desc: "Velvety roasted tomato and fenugreek gravy with tender charred chicken",
-    img: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "View Menu",
-    ctaUrl: "#",
-  },
-  {
-    tag: "#ChefSpecial",
-    titleLine1: "TANDOORI CHOPS",
-    titleLine2: "– SMOKED SPICE",
-    desc: "Grass-fed lamb chops charred in live charcoal tandoor with Kashmiri spices",
-    img: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "View Menu",
-    ctaUrl: "#",
-  },
-  {
-    tag: "#Vegetarian",
-    titleLine1: "PANEER TIKKA",
-    titleLine2: "– CLAY ROASTED",
-    desc: "Artisan cottage cheese marinated in spiced yogurt, bell peppers & saffron",
-    img: "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "View Menu",
-    ctaUrl: "#",
-  },
-  {
-    tag: "#CoastalCatch",
-    titleLine1: "MALABAR PRAWNS",
-    titleLine2: "– COCONUT GRAVY",
-    desc: "Jumbo wild tiger prawns simmered in fragrant curry leaves and coconut milk",
-    img: "https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "View Menu",
-    ctaUrl: "#",
-  },
-  {
-    tag: "#ArtisanBake",
-    titleLine1: "TRUFFLE NAAN",
-    titleLine2: "– CHARCOAL OVEN",
-    desc: "Crispy puffed leavened bread brushed with pure ghee and black winter truffle",
-    img: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "View Menu",
-    ctaUrl: "#",
-  },
-];
+/**
+ * Maps the 8 Autonomous Architectural Auditors from SDLC_CATALYSTS_LIST
+ */
+export const auditorsCarouselItems: CarouselItem[] = SDLC_CATALYSTS_LIST.map((engine) => ({
+  id: engine.id,
+  tag: `Phase 0${engine.sdlcPhaseNumber} • ${engine.category}`,
+  titleLine1: engine.catalystName || engine.name,
+  titleLine2: engine.catalystName && engine.name !== engine.catalystName ? `(${engine.name})` : undefined,
+  desc: engine.description,
+  img: engine.image || "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  color: engine.color,
+  phaseNumber: engine.sdlcPhaseNumber,
+  ctaText: `Launch ${engine.catalystName || engine.name}`,
+  ctaUrl: engine.route || `/docs/${engine.id}`,
+  shortCode: engine.shortCode,
+  category: engine.category,
+  lifecycleFocus: engine.lifecycleFocus,
+  keyVectors: engine.keyVectors?.slice(0, 3) || [],
+  departmentReplaced: engine.departmentReplaced,
+}));
+
+export const defaultCarouselItems: CarouselItem[] = auditorsCarouselItems;
+
+interface CoverflowCardProps {
+  item: CarouselItem;
+  card: {
+    x: number;
+    scale: number;
+    rotateY: number;
+    opacity: number;
+    zIndex: number;
+    filter: string;
+    boxShadow: string;
+    isCenter: boolean;
+  };
+  isMobile: boolean;
+  onCardClick: () => void;
+  onCtaClick?: (item: CarouselItem) => void;
+  onDragNext: () => void;
+  onDragPrev: () => void;
+}
+
+function CoverflowCard({
+  item,
+  card,
+  isMobile,
+  onCardClick,
+  onCtaClick,
+  onDragNext,
+  onDragPrev,
+}: CoverflowCardProps) {
+  const [isCardHovered, setIsCardHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0, normalizedX: 0, normalizedY: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current || !card.isCenter) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const normalizedX = (x / rect.width - 0.5) * 2;
+    const normalizedY = (y / rect.height - 0.5) * 2;
+    setMousePos({ x, y, normalizedX, normalizedY });
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsCardHovered(true)}
+      onMouseLeave={() => {
+        setIsCardHovered(false);
+        setMousePos({ x: 0, y: 0, normalizedX: 0, normalizedY: 0 });
+      }}
+      onClick={onCardClick}
+      drag={card.isCenter ? "x" : false}
+      dragDirectionLock={true}
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.25}
+      dragTransition={{ bounceStiffness: 300, bounceDamping: 25 }}
+      onDragEnd={(_, info) => {
+        if (info.offset.x < -30 || info.velocity.x < -180) onDragNext();
+        else if (info.offset.x > 30 || info.velocity.x > 180) onDragPrev();
+      }}
+      animate={{
+        x: card.x,
+        scale: card.scale,
+        rotateY: card.rotateY + (card.isCenter && isCardHovered ? mousePos.normalizedX * 5 : 0),
+        rotateX: card.isCenter && isCardHovered ? -mousePos.normalizedY * 5 : 0,
+        opacity: card.opacity,
+        zIndex: card.zIndex,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 24,
+        mass: 0.85,
+      }}
+      whileHover={card.isCenter ? { scale: 1.025 } : { scale: card.scale * 1.04 }}
+      className="absolute rounded-3xl overflow-hidden bg-card border border-white/20 select-none group"
+      style={{
+        width: isMobile
+          ? "calc((2.5 / 3) * 100vw)"
+          : "min(calc((2.5 / 3) * 100vw), calc((2.5 / 3) * 100vh * 0.72))",
+        height: isMobile
+          ? "calc((2.5 / 3) * 100dvh - 3rem)"
+          : "calc((2.5 / 3) * 100dvh - 4.5rem)",
+        maxHeight: "calc((2.5 / 3) * 100dvh - 2.5rem)",
+        boxShadow: card.boxShadow,
+        transformOrigin: "center center",
+        transformStyle: "preserve-3d",
+        cursor: card.isCenter ? "grab" : "pointer",
+      }}
+    >
+      {/* Photo Artwork with subtle interactive parallax response */}
+      <motion.img
+        src={item.img}
+        alt={item.titleLine1}
+        animate={{
+          scale: card.isCenter && isCardHovered ? 1.08 : 1.02,
+          x: card.isCenter && isCardHovered ? mousePos.normalizedX * -10 : 0,
+          y: card.isCenter && isCardHovered ? mousePos.normalizedY * -10 : 0,
+        }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+        loading="lazy"
+        draggable={false}
+      />
+
+      {/* Floating Card CTA Bar: Clean, focused action controls without dense textual clutter */}
+      <div className="absolute bottom-4 sm:bottom-6 inset-x-4 sm:inset-x-6 z-20 pointer-events-auto">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-black/75 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+          {/* Card Engine Identity */}
+          <div className="flex items-center gap-2.5 text-left min-w-0">
+            <span
+              className="size-2.5 rounded-full animate-pulse shrink-0"
+              style={{ backgroundColor: item.color || "#0066FF" }}
+            />
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h4 className="text-sm sm:text-base font-bold text-white tracking-tight truncate">
+                  {item.titleLine1}
+                </h4>
+                {item.shortCode && (
+                  <span className="hidden xs:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-[#00D2FF] border border-white/10">
+                    [{item.shortCode}]
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] font-mono text-neutral-400 truncate">
+                {item.tag || `Phase 0${item.phaseNumber || 1} • ${item.category || "Autonomous"}`}
+              </p>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Primary Action Button */}
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onCtaClick) {
+                  onCtaClick(item);
+                } else {
+                  navigate(item.ctaUrl || "/audit");
+                }
+              }}
+              aria-label={`Launch ${item.titleLine1}`}
+              className="ds-btn ds-btn-primary flex-1 sm:flex-initial px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+            >
+              <span>{item.ctaText || `Launch ${item.titleLine1}`}</span>
+              <ArrowRight className="size-4 shrink-0" />
+            </motion.button>
+
+            {/* Secondary Action: Architecture Spec / Docs */}
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(item.ctaUrl || `/docs/${item.id}`);
+              }}
+              aria-label={`View architecture docs for ${item.titleLine1}`}
+              title="Architecture Spec"
+              className="ds-btn ds-btn-secondary px-3 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md cursor-pointer"
+            >
+              <FileCode2 className="size-4 shrink-0 text-[#00D2FF]" />
+              <span className="hidden md:inline">Docs</span>
+            </motion.button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export function CoverFlowCarousel({
-  items = defaultDishes,
-  sectionLabel = "BEST SELLERS",
+  items = auditorsCarouselItems,
   autoplay = true,
-  autoplayDelay = 5000,
+  autoplayDelay = 4000,
   className = "",
   onCtaClick,
 }: CoverFlowCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const touchStartX = useRef(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: typeof window !== "undefined" ? window.innerWidth : 1200,
+    height: typeof window !== "undefined" ? window.innerHeight : 800,
+  });
+  const navigate = useNavigate();
   const total = items.length;
+
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      setWindowDimensions({ width: w, height: h });
+      setIsMobile(w < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % total);
@@ -110,444 +296,185 @@ export function CoverFlowCarousel({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [nextSlide, prevSlide]);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+  if (!items || items.length === 0) return null;
+
+  const currentItem = items[currentIndex];
+
+  const getCardProps = (idx: number) => {
+    const offset = (idx - currentIndex + total) % total;
+
+    // Card width based on 2.5/3th (83.33%) coverage of responsive viewport
+    const cardWidth = isMobile
+      ? (2.5 / 3) * windowDimensions.width
+      : Math.min((2.5 / 3) * windowDimensions.width, (2.5 / 3) * windowDimensions.height * 0.85);
+
+    const step1 = isMobile
+      ? cardWidth * 0.56
+      : Math.min(cardWidth * 0.65, windowDimensions.width * 0.36);
+
+    const step2 = isMobile
+      ? cardWidth * 1.05
+      : Math.min(cardWidth * 1.2, windowDimensions.width * 0.62);
+
+    if (offset === 0) {
+      return {
+        x: 0,
+        scale: 1,
+        rotateY: 0,
+        opacity: 1,
+        zIndex: 30,
+        filter: "brightness(1)",
+        boxShadow: `0 35px 95px rgba(0,0,0,0.95), 0 0 60px ${currentItem?.color || "#0066FF"}55`,
+        isCenter: true,
+      };
+    }
+    if (offset === 1) {
+      return {
+        x: step1,
+        scale: isMobile ? 0.84 : 0.86,
+        rotateY: -24,
+        opacity: 0.68,
+        zIndex: 20,
+        filter: "brightness(0.7)",
+        boxShadow: "0 22px 50px rgba(0,0,0,0.7)",
+        isCenter: false,
+      };
+    }
+    if (offset === 2) {
+      return {
+        x: step2,
+        scale: isMobile ? 0.7 : 0.72,
+        rotateY: -36,
+        opacity: 0.38,
+        zIndex: 10,
+        filter: "brightness(0.45) blur(1px)",
+        boxShadow: "0 14px 35px rgba(0,0,0,0.55)",
+        isCenter: false,
+      };
+    }
+    if (offset === total - 1) {
+      return {
+        x: -step1,
+        scale: isMobile ? 0.84 : 0.86,
+        rotateY: 24,
+        opacity: 0.68,
+        zIndex: 20,
+        filter: "brightness(0.7)",
+        boxShadow: "0 22px 50px rgba(0,0,0,0.7)",
+        isCenter: false,
+      };
+    }
+    if (offset === total - 2) {
+      return {
+        x: -step2,
+        scale: isMobile ? 0.7 : 0.72,
+        rotateY: 36,
+        opacity: 0.38,
+        zIndex: 10,
+        filter: "brightness(0.45) blur(1px)",
+        boxShadow: "0 14px 35px rgba(0,0,0,0.55)",
+        isCenter: false,
+      };
+    }
+
+    return {
+      x: offset > total / 2 ? -step2 * 1.4 : step2 * 1.4,
+      scale: 0.45,
+      rotateY: offset > total / 2 ? 45 : -45,
+      opacity: 0,
+      zIndex: 0,
+      filter: "brightness(0.2) blur(4px)",
+      boxShadow: "none",
+      isCenter: false,
+    };
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const diff = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(diff) > 45) {
-      if (diff < 0) nextSlide();
-      else prevSlide();
+  const handleCardClick = (item: CarouselItem, isCenter: boolean, idx: number) => {
+    if (!isCenter) {
+      goToSlide(idx);
+      return;
+    }
+    if (onCtaClick) {
+      onCtaClick(item);
+    } else if (item.ctaUrl) {
+      navigate(item.ctaUrl);
     }
   };
 
-  if (!items || items.length === 0) return null;
-
   return (
     <section
-      className={`relative w-full min-h-[760px] flex items-center justify-center overflow-hidden py-12 select-none ${className}`}
-      style={{
-        backgroundColor: "hsl(var(--background))",
-        color: "hsl(var(--foreground))",
-        fontFamily: "system-ui, -apple-system, sans-serif",
-      }}
+      className={`relative w-full h-full min-h-0 flex items-center justify-center overflow-hidden select-none ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
-      {/* Background Ambience */}
+      {/* Background Ambience with smooth image fade */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <img
-          src={items[currentIndex]?.img}
-          alt="ambience background"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "brightness(0.22) blur(32px)",
-            transform: "scale(1.15)",
-            transition: "opacity 1000ms ease, filter 1000ms ease",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(circle at center, rgba(12,10,9,0.3) 0%, rgba(12,10,9,0.92) 100%)",
-          }}
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentItem.img}
+            src={currentItem.img}
+            alt=""
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.22 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7 }}
+            className="w-full h-full object-cover filter blur-[50px] scale-110"
+          />
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background" />
       </div>
 
-      <div className="relative w-full max-w-6xl mx-auto px-4 z-10 flex flex-col items-center">
-        {/* Eyebrow */}
-        {sectionLabel && (
-          <div className="flex items-center gap-3 mb-8">
-            <span style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, transparent, hsl(var(--primary)))" }} />
-            <h3
-              style={{
-                fontSize: "0.75rem",
-                fontWeight: 700,
-                letterSpacing: "0.3em",
-                textTransform: "uppercase",
-                color: "hsl(var(--primary))",
-                margin: 0,
-              }}
-            >
-              {sectionLabel}
-            </h3>
-            <span style={{ width: "36px", height: "1px", background: "linear-gradient(90deg, hsl(var(--primary)), transparent)" }} />
-          </div>
-        )}
-
-        {/* 3D Coverflow Stage */}
+      <div className="relative w-full h-full min-h-0 flex justify-center items-center z-10">
+        {/* Fullscreen 3D Coverflow Stage spanning full height underneath top-nav */}
         <div
-          className="relative w-full h-[520px] flex justify-center items-center mb-8"
-          style={{ perspective: "1400px" }}
+          className="relative w-full h-full min-h-0 flex justify-center items-center"
+          style={{ perspective: "1800px" }}
         >
           {items.map((item, idx) => {
-            const offset = (idx - currentIndex + total) % total;
-
-            let transform = "translateX(0px) scale(0.4) rotateY(0deg)";
-            let opacity = 0;
-            let zIndex = 0;
-            let filter = "brightness(0.4) blur(2px)";
-            let isCenter = false;
-
-            if (offset === 0) {
-              isCenter = true;
-              transform = "translateX(0px) scale(1) rotateY(0deg)";
-              opacity = 1;
-              zIndex = 30;
-              filter = "brightness(1)";
-            } else if (offset === 1) {
-              transform = "translateX(285px) scale(0.84) rotateY(-24deg)";
-              opacity = 0.65;
-              zIndex = 20;
-              filter = "brightness(0.75)";
-            } else if (offset === 2) {
-              transform = "translateX(510px) scale(0.68) rotateY(-38deg)";
-              opacity = 0.38;
-              zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
-            } else if (offset === total - 1) {
-              transform = "translateX(-285px) scale(0.84) rotateY(24deg)";
-              opacity = 0.65;
-              zIndex = 20;
-              filter = "brightness(0.75)";
-            } else if (offset === total - 2) {
-              transform = "translateX(-510px) scale(0.68) rotateY(38deg)";
-              opacity = 0.38;
-              zIndex = 10;
-              filter = "brightness(0.55) blur(1px)";
-            }
+            const card = getCardProps(idx);
 
             return (
-              <div
-                key={idx}
-                onClick={() => !isCenter && goToSlide(idx)}
-                style={{
-                  position: "absolute",
-                  width: "330px",
-                  height: "500px",
-                  borderRadius: "18px",
-                  overflow: "hidden",
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                  transform,
-                  opacity,
-                  zIndex,
-                  filter,
-                  transformOrigin: "center center",
-                  transition: "all 800ms cubic-bezier(0.25, 1, 0.5, 1)",
-                  boxShadow: isCenter
-                    ? "0 25px 60px rgba(0,0,0,0.9), 0 0 35px rgba(197,168,128,0.25)"
-                    : "0 15px 35px rgba(0,0,0,0.5)",
-                  cursor: isCenter ? "default" : "pointer",
-                }}
-              >
-                {/* Photo */}
-                <img
-                  src={item.img}
-                  alt={item.titleLine1}
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-
-                {/* Dark Vignette Overlay */}
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.68) 60%, rgba(0,0,0,0.96) 100%)",
-                    pointerEvents: "none",
-                    zIndex: 10,
-                  }}
-                />
-
-                {/* Content Overlay */}
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    padding: "20px 18px 22px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    textAlign: "center",
-                    zIndex: 20,
-                    opacity: isCenter ? 1 : 0,
-                    transform: isCenter ? "translateY(0px)" : "translateY(16px)",
-                    transition: "opacity 500ms ease, transform 500ms ease",
-                    pointerEvents: isCenter ? "auto" : "none",
-                  }}
-                >
-                  {/* Tag */}
-                  <div style={{ textAlign: "right", width: "100%", paddingRight: "4px" }}>
-                    <span
-                      style={{
-                        display: "inline-block",
-                        fontSize: "0.78rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.06em",
-                        color: "rgba(255,255,255,0.9)",
-                        textShadow: "0 2px 6px rgba(0,0,0,0.8)",
-                      }}
-                    >
-                      {item.tag}
-                    </span>
-                  </div>
-
-                  {/* Body Content */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "3px",
-                      marginTop: "auto",
-                      paddingBottom: "4px",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        fontSize: "1.65rem",
-                        fontWeight: 900,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.04em",
-                        color: "hsl(var(--foreground))",
-                        margin: 0,
-                        lineHeight: 1.1,
-                        textShadow: "0 3px 12px rgba(0,0,0,0.95)",
-                      }}
-                    >
-                      {item.titleLine1}
-                    </h2>
-
-                    {item.titleLine2 && (
-                      <span
-                        style={{
-                          fontSize: "1.1rem",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.06em",
-                          color: "hsl(var(--foreground))",
-                          lineHeight: 1.2,
-                          textShadow: "0 3px 10px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.titleLine2}
-                      </span>
-                    )}
-
-                    <div
-                      style={{
-                        width: "34px",
-                        height: "2px",
-                        backgroundColor: "hsl(var(--primary))",
-                        borderRadius: "2px",
-                        margin: "5px auto 4px",
-                        boxShadow: "0 0 8px rgba(197,168,128,0.7)",
-                      }}
-                    />
-
-                    {item.desc && (
-                      <p
-                        style={{
-                          fontSize: "0.82rem",
-                          fontStyle: "italic",
-                          color: "rgba(255,255,255,0.9)",
-                          maxWidth: "280px",
-                          margin: "0 0 10px",
-                          lineHeight: 1.3,
-                          textShadow: "0 2px 8px rgba(0,0,0,0.9)",
-                        }}
-                      >
-                        {item.desc}
-                      </p>
-                    )}
-
-                    <a
-                      href={item.ctaUrl || "#"}
-                      onClick={(e) => {
-                        if (onCtaClick) {
-                          e.preventDefault();
-                          onCtaClick(item);
-                        }
-                      }}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        padding: "7px 18px",
-                        borderRadius: "9999px",
-                        background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)) 100%)",
-                        color: "hsl(var(--primary-foreground))",
-                        fontSize: "0.72rem",
-                        fontWeight: 800,
-                        letterSpacing: "0.14em",
-                        textTransform: "uppercase",
-                        textDecoration: "none",
-                        boxShadow: "0 4px 14px rgba(0,0,0,0.4), 0 0 15px rgba(197,168,128,0.3)",
-                        cursor: "pointer",
-                        transition: "transform 200ms ease, box-shadow 200ms ease",
-                      }}
-                    >
-                      <span>{item.ctaText || "View Menu"}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <CoverflowCard
+                key={item.id || idx}
+                item={item}
+                card={card}
+                isMobile={isMobile}
+                onCardClick={() => handleCardClick(item, card.isCenter, idx)}
+                onCtaClick={onCtaClick}
+                onDragNext={nextSlide}
+                onDragPrev={prevSlide}
+              />
             );
           })}
         </div>
 
-        {/* Navigation Arrows */}
-        <button
+        {/* Floating Prev/Next Arrow Navigation Buttons */}
+        <motion.button
+          type="button"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           onClick={prevSlide}
-          aria-label="Previous dish"
-          style={{
-            position: "absolute",
-            left: "24px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: "46px",
-            height: "46px",
-            borderRadius: "50%",
-            backgroundColor: "rgba(0,0,0,0.55)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            color: "hsl(var(--foreground))",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backdropFilter: "blur(8px)",
-            cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
-            zIndex: 40,
-            transition: "all 200ms ease",
-          }}
+          aria-label="Previous engine"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 size-10 sm:size-12 rounded-full bg-black/60 hover:bg-black/85 text-white/90 hover:text-white border border-white/20 backdrop-blur-xl flex items-center justify-center transition-all shadow-xl cursor-pointer"
         >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
+          <ChevronLeft className="size-5 sm:size-6" />
+        </motion.button>
 
-        <button
+        <motion.button
+          type="button"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           onClick={nextSlide}
-          aria-label="Next dish"
-          style={{
-            position: "absolute",
-            right: "24px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: "46px",
-            height: "46px",
-            borderRadius: "50%",
-            backgroundColor: "rgba(0,0,0,0.55)",
-            border: "1px solid rgba(255,255,255,0.2)",
-            color: "hsl(var(--foreground))",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backdropFilter: "blur(8px)",
-            cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
-            zIndex: 40,
-            transition: "all 200ms ease",
-          }}
+          aria-label="Next engine"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 size-10 sm:size-12 rounded-full bg-black/60 hover:bg-black/85 text-white/90 hover:text-white border border-white/20 backdrop-blur-xl flex items-center justify-center transition-all shadow-xl cursor-pointer"
         >
-          <ChevronRight className="w-5 h-5" />
-        </button>
-
-        {/* Pagination Dots */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", zIndex: 30 }}>
-          {items.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => goToSlide(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              style={{
-                height: "8px",
-                width: idx === currentIndex ? "28px" : "8px",
-                borderRadius: "9999px",
-                backgroundColor: idx === currentIndex ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))",
-                border: "none",
-                cursor: "pointer",
-                boxShadow: idx === currentIndex ? "0 0 10px rgba(197,168,128,0.7)" : "none",
-                transition: "all 300ms ease",
-              }}
-            />
-          ))}
-        </div>
+          <ChevronRight className="size-5 sm:size-6" />
+        </motion.button>
       </div>
     </section>
   );
 }
 
+export const CoverFlowCarouselDemo = CoverFlowCarousel;
 export default CoverFlowCarousel;
 
-export const defaultCarouselItems: CarouselItem[] = [
-  {
-    tag: "#Performance",
-    titleLine1: "VITALZYME DOM",
-    titleLine2: "– LATENCY AUDIT",
-    desc: "Analyzes total DOM tree depth, mutation recalculations, and layout shifts.",
-    img: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "Explore Engine",
-    ctaUrl: "/health",
-  },
-  {
-    tag: "#Infrastructure",
-    titleLine1: "EDGEVMAX CDN",
-    titleLine2: "– JITTER TRACKING",
-    desc: "Edge compute distributed ping and network jitter telemetry.",
-    img: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "Explore Engine",
-    ctaUrl: "/latency",
-  },
-  {
-    tag: "#Security",
-    titleLine1: "RISK PROTEASE",
-    titleLine2: "– VULNERABILITY",
-    desc: "Continuous OWASP Top 10 and SSL/TLS certificate chain integrity auditor.",
-    img: "https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "Explore Engine",
-    ctaUrl: "/compliance",
-  },
-  {
-    tag: "#AI",
-    titleLine1: "LLMO SEARCH",
-    titleLine2: "– AI READINESS",
-    desc: "Ensure your content is formatted for frontier AI model knowledge extraction.",
-    img: "https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "Explore Engine",
-    ctaUrl: "/llmo",
-  },
-  {
-    tag: "#Code",
-    titleLine1: "GIT LYGASE",
-    titleLine2: "– STATIC ANALYSIS",
-    desc: "Deep repository AST scanning for complexity and code smells.",
-    img: "https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1",
-    ctaText: "Explore Engine",
-    ctaUrl: "/repo-scanner",
-  },
-];
-
-export function CoverFlowCarouselDemo() {
-  return (
-    <div className="w-full min-h-screen bg-primary flex items-center justify-center">
-      <CoverFlowCarousel 
-        items={defaultCarouselItems} 
-        sectionLabel="DIAGNOSTIC ENGINES" 
-        autoplay={true} 
-      />
-    </div>
-  );
-}

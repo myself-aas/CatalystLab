@@ -224,7 +224,7 @@ export const DomainReportArticlePage: React.FC = () => {
  <div className="mt-5 flex flex-wrap justify-center gap-2.5">
  <button
  onClick={() => runLiveAuditForDomain(displayDomain)}
- className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground shadow-sm cursor-pointer"
+ className="ds-btn ds-btn-primary text-xs"
  >
  <RotateCw className="h-3.5 w-3.5"/>
  <span>Retry Diagnostic Audit</span>
@@ -325,7 +325,7 @@ export const DomainReportArticlePage: React.FC = () => {
  <button
  onClick={handleExportPdf}
  disabled={isExportingPdf}
- className="flex items-center gap-1.5 rounded-lg bg-primary hover:bg-primary-hover border border-border py-1.5 text-xs font-bold text-primary-foreground transition-all disabled:opacity-50 cursor-pointer"
+ className="ds-btn ds-btn-primary text-xs disabled:opacity-50"
  title="Export PDF Benchmark Dossier"
  >
  <Download className="h-3 w-3 text-primary-foreground"/>
@@ -659,7 +659,7 @@ export const DomainReportArticlePage: React.FC = () => {
  <button
  onClick={handleExportPdf}
  disabled={isExportingPdf}
- className="flex items-center gap-1 rounded-lg bg-primary hover:bg-primary-hover border border-border py-1.5 text-xs font-bold text-primary-foreground transition-all cursor-pointer"
+ className="ds-btn ds-btn-primary text-xs"
  >
  <Download className="h-3 w-3 text-primary-foreground"/>
  <span>{isExportingPdf ? 'Exporting...' : 'Export PDF'}</span>

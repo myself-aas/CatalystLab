@@ -45,6 +45,21 @@
   --page-top-spacing: calc(var(--nav-total-height) + var(--nav-bottom-clearance));
 }
 
+/* --- Top Navigation Header: Absolute & Transparent --- */
+.top-nav,
+#catalyst-main-navbar {
+  position: absolute !important;
+  top: var(--trial-banner-height, 0px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  box-shadow: none !important;
+  z-index: 40 !important;
+}
+
 @media (min-width: 768px) {
   :root {
     --nav-top-offset: 0px;
@@ -146,20 +161,28 @@
   --app-card-foreground: #202124;
   --app-popover: #ffffff;
   --app-popover-foreground: #090d16;
-  --app-primary: #1a73e8;
-  --app-primary-hover: #1967d2;
+  --app-primary: #0066FF;
+  --app-primary-hover: #0052cc;
   --app-primary-foreground: #ffffff;
   --app-secondary: #188038;
   --app-secondary-foreground: #ffffff;
   --app-muted: #f8f9fa;
   --app-muted-foreground: #5f6368;
   --app-accent: #e8f0fe;
-  --app-accent-foreground: #1967d2;
+  --app-accent-foreground: #0066FF;
   --app-destructive: #d93025;
   --app-destructive-foreground: #ffffff;
   --app-border: #dadce0;
-  --app-input: #80868b;
-  --app-ring: #1a73e8;
+  --app-input: #bdc1c6;
+  --app-ring: #0066FF;
+
+  /* Surface Layers (Light Mode) */
+  --bg-canvas: #ffffff;
+  --bg-surface-lowest: #f8f9fa;
+  --bg-surface-low: #f1f3f4;
+  --bg-surface-card: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-glass-overlay: rgba(255, 255, 255, 0.85);
 
   /* Linear / Modern Design System Tokens (Light Mode equivalents) */
   --background-deep: #f1f5f9;
@@ -170,12 +193,12 @@
   --foreground: #090d16;
   --foreground-muted: #52627c;
   --foreground-subtle: rgba(9, 13, 22, 0.60);
-  --accent: #1a73e8;
-  --accent-bright: #1967d2;
-  --accent-glow: rgba(26, 115, 232, 0.20);
+  --accent: #0066FF;
+  --accent-bright: #0052cc;
+  --accent-glow: rgba(0, 102, 255, 0.15);
   --border-default: #dadce0;
   --border-hover: #bdc1c6;
-  --border-accent: rgba(26, 115, 232, 0.30);
+  --border-accent: rgba(0, 102, 255, 0.25);
 
   /* Legacy aliases for backward compatibility */
   --color-background: var(--app-background);
@@ -241,10 +264,12 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --foreground: #EDEDEF;
   --foreground-muted: #8A8F98;
   --foreground-subtle: rgba(255, 255, 255, 0.60);
-  --accent: #5E6AD2;
-  --accent-bright: #6872D9;
-  --accent-glow: rgba(94, 106, 210, 0.30);
-  --border-accent: rgba(94, 106, 210, 0.30);
+  --accent: #0066FF;
+  --accent-bright: #1a7dff;
+  --accent-glow: rgba(0, 102, 255, 0.30);
+  --border-accent: rgba(0, 102, 255, 0.30);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.12);
 
   /* Re-mapped Palette Bases (Deep Space Technical Grays) */
   --theme-slate-50: #050506;
@@ -301,27 +326,27 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --border-bright: rgba(255, 255, 255, 0.16);
   --border-focus: #5E6AD2;
 
-  /* Semantic Core (Linear Indigo & Deep Space) */
+  /* Semantic Core (CatalystLab Blue & Deep Space) */
   --app-background: #050506;
   --app-foreground: #EDEDEF;
   --app-card: rgba(255, 255, 255, 0.05);
   --app-card-foreground: #EDEDEF;
   --app-popover: #0a0a0c;
   --app-popover-foreground: #EDEDEF;
-  --app-primary: #5E6AD2;
-  --app-primary-hover: #6872D9;
+  --app-primary: #0066FF;
+  --app-primary-hover: #1a7dff;
   --app-primary-foreground: #FFFFFF;
-  --app-secondary: #5E6AD2;
+  --app-secondary: #0066FF;
   --app-secondary-foreground: #FFFFFF;
   --app-muted: #0a0a0c;
   --app-muted-foreground: #8A8F98;
-  --app-accent: #5E6AD2;
+  --app-accent: #0066FF;
   --app-accent-foreground: #FFFFFF;
   --app-destructive: #fb7185;
   --app-destructive-foreground: #FFFFFF;
-  --app-border: rgba(255, 255, 255, 0.06);
-  --app-input: rgba(255, 255, 255, 0.08);
-  --app-ring: #5E6AD2;
+  --app-border: rgba(255, 255, 255, 0.08);
+  --app-input: rgba(255, 255, 255, 0.12);
+  --app-ring: #0066FF;
 
   /* Legacy aliases for backward compatibility */
   --color-background: var(--app-background);
@@ -453,10 +478,10 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
 }
 
 @theme {
-  /* Linear Indigo Core */
-  --color-linear-indigo: #5E6AD2;
-  --color-linear-indigo-bright: #6872D9;
-  --color-linear-indigo-glow: rgba(94, 106, 210, 0.30);
+  /* CatalystLab Blue Core */
+  --color-linear-indigo: #0066FF;
+  --color-linear-indigo-bright: #1a7dff;
+  --color-linear-indigo-glow: rgba(0, 102, 255, 0.30);
   --color-linear-space-deep: #020203;
   --color-linear-space-base: #050506;
   --color-linear-space-elevated: #0a0a0c;
@@ -908,6 +933,33 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
 }
 
+@keyframes marqueeHorizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee-horizontal {
+  display: flex;
+  flex-shrink: 0;
+  animation: marqueeHorizontal 38s linear infinite;
+  will-change: transform;
+}
+
+.marquee-hover-pause:hover .animate-marquee-horizontal,
+.animate-marquee-horizontal:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-horizontal {
+    animation-duration: 120s;
+  }
+}
+
 /* ==========================================================================
    CATALYST-GRADE MEDIA & PEXELS PIPELINE
    ========================================================================== */
@@ -1067,19 +1119,26 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 2.5rem;
-    border-radius: 0.75rem;
-    padding-inline: 1rem;
-    font-size: 0.8125rem;
+    min-height: 2.75rem; /* Matches a substantial CTA height */
+    border-radius: 9999px; /* Pill shape */
+    padding-inline: 1.5rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    transition: all 160ms ease;
     cursor: pointer;
     border: 1px solid transparent;
   }
-  .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--app-ring); }
+  .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--app-foreground); }
   .ds-btn:active { transform: translateY(1px); }
-  .ds-btn-primary { background: var(--app-primary); color: var(--app-primary-foreground); }
-  .ds-btn-primary:hover { background: var(--app-primary-hover); }
+  
+  .ds-btn-primary { 
+    background: var(--app-primary); 
+    color: var(--app-primary-foreground); 
+  }
+  .ds-btn-primary:hover { 
+    background: var(--app-primary-hover);
+    box-shadow: 0 4px 14px 0 rgba(0, 102, 255, 0.3);
+  }
   .ds-btn-secondary { background: var(--app-muted); color: var(--app-foreground); border-color: var(--app-border); }
   .ds-btn-secondary:hover { background: var(--app-muted); border-color: var(--app-input); }
   .ds-btn-ghost { background: transparent; color: var(--app-foreground); }

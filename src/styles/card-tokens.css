@@ -22,18 +22,18 @@
   --hue-vitalzyme: 142 71% 45%;        /* Emerald / Core Health */
   --hue-riskprotease: 0 84% 60%;       /* Crimson / OWASP SecOps */
   --hue-llmkinase: 262 83% 58%;        /* Violet / LLMO & Discovery */
-  --hue-edgevmax: 236 57% 60%;         /* Indigo / Edge TTFB & Linear Primary */
+  --hue-edgevmax: 216 100% 50%;         /* CatalystLab Blue Primary */
   --hue-ecoholo: 160 84% 39%;          /* Mint Green / Carbon & ESG */
   --hue-synthshift: 38 92% 50%;        /* Amber / Platform Migration */
   --hue-gitlygase: 217 91% 60%;        /* Electric Blue / CI/CD DevOps */
   --hue-alloster: 300 90% 55%;         /* Magenta Fuchsia / AI Search */
-  --hue-neutral: 236 57% 60%;          /* Linear Indigo Neutral */
+  --hue-neutral: 216 100% 50%;          /* CatalystLab Blue Neutral */
 
   /* --- Linear / Modern Multi-Layer Shadows & Ambient Glows --- */
   --card-shadow-diffusion: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
   --card-shadow-ambient: 0 2px 20px rgba(0, 0, 0, 0.4);
-  --card-shadow-hover: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(94, 106, 210, 0.12);
-  --card-bloom-active: 0 0 0 1px rgba(94, 106, 210, 0.5), 0 12px 48px -8px rgba(94, 106, 210, 0.35);
+  --card-shadow-hover: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(0, 102, 255, 0.12);
+  --card-bloom-active: 0 0 0 1px rgba(0, 102, 255, 0.5), 0 12px 48px -8px rgba(0, 102, 255, 0.35);
 
   /* --- Liquid Glass Refractions (Deep Space) --- */
   --glass-bg: rgba(10, 10, 12, 0.70);
@@ -80,10 +80,10 @@
   --spot-y: 50%;
   --spot-opacity: 0;
 
-  /* Default glow & accent: Linear Indigo */
-  --card-glow: rgba(94, 106, 210, 0.28);
-  --card-hue: 236 57% 60%;
-  --card-accent: #5E6AD2;
+  /* Default glow & accent: CatalystLab Blue */
+  --card-glow: rgba(0, 102, 255, 0.28);
+  --card-hue: 216 100% 50%;
+  --card-accent: #0066FF;
 }
 
 /* --- Enzyme Token Utilities --- */
@@ -145,7 +145,7 @@
 .card-spotlight-overlay {
   background: radial-gradient(
     400px circle at var(--spot-x) var(--spot-y),
-    rgba(94, 106, 210, 0.18),
+    rgba(0, 102, 255, 0.18),
     transparent 80%
   );
   pointer-events: none;
@@ -157,7 +157,7 @@
 
 .card-active-lift {
   transform: translateY(-8px);
-  box-shadow: 0 0 0 1px rgba(94, 106, 210, 0.4), 0 20px 48px -10px rgba(94, 106, 210, 0.3);
+  box-shadow: 0 0 0 1px rgba(0, 102, 255, 0.4), 0 20px 48px -10px rgba(0, 102, 255, 0.3);
 }
 
 .bento-surface {
@@ -173,7 +173,7 @@
 .bento-surface:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.10);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(94, 106, 210, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(0, 102, 255, 0.12);
   transform: translateY(-2px);
 }
 

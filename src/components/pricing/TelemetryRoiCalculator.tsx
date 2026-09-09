@@ -250,7 +250,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
             <button
               type="button"
               onClick={handleApplyPlan}
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-all flex items-center justify-center gap-1.5 shadow-linear-cta cursor-pointer text-xs"
+              className="ds-btn ds-btn-primary w-full sm:w-auto text-xs"
             >
               <span>Deploy {planName}</span>
               <ArrowRight className="h-3.5 w-3.5" />

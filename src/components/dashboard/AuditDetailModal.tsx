@@ -221,7 +221,11 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                       <span className="text-sm font-mono text-muted-foreground">/ 100</span>
                     </div>
                     <div className="text-xs text-muted-foreground mt-1 flex items-center gap-1.5">
-                      <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <motion.span 
+                        animate={{ opacity: [1, 0.4, 1] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className="size-2 rounded-full bg-emerald-400" 
+                      />
                       <span>{getScoreGrade(score)}</span>
                     </div>
                   </div>
@@ -286,7 +290,14 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <h3 className="framer-micro-tag text-muted-foreground">Executive Diagnostic Summary</h3>
-                  <span className="text-[11px] font-mono text-muted-foreground">Phase 04 Verified</span>
+                  <motion.div 
+                    animate={{ opacity: [1, 0.5, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400"
+                  >
+                    <span className="size-1.5 rounded-full bg-emerald-400" />
+                    Phase 04 Verified
+                  </motion.div>
                 </div>
                 <div className="p-4 rounded-xl bg-white/[0.02] border border-border/60 text-sm text-muted-foreground leading-relaxed">
                   <p>

@@ -61,7 +61,7 @@ export const EngineInput: React.FC<EngineInputProps> = ({
       <button
         type="submit"
         disabled={disabled || isLoading}
-        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white shadow-linear-cta transition-all duration-200 hover:bg-primary/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+        className="ds-btn ds-btn-primary shrink-0 px-6 py-3 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isLoading ? (
           <RotateCw className="size-4 animate-spin" />
