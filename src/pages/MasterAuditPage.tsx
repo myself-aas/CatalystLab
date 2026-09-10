@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { HeroSection } from '../components/home/HeroSection';
 import { EnzymeGrid } from '../components/home/EnzymeGrid';
+import { LatestNewsAndInsights } from '../components/home/LatestNewsAndInsights';
 import { HowItWorks } from '../components/home/HowItWorks';
 import { Testimonials } from '../components/home/Testimonials';
 import { FaqAccordion } from '../components/home/FaqAccordion';
@@ -8,34 +9,34 @@ import { FinalCTA } from '../components/home/FinalCTA';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const MasterAuditPage: React.FC = () => {
- useEffect(() => {
- const focusAuditInput = () => {
- const inputEl = document.getElementById('hero-audit-url-input') as HTMLInputElement | null;
- if (inputEl) {
- inputEl.focus({ preventScroll: true });
- }
- };
- focusAuditInput();
- const timer = setTimeout(focusAuditInput, 100);
- return () => clearTimeout(timer);
- }, []);
+  useEffect(() => {
+    const focusAuditInput = () => {
+      const inputEl = document.getElementById('hero-audit-url-input') as HTMLInputElement | null;
+      if (inputEl) {
+        inputEl.focus({ preventScroll: true });
+      }
+    };
+    focusAuditInput();
+    const timer = setTimeout(focusAuditInput, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
- return (
- <div data-theme="dark" className="min-h-screen bg-background text-foreground">
- <SEOHead
- title="Precision Telemetry & Autonomous Web Health Auditing"
- description="Run immediate multi-dimensional audits on any domain."
- canonicalUrl="https://www.catalystlab.tech/"
- />
-
- <HeroSection />
- <EnzymeGrid />
- <HowItWorks />
- <Testimonials />
- <FaqAccordion />
- <FinalCTA />
- </div>
- );
+  return (
+    <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+      <SEOHead
+        title="Precision Telemetry & Autonomous Web Health Auditing"
+        description="Run immediate multi-dimensional audits on any domain."
+        canonicalUrl="https://www.catalystlab.tech/"
+      />
+      <HeroSection />
+      <EnzymeGrid />
+      <LatestNewsAndInsights />
+      <HowItWorks />
+      <Testimonials />
+      <FaqAccordion />
+      <FinalCTA />
+    </div>
+  );
 };
 
 export default MasterAuditPage;

@@ -32,7 +32,7 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden w-full h-screen min-h-screen min-h-dvh max-h-screen max-w-none flex flex-col justify-between items-center select-none bg-black">
+    <section className="relative overflow-hidden w-full h-screen min-h-screen min-h-dvh max-h-screen max-w-none flex flex-col justify-between items-center select-none bg-background">
       {/* Visual Contrast and Ambience Scrim */}
       <div
         data-testid="hero-contrast-scrim"
@@ -85,7 +85,7 @@ export const HeroSection: React.FC = () => {
       </motion.div>
 
       {/* Viewport Lower 0.5/3 (16.667%): Official Partners Horizontal Logo Marquee */}
-      <div className="relative z-20 w-full h-[calc(100dvh*0.5/3)] min-h-0 flex flex-col justify-center border-t border-white/[0.08] bg-black/60 backdrop-blur-xl overflow-hidden">
+      <div className="relative z-20 w-full h-[calc(100dvh*0.5/3)] min-h-0 flex flex-col justify-center border-t border-foreground/[0.08] bg-background/60 backdrop-blur-xl overflow-hidden">
         <PartnerMarquee />
       </div>
     </section>

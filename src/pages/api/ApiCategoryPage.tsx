@@ -59,7 +59,7 @@ export const ApiCategoryPage: React.FC = () => {
  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Category Header */}
  <div className="border-b border-border bg-background ds-section">
- <div className="ds-page-shell ds-section">
+ <div className="ds-page-shell">
  <div className="space-y-3">
  
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -84,7 +84,7 @@ export const ApiCategoryPage: React.FC = () => {
  to="/playground"
  className="ds-btn ds-btn-primary text-xs"
  >
- <Terminal className="h-3.5 w-3.5 shrink-0 text-white"/>
+ <Terminal className="h-3.5 w-3.5 shrink-0 text-foreground"/>
  <span>Open Playground</span>
  </Link>
  </div>
@@ -123,7 +123,7 @@ export const ApiCategoryPage: React.FC = () => {
  <div className="flex flex-wrap items-center gap-2.5">
  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase shrink-0 border ${
  ep.method === 'POST' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
- ep.method === 'GET' ? 'bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20' :
+ ep.method === 'GET' ? 'bg-[var(--accent-cyan-edge)]/10 text-[var(--accent-cyan-edge)] border border-[var(--accent-cyan-edge)]/20' :
  ep.method === 'DELETE' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
  'bg-amber-500/10 text-amber-400 border border-amber-500/20'
  }`}>
@@ -156,12 +156,12 @@ export const ApiCategoryPage: React.FC = () => {
 
  {/* Metadata Pill Grid */}
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
- <div className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 text-muted-foreground font-mono">
+ <div className="flex items-center gap-2 p-3 rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-muted-foreground font-mono">
  <Key className="h-4 w-4 text-emerald-400 shrink-0"/>
  <span className="truncate"><strong>Auth:</strong> {ep.auth}</span>
  </div>
- <div className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 text-muted-foreground font-mono">
- <Clock className="h-4 w-4 text-[#00D2FF] shrink-0"/>
+ <div className="flex items-center gap-2 p-3 rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-muted-foreground font-mono">
+ <Clock className="h-4 w-4 text-[var(--accent-cyan-edge)] shrink-0"/>
  <span className="truncate"><strong>Rate Limit:</strong> {ep.rateLimit}</span>
  </div>
  </div>
@@ -269,8 +269,8 @@ export const ApiCategoryPage: React.FC = () => {
  </div>
  </div>
 
- <div className="rounded-2xl bg-black/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border/80">
- <pre className="text-[#00D2FF] whitespace-pre leading-relaxed">
+ <div className="rounded-2xl bg-background/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border/80">
+ <pre className="text-[var(--accent-cyan-edge)] whitespace-pre leading-relaxed">
  {snippet}
  </pre>
  </div>
@@ -283,7 +283,7 @@ export const ApiCategoryPage: React.FC = () => {
  Response Payload (Status {ep.responses[0].status})
  </h3>
  <p className="framer-body-text text-xs">{ep.responses[0].description}</p>
- <div className="rounded-2xl bg-black/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border/80">
+ <div className="rounded-2xl bg-background/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border/80">
  <pre className="text-amber-300">
  {JSON.stringify(ep.responses[0].example, null, 2)}
  </pre>

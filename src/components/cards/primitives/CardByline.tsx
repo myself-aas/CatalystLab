@@ -29,7 +29,7 @@ export const CardByline: React.FC<CardBylineProps> = ({
       {...props}
     >
       {resolvedAvatarUrl && (
-        <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 ring-1 ring-white/20 bg-muted">
+        <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 ring-1 ring-foreground/20 bg-muted">
           <img
             src={resolvedAvatarUrl}
             alt={avatarAlt || author}

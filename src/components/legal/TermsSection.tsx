@@ -99,8 +99,8 @@ export const TermsSection: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Permitted */}
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-4 space-y-2.5">
-              <div className="flex items-center gap-1.5 text-emerald-700 font-extrabold text-xs uppercase tracking-wider">
+            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 space-y-2.5">
+              <div className="flex items-center gap-1.5 text-emerald-400 font-extrabold text-xs uppercase tracking-wider">
                 <CheckCircle2 className="h-4 w-4" />
                 <span>Permitted Scanning Activities</span>
               </div>
@@ -115,9 +115,9 @@ export const TermsSection: React.FC = () => {
             </div>
 
             {/* Prohibited */}
-            <div className="rounded-xl border border-red-200 bg-red-50/50 p-4 space-y-2.5">
-              <div className="flex items-center gap-1.5 text-red-700 font-extrabold text-xs uppercase tracking-wider">
-                <XCircle className="h-4 w-4 text-red-600" />
+            <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-4 space-y-2.5">
+              <div className="flex items-center gap-1.5 text-rose-400 font-extrabold text-xs uppercase tracking-wider">
+                <XCircle className="h-4 w-4 text-rose-400" />
                 <span>Strictly Prohibited Exploits</span>
               </div>
               <ul className="space-y-2">

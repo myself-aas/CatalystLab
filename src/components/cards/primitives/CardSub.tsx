@@ -18,8 +18,7 @@ export const CardSub: React.FC<CardSubProps> = ({
     <div
       className={twMerge(
         clsx(
-          'flex items-center gap-1.5 text-xs sm:text-sm font-medium tracking-normal line-clamp-2',
-          isSurface ? 'text-muted-foreground dark:text-muted-foreground' : 'text-primary-foreground drop-shadow-sm',
+          'flex items-center gap-1.5 text-xs sm:text-sm font-medium tracking-normal line-clamp-2 text-[#F0FAFF]',
           className
         )
       )}

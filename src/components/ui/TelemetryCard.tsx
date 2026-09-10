@@ -82,25 +82,25 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
       case 'optimal':
         return {
           icon: Zap,
-          color: 'text-emerald-700 bg-emerald-100 border-emerald-200',
+          color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
           label: 'OPTIMAL',
         };
       case 'pass':
         return {
           icon: ShieldCheck,
-          color: 'text-indigo-700 bg-indigo-100 border-indigo-200',
+          color: 'text-[#0066FF] bg-[#0066FF]/10 border-[#0066FF]/20',
           label: 'PASSED',
         };
       case 'warn':
         return {
           icon: AlertTriangle,
-          color: 'text-amber-700 bg-amber-100 border-amber-200',
+          color: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
           label: 'WARN',
         };
       case 'fail':
         return {
           icon: XCircle,
-          color: 'text-rose-700 bg-rose-100 border-rose-200',
+          color: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
           label: 'CRITICAL',
         };
     }
@@ -165,12 +165,12 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             <div
               className={`px-3 py-1 rounded-xl border font-mono font-extrabold text-sm sm:text-base flex items-center gap-1.5 shadow-sm ${
                 score >= 90
-                  ? 'text-emerald-700 border-emerald-200 bg-emerald-50'
+                  ? 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10'
                   : score >= 75
-                  ? 'text-indigo-700 border-indigo-200 bg-indigo-50'
+                  ? 'text-[#00D2FF] border-[#00D2FF]/20 bg-[#00D2FF]/10'
                   : score >= 60
-                  ? 'text-amber-700 border-amber-200 bg-amber-50'
-                  : 'text-rose-700 border-rose-200 bg-rose-50'
+                  ? 'text-amber-400 border-amber-500/20 bg-amber-500/10'
+                  : 'text-rose-400 border-rose-500/20 bg-rose-500/10'
               }`}
             >
               <Activity className="w-4 h-4 animate-pulse" />
@@ -233,7 +233,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             onClick={() => setIsExpanded((prev) => !prev)}
             aria-expanded={isExpanded}
             aria-controls={`${cardId}-subvectors-content`}
-            className="flex items-center gap-1.5 text-xs font-sans font-bold text-indigo-600 hover:text-indigo-700 transition-colors py-1.5 px-3 rounded-lg hover:bg-indigo-50 border border-transparent hover:border-indigo-100"
+            className="flex items-center gap-1.5 text-xs font-sans font-bold text-[#0066FF] hover:text-[#0066FF] transition-colors py-1.5 px-3 rounded-lg hover:bg-[#0066FF]/10 border border-transparent hover:border-[#0066FF]/20"
           >
             <span>6 Sub-Vectors</span>
             <motion.div

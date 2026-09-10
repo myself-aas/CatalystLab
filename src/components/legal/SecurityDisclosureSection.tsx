@@ -45,14 +45,14 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
   const severityMatrix = [
     {
       level: 'Critical',
-      color: 'border-rose-300 bg-rose-50 text-rose-800',
+      color: 'border-rose-500/20 bg-rose-500/10 text-rose-400',
       badge: 'Immediate P0',
       targetFix: '< 12 Hours',
       examples: 'Remote Code Execution (RCE), Authentication Bypass, Database SQL/Firestore Injection'
     },
     {
       level: 'High',
-      color: 'border-amber-300 bg-amber-50 text-amber-900',
+      color: 'border-amber-500/20 bg-amber-500/10 text-amber-400',
       badge: 'P1 High',
       targetFix: '< 48 Hours',
       examples: 'Server-Side Request Forgery (SSRF), Sensitive Token Leakage, Cross-Site Scripting (XSS) with Session Hijack'
@@ -179,7 +179,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
           <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground">
             <span>Security Contact: <strong className="text-foreground">security@catalystlab.tech</strong></span>
-            <span>Canonical security.txt: <code className="text-amber-700 bg-amber-50 px-1 py-0.5 rounded border border-amber-200">https://www.catalystlab.tech/.well-known/security.txt</code></span>
+            <span>Canonical security.txt: <code className="text-amber-400 bg-amber-500/10 px-1 py-0.5 rounded border border-amber-500/20">https://www.catalystlab.tech/.well-known/security.txt</code></span>
           </div>
         </div>
       </LazyReveal>
@@ -188,7 +188,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
           <div className="flex items-center gap-2 mb-1.5">
-            <Send className="h-4 w-4 text-amber-600" />
+            <Send className="h-4 w-4 text-primary" />
             <h3 className="text-base font-bold text-foreground font-sans">Submit Coordinated Vulnerability Report</h3>
           </div>
           <p className="text-xs text-muted-foreground mb-5 font-sans">
@@ -196,8 +196,8 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
           </p>
 
           {submitted ? (
-            <div className="rounded-xl border border-emerald-300 bg-emerald-50 p-6 text-center space-y-2.5">
-              <CheckCircle2 className="h-8 w-8 text-emerald-600 mx-auto" />
+            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-6 text-center space-y-2.5">
+              <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto" />
               <h4 className="text-sm font-bold text-foreground">Vulnerability Report Dispatched!</h4>
               <p className="text-xs text-muted-foreground max-w-md mx-auto font-sans leading-relaxed">
                 Thank you for contributing to web telemetry safety. Our security team has received your ticket and will verify the PoC within 2 hours.

@@ -269,15 +269,15 @@ export const ComparePage: React.FC = () => {
  <section className="relative overflow-hidden border-b border-border w-full ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,210,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
 
- <div className="relative z-10 ds-page-shell text-center space-y-4 ds-section">
- <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 framer-micro-tag text-[#00D2FF] shadow-xs backdrop-blur-md">
- <span className="h-2 w-2 rounded-full bg-[#00D2FF] animate-pulse shrink-0"/>
+ <div className="relative z-10 ds-page-shell text-center space-y-4">
+ <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 framer-micro-tag text-[var(--accent-cyan-edge)] shadow-xs backdrop-blur-md">
+ <span className="h-2 w-2 rounded-full bg-[var(--accent-cyan-edge)] animate-pulse shrink-0"/>
  <span>SIDE-BY-SIDE COMPARATIVE TELEMETRY</span>
  </div>
 
  <h1 className="framer-hero-title text-foreground">
  Head-to-Head Telemetry{' '}
- <span className="text-[#00D2FF]">
+ <span className="text-[var(--accent-cyan-edge)]">
  Delta Matrix
  </span>
  </h1>

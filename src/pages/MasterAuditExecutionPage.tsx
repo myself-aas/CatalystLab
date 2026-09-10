@@ -214,9 +214,9 @@ export const MasterAuditExecutionPage: React.FC = () => {
  />
 
  <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
- <div className="relative z-10 ds-page-shell text-center ds-section">
+ <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex items-center justify-between">
  <Link
  to="/"
@@ -225,7 +225,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <ArrowLeft className="size-3.5 shrink-0"/>
  Back to home
  </Link>
- <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 framer-micro-tag text-[#0066FF]">
+ <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 framer-micro-tag text-[var(--accent-framer-blue)]">
  <ShieldCheck className="size-3.5 shrink-0"/>
  8-engine orchestrator
  </span>
@@ -260,25 +260,25 @@ export const MasterAuditExecutionPage: React.FC = () => {
  reason="limit_reached"
  />
 
- <main className="ds-page-shell space-y-6 py-8 sm:px-6 lg:px-8 ds-section">
+ <main className="ds-page-shell space-y-6 ds-section">
  {(loading || completedCount > 0) && (
  <LinearCard className="p-5"lift={false}>
  <div className="flex items-center justify-between gap-3">
  <div className="flex items-center gap-2 text-sm text-foreground">
- <Activity className="size-4 text-[#00D2FF] shrink-0"/>
+ <Activity className="size-4 text-[var(--accent-cyan-edge)] shrink-0"/>
  {loading
  ? `Engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
  : `${completedCount} of ${MASTER_ENGINES.length} engines finished`}
  </div>
  {compositeScore !== null && (
- <div className="font-mono text-sm text-[#00D2FF]">
+ <div className="font-mono text-sm text-[var(--accent-cyan-edge)]">
  Composite {compositeScore}/100
  </div>
  )}
  </div>
  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted/60">
  <div
- className="h-full rounded-full bg-[#0066FF] transition-all"
+ className="h-full rounded-full bg-[var(--accent-framer-blue)] transition-all"
  style={{ width: `${loading ? Math.max(progressPct, 8) : progressPct}%` }}
  />
  </div>

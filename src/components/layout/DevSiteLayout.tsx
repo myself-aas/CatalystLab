@@ -148,7 +148,7 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
 
         {mobileNavOpen && (
           <div className="fixed inset-0 z-50 lg:hidden">
-            <button type="button" className="absolute inset-0 bg-black/40" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} />
+            <button type="button" className="absolute inset-0 bg-background/40" aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} />
             <div className="absolute inset-y-0 left-0 w-[min(86vw,300px)] overflow-y-auto bg-card px-3 py-5 shadow-xl">
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-sm font-medium">Menu</span>

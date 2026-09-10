@@ -111,8 +111,8 @@ export const PartnerMarquee: React.FC = () => {
       className="w-full h-full flex items-center justify-center relative overflow-hidden select-none"
     >
       {/* Ambient Bilateral Gradient Masks (Fades logos into pure black canvas on both edges) */}
-      <div className="pointer-events-none absolute left-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-10" />
-      <div className="pointer-events-none absolute right-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-10" />
+      <div className="pointer-events-none absolute left-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-r from-background via-background/80 to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 inset-y-0 w-16 sm:w-32 bg-gradient-to-l from-background via-background/80 to-transparent z-10" />
 
       {/* Horizontal One-Row Marquee Container */}
       <div className="relative w-full overflow-hidden marquee-hover-pause flex items-center">
@@ -127,7 +127,7 @@ export const PartnerMarquee: React.FC = () => {
                 rel="noopener noreferrer"
                 aria-label={partner.name}
                 title={partner.name}
-                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-white/40 focus:outline-none transition-all duration-200 text-white shrink-0 hover:scale-110 transform"
+                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-foreground/40 focus:outline-none transition-all duration-200 text-foreground shrink-0 hover:scale-110 transform"
               >
                 {partner.icon}
               </a>
@@ -148,7 +148,7 @@ export const PartnerMarquee: React.FC = () => {
                 tabIndex={-1}
                 aria-label={partner.name}
                 title={partner.name}
-                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-white/40 focus:outline-none transition-all duration-200 text-white shrink-0 hover:scale-110 transform"
+                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-foreground/40 focus:outline-none transition-all duration-200 text-foreground shrink-0 hover:scale-110 transform"
               >
                 {partner.icon}
               </a>

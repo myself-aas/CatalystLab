@@ -193,7 +193,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
       .attr('fill', 'var(--app-foreground)')
-      .attr('stroke', '#ffffff')
+      .attr('stroke', 'var(--app-background, #1F2223)')
       .attr('stroke-width', 2);
 
     // Needle Line
@@ -364,7 +364,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
       .attr('fill', 'var(--app-foreground)')
-      .attr('stroke', '#ffffff')
+      .attr('stroke', 'var(--app-background, #1F2223)')
       .attr('stroke-width', 2);
 
     // Needle
@@ -429,7 +429,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       className={`rounded-2xl border border-border bg-background p-4 sm:p-5 text-foreground shadow-xl ${className}`}
     >
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-black/25 pb-3 mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-background/25 pb-3 mb-4">
         <div className="flex items-center gap-2.5">
           <div className="p-1.5 rounded-lg bg-foreground/5 border border-border text-foreground">
             <ShieldCheck className="h-4 w-4" />
@@ -559,7 +559,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
           </div>
 
           {/* SSL Metadata Details */}
-          <div className="mt-2 space-y-1.5 text-[11px] font-mono bg-background p-2 rounded-lg border border-black/25">
+          <div className="mt-2 space-y-1.5 text-[11px] font-mono bg-background p-2 rounded-lg border border-background/25">
             <div className="flex items-center justify-between text-foreground">
               <span className="flex items-center gap-1 text-muted-foreground">
                 <Key className="h-3 w-3 text-foreground" />

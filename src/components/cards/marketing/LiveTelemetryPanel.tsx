@@ -32,7 +32,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       lift={false}
       className={twMerge(
         clsx(
-          'relative w-full rounded-3xl border border-white/15 bg-muted/40/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between min-h-[460px]',
+          'relative w-full rounded-3xl border border-foreground/15 bg-muted/40/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between min-h-[460px]',
           className
         )
       )}
@@ -47,7 +47,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       />
 
       {/* 2. Top Header Row: Brand Wordmark Left + Live Timestamp Right (R1 Top Row) */}
-      <div className="z-10 flex items-center justify-between p-4 sm:p-5 border-b border-white/10 bg-foreground/40 backdrop-blur-md">
+      <div className="z-10 flex items-center justify-between p-4 sm:p-5 border-b border-foreground/10 bg-foreground/40 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 mr-2">
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
@@ -81,7 +81,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       </div>
 
       {/* Active Target Banner */}
-      <div className="z-10 px-4 sm:px-5 py-2.5 bg-foreground/30 border-b border-white/5 flex items-center justify-between">
+      <div className="z-10 px-4 sm:px-5 py-2.5 bg-foreground/30 border-b border-foreground/5 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Globe className="w-3.5 h-3.5 text-cyan-400" />
           <span className="text-xs font-mono text-muted-foreground">
@@ -93,7 +93,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
 
       {/* 3. Middle Telemetry Grid */}
       <div className="z-10 p-4 sm:p-5 grid grid-cols-3 gap-2.5">
-        <div className="p-3 rounded-xl bg-foreground/50 border border-white/10 backdrop-blur-md flex flex-col justify-between">
+        <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
           <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
             <span>EDGE TTFB</span>
@@ -104,7 +104,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
           </div>
         </div>
 
-        <div className="p-3 rounded-xl bg-foreground/50 border border-white/10 backdrop-blur-md flex flex-col justify-between">
+        <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
           <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span>OWASP</span>
@@ -115,7 +115,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
           </div>
         </div>
 
-        <div className="p-3 rounded-xl bg-foreground/50 border border-white/10 backdrop-blur-md flex flex-col justify-between">
+        <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
           <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
             <Bot className="w-3.5 h-3.5 text-purple-400" />
             <span>LLM-RAG</span>

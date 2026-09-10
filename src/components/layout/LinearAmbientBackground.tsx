@@ -11,7 +11,7 @@ export const LinearAmbientBackground: React.FC = () => {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,#0e0e17_0%,#050506_55%,#020203_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,#2C3032_0%,#2C2F32_55%,#1F2223_100%)]" />
 
       <svg className="absolute inset-0 h-full w-full opacity-[0.022] mix-blend-overlay">
         <filter id="linear-noise">

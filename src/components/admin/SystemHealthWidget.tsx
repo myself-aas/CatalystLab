@@ -210,7 +210,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-black/40 bg-primary px-3.5 py-2 text-xs font-semibold ds-muted hover:text-primary-foreground hover:bg-muted transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-background/40 bg-primary px-3.5 py-2 text-xs font-semibold ds-muted hover:text-primary-foreground hover:bg-muted transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
               title="Sync latest Firestore audit logs"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? 'animate-spin text-cyan-400' : ''}`} />

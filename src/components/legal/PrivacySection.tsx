@@ -292,10 +292,10 @@ export const PrivacySection: React.FC = () => {
                 </div>
 
                 {/* Deletion Card */}
-                <div className="rounded-xl border border-rose-200 bg-rose-50/50 p-4 flex flex-col justify-between space-y-3">
+                <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-4 flex flex-col justify-between space-y-3">
                   <div>
-                    <h4 className="text-xs font-bold text-rose-800 flex items-center gap-1.5">
-                      <Trash2 className="h-3.5 w-3.5 text-rose-600" />
+                    <h4 className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+                      <Trash2 className="h-3.5 w-3.5 text-rose-400" />
                       <span>Request Full Telemetry Purge</span>
                     </h4>
                     <p className="text-xs text-muted-foreground mt-1 leading-relaxed font-sans">
@@ -304,14 +304,14 @@ export const PrivacySection: React.FC = () => {
                   </div>
                   <div>
                     {deletionRequested ? (
-                      <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-2 text-xs text-emerald-800 flex items-center gap-1.5 font-bold">
-                        <CheckCircle className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                      <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-2 text-xs text-emerald-400 flex items-center gap-1.5 font-bold">
+                        <CheckCircle className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
                         <span>Purge command registered. All records cleared upon session end.</span>
                       </div>
                     ) : (
                       <button
                         onClick={handleRequestDeletion}
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-rose-300 bg-rose-100 px-3 py-1.5 text-xs font-bold text-rose-700 hover:bg-rose-200 transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-rose-500/20 bg-rose-500/15 px-3 py-1.5 text-xs font-bold text-rose-300 hover:bg-rose-500/25 transition-colors cursor-pointer"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                         <span>Initiate Telemetry Purge</span>
@@ -332,7 +332,7 @@ export const PrivacySection: React.FC = () => {
                 1. Scope of Telemetry &amp; Diagnostics Processing
               </h3>
               <p className="text-muted-foreground font-sans">
-                CatalystLab (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates synthetic diagnostic suites, security header scanners, and edge latency benchmarks. This Privacy Policy governs the processing of technical data submitted when invoking diagnostic endpoints through <code className="text-amber-700 bg-amber-50 border border-amber-200 px-1 py-0.5 rounded font-mono font-bold">catalystlab.tech</code>.
+                CatalystLab (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates synthetic diagnostic suites, security header scanners, and edge latency benchmarks. This Privacy Policy governs the processing of technical data submitted when invoking diagnostic endpoints through <code className="text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1 py-0.5 rounded font-mono font-bold">catalystlab.tech</code>.
               </p>
             </section>
 

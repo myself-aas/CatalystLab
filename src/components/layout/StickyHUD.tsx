@@ -394,7 +394,7 @@ export const StickyHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => startMockScan(activeDomain)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent hover:bg-accent-bright text-white text-xs font-semibold transition-all shadow-linear-cta cursor-pointer active:scale-95"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent hover:bg-accent-bright text-foreground text-xs font-semibold transition-all shadow-linear-cta cursor-pointer active:scale-95"
                   >
                     <Play className="size-3 fill-current" />
                     <span>RUN PROBE</span>

@@ -1,319 +1,176 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { BlogPost } from '../types';
-import { getBlogPostBySlug, getBlogPosts } from '../lib/firebase';
+import { getBlogPostBySlug } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
-import { ScanRevealFigure } from '../components/media/ScanRevealFigure';
-import { PexelsImage } from '../components/media/PexelsImage';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 import { 
- Clock, 
- ArrowLeft, 
- Share2, 
- Check, 
- ArrowRight,
- Edit3
+  ArrowLeft, Bookmark, Clock, Share2, Check, Edit3, Eye
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { logger } from '../lib/logger';
-import { BlogPostSkeleton } from '../components/skeleton';
+import { motion } from 'motion/react';
 
 export const BlogPostPage: React.FC = () => {
- const { slug } = useParams<{ slug: string }>();
- const { user, isAdmin } = useAuth();
- const [post, setPost] = useState<BlogPost | null>(null);
- const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
- const [loading, setLoading] = useState(true);
- const [copied, setCopied] = useState(false);
+  const { slug } = useParams<{ slug: string }>();
+  const { user, isAdmin } = useAuth();
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
 
- useEffect(() => {
- const load = async () => {
- if (!slug) return;
- setLoading(true);
- try {
- const data = await getBlogPostBySlug(slug);
- setPost(data);
+  useEffect(() => {
+    const load = async () => {
+      if (!slug) return;
+      setLoading(true);
+      try {
+        const data = await getBlogPostBySlug(slug);
+        setPost(data);
+      } catch (err) {
+        logger.error("Error loading blog post:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+    window.scrollTo(0, 0);
+  }, [slug]);
 
- // Fetch related posts
- const allPosts = await getBlogPosts();
- const related = allPosts
- .filter((p) => p.id !== data?.id && p.status !== 'archived')
- .slice(0, 3);
- setRelatedPosts(related);
- } catch (err) {
- logger.error("Error loading blog post:", err);
- } finally {
- setLoading(false);
- }
- };
- load();
- window.scrollTo(0, 0);
- }, [slug]);
+  const handleShare = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
- const handleShare = () => {
- if (navigator.clipboard) {
- navigator.clipboard.writeText(window.location.href);
- setCopied(true);
- setTimeout(() => setCopied(false), 2000);
- }
- };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#1F2223] flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-[#2C3032] border-t-[#F7FDFF] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
- if (loading) {
- return <BlogPostSkeleton />;
- }
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-[#1F2223] text-[#F7FDFF] flex flex-col items-center justify-center p-6">
+        <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
+        <p className="text-gray-400 mb-6 text-center">The article you are looking for does not exist.</p>
+        <Link to="/blogs" className="px-6 py-3 bg-[#2C2F32] rounded-full text-sm font-medium hover:bg-[#2C3032] transition-colors">
+          Back to Discover
+        </Link>
+      </div>
+    );
+  }
 
- if (!post) {
- return (
- <div className="ds-page-shell ds-section">
- <h1 className="text-xl font-bold font-sans">Article Not Found</h1>
- <p className="mt-2 text-xs text-muted-foreground font-sans">
- The engineering article you are looking for has been moved or does not exist.
- </p>
- <Link
- to="/blogs"
- className="mt-5 ds-btn ds-btn-primary text-xs"
- >
- <ArrowLeft className="h-3.5 w-3.5"/>
- <span>Back to All Articles</span>
- </Link>
- </div>
- );
- }
+  return (
+    <div data-theme="dark" className="min-h-screen bg-[#1F2223] text-[#F7FDFF] font-sans pb-20">
+      <SEOHead 
+        title={post.title} 
+        description={post.excerpt || `Read ${post.title}`}
+      />
 
- const publishedDate = post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US', {
- month: 'long',
- day: 'numeric',
- year: 'numeric'
- }) : 'Recently Published';
+      <div className="max-w-md mx-auto relative bg-[#1F2223] min-h-screen">
+        
+        {/* Full Bleed Image Header */}
+        <div className="relative h-[45vh] w-full">
+          <img 
+            src={getBlogCoverImage(post)} 
+            alt={post.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#1F2223]/90" />
+          
+          {/* Top Actions */}
+          <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
+            <Link to="/blogs" className="w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/40 transition-colors">
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <button 
+              onClick={() => setBookmarked(!bookmarked)}
+              className={`w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center transition-colors ${bookmarked ? 'text-white' : 'text-white/80 hover:text-white'}`}
+            >
+              <Bookmark className="w-5 h-5" fill={bookmarked ? "currentColor" : "none"} />
+            </button>
+          </div>
+        </div>
 
- return (
- <div className="min-h-screen ds-page-top bg-background text-foreground font-mono selection:bg-primary selection:text-primary-foreground">
- <SEOHead
- title={post.title}
- description={post.excerpt || `Read ${post.title} on CatalystLab Developer Blog.`}
- keywords={['CatalystLab', post.category || 'Engineering', ...(post.tags || [])]}
- canonicalUrl={`https://www.catalystlab.tech/blog/${post.slug || post.id}`}
- ogType="article"
- author={post.authorName || 'CatalystLab Telemetry Team'}
- publishedTime={post.createdAt ? new Date(post.createdAt).toISOString() : undefined}
- structuredData={{
- '@context': 'https://schema.org',
- '@type': 'BlogPosting',
- headline: post.title,
- description: post.excerpt,
- author: {
- '@type': 'Person',
- name: post.authorName || 'CatalystLab Telemetry Team'
- },
- datePublished: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
- mainEntityOfPage: {
- '@type': 'WebPage',
- '@id': `https://www.catalystlab.tech/blog/${post.slug || post.id}`
- }
- }}
- />
+        {/* Floating White Card Overlap */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-20 -mt-16 mx-4 bg-[#F7FDFF] rounded-[32px] p-6 shadow-2xl text-[#1F2223]"
+        >
+          <div className="inline-block px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-4">
+            {post.category || 'Article'}
+          </div>
+          
+          <h1 className="text-2xl font-bold leading-tight mb-4 text-[#1F2223]">
+            {post.title}
+          </h1>
+          
+          <p className="text-sm text-gray-500 leading-relaxed mb-6">
+            {post.excerpt}
+          </p>
+          
+          {/* Author Strip */}
+          <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#1F2223] text-white flex items-center justify-center font-bold overflow-hidden">
+                {post.authorAvatar ? (
+                  <img src={post.authorAvatar} alt={post.authorName} className="w-full h-full object-cover" />
+                ) : (
+                  (post.authorName || 'C')[0]
+                )}
+              </div>
+              <span className="font-semibold text-sm">{post.authorName || 'Catalyst Team'}</span>
+            </div>
+            
+            <div className="flex items-center gap-4 text-xs font-medium text-gray-400">
+              <span className="flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5" />
+                {getArticleReadingTime(post)}
+              </span>
+              <span className="flex items-center gap-1">
+                <Eye className="w-3.5 h-3.5" />
+                {(post as any).views || 376}
+              </span>
+            </div>
+          </div>
+        </motion.div>
 
- {/* Main Split Layout */}
- <div className="ds-page-shell py-8 ds-section">
- <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
- 
- {/* Main Article Stream (col-span-8) */}
- <main className="lg:col-span-8">
- <article className="ds-card p-5 sm:p-8">
- 
- {/* Meta & Category */}
- <div className="flex flex-wrap items-center gap-2 mb-3">
- <span className="rounded-md border border-border bg-muted px-2.5 py-0.5 text-xs font-bold text-foreground">
- {post.category || 'Architecture'}
- </span>
- <span className="text-xs text-muted-foreground flex items-center gap-1">
- <Clock className="h-3 w-3 text-muted-foreground"/>
- <span>{getArticleReadingTime(post)}</span>
- </span>
- </div>
+        {/* Actions Bar (Dark Mode) */}
+        <div className="px-6 py-6 flex items-center justify-between mt-4">
+          <button 
+            onClick={handleShare}
+            className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-[#2C2F32]"
+          >
+            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+            {copied ? 'Copied' : 'Share Article'}
+          </button>
+          
+          {user && (isAdmin || user.email === post.authorEmail) && (
+            <Link 
+              to={`/blogs/edit/${post.id || post.slug}`}
+              className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-[#2C2F32]"
+            >
+              <Edit3 className="w-4 h-4" />
+              Edit
+            </Link>
+          )}
+        </div>
 
- {/* Title */}
- <h1 className="text-xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-tight mb-5 font-sans">
- {post.title}
- </h1>
+        {/* Main Content (Dark Mode) */}
+        <article className="px-6 pb-12 prose prose-invert prose-p:text-gray-300 prose-p:leading-relaxed prose-headings:text-[#F7FDFF] max-w-none">
+          <MarkdownRenderer content={post.content} />
+        </article>
 
- {/* Hero / Cover Image Banner with ScanReveal & Catalyst Treatment */}
- <div className="mb-6">
- <ScanRevealFigure
- src={getBlogCoverImage(post)}
- alt={post.title}
- caption={`Figure 1.0 • Technical architecture briefing for ${post.title}`}
- className="rounded-xl overflow-hidden shadow-sm border border-border"
- />
- </div>
-
- {/* Author & Byline */}
- <div className="flex items-center justify-between border-y border-border py-3 mb-6">
- <div className="flex items-center gap-2.5">
- {post.authorAvatar ? (
- <div className="h-9 w-9 rounded-full overflow-hidden border border-border flex-shrink-0">
- <PexelsImage
- src={post.authorAvatar}
- alt={post.authorName || 'Author'}
- className="h-full w-full object-cover"
- />
- </div>
- ) : (
- <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-xs font-bold text-primary-foreground shadow-xs border border-border">
- {(post.authorName || 'C')[0]}
- </div>
- )}
- <div>
- <div className="text-xs font-bold text-foreground font-sans">
- {post.authorName || 'CatalystLab Telemetry Team'}
- </div>
- <div className="text-[10px] text-muted-foreground">{publishedDate}</div>
- </div>
- </div>
-
- {/* Actions: Edit (if permitted) & Share */}
- <div className="flex items-center gap-2">
- {user && (isAdmin || user.email === post.authorEmail) && (
- <Link
- to={`/blogs/edit/${post.id || post.slug}`}
- className="ds-card flex items-center gap-1 text-xs font-bold ds-card-interactive p-4"
- title="Edit this article in dedicated studio"
- >
- <Edit3 className="h-3 w-3"/>
- <span>Edit</span>
- </Link>
- )}
-
- {/* Share Link Button */}
- <button
- onClick={handleShare}
- className="ds-card flex items-center gap-1 text-xs font-bold ds-card-interactive p-4"
- title="Copy link to article"
- >
- {copied ? (
- <>
- <Check className="h-3 w-3 text-emerald-600"/>
- <span className="text-emerald-600">Copied</span>
- </>
- ) : (
- <>
- <Share2 className="h-3 w-3"/>
- <span>Share</span>
- </>
- )}
- </button>
- </div>
- </div>
-
- {/* Excerpt Lead */}
- {post.excerpt && (
- <div className="mb-6 rounded-xl border-l-2 border-border bg-muted p-3.5 text-xs text-muted-foreground leading-relaxed font-sans">
- {post.excerpt}
- </div>
- )}
-
- {/* Markdown Content */}
- <div className="text-xs sm:text-sm leading-relaxed text-foreground font-sans space-y-4">
- <MarkdownRenderer content={post.content} />
- </div>
-
- {/* Tags Footer */}
- {post.tags && post.tags.length > 0 && (
- <div className="mt-8 border-t border-border pt-4">
- <div className="flex flex-wrap items-center gap-1.5">
- <span className="text-xs font-bold text-muted-foreground mr-1">Tags:</span>
- {post.tags.map((tag) => (
- <span
- key={tag}
- className="rounded bg-muted border border-border py-0.5 text-[10px] text-foreground font-mono"
- >
- #{tag}
- </span>
- ))}
- </div>
- </div>
- )}
- </article>
- </main>
-
- {/* Dedicated Google Developers Sidebar (col-span-4) */}
- <aside className="lg:col-span-4 space-y-5">
- 
- {/* Author Profile Box */}
- <div className="ds-card p-5 space-y-2.5">
- <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
- About the Author
- </div>
- <div className="flex items-center gap-2.5">
- <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-xs font-bold text-primary-foreground shadow-xs border border-border">
- {(post.authorName || 'C')[0]}
- </div>
- <div>
- <div className="text-xs font-bold text-foreground font-sans">
- {post.authorName || 'CatalystLab Telemetry Team'}
- </div>
- <div className="text-[10px] text-muted-foreground">
- Web Infrastructure &amp; AI Systems
- </div>
- </div>
- </div>
- <p className="text-xs text-muted-foreground leading-relaxed font-sans">
- Specialized in distributed performance telemetry, edge latency benchmarking, and zero-trust web architectures.
- </p>
- </div>
-
- {/* Related Articles Box */}
- {relatedPosts.length > 0 && (
- <div className="ds-card p-5 space-y-3">
- <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
- Related Stories
- </div>
- <div className="divide-y divide-border space-y-2.5 pt-1">
- {relatedPosts.map((r) => (
- <div key={r.id} className="pt-2.5 first:pt-0">
- <Link
- to={`/blog/${r.slug || r.id}`}
- className="group block space-y-1"
- >
- <h4 className="text-xs font-bold text-foreground group-hover:text-amber-700 transition-colors line-clamp-2 font-sans">
- {r.title}
- </h4>
- <div className="text-[10px] text-muted-foreground flex items-center gap-1">
- <Clock className="h-2.5 w-2.5 text-muted-foreground"/>
- <span>{getArticleReadingTime(r)}</span>
- </div>
- </Link>
- </div>
- ))}
- </div>
- </div>
- )}
-
- {/* Developer Documentation Callout */}
- <div className="ds-card p-5 space-y-2.5">
- <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
- Technical Reference
- </div>
- <p className="text-xs text-muted-foreground font-sans">
- Explore our full technical documentation, cURL snippets, and telemetry metric definitions.
- </p>
- <Link
- to="/docs"
- className="inline-flex items-center gap-1 text-xs font-bold text-foreground hover:underline transition-colors px-4 py-2"
- >
- <span>Open Documentation</span>
- <ArrowRight className="h-3 w-3"/>
- </Link>
- </div>
-
- </aside>
-
- </div>
- </div>
- </div>
- );
+      </div>
+    </div>
+  );
 };
 
 export default BlogPostPage;

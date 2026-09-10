@@ -6,7 +6,6 @@ import { AnimatePresence } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Navbar } from './components/layout/Navbar';
-import { MainMenuOverlay } from './components/layout/MainMenuOverlay';
 import { LinearAmbientBackground } from "./components/layout/LinearAmbientBackground";
 import { StickyHUD } from "./components/layout/StickyHUD";
 import { TrialBanner } from "./components/common/TrialBanner";
@@ -110,20 +109,6 @@ export const App: React.FC = () => {
 
   const [isPaymentCheckoutOpen, setIsPaymentCheckoutOpen] = useState(false);
   const [paymentPlanId, setPaymentPlanId] = useState<SubscriptionPlanId>('pro');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleOpenMenu = () => setIsMobileMenuOpen(true);
-    const handleCloseMenu = () => setIsMobileMenuOpen(false);
-    
-    window.addEventListener('catalyst:open-mobile-menu', handleOpenMenu);
-    window.addEventListener('catalyst:close-mobile-menu', handleCloseMenu);
-    
-    return () => {
-      window.removeEventListener('catalyst:open-mobile-menu', handleOpenMenu);
-      window.removeEventListener('catalyst:close-mobile-menu', handleCloseMenu);
-    };
-  }, []);
 
   useEffect(() => {
     const handleOpenModal = (e: Event) => {
@@ -198,11 +183,6 @@ export const App: React.FC = () => {
           <ScrollToTop />
           <TrialBanner />
           <Navbar />
-          
-          <MainMenuOverlay 
-            isOpen={isMobileMenuOpen} 
-            onClose={() => setIsMobileMenuOpen(false)} 
-          />
 
           <main id="main-content" className={`${pagePolarity} flex-1 w-full max-w-full overflow-x-hidden relative z-0`}>
             <AnimatePresence mode="wait">

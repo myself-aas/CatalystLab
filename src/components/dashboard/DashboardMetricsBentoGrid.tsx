@@ -43,7 +43,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
           <span className="text-xs uppercase tracking-wider text-muted-foreground">
             Platform Telemetry Matrix
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-border text-white">
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[var(--bg-surface)] border border-border text-foreground">
             3-Column Bento Engine
           </span>
         </div>
@@ -65,11 +65,11 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar - Strict Visual Parity with Audit Dossier Cards */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#0066FF] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[var(--accent-framer-blue)] shrink-0">
                   <Activity className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Global Health Score
                   </h3>
                   <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
@@ -96,7 +96,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Middle Content */}
             <div className="py-3.5 space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-white">
+                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   {avgScore}%
                 </span>
                 <span className="text-[11px] font-bold text-emerald-400 flex items-center gap-0.5">
@@ -110,11 +110,11 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </p>
 
               {/* Progress bar */}
-              <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden mt-2">
+              <div className="w-full bg-[var(--bg-surface)] rounded-full h-1.5 overflow-hidden mt-2">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     avgScore >= 90
-                      ? 'bg-gradient-to-r from-emerald-500 to-[#00F298]'
+                      ? 'bg-gradient-to-r from-emerald-500 to-[var(--accent-emerald-vital)]'
                       : avgScore >= 75
                       ? 'bg-gradient-to-r from-amber-500 to-yellow-400'
                       : 'bg-gradient-to-r from-red-500 to-rose-400'
@@ -147,11 +147,11 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#00D2FF] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[var(--accent-cyan-edge)] shrink-0">
                   <FileText className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Telemetry Dossiers
                   </h3>
                   <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
@@ -170,10 +170,10 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Middle Content */}
             <div className="py-3.5 space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-white">
+                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   {totalAudits}
                 </span>
-                <span className="text-[11px] font-bold text-[#00D2FF] flex items-center gap-0.5">
+                <span className="text-[11px] font-bold text-[var(--accent-cyan-edge)] flex items-center gap-0.5">
                   <TrendingUp className="h-3 w-3" />
                   Active Scan
                 </span>
@@ -184,7 +184,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </p>
 
               <div className="flex items-center gap-2 pt-1 text-[10px] text-muted-foreground font-mono">
-                <span className="truncate max-w-[150px] px-1.5 py-0.5 rounded bg-white/5 border border-border text-white">
+                <span className="truncate max-w-[150px] px-1.5 py-0.5 rounded bg-[var(--bg-surface)] border border-border text-foreground">
                   {targetDomain}
                 </span>
                 <span>Active Target</span>
@@ -214,11 +214,11 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#FF9900] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[var(--accent-amber-sec)] shrink-0">
                   <Zap className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Compute Quota
                   </h3>
                   <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
@@ -236,7 +236,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Middle Content */}
             <div className="py-3.5 space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-white">
+                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   {rateStatus.remaining} <span className="text-sm font-normal text-muted-foreground">/ {rateStatus.limit}</span>
                 </span>
                 <span className="text-[11px] font-bold text-amber-400">
@@ -249,7 +249,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </p>
 
               {/* Progress bar */}
-              <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden mt-2">
+              <div className="w-full bg-[var(--bg-surface)] rounded-full h-1.5 overflow-hidden mt-2">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 transition-all duration-500"
                   style={{ width: `${quotaPercentage}%` }}
@@ -284,7 +284,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                   <Globe className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Edge Mesh Matrix
                   </h3>
                   <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
@@ -302,7 +302,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Middle Content */}
             <div className="py-3.5 space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-white">
+                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   18.4ms
                 </span>
                 <span className="text-[11px] font-bold text-emerald-400">
@@ -343,11 +343,11 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#0066FF] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[var(--accent-framer-blue)] shrink-0">
                   <GitBranch className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Automated PR Patches
                   </h3>
                   <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
@@ -365,10 +365,10 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Middle Content */}
             <div className="py-3.5 space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-white">
+                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   3 Branches
                 </span>
-                <span className="text-[11px] font-bold text-[#0066FF]">
+                <span className="text-[11px] font-bold text-[var(--accent-framer-blue)]">
                   Verified AST Diff
                 </span>
               </div>
@@ -406,11 +406,11 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#8A2BE2] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[var(--accent-violet-synth)] shrink-0">
                   <ShieldCheck className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-white transition-colors">
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     OWASP Security Vault
                   </h3>
                   <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
@@ -428,7 +428,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Middle Content */}
             <div className="py-3.5 space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-white">
+                <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   100% Pass
                 </span>
                 <span className="text-[11px] font-bold text-purple-400">

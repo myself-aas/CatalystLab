@@ -77,7 +77,7 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
 
       {/* Top Bar: Pipeline tag & Status badge */}
       <div className="relative z-10 p-4 sm:p-5 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-foreground/80 border border-white/15 backdrop-blur-md">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-foreground/80 border border-foreground/15 backdrop-blur-md">
           <Terminal className="w-3.5 h-3.5 text-cyan-400" />
           <span className="text-[10px] font-mono font-bold text-primary-foreground uppercase tracking-wider">
             CRON TELEMETRY
@@ -111,7 +111,7 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
         </div>
 
         {/* Bottom Meta Row (R4 Signature) */}
-        <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/20">
+        <div className="flex items-center justify-between gap-3 pt-3 border-t border-foreground/20">
           {/* Left: Stacked Date Chip + Venue/Address */}
           <div className="flex items-center gap-3 min-w-0">
             <StackedDateChip
@@ -134,7 +134,7 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
           </div>
 
           {/* Right: Time / Duration */}
-          <div className="flex items-center gap-1 text-xs font-mono font-bold text-emerald-400 shrink-0 bg-foreground/70 border border-white/10 px-2.5 py-1 rounded-lg backdrop-blur-md">
+          <div className="flex items-center gap-1 text-xs font-mono font-bold text-emerald-400 shrink-0 bg-foreground/70 border border-foreground/10 px-2.5 py-1 rounded-lg backdrop-blur-md">
             <Clock className="w-3 h-3" />
             <span>{time}</span>
           </div>

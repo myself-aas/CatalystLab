@@ -205,7 +205,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
   return (
     <section 
       id="latest-blogs-section"
-      className={`relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden bg-transparent border-b border-border ${className}`}
+      className={`ds-section relative ds-page-shell overflow-hidden bg-transparent border-b border-border ${className}`}
       aria-label="Latest engineering news and articles"
     >
       <div className="relative rounded-3xl border border-border bg-muted p-6 sm:p-8 lg:p-10 shadow-xl">
@@ -214,8 +214,8 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-border">
           <div className="space-y-3 max-w-2xl">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-sans font-bold text-indigo-700 tracking-widest uppercase shadow-sm">
-                <Sparkles className="h-4 w-4 text-indigo-600" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#0066FF] tracking-widest uppercase shadow-sm">
+                <Sparkles className="h-4 w-4 text-[#0066FF]" />
                 <span>{badgeText}</span>
               </div>
             )}
@@ -414,7 +414,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               </button>
 
               <div className="flex items-center gap-2 mb-4">
-                <span className="rounded bg-indigo-50 text-indigo-700 border border-indigo-200 px-3 py-1 text-xs font-bold shadow-sm">
+                <span className="rounded bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20 px-3 py-1 text-xs font-bold shadow-sm">
                   {previewPost.category}
                 </span>
                 <span className="text-xs font-medium text-muted-foreground">

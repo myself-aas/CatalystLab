@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-white/[0.08] bg-[#020202] text-neutral-300 overflow-hidden m-0 p-0">
+    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-foreground/[0.08] bg-background text-neutral-300 overflow-hidden m-0 p-0">
       
       <div className="relative w-full max-w-none px-6 lg:px-12 pt-16 pb-12 z-40">
         
@@ -30,14 +30,14 @@ export const Footer: React.FC = () => {
             <div className="flex flex-col space-y-6">
               <Link 
                 to="/" 
-                className="inline-flex items-center gap-2 transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066FF] rounded-lg"
+                className="inline-flex items-center gap-2 transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-framer-blue)] rounded-lg"
                 aria-label="CatalystLab home"
               >
                 <BrandLogo size="md" />
               </Link>
               <p className="text-sm leading-relaxed text-muted-foreground">
                 Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics across 38 global edge nodes. Precision auditing for the modern engineering stack.
-                <span className="block mt-4 font-mono text-[#00D2FF] opacity-60">CONNECT &lt;/&gt; &amp;</span>
+                <span className="block mt-4 font-mono text-[var(--accent-cyan-edge)] opacity-60">CONNECT &lt;/&gt; &amp;</span>
               </p>
             </div>
 
@@ -57,7 +57,7 @@ export const Footer: React.FC = () => {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="size-9 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-white transition-all shadow-2xs group"
+                    className="size-9 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-foreground transition-all shadow-2xs group"
                     aria-label={`CatalystLab on ${social.label}`}
                   >
                     <social.icon className="size-4.5 transition-transform group-hover:scale-110" />
@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
 
           {/* Segment 2: Resources */}
           <div className="flex flex-col">
-            <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-white mb-8 border-l-2 border-[#0066FF] pl-4">
+            <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-foreground mb-8 border-l-2 border-foreground/40 pl-4">
               Resources
             </h3>
             <ul className="space-y-4">
@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
                 <li key={item.label}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-white transition-colors duration-150 hover:pl-1 transition-all"
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition-all"
                   >
                     {item.label}
                   </Link>
@@ -95,7 +95,7 @@ export const Footer: React.FC = () => {
 
           {/* Segment 3: Engines */}
           <div className="flex flex-col">
-            <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-white mb-8 border-l-2 border-[#0066FF] pl-4">
+            <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-foreground mb-8 border-l-2 border-foreground/40 pl-4">
               Engines
             </h3>
             <ul className="space-y-4">
@@ -103,7 +103,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-white transition-colors duration-150 hover:pl-1 transition-all"
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition-all"
                   >
                     {item.label}
                   </Link>
@@ -114,7 +114,7 @@ export const Footer: React.FC = () => {
 
           {/* Segment 4: Platform */}
           <div className="flex flex-col">
-            <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-white mb-8 border-l-2 border-[#0066FF] pl-4">
+            <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-foreground mb-8 border-l-2 border-foreground/40 pl-4">
               Platform
             </h3>
             <ul className="space-y-4">
@@ -122,7 +122,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-white transition-colors duration-150 hover:pl-1 transition-all"
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition-all"
                   >
                     {item.label}
                   </Link>
@@ -134,24 +134,24 @@ export const Footer: React.FC = () => {
         </nav>
 
         {/* Bottom Metadata Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-white/[0.08] pt-8 gap-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between border-t border-foreground/[0.08] pt-8 gap-6">
           <div className="flex flex-wrap items-center gap-4 justify-center sm:justify-start">
             <p className="text-xs text-muted-foreground font-mono">
-              &copy; 2026 <span className="text-white">CatalystLab Inc.</span>
+              &copy; 2026 <span className="text-foreground">CatalystLab Inc.</span>
             </p>
-            <div className="hidden sm:block w-1 h-1 rounded-full bg-white/20" />
+            <div className="hidden sm:block w-1 h-1 rounded-full bg-foreground/20" />
             <SyncStatusBadge />
-            <div className="hidden sm:block w-1 h-1 rounded-full bg-white/20" />
+            <div className="hidden sm:block w-1 h-1 rounded-full bg-foreground/20" />
             <span className="text-[11px] font-mono text-neutral-500">v2.4.0</span>
           </div>
 
           <button
             type="button"
             onClick={scrollToTop}
-            className="group flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-mono text-neutral-400 transition-all duration-200 hover:border-border-strong hover:text-white hover:bg-surface-elevated shadow-2xs cursor-pointer"
+            className="group flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-mono text-neutral-400 transition-all duration-200 hover:border-border-strong hover:text-foreground hover:bg-surface-elevated shadow-2xs cursor-pointer"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="size-3.5 text-[#0066FF] group-hover:-translate-y-0.5 transition-transform duration-200" />
+            <ArrowUp className="size-3.5 text-[var(--accent-framer-blue)] group-hover:-translate-y-0.5 transition-transform duration-200" />
             <span>TOP</span>
           </button>
         </div>

@@ -67,13 +67,13 @@ export const ApiNavSidebar: React.FC = () => {
 
           <Link
             to="/playground"
-            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-emerald-600" />
+              <Terminal className="h-4 w-4 text-emerald-400" />
               <span>Interactive Playground</span>
             </div>
-            <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-emerald-200/60 text-emerald-800">
+            <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
               Live
             </span>
           </Link>

@@ -240,9 +240,9 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
   };
 
   const blurClass =
-    glassmorphism === 'heavy' ? 'backdrop-blur-xl bg-foreground/70 border-white/30' :
-    glassmorphism === 'subtle' ? 'backdrop-blur-sm bg-foreground/30 border-white/15' :
-    glassmorphism === 'medium' || glassmorphism === true ? 'backdrop-blur-md bg-foreground/50 border-white/25' :
+    glassmorphism === 'heavy' ? 'backdrop-blur-xl bg-foreground/70 border-foreground/30' :
+    glassmorphism === 'subtle' ? 'backdrop-blur-sm bg-foreground/30 border-foreground/15' :
+    glassmorphism === 'medium' || glassmorphism === true ? 'backdrop-blur-md bg-foreground/50 border-foreground/25' :
     'bg-foreground/60';
 
   return (
@@ -297,7 +297,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
 
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-500 pointer-events-none z-[1]"
+          className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent transition-opacity duration-500 pointer-events-none z-[1]"
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
         />
         {glassmorphism && (
@@ -308,7 +308,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
         )}
 
         <div
-          className="relative z-10 flex flex-col justify-between h-full p-6 sm:p-8 bg-gradient-to-t from-black/80 to-transparent"
+          className="relative z-10 flex flex-col justify-between h-full p-6 sm:p-8 bg-gradient-to-t from-background/80 to-transparent"
           style={{
             transformStyle: 'preserve-3d',
             background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
@@ -327,7 +327,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
               className="flex items-center gap-2 flex-wrap"
             >
               {badge && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/25 backdrop-blur-md border border-white/40 text-xs font-mono font-bold uppercase tracking-wider text-primary-foreground shadow-lg transition-colors group-hover:bg-background/35">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/25 backdrop-blur-md border border-foreground/40 text-xs font-mono font-bold uppercase tracking-wider text-primary-foreground shadow-lg transition-colors group-hover:bg-background/35">
                   <Sparkles className="h-3.5 w-3.5 text-amber-300" />
                   {badge}
                 </span>
@@ -344,7 +344,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   rotateY: badgeRotateY,
                   transformStyle: 'preserve-3d',
                 }}
-                className="px-3 py-1 rounded-full bg-foreground/50 backdrop-blur-md border border-white/30 text-xs font-mono font-extrabold text-primary-foreground shadow-md"
+                className="px-3 py-1 rounded-full bg-foreground/50 backdrop-blur-md border border-foreground/30 text-xs font-mono font-extrabold text-primary-foreground shadow-md"
               >
                 {score}
               </motion.div>
@@ -426,7 +426,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
 
           <div
             style={{ transformStyle: 'preserve-3d' }}
-            className="pt-4 border-t border-white/20 flex items-center justify-between gap-3 mt-auto"
+            className="pt-4 border-t border-foreground/20 flex items-center justify-between gap-3 mt-auto"
           >
             <motion.div
               style={{
@@ -454,7 +454,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
               className="shrink-0"
             >
               {action || (
-                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-background/20 hover:bg-background/30 backdrop-blur-md text-primary-foreground font-bold text-xs transition-all border border-white/30 shadow-md">
+                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-background/20 hover:bg-background/30 backdrop-blur-md text-primary-foreground font-bold text-xs transition-all border border-foreground/30 shadow-md">
                   <span>Run Audit</span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>

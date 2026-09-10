@@ -243,8 +243,8 @@ func main() {
  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Rate Limit Modal Alert */}
  {rateLimitAlertOpen && (
- <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
- <div className="ds-page-shell max-w-lg ds-card p-6 shadow-2xl space-y-4 ds-section">
+ <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-4">
+ <div className="w-full max-w-lg ds-card p-6 shadow-2xl space-y-4">
  <div className="flex items-center justify-between">
  <h3 className="framer-card-title text-foreground">Rate Limit Exceeded</h3>
  <button onClick={() => setRateLimitAlertOpen(false)} className="ds-btn ds-btn-ghost p-1">✕</button>
@@ -263,8 +263,8 @@ func main() {
  )}
 
  {/* Header Banner */}
- <div className="border-b border-border bg-background ds-section">
- <div className="ds-page-shell ds-section">
+ <div className="border-b border-border bg-background py-8 md:py-12">
+ <div className="ds-page-shell">
  <div className="space-y-3">
  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
  <div>
@@ -272,7 +272,7 @@ func main() {
  <h1 className="framer-section-headline text-foreground">
  {activeEngineConfig.name} Console
  </h1>
- <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20">
+ <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-[var(--accent-cyan-edge)]/10 text-[var(--accent-cyan-edge)] border border-[var(--accent-cyan-edge)]/20">
  {activeEngineConfig.category}
  </span>
  </div>
@@ -303,7 +303,7 @@ func main() {
  </div>
 
  {/* Main Sandbox Grid */}
- <div className="ds-page-shell ds-section">
+ <div className="ds-page-shell py-8 md:py-12">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Sidebar */}
@@ -313,7 +313,7 @@ func main() {
  <div className="flex-1 space-y-8 min-w-0">
  
  {/* Target Configuration Card */}
- <section className="ds-card p-6 sm:p-8 space-y-6 ds-section">
+ <section className="ds-card p-6 sm:p-8 space-y-6">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
  <div className="flex items-center gap-2">
  <Sliders className="h-5 w-5 text-muted-foreground"/>
@@ -374,7 +374,7 @@ func main() {
  </section>
 
  {/* Execution Telemetry & Terminal Output */}
- <section className="ds-card p-6 sm:p-8 space-y-6 ds-section">
+ <section className="ds-card p-6 sm:p-8 space-y-6">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
  <div className="flex items-center gap-2.5">
  <Terminal className="h-5 w-5 text-emerald-600"/>
@@ -398,7 +398,7 @@ func main() {
  </span>
  )}
  {responseTimeMs !== null && (
- <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20">
+ <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-[var(--accent-cyan-edge)]/10 text-[var(--accent-cyan-edge)] border border-[var(--accent-cyan-edge)]/20">
  {responseTimeMs} ms
  </span>
  )}
@@ -421,7 +421,7 @@ func main() {
 
  {/* Structured JSON Response Inspector */}
  {jsonResponse && (
- <section className="ds-card p-6 sm:p-8 space-y-4 ds-section">
+ <section className="ds-card p-6 sm:p-8 space-y-4">
  <div className="flex items-center justify-between border-b border-border pb-4">
  <div className="flex items-center gap-2">
  <FileJson className="h-5 w-5 text-amber-500"/>
@@ -446,8 +446,8 @@ func main() {
  </button>
  </div>
 
- <div className="rounded-2xl bg-black/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border max-h-[400px]">
- <pre className="text-[#00D2FF] leading-relaxed">
+ <div className="rounded-2xl bg-background/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border max-h-[400px]">
+ <pre className="text-[var(--accent-cyan-edge)] leading-relaxed">
  {JSON.stringify(jsonResponse, null, 2)}
  </pre>
  </div>
@@ -455,7 +455,7 @@ func main() {
  )}
 
  {/* Copyable cURL & SDK Snippet Generator (Language dropdown, NO TABVIEW!) */}
- <section className="ds-card p-6 sm:p-8 space-y-4 ds-section">
+ <section className="ds-card p-6 sm:p-8 space-y-4">
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
  <div className="flex items-center gap-2">
  <Code2 className="h-5 w-5 text-muted-foreground"/>

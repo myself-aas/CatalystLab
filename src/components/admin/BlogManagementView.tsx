@@ -212,7 +212,7 @@ export const BlogManagementView: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by title, excerpt, author, or keyword..."
-            className="w-full ds-control bg-background border border-border pl-9 pr-4 py-2 text-xs text-foreground placeholder:ds-muted focus:border-black focus:outline-none"
+            className="w-full ds-control bg-background border border-border pl-9 pr-4 py-2 text-xs text-foreground placeholder:ds-muted focus:border-background focus:outline-none"
           />
         </div>
 
@@ -220,7 +220,7 @@ export const BlogManagementView: React.FC = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="ds-card px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
+            className="ds-card px-3 py-2 text-xs font-semibold text-foreground focus:border-background focus:outline-none"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -232,7 +232,7 @@ export const BlogManagementView: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value as any)}
-            className="ds-card px-3 py-2 text-xs font-semibold text-foreground focus:border-black focus:outline-none"
+            className="ds-card px-3 py-2 text-xs font-semibold text-foreground focus:border-background focus:outline-none"
           >
             <option value="all">All Statuses</option>
             <option value="published">Published Only</option>

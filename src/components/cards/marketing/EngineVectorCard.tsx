@@ -75,20 +75,20 @@ export const EngineVectorCard: React.FC<EngineVectorCardProps> = ({
       {/* 2. Top Header Dark Gradient Overlay (below top text/actions) */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/90 via-black/55 to-transparent pointer-events-none z-[2]"
+        className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background/90 via-background/55 to-transparent pointer-events-none z-[2]"
       />
 
       {/* 3. Bottom Content Dark Gradient Overlay (below bottom text/stats/actions) */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-[85%] bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-[2]"
+        className="absolute inset-x-0 bottom-0 h-[85%] bg-gradient-to-t from-background/80 to-transparent pointer-events-none z-[2]"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
       />
 
       {/* 4. Top Header Row (R1 Anatomy: Glyph/Brand Left + Live Status Score Chip Right + Bookmark) */}
       <div className="w-full flex items-center justify-between gap-3 relative z-10 select-none">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 rounded-lg bg-foreground/60 border border-white/25 flex items-center justify-center text-xs font-mono font-black text-primary-foreground shrink-0 backdrop-blur-md shadow-sm">
+          <div className="w-7 h-7 rounded-lg bg-foreground/60 border border-foreground/25 flex items-center justify-center text-xs font-mono font-black text-primary-foreground shrink-0 backdrop-blur-md shadow-sm">
             {code || name.slice(0, 2).toUpperCase()}
           </div>
           <span className="font-mono font-bold tracking-tight text-primary-foreground text-sm uppercase truncate drop-shadow-sm">

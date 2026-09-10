@@ -214,9 +214,9 @@ export const DomainReportArticlePage: React.FC = () => {
 
  if (error || !telemetry || !report) {
  return (
- <div className="ds-page-shell ds-section">
+ <div className="ds-page-shell py-16">
  <div className="ds-card p-8 shadow-xl">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-700 mb-3 border border-amber-200">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400 mb-3 border border-amber-500/20">
  <AlertTriangle className="h-6 w-6"/>
  </div>
  <h2 className="text-lg font-bold text-foreground">Benchmark Report Unavailable</h2>
@@ -247,7 +247,7 @@ export const DomainReportArticlePage: React.FC = () => {
  : 'Recent Verification';
 
  return (
- <article id="article-dossier-root" className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground font-mono ds-section">
+ <article id="article-dossier-root" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
  <SEOHead
  title={`Benchmark: ${displayDomain}`}
  description={`Full-stack performance, security, and AI readiness benchmark for ${displayDomain}.`}
@@ -255,8 +255,8 @@ export const DomainReportArticlePage: React.FC = () => {
  />
  
  {/* Main Hero Header */}
- <header className="border-b border-border bg-muted ds-page-top sm:px-6 lg:px-8 ds-section">
- <div className="ds-page-shell space-y-5 ds-section">
+ <header className="border-b border-border bg-muted ds-page-top py-8 md:py-12 sm:px-6 lg:px-8">
+ <div className="ds-page-shell space-y-5">
  
  {/* Badge & Category */}
  <div className="flex flex-wrap items-center gap-2">
@@ -334,7 +334,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
  <button
  onClick={handleCopyLink}
- className="ds-card flex items-center gap-1 text-xs font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs flex items-center gap-1"
  title="Copy Permalink URL"
  >
  {copied ? <Check className="h-3 w-3 text-emerald-600"/> : <Share2 className="h-3 w-3 text-muted-foreground"/>}
@@ -344,7 +344,7 @@ export const DomainReportArticlePage: React.FC = () => {
  <button
  onClick={() => runLiveAuditForDomain(displayDomain)}
  disabled={isAuditingLive}
- className="ds-card flex items-center gap-1 text-xs font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs flex items-center gap-1"
  title="Re-run Diagnostic Telemetry"
  >
  <RotateCw className={`h-3 w-3 text-muted-foreground ${isAuditingLive ? 'animate-spin' : ''}`} />
@@ -358,10 +358,10 @@ export const DomainReportArticlePage: React.FC = () => {
  </header>
 
  {/* Main Editorial Body */}
- <main className="ds-page-shell space-y-10 ds-section">
+ <main className="ds-page-shell space-y-10 py-10 pb-28">
 
  {/* Section 1: Executive Summary & Composite Vitals Radar */}
- <section className="space-y-3 ds-section">
+ <section className="space-y-3">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
@@ -380,7 +380,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 2: DOM Depth & Rendering Tree */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
@@ -404,7 +404,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 3: OWASP Top 10 Security Headers */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-emerald-600 border border-border text-xs font-bold">
@@ -430,7 +430,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 4: WCAG 2.2 Accessibility */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
@@ -455,7 +455,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 5: AI Agent & LLM Crawler Readiness */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
@@ -481,7 +481,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 6: Global Edge Latency */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-amber-700 border border-border text-xs font-bold">
@@ -504,7 +504,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 7: Sustainable Web Design Eco-Carbon Footprint */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-emerald-600 border border-border text-xs font-bold">
@@ -529,7 +529,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 8: LLMO Citations */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
@@ -554,7 +554,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 9: Architectural Takeaways & Remediation Blueprint */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="space-y-1">
  <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
  <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
@@ -608,7 +608,7 @@ export const DomainReportArticlePage: React.FC = () => {
  </section>
 
  {/* Section 10: Raw Telemetry Logs Drawer */}
- <section className="space-y-3 pt-4 border-t border-border ds-section">
+ <section className="space-y-3 pt-4 border-t border-border">
  <div className="flex items-center justify-between">
  <div>
  <h3 className="text-xs font-bold text-foreground flex items-center gap-1.5">
@@ -644,8 +644,8 @@ export const DomainReportArticlePage: React.FC = () => {
  </main>
 
  {/* Bottom Sticky Action / Share Strip */}
- <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-background/95 backdrop-blur-md py-2.5">
- <div className="ds-page-shell flex items-center justify-between gap-4 ds-section">
+ <footer className="sticky bottom-0 z-30 border-t border-border bg-background/95 backdrop-blur-md py-3 shadow-lg">
+ <div className="ds-page-shell flex items-center justify-between gap-4">
  <div className="flex items-center gap-2.5">
  <span className="text-xs font-bold text-foreground hidden sm:inline">
  Benchmark Dossier: <span className="text-foreground">{displayDomain}</span>
@@ -667,7 +667,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
  <button
  onClick={handleCopyLink}
- className="ds-card flex items-center gap-1 text-xs font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs flex items-center gap-1"
  >
  {copied ? <Check className="h-3 w-3 text-emerald-600"/> : <Share2 className="h-3 w-3 text-muted-foreground"/>}
  <span>{copied ? 'Copied' : 'Share'}</span>
@@ -675,7 +675,7 @@ export const DomainReportArticlePage: React.FC = () => {
 
  <Link
  to="/reports"
- className="ds-card flex items-center gap-1 text-xs font-semibold text-muted-foreground ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary text-xs flex items-center gap-1 text-muted-foreground"
  >
  <span>Directory</span>
  </Link>

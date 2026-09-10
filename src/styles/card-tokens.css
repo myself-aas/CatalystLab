@@ -3,12 +3,12 @@
    ========================================================================== */
 
 :root {
-  /* --- Unified Modular Card Design Tokens (Linear / Modern Deep Space) --- */
-  --bg-dark-base: #050506;
-  --bg-dark-container: #0a0a0c;
-  --bg-dark-elevated: #0f0f12;
-  --text-primary-white: #EDEDEF;
-  --text-muted-secondary: #8A8F98;
+  /* --- Unified Modular Card Design Tokens (Mono Palette System) --- */
+  --bg-dark-base: #1F2223;
+  --bg-dark-container: #2C3032;
+  --bg-dark-elevated: #2C2F32;
+  --text-primary-white: #F7FDFF;
+  --text-muted-secondary: #F0FAFF;
   
   /* --- Structural Geometry (16px Card Radius per Linear Design System) --- */
   --card-radius-outer: 16px;
@@ -30,48 +30,48 @@
   --hue-neutral: 216 100% 50%;          /* CatalystLab Blue Neutral */
 
   /* --- Linear / Modern Multi-Layer Shadows & Ambient Glows --- */
-  --card-shadow-diffusion: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
+  --card-shadow-diffusion: 0 0 0 1px rgba(240, 250, 255, 0.08), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
   --card-shadow-ambient: 0 2px 20px rgba(0, 0, 0, 0.4);
-  --card-shadow-hover: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(0, 102, 255, 0.12);
-  --card-bloom-active: 0 0 0 1px rgba(0, 102, 255, 0.5), 0 12px 48px -8px rgba(0, 102, 255, 0.35);
+  --card-shadow-hover: 0 0 0 1px rgba(240, 250, 255, 0.20), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(247, 253, 255, 0.10);
+  --card-bloom-active: 0 0 0 1px rgba(247, 253, 255, 0.4), 0 12px 48px -8px rgba(0, 0, 0, 0.5);
 
-  /* --- Liquid Glass Refractions (Deep Space) --- */
-  --glass-bg: rgba(10, 10, 12, 0.70);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-inner-border: rgba(255, 255, 255, 0.04);
-  --glass-shadow-inner: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  /* --- Liquid Glass Refractions (Mono Deep Space) --- */
+  --glass-bg: rgba(44, 48, 50, 0.75);
+  --glass-border: rgba(240, 250, 255, 0.12);
+  --glass-inner-border: rgba(240, 250, 255, 0.08);
+  --glass-shadow-inner: inset 0 1px 0 0 rgba(240, 250, 255, 0.10);
 
   /* --- High-Contrast Text Scrim Overlays --- */
   --scrim-immersive: linear-gradient(
     to top,
-    rgba(5, 5, 6, 0.98) 0%,
-    rgba(5, 5, 6, 0.90) 28%,
-    rgba(5, 5, 6, 0.65) 55%,
-    rgba(5, 5, 6, 0.25) 75%,
+    rgba(31, 34, 35, 0.98) 0%,
+    rgba(31, 34, 35, 0.90) 28%,
+    rgba(31, 34, 35, 0.65) 55%,
+    rgba(31, 34, 35, 0.25) 75%,
     transparent 100%
   );
 
   --scrim-destination: linear-gradient(
     to top,
-    rgba(5, 5, 6, 0.98) 0%,
-    rgba(5, 5, 6, 0.85) 45%,
-    rgba(5, 5, 6, 0.35) 70%,
+    rgba(31, 34, 35, 0.98) 0%,
+    rgba(31, 34, 35, 0.85) 45%,
+    rgba(31, 34, 35, 0.35) 70%,
     transparent 100%
   );
 
   --scrim-event: linear-gradient(
     to top,
-    rgba(5, 5, 6, 0.99) 0%,
-    rgba(5, 5, 6, 0.90) 35%,
-    rgba(5, 5, 6, 0.55) 65%,
+    rgba(31, 34, 35, 0.99) 0%,
+    rgba(31, 34, 35, 0.90) 35%,
+    rgba(31, 34, 35, 0.55) 65%,
     transparent 100%
   );
 
   --scrim-listing: linear-gradient(
     to top,
-    rgba(5, 5, 6, 0.98) 0%,
-    rgba(5, 5, 6, 0.85) 40%,
-    rgba(5, 5, 6, 0.35) 75%,
+    rgba(31, 34, 35, 0.98) 0%,
+    rgba(31, 34, 35, 0.85) 40%,
+    rgba(31, 34, 35, 0.35) 75%,
     transparent 100%
   );
 
@@ -81,9 +81,9 @@
   --spot-opacity: 0;
 
   /* Default glow & accent: CatalystLab Blue */
-  --card-glow: rgba(0, 102, 255, 0.28);
+  --card-glow: rgba(247, 253, 255, 0.15);
   --card-hue: 216 100% 50%;
-  --card-accent: #0066FF;
+  --card-accent: #F7FDFF;
 }
 
 /* --- Enzyme Token Utilities --- */
@@ -138,42 +138,42 @@
 .card-hue-neutral {
   --card-hue: var(--hue-neutral);
   --card-accent: hsl(var(--hue-neutral));
-  --card-glow: rgba(255, 255, 255, 0.12);
+  --card-glow: rgba(240, 250, 255, 0.12);
 }
 
-/* --- Card Motion, Bento & Glow Enhancements (Linear / Modern) --- */
+/* --- Card Motion, Bento & Glow Enhancements (Mono Palette) --- */
 .card-spotlight-overlay {
   background: radial-gradient(
     400px circle at var(--spot-x) var(--spot-y),
-    rgba(0, 102, 255, 0.18),
+    rgba(247, 253, 255, 0.12),
     transparent 80%
   );
   pointer-events: none;
 }
 
 .card-surface-ring {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(240, 250, 255, 0.10);
 }
 
 .card-active-lift {
   transform: translateY(-8px);
-  box-shadow: 0 0 0 1px rgba(0, 102, 255, 0.4), 0 20px 48px -10px rgba(0, 102, 255, 0.3);
+  box-shadow: 0 0 0 1px rgba(240, 250, 255, 0.3), 0 20px 48px -10px rgba(0, 0, 0, 0.6);
 }
 
 .bento-surface {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-dark-container);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(240, 250, 255, 0.10);
+  box-shadow: 0 0 0 1px rgba(240, 250, 255, 0.08), 0 2px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 0, 0, 0.2);
   border-radius: var(--card-radius-outer);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bento-surface:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.10);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(0, 102, 255, 0.12);
+  background: var(--bg-dark-elevated);
+  border-color: rgba(240, 250, 255, 0.22);
+  box-shadow: 0 0 0 1px rgba(240, 250, 255, 0.18), 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(247, 253, 255, 0.08);
   transform: translateY(-2px);
 }
 

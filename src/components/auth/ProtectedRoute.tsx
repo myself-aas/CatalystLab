@@ -156,7 +156,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
                 <Link
                   to={`/signup?redirect=${encodeURIComponent(location.pathname + location.search)}`}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-black/40 bg-background hover:bg-muted py-2.5 text-xs font-semibold text-muted-foreground hover:text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black cursor-pointer"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-background/40 bg-background hover:bg-muted py-2.5 text-xs font-semibold text-muted-foreground hover:text-primary-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background cursor-pointer"
                 >
                   <span>Create Free Account &rarr;</span>
                 </Link>

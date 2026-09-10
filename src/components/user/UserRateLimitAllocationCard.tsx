@@ -151,7 +151,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
             </button>
-            <div className="flex items-center gap-1.5 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-2 text-xs font-bold text-emerald-700">
+            <div className="flex items-center gap-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-2 text-xs font-bold text-emerald-400">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -273,13 +273,13 @@ export const UserRateLimitAllocationCard: React.FC = () => {
         {testResult && (
           <div className={`mt-6 rounded-xl p-4 text-xs flex items-start gap-3 border animate-fade-in ${
             testResult.success 
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
-              : 'bg-rose-50 border-rose-200 text-rose-800'
+              ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
+              : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
           }`}>
             {testResult.success ? (
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" />
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
             ) : (
-              <AlertCircle className="h-4 w-4 shrink-0 text-rose-600 mt-0.5" />
+              <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
             )}
             <div className="flex-1">
               <span className="font-bold">{testResult.success ? 'Success: ' : 'Notice: '}</span>
@@ -385,7 +385,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               <CreditCard className="h-5 w-5 ds-muted" />
               <h4 className="text-lg font-bold text-foreground">Subscription &amp; Compute Tier</h4>
               {isTrialActive && (
-                <span className="rounded-full bg-emerald-100 text-emerald-700 px-2.5 py-0.5 text-xs font-bold border border-emerald-300 flex items-center gap-1">
+                <span className="rounded-full bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 text-xs font-bold border border-emerald-500/20 flex items-center gap-1">
                   <Zap className="h-3 w-3" /> 7-Day Trial ({trialDaysRemaining}d remaining)
                 </span>
               )}
@@ -397,7 +397,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
 
           <Link
             to="/pricing"
-            className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+            className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
           >
             <span>View Full Pricing Matrix</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -415,7 +415,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                 key={tierKey}
                 className={`rounded-xl p-4 border flex flex-col justify-between transition-all ${
                   isCurrent 
-                    ? 'border-black bg-muted shadow-md ring-1 ring-black/40' 
+                    ? 'border-background bg-muted shadow-md ring-1 ring-background/40' 
                     : 'border-border bg-background hover:border-border'
                 }`}
               >
@@ -423,7 +423,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sm text-foreground">{item.name}</span>
                     {isCurrent && (
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                         ACTIVE
                       </span>
                     )}
@@ -431,7 +431,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <div className="mt-2 text-xl font-black text-foreground">
                     ${item.priceMonthly}<span className="text-xs font-normal ds-muted">/mo</span>
                   </div>
-                  <div className="mt-1 text-xs font-bold text-emerald-700">
+                  <div className="mt-1 text-xs font-bold text-emerald-400">
                     {item.dailyComputeUnits} units / day
                   </div>
                   <p className="mt-2 text-[11px] ds-muted line-clamp-2">
@@ -457,7 +457,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   ) : (
                     <button
                       onClick={() => openTrialModal(tierKey)}
-                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-primary text-primary-foreground hover:bg-primary-hover transition-colors shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                      className="w-full py-1.5 rounded-lg text-xs font-bold bg-primary text-primary-foreground hover:bg-primary-hover transition-colors shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
                     >
                       7-Day Free Trial
                     </button>

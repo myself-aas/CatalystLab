@@ -15,13 +15,13 @@ const pillVariants = cva(
         solid:
           'ds-btn ds-btn-primary active:scale-[0.98]',
         glass:
-          'bg-muted/60 hover:bg-white/[0.10] text-foreground border border-white/[0.08] hover:border-white/[0.15] backdrop-blur-md shadow-sm py-2 px-4',
+          'bg-muted/60 hover:bg-foreground/[0.10] text-foreground border border-foreground/[0.08] hover:border-foreground/[0.15] backdrop-blur-md shadow-sm py-2 px-4',
         'immersive-glow':
-          'ds-btn ds-btn-primary border border-white/20 py-2.5 px-5 w-full justify-between backdrop-blur-xl',
+          'ds-btn ds-btn-primary border border-foreground/20 py-2.5 px-5 w-full justify-between backdrop-blur-xl',
         minimal:
-          'bg-transparent text-foreground-muted hover:text-foreground py-1.5 px-3 border border-transparent hover:border-white/10 rounded-full transition-colors',
+          'bg-transparent text-foreground-muted hover:text-foreground py-1.5 px-3 border border-transparent hover:border-foreground/10 rounded-full transition-colors',
         'full-width':
-          'w-full py-2.5 px-5 text-sm bg-muted/60 hover:bg-white/[0.10] text-foreground border border-white/[0.08] hover:border-white/[0.15] backdrop-blur-lg justify-between shadow-sm',
+          'w-full py-2.5 px-5 text-sm bg-muted/60 hover:bg-foreground/[0.10] text-foreground border border-foreground/[0.08] hover:border-foreground/[0.15] backdrop-blur-lg justify-between shadow-sm',
       },
       hue: {
         vitalzyme: 'focus-visible:ring-emerald-400 hover:border-emerald-400/40',

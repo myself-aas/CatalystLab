@@ -22,7 +22,7 @@ export const HeroAuditMock: React.FC = () => {
       onMouseMove={onSpotlightMouseMove}
       whileHover={{ scale: 1.008, y: -2 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-border bg-card/80 shadow-linear-card backdrop-blur-2xl transition-[border-color] duration-200 ease-out hover:border-white/25 cursor-default"
+      className="group relative mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-border bg-card/80 shadow-linear-card backdrop-blur-2xl transition-[border-color] duration-200 ease-out hover:border-foreground/25 cursor-default"
     >
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0"
@@ -70,7 +70,7 @@ export const HeroAuditMock: React.FC = () => {
                 whileHover={{ scale: 1.02, x: 2 }}
                 whileTap={{ scale: 0.99 }}
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                className="flex items-center gap-3 rounded-xl border border-border bg-muted/20 hover:bg-muted/35 hover:border-white/20 px-3 py-2.5 transition-colors cursor-pointer"
+                className="flex items-center gap-3 rounded-xl border border-border bg-muted/20 hover:bg-muted/35 hover:border-foreground/20 px-3 py-2.5 transition-colors cursor-pointer"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline justify-between gap-3">
@@ -103,7 +103,7 @@ export const HeroAuditMock: React.FC = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-xl border border-border bg-muted/20 hover:bg-muted/40 hover:border-white/25 p-3 transition-all cursor-pointer shadow-xs"
+                className="rounded-xl border border-border bg-muted/20 hover:bg-muted/40 hover:border-foreground/25 p-3 transition-all cursor-pointer shadow-xs"
               >
                 <stat.icon className="mb-2 size-3.5 text-primary" />
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -118,7 +118,7 @@ export const HeroAuditMock: React.FC = () => {
           <motion.div
             whileHover={{ scale: 1.015 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 rounded-xl border border-border bg-background hover:border-white/20 p-3 font-mono text-[11px] leading-relaxed text-muted-foreground transition-all cursor-text"
+            className="flex-1 rounded-xl border border-border bg-background hover:border-foreground/20 p-3 font-mono text-[11px] leading-relaxed text-muted-foreground transition-all cursor-text"
           >
             <p className="text-primary">$ catalystlab audit stripe.com</p>
             <p className="mt-1">→ resolved 42 anycast PoPs · 11ms</p>

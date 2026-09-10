@@ -29,10 +29,10 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
   const isDanger = status.remaining === 0;
 
   const badgeColor = isDanger 
-    ? 'border-rose-300 bg-rose-50 text-rose-700 font-semibold' 
+    ? 'border-rose-500/20 bg-rose-500/10 text-rose-400 font-semibold' 
     : isWarning 
-    ? 'border-amber-300 bg-amber-50 text-amber-800 font-semibold' 
-    : 'border-black/30 bg-foreground/10 text-foreground font-semibold';
+    ? 'border-amber-500/20 bg-amber-500/10 text-amber-400 font-semibold' 
+    : 'border-border bg-muted/60 text-foreground font-semibold';
 
   if (compact) {
     return (
@@ -48,7 +48,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
   }
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl border border-black/20 bg-background/90 px-3.5 py-2 backdrop-blur-md shadow-sm">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl border border-border bg-card/90 px-3.5 py-2 backdrop-blur-md shadow-sm">
       <div className="flex items-center gap-2.5">
         <div className={`flex h-6 w-6 items-center justify-center rounded-md border text-xs ${badgeColor}`}>
           <Zap className="h-3.5 w-3.5" />

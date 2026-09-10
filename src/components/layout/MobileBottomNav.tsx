@@ -49,7 +49,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMenu }) 
                 )}
                 <div className={cn(
                   "p-1 rounded-xl transition-all duration-200",
-                  isActive ? "bg-accent/10 text-accent shadow-sm" : "group-hover:bg-[var(--theme-slate-900)]/5"
+                  isActive ? "bg-accent/10 text-accent shadow-sm" : "group-hover:bg-[var(--bg-surface)]"
                 )}>
                   <item.icon className={cn("size-5 transition-transform duration-200", isActive && "scale-110")} />
                 </div>
@@ -67,7 +67,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onOpenMenu }) 
           onClick={onOpenMenu}
           className="relative flex flex-col items-center justify-center w-full h-full gap-1 ds-muted hover:text-foreground transition-colors group cursor-pointer"
         >
-          <div className="p-1 rounded-xl group-hover:bg-[var(--theme-slate-900)]/5 transition-colors">
+          <div className="p-1 rounded-xl group-hover:bg-[var(--bg-surface)] transition-colors">
             <Menu className="size-5" />
           </div>
           <span className="text-[11px] font-medium tracking-tight ds-muted group-hover:text-foreground transition-colors">

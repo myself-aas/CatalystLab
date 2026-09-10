@@ -114,7 +114,7 @@ export const UserBlogManagementView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="rounded-lg bg-sky-100 text-sky-800 p-1.5 border border-sky-200">
+            <span className="rounded-lg bg-[#0066FF]/10 text-[#0066FF] p-1.5 border border-[#0066FF]/20">
               <BookOpen className="h-4 w-4" />
             </span>
             <h2 className="text-xl font-bold text-foreground">My Published Articles & Drafts</h2>
@@ -136,7 +136,7 @@ export const UserBlogManagementView: React.FC = () => {
           {/* Dedicated URL for Create (No Popup!) */}
           <Link
             to="/dashboard/blogs/create"
-            className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+            className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
           >
             <Plus className="h-4 w-4 stroke-[2.5]" />
             <span>Write New Article</span>
@@ -169,7 +169,7 @@ export const UserBlogManagementView: React.FC = () => {
             </p>
             <Link
               to="/dashboard/blogs/create"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Create Article</span>
@@ -188,13 +188,13 @@ export const UserBlogManagementView: React.FC = () => {
                   {/* Info */}
                   <div className="space-y-1.5 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-md bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-800 border border-sky-200">
+                      <span className="rounded-md bg-[#0066FF]/10 px-2 py-0.5 text-[11px] font-bold text-[#0066FF] border border-[#0066FF]/20">
                         {post.category || 'Technology'}
                       </span>
                       <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${
                         post.status === 'published'
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : 'bg-amber-50 text-amber-700 border border-amber-200'
+                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                          : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
                       }`}>
                         {post.status === 'published' ? 'Published' : 'Draft'}
                       </span>
@@ -253,7 +253,7 @@ export const UserBlogManagementView: React.FC = () => {
                     {/* Dedicated Edit Page Navigation */}
                     <Link
                       to={`/dashboard/blogs/edit/${articleIdOrSlug}`}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-sky-300 bg-sky-50 px-3.5 py-1.5 text-xs font-bold text-sky-800 hover:bg-sky-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-[#0066FF]/20 bg-[#0066FF]/10 px-3.5 py-1.5 text-xs font-bold text-[#0066FF] hover:bg-[#0066FF]/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
                       <span>Edit Article</span>
@@ -270,7 +270,7 @@ export const UserBlogManagementView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleDeletePost(post)}
-                      className="p-2 rounded-xl border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="p-2 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="Delete article"
                     >
                       <Trash2 className="h-3.5 w-3.5" />

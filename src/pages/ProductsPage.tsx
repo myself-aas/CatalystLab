@@ -129,28 +129,28 @@ export default {
 
  {/* Hero Section */}
  <section className="relative overflow-hidden bg-card border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
 
- <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+ <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 ds-page-shell text-center space-y-5">
  <div className="flex flex-wrap items-center justify-center gap-2.5">
- <span className="inline-flex items-center gap-2 rounded-full border border-border bg-white/5 backdrop-blur-md px-3 py-1 text-xs font-mono text-foreground shadow-xs">
- <Radio className="h-3.5 w-3.5 text-[#0066FF] animate-pulse shrink-0"/>
+ <span className="inline-flex items-center gap-2 rounded-full border border-border bg-[var(--bg-surface)] backdrop-blur-md px-3 py-1 text-xs font-mono text-foreground shadow-xs">
+ <Radio className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] animate-pulse shrink-0"/>
  <span className="font-semibold">Products &amp; Continuous Telemetry</span>
  </span>
  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>Automated Multi-Engine Cron</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3 py-1 text-xs font-mono text-[#0066FF] font-semibold shadow-xs">
- <Globe className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3 py-1 text-xs font-mono text-[var(--accent-framer-blue)] font-semibold shadow-xs">
+ <Globe className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
  <span>42 Global PoPs</span>
  </span>
  </div>
 
  <h1 className="framer-hero-title text-foreground">
  Automated Plugins &amp;{' '}
- <span className="text-[#0066FF]">
+ <span className="text-[var(--accent-framer-blue)]">
  Custom Domain Watchdogs
  </span>
  </h1>
@@ -191,7 +191,7 @@ export default {
  height="min-h-[320px]"
  className="border-y border-border"
  >
- <div className="ds-page-shell ds-section">
+ <div className="ds-page-shell py-12">
  <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
  Cloud Infrastructure Parallax
  </span>
@@ -224,13 +224,13 @@ export default {
  </div>
 
  {/* Category Filter Pills */}
- <div className="flex flex-wrap items-center gap-1.5 bg-white/5 p-1.5 rounded-xl border border-border">
+ <div className="flex flex-wrap items-center gap-1.5 bg-[var(--bg-surface)] p-1.5 rounded-xl border border-border">
  <button
  onClick={() => setSelectedCategory('all')}
  className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'all' 
- ? 'bg-white/15 text-white shadow-sm' 
- : 'text-muted-foreground hover:text-white'
+ ? 'bg-foreground/15 text-foreground shadow-sm' 
+ : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  All Products
@@ -239,8 +239,8 @@ export default {
  onClick={() => setSelectedCategory('monitoring')}
  className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'monitoring' 
- ? 'bg-white/15 text-white shadow-sm' 
- : 'text-muted-foreground hover:text-white'
+ ? 'bg-foreground/15 text-foreground shadow-sm' 
+ : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  Domain Watchdogs
@@ -249,8 +249,8 @@ export default {
  onClick={() => setSelectedCategory('cicd')}
  className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'cicd' 
- ? 'bg-white/15 text-white shadow-sm' 
- : 'text-muted-foreground hover:text-white'
+ ? 'bg-foreground/15 text-foreground shadow-sm' 
+ : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  CI/CD Quality Gates
@@ -259,8 +259,8 @@ export default {
  onClick={() => setSelectedCategory('webhooks')}
  className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
  selectedCategory === 'webhooks' 
- ? 'bg-white/15 text-white shadow-sm' 
- : 'text-muted-foreground hover:text-white'
+ ? 'bg-foreground/15 text-foreground shadow-sm' 
+ : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  Webhooks &amp; Edge
@@ -320,10 +320,10 @@ export default {
  <div className="ds-card flex flex-col p-6 ds-card-interactive">
  <div>
  <div className="flex items-center justify-between gap-2 mb-5">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-700 border border-amber-200">
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
  <Terminal className="h-5 w-5"/>
  </div>
- <span className="text-[10px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 .5 py-1 rounded-lg">
+ <span className="text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-lg">
  CI / CD Quality Gate
  </span>
  </div>
@@ -364,10 +364,10 @@ export default {
  <div className="ds-card flex flex-col p-6 ds-card-interactive">
  <div>
  <div className="flex items-center justify-between gap-2 mb-5">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 border border-blue-200">
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20">
  <Globe className="h-5 w-5"/>
  </div>
- <span className="text-[10px] font-mono font-bold bg-blue-50 text-blue-800 border border-blue-200 .5 py-1 rounded-lg">
+ <span className="text-[10px] font-mono font-bold bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20 px-2.5 py-1 rounded-lg">
  Edge Telemetry
  </span>
  </div>
@@ -408,7 +408,7 @@ export default {
 
  {/* Section 2: Interactive Domain Monitoring Configurator */}
  <section id="domain-configurator"className="ds-card p-6 sm:p-10 ds-card-interactive">
- <div className="ds-page-shell mb-10 ds-section">
+ <div className="mb-10">
  <div className="inline-flex items-center gap-1.5 rounded-full bg-accent border border-border text-muted-foreground px-3.5 py-1 text-xs font-mono font-bold mb-3 shadow-sm">
  <Sliders className="h-3.5 w-3.5 text-foreground"/>
  <span>Interactive Config Studio</span>
@@ -562,9 +562,9 @@ export default {
  {/* Right Column: Code Block */}
  <div className="lg:col-span-6 flex flex-col h-full rounded-3xl border border-border bg-primary text-muted-foreground p-6 shadow-md overflow-hidden relative">
  {/* Subtle top glare */}
- <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"/>
+ <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent"/>
  
- <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+ <div className="flex items-center justify-between pb-4 border-b border-foreground/10 mb-4">
  <div className="flex items-center gap-2.5">
  <div className="flex space-x-1.5">
  <div className="h-2.5 w-2.5 rounded-full bg-muted"/>
@@ -592,12 +592,12 @@ export default {
  </div>
 
  {/* Code display */}
- <pre className="flex-1 overflow-x-auto scrollbar-none touch-pan-x text-[13px] font-mono leading-relaxed text-muted-foreground bg-foreground/40 p-4 rounded-xl border border-white/5 custom-scrollbar">
+ <pre className="flex-1 overflow-x-auto scrollbar-none touch-pan-x text-[13px] font-mono leading-relaxed text-muted-foreground bg-foreground/40 p-4 rounded-xl border border-foreground/5 custom-scrollbar">
  {generateConfigJson()}
  </pre>
 
  {/* Action Buttons */}
- <div className="mt-5 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+ <div className="mt-5 pt-5 border-t border-foreground/10 flex flex-col sm:flex-row items-center justify-between gap-4">
  <div className="text-[11px] font-mono text-muted-foreground text-center sm:text-left">
  Ready to deploy to your background cron runner or CI/CD pipeline.
  </div>
@@ -690,7 +690,7 @@ export default {
  </section>
 
  {/* Section 4: Enterprise & SLA CTA Banner */}
- <section className="rounded-3xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-md relative overflow-hidden ds-section">
+ <section className="rounded-3xl border border-border bg-primary p-8 sm:p-12 text-primary-foreground shadow-md relative overflow-hidden">
  {/* subtle noise/pattern could go here */}
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-background via-transparent to-transparent opacity-50"/>
  

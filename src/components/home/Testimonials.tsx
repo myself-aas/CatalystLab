@@ -33,12 +33,12 @@ const QUOTES = [
 
 export const Testimonials: React.FC = () => {
   return (
-    <section className="relative overflow-hidden py-16 md:py-24 lg:py-32">
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+    <section className="ds-section relative overflow-hidden">
+      <div className="relative z-10 ds-page-shell">
         <SectionHeader
           eyebrow={
             <>
-              <MessageSquare className="size-3.5 text-[#0066FF]" />
+              <MessageSquare className="size-3.5 text-[var(--accent-framer-blue)]" />
               <span>Field validation</span>
             </>
           }
@@ -54,27 +54,27 @@ export const Testimonials: React.FC = () => {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
               onMouseMove={onSpotlightMouseMove}
-              className="bg-surface border border-white/10 rounded-2xl md:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative group hover:-translate-y-[2px] hover:border-white/25 transition-[transform,border-color] duration-200 ease-out"
+              className="bg-surface border border-foreground/10 rounded-2xl md:rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative group hover:-translate-y-[2px] hover:border-foreground/25 transition-[transform,border-color] duration-200 ease-out"
             >
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl md:rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 style={{ background: 'var(--glow-card-subsurface)' }}
               />
-              <Quote className="absolute right-6 top-6 size-10 text-white/5" />
+              <Quote className="absolute right-6 top-6 size-10 text-foreground/5" />
               <p className="relative framer-body-text mb-8">
                 &ldquo;{quote.body}&rdquo;
               </p>
               
-              <div className="relative mt-auto flex items-center gap-4 border-t border-white/10 pt-5">
+              <div className="relative mt-auto flex items-center gap-4 border-t border-foreground/10 pt-5">
                 <img
                   src={quote.avatar}
                   alt={quote.author}
-                  className="size-12 rounded-full border border-white/10 object-cover"
+                  className="size-12 rounded-full border border-foreground/10 object-cover"
                 />
                 <div>
-                  <p className="text-sm font-semibold tracking-tight text-white flex items-center gap-1.5">
+                  <p className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
                     {quote.author}
-                    <BadgeCheck className="size-4 text-[#0066FF]" />
+                    <BadgeCheck className="size-4 text-[var(--accent-framer-blue)]" />
                   </p>
                   <p className="mt-1 font-mono text-xs text-muted-foreground">
                     {quote.role} · {quote.company}

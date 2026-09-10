@@ -25,18 +25,18 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
     <div className="flex flex-col space-y-6 w-full max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-2">
         <div>
-          <div className="framer-micro-tag text-[#0066FF] mb-1">Global Telemetry</div>
-          <h2 className="framer-card-title text-white">Analytics Overview</h2>
+          <div className="framer-micro-tag text-[var(--accent-framer-blue)] mb-1">Global Telemetry</div>
+          <h2 className="framer-card-title text-foreground">Analytics Overview</h2>
           <p className="framer-body-text text-sm mt-1">Real-time performance and usage metrics across the mesh.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Audits', value: reports?.length || 0, icon: Activity, color: 'text-[#0066FF]', bg: 'bg-[#0066FF]/10' },
+          { label: 'Total Audits', value: reports?.length || 0, icon: Activity, color: 'text-[var(--accent-framer-blue)]', bg: 'bg-[var(--accent-framer-blue)]/10' },
           { label: 'Avg Latency', value: '124ms', icon: Clock, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-          { label: 'Global Reach', value: '12 Regions', icon: Globe, color: 'text-[#00D2FF]', bg: 'bg-[#00D2FF]/10' },
-          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-[#8A2BE2]', bg: 'bg-[#8A2BE2]/10' }
+          { label: 'Global Reach', value: '12 Regions', icon: Globe, color: 'text-[var(--accent-cyan-edge)]', bg: 'bg-[var(--accent-cyan-edge)]/10' },
+          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-[var(--accent-violet-synth)]', bg: 'bg-[var(--accent-violet-synth)]/10' }
         ].map((stat, i) => (
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
@@ -44,10 +44,10 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             viewport={{ once: true }}
             transition={{ delay: i * 0.05 }}
             key={i} 
-            className="ds-card p-5 group hover:border-white/20 transition-all duration-300"
+            className="ds-card p-5 group hover:border-foreground/20 transition-all duration-300"
           >
             <div className="flex items-center justify-between mb-4">
-              <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} border border-white/5`}>
+              <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} border border-foreground/5`}>
                 <stat.icon className="size-5" />
               </div>
               <span className="flex items-center text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
@@ -57,7 +57,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
             </div>
             <div>
               <p className="framer-micro-tag opacity-60">{stat.label}</p>
-              <p className="text-2xl font-bold text-white mt-1 tracking-tight">{stat.value}</p>
+              <p className="text-2xl font-bold text-foreground mt-1 tracking-tight">{stat.value}</p>
             </div>
           </motion.div>
         ))}
@@ -71,10 +71,10 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           className="lg:col-span-2 ds-card p-6"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="framer-card-title text-white">Weekly Traffic</h3>
-            <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-lg font-mono text-[10px]">
+            <h3 className="framer-card-title text-foreground">Weekly Traffic</h3>
+            <div className="flex gap-2 p-1 bg-[var(--bg-surface)] border border-foreground/10 rounded-lg font-mono text-[10px]">
               {['7D', '30D', '90D'].map((t) => (
-                <button key={t} className={`px-2 py-1 rounded ${t === '7D' ? 'bg-white/10 text-white' : 'text-muted-foreground'}`}>
+                <button key={t} className={`px-2 py-1 rounded ${t === '7D' ? 'bg-foreground/10 text-foreground' : 'text-muted-foreground'}`}>
                   {t}
                 </button>
               ))}
@@ -89,24 +89,24 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                     <stop offset="95%" stopColor="#0066FF" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(240, 250, 255, 0.08)" />
                 <XAxis 
                   dataKey="name" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fill: '#666', fontSize: 10, fontFamily: 'monospace'}} 
+                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 10, fontFamily: 'monospace'}} 
                   dy={10} 
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fill: '#666', fontSize: 10, fontFamily: 'monospace'}} 
+                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 10, fontFamily: 'monospace'}} 
                   dx={-10} 
                 />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#0A0A0A', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }}
-                  itemStyle={{ color: '#fff', fontWeight: 'bold', fontSize: '12px' }}
-                  labelStyle={{ color: '#666', marginBottom: '4px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
+                  contentStyle={{ backgroundColor: '#2C3032', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }}
+                  itemStyle={{ color: '#F7FDFF', fontWeight: 'bold', fontSize: '12px' }}
+                  labelStyle={{ color: '#F0FAFF', marginBottom: '4px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
                 />
                 <Area type="monotone" dataKey="value" stroke="#0066FF" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" />
               </AreaChart>
@@ -120,7 +120,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           viewport={{ once: true }}
           className="ds-card p-6"
         >
-          <h3 className="framer-card-title text-white mb-6">Device Distribution</h3>
+          <h3 className="framer-card-title text-foreground mb-6">Device Distribution</h3>
           <div className="h-[300px] w-full flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -143,7 +143,9 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   ))}
                 </Pie>
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }}
+                  contentStyle={{ backgroundColor: '#2C3032', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', color: '#F7FDFF' }}
+                  itemStyle={{ color: '#F7FDFF', fontWeight: 'bold', fontSize: '12px' }}
+                  labelStyle={{ color: '#F0FAFF' }}
                 />
               </PieChart>
             </ResponsiveContainer>

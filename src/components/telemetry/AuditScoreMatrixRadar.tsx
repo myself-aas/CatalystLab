@@ -351,7 +351,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                     <polygon
                       points={ringPoints}
                       fill="none"
-                      stroke="#1E293B"
+                      stroke="#2C3032"
                       strokeWidth={ringValue === 100 ? '1.5' : '1'}
                       strokeDasharray={ringValue === 100 ? undefined : '3 3'}
                     />
@@ -359,7 +359,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                     <text
                       x={cx + 3}
                       y={cy - ringRadius + 9}
-                      fill="#475569"
+                      fill="#F0FAFF"
                       fontSize="9"
                       fontFamily="monospace"
                     >
@@ -381,7 +381,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                     y1={cy}
                     x2={outer.x}
                     y2={outer.y}
-                    stroke={isHovered ? '#06B6D4' : '#334155'}
+                    stroke={isHovered ? '#06B6D4' : '#2C3032'}
                     strokeWidth={isHovered ? '2' : '1'}
                     strokeDasharray="2 2"
                     className="transition-all duration-200"
@@ -444,7 +444,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                       cy={coords.y}
                       r={isHovered ? 7 : 5}
                       fill={dim.color}
-                      stroke="#090D16"
+                      stroke="#1F2223"
                       strokeWidth="2"
                       filter={isHovered ? 'url(#nodeGlow)' : undefined}
                       className="transition-all duration-200"
@@ -455,7 +455,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                       cx={coords.x}
                       cy={coords.y}
                       r="2.5"
-                      fill="#FFFFFF"
+                      fill="#F7FDFF"
                       className="pointer-events-none"
                     />
                   </g>
@@ -485,7 +485,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                       x={x}
                       y={y}
                       textAnchor={textAnchor}
-                      fill={isHovered ? '#38BDF8' : '#CBD5E1'}
+                      fill={isHovered ? '#38BDF8' : '#F0FAFF'}
                       fontSize="11"
                       fontWeight={isHovered ? 'bold' : '600'}
                       fontFamily="system-ui, sans-serif"
@@ -497,7 +497,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                       x={x}
                       y={y + 13}
                       textAnchor={textAnchor}
-                      fill={isHovered ? dim.color : '#94A3B8'}
+                      fill={isHovered ? dim.color : '#F0FAFF'}
                       fontSize="10"
                       fontFamily="monospace"
                       fontWeight="bold"
@@ -509,7 +509,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
               })}
 
               {/* Center Composite Target Icon */}
-              <circle cx={cx} cy={cy} r="18" fill="#111726" stroke="#334155" strokeWidth="1.5" />
+              <circle cx={cx} cy={cy} r="18" fill="#1F2223" stroke="#2C3032" strokeWidth="1.5" />
               <text
                 x={cx}
                 y={cy + 4}

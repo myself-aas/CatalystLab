@@ -48,7 +48,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
       className={twMerge(
         clsx(
           'w-[260px] sm:w-[280px] md:w-[300px] h-[380px] sm:h-[420px] rounded-3xl p-5 sm:p-6 flex flex-col justify-between shrink-0 snap-start cursor-pointer select-none transition-all duration-300 relative overflow-hidden',
-          isActive && 'ring-2 ring-white/40 shadow-[0_25px_50px_-12px_var(--card-glow)]',
+          isActive && 'ring-2 ring-foreground/40 shadow-[0_25px_50px_-12px_var(--card-glow)]',
           className
         )
       )}
@@ -66,19 +66,19 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
       {/* 2. Top Header Scrim Gradient Overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/85 via-black/45 to-transparent pointer-events-none z-[2]"
+        className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background/85 via-background/45 to-transparent pointer-events-none z-[2]"
       />
 
       {/* 3. Bottom Content Scrim Gradient Overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-[2]"
+        className="absolute inset-x-0 bottom-0 h-[80%] bg-gradient-to-t from-background/80 to-transparent pointer-events-none z-[2]"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
       />
 
       {/* 4. Top Header Flag / Category Tag (R3 Flag / Icon row) */}
       <div className="relative z-10 flex items-center justify-between w-full">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-foreground/60 border border-white/25 text-[11px] font-mono font-bold text-primary-foreground backdrop-blur-md shadow-sm">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-foreground/60 border border-foreground/25 text-[11px] font-mono font-bold text-primary-foreground backdrop-blur-md shadow-sm">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
           <span>{category}</span>
         </div>
@@ -100,7 +100,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
           {actionUrl ? (
             <a
               href={actionUrl}
-              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-white/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition-all group/cta shadow-sm"
+              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition-all group/cta shadow-sm"
             >
               <span>{actionLabel}</span>
               <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" />
@@ -108,7 +108,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
           ) : (
             <button
               type="button"
-              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-white/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition-all group/cta shadow-sm"
+              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition-all group/cta shadow-sm"
             >
               <span>{actionLabel}</span>
               <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" />

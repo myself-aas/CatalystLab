@@ -29,7 +29,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
   return (
     <div className="rounded-2xl border border-border bg-background p-6 shadow-xl space-y-6 text-foreground">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/25 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-background/25 pb-5">
         <div>
           <div className="flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/5 text-foreground border border-border">
@@ -157,7 +157,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
 
       {/* Legal Summary Banner */}
       <div className={`rounded-xl p-3.5 border flex items-center gap-3 text-xs ${
-        isHighLiability ? 'bg-rose-50 border-rose-200 text-rose-800' : 'bg-muted border-border text-foreground'
+        isHighLiability ? 'bg-rose-500/10 border-rose-500/20 text-rose-300' : 'bg-muted border-border text-foreground'
       }`}>
         <HeartHandshake className="h-5 w-5 shrink-0 text-foreground" />
         <span>

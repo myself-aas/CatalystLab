@@ -80,7 +80,7 @@ export const ContactPage: React.FC = () => {
  {/* Left Column: Copy & Benchmarks */}
  <div className="flex flex-col gap-8">
  <div>
- <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.04em] text-white leading-[1.1] mb-6">
+ <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.04em] text-foreground leading-[1.1] mb-6">
  Direct line to our engineering team.
  </h1>
  <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed tracking-[-0.01em]">
@@ -90,18 +90,18 @@ export const ContactPage: React.FC = () => {
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
  <div className="flex flex-col gap-2">
- <Clock className="size-5 text-[#0066FF]" />
- <span className="text-2xl font-semibold text-white tracking-[-0.02em]">&lt; 18m</span>
+ <Clock className="size-5 text-[var(--accent-framer-blue)]" />
+ <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">&lt; 18m</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Avg Response</span>
  </div>
  <div className="flex flex-col gap-2">
- <Globe className="size-5 text-[#00D2FF]" />
- <span className="text-2xl font-semibold text-white tracking-[-0.02em]">38</span>
+ <Globe className="size-5 text-[var(--accent-cyan-edge)]" />
+ <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">38</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Edge PoPs</span>
  </div>
  <div className="flex flex-col gap-2">
- <Activity className="size-5 text-[#00F298]" />
- <span className="text-2xl font-semibold text-white tracking-[-0.02em]">99.99%</span>
+ <Activity className="size-5 text-[var(--accent-emerald-vital)]" />
+ <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">99.99%</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">P95 SLA</span>
  </div>
  </div>
@@ -109,7 +109,7 @@ export const ContactPage: React.FC = () => {
 
  {/* Right Column: Floating Glass Form */}
  <div className="relative group">
- <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-[#0066FF]/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
+ <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-[var(--accent-framer-blue)]/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
  
  <div className="relative z-10 ds-card bg-surface/90 backdrop-blur-xl border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
  {submitted ? (
@@ -117,16 +117,16 @@ export const ContactPage: React.FC = () => {
  <div className="size-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
  <Send className="size-8" />
  </div>
- <h3 className="text-2xl font-semibold text-white tracking-[-0.02em]">Transmission Complete</h3>
+ <h3 className="text-2xl font-semibold text-foreground tracking-[-0.02em]">Transmission Complete</h3>
  <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
- Ticket <span className="text-white font-mono">{ticketId}</span> dispatched to the {department} queue. A receipt has been sent to {email}.
+ Ticket <span className="text-foreground font-mono">{ticketId}</span> dispatched to the {department} queue. A receipt has been sent to {email}.
  </p>
  <button 
  onClick={() => {
  setSubmitted(false);
  setMessage('');
  }}
- className="mt-6 px-6 py-2.5 rounded-full bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-colors"
+ className="mt-6 px-6 py-2.5 rounded-full bg-foreground/10 text-foreground text-sm font-medium hover:bg-foreground/20 transition-colors"
  >
  Submit Another Inquiry
  </button>
@@ -155,7 +155,7 @@ export const ContactPage: React.FC = () => {
  value={name} 
  onChange={e => setName(e.target.value)}
  placeholder="Jane Doe"
- className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary"
+ className="ds-input text-foreground bg-surface border-border focus:border-primary focus:ring-primary"
  />
  </div>
  <div className="flex flex-col gap-2">
@@ -166,7 +166,7 @@ export const ContactPage: React.FC = () => {
  value={email} 
  onChange={e => setEmail(e.target.value)}
  placeholder="jane@company.com"
- className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary"
+ className="ds-input text-foreground bg-surface border-border focus:border-primary focus:ring-primary"
  />
  </div>
  </div>
@@ -181,14 +181,14 @@ export const ContactPage: React.FC = () => {
  onClick={() => setDepartment(dep.id)}
  className={`relative px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left overflow-hidden border ${
  department === dep.id 
- ? 'text-[#0066FF] border-[#0066FF]/30' 
- : 'bg-surface text-muted-foreground border-border hover:border-border-strong hover:text-white'
+ ? 'text-[var(--accent-framer-blue)] border-[var(--accent-framer-blue)]/30' 
+ : 'bg-surface text-muted-foreground border-border hover:border-border-strong hover:text-foreground'
  }`}
  >
  {department === dep.id && (
  <motion.div
  layoutId="contact-active-topic"
- className="absolute inset-0 bg-[#0066FF]/10 z-0"
+ className="absolute inset-0 bg-[var(--accent-framer-blue)]/10 z-0"
  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
  />
  )}
@@ -205,7 +205,7 @@ export const ContactPage: React.FC = () => {
  value={targetUrl} 
  onChange={e => setTargetUrl(e.target.value)}
  placeholder="https://example.com"
- className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary"
+ className="ds-input text-foreground bg-surface border-border focus:border-primary focus:ring-primary"
  />
  </div>
 
@@ -217,14 +217,14 @@ export const ContactPage: React.FC = () => {
  value={message} 
  onChange={e => setMessage(e.target.value)}
  placeholder="How can we help?"
- className="ds-input text-white bg-surface border-border focus:border-primary focus:ring-primary resize-none"
+ className="ds-input text-foreground bg-surface border-border focus:border-primary focus:ring-primary resize-none"
  />
  </div>
 
  <button 
  type="submit" 
  disabled={isSubmitting}
- className="ds-btn w-full bg-white text-black hover:bg-neutral-200 font-semibold shadow-lg shadow-white/5 active:scale-[0.98] mt-2"
+ className="ds-btn w-full bg-foreground text-background hover:bg-neutral-200 font-semibold shadow-lg shadow-foreground/5 active:scale-[0.98] mt-2"
  >
  {isSubmitting ? (
  <>

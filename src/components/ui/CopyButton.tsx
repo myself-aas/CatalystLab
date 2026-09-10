@@ -57,21 +57,21 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   }, [copied]);
 
   const baseStyles =
-    'relative inline-flex items-center justify-center font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0066FF]/50 cursor-pointer';
+    'relative inline-flex items-center justify-center font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-framer-blue)]/50 cursor-pointer';
 
   const variantStyles = {
     default:
-      'px-3 py-1.5 rounded-lg text-xs bg-white/10 hover:bg-white/20 text-white border border-white/10 hover:border-white/20',
+      'px-3 py-1.5 rounded-lg text-xs bg-foreground/10 hover:bg-foreground/20 text-foreground border border-foreground/10 hover:border-foreground/20',
     terminal:
-      'px-3 py-1.5 rounded-md text-xs font-mono bg-white/10 hover:bg-white/15 text-white/90 border border-white/10 shadow-sm',
+      'px-3 py-1.5 rounded-md text-xs font-mono bg-foreground/10 hover:bg-foreground/15 text-foreground/90 border border-foreground/10 shadow-sm',
     icon:
-      'p-1.5 rounded-md text-xs text-muted-foreground hover:text-white hover:bg-white/10',
+      'p-1.5 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-foreground/10',
     ghost:
-      'p-1.5 rounded-md text-xs text-muted-foreground hover:text-white hover:bg-white/10',
+      'p-1.5 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-foreground/10',
     pill:
-      'px-3.5 py-1.5 rounded-full text-xs bg-white/10 hover:bg-white/20 text-white border border-white/12',
+      'px-3.5 py-1.5 rounded-full text-xs bg-foreground/10 hover:bg-foreground/20 text-foreground border border-foreground/12',
     minimal:
-      'p-1 text-xs text-muted-foreground hover:text-white transition-colors',
+      'p-1 text-xs text-muted-foreground hover:text-foreground transition-colors',
   };
 
   return (
@@ -108,7 +108,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
             transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center gap-1.5"
           >
-            <Copy className="size-3.5 shrink-0 text-white/70" />
+            <Copy className="size-3.5 shrink-0 text-foreground/70" />
             {label && <span>{label}</span>}
           </motion.span>
         )}

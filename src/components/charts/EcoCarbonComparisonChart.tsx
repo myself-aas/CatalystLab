@@ -28,9 +28,9 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
   const cleanTargetPerVisit = 0.20; // High efficiency target
 
   return (
-    <div className="rounded-2xl border border-black/30 bg-background p-6 shadow-xl space-y-6 text-foreground">
+    <div className="rounded-2xl border border-background/30 bg-background p-6 shadow-xl space-y-6 text-foreground">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/25 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-background/25 pb-5">
         <div>
           <div className="flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-600 border border-emerald-500/30">
@@ -62,10 +62,10 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
         
         <div className="space-y-3">
           {/* Target Site */}
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-50 p-3.5">
+          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3.5">
             <div className="flex items-center justify-between text-xs mb-1.5">
-              <span className="font-bold text-emerald-800">This Target Page (Estimated ~{pageWeightMb} MB payload)</span>
-              <span className="font-mono font-bold text-emerald-600">{emissionsPerVisitGrams.toFixed(4)} g CO2e</span>
+              <span className="font-bold text-emerald-400">This Target Page (Estimated ~{pageWeightMb} MB payload)</span>
+              <span className="font-mono font-bold text-emerald-400">{emissionsPerVisitGrams.toFixed(4)} g CO2e</span>
             </div>
             <div className="h-2.5 w-full rounded-full bg-accent overflow-hidden border border-emerald-500/20">
               <div
@@ -76,12 +76,12 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
           </div>
 
           {/* Clean Target */}
-          <div className="rounded-xl border border-black/30 bg-muted p-3.5">
+          <div className="rounded-xl border border-background/30 bg-muted p-3.5">
             <div className="flex items-center justify-between text-xs mb-1.5">
               <span className="text-foreground">Sustainable Web Green Target</span>
               <span className="font-mono text-muted-foreground">{cleanTargetPerVisit.toFixed(2)} g CO2e</span>
             </div>
-            <div className="h-2.5 w-full rounded-full bg-accent overflow-hidden border border-black/30">
+            <div className="h-2.5 w-full rounded-full bg-accent overflow-hidden border border-background/30">
               <div
                 className="h-full bg-primary rounded-full"
                 style={{ width: `${(cleanTargetPerVisit / 1.5) * 100}%` }}
@@ -90,12 +90,12 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
           </div>
 
           {/* Global Average */}
-          <div className="rounded-xl border border-black/30 bg-muted p-3.5">
+          <div className="rounded-xl border border-background/30 bg-muted p-3.5">
             <div className="flex items-center justify-between text-xs mb-1.5">
               <span className="text-muted-foreground">Global Average Web Page (2.2 MB median)</span>
               <span className="font-mono text-muted-foreground/70">{globalAvgPerVisit.toFixed(2)} g CO2e</span>
             </div>
-            <div className="h-2.5 w-full rounded-full bg-accent overflow-hidden border border-black/30">
+            <div className="h-2.5 w-full rounded-full bg-accent overflow-hidden border border-background/30">
               <div
                 className="h-full bg-muted0/60 rounded-full"
                 style={{ width: `${(globalAvgPerVisit / 1.5) * 100}%` }}
@@ -106,7 +106,7 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
       </div>
 
       {/* Interactive Traffic Projection Slider */}
-      <div className="rounded-xl border border-black/30 bg-muted p-5 space-y-4">
+      <div className="rounded-xl border border-background/30 bg-muted p-5 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <div className="text-xs font-bold text-foreground">Interactive Monthly Traffic Scale</div>
@@ -128,17 +128,17 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-          <div className="rounded-lg bg-background p-3 border border-black/30 shadow-sm">
+          <div className="rounded-lg bg-background p-3 border border-background/30 shadow-sm">
             <div className="text-[10px] text-muted-foreground uppercase font-mono">Monthly Footprint</div>
             <div className="text-base font-black text-emerald-600 font-mono mt-0.5">{calculatedMonthlyKg} kg CO2e</div>
           </div>
 
-          <div className="rounded-lg bg-background p-3 border border-black/30 shadow-sm">
+          <div className="rounded-lg bg-background p-3 border border-background/30 shadow-sm">
             <div className="text-[10px] text-muted-foreground uppercase font-mono">Annual Extrapolation</div>
             <div className="text-base font-black text-foreground font-mono mt-0.5">{calculatedYearlyKg} kg CO2e/yr</div>
           </div>
 
-          <div className="rounded-lg bg-background p-3 border border-black/30 shadow-sm">
+          <div className="rounded-lg bg-background p-3 border border-background/30 shadow-sm">
             <div className="text-[10px] text-muted-foreground uppercase font-mono">Offset Equivalence</div>
             <div className="text-base font-black text-foreground font-mono mt-0.5">{calculatedTrees} Mature Trees</div>
           </div>

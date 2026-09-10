@@ -463,7 +463,7 @@ func main() {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[#0066FF] selection:text-white">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[var(--accent-framer-blue)] selection:text-foreground">
  <SEOHead
  title="Live REST API Playground — CatalystLab"
  description="Interactive REST test harness for single diagnostic engines and composite master audits."
@@ -472,27 +472,27 @@ func main() {
  />
  
  {/* Top Header Hero */}
- <section className="relative overflow-hidden border-b border-border bg-card pt-8 w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
+ <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
- <div className="absolute inset-0 bg-[linear-gradient(to_right,#cbd5e125_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e125_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
+ <div className="absolute inset-0 bg-[linear-gradient(to_right,#F0FAFF25_1px,transparent_1px),linear-gradient(to_bottom,#F0FAFF25_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 
- <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="relative z-10 ds-page-shell">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  
  <div className="flex items-center gap-4">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-border text-[#00D2FF] shadow-xs backdrop-blur-md shrink-0">
- <Terminal className="h-6 w-6 text-[#0066FF]"/>
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border text-[var(--accent-cyan-edge)] shadow-xs backdrop-blur-md shrink-0">
+ <Terminal className="h-6 w-6 text-[var(--accent-framer-blue)]"/>
  </div>
  <div>
  <div className="flex flex-wrap items-center gap-2.5">
  <h1 className="framer-section-headline text-2xl sm:text-3xl text-foreground font-semibold">
  Engine Test{' '}
- <span className="text-[#0066FF]">
+ <span className="text-[var(--accent-framer-blue)]">
  Playground
  </span>
  </h1>
- <span className="rounded-full bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-[#00D2FF]">
+ <span className="rounded-full bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-[var(--accent-cyan-edge)]">
  {endpointPath}
  </span>
  </div>
@@ -516,7 +516,7 @@ func main() {
  to="/api-docs"
  className="ds-btn ds-btn-secondary text-xs"
  >
- <FileJson className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>
+ <FileJson className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
  <span>OpenAPI Docs</span>
  </Link>
  </div>
@@ -526,7 +526,7 @@ func main() {
  </section>
 
  {/* Main Container */}
- <div className="ds-page-shell mt-5 space-y-5 ds-section">
+ <div className="ds-page-shell space-y-5 ds-section">
 
  {/* Rate Limit Alert Component */}
  <RateLimitThresholdAlert 
@@ -611,7 +611,7 @@ func main() {
  <span className="rounded bg-primary px-2.5 py-0.5 text-[10px] text-primary-foreground">POST</span>
  <span>{endpointPath}</span>
  </div>
- <span className="text-[10px] font-bold text-amber-500 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded">
+ <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
  Cost: {activeEngine.cost} Unit
  </span>
  </div>
@@ -751,7 +751,7 @@ func main() {
  rows={8}
  value={rawJsonPayload}
  onChange={(e) => setRawJsonPayload(e.target.value)}
- className="ds-card w-full p-3 text-xs font-mono focus:outline-none focus:border-[#0066FF]"
+ className="ds-card w-full p-3 text-xs font-mono focus:outline-none focus:border-[var(--accent-framer-blue)]"
  placeholder="{\n &quot;engine&quot;: &quot;health&quot;,\n &quot;url&quot;: &quot;https://example.com&quot;\n}"
  />
  </div>
@@ -768,14 +768,14 @@ func main() {
  <button
  type="button"
  onClick={() => setAuthMode('session')}
- className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'session' ? 'bg-white/15 text-white font-bold' : 'text-muted-foreground hover:text-white'}`}
+ className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'session' ? 'bg-foreground/15 text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}`}
  >
  Session
  </button>
  <button
  type="button"
  onClick={() => setAuthMode('apiKey')}
- className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'apiKey' ? 'bg-white/15 text-white font-bold' : 'text-muted-foreground hover:text-white'}`}
+ className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'apiKey' ? 'bg-foreground/15 text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}`}
  >
  API Key
  </button>
@@ -870,7 +870,7 @@ func main() {
  >
  <div className="flex items-center gap-1.5 overflow-hidden">
  <span className={`text-[10px] font-mono font-bold py-0.5 rounded ${
- item.status === 200 ? 'bg-emerald-50 text-emerald-500 border border-emerald-200' : 'bg-rose-50 text-rose-600 border border-rose-200'
+ item.status === 200 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
  }`}>
  {item.status}
  </span>
@@ -908,10 +908,10 @@ func main() {
  <div className="flex items-center gap-1.5 ml-2">
  <span className={`rounded px-2.5 py-0.5 text-[10px] font-bold ${
  responseStatus === 200 
- ? 'bg-emerald-50 text-emerald-500 border border-emerald-200'
+ ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
  : responseStatus === 429
- ? 'bg-rose-50 text-rose-600 border border-rose-200'
- : 'bg-amber-50 text-amber-500 border border-amber-200'
+ ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+ : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
  }`}>
  {responseStatus} {responseStatusText}
  </span>
@@ -1003,9 +1003,9 @@ func main() {
 
  {/* Rate Limit Remaining Callout in Output */}
  {responsePayload?.rateLimit && (
- <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs text-emerald-800 flex items-center justify-between">
+ <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3 text-xs text-emerald-400 flex items-center justify-between">
  <div className="flex items-center gap-1.5">
- <Zap className="h-3.5 w-3.5 text-emerald-500"/>
+ <Zap className="h-3.5 w-3.5 text-emerald-400"/>
  <span>
  Daily Units Remaining: <strong>{responsePayload.rateLimit.remaining} / {responsePayload.rateLimit.limit}</strong>
  </span>

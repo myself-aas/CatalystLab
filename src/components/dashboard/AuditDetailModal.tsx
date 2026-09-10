@@ -123,7 +123,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer"
+            className="fixed inset-0 bg-background/80 backdrop-blur-md cursor-pointer"
             onClick={onClose}
           />
 
@@ -138,15 +138,15 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header with Subsurface Ambient Light */}
-            <div className="relative px-6 py-5 border-b border-border/60 bg-gradient-to-r from-white/[0.03] via-transparent to-blue-500/[0.04] shrink-0">
+            <div className="relative px-6 py-5 border-b border-border/60 bg-gradient-to-r from-foreground/[0.03] via-transparent to-blue-500/[0.04] shrink-0">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="size-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[#0066FF] shrink-0">
+                  <div className="size-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[var(--accent-framer-blue)] shrink-0">
                     <Activity className="size-5" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="framer-micro-tag text-[#00D2FF]">
+                      <span className="framer-micro-tag text-[var(--accent-cyan-edge)]">
                         {report.engine || 'Master Audit Engine'}
                       </span>
                       <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -166,7 +166,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                 <button
                   id="audit-detail-close-btn"
                   onClick={onClose}
-                  className="size-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors border border-transparent hover:border-white/10 cursor-pointer shrink-0"
+                  className="size-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors border border-transparent hover:border-foreground/10 cursor-pointer shrink-0"
                   aria-label="Close Audit Detail Modal"
                 >
                   <X className="size-4" />
@@ -180,12 +180,12 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               variants={contentStaggerVariants}
               initial="hidden"
               animate="visible"
-              className="p-6 space-y-5 overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full"
+              className="p-6 space-y-5 overflow-y-auto flex-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-foreground/10 [&::-webkit-scrollbar-thumb]:rounded-full"
             >
               {/* CONTENT ELEMENT 1: Target URL & Metadata Bar */}
               <motion.div 
                 variants={contentItemVariants}
-                className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-white/[0.02] border border-border/50 text-xs font-mono"
+                className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-foreground/[0.02] border border-border/50 text-xs font-mono"
               >
                 <div className="flex items-center gap-2 truncate max-w-full">
                   <Globe className="size-3.5 text-muted-foreground shrink-0" />
@@ -194,7 +194,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                     href={report.url.startsWith('http') ? report.url : `https://${report.url}`}
                     target="_blank" 
                     rel="noreferrer"
-                    className="text-foreground hover:text-[#00D2FF] underline underline-offset-2 truncate"
+                    className="text-foreground hover:text-[var(--accent-cyan-edge)] underline underline-offset-2 truncate"
                   >
                     {report.url}
                   </a>
@@ -208,7 +208,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               {/* CONTENT ELEMENT 2: Primary Overall Score Card */}
               <motion.div 
                 variants={contentItemVariants}
-                className="ds-card p-5 relative overflow-hidden bg-gradient-to-b from-white/[0.02] to-transparent border border-border"
+                className="ds-card p-5 relative overflow-hidden bg-gradient-to-b from-foreground/[0.02] to-transparent border border-border"
               >
                 <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 size-32 bg-blue-500/5 rounded-full blur-2xl pointer-events-none" />
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -244,7 +244,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                 variants={contentItemVariants}
                 className="grid grid-cols-2 sm:grid-cols-4 gap-3"
               >
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-border/60">
+                <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
                     <Zap className="size-3.5 text-amber-400" />
                     <span className="framer-micro-tag text-[10px]">Latency / TTFB</span>
@@ -255,7 +255,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                   <span className="text-[10px] text-emerald-400 font-mono">99.9th percentile</span>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-border/60">
+                <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
                     <ShieldCheck className="size-3.5 text-emerald-400" />
                     <span className="framer-micro-tag text-[10px]">Security / RFC</span>
@@ -264,18 +264,18 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                   <span className="text-[10px] text-muted-foreground font-mono">HSTS & CSP Active</span>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-border/60">
+                <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <Layers className="size-3.5 text-[#0066FF]" />
+                    <Layers className="size-3.5 text-[var(--accent-framer-blue)]" />
                     <span className="framer-micro-tag text-[10px]">Edge Cache</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">HIT (98.4%)</div>
                   <span className="text-[10px] text-cyan-400 font-mono">Global CDN Warm</span>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white/[0.02] border border-border/60">
+                <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <Activity className="size-3.5 text-[#00D2FF]" />
+                    <Activity className="size-3.5 text-[var(--accent-cyan-edge)]" />
                     <span className="framer-micro-tag text-[10px]">Engine Status</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">Stable</div>
@@ -299,7 +299,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                     Phase 04 Verified
                   </motion.div>
                 </div>
-                <div className="p-4 rounded-xl bg-white/[0.02] border border-border/60 text-sm text-muted-foreground leading-relaxed">
+                <div className="p-4 rounded-xl bg-foreground/[0.02] border border-border/60 text-sm text-muted-foreground leading-relaxed">
                   <p>
                     {report.summary || 
                       `Comprehensive deep-probe scan executed across global edge telemetry nodes. Verified HTTP/3 transport handshakes, TLS 1.3 cryptographic suites, sub-millisecond DNS resolution, and strict CSP sandbox boundary enforcement. No architectural regression or critical latency spikes observed.`
@@ -315,12 +315,12 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Terminal className="size-3.5 text-[#00D2FF]" />
-                    <h3 className="framer-micro-tag text-[#00D2FF]">Raw Telemetry Findings & Output</h3>
+                    <Terminal className="size-3.5 text-[var(--accent-cyan-edge)]" />
+                    <h3 className="framer-micro-tag text-[var(--accent-cyan-edge)]">Raw Telemetry Findings & Output</h3>
                   </div>
                   <button
                     onClick={handleCopyTelemetry}
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono bg-white/5 hover:bg-white/10 text-muted-foreground hover:text-foreground border border-white/10 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono bg-[var(--bg-surface)] hover:bg-foreground/10 text-muted-foreground hover:text-foreground border border-foreground/10 transition-colors cursor-pointer"
                   >
                     {copied ? (
                       <>
@@ -336,7 +336,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                   </button>
                 </div>
                 
-                <div className="p-4 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-muted-foreground/90 overflow-x-auto max-h-40 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-white/10">
+                <div className="p-4 rounded-xl bg-background/40 border border-foreground/10 font-mono text-xs text-muted-foreground/90 overflow-x-auto max-h-40 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-foreground/10">
                   <pre className="whitespace-pre-wrap font-mono leading-relaxed">
                     {report.output || `[200 OK] TLS 1.3 negotiated via cipher ECDHE-ECDSA-AES128-GCM-SHA256
 [DNS] 1.8ms resolver query to Edge ANYCAST gateway

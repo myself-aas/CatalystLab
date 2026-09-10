@@ -156,7 +156,7 @@ export const ReportPermalinkPage: React.FC = () => {
  className="ds-btn ds-btn-secondary text-xs"
  title="Copy Share Link"
  >
- {copied ? <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0"/> : <Share2 className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>}
+ {copied ? <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0"/> : <Share2 className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>}
  <span>{copied ? 'Copied' : 'Share'}</span>
  </button>
 
@@ -190,7 +190,7 @@ export const ReportPermalinkPage: React.FC = () => {
  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
  <div>
  <div className="flex items-center gap-2 mb-2 flex-wrap">
- <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-blue-500/20 bg-blue-500/10 text-[#0066FF]">
+ <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded border border-blue-500/20 bg-blue-500/10 text-[var(--accent-framer-blue)]">
  {meta.name}
  </span>
  <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
@@ -224,7 +224,7 @@ export const ReportPermalinkPage: React.FC = () => {
  to={`/master-audit?url=${encodeURIComponent(report.url)}`}
  className="ds-btn ds-btn-secondary text-xs"
  >
- <RotateCw className="h-3 w-3 text-[#0066FF] shrink-0"/>
+ <RotateCw className="h-3 w-3 text-[var(--accent-framer-blue)] shrink-0"/>
  <span>Re-run Audit</span>
  </Link>
  </div>

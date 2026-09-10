@@ -164,7 +164,7 @@ export default function HeroSection6() {
       <div className="absolute inset-0 z-0 bg-[radial-gradient(125%_125%_at_50%_10%,var(--app-background)_40%,var(--app-primary)_100%)] opacity-90" />
 
       {/* Navbar */}
-      <nav className="w-full flex justify-between items-center py-4 px-4 sm:px-6 border-b border-white/10 relative z-10">
+      <nav className="w-full flex justify-between items-center py-4 px-4 sm:px-6 border-b border-foreground/10 relative z-10">
         <div className="flex items-center gap-2 font-bold text-base tracking-tight">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600 text-primary-foreground font-mono text-xs">
             CL

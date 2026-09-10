@@ -32,8 +32,8 @@ export const LegalPage: React.FC = () => {
  canonicalUrl={`https://www.catalystlab.tech${path}`}
  />
  <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
- <div className="ds-page-shell space-y-2 ds-section">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 framer-micro-tag text-muted-foreground">
+ <div className="ds-page-shell space-y-2">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-2.5 py-1 framer-micro-tag text-muted-foreground">
  <ShieldCheck className="h-3.5 w-3.5 shrink-0"/>
  <span>Compliance &amp; Legal Standards</span>
  </div>
@@ -46,14 +46,14 @@ export const LegalPage: React.FC = () => {
  <div className="ds-card space-y-4 p-6 sm:p-8">
  <p className="framer-body-text text-foreground">{content}</p>
  <ul className="grid gap-2 sm:grid-cols-2 text-sm font-mono">
- <li><Link to="/privacy" className="text-[#0066FF] hover:underline">Privacy Policy</Link></li>
- <li><Link to="/terms" className="text-[#0066FF] hover:underline">Terms of Service</Link></li>
- <li><Link to="/cookies" className="text-[#0066FF] hover:underline">Cookie Preferences</Link></li>
- <li><Link to="/security" className="text-[#0066FF] hover:underline">Security Disclosure</Link></li>
+ <li><Link to="/privacy" className="text-[var(--accent-framer-blue)] hover:underline">Privacy Policy</Link></li>
+ <li><Link to="/terms" className="text-[var(--accent-framer-blue)] hover:underline">Terms of Service</Link></li>
+ <li><Link to="/cookies" className="text-[var(--accent-framer-blue)] hover:underline">Cookie Preferences</Link></li>
+ <li><Link to="/security" className="text-[var(--accent-framer-blue)] hover:underline">Security Disclosure</Link></li>
  </ul>
  <p className="framer-body-text text-xs text-muted-foreground pt-4 border-t border-border">
  For questions or requests regarding data retention or legal compliance, please refer to our{' '}
- <Link to="/contact" className="font-semibold text-foreground underline hover:text-[#0066FF]">Contact Support</Link> portal.
+ <Link to="/contact" className="font-semibold text-foreground underline hover:text-[var(--accent-framer-blue)]">Contact Support</Link> portal.
  </p>
  </div>
  </main>

@@ -51,7 +51,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`group/logo flex items-center gap-2.5 select-none ${className}`}>
       {/* Engineered Terminal / Catalyst Logo Mark with Ambient Glow & High Contrast */}
       <div 
-        className={`relative flex ${current.box} items-center justify-center bg-white dark:bg-background border border-border-default shadow-[0_1px_3px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,1)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] group-hover/logo:border-accent/60 group-hover/logo:shadow-[0_0_14px_rgba(94,106,210,0.35)] shrink-0 transition-all duration-300 active:scale-95`}
+        className={`relative flex ${current.box} items-center justify-center bg-foreground dark:bg-background border border-border-default shadow-[0_1px_3px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,1)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] group-hover/logo:border-accent/60 group-hover/logo:shadow-[0_0_14px_rgba(94,106,210,0.35)] shrink-0 transition-all duration-300 active:scale-95`}
         aria-hidden="true"
       >
         <Terminal className={`${current.icon} text-indigo-600 dark:text-indigo-400 group-hover/logo:text-accent-bright transition-all duration-300 group-hover/logo:scale-110`} />
@@ -66,7 +66,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded-full bg-indigo-50 dark:bg-accent/15 font-mono font-semibold text-indigo-700 dark:text-accent-bright border border-indigo-200 dark:border-accent/30 uppercase tracking-wider ${current.badge}`}>
+        <span className={`rounded-full bg-[#0066FF]/10 font-mono font-semibold text-[#0066FF] border border-[#0066FF]/20 uppercase tracking-wider ${current.badge}`}>
           {badgeText}
         </span>
       )}

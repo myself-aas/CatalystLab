@@ -41,7 +41,7 @@ const SPECS = [
 
 export const ArchitectureComparator: React.FC = () => {
   return (
-    <section className="py-16 md:py-24 bg-primary border-t border-white/6 relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-primary border-t border-foreground/6 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         
         {/* Section Header */}
@@ -67,7 +67,7 @@ export const ArchitectureComparator: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative overflow-hidden p-6 rounded-2xl bg-foreground/70 border border-white/8 hover:bg-primary/60 hover:border-white/20 transition-all duration-300 flex flex-col justify-between min-h-[260px] backdrop-blur-xl shadow-lg"
+              className="group relative overflow-hidden p-6 rounded-2xl bg-foreground/70 border border-foreground/8 hover:bg-primary/60 hover:border-foreground/20 transition-all duration-300 flex flex-col justify-between min-h-[260px] backdrop-blur-xl shadow-lg"
             >
               {/* Top Bar: Name & Live Status Ping */}
               <div className="flex items-start justify-between relative z-10">
@@ -103,7 +103,7 @@ export const ArchitectureComparator: React.FC = () => {
                   <span className="text-4xl font-semibold text-primary-foreground font-mono tracking-tight">{spec.value}</span>
                   <span className="text-sm text-muted-foreground font-mono font-medium">{spec.unit}</span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed border-t border-white/6 pt-3.5">
+                <p className="text-xs text-muted-foreground leading-relaxed border-t border-foreground/6 pt-3.5">
                   {spec.why}
                 </p>
               </div>

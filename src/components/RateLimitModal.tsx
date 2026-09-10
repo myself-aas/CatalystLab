@@ -106,7 +106,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
           {/* Free Tier */}
           <div className={`rounded-xl border p-3 transition-colors ${
             status.tier === 'free' 
-              ? 'border-black bg-accent shadow-sm' 
+              ? 'border-background bg-accent shadow-sm' 
               : 'border-border bg-muted'
           }`}>
             <div className="flex items-center justify-between">
@@ -114,7 +114,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <UserIcon className="h-4 w-4 text-foreground" />
                 <span className="text-xs font-bold text-foreground">1. Community (Free)</span>
               </div>
-              <span className="rounded-md bg-background border border-black/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
+              <span className="rounded-md bg-background border border-background/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
                 {FREE_DAILY_LIMIT} Units / Day
               </span>
             </div>
@@ -126,7 +126,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
           {/* Starter ($9) / Pro ($19) Tier with 7-day trial trigger */}
           <div className={`rounded-xl border p-3 transition-colors ${
             status.tier === 'pro' || status.tier === 'starter'
-              ? 'border-black bg-accent shadow-sm' 
+              ? 'border-background bg-accent shadow-sm' 
               : 'border-border bg-muted'
           }`}>
             <div className="flex items-center justify-between">
@@ -134,7 +134,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <Zap className="h-4 w-4 text-foreground" />
                 <span className="text-xs font-bold text-foreground">2. Starter ($9) &amp; Pro ($19)</span>
               </div>
-              <span className="rounded-md bg-primary/15 border border-black/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
+              <span className="rounded-md bg-primary/15 border border-background/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
                 150 - 500 Units / Day
               </span>
             </div>
@@ -146,7 +146,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
           {/* Team ($49) & Enterprise ($99) */}
           <div className={`rounded-xl border p-3 transition-colors ${
             status.tier === 'team' || status.tier === 'enterprise' || status.tier === 'superadmin'
-              ? 'border-black bg-accent shadow-sm' 
+              ? 'border-background bg-accent shadow-sm' 
               : 'border-border bg-muted'
           }`}>
             <div className="flex items-center justify-between">
@@ -154,7 +154,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <Crown className="h-4 w-4 text-foreground" />
                 <span className="text-xs font-bold text-foreground">3. Team ($49) &amp; Enterprise ($99)</span>
               </div>
-              <span className="rounded-md bg-primary/15 border border-black/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
+              <span className="rounded-md bg-primary/15 border border-background/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
                 1,500 - 5,000 Units / Day
               </span>
             </div>

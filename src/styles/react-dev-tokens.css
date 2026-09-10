@@ -66,24 +66,24 @@ html.dark, [data-theme="dark"], .theme-dark {
   --react-cyan-subtle: rgba(88, 196, 220, 0.12);
 
   /* Wash & Canvas Substrates */
-  --react-wash: #16181d;
-  --react-card: #23272f;
-  --react-card-hover: #2b303b;
-  --react-border: #343a46;
-  --react-border-subtle: #282c34;
-  --react-border-strong: #404756;
+  --react-wash: #1F2223;
+  --react-card: #2C3032;
+  --react-card-hover: #2C2F32;
+  --react-border: rgba(240, 250, 255, 0.14);
+  --react-border-subtle: rgba(240, 250, 255, 0.08);
+  --react-border-strong: rgba(240, 250, 255, 0.24);
 
   /* Typography */
-  --react-text-primary: #f6f7f9;
-  --react-text-secondary: #99a1b3;
-  --react-text-tertiary: #657189;
-  --react-link: #149eca;
-  --react-link-hover: #58c4dc;
+  --react-text-primary: #F7FDFF;
+  --react-text-secondary: #F0FAFF;
+  --react-text-tertiary: rgba(240, 250, 255, 0.65);
+  --react-link: #F0FAFF;
+  --react-link-hover: #F7FDFF;
 
   /* Callout Semantic Surfaces (Dark Mode) */
-  --callout-note-bg: rgba(20, 158, 202, 0.10);
-  --callout-note-border: #58c4dc;
-  --callout-note-text: #58c4dc;
+  --callout-note-bg: rgba(240, 250, 255, 0.08);
+  --callout-note-border: #F7FDFF;
+  --callout-note-text: #F7FDFF;
   
   --callout-pitfall-bg: rgba(239, 68, 68, 0.12);
   --callout-pitfall-border: #f87171;
@@ -102,11 +102,11 @@ html.dark, [data-theme="dark"], .theme-dark {
   --callout-challenge-text: #a7f3d0;
 
   /* Code Blocks */
-  --react-code-bg: #16181d;
-  --react-code-header-bg: #23272f;
-  --react-code-border: #343a46;
-  --react-code-text: #f6f7f9;
-  --react-code-line-highlight: rgba(88, 196, 220, 0.18);
+  --react-code-bg: #1F2223;
+  --react-code-header-bg: #2C2F32;
+  --react-code-border: rgba(240, 250, 255, 0.14);
+  --react-code-text: #F7FDFF;
+  --react-code-line-highlight: rgba(240, 250, 255, 0.10);
 }
 
 /* React.dev Callout Utilities */
@@ -169,7 +169,7 @@ html.dark, [data-theme="dark"], .theme-dark {
 /* React Button Utilities */
 .react-btn-primary {
   background-color: var(--react-cyan);
-  color: #ffffff;
+  color: #F7FDFF;
   border-radius: 9999px;
   padding: 0.625rem 1.25rem;
   font-weight: 600;

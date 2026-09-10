@@ -187,7 +187,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             value={imageUrl || ''}
             onChange={(e) => onUrlChange(e.target.value)}
             placeholder="Paste image URL (e.g. https://images.pexels.com/...)"
-            className="w-full rounded-xl border border-border bg-background pl-3.5 pr-20 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-black focus:outline-none font-mono"
+            className="w-full rounded-xl border border-border bg-background pl-3.5 pr-20 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-background focus:outline-none font-mono"
           />
           <div className="absolute right-1.5 flex items-center gap-1">
             <button
@@ -263,7 +263,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <select
             value={aspectRatio}
             onChange={(e) => setAspectRatio(e.target.value as any)}
-            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus:border-black focus:outline-none"
+            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus:border-background focus:outline-none"
           >
             <option value="16/9">16:9 Standard</option>
             <option value="21/9">21:9 Cinema</option>
@@ -274,7 +274,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <select
             value={overlayDarkness}
             onChange={(e) => setOverlayDarkness(e.target.value as any)}
-            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus:border-black focus:outline-none"
+            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus:border-background focus:outline-none"
           >
             <option value="none">No Overlay</option>
             <option value="subtle">Subtle Darken</option>
@@ -324,7 +324,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
 
               {/* Optional Contrast Dark Overlay */}
               {overlayDarkness === 'subtle' && (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent pointer-events-none" />
               )}
               {overlayDarkness === 'strong' && (
                 <div className="absolute inset-0 bg-foreground/60 pointer-events-none" />
@@ -339,7 +339,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                     <span className="rounded-md bg-cyan-950/90 text-amber-600 border border-cyan-400/40 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
                       {category}
                     </span>
-                    <span className="rounded-md bg-primary/70 text-foreground px-2 py-0.5 text-[10px] font-mono font-semibold backdrop-blur-md flex items-center gap-1 border border-white/10">
+                    <span className="rounded-md bg-primary/70 text-foreground px-2 py-0.5 text-[10px] font-mono font-semibold backdrop-blur-md flex items-center gap-1 border border-foreground/10">
                       <Clock className="h-2.5 w-2.5 text-amber-600" />
                       <span>{readTime}</span>
                     </span>
@@ -377,7 +377,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
 
               {/* C. Social Snippet Context */}
               {previewContext === 'social' && (
-                <div className="absolute bottom-2 left-2 right-2 p-2 rounded-lg bg-primary/80 border border-white/20 text-center text-[10px] text-muted-foreground font-mono backdrop-blur-md pointer-events-none">
+                <div className="absolute bottom-2 left-2 right-2 p-2 rounded-lg bg-primary/80 border border-foreground/20 text-center text-[10px] text-muted-foreground font-mono backdrop-blur-md pointer-events-none">
                   <span className="text-foreground font-bold truncate block">
                     {title || 'Article Title'} | CatalystLab
                   </span>
@@ -484,12 +484,12 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 className="w-full h-full object-cover"
                 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 sm:p-10 flex flex-col justify-between">
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent p-6 sm:p-10 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <span className="rounded-lg bg-primary text-primary-foreground px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider">
                     {category}
                   </span>
-                  <span className="rounded-lg bg-primary/70 border border-white/20 px-3 py-1 text-xs font-mono text-foreground flex items-center gap-1.5 backdrop-blur-md">
+                  <span className="rounded-lg bg-primary/70 border border-foreground/20 px-3 py-1 text-xs font-mono text-foreground flex items-center gap-1.5 backdrop-blur-md">
                     <Clock className="h-3.5 w-3.5 text-amber-600" />
                     <span>{readTime}</span>
                   </span>

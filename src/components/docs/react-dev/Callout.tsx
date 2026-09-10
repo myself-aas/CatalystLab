@@ -66,7 +66,7 @@ export const DeepDive: React.FC<DeepDiveProps> = ({ title, children, className, 
         </div>
         <div className="flex items-center gap-3">
           {badge && (
-            <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-[var(--callout-deepdive-text)] text-white opacity-80">
+            <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-[var(--callout-deepdive-text)] text-foreground opacity-80">
               {badge}
             </span>
           )}
@@ -93,7 +93,7 @@ export const Wip: React.FC<WipProps> = ({ title, children, className, version, i
           {title || 'Under Construction'}
         </strong>
         {version && (
-          <span className="ml-2 px-2 py-0.5 text-xs font-mono rounded bg-[var(--callout-wip-text)] text-white opacity-80">
+          <span className="ml-2 px-2 py-0.5 text-xs font-mono rounded bg-[var(--callout-wip-text)] text-foreground opacity-80">
             v{version}
           </span>
         )}
@@ -109,7 +109,7 @@ export const Challenge: React.FC<ChallengeProps> = ({ number, title, children, h
   return (
     <div className="my-8 border-2 border-[var(--callout-challenge-border)] rounded-2xl overflow-hidden bg-[var(--react-wash)]">
       <div className="bg-[var(--callout-challenge-bg)] px-6 py-4 flex items-center gap-3 border-b border-[var(--callout-challenge-border)]/30">
-        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--callout-challenge-border)] text-white font-bold">
+        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--callout-challenge-border)] text-foreground font-bold">
           {number || <Trophy className="w-4 h-4" />}
         </div>
         <h3 className="text-xl font-bold text-[var(--callout-challenge-text)] m-0">

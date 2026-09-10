@@ -19,7 +19,7 @@ export const EngineSubNav: React.FC = () => {
   }, []);
 
   return (
-    <div className="sticky top-16 z-40 w-full border-b border-[var(--border-subtle)] bg-[var(--app-background)]/95 backdrop-blur-md shadow-sm">
+    <div className="sticky top-16 z-40 w-full border-b border-[var(--border-subtle)] bg-transparent backdrop-blur-md shadow-sm">
       <div className="mx-auto flex h-12 max-w-7xl items-center px-4 sm:px-8 lg:px-12 relative">
         <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--app-background)] to-transparent pointer-events-none z-10" />
         
@@ -42,7 +42,7 @@ export const EngineSubNav: React.FC = () => {
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
                     isActive
                       ? "bg-primary/10 text-primary shadow-[inset_0_0_0_1px_rgba(var(--primary),0.2)]"
-                      : "text-muted-foreground hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground"
+                      : "text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground"
                   )}
                 >
                   <span 

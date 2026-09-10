@@ -188,10 +188,10 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                 {/* Score Pill */}
                 <div className={`px-2 py-1 rounded-lg text-xs font-bold font-mono border ${
                   item.avgScore >= 90 
-                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
                     : item.avgScore >= 75
-                      ? 'bg-blue-50 text-blue-700 border-blue-200'
-                      : 'bg-amber-50 text-amber-700 border-amber-200'
+                      ? 'bg-[#0066FF]/10 text-[#0066FF] border-[#0066FF]/20'
+                      : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                 }`}>
                   {item.avgScore}/100
                 </div>

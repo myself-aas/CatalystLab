@@ -156,7 +156,7 @@ export const LoginPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#222 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(#2C3032 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -167,8 +167,8 @@ export const LoginPage: React.FC = () => {
  <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
  <Link to="/" className="flex items-center gap-2 group focus:outline-none">
  <BrandLogo size="sm" />
- <span className="text-xs font-semibold tracking-[-0.02em] text-white">
- Catalyst<span className="text-[#00D2FF]">Lab</span>
+ <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
+ Catalyst<span className="text-[var(--accent-cyan-edge)]">Lab</span>
  </span>
  </Link>
  <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
@@ -184,7 +184,7 @@ export const LoginPage: React.FC = () => {
 
  {/* Headlines */}
  <div className="space-y-1.5 mb-6">
- <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight text-white">
+ <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight text-foreground">
  Welcome back to CatalystLab.
  </h1>
  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
@@ -203,7 +203,7 @@ export const LoginPage: React.FC = () => {
  <button
  type="button"
  onClick={() => setShowDomainModal(true)}
- className="font-bold underline text-rose-300 hover:text-white cursor-pointer text-[11px]"
+ className="font-bold underline text-rose-300 hover:text-foreground cursor-pointer text-[11px]"
  >
  Whitelist domain &lsquo;{authError.domain}&rsquo; in Firebase
  </button>
@@ -230,7 +230,7 @@ export const LoginPage: React.FC = () => {
  className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm font-medium"
  >
  {authMethod === 'github' ? (
- <RotateCw className="size-4 animate-spin text-white" />
+ <RotateCw className="size-4 animate-spin text-foreground" />
  ) : (
  <svg className="size-4 fill-current" viewBox="0 0 24 24">
  <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -246,7 +246,7 @@ export const LoginPage: React.FC = () => {
  className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm font-medium"
  >
  {authMethod === 'google' ? (
- <RotateCw className="size-4 animate-spin text-white" />
+ <RotateCw className="size-4 animate-spin text-foreground" />
  ) : (
  <svg className="size-4" viewBox="0 0 24 24">
  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -284,7 +284,7 @@ export const LoginPage: React.FC = () => {
  onChange={(e) => setEmail(e.target.value)}
  placeholder="engineer@acme.corp"
  required
- className="ds-input pl-10 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary"
+ className="ds-input pl-10 bg-background border-border text-foreground placeholder-neutral-600 focus:border-primary focus:ring-primary"
  />
  <Mail className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
  </div>
@@ -301,13 +301,13 @@ export const LoginPage: React.FC = () => {
  onChange={(e) => setPassword(e.target.value)}
  placeholder="••••••••••••"
  required
- className="ds-input pl-10 pr-10 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary font-mono"
+ className="ds-input pl-10 pr-10 bg-background border-border text-foreground placeholder-neutral-600 focus:border-primary focus:ring-primary font-mono"
  />
  <Lock className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
  <button
  type="button"
  onClick={() => setShowPassword(!showPassword)}
- className="absolute right-3.5 top-3.5 text-muted-foreground hover:text-white transition-colors"
+ className="absolute right-3.5 top-3.5 text-muted-foreground hover:text-foreground transition-colors"
  aria-label={showPassword ? 'Hide password' : 'Show password'}
  >
  {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -317,18 +317,18 @@ export const LoginPage: React.FC = () => {
 
  {/* Controls Row */}
  <div className="flex items-center justify-between text-xs pt-1">
- <label className="flex items-center gap-2 cursor-pointer select-none text-muted-foreground hover:text-white transition-colors">
+ <label className="flex items-center gap-2 cursor-pointer select-none text-muted-foreground hover:text-foreground transition-colors">
  <input
  type="checkbox"
  checked={keepActive}
  onChange={(e) => setKeepActive(e.target.checked)}
- className="rounded bg-background border-border-strong text-[#0066FF] focus:ring-0 focus:ring-offset-0 size-3.5"
+ className="rounded bg-background border-border-strong text-[var(--accent-framer-blue)] focus:ring-0 focus:ring-offset-0 size-3.5"
  />
  <span>Keep session active (30 days)</span>
  </label>
  <Link
  to="/forgot-password"
- className="text-[#00D2FF] hover:underline"
+ className="text-[var(--accent-cyan-edge)] hover:underline"
  >
  Forgot password?
  </Link>
@@ -338,11 +338,11 @@ export const LoginPage: React.FC = () => {
  <button
  type="submit"
  disabled={isSubmitting}
- className="ds-btn w-full bg-white text-black hover:bg-neutral-200 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] active:scale-[0.98] mt-2"
+ className="ds-btn w-full bg-foreground text-background hover:bg-neutral-200 text-xs sm:text-sm shadow-[0_0_24px_rgba(255,255,255,0.25)] active:scale-[0.98] mt-2"
  >
  {authMethod === 'email' ? (
  <>
- <RotateCw className="size-4 animate-spin text-black" />
+ <RotateCw className="size-4 animate-spin text-background" />
  <span>Verifying Credentials...</span>
  </>
  ) : (
@@ -356,7 +356,7 @@ export const LoginPage: React.FC = () => {
  {/* Passkey / CLI Terminal Runner */}
  <div className="mt-5 p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 text-[11px] font-mono text-muted-foreground">
  <div className="flex items-center gap-1.5 truncate">
- <Terminal className="size-3.5 text-[#00D2FF] shrink-0" />
+ <Terminal className="size-3.5 text-[var(--accent-cyan-edge)] shrink-0" />
  <span className="truncate">npx catalystlab login</span>
  </div>
  <CopyButton
@@ -394,7 +394,7 @@ export const LoginPage: React.FC = () => {
  {/* Switch to Sign Up */}
  <div className="mt-5 pt-4 border-t border-border text-center text-xs text-muted-foreground">
  Don&apos;t have an organization workspace yet?{' '}
- <Link to="/signup" className="text-white hover:text-[#00D2FF] font-medium transition-colors">
+ <Link to="/signup" className="text-foreground hover:text-[var(--accent-cyan-edge)] font-medium transition-colors">
  Create an account &rarr;
  </Link>
  </div>

@@ -196,22 +196,22 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <EngineSubNav />
 
  <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
- <div className="relative z-10 ds-page-shell text-center ds-section">
+ <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex justify-end">
  <Link
  to={`/docs#${meta.docsAnchor || 'overview'}`}
  className="ds-btn ds-btn-secondary text-xs"
  >
- <BookOpen className="size-3.5 text-[#0066FF] shrink-0"/>
+ <BookOpen className="size-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
  <span>Engine docs</span>
  <ExternalLink className="size-3 shrink-0"/>
  </Link>
  </div>
 
  <div
- className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-white/5 border border-border shadow-inner"
+ className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border shadow-inner"
  style={{ color: meta.color, borderColor: `${meta.color}40` }}
  >
  <span aria-hidden="true" className="material-symbols-outlined text-3xl">
@@ -220,10 +220,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  </div>
 
  <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
- <span className="rounded-full border border-border bg-white/5 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+ <span className="rounded-full border border-border bg-[var(--bg-surface)] px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
  {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
  </span>
- <span className="inline-flex items-center gap-1 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3 py-1 font-mono text-[11px] text-[#0066FF]">
+ <span className="inline-flex items-center gap-1 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3 py-1 font-mono text-[11px] text-[var(--accent-framer-blue)]">
  <ShieldCheck className="size-3.5 shrink-0"/>
  Replaces {meta.departmentReplaced}
  </span>
@@ -259,7 +259,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  reason={rateLimitReason}
  />
 
- <main className="ds-page-shell space-y-6 py-8 ds-section">
+ <main className="ds-page-shell space-y-6 ds-section">
  {savedReportId && (
  <LinearCard className="p-4 sm:p-5" lift={false}>
  <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
@@ -269,7 +269,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <h3 className="text-sm font-semibold text-foreground">Saved to your dashboard</h3>
  <p className="mt-0.5 text-xs text-muted-foreground">
  Permalink:{' '}
- <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-[#0066FF] hover:underline">
+ <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-[var(--accent-framer-blue)] hover:underline">
  {permalinkUrl}
  </a>
  </p>

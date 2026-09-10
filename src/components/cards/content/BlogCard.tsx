@@ -137,7 +137,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
               onClick={handleShareClick}
               title="Share article link"
               aria-label="Share article"
-              className="relative before:absolute before:-inset-2 w-8 h-8 rounded-full bg-foreground/70 hover:bg-primary text-muted-foreground border border-white/20 flex items-center justify-center backdrop-blur-md transition-all shadow-sm cursor-pointer"
+              className="relative before:absolute before:-inset-2 w-8 h-8 rounded-full bg-foreground/70 hover:bg-primary text-muted-foreground border border-foreground/20 flex items-center justify-center backdrop-blur-md transition-all shadow-sm cursor-pointer"
             >
               {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-muted-foreground" />}
             </button>

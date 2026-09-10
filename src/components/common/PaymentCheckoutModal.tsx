@@ -114,16 +114,16 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
         <div className="p-6 sm:p-8">
           {/* Header Badge & Title */}
           <div className="flex items-center gap-3 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-full bg-amber-50 text-amber-800 border border-amber-300">
-              <Lock className="w-3.5 h-3.5 text-amber-600" /> Secure Checkout
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              <Lock className="w-3.5 h-3.5 text-amber-400" /> Secure Checkout
             </span>
             <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> 256-Bit Encrypted
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> 256-Bit Encrypted
             </span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground mt-1">
-            Upgrade to <span className="text-amber-600">{plan.name}</span>
+            Upgrade to <span className="text-primary">{plan.name}</span>
           </h2>
           <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
             Choose your preferred global payment gateway below for secure instant access.
@@ -140,13 +140,13 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 onClick={() => setGateway('2checkout')}
                 className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between ${
                   gateway === '2checkout'
-                    ? 'bg-amber-50/70 border-amber-500 text-foreground shadow-sm'
+                    ? 'bg-primary/10 border-primary text-foreground shadow-sm'
                     : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
                 }`}
               >
                 <div>
                   <div className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                    <CreditCard className="w-4 h-4 text-amber-600" /> 2Checkout (Verifone)
+                    <CreditCard className="w-4 h-4 text-primary" /> 2Checkout (Verifone)
                   </div>
                   <div className="text-[11px] text-muted-foreground mt-0.5">Global Primary Gateway</div>
                 </div>
@@ -190,12 +190,12 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                     onClick={() => setSelectedPlan(tierKey)}
                     className={`relative p-3 rounded-xl text-left border transition-all ${
                       isSelected 
-                        ? 'bg-amber-50/80 border-amber-500 text-foreground shadow-sm' 
+                        ? 'bg-primary/10 border-primary text-foreground shadow-sm' 
                         : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
                     }`}
                   >
                     {tierItem.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-amber-600 text-primary-foreground shadow-xs">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-primary text-primary-foreground shadow-xs">
                         POPULAR
                       </span>
                     )}
@@ -230,7 +230,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 }`}
               >
                 <span>Annual</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-mono font-bold">Save 15%</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 font-mono font-bold">Save 15%</span>
               </button>
             </div>
           </div>
@@ -243,25 +243,25 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
             </div>
             <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
               <span>Gateway Engine</span>
-              <span className="text-amber-700 font-mono font-bold uppercase">{gateway === 'dodopay' ? 'Dodo Payments (Backup)' : '2Checkout (Verifone)'}</span>
+              <span className="text-foreground font-mono font-bold uppercase">{gateway === 'dodopay' ? 'Dodo Payments (Backup)' : '2Checkout (Verifone)'}</span>
             </div>
             <div className="pt-2 border-t border-border flex items-center justify-between text-sm font-bold text-foreground">
               <span>Total Due Today</span>
-              <span className="text-amber-700 font-mono text-base font-extrabold">${price}.00 USD</span>
+              <span className="text-primary font-mono text-base font-extrabold">${price}.00 USD</span>
             </div>
           </div>
 
           {error && (
-            <div className="mt-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+            <div className="mt-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400 flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {checkoutUrl && loading && (
-            <div className="mt-4 p-3 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center justify-between">
+            <div className="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center justify-between">
               <span className="flex items-center gap-2">
-                <RefreshCw className="w-4 h-4 animate-spin text-amber-600" />
+                <RefreshCw className="w-4 h-4 animate-spin text-amber-400" />
                 <span>Redirecting to {gateway === 'dodopay' ? 'Dodo Payments' : '2Checkout'} Sandbox Gateway...</span>
               </span>
               <a href={checkoutUrl} target="_blank" rel="noreferrer" className="text-foreground font-bold underline flex items-center gap-1 font-mono">

@@ -64,7 +64,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
 
       // Keep the browser chrome tint in sync with the app theme
-      const themeColor = effectiveTheme === 'dark' ? '#050506' : '#f8fafc';
+      const themeColor = effectiveTheme === 'dark' ? '#1F2223' : '#f8fafc';
       let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])');
       if (!meta) {
         meta = document.createElement('meta');

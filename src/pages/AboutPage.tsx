@@ -165,15 +165,15 @@ export const AboutPage: React.FC = () => {
  />
 
  {/* Atmospheric Lighting */}
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
 
  {/* Hero Section */}
  <section className="relative z-10 border-b border-border w-full ds-section">
- <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center space-y-6 ds-section">
+ <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center space-y-6">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3.5 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
- <Sparkles className="size-3.5 text-[#0066FF] shrink-0"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3.5 py-1 framer-micro-tag text-[var(--accent-framer-blue)] backdrop-blur-md">
+ <Sparkles className="size-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
  <span>Autonomous Telemetry Infrastructure</span>
  </div>
 
@@ -193,12 +193,12 @@ export const AboutPage: React.FC = () => {
  </div>
 
  <div className="ds-card p-4">
- <div className="text-2xl font-bold font-mono text-[#00D2FF]">42 PoPs</div>
+ <div className="text-2xl font-bold font-mono text-[var(--accent-cyan-edge)]">42 PoPs</div>
  <div className="framer-micro-tag text-muted-foreground mt-1">Global edge Anycast mesh</div>
  </div>
 
  <div className="ds-card p-4">
- <div className="text-2xl font-bold font-mono text-[#0066FF]">&lt; 4.8s</div>
+ <div className="text-2xl font-bold font-mono text-[var(--accent-framer-blue)]">&lt; 4.8s</div>
  <div className="framer-micro-tag text-muted-foreground mt-1">Dossier synthesis latency</div>
  </div>
 
@@ -215,10 +215,10 @@ export const AboutPage: React.FC = () => {
  <main className="relative z-10 ds-page-shell space-y-20 ds-section">
  
  {/* The Problem & Our Mission */}
- <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center ds-section">
+ <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
  <LazyReveal direction="left" className="lg:col-span-7 space-y-5">
- <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3 py-1 framer-micro-tag text-[#0066FF] backdrop-blur-md">
- <Terminal className="size-3.5 text-[#0066FF] shrink-0"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3 py-1 framer-micro-tag text-[var(--accent-framer-blue)] backdrop-blur-md">
+ <Terminal className="size-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
  <span>Genesis &amp; Mission</span>
  </div>
 
@@ -256,7 +256,7 @@ export const AboutPage: React.FC = () => {
  <div className="ds-card p-6 space-y-4 font-mono">
  <div className="flex items-center justify-between border-b border-border pb-3.5">
  <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
- <Activity className="size-4 text-[#0066FF] shrink-0"/>
+ <Activity className="size-4 text-[var(--accent-framer-blue)] shrink-0"/>
  <span>Telemetry Benchmark Grid</span>
  </div>
  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
@@ -266,23 +266,23 @@ export const AboutPage: React.FC = () => {
  </div>
 
  <div className="space-y-2.5 text-xs">
- <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-white/[0.04]">
+ <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-foreground/[0.04]">
  <span className="text-muted-foreground">Engine Architecture:</span>
  <strong className="text-foreground">8 Containerized Microagents</strong>
  </div>
- <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-white/[0.04]">
+ <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-foreground/[0.04]">
  <span className="text-muted-foreground">Edge Node Distribution:</span>
  <strong className="text-foreground">42 Anycast PoPs</strong>
  </div>
- <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-white/[0.04]">
+ <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-foreground/[0.04]">
  <span className="text-muted-foreground">Audit Latency SLA:</span>
  <strong className="text-foreground">&lt; 4.8 Seconds End-to-End</strong>
  </div>
- <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-white/[0.04]">
+ <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-foreground/[0.04]">
  <span className="text-muted-foreground">Security Standards:</span>
  <strong className="text-foreground">OWASP Top 10 / HSTS / CSP</strong>
  </div>
- <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-white/[0.04]">
+ <div className="flex justify-between py-1.5 border-b border-border/60 dark:border-foreground/[0.04]">
  <span className="text-muted-foreground">AI Crawlers Verified:</span>
  <strong className="text-foreground">SearchGPT / Perplexity / Gemini</strong>
  </div>
@@ -296,8 +296,8 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Mission Visual Asset Showcase */}
- <section className="relative overflow-hidden rounded-2xl border border-border dark:border-white/[0.08] p-2 bg-card dark:bg-muted/20 shadow-sm dark:shadow-linear-card backdrop-blur-xl ds-section">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"/>
+ <section className="relative overflow-hidden rounded-2xl border border-border dark:border-foreground/[0.08] p-2 bg-card dark:bg-muted/20 shadow-sm dark:shadow-linear-card backdrop-blur-xl">
+ <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-foreground/20 to-transparent"/>
  <ScanRevealFigure
  assetId="about-engineering-team"
  caption="CatalystLab Edge Infrastructure Engineering Team Collaborating"
@@ -307,9 +307,9 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* The 8-Engine Matrix Interactive Showcase */}
- <section className="space-y-8 ds-section">
+ <section className="space-y-8">
  <div className="text-center space-y-3 max-w-2xl mx-auto">
- <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-foreground/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
  <Cpu className="size-3.5 text-primary"/>
  <span>Multi-Dimensional Precision</span>
  </div>
@@ -340,7 +340,7 @@ export const AboutPage: React.FC = () => {
  >
  <div className="flex items-center gap-3">
  <div 
- className="p-2 rounded-xl border border-border/80 dark:border-white/[0.08] flex items-center justify-center shrink-0"
+ className="p-2 rounded-xl border border-border/80 dark:border-foreground/[0.08] flex items-center justify-center shrink-0"
  style={{ backgroundColor: isSelected ? `${eng.color}25` : undefined, color: eng.color }}
  >
  <Icon className="size-4"/>
@@ -359,10 +359,10 @@ export const AboutPage: React.FC = () => {
  {/* Selected Engine Deep Dive Card */}
  <div className="lg:col-span-7">
  <LinearCard className="p-7 sm:p-8 space-y-6">
- <div className="flex items-center justify-between border-b border-border dark:border-white/[0.08] pb-5">
+ <div className="flex items-center justify-between border-b border-border dark:border-foreground/[0.08] pb-5">
  <div className="flex items-center gap-3">
  <div 
- className="p-3 rounded-xl border border-border dark:border-white/[0.08] flex items-center justify-center"
+ className="p-3 rounded-xl border border-border dark:border-foreground/[0.08] flex items-center justify-center"
  style={{ backgroundColor: `${activeEngine.color}20`, color: activeEngine.color }}
  >
  {React.createElement(activeEngine.icon, { className: 'size-6' })}
@@ -376,7 +376,7 @@ export const AboutPage: React.FC = () => {
  </span>
  </div>
  </div>
- <span className="hidden sm:inline-flex rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/30 px-3 py-1 font-mono text-xs text-muted-foreground">
+ <span className="hidden sm:inline-flex rounded-full border border-border dark:border-foreground/[0.08] bg-muted/40 dark:bg-muted/30 px-3 py-1 font-mono text-xs text-muted-foreground">
  Microagent Ready
  </span>
  </div>
@@ -419,9 +419,9 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* 4 Architectural Pillars */}
- <section className="space-y-8 ds-section">
+ <section className="space-y-8">
  <div className="text-center space-y-3 max-w-2xl mx-auto">
- <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-foreground/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
  <Award className="size-3.5 text-primary"/>
  <span>Engineering Philosophy</span>
  </div>
@@ -477,12 +477,12 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Global Edge Mesh Network (42 PoPs) */}
- <section className="ds-card p-8 sm:p-10 space-y-8 ds-section">
- <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-white/20 to-transparent"/>
+ <section className="ds-card p-8 sm:p-10 space-y-8">
+ <div aria-hidden="true"className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 dark:via-foreground/20 to-transparent"/>
  
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div className="space-y-2">
- <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-primary">
+ <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-foreground/[0.08] bg-muted/40 dark:bg-muted/40 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-primary">
  <Server className="size-3.5 text-primary"/>
  <span>Edge Topology</span>
  </div>
@@ -527,9 +527,9 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Leadership & Core Engineering Team */}
- <section className="space-y-8 ds-section">
+ <section className="space-y-8">
  <div className="text-center space-y-3 max-w-2xl mx-auto">
- <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-white/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-border dark:border-foreground/[0.08] bg-muted/40 dark:bg-muted/40 px-3.5 py-1 text-xs font-mono font-medium text-primary backdrop-blur-md">
  <Users className="size-3.5 text-primary"/>
  <span>The Builders</span>
  </div>
@@ -544,14 +544,14 @@ export const AboutPage: React.FC = () => {
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
  {TEAM_MEMBERS.map((member, i) => (
  <LinearCard key={i} className="p-5 space-y-4">
- <div className="relative overflow-hidden rounded-xl border border-border dark:border-white/[0.08] aspect-square bg-muted/30 dark:bg-muted/20">
+ <div className="relative overflow-hidden rounded-xl border border-border dark:border-foreground/[0.08] aspect-square bg-muted/30 dark:bg-muted/20">
  <img 
  src={member.image} 
  alt={member.name} 
  referrerPolicy="no-referrer"
  className="w-full h-full object-cover grayscale contrast-125 opacity-90 group-hover/card:scale-105 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500"
  />
- <div className="absolute inset-0 bg-gradient-to-t from-background dark:from-[var(--theme-slate-50)] via-transparent to-transparent opacity-60"/>
+ <div className="absolute inset-0 bg-gradient-to-t from-background dark:from-[var(--bg-surface-elevated)] via-transparent to-transparent opacity-60"/>
  </div>
 
  <div className="space-y-1">
@@ -569,7 +569,7 @@ export const AboutPage: React.FC = () => {
  </section>
 
  {/* Final CTA Banner */}
- <section className="ds-card p-8 sm:p-12 text-center space-y-6 ds-section">
+ <section className="ds-card p-8 sm:p-12 text-center space-y-6">
  <div className="relative z-10 max-w-2xl mx-auto space-y-4">
  <h2 className="framer-section-headline text-foreground">
  Ready to benchmark your web stack?

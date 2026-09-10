@@ -64,7 +64,7 @@ export const UserApiKeyManagementView: React.FC = () => {
                   <td className="px-6 py-4 ds-muted">{key.lastUsedAt ? new Date(key.lastUsedAt).toLocaleDateString() : 'Never'}</td>
                   <td className="px-6 py-4 text-right space-x-2">
                     <button className="p-1.5 ds-muted hover:ds-muted bg-muted hover:bg-accent rounded-md transition-colors"><Copy className="w-4 h-4" /></button>
-                    <button className="p-1.5 text-red-400 hover:text-red-600 bg-red-50 hover:bg-red-100 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
+                    <button className="p-1.5 text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 rounded-md transition-colors"><Trash2 className="w-4 h-4" /></button>
                   </td>
                 </tr>
               ))}

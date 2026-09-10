@@ -5,404 +5,189 @@ import { getBlogPosts } from '../lib/firebase';
 import { ENGINE_SEEDED_BLOGS } from '../data/engineBlogs';
 import { useAuth } from '../context/AuthContext';
 import { 
- ArrowRight, 
- Search, 
- BookOpen, 
- Settings,
- Calendar,
- Clock,
- Bookmark,
- BookmarkCheck,
- Share2,
- Check,
- Sparkles,
- Plus,
- X,
- Terminal as TerminalIcon,
- Zap,
- Sliders
+  ArrowRight, Search, BookOpen, Settings, Clock, 
+  Bookmark, Sparkles, Plus, X, Menu, User, Home,
+  Sliders
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
-import { ParallaxSection } from '../components/common/ParallaxSection';
-import { LatestBlogsSection } from '../components/home/LatestBlogsSection';
-import { InteractiveTelemetrySandbox } from '../components/blog/InteractiveTelemetrySandbox';
-import { BlogCard } from '../components/cards/content/BlogCard';
-import { EnzymeHue } from '../components/cards/types';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 import { logger } from '../lib/logger';
 import { BlogCardSkeleton } from '../components/skeleton';
+import { motion, AnimatePresence } from 'motion/react';
+
+const TOPICS = [
+  { key: 'All', label: 'Discover' },
+  { key: 'Health', label: 'Health' },
+  { key: 'Politics', label: 'Politics' },
+  { key: 'Art', label: 'Art' },
+  { key: 'Food', label: 'Food' },
+  { key: 'Science', label: 'Science' }
+];
 
 export const BlogsPage: React.FC = () => {
- const { user, isAdmin } = useAuth();
- const [posts, setPosts] = useState<BlogPost[]>([]);
- const [loading, setLoading] = useState(true);
- const [searchQuery, setSearchQuery] = useState('');
- const [selectedTopic, setSelectedTopic] = useState('All');
- const [sortBy, setSortBy] = useState<'newest' | 'popular' | 'readTime'>('newest');
- const [showSandbox, setShowSandbox] = useState(true);
- const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
- const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+  const { user, isAdmin } = useAuth();
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState('All');
 
- // Load bookmarks
- useEffect(() => {
- try {
- const saved = localStorage.getItem('catalyst_bookmarked_blogs');
- if (saved) setBookmarkedIds(new Set(JSON.parse(saved)));
- } catch (e) { logger.error("Ignored error:", e); }
- }, []);
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const data = await getBlogPosts();
+        if (!data || data.length === 0) {
+          setPosts(ENGINE_SEEDED_BLOGS as any);
+        } else {
+          setPosts(data.filter(p => p.status !== 'archived'));
+        }
+      } catch (err) {
+        logger.error("Error loading blog posts:", err);
+        setPosts(ENGINE_SEEDED_BLOGS as any);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPosts();
+  }, []);
 
- const toggleBookmark = (id: string, e: React.MouseEvent) => {
- e.preventDefault();
- e.stopPropagation();
- setBookmarkedIds((prev) => {
- const next = new Set(prev);
- if (next.has(id)) next.delete(id);
- else next.add(id);
- try {
- localStorage.setItem('catalyst_bookmarked_blogs', JSON.stringify(Array.from(next)));
- } catch (e) { logger.error("Ignored error:", e); }
- return next;
- });
- };
+  const filteredPosts = useMemo(() => {
+    return posts.filter(post => {
+      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            (post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()));
+      const matchesTopic = selectedTopic === 'All' || 
+                           (post.category && post.category.toLowerCase().includes(selectedTopic.toLowerCase()));
+      return matchesSearch && matchesTopic;
+    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  }, [posts, searchQuery, selectedTopic]);
 
- const handleShare = (slug: string, e: React.MouseEvent) => {
- e.preventDefault();
- e.stopPropagation();
- const url = `${window.location.origin}/blog/${slug}`;
- if (navigator.clipboard) {
- navigator.clipboard.writeText(url);
- setCopiedSlug(slug);
- setTimeout(() => setCopiedSlug(null), 2000);
- }
- };
+  const heroPost = filteredPosts.length > 0 ? filteredPosts[0] : null;
+  const listPosts = filteredPosts.length > 1 ? filteredPosts.slice(1) : [];
 
- // Compile fallback list
- const allFallbackPosts = useMemo(() => {
- const list: BlogPost[] = [];
- Object.values(ENGINE_SEEDED_BLOGS).forEach(engineList => {
- engineList.forEach(item => {
- if (!list.some(existing => existing.slug === item.slug)) {
- list.push(item);
- }
- });
- });
- return list;
- }, []);
+  return (
+    <div data-theme="dark" className="min-h-screen bg-[#1F2223] text-[#F7FDFF] font-sans pt-16 sm:pt-24 pb-20">
+      <SEOHead 
+        title="Discover News | CatalystLab" 
+        description="Latest news from all over the world." 
+      />
 
- useEffect(() => {
- let isMounted = true;
- const fetchArticles = async () => {
- setLoading(true);
- try {
- const firestorePosts = await getBlogPosts();
- const published = firestorePosts.filter(p => p.status !== 'archived');
- 
- const combinedMap = new Map<string, BlogPost>();
- allFallbackPosts.forEach(p => combinedMap.set(p.slug || p.id || '', p));
- published.forEach(p => combinedMap.set(p.slug || p.id || '', p));
- 
- const merged = Array.from(combinedMap.values());
- merged.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      <div className="max-w-md mx-auto relative min-h-screen flex flex-col bg-[#1F2223]">
+        {/* Top Header */}
+        <header className="px-6 py-4 flex items-center justify-between sticky top-0 bg-[#1F2223]/90 backdrop-blur-md z-40 border-b border-white/5">
+          <button className="text-[#F7FDFF] hover:text-[#F0FAFF] transition-colors">
+            <Menu className="w-6 h-6 stroke-[1.5]" />
+          </button>
+          {user && isAdmin && (
+            <Link to="/blogs/create" className="text-[#F7FDFF] hover:text-[#F0FAFF]">
+              <Plus className="w-6 h-6 stroke-[1.5]" />
+            </Link>
+          )}
+        </header>
 
- if (isMounted) setPosts(merged);
- } catch (err) {
- logger.warn("Error fetching remote blogs, using local seeds:", err);
- if (isMounted) setPosts(allFallbackPosts);
- } finally {
- if (isMounted) setLoading(false);
- }
- };
+        {/* Discover Header */}
+        <div className="px-6 pt-6 pb-4">
+          <h1 className="text-3xl font-bold tracking-tight text-[#F7FDFF] mb-1">Discover</h1>
+          <p className="text-sm text-gray-400">News from all over the world</p>
+        </div>
 
- fetchArticles();
- return () => { isMounted = false; };
- }, [allFallbackPosts]);
+        {/* Search */}
+        <div className="px-6 mb-6">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input 
+              type="text" 
+              placeholder="Search" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#2C2F32] text-[#F7FDFF] rounded-2xl py-3.5 pl-11 pr-11 text-sm outline-none border border-transparent focus:border-white/10 transition-colors placeholder:text-gray-500"
+            />
+            <button className="absolute right-4 top-1/2 -translate-y-1/2">
+              <Sliders className="w-4 h-4 text-gray-400" />
+            </button>
+          </div>
+        </div>
 
- const topicsList = [
- { label: 'All', key: 'All' },
- { label: '[VitalZyme]', key: 'vitalzyme', enzyme: 'Core Web Vitals' },
- { label: '[EdgeVmax]', key: 'edgevmax', enzyme: 'Edge TTFB' },
- { label: '[RiskProtease]', key: 'riskprotease', enzyme: 'SecOps' },
- { label: '[LLM-Kinase]', key: 'llmkinase', enzyme: 'AI Readiness' },
- { label: '[EcoHolo]', key: 'ecoholo', enzyme: 'Digital Carbon' },
- { label: '[GitLygase]', key: 'gitlygase', enzyme: 'AST Code Hygiene' },
- { label: '[SynthShift]', key: 'synthshift', enzyme: 'Headless Chrome' },
- { label: '[AllosterSearch]', key: 'allostersearch', enzyme: 'SEO Knowledge Graph' },
- ];
+        {/* Horizontal Scroll Tabs */}
+        <div className="px-6 mb-6 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-6 pb-2 min-w-max">
+            {TOPICS.map((topic) => {
+              const isActive = selectedTopic === topic.key;
+              return (
+                <button
+                  key={topic.key}
+                  onClick={() => setSelectedTopic(topic.key)}
+                  className={`text-base transition-colors font-medium whitespace-nowrap relative ${
+                    isActive ? 'text-[#F7FDFF]' : 'text-gray-500 hover:text-gray-300'
+                  }`}
+                >
+                  {topic.label}
+                  {isActive && (
+                    <motion.div 
+                      layoutId="activeTab"
+                      className="absolute -bottom-2 left-0 right-0 h-[2px] bg-[#F7FDFF]" 
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
- // Filter & sort all articles for the archive grid
- const filteredAndSortedPosts = useMemo(() => {
- return posts.filter(post => {
- const title = (post.title || '').toLowerCase();
- const excerpt = (post.excerpt || '').toLowerCase();
- const cat = (post.category || '').toLowerCase();
- const tags = (post.tags || []).map(t => t.toLowerCase()).join(' ');
- const query = searchQuery.toLowerCase().trim();
+        {/* Content Area */}
+        <div className="flex-1 px-6 pb-12">
+          {loading ? (
+            <div className="space-y-6">
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <BlogCardSkeleton key={idx} />
+              ))}
+            </div>
+          ) : filteredPosts.length === 0 ? (
+            <div className="py-12 text-center text-gray-500">
+              No articles found.
+            </div>
+          ) : (
+            <div className="space-y-6">
+              <AnimatePresence>
+                {filteredPosts.map((post, idx) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    key={post.id || post.slug}
+                  >
+                    <Link to={`/blog/${post.slug || post.id}`} className="group flex gap-4 items-center">
+                      <div className="w-24 h-24 shrink-0 rounded-2xl overflow-hidden bg-[#2C3032]">
+                        <img 
+                          src={getBlogCoverImage(post)} 
+                          alt={post.title} 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-bold text-[#F7FDFF] leading-snug line-clamp-2 mb-2 group-hover:text-gray-300 transition-colors">
+                          {post.title}
+                        </h3>
+                        <div className="flex items-center gap-3 text-xs text-gray-500 font-medium">
+                          <span className="flex items-center gap-1.5">
+                            <Clock className="w-3.5 h-3.5" />
+                            {getArticleReadingTime(post)}
+                          </span>
+                          {post.authorName && (
+                            <span className="truncate">By {post.authorName}</span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
+        </div>
 
- const matchesSearch = !query || title.includes(query) || excerpt.includes(query) || tags.includes(query) || cat.includes(query);
-
- if (!matchesSearch) return false;
- if (selectedTopic === 'All') return true;
-
- const target = selectedTopic.toLowerCase();
- if (target === 'vitalzyme') return cat.includes('perf') || cat.includes('core') || cat.includes('health') || tags.includes('vitals') || tags.includes('vitalzyme');
- if (target === 'edgevmax') return cat.includes('latency') || cat.includes('edge') || tags.includes('ttfb') || tags.includes('edgevmax');
- if (target === 'riskprotease') return cat.includes('sec') || cat.includes('compliance') || tags.includes('owasp') || tags.includes('riskprotease');
- if (target === 'llmkinase') return cat.includes('ai') || cat.includes('llm') || tags.includes('ai') || tags.includes('llm') || tags.includes('llmkinase');
- if (target === 'ecoholo') return cat.includes('eco') || cat.includes('sustain') || tags.includes('carbon') || tags.includes('ecoholo');
- if (target === 'gitlygase') return cat.includes('git') || cat.includes('repo') || tags.includes('ast') || tags.includes('gitlygase');
- if (target === 'synthshift') return cat.includes('synth') || tags.includes('synthshift');
- if (target === 'allostersearch') return cat.includes('seo') || tags.includes('allostersearch');
- 
- return cat.includes(target) || tags.includes(target);
- }).sort((a, b) => {
- if (sortBy === 'newest') return (b.createdAt || 0) - (a.createdAt || 0);
- if (sortBy === 'popular') return (b.views || 0) - (a.views || 0);
- if (sortBy === 'readTime') {
- const parseMinutes = (rt?: string) => parseInt(rt || '5', 10) || 5;
- return parseMinutes(a.readTime) - parseMinutes(b.readTime);
- }
- return 0;
- });
- }, [posts, searchQuery, selectedTopic, sortBy]);
-
- const formatDate = (timestamp?: number) => {
- if (!timestamp) return 'Aug 18, 2026';
- return new Date(timestamp).toLocaleDateString('en-US', {
- month: 'short',
- day: 'numeric',
- year: 'numeric'
- });
- };
-
- return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground font-sans selection:bg-[#0066FF]/30 selection:text-white">
- <SEOHead
- title="Telemetry Research Feed & Technical Publications | CatalystLab"
- description="Explore biochemical telemetry research, Core Web Vitals optimizations, AI agent crawler readiness protocols, and edge latency benchmarks."
- keywords={['CatalystLab blog', 'telemetry research feed', 'web health insights', 'edge telemetry benchmarks', 'VitalZyme', 'LLM-Kinase']}
- canonicalPath="/blogs"
- />
-
- {/* Admin Quick Access Bar */}
- {user && (
- <div className="border-b border-border bg-card">
- <div className="ds-page-shell py-2 flex items-center justify-between ds-section">
- <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
- <Sparkles className="h-3 w-3 text-[#00D2FF] shrink-0"/>
- <span>
- {isAdmin ? 'Admin Mode Active — Publishing & editing privileges enabled' : 'Author Access Active'}
- </span>
- </div>
- <div className="flex items-center gap-2">
- <Link
- to="/blogs/create"
- className="ds-btn ds-btn-primary text-xs"
- >
- <Plus className="h-3 w-3 stroke-[3] shrink-0"/>
- <span>Write Article</span>
- </Link>
- {isAdmin && (
- <Link
- to="/admin"
- className="ds-btn ds-btn-secondary text-xs"
- >
- <Settings className="h-3 w-3 shrink-0"/>
- <span>CMS Studio</span>
- </Link>
- )}
- </div>
- </div>
- </div>
- )}
-
- {/* Hero Header Section */}
- <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
-
- <div className="relative z-10 ds-page-shell text-center space-y-5 ds-section">
- <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 framer-micro-tag text-[#00D2FF] shadow-xs backdrop-blur-md">
- <BookOpen className="h-3.5 w-3.5 shrink-0"/>
- <span>TELEMETRY RESEARCH FEED &bull; 8-VECTOR SDLC DIAGNOSTICS</span>
- </div>
-
- <h1 className="framer-hero-title text-foreground">
- Engineering Insights &amp;{' '}
- <span className="text-[#0066FF]">
- Edge Telemetry Research
- </span>
- </h1>
- <p className="framer-body-text leading-relaxed max-w-3xl mx-auto">
- Deep-dive technical diagnostics, Next.js rendering benchmarks, AI crawler readiness protocols, and multi-region infrastructure analyses written by our core architects.
- </p>
-
- <div className="pt-3 flex items-center justify-center gap-3">
- <button
- type="button"
- onClick={() => setShowSandbox(!showSandbox)}
- className={`ds-btn text-xs ${
- showSandbox
- ? 'ds-btn-primary'
- : 'ds-btn-secondary'
- }`}
- >
- <TerminalIcon className="h-4 w-4 shrink-0"/>
- <span>{showSandbox ? 'Hide Live Sandbox' : 'Open Live Telemetry Sandbox'}</span>
- <span className={`h-2 w-2 rounded-full shrink-0 ${showSandbox ? 'bg-emerald-400 animate-pulse' : 'bg-muted'}`} />
- </button>
- </div>
- </div>
- </section>
-
- {/* Inline Interactive Mini-Sandbox */}
- {showSandbox && (
- <div className="ds-page-shell pt-6 ds-section">
- <InteractiveTelemetrySandbox />
- </div>
- )}
-
- {/* 1. DYNAMIC INTERACTIVE LATEST BLOGS SECTION */}
- <LatestBlogsSection 
- title="Latest news & research insights"
- subtitle="Explore our newest benchmark telemetry, code patterns, and deep-dive engineering analyses."
- badgeText="Real-Time Research Feed"
- showViewAllButton={false}
- showFilterTabs={true}
- showEcosystemBar={true}
- className="pt-8 ds-section"
- />
-
- {/* 2. EXPLORE ALL TECHNICAL ARTICLES */}
- <main className="ds-page-shell space-y-6 ds-section">
- 
- {/* Section Header with Search & Filter Controls */}
- <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">
- <div>
- <h2 className="framer-section-headline text-xl sm:text-2xl text-foreground font-semibold">
- All Technical Publications
- </h2>
- <p className="framer-body-text text-xs mt-0.5">
- Showing {filteredAndSortedPosts.length} article{filteredAndSortedPosts.length === 1 ? '' : 's'} tagged by biochemical catalyst
- </p>
- </div>
-
- {/* Search and Sort Inputs */}
- <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
- {/* Search Input */}
- <div className="relative min-w-[220px]">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground"/>
- <label htmlFor="blog-search" className="sr-only">Search blogs</label>
- <input
- id="blog-search"
- type="text"
- value={searchQuery}
- onChange={(e) => setSearchQuery(e.target.value)}
- placeholder="Search topics, tags, or words..."
- className="ds-input w-full pl-9 pr-8 text-xs font-mono"
- />
- {searchQuery && (
- <button 
- type="button"
- onClick={() => setSearchQuery('')}
- aria-label="Clear search"
- className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-xs text-muted-foreground hover:text-foreground"
- >
- <X className="h-3.5 w-3.5" aria-hidden="true"/>
- </button>
- )}
- </div>
-
- {/* Sort Selector */}
- <select
- value={sortBy}
- onChange={(e) => setSortBy(e.target.value as any)}
- className="ds-select text-xs font-mono"
- >
- <option value="newest">Sort: Newest First</option>
- <option value="popular">Sort: Most Popular</option>
- <option value="readTime">Sort: Quick Read</option>
- </select>
- </div>
- </div>
-
- {/* [Enzyme] Biochemical Topic Pills Bar */}
- <div className="flex items-center gap-2 overflow-x-auto scrollbar-none touch-pan-x pb-2 no-scrollbar">
- {topicsList.map((topic) => {
- const isActive = selectedTopic === topic.key;
- return (
- <button
- key={topic.key}
- type="button"
- onClick={() => setSelectedTopic(topic.key)}
- aria-pressed={isActive}
- className={`px-3 py-1.5 shrink-0 rounded-lg text-xs font-bold transition-all cursor-pointer font-mono flex items-center gap-1.5 ${
- isActive
- ? 'bg-white/15 text-white shadow-sm'
- : 'bg-white/5 border border-white/10 text-muted-foreground hover:text-white'
- }`}
- >
- <span>{topic.label}</span>
- {topic.enzyme && (
- <span className={`text-[10px] ${isActive ? 'text-white/80 font-normal' : 'text-muted-foreground'}`}>
- ({topic.enzyme})
- </span>
- )}
- </button>
- );
- })}
- </div>
-
- {/* Articles Grid (3 Columns) */}
- {loading && posts.length === 0 ? (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"role="status"aria-label="Loading technical articles...">
- {Array.from({ length: 6 }).map((_, idx) => (
- <BlogCardSkeleton key={idx} />
- ))}
- </div>
- ) : filteredAndSortedPosts.length > 0 ? (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
- {filteredAndSortedPosts.map((post, idx) => {
- const isBookmarked = bookmarkedIds.has(post.id || post.slug);
- const hues: EnzymeHue[] = ['vitalzyme', 'edgevmax', 'riskprotease', 'llmkinase', 'ecoholo', 'synthshift', 'gitlygase', 'alloster'];
- const cardHue = hues[idx % hues.length];
-
- return (
- <BlogCard
- key={post.slug || post.id}
- id={post.id || post.slug}
- slug={post.slug || post.id || ''}
- title={post.title}
- excerpt={post.excerpt || 'Read the comprehensive breakdown covering real telemetry vectors, implementation guides, and performance benchmarks.'}
- category={post.category || 'Telemetry'}
- readTime={getArticleReadingTime(post)}
- publishedAt={formatDate(post.createdAt)}
- author={{
- name: post.authorName || 'Catalyst Team',
- role: 'Principal Engineer',
- avatarUrl: post.authorAvatar,
- }}
- imageUrl={getBlogCoverImage(post)}
- assetId="engine-neural-hologram"
- hue={cardHue}
- isBookmarked={isBookmarked}
- onBookmarkToggle={(s) => toggleBookmark(post.id || s, {} as React.MouseEvent)}
- onShare={(s) => handleShare(s, {} as React.MouseEvent)}
- className="h-full flex flex-col justify-between"
- />
- );
- })}
- </div>
- ) : (
- <div className="ds-card p-12 text-center">
- <BookOpen className="mx-auto h-8 w-8 text-muted-foreground mb-2"/>
- <h3 className="text-sm font-bold text-primary-foreground">No articles matched your filter</h3>
- <p className="text-xs text-muted-foreground mt-1">Try searching for other catalysts like VitalZyme, EcoHolo, or RiskProtease.</p>
- </div>
- )}
- </main>
- </div>
- );
+      </div>
+    </div>
+  );
 };
 
 export default BlogsPage;

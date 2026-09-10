@@ -107,7 +107,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#222 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(#2C3032 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -118,8 +118,8 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
  <Link to="/" className="flex items-center gap-2 group focus:outline-none">
  <BrandLogo size="sm" />
- <span className="text-xs font-semibold tracking-[-0.02em] text-white">
- Catalyst<span className="text-[#00D2FF]">Lab</span>
+ <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
+ Catalyst<span className="text-[var(--accent-cyan-edge)]">Lab</span>
  </span>
  </Link>
  <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
@@ -137,7 +137,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <>
  {/* Headlines */}
  <div className="space-y-1.5 mb-6">
- <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight text-white">
+ <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight text-foreground">
  Recover your access key.
  </h1>
  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
@@ -166,7 +166,7 @@ export const ForgotPasswordPage: React.FC = () => {
  onChange={(e) => setEmail(e.target.value)}
  placeholder="engineer@acme.corp"
  required
- className="ds-input pl-10 bg-background border-border text-white placeholder-neutral-600 focus:border-primary focus:ring-primary w-full"
+ className="ds-input pl-10 bg-background border-border text-foreground placeholder-neutral-600 focus:border-primary focus:ring-primary w-full"
  />
  <Mail className="absolute left-3.5 top-3.5 size-4 text-muted-foreground" />
  </div>
@@ -179,7 +179,7 @@ export const ForgotPasswordPage: React.FC = () => {
  >
  {isSubmitting ? (
  <>
- <RotateCw className="size-4 animate-spin text-white" />
+ <RotateCw className="size-4 animate-spin text-foreground" />
  <span>Signing Cryptographic Token...</span>
  </>
  ) : (
@@ -194,12 +194,12 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="mt-6 pt-5 border-t border-border space-y-2">
  <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
  <span className="flex items-center gap-1.5">
- <Terminal className="size-3.5 text-[#00D2FF]" />
+ <Terminal className="size-3.5 text-[var(--accent-cyan-edge)]" />
  <span>Terminal Recovery</span>
  </span>
  <span>Catalyst CLI</span>
  </div>
- <div className="p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 font-mono text-[11px] text-[#00D2FF]">
+ <div className="p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 font-mono text-[11px] text-[var(--accent-cyan-edge)]">
  <span className="truncate">$ {terminalCommand}</span>
  <CopyButton
  text={`npx ${terminalCommand}`}
@@ -223,19 +223,19 @@ export const ForgotPasswordPage: React.FC = () => {
  </div>
 
  <div className="space-y-1.5">
- <h2 className="text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-white">
+ <h2 className="text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-foreground">
  Secure Token Dispatched
  </h2>
  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">
  We sent a signed access token and magic link to{' '}
- <span className="text-white font-mono">{maskEmail(email)}</span>.
+ <span className="text-foreground font-mono">{maskEmail(email)}</span>.
  </p>
  </div>
 
  {/* Expiration Countdown */}
  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-background border border-border font-mono text-xs text-muted-foreground">
- <Clock className="size-3.5 text-[#00D2FF]" />
- <span>Token expires in: <strong className="text-white">{formatCountdown(countdown)}</strong></span>
+ <Clock className="size-3.5 text-[var(--accent-cyan-edge)]" />
+ <span>Token expires in: <strong className="text-foreground">{formatCountdown(countdown)}</strong></span>
  </div>
 
  {/* Actions */}
@@ -256,14 +256,14 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="mt-6 pt-4 border-t border-border flex items-center justify-between text-xs">
  <Link
  to="/login"
- className="flex items-center gap-1.5 text-muted-foreground hover:text-white transition-colors"
+ className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
  >
  <ArrowLeft className="size-3.5" />
  <span>Back to Login</span>
  </Link>
  <Link
  to="/signup"
- className="text-[#00D2FF] hover:underline"
+ className="text-[var(--accent-cyan-edge)] hover:underline"
  >
  Create New Account &rarr;
  </Link>

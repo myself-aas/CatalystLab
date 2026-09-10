@@ -21,14 +21,14 @@ export const DiagnosticEngineCard: React.FC<Props> = ({ engine }) => {
     >
       <div>
         {/* Header */}
-        <div className="p-4 flex items-center justify-between border-b border-border bg-white/[0.02]">
-          <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20">
+        <div className="p-4 flex items-center justify-between border-b border-border bg-foreground/[0.02]">
+          <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[var(--accent-framer-blue)]/10 text-[var(--accent-framer-blue)] border border-[var(--accent-framer-blue)]/20">
             {engine.category}
           </span>
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setFavorited((prev) => !prev)}
-            className="p-1.5 rounded-full hover:bg-white/5 transition-colors"
+            className="p-1.5 rounded-full hover:bg-[var(--bg-surface)] transition-colors"
             aria-label={favorited ? 'Unfavorite engine' : 'Favorite engine'}
           >
             {favorited ? (
@@ -46,7 +46,7 @@ export const DiagnosticEngineCard: React.FC<Props> = ({ engine }) => {
             {engine.metrics.map((m, idx) => (
               <span
                 key={idx}
-                className="framer-micro-tag px-2 py-1 rounded-md bg-white/5 text-muted-foreground border border-white/10"
+                className="framer-micro-tag px-2 py-1 rounded-md bg-[var(--bg-surface)] text-muted-foreground border border-foreground/10"
               >
                 <strong className="text-foreground">{m.label}:</strong> {m.value}
               </span>

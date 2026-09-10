@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
           transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           onClick={toggleSidebar}
           aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
-          className="p-1.5 rounded-md ds-muted hover:bg-[var(--theme-slate-900)]/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
+          className="p-1.5 rounded-md ds-muted hover:bg-[var(--bg-panel-hover)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
         >
           <SidebarIcon className="size-[18px]" />
         </motion.button>
@@ -101,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 "group relative flex items-center h-[36px] rounded-lg px-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                 isActive
                   ? "ds-nav-active shadow-sm"
-                  : "bg-[var(--app-background)] ds-muted hover:text-foreground hover:bg-[var(--theme-slate-900)]/5 border border-transparent hover:border-[var(--border-subtle)]"
+                  : "bg-[var(--app-background)] ds-muted hover:text-foreground hover:bg-[var(--bg-surface)] border border-transparent hover:border-[var(--border-subtle)]"
               )}
             >
               <item.icon className={cn("size-[18px] shrink-0", !isExpanded && "mx-auto")} />
@@ -111,14 +111,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               )}
 
               {isExpanded && item.badge && (
-                <span className="text-[11px] font-medium ds-muted bg-[var(--theme-slate-900)]/10 border border-[var(--border-subtle)] px-1.5 py-0.5 rounded-md">
+                <span className="text-[11px] font-medium ds-muted bg-[var(--bg-panel-hover)] border border-[var(--border-subtle)] px-1.5 py-0.5 rounded-md">
                   {item.badge}
                 </span>
               )}
 
               {!isExpanded && (
-                <div className="absolute left-full ml-2 px-2 py-1 bg-[var(--theme-slate-900)] text-[var(--app-background)] text-xs font-medium rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 flex items-center shadow-lg">
-                  <div className="absolute -left-1 top-1/2 -translate-y-1/2 border-y-4 border-y-transparent border-r-4 border-r-[var(--theme-slate-900)]" />
+                <div className="absolute left-full ml-2 px-2 py-1 bg-foreground text-[var(--app-background)] text-xs font-medium rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 flex items-center shadow-lg">
+                  <div className="absolute -left-1 top-1/2 -translate-y-1/2 border-y-4 border-y-transparent border-r-4 border-r-white" />
                   {item.name}
                 </div>
               )}
@@ -136,7 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               setEnginesExpanded(!enginesExpanded);
             }}
             className={cn(
-              "w-full flex items-center h-[36px] rounded-lg px-2.5 transition-colors ds-muted hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
+              "w-full flex items-center h-[36px] rounded-lg px-2.5 transition-colors ds-muted hover:bg-[var(--bg-surface)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
               !isExpanded && "justify-center"
             )}
           >
@@ -180,7 +180,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                           "flex items-center h-[32px] rounded-lg px-2.5 text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                           isActive
                             ? "ds-nav-active"
-                            : "ds-muted hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground border border-transparent hover:border-[var(--border-subtle)]"
+                            : "ds-muted hover:bg-[var(--bg-surface)] hover:text-foreground border border-transparent hover:border-[var(--border-subtle)]"
                         )}
                       >
                         <span className="truncate">{engine.name}</span>
@@ -196,7 +196,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
 
       <div className="px-3 py-4 space-y-4 border-t border-[var(--border-subtle)] shrink-0">
         {isExpanded ? (
-          <div className="flex p-0.5 bg-[var(--theme-slate-900)]/5 border border-[var(--border-subtle)] rounded-lg">
+          <div className="flex p-0.5 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-lg">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -204,7 +204,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               onClick={() => setTheme('light')}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
-                theme === 'light' ? "bg-[var(--app-background)] text-[var(--theme-slate-900)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
+                theme === 'light' ? "bg-[var(--app-background)] text-[var(--text-primary)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
               )}
             >
               <Sun className="size-[15px]" />
@@ -217,7 +217,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               onClick={() => setTheme('dark')}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
-                theme === 'dark' ? "bg-[var(--app-background)] text-[var(--theme-slate-900)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
+                theme === 'dark' ? "bg-[var(--app-background)] text-[var(--text-primary)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
               )}
             >
               <Moon className="size-[15px]" />
@@ -230,7 +230,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="w-full flex items-center justify-center h-[36px] rounded-lg ds-muted hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
+            className="w-full flex items-center justify-center h-[36px] rounded-lg ds-muted hover:bg-[var(--bg-surface)] hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
           >
             {theme === 'dark' ? <Sun className="size-[18px]" /> : <Moon className="size-[18px]" />}
           </motion.button>
@@ -262,7 +262,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <button
                   type="button"
                   onClick={() => logout()}
-                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--theme-slate-900)]/10 transition-colors focus-visible:outline-none cursor-pointer"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--bg-panel-hover)] transition-colors focus-visible:outline-none cursor-pointer"
                   title="Sign out"
                   aria-label="Sign out"
                 >
@@ -272,7 +272,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <Link
                   to="/login"
                   onClick={onCloseMobile}
-                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--theme-slate-900)]/10 transition-colors focus-visible:outline-none"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--bg-panel-hover)] transition-colors focus-visible:outline-none"
                   title="Sign in"
                   aria-label="Sign in"
                 >

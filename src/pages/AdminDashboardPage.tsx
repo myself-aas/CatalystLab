@@ -51,7 +51,7 @@ export const AdminDashboardPage: React.FC = () => {
  return (
  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-mono flex items-center justify-center p-4 relative overflow-hidden">
  {/* Subsurface glow */}
- <div className="absolute inset-0 bg-[radial-gradient(#222_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
  
  <SEOHead
@@ -60,7 +60,7 @@ export const AdminDashboardPage: React.FC = () => {
  />
 
  <div className="w-full max-w-md p-6 sm:p-8 ds-card backdrop-blur-xl relative z-10 text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-[#00D2FF] border border-border mb-4 shadow-inner">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--bg-surface)] text-[var(--accent-cyan-edge)] border border-border mb-4 shadow-inner">
  <Lock className="h-6 w-6" />
  </div>
 
@@ -135,7 +135,7 @@ export const AdminDashboardPage: React.FC = () => {
 
  <button
  onClick={() => setShowDomainModal(true)}
- className="w-full py-1.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-muted-foreground hover:text-white text-[11px] font-mono transition-all cursor-pointer"
+ className="w-full py-1.5 px-3 rounded-xl bg-[var(--bg-surface)] hover:bg-foreground/10 text-muted-foreground hover:text-foreground text-[11px] font-mono transition-all cursor-pointer"
  >
  Domain Auth Helper
  </button>
@@ -149,7 +149,7 @@ export const AdminDashboardPage: React.FC = () => {
 
  // Authorized Superadmin Workspace
  return (
- <div data-theme="dark" className="min-h-screen bg-background text-foreground font-sans selection:bg-[#0066FF] selection:text-white">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-[var(--accent-framer-blue)] selection:text-foreground">
  <SEOHead
  title="Command Center & Infrastructure Radar — CatalystLab Admin"
  description="Continuous uptime monitoring, live Firestore audit logs, diagnostic container telemetry, and blog publishing."
@@ -157,12 +157,12 @@ export const AdminDashboardPage: React.FC = () => {
  />
 
  {/* Admin Shell Header Banner */}
- <section className="sticky top-0 z-20 ds-page-top pb-6 bg-transparent backdrop-blur-md border-b border-[var(--border-subtle)] px-4 sm:px-6 lg:px-10 ds-section">
+ <section className="sticky top-0 z-20 ds-page-top pb-6 bg-transparent backdrop-blur-md border-b border-[var(--border-subtle)] px-4 sm:px-6 lg:px-10">
  <div className="max-w-7xl mx-auto space-y-4">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
  {/* Specification 5.1: Banner Badge */}
- <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full framer-micro-tag bg-cyan-500/10 text-[#00D2FF] border border-cyan-500/20 mb-2">
+ <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full framer-micro-tag bg-cyan-500/10 text-[var(--accent-cyan-edge)] border border-cyan-500/20 mb-2">
  <Terminal className="size-3.5 text-amber-400 shrink-0" />
  <span>[ SYSTEM ADMIN · ROOT PRIVILEGES ENABLED ]</span>
  </div>
@@ -193,8 +193,8 @@ export const AdminDashboardPage: React.FC = () => {
  onClick={() => handleTabChange('mesh')}
  className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
  activeTab === 'mesh'
- ? 'bg-white/15 text-white shadow-sm font-semibold'
- : 'text-muted-foreground hover:text-white hover:bg-white/5'
+ ? 'bg-foreground/15 text-foreground shadow-sm font-semibold'
+ : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
  }`}
  >
  <Globe className="size-3.5 shrink-0" />
@@ -205,8 +205,8 @@ export const AdminDashboardPage: React.FC = () => {
  onClick={() => handleTabChange('tenants')}
  className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
  activeTab === 'tenants'
- ? 'bg-white/15 text-white shadow-sm font-semibold'
- : 'text-muted-foreground hover:text-white hover:bg-white/5'
+ ? 'bg-foreground/15 text-foreground shadow-sm font-semibold'
+ : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
  }`}
  >
  <Sliders className="size-3.5 shrink-0" />
@@ -217,8 +217,8 @@ export const AdminDashboardPage: React.FC = () => {
  onClick={() => handleTabChange('compute')}
  className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
  activeTab === 'compute'
- ? 'bg-white/15 text-white shadow-sm font-semibold'
- : 'text-muted-foreground hover:text-white hover:bg-white/5'
+ ? 'bg-foreground/15 text-foreground shadow-sm font-semibold'
+ : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
  }`}
  >
  <Cpu className="size-3.5 shrink-0" />
@@ -229,8 +229,8 @@ export const AdminDashboardPage: React.FC = () => {
  onClick={() => handleTabChange('owasp')}
  className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
  activeTab === 'owasp'
- ? 'bg-white/15 text-white shadow-sm font-semibold'
- : 'text-muted-foreground hover:text-white hover:bg-white/5'
+ ? 'bg-foreground/15 text-foreground shadow-sm font-semibold'
+ : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
  }`}
  >
  <ShieldAlert className="size-3.5 shrink-0" />
@@ -241,8 +241,8 @@ export const AdminDashboardPage: React.FC = () => {
  onClick={() => handleTabChange('monitoring')}
  className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
  activeTab === 'monitoring'
- ? 'bg-white/15 text-white shadow-sm font-semibold'
- : 'text-muted-foreground hover:text-white hover:bg-white/5'
+ ? 'bg-foreground/15 text-foreground shadow-sm font-semibold'
+ : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
  }`}
  >
  <Activity className="size-3.5 shrink-0" />
@@ -253,8 +253,8 @@ export const AdminDashboardPage: React.FC = () => {
  onClick={() => handleTabChange('blogs')}
  className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
  activeTab === 'blogs'
- ? 'bg-white/15 text-white shadow-sm font-semibold'
- : 'text-muted-foreground hover:text-white hover:bg-white/5'
+ ? 'bg-foreground/15 text-foreground shadow-sm font-semibold'
+ : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
  }`}
  >
  <BookOpen className="size-3.5 shrink-0" />
@@ -265,8 +265,8 @@ export const AdminDashboardPage: React.FC = () => {
  onClick={() => handleTabChange('inquiries')}
  className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
  activeTab === 'inquiries'
- ? 'bg-white/15 text-white shadow-sm font-semibold'
- : 'text-muted-foreground hover:text-white hover:bg-white/5'
+ ? 'bg-foreground/15 text-foreground shadow-sm font-semibold'
+ : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
  }`}
  >
  <Mail className="size-3.5 shrink-0" />

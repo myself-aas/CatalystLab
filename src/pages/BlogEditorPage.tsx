@@ -172,7 +172,7 @@ export const BlogEditorPage: React.FC = () => {
  <BlogEditorSkeleton />
  ) : preview ? (
  <article className="ds-card space-y-4 p-6">
- <p className="font-mono text-[11px] uppercase tracking-wider text-[#0066FF]">{category} · {status}</p>
+ <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--accent-framer-blue)]">{category} · {status}</p>
  <h2 className="framer-section-headline text-foreground">{title || 'Untitled'}</h2>
  {excerpt && <p className="framer-body-text">{excerpt}</p>}
  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">{content}</pre>
@@ -215,7 +215,7 @@ export const BlogEditorPage: React.FC = () => {
  value={content}
  onChange={(e) => setContent(e.target.value)}
  placeholder="Write your post in markdown…"
- className="ds-card h-96 w-full p-4 text-base font-mono focus:outline-none focus:border-[#0066FF]"
+ className="ds-card h-96 w-full p-4 text-base font-mono focus:outline-none focus:border-[var(--accent-framer-blue)]"
  />
  </form>
  )}

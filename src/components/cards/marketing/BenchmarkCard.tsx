@@ -49,7 +49,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       {/* Header Row */}
       <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+          <div className="w-8 h-8 rounded-lg bg-[#0066FF]/10 border border-[#0066FF]/20 flex items-center justify-center text-[#0066FF]">
             <Zap className="w-4 h-4" />
           </div>
           <div>
@@ -62,7 +62,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
           </div>
         </div>
 
-        <span className="px-2.5 py-1 rounded-full text-xs font-sans font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span className="px-2.5 py-1 rounded-full text-xs font-sans font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
           {deltaImprovement}
         </span>
       </div>
@@ -103,15 +103,15 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
             <ShieldCheck className="w-3 h-3 text-indigo-600" />
           </div>
           <div className="mt-1">
-            <span className="text-lg font-black text-indigo-600">
+            <span className="text-lg font-black text-[#0066FF]">
               {catalystValue}
             </span>
-            <span className="block text-[11px] font-sans text-indigo-400 mt-0.5">
+            <span className="block text-[11px] font-sans text-muted-foreground mt-0.5">
               {catalystLabel}
             </span>
             {/* Visual Indicator */}
-            <div className="mt-2 h-1 w-full bg-indigo-100 rounded-full overflow-hidden">
-               <div className="h-full bg-indigo-600 w-full" />
+            <div className="mt-2 h-1 w-full bg-[#0066FF]/20 rounded-full overflow-hidden">
+               <div className="h-full bg-[#0066FF] w-full" />
             </div>
           </div>
         </div>

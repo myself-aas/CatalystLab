@@ -64,7 +64,7 @@ export const UserGithubWebhookView: React.FC = () => {
                 <button className="p-2 ds-muted hover:ds-muted bg-muted hover:bg-accent rounded-lg transition-colors">
                   <ExternalLink className="w-4 h-4" />
                 </button>
-                <button className="p-2 text-red-400 hover:text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">
+                <button className="p-2 text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 rounded-lg transition-colors">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>

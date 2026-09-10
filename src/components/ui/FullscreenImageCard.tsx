@@ -52,19 +52,19 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
       {/* Dark gradient scrim overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-[5]"
+        className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent pointer-events-none z-[5]"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
       />
 
       {/* Card Content Layout */}
       <div
-        className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 z-10 text-primary-foreground bg-gradient-to-t from-black/80 to-transparent"
+        className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 z-10 text-primary-foreground bg-gradient-to-t from-background/80 to-transparent"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
       >
         {/* Top Header / Badge / Actions */}
         <div className="flex items-center justify-between gap-2">
           {badge ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/20 backdrop-blur-md border border-white/30 text-xs font-mono font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/20 backdrop-blur-md border border-foreground/30 text-xs font-mono font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
               {badge}
             </span>
           ) : (
@@ -72,7 +72,7 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
           )}
 
           {score && (
-            <div className="px-3 py-1 rounded-full bg-foreground/40 backdrop-blur-md border border-white/20 text-xs font-mono font-bold text-primary-foreground shadow-sm">
+            <div className="px-3 py-1 rounded-full bg-foreground/40 backdrop-blur-md border border-foreground/20 text-xs font-mono font-bold text-primary-foreground shadow-sm">
               {score}
             </div>
           )}

@@ -78,7 +78,7 @@ export const SevenDayTrialSection: React.FC = () => {
           
           {/* LEFT COLUMN */}
           <LazyReveal direction="left" className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-sans font-bold text-indigo-700 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#0066FF] shadow-sm">
               <Terminal className="w-3.5 h-3.5" />
               <span>AUDIT. AUTOMATE. OPTIMIZE.</span>
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-1" />
@@ -171,7 +171,7 @@ export const SevenDayTrialSection: React.FC = () => {
                     <Calendar className="h-4 w-4 text-indigo-600" />
                     <span>Continuous Cron Log</span>
                   </div>
-                  <span className="text-[10px] text-emerald-700 font-bold uppercase bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded shadow-sm">
+                  <span className="text-[10px] text-emerald-400 font-bold uppercase bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded shadow-sm">
                     24/7 Active
                   </span>
                 </div>
@@ -280,7 +280,7 @@ export const SevenDayTrialSection: React.FC = () => {
                       <span className="truncate max-w-[140px] text-foreground font-bold font-mono">
                         https://catalystlab.tech
                       </span>
-                      <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[10px] font-bold border border-emerald-200 shadow-sm">
+                      <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded text-[10px] font-bold border border-emerald-500/20 shadow-sm">
                         PRO TRIAL ACTIVE
                       </span>
                     </div>

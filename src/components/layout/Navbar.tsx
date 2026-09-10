@@ -38,7 +38,7 @@ interface EngineItem {
   icon: React.ElementType;
 }
 
-const PERF_TAG_COLOR = 'text-[#00D2FF] bg-[#00D2FF]/10 border-[#00D2FF]/20';
+const PERF_TAG_COLOR = 'text-[var(--accent-cyan-edge)] bg-[var(--accent-cyan-edge)]/10 border-[var(--accent-cyan-edge)]/20';
 const SEC_TAG_COLOR = 'text-purple-400 bg-purple-500/10 border-purple-500/20';
 
 const PERFORMANCE_ENGINES: EngineItem[] = ENGINE_ITEMS.slice(0, 4).map((e) => ({
@@ -144,9 +144,12 @@ export const Navbar: React.FC = () => {
   }, [location.pathname]);
 
   useEffect(() => {
+    const handleOpen = () => setIsMobileMenuOpen(true);
     const handleClose = () => setIsMobileMenuOpen(false);
+    window.addEventListener('catalyst:open-mobile-menu', handleOpen);
     window.addEventListener('catalyst:close-mobile-menu', handleClose);
     return () => {
+      window.removeEventListener('catalyst:open-mobile-menu', handleOpen);
       window.removeEventListener('catalyst:close-mobile-menu', handleClose);
     };
   }, []);
@@ -242,7 +245,10 @@ export const Navbar: React.FC = () => {
         style={{
           pointerEvents: shouldShow ? 'auto' : 'none',
         }}
-        className="top-nav absolute top-[var(--trial-banner-height,0px)] inset-x-0 w-full z-40 bg-transparent border-b border-transparent shadow-none transition-colors duration-200"
+        className={cn(
+          "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 w-full z-40 border-b shadow-none transition-colors duration-200",
+          isScrolled ? "bg-background/80 backdrop-blur-md border-border" : "bg-transparent border-transparent"
+        )}
       >
         <nav
           aria-label="Main Navigation"
@@ -306,7 +312,7 @@ export const Navbar: React.FC = () => {
                       <div className="space-y-1.5">
                         <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground flex items-center justify-between border-b border-[var(--border-subtle)] pb-1 mb-1">
                           <span>Performance</span>
-                          <span className="text-[#00D2FF]">4 Engines</span>
+                          <span className="text-[var(--accent-cyan-edge)]">4 Engines</span>
                         </div>
                         {PERFORMANCE_ENGINES.map((engine) => {
                           const Icon = engine.icon;
@@ -320,14 +326,14 @@ export const Navbar: React.FC = () => {
                               <Link
                                 to={engine.path}
                                 onClick={() => setIsEnginesOpen(false)}
-                                className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-[var(--theme-slate-900)]/5 transition-all duration-150 border border-transparent hover:border-[var(--border-subtle)]"
+                                className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-[var(--bg-surface)] transition-all duration-150 border border-transparent hover:border-[var(--border-subtle)]"
                               >
-                                <div className="size-8 rounded-lg bg-[var(--theme-slate-900)]/5 border border-[var(--border-subtle)] flex items-center justify-center shrink-0 text-muted-foreground group-hover:text-[#00D2FF] group-hover:border-[#00D2FF]/40 transition-colors">
+                                <div className="size-8 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center justify-center shrink-0 text-muted-foreground group-hover:text-[var(--accent-cyan-edge)] group-hover:border-[var(--accent-cyan-edge)]/40 transition-colors">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1.5">
-                                    <span className="text-xs font-medium text-foreground group-hover:text-[#00D2FF] transition-colors truncate">{engine.name}</span>
+                                    <span className="text-xs font-medium text-foreground group-hover:text-[var(--accent-cyan-edge)] transition-colors truncate">{engine.name}</span>
                                   </div>
                                   <p className="text-[11px] text-muted-foreground leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
                                 </div>
@@ -354,9 +360,9 @@ export const Navbar: React.FC = () => {
                               <Link
                                 to={engine.path}
                                 onClick={() => setIsEnginesOpen(false)}
-                                className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-[var(--theme-slate-900)]/5 transition-all duration-150 border border-transparent hover:border-[var(--border-subtle)]"
+                                className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-[var(--bg-surface)] transition-all duration-150 border border-transparent hover:border-[var(--border-subtle)]"
                               >
-                                <div className="size-8 rounded-lg bg-[var(--theme-slate-900)]/5 border border-[var(--border-subtle)] flex items-center justify-center shrink-0 text-muted-foreground group-hover:text-purple-400 group-hover:border-purple-400/40 transition-colors">
+                                <div className="size-8 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center justify-center shrink-0 text-muted-foreground group-hover:text-purple-400 group-hover:border-purple-400/40 transition-colors">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
@@ -406,7 +412,7 @@ export const Navbar: React.FC = () => {
                   aria-expanded={profileOpen}
                   aria-haspopup="menu"
                 >
-                  <span className="flex size-6 items-center justify-center rounded-full bg-[#0066FF]/20 text-[#00D2FF] text-[11px] font-bold">{initials}</span>
+                  <span className="flex size-6 items-center justify-center rounded-full bg-[var(--accent-framer-blue)]/20 text-[var(--accent-cyan-edge)] text-[11px] font-bold">{initials}</span>
                   <span className="max-w-[110px] truncate">{userName}</span>
                   <ChevronDown className={cn('size-3.5 text-muted-foreground transition-transform', profileOpen && 'rotate-180')} />
                 </motion.button>
@@ -427,17 +433,17 @@ export const Navbar: React.FC = () => {
                           <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{planId} &bull; {currentPlan?.name || 'Account'}</div>
                         </div>
                         {isAdmin && (
-                          <Link to="/admin" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground">
+                          <Link to="/admin" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground">
                             <Lock className="size-3.5 text-amber-400" /> Admin
                           </Link>
                         )}
-                        <Link to="/dashboard" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground">
-                          <LayoutDashboard className="size-3.5 text-[#00D2FF]" /> Dashboard
+                        <Link to="/dashboard" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground">
+                          <LayoutDashboard className="size-3.5 text-[var(--accent-cyan-edge)]" /> Dashboard
                         </Link>
-                        <Link to="/" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--theme-slate-900)]/5 hover:text-foreground">
+                        <Link to="/" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground">
                           <HomeIcon /> Home
                         </Link>
-                        <button type="button" onClick={handleLogout} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs font-medium text-muted-foreground hover:bg-[var(--theme-slate-900)]/5 hover:text-rose-400 cursor-pointer">
+                        <button type="button" onClick={handleLogout} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-rose-400 cursor-pointer">
                           <LogOut className="size-3.5" /> Logout
                         </button>
                       </div>
@@ -450,14 +456,14 @@ export const Navbar: React.FC = () => {
                 <Link to="/login" className="text-xs sm:text-sm text-muted-foreground hover:text-foreground px-2.5 py-1.5 transition-colors duration-150 focus:outline-none font-medium">
                   Login
                 </Link>
-                <Link to="/signup" className="rounded-full border border-[var(--border-subtle)] bg-[var(--app-background)] hover:bg-[var(--theme-slate-900)]/5 px-3.5 py-1.5 text-xs font-medium text-foreground transition-colors">
+                <Link to="/signup" className="rounded-full border border-[var(--border-subtle)] bg-[var(--app-background)] hover:bg-[var(--bg-surface)] px-3.5 py-1.5 text-xs font-medium text-foreground transition-colors">
                   Signup
                 </Link>
               </>
             )}
             <Link
               to="/audit"
-              className="bg-white text-black font-semibold hover:bg-neutral-200 rounded-full px-3.5 py-1.5 text-xs sm:text-sm shadow-[0_0_18px_rgba(255,255,255,0.35)] flex items-center gap-1.5 transition-all active:scale-95 focus:outline-none shrink-0"
+              className="bg-foreground text-background font-semibold hover:bg-neutral-200 rounded-full px-3.5 py-1.5 text-xs sm:text-sm shadow-[0_0_18px_rgba(255,255,255,0.35)] flex items-center gap-1.5 transition-all active:scale-95 focus:outline-none shrink-0"
             >
               <span>Audit</span>
               <ArrowRight className="size-3.5" />
@@ -472,7 +478,10 @@ export const Navbar: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               className="text-foreground focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -mr-2 cursor-pointer"
-              onClick={() => window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'))}
+              onClick={() => {
+                setIsMobileMenuOpen(true);
+                window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'));
+              }}
               aria-label="Open mobile navigation menu"
             >
               <Menu className="size-5" />
@@ -480,6 +489,11 @@ export const Navbar: React.FC = () => {
           </div>
         </nav>
       </motion.header>
+
+      <MainMenuOverlay
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
     </>
   );
 };

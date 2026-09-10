@@ -41,8 +41,8 @@ export const PlaygroundCatalogPage: React.FC = () => {
  return (
  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Hero Banner */}
- <div className="border-b border-border bg-background ds-section">
- <div className="ds-page-shell ds-section">
+ <div className="border-b border-border bg-background py-8 md:py-12">
+ <div className="ds-page-shell">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
  <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 framer-micro-tag text-emerald-400">
@@ -77,7 +77,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  </div>
 
  {/* Main Content */}
- <div className="ds-page-shell ds-section">
+ <div className="ds-page-shell py-8 md:py-12">
  <div className="flex flex-col lg:flex-row gap-8">
  
  {/* Sidebar */}
@@ -87,7 +87,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <div className="flex-1 space-y-10 min-w-0">
  
  {/* Quick Test Launch Form */}
- <section className="ds-card p-6 sm:p-8 space-y-6 ds-section">
+ <section className="ds-card p-6 sm:p-8 space-y-6">
  <div>
  <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
  <Zap className="h-5 w-5 text-amber-500"/>
@@ -123,7 +123,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  </section>
 
  {/* Diagnostic Engines Sandbox Catalog */}
- <section className="space-y-6 ds-section">
+ <section className="space-y-6">
  <div>
  <h2 className="framer-section-headline text-foreground">Interactive Engine Consoles</h2>
  <p className="framer-body-text mt-1">Click any engine to open its dedicated interactive test sandbox</p>
@@ -140,15 +140,15 @@ export const PlaygroundCatalogPage: React.FC = () => {
  >
  <div>
  <div className="flex items-center justify-between mb-4">
- <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-[#00D2FF]">
- <Icon className="h-5 w-5 text-[#00D2FF] shrink-0 transition-colors"/>
+ <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-foreground/10 text-[var(--accent-cyan-edge)]">
+ <Icon className="h-5 w-5 text-[var(--accent-cyan-edge)] shrink-0 transition-colors"/>
  </div>
- <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#00D2FF]/10 text-[#00D2FF] border border-[#00D2FF]/20">
+ <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[var(--accent-cyan-edge)]/10 text-[var(--accent-cyan-edge)] border border-[var(--accent-cyan-edge)]/20">
  {engine.category}
  </span>
  </div>
 
- <h3 className="framer-card-title text-foreground group-hover:text-[#0066FF] transition-colors">
+ <h3 className="framer-card-title text-foreground group-hover:text-[var(--accent-framer-blue)] transition-colors">
  {engine.name}
  </h3>
  <p className="framer-body-text text-xs mt-2 line-clamp-2">
@@ -160,7 +160,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <span className="font-mono text-muted-foreground">
  Cost: <strong>{engine.cost} scan credit</strong>
  </span>
- <span className="font-bold text-[#0066FF] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+ <span className="font-bold text-[var(--accent-framer-blue)] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
  <span>Open Console</span>
  <ArrowRight className="h-3.5 w-3.5 shrink-0"/>
  </span>

@@ -20,8 +20,8 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.mem
   ];
 
   return (
-    <div className="rounded-2xl border border-black/30 bg-background p-6 shadow-xl space-y-6 text-foreground">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/25 pb-5">
+    <div className="rounded-2xl border border-background/30 bg-background p-6 shadow-xl space-y-6 text-foreground">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-background/25 pb-5">
         <div>
           <h3 className="text-base font-bold text-foreground flex items-center gap-2">
             <span>Executive Vitals Overview: 8-Engine Telemetry Spectrum</span>
@@ -33,7 +33,7 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.mem
 
         <div className="flex items-center gap-2 text-xs font-mono">
           <span className="text-muted-foreground">Composite Score:</span>
-          <span className="text-xl font-black text-foreground bg-foreground/25 px-3 py-1 rounded-xl border border-black/40">
+          <span className="text-xl font-black text-foreground bg-foreground/25 px-3 py-1 rounded-xl border border-background/40">
             {telemetry.overallScore}/100 [{telemetry.grade}]
           </span>
         </div>
@@ -47,7 +47,7 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.mem
           return (
             <div
               key={dim.name}
-              className="rounded-xl border border-black/30 bg-muted p-4 transition-all hover:border-black/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="rounded-xl border border-background/30 bg-muted p-4 transition-all hover:border-background/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div className="flex items-center justify-between gap-2 mb-3">
                 <span
@@ -66,7 +66,7 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.mem
               <div className="text-xs font-bold text-foreground truncate">{dim.name}</div>
 
               {/* Mini progress bar */}
-              <div className="h-1.5 w-full rounded-full bg-accent overflow-hidden mt-2.5 border border-black/20">
+              <div className="h-1.5 w-full rounded-full bg-accent overflow-hidden mt-2.5 border border-background/20">
                 <div
                   className="h-full rounded-full transition-all duration-700"
                   style={{

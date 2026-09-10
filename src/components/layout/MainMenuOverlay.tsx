@@ -178,14 +178,14 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
   ];
 
   const diagnosticHubItems = [
-    { id: 'engines', title: 'Engines', path: '/engines', icon: Layers },
-    { id: 'patches', title: 'Patches', path: '/dashboard?tab=patches', icon: GitPullRequest, tab: 'patches' },
-    { id: 'security', title: 'Security', path: '/dashboard?tab=security', icon: ShieldAlert, tab: 'security' },
+    { id: 'engines', title: '8 Engines Explorer', path: '/engines', icon: Layers },
+    { id: 'patches', title: 'Automated PR Patches', path: '/dashboard?tab=patches', icon: GitPullRequest, tab: 'patches' },
+    { id: 'security', title: 'Security & OWASP', path: '/dashboard?tab=security', icon: ShieldAlert, tab: 'security' },
     { id: 'rate-limits', title: 'Quotas', path: '/dashboard?tab=rate-limits', icon: Sliders, tab: 'rate-limits' },
   ];
 
   const exploreResourcesItems = [
-    { id: 'docs', title: 'Docs', path: '/docs', icon: BookOpen },
+    { id: 'docs', title: 'Documentation & Architecture', path: '/docs', icon: BookOpen },
     { id: 'api', title: 'API', path: '/api-docs', icon: Terminal },
     { id: 'pricing', title: 'Pricing', path: '/pricing', icon: CreditCard },
     { id: 'compare', title: 'Compare', path: '/compare', icon: Scale },
@@ -210,8 +210,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
         className={cn(
           'group relative w-full flex items-center justify-between p-2.5 rounded-lg text-xs transition-all duration-160 cursor-pointer',
           active
-            ? 'ds-nav-active bg-white/10 text-white font-medium border border-border'
-            : 'text-muted-foreground hover:text-white hover:bg-white/5 border border-transparent'
+            ? 'ds-nav-active bg-foreground/10 text-foreground font-medium border border-border'
+            : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)] border border-transparent'
         )}
         title={item.title}
       >
@@ -219,7 +219,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
           <Icon
             className={cn(
               'size-4 shrink-0 transition-colors',
-              active ? 'text-[#0066FF]' : 'text-muted-foreground/70 group-hover:text-white'
+              active ? 'text-[var(--accent-framer-blue)]' : 'text-muted-foreground/70 group-hover:text-foreground'
             )}
           />
           <span className="truncate">{item.title}</span>
@@ -227,7 +227,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
 
         <div className="flex items-center gap-1.5 shrink-0">
           {active && (
-            <span className="size-1.5 rounded-full bg-[#0066FF] shadow-[0_0_8px_#0066FF] animate-pulse shrink-0" />
+            <span className="size-1.5 rounded-full bg-[var(--accent-framer-blue)] shadow-[0_0_8px_#0066FF] animate-pulse shrink-0" />
           )}
         </div>
       </button>
@@ -244,7 +244,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            className="absolute inset-0 bg-background/80 backdrop-blur-md"
             onClick={onClose}
           />
 
@@ -263,8 +263,8 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
           >
             {/* Ambient Lighting Blobs inside drawer */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
-              <div className="absolute -top-32 right-0 h-64 w-64 rounded-full bg-[#0066FF]/10 blur-[90px]" />
-              <div className="absolute bottom-10 left-0 h-64 w-64 rounded-full bg-[#00D2FF]/8 blur-[90px]" />
+              <div className="absolute -top-32 right-0 h-64 w-64 rounded-full bg-[var(--accent-framer-blue)]/10 blur-[90px]" />
+              <div className="absolute bottom-10 left-0 h-64 w-64 rounded-full bg-[var(--accent-cyan-edge)]/8 blur-[90px]" />
             </div>
 
             {/* Top Header & Navigation Body */}
@@ -289,7 +289,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                     <Link
                       to="/dashboard"
                       onClick={onClose}
-                      className="size-8 rounded-lg overflow-hidden border border-border bg-surface flex items-center justify-center hover:border-[#0066FF] transition-all"
+                      className="size-8 rounded-lg overflow-hidden border border-border bg-surface flex items-center justify-center hover:border-[var(--accent-framer-blue)] transition-all"
                       title="User CMS"
                     >
                       {user.photoURL ? (
@@ -300,7 +300,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                           referrerPolicy="no-referrer"
                         />
                       ) : (
-                        <span className="text-[10px] font-bold text-[#00D2FF]">
+                        <span className="text-[10px] font-bold text-[var(--accent-cyan-edge)]">
                           {(user.displayName || user.email || 'U')[0].toUpperCase()}
                         </span>
                       )}
@@ -312,7 +312,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="p-1.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-muted-foreground hover:text-white hover:bg-white/10 transition-colors cursor-pointer focus:outline-none"
+                    className="p-1.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors cursor-pointer focus:outline-none"
                     aria-label="Close navigation menu"
                   >
                     <X className="size-5" />
@@ -329,12 +329,12 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                 >
                   <div className="truncate">
                     <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                      <span>Workspace</span>
+                      <span>Active Workspace</span>
                       <span className="size-1.5 rounded-full bg-emerald-400" />
                     </div>
-                    <div className="text-xs font-medium text-white mt-0.5 flex items-center gap-2 truncate">
+                    <div className="text-xs font-medium text-foreground mt-0.5 flex items-center gap-2 truncate">
                       <span className="truncate">{activeWorkspace}</span>
-                      <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#0066FF]/20 text-[#0066FF] border border-[#0066FF]/30 shrink-0">
+                      <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[var(--accent-framer-blue)]/20 text-[var(--accent-framer-blue)] border border-[var(--accent-framer-blue)]/30 shrink-0">
                         Pro Mesh
                       </span>
                     </div>
@@ -364,12 +364,12 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                         className={cn(
                           'w-full flex items-center justify-between text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors cursor-pointer',
                           activeWorkspace === ws
-                            ? 'bg-white/10 text-white font-medium'
-                            : 'text-muted-foreground hover:text-white hover:bg-white/5'
+                            ? 'bg-foreground/10 text-foreground font-medium'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
                         )}
                       >
                         <span>{ws}</span>
-                        {activeWorkspace === ws && <Check className="size-3 text-[#00D2FF]" />}
+                        {activeWorkspace === ws && <Check className="size-3 text-[var(--accent-cyan-edge)]" />}
                       </button>
                     ))}
                   </div>
@@ -382,10 +382,10 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                 {user && (
                   <div className="space-y-2 px-1">
                     <div className="p-2.5 rounded-lg bg-surface border border-border">
-                      <div className="flex items-center justify-between mb-2 pb-2 border-b border-white/5">
+                      <div className="flex items-center justify-between mb-2 pb-2 border-b border-foreground/5">
                         <div className="flex items-center gap-1.5 truncate">
                           <Globe className="size-3 text-muted-foreground" />
-                          <span className="text-[10px] font-mono text-white truncate font-medium">{displayDomain}</span>
+                          <span className="text-[10px] font-mono text-foreground truncate font-medium">{displayDomain}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -396,14 +396,14 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                       <button
                         type="button"
                         onClick={() => handleNavigate('/dashboard?tab=monitoring')}
-                        className="w-full flex items-center justify-between text-[10px] font-mono text-muted-foreground hover:text-[#00D2FF] transition-colors cursor-pointer"
+                        className="w-full flex items-center justify-between text-[10px] font-mono text-muted-foreground hover:text-[var(--accent-cyan-edge)] transition-colors cursor-pointer"
                       >
                         <span>Mesh Health Nodes</span>
                         <div className="flex items-center gap-1">
                           {isScanning ? (
-                            <RotateCw className="size-2.5 animate-spin text-[#00D2FF]" />
+                            <RotateCw className="size-2.5 animate-spin text-[var(--accent-cyan-edge)]" />
                           ) : (
-                            <span className="text-[9px] px-1 rounded bg-white/5 border border-border">38 Global</span>
+                            <span className="text-[9px] px-1 rounded bg-[var(--bg-surface)] border border-border">38 Global</span>
                           )}
                         </div>
                       </button>
@@ -414,7 +414,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                 {/* 1. Platform Overview / Core Platform */}
                 <div className="space-y-1">
                   <div className="px-2 pb-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold flex items-center justify-between">
-                    <span>Platform</span>
+                    <span>Platform Overview</span>
                     <span className="text-[9px] font-mono text-muted-foreground">Core</span>
                   </div>
                   <nav className="space-y-1" aria-label="Platform Overview">
@@ -425,7 +425,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                 {/* 2. Diagnostic Hub / Tools */}
                 <div className="space-y-1 pt-2 border-t border-border">
                   <div className="px-2 pb-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold flex items-center justify-between">
-                    <span>Engines</span>
+                    <span>Diagnostic Hub</span>
                     <span className="text-[9px] font-mono text-muted-foreground">8 Active</span>
                   </div>
                   <nav className="space-y-1" aria-label="Diagnostic Hub">
@@ -436,7 +436,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                 {/* 3. Explore & Resources */}
                 <div className="space-y-1 pt-2 border-t border-border">
                   <div className="px-2 pb-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold flex items-center justify-between">
-                    <span>Resources</span>
+                    <span>Explore & Resources</span>
                     <span className="text-[9px] font-mono text-muted-foreground">Docs</span>
                   </div>
                   <nav className="space-y-1" aria-label="Explore and Resources">
@@ -454,19 +454,19 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                     <Link
                       to="/audit"
                       onClick={onClose}
-                      className="group relative overflow-hidden flex items-center justify-between w-full p-3 rounded-lg bg-gradient-to-r from-[#0066FF] to-[#00D2FF] text-white font-medium shadow-lg hover:shadow-cyan-500/20 transition-all cursor-pointer"
+                      className="group relative overflow-hidden flex items-center justify-between w-full p-3 rounded-lg bg-gradient-to-r from-[var(--accent-framer-blue)] to-[var(--accent-cyan-edge)] text-foreground font-medium shadow-lg hover:shadow-cyan-500/20 transition-all cursor-pointer"
                       aria-label="Launch Audit"
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className="size-7 rounded-md bg-white/20 flex items-center justify-center">
-                          <Sparkles className="size-4 text-white" />
+                        <div className="size-7 rounded-md bg-foreground/20 flex items-center justify-center">
+                          <Sparkles className="size-4 text-foreground" />
                         </div>
                         <div className="text-left">
-                          <div className="text-xs font-semibold text-white uppercase tracking-wider">Audit</div>
-                          <div className="text-[9px] text-white/70 font-mono">Autonomous</div>
+                          <div className="text-xs font-semibold text-foreground">Run Autonomous Audit</div>
+                          <div className="text-[9px] text-foreground/70 font-mono">Autonomous Edge Engines</div>
                         </div>
                       </div>
-                      <ArrowRight className="size-4 text-white group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="size-4 text-foreground group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </motion.div>
                 </div>
@@ -486,7 +486,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="size-8 rounded-md bg-surface border border-border flex items-center justify-center text-xs font-semibold text-[#00D2FF]">
+                      <div className="size-8 rounded-md bg-surface border border-border flex items-center justify-center text-xs font-semibold text-[var(--accent-cyan-edge)]">
                         {user.displayName
                           ? user.displayName[0].toUpperCase()
                           : user.email
@@ -495,10 +495,10 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                       </div>
                     )}
                     <div className="truncate text-left">
-                      <div className="text-xs font-medium text-white truncate">
+                      <div className="text-xs font-medium text-foreground truncate">
                         {user.displayName || user.email?.split('@')[0] || 'Engineering Team'}
                       </div>
-                      <div className="text-[10px] font-mono text-[#00F298]">
+                      <div className="text-[10px] font-mono text-[var(--accent-emerald-vital)]">
                         {isAdmin ? 'Superadmin Root' : 'Team Pro'}
                       </div>
                     </div>
@@ -507,7 +507,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                   <button
                     type="button"
                     onClick={handleLogout}
-                    className="p-2 text-muted-foreground hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                    className="p-2 text-muted-foreground hover:text-foreground hover:bg-foreground/10 rounded-lg transition-colors cursor-pointer"
                     title="Sign Out"
                     aria-label="Sign Out"
                   >
@@ -520,7 +520,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                     <Link
                       to="/login"
                       onClick={onClose}
-                      className="flex items-center justify-center gap-1.5 p-2.5 rounded-lg border border-border bg-white/5 hover:bg-white/10 text-xs font-medium text-white transition-colors text-center"
+                      className="flex items-center justify-center gap-1.5 p-2.5 rounded-lg border border-border bg-[var(--bg-surface)] hover:bg-foreground/10 text-xs font-medium text-foreground transition-colors text-center"
                     >
                       <UserPlus className="size-3.5 text-muted-foreground" />
                       <span>Log In</span>
@@ -528,7 +528,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                     <Link
                       to="/signup"
                       onClick={onClose}
-                      className="flex items-center justify-center gap-1.5 p-2.5 rounded-lg bg-[#0066FF] hover:bg-[#0066FF]/90 text-xs font-medium text-white transition-colors shadow-sm text-center"
+                      className="flex items-center justify-center gap-1.5 p-2.5 rounded-lg bg-[var(--accent-framer-blue)] hover:bg-[var(--accent-framer-blue)]/90 text-xs font-medium text-foreground transition-colors shadow-sm text-center"
                     >
                       <span>Sign Up</span>
                     </Link>

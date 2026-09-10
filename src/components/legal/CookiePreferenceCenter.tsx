@@ -125,9 +125,9 @@ export const CookiePreferenceCenter: React.FC = () => {
             <div className="rounded-xl border border-border bg-muted p-4 flex items-start justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-3.5 w-3.5 text-emerald-600" />
+                  <Lock className="h-3.5 w-3.5 text-emerald-400" />
                   <span className="font-bold text-xs text-foreground font-sans">Strictly Essential &amp; Authentication Tokens</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-300 bg-emerald-50 text-emerald-700">
+                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
                     Always Active
                   </span>
                 </div>
@@ -149,9 +149,9 @@ export const CookiePreferenceCenter: React.FC = () => {
             <div className="rounded-xl border border-border bg-muted p-4 flex items-start justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Zap className="h-3.5 w-3.5 text-amber-600" />
+                  <Zap className="h-3.5 w-3.5 text-amber-400" />
                   <span className="font-bold text-xs text-foreground font-sans">Diagnostic Telemetry Cache</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-300 bg-amber-50 text-amber-800">
+                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-500/20 bg-amber-500/10 text-amber-400">
                     Recommended
                   </span>
                 </div>

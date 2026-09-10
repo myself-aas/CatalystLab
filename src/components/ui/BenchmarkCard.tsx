@@ -177,11 +177,11 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       <div className="p-5 border-b border-border">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+            <div className="p-2 rounded-lg bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20">
               <ArrowLeftRight className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-[10px] font-sans font-bold tracking-widest text-indigo-600 uppercase">
+              <span className="text-[10px] font-sans font-bold tracking-widest text-[#0066FF] uppercase">
                 COMPARATIVE TELEMETRY MATRIX
               </span>
               <h3 className="text-base font-bold text-foreground">
@@ -189,8 +189,8 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
               </h3>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-sans font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <Trophy className="w-3.5 h-3.5 text-emerald-600" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-sans font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <Trophy className="w-3.5 h-3.5 text-emerald-400" />
             <span>{wins}/{activeVectors.length} Vectors Ahead</span>
           </span>
         </div>
@@ -210,14 +210,14 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
                 onClick={() => setSelectedVectorId(vec.id)}
                 className={`w-full p-3 rounded-xl border transition-all ${
                   isSelected
-                    ? 'border-indigo-200 bg-indigo-50 shadow-sm'
+                    ? 'border-[#0066FF]/30 bg-[#0066FF]/10 shadow-sm'
                     : 'border-border hover:border-border hover:bg-muted'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <Icon className={`w-4 h-4 ${isSelected ? 'text-indigo-600' : 'text-muted-foreground'}`} />
-                    <span className={`text-sm font-sans font-semibold ${isSelected ? 'text-indigo-900' : 'text-muted-foreground'}`}>
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-[#0066FF]' : 'text-muted-foreground'}`} />
+                    <span className={`text-sm font-sans font-semibold ${isSelected ? 'text-foreground' : 'text-muted-foreground'}`}>
                       {vec.name}
                     </span>
                   </div>

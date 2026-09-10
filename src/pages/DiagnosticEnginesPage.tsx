@@ -19,15 +19,15 @@ export const DiagnosticEnginesPage: React.FC = () => {
  <section className="relative overflow-hidden border-b border-border bg-background w-full ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.08)_0%,transparent_70%)] pointer-events-none" />
 
- <div className="ds-page-shell ds-section">
+ <div className="ds-page-shell">
  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
  <div className="flex flex-wrap items-center gap-2">
- <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-foreground">
- <Cpu className="h-3.5 w-3.5 text-[#0066FF] shrink-0"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-3 py-1 framer-micro-tag text-foreground">
+ <Cpu className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
  8 SDLC Micro-Engines
  </span>
- <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 framer-micro-tag text-muted-foreground">
+ <span className="inline-flex items-center gap-1 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-3 py-1 framer-micro-tag text-muted-foreground">
  Deterministic Probes
  </span>
  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 framer-micro-tag text-emerald-400">

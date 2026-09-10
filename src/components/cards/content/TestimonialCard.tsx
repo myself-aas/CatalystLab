@@ -90,7 +90,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         />
 
         {/* Rating Chip */}
-        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-foreground/70 border border-white/10 backdrop-blur-md shadow-sm">
+        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-foreground/70 border border-foreground/10 backdrop-blur-md shadow-sm">
           {[...Array(rating)].map((_, i) => (
             <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
           ))}
@@ -111,7 +111,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         </div>
 
         {/* Stat Pair with Vertical Divider (R5 Signature) */}
-        <div className="py-2.5 my-2 border-y border-white/15 backdrop-blur-sm bg-foreground/40 rounded-lg px-3">
+        <div className="py-2.5 my-2 border-y border-foreground/15 backdrop-blur-sm bg-foreground/40 rounded-lg px-3">
           <CardStatRow
             stats={stats}
             layout="inline-dividers"

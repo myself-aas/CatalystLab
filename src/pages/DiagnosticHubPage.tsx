@@ -181,7 +181,7 @@ export const DiagnosticHubPage: React.FC = () => {
  {/* Header Section */}
  <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
  <div className="max-w-2xl">
- <h1 className="framer-hero-title text-white mb-4">
+ <h1 className="framer-hero-title text-foreground mb-4">
  Diagnostic Hub.
  </h1>
  <p className="framer-body-text">
@@ -207,13 +207,13 @@ export const DiagnosticHubPage: React.FC = () => {
  key={cat.id}
  onClick={() => setActiveTab(cat.id)}
  className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
- activeTab === cat.id ? 'text-black' : 'text-muted-foreground hover:text-white'
+ activeTab === cat.id ? 'text-background' : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  {activeTab === cat.id && (
  <motion.div
  layoutId="hub-active-tab"
- className="absolute inset-0 bg-white rounded-full z-0"
+ className="absolute inset-0 bg-foreground rounded-full z-0"
  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
  />
  )}
@@ -246,11 +246,11 @@ export const DiagnosticHubPage: React.FC = () => {
  <div>
  <div className="flex items-center justify-between mb-6">
  <div className="flex items-center gap-3">
- <div className="flex size-12 items-center justify-center rounded-xl bg-white/5 border border-border" style={{ color: engine.color }}>
+ <div className="flex size-12 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-border" style={{ color: engine.color }}>
  <engine.icon className="size-6" />
  </div>
  <div>
- <h3 className="text-xl font-semibold text-white tracking-tight">{engine.title}</h3>
+ <h3 className="text-xl font-semibold text-foreground tracking-tight">{engine.title}</h3>
  <div className="flex items-center gap-1.5 mt-1">
  {engine.status === 'Operational' ? (
  <CheckCircle2 className="size-3.5 text-emerald-400" />
@@ -272,7 +272,7 @@ export const DiagnosticHubPage: React.FC = () => {
  {engine.specs.map((spec, i) => (
  <div key={i} className="flex flex-col gap-1">
  <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">{spec.label}</span>
- <span className="text-sm font-medium text-white">{spec.value}</span>
+ <span className="text-sm font-medium text-foreground">{spec.value}</span>
  </div>
  ))}
  </div>
@@ -299,7 +299,7 @@ export const DiagnosticHubPage: React.FC = () => {
  className="absolute inset-0 z-20 focus:outline-none"
  />
  
- <div className="absolute bottom-4 right-4 flex items-center gap-1 text-xs font-medium text-white opacity-0 group-hover/widget:opacity-100 transition-opacity z-30">
+ <div className="absolute bottom-4 right-4 flex items-center gap-1 text-xs font-medium text-foreground opacity-0 group-hover/widget:opacity-100 transition-opacity z-30">
  Inspect <ArrowRight className="size-3" />
  </div>
  </div>

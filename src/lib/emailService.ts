@@ -59,9 +59,9 @@ export function getMailgunConfig(): MailgunConfig {
  * Generate high-fidelity HTML for Weekly Telemetry & Analytics Email Dossier
  */
 export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
-  const primaryColor = '#0b192c';
-  const slateColor = '#415a77';
-  const periwinkleColor = '#c5d3e8';
+  const primaryColor = '#1F2223';
+  const slateColor = '#F0FAFF';
+  const periwinkleColor = '#F7FDFF';
   const emeraldColor = '#10b981';
 
   return `
@@ -72,30 +72,30 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CatalystLab Weekly Telemetry Dossier: ${data.domain}</title>
   <style>
-    body { margin: 0; padding: 0; background-color: #f4f6fa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #0b192c; }
-    .container { max-width: 640px; margin: 30px auto; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 12px rgba(11,25,44,0.05); }
-    .header { background-color: ${primaryColor}; padding: 32px 28px; text-align: center; }
-    .brand { color: #ffffff; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-transform: uppercase; }
-    .badge { display: inline-block; background: rgba(197, 211, 232, 0.2); color: ${periwinkleColor}; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; margin-top: 6px; letter-spacing: 0.5px; }
-    .title-area { padding: 24px 28px 12px 28px; border-bottom: 1px solid #f1f5f9; }
-    .title-area h2 { margin: 0; font-size: 18px; color: ${primaryColor}; font-weight: 800; }
-    .title-area p { margin: 4px 0 0 0; font-size: 13px; color: ${slateColor}; }
+    body { margin: 0; padding: 0; background-color: #1F2223; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #F7FDFF; }
+    .container { max-width: 640px; margin: 30px auto; background: #2C3032; border-radius: 16px; border: 1px solid rgba(240,250,255,0.14); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .header { background-color: #1F2223; padding: 32px 28px; text-align: center; border-bottom: 1px solid rgba(240,250,255,0.1); }
+    .brand { color: #F7FDFF; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin: 0; text-transform: uppercase; }
+    .badge { display: inline-block; background: rgba(240,250,255,0.14); color: #F7FDFF; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; margin-top: 6px; letter-spacing: 0.5px; }
+    .title-area { padding: 24px 28px 12px 28px; border-bottom: 1px solid rgba(240,250,255,0.1); }
+    .title-area h2 { margin: 0; font-size: 18px; color: #F7FDFF; font-weight: 800; }
+    .title-area p { margin: 4px 0 0 0; font-size: 13px; color: rgba(240,250,255,0.7); }
     .grid { display: table; width: 100%; padding: 20px 28px; box-sizing: border-box; }
     .grid-row { display: table-row; }
     .grid-cell { display: table-cell; width: 50%; padding: 10px; vertical-align: top; }
-    .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; }
-    .stat-label { font-size: 11px; font-weight: 700; color: ${slateColor}; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0; }
-    .stat-val { font-size: 24px; font-weight: 900; color: ${primaryColor}; margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-    .section-title { font-size: 14px; font-weight: 800; color: ${primaryColor}; margin: 24px 28px 12px 28px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card { background: #2C2F32; border: 1px solid rgba(240,250,255,0.12); border-radius: 12px; padding: 16px; }
+    .stat-label { font-size: 11px; font-weight: 700; color: rgba(240,250,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 4px 0; }
+    .stat-val { font-size: 24px; font-weight: 900; color: #F7FDFF; margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .section-title { font-size: 14px; font-weight: 800; color: #F7FDFF; margin: 24px 28px 12px 28px; text-transform: uppercase; letter-spacing: 0.5px; }
     .table-container { padding: 0 28px 20px 28px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 8px 12px; background: #f8fafc; color: ${slateColor}; font-weight: 700; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; }
-    td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; color: #0b192c; }
+    th { text-align: left; padding: 8px 12px; background: #2C2F32; color: #F0FAFF; font-weight: 700; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid rgba(240,250,255,0.12); }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(240,250,255,0.08); color: #F7FDFF; }
     .score-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 800; font-size: 12px; }
-    .score-pass { background: #ecfdf5; color: #059669; }
+    .score-pass { background: rgba(16, 185, 129, 0.2); color: #34d399; }
     .btn-container { text-align: center; padding: 24px 28px 32px 28px; }
-    .btn { display: inline-block; background-color: ${primaryColor}; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; }
-    .footer { background: #f8fafc; padding: 20px 28px; text-align: center; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; line-height: 1.6; }
+    .btn { display: inline-block; background-color: #F7FDFF; color: #1F2223; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; }
+    .footer { background: #1F2223; padding: 20px 28px; text-align: center; border-top: 1px solid rgba(240,250,255,0.1); font-size: 11px; color: rgba(240,250,255,0.6); line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -224,22 +224,22 @@ export function generateAnomalyAlertHtml(alert: AnomalyAlertData): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${alertTitle} — ${alert.domain}</title>
   <style>
-    body { margin: 0; padding: 0; background-color: #f4f6fa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #0b192c; }
-    .container { max-width: 640px; margin: 30px auto; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 12px rgba(11,25,44,0.05); }
-    .header { background-color: ${accentColor}; padding: 24px 28px; text-align: center; color: #ffffff; }
-    .badge { display: inline-block; background: rgba(255,255,255,0.25); color: #ffffff; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; }
-    .title-area { padding: 24px 28px; border-bottom: 1px solid #f1f5f9; }
-    .title-area h2 { margin: 0; font-size: 20px; color: #0b192c; font-weight: 800; }
-    .title-area p { margin: 6px 0 0 0; font-size: 13px; color: #415a77; }
-    .metrics-box { margin: 20px 28px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+    body { margin: 0; padding: 0; background-color: #1F2223; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #F7FDFF; }
+    .container { max-width: 640px; margin: 30px auto; background: #2C3032; border-radius: 16px; border: 1px solid rgba(240,250,255,0.14); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .header { background-color: ${accentColor}; padding: 24px 28px; text-align: center; color: #F7FDFF; }
+    .badge { display: inline-block; background: rgba(0,0,0,0.3); color: #F7FDFF; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; }
+    .title-area { padding: 24px 28px; border-bottom: 1px solid rgba(240,250,255,0.1); }
+    .title-area h2 { margin: 0; font-size: 20px; color: #F7FDFF; font-weight: 800; }
+    .title-area p { margin: 6px 0 0 0; font-size: 13px; color: rgba(240,250,255,0.7); }
+    .metrics-box { margin: 20px 28px; background: #2C2F32; border: 1px solid rgba(240,250,255,0.12); border-radius: 12px; padding: 20px; }
     .metric-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; }
     .metric-row:last-child { margin-bottom: 0; }
-    .metric-name { color: #415a77; font-weight: 600; }
-    .metric-val { font-weight: 800; color: #0b192c; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; }
-    .recommendation-box { margin: 20px 28px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; font-size: 13px; color: #1e3a8a; line-height: 1.5; }
+    .metric-name { color: rgba(240,250,255,0.7); font-weight: 600; }
+    .metric-val { font-weight: 800; color: #F7FDFF; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; }
+    .recommendation-box { margin: 20px 28px; background: rgba(0,102,255,0.1); border: 1px solid rgba(0,102,255,0.25); border-radius: 12px; padding: 16px; font-size: 13px; color: #F7FDFF; line-height: 1.5; }
     .btn-container { text-align: center; padding: 16px 28px 32px 28px; }
-    .btn { display: inline-block; background-color: #0b192c; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; }
-    .footer { background: #f8fafc; padding: 16px 28px; text-align: center; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; }
+    .btn { display: inline-block; background-color: #F7FDFF; color: #1F2223; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; }
+    .footer { background: #1F2223; padding: 16px 28px; text-align: center; border-top: 1px solid rgba(240,250,255,0.1); font-size: 11px; color: rgba(240,250,255,0.6); }
   </style>
 </head>
 <body>

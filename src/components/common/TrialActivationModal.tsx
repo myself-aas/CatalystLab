@@ -209,7 +209,7 @@ export const TrialActivationModal: React.FC = () => {
               >
                 {loading ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <span className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
                     <span>Activating...</span>
                   </>
                 ) : success ? (

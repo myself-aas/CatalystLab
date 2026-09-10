@@ -19,12 +19,12 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
   citationConfidence
 }) => {
   return (
-    <div className="rounded-2xl border border-black/30 bg-background p-6 shadow-xl space-y-6 text-foreground">
+    <div className="rounded-2xl border border-background/30 bg-background p-6 shadow-xl space-y-6 text-foreground">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/25 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-background/25 pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/25 text-foreground border border-black/40">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/25 text-foreground border border-background/40">
               <Search className="h-4 w-4" />
             </span>
             <h3 className="text-base font-bold text-foreground">
@@ -41,7 +41,7 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
             <div className="text-xs font-semibold text-muted-foreground">LLMO Index</div>
             <div className="text-xl font-black text-foreground font-mono">{score}/100</div>
           </div>
-          <div className="rounded-xl px-3 py-1.5 text-xs font-bold border border-black/40 bg-foreground/25 text-foreground">
+          <div className="rounded-xl px-3 py-1.5 text-xs font-bold border border-background/40 bg-foreground/25 text-foreground">
             {citationConfidence}
           </div>
         </div>
@@ -49,7 +49,7 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
 
       {/* Structured Schema Checklist */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div className="rounded-xl border border-black/30 bg-muted p-4">
+        <div className="rounded-xl border border-background/30 bg-muted p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Code className="h-4 w-4 text-foreground" />
@@ -70,7 +70,7 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
           </p>
         </div>
 
-        <div className="rounded-xl border border-black/30 bg-muted p-4">
+        <div className="rounded-xl border border-background/30 bg-muted p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Share2 className="h-4 w-4 text-foreground" />
@@ -91,7 +91,7 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
           </p>
         </div>
 
-        <div className="rounded-xl border border-black/30 bg-muted p-4">
+        <div className="rounded-xl border border-background/30 bg-muted p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Bookmark className="h-4 w-4 text-foreground" />
@@ -112,13 +112,13 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
           </p>
         </div>
 
-        <div className="rounded-xl border border-black/30 bg-muted p-4">
+        <div className="rounded-xl border border-background/30 bg-muted p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-foreground" />
               <span className="text-xs font-bold text-foreground">AI Search Citation Probability</span>
             </div>
-            <span className="text-[11px] font-mono font-bold text-foreground bg-foreground/25 px-2 py-0.5 rounded border border-black/40">
+            <span className="text-[11px] font-mono font-bold text-foreground bg-foreground/25 px-2 py-0.5 rounded border border-background/40">
               {score >= 80 ? '94% (High)' : '72% (Medium)'}
             </span>
           </div>

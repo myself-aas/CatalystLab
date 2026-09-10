@@ -21,22 +21,22 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
 
   return (
     <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-      <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card">
+      <div className="rounded-xl border border-foreground/[0.06] bg-foreground/[0.04] p-6 shadow-linear-card">
         <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-foreground">{engineType} metrics</h3>
         <div className="h-[250px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.06)" />
-              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#8A8F98', fontSize: 11 }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#8A8F98', fontSize: 11 }} />
-              <Tooltip contentStyle={{ backgroundColor: '#1c1c1f', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#EDEDEF' }} />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#F0FAFF', fontSize: 11 }} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#F0FAFF', fontSize: 11 }} />
+              <Tooltip contentStyle={{ backgroundColor: '#2C2F32', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#F7FDFF' }} />
               <Bar dataKey="value" fill="#5E6AD2" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-6 shadow-linear-card">
+      <div className="rounded-xl border border-foreground/[0.06] bg-foreground/[0.04] p-6 shadow-linear-card">
         <h3 className="mb-4 text-lg font-semibold capitalize tracking-tight text-foreground">Distribution</h3>
         <div className="flex h-[250px] w-full items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
@@ -55,7 +55,7 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
                   <Cell key={`${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ backgroundColor: '#1c1c1f', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#EDEDEF' }} />
+              <Tooltip contentStyle={{ backgroundColor: '#2C2F32', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#F7FDFF' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>
