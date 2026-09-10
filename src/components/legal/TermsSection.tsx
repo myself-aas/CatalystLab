@@ -99,7 +99,7 @@ export const TermsSection: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Permitted */}
-            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 space-y-2.5">
+            <div className="rounded-xl border border-emerald-500/20 bg-[#F0FAFF]/10 p-4 space-y-2.5">
               <div className="flex items-center gap-1.5 text-emerald-400 font-extrabold text-xs uppercase tracking-wider">
                 <CheckCircle2 className="h-4 w-4" />
                 <span>Permitted Scanning Activities</span>
@@ -107,7 +107,7 @@ export const TermsSection: React.FC = () => {
               <ul className="space-y-2">
                 {permitted.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-xs text-foreground font-sans">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF] mt-1.5 shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -115,7 +115,7 @@ export const TermsSection: React.FC = () => {
             </div>
 
             {/* Prohibited */}
-            <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-4 space-y-2.5">
+            <div className="rounded-xl border border-rose-500/20 bg-[#F7FDFF]/10 p-4 space-y-2.5">
               <div className="flex items-center gap-1.5 text-rose-400 font-extrabold text-xs uppercase tracking-wider">
                 <XCircle className="h-4 w-4 text-rose-400" />
                 <span>Strictly Prohibited Exploits</span>
@@ -123,7 +123,7 @@ export const TermsSection: React.FC = () => {
               <ul className="space-y-2">
                 {prohibited.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-xs text-foreground font-sans">
-                    <span className="h-1.5 w-1.5 rounded-full bg-red-500 mt-1.5 shrink-0" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#F7FDFF] mt-1.5 shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}

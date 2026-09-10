@@ -56,7 +56,7 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
               <span className="text-xs font-bold text-foreground">JSON-LD Structured Markup</span>
             </div>
             {jsonLdBlocksCount > 0 ? (
-              <span className="text-[11px] font-mono font-bold text-emerald-600 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+              <span className="text-[11px] font-mono font-bold text-emerald-600 bg-[#F0FAFF]/15 px-2 py-0.5 rounded border border-emerald-500/30">
                 {jsonLdBlocksCount} BLOCKS FOUND
               </span>
             ) : (
@@ -77,11 +77,11 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
               <span className="text-xs font-bold text-foreground">OpenGraph & Social Entity Graph</span>
             </div>
             {hasOgTags ? (
-              <span className="text-[11px] font-mono font-bold text-emerald-600 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+              <span className="text-[11px] font-mono font-bold text-emerald-600 bg-[#F0FAFF]/15 px-2 py-0.5 rounded border border-emerald-500/30">
                 PASS
               </span>
             ) : (
-              <span className="text-[11px] font-mono font-bold text-rose-600 bg-rose-500/15 px-2 py-0.5 rounded border border-rose-500/30">
+              <span className="text-[11px] font-mono font-bold text-rose-600 bg-[#F7FDFF]/15 px-2 py-0.5 rounded border border-rose-500/30">
                 INCOMPLETE
               </span>
             )}
@@ -98,7 +98,7 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
               <span className="text-xs font-bold text-foreground">Canonical URL Authority</span>
             </div>
             {hasCanonical ? (
-              <span className="text-[11px] font-mono font-bold text-emerald-600 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+              <span className="text-[11px] font-mono font-bold text-emerald-600 bg-[#F0FAFF]/15 px-2 py-0.5 rounded border border-emerald-500/30">
                 VERIFIED
               </span>
             ) : (

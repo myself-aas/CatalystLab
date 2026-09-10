@@ -73,7 +73,7 @@ export const EnterpriseScaleChart: React.FC = () => {
   return (
     <section className="py-12 lg:py-14 bg-accent text-primary-foreground relative overflow-hidden border-b border-border">
       {/* Background Glow Elements */}
-      <div className="absolute top-1/3 left-1/3 w-[450px] h-[450px] bg-sky-400/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/3 w-[450px] h-[450px] bg-[#F0FAFF]/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-muted rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(65,90,119,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(65,90,119,0.08)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
 

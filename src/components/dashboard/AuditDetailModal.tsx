@@ -77,10 +77,10 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
 
   const score = report?.score ?? 92;
   const getScoreColor = (val: number) => {
-    if (val >= 90) return 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10';
-    if (val >= 75) return 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10';
-    if (val >= 50) return 'text-amber-400 border-amber-500/30 bg-amber-500/10';
-    return 'text-rose-400 border-rose-500/30 bg-rose-500/10';
+    if (val >= 90) return 'text-emerald-400 border-emerald-500/30 bg-[#F0FAFF]/10';
+    if (val >= 75) return 'text-cyan-400 border-cyan-500/30 bg-[#F0FAFF]/10';
+    if (val >= 50) return 'text-amber-400 border-amber-500/30 bg-[#F0FAFF]/10';
+    return 'text-rose-400 border-rose-500/30 bg-[#F7FDFF]/10';
   };
 
   const getScoreGrade = (val: number) => {
@@ -141,15 +141,15 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
             <div className="relative px-6 py-5 border-b border-border/60 bg-gradient-to-r from-foreground/[0.03] via-transparent to-blue-500/[0.04] shrink-0">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="size-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[var(--accent-framer-blue)] shrink-0">
+                  <div className="size-9 rounded-lg bg-[#F0FAFF]/10 border border-blue-500/20 flex items-center justify-center text-[#F0FAFF] shrink-0">
                     <Activity className="size-5" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="framer-micro-tag text-[var(--accent-cyan-edge)]">
+                      <span className="framer-micro-tag text-[#F0FAFF]">
                         {report.engine || 'Master Audit Engine'}
                       </span>
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
                         <CheckCircle2 className="size-2.5" />
                         Verified Telemetry
                       </span>
@@ -192,9 +192,8 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                   <span className="text-muted-foreground">Target:</span>
                   <a 
                     href={report.url.startsWith('http') ? report.url : `https://${report.url}`}
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="text-foreground hover:text-[var(--accent-cyan-edge)] underline underline-offset-2 truncate"
+                    target="_blank" rel="noopener noreferrer" 
+                    className="text-foreground hover:text-[#F0FAFF] underline underline-offset-2 truncate"
                   >
                     {report.url}
                   </a>
@@ -210,7 +209,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                 variants={contentItemVariants}
                 className="ds-card p-5 relative overflow-hidden bg-gradient-to-b from-foreground/[0.02] to-transparent border border-border"
               >
-                <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 size-32 bg-blue-500/5 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 size-32 bg-[#F0FAFF]/5 rounded-full blur-2xl pointer-events-none" />
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <span className="framer-micro-tag text-muted-foreground">Composite Diagnostic Index</span>
@@ -224,7 +223,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                       <motion.span 
                         animate={{ opacity: [1, 0.4, 1] }}
                         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                        className="size-2 rounded-full bg-emerald-400" 
+                        className="size-2 rounded-full bg-[#F0FAFF]" 
                       />
                       <span>{getScoreGrade(score)}</span>
                     </div>
@@ -266,7 +265,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
 
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <Layers className="size-3.5 text-[var(--accent-framer-blue)]" />
+                    <Layers className="size-3.5 text-[#F0FAFF]" />
                     <span className="framer-micro-tag text-[10px]">Edge Cache</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">HIT (98.4%)</div>
@@ -275,7 +274,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
 
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <Activity className="size-3.5 text-[var(--accent-cyan-edge)]" />
+                    <Activity className="size-3.5 text-[#F0FAFF]" />
                     <span className="framer-micro-tag text-[10px]">Engine Status</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">Stable</div>
@@ -295,7 +294,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400"
                   >
-                    <span className="size-1.5 rounded-full bg-emerald-400" />
+                    <span className="size-1.5 rounded-full bg-[#F0FAFF]" />
                     Phase 04 Verified
                   </motion.div>
                 </div>
@@ -315,8 +314,8 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Terminal className="size-3.5 text-[var(--accent-cyan-edge)]" />
-                    <h3 className="framer-micro-tag text-[var(--accent-cyan-edge)]">Raw Telemetry Findings & Output</h3>
+                    <Terminal className="size-3.5 text-[#F0FAFF]" />
+                    <h3 className="framer-micro-tag text-[#F0FAFF]">Raw Telemetry Findings & Output</h3>
                   </div>
                   <button
                     onClick={handleCopyTelemetry}
@@ -350,7 +349,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               {/* CONTENT ELEMENT 6: Remediation & Best Practices Text Block */}
               <motion.div 
                 variants={contentItemVariants}
-                className="p-3.5 rounded-xl bg-blue-500/[0.04] border border-blue-500/20 text-xs flex items-start gap-2.5"
+                className="p-3.5 rounded-xl bg-[#F0FAFF]/[0.04] border border-blue-500/20 text-xs flex items-start gap-2.5"
               >
                 <AlertTriangle className="size-4 text-amber-400 shrink-0 mt-0.5" />
                 <div className="text-muted-foreground leading-relaxed">

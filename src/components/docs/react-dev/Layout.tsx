@@ -44,21 +44,22 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system'); // Local mock for demo if no context
 
   return (
-    <div className="min-h-screen bg-[var(--react-card)] font-sans antialiased selection:bg-[var(--react-cyan-subtle)] selection:text-[var(--react-cyan)] text-[var(--react-text-primary)]">
+    <div className="min-h-screen bg-[#1F2223] font-sans antialiased selection:bg-[rgba(240,250,255,0.10)] selection:text-[#F0FAFF] text-[#F0FAFF] pt-16">
       {/* Top Navigation Bar */}
       <TopNav>
         {/* Left: Brand & Mobile Menu */}
         <div className="flex items-center gap-4 lg:w-72">
-          <button 
-            className="lg:hidden p-2 -ml-2 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--react-cyan)] rounded-md"
+          <button
+            className="lg:hidden p-2 -ml-2 text-[rgba(240,250,255,0.65)] hover:text-[#F0FAFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(240,250,255,0.20)] rounded-full hover:bg-[rgba(240,250,255,0.05)]"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            aria-label="Toggle sidebar"
           >
             {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-          
-          <a href="/" className="flex items-center gap-2 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--react-cyan)] rounded-md">
+
+          <a href="/" className="flex items-center gap-2 text-[#F0FAFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(240,250,255,0.20)] rounded-full px-1 py-1">
             {brandIcon || (
-              <svg width="24" height="24" viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[var(--react-cyan)] spin-slow">
+              <svg width="22" height="22" viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#F0FAFF]">
                 <circle cx="0" cy="0" r="2" fill="currentColor"></circle>
                 <g stroke="currentColor" strokeWidth="1" fill="none">
                   <ellipse rx="10" ry="4.5"></ellipse>
@@ -73,7 +74,7 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
 
         {/* Center: Search */}
         <div className="flex-1 flex justify-center px-4 max-w-2xl">
-          <SearchButton onClick={() => console.log('Open Search')} />
+          <SearchButton onClick={() => /* open search */ () => {}} />
         </div>
 
         {/* Right: Links & Actions */}
@@ -84,10 +85,10 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
             <NavLink href="/insights" active={activePath?.startsWith('/insights')}>Community</NavLink>
             <NavLink href="/blogs" active={activePath?.startsWith('/blogs')}>Blog</NavLink>
           </div>
-          
-          <div className="flex items-center gap-2 ml-4 pl-4 border-l border-border hidden sm:flex">
-            <button 
-              className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted"
+
+          <div className="flex items-center gap-2 ml-4 pl-4 border-l border-[rgba(240,250,255,0.08)] hidden sm:flex">
+            <button
+              className="p-2 text-[rgba(240,250,255,0.55)] hover:text-[#F0FAFF] transition-colors rounded-full hover:bg-[rgba(240,250,255,0.05)]"
               title="Toggle theme"
               onClick={() => {
                 const next = theme === 'light' ? 'dark' : 'light';
@@ -98,13 +99,12 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
             >
               {theme === 'dark' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
             </button>
-            
+
             {githubUrl && (
-              <a 
+              <a
                 href={githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-muted"
+                target="_blank" rel="noopener noreferrer"
+                className="p-2 text-[rgba(240,250,255,0.55)] hover:text-[#F0FAFF] transition-colors rounded-full hover:bg-[rgba(240,250,255,0.05)]"
               >
                 <GithubIcon />
               </a>

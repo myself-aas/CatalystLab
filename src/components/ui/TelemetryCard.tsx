@@ -66,7 +66,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
   subVectors,
   executionTimeMs = 120,
   status = 'COMPLETE',
-  themeColor = '#06B6D4',
+  themeColor = '#F0FAFF',
   onInspectDetails,
   onRerunProbe,
   className = '',
@@ -82,25 +82,25 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
       case 'optimal':
         return {
           icon: Zap,
-          color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+          color: 'text-emerald-400 bg-[#F0FAFF]/10 border-emerald-500/20',
           label: 'OPTIMAL',
         };
       case 'pass':
         return {
           icon: ShieldCheck,
-          color: 'text-[#0066FF] bg-[#0066FF]/10 border-[#0066FF]/20',
+          color: 'text-[#F0FAFF] bg-[#F0FAFF]/10 border-[#F0FAFF]/20',
           label: 'PASSED',
         };
       case 'warn':
         return {
           icon: AlertTriangle,
-          color: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+          color: 'text-amber-400 bg-[#F0FAFF]/10 border-amber-500/20',
           label: 'WARN',
         };
       case 'fail':
         return {
           icon: XCircle,
-          color: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+          color: 'text-rose-400 bg-[#F7FDFF]/10 border-rose-500/20',
           label: 'CRITICAL',
         };
     }
@@ -165,12 +165,12 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             <div
               className={`px-3 py-1 rounded-xl border font-mono font-extrabold text-sm sm:text-base flex items-center gap-1.5 shadow-sm ${
                 score >= 90
-                  ? 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10'
+                  ? 'text-emerald-400 border-emerald-500/20 bg-[#F0FAFF]/10'
                   : score >= 75
-                  ? 'text-[#00D2FF] border-[#00D2FF]/20 bg-[#00D2FF]/10'
+                  ? 'text-[#F0FAFF] border-[#F0FAFF]/20 bg-[#F0FAFF]/10'
                   : score >= 60
-                  ? 'text-amber-400 border-amber-500/20 bg-amber-500/10'
-                  : 'text-rose-400 border-rose-500/20 bg-rose-500/10'
+                  ? 'text-amber-400 border-amber-500/20 bg-[#F0FAFF]/10'
+                  : 'text-rose-400 border-rose-500/20 bg-[#F7FDFF]/10'
               }`}
             >
               <Activity className="w-4 h-4 animate-pulse" />
@@ -218,7 +218,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
           {/* Delta Indicator Badge */}
           {primaryMetric.deltaText && (
             <div className="text-right">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-sans font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200 shadow-sm">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-sans font-bold uppercase tracking-wider bg-[rgba(240,250,255,0.06)] text-emerald-700 border border-emerald-200 shadow-sm">
                 {primaryMetric.deltaText}
               </span>
             </div>
@@ -233,7 +233,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             onClick={() => setIsExpanded((prev) => !prev)}
             aria-expanded={isExpanded}
             aria-controls={`${cardId}-subvectors-content`}
-            className="flex items-center gap-1.5 text-xs font-sans font-bold text-[#0066FF] hover:text-[#0066FF] transition-colors py-1.5 px-3 rounded-lg hover:bg-[#0066FF]/10 border border-transparent hover:border-[#0066FF]/20"
+            className="flex items-center gap-1.5 text-xs font-sans font-bold text-[#F0FAFF] hover:text-[#F0FAFF] transition-colors py-1.5 px-3 rounded-lg hover:bg-[#F0FAFF]/10 border border-transparent hover:border-[#F0FAFF]/20"
           >
             <span>6 Sub-Vectors</span>
             <motion.div

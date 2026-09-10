@@ -106,8 +106,8 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   const getStatusBadge = () => {
     if (loading) {
       return (
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping" />
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-[#F0FAFF]/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF] animate-ping" />
           <span>Executing</span>
         </span>
       );
@@ -122,7 +122,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     }
     if (output.includes('[-] FAIL:') || output.includes('[!] CRITICAL:') || output.includes('STATUS: CRITICAL') || output.includes('[ERROR]')) {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full border border-rose-500/40 bg-rose-500/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-rose-400">
+        <span className="inline-flex items-center gap-1 rounded-full border border-rose-500/40 bg-[#F7FDFF]/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-rose-400">
           <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
           <span>Needs Action</span>
         </span>
@@ -130,15 +130,15 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     }
     if (output.includes('[~] WARNING:') || output.includes('STATUS: MODERATE') || output.includes('[WARN]')) {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300">
-          <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-[#F0FAFF]/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF]" />
           <span>Warning</span>
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-[#F0FAFF]/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF]" />
         <span>Optimal</span>
       </span>
     );
@@ -247,7 +247,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-emerald-400 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-emerald-500/15 border border-emerald-500/30 text-[10px] text-emerald-400 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/15 border border-emerald-500/30 text-[10px] text-emerald-400 font-mono font-bold mr-2 select-none">
           PASS
         </span>
       );
@@ -264,7 +264,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-rose-400 font-bold';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-rose-500/20 border border-rose-500/40 text-[10px] text-rose-400 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F7FDFF]/20 border border-rose-500/40 text-[10px] text-rose-400 font-mono font-bold mr-2 select-none">
           FAIL
         </span>
       );
@@ -278,7 +278,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-amber-300 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-amber-500/20 border border-amber-500/40 text-[10px] text-amber-300 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/20 border border-amber-500/40 text-[10px] text-amber-300 font-mono font-bold mr-2 select-none">
           WARN
         </span>
       );
@@ -292,14 +292,14 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-purple-400 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-purple-500/20 border border-purple-500/40 text-[10px] text-purple-300 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/20 border border-purple-500/40 text-[10px] text-purple-300 font-mono font-bold mr-2 select-none">
           EXEC
         </span>
       );
     } else if (line.startsWith('[sys]') || line.startsWith('[*]') || line.includes('[INFO]')) {
       colorClass = 'text-cyan-300 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-cyan-500/15 border border-cyan-500/30 text-[10px] text-cyan-300 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/15 border border-cyan-500/30 text-[10px] text-cyan-300 font-mono font-bold mr-2 select-none">
           INFO
         </span>
       );
@@ -330,9 +330,9 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/90 bg-muted/80 px-4 py-3 select-none backdrop-blur-md z-20">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-rose-500/80 shadow-sm" />
-            <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80 shadow-sm" />
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80 shadow-sm" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#F7FDFF]/80 shadow-sm" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#F0FAFF]/80 shadow-sm" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#F0FAFF]/80 shadow-sm" />
           </div>
           <div className="h-3.5 w-px bg-muted mx-0.5" />
           <div className="flex items-center gap-2">
@@ -354,7 +354,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
               onClick={() => setShowGauges(!showGauges)}
               className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-mono font-medium transition-all active:scale-95 ${
                 showGauges
-                  ? 'border-cyan-500/40 bg-cyan-500/10 text-cyan-300'
+                  ? 'border-cyan-500/40 bg-[#F0FAFF]/10 text-cyan-300'
                   : 'border-border bg-primary text-muted-foreground hover:text-muted-foreground'
               }`}
               title="Toggle D3.js Risk & SSL Gauges"
@@ -370,8 +370,8 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
             className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-mono font-medium transition-all active:scale-95 ${
               autoScroll
                 ? isHovered
-                  ? 'border-amber-500/50 bg-amber-500/15 text-amber-300'
-                  : 'border-cyan-500/50 bg-cyan-500/10 text-cyan-300'
+                  ? 'border-amber-500/50 bg-[#F0FAFF]/15 text-amber-300'
+                  : 'border-cyan-500/50 bg-[#F0FAFF]/10 text-cyan-300'
                 : 'border-border bg-primary text-muted-foreground hover:text-muted-foreground'
             }`}
             title={autoScroll ? 'Auto-scroll is Active (Pause on hover)' : 'Auto-scroll is Paused'}
@@ -496,7 +496,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           aria-live="polite"
           aria-atomic="false"
           aria-label={title}
-          className={`p-4 font-mono text-xs overflow-y-auto bg-card selection:bg-cyan-500/30 selection:text-primary-foreground relative z-0 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent ${
+          className={`p-4 font-mono text-xs overflow-y-auto bg-card selection:bg-[#F0FAFF]/30 selection:text-primary-foreground relative z-0 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent ${
             expanded ? 'max-h-[640px]' : maxHeight
           }`}
         >

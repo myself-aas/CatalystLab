@@ -182,7 +182,7 @@ export const App: React.FC = () => {
           </a>
           <ScrollToTop />
           <TrialBanner />
-          <Navbar />
+          {location.pathname !== '/design-system' && <Navbar />}
 
           <main id="main-content" className={`${pagePolarity} flex-1 w-full max-w-full overflow-x-hidden relative z-0`}>
             <AnimatePresence mode="wait">
@@ -597,8 +597,8 @@ export const App: React.FC = () => {
         </PageTransition>
       </AnimatePresence>
       </main>
-      <Footer />
-      <StickyHUD />
+      {location.pathname !== '/design-system' && <Footer />}
+      {location.pathname !== '/design-system' && <StickyHUD />}
       <AuthDomainModal />
       <TrialActivationModal />
       <NewsletterModal />

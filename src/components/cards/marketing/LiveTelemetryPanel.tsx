@@ -50,9 +50,9 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       <div className="z-10 flex items-center justify-between p-4 sm:p-5 border-b border-foreground/10 bg-foreground/40 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 mr-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#F7FDFF]/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
           </div>
           <span className="font-mono font-bold text-xs sm:text-sm tracking-wider text-primary-foreground uppercase flex items-center gap-1.5">
             <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
@@ -70,7 +70,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
               className={clsx(
                 'px-2.5 py-1 rounded text-[10px] font-mono font-semibold uppercase tracking-wider transition-colors cursor-pointer',
                 activeTab === tab
-                  ? 'bg-cyan-500 text-foreground shadow-sm'
+                  ? 'bg-[#F0FAFF] text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-muted-foreground'
               )}
             >

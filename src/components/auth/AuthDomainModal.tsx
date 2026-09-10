@@ -72,7 +72,7 @@ export const AuthDomainModal: React.FC = () => {
 
         {/* Modal Header */}
         <div className="flex items-start gap-3.5 mb-5">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-amber-500/15 text-amber-300">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-[#F0FAFF]/15 text-amber-300">
             <ShieldAlert className="h-6 w-6" />
           </div>
           <div>
@@ -132,8 +132,7 @@ export const AuthDomainModal: React.FC = () => {
             <li>
               Open <a 
                 href={domainConfig.consoleAuthUrl} 
-                target="_blank" 
-                rel="noreferrer" 
+                target="_blank" rel="noopener noreferrer" 
                 className="font-bold text-primary hover:underline inline-flex items-center gap-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Firebase Console Settings <ExternalLink className="h-3 w-3 inline" />
@@ -178,8 +177,7 @@ export const AuthDomainModal: React.FC = () => {
         <div className="flex items-center justify-between pt-2 border-t border-border text-xs">
           <a
             href={domainConfig.consoleAuthUrl}
-            target="_blank"
-            rel="noreferrer"
+            target="_blank" rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary-foreground transition-colors flex items-center gap-1 font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span>Open Firebase Settings</span>

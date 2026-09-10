@@ -47,7 +47,7 @@ export const IntegrationChip: React.FC<IntegrationChipProps> = ({
         )}
       </div>
       {status && (
-        <span className="ml-2 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <span className="ml-2 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider uppercase bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
           {status}
         </span>
       )}

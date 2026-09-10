@@ -22,8 +22,8 @@ export const LinearAmbientBackground: React.FC = () => {
       </svg>
 
       <div className="absolute top-[-15%] left-1/2 h-[550px] w-[900px] -translate-x-1/2 rounded-full bg-primary/22 blur-[140px] will-change-transform animate-linear-blob motion-reduce:animate-none" />
-      <div className="absolute top-[20%] left-[-10%] h-[480px] w-[650px] rounded-full bg-purple-600/14 blur-[120px] will-change-transform animate-linear-blob-delayed motion-reduce:animate-none" />
-      <div className="absolute top-[35%] right-[-10%] h-[420px] w-[550px] rounded-full bg-indigo-700/12 blur-[110px] will-change-transform animate-linear-blob-slow motion-reduce:animate-none" />
+      <div className="absolute top-[20%] left-[-10%] h-[480px] w-[650px] rounded-full bg-[#F0FAFF]/[0.06] blur-[120px] will-change-transform animate-linear-blob-delayed motion-reduce:animate-none" />
+      <div className="absolute top-[35%] right-[-10%] h-[420px] w-[550px] rounded-full bg-[#F0FAFF]/[0.05] blur-[110px] will-change-transform animate-linear-blob-slow motion-reduce:animate-none" />
       <div className="absolute bottom-[-10%] left-1/2 h-[350px] w-[1000px] -translate-x-1/2 rounded-full bg-primary/10 blur-[130px]" />
 
       <div className="linear-grid-overlay absolute inset-0 opacity-60" />

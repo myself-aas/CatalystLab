@@ -152,9 +152,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
       <div className="flex items-center justify-between px-3.5 py-2.5 bg-muted/40 border-b border-border/80 select-none">
         <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#F7FDFF]/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
           </div>
 
           <div className="flex items-center gap-1.5 ml-2 text-muted-foreground text-xs font-semibold">
@@ -228,7 +228,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
                     <motion.span
                       animate={{ opacity: [1, 0] }}
                       transition={{ repeat: Infinity, duration: 0.8 }}
-                      className="inline-block w-2 h-4 bg-cyan-400 align-middle ml-0.5"
+                      className="inline-block w-2 h-4 bg-[#F0FAFF] align-middle ml-0.5"
                     />
                   )}
                 </span>

@@ -10,7 +10,7 @@ export const LlmKinaseDoc: React.FC = () => {
  canonicalPath="/docs/llm-kinase"
  >
  <section id="llmkinase-overview"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/20 bg-purple-500/10 py-0.5 text-xs font-semibold text-purple-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-purple-400">
  <Cpu className="h-3.5 w-3.5"/>
  <span>SDLC Phase 7: AI Readiness Engine</span>
  </div>

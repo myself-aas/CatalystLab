@@ -132,7 +132,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
         <div className="ds-card p-4 shadow-xs">
           <div className="ds-eyebrow">Storage Status</div>
           <div className="flex items-center gap-1.5 mt-1 text-sm font-bold text-emerald-600">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="h-2 w-2 rounded-full bg-[#F0FAFF] animate-pulse" />
             <span>Firestore Synchronized</span>
           </div>
         </div>

@@ -214,8 +214,8 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-border">
           <div className="space-y-3 max-w-2xl">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#0066FF] tracking-widest uppercase shadow-sm">
-                <Sparkles className="h-4 w-4 text-[#0066FF]" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#F0FAFF] tracking-widest uppercase shadow-sm">
+                <Sparkles className="h-4 w-4 text-[#F0FAFF]" />
                 <span>{badgeText}</span>
               </div>
             )}
@@ -414,7 +414,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               </button>
 
               <div className="flex items-center gap-2 mb-4">
-                <span className="rounded bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20 px-3 py-1 text-xs font-bold shadow-sm">
+                <span className="rounded bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20 px-3 py-1 text-xs font-bold shadow-sm">
                   {previewPost.category}
                 </span>
                 <span className="text-xs font-medium text-muted-foreground">

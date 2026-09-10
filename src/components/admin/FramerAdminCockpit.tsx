@@ -104,7 +104,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
     <div className="space-y-8 font-sans">
       {/* Toast alert banner */}
       {toastMessage && (
-        <div className="p-3 rounded-xl bg-[var(--accent-cyan-edge)]/10 border border-[var(--accent-cyan-edge)]/30 text-[var(--accent-cyan-edge)] text-xs font-mono flex items-center justify-between animate-fadeIn">
+        <div className="p-3 rounded-xl bg-[#F0FAFF]/10 border border-[#F0FAFF]/30 text-[#F0FAFF] text-xs font-mono flex items-center justify-between animate-fadeIn">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="size-4" />
             <span>{toastMessage}</span>
@@ -118,7 +118,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
         <div className="p-6 bg-surface border border-border rounded-2xl shadow-2xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent-cyan-edge)] mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#F0FAFF] mb-1">
                 <Globe className="size-3.5" />
                 <span>38-PoP Edge Anycast Topology · Global Ingress Mesh</span>
               </div>
@@ -159,10 +159,10 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     </div>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                       pop.status === 'active' 
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+                        ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20' 
                         : pop.status === 'draining'
-                        ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                        : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                        ? 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
+                        : 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20'
                     }`}>
                       {pop.status.toUpperCase()}
                     </span>
@@ -182,7 +182,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Ingress Load:</span>
-                      <span className="text-[var(--accent-cyan-edge)]">{pop.trafficLoad}%</span>
+                      <span className="text-[#F0FAFF]">{pop.trafficLoad}%</span>
                     </div>
                   </div>
                 </div>
@@ -194,11 +194,11 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     disabled={drainingNode === pop.code}
                     className={`w-full py-1.5 px-2 rounded-lg font-mono text-[11px] transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       pop.status === 'draining'
-                        ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20'
+                        ? 'bg-[#F0FAFF]/10 text-emerald-400 hover:bg-[#F0FAFF]/20 border border-emerald-500/20'
                         : 'bg-[var(--bg-surface)] text-muted-foreground hover:text-foreground hover:bg-foreground/10 border border-border'
                     }`}
                   >
-                    <RefreshCw className={`size-3 ${drainingNode === pop.code ? 'animate-spin text-[var(--accent-cyan-edge)]' : ''}`} />
+                    <RefreshCw className={`size-3 ${drainingNode === pop.code ? 'animate-spin text-[#F0FAFF]' : ''}`} />
                     <span>{pop.status === 'draining' ? 'Restore Node' : 'Drain / Evacuate'}</span>
                   </button>
                 </div>
@@ -243,7 +243,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                   <tr key={tenant.id} className="hover:bg-[var(--bg-surface)] transition-colors">
                     <td className="p-3.5 font-medium text-foreground">{tenant.name}</td>
                     <td className="p-3.5 text-muted-foreground">{tenant.domains} hosts</td>
-                    <td className="p-3.5 text-[var(--accent-cyan-edge)]">{tenant.dailyIngestion}</td>
+                    <td className="p-3.5 text-[#F0FAFF]">{tenant.dailyIngestion}</td>
                     <td className="p-3.5 text-foreground">{tenant.computeAllocation}</td>
                     <td className="p-3.5">
                       <span className="px-2 py-0.5 rounded-full bg-[var(--bg-surface)] text-muted-foreground border border-border text-[10px]">
@@ -253,10 +253,10 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     <td className="p-3.5">
                       <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-semibold ${
                         tenant.status === 'normal' 
-                          ? 'bg-emerald-500/10 text-emerald-400' 
+                          ? 'bg-[#F0FAFF]/10 text-emerald-400' 
                           : tenant.status === 'throttled'
-                          ? 'bg-rose-500/10 text-rose-400'
-                          : 'bg-blue-500/10 text-blue-400'
+                          ? 'bg-[#F7FDFF]/10 text-rose-400'
+                          : 'bg-[#F0FAFF]/10 text-blue-400'
                       }`}>
                         {tenant.status}
                       </span>
@@ -265,14 +265,14 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => handleTenantAction(tenant.id, 'elevate')}
-                          className="px-2 py-1 rounded bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 text-[10px] cursor-pointer"
+                          className="px-2 py-1 rounded bg-[#F0FAFF]/10 text-blue-400 hover:bg-[#F0FAFF]/20 text-[10px] cursor-pointer"
                           title="Elevate API burst limits"
                         >
                           Elevate
                         </button>
                         <button
                           onClick={() => handleTenantAction(tenant.id, 'throttle')}
-                          className="px-2 py-1 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-[10px] cursor-pointer"
+                          className="px-2 py-1 rounded bg-[#F7FDFF]/10 text-rose-400 hover:bg-[#F7FDFF]/20 text-[10px] cursor-pointer"
                           title="Throttle traffic"
                         >
                           Throttle
@@ -299,7 +299,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
         <div className="p-6 bg-surface border border-border rounded-2xl shadow-2xl space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-[var(--accent-emerald-vital)] mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#F0FAFF] mb-1">
                 <Cpu className="size-3.5" />
                 <span>SDLC Engine Worker Pools &amp; Compute Budgets</span>
               </div>
@@ -309,7 +309,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
               </p>
             </div>
             <div className="flex items-center gap-2 font-mono text-xs text-emerald-400">
-              <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
+              <span className="size-2 rounded-full bg-[#F0FAFF] animate-ping" />
               <span>8/8 Pools Healthy</span>
             </div>
           </div>
@@ -317,13 +317,13 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
             <div className="p-4 rounded-xl bg-surface border border-foreground/8 space-y-1">
               <div className="text-[10px] uppercase text-muted-foreground">Audits Processed / Sec</div>
-              <div className="text-2xl font-semibold text-foreground">412.8 <span className="text-xs text-[var(--accent-emerald-vital)]">req/s</span></div>
+              <div className="text-2xl font-semibold text-foreground">412.8 <span className="text-xs text-[#F0FAFF]">req/s</span></div>
               <div className="text-[11px] text-muted-foreground font-sans">+14% surge handling capacity</div>
             </div>
 
             <div className="p-4 rounded-xl bg-surface border border-foreground/8 space-y-1">
               <div className="text-[10px] uppercase text-muted-foreground">Average AST Parse Time</div>
-              <div className="text-2xl font-semibold text-foreground">18.4 <span className="text-xs text-[var(--accent-cyan-edge)]">ms</span></div>
+              <div className="text-2xl font-semibold text-foreground">18.4 <span className="text-xs text-[#F0FAFF]">ms</span></div>
               <div className="text-[11px] text-muted-foreground font-sans">SynthShift sub-20ms AST compilation</div>
             </div>
 
@@ -390,7 +390,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
 
             <div className="p-4 rounded-xl bg-background border border-border space-y-2 font-mono text-xs text-muted-foreground">
               <div className="flex items-center justify-between border-b border-foreground/5 pb-2">
-                <span className="text-[var(--accent-cyan-edge)]">[PASS · SHA-256 c1b8...901e]</span>
+                <span className="text-[#F0FAFF]">[PASS · SHA-256 c1b8...901e]</span>
                 <span className="text-muted-foreground">2026-09-04 18:42:19 UTC</span>
               </div>
               <div className="text-foreground">Strict-Transport-Security (HSTS) max-age=63072000; includeSubDomains; preload audited across all client zones.</div>

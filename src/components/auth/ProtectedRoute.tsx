@@ -50,11 +50,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       return (
         <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 text-foreground">
           <div className="w-full max-w-lg rounded-3xl border border-border bg-background p-8 text-center shadow-2xl">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 mb-6">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/30 mb-6">
               <Lock className="h-8 w-8" />
             </div>
 
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-300 mb-3">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-semibold text-amber-300 mb-3">
               <KeyRound className="h-3.5 w-3.5" />
               <span>Superadmin Claim Required</span>
             </div>
@@ -114,7 +114,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             {isUpgradeNeeded ? <Crown className="h-8 w-8 text-amber-400" /> : <Lock className="h-8 w-8 text-cyan-300" />}
           </div>
 
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-300 mb-3">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-semibold text-cyan-300 mb-3">
             <ShieldAlert className="h-3.5 w-3.5" />
             <span>Role Constraint: {requiredRole || minPlan || 'Elevated Role'} Required</span>
           </div>

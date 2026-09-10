@@ -254,10 +254,10 @@ export const UserDashboardPage: React.FC = () => {
  if (!user) {
  return (
  <div data-theme="dark" className="min-h-screen ds-page-top flex items-center justify-center px-4 bg-background text-foreground relative overflow-hidden font-sans">
- <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(0,102,255,0.12),transparent_70%)] pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(240,250,255,0.05),transparent_70%)] pointer-events-none" />
  
  <div className="w-full max-w-md p-8 ds-card bg-surface border-border shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-[var(--accent-cyan-edge)] mb-5 shadow-inner">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-[#F0FAFF] mb-5 shadow-inner">
  <LogIn className="h-5 w-5" />
  </div>
  <h2 className="framer-card-title text-xl sm:text-2xl text-foreground">Developer Access Required</h2>
@@ -289,7 +289,7 @@ export const UserDashboardPage: React.FC = () => {
  displayName: 'CatalystLab Developer',
  isAdmin: false
  })}
- className="ds-btn ds-btn-secondary w-full text-xs text-emerald-400 bg-emerald-500/10 border-emerald-500/20 hover:bg-emerald-500/20"
+ className="ds-btn ds-btn-secondary w-full text-xs text-emerald-400 bg-[#F0FAFF]/10 border-emerald-500/20 hover:bg-[#F0FAFF]/20"
  >
  <Sparkles className="h-3.5 w-3.5 shrink-0" />
  <span>Preview Developer Session</span>
@@ -319,8 +319,8 @@ export const UserDashboardPage: React.FC = () => {
 
  <div className="relative min-h-full">
    {/* Ambient Subsurface Glows */}
-   <div className="absolute -top-24 -left-24 w-96 h-96 bg-[var(--accent-framer-blue)]/10 blur-[120px] rounded-full pointer-events-none" />
-   <div className="absolute top-1/2 -right-24 w-80 h-80 bg-[var(--accent-cyan-edge)]/5 blur-[100px] rounded-full pointer-events-none" />
+   <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#F0FAFF]/10 blur-[120px] rounded-full pointer-events-none" />
+   <div className="absolute top-1/2 -right-24 w-80 h-80 bg-[#F0FAFF]/5 blur-[100px] rounded-full pointer-events-none" />
 
    <AnimatePresence mode="wait">
      <motion.div
@@ -335,9 +335,9 @@ export const UserDashboardPage: React.FC = () => {
  {(activeTab === 'overview' || activeTab === 'analytics' || activeTab === 'engines') && (
  <div className="space-y-8">
    {/* Welcome Header Section */}
-   <div className="sticky top-0 z-20 ds-page-top pb-6 pt-4 bg-transparent backdrop-blur-md border-b border-[var(--border-subtle)] px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+   <div className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-5 bg-[rgba(31,34,35,0.85)] backdrop-blur-2xl border-b border-[rgba(240,250,255,0.08)] px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
      <div>
-       <div className="framer-micro-tag text-[var(--accent-cyan-edge)] mb-2">Platform Control Center</div>
+       <div className="framer-micro-tag text-[#F0FAFF] mb-2">Platform Control Center</div>
        <h1 className="framer-hero-title text-3xl sm:text-4xl lg:text-5xl text-foreground">
          {getGreeting()}, <span className="text-foreground/60">{userName}</span>
        </h1>
@@ -379,7 +379,7 @@ export const UserDashboardPage: React.FC = () => {
 <div className="space-y-4">
 <div className="flex items-center justify-between">
 <div className="flex items-center gap-3">
-<div className="framer-micro-tag text-[var(--accent-framer-blue)]">Telemetry Vault</div>
+<div className="framer-micro-tag text-[#F0FAFF]">Telemetry Vault</div>
 <h2 className="framer-card-title text-foreground">Recent Audit Dossiers</h2>
 </div>
 <button
@@ -411,11 +411,11 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Top Card Bar - Visual Parity with Audit Dossier Cards */}
  <div className="flex items-start justify-between gap-3 pb-3 border-b border-foreground/5">
  <div className="flex items-center gap-3 min-w-0">
- <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-[var(--accent-cyan-edge)] shrink-0 group-hover:border-[var(--accent-cyan-edge)]/30 transition-colors">
+ <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-[#F0FAFF] shrink-0 group-hover:border-[#F0FAFF]/30 transition-colors">
  <Globe className="h-4 w-4" />
  </div>
  <div className="min-w-0">
- <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-[var(--accent-cyan-edge)] transition-colors tracking-tight">
+ <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-[#F0FAFF] transition-colors tracking-tight">
  {extractDomainFromUrl(report.url)}
  </h4>
  <span className="text-[10px] font-mono text-muted-foreground flex items-center gap-1.5 mt-0.5">
@@ -429,8 +429,8 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <div
  className={`py-1 px-2.5 rounded-lg text-[11px] font-bold border shrink-0 ${
  (report.score ?? 0) >= 90
- ?"bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
- :"bg-amber-500/10 text-amber-400 border-amber-500/20"
+ ?"bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20"
+ :"bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20"
  }`}
  >
  {report.score ?? 85}
@@ -439,7 +439,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
 
  {/* Middle Content */}
  <div className="py-4 space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent-framer-blue)]/10 border border-[var(--accent-framer-blue)]/20 py-0.5 px-2 text-[9px] font-mono font-bold text-[var(--accent-framer-blue)] uppercase tracking-wider">
+ <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 py-0.5 px-2 text-[9px] font-mono font-bold text-[#F0FAFF] uppercase tracking-wider">
  <Sparkles className="h-2.5 w-2.5" />
  <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
  </div>
@@ -461,7 +461,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
    </div>
    <span className="text-[10px] font-mono text-muted-foreground">38 PoPs</span>
  </div>
- <div className="text-[11px] font-semibold text-[var(--accent-cyan-edge)] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+ <div className="text-[11px] font-semibold text-[#F0FAFF] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
  <span>Open Dossier</span>
  <ArrowRight className="h-3 w-3" />
  </div>
@@ -478,7 +478,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {activeTab === 'patches' && (
  <div className="space-y-6">
  <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-[var(--accent-cyan-edge)] mb-1">
+ <div className="flex items-center gap-2 text-xs text-[#F0FAFF] mb-1">
  <GitBranch className="size-3.5" />
  <span>GHLyase · Autonomous Patch Deployment Pipeline</span>
  </div>
@@ -653,10 +653,10 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Score Pill */}
  <div className={` py-0.5 rounded text-xs font-bold border ${
  (report.score || 90) >= 90
- ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+ ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20'
  : (report.score || 90) >= 75
- ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
- : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+ ? 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
+ : 'bg-[#F7FDFF]/10 text-rose-400 border-rose-500/20'
  }`}>
  {report.score || 92}/100
  </div>
@@ -705,7 +705,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <button
  onClick={(e) => handleDelete(report.id!, e)}
  disabled={deletingId === report.id}
- className="p-1 rounded ds-muted hover:bg-rose-500/10 hover:text-rose-400 transition-colors cursor-pointer"
+ className="p-1 rounded ds-muted hover:bg-[#F7FDFF]/10 hover:text-rose-400 transition-colors cursor-pointer"
  title="Delete Report"
  >
  <Trash2 className="h-3.5 w-3.5"/>
@@ -761,8 +761,8 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <td className="py-3 font-bold">
  <span className={` py-0.5 rounded text-[11px] border ${
  (report.score || 90) >= 90
- ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
- : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+ ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20'
+ : 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
  }`}>
  {report.score || 92}/100
  </span>
@@ -820,7 +820,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {activeTab === 'reports' && (
  <div className="space-y-6">
  <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-[var(--accent-cyan-edge)] mb-1">
+ <div className="flex items-center gap-2 text-xs text-[#F0FAFF] mb-1">
  <FileText className="size-3.5" />
  <span>CatalystLab · Telemetry Dossiers &amp; Executive Compliance Reports</span>
  </div>
@@ -852,7 +852,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
  <div className="text-[10px] uppercase text-muted-foreground">Unique Edge Meshes</div>
- <div className="text-lg font-bold text-[var(--accent-cyan-edge)] mt-0.5">{uniqueDomains}</div>
+ <div className="text-lg font-bold text-[#F0FAFF] mt-0.5">{uniqueDomains}</div>
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
  <div className="text-[10px] uppercase text-muted-foreground">Export Standards</div>
@@ -907,7 +907,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  </button>
  <button
  onClick={() => handleNavigateToReport(report)}
- className="text-xs text-[var(--accent-cyan-edge)] hover:underline flex items-center gap-1 cursor-pointer"
+ className="text-xs text-[#F0FAFF] hover:underline flex items-center gap-1 cursor-pointer"
  >
  <span>View</span>
  <ArrowRight className="size-3" />

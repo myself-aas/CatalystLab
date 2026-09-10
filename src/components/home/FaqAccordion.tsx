@@ -48,7 +48,7 @@ export const FaqAccordion: React.FC = () => {
         <SectionHeader
           eyebrow={
             <>
-              <Terminal className="size-3.5 text-[var(--accent-framer-blue)]" />
+              <Terminal className="size-3.5 text-[#F0FAFF]" />
               <span>Programmatic Access</span>
             </>
           }
@@ -131,9 +131,9 @@ export const FaqAccordion: React.FC = () => {
               {/* Terminal Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-foreground/10 bg-surface relative z-10">
                 <div className="flex items-center gap-2">
-                  <div className="size-3 rounded-full bg-red-500/20 border border-red-500/50" />
+                  <div className="size-3 rounded-full bg-[#F7FDFF]/20 border border-red-500/50" />
                   <div className="size-3 rounded-full bg-yellow-500/20 border border-yellow-500/50" />
-                  <div className="size-3 rounded-full bg-green-500/20 border border-green-500/50" />
+                  <div className="size-3 rounded-full bg-[#F0FAFF]/20 border border-green-500/50" />
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="px-3 py-1 bg-foreground/10 text-foreground text-xs font-mono rounded-md">
@@ -144,7 +144,7 @@ export const FaqAccordion: React.FC = () => {
 
               {/* Terminal Body */}
               <div className="p-6 sm:p-8 flex-1 overflow-x-auto no-scrollbar relative z-10">
-                <pre className="font-mono text-xs sm:text-[13px] leading-relaxed text-[var(--accent-cyan-edge)]">
+                <pre className="font-mono text-xs sm:text-[13px] leading-relaxed text-[#F0FAFF]">
                   <code>
 <span className="text-foreground/40">$</span> curl -sSL https://api.catalystlab.tech/v2/audit \
     -H <span className="text-emerald-400">"Authorization: Bearer cl_live_xxx"</span> \

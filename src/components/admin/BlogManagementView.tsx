@@ -254,7 +254,7 @@ export const BlogManagementView: React.FC = () => {
             </p>
             <Link
               to="/admin/blogs/create"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-cyan-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-[#F0FAFF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Compose First Article</span>
@@ -328,8 +328,7 @@ export const BlogManagementView: React.FC = () => {
                     {/* View Live Article Button */}
                     <a
                       href={`/blogs/${post.slug || post.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 ds-card px-3 py-1.5 text-xs font-semibold ds-muted hover:text-foreground hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       title="View live article"
                     >

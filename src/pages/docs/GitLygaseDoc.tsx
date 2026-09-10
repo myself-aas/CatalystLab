@@ -10,7 +10,7 @@ export const GitLygaseDoc: React.FC = () => {
  canonicalPath="/docs/gitlygase"
  >
  <section id="gitlygase-overview"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/10 py-0.5 text-xs font-semibold text-green-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-green-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-green-400">
  <span className="h-1.5 w-1.5 rounded-full bg-green-600"/>
  <span>SDLC Phase 2: Repository Scanner</span>
  </div>

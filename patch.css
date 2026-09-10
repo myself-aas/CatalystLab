@@ -1,6 +1,1143 @@
-.ds-nav-active {
-  background-color: color-mix(in srgb, var(--accent-framer-blue) 10%, transparent);
-  color: var(--accent-framer-blue);
-  font-weight: 700;
-  border: 1px solid color-mix(in srgb, var(--accent-framer-blue) 20%, transparent);
+/* ==========================================================================
+   CATALYSTLAB MODERN BENTO DESIGN SYSTEM — PATCH
+   Refreshes cards, menus, navigation, text, pills, buttons to match
+   the modern rounded-bento reference language.
+   Palette: #1F2223 (canvas), #2C2F32 / #2C3032 (surfaces), #F0FAFF (text)
+   ========================================================================== */
+
+/* ---------- TOKEN UPGRADES (softer geometry, tighter shadows, larger radii) ---------- */
+:root {
+  /* Larger, softer card radii matching reference designs */
+  --card-radius-outer: 24px;
+  --card-radius-inner: 16px;
+  --card-radius-pill: 9999px;
+  --card-radius-chip: 9999px;
+  --trail-card-radius-outer: 24px;
+  --trail-card-radius-inner: 16px;
+
+  /* Refined shadows: softer, more diffuse, less harsh */
+  --card-shadow-diffusion:
+    0 0 0 1px rgba(240, 250, 255, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 8px 28px -8px rgba(0, 0, 0, 0.55),
+    0 24px 60px -20px rgba(0, 0, 0, 0.35);
+  --card-shadow-ambient: 0 8px 28px -8px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover:
+    0 0 0 1px rgba(240, 250, 255, 0.16),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 16px 48px -8px rgba(0, 0, 0, 0.65),
+    0 32px 80px -20px rgba(0, 102, 255, 0.12);
+  --card-bloom-active:
+    0 0 0 1px rgba(240, 250, 255, 0.32),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 20px 60px -8px rgba(0, 0, 0, 0.7);
+
+  /* Inner highlight for top edge (neumorphic light source) */
+  --card-inner-highlight: inset 0 1px 0 0 rgba(240, 250, 255, 0.08);
+
+  /* Refined glass */
+  --glass-bg: rgba(44, 47, 50, 0.72);
+  --glass-border: rgba(240, 250, 255, 0.10);
+  --glass-inner-border: rgba(240, 250, 255, 0.06);
+  --glass-shadow-inner: inset 0 1px 0 0 rgba(240, 250, 255, 0.08);
 }
+
+/* ---------- GLOBAL BODY & BACKGROUND ---------- */
+html, body, #root {
+  background-color: #1F2223 !important;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- CARD PRIMITIVES (Bento Rounded) ---------- */
+.ds-card {
+  border-radius: 24px !important;
+  border: 1px solid rgba(240, 250, 255, 0.07) !important;
+  background: #2C2F32;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 8px 28px -8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(240, 250, 255, 0.06);
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 240ms ease,
+              box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .ds-card {
+  background: #2C2F32;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 8px 28px -8px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 0 rgba(240, 250, 255, 0.06);
+}
+
+.ds-card-interactive:hover {
+  transform: translateY(-3px);
+  border-color: rgba(240, 250, 255, 0.16) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 16px 48px -8px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(240, 250, 255, 0.14),
+    inset 0 1px 0 0 rgba(240, 250, 255, 0.08) !important;
+}
+
+/* Framer card hovers */
+.shadow-linear-card {
+  box-shadow:
+    0 0 0 1px rgba(240, 250, 255, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 8px 28px -8px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 0 rgba(240, 250, 255, 0.06) !important;
+}
+
+.shadow-linear-card-hover {
+  box-shadow:
+    0 0 0 1px rgba(240, 250, 255, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 16px 48px -8px rgba(0, 0, 0, 0.7),
+    0 32px 80px -20px rgba(0, 102, 255, 0.14),
+    inset 0 1px 0 0 rgba(240, 250, 255, 0.08) !important;
+}
+
+/* ---------- BUTTONS (pill-shaped, ref-style) ---------- */
+.ds-btn {
+  border-radius: 9999px;
+  min-height: 2.5rem;
+  padding-inline: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: transform 160ms cubic-bezier(0.16,1,0.3,1), box-shadow 160ms ease, background 160ms ease;
+}
+
+.ds-btn-primary {
+  background: #F0FAFF !important;
+  color: #1F2223 !important;
+  border: 1px solid #F0FAFF !important;
+  box-shadow: 0 2px 10px rgba(240, 250, 255, 0.12), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.ds-btn-primary:hover {
+  background: #F7FDFF !important;
+  box-shadow: 0 6px 24px rgba(240, 250, 255, 0.22), inset 0 1px 0 rgba(255,255,255,0.3);
+  transform: translateY(-1px);
+}
+.ds-btn-secondary {
+  background: #2C3032 !important;
+  color: #F0FAFF !important;
+  border: 1px solid rgba(240, 250, 255, 0.12) !important;
+}
+.ds-btn-secondary:hover {
+  background: #2C2F32 !important;
+  border-color: rgba(240, 250, 255, 0.22) !important;
+}
+
+/* ---------- PILLS / BADGES / CHIPS ---------- */
+.ds-pill, .ds-capsule, .ds-chip {
+  border-radius: 9999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: rgba(240, 250, 255, 0.06);
+  border: 1px solid rgba(240, 250, 255, 0.10);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- TABVIEW / SEGMENTED CONTROLS (soft pill) ---------- */
+.ds-tabview, .ds-tab-container {
+  border-radius: 9999px;
+  padding: 0.2rem;
+  background: #1F2223;
+  border: 1px solid rgba(240, 250, 255, 0.08);
+}
+.ds-tab-item {
+  border-radius: 9999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+}
+.ds-tab-item-active {
+  background: #F0FAFF !important;
+  color: #1F2223 !important;
+  border-color: transparent !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* ---------- MENUS (rounded cards) ---------- */
+.ds-menu {
+  border-radius: 20px;
+  padding: 0.4rem;
+  border: 1px solid rgba(240, 250, 255, 0.10);
+  background: #2C3032 !important;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.3),
+    0 20px 50px -10px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(240,250,255,0.06);
+  backdrop-filter: blur(20px);
+}
+.ds-menu-item {
+  border-radius: 12px;
+  padding: 0.55rem 0.75rem;
+}
+.ds-menu-item-active {
+  background: rgba(240, 250, 255, 0.10);
+  border-color: rgba(240, 250, 255, 0.14);
+}
+
+/* ---------- ICON CIRCLES (reference signature: icon inside soft circle) ---------- */
+.ds-icon-box {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 14px;
+  background: rgba(240, 250, 255, 0.06);
+  border: 1px solid rgba(240, 250, 255, 0.08);
+}
+
+/* Icon pill (rounded square with subtle inner highlight) */
+.ds-icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 16px;
+  background: #2C3032;
+  border: 1px solid rgba(240, 250, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(240,250,255,0.06);
+  flex-shrink: 0;
+  color: #F0FAFF;
+}
+
+/* ---------- NAVBAR REFINEMENT ---------- */
+.top-nav,
+#catalyst-main-navbar {
+  background: transparent !important;
+  transition: background-color 300ms ease, backdrop-filter 300ms ease, border-color 300ms ease !important;
+  z-index: 40 !important;
+}
+
+.top-nav.scrolled,
+#catalyst-main-navbar.scrolled,
+#catalyst-main-navbar[class*="bg-\\[rgba"],
+.top-nav[class*="backdrop-blur"] {
+  background: rgba(31, 34, 35, 0.78) !important;
+  backdrop-filter: blur(24px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.4) !important;
+  border-bottom: 1px solid rgba(240, 250, 255, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(240, 250, 255, 0.04) !important;
+}
+
+/* ---------- NAV LINKS ---------- */
+.ds-nav-link {
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+/* ---------- TEXT / TYPOGRAPHY ---------- */
+h1, h2, h3, h4 {
+  letter-spacing: -0.03em;
+  color: #F0FAFF;
+}
+.framer-hero-title {
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  color: #F0FAFF;
+}
+.framer-section-headline {
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  color: #F0FAFF;
+}
+.framer-card-title {
+  letter-spacing: -0.02em;
+  color: #F0FAFF;
+}
+.framer-body-text { color: rgba(240, 250, 255, 0.72); }
+
+p, .text-muted-foreground { color: rgba(240, 250, 255, 0.65); }
+.text-foreground, .text-foreground\/80, .text-foreground\/90 { color: #F0FAFF !important; }
+.text-muted-foreground { color: rgba(240, 250, 255, 0.55) !important; }
+
+/* ---------- INPUTS ---------- */
+.ds-input, .ds-select {
+  border-radius: 14px;
+  background: #1F2223;
+  border: 1px solid rgba(240, 250, 255, 0.10);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.ds-input:focus, .ds-select:focus {
+  border-color: rgba(240, 250, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(240, 250, 255, 0.06);
+}
+
+/* ---------- Mobile Drawer (MainMenuOverlay) refinements ---------- */
+#main-navigation-menu {
+  border-radius: 28px 0 0 28px !important;
+  border-left: 1px solid rgba(240, 250, 255, 0.08) !important;
+  background: #1F2223 !important;
+  box-shadow: -30px 0 80px rgba(0,0,0,0.5) !important;
+}
+#main-navigation-menu aside,
+aside[id="main-navigation-menu"] {
+  border-radius: 28px 0 0 28px !important;
+}
+
+/* Nav items inside the mobile drawer */
+#main-navigation-menu button[class*="flex items-center"] {
+  border-radius: 14px !important;
+  padding: 0.7rem 0.85rem !important;
+  transition: all 180ms cubic-bezier(0.16,1,0.3,1);
+}
+#main-navigation-menu button[class*="flex items-center"]:hover {
+  background: rgba(240, 250, 255, 0.05);
+}
+#main-navigation-menu .ds-nav-active,
+#main-navigation-menu [class*="ds-nav-active"] {
+  background: rgba(240, 250, 255, 0.10) !important;
+  border: 1px solid rgba(240, 250, 255, 0.14) !important;
+}
+
+/* ---------- SIDEBAR / DEVSITE ---------- */
+.devsite-sidenav a {
+  border-radius: 12px;
+  border-left: none !important;
+  margin: 2px 0;
+  padding: 0.55rem 0.85rem !important;
+  font-size: 0.85rem;
+}
+.devsite-sidenav a[aria-current="page"] {
+  background: rgba(240,250,255,0.10) !important;
+  border-left: none !important;
+  color: #F0FAFF !important;
+  font-weight: 600;
+}
+
+/* ---------- FOOTER ---------- */
+footer, [class*="Footer"], [data-slot="footer"] {
+  background: #1F2223 !important;
+  border-top: 1px solid rgba(240,250,255,0.06);
+}
+
+/* ---------- GENERIC SURFACES ---------- */
+.bg-background, [class*="bg-background"] { background-color: #1F2223; }
+.bg-card, [class*="bg-card"] { background-color: #2C3032; }
+.bg-surface, .bg-\[var\(--bg-surface\)\], [class*="bg-surface"] { background-color: #2C2F32; }
+.bg-popover, [class*="bg-popover"] { background-color: #2C3032; }
+
+/* Backdrop blur on mobile drawer */
+[class*="fixed inset-0"][class*="bg-background"] {
+  background: rgba(31, 34, 35, 0.6) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* ---------- UTILITY: Soft rounded bento card ---------- */
+.bento-card {
+  background: #2C2F32;
+  border: 1px solid rgba(240, 250, 255, 0.07);
+  border-radius: 24px;
+  padding: 1.25rem;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.2),
+    0 8px 28px -8px rgba(0,0,0,0.5),
+    inset 0 1px 0 0 rgba(240,250,255,0.06);
+  transition: transform 220ms cubic-bezier(0.16,1,0.3,1), box-shadow 220ms ease, border-color 220ms ease;
+}
+.bento-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(240, 250, 255, 0.14);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.25),
+    0 16px 48px -8px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(240,250,255,0.08);
+}
+
+/* Pill CTA */
+.pill-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 9999px;
+  background: #F0FAFF;
+  color: #1F2223;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1px solid #F0FAFF;
+  box-shadow: 0 2px 10px rgba(240,250,255,0.12);
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.16,1,0.3,1);
+}
+.pill-cta:hover {
+  background: #F7FDFF;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(240,250,255,0.2);
+}
+.pill-cta-secondary {
+  background: transparent;
+  color: #F0FAFF;
+  border: 1px solid rgba(240,250,255,0.18);
+  box-shadow: none;
+}
+.pill-cta-secondary:hover {
+  background: rgba(240,250,255,0.06);
+  border-color: rgba(240,250,255,0.32);
+}
+
+/* Remove bottom nav spacing */
+:root {
+  --mobile-nav-height: 0px;
+  --pb-nav: 0px;
+  --sab: 0px;
+}
+
+/* Hide the mobile bottom nav */
+.mobile-bottom-nav,
+[class*="MobileBottomNav"],
+nav[class*="bottom-0"][class*="fixed"][class*="md:hidden"] {
+  display: none !important;
+}
+
+/* ---------- SIDEBAR (modern bento icon-sidebar style) ---------- */
+aside[class*="h-screen sticky top-0"],
+aside[class*="fixed inset-y-0 left-0"] {
+  background: #1F2223 !important;
+  border-right: 1px solid rgba(240,250,255,0.06) !important;
+}
+aside nav a,
+aside [class*="NavLink"],
+aside button[class*="flex items-center h-"] {
+  border-radius: 14px !important;
+  margin: 2px 0;
+}
+aside nav a[class*="ds-nav-active"],
+aside [class*="ds-nav-active"] {
+  background: rgba(240,250,255,0.10) !important;
+  border: 1px solid rgba(240,250,255,0.12) !important;
+  color: #F0FAFF !important;
+  box-shadow: inset 0 1px 0 rgba(240,250,255,0.05);
+}
+
+/* Sidebar user avatar circle */
+aside .size-8.rounded-full {
+  border-radius: 12px !important;
+  background: rgba(240,250,255,0.08) !important;
+  border: 1px solid rgba(240,250,255,0.14) !important;
+}
+
+/* Sidebar theme toggle segmented control -> pill shape */
+aside .flex.p-0\.5.bg-\[var\(--bg-surface\)\] {
+  border-radius: 9999px !important;
+  padding: 3px !important;
+  background: #1F2223 !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+}
+aside .flex.p-0\.5.bg-\[var\(--bg-surface\)\] button {
+  border-radius: 9999px !important;
+}
+aside .flex.p-0\.5.bg-\[var\(--bg-surface\)\] button[class*="bg-"] {
+  background: #F0FAFF !important;
+  color: #1F2223 !important;
+  border: none !important;
+}
+
+/* ---------- ENGINE SUB NAV ---------- */
+[class*="EngineSubNav"],
+.engine-subnav {
+  border-radius: 20px;
+  background: #2C3032;
+  border: 1px solid rgba(240,250,255,0.07);
+}
+
+/* ---------- SEARCH INPUT (Navbar search) ---------- */
+[class*="NavbarSearch"] input,
+nav input[type="search"],
+nav input[type="text"] {
+  border-radius: 9999px !important;
+  background: rgba(240,250,255,0.04) !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+  padding-left: 2.5rem !important;
+}
+
+/* ---------- POPOVERS, DROPDOWNS (general rounded cards) ---------- */
+[role="menu"],
+[role="dialog"],
+[data-radix-popper-content-wrapper],
+[class*="Dropdown"],
+[class*="PopoverContent"],
+[class*="popover-content"] {
+  border-radius: 20px !important;
+  background: #2C3032 !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 24px 60px -12px rgba(0,0,0,0.7), inset 0 1px 0 rgba(240,250,255,0.06) !important;
+}
+
+/* ---------- BLOG CARDS & MARKETING CARDS ---------- */
+[class*="BlogCard"],
+[class*="BenchmarkCard"],
+[class*="StatCard"],
+[class*="WorkflowStepCard"],
+[class*="TestimonialCard"],
+[class*="PricingPlanCard"],
+[class*="EngineVectorCard"] {
+  border-radius: 24px !important;
+  overflow: hidden;
+}
+
+/* ---------- PRICING CARDS specifically ---------- */
+[class*="PricingPlan"] {
+  border-radius: 28px !important;
+  border: 1px solid rgba(240,250,255,0.07) !important;
+  background: #2C2F32 !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2), 0 8px 28px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(240,250,255,0.06);
+  transition: transform 240ms cubic-bezier(0.16,1,0.3,1), box-shadow 240ms ease, border-color 240ms ease;
+}
+[class*="PricingPlan"]:hover {
+  transform: translateY(-3px);
+  border-color: rgba(240,250,255,0.14) !important;
+}
+
+/* ---------- TABLES ---------- */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+th, td {
+  border-bottom: 1px solid rgba(240,250,255,0.06);
+}
+
+/* ---------- TABS (underline -> pill where possible) ---------- */
+[role="tablist"] {
+  background: #1F2223 !important;
+  padding: 4px !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+  gap: 2px;
+}
+[role="tab"] {
+  border-radius: 9999px !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 500;
+  color: rgba(240,250,255,0.6) !important;
+  transition: all 180ms ease;
+}
+[role="tab"][aria-selected="true"],
+[role="tab"][data-state="active"] {
+  background: #F0FAFF !important;
+  color: #1F2223 !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* ---------- FORMS ---------- */
+input:not([type]),
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+  background: #1F2223 !important;
+  border: 1px solid rgba(240,250,255,0.10) !important;
+  border-radius: 14px !important;
+  color: #F0FAFF !important;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(240,250,255,0.25) !important;
+  box-shadow: 0 0 0 3px rgba(240,250,255,0.06) !important;
+  outline: none !important;
+}
+input::placeholder, textarea::placeholder {
+  color: rgba(240,250,255,0.35) !important;
+}
+
+/* Buttons (generic) */
+button[class*="bg-primary"],
+button[class*="bg-foreground"] {
+  border-radius: 9999px !important;
+}
+
+/* Checkbox and radio */
+input[type="checkbox"], input[type="radio"] {
+  accent-color: #F0FAFF;
+}
+
+/* ---------- BADGE PILLS (default rounded-full) ---------- */
+[class*="badge"],
+[class*="Badge"]:not([class*="card"]):not([class*="Card"]) {
+  border-radius: 9999px !important;
+}
+
+/* ---------- CODE BLOCKS ---------- */
+pre {
+  border-radius: 16px !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+  background: #1F2223 !important;
+}
+
+/* ---------- Sticky HUD ---------- */
+[class*="StickyHUD"] {
+  border-radius: 9999px !important;
+  background: rgba(31,34,35,0.8) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(240,250,255,0.08) !important;
+}
+
+/* ---------- Mobile backdrop for drawer ---------- */
+[class*="fixed inset-0"][class*="bg-background"],
+[class*="absolute inset-0"][class*="bg-background"] {
+  background: rgba(31,34,35,0.6) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* ---------- Clean scrollbar within cards ---------- */
+.bento-card, .ds-card, .card-spotlight-overlay {
+  -webkit-backdrop-filter: blur(0);
+}
+
+/* ---------- Hero/section ambient bg consistent ---------- */
+[class*="LinearAmbientBackground"],
+[class*="hero-ambient"] {
+  opacity: 0.6;
+}
+
+/* ---------- CTA buttons global ---------- */
+a[class*="bg-foreground"][class*="text-background"],
+button[class*="bg-foreground"][class*="text-background"],
+a[class*="bg-foreground"][class*="text-primary-foreground"] {
+  background: #F0FAFF !important;
+  color: #1F2223 !important;
+  border-radius: 9999px !important;
+  font-weight: 600;
+  border: 1px solid #F0FAFF;
+  box-shadow: 0 2px 12px rgba(240,250,255,0.12), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 180ms cubic-bezier(0.16,1,0.3,1);
+}
+a[class*="bg-foreground"]:hover,
+button[class*="bg-foreground"]:hover {
+  background: #F7FDFF !important;
+  box-shadow: 0 6px 24px rgba(240,250,255,0.22), inset 0 1px 0 rgba(255,255,255,0.3);
+  transform: translateY(-1px);
+}
+
+/* Secondary CTA outlined */
+a[class*="border"][class*="border-border"][class*="bg-transparent"],
+a[class*="border"][class*="border-subtle"] {
+  border-radius: 9999px !important;
+}
+
+/* ---------- Section padding and spacing ---------- */
+.ds-section { padding-block: clamp(4rem, 7vw, 7rem); }
+
+/* ---------- Footer styling ---------- */
+footer#main-footer {
+  background: #1F2223 !important;
+  border-top: 1px solid rgba(240,250,255,0.06) !important;
+  border-radius: 0 !important;
+}
+footer#main-footer a {
+  border-radius: 8px;
+}
+footer#main-footer .size-9.rounded-lg {
+  border-radius: 12px !important;
+  background: #2C3032 !important;
+  border: 1px solid rgba(240,250,255,0.06);
+  transition: all 180ms ease;
+}
+footer#main-footer .size-9.rounded-lg:hover {
+  background: #2C2F32 !important;
+  border-color: rgba(240,250,255,0.14);
+  transform: translateY(-2px);
+}
+
+/* ---------- ACCORDION / FAQ ---------- */
+[class*="Accordion"],
+[class*="accordion"],
+details {
+  border-radius: 20px !important;
+  overflow: hidden;
+}
+[class*="AccordionItem"],
+[class*="accordion-item"],
+details > summary {
+  border-radius: 20px;
+  background: #2C3032;
+  border: 1px solid rgba(240,250,255,0.07) !important;
+  padding: 1rem 1.25rem;
+}
+[class*="AccordionContent"],
+[class*="accordion-content"] {
+  background: #2C2F32;
+  border-top: 1px solid rgba(240,250,255,0.04);
+}
+
+/* ---------- TOOLTIPS ---------- */
+[role="tooltip"],
+[class*="TooltipContent"] {
+  border-radius: 12px !important;
+  background: #2C3032 !important;
+  border: 1px solid rgba(240,250,255,0.10) !important;
+  box-shadow: 0 8px 28px -8px rgba(0,0,0,0.6) !important;
+  color: #F0FAFF !important;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* ---------- MODAL / DIALOG ---------- */
+[role="dialog"][class*="overlay"],
+[class*="DialogOverlay"],
+[class*="modal-overlay"] {
+  background: rgba(31,34,35,0.7) !important;
+  backdrop-filter: blur(12px);
+}
+[role="dialog"]:not([class*="overlay"]):not([class*="mobile"]),
+[class*="DialogContent"],
+[class*="ModalContent"] {
+  border-radius: 28px !important;
+  background: #2C3032 !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 32px 80px -12px rgba(0,0,0,0.8), inset 0 1px 0 rgba(240,250,255,0.06) !important;
+  padding: 1.75rem !important;
+}
+
+/* ---------- ALERTS ---------- */
+[role="alert"],
+[class*="Alert"] {
+  border-radius: 18px !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+}
+
+/* ---------- TOASTS ---------- */
+[class*="toast"],
+[class*="Toast"] {
+  border-radius: 16px !important;
+  background: #2C3032 !important;
+  border: 1px solid rgba(240,250,255,0.10) !important;
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,0.7) !important;
+}
+
+/* ---------- SWITCH ---------- */
+[role="switch"] {
+  border-radius: 9999px !important;
+}
+
+/* ---------- PROGRESS BARS ---------- */
+[role="progressbar"],
+progress {
+  border-radius: 9999px !important;
+  overflow: hidden;
+  background: rgba(240,250,255,0.08) !important;
+}
+[role="progressbar"] > div,
+progress::-webkit-progress-value {
+  border-radius: 9999px !important;
+  background: #F0FAFF !important;
+}
+
+/* ---------- SCROLL TO TOP & SIMILAR PILL BUTTONS IN FOOTER ---------- */
+footer button[class*="rounded-full"],
+footer a[class*="rounded-full"] {
+  border-radius: 9999px !important;
+  padding: 0.6rem 1.1rem !important;
+  background: #2C3032 !important;
+  border: 1px solid rgba(240,250,255,0.10) !important;
+  font-weight: 500;
+  transition: all 180ms cubic-bezier(0.16,1,0.3,1);
+}
+footer button[class*="rounded-full"]:hover {
+  background: #2C2F32 !important;
+  border-color: rgba(240,250,255,0.20) !important;
+  transform: translateY(-2px);
+}
+
+/* ---------- HERO BUTTON ROW (specific override) ---------- */
+a[href="/audit"], a[href="/launch-audit"], a[href*="signup"], a[href*="login"] {
+  /* keep pill styles from generic CTA rule */
+}
+
+/* ---------- MARQUEE / PARTNER LOGOS ROW ---------- */
+[class*="marquee"],
+[class*="PartnerMarquee"] {
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* ---------- SECTION HEADERS consistent color ---------- */
+.ds-eyebrow { color: #F0FAFF !important; opacity: 0.65; letter-spacing: 0.14em; }
+
+/* ---------- BLOG POST CARD IMAGE RADIUS ---------- */
+[class*="BlogCard"] img,
+[class*="blog-card"] img,
+article img {
+  border-radius: 16px;
+}
+
+/* ---------- TESTIMONIAL CARD ---------- */
+[class*="Testimonial"] {
+  border-radius: 24px !important;
+}
+
+/* ---------- FIX STICKY IN-PAGE HEADERS (they must sit BELOW the navbar) ---------- */
+main section[class*="sticky top-0"],
+section[class*="sticky"][class*="top-0"],
+header[class*="sticky top-0"],
+div[class*="sticky top-0"][class*="border-b"] {
+  top: var(--nav-height, 4rem) !important;
+}
+
+/* Ensure page content has proper top spacing when navbar is fixed */
+.ds-page-top {
+  padding-top: calc(var(--nav-height, 4rem) + var(--nav-bottom-clearance, 1.5rem));
+}
+
+/* When navbar has the scrolled class, ensure the blur surface is properly drawn */
+#catalyst-main-navbar {
+  will-change: transform, background-color;
+}
+
+/* Make sure text colors resolve against our palette in all nested contexts */
+[class*="text-neutral-300"],
+[class*="text-neutral-400"],
+[class*="text-neutral-500"],
+[class*="text-gray-400"],
+[class*="text-gray-500"],
+[class*="text-slate-400"],
+[class*="text-slate-500"] {
+  color: rgba(240,250,255,0.6) !important;
+}
+[class*="text-neutral-200"],
+[class*="text-gray-300"],
+[class*="text-slate-300"] {
+  color: rgba(240,250,255,0.78) !important;
+}
+
+/* [bg-muted] surface fallback */
+.bg-muted, [class*="bg-muted"] { background-color: #2C3032 !important; }
+.bg-card, [class*="bg-card"] { background-color: #2C3032 !important; }
+.bg-popover, [class*="bg-popover"] { background-color: #2C3032 !important; }
+.bg-background, [class*="bg-background"] { background-color: #1F2223 !important; }
+.bg-surface, [class*="bg-surface"] { background-color: #2C2F32 !important; }
+.border-border, [class*="border-border"] { border-color: rgba(240,250,255,0.08) !important; }
+.border-foreground\/\[\.08\], .border-foreground\/\[0\.08\] { border-color: rgba(240,250,255,0.08) !important; }
+.text-foreground, .text-foreground\/80, .text-foreground\/90 { color: #F0FAFF !important; }
+.text-muted-foreground, [class*="text-muted-foreground"] { color: rgba(240,250,255,0.6) !important; }
+
+/* Audit hero / hero sections with negative offsets: ensure top padding when not on homepage */
+body .min-h-screen.ds-page-top > section:first-child {
+  /* nothing — ds-page-top handles it */
+}
+
+/* Prevent horizontal scroll caused by any oversized shadows */
+html, body { overflow-x: hidden; }
+
+/* ==========================================================================
+   STRICT MONOCHROME PALETTE NORMALIZATION
+   Only five colors are allowed (per spec screenshot):
+     Canvas (deepest) : #1F2223
+     Surface          : #2C2F32
+     Surface alt      : #2C3032   (virtually identical to #2C2F32 — treat as same)
+     Cream bright     : #F7FDFF
+     Cream text       : #F0FAFF
+   NO hues (no blue, green, purple, red, amber, cyan, indigo, rose, etc.)
+   All "accent" states use opacities of the cream tones on the dark surfaces.
+   Code snippets / syntax highlighting are EXCLUDED per user instruction.
+   ========================================================================== */
+
+/* --- Neutrals (zinc/slate/gray/stone/neutral) → canvas/surface --- */
+.bg-zinc-50,.bg-zinc-100,.bg-zinc-200,.bg-zinc-300,
+.bg-slate-50,.bg-slate-100,.bg-slate-200,.bg-slate-300,
+.bg-gray-50,.bg-gray-100,.bg-gray-200,.bg-gray-300,
+.bg-neutral-50,.bg-neutral-100,.bg-neutral-200,.bg-neutral-300,
+.bg-stone-50,.bg-stone-100,.bg-stone-200,.bg-stone-300{background-color:#F0FAFF!important}
+.bg-zinc-400,.bg-zinc-500,.bg-zinc-600,.bg-zinc-700,.bg-zinc-800,.bg-zinc-900,.bg-zinc-950,
+.bg-slate-400,.bg-slate-500,.bg-slate-600,.bg-slate-700,.bg-slate-800,.bg-slate-900,.bg-slate-950,
+.bg-gray-400,.bg-gray-500,.bg-gray-600,.bg-gray-700,.bg-gray-800,.bg-gray-900,.bg-gray-950,
+.bg-neutral-400,.bg-neutral-500,.bg-neutral-600,.bg-neutral-700,.bg-neutral-800,.bg-neutral-900,.bg-neutral-950,
+.bg-stone-400,.bg-stone-500,.bg-stone-600,.bg-stone-700,.bg-stone-800,.bg-stone-900,.bg-stone-950{background-color:#2C3032!important}
+
+/* --- ALL colored hues (blue/indigo/violet/purple/emerald/green/rose/red/amber/yellow/orange/teal/cyan/sky/pink/fuchsia) → cream-on-dark --- */
+[class*="bg-blue-"],[class*="bg-indigo-"],[class*="bg-violet-"],[class*="bg-purple-"],
+[class*="bg-cyan-"],[class*="bg-sky-"],[class*="bg-teal-"],
+[class*="bg-emerald-"],[class*="bg-green-"],
+[class*="bg-rose-"],[class*="bg-red-"],[class*="bg-pink-"],[class*="bg-fuchsia-"],
+[class*="bg-amber-"],[class*="bg-yellow-"],[class*="bg-orange-"]{
+  background-color: rgba(240,250,255,0.08) !important;
+}
+/* solid brand/CTA hues → solid cream */
+.bg-blue-500,.bg-blue-600,.bg-blue-700,
+.bg-indigo-500,.bg-indigo-600,
+.bg-emerald-500,.bg-emerald-600,
+.bg-rose-500,.bg-rose-600,.bg-red-500,.bg-red-600,
+.bg-cyan-500,.bg-cyan-600,
+.bg-purple-500,.bg-purple-600,.bg-violet-500,.bg-violet-600,
+.bg-amber-500,.bg-amber-600{
+  background-color:#F0FAFF!important;
+  color:#1F2223!important;
+}
+/* deepest blues → canvas */
+.bg-blue-800,.bg-blue-900,.bg-indigo-800,.bg-indigo-900{background-color:#1F2223!important}
+
+/* --- text-* colored tokens → cream hierarchy --- */
+[class*="text-blue-"],[class*="text-indigo-"],[class*="text-cyan-"],[class*="text-sky-"],
+[class*="text-violet-"],[class*="text-purple-"],[class*="text-fuchsia-"],
+[class*="text-emerald-"],[class*="text-green-"],[class*="text-teal-"],
+[class*="text-rose-"],[class*="text-red-"],[class*="text-pink-"],
+[class*="text-amber-"],[class*="text-yellow-"],[class*="text-orange-"]{
+  color:#F0FAFF!important;
+}
+/* muted mid-tone text */
+[class*="text-blue-3"],[class*="text-indigo-3"],[class*="text-cyan-3"],[class*="text-sky-3"],
+[class*="text-emerald-3"],[class*="text-green-3"],
+[class*="text-rose-3"],[class*="text-red-3"],[class*="text-pink-3"],
+[class*="text-purple-3"],[class*="text-violet-3"],[class*="text-fuchsia-3"],
+[class*="text-amber-3"],[class*="text-yellow-3"]{
+  color:rgba(240,250,255,0.8)!important;
+}
+
+/* --- border-* hues → cream borders at low opacity --- */
+[class*="border-blue"],[class*="border-indigo"],[class*="border-cyan"],[class*="border-sky"],
+[class*="border-violet"],[class*="border-purple"],[class*="border-fuchsia"],
+[class*="border-emerald"],[class*="border-green"],[class*="border-teal"],
+[class*="border-rose"],[class*="border-red"],[class*="border-pink"],
+[class*="border-amber"],[class*="border-yellow"],[class*="border-orange"]{
+  border-color:rgba(240,250,255,0.14)!important;
+}
+
+/* --- ring-* hues → cream --- */
+[class*="ring-blue"],[class*="ring-cyan"],[class*="ring-indigo"],
+[class*="ring-purple"],[class*="ring-violet"],[class*="ring-emerald"]{
+  --tw-ring-color:rgba(240,250,255,0.35)!important;
+}
+[class*="ring-offset-zinc"],[class*="ring-offset-slate"],[class*="ring-offset-gray"],[class*="ring-offset-neutral"]{
+  --tw-ring-offset-color:#1F2223!important;
+}
+
+/* --- shadow colored glows → soft cream glow --- */
+[class*="shadow-blue"],[class*="shadow-cyan"],[class*="shadow-indigo"],
+[class*="shadow-purple"],[class*="shadow-emerald"],[class*="shadow-rose"]{
+  --tw-shadow-color:rgba(240,250,255,0.12)!important;
+}
+
+/* --- hover/focus color utilities → cream --- */
+[class*="hover:bg-blue"]:hover,[class*="hover:bg-indigo"]:hover,
+[class*="hover:bg-cyan"]:hover,[class*="hover:bg-emerald"]:hover,
+[class*="hover:bg-purple"]:hover,[class*="hover:bg-rose"]:hover,
+[class*="hover:bg-amber"]:hover,[class*="hover:bg-red"]:hover{
+  background-color:#F0FAFF!important;color:#1F2223!important;
+}
+[class*="hover:text-blue"]:hover,[class*="hover:text-cyan"]:hover,[class*="hover:text-indigo"]:hover,
+[class*="hover:text-purple"]:hover,[class*="hover:text-emerald"]:hover,
+[class*="hover:text-rose"]:hover,[class*="hover:text-amber"]:hover{
+  color:#F0FAFF!important;
+}
+[class*="hover:border-blue"]:hover,[class*="hover:border-cyan"]:hover,[class*="hover:border-emerald"]:hover,
+[class*="hover:border-purple"]:hover,[class*="hover:border-rose"]:hover{
+  border-color:rgba(240,250,255,0.22)!important;
+}
+
+/* --- focus-visible outline → cream --- */
+*:focus-visible{outline-color:rgba(240,250,255,0.4)!important}
+
+/* --- Gradient stops (from-/via-/to-* colored) → cream --- */
+[class*="from-blue"],[class*="from-indigo"],[class*="from-cyan"],[class*="from-emerald"],
+[class*="from-purple"],[class*="from-violet"],[class*="from-rose"],[class*="from-amber"],
+[class*="from-red"]{--tw-gradient-from:#F0FAFF!important;--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to,transparent)!important}
+[class*="via-blue"],[class*="via-cyan"],[class*="via-emerald"],[class*="via-purple"]{--tw-gradient-stops:var(--tw-gradient-from),rgba(240,250,255,0.5),var(--tw-gradient-to,transparent)!important}
+[class*="to-blue"],[class*="to-indigo"],[class*="to-cyan"],[class*="to-emerald"],
+[class*="to-purple"],[class*="to-violet"],[class*="to-rose"],[class*="to-amber"],[class*="to-red"]{--tw-gradient-to:#F0FAFF!important}
+
+/* --- Placeholders → subtle cream --- */
+::placeholder{color:rgba(240,250,255,0.35)!important;opacity:1}
+
+/* --- ::selection → cream --- */
+::selection{background:rgba(240,250,255,0.18)!important;color:#F0FAFF!important}
+
+/* --- Ping/pulse dot animation color (live/active) → cream --- */
+.animate-ping{--tw-ping-bg-color:rgba(240,250,255,0.5)!important}
+
+/* --- scrollbar → mono --- */
+::-webkit-scrollbar-thumb{background:rgba(240,250,255,0.12)!important}
+::-webkit-scrollbar-track{background:#1F2223!important}
+
+/* --- Recharts / chart SVG default → monochrome --- */
+.recharts-wrapper .recharts-cartesian-grid line,
+.recharts-wrapper .recharts-polar-grid line,
+.recharts-wrapper .recharts-polar-angle-axis line,
+.recharts-wrapper .recharts-polar-radius-axis line {
+  stroke: rgba(240,250,255,0.08) !important;
+}
+.recharts-wrapper .recharts-cartesian-axis-line,
+.recharts-wrapper .recharts-cartesian-axis-tick-line { stroke: rgba(240,250,255,0.15) !important; }
+.recharts-wrapper text, .recharts-wrapper .recharts-text { fill: rgba(240,250,255,0.55) !important; }
+.recharts-wrapper .recharts-legend-item-text { color: rgba(240,250,255,0.65) !important; }
+.recharts-wrapper .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #2C3032 !important; border: 1px solid rgba(240,250,255,0.08) !important; border-radius: 16px !important;
+  color: #F0FAFF !important;
+}
+.recharts-dot, .recharts-active-dot circle { fill: #F0FAFF !important; stroke: #1F2223 !important; }
+.recharts-pie-sector, .recharts-sector { stroke: #1F2223 !important; }
+.recharts-bar-rectangle, .recharts-rectangle { stroke: rgba(240,250,255,0.1) !important; }
+.recharts-line-curve, .recharts-polar-radius-axis-band,
+.recharts-radar-polygon, .recharts-area-area, .recharts-area-curve { stroke: #F0FAFF !important; }
+.recharts-brush rect { fill: rgba(240,250,255,0.08) !important; stroke: rgba(240,250,255,0.2) !important; }
+.recharts-reference-line line { stroke: rgba(240,250,255,0.35) !important; }
+.recharts-polar-grid-angle, .recharts-polar-grid-concentric { stroke: rgba(240,250,255,0.1) !important; }
+.recharts-radar .recharts-radar-polygon { fill: rgba(240,250,255,0.15) !important; stroke: #F0FAFF !important; }
+
+/* --- tspan / SVG text in dark surfaces → cream --- */
+svg tspan, svg text { fill: rgba(240,250,255,0.7); }
+
+/* --- Stricter monochrome enforcement: every colored Tailwind utility prefix --- */
+[class*="text-red"],[class*="text-rose"],[class*="text-pink"],
+[class*="text-orange"],[class*="text-amber"],[class*="text-yellow"],
+[class*="text-lime"],[class*="text-green"],[class*="text-emerald"],[class*="text-teal"],
+[class*="text-cyan"],[class*="text-sky"],[class*="text-blue"],[class*="text-indigo"],
+[class*="text-violet"],[class*="text-purple"],[class*="text-fuchsia"]{color:#F0FAFF!important}
+[class*="bg-red"],[class*="bg-rose"],[class*="bg-pink"],
+[class*="bg-orange"],[class*="bg-amber"],[class*="bg-yellow"],
+[class*="bg-lime"],[class*="bg-green"],[class*="bg-emerald"],[class*="bg-teal"],
+[class*="bg-cyan"],[class*="bg-sky"],[class*="bg-blue"],[class*="bg-indigo"],
+[class*="bg-violet"],[class*="bg-purple"],[class*="bg-fuchsia"]{
+  background-color:rgba(240,250,255,0.08)!important;color:#F0FAFF!important;
+}
+/* Solid CTA variants */
+[class~="bg-red-500"],[class~="bg-red-600"],[class~="bg-red-700"],
+[class~="bg-rose-500"],[class~="bg-rose-600"],
+[class~="bg-blue-500"],[class~="bg-blue-600"],[class~="bg-blue-700"],
+[class~="bg-emerald-500"],[class~="bg-emerald-600"],
+[class~="bg-purple-500"],[class~="bg-amber-500"],[class~="bg-cyan-500"]{
+  background-color:#F0FAFF!important;color:#1F2223!important;
+}
+/* Deep tinted bg (xxx-900/950) → surface */
+[class*="bg-red-9"],[class*="bg-rose-9"],[class*="bg-pink-9"],
+[class*="bg-orange-9"],[class*="bg-amber-9"],
+[class*="bg-emerald-9"],[class*="bg-green-9"],[class*="bg-teal-9"],
+[class*="bg-cyan-9"],[class*="bg-sky-9"],[class*="bg-blue-9"],[class*="bg-indigo-9"],
+[class*="bg-purple-9"],[class*="bg-violet-9"]{
+  background-color:#2C3032!important;color:#F0FAFF!important;
+}
+[class*="border-red"],[class*="border-rose"],[class*="border-pink"],
+[class*="border-orange"],[class*="border-amber"],[class*="border-yellow"],
+[class*="border-lime"],[class*="border-green"],[class*="border-emerald"],[class*="border-teal"],
+[class*="border-cyan"],[class*="border-sky"],[class*="border-blue"],[class*="border-indigo"],
+[class*="border-violet"],[class*="border-purple"],[class*="border-fuchsia"]{
+  border-color:rgba(240,250,255,0.14)!important;
+}
+[class*="ring-red"],[class*="ring-rose"],[class*="ring-pink"],
+[class*="ring-orange"],[class*="ring-amber"],
+[class*="ring-emerald"],[class*="ring-green"],
+[class*="ring-cyan"],[class*="ring-sky"],[class*="ring-blue"],[class*="ring-indigo"],
+[class*="ring-purple"],[class*="ring-violet"]{
+  --tw-ring-color:rgba(240,250,255,0.3)!important;
+}
+[class*="fill-red"],[class*="fill-rose"],[class*="fill-pink"],
+[class*="fill-orange"],[class*="fill-amber"],[class*="fill-yellow"],
+[class*="fill-green"],[class*="fill-emerald"],[class*="fill-teal"],
+[class*="fill-cyan"],[class*="fill-sky"],[class*="fill-blue"],[class*="fill-indigo"],
+[class*="fill-purple"],[class*="fill-violet"]{fill:#F0FAFF!important}
+[class*="stroke-red"],[class*="stroke-emerald"],[class*="stroke-cyan"],
+[class*="stroke-blue"],[class*="stroke-purple"],[class*="stroke-amber"]{stroke:#F0FAFF!important}
+[class*="shadow-red"],[class*="shadow-rose"],[class*="shadow-orange"],[class*="shadow-amber"],
+[class*="shadow-emerald"],[class*="shadow-green"],[class*="shadow-teal"],
+[class*="shadow-cyan"],[class*="shadow-sky"],[class*="shadow-blue"],[class*="shadow-indigo"],
+[class*="shadow-violet"],[class*="shadow-purple"]{
+  --tw-shadow-color:rgba(240,250,255,0.12)!important;
+}
+[class*="divide-red"],[class*="divide-blue"],[class*="divide-emerald"],[class*="divide-purple"]{
+  --tw-divide-color:rgba(240,250,255,0.1)!important;
+}
+[class*="outline-red"],[class*="outline-blue"],[class*="outline-emerald"]{
+  outline-color:rgba(240,250,255,0.4)!important;
+}
+[class*="decoration-red"],[class*="decoration-blue"],[class*="decoration-emerald"],
+[class*="decoration-purple"],[class*="decoration-amber"]{
+  text-decoration-color:#F0FAFF!important;
+}
+[class*="accent-red"],[class*="accent-blue"],[class*="accent-emerald"]{accent-color:#F0FAFF!important}
+[class*="caret-red"],[class*="caret-blue"]{caret-color:#F0FAFF!important}
+
+/* ==========================================================================
+   P1 ACCESSIBILITY: Global focus-visible ring for interactive elements
+   Any element that nukes outline with focus:outline-none still gets a ring
+   ========================================================================== */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #1F2223, 0 0 0 4px rgba(240,250,255,0.55) !important;
+  border-radius: inherit;
+}
+/* Remove ring from mouse-pressed buttons (only keyboard) */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible) {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* --- Ensure touch targets ≥ 44px on small screens (WCAG 2.5.5) --- */
+@media (max-width: 767px) {
+  nav button, header button, aside button,
+  nav a[role="button"], header a[role="button"] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* --- Selection highlight already cream-mono (see earlier block) --- */
+
+/* --- Prevent layout shift from scrollbar --- */
+html { scrollbar-gutter: stable; }
+
+/* --- Image broken state fallback --- */
+img.broken, img[data-broken="true"] {
+  background: #2C3032;
+  min-height: 80px;
+}
+
+/* --- Links: make sure they're distinguishable (underline on hover, weight) --- */
+main a:not([class]):not(.no-underline) {
+  color: #F0FAFF;
+  text-decoration: underline;
+  text-decoration-color: rgba(240,250,255,0.3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color .2s;
+}
+main a:not([class]):hover, main a:not([class]):focus-visible {
+  text-decoration-color: #F0FAFF;
+}
+
+/* ==========================================================================
+   CODE SNIPPETS — PROTECTED from monochrome overrides
+   Per user instruction: code snippets keep their syntax highlighting.
+   ========================================================================== */
+pre, pre *, code, code *, kbd, kbd *, samp, samp * {
+  color: revert !important;
+  background-color: revert !important;
+  border-color: revert !important;
+  fill: revert !important;
+  stroke: revert !important;
+}
+/* But inline code (not inside pre) should still sit on our palette */
+:not(pre) > code {
+  background-color: #2C3032 !important;
+  color: #F0FAFF !important;
+  border: 1px solid rgba(240,250,255,0.08) !important;
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  font-size: 0.88em;
+}
+
+/* ==========================================================================
+   PERFORMANCE: prevent transition on page load
+   ========================================================================== */
+body.preload * { transition: none !important; }

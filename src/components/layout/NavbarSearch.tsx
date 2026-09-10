@@ -316,11 +316,11 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
       case 'Engine':
         return 'bg-accent/15 text-accent-bright border-accent/30';
       case 'Docs':
-        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+        return 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/30';
       case 'API':
-        return 'bg-purple-500/10 text-purple-400 border-purple-500/30';
+        return 'bg-[#F0FAFF]/10 text-purple-400 border-purple-500/30';
       case 'Blog':
-        return 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30';
+        return 'bg-[#F0FAFF]/10 text-indigo-300 border-indigo-500/30';
       default:
         return 'bg-muted/40 text-foreground-muted border-border-default';
     }

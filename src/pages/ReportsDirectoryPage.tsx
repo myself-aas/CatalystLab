@@ -136,13 +136,13 @@ export const ReportsDirectoryPage: React.FC = () => {
  {/* Header Banner */}
  <section className="relative overflow-hidden border-b border-border sm:px-6 lg:px-8 ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 max-w-3xl mx-auto space-y-6">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div>
- <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-3.5 py-1 framer-micro-tag text-[var(--accent-framer-blue)] mb-4">
- <FileText className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-[#F0FAFF] mb-4">
+ <FileText className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
  <span>Diagnostic Report Directory</span>
  </div>
  <h1 className="framer-hero-title text-foreground">
@@ -254,7 +254,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  </span>
  </div>
 
- <div className="font-extrabold text-base text-foreground group-hover:text-[var(--accent-framer-blue)] transition-colors truncate font-sans">
+ <div className="font-extrabold text-base text-foreground group-hover:text-[#F0FAFF] transition-colors truncate font-sans">
  {domainName}
  </div>
  <div className="text-xs text-muted-foreground truncate mt-1 font-sans">
@@ -280,7 +280,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  <section className="space-y-6 ds-section">
  <div className="border-b border-border pb-3">
  <h2 className="text-sm font-extrabold text-foreground flex items-center gap-2">
- <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
+ <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20">
  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-400"/>
  </span>
  <span>Featured Architecture &amp; Telemetry Dossiers</span>
@@ -313,14 +313,14 @@ export const ReportsDirectoryPage: React.FC = () => {
  </div>
  <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
  isGradeA 
- ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400' 
- : 'border-amber-500/20 bg-amber-500/10 text-amber-400'
+ ? 'border-emerald-500/20 bg-[#F0FAFF]/10 text-emerald-400' 
+ : 'border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400'
  }`}>
  Grade {item.grade}
  </span>
  </div>
 
- <div className="framer-card-title text-foreground group-hover:text-[var(--accent-framer-blue)] transition-colors truncate">
+ <div className="framer-card-title text-foreground group-hover:text-[#F0FAFF] transition-colors truncate">
  {item.domain}
  </div>
  <p className="framer-body-text text-sm mt-1.5 line-clamp-2">
@@ -328,7 +328,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  </p>
 
  <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-mono">
- <span className="text-[var(--accent-cyan-edge)] font-bold">{item.score}/100 Score</span>
+ <span className="text-[#F0FAFF] font-bold">{item.score}/100 Score</span>
  <span className="flex items-center gap-1 font-bold text-muted-foreground group-hover:text-foreground transition-colors">
  <span>Explore Benchmark</span>
  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 shrink-0"/>

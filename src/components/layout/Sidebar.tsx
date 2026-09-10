@@ -293,7 +293,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         animate={isExpanded ? 'expanded' : 'collapsed'}
         variants={sidebarVariants}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-        className="hidden lg:block shrink-0 h-screen sticky top-0 z-40 bg-[var(--app-background)]"
+        className="hidden lg:block shrink-0 h-[calc(100vh-var(--nav-height,4rem))] sticky top-[var(--nav-height,4rem)] z-40 bg-[var(--app-background)]"
       >
         {SidebarContent}
       </motion.aside>

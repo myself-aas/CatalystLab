@@ -7,7 +7,7 @@ interface EngineChartsProps {
   metrics: any;
 }
 
-const COLORS = ['#5E6AD2', '#38bdf8', '#34d399', '#fbbf24', '#f43f5e'];
+const COLORS = ['#F0FAFF', '#F0FAFF', '#F0FAFF', '#F0FAFF', '#F7FDFF'];
 
 export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics }) => {
   const data: { name: string; value: number }[] = Array.isArray(metrics?.plot1)
@@ -30,7 +30,7 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#F0FAFF', fontSize: 11 }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#F0FAFF', fontSize: 11 }} />
               <Tooltip contentStyle={{ backgroundColor: '#2C2F32', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#F7FDFF' }} />
-              <Bar dataKey="value" fill="#5E6AD2" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="value" fill="#F0FAFF" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

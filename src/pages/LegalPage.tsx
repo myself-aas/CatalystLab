@@ -46,14 +46,14 @@ export const LegalPage: React.FC = () => {
  <div className="ds-card space-y-4 p-6 sm:p-8">
  <p className="framer-body-text text-foreground">{content}</p>
  <ul className="grid gap-2 sm:grid-cols-2 text-sm font-mono">
- <li><Link to="/privacy" className="text-[var(--accent-framer-blue)] hover:underline">Privacy Policy</Link></li>
- <li><Link to="/terms" className="text-[var(--accent-framer-blue)] hover:underline">Terms of Service</Link></li>
- <li><Link to="/cookies" className="text-[var(--accent-framer-blue)] hover:underline">Cookie Preferences</Link></li>
- <li><Link to="/security" className="text-[var(--accent-framer-blue)] hover:underline">Security Disclosure</Link></li>
+ <li><Link to="/privacy" className="text-[#F0FAFF] hover:underline">Privacy Policy</Link></li>
+ <li><Link to="/terms" className="text-[#F0FAFF] hover:underline">Terms of Service</Link></li>
+ <li><Link to="/cookies" className="text-[#F0FAFF] hover:underline">Cookie Preferences</Link></li>
+ <li><Link to="/security" className="text-[#F0FAFF] hover:underline">Security Disclosure</Link></li>
  </ul>
  <p className="framer-body-text text-xs text-muted-foreground pt-4 border-t border-border">
  For questions or requests regarding data retention or legal compliance, please refer to our{' '}
- <Link to="/contact" className="font-semibold text-foreground underline hover:text-[var(--accent-framer-blue)]">Contact Support</Link> portal.
+ <Link to="/contact" className="font-semibold text-foreground underline hover:text-[#F0FAFF]">Contact Support</Link> portal.
  </p>
  </div>
  </main>

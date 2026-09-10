@@ -22,7 +22,7 @@ export const DiagnosticEngineCard: React.FC<Props> = ({ engine }) => {
       <div>
         {/* Header */}
         <div className="p-4 flex items-center justify-between border-b border-border bg-foreground/[0.02]">
-          <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[var(--accent-framer-blue)]/10 text-[var(--accent-framer-blue)] border border-[var(--accent-framer-blue)]/20">
+          <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
             {engine.category}
           </span>
           <motion.button

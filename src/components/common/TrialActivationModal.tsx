@@ -90,7 +90,7 @@ export const TrialActivationModal: React.FC = () => {
         <div className="p-6 sm:p-8">
           {/* Header */}
           <div className="flex items-center gap-3 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
               <Zap className="w-3.5 h-3.5" /> 7-Day Free Trial
             </span>
             <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -121,12 +121,12 @@ export const TrialActivationModal: React.FC = () => {
                     onClick={() => setSelectedPlan(tierKey)}
                     className={`relative p-3 rounded-xl text-left border transition-all ${
                       isSelected 
-                        ? 'bg-cyan-500/10 border-cyan-500 shadow-md text-primary-foreground' 
+                        ? 'bg-[#F0FAFF]/10 border-cyan-500 shadow-md text-primary-foreground' 
                         : 'bg-background/60 border-border/60 text-muted-foreground hover:border-border'
                     }`}
                   >
                     {item.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-cyan-500 text-foreground">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F0FAFF] text-foreground">
                         POPULAR
                       </span>
                     )}
@@ -203,7 +203,7 @@ export const TrialActivationModal: React.FC = () => {
                 disabled={loading || success}
                 className={`w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition-all shadow-lg flex items-center justify-center gap-2 ${
                   success
-                    ? 'bg-emerald-500 text-primary-foreground'
+                    ? 'bg-[#F0FAFF] text-primary-foreground'
                     : 'bg-primary hover:bg-muted border border-border text-primary-foreground'
                 }`}
               >

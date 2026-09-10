@@ -463,7 +463,7 @@ func main() {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[var(--accent-framer-blue)] selection:text-foreground">
+ <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[#F0FAFF] selection:text-foreground">
  <SEOHead
  title="Live REST API Playground — CatalystLab"
  description="Interactive REST test harness for single diagnostic engines and composite master audits."
@@ -474,25 +474,25 @@ func main() {
  {/* Top Header Hero */}
  <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[linear-gradient(to_right,#F0FAFF25_1px,transparent_1px),linear-gradient(to_bottom,#F0FAFF25_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 
  <div className="relative z-10 ds-page-shell">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  
  <div className="flex items-center gap-4">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border text-[var(--accent-cyan-edge)] shadow-xs backdrop-blur-md shrink-0">
- <Terminal className="h-6 w-6 text-[var(--accent-framer-blue)]"/>
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border text-[#F0FAFF] shadow-xs backdrop-blur-md shrink-0">
+ <Terminal className="h-6 w-6 text-[#F0FAFF]"/>
  </div>
  <div>
  <div className="flex flex-wrap items-center gap-2.5">
  <h1 className="framer-section-headline text-2xl sm:text-3xl text-foreground font-semibold">
  Engine Test{' '}
- <span className="text-[var(--accent-framer-blue)]">
+ <span className="text-[#F0FAFF]">
  Playground
  </span>
  </h1>
- <span className="rounded-full bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-[var(--accent-cyan-edge)]">
+ <span className="rounded-full bg-[#F0FAFF]/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-[#F0FAFF]">
  {endpointPath}
  </span>
  </div>
@@ -516,7 +516,7 @@ func main() {
  to="/api-docs"
  className="ds-btn ds-btn-secondary text-xs"
  >
- <FileJson className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
+ <FileJson className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
  <span>OpenAPI Docs</span>
  </Link>
  </div>
@@ -550,7 +550,7 @@ func main() {
  }`}
  >
  <span className={`h-2 w-2 rounded-full ${
- eng.id === 'master' ? 'bg-amber-500' : 'bg-emerald-500'
+ eng.id === 'master' ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]'
  }`} />
  <span>{eng.name}</span>
  <span className={`text-[10px] py-0.5 rounded ${
@@ -611,7 +611,7 @@ func main() {
  <span className="rounded bg-primary px-2.5 py-0.5 text-[10px] text-primary-foreground">POST</span>
  <span>{endpointPath}</span>
  </div>
- <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
+ <span className="text-[10px] font-bold text-amber-400 bg-[#F0FAFF]/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
  Cost: {activeEngine.cost} Unit
  </span>
  </div>
@@ -751,7 +751,7 @@ func main() {
  rows={8}
  value={rawJsonPayload}
  onChange={(e) => setRawJsonPayload(e.target.value)}
- className="ds-card w-full p-3 text-xs font-mono focus:outline-none focus:border-[var(--accent-framer-blue)]"
+ className="ds-card w-full p-3 text-xs font-mono focus:outline-none focus:border-[#F0FAFF]"
  placeholder="{\n &quot;engine&quot;: &quot;health&quot;,\n &quot;url&quot;: &quot;https://example.com&quot;\n}"
  />
  </div>
@@ -797,7 +797,7 @@ func main() {
  ))}
  </select>
  ) : (
- <div className="flex items-center justify-between rounded-xl bg-amber-500/10 border border-amber-500/20 p-2 text-xs text-amber-400">
+ <div className="flex items-center justify-between rounded-xl bg-[#F0FAFF]/10 border border-amber-500/20 p-2 text-xs text-amber-400">
  <span>No saved keys found.</span>
  <Link to="/dashboard?tab=api-keys" className="font-bold underline">
  Generate Key
@@ -870,7 +870,7 @@ func main() {
  >
  <div className="flex items-center gap-1.5 overflow-hidden">
  <span className={`text-[10px] font-mono font-bold py-0.5 rounded ${
- item.status === 200 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+ item.status === 200 ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20' : 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20'
  }`}>
  {item.status}
  </span>
@@ -908,10 +908,10 @@ func main() {
  <div className="flex items-center gap-1.5 ml-2">
  <span className={`rounded px-2.5 py-0.5 text-[10px] font-bold ${
  responseStatus === 200 
- ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+ ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20'
  : responseStatus === 429
- ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
- : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+ ? 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20'
+ : 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
  }`}>
  {responseStatus} {responseStatusText}
  </span>
@@ -1003,7 +1003,7 @@ func main() {
 
  {/* Rate Limit Remaining Callout in Output */}
  {responsePayload?.rateLimit && (
- <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3 text-xs text-emerald-400 flex items-center justify-between">
+ <div className="rounded-xl border border-emerald-500/20 bg-[#F0FAFF]/10 p-3 text-xs text-emerald-400 flex items-center justify-between">
  <div className="flex items-center gap-1.5">
  <Zap className="h-3.5 w-3.5 text-emerald-400"/>
  <span>

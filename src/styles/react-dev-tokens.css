@@ -7,61 +7,61 @@
 
 :root, [data-theme="light"], .theme-light {
   /* React Brand Palette */
-  --react-cyan: #087ea4;
-  --react-cyan-hover: #0e98c7;
-  --react-cyan-active: #066584;
+  --react-cyan: #2C3032;
+  --react-cyan-hover: #2C3032;
+  --react-cyan-active: #2C3032;
   --react-cyan-glow: rgba(8, 126, 164, 0.20);
   --react-cyan-subtle: rgba(8, 126, 164, 0.08);
 
   /* Wash & Canvas Substrates */
-  --react-wash: #f6f7f9;
+  --react-wash: #F7FDFF;
   --react-card: #ffffff;
   --react-card-hover: #ffffff;
-  --react-border: #e5e7eb;
-  --react-border-subtle: #f1f5f9;
-  --react-border-strong: #d1d5db;
+  --react-border: #F0FAFF;
+  --react-border-subtle: #F0FAFF;
+  --react-border-strong: rgba(240,250,255,0.7);
 
   /* Typography */
-  --react-text-primary: #23272f;
-  --react-text-secondary: #5e687e;
-  --react-text-tertiary: #99a1b3;
-  --react-link: #087ea4;
-  --react-link-hover: #0e98c7;
+  --react-text-primary: #2C3032;
+  --react-text-secondary: rgba(240,250,255,0.5);
+  --react-text-tertiary: rgba(240,250,255,0.55);
+  --react-link: #2C3032;
+  --react-link-hover: #2C3032;
 
   /* Callout Semantic Surfaces */
   --callout-note-bg: rgba(8, 126, 164, 0.05);
-  --callout-note-border: #087ea4;
-  --callout-note-text: #087ea4;
+  --callout-note-border: #2C3032;
+  --callout-note-text: #2C3032;
   
   --callout-pitfall-bg: rgba(239, 68, 68, 0.06);
-  --callout-pitfall-border: #ef4444;
-  --callout-pitfall-text: #b91c1c;
+  --callout-pitfall-border: #F7FDFF;
+  --callout-pitfall-text: #2C3032;
 
   --callout-deepdive-bg: rgba(99, 102, 241, 0.05);
-  --callout-deepdive-border: #6366f1;
-  --callout-deepdive-text: #4338ca;
+  --callout-deepdive-border: #F0FAFF;
+  --callout-deepdive-text: #F0FAFF;
 
   --callout-wip-bg: rgba(245, 158, 11, 0.06);
-  --callout-wip-border: #f59e0b;
-  --callout-wip-text: #b45309;
+  --callout-wip-border: #F0FAFF;
+  --callout-wip-text: #2C3032;
 
   --callout-challenge-bg: rgba(16, 185, 129, 0.06);
-  --callout-challenge-border: #10b981;
-  --callout-challenge-text: #047857;
+  --callout-challenge-border: #F0FAFF;
+  --callout-challenge-text: #2C3032;
 
   /* Code Blocks */
-  --react-code-bg: #16181d;
-  --react-code-header-bg: #23272f;
-  --react-code-border: #343a46;
-  --react-code-text: #f6f7f9;
+  --react-code-bg: #1F2223;
+  --react-code-header-bg: #2C3032;
+  --react-code-border: #2C3032;
+  --react-code-text: #F7FDFF;
   --react-code-line-highlight: rgba(88, 196, 220, 0.14);
 }
 
 html.dark, [data-theme="dark"], .theme-dark {
   /* React Brand Palette (Dark Mode) */
-  --react-cyan: #149eca;
-  --react-cyan-hover: #58c4dc;
-  --react-cyan-active: #087ea4;
+  --react-cyan: #F0FAFF;
+  --react-cyan-hover: #F0FAFF;
+  --react-cyan-active: #2C3032;
   --react-cyan-glow: rgba(88, 196, 220, 0.28);
   --react-cyan-subtle: rgba(88, 196, 220, 0.12);
 
@@ -86,20 +86,20 @@ html.dark, [data-theme="dark"], .theme-dark {
   --callout-note-text: #F7FDFF;
   
   --callout-pitfall-bg: rgba(239, 68, 68, 0.12);
-  --callout-pitfall-border: #f87171;
-  --callout-pitfall-text: #fca5a5;
+  --callout-pitfall-border: #F7FDFF;
+  --callout-pitfall-text: #F7FDFF;
 
   --callout-deepdive-bg: rgba(99, 102, 241, 0.12);
-  --callout-deepdive-border: #818cf8;
-  --callout-deepdive-text: #c7d2fe;
+  --callout-deepdive-border: #F0FAFF;
+  --callout-deepdive-text: rgba(240,250,255,0.75);
 
   --callout-wip-bg: rgba(245, 158, 11, 0.12);
-  --callout-wip-border: #fbbf24;
-  --callout-wip-text: #fde68a;
+  --callout-wip-border: #F0FAFF;
+  --callout-wip-text: rgba(240,250,255,0.85);
 
   --callout-challenge-bg: rgba(16, 185, 129, 0.12);
-  --callout-challenge-border: #34d399;
-  --callout-challenge-text: #a7f3d0;
+  --callout-challenge-border: #F0FAFF;
+  --callout-challenge-text: rgba(240,250,255,0.8);
 
   /* Code Blocks */
   --react-code-bg: #1F2223;

@@ -59,17 +59,17 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
   const statusStyles = {
     OPTIMAL: {
       bg: 'bg-emerald-950/60 text-emerald-400 border-emerald-500/40',
-      bar: 'bg-emerald-400',
+      bar: 'bg-[#F0FAFF]',
       icon: CheckCircle2,
     },
     PASS: {
       bg: 'bg-cyan-950/60 text-cyan-400 border-cyan-500/40',
-      bar: 'bg-cyan-400',
+      bar: 'bg-[#F0FAFF]',
       icon: CheckCircle2,
     },
     WARN: {
       bg: 'bg-amber-950/60 text-amber-400 border-amber-500/40',
-      bar: 'bg-amber-400',
+      bar: 'bg-[#F0FAFF]',
       icon: AlertTriangle,
     },
     FAIL: {
@@ -99,7 +99,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
           <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold truncate">
             {displayBadge}
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse shrink-0" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-pulse shrink-0" />
         </div>
 
         <div className="text-sm font-bold text-foreground font-mono truncate">
@@ -134,7 +134,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         {/* Header: Metric Key & Status Badge */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-1.5 font-mono text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#F0FAFF] animate-pulse" />
             <span>{displayBadge}</span>
           </div>
 

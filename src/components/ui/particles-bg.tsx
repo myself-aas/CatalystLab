@@ -27,9 +27,9 @@ export default function ParticlesComponent() {
 
     // Clean light palette from uploaded color swatch
     const colors = {
-      particles: '#f9a825', // Warm amber from swatch
-      lines: '#c4c4c4',     // Clean silver grey from swatch
-      accent: '#c62828',    // Crimson red from swatch
+      particles: 'rgba(240,250,255,0.75)', // Warm amber from swatch
+      lines: 'rgba(240,250,255,0.65)',     // Clean silver grey from swatch
+      accent: '#F7FDFF',    // Crimson red from swatch
     };
 
     // @ts-ignore
@@ -39,7 +39,7 @@ export default function ParticlesComponent() {
     window.particlesJS("particles-js", {
       particles: {
         number: { value: 70, density: { enable: true, value_area: 900 } },
-        color: { value: [colors.particles, colors.accent, '#b4b4b4'] },
+        color: { value: [colors.particles, colors.accent, 'rgba(240,250,255,0.55)'] },
         shape: { type: "circle", stroke: { width: 0 } },
         opacity: {
           value: 0.25,

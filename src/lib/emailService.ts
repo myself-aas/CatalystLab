@@ -62,7 +62,7 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
   const primaryColor = '#1F2223';
   const slateColor = '#F0FAFF';
   const periwinkleColor = '#F7FDFF';
-  const emeraldColor = '#10b981';
+  const emeraldColor = '#F0FAFF';
 
   return `
 <!DOCTYPE html>
@@ -92,7 +92,7 @@ export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
     th { text-align: left; padding: 8px 12px; background: #2C2F32; color: #F0FAFF; font-weight: 700; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid rgba(240,250,255,0.12); }
     td { padding: 10px 12px; border-bottom: 1px solid rgba(240,250,255,0.08); color: #F7FDFF; }
     .score-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 800; font-size: 12px; }
-    .score-pass { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .score-pass { background: rgba(16, 185, 129, 0.2); color: #F0FAFF; }
     .btn-container { text-align: center; padding: 24px 28px 32px 28px; }
     .btn { display: inline-block; background-color: #F7FDFF; color: #1F2223; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; }
     .footer { background: #1F2223; padding: 20px 28px; text-align: center; border-top: 1px solid rgba(240,250,255,0.1); font-size: 11px; color: rgba(240,250,255,0.6); line-height: 1.6; }
@@ -236,7 +236,7 @@ export function generateAnomalyAlertHtml(alert: AnomalyAlertData): string {
     .metric-row:last-child { margin-bottom: 0; }
     .metric-name { color: rgba(240,250,255,0.7); font-weight: 600; }
     .metric-val { font-weight: 800; color: #F7FDFF; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace; }
-    .recommendation-box { margin: 20px 28px; background: rgba(0,102,255,0.1); border: 1px solid rgba(0,102,255,0.25); border-radius: 12px; padding: 16px; font-size: 13px; color: #F7FDFF; line-height: 1.5; }
+    .recommendation-box { margin: 20px 28px; background: rgba(0,102,255,0.1); border: 1px solid rgba(240,250,255,0.10); border-radius: 12px; padding: 16px; font-size: 13px; color: #F7FDFF; line-height: 1.5; }
     .btn-container { text-align: center; padding: 16px 28px 32px 28px; }
     .btn { display: inline-block; background-color: #F7FDFF; color: #1F2223; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 10px; }
     .footer { background: #1F2223; padding: 16px 28px; text-align: center; border-top: 1px solid rgba(240,250,255,0.1); font-size: 11px; color: rgba(240,250,255,0.6); }

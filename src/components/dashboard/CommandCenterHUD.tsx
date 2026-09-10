@@ -251,7 +251,7 @@ export const CommandCenterHUD: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/30 font-bold">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="h-2 w-2 rounded-full bg-[#F0FAFF] animate-pulse" />
               COMMAND CENTER HUD
             </span>
             <span className="hidden sm:inline text-muted-foreground">
@@ -289,7 +289,7 @@ export const CommandCenterHUD: React.FC = () => {
                   <Crosshair className="h-3.5 w-3.5 text-cyan-500 dark:text-cyan-400" />
                   TARGET HOST
                 </span>
-                <span className="text-[10px] text-emerald-500 dark:text-emerald-400 bg-emerald-500/10 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30 dark:border-emerald-800/40 font-bold">
+                <span className="text-[10px] text-emerald-500 dark:text-emerald-400 bg-[#F0FAFF]/10 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30 dark:border-emerald-800/40 font-bold">
                   PROBE READY
                 </span>
               </div>
@@ -382,7 +382,7 @@ export const CommandCenterHUD: React.FC = () => {
                       }`}
                     >
                       <div className="flex items-center gap-2 truncate">
-                        <span className={`h-1.5 w-1.5 rounded-full ${isFocused ? 'bg-cyan-500 dark:bg-cyan-400 animate-ping' : 'bg-muted'}`} />
+                        <span className={`h-1.5 w-1.5 rounded-full ${isFocused ? 'bg-[#F0FAFF] dark:bg-[#F0FAFF] animate-ping' : 'bg-muted'}`} />
                         <span className="truncate">{engine.name}</span>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0 text-[10px]">

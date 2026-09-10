@@ -19,8 +19,8 @@ export const PrivacyPage: React.FC = () => {
  <div className="mx-auto max-w-5xl">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div className="space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-1 framer-micro-tag text-[var(--accent-framer-blue)]">
- <Shield className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-[#F0FAFF]/10 px-2.5 py-1 framer-micro-tag text-[#F0FAFF]">
+ <Shield className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
  <span>CatalystLab Privacy Architecture</span>
  </div>
  <h1 className="framer-section-headline text-foreground">

@@ -25,7 +25,7 @@ export const SyncStatusBadge: React.FC = () => {
   return (
     <div className="flex items-center gap-2 text-xs font-mono">
       {!isOnline || syncStatus === 'offline' ? (
-        <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full">
+        <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-[#F0FAFF]/10 border border-amber-500/30 text-amber-400 rounded-full">
           <WifiOff className="size-3" />
           <span className="whitespace-nowrap text-[11px]">Offline (Queued)</span>
         </div>
@@ -37,7 +37,7 @@ export const SyncStatusBadge: React.FC = () => {
           </span>
         </div>
       ) : syncStatus === 'error' ? (
-        <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-rose-500/10 border border-rose-500/30 text-rose-400 rounded-full">
+        <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-[#F7FDFF]/10 border border-rose-500/30 text-rose-400 rounded-full">
           <AlertCircle className="size-3" />
           <span className="whitespace-nowrap truncate max-w-[140px] text-[11px]" title={lastError || 'Sync error'}>
             Sync Error
@@ -45,14 +45,14 @@ export const SyncStatusBadge: React.FC = () => {
           {failedMutations.length > 0 && (
             <button
               onClick={() => retryFailedMutations()}
-              className="ml-1 px-1.5 py-0.2 bg-rose-500/20 hover:bg-rose-500/30 rounded text-[10px] text-rose-300 font-semibold cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+              className="ml-1 px-1.5 py-0.2 bg-[#F7FDFF]/20 hover:bg-[#F7FDFF]/30 rounded text-[10px] text-rose-300 font-semibold cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
             >
               Retry ({failedMutations.length})
             </button>
           )}
         </div>
       ) : (
-        <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full">
+        <div className="flex items-center gap-1.5 px-2.5 py-0.5 bg-[#F0FAFF]/10 border border-emerald-500/30 text-emerald-400 rounded-full">
           <CheckCircle2 className="size-3 text-emerald-400" />
           <span className="whitespace-nowrap text-[11px]">Atlas: Synced</span>
           {lastSyncedAt && (

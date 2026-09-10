@@ -90,17 +90,17 @@ export const ContactPage: React.FC = () => {
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
  <div className="flex flex-col gap-2">
- <Clock className="size-5 text-[var(--accent-framer-blue)]" />
+ <Clock className="size-5 text-[#F0FAFF]" />
  <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">&lt; 18m</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Avg Response</span>
  </div>
  <div className="flex flex-col gap-2">
- <Globe className="size-5 text-[var(--accent-cyan-edge)]" />
+ <Globe className="size-5 text-[#F0FAFF]" />
  <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">38</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Edge PoPs</span>
  </div>
  <div className="flex flex-col gap-2">
- <Activity className="size-5 text-[var(--accent-emerald-vital)]" />
+ <Activity className="size-5 text-[#F0FAFF]" />
  <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">99.99%</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">P95 SLA</span>
  </div>
@@ -109,12 +109,12 @@ export const ContactPage: React.FC = () => {
 
  {/* Right Column: Floating Glass Form */}
  <div className="relative group">
- <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-[var(--accent-framer-blue)]/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
+ <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-[#F0FAFF]/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
  
  <div className="relative z-10 ds-card bg-surface/90 backdrop-blur-xl border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
  {submitted ? (
  <div className="flex flex-col items-center justify-center text-center gap-4">
- <div className="size-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
+ <div className="size-16 rounded-full bg-[#F0FAFF]/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
  <Send className="size-8" />
  </div>
  <h3 className="text-2xl font-semibold text-foreground tracking-[-0.02em]">Transmission Complete</h3>
@@ -181,14 +181,14 @@ export const ContactPage: React.FC = () => {
  onClick={() => setDepartment(dep.id)}
  className={`relative px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left overflow-hidden border ${
  department === dep.id 
- ? 'text-[var(--accent-framer-blue)] border-[var(--accent-framer-blue)]/30' 
+ ? 'text-[#F0FAFF] border-[#F0FAFF]/30' 
  : 'bg-surface text-muted-foreground border-border hover:border-border-strong hover:text-foreground'
  }`}
  >
  {department === dep.id && (
  <motion.div
  layoutId="contact-active-topic"
- className="absolute inset-0 bg-[var(--accent-framer-blue)]/10 z-0"
+ className="absolute inset-0 bg-[#F0FAFF]/10 z-0"
  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
  />
  )}

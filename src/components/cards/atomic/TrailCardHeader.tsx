@@ -31,7 +31,7 @@ export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
         }}
       />
 
-      {/* Seamless Scrim Overlay: Transparent top -> Deep Black -> Dark Charcoal #1A1A1A at bottom */}
+      {/* Seamless Scrim Overlay: Transparent top -> Deep Black -> Dark Charcoal #1F2223 at bottom */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{

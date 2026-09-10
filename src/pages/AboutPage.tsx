@@ -44,7 +44,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'DOM Structure & Hydration Engine',
  category: 'Architecture',
  icon: Layers,
- color: '#5E6AD2',
+ color: '#F0FAFF',
  summary: 'Traverses the rendered DOM tree to calculate maximum nesting depth, total node count, and client-side hydration risks in modern SPA/SSR frameworks.',
  metrics: ['Max Tree Depth', 'Total Node Density', 'Hydration Mismatch Risk', 'Repaint Cost Index']
  },
@@ -53,7 +53,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'OWASP Zero-Trust Security Engine',
  category: 'SecOps',
  icon: ShieldCheck,
- color: '#10B981',
+ color: '#F0FAFF',
  summary: 'Audits edge HTTP response headers against OWASP Top 10 compliance, enforcing strict transport security, script sandboxing, and framing policies.',
  metrics: ['Strict-Transport-Security (HSTS)', 'Content-Security-Policy (CSP)', 'X-Frame-Options (XFO)', 'Permissions-Policy']
  },
@@ -62,7 +62,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Global Edge Performance Engine',
  category: 'Latency',
  icon: Zap,
- color: '#F59E0B',
+ color: '#F0FAFF',
  summary: 'Measures multi-region edge Time to First Byte (TTFB), Core Web Vitals (FCP, LCP, INP, CLS), and network transfer compression across 42 global PoPs.',
  metrics: ['Anycast TTFB Latency', 'Largest Contentful Paint (LCP)', 'Interaction to Next Paint (INP)', 'Brotli/Gzip Efficiency']
  },
@@ -71,7 +71,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'WCAG 2.2 Accessibility Engine',
  category: 'Compliance',
  icon: Eye,
- color: '#EC4899',
+ color: '#F0FAFF',
  summary: 'Performs automated mathematical contrast calculations, keyboard focus traversals, and ARIA landmark evaluations to guarantee universal access.',
  metrics: ['Contrast Ratio 4.5:1 (AA)', 'ARIA Landmark Structure', 'Alt Text Coverage', 'Tab-Order Traversability']
  },
@@ -80,7 +80,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Semantic Graph & SEO Engine',
  category: 'Discoverability',
  icon: FileCode,
- color: '#38BDF8',
+ color: '#F0FAFF',
  summary: 'Validates canonical URLs, Open Graph schemas, JSON-LD structured microdata, and search crawl accessibility.',
  metrics: ['Canonical URL Integrity', 'JSON-LD Schema Verification', 'Open Graph Metadata', 'Sitemap & Heading Hierarchy']
  },
@@ -89,7 +89,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'AI Agent & LLM Discoverability Engine',
  category: 'AI Readiness',
  icon: Bot,
- color: '#A855F7',
+ color: '#F0FAFF',
  summary: 'Analyzes machine readability for modern AI crawlers (SearchGPT, Perplexity, Gemini), validating llms.txt endpoints and clean markdown extractability.',
  metrics: ['llms.txt Endpoint Detection', 'AI Crawler robots.txt Permissions', 'Semantic Chunk Density', 'Noise-to-Signal Ratio']
  },
@@ -98,7 +98,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Edge Resilience & PWA Engine',
  category: 'Reliability',
  icon: Terminal,
- color: '#06B6D4',
+ color: '#F0FAFF',
  summary: 'Evaluates service worker registration, offline precaching strategies, and Web App Manifest compliance for resilient web experiences.',
  metrics: ['ServiceWorker Lifecycle', 'Web App Manifest Schema', 'Offline Fallback Capability', 'Maskable Icon Geometry']
  },
@@ -107,7 +107,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Digital Carbon & SWD Engine',
  category: 'Sustainability',
  icon: Leaf,
- color: '#22C55E',
+ color: '#F0FAFF',
  summary: 'Calculates estimated grams of CO2 per pageview based on transferred byte weight and verifies Green Web Foundation renewable hosting.',
  metrics: ['Estimated CO2 / Pageview', 'Green Hosting Verification', 'Wire Payload Weight', 'Sustainable Web Score']
  }
@@ -166,14 +166,14 @@ export const AboutPage: React.FC = () => {
 
  {/* Atmospheric Lighting */}
  <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  {/* Hero Section */}
  <section className="relative z-10 border-b border-border w-full ds-section">
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center space-y-6">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3.5 py-1 framer-micro-tag text-[var(--accent-framer-blue)] backdrop-blur-md">
- <Sparkles className="size-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-[#F0FAFF] backdrop-blur-md">
+ <Sparkles className="size-3.5 text-[#F0FAFF] shrink-0"/>
  <span>Autonomous Telemetry Infrastructure</span>
  </div>
 
@@ -193,12 +193,12 @@ export const AboutPage: React.FC = () => {
  </div>
 
  <div className="ds-card p-4">
- <div className="text-2xl font-bold font-mono text-[var(--accent-cyan-edge)]">42 PoPs</div>
+ <div className="text-2xl font-bold font-mono text-[#F0FAFF]">42 PoPs</div>
  <div className="framer-micro-tag text-muted-foreground mt-1">Global edge Anycast mesh</div>
  </div>
 
  <div className="ds-card p-4">
- <div className="text-2xl font-bold font-mono text-[var(--accent-framer-blue)]">&lt; 4.8s</div>
+ <div className="text-2xl font-bold font-mono text-[#F0FAFF]">&lt; 4.8s</div>
  <div className="framer-micro-tag text-muted-foreground mt-1">Dossier synthesis latency</div>
  </div>
 
@@ -217,8 +217,8 @@ export const AboutPage: React.FC = () => {
  {/* The Problem & Our Mission */}
  <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
  <LazyReveal direction="left" className="lg:col-span-7 space-y-5">
- <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3 py-1 framer-micro-tag text-[var(--accent-framer-blue)] backdrop-blur-md">
- <Terminal className="size-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-[#F0FAFF] backdrop-blur-md">
+ <Terminal className="size-3.5 text-[#F0FAFF] shrink-0"/>
  <span>Genesis &amp; Mission</span>
  </div>
 
@@ -256,11 +256,11 @@ export const AboutPage: React.FC = () => {
  <div className="ds-card p-6 space-y-4 font-mono">
  <div className="flex items-center justify-between border-b border-border pb-3.5">
  <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
- <Activity className="size-4 text-[var(--accent-framer-blue)] shrink-0"/>
+ <Activity className="size-4 text-[#F0FAFF] shrink-0"/>
  <span>Telemetry Benchmark Grid</span>
  </div>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
- <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
+ <span className="size-1.5 rounded-full bg-[#F0FAFF] animate-pulse shrink-0"/>
  Grid Live (v2.4)
  </span>
  </div>
@@ -445,7 +445,7 @@ export const AboutPage: React.FC = () => {
  </LinearCard>
 
  <LinearCard className="p-6 space-y-3">
- <div className="size-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+ <div className="size-10 rounded-xl bg-[#F0FAFF]/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
  <Globe className="size-5"/>
  </div>
  <h3 className="text-sm font-semibold text-foreground font-sans">42-PoP Global Mesh</h3>
@@ -455,7 +455,7 @@ export const AboutPage: React.FC = () => {
  </LinearCard>
 
  <LinearCard className="p-6 space-y-3">
- <div className="size-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+ <div className="size-10 rounded-xl bg-[#F0FAFF]/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
  <Lock className="size-5"/>
  </div>
  <h3 className="text-sm font-semibold text-foreground font-sans">Zero-Footprint Probes</h3>
@@ -465,7 +465,7 @@ export const AboutPage: React.FC = () => {
  </LinearCard>
 
  <LinearCard className="p-6 space-y-3">
- <div className="size-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+ <div className="size-10 rounded-xl bg-[#F0FAFF]/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
  <Database className="size-5"/>
  </div>
  <h3 className="text-sm font-semibold text-foreground font-sans">Immutable Permalinks</h3>
@@ -516,7 +516,7 @@ export const AboutPage: React.FC = () => {
  <ul className="space-y-1 text-[11px] font-mono text-muted-foreground">
  {pop.cities.map((c, ci) => (
  <li key={ci} className="flex items-center gap-1.5">
- <span className="size-1 rounded-full bg-cyan-400/80"/>
+ <span className="size-1 rounded-full bg-[#F0FAFF]/80"/>
  <span>{c}</span>
  </li>
  ))}

@@ -149,16 +149,16 @@ export function PoPInspectorPanel({
 
   const statusColor =
     pop.status === 'optimal'
-      ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30'
+      ? 'text-emerald-500 bg-[#F0FAFF]/10 border-emerald-500/30'
       : pop.status === 'degraded'
-      ? 'text-amber-500 bg-amber-500/10 border-amber-500/30'
-      : 'text-rose-500 bg-rose-500/10 border-rose-500/30';
+      ? 'text-amber-500 bg-[#F0FAFF]/10 border-amber-500/30'
+      : 'text-rose-500 bg-[#F7FDFF]/10 border-rose-500/30';
 
   return (
     <div className="absolute right-3 top-3 z-30 w-72 sm:w-80 rounded-2xl border border-border/80 bg-primary/95 p-4 shadow-2xl backdrop-blur-xl text-primary-foreground font-sans transition-all animate-in fade-in slide-in-from-right-4 duration-300">
       <div className="flex items-start justify-between border-b border-border pb-3 mb-3">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono font-bold text-sm">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F0FAFF]/10 border border-blue-500/30 text-blue-400 font-mono font-bold text-sm">
             {pop.code}
           </div>
           <div>
@@ -238,7 +238,7 @@ export function PoPInspectorPanel({
         </div>
 
         {probeResult && (
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-2 text-emerald-300 text-[11px] flex items-center gap-1.5 animate-in fade-in duration-200">
+          <div className="rounded-xl border border-emerald-500/30 bg-[#F0FAFF]/10 p-2 text-emerald-300 text-[11px] flex items-center gap-1.5 animate-in fade-in duration-200">
             <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
             <span>{probeResult}</span>
           </div>
@@ -248,7 +248,7 @@ export function PoPInspectorPanel({
           <button
             onClick={handleProbe}
             disabled={probing}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-primary-foreground font-semibold py-2 px-3 text-xs transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-[#F0FAFF] text-primary-foreground font-semibold py-2 px-3 text-xs transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 cursor-pointer"
           >
             <RefreshCw
               className={cn('h-3.5 w-3.5', probing && 'animate-spin')}
@@ -382,7 +382,7 @@ export function EdgeMeshGlobe({
       ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI * 2);
       ctx.lineWidth = 4 * (1 - progress) + 1;
       ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-      ctx.shadowColor = '#00F0FF';
+      ctx.shadowColor = '#F0FAFF';
       ctx.shadowBlur = 15;
       ctx.stroke();
 
@@ -686,8 +686,8 @@ export function EdgeMeshGlobe({
                       className={cn(
                         'h-1.5 w-1.5 rounded-full',
                         pop.status === 'optimal'
-                          ? 'bg-emerald-400 animate-pulse'
-                          : 'bg-amber-400'
+                          ? 'bg-[#F0FAFF] animate-pulse'
+                          : 'bg-[#F0FAFF]'
                       )}
                     />
                     <span className="font-bold">{pop.code}</span>

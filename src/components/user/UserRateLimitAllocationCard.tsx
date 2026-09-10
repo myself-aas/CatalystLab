@@ -151,10 +151,10 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
             </button>
-            <div className="flex items-center gap-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-2 text-xs font-bold text-emerald-400">
+            <div className="flex items-center gap-1.5 rounded-xl bg-[#F0FAFF]/10 border border-emerald-500/20 px-3.5 py-2 text-xs font-bold text-emerald-400">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F0FAFF]"></span>
               </span>
               <span>Middleware Active</span>
             </div>
@@ -178,7 +178,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               <div className="h-3.5 w-full overflow-hidden rounded-full bg-accent p-0.5">
                 <div 
                   className={`h-full rounded-full transition-all duration-700 ${
-                    percentRemaining > 40 ? 'bg-primary' : percentRemaining > 15 ? 'bg-amber-500' : 'bg-rose-500'
+                    percentRemaining > 40 ? 'bg-primary' : percentRemaining > 15 ? 'bg-[#F0FAFF]' : 'bg-[#F7FDFF]'
                   }`}
                   style={{ width: `${percentRemaining}%` }}
                 />
@@ -273,8 +273,8 @@ export const UserRateLimitAllocationCard: React.FC = () => {
         {testResult && (
           <div className={`mt-6 rounded-xl p-4 text-xs flex items-start gap-3 border animate-fade-in ${
             testResult.success 
-              ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
-              : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+              ? 'bg-[#F0FAFF]/10 border-emerald-500/20 text-emerald-400' 
+              : 'bg-[#F7FDFF]/10 border-rose-500/20 text-rose-400'
           }`}>
             {testResult.success ? (
               <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
@@ -385,7 +385,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               <CreditCard className="h-5 w-5 ds-muted" />
               <h4 className="text-lg font-bold text-foreground">Subscription &amp; Compute Tier</h4>
               {isTrialActive && (
-                <span className="rounded-full bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 text-xs font-bold border border-emerald-500/20 flex items-center gap-1">
+                <span className="rounded-full bg-[#F0FAFF]/10 text-emerald-400 px-2.5 py-0.5 text-xs font-bold border border-emerald-500/20 flex items-center gap-1">
                   <Zap className="h-3 w-3" /> 7-Day Trial ({trialDaysRemaining}d remaining)
                 </span>
               )}
@@ -423,7 +423,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sm text-foreground">{item.name}</span>
                     {isCurrent && (
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
                         ACTIVE
                       </span>
                     )}

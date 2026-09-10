@@ -65,9 +65,9 @@ export const SystemOverviewDoc: React.FC = () => {
  <section className="space-y-4 ds-section">
  <h2 className="text-2xl font-display font-medium text-foreground">Four Core Principles</h2>
  
- <blockquote className="border-l-[3px] border-[var(--accent-amber-sec)] bg-[var(--accent-amber-sec)]/5 p-4 my-6 rounded-r-lg">
+ <blockquote className="border-l-[3px] border-[rgba(240,250,255,0.6)] bg-[rgba(240,250,255,0.6)]/5 p-4 my-6 rounded-r-lg">
  <p className="text-foreground m-0 text-sm flex items-center gap-2 font-medium">
- <ShieldCheck className="size-4 text-[var(--accent-amber-sec)]" />
+ <ShieldCheck className="size-4 text-[rgba(240,250,255,0.6)]" />
  <strong>Architectural Warning:</strong> CatalystLab is a strict non-evaluating telemetry layer. It never stores payload data locally and operates in a purely ephemeral streaming context to ensure compliance with SOC2 Type II constraints.
  </p>
  </blockquote>
