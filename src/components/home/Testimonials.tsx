@@ -38,7 +38,7 @@ export const Testimonials: React.FC = () => {
         <SectionHeader
           eyebrow={
             <>
-              <MessageSquare className="size-3.5 text-[var(--accent-framer-blue)]" />
+              <MessageSquare className="size-3.5 text-[#F0FAFF]" />
               <span>Field validation</span>
             </>
           }
@@ -74,7 +74,7 @@ export const Testimonials: React.FC = () => {
                 <div>
                   <p className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
                     {quote.author}
-                    <BadgeCheck className="size-4 text-[var(--accent-framer-blue)]" />
+                    <BadgeCheck className="size-4 text-[#F0FAFF]" />
                   </p>
                   <p className="mt-1 font-mono text-xs text-muted-foreground">
                     {quote.role} · {quote.company}

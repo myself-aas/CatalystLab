@@ -130,27 +130,27 @@ export default {
  {/* Hero Section */}
  <section className="relative overflow-hidden bg-card border-b border-border w-full ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 ds-page-shell text-center space-y-5">
  <div className="flex flex-wrap items-center justify-center gap-2.5">
  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-[var(--bg-surface)] backdrop-blur-md px-3 py-1 text-xs font-mono text-foreground shadow-xs">
- <Radio className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] animate-pulse shrink-0"/>
+ <Radio className="h-3.5 w-3.5 text-[#F0FAFF] animate-pulse shrink-0"/>
  <span className="font-semibold">Products &amp; Continuous Telemetry</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>Automated Multi-Engine Cron</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3 py-1 text-xs font-mono text-[var(--accent-framer-blue)] font-semibold shadow-xs">
- <Globe className="h-3.5 w-3.5 text-[var(--accent-framer-blue)] shrink-0"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-mono text-[#F0FAFF] font-semibold shadow-xs">
+ <Globe className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
  <span>42 Global PoPs</span>
  </span>
  </div>
 
  <h1 className="framer-hero-title text-foreground">
  Automated Plugins &amp;{' '}
- <span className="text-[var(--accent-framer-blue)]">
+ <span className="text-[#F0FAFF]">
  Custom Domain Watchdogs
  </span>
  </h1>
@@ -320,10 +320,10 @@ export default {
  <div className="ds-card flex flex-col p-6 ds-card-interactive">
  <div>
  <div className="flex items-center justify-between gap-2 mb-5">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20">
  <Terminal className="h-5 w-5"/>
  </div>
- <span className="text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-lg">
+ <span className="text-[10px] font-mono font-bold bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-lg">
  CI / CD Quality Gate
  </span>
  </div>
@@ -364,10 +364,10 @@ export default {
  <div className="ds-card flex flex-col p-6 ds-card-interactive">
  <div>
  <div className="flex items-center justify-between gap-2 mb-5">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20">
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
  <Globe className="h-5 w-5"/>
  </div>
- <span className="text-[10px] font-mono font-bold bg-[#0066FF]/10 text-[#0066FF] border border-[#0066FF]/20 px-2.5 py-1 rounded-lg">
+ <span className="text-[10px] font-mono font-bold bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20 px-2.5 py-1 rounded-lg">
  Edge Telemetry
  </span>
  </div>
@@ -569,7 +569,7 @@ export default {
  <div className="flex space-x-1.5">
  <div className="h-2.5 w-2.5 rounded-full bg-muted"/>
  <div className="h-2.5 w-2.5 rounded-full bg-muted"/>
- <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"/>
+ <div className="h-2.5 w-2.5 rounded-full bg-[#F0FAFF] shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"/>
  </div>
  <span className="text-xs font-mono font-medium text-muted-foreground">catalystlab-config.json</span>
  </div>

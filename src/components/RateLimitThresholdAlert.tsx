@@ -85,7 +85,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             <div>
               <div className="font-bold text-foreground flex items-center gap-1.5">
                 <span>Primary Superadmin Bypassing Engine Rate Limits</span>
-                <span className="rounded-md bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 text-[10px] font-mono font-bold border border-emerald-500/40">UNLIMITED</span>
+                <span className="rounded-md bg-[#F0FAFF]/20 text-emerald-300 px-1.5 py-0.5 text-[10px] font-mono font-bold border border-emerald-500/40">UNLIMITED</span>
               </div>
               <p className="text-[11px] text-muted-foreground mt-0.5">
                 All single engine scans (<code className="text-sky-400">{endpointPath}</code>) and master audits execute with zero quota deductions.
@@ -121,7 +121,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
   if (isHit) {
     if (compact) {
       return (
-        <div className={`inline-flex items-center gap-2 rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-1.5 text-xs text-rose-400 font-mono ${className}`}>
+        <div className={`inline-flex items-center gap-2 rounded-lg border border-rose-500/20 bg-[#F7FDFF]/10 px-3 py-1.5 text-xs text-rose-400 font-mono ${className}`}>
           <Flame className="h-4 w-4 text-rose-400 animate-pulse" />
           <span className="font-bold">Rate Limit Exceeded (0/{limit} Units Left)</span>
           <span className="text-[10px] text-rose-400 border-l border-rose-500/20 pl-2">
@@ -138,7 +138,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-rose-500/30 bg-rose-500/15 text-rose-400 shadow-inner">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-rose-500/30 bg-[#F7FDFF]/15 text-rose-400 shadow-inner">
               <Flame className="h-5 w-5 animate-pulse" />
             </div>
             <div>
@@ -146,7 +146,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
                 <span className="font-bold text-base text-rose-300">
                   Rate Limit Threshold Reached (429 Too Many Requests)
                 </span>
-                <span className="rounded-md border border-rose-500/30 bg-rose-500/15 px-2 py-0.5 text-[11px] font-mono font-bold text-rose-300">
+                <span className="rounded-md border border-rose-500/30 bg-[#F7FDFF]/15 px-2 py-0.5 text-[11px] font-mono font-bold text-rose-300">
                   0 / {limit} Units Remaining
                 </span>
               </div>
@@ -204,7 +204,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
   if (isApproaching) {
     if (compact) {
       return (
-        <div className={`inline-flex items-center gap-2 rounded-lg border border-amber-500/20 bg-amber-500/10 px-3 py-1.5 text-xs text-amber-400 font-mono ${className}`}>
+        <div className={`inline-flex items-center gap-2 rounded-lg border border-amber-500/20 bg-[#F0FAFF]/10 px-3 py-1.5 text-xs text-amber-400 font-mono ${className}`}>
           <AlertTriangle className="h-4 w-4 text-amber-400 animate-bounce" />
           <span className="font-bold">Approaching Rate Limit: {remaining} / {limit} Units Remaining</span>
           <span className="text-[10px] text-amber-400 border-l border-amber-500/20 pl-2">
@@ -221,7 +221,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-500/30 bg-amber-500/15 text-amber-400 shadow-inner">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-500/30 bg-[#F0FAFF]/15 text-amber-400 shadow-inner">
               <AlertTriangle className="h-5 w-5 text-amber-400" />
             </div>
             <div>
@@ -229,7 +229,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
                 <span className="font-bold text-base text-amber-300">
                   Approaching Rate Limit Threshold
                 </span>
-                <span className="rounded-md border border-amber-500/30 bg-amber-500/15 px-2 py-0.5 text-[11px] font-mono font-bold text-amber-300">
+                <span className="rounded-md border border-amber-500/30 bg-[#F0FAFF]/15 px-2 py-0.5 text-[11px] font-mono font-bold text-amber-300">
                   {remaining} of {limit} Compute Units Left ({percentage}%)
                 </span>
               </div>
@@ -265,7 +265,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             ) : (
               <Link
                 to="/user-dashboard?tab=api-keys"
-                className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/15 px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-amber-500/25 transition-all shadow-sm active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex items-center justify-center gap-2 rounded-xl border border-amber-500/30 bg-[#F0FAFF]/15 px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-[#F0FAFF]/25 transition-all shadow-sm active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Key className="h-4 w-4 text-amber-400" />
                 <span>Pro API Keys (500/day)</span>
@@ -291,13 +291,13 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
     <div className={`rounded-xl border border-border bg-muted/90 p-3.5 text-foreground backdrop-blur-md shadow-sm ${className}`}>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-[#F0FAFF]/10 text-emerald-400">
             <Zap className="h-4 w-4 text-emerald-400" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-bold text-foreground">{status.tierLabel} Quota Allocation</span>
-              <span className="rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono font-bold text-emerald-400">
+              <span className="rounded-md border border-emerald-500/20 bg-[#F0FAFF]/10 px-2 py-0.5 text-[10px] font-mono font-bold text-emerald-400">
                 {remaining} / {limit} Units Available ({percentage}%)
               </span>
             </div>

@@ -54,31 +54,31 @@ export const getDifficultyTheme = (difficulty: 'Easy' | 'Moderate' | 'Hard' | 'E
       return {
         label: 'Easy',
         colorClass: 'text-emerald-400',
-        bgClass: 'bg-emerald-500/10 border-emerald-500/30',
-        dotColor: 'bg-emerald-400',
+        bgClass: 'bg-[#F0FAFF]/10 border-emerald-500/30',
+        dotColor: 'bg-[#F0FAFF]',
         badgeBorder: 'border-emerald-500/40',
       };
     case 'Moderate':
       return {
         label: 'Moderate',
         colorClass: 'text-cyan-400',
-        bgClass: 'bg-cyan-500/10 border-cyan-500/30',
-        dotColor: 'bg-cyan-400',
+        bgClass: 'bg-[#F0FAFF]/10 border-cyan-500/30',
+        dotColor: 'bg-[#F0FAFF]',
         badgeBorder: 'border-cyan-500/40',
       };
     case 'Hard':
       return {
         label: 'Hard',
         colorClass: 'text-amber-400',
-        bgClass: 'bg-amber-500/10 border-amber-500/30',
-        dotColor: 'bg-amber-400',
+        bgClass: 'bg-[#F0FAFF]/10 border-amber-500/30',
+        dotColor: 'bg-[#F0FAFF]',
         badgeBorder: 'border-amber-500/40',
       };
     case 'Expert':
       return {
         label: 'Expert',
         colorClass: 'text-rose-400',
-        bgClass: 'bg-rose-500/10 border-rose-500/30',
+        bgClass: 'bg-[#F7FDFF]/10 border-rose-500/30',
         dotColor: 'bg-rose-400',
         badgeBorder: 'border-rose-500/40',
       };

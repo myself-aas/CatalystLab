@@ -184,7 +184,7 @@ export default function HeroSection6() {
           <a href="/login" className="px-3.5 py-1.5 text-xs font-medium border border-neutral-700 text-neutral-200 hover:bg-neutral-800 transition-colors rounded-lg">
             Log in
           </a>
-          <a href="/signup" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-primary-foreground hover:bg-blue-500 transition-colors rounded-lg shadow-sm">
+          <a href="/signup" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-primary-foreground hover:bg-[#F0FAFF] transition-colors rounded-lg shadow-sm">
             Sign Up
           </a>
         </div>
@@ -205,7 +205,7 @@ export default function HeroSection6() {
             item: textVariants,
           }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3.5 py-1 text-xs font-mono text-blue-400 mb-6 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-[#F0FAFF]/10 px-3.5 py-1 text-xs font-mono text-blue-400 mb-6 backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5" />
             <span>SYNCHRONOUS TELEMETRY • AUTONOMOUS AGENTS</span>
           </div>
@@ -223,7 +223,7 @@ export default function HeroSection6() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-16 mx-auto">
             <a
               href="/master-audit"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-blue-500 text-primary-foreground w-full sm:w-auto shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-[#F0FAFF] text-primary-foreground w-full sm:w-auto shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
             >
               <span>Launch Master Audit</span>
               <ArrowRight className="h-4 w-4" />

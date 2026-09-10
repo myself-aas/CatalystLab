@@ -71,7 +71,7 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
 
       {/* Foreground Role Lock Callout */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-background/85 backdrop-blur-xs z-10">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 mb-3 shadow-lg">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-cyan-400 border border-cyan-500/30 mb-3 shadow-lg">
           {isGuest ? <Lock className="h-6 w-6" /> : <Crown className="h-6 w-6 text-amber-400" />}
         </div>
 

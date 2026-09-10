@@ -10,7 +10,7 @@ export const RiskProteaseDoc: React.FC = () => {
  canonicalPath="/docs/riskprotease"
  >
  <section id="riskprotease-overview"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 py-0.5 text-xs font-semibold text-amber-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-amber-400">
  <ShieldCheck className="h-3.5 w-3.5"/>
  <span>SDLC Phase 6: SecOps & Compliance Engine</span>
  </div>

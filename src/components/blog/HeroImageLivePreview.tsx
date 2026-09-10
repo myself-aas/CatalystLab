@@ -201,8 +201,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             {effectiveUrl && (
               <a
                 href={effectiveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                target="_blank" rel="noopener noreferrer"
                 className="p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 title="Open raw image"
               >
@@ -305,7 +304,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={handleRandomize}
-                className="mt-3 inline-flex items-center gap-1 rounded-lg bg-rose-500/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-rose-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="mt-3 inline-flex items-center gap-1 rounded-lg bg-[#F7FDFF]/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-[#F7FDFF]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Sparkles className="h-3 w-3" />
                 <span>Try Curated Preset</span>
@@ -517,7 +516,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-cyan-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#F0FAFF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Close Preview
               </button>

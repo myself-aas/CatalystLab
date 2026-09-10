@@ -81,7 +81,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
           >
             <LinearCard className="flex h-full min-h-[200px] flex-col justify-between p-6">
               <div className="flex items-center justify-between">
-                <div className="flex size-10 items-center justify-center rounded-xl border border-rose-400/30 bg-rose-500/10 text-rose-300">
+                <div className="flex size-10 items-center justify-center rounded-xl border border-rose-400/30 bg-[#F7FDFF]/10 text-rose-300">
                   <Shield className="size-4" />
                 </div>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Sec-protease</span>
@@ -104,7 +104,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
           >
             <LinearCard className="flex h-full min-h-[200px] flex-col justify-between p-6">
               <div className="flex items-center justify-between">
-                <div className="flex size-10 items-center justify-center rounded-xl border border-violet-400/30 bg-violet-500/10 text-violet-300">
+                <div className="flex size-10 items-center justify-center rounded-xl border border-violet-400/30 bg-[#F0FAFF]/10 text-violet-300">
                   <Activity className="size-4" />
                 </div>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">LLM-kinase</span>
@@ -127,7 +127,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
           >
             <LinearCard className="relative min-h-[220px] overflow-hidden p-6 sm:p-8">
               <div className="relative z-10 max-w-xl">
-                <div className="mb-4 flex size-11 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 text-emerald-300">
+                <div className="mb-4 flex size-11 items-center justify-center rounded-xl border border-emerald-400/30 bg-[#F0FAFF]/10 text-emerald-300">
                   <Globe className="size-5" />
                 </div>
                 <h3 className="framer-card-title text-foreground sm:text-2xl">

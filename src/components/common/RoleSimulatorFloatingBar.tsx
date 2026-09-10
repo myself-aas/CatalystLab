@@ -91,7 +91,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                   }}
                   className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
                     isSelected
-                      ? 'bg-cyan-500/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
+                      ? 'bg-[#F0FAFF]/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
                       : 'hover:bg-muted text-muted-foreground border border-transparent'
                   }`}
                 >
@@ -139,7 +139,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
         <div className="flex items-center gap-1.5">
           <Eye className={`h-3.5 w-3.5 ${isSimulating ? 'text-amber-400 animate-pulse' : 'text-cyan-400'}`} />
           <span className="hidden sm:inline">Role Preview:</span>
-          <span className={`rounded px-1.5 py-0.5 text-[11px] font-mono ${isSimulating ? 'bg-amber-500/20 text-amber-300' : 'bg-cyan-500/20 text-cyan-300'}`}>
+          <span className={`rounded px-1.5 py-0.5 text-[11px] font-mono ${isSimulating ? 'bg-[#F0FAFF]/20 text-amber-300' : 'bg-[#F0FAFF]/20 text-cyan-300'}`}>
             {currentConfig.shortLabel}
           </span>
         </div>

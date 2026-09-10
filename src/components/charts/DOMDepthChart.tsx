@@ -26,12 +26,12 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
 
   const total = domElementsCount || 1;
   const categories = [
-    { name: 'Structural Divs & Containers', count: divCount, pct: Math.round((divCount / total) * 100), color: '#415a77' },
-    { name: 'Typography & Text Nodes (p, h1-h6, span)', count: textNodes, pct: Math.round((textNodes / total) * 100), color: '#c5d3e8' },
-    { name: 'Interactive Links & Buttons (a, button)', count: anchorLinks, pct: Math.round((anchorLinks / total) * 100), color: '#52718e' },
-    { name: 'Media Assets (img, svg, video)', count: mediaElements, pct: Math.round((mediaElements / total) * 100), color: '#ebe9e6' },
-    { name: 'Scripts & Modules', count: scriptTags, pct: Math.round((scriptTags / total) * 100), color: '#9cb3d4' },
-    { name: 'Semantic Layout (main, section, aside)', count: otherNodes, pct: Math.round((otherNodes / total) * 100), color: '#68829e' }
+    { name: 'Structural Divs & Containers', count: divCount, pct: Math.round((divCount / total) * 100), color: 'rgba(240,250,255,0.25)' },
+    { name: 'Typography & Text Nodes (p, h1-h6, span)', count: textNodes, pct: Math.round((textNodes / total) * 100), color: 'rgba(240,250,255,0.80)' },
+    { name: 'Interactive Links & Buttons (a, button)', count: anchorLinks, pct: Math.round((anchorLinks / total) * 100), color: 'rgba(240,250,255,0.35)' },
+    { name: 'Media Assets (img, svg, video)', count: mediaElements, pct: Math.round((mediaElements / total) * 100), color: '#F0FAFF' },
+    { name: 'Scripts & Modules', count: scriptTags, pct: Math.round((scriptTags / total) * 100), color: 'rgba(240,250,255,0.65)' },
+    { name: 'Semantic Layout (main, section, aside)', count: otherNodes, pct: Math.round((otherNodes / total) * 100), color: 'rgba(240,250,255,0.45)' }
   ];
 
   // DOM Complexity Level
@@ -142,7 +142,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
           <div className="h-2.5 w-full rounded-full bg-background overflow-hidden border border-border">
             <div
               className={`h-full transition-all ${
-                payloadKb < 50 ? 'bg-emerald-400' : payloadKb < 150 ? 'bg-muted-foreground' : 'bg-muted'
+                payloadKb < 50 ? 'bg-[#F0FAFF]' : payloadKb < 150 ? 'bg-muted-foreground' : 'bg-muted'
               }`}
               style={{ width: `${Math.min(100, (payloadKb / 200) * 100)}%` }}
             />

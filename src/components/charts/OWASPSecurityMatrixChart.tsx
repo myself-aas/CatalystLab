@@ -142,7 +142,7 @@ header {
             <div className="text-xl font-black text-emerald-400 font-mono">{score}/100</div>
           </div>
           <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${
-            score >= 80 ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400' : 'border-background/40 bg-foreground/25 text-muted-foreground'
+            score >= 80 ? 'border-emerald-500/30 bg-[#F0FAFF]/15 text-emerald-400' : 'border-background/40 bg-foreground/25 text-muted-foreground'
           }`}>
             {score >= 80 ? <ShieldCheck className="h-6 w-6" /> : <ShieldAlert className="h-6 w-6" />}
           </div>
@@ -158,7 +158,7 @@ header {
         <div className="h-2.5 w-full rounded-full bg-background overflow-hidden border border-background/30">
           <div
             className={`h-full transition-all ${
-              compliancePct >= 80 ? 'bg-emerald-400' : compliancePct >= 50 ? 'bg-primary' : 'bg-rose-500'
+              compliancePct >= 80 ? 'bg-[#F0FAFF]' : compliancePct >= 50 ? 'bg-primary' : 'bg-[#F7FDFF]'
             }`}
             style={{ width: `${compliancePct}%` }}
           />
@@ -184,11 +184,11 @@ header {
                 </td>
                 <td className="px-4 py-3 shrink-0">
                   {header.present ? (
-                    <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/15 px-2 py-0.5 text-[11px] font-bold text-emerald-400 border border-emerald-500/30">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-[#F0FAFF]/15 px-2 py-0.5 text-[11px] font-bold text-emerald-400 border border-emerald-500/30">
                       <Check className="h-3 w-3" /> ACTIVE
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 rounded-md bg-rose-500/15 px-2 py-0.5 text-[11px] font-bold text-rose-400 border border-rose-500/30">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-[#F7FDFF]/15 px-2 py-0.5 text-[11px] font-bold text-rose-400 border border-rose-500/30">
                       <AlertTriangle className="h-3 w-3" /> MISSING
                     </span>
                   )}

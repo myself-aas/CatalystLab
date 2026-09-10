@@ -95,7 +95,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
             <div className="p-6 sm:p-8">
               {isSuccess ? (
                 <div className="text-center py-6 space-y-4">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#F0FAFF]/20 text-emerald-400">
                     <CheckCircle2 className="h-8 w-8" />
                   </div>
                   <h3 className="text-xl font-bold text-primary-foreground tracking-tight">

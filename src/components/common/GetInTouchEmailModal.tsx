@@ -152,7 +152,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
           >
             {/* Ambient Radial Highlight */}
             <div className="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-primary/15 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-[#F0FAFF]/10 blur-3xl" />
 
             {/* Close Button */}
             <button
@@ -167,7 +167,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
             {submitted ? (
               /* Success State */
               <div className="py-6 text-center space-y-4">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-500 border border-emerald-500/40 shadow-inner">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F0FAFF]/20 text-emerald-500 border border-emerald-500/40 shadow-inner">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
 

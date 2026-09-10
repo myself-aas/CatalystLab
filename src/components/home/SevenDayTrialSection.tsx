@@ -31,7 +31,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'Core Web Vitals',
       metric: '99.4/100',
       detail: 'TTFB: 14ms • LCP: 0.72s',
-      color: '#00FF66',
+      color: '#F7FDFF',
       badge: 'Speed Index'
     },
     {
@@ -39,7 +39,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'Edge Anycast',
       metric: '18ms TTFB',
       detail: '42 Global Edge PoPs',
-      color: '#00F0FF',
+      color: '#F0FAFF',
       badge: 'DNS & Latency'
     },
     {
@@ -47,7 +47,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'AI Search RAG',
       metric: '100% LLMO',
       detail: '/llms.txt + Schema JSON-LD',
-      color: '#A855F7',
+      color: '#F0FAFF',
       badge: 'AI Crawler'
     },
     {
@@ -55,7 +55,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'OWASP Zero-Trust',
       metric: 'Grade A+',
       detail: 'TLS 1.3 • Strict CSP & HSTS',
-      color: '#F43F5E',
+      color: '#F7FDFF',
       badge: 'SecOps'
     },
     {
@@ -63,7 +63,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'Green Web Carbon',
       metric: '0.08g CO2',
       detail: 'SWD v4 Model Certified',
-      color: '#FBBF24',
+      color: '#F0FAFF',
       badge: 'Eco Score'
     }
   ];
@@ -78,10 +78,10 @@ export const SevenDayTrialSection: React.FC = () => {
           
           {/* LEFT COLUMN */}
           <LazyReveal direction="left" className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/20 bg-[#0066FF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#0066FF] shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#F0FAFF] shadow-sm">
               <Terminal className="w-3.5 h-3.5" />
               <span>AUDIT. AUTOMATE. OPTIMIZE.</span>
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-1" />
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-pulse ml-1" />
             </div>
 
             <h2 className="framer-section-headline text-foreground">
@@ -151,8 +151,8 @@ export const SevenDayTrialSection: React.FC = () => {
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-5 mb-6">
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-sans font-bold text-muted-foreground shadow-sm">
                   <span className="flex h-2.5 w-2.5 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#F0FAFF]" />
                   </span>
                   <Zap className="h-4 w-4 text-amber-500" />
                   <span>Auto-Audit Cron: 10:00 UTC</span>
@@ -171,7 +171,7 @@ export const SevenDayTrialSection: React.FC = () => {
                     <Calendar className="h-4 w-4 text-indigo-600" />
                     <span>Continuous Cron Log</span>
                   </div>
-                  <span className="text-[10px] text-emerald-400 font-bold uppercase bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded shadow-sm">
+                  <span className="text-[10px] text-emerald-400 font-bold uppercase bg-[#F0FAFF]/10 border border-emerald-500/20 px-2 py-0.5 rounded shadow-sm">
                     24/7 Active
                   </span>
                 </div>
@@ -280,7 +280,7 @@ export const SevenDayTrialSection: React.FC = () => {
                       <span className="truncate max-w-[140px] text-foreground font-bold font-mono">
                         https://catalystlab.tech
                       </span>
-                      <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded text-[10px] font-bold border border-emerald-500/20 shadow-sm">
+                      <span className="text-emerald-400 bg-[#F0FAFF]/10 px-2 py-0.5 rounded text-[10px] font-bold border border-emerald-500/20 shadow-sm">
                         PRO TRIAL ACTIVE
                       </span>
                     </div>

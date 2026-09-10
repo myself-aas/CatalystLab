@@ -32,9 +32,9 @@ export const HeroAuditMock: React.FC = () => {
 
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="size-2.5 rounded-full bg-rose-500" />
-          <span className="size-2.5 rounded-full bg-amber-500" />
-          <span className="size-2.5 rounded-full bg-emerald-500" />
+          <span className="size-2.5 rounded-full bg-[#F7FDFF]" />
+          <span className="size-2.5 rounded-full bg-[#F0FAFF]" />
+          <span className="size-2.5 rounded-full bg-[#F0FAFF]" />
         </div>
         <motion.div
           whileHover={{ scale: 1.03 }}

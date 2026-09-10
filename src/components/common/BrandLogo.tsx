@@ -20,25 +20,25 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 }) => {
   const sizeClasses = {
     sm: {
-      box: 'size-6 rounded-md',
+      box: 'size-7 rounded-xl',
       icon: 'size-3.5',
-      title: 'text-base font-bold leading-6 tracking-tight',
-      badge: 'text-[10px] px-1.5 py-0.5',
+      title: 'text-base font-bold leading-7 tracking-tight',
+      badge: 'text-[10px] px-2 py-0.5',
     },
     md: {
-      box: 'size-[28px] rounded-md',
-      icon: 'size-[16px]',
-      title: 'text-[22px] leading-none font-bold tracking-tight',
-      badge: 'text-[11px] px-2 py-0.5',
+      box: 'size-8 rounded-xl',
+      icon: 'size-4',
+      title: 'text-[20px] leading-none font-bold tracking-tight',
+      badge: 'text-[11px] px-2.5 py-0.5',
     },
     lg: {
-      box: 'h-10 w-10 rounded-xl',
+      box: 'h-11 w-11 rounded-2xl',
       icon: 'h-5 w-5',
       title: 'text-xl tracking-tight',
-      badge: 'text-xs px-2.5 py-0.5',
+      badge: 'text-xs px-3 py-1',
     },
     xl: {
-      box: 'h-12 w-12 rounded-xl',
+      box: 'h-12 w-12 rounded-2xl',
       icon: 'h-6 w-6',
       title: 'text-2xl sm:text-3xl tracking-tight',
       badge: 'text-xs px-3 py-1',
@@ -49,24 +49,24 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
 
   return (
     <div className={`group/logo flex items-center gap-2.5 select-none ${className}`}>
-      {/* Engineered Terminal / Catalyst Logo Mark with Ambient Glow & High Contrast */}
-      <div 
-        className={`relative flex ${current.box} items-center justify-center bg-foreground dark:bg-background border border-border-default shadow-[0_1px_3px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,1)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] group-hover/logo:border-accent/60 group-hover/logo:shadow-[0_0_14px_rgba(94,106,210,0.35)] shrink-0 transition-all duration-300 active:scale-95`}
+      {/* CatalystLab brand mark — soft card tile with icon */}
+      <div
+        className={`relative flex ${current.box} items-center justify-center bg-[#2C3032] border border-[rgba(240,250,255,0.12)] shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(240,250,255,0.06)] group-hover/logo:border-[rgba(240,250,255,0.18)] group-hover/logo:shadow-[0_4px_16px_rgba(240,250,255,0.10),inset_0_1px_0_rgba(240,250,255,0.08)] shrink-0 transition-all duration-300 active:scale-95`}
         aria-hidden="true"
       >
-        <Terminal className={`${current.icon} text-indigo-600 dark:text-indigo-400 group-hover/logo:text-accent-bright transition-all duration-300 group-hover/logo:scale-110`} />
-        {/* Subtle accent corner beacon with crisp ring contrast */}
-        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-500 ring-2 ring-background shadow-[0_0_6px_rgba(16,185,129,0.8)] animate-pulse" />
+        <Terminal className={`${current.icon} text-[#F0FAFF] group-hover/logo:text-[#F0FAFF] transition-all duration-300 group-hover/logo:scale-110`} />
+        {/* Status beacon in brand cyan */}
+        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-[#F0FAFF] ring-2 ring-[#1F2223] shadow-[0_0_6px_rgba(240,250,255,0.5)] animate-pulse" />
       </div>
 
       {showText && (
-        <span className={`font-bold tracking-tight transition-colors duration-200 text-foreground ${current.title}`}>
-          Catalyst<span className={`font-bold ${darkText ? 'text-indigo-700' : 'text-indigo-600 dark:text-indigo-400'}`}>Lab</span>
+        <span className={`font-bold tracking-tight transition-colors duration-200 text-[#F0FAFF] ${current.title}`}>
+          Catalyst<span className={`font-bold text-[#F0FAFF]`}>Lab</span>
         </span>
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded-full bg-[#0066FF]/10 font-mono font-semibold text-[#0066FF] border border-[#0066FF]/20 uppercase tracking-wider ${current.badge}`}>
+        <span className={`rounded-full bg-[rgba(240,250,255,0.05)] font-mono font-semibold text-[#F0FAFF] border border-[rgba(240,250,255,0.10)] uppercase tracking-wider ${current.badge}`}>
           {badgeText}
         </span>
       )}

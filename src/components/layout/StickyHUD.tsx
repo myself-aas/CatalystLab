@@ -17,14 +17,14 @@ import { useTelemetryHUDStore } from '../../store/useTelemetryHUDStore';
 import { EngineType } from '../../types';
 
 const ENZYME_LIST: { id: EngineType; label: string; name: string; color: string }[] = [
-  { id: 'health', label: '[VitalZyme]', name: 'Core Web Vitals', color: '#5E6AD2' },
-  { id: 'latency', label: '[EdgeVmax]', name: 'Edge Latency', color: '#38BDF8' },
-  { id: 'compliance', label: '[RiskProtease]', name: 'SecOps & CSP', color: '#F43F5E' },
-  { id: 'ai_ready', label: '[LLM-Kinase]', name: 'AI Crawler Readiness', color: '#A855F7' },
-  { id: 'eco', label: '[EcoHolo]', name: 'Digital Carbon', color: '#10B981' },
-  { id: 'repo', label: '[GitLygase]', name: 'AST Hygiene', color: '#06B6D4' },
-  { id: 'migration', label: '[SynthShift]', name: 'Architecture PAR', color: '#F59E0B' },
-  { id: 'llmo', label: '[AllosterSearch]', name: 'Entity Graph', color: '#6366F1' },
+  { id: 'health', label: '[VitalZyme]', name: 'Core Web Vitals', color: '#F0FAFF' },
+  { id: 'latency', label: '[EdgeVmax]', name: 'Edge Latency', color: '#F0FAFF' },
+  { id: 'compliance', label: '[RiskProtease]', name: 'SecOps & CSP', color: '#F7FDFF' },
+  { id: 'ai_ready', label: '[LLM-Kinase]', name: 'AI Crawler Readiness', color: '#F0FAFF' },
+  { id: 'eco', label: '[EcoHolo]', name: 'Digital Carbon', color: '#F0FAFF' },
+  { id: 'repo', label: '[GitLygase]', name: 'AST Hygiene', color: '#F0FAFF' },
+  { id: 'migration', label: '[SynthShift]', name: 'Architecture PAR', color: '#F0FAFF' },
+  { id: 'llmo', label: '[AllosterSearch]', name: 'Entity Graph', color: '#F0FAFF' },
 ];
 
 export const StickyHUD: React.FC = () => {
@@ -78,9 +78,9 @@ export const StickyHUD: React.FC = () => {
 
   // System load color styling
   const getLoadColor = (load: number) => {
-    if (load > 75) return 'text-rose-400 bg-rose-500';
-    if (load > 45) return 'text-amber-400 bg-amber-500';
-    return 'text-emerald-400 bg-emerald-500';
+    if (load > 75) return 'text-rose-400 bg-[#F7FDFF]';
+    if (load > 45) return 'text-amber-400 bg-[#F0FAFF]';
+    return 'text-emerald-400 bg-[#F0FAFF]';
   };
 
   const activeEnzymeObj = ENZYME_LIST.find((e) => e.id === focusEngine);
@@ -114,7 +114,7 @@ export const StickyHUD: React.FC = () => {
                     Autonomous Telemetry Cron Stream
                   </span>
                   <span className="flex items-center gap-1.5 text-[10px] text-foreground-muted ml-2">
-                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="size-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />
                     <span>{cronLogs.length} live events</span>
                   </span>
                 </div>
@@ -125,7 +125,7 @@ export const StickyHUD: React.FC = () => {
                     onClick={toggleAutoStream}
                     className={`px-2 py-0.5 rounded text-[10px] font-semibold transition-colors cursor-pointer ${
                       autoStreamActive
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                        ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/30'
                         : 'bg-muted/40 text-foreground-muted border border-border-default'
                     }`}
                   >
@@ -156,8 +156,8 @@ export const StickyHUD: React.FC = () => {
                     <span className="text-foreground-muted/70 shrink-0 text-[10px]">{log.timestamp}</span>
                     <span className={`px-1.5 py-0.2 rounded text-[10px] font-semibold shrink-0 ${
                       log.level === 'CRON' ? 'bg-accent/15 text-accent-bright border border-accent/25' :
-                      log.level === 'WARN' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' :
-                      log.level === 'BENCHMARK' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' :
+                      log.level === 'WARN' ? 'bg-[#F0FAFF]/15 text-amber-400 border border-amber-500/30' :
+                      log.level === 'BENCHMARK' ? 'bg-[#F0FAFF]/15 text-purple-400 border border-purple-500/30' :
                       'bg-muted/40 text-foreground-muted border border-border-default'
                     }`}>
                       {log.level}
@@ -222,7 +222,7 @@ export const StickyHUD: React.FC = () => {
                           : 'bg-muted/30 border-border-default text-foreground-muted hover:text-foreground hover:border-accent/30'
                       }`}
                     >
-                      <div className="font-semibold text-[11px]" style={{ color: isSelected ? 'var(--accent-bright, #6872D9)' : enzyme.color }}>
+                      <div className="font-semibold text-[11px]" style={{ color: isSelected ? 'var(--accent-bright, #F0FAFF)' : enzyme.color }}>
                         {enzyme.label}
                       </div>
                       <div className="text-[10px] text-foreground-muted truncate mt-0.5 font-sans">
@@ -252,8 +252,8 @@ export const StickyHUD: React.FC = () => {
             title="Open Telemetry HUD Terminal"
           >
             <span className="absolute -top-1 -right-1 flex size-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex size-3 rounded-full bg-emerald-400 border-2 border-background" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#F0FAFF] opacity-75" />
+              <span className="relative inline-flex size-3 rounded-full bg-[#F0FAFF] border-2 border-background" />
             </span>
             <svg 
               className="size-6 text-accent-bright"
@@ -368,7 +368,7 @@ export const StickyHUD: React.FC = () => {
                 >
                   <TerminalIcon className="size-3 text-accent-bright" />
                   <span className="hidden sm:inline">LIVE CRON</span>
-                  <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="size-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />
                 </button>
               </div>
 
@@ -384,7 +384,7 @@ export const StickyHUD: React.FC = () => {
                       type="button"
                       onClick={cancelScan}
                       title="Cancel Scan"
-                      className="inline-flex size-8 items-center justify-center rounded-lg bg-rose-500/10 border border-rose-500/40 text-rose-400 hover:bg-rose-500/20 transition-colors"
+                      className="inline-flex size-8 items-center justify-center rounded-lg bg-[#F7FDFF]/10 border border-rose-500/40 text-rose-400 hover:bg-[#F7FDFF]/20 transition-colors"
                       aria-label="Cancel scan"
                     >
                       <X aria-hidden="true" className="size-3.5" />

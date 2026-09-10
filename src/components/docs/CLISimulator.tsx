@@ -34,7 +34,7 @@ AVAILABLE COMMANDS:
   clear                             Clear terminal output buffer
   version                           Show installed CLI engine build hash`,
 
-  'version': `@catalystlab/cli v2.4.0 (x86_64-linux-gnu, node-v20.18, commit #e7e0b9d)`,
+  'version': `@catalystlab/cli v2.4.0 (x86_64-linux-gnu, node-v20.18, commit #F0FAFFd)`,
 
   'catalyst audit': `{
   "status": "success",
@@ -222,9 +222,9 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
       <div className="p-3 bg-muted/40 border-b border-border flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-rose-500/80 border border-rose-600/50" />
-            <span className="h-3 w-3 rounded-full bg-amber-400/80 border border-amber-500/50" />
-            <span className="h-3 w-3 rounded-full bg-emerald-500/80 border border-emerald-600/50" />
+            <span className="h-3 w-3 rounded-full bg-[#F7FDFF]/80 border border-rose-600/50" />
+            <span className="h-3 w-3 rounded-full bg-[#F0FAFF]/80 border border-amber-500/50" />
+            <span className="h-3 w-3 rounded-full bg-[#F0FAFF]/80 border border-emerald-600/50" />
           </div>
           <span className="text-muted-foreground font-bold ml-1 flex items-center gap-1.5">
             <TerminalIcon className="h-3.5 w-3.5 text-cyan-400" />
@@ -308,7 +308,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
 
         {isExecuting && (
           <div className="flex items-center gap-2 text-muted-foreground pl-5 animate-pulse">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF]" />
             <span>Executing probe via daemon...</span>
           </div>
         )}
@@ -334,7 +334,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
           onClick={() => handleCommand(inputVal)}
           disabled={!inputVal.trim()}
           aria-label="Execute command"
-          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-cyan-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-[#F0FAFF] disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
           title="Run command (Enter)"
         >
           <CornerDownLeft className="h-3.5 w-3.5" aria-hidden="true" />

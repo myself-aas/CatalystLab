@@ -216,7 +216,7 @@ export const DomainReportArticlePage: React.FC = () => {
  return (
  <div className="ds-page-shell py-16">
  <div className="ds-card p-8 shadow-xl">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400 mb-3 border border-amber-500/20">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#F0FAFF]/10 text-amber-400 mb-3 border border-amber-500/20">
  <AlertTriangle className="h-6 w-6"/>
  </div>
  <h2 className="text-lg font-bold text-foreground">Benchmark Report Unavailable</h2>
@@ -255,7 +255,7 @@ export const DomainReportArticlePage: React.FC = () => {
  />
  
  {/* Main Hero Header */}
- <header className="border-b border-border bg-muted ds-page-top py-8 md:py-12 sm:px-6 lg:px-8">
+ <header className="border-b border-border bg-[#2C2F32] py-8 md:py-12 sm:px-6 lg:px-8">
  <div className="ds-page-shell space-y-5">
  
  {/* Badge & Category */}

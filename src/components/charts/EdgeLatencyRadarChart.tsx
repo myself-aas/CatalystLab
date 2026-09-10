@@ -75,7 +75,7 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = React
                 <div className="flex items-center justify-between text-xs mb-1.5">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full" style={{
-                      backgroundColor: isFast ? '#10b981' : isModerate ? '#3b82f6' : '#f43f5e'
+                      backgroundColor: isFast ? '#F0FAFF' : isModerate ? '#F0FAFF' : '#F7FDFF'
                     }} />
                     <span className="font-bold text-foreground">{pop.region}</span>
                     <span className="text-muted-foreground font-mono text-[11px]">({pop.location})</span>
@@ -86,7 +86,7 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = React
                 <div className="h-2 w-full rounded-full bg-background overflow-hidden border border-background/20">
                   <div
                     className={`h-full rounded-full transition-all duration-700 ${
-                      isFast ? 'bg-emerald-400' : isModerate ? 'bg-muted0' : 'bg-rose-500'
+                      isFast ? 'bg-[#F0FAFF]' : isModerate ? 'bg-muted0' : 'bg-[#F7FDFF]'
                     }`}
                     style={{ width: `${barWidth}%` }}
                   />

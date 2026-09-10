@@ -100,7 +100,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
             <Lock className="h-8 w-8" />
           </div>
 
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-300 mb-3">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-semibold text-amber-300 mb-3">
             <AlertCircle className="h-3.5 w-3.5" />
             <span>Custom Claim Requirement: role = superadmin</span>
           </div>

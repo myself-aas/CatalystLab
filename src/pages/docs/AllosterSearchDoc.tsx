@@ -10,7 +10,7 @@ export const AllosterSearchDoc: React.FC = () => {
  canonicalPath="/docs/allostersearch"
  >
  <section id="allostersearch-overview"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 py-0.5 text-xs font-semibold text-indigo-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-indigo-400">
  <SearchCode className="h-3.5 w-3.5"/>
  <span>SDLC Phase 8: AI Search & LLMO Engine</span>
  </div>

@@ -61,10 +61,10 @@ export const PlaygroundNavSidebar: React.FC = () => {
 
           <Link
             to="/api-reference"
-            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-[#0066FF] bg-[#0066FF]/10 hover:bg-[#0066FF]/20 border border-[#0066FF]/20 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-[#F0FAFF] bg-[#F0FAFF]/10 hover:bg-[#F0FAFF]/20 border border-[#F0FAFF]/20 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center gap-2">
-              <Code2 className="h-4 w-4 text-[#0066FF]" />
+              <Code2 className="h-4 w-4 text-[#F0FAFF]" />
               <span>API Reference Docs</span>
             </div>
             <ChevronRight className="h-3.5 w-3.5 opacity-60" />

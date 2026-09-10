@@ -8,7 +8,7 @@ interface UserAnalyticsDashboardProps {
   reports?: AuditReport[];
 }
 
-const BRAND_COLORS = ['#38bdf8', '#818cf8', '#34d399', '#f472b6'];
+const BRAND_COLORS = ['#F0FAFF', '#F0FAFF', '#F0FAFF', '#F0FAFF'];
 
 const mockTraffic = [
   { name: 'Mon', value: 400 },
@@ -25,7 +25,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
     <div className="flex flex-col space-y-6 w-full max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-2">
         <div>
-          <div className="framer-micro-tag text-[var(--accent-framer-blue)] mb-1">Global Telemetry</div>
+          <div className="framer-micro-tag text-[#F0FAFF] mb-1">Global Telemetry</div>
           <h2 className="framer-card-title text-foreground">Analytics Overview</h2>
           <p className="framer-body-text text-sm mt-1">Real-time performance and usage metrics across the mesh.</p>
         </div>
@@ -33,10 +33,10 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Audits', value: reports?.length || 0, icon: Activity, color: 'text-[var(--accent-framer-blue)]', bg: 'bg-[var(--accent-framer-blue)]/10' },
-          { label: 'Avg Latency', value: '124ms', icon: Clock, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-          { label: 'Global Reach', value: '12 Regions', icon: Globe, color: 'text-[var(--accent-cyan-edge)]', bg: 'bg-[var(--accent-cyan-edge)]/10' },
-          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-[var(--accent-violet-synth)]', bg: 'bg-[var(--accent-violet-synth)]/10' }
+          { label: 'Total Audits', value: reports?.length || 0, icon: Activity, color: 'text-[#F0FAFF]', bg: 'bg-[#F0FAFF]/10' },
+          { label: 'Avg Latency', value: '124ms', icon: Clock, color: 'text-emerald-400', bg: 'bg-[#F0FAFF]/10' },
+          { label: 'Global Reach', value: '12 Regions', icon: Globe, color: 'text-[#F0FAFF]', bg: 'bg-[#F0FAFF]/10' },
+          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-[rgba(240,250,255,0.75)]', bg: 'bg-[rgba(240,250,255,0.75)]/10' }
         ].map((stat, i) => (
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
@@ -50,7 +50,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
               <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} border border-foreground/5`}>
                 <stat.icon className="size-5" />
               </div>
-              <span className="flex items-center text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="flex items-center text-[10px] font-mono font-bold text-emerald-400 bg-[#F0FAFF]/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
                 <ArrowUpRight className="size-3 mr-1" />
                 12%
               </span>
@@ -85,8 +85,8 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
               <AreaChart data={mockTraffic}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0066FF" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#0066FF" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#F0FAFF" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="#F0FAFF" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(240, 250, 255, 0.08)" />
@@ -108,7 +108,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   itemStyle={{ color: '#F7FDFF', fontWeight: 'bold', fontSize: '12px' }}
                   labelStyle={{ color: '#F0FAFF', marginBottom: '4px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
                 />
-                <Area type="monotone" dataKey="value" stroke="#0066FF" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" />
+                <Area type="monotone" dataKey="value" stroke="#F0FAFF" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

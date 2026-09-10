@@ -11,7 +11,7 @@ export const ArchitectureDoc: React.FC = () => {
  canonicalPath="/docs/architecture"
  >
  <section id="stack-layers"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/20 bg-purple-500/10 py-0.5 text-xs font-semibold text-purple-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-purple-400">
  <Layers className="h-3.5 w-3.5"/>
  <span>System Design Blueprint</span>
  </div>
@@ -109,15 +109,15 @@ app.post("/api/run-engine", async (req, res) => {
  <h3 className="font-bold text-foreground text-sm uppercase tracking-wider">Worker Failover Strategy</h3>
  <ul className="space-y-2 text-sm text-foreground-muted">
  <li className="flex items-start gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded-full border border-sky-500/30 bg-sky-500/20 text-sky-400 text-xs font-bold shrink-0">1</span>
+ <span className="flex h-5 w-5 items-center justify-center rounded-full border border-sky-500/30 bg-[#F0FAFF]/20 text-sky-400 text-xs font-bold shrink-0">1</span>
  <span>Primary execution attempts sandboxed Python CLI probe (<code>website_health.py</code>).</span>
  </li>
  <li className="flex items-start gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded-full border border-sky-500/30 bg-sky-500/20 text-sky-400 text-xs font-bold shrink-0">2</span>
+ <span className="flex h-5 w-5 items-center justify-center rounded-full border border-sky-500/30 bg-[#F0FAFF]/20 text-sky-400 text-xs font-bold shrink-0">2</span>
  <span>Subprocess is monitored by a 40,000ms hard timer with strict 5MB output buffer limits.</span>
  </li>
  <li className="flex items-start gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded-full border border-sky-500/30 bg-sky-500/20 text-sky-400 text-xs font-bold shrink-0">3</span>
+ <span className="flex h-5 w-5 items-center justify-center rounded-full border border-sky-500/30 bg-[#F0FAFF]/20 text-sky-400 text-xs font-bold shrink-0">3</span>
  <span>On timeout or exit error, execution gracefully shifts to built-in TypeScript AST parser.</span>
  </li>
  </ul>

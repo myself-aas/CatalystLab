@@ -93,7 +93,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
           )}
 
           {isCurrent && (
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold">
+            <span className="px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold">
               ACTIVE
             </span>
           )}

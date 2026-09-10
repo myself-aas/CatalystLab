@@ -16,8 +16,8 @@ export const FinalCTA: React.FC = () => {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-2xl"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--accent-framer-blue)]/20 bg-[var(--accent-framer-blue)]/10 px-3 py-1 framer-micro-tag text-[var(--accent-framer-blue)] backdrop-blur-md">
-            <Sparkles className="size-3.5 text-[var(--accent-framer-blue)]" />
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-[#F0FAFF] backdrop-blur-md">
+            <Sparkles className="size-3.5 text-[#F0FAFF]" />
             <span>Zero SDK overhead</span>
           </div>
           <h2 className="framer-section-headline text-foreground">

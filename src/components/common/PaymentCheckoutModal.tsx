@@ -114,7 +114,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
         <div className="p-6 sm:p-8">
           {/* Header Badge & Title */}
           <div className="flex items-center gap-3 mb-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-full bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20">
               <Lock className="w-3.5 h-3.5 text-amber-400" /> Secure Checkout
             </span>
             <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -230,7 +230,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 }`}
               >
                 <span>Annual</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 font-mono font-bold">Save 15%</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#F0FAFF]/15 text-emerald-400 border border-emerald-500/20 font-mono font-bold">Save 15%</span>
               </button>
             </div>
           </div>
@@ -252,19 +252,19 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
           </div>
 
           {error && (
-            <div className="mt-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400 flex items-center gap-2">
+            <div className="mt-4 p-3 rounded-lg bg-[#F7FDFF]/10 border border-rose-500/20 text-xs text-rose-400 flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {checkoutUrl && loading && (
-            <div className="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center justify-between">
+            <div className="mt-4 p-3 rounded-lg bg-[#F0FAFF]/10 border border-amber-500/20 text-xs text-amber-300 flex items-center justify-between">
               <span className="flex items-center gap-2">
                 <RefreshCw className="w-4 h-4 animate-spin text-amber-400" />
                 <span>Redirecting to {gateway === 'dodopay' ? 'Dodo Payments' : '2Checkout'} Sandbox Gateway...</span>
               </span>
-              <a href={checkoutUrl} target="_blank" rel="noreferrer" className="text-foreground font-bold underline flex items-center gap-1 font-mono">
+              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="text-foreground font-bold underline flex items-center gap-1 font-mono">
                 Open URL <ExternalLink className="w-3 h-3" />
               </a>
             </div>

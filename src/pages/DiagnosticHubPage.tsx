@@ -44,7 +44,7 @@ const ENGINE_DETAILS = [
  title: 'VitalZyme',
  desc: 'Deep DOM & TTFB performance analysis. Identifies render-blocking resources and layout shifts.',
  icon: Activity,
- color: '#00F298',
+ color: '#F0FAFF',
  status: 'Operational',
  specs: [
  { label: 'Frequency', value: 'Per-deploy / 5m pulse' },
@@ -60,7 +60,7 @@ const ENGINE_DETAILS = [
  title: 'EdgeKinase',
  desc: 'Multi-region 42-PoP latency testing and edge caching validation.',
  icon: Globe,
- color: '#00D2FF',
+ color: '#F0FAFF',
  status: 'Operational',
  specs: [
  { label: 'Frequency', value: 'Continuous (Global PoPs)' },
@@ -76,7 +76,7 @@ const ENGINE_DETAILS = [
  title: 'EcoHolo',
  desc: 'Carbon and CO2e profiling. Measure the environmental impact of your digital footprint.',
  icon: Leaf,
- color: '#00F298',
+ color: '#F0FAFF',
  status: 'Beta',
  specs: [
  { label: 'Frequency', value: 'Post-render' },
@@ -92,7 +92,7 @@ const ENGINE_DETAILS = [
  title: 'RiskProtease',
  desc: 'OWASP Top 10 compliance checker. Scans headers, CSPs, and common vulnerability endpoints.',
  icon: ShieldCheck,
- color: '#FF9900',
+ color: '#F0FAFF',
  status: 'Operational',
  specs: [
  { label: 'Frequency', value: 'Pre-flight / CI Gate' },
@@ -108,7 +108,7 @@ const ENGINE_DETAILS = [
  title: 'GitLygase',
  desc: 'Repository hygiene, CI/CD pipeline health, and code structure telemetry.',
  icon: Terminal,
- color: '#FF9900',
+ color: '#F0FAFF',
  status: 'Operational',
  specs: [
  { label: 'Frequency', value: 'On Commit' },
@@ -124,7 +124,7 @@ const ENGINE_DETAILS = [
  title: 'LLM-Kinase',
  desc: 'Validates llms.txt readiness and AI crawler accessibility for semantic ingestion.',
  icon: Cpu,
- color: '#8A2BE2',
+ color: '#F0FAFF',
  status: 'Operational',
  specs: [
  { label: 'Frequency', value: 'On-demand' },
@@ -140,7 +140,7 @@ const ENGINE_DETAILS = [
  title: 'AllosterSearch',
  desc: 'LLM Optimization (LLMO) and geographic SEO visibility scoring.',
  icon: Search,
- color: '#8A2BE2',
+ color: '#F0FAFF',
  status: 'Operational',
  specs: [
  { label: 'Frequency', value: 'Daily crawl' },
@@ -156,7 +156,7 @@ const ENGINE_DETAILS = [
  title: 'SynthShift',
  desc: 'Cross-framework migration complexity analysis and schema structure validation.',
  icon: GitBranch,
- color: '#8A2BE2',
+ color: '#F0FAFF',
  status: 'Operational',
  specs: [
  { label: 'Frequency', value: 'CI/CD Pipeline' },

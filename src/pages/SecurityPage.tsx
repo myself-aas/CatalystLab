@@ -16,12 +16,12 @@ export const SecurityPage: React.FC = () => {
  {/* Dedicated Hero Header */}
  <section className="relative overflow-hidden border-b border-border w-full ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,102,255,0.12)_0%,transparent_70%)] pointer-events-none" />
+<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 ds-page-shell">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div className="space-y-3 max-w-2xl">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3.5 py-1 framer-micro-tag text-emerald-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-emerald-400">
  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>RFC-9116 Coordinated Disclosure</span>
  </div>

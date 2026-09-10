@@ -57,7 +57,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   }, [copied]);
 
   const baseStyles =
-    'relative inline-flex items-center justify-center font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-framer-blue)]/50 cursor-pointer';
+    'relative inline-flex items-center justify-center font-medium transition-colors select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0FAFF]/50 cursor-pointer';
 
   const variantStyles = {
     default:

@@ -66,7 +66,7 @@ export const AIRadarChart: React.FC<AIRadarChartProps> = React.memo(({
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-foreground font-mono">/llms.txt</span>
             {hasLlmsTxt ? (
-              <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+              <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 bg-[#F0FAFF]/10 px-2 py-0.5 rounded border border-emerald-500/20">
                 <Check className="h-3 w-3" /> PRESENT
               </span>
             ) : (
@@ -84,7 +84,7 @@ export const AIRadarChart: React.FC<AIRadarChartProps> = React.memo(({
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-foreground font-mono">AI Manifest</span>
             {hasAiPlugin ? (
-              <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+              <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-400 bg-[#F0FAFF]/10 px-2 py-0.5 rounded border border-emerald-500/20">
                 <Check className="h-3 w-3" /> ACTIVE
               </span>
             ) : (
@@ -128,7 +128,7 @@ export const AIRadarChart: React.FC<AIRadarChartProps> = React.memo(({
                 </div>
                 <div className="text-[10px] text-muted-foreground mt-0.5">{b.purpose}</div>
               </div>
-              <span className="shrink-0 font-mono text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+              <span className="shrink-0 font-mono text-[11px] font-bold text-emerald-400 bg-[#F0FAFF]/10 px-2 py-0.5 rounded border border-emerald-500/20">
                 ALLOWED
               </span>
             </div>

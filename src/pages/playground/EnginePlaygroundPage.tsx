@@ -272,7 +272,7 @@ func main() {
  <h1 className="framer-section-headline text-foreground">
  {activeEngineConfig.name} Console
  </h1>
- <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-[var(--accent-cyan-edge)]/10 text-[var(--accent-cyan-edge)] border border-[var(--accent-cyan-edge)]/20">
+ <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
  {activeEngineConfig.category}
  </span>
  </div>
@@ -391,14 +391,14 @@ func main() {
  {statusCode !== null && (
  <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-mono border ${
  statusCode >= 200 && statusCode < 300 
- ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
- : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+ ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20' 
+ : 'bg-[#F7FDFF]/10 text-rose-400 border-rose-500/20'
  }`}>
  Status: {statusCode}
  </span>
  )}
  {responseTimeMs !== null && (
- <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-[var(--accent-cyan-edge)]/10 text-[var(--accent-cyan-edge)] border border-[var(--accent-cyan-edge)]/20">
+ <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
  {responseTimeMs} ms
  </span>
  )}
@@ -447,7 +447,7 @@ func main() {
  </div>
 
  <div className="rounded-2xl bg-background/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border max-h-[400px]">
- <pre className="text-[var(--accent-cyan-edge)] leading-relaxed">
+ <pre className="text-[#F0FAFF] leading-relaxed">
  {JSON.stringify(jsonResponse, null, 2)}
  </pre>
  </div>

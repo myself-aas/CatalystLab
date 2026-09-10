@@ -30,14 +30,14 @@ export const Footer: React.FC = () => {
             <div className="flex flex-col space-y-6">
               <Link 
                 to="/" 
-                className="inline-flex items-center gap-2 transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-framer-blue)] rounded-lg"
+                className="inline-flex items-center gap-2 transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0FAFF] rounded-lg"
                 aria-label="CatalystLab home"
               >
                 <BrandLogo size="md" />
               </Link>
               <p className="text-sm leading-relaxed text-muted-foreground">
                 Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics across 38 global edge nodes. Precision auditing for the modern engineering stack.
-                <span className="block mt-4 font-mono text-[var(--accent-cyan-edge)] opacity-60">CONNECT &lt;/&gt; &amp;</span>
+                <span className="block mt-4 font-mono text-[#F0FAFF] opacity-60">CONNECT &lt;/&gt; &amp;</span>
               </p>
             </div>
 
@@ -151,7 +151,7 @@ export const Footer: React.FC = () => {
             className="group flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-mono text-neutral-400 transition-all duration-200 hover:border-border-strong hover:text-foreground hover:bg-surface-elevated shadow-2xs cursor-pointer"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="size-3.5 text-[var(--accent-framer-blue)] group-hover:-translate-y-0.5 transition-transform duration-200" />
+            <ArrowUp className="size-3.5 text-[#F0FAFF] group-hover:-translate-y-0.5 transition-transform duration-200" />
             <span>TOP</span>
           </button>
         </div>

@@ -56,9 +56,9 @@ export const StatCard: React.FC<StatCardProps> = ({
             className={clsx(
               'px-2 py-1 rounded-lg text-[11px] font-sans font-bold uppercase tracking-wide',
               trend === 'up'
-                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20'
                 : trend === 'down'
-                ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                ? 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20'
                 : 'bg-accent text-muted-foreground border border-border'
             )}
           >

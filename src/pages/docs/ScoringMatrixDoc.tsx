@@ -10,7 +10,7 @@ export const ScoringMatrixDoc: React.FC = () => {
  canonicalPath="/docs/scoring-matrix"
  >
  <section id="scoring-formula"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 py-0.5 text-xs font-semibold text-amber-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-amber-400">
  <Gauge className="h-3.5 w-3.5"/>
  <span>Objective Telemetry Index</span>
  </div>
@@ -131,25 +131,25 @@ export const ScoringMatrixDoc: React.FC = () => {
  <section id="grade-tiers"className="space-y-4 border-t border-border pt-8">
  <h2 className="text-2xl font-bold text-foreground">Grade Classification Tiers</h2>
  <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-sm">
- <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-center">
+ <div className="rounded-xl border border-emerald-500/30 bg-[#F0FAFF]/10 p-4 text-center">
  <div className="text-2xl font-black text-emerald-700">90 – 100</div>
  <div className="font-bold text-foreground mt-1">Grade A (Pristine)</div>
  <p className="text-xs text-foreground-muted mt-1">Production Ready & Elite</p>
  </div>
 
- <div className="rounded-xl border border-sky-500/30 bg-sky-500/10 p-4 text-center">
+ <div className="rounded-xl border border-sky-500/30 bg-[#F0FAFF]/10 p-4 text-center">
  <div className="text-2xl font-black text-primary">75 – 89</div>
  <div className="font-bold text-foreground mt-1">Grade B (Good)</div>
  <p className="text-xs text-foreground-muted mt-1">Minor Optimizations</p>
  </div>
 
- <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-center">
+ <div className="rounded-xl border border-amber-500/30 bg-[#F0FAFF]/10 p-4 text-center">
  <div className="text-2xl font-black text-amber-700">60 – 74</div>
  <div className="font-bold text-foreground mt-1">Grade C (Moderate)</div>
  <p className="text-xs text-foreground-muted mt-1">Latency or DOM Bottlenecks</p>
  </div>
 
- <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-center">
+ <div className="rounded-xl border border-rose-500/30 bg-[#F7FDFF]/10 p-4 text-center">
  <div className="text-2xl font-black text-rose-700">&lt; 60</div>
  <div className="font-bold text-foreground mt-1">Grade F (Deficient)</div>
  <p className="text-xs text-foreground-muted mt-1">Critical Security & INP Issues</p>

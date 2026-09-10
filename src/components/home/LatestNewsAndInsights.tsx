@@ -44,6 +44,8 @@ export const LatestNewsAndInsights: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+    const controller = new AbortController();
     const fetchNews = async () => {
       setLoading(true);
       try {
@@ -55,13 +57,13 @@ export const LatestNewsAndInsights: React.FC = () => {
         const tag = tagMap[activeTab];
         
         // Fetch real tech & telemetry news via dev.to public API
-        const res = await fetch(`https://dev.to/api/articles?tag=${tag}&per_page=3`);
+        const res = await fetch(`https://dev.to/api/articles?tag=${tag}&per_page=3`, { signal: controller.signal });
         if (!res.ok) throw new Error("Failed to fetch articles");
         const data = await res.json();
         
+        if (cancelled) return;
         if (data && data.length > 0) {
           const mappedArticles = data.map((item: any, idx: number) => {
-            // Dev.to images can occasionally be null, use fallback Unsplash images to maintain layout
             const fallbackImages = [
               'https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
               'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
@@ -81,14 +83,18 @@ export const LatestNewsAndInsights: React.FC = () => {
           setArticles(FALLBACK_ARTICLES.filter(a => a.category === activeTab));
         }
       } catch (err) {
-        // Fallback gracefully without breaking layout
+        if (cancelled) return;
         setArticles(FALLBACK_ARTICLES.filter(a => a.category === activeTab));
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchNews();
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
   }, [activeTab]);
 
   return (
@@ -96,21 +102,21 @@ export const LatestNewsAndInsights: React.FC = () => {
       <div className="relative z-10 ds-page-shell max-w-6xl mx-auto px-4 sm:px-6">
         
         <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-foreground tracking-tight mb-8">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-sans text-foreground tracking-tight mb-8">
             The latest news & insights
           </h2>
           
           {/* Filtering Toolbar */}
           <div className="flex justify-center">
-            <div className="flex gap-2 p-1.5 bg-white/[0.03] border border-white/10 rounded-full font-mono text-xs shadow-sm">
+            <div className="flex gap-2 p-1.5 bg-[rgba(240,250,255,0.03)] border border-[rgba(240,250,255,0.1)] rounded-full font-mono text-xs shadow-sm">
               {(['Engineering', 'Security', 'AI'] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`rounded-full px-5 py-2 transition-all duration-300 ${
                     activeTab === tab
-                      ? 'bg-white/15 text-white shadow-sm'
-                      : 'text-muted-foreground hover:text-white hover:bg-white/5'
+                      ? 'bg-[rgba(240,250,255,0.15)] text-[#F0FAFF] shadow-sm'
+                      : 'text-muted-foreground hover:text-[#F0FAFF] hover:bg-[rgba(240,250,255,0.05)]'
                   }`}
                 >
                   {tab}
@@ -140,9 +146,8 @@ export const LatestNewsAndInsights: React.FC = () => {
                 >
                   <a 
                     href={article.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="group relative block aspect-[4/5] overflow-hidden rounded-3xl sm:rounded-[32px] border border-white/10 shadow-lg"
+                    target="_blank" rel="noopener noreferrer"
+                    className="group relative block aspect-[4/5] overflow-hidden rounded-3xl sm:rounded-[32px] border border-[rgba(240,250,255,0.1)] shadow-lg"
                   >
                     {/* Background Image */}
                     <div 
@@ -160,9 +165,9 @@ export const LatestNewsAndInsights: React.FC = () => {
                       <div className="flex justify-between items-start">
                         <div className="flex flex-col gap-1.5 text-xs font-mono font-medium opacity-90 drop-shadow-sm uppercase tracking-wider">
                           <span className="text-muted-foreground">{article.date}</span>
-                          <span className="text-[#00D2FF]">{article.category}</span>
+                          <span className="text-[#F0FAFF]">{article.category}</span>
                         </div>
-                        <div className="size-10 rounded-full border border-white/20 backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-white/20 group-hover:border-white/40 shrink-0">
+                        <div className="size-10 rounded-full border border-[rgba(240,250,255,0.2)] backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-[rgba(240,250,255,0.2)] group-hover:border-[rgba(240,250,255,0.4)] shrink-0">
                           <ArrowUpRight className="size-5" />
                         </div>
                       </div>
@@ -192,9 +197,9 @@ export const LatestNewsAndInsights: React.FC = () => {
         >
           <a 
             href="/blogs" 
-            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 hover:border-white/30 transition-colors bg-white/5 backdrop-blur-sm"
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[rgba(240,250,255,0.1)] hover:border-[rgba(240,250,255,0.3)] transition-colors bg-[rgba(240,250,255,0.05)] backdrop-blur-sm"
           >
-            <div className="size-8 rounded-full bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <div className="size-8 rounded-full bg-[#F0FAFF] text-[#1F2223] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
               <ArrowRight className="size-4" />
             </div>
             <span className="text-sm font-medium text-white">View all articles</span>

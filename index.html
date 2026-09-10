@@ -9,9 +9,11 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050506" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
-    <meta name="theme-color" content="#050506" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1F2223" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F0FAFF" />
+    <meta name="theme-color" content="#1F2223" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="color-scheme" content="dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -74,6 +76,12 @@
     </script>
   </head>
   <body class="min-h-screen font-sans antialiased">
+    <noscript>
+      <div style="padding:2rem;max-width:720px;margin:4rem auto;color:#F0FAFF;background:#1F2223;font-family:system-ui,sans-serif;border-radius:24px;border:1px solid rgba(240,250,255,0.08)">
+        <h1 style="margin:0 0 1rem;font-size:1.75rem">JavaScript is required</h1>
+        <p style="line-height:1.6;color:rgba(240,250,255,0.75)">CatalystLab is a fully interactive web application that requires JavaScript to run. Please enable JavaScript in your browser settings and reload the page to continue.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

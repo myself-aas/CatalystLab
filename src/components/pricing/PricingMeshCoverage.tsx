@@ -106,7 +106,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-border/80 pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-[#F0FAFF]/10 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3 backdrop-blur-md">
               <Globe2 className="h-3.5 w-3.5 text-cyan-400" />
               <span>Coverage-Driven Scalability</span>
             </div>
@@ -178,7 +178,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
               {/* Bottom coverage notes */}
               <div className="w-full mt-2 pt-3 border-t border-border/80 flex items-center justify-between text-xs font-mono text-muted-foreground">
                 <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-cyan-400" />
+                  <span className="h-2 w-2 rounded-full bg-[#F0FAFF]" />
                   <span>Sub-20ms Handshake SLA</span>
                 </div>
                 <div className="text-[11px] text-muted-foreground">
@@ -228,7 +228,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
               <div className="pt-2">
                 <Link
                   to={selectedTier === 'free' ? '/launch-audit' : `/login?tier=${selectedTier}`}
-                  className="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-foreground font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-cyan-500/20 active:scale-95 text-sm"
+                  className="w-full py-3 px-4 rounded-xl bg-[#F0FAFF] hover:bg-[#F0FAFF] text-foreground font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-cyan-500/20 active:scale-95 text-sm"
                 >
                   <span>{selectedTier === 'free' ? 'Run Free 6-Node Scan' : `Start 7-Day ${currentSpec.name} Trial`}</span>
                   <ArrowRight className="h-4 w-4" />

@@ -69,14 +69,14 @@ export const MeshNetworkSection: React.FC = () => {
     >
       {/* Background ambient lighting */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(0,180,255,0.06)_0%,transparent_80%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#33415515_1px,transparent_1px),linear-gradient(to_bottom,#33415515_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#2C303215_1px,transparent_1px),linear-gradient(to_bottom,#2C303215_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <LazyReveal direction="up" className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-[#F0FAFF]/10 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3 backdrop-blur-md">
               <Radio className="h-3.5 w-3.5 text-cyan-400 animate-pulse" />
               <span>Phase 5 • Synchronous Edge Mesh Radar</span>
             </div>
@@ -94,7 +94,7 @@ export const MeshNetworkSection: React.FC = () => {
               type="button"
               onClick={handleTriggerGlobalProbe}
               disabled={isSynthesizing}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-foreground text-xs sm:text-sm font-mono font-bold transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F0FAFF] hover:bg-[#F0FAFF] text-foreground text-xs sm:text-sm font-mono font-bold transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
             >
               <RefreshCw className={`h-4 w-4 ${isSynthesizing ? 'animate-spin' : ''}`} />
               <span>{isSynthesizing ? 'Probing 42 Mesh Nodes...' : 'Probe All 42 Nodes'}</span>
@@ -154,7 +154,7 @@ export const MeshNetworkSection: React.FC = () => {
               {/* Active PoP Bottom Bar */}
               <div className="w-full mt-2 pt-3 border-t border-border/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="h-2 w-2 rounded-full bg-[#F0FAFF] animate-ping" />
                   <span className="text-muted-foreground">Focused Anycast Node:</span>
                   <span className="text-cyan-300 font-bold">{activePoP.code} • {activePoP.location}</span>
                 </div>

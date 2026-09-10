@@ -143,7 +143,7 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
     <div className="devsite-shell min-h-full bg-background text-foreground">
       <div className="flex min-h-screen ds-page-top">
         <aside className="hidden w-[268px] shrink-0 border-r border-border lg:block">
-          <div className="sticky top-[var(--nav-total-height,4.75rem)] h-[calc(100vh-var(--nav-total-height,4.75rem))] overflow-y-auto px-3 py-5">{NavTree}</div>
+          <div className="sticky top-[var(--nav-height,4rem)] h-[calc(100vh-var(--nav-height,4rem))] overflow-y-auto px-3 py-5">{NavTree}</div>
         </aside>
 
         {mobileNavOpen && (

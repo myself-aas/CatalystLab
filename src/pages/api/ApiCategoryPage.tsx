@@ -122,10 +122,10 @@ export const ApiCategoryPage: React.FC = () => {
  <div className="space-y-1">
  <div className="flex flex-wrap items-center gap-2.5">
  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase shrink-0 border ${
- ep.method === 'POST' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
- ep.method === 'GET' ? 'bg-[var(--accent-cyan-edge)]/10 text-[var(--accent-cyan-edge)] border border-[var(--accent-cyan-edge)]/20' :
- ep.method === 'DELETE' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
- 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+ ep.method === 'POST' ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20' :
+ ep.method === 'GET' ? 'bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20' :
+ ep.method === 'DELETE' ? 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20' :
+ 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
  }`}>
  {ep.method}
  </span>
@@ -161,7 +161,7 @@ export const ApiCategoryPage: React.FC = () => {
  <span className="truncate"><strong>Auth:</strong> {ep.auth}</span>
  </div>
  <div className="flex items-center gap-2 p-3 rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-muted-foreground font-mono">
- <Clock className="h-4 w-4 text-[var(--accent-cyan-edge)] shrink-0"/>
+ <Clock className="h-4 w-4 text-[#F0FAFF] shrink-0"/>
  <span className="truncate"><strong>Rate Limit:</strong> {ep.rateLimit}</span>
  </div>
  </div>
@@ -270,7 +270,7 @@ export const ApiCategoryPage: React.FC = () => {
  </div>
 
  <div className="rounded-2xl bg-background/80 p-4 text-xs font-mono text-muted-foreground overflow-x-auto scrollbar-none touch-pan-x border border-border/80">
- <pre className="text-[var(--accent-cyan-edge)] whitespace-pre leading-relaxed">
+ <pre className="text-[#F0FAFF] whitespace-pre leading-relaxed">
  {snippet}
  </pre>
  </div>

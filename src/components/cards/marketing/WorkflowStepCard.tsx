@@ -62,7 +62,7 @@ export const WorkflowStepCard: React.FC<WorkflowStepCardProps> = ({
         </div>
 
         {status === 'COMPLETED' && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-sans font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0 shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-sans font-bold uppercase tracking-wider bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 shrink-0 shadow-sm">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>PASS</span>
           </span>

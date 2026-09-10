@@ -10,7 +10,7 @@ export const EdgeVmaxDoc: React.FC = () => {
  canonicalPath="/docs/edgevmax"
  >
  <section id="edgevmax-overview"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-pink-500/20 bg-pink-500/10 py-0.5 text-xs font-semibold text-pink-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-pink-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-pink-400">
  <Globe className="h-3.5 w-3.5"/>
  <span>SDLC Phase 5: Global Latency Engine</span>
  </div>

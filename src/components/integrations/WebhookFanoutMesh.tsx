@@ -94,7 +94,7 @@ export const WebhookFanoutMesh: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-border/80 pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-[#F0FAFF]/10 px-3.5 py-1 text-xs font-mono text-cyan-300 mb-3 backdrop-blur-md">
               <Webhook className="h-3.5 w-3.5 text-cyan-400" />
               <span>Multi-Region Incident Dispatching</span>
             </div>
@@ -151,7 +151,7 @@ export const WebhookFanoutMesh: React.FC = () => {
               {/* Last Dispatched status */}
               <div className="w-full mt-2 pt-3 border-t border-border/80 flex items-center justify-between text-xs font-mono text-muted-foreground">
                 <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="h-2 w-2 rounded-full bg-[#F0FAFF] animate-ping" />
                   <span>HMAC-SHA256 Signatures Enforced</span>
                 </div>
                 <div className="text-[11px] text-muted-foreground">

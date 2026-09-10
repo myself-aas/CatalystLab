@@ -79,7 +79,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
       {/* 4. Top Header Flag / Category Tag (R3 Flag / Icon row) */}
       <div className="relative z-10 flex items-center justify-between w-full">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-foreground/60 border border-foreground/25 text-[11px] font-mono font-bold text-primary-foreground backdrop-blur-md shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#F0FAFF] animate-pulse" />
           <span>{category}</span>
         </div>
       </div>

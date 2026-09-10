@@ -50,7 +50,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
             <div className="text-xl font-black text-foreground font-mono">{score}/100</div>
           </div>
           <div className={`rounded-xl px-3 py-1.5 text-xs font-bold border ${
-            isCompliant ? 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30' : 'bg-foreground/5 text-foreground border-border'
+            isCompliant ? 'bg-[#F0FAFF]/15 text-emerald-600 border-emerald-500/30' : 'bg-foreground/5 text-foreground border-border'
           }`}>
             {complianceLevel}
           </div>
@@ -68,7 +68,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
                 cx="60"
                 cy="60"
                 r={radius}
-                stroke="#e2e8f0"
+                stroke="#F0FAFF"
                 strokeWidth="10"
                 fill="transparent"
               />
@@ -76,7 +76,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
                 cx="60"
                 cy="60"
                 r={radius}
-                stroke={altTextCoveragePct >= 90 ? '#10b981' : altTextCoveragePct >= 60 ? '#415a77' : '#f43f5e'}
+                stroke={altTextCoveragePct >= 90 ? '#F0FAFF' : altTextCoveragePct >= 60 ? 'rgba(240,250,255,0.25)' : '#F7FDFF'}
                 strokeWidth="10"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
@@ -114,7 +114,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
               </div>
             </div>
             <span className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded border ${
-              missingAltCount === 0 ? 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30' : 'bg-amber-500/15 text-amber-700 border-amber-500/30'
+              missingAltCount === 0 ? 'bg-[#F0FAFF]/15 text-emerald-600 border-emerald-500/30' : 'bg-[#F0FAFF]/15 text-amber-700 border-amber-500/30'
             }`}>
               {missingAltCount === 0 ? 'PASS' : 'WARN'}
             </span>
@@ -132,7 +132,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
                 </div>
               </div>
             </div>
-            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-emerald-500/15 text-emerald-600 border-emerald-500/30">
+            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-[#F0FAFF]/15 text-emerald-600 border-emerald-500/30">
               PASS
             </span>
           </div>
@@ -147,7 +147,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
                 <div className="text-[11px] text-muted-foreground">Typography contrast satisfies WCAG AA guidelines.</div>
               </div>
             </div>
-            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-emerald-500/15 text-emerald-600 border-emerald-500/30">
+            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-[#F0FAFF]/15 text-emerald-600 border-emerald-500/30">
               PASS
             </span>
           </div>
@@ -157,7 +157,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
 
       {/* Legal Summary Banner */}
       <div className={`rounded-xl p-3.5 border flex items-center gap-3 text-xs ${
-        isHighLiability ? 'bg-rose-500/10 border-rose-500/20 text-rose-300' : 'bg-muted border-border text-foreground'
+        isHighLiability ? 'bg-[#F7FDFF]/10 border-rose-500/20 text-rose-300' : 'bg-muted border-border text-foreground'
       }`}>
         <HeartHandshake className="h-5 w-5 shrink-0 text-foreground" />
         <span>

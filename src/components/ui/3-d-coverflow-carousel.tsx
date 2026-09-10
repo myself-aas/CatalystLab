@@ -174,7 +174,7 @@ function CoverflowCard({
           <div className="flex items-center gap-2.5 text-left min-w-0">
             <span
               className="size-2.5 rounded-full animate-pulse shrink-0"
-              style={{ backgroundColor: item.color || "#0066FF" }}
+              style={{ backgroundColor: item.color || "#F0FAFF" }}
             />
             <div className="min-w-0">
               <div className="flex items-center gap-2">
@@ -182,7 +182,7 @@ function CoverflowCard({
                   {item.titleLine1}
                 </h4>
                 {item.shortCode && (
-                  <span className="hidden xs:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-foreground/10 text-[var(--accent-cyan-edge)] border border-foreground/10">
+                  <span className="hidden xs:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-foreground/10 text-[#F0FAFF] border border-foreground/10">
                     [{item.shortCode}]
                   </span>
                 )}
@@ -230,7 +230,7 @@ function CoverflowCard({
               title="Architecture Spec"
               className="ds-btn ds-btn-secondary px-3 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 bg-foreground/10 hover:bg-foreground/20 text-foreground border border-foreground/20 backdrop-blur-md cursor-pointer"
             >
-              <FileCode2 className="size-4 shrink-0 text-[var(--accent-cyan-edge)]" />
+              <FileCode2 className="size-4 shrink-0 text-[#F0FAFF]" />
               <span className="hidden md:inline">Docs</span>
             </motion.button>
           </div>
@@ -324,7 +324,7 @@ export function CoverFlowCarousel({
         opacity: 1,
         zIndex: 30,
         filter: "brightness(1)",
-        boxShadow: `0 35px 95px rgba(0,0,0,0.95), 0 0 60px ${currentItem?.color || "#0066FF"}55`,
+        boxShadow: `0 35px 95px rgba(0,0,0,0.95), 0 0 60px ${currentItem?.color || "#F0FAFF"}55`,
         isCenter: true,
       };
     }

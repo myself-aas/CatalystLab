@@ -90,7 +90,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
       {/* Sandbox Header */}
       <div className="p-3.5 bg-muted/40 border-b border-border flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#F0FAFF] animate-pulse" />
           <span className="text-xs font-bold text-primary-foreground flex items-center gap-1.5">
             <TerminalIcon className="h-3.5 w-3.5 text-cyan-400" />
             {title || `Interactive Telemetry Sandbox [${activeSandbox.toUpperCase()}]`}

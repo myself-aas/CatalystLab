@@ -79,7 +79,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         }
       >
         <div className="max-w-lg w-full rounded-2xl border border-border/60 bg-muted/40 p-8 text-center shadow-2xl">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10 text-amber-400">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#F0FAFF]/10 text-amber-400">
             <AlertTriangle className="h-6 w-6" aria-hidden="true" />
           </div>
           <h1 className="text-lg font-bold text-primary-foreground">
@@ -96,7 +96,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#F0FAFF] px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-[#F0FAFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
             >
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               Reload

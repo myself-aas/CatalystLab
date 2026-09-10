@@ -96,7 +96,7 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
           <button
             type="button"
             onClick={handleRunInCli}
-            className="inline-flex h-7 items-center gap-1 rounded px-2 text-[12px] font-medium text-[var(--accent-framer-blue)] hover:bg-[var(--accent-framer-blue)]/10 transition-colors"
+            className="inline-flex h-7 items-center gap-1 rounded px-2 text-[12px] font-medium text-[#F0FAFF] hover:bg-[#F0FAFF]/10 transition-colors"
             title="Run in CLI"
           >
             <Play className="size-3 fill-current" />
@@ -231,7 +231,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   const NavTree = (
     <nav aria-label="Documentation" className="docs-sidenav-inner">
       <Link to="/docs" className="mb-4 flex items-center gap-2 px-1 no-underline">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-[var(--accent-framer-blue)] text-[var(--accent-framer-blue)]-foreground text-sm font-bold">C</span>
+        <span className="flex size-8 items-center justify-center rounded-lg bg-[#F0FAFF] text-[#F0FAFF]-foreground text-sm font-bold">C</span>
         <span className="leading-tight">
           <span className="block text-[13px] font-medium text-foreground">CatalystLab</span>
           <span className="block text-[11px] text-muted-foreground">Documentation</span>
@@ -278,14 +278,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                         onClick={() => setMobileNavOpen(false)}
                         className={`flex min-h-9 items-center justify-between rounded-r-full border-l-[3px] py-1.5 pl-3 pr-3 text-[13px] leading-snug no-underline ${
                           active
-                            ? 'border-[var(--accent-framer-blue)] bg-[var(--accent-framer-blue)]/10 font-semibold text-foreground'
+                            ? 'border-[#F0FAFF] bg-[#F0FAFF]/10 font-semibold text-foreground'
                             : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
                         }`}
                         aria-current={active ? 'page' : undefined}
                       >
                         <span className="truncate">{item.title}</span>
                         {item.badge && (
-                          <span className="ml-2 shrink-0 rounded-full bg-[var(--accent-framer-blue)]/10 px-1.5 py-0.5 font-mono text-[10px] text-[var(--accent-framer-blue)]">
+                          <span className="ml-2 shrink-0 rounded-full bg-[#F0FAFF]/10 px-1.5 py-0.5 font-mono text-[10px] text-[#F0FAFF]">
                             {item.badge}
                           </span>
                         )}
@@ -333,7 +333,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
       <div className="flex min-h-screen ds-page-top">
         <aside className="hidden w-[268px] shrink-0 border-r border-border lg:block">
-          <div className="sticky top-[var(--nav-total-height,4.75rem)] h-[calc(100vh-var(--nav-total-height,4.75rem))] overflow-y-auto px-3 py-5">{NavTree}</div>
+          <div className="sticky top-[var(--nav-height,4rem)] h-[calc(100vh-var(--nav-height,4rem))] overflow-y-auto px-3 py-5">{NavTree}</div>
         </aside>
 
         {mobileNavOpen && (
@@ -352,7 +352,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         )}
 
         <div className="min-w-0 flex-1">
-          <div className="sticky top-[var(--nav-total-height,4.75rem)] z-30 flex h-12 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 backdrop-blur lg:px-8">
+          <div className="sticky top-[var(--nav-height,4rem)] z-30 flex h-12 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 backdrop-blur lg:px-8">
             <div className="flex min-w-0 items-center gap-2">
               <button
                 type="button"
@@ -370,7 +370,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 onClick={() => setCliOpen((v) => !v)}
                 className={`inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium ${
                   cliOpen
-                    ? 'bg-[var(--accent-framer-blue)]/10 text-[var(--accent-framer-blue)]'
+                    ? 'bg-[#F0FAFF]/10 text-[#F0FAFF]'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
@@ -392,7 +392,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <div className="flex">
             <article className="min-w-0 flex-1 px-4 py-8 sm:px-8 lg:px-12 xl:max-w-[860px]">
               <header className="mb-8">
-                <p className="mb-2 text-[13px] font-medium text-[var(--accent-framer-blue)]">CatalystLab documentation</p>
+                <p className="mb-2 text-[13px] font-medium text-[#F0FAFF]">CatalystLab documentation</p>
                 <h1 className="text-4xl font-display font-medium leading-tight text-foreground sm:text-5xl">
                   {title}
                 </h1>
@@ -416,7 +416,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
                       Previous
                     </span>
-                    <span className="text-[15px] text-[var(--accent-framer-blue)]">{prevItem.title}</span>
+                    <span className="text-[15px] text-[#F0FAFF]">{prevItem.title}</span>
                   </Link>
                 ) : (
                   <div />
@@ -430,7 +430,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       Next
                       <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
                     </span>
-                    <span className="text-[15px] text-[var(--accent-framer-blue)]">{nextItem.title}</span>
+                    <span className="text-[15px] text-[#F0FAFF]">{nextItem.title}</span>
                   </Link>
                 )}
               </nav>
@@ -447,7 +447,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       onClick={() => setFeedbackGiven('yes')}
                       className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
                         feedbackGiven === 'yes'
-                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                          ? 'border-emerald-500 bg-[#F0FAFF]/10 text-emerald-600 dark:text-emerald-400'
                           : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >
@@ -458,7 +458,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       onClick={() => setFeedbackGiven('no')}
                       className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
                         feedbackGiven === 'no'
-                          ? 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                          ? 'border-rose-500 bg-[#F7FDFF]/10 text-rose-600 dark:text-rose-400'
                           : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >
@@ -477,10 +477,10 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground">
                 <p>Except as otherwise noted, the content of this page is licensed for CatalystLab developer documentation.</p>
                 <div className="flex gap-4">
-                  <Link to="/blogs" className="inline-flex items-center gap-1 hover:text-[var(--accent-framer-blue)]">
+                  <Link to="/blogs" className="inline-flex items-center gap-1 hover:text-[#F0FAFF]">
                     <BookOpen className="size-3.5" /> Blog
                   </Link>
-                  <Link to="/contact" className="inline-flex items-center gap-1 hover:text-[var(--accent-framer-blue)]">
+                  <Link to="/contact" className="inline-flex items-center gap-1 hover:text-[#F0FAFF]">
                     <HelpCircle className="size-3.5" /> Support
                   </Link>
                 </div>
@@ -496,7 +496,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       key={item.id}
                       href={`#${item.id}`}
                       className={`text-[13px] leading-tight transition-colors ${
-                        activeId === item.id ? 'text-[var(--accent-framer-blue)] font-medium' : 'text-muted-foreground hover:text-foreground'
+                        activeId === item.id ? 'text-[#F0FAFF] font-medium' : 'text-muted-foreground hover:text-foreground'
                       }`}
                       style={{ paddingLeft: `${(item.level - 2) * 12}px` }}
                     >

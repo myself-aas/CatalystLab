@@ -151,7 +151,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         title={item.label}
       >
         <div className="flex items-center gap-2.5 truncate">
-          <Icon className={`size-4 shrink-0 transition-colors ${active ? 'text-[var(--accent-framer-blue)]' : 'text-muted-foreground/70 group-hover:text-foreground'}`} />
+          <Icon className={`size-4 shrink-0 transition-colors ${active ? 'text-[#F0FAFF]' : 'text-muted-foreground/70 group-hover:text-foreground'}`} />
           {(!isSidebarCollapsed || isMobile) && (
             <span className="truncate">{item.label}</span>
           )}
@@ -159,13 +159,13 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         {(!isSidebarCollapsed || isMobile) && (
           <div className="flex items-center gap-1.5 shrink-0">
             {active && (
-              <span className="size-1.5 rounded-full bg-[var(--accent-framer-blue)] shadow-[0_0_8px_var(--accent-framer-blue)] animate-pulse" />
+              <span className="size-1.5 rounded-full bg-[#F0FAFF] shadow-[0_0_8px_#F0FAFF] animate-pulse" />
             )}
           </div>
         )}
 
         {isSidebarCollapsed && !isMobile && active && (
-          <span className="absolute right-1 top-1/2 -translate-y-1/2 size-1.5 rounded-full bg-[var(--accent-framer-blue)] shadow-[0_0_8px_var(--accent-framer-blue)]" />
+          <span className="absolute right-1 top-1/2 -translate-y-1/2 size-1.5 rounded-full bg-[#F0FAFF] shadow-[0_0_8px_#F0FAFF]" />
         )}
       </button>
     );
@@ -175,7 +175,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
     <div data-theme="dark" className="flex min-h-screen bg-background text-foreground">
       {/* ================= DESKTOP DOCKED SIDEBAR ================= */}
       <aside 
-        className={`hidden lg:flex flex-col justify-between p-3 shrink-0 select-none z-30 sticky top-0 h-screen ds-page-top bg-background border-r border-[var(--border-subtle)] transition-all duration-200 ease-in-out ${
+        className={`hidden lg:flex flex-col justify-between p-3 shrink-0 select-none z-30 sticky top-[var(--nav-height,4rem)] h-[calc(100vh-var(--nav-height,4rem))] bg-background border-r border-[rgba(240,250,255,0.08)] transition-all duration-200 ease-in-out ${
           isSidebarCollapsed ? 'w-18' : 'w-64'
         }`}
       >
@@ -187,7 +187,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
               <BrandLogo size="sm" showText={false} />
               {!isSidebarCollapsed && (
                 <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
-                  Catalyst<span className="text-[var(--accent-cyan-edge)]">Lab</span>
+                  Catalyst<span className="text-[#F0FAFF]">Lab</span>
                 </span>
               )}
             </Link>
@@ -211,7 +211,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                 <div className="truncate">
                   <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                     <span>Workspace</span>
-                    <span className="size-1 rounded-full bg-emerald-400" />
+                    <span className="size-1 rounded-full bg-[#F0FAFF]" />
                   </div>
                   <div className="text-xs font-medium text-foreground truncate">{currentWorkspace}</div>
                 </div>
@@ -244,7 +244,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           ) : (
             <div className="flex justify-center">
               <div 
-                className="size-9 rounded-lg bg-surface border border-border flex items-center justify-center text-xs font-mono font-bold text-[var(--accent-cyan-edge)]"
+                className="size-9 rounded-lg bg-surface border border-border flex items-center justify-center text-xs font-mono font-bold text-[#F0FAFF]"
                 title={`Active: ${currentWorkspace}`}
               >
                 {currentWorkspace.charAt(0)}
@@ -266,7 +266,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                   className="ml-1 p-0.5 text-muted-foreground hover:text-foreground transition-colors cursor-pointer disabled:opacity-50"
                   title="Refresh scan"
                 >
-                  <RotateCw className={`size-3 ${isScanning ? 'animate-spin text-[var(--accent-cyan-edge)]' : ''}`} />
+                  <RotateCw className={`size-3 ${isScanning ? 'animate-spin text-[#F0FAFF]' : ''}`} />
                 </button>
               </div>
             </div>
@@ -308,7 +308,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                   className="size-7 rounded-md object-cover"
                 />
               ) : (
-                <div className="size-7 rounded-md bg-surface border border-border flex items-center justify-center text-xs font-semibold text-[var(--accent-cyan-edge)]">
+                <div className="size-7 rounded-md bg-surface border border-border flex items-center justify-center text-xs font-semibold text-[#F0FAFF]">
                   {user?.displayName ? user.displayName[0].toUpperCase() : 'A'}
                 </div>
               )}
@@ -317,7 +317,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                   <div className="text-xs font-medium text-foreground truncate">
                     {user?.displayName || 'Engineering Team'}
                   </div>
-                  <div className="text-[10px] font-mono text-[var(--accent-emerald-vital)]">
+                  <div className="text-[10px] font-mono text-[#F0FAFF]">
                     {isAdmin ? 'Superadmin Root' : 'Team Pro'}
                   </div>
                 </div>
@@ -349,7 +349,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           <div className="w-full max-w-xl bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden font-sans">
             {/* Input row */}
             <div className="flex items-center gap-3 p-4 border-b border-border">
-              <Search className="size-4 text-[var(--accent-cyan-edge)] shrink-0" />
+              <Search className="size-4 text-[#F0FAFF] shrink-0" />
               <input
                 type="text"
                 value={searchQuery}
@@ -378,7 +378,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                     className="flex items-center justify-between p-3 rounded-xl hover:bg-[var(--bg-surface)] transition-colors group cursor-pointer"
                   >
                     <div>
-                      <div className="text-foreground font-medium group-hover:text-[var(--accent-cyan-edge)] flex items-center gap-1.5">
+                      <div className="text-foreground font-medium group-hover:text-[#F0FAFF] flex items-center gap-1.5">
                         <span>{item.title}</span>
                         {item.isExternal && <ExternalLink className="size-3 text-muted-foreground" />}
                       </div>

@@ -78,7 +78,7 @@ export const ArchitectureComparator: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="size-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                <div className="size-2 rounded-full bg-[#F0FAFF] animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
               </div>
               
               {/* Interactive Edge Globe for Latency Card */}

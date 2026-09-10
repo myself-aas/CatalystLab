@@ -8,7 +8,6 @@ import {
   Activity,
   ShieldCheck,
   Globe,
-  Leaf,
   ArrowRight,
   LayoutDashboard,
   LogOut,
@@ -25,7 +24,6 @@ import { useAuth } from '../../context/AuthContext';
 import { useSubscription } from '../../context/SubscriptionContext';
 import { cn } from '../../lib/utils';
 import { NavbarSearch } from './NavbarSearch';
-import { ThemeToggle } from './ThemeToggle';
 import { MainMenuOverlay } from './MainMenuOverlay';
 
 interface EngineItem {
@@ -38,8 +36,8 @@ interface EngineItem {
   icon: React.ElementType;
 }
 
-const PERF_TAG_COLOR = 'text-[var(--accent-cyan-edge)] bg-[var(--accent-cyan-edge)]/10 border-[var(--accent-cyan-edge)]/20';
-const SEC_TAG_COLOR = 'text-purple-400 bg-purple-500/10 border-purple-500/20';
+const PERF_TAG_COLOR = 'text-[#F0FAFF] bg-[#F0FAFF]/10 border-[#F0FAFF]/20';
+const SEC_TAG_COLOR = 'text-purple-400 bg-[#F0FAFF]/10 border-purple-500/20';
 
 const PERFORMANCE_ENGINES: EngineItem[] = ENGINE_ITEMS.slice(0, 4).map((e) => ({
   id: e.id,
@@ -85,30 +83,24 @@ export const Navbar: React.FC = () => {
   const userName = user?.displayName || user?.email?.split('@')[0] || 'Developer';
   const initials = (user?.displayName || user?.email || 'C').trim().charAt(0).toUpperCase();
 
-  // Framer Motion scroll listener with pause-reveal and reverse-reveal detection
   useMotionValueEvent(scrollY, 'change', (current) => {
     const prev = lastScrollY.current;
     const diff = current - prev;
 
     setIsScrolled(current > 8);
 
-    // Clear any previous pause reveal timeout
     if (scrollPauseTimeout.current) {
       clearTimeout(scrollPauseTimeout.current);
     }
 
     if (current <= 20) {
-      // Near top of document: always reveal
       setIsVisible(true);
     } else if (diff > 5) {
-      // Scrolling down: hide
       setIsVisible(false);
     } else if (diff < -4) {
-      // Scrolling reverses (scrolls up): reveal
       setIsVisible(true);
     }
 
-    // When scrolling pauses/stops: reveal smoothly after a short pause
     scrollPauseTimeout.current = setTimeout(() => {
       setIsVisible(true);
     }, 180);
@@ -204,12 +196,20 @@ export const Navbar: React.FC = () => {
           to={item.to}
           onClick={() => setIsEnginesOpen(false)}
           className={cn(
-            'flex items-center gap-1.5 text-sm transition-colors duration-150 focus:outline-none py-1',
-            active ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground',
+            'relative flex items-center gap-1.5 text-sm transition-colors duration-200 focus:outline-none py-1.5 px-1 font-medium',
+            active
+              ? 'text-[#F0FAFF]'
+              : 'text-[rgba(240,250,255,0.6)] hover:text-[#F0FAFF]',
           )}
         >
           {Icon && <Icon className="size-4" />}
           {item.label}
+          {active && (
+            <motion.span
+              layoutId="nav-active-dot"
+              className="absolute -bottom-1 left-1/2 -translate-x-1/2 size-1 rounded-full bg-[#F0FAFF]"
+            />
+          )}
         </Link>
       );
     });
@@ -246,13 +246,15 @@ export const Navbar: React.FC = () => {
           pointerEvents: shouldShow ? 'auto' : 'none',
         }}
         className={cn(
-          "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 w-full z-40 border-b shadow-none transition-colors duration-200",
-          isScrolled ? "bg-background/80 backdrop-blur-md border-border" : "bg-transparent border-transparent"
+          "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 w-full z-40 transition-[background-color,backdrop-filter,border-color] duration-300",
+          isScrolled
+            ? "bg-[rgba(31,34,35,0.78)] backdrop-blur-2xl border-b border-[rgba(240,250,255,0.08)]"
+            : "bg-transparent border-b border-transparent"
         )}
       >
         <nav
           aria-label="Main Navigation"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between transition-all"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
         >
           {/* Left Anchor: Monogram + Wordmark + Live Node Chip */}
           <div className="flex items-center gap-3 shrink-0">
@@ -260,17 +262,17 @@ export const Navbar: React.FC = () => {
               <BrandLogo size="md" />
             </Link>
 
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#F0FAFF]" />
               </span>
               <span>38/38 PoPs Active</span>
             </div>
           </div>
 
           {/* Center Navigation */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-1">
             {/* Engines Mega-Menu Trigger */}
             <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               <motion.button
@@ -280,16 +282,16 @@ export const Navbar: React.FC = () => {
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setIsEnginesOpen(!isEnginesOpen)}
                 className={cn(
-                  "flex items-center gap-1 text-sm transition-colors duration-150 focus:outline-none cursor-pointer py-1",
-                  isEnginesOpen ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"
+                  "flex items-center gap-1 text-sm transition-colors duration-200 focus:outline-none cursor-pointer py-1.5 px-2 font-medium",
+                  isEnginesOpen ? "text-[#F0FAFF]" : "text-[rgba(240,250,255,0.6)] hover:text-[#F0FAFF]"
                 )}
                 aria-expanded={isEnginesOpen}
               >
                 <span>Engines</span>
                 <ChevronDown
                   className={cn(
-                    "size-3.5 transition-transform duration-200 text-muted-foreground",
-                    isEnginesOpen && "rotate-180 text-foreground"
+                    "size-3.5 transition-transform duration-200",
+                    isEnginesOpen && "rotate-180"
                   )}
                 />
               </motion.button>
@@ -300,42 +302,44 @@ export const Navbar: React.FC = () => {
                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute -left-20 top-full pt-3 w-[540px] z-50 pointer-events-auto"
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute -left-24 top-full pt-3 w-[580px] z-50 pointer-events-auto"
                   >
-                    <div className="bg-[var(--app-background)]/95 border border-[var(--border-subtle)] rounded-2xl p-4 shadow-2xl backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden">
+                    <div
+                      className="bg-[#2C3032]/95 border border-[rgba(240,250,255,0.08)] rounded-3xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden"
+                    >
                       <div
-                        className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-20 blur-2xl"
-                        style={{ background: 'radial-gradient(circle, #0066FF 0%, transparent 70%)' }}
+                        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-20 blur-3xl"
+                        style={{ background: 'radial-gradient(circle, #F0FAFF 0%, transparent 70%)' }}
                       />
 
                       <div className="space-y-1.5">
-                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground flex items-center justify-between border-b border-[var(--border-subtle)] pb-1 mb-1">
+                        <div className="px-2 py-1.5 text-[10px] font-mono uppercase tracking-wider text-[rgba(240,250,255,0.5)] flex items-center justify-between border-b border-[rgba(240,250,255,0.06)] pb-2 mb-1.5">
                           <span>Performance</span>
-                          <span className="text-[var(--accent-cyan-edge)]">4 Engines</span>
+                          <span className="text-[#F0FAFF]">4 Engines</span>
                         </div>
                         {PERFORMANCE_ENGINES.map((engine) => {
                           const Icon = engine.icon;
                           return (
                             <motion.div
                               key={engine.id}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                              whileHover={{ scale: 1.01, x: 2 }}
+                              whileTap={{ scale: 0.99 }}
+                              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
                             >
                               <Link
                                 to={engine.path}
                                 onClick={() => setIsEnginesOpen(false)}
-                                className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-[var(--bg-surface)] transition-all duration-150 border border-transparent hover:border-[var(--border-subtle)]"
+                                className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-[rgba(240,250,255,0.04)] transition-all duration-150 border border-transparent hover:border-[rgba(240,250,255,0.08)]"
                               >
-                                <div className="size-8 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center justify-center shrink-0 text-muted-foreground group-hover:text-[var(--accent-cyan-edge)] group-hover:border-[var(--accent-cyan-edge)]/40 transition-colors">
+                                <div className="size-10 rounded-xl bg-[#1F2223] border border-[rgba(240,250,255,0.06)] flex items-center justify-center shrink-0 text-[rgba(240,250,255,0.5)] group-hover:text-[#F0FAFF] group-hover:border-[#F0FAFF]/30 transition-colors shadow-inner">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1.5">
-                                    <span className="text-xs font-medium text-foreground group-hover:text-[var(--accent-cyan-edge)] transition-colors truncate">{engine.name}</span>
+                                    <span className="text-sm font-medium text-[#F0FAFF] group-hover:text-[#F0FAFF] transition-colors truncate">{engine.name}</span>
                                   </div>
-                                  <p className="text-[11px] text-muted-foreground leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
+                                  <p className="text-[11px] text-[rgba(240,250,255,0.5)] leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
                                 </div>
                               </Link>
                             </motion.div>
@@ -343,9 +347,9 @@ export const Navbar: React.FC = () => {
                         })}
                       </div>
 
-                      <div className="space-y-1.5 border-l border-[var(--border-subtle)] pl-3">
-                        <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-muted-foreground flex items-center justify-between border-b border-[var(--border-subtle)] pb-1 mb-1">
-                          <span>Security</span>
+                      <div className="space-y-1.5 border-l border-[rgba(240,250,255,0.06)] pl-3">
+                        <div className="px-2 py-1.5 text-[10px] font-mono uppercase tracking-wider text-[rgba(240,250,255,0.5)] flex items-center justify-between border-b border-[rgba(240,250,255,0.06)] pb-2 mb-1.5">
+                          <span>Security & AI</span>
                           <span className="text-purple-400">4 Engines</span>
                         </div>
                         {SECURITY_AI_ENGINES.map((engine) => {
@@ -353,23 +357,23 @@ export const Navbar: React.FC = () => {
                           return (
                             <motion.div
                               key={engine.id}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                              whileHover={{ scale: 1.01, x: 2 }}
+                              whileTap={{ scale: 0.99 }}
+                              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
                             >
                               <Link
                                 to={engine.path}
                                 onClick={() => setIsEnginesOpen(false)}
-                                className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-[var(--bg-surface)] transition-all duration-150 border border-transparent hover:border-[var(--border-subtle)]"
+                                className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-[rgba(240,250,255,0.04)] transition-all duration-150 border border-transparent hover:border-[rgba(240,250,255,0.08)]"
                               >
-                                <div className="size-8 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] flex items-center justify-center shrink-0 text-muted-foreground group-hover:text-purple-400 group-hover:border-purple-400/40 transition-colors">
+                                <div className="size-10 rounded-xl bg-[#1F2223] border border-[rgba(240,250,255,0.06)] flex items-center justify-center shrink-0 text-[rgba(240,250,255,0.5)] group-hover:text-purple-400 group-hover:border-purple-400/30 transition-colors shadow-inner">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1.5">
-                                    <span className="text-xs font-medium text-foreground group-hover:text-purple-400 transition-colors truncate">{engine.name}</span>
+                                    <span className="text-sm font-medium text-[#F0FAFF] group-hover:text-purple-400 transition-colors truncate">{engine.name}</span>
                                   </div>
-                                  <p className="text-[11px] text-muted-foreground leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
+                                  <p className="text-[11px] text-[rgba(240,250,255,0.5)] leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
                                 </div>
                               </Link>
                             </motion.div>
@@ -377,12 +381,12 @@ export const Navbar: React.FC = () => {
                         })}
                       </div>
 
-                      <div className="col-span-2 mt-1 pt-2.5 border-t border-[var(--border-subtle)] flex items-center justify-between px-2 text-xs">
-                        <Link to="/engines" onClick={() => setIsEnginesOpen(false)} className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-[11px] font-mono group">
+                      <div className="col-span-2 mt-2 pt-3 border-t border-[rgba(240,250,255,0.06)] flex items-center justify-between px-2">
+                        <Link to="/engines" onClick={() => setIsEnginesOpen(false)} className="text-[rgba(240,250,255,0.6)] hover:text-[#F0FAFF] flex items-center gap-1.5 text-xs font-medium group">
                           <span>Explore All 8 Telemetry Engines</span>
                           <ArrowRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
                         </Link>
-                        <span className="text-[10px] font-mono text-muted-foreground">Zero-SDK &bull; RFC 9110 Compliant</span>
+                        <span className="text-[10px] font-mono text-[rgba(240,250,255,0.4)]">Zero-SDK • RFC 9110</span>
                       </div>
                     </div>
                   </motion.div>
@@ -390,14 +394,14 @@ export const Navbar: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* Direct Navigation Links (role-aware) */}
-            <div className="flex items-center gap-5">
+            {/* Direct Navigation Links */}
+            <div className="flex items-center gap-1">
               {renderPrimaryLinks(links.filter((l) => l.id !== 'engines'))}
             </div>
           </div>
 
-          {/* Right Action Area (role-aware) */}
-          <div className="hidden md:flex items-center gap-2.5">
+          {/* Right Action Area */}
+          <div className="hidden md:flex items-center gap-2">
             <NavbarSearch isScrolled={isScrolled} />
 
             {user ? (
@@ -408,13 +412,13 @@ export const Navbar: React.FC = () => {
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[var(--app-background)] px-2.5 py-1.5 text-xs font-medium text-foreground hover:border-[var(--border-subtle)] transition-colors cursor-pointer"
+                  className="flex items-center gap-2 rounded-full border border-[rgba(240,250,255,0.10)] bg-[#2C3032]/70 backdrop-blur-xl px-2 py-1.5 text-xs font-medium text-[#F0FAFF] hover:border-[rgba(240,250,255,0.20)] transition-colors cursor-pointer shadow-[inset_0_1px_0_rgba(240,250,255,0.06)]"
                   aria-expanded={profileOpen}
                   aria-haspopup="menu"
                 >
-                  <span className="flex size-6 items-center justify-center rounded-full bg-[var(--accent-framer-blue)]/20 text-[var(--accent-cyan-edge)] text-[11px] font-bold">{initials}</span>
+                  <span className="flex size-7 items-center justify-center rounded-full bg-[#F0FAFF]/20 text-[#F0FAFF] text-[11px] font-bold border border-[#F0FAFF]/30">{initials}</span>
                   <span className="max-w-[110px] truncate">{userName}</span>
-                  <ChevronDown className={cn('size-3.5 text-muted-foreground transition-transform', profileOpen && 'rotate-180')} />
+                  <ChevronDown className={cn('size-3.5 text-[rgba(240,250,255,0.5)] transition-transform', profileOpen && 'rotate-180')} />
                 </motion.button>
 
                 <AnimatePresence>
@@ -423,28 +427,28 @@ export const Navbar: React.FC = () => {
                       initial={{ opacity: 0, y: 8, scale: 0.98 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                       className="absolute right-0 top-full pt-3 z-50 w-64"
                       role="menu"
                     >
-                      <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--app-background)]/95 p-2 shadow-2xl backdrop-blur-2xl">
-                        <div className="px-3 py-2 border-b border-[var(--border-subtle)] mb-1">
-                          <div className="text-xs font-semibold text-foreground truncate">{userName}</div>
-                          <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{planId} &bull; {currentPlan?.name || 'Account'}</div>
+                      <div className="rounded-3xl border border-[rgba(240,250,255,0.08)] bg-[#2C3032]/95 p-2 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl">
+                        <div className="px-3 py-2.5 border-b border-[rgba(240,250,255,0.06)] mb-1 rounded-2xl">
+                          <div className="text-sm font-semibold text-[#F0FAFF] truncate">{userName}</div>
+                          <div className="text-[10px] font-mono text-[rgba(240,250,255,0.5)] uppercase tracking-wider">{planId} • {currentPlan?.name || 'Account'}</div>
                         </div>
                         {isAdmin && (
-                          <Link to="/admin" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground">
-                            <Lock className="size-3.5 text-amber-400" /> Admin
+                          <Link to="/admin" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[rgba(240,250,255,0.05)] hover:text-[#F0FAFF]">
+                            <span className="size-8 rounded-xl bg-[#F0FAFF]/10 border border-amber-500/20 flex items-center justify-center"><Lock className="size-3.5 text-amber-400" /></span> Admin
                           </Link>
                         )}
-                        <Link to="/dashboard" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground">
-                          <LayoutDashboard className="size-3.5 text-[var(--accent-cyan-edge)]" /> Dashboard
+                        <Link to="/dashboard" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[rgba(240,250,255,0.05)] hover:text-[#F0FAFF]">
+                          <span className="size-8 rounded-xl bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 flex items-center justify-center"><LayoutDashboard className="size-3.5 text-[#F0FAFF]" /></span> Dashboard
                         </Link>
-                        <Link to="/" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground">
-                          <HomeIcon /> Home
+                        <Link to="/" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[rgba(240,250,255,0.05)] hover:text-[#F0FAFF]">
+                          <span className="size-8 rounded-xl bg-[rgba(240,250,255,0.06)] border border-[rgba(240,250,255,0.08)] flex items-center justify-center"><HomeIcon /></span> Home
                         </Link>
-                        <button type="button" onClick={handleLogout} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs font-medium text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-rose-400 cursor-pointer">
-                          <LogOut className="size-3.5" /> Logout
+                        <button type="button" onClick={handleLogout} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[#F7FDFF]/10 hover:text-rose-400 cursor-pointer">
+                          <span className="size-8 rounded-xl bg-[#F7FDFF]/10 border border-rose-500/20 flex items-center justify-center"><LogOut className="size-3.5" /></span> Logout
                         </button>
                       </div>
                     </motion.div>
@@ -453,17 +457,17 @@ export const Navbar: React.FC = () => {
               </div>
             ) : (
               <>
-                <Link to="/login" className="text-xs sm:text-sm text-muted-foreground hover:text-foreground px-2.5 py-1.5 transition-colors duration-150 focus:outline-none font-medium">
+                <Link to="/login" className="text-sm text-[rgba(240,250,255,0.65)] hover:text-[#F0FAFF] px-3 py-1.5 transition-colors duration-200 focus:outline-none font-medium">
                   Login
                 </Link>
-                <Link to="/signup" className="rounded-full border border-[var(--border-subtle)] bg-[var(--app-background)] hover:bg-[var(--bg-surface)] px-3.5 py-1.5 text-xs font-medium text-foreground transition-colors">
-                  Signup
+                <Link to="/signup" className="rounded-full border border-[rgba(240,250,255,0.12)] bg-[#2C3032]/70 backdrop-blur hover:bg-[#2C2F32] px-4 py-1.5 text-sm font-medium text-[#F0FAFF] transition-colors shadow-[inset_0_1px_0_rgba(240,250,255,0.06)]">
+                  Sign up
                 </Link>
               </>
             )}
             <Link
               to="/audit"
-              className="bg-foreground text-background font-semibold hover:bg-neutral-200 rounded-full px-3.5 py-1.5 text-xs sm:text-sm shadow-[0_0_18px_rgba(255,255,255,0.35)] flex items-center gap-1.5 transition-all active:scale-95 focus:outline-none shrink-0"
+              className="bg-[#F0FAFF] text-[#1F2223] font-semibold hover:bg-[#F7FDFF] rounded-full px-4 py-2 text-sm shadow-[0_2px_12px_rgba(240,250,255,0.15),inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center gap-1.5 transition-all active:scale-95 focus:outline-none shrink-0 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(240,250,255,0.22)]"
             >
               <span>Audit</span>
               <ArrowRight className="size-3.5" />
@@ -471,13 +475,13 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Right Controls */}
-          <div className="flex md:hidden items-center gap-1.5">
+          <div className="flex md:hidden items-center gap-1">
             <motion.button
               type="button"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="text-foreground focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -mr-2 cursor-pointer"
+              className="text-[#F0FAFF] focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -mr-2 cursor-pointer rounded-full hover:bg-[rgba(240,250,255,0.06)]"
               onClick={() => {
                 setIsMobileMenuOpen(true);
                 window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'));
@@ -498,7 +502,7 @@ export const Navbar: React.FC = () => {
   );
 };
 
-/** Small inline Home icon (kept out of the lucide tree-shake hot path). */
+/** Small inline Home icon. */
 const HomeIcon = () => (
   <svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />

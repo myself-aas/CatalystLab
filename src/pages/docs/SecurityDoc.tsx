@@ -10,7 +10,7 @@ export const SecurityDoc: React.FC = () => {
  canonicalPath="/docs/security-sandbox"
  >
  <section id="zero-trust-model"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 py-0.5 text-xs font-semibold text-emerald-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 py-0.5 text-xs font-semibold text-emerald-400">
  <ShieldCheck className="h-3.5 w-3.5"/>
  <span>Security & Ingress Protection</span>
  </div>

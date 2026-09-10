@@ -55,7 +55,7 @@ export const UserGithubWebhookView: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-foreground">{repo.name}</h4>
                   <p className="text-xs ds-muted flex items-center gap-1 mt-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span className="w-2 h-2 rounded-full bg-[#F0FAFF]"></span>
                     Active Webhook
                   </p>
                 </div>
@@ -64,7 +64,7 @@ export const UserGithubWebhookView: React.FC = () => {
                 <button className="p-2 ds-muted hover:ds-muted bg-muted hover:bg-accent rounded-lg transition-colors">
                   <ExternalLink className="w-4 h-4" />
                 </button>
-                <button className="p-2 text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 rounded-lg transition-colors">
+                <button className="p-2 text-rose-400 hover:text-rose-300 bg-[#F7FDFF]/10 hover:bg-[#F7FDFF]/20 border border-rose-500/20 rounded-lg transition-colors">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
