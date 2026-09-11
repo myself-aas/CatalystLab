@@ -597,20 +597,22 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <SkeletonTable rows={5} columns={4} />
  )
  ) : filteredReports.length === 0 ? (
- <div className="ds-card p-6 sm:p-10 text-center font-mono">
- <FileText className="mx-auto h-10 w-10 ds-muted mb-4"/>
- <h2 className="text-sm font-bold text-foreground">No Reports Found</h2>
- <p className="mt-3 max-w-2xl mx-auto text-xs ds-muted leading-relaxed break-words">
+ <div className="ds-card p-8 sm:p-12 text-center">
+ <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground/5 border border-foreground/10">
+ <FileText className="h-7 w-7 text-muted-foreground"/>
+ </div>
+ <h2 className="text-base sm:text-lg font-semibold text-foreground">No Reports Found</h2>
+ <p className="mt-4 max-w-lg mx-auto text-sm sm:text-base text-muted-foreground leading-relaxed font-sans">
  {searchQuery || selectedEngine !== 'all' 
  ?"No reports match your active search filters. Try clearing the search query."
  :"You haven't run any audits yet. Launch your first Master Audit to generate a permanent dossier."}
  </p>
- <div className="mt-6">
+ <div className="mt-8 flex justify-center">
  <Link
  to="/master-audit"
- className="ds-btn ds-btn-primary text-xs"
+ className="ds-btn ds-btn-primary text-sm"
  >
- <Sparkles className="h-3.5 w-3.5 text-amber-300 shrink-0"/>
+ <Sparkles className="h-4 w-4 shrink-0"/>
  <span>Run Master Audit</span>
  </Link>
  </div>
