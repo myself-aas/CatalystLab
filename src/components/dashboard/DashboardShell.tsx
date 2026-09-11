@@ -338,7 +338,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
       {/* ================= MAIN PANEL CONTENT AREA ================= */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         {/* Dashboard Main Viewport */}
-        <main className="p-4 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto ds-page-top-hero">
+        <main className="p-4 pt-24 sm:p-6 sm:pt-24 lg:p-8 lg:pt-8 flex-1 max-w-7xl w-full mx-auto ds-page-top-hero">
           {children}
         </main>
       </div>
