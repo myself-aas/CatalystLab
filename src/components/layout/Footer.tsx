@@ -73,14 +73,7 @@ export const Footer: React.FC = () => {
               Resources
             </h3>
             <ul className="space-y-4">
-              {[
-                { label: 'About', to: '/about' },
-                { label: 'Blogs', to: '/blogs' },
-                { label: 'Docs', to: '/docs' },
-                { label: 'Pricing', to: '/pricing' },
-                { label: 'Contact', to: '/contact' },
-                { label: 'Privacy', to: '/privacy' },
-              ].map((item) => (
+              {FOOTER_GROUPS.find((group) => group.id === 'resources')?.items.map((item) => (
                 <li key={item.label}>
                   <Link
                     to={item.to}
@@ -99,7 +92,7 @@ export const Footer: React.FC = () => {
               Engines
             </h3>
             <ul className="space-y-4">
-              {FOOTER_GROUPS[0].items.slice(0, 6).map((item) => (
+              {FOOTER_GROUPS.find((group) => group.id === 'engines')?.items.map((item) => (
                 <li key={item.id}>
                   <Link
                     to={item.to}
@@ -118,7 +111,7 @@ export const Footer: React.FC = () => {
               Platform
             </h3>
             <ul className="space-y-4">
-              {[...FOOTER_GROUPS[1].items.slice(0, 3), ...FOOTER_GROUPS[2].items.slice(0, 3)].map((item) => (
+              {FOOTER_GROUPS.find((group) => group.id === 'platform')?.items.map((item) => (
                 <li key={item.id}>
                   <Link
                     to={item.to}
