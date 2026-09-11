@@ -597,15 +597,15 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <SkeletonTable rows={5} columns={4} />
  )
  ) : filteredReports.length === 0 ? (
- <div className="ds-card p-10 text-center font-mono">
- <FileText className="mx-auto h-10 w-10 ds-muted mb-3"/>
+ <div className="ds-card p-6 sm:p-10 text-center font-mono">
+ <FileText className="mx-auto h-10 w-10 ds-muted mb-4"/>
  <h2 className="text-sm font-bold text-foreground">No Reports Found</h2>
- <p className="mt-1 max-w-3xl mx-auto text-xs ds-muted">
+ <p className="mt-3 max-w-2xl mx-auto text-xs ds-muted leading-relaxed break-words">
  {searchQuery || selectedEngine !== 'all' 
  ?"No reports match your active search filters. Try clearing the search query."
  :"You haven't run any audits yet. Launch your first Master Audit to generate a permanent dossier."}
  </p>
- <div className="mt-5">
+ <div className="mt-6">
  <Link
  to="/master-audit"
  className="ds-btn ds-btn-primary text-xs"
