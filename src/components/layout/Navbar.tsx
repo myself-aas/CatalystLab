@@ -245,12 +245,7 @@ export const Navbar: React.FC = () => {
         style={{
           pointerEvents: shouldShow ? 'auto' : 'none',
         }}
-        className={cn(
-          "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 w-full z-40 transition-[background-color,backdrop-filter,border-color] duration-300",
-          isScrolled
-            ? "bg-[rgba(31,34,35,0.78)] backdrop-blur-2xl border-b border-[rgba(240,250,255,0.08)]"
-            : "bg-transparent border-b border-transparent"
-        )}
+          className="top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 z-40 w-full border-b border-transparent bg-transparent transition-[background-color,backdrop-filter,border-color] duration-300"
       >
         <nav
           aria-label="Main Navigation"
