@@ -16,6 +16,10 @@ import { logger } from '../lib/logger';
 import { BlogCardSkeleton } from '../components/skeleton';
 import { motion, AnimatePresence } from 'motion/react';
 
+const SEEDED_BLOG_POSTS = Object.values(ENGINE_SEEDED_BLOGS)
+  .flat()
+  .filter((post, index, posts) => posts.findIndex((item) => item.slug === post.slug) === index) as BlogPost[];
+
 const TOPICS = [
   { key: 'All', label: 'Discover' },
   { key: 'Health', label: 'Health' },
@@ -37,13 +41,14 @@ export const BlogsPage: React.FC = () => {
       try {
         const data = await getBlogPosts();
         if (!data || data.length === 0) {
-          setPosts(ENGINE_SEEDED_BLOGS as any);
+          setPosts(SEEDED_BLOG_POSTS);
         } else {
-          setPosts(data.filter(p => p.status !== 'archived'));
+          const published = data.filter(p => p.status !== 'archived');
+          setPosts(published.length > 0 ? published : SEEDED_BLOG_POSTS);
         }
       } catch (err) {
         logger.error("Error loading blog posts:", err);
-        setPosts(ENGINE_SEEDED_BLOGS as any);
+        setPosts(SEEDED_BLOG_POSTS);
       } finally {
         setLoading(false);
       }
