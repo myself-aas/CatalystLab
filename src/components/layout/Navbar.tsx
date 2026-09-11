@@ -84,9 +84,6 @@ export const Navbar: React.FC = () => {
   const initials = (user?.displayName || user?.email || 'C').trim().charAt(0).toUpperCase();
 
   useMotionValueEvent(scrollY, 'change', (current) => {
-    const prev = lastScrollY.current;
-    const diff = current - prev;
-
     setIsScrolled(current > 8);
 
     if (scrollPauseTimeout.current) {
@@ -95,15 +92,12 @@ export const Navbar: React.FC = () => {
 
     if (current <= 20) {
       setIsVisible(true);
-    } else if (diff > 5) {
+    } else {
       setIsVisible(false);
-    } else if (diff < -4) {
-      setIsVisible(true);
+      scrollPauseTimeout.current = setTimeout(() => {
+        setIsVisible(true);
+      }, 180);
     }
-
-    scrollPauseTimeout.current = setTimeout(() => {
-      setIsVisible(true);
-    }, 180);
 
     lastScrollY.current = current;
   });
