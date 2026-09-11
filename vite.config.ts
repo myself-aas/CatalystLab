@@ -10,7 +10,7 @@ export default defineConfig({
     {
       name: 'disable-preview-hmr-client',
       transformIndexHtml(html) {
-        return html.replace(/<script[^>]+src=["']\/\@vite\/client["'][^>]*><\/script>/g, '');
+        return html.replace(/<script\b[^>]*\bsrc=["'][^"']*\/@vite\/client(?:\?[^"']*)?["'][^>]*><\/script>/gi, '');
       }
     }
   ],
@@ -23,7 +23,8 @@ export default defineConfig({
     port: 3000,
     host: '0.0.0.0',
     strictPort: true,
-    allowedHosts: true
+    allowedHosts: true,
+    hmr: false
   },
   preview: {
     port: 3000,

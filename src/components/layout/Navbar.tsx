@@ -84,9 +84,6 @@ export const Navbar: React.FC = () => {
   const initials = (user?.displayName || user?.email || 'C').trim().charAt(0).toUpperCase();
 
   useMotionValueEvent(scrollY, 'change', (current) => {
-    const prev = lastScrollY.current;
-    const diff = current - prev;
-
     setIsScrolled(current > 8);
 
     if (scrollPauseTimeout.current) {
@@ -95,15 +92,12 @@ export const Navbar: React.FC = () => {
 
     if (current <= 20) {
       setIsVisible(true);
-    } else if (diff > 5) {
+    } else {
       setIsVisible(false);
-    } else if (diff < -4) {
-      setIsVisible(true);
+      scrollPauseTimeout.current = setTimeout(() => {
+        setIsVisible(true);
+      }, 180);
     }
-
-    scrollPauseTimeout.current = setTimeout(() => {
-      setIsVisible(true);
-    }, 180);
 
     lastScrollY.current = current;
   });
@@ -245,12 +239,7 @@ export const Navbar: React.FC = () => {
         style={{
           pointerEvents: shouldShow ? 'auto' : 'none',
         }}
-        className={cn(
-          "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 w-full z-40 transition-[background-color,backdrop-filter,border-color] duration-300",
-          isScrolled
-            ? "bg-[rgba(31,34,35,0.78)] backdrop-blur-2xl border-b border-[rgba(240,250,255,0.08)]"
-            : "bg-transparent border-b border-transparent"
-        )}
+          className="top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 z-40 w-full border-b border-transparent bg-transparent transition-[background-color,backdrop-filter,border-color] duration-300"
       >
         <nav
           aria-label="Main Navigation"

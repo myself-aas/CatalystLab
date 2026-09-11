@@ -34,6 +34,7 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import type { AuditReport, BlogPost, MonitoredSite, ApiKey, WhiteLabelConfig, ContactInquiry, UserSubscription, SubscriptionPlanId, GithubRepo, GithubTelemetryEvent, UserProfile } from '../types';
+import { ENGINE_SEEDED_BLOGS } from '../data/engineBlogs';
 import { calculateReadingTime } from '../utils/readingTime';
 
 import firebaseConfig from '../../firebase-applet-config.json';
@@ -676,7 +677,10 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | null> 
     logger.warn("Error querying blog by slug:", err);
   }
   // Fallback to seed
-  const found = INITIAL_SEEDED_BLOGS.find(p => p.slug === slug || p.id === slug);
+  const seededEnginePosts = Object.values(ENGINE_SEEDED_BLOGS).flat();
+  const found = [...INITIAL_SEEDED_BLOGS, ...seededEnginePosts].find(
+    (post) => post.slug === slug || post.id === slug,
+  );
   return found || null;
 };
 

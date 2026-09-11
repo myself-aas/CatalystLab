@@ -1,90 +1,48 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
+import type { BlogPost } from '../../types';
+import { getBlogPosts } from '../../lib/firebase';
+import { ENGINE_SEEDED_BLOGS } from '../../data/engineBlogs';
+import { getBlogCoverImage } from '../../utils/blogImageMap';
+import { getArticleReadingTime } from '../../utils/readingTime';
+import { logger } from '../../lib/logger';
 
-interface Article {
-  id: string | number;
-  date: string;
-  category: string;
-  title: string;
-  image: string;
-  link: string;
-}
+type Article = BlogPost;
 
-const FALLBACK_ARTICLES: Article[] = [
-  {
-    id: 1,
-    date: 'January 19, 2026',
-    category: 'Engineering',
-    title: 'Optimizing Distributed Tracing in High-Scale Architectures',
-    image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    link: '#'
-  },
-  {
-    id: 2,
-    date: 'January 12, 2026',
-    category: 'Security',
-    title: 'Zero-Day Vulnerability Mitigation with Autonomous Agents',
-    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    link: '#'
-  },
-  {
-    id: 3,
-    date: 'January 5, 2026',
-    category: 'AI',
-    title: 'The Evolution of Code Completion: Context-Aware LLMs',
-    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    link: '#'
-  }
-];
+const FALLBACK_ARTICLES: Article[] = Object.values(ENGINE_SEEDED_BLOGS)
+  .flat()
+  .filter((post, index, posts) => posts.findIndex((item) => item.slug === post.slug) === index)
+  .slice(0, 3) as Article[];
 
 export const LatestNewsAndInsights: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'Engineering' | 'Security' | 'AI'>('Engineering');
   const [articles, setArticles] = useState<Article[]>(FALLBACK_ARTICLES);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
     const fetchNews = async () => {
       setLoading(true);
       try {
-        const tagMap = {
-          'Engineering': 'software',
-          'Security': 'security',
-          'AI': 'ai'
-        };
-        const tag = tagMap[activeTab];
-        
-        // Fetch real tech & telemetry news via dev.to public API
-        const res = await fetch(`https://dev.to/api/articles?tag=${tag}&per_page=3`, { signal: controller.signal });
-        if (!res.ok) throw new Error("Failed to fetch articles");
-        const data = await res.json();
-        
+        const remotePosts = await getBlogPosts();
         if (cancelled) return;
-        if (data && data.length > 0) {
-          const mappedArticles = data.map((item: any, idx: number) => {
-            const fallbackImages = [
-              'https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-              'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-              'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-            ];
-            return {
-              id: item.id,
-              date: new Date(item.published_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-              category: activeTab,
-              title: item.title,
-              image: item.cover_image || item.social_image || fallbackImages[idx % fallbackImages.length],
-              link: item.url
-            };
-          });
-          setArticles(mappedArticles);
-        } else {
-          setArticles(FALLBACK_ARTICLES.filter(a => a.category === activeTab));
-        }
+        const published = remotePosts.filter((post) => post.status !== 'archived');
+        const seeded = FALLBACK_ARTICLES;
+        const merged = [...published, ...seeded].filter((post, index, posts) => {
+          const key = post.slug || post.id;
+          return posts.findIndex((item) => (item.slug || item.id) === key) === index;
+        });
+        const filtered = merged.filter((post) => {
+          const value = `${post.category || ''} ${(post.tags || []).join(' ')}`.toLowerCase();
+          return activeTab === 'Engineering' || value.includes(activeTab.toLowerCase());
+        });
+        setArticles((filtered.length ? filtered : merged).slice(0, 3));
       } catch (err) {
         if (cancelled) return;
-        setArticles(FALLBACK_ARTICLES.filter(a => a.category === activeTab));
+        logger.warn('Could not fetch homepage blog articles, using seeded posts:', err);
+        setArticles(FALLBACK_ARTICLES.slice(0, 3));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -93,7 +51,6 @@ export const LatestNewsAndInsights: React.FC = () => {
     fetchNews();
     return () => {
       cancelled = true;
-      controller.abort();
     };
   }, [activeTab]);
 
@@ -144,15 +101,14 @@ export const LatestNewsAndInsights: React.FC = () => {
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <a 
-                    href={article.link} 
-                    target="_blank" rel="noopener noreferrer"
-                    className="group relative block aspect-[4/5] overflow-hidden rounded-3xl sm:rounded-[32px] border border-[rgba(240,250,255,0.1)] shadow-lg"
-                  >
+                    <Link
+                      to={`/blog/${article.slug || article.id}`}
+                      className="group relative block aspect-[4/5] overflow-hidden rounded-3xl sm:rounded-[32px] border border-[rgba(240,250,255,0.1)] shadow-lg"
+                    >
                     {/* Background Image */}
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${article.image})` }}
+                      style={{ backgroundImage: `url(${getBlogCoverImage(article)})` }}
                     />
                     
                     {/* Gradient Overlay for Text Readability */}
@@ -164,8 +120,8 @@ export const LatestNewsAndInsights: React.FC = () => {
                       {/* Top Row: Meta & Icon */}
                       <div className="flex justify-between items-start">
                         <div className="flex flex-col gap-1.5 text-xs font-mono font-medium opacity-90 drop-shadow-sm uppercase tracking-wider">
-                          <span className="text-muted-foreground">{article.date}</span>
-                          <span className="text-[#F0FAFF]">{article.category}</span>
+                          <span className="text-muted-foreground">{article.createdAt ? new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Latest'}</span>
+                          <span className="text-[#F0FAFF]">{article.category || 'Engineering'}</span>
                         </div>
                         <div className="size-10 rounded-full border border-[rgba(240,250,255,0.2)] backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-[rgba(240,250,255,0.2)] group-hover:border-[rgba(240,250,255,0.4)] shrink-0">
                           <ArrowUpRight className="size-5" />
@@ -180,7 +136,7 @@ export const LatestNewsAndInsights: React.FC = () => {
                       </div>
                       
                     </div>
-                  </a>
+                  </Link>
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -195,15 +151,15 @@ export const LatestNewsAndInsights: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-12 sm:mt-16 flex justify-center"
         >
-          <a 
-            href="/blogs" 
+          <Link
+            to="/blogs"
             className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[rgba(240,250,255,0.1)] hover:border-[rgba(240,250,255,0.3)] transition-colors bg-[rgba(240,250,255,0.05)] backdrop-blur-sm"
           >
             <div className="size-8 rounded-full bg-[#F0FAFF] text-[#1F2223] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
               <ArrowRight className="size-4" />
             </div>
             <span className="text-sm font-medium text-white">View all articles</span>
-          </a>
+          </Link>
         </motion.div>
 
       </div>
