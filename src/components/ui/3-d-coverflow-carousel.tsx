@@ -73,8 +73,8 @@ interface CoverflowCardProps {
     isCenter: boolean;
   };
   isMobile: boolean;
-  stageWidth: number;
-  stageHeight: number;
+  cardStageWidth: number;
+  cardStageHeight: number;
   onCardClick: () => void;
   onCtaClick?: (item: CarouselItem) => void;
   onDragNext: () => void;
@@ -85,8 +85,8 @@ function CoverflowCard({
   item,
   card,
   isMobile,
-  stageWidth,
-  stageHeight,
+  cardStageWidth,
+  cardStageHeight,
   onCardClick,
   onCtaClick,
   onDragNext,
@@ -144,10 +144,10 @@ function CoverflowCard({
       className="absolute rounded-3xl overflow-hidden bg-card border border-foreground/20 select-none group"
       style={{
         width: isMobile
-          ? `${(2.5 / 3) * stageWidth}px`
-          : `${Math.min((2.5 / 3) * stageWidth, (2.5 / 3) * stageHeight * 0.72)}px`,
-        height: `${Math.max(0, (2.5 / 3) * stageHeight - (isMobile ? 48 : 72))}px`,
-        maxHeight: `${Math.max(0, (2.5 / 3) * stageHeight - 40)}px`,
+          ? `${(2.5 / 3) * cardStageWidth}px`
+          : `${Math.min((2.5 / 3) * cardStageWidth, (2.5 / 3) * cardStageHeight * 0.72)}px`,
+        height: `${Math.max(0, (2.5 / 3) * cardStageHeight - (isMobile ? 48 : 72))}px`,
+        maxHeight: `${Math.max(0, (2.5 / 3) * cardStageHeight - 40)}px`,
         boxShadow: card.boxShadow,
         transformOrigin: "center center",
         transformStyle: "preserve-3d",
@@ -449,8 +449,8 @@ export function CoverFlowCarousel({
                 item={item}
                 card={card}
                 isMobile={isMobile}
-                stageWidth={windowDimensions.width}
-                stageHeight={windowDimensions.height}
+                cardStageWidth={windowDimensions.width}
+                cardStageHeight={windowDimensions.height}
                 onCardClick={() => handleCardClick(item, card.isCenter, idx)}
                 onCtaClick={onCtaClick}
                 onDragNext={nextSlide}
