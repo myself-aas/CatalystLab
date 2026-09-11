@@ -73,6 +73,8 @@ interface CoverflowCardProps {
     isCenter: boolean;
   };
   isMobile: boolean;
+  stageWidth: number;
+  stageHeight: number;
   onCardClick: () => void;
   onCtaClick?: (item: CarouselItem) => void;
   onDragNext: () => void;
@@ -83,6 +85,8 @@ function CoverflowCard({
   item,
   card,
   isMobile,
+  stageWidth,
+  stageHeight,
   onCardClick,
   onCtaClick,
   onDragNext,
@@ -140,12 +144,10 @@ function CoverflowCard({
       className="absolute rounded-3xl overflow-hidden bg-card border border-foreground/20 select-none group"
       style={{
         width: isMobile
-          ? "calc((2.5 / 3) * 100vw)"
-          : "min(calc((2.5 / 3) * 100vw), calc((2.5 / 3) * 100vh * 0.72))",
-        height: isMobile
-          ? "calc((2.5 / 3) * 100dvh - 3rem)"
-          : "calc((2.5 / 3) * 100dvh - 4.5rem)",
-        maxHeight: "calc((2.5 / 3) * 100dvh - 2.5rem)",
+          ? `${(2.5 / 3) * stageWidth}px`
+          : `${Math.min((2.5 / 3) * stageWidth, (2.5 / 3) * stageHeight * 0.72)}px`,
+        height: `${Math.max(0, (2.5 / 3) * stageHeight - (isMobile ? 48 : 72))}px`,
+        maxHeight: `${Math.max(0, (2.5 / 3) * stageHeight - 40)}px`,
         boxShadow: card.boxShadow,
         transformOrigin: "center center",
         transformStyle: "preserve-3d",
@@ -254,19 +256,26 @@ export function CoverFlowCarousel({
     width: typeof window !== "undefined" ? window.innerWidth : 1200,
     height: typeof window !== "undefined" ? window.innerHeight : 800,
   });
+  const stageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const total = items.length;
 
   useEffect(() => {
-    const handleResize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      setWindowDimensions({ width: w, height: h });
-      setIsMobile(w < 768);
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const updateStageSize = () => {
+      const { width, height } = stage.getBoundingClientRect();
+      if (width > 0 && height > 0) {
+        setWindowDimensions({ width, height });
+        setIsMobile(width < 768);
+      }
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    updateStageSize();
+    const observer = new ResizeObserver(updateStageSize);
+    observer.observe(stage);
+    return () => observer.disconnect();
   }, []);
 
   const nextSlide = useCallback(() => {
@@ -427,6 +436,7 @@ export function CoverFlowCarousel({
       <div className="relative w-full h-full min-h-0 flex justify-center items-center z-10">
         {/* Fullscreen 3D Coverflow Stage spanning full height underneath top-nav */}
         <div
+          ref={stageRef}
           className="relative w-full h-full min-h-0 flex justify-center items-center"
           style={{ perspective: "1800px" }}
         >
@@ -439,6 +449,8 @@ export function CoverFlowCarousel({
                 item={item}
                 card={card}
                 isMobile={isMobile}
+                stageWidth={windowDimensions.width}
+                stageHeight={windowDimensions.height}
                 onCardClick={() => handleCardClick(item, card.isCenter, idx)}
                 onCtaClick={onCtaClick}
                 onDragNext={nextSlide}
