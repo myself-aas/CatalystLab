@@ -10,7 +10,14 @@ import {
 import { BrandLogo } from '../common/BrandLogo';
 import { SyncStatusBadge } from '../common/SyncStatusBadge';
 import { FooterBackgroundGradient } from '../ui/hover-footer';
-import { FOOTER_GROUPS } from '../../navigation';
+import { FOOTER_GROUPS, CANONICAL } from '../../navigation';
+
+const LEGAL_LINKS = [
+  { label: 'Terms', to: CANONICAL.terms },
+  { label: 'Privacy', to: CANONICAL.privacy },
+  { label: 'Refund', to: CANONICAL.refund },
+  { label: 'Cookies', to: CANONICAL.cookies },
+];
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -137,6 +144,18 @@ export const Footer: React.FC = () => {
             <div className="hidden sm:block w-1 h-1 rounded-full bg-foreground/20" />
             <span className="text-[11px] font-mono text-neutral-500">v2.4.0</span>
           </div>
+
+          <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-center">
+            {LEGAL_LINKS.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="text-xs font-mono text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
           <button
             type="button"

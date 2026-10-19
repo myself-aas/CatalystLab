@@ -1,0 +1,183 @@
+import React from 'react';
+import { ShieldAlert, ListTree } from 'lucide-react';
+import { SEOHead } from '../common/SEOHead';
+import { ALL_PLANS_LIST } from '../../data/pricingData';
+import type { LegalBlock, LegalDocumentContent } from '../../legal/types';
+import { DRAFT_NOTICE, LEGAL_DRAFT_VERSION, EFFECTIVE_DATE, SITE_ORIGIN } from '../../legal/legalMeta';
+
+/**
+ * Splits text on [ASK USER: ...] markers. Odd indices are the captured markers,
+ * so they can be highlighted and cannot be mistaken for finished copy.
+ */
+const ASK_USER_PATTERN = /(\[ASK USER[^\]]*\])/;
+
+export const RenderText: React.FC<{ text: string }> = ({ text }) => (
+  <>
+    {text.split(ASK_USER_PATTERN).map((part, i) =>
+      i % 2 === 1 ? (
+        <mark
+          key={i}
+          data-ask-user="true"
+          className="rounded bg-amber-400/15 px-1 text-amber-200 not-italic"
+        >
+          {part}
+        </mark>
+      ) : (
+        <React.Fragment key={i}>{part}</React.Fragment>
+      ),
+    )}
+  </>
+);
+
+const PlanTable: React.FC = () => (
+  <div className="overflow-x-auto">
+    <table className="w-full text-left text-sm">
+      <thead className="text-xs uppercase tracking-wide text-muted-foreground">
+        <tr>
+          <th className="py-2 pr-4 font-medium">Plan</th>
+          <th className="py-2 pr-4 font-medium">Monthly list price</th>
+          <th className="py-2 pr-4 font-medium">Annual price</th>
+          <th className="py-2 font-medium">Free trial</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ALL_PLANS_LIST.map((plan) => (
+          <tr key={plan.id} className="border-t border-border">
+            <td className="py-2 pr-4 text-foreground">{plan.name}</td>
+            <td className="py-2 pr-4">{plan.priceMonthly === 0 ? 'Free' : `$${plan.priceMonthly} / month`}</td>
+            <td className="py-2 pr-4">
+              {plan.priceMonthly === 0 ? '—' : <RenderText text="[ASK USER: confirm annual price]" />}
+            </td>
+            <td className="py-2">{plan.trialDays > 0 ? `${plan.trialDays} days` : 'None'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+const Block: React.FC<{ block: LegalBlock }> = ({ block }) => {
+  switch (block.kind) {
+    case 'p':
+      return <p className="framer-body-text text-sm leading-relaxed"><RenderText text={block.text} /></p>;
+    case 'ul':
+      return (
+        <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+          {block.items.map((item, i) => <li key={i}><RenderText text={item} /></li>)}
+        </ul>
+      );
+    case 'ol':
+      return (
+        <ol className="list-decimal space-y-1.5 pl-5 text-sm leading-relaxed">
+          {block.items.map((item, i) => <li key={i}><RenderText text={item} /></li>)}
+        </ol>
+      );
+    case 'table':
+      return (
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="text-[11px] uppercase tracking-wide text-muted-foreground">
+              <tr>
+                {block.headers.map((h) => <th key={h} className="py-2 pr-4 font-medium">{h}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((row, r) => (
+                <tr key={r} className="border-t border-border align-top">
+                  {row.map((cell, c) => <td key={c} className="py-2 pr-4"><RenderText text={cell} /></td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    case 'plan-table':
+      return <PlanTable />;
+    default:
+      return null;
+  }
+};
+
+export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc }) => (
+  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+    <SEOHead
+      title={`${doc.title} | CatalystLab`}
+      description={doc.seoDescription}
+      canonicalUrl={`${SITE_ORIGIN}${doc.canonicalPath}`}
+    />
+
+    <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
+      <div className="mx-auto max-w-6xl space-y-4">
+        <p className="framer-micro-tag text-muted-foreground font-mono">
+          Version {doc.version || LEGAL_DRAFT_VERSION} · Effective <RenderText text={EFFECTIVE_DATE} />
+        </p>
+        <h1 className="framer-section-headline text-foreground">{doc.title}</h1>
+        <p className="framer-body-text max-w-3xl"><RenderText text={doc.intro} /></p>
+        <div
+          role="note"
+          className="flex items-start gap-2 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 text-xs text-amber-100"
+        >
+          <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" aria-hidden="true" />
+          <span>{DRAFT_NOTICE}</span>
+        </div>
+      </div>
+    </section>
+
+    <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[240px_1fr] lg:px-8">
+      <nav aria-label={`${doc.title} sections`} className="lg:sticky lg:top-24 lg:h-fit">
+        <p className="mb-3 flex items-center gap-2 text-xs font-mono uppercase tracking-wide text-muted-foreground">
+          <ListTree className="h-3.5 w-3.5" aria-hidden="true" /> Contents
+        </p>
+        <ol className="space-y-1.5 text-sm">
+          {doc.sections.map((s, i) => (
+            <li key={s.id}>
+              <a href={`#${s.id}`} className="text-muted-foreground transition-colors hover:text-foreground">
+                <span className="mr-2 font-mono text-xs">{i + 1}.</span>
+                {s.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <main className="min-w-0 space-y-6">
+        {doc.sections.map((section, i) => (
+          <section key={section.id} id={section.id} className="ds-card scroll-mt-28 space-y-5 p-6">
+            <header className="flex items-baseline gap-3">
+              <span className="font-mono text-sm text-muted-foreground">{i + 1}.</span>
+              <h2 className="framer-card-title text-foreground">{section.title}</h2>
+            </header>
+
+            <div className="rounded-lg border border-border bg-surface/50 p-4">
+              <p className="mb-1 text-[11px] font-mono uppercase tracking-wide text-muted-foreground">Summary</p>
+              <p className="text-sm leading-relaxed"><RenderText text={section.summary} /></p>
+            </div>
+
+            {section.clauses.map((clause) => (
+              <div key={clause.id} id={`c-${clause.id}`} className="space-y-2 scroll-mt-28">
+                <p className="text-xs font-mono text-muted-foreground">
+                  {clause.id}
+                  {clause.heading ? <span className="ml-2 text-foreground">{clause.heading}</span> : null}
+                </p>
+                {clause.blocks.map((block, b) => <Block key={b} block={block} />)}
+              </div>
+            ))}
+
+            {section.annex && section.annex.length > 0 && (
+              <details className="group rounded-lg border border-border p-4">
+                <summary className="cursor-pointer text-xs font-mono uppercase tracking-wide text-muted-foreground hover:text-foreground">
+                  Technical annex
+                </summary>
+                <div className="mt-4 space-y-4">
+                  {section.annex.map((block, b) => <Block key={b} block={block} />)}
+                </div>
+              </details>
+            )}
+          </section>
+        ))}
+      </main>
+    </div>
+  </div>
+);
+
+export default LegalDocumentView;

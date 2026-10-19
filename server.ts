@@ -41,7 +41,15 @@ async function startServer(): Promise<void> {
       next();
     });
 
-    app.use(express.static(distPath));
+    // Vite emits content-hashed filenames under /assets, so they can be cached forever.
+    // HTML and other top-level files keep the default revalidation behaviour.
+    app.use(express.static(distPath, {
+      setHeaders(res, filePath) {
+        if (filePath.includes(`${path.sep}assets${path.sep}`)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      },
+    }));
     app.get('*', (req: Request, res: Response) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });

@@ -13,6 +13,7 @@ import {
   Cpu, 
   Sliders
 } from 'lucide-react';
+import { useShallow } from 'zustand/react/shallow';
 import { useTelemetryHUDStore } from '../../store/useTelemetryHUDStore';
 import { EngineType } from '../../types';
 
@@ -28,6 +29,8 @@ const ENZYME_LIST: { id: EngineType; label: string; name: string; color: string 
 ];
 
 export const StickyHUD: React.FC = () => {
+  // Subscribe only to the fields this component renders. A bare `useTelemetryHUDStore()`
+  // re-rendered the HUD on every store write, including every scroll tick on every page.
   const {
     systemLoad,
     edgePopCount,
@@ -46,7 +49,27 @@ export const StickyHUD: React.FC = () => {
     isMinimized,
     toggleHudExpanded,
     activeDomain,
-  } = useTelemetryHUDStore();
+  } = useTelemetryHUDStore(
+    useShallow((state) => ({
+      systemLoad: state.systemLoad,
+      edgePopCount: state.edgePopCount,
+      averageLatencyMs: state.averageLatencyMs,
+      scrollDepthPercentage: state.scrollDepthPercentage,
+      setScrollDepthPercentage: state.setScrollDepthPercentage,
+      focusEngine: state.focusEngine,
+      toggleFocusEngine: state.toggleFocusEngine,
+      isScanning: state.isScanning,
+      scanProgress: state.scanProgress,
+      startMockScan: state.startMockScan,
+      cancelScan: state.cancelScan,
+      cronLogs: state.cronLogs,
+      autoStreamActive: state.autoStreamActive,
+      toggleAutoStream: state.toggleAutoStream,
+      isMinimized: state.isMinimized,
+      toggleHudExpanded: state.toggleHudExpanded,
+      activeDomain: state.activeDomain,
+    }))
+  );
 
   const [showLogDrawer, setShowLogDrawer] = useState(false);
   const [showEngineSelector, setShowEngineSelector] = useState(false);
@@ -57,16 +80,25 @@ export const StickyHUD: React.FC = () => {
 
   // Monitor scroll depth of window
   useEffect(() => {
-    const handleScroll = () => {
+    // Coalesce scroll events to one store write per animation frame.
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollHeight <= 0) return;
       const currentScroll = window.scrollY;
       const pct = Math.round((currentScroll / scrollHeight) * 100);
       setScrollDepthPercentage(Math.min(100, Math.max(0, pct)));
     };
+    const handleScroll = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, [setScrollDepthPercentage]);
 
   // Auto-scroll log drawer to bottom on new events
