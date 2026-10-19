@@ -206,10 +206,15 @@ export const useTelemetryHUDStore = create<TelemetryHUDState>((set, get) => ({
   setScrollDepthPercentage: (depth) => {
     const clamped = Math.max(0, Math.min(100, depth));
     // Dynamically modulate system load slightly with scroll interaction (representing live telemetry telemetry ingestion)
-    set((state) => ({
-      scrollDepthPercentage: clamped,
-      systemLoad: Math.min(92, Math.max(16, +(20 + (clamped * 0.15) + (Math.sin(clamped / 10) * 4)).toFixed(1))),
-    }));
+    set((state) => {
+      // Returning the same state object skips the update, so subscribers are not
+      // notified when the depth has not changed (scroll events often repeat it).
+      if (state.scrollDepthPercentage === clamped) return state;
+      return {
+        scrollDepthPercentage: clamped,
+        systemLoad: Math.min(92, Math.max(16, +(20 + (clamped * 0.15) + (Math.sin(clamped / 10) * 4)).toFixed(1))),
+      };
+    });
   },
 
   setHudExpanded: (expanded) => set({ hudExpanded: expanded, isMinimized: !expanded }),

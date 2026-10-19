@@ -45,6 +45,7 @@ const BlogEditorPage = React.lazy(() => import("./pages/BlogEditorPage").then(m 
 const ContactPage = React.lazy(() => import("./pages/ContactPage").then(m => ({ default: m.ContactPage })));
 const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage").then(m => ({ default: m.PrivacyPage })));
 const TermsPage = React.lazy(() => import("./pages/TermsPage").then(m => ({ default: m.TermsPage })));
+const RefundPage = React.lazy(() => import("./pages/RefundPage").then(m => ({ default: m.RefundPage })));
 const CookiePolicyPage = React.lazy(() => import("./pages/CookiePolicyPage").then(m => ({ default: m.CookiePolicyPage })));
 const LegalPage = React.lazy(() => import("./pages/LegalPage").then(m => ({ default: m.LegalPage })));
 const SecurityPage = React.lazy(() => import("./pages/SecurityPage").then(m => ({ default: m.SecurityPage })));
@@ -147,17 +148,31 @@ export const App: React.FC = () => {
     window.addEventListener("catalyst:open-get-in-touch", handleOpenModal);
     window.addEventListener("catalyst:open-payment-checkout", handleOpenPayment);
     
-    // Framer subsurface glow global tracker
-    const updateMousePos = (e: MouseEvent) => {
-      document.querySelectorAll('.group').forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
-        (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
-      });
+    // Pointer-tracked spotlight. `.catalyst-spotlight` is only visible on `.group:hover`,
+    // so only the `.group` ancestors of the pointer target need their --mouse-x/y updated.
+    // Updates are coalesced to one per animation frame.
+    let spotlightFrame = 0;
+    let spotlightX = 0;
+    let spotlightY = 0;
+    let spotlightTarget: EventTarget | null = null;
+    const flushSpotlight = () => {
+      spotlightFrame = 0;
+      let node: Element | null = spotlightTarget instanceof Element ? spotlightTarget.closest('.group') : null;
+      while (node) {
+        const el = node as HTMLElement;
+        const rect = el.getBoundingClientRect();
+        el.style.setProperty('--mouse-x', `${spotlightX - rect.left}px`);
+        el.style.setProperty('--mouse-y', `${spotlightY - rect.top}px`);
+        node = node.parentElement ? node.parentElement.closest('.group') : null;
+      }
     };
-    window.addEventListener('mousemove', updateMousePos);
+    const updateMousePos = (e: MouseEvent) => {
+      spotlightX = e.clientX;
+      spotlightY = e.clientY;
+      spotlightTarget = e.target;
+      if (!spotlightFrame) spotlightFrame = requestAnimationFrame(flushSpotlight);
+    };
+    window.addEventListener('mousemove', updateMousePos, { passive: true });
 
     return () => {
       window.removeEventListener("catalyst:open-get-in-touch", handleOpenModal);
@@ -577,6 +592,9 @@ export const App: React.FC = () => {
 
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/terms.html" element={<TermsPage />} />
+
+              <Route path="/refund" element={<RefundPage />} />
+              <Route path="/refund.html" element={<RefundPage />} />
 
               <Route path="/cookies" element={<CookiePolicyPage />} />
               <Route path="/cookies.html" element={<CookiePolicyPage />} />

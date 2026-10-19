@@ -606,13 +606,20 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
 
   /* Initial app load soft fade-in */
+  /* Opacity only. Any transform on .app-shell, including the 6px slide this used to
+     have, makes it the containing block for the fixed ambient layer for the duration
+     of the animation and, with `forwards`, permanently. See .animate-app-fade-in. */
   @keyframes appFadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
+  /* `backwards`, not `forwards`: with `forwards` the final `translateY(0)` stayed on
+     .app-shell after the fade. Any transform, even the identity, makes that element the
+     containing block for fixed descendants, so the fixed ambient layer sized to the
+     whole document and its pools shifted as content loaded (CLS on /blogs). */
   .animate-app-fade-in {
-    animation: appFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: appFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
 
   code, pre, .font-mono {

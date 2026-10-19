@@ -776,22 +776,6 @@ export const deleteBlogPost = async (postId: string): Promise<boolean> => {
 
 export const INITIAL_MONITORED_SITES: MonitoredSite[] = [
   {
-    id: 'site-hazardnet',
-    name: 'HazardNet Live Production',
-    url: 'https://hazardnet.live',
-    checkIntervalMinutes: 5,
-    status: 'healthy',
-    lastCheckedAt: Date.now() - 3 * 60 * 1000,
-    responseTimeMs: 145,
-    statusCode: 200,
-    sslDaysRemaining: 88,
-    sslValid: true,
-    uptimePercentage: 99.98,
-    createdAt: Date.now() - 7 * 24 * 60 * 60 * 1000,
-    ownerId: 'system',
-    notes: 'Main threat intelligence and hazard monitoring production frontend.'
-  },
-  {
     id: 'site-catalyst-api',
     name: 'Catalyst Diagnostic Engine Cluster',
     url: 'https://ais-dev-2z7dtoomnl7nm53osnbyys-329537149747.asia-east1.run.app/api/health',

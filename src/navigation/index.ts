@@ -76,6 +76,7 @@ export const CANONICAL = {
   legal: '/legal',
   privacy: '/privacy',
   terms: '/terms',
+  refund: '/refund',
   cookies: '/cookies',
   dashboard: '/dashboard',
   admin: '/admin',

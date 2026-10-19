@@ -44,6 +44,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Hashed build assets (/assets/*) are immutable: serve them cache-first.
+  if (url.origin === self.location.origin && url.pathname.startsWith('/assets/')) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+          }
+          return networkResponse;
+        });
+      })
+    );
+    return;
+  }
+
   // Network-first with cache fallback for HTML and docs
   event.respondWith(
     fetch(event.request)
