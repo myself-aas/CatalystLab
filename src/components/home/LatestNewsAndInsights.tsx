@@ -70,10 +70,10 @@ export const LatestNewsAndInsights: React.FC = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`rounded-full px-5 py-2 transition-all duration-300 ${
+                  className={`rounded-full px-5 py-2 transition duration-300 ${
                     activeTab === tab
-                      ? 'bg-[rgba(240,250,255,0.15)] text-[#F0FAFF] shadow-sm'
-                      : 'text-muted-foreground hover:text-[#F0FAFF] hover:bg-[rgba(240,250,255,0.05)]'
+                      ? 'bg-[rgba(240,250,255,0.15)] text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]'
                   }`}
                 >
                   {tab}
@@ -112,7 +112,7 @@ export const LatestNewsAndInsights: React.FC = () => {
                     />
                     
                     {/* Gradient Overlay for Text Readability */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#1F2223]/80 via-transparent to-[#1F2223]/95" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#111827]/80 via-transparent to-[#111827]/95" />
                     
                     {/* Content Container */}
                     <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between text-white">
@@ -121,7 +121,7 @@ export const LatestNewsAndInsights: React.FC = () => {
                       <div className="flex justify-between items-start">
                         <div className="flex flex-col gap-1.5 text-xs font-mono font-medium opacity-90 drop-shadow-sm uppercase tracking-wider">
                           <span className="text-muted-foreground">{article.createdAt ? new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Latest'}</span>
-                          <span className="text-[#F0FAFF]">{article.category || 'Engineering'}</span>
+                          <span className="text-foreground">{article.category || 'Engineering'}</span>
                         </div>
                         <div className="size-10 rounded-full border border-[rgba(240,250,255,0.2)] backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-[rgba(240,250,255,0.2)] group-hover:border-[rgba(240,250,255,0.4)] shrink-0">
                           <ArrowUpRight className="size-5" />
@@ -155,7 +155,7 @@ export const LatestNewsAndInsights: React.FC = () => {
             to="/blogs"
             className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[rgba(240,250,255,0.1)] hover:border-[rgba(240,250,255,0.3)] transition-colors bg-[rgba(240,250,255,0.05)] backdrop-blur-sm"
           >
-            <div className="size-8 rounded-full bg-[#F0FAFF] text-[#1F2223] flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <div className="size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
               <ArrowRight className="size-4" />
             </div>
             <span className="text-sm font-medium text-white">View all articles</span>

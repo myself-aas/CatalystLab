@@ -1,4 +1,6 @@
 import { motion } from "motion/react";
+import productLifestyle from '../assets/images/product-lifestyle.jpg';
+import productsImage from '../assets/images/page-products.jpg';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -129,34 +131,37 @@ export default {
 
  {/* Hero Section */}
  <section className="relative overflow-hidden bg-card border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 ds-page-shell text-center space-y-5">
  <div className="flex flex-wrap items-center justify-center gap-2.5">
  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-[var(--bg-surface)] backdrop-blur-md px-3 py-1 text-xs font-mono text-foreground shadow-xs">
- <Radio className="h-3.5 w-3.5 text-[#F0FAFF] animate-pulse shrink-0"/>
+ <Radio className="h-3.5 w-3.5 text-foreground animate-pulse shrink-0"/>
  <span className="font-semibold">Products &amp; Continuous Telemetry</span>
  </span>
  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>Automated Multi-Engine Cron</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-mono text-[#F0FAFF] font-semibold shadow-xs">
- <Globe className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-mono text-foreground font-semibold shadow-xs">
+ <Globe className="h-3.5 w-3.5 text-foreground shrink-0"/>
  <span>42 Global PoPs</span>
  </span>
  </div>
 
  <h1 className="framer-hero-title text-foreground">
  Automated Plugins &amp;{' '}
- <span className="text-[#F0FAFF]">
+ <span className="text-foreground">
  Custom Domain Watchdogs
  </span>
  </h1>
  <p className="framer-body-text max-w-3xl mx-auto leading-relaxed">
  Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains. Prevent Core Web Vitals regressions, OWASP header drift, and AI readiness drops before users notice.
  </p>
+ <figure className="mx-auto mt-10 max-w-4xl">
+   <img src={productsImage} alt="CatalystLab dashboard on laptop, tablet and phone in a bright studio" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+ </figure>
 
  <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
  <a 
@@ -186,7 +191,7 @@ export default {
 
  {/* Immersive Products Parallax Banner */}
  <ParallaxSection
- bgImage="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+ bgImage={productLifestyle}
  overlayOpacity={0.88}
  height="min-h-[320px]"
  className="border-y border-border"
@@ -227,7 +232,7 @@ export default {
  <div className="flex flex-wrap items-center gap-1.5 bg-[var(--bg-surface)] p-1.5 rounded-xl border border-border">
  <button
  onClick={() => setSelectedCategory('all')}
- className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition cursor-pointer font-sans ${
  selectedCategory === 'all' 
  ? 'bg-foreground/15 text-foreground shadow-sm' 
  : 'text-muted-foreground hover:text-foreground'
@@ -237,7 +242,7 @@ export default {
  </button>
  <button
  onClick={() => setSelectedCategory('monitoring')}
- className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition cursor-pointer font-sans ${
  selectedCategory === 'monitoring' 
  ? 'bg-foreground/15 text-foreground shadow-sm' 
  : 'text-muted-foreground hover:text-foreground'
@@ -247,7 +252,7 @@ export default {
  </button>
  <button
  onClick={() => setSelectedCategory('cicd')}
- className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition cursor-pointer font-sans ${
  selectedCategory === 'cicd' 
  ? 'bg-foreground/15 text-foreground shadow-sm' 
  : 'text-muted-foreground hover:text-foreground'
@@ -257,7 +262,7 @@ export default {
  </button>
  <button
  onClick={() => setSelectedCategory('webhooks')}
- className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer font-sans ${
+ className={`px-4 py-2 text-xs font-semibold rounded-lg transition cursor-pointer font-sans ${
  selectedCategory === 'webhooks' 
  ? 'bg-foreground/15 text-foreground shadow-sm' 
  : 'text-muted-foreground hover:text-foreground'
@@ -279,7 +284,7 @@ export default {
  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-foreground border border-border">
  <Radio className="h-5 w-5"/>
  </div>
- <span className="text-[10px] font-mono font-bold bg-muted text-muted-foreground border border-border .5 py-1 rounded-lg">
+ <span className="text-[11px] font-mono font-bold bg-muted text-muted-foreground border border-border .5 py-1 rounded-lg">
  Automated Cron
  </span>
  </div>
@@ -323,7 +328,7 @@ export default {
  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20">
  <Terminal className="h-5 w-5"/>
  </div>
- <span className="text-[10px] font-mono font-bold bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-lg">
+ <span className="text-[11px] font-mono font-bold bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-lg">
  CI / CD Quality Gate
  </span>
  </div>
@@ -364,10 +369,10 @@ export default {
  <div className="ds-card flex flex-col p-6 ds-card-interactive">
  <div>
  <div className="flex items-center justify-between gap-2 mb-5">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
  <Globe className="h-5 w-5"/>
  </div>
- <span className="text-[10px] font-mono font-bold bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20 px-2.5 py-1 rounded-lg">
+ <span className="text-[11px] font-mono font-bold bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20 px-2.5 py-1 rounded-lg">
  Edge Telemetry
  </span>
  </div>
@@ -461,14 +466,14 @@ export default {
  key={item.id}
  type="button"
  onClick={() => setFrequency(item.id as any)}
- className={`flex flex-col items-center justify-center rounded-2xl p-3 border text-center transition-all cursor-pointer ${
+ className={`flex flex-col items-center justify-center rounded-2xl p-3 border text-center transition cursor-pointer ${
  frequency === item.id 
  ? 'border-border bg-primary text-primary-foreground shadow-sm' 
  : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:border-border hover:text-foreground'
  }`}
  >
  <span className="text-xs font-bold font-sans">{item.label}</span>
- <span className="text-[10px] font-mono opacity-80 mt-0.5">
+ <span className="text-[11px] font-mono opacity-80 mt-0.5">
  {item.sub}
  </span>
  </button>
@@ -497,7 +502,7 @@ export default {
  key={engine.key}
  type="button"
  onClick={() => toggleEngine(engine.key as any)}
- className={`flex items-center gap-3 p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+ className={`flex items-center gap-3 p-3 rounded-2xl border text-left transition cursor-pointer ${
  isEnabled 
  ? 'border-border bg-primary text-primary-foreground shadow-sm' 
  : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:border-border hover:text-foreground'
@@ -506,7 +511,7 @@ export default {
  <Icon className={`h-4 w-4 shrink-0 ${isEnabled ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
  <div className="truncate">
  <div className={`text-xs font-bold font-sans truncate ${isEnabled ? 'text-primary-foreground' : 'text-foreground'}`}>{engine.label}</div>
- <div className={`text-[10px] font-mono truncate ${isEnabled ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+ <div className={`text-[11px] font-mono truncate ${isEnabled ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
  {engine.desc}
  </div>
  </div>
@@ -533,7 +538,7 @@ export default {
  key={item.id}
  type="button"
  onClick={() => setAlertChannel(item.id as any)}
- className={`flex items-center justify-center gap-2 p-3 rounded-2xl border text-xs font-semibold font-sans transition-all cursor-pointer ${
+ className={`flex items-center justify-center gap-2 p-3 rounded-2xl border text-xs font-semibold font-sans transition cursor-pointer ${
  alertChannel === item.id
  ? 'border-border bg-primary text-primary-foreground shadow-sm'
  : 'border-border bg-muted text-muted-foreground hover:bg-accent hover:border-border hover:text-foreground'
@@ -603,7 +608,7 @@ export default {
  </div>
  <Link
  to={`/dashboard?tab=monitoring&domain=${encodeURIComponent(targetDomain)}`}
- className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-5 py-2.5 text-xs transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold px-5 py-2.5 text-xs transition shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
  >
  <PlusCircle className="h-4 w-4 text-muted-foreground"/>
  <span>Add to My Dashboard</span>
@@ -711,7 +716,7 @@ export default {
  <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
  <Link
  to="/pricing"
- className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold py-3 text-sm transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-background hover:bg-accent text-foreground font-sans font-bold py-3 text-sm transition shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
  >
  <span>View Enterprise Pricing</span>
  <ArrowRight className="h-4 w-4"/>

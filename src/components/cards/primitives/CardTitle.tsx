@@ -20,8 +20,8 @@ export const CardTitle: React.FC<CardTitleProps> = ({
         clsx(
           'font-sans tracking-tight leading-snug break-words',
           priceStyle
-            ? 'text-xl sm:text-2xl font-black font-mono text-[#F7FDFF]'
-            : 'framer-card-title text-[#F7FDFF] drop-shadow-sm',
+            ? 'text-xl sm:text-2xl font-black font-mono text-white'
+            : 'framer-card-title text-white drop-shadow-sm',
           className
         )
       )}

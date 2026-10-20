@@ -146,7 +146,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             <button
               onClick={loadStatus}
               disabled={loading}
-              className="flex items-center gap-2 ds-card px-4 py-2 text-xs font-bold ds-muted hover:bg-background hover:border-border transition-all shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center gap-2 ds-card px-4 py-2 text-xs font-bold ds-muted hover:bg-background hover:border-border transition shadow-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
@@ -177,8 +177,8 @@ export const UserRateLimitAllocationCard: React.FC = () => {
               {/* Visual Progress Bar */}
               <div className="h-3.5 w-full overflow-hidden rounded-full bg-accent p-0.5">
                 <div 
-                  className={`h-full rounded-full transition-all duration-700 ${
-                    percentRemaining > 40 ? 'bg-primary' : percentRemaining > 15 ? 'bg-[#F0FAFF]' : 'bg-[#F7FDFF]'
+                  className={`h-full rounded-full transition duration-700 ${
+                    percentRemaining > 40 ? 'bg-primary' : percentRemaining > 15 ? 'bg-[#F0FAFF]' : 'bg-[#FFFFFF]'
                   }`}
                   style={{ width: `${percentRemaining}%` }}
                 />
@@ -211,7 +211,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <Sparkles className="h-4 w-4 ds-muted" />
                   Master Audits (All 8 Engines)
                 </span>
-                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold ds-muted">
+                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[11px] font-mono font-bold ds-muted">
                   {MASTER_AUDIT_COST} Units / Run
                 </span>
               </div>
@@ -242,7 +242,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <Layers className="h-4 w-4 ds-muted" />
                   Single Diagnostic Engines
                 </span>
-                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[10px] font-mono font-bold ds-muted">
+                <span className="rounded bg-foreground/10 px-2 py-0.5 text-[11px] font-mono font-bold ds-muted">
                   {SINGLE_ENGINE_COST} Unit / Run
                 </span>
               </div>
@@ -274,7 +274,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
           <div className={`mt-6 rounded-xl p-4 text-xs flex items-start gap-3 border animate-fade-in ${
             testResult.success 
               ? 'bg-[#F0FAFF]/10 border-emerald-500/20 text-emerald-400' 
-              : 'bg-[#F7FDFF]/10 border-rose-500/20 text-rose-400'
+              : 'bg-[#FFFFFF]/10 border-rose-500/20 text-rose-400'
           }`}>
             {testResult.success ? (
               <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
@@ -397,7 +397,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
 
           <Link
             to="/pricing"
-            className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
+            className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary-hover transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background"
           >
             <span>View Full Pricing Matrix</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -413,7 +413,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
             return (
               <div 
                 key={tierKey}
-                className={`rounded-xl p-4 border flex flex-col justify-between transition-all ${
+                className={`rounded-xl p-4 border flex flex-col justify-between transition ${
                   isCurrent 
                     ? 'border-background bg-muted shadow-md ring-1 ring-background/40' 
                     : 'border-border bg-background hover:border-border'
@@ -423,7 +423,7 @@ export const UserRateLimitAllocationCard: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sm text-foreground">{item.name}</span>
                     {isCurrent && (
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
                         ACTIVE
                       </span>
                     )}

@@ -56,7 +56,7 @@ export const TrailCardMiddleRow: React.FC<TrailCardMiddleRowProps> = ({
         type="button"
         onClick={handleMapClick}
         onKeyDown={handleMapKeyDown}
-        className="shrink-0 p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 active:bg-zinc-700 border border-zinc-800 hover:border-cyan-500/50 text-zinc-200 hover:text-cyan-300 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-2 focus:ring-offset-zinc-950 cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] group/btn"
+        className="shrink-0 p-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 active:bg-zinc-700 border border-zinc-800 hover:border-cyan-500/50 text-zinc-200 hover:text-cyan-300 transition duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-2 focus:ring-offset-zinc-950 cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] group/btn"
         aria-label="View map route and coordinates"
         title="View trail on map"
       >
@@ -66,7 +66,7 @@ export const TrailCardMiddleRow: React.FC<TrailCardMiddleRowProps> = ({
             alt="Map icon" 
             className="w-4 h-4 object-contain" 
             referrerPolicy="no-referrer"
-          />
+          loading="lazy" decoding="async" />
         ) : (
           <MapPin className="w-4 h-4 text-cyan-400 group-hover/btn:scale-110 group-hover/btn:text-cyan-300 transition-transform" />
         )}

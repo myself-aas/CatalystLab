@@ -50,7 +50,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       <div className="z-10 flex items-center justify-between p-4 sm:p-5 border-b border-foreground/10 bg-foreground/40 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 mr-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#F7FDFF]/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FFFFFF]/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
           </div>
@@ -68,7 +68,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
               type="button"
               onClick={() => setActiveTab(tab)}
               className={clsx(
-                'px-2.5 py-1 rounded text-[10px] font-mono font-semibold uppercase tracking-wider transition-colors cursor-pointer',
+                'px-2.5 py-1 rounded text-[11px] font-mono font-semibold uppercase tracking-wider transition-colors cursor-pointer',
                 activeTab === tab
                   ? 'bg-[#F0FAFF] text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-muted-foreground'
@@ -94,35 +94,35 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       {/* 3. Middle Telemetry Grid */}
       <div className="z-10 p-4 sm:p-5 grid grid-cols-3 gap-2.5">
         <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
             <span>EDGE TTFB</span>
           </div>
           <div className="mt-2 flex items-baseline gap-1">
             <span className="text-xl font-bold font-mono text-cyan-300">18.2</span>
-            <span className="text-[10px] font-mono text-muted-foreground">ms</span>
+            <span className="text-[11px] font-mono text-muted-foreground">ms</span>
           </div>
         </div>
 
         <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span>OWASP</span>
           </div>
           <div className="mt-2 flex items-baseline gap-1">
             <span className="text-xl font-bold font-mono text-emerald-300">6/6</span>
-            <span className="text-[10px] font-mono text-muted-foreground">Pass</span>
+            <span className="text-[11px] font-mono text-muted-foreground">Pass</span>
           </div>
         </div>
 
         <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
             <Bot className="w-3.5 h-3.5 text-purple-400" />
             <span>LLM-RAG</span>
           </div>
           <div className="mt-2 flex items-baseline gap-1">
             <span className="text-xl font-bold font-mono text-purple-300">98%</span>
-            <span className="text-[10px] font-mono text-muted-foreground">Index</span>
+            <span className="text-[11px] font-mono text-muted-foreground">Index</span>
           </div>
         </div>
       </div>

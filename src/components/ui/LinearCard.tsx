@@ -38,7 +38,7 @@ export function LinearCard<T extends React.ElementType = 'div'>({
         'group/card relative overflow-hidden rounded-2xl border border-border dark:border-border',
         'bg-card text-card-foreground dark:bg-gradient-to-b dark:from-foreground/[0.08] dark:to-foreground/[0.02]',
         'shadow-sm dark:shadow-linear-card backdrop-blur-xl',
-        'transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
+        'transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
         lift &&
           'hover:-translate-y-1 hover:border-primary/40 dark:hover:border-foreground/10 hover:shadow-md dark:hover:shadow-linear-card-hover',
         className

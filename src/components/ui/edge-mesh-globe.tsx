@@ -152,10 +152,10 @@ export function PoPInspectorPanel({
       ? 'text-emerald-500 bg-[#F0FAFF]/10 border-emerald-500/30'
       : pop.status === 'degraded'
       ? 'text-amber-500 bg-[#F0FAFF]/10 border-amber-500/30'
-      : 'text-rose-500 bg-[#F7FDFF]/10 border-rose-500/30';
+      : 'text-rose-500 bg-[#FFFFFF]/10 border-rose-500/30';
 
   return (
-    <div className="absolute right-3 top-3 z-30 w-72 sm:w-80 rounded-2xl border border-border/80 bg-primary/95 p-4 shadow-2xl backdrop-blur-xl text-primary-foreground font-sans transition-all animate-in fade-in slide-in-from-right-4 duration-300">
+    <div className="absolute right-3 top-3 z-30 w-72 sm:w-80 rounded-2xl border border-border/80 bg-primary/95 p-4 shadow-2xl backdrop-blur-xl text-primary-foreground font-sans transition animate-in fade-in slide-in-from-right-4 duration-300">
       <div className="flex items-start justify-between border-b border-border pb-3 mb-3">
         <div className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F0FAFF]/10 border border-blue-500/30 text-blue-400 font-mono font-bold text-sm">
@@ -168,7 +168,7 @@ export function PoPInspectorPanel({
               </h4>
               <span
                 className={cn(
-                  'rounded-full px-2 py-0.5 text-[10px] font-mono uppercase font-bold border',
+                  'rounded-full px-2 py-0.5 text-[11px] font-mono uppercase font-bold border',
                   statusColor
                 )}
               >
@@ -190,7 +190,7 @@ export function PoPInspectorPanel({
       <div className="space-y-2.5 text-xs font-mono">
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-xl border border-border bg-foreground/60 p-2.5">
-            <span className="text-[10px] text-muted-foreground block mb-0.5">TTFB LATENCY</span>
+            <span className="text-[11px] text-muted-foreground block mb-0.5">TTFB LATENCY</span>
             <span className="text-sm font-bold text-emerald-400 flex items-center gap-1">
               <Zap className="h-3.5 w-3.5 text-emerald-400" />
               {pop.ttfbMs} ms
@@ -198,7 +198,7 @@ export function PoPInspectorPanel({
           </div>
 
           <div className="rounded-xl border border-border bg-foreground/60 p-2.5">
-            <span className="text-[10px] text-muted-foreground block mb-0.5">TLS HANDSHAKE</span>
+            <span className="text-[11px] text-muted-foreground block mb-0.5">TLS HANDSHAKE</span>
             <span className="text-xs font-bold text-cyan-400 flex items-center gap-1 truncate">
               <Lock className="h-3 w-3 text-cyan-400 shrink-0" />
               <span className="truncate">{pop.tlsRtt}</span>
@@ -248,7 +248,7 @@ export function PoPInspectorPanel({
           <button
             onClick={handleProbe}
             disabled={probing}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-[#F0FAFF] text-primary-foreground font-semibold py-2 px-3 text-xs transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-[#F0FAFF] text-primary-foreground font-semibold py-2 px-3 text-xs transition shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 cursor-pointer"
           >
             <RefreshCw
               className={cn('h-3.5 w-3.5', probing && 'animate-spin')}
@@ -674,7 +674,7 @@ export function EdgeMeshGlobe({
                     onMouseLeave={() => setHoveredPoP(null)}
                     aria-label={`PoP ${pop.code} in ${pop.location}`}
                     className={cn(
-                      'group flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-mono backdrop-blur-md shadow-md transition-all cursor-pointer whitespace-nowrap',
+                      'group flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] font-mono backdrop-blur-md shadow-md transition cursor-pointer whitespace-nowrap',
                       isSelected
                         ? 'border-cyan-400 bg-cyan-950/90 text-cyan-200 ring-2 ring-cyan-400/40'
                         : pop.status === 'optimal'
@@ -691,7 +691,7 @@ export function EdgeMeshGlobe({
                       )}
                     />
                     <span className="font-bold">{pop.code}</span>
-                    <span className="text-[10px] text-muted-foreground font-sans hidden sm:inline">
+                    <span className="text-[11px] text-muted-foreground font-sans hidden sm:inline">
                       {pop.ttfbMs}ms
                     </span>
                   </button>
@@ -717,7 +717,7 @@ export function EdgeMeshGlobe({
             <span className="font-bold text-foreground">
               {trafficRate.toLocaleString()}
             </span>
-            <span className="text-muted-foreground text-[10px]">req/s</span>
+            <span className="text-muted-foreground text-[11px]">req/s</span>
           </div>
 
           <div className="hidden sm:flex items-center gap-1.5 rounded-xl border border-border bg-foreground/85 px-2.5 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md">
@@ -735,7 +735,7 @@ export function EdgeMeshGlobe({
             onClick={() => setGrabMode(!grabMode)}
             aria-label="Toggle Globe Drag Mode"
             className={cn(
-              'flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-mono backdrop-blur-md transition-all cursor-pointer shadow-md',
+              'flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-mono backdrop-blur-md transition cursor-pointer shadow-md',
               grabMode
                 ? 'border-blue-500 bg-blue-600 text-primary-foreground'
                 : 'border-border bg-foreground/80 text-muted-foreground hover:text-primary-foreground'

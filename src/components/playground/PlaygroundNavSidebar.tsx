@@ -61,10 +61,10 @@ export const PlaygroundNavSidebar: React.FC = () => {
 
           <Link
             to="/api-reference"
-            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-[#F0FAFF] bg-[#F0FAFF]/10 hover:bg-[#F0FAFF]/20 border border-[#F0FAFF]/20 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-foreground bg-[#F0FAFF]/10 hover:bg-[#F0FAFF]/20 border border-[#F0FAFF]/20 transition-colors mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div className="flex items-center gap-2">
-              <Code2 className="h-4 w-4 text-[#F0FAFF]" />
+              <Code2 className="h-4 w-4 text-foreground" />
               <span>API Reference Docs</span>
             </div>
             <ChevronRight className="h-3.5 w-3.5 opacity-60" />
@@ -78,7 +78,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
           <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
             Engine Consoles
           </h4>
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-accent text-muted-foreground">
+          <span className="text-[11px] font-mono font-bold px-1.5 py-0.5 rounded bg-accent text-muted-foreground">
             {PLAYGROUND_ENGINES.length}
           </span>
         </div>
@@ -103,7 +103,7 @@ export const PlaygroundNavSidebar: React.FC = () => {
                   <Icon className={`h-3.5 w-3.5 shrink-0 ${active ? 'text-emerald-400' : 'text-muted-foreground'}`} />
                   <span className="truncate">{engine.name}</span>
                 </div>
-                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded shrink-0 ${
+                <span className={`text-[11px] font-mono px-1.5 py-0.5 rounded shrink-0 ${
                   active ? 'bg-accent text-foreground' : 'bg-accent text-muted-foreground'
                 }`}>
                   {engine.cost} credit

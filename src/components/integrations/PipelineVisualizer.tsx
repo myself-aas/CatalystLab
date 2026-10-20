@@ -200,7 +200,7 @@ export const PipelineVisualizer: React.FC = () => {
             type="button"
             onClick={runPassingSimulation}
             disabled={isSimulating}
-            className="px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-900/60 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-900/60 text-xs font-bold transition cursor-pointer flex items-center gap-1.5"
           >
             <CheckCircle2 className="h-3.5 w-3.5" />
             <span>Simulate Pass</span>
@@ -210,7 +210,7 @@ export const PipelineVisualizer: React.FC = () => {
             type="button"
             onClick={runFailingSimulation}
             disabled={isSimulating}
-            className="px-3 py-1.5 rounded-xl bg-rose-950/60 border border-rose-500/40 text-rose-400 hover:bg-rose-900/60 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-xl bg-rose-950/60 border border-rose-500/40 text-rose-400 hover:bg-rose-900/60 text-xs font-bold transition cursor-pointer flex items-center gap-1.5"
           >
             <XCircle className="h-3.5 w-3.5" />
             <span>Simulate Regression</span>
@@ -228,7 +228,7 @@ export const PipelineVisualizer: React.FC = () => {
           return (
             <div 
               key={stage.id}
-              className={`p-3.5 rounded-xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+              className={`p-3.5 rounded-xl border transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                 isFailed
                   ? 'bg-rose-950/20 border-rose-500/40'
                   : isPassed
@@ -246,7 +246,7 @@ export const PipelineVisualizer: React.FC = () => {
                 <div className="space-y-0.5">
                   <div className="text-xs font-bold text-primary-foreground flex items-center gap-2">
                     <span>{stage.name}</span>
-                    <span className="text-[10px] text-muted-foreground font-normal">({stage.durationMs}ms)</span>
+                    <span className="text-[11px] text-muted-foreground font-normal">({stage.durationMs}ms)</span>
                   </div>
                   <div className="text-[11px] text-muted-foreground font-sans">
                     {stage.details}
@@ -256,13 +256,13 @@ export const PipelineVisualizer: React.FC = () => {
 
               <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
                 <div className="text-right">
-                  <span className="text-[10px] text-muted-foreground block uppercase">Gate Score / Req</span>
+                  <span className="text-[11px] text-muted-foreground block uppercase">Gate Score / Req</span>
                   <span className={`text-xs font-bold ${isFailed ? 'text-rose-400' : 'text-emerald-400'}`}>
                     {stage.score}/100 <span className="text-muted-foreground font-normal">(min {stage.threshold})</span>
                   </span>
                 </div>
 
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                <span className={`px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider ${
                   isFailed
                     ? 'bg-rose-900/60 text-rose-300 border border-rose-600/40'
                     : isPassed
@@ -278,7 +278,7 @@ export const PipelineVisualizer: React.FC = () => {
       </div>
 
       {/* GitHub PR Bottom Merge Status Box */}
-      <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 transition-all ${
+      <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 transition ${
         prStatus === 'mergeable'
           ? 'bg-emerald-950/20 border-emerald-500/40'
           : 'bg-rose-950/30 border-rose-500/50'
@@ -309,7 +309,7 @@ export const PipelineVisualizer: React.FC = () => {
         <button
           type="button"
           disabled={prStatus === 'blocked'}
-          className={`w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+          className={`w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
             prStatus === 'mergeable'
               ? 'bg-[#F0FAFF] text-foreground hover:bg-[#F0FAFF] shadow-[0_0_15px_rgba(0,255,102,0.3)]'
               : 'bg-muted text-muted-foreground cursor-not-allowed border border-border'

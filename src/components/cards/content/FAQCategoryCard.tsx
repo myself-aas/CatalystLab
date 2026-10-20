@@ -28,7 +28,7 @@ export const FAQCategoryCard: React.FC<FAQCategoryCardProps> = ({
     <button
       type="button"
       onClick={() => onSelect?.(id)}
-      className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer ${
+      className={`w-full text-left p-4 rounded-2xl border transition cursor-pointer ${
         isActive
           ? 'border-border bg-muted shadow-sm'
           : 'border-border bg-background hover:bg-muted/80 hover:border-border'
@@ -67,7 +67,7 @@ export const FAQCategoryCard: React.FC<FAQCategoryCardProps> = ({
 
         {/* Right Badge + Chevron */}
         <div className="flex items-center gap-2 shrink-0">
-          <span className="px-2 py-0.5 rounded-full bg-accent border border-border text-muted-foreground text-[10px] font-mono font-bold">
+          <span className="px-2 py-0.5 rounded-full bg-accent border border-border text-muted-foreground text-[11px] font-mono font-bold">
             {itemCount} Qs
           </span>
           <ChevronRight

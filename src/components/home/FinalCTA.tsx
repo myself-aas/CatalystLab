@@ -16,8 +16,8 @@ export const FinalCTA: React.FC = () => {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-2xl"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-[#F0FAFF] backdrop-blur-md">
-            <Sparkles className="size-3.5 text-[#F0FAFF]" />
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-foreground backdrop-blur-md">
+            <Sparkles className="size-3.5 text-foreground" />
             <span>Zero SDK overhead</span>
           </div>
           <h2 className="framer-section-headline text-foreground">
@@ -43,14 +43,14 @@ export const FinalCTA: React.FC = () => {
                 if (input) input.focus();
               }, 800);
             }}
-            className="flex h-12 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-sm sm:text-base font-semibold text-background transition-all hover:bg-neutral-200"
+            className="flex h-12 items-center justify-center gap-2 rounded-full bg-foreground px-6 text-sm sm:text-base font-semibold text-background transition hover:bg-neutral-200"
           >
             <span>Run a Master Audit</span>
             <ArrowRight className="size-4" />
           </button>
           <Link
             to="/contact"
-            className="flex h-12 items-center justify-center rounded-full border border-foreground/20 bg-surface px-6 text-sm sm:text-base font-medium text-foreground transition-all hover:bg-foreground/10"
+            className="flex h-12 items-center justify-center rounded-full border border-foreground/20 bg-surface px-6 text-sm sm:text-base font-medium text-foreground transition hover:bg-foreground/10"
           >
             Contact Sales
           </Link>

@@ -122,7 +122,7 @@ export const DevSiteLayout: React.FC<DevSiteLayoutProps> = ({ children }) => {
                       >
                         <span className="truncate">{item.title}</span>
                         {item.badge && (
-                          <span className="ml-2 shrink-0 rounded-full bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary">
+                          <span className="ml-2 shrink-0 rounded-full bg-primary/10 px-1.5 py-0.5 font-mono text-[11px] text-primary">
                             {item.badge}
                           </span>
                         )}

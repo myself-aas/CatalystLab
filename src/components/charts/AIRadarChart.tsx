@@ -126,7 +126,7 @@ export const AIRadarChart: React.FC<AIRadarChartProps> = React.memo(({
                   <Sparkles className="h-3.5 w-3.5 text-muted-foreground" />
                   <span>{b.name}</span>
                 </div>
-                <div className="text-[10px] text-muted-foreground mt-0.5">{b.purpose}</div>
+                <div className="text-[11px] text-muted-foreground mt-0.5">{b.purpose}</div>
               </div>
               <span className="shrink-0 font-mono text-[11px] font-bold text-emerald-400 bg-[#F0FAFF]/10 px-2 py-0.5 rounded border border-emerald-500/20">
                 ALLOWED

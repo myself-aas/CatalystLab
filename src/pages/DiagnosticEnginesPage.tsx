@@ -24,7 +24,7 @@ export const DiagnosticEnginesPage: React.FC = () => {
  <div className="space-y-4 max-w-2xl">
  <div className="flex flex-wrap items-center gap-2">
  <span className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-3 py-1 framer-micro-tag text-foreground">
- <Cpu className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
+ <Cpu className="h-3.5 w-3.5 text-foreground shrink-0"/>
  8 SDLC Micro-Engines
  </span>
  <span className="inline-flex items-center gap-1 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-3 py-1 framer-micro-tag text-muted-foreground">

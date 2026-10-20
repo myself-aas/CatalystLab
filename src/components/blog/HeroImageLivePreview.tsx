@@ -128,19 +128,19 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
         <div className="flex items-center gap-1.5">
           {/* Status Badge */}
           {loadStatus === 'loading' && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-950/60 text-amber-300 border border-amber-500/30">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-950/60 text-amber-300 border border-amber-500/30">
               <RefreshCw className="h-2.5 w-2.5 animate-spin" />
               <span>Verifying URL...</span>
             </span>
           )}
           {loadStatus === 'loaded' && dimensions && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-500/30">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-500/30">
               <CheckCircle2 className="h-2.5 w-2.5 text-emerald-400" />
               <span>{dimensions.width}×{dimensions.height} ({dimensions.aspectRatio})</span>
             </span>
           )}
           {loadStatus === 'error' && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-950/60 text-rose-300 border border-rose-500/30">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-rose-950/60 text-rose-300 border border-rose-500/30">
               <AlertTriangle className="h-2.5 w-2.5 text-rose-400" />
               <span>Image Load Error</span>
             </span>
@@ -193,7 +193,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             <button
               type="button"
               onClick={handleCopyUrl}
-              className="p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="min-h-11 min-w-11 p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               title="Copy Image URL"
             >
               {copiedUrl ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
@@ -220,7 +220,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <button
             type="button"
             onClick={() => setPreviewContext('hero')}
-            className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${
+            className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-lg transition ${
               previewContext === 'hero'
                 ? 'bg-primary text-primary-foreground shadow-xs'
                 : 'text-muted-foreground hover:text-foreground'
@@ -233,7 +233,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <button
             type="button"
             onClick={() => setPreviewContext('card')}
-            className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${
+            className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-lg transition ${
               previewContext === 'card'
                 ? 'bg-primary text-primary-foreground shadow-xs'
                 : 'text-muted-foreground hover:text-foreground'
@@ -246,7 +246,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <button
             type="button"
             onClick={() => setPreviewContext('social')}
-            className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all ${
+            className={`inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-lg transition ${
               previewContext === 'social'
                 ? 'bg-primary text-primary-foreground shadow-xs'
                 : 'text-muted-foreground hover:text-foreground'
@@ -298,13 +298,13 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-rose-950/20 text-rose-300 border border-dashed border-rose-500/40">
               <AlertTriangle className="h-8 w-8 text-rose-400 mb-2" />
               <div className="text-xs font-bold text-foreground">Failed to load hero image</div>
-              <p className="text-[10px] text-rose-400 mt-1 max-w-xs truncate">
+              <p className="text-[11px] text-rose-400 mt-1 max-w-xs truncate">
                 {effectiveUrl}
               </p>
               <button
                 type="button"
                 onClick={handleRandomize}
-                className="mt-3 inline-flex items-center gap-1 rounded-lg bg-[#F7FDFF]/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-[#F7FDFF]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-h-11 min-w-11 mt-3 inline-flex items-center gap-1 rounded-lg bg-[#FFFFFF]/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-[#FFFFFF]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Sparkles className="h-3 w-3" />
                 <span>Try Curated Preset</span>
@@ -315,11 +315,11 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <img
                 src={effectiveUrl}
                 alt={title || 'Article Hero Banner'}
-                className={`w-full h-full transition-all duration-500 ${
+                className={`w-full h-full transition duration-500 ${
                   fitMode === 'contain' ? 'object-contain bg-primary' : 'object-cover'
                 }`}
                 
-              />
+              loading="lazy" decoding="async" />
 
               {/* Optional Contrast Dark Overlay */}
               {overlayDarkness === 'subtle' && (
@@ -335,10 +335,10 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 <div className="absolute inset-0 flex flex-col justify-between p-4 sm:p-5 pointer-events-none">
                   {/* Top Bar */}
                   <div className="flex items-center justify-between">
-                    <span className="rounded-md bg-cyan-950/90 text-amber-600 border border-cyan-400/40 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
+                    <span className="rounded-md bg-cyan-950/90 text-amber-600 border border-cyan-400/40 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider backdrop-blur-md">
                       {category}
                     </span>
-                    <span className="rounded-md bg-primary/70 text-foreground px-2 py-0.5 text-[10px] font-mono font-semibold backdrop-blur-md flex items-center gap-1 border border-foreground/10">
+                    <span className="rounded-md bg-primary/70 text-foreground px-2 py-0.5 text-[11px] font-mono font-semibold backdrop-blur-md flex items-center gap-1 border border-foreground/10">
                       <Clock className="h-2.5 w-2.5 text-amber-600" />
                       <span>{readTime}</span>
                     </span>
@@ -349,7 +349,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                     <h4 className="text-sm sm:text-base font-extrabold text-foreground leading-tight drop-shadow-md line-clamp-2">
                       {title || 'Untitled Technical Article'}
                     </h4>
-                    <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-mono drop-shadow">
+                    <div className="flex items-center gap-2 text-[11px] text-muted-foreground font-mono drop-shadow">
                       <span className="flex items-center gap-1">
                         <User className="h-2.5 w-2.5 text-amber-600" />
                         <span>{authorName}</span>
@@ -364,7 +364,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               {/* B. Catalog Card Context */}
               {previewContext === 'card' && (
                 <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-background/90 border border-border backdrop-blur-md pointer-events-none">
-                  <div className="flex items-center justify-between text-[10px] text-muted-foreground font-mono mb-1">
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono mb-1">
                     <span className="text-amber-600 font-bold">{category}</span>
                     <span>{readTime}</span>
                   </div>
@@ -376,11 +376,11 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
 
               {/* C. Social Snippet Context */}
               {previewContext === 'social' && (
-                <div className="absolute bottom-2 left-2 right-2 p-2 rounded-lg bg-primary/80 border border-foreground/20 text-center text-[10px] text-muted-foreground font-mono backdrop-blur-md pointer-events-none">
+                <div className="absolute bottom-2 left-2 right-2 p-2 rounded-lg bg-primary/80 border border-foreground/20 text-center text-[11px] text-muted-foreground font-mono backdrop-blur-md pointer-events-none">
                   <span className="text-foreground font-bold truncate block">
                     {title || 'Article Title'} | CatalystLab
                   </span>
-                  <span className="text-muted-foreground text-[10px] block">catalystlab.tech</span>
+                  <span className="text-muted-foreground text-[11px] block">catalystlab.tech</span>
                 </div>
               )}
 
@@ -389,7 +389,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 <button
                   type="button"
                   onClick={() => setFitMode(fitMode === 'cover' ? 'contain' : 'cover')}
-                  className="px-2 py-1 rounded-md bg-primary/80 border border-border text-[10px] font-mono text-foreground hover:text-foreground backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="px-2 py-1 rounded-md bg-primary/80 border border-border text-[11px] font-mono text-foreground hover:text-foreground backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   title="Toggle Fit Mode"
                 >
                   {fitMode === 'cover' ? 'Fit: Cover' : 'Fit: Contain'}
@@ -413,7 +413,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
         <div className="space-y-2 pt-1 border-t border-border">
           <div className="flex items-center justify-between text-[11px] font-semibold text-muted-foreground">
             <span>Curated Architectural Cover Presets</span>
-            <span className="text-[10px] text-amber-600 font-mono">1-Click Apply</span>
+            <span className="text-[11px] text-amber-600 font-mono">1-Click Apply</span>
           </div>
 
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
@@ -432,13 +432,13 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 }`}
                 title={preset.title}
               >
-                <img src={preset.url} alt={preset.title} className="w-full h-full object-cover"  />
+                <img src={preset.url} alt={preset.title} className="w-full h-full object-cover"  loading="lazy" decoding="async" />
                 {imageUrl === preset.url && (
                   <div className="absolute inset-0 bg-cyan-950/60 flex items-center justify-center">
                     <Check className="h-3.5 w-3.5 text-amber-600 stroke-[3]" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover/preset:opacity-100 transition-opacity flex items-center justify-center p-1 text-[10px] font-bold text-foreground text-center line-clamp-2">
+                <div className="absolute inset-0 bg-foreground/60 opacity-0 group-hover/preset:opacity-100 transition-opacity flex items-center justify-center p-1 text-[11px] font-bold text-foreground text-center line-clamp-2">
                   {preset.title.split(' ')[0]}
                 </div>
               </motion.button>
@@ -482,7 +482,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
                 alt={title}
                 className="w-full h-full object-cover"
                 
-              />
+              loading="lazy" decoding="async" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent p-6 sm:p-10 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <span className="rounded-lg bg-primary text-primary-foreground px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider">

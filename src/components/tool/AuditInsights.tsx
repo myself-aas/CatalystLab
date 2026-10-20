@@ -256,7 +256,7 @@ export const AuditInsights: React.FC<AuditInsightsProps> = ({ engineType, target
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 rounded-2xl bg-muted/50 border border-border flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/30">
+            <div className="p-2.5 rounded-xl bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/30">
               <AlertTriangle className="h-4 w-4" />
             </div>
             <div>

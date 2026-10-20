@@ -107,7 +107,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#2C3032 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(#F3F4F6 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -119,16 +119,16 @@ export const ForgotPasswordPage: React.FC = () => {
  <Link to="/" className="flex items-center gap-2 group focus:outline-none">
  <BrandLogo size="sm" />
  <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
- Catalyst<span className="text-[#F0FAFF]">Lab</span>
+ Catalyst<span className="text-foreground">Lab</span>
  </span>
  </Link>
- <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+ <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
  Security Gateway
  </span>
  </div>
 
  {/* Live Ingress Badge */}
- <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[10px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+ <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
  <ShieldCheck className="size-3 text-emerald-400" />
  <span>TLS 1.3 &bull; Mutual TLS Auth Ready &bull; OWASP Compliant</span>
  </div>
@@ -147,7 +147,7 @@ export const ForgotPasswordPage: React.FC = () => {
 
  {/* Error Display */}
  {(localError || authError?.message) && (
- <div className="mb-5 p-3 rounded-xl bg-[#F7FDFF]/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
+ <div className="mb-5 p-3 rounded-xl bg-[#FFFFFF]/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
  <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
  <span>{localError || authError?.message}</span>
  </div>
@@ -194,19 +194,19 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="mt-6 pt-5 border-t border-border space-y-2">
  <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground">
  <span className="flex items-center gap-1.5">
- <Terminal className="size-3.5 text-[#F0FAFF]" />
+ <Terminal className="size-3.5 text-foreground" />
  <span>Terminal Recovery</span>
  </span>
  <span>Catalyst CLI</span>
  </div>
- <div className="p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 font-mono text-[11px] text-[#F0FAFF]">
+ <div className="p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 font-mono text-[11px] text-foreground">
  <span className="truncate">$ {terminalCommand}</span>
  <CopyButton
  text={`npx ${terminalCommand}`}
  variant="terminal"
  label="Copy"
  copiedLabel="Copied"
- className="py-0.5 px-2 text-[10px] shrink-0"
+ className="py-0.5 px-2 text-[11px] shrink-0"
  />
  </div>
  </div>
@@ -234,7 +234,7 @@ export const ForgotPasswordPage: React.FC = () => {
 
  {/* Expiration Countdown */}
  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-background border border-border font-mono text-xs text-muted-foreground">
- <Clock className="size-3.5 text-[#F0FAFF]" />
+ <Clock className="size-3.5 text-foreground" />
  <span>Token expires in: <strong className="text-foreground">{formatCountdown(countdown)}</strong></span>
  </div>
 
@@ -263,7 +263,7 @@ export const ForgotPasswordPage: React.FC = () => {
  </Link>
  <Link
  to="/signup"
- className="text-[#F0FAFF] hover:underline"
+ className="text-foreground hover:underline"
  >
  Create New Account &rarr;
  </Link>

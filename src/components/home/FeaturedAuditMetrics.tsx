@@ -45,7 +45,7 @@ export const FeaturedAuditMetrics: React.FC = () => {
                   <div className="flex size-11 items-center justify-center rounded-xl border border-primary/30 bg-primary/15 text-primary">
                     <Zap className="size-5" />
                   </div>
-                  <span className="rounded-full border border-border bg-muted/40 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  <span className="rounded-full border border-border bg-muted/40 px-2.5 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                     Zyme engine
                   </span>
                 </div>
@@ -81,16 +81,16 @@ export const FeaturedAuditMetrics: React.FC = () => {
           >
             <LinearCard className="flex h-full min-h-[200px] flex-col justify-between p-6">
               <div className="flex items-center justify-between">
-                <div className="flex size-10 items-center justify-center rounded-xl border border-rose-400/30 bg-[#F7FDFF]/10 text-rose-300">
+                <div className="flex size-10 items-center justify-center rounded-xl border border-rose-400/30 bg-[#FFFFFF]/10 text-rose-300">
                   <Shield className="size-4" />
                 </div>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Sec-protease</span>
+                <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Sec-protease</span>
               </div>
               <div>
                 <h3 className="framer-card-title text-foreground">OWASP transport</h3>
                 <p className="mt-2 framer-body-text">HSTS, CSP nonces, TLS 1.3 — audited in-flight.</p>
                 <p className="mt-4 font-mono text-2xl font-semibold text-foreground">14+</p>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Attack vectors</p>
+                <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Attack vectors</p>
               </div>
             </LinearCard>
           </motion.div>
@@ -107,13 +107,13 @@ export const FeaturedAuditMetrics: React.FC = () => {
                 <div className="flex size-10 items-center justify-center rounded-xl border border-violet-400/30 bg-[#F0FAFF]/10 text-violet-300">
                   <Activity className="size-4" />
                 </div>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">LLM-kinase</span>
+                <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">LLM-kinase</span>
               </div>
               <div>
                 <h3 className="framer-card-title text-foreground">AI discoverability</h3>
                 <p className="mt-2 framer-body-text">/llms.txt, robots, Schema.org — RAG-ready structure.</p>
                 <p className="mt-4 font-mono text-2xl font-semibold text-foreground">&lt; 50ms</p>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Scan latency</p>
+                <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Scan latency</p>
               </div>
             </LinearCard>
           </motion.div>

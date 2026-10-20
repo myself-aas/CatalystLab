@@ -49,11 +49,11 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       {/* Header Row */}
       <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 flex items-center justify-center text-[#F0FAFF]">
+          <div className="w-8 h-8 rounded-lg bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 flex items-center justify-center text-foreground">
             <Zap className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-muted-foreground block">
+            <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-muted-foreground block">
               {category}
             </span>
             <h4 className="text-base font-bold text-foreground font-sans tracking-tight">
@@ -77,7 +77,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       <div className="w-full grid grid-cols-2 divide-x divide-border bg-muted rounded-xl border border-border p-3 my-2 shadow-sm">
         {/* Legacy Column */}
         <div className="pr-3 flex flex-col justify-between">
-          <span className="text-[10px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
+          <span className="text-[11px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
             {legacyTitle}
           </span>
           <div className="mt-1">
@@ -97,13 +97,13 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
         {/* CatalystLab Column */}
         <div className="pl-3 flex flex-col justify-between">
           <div className="flex items-center gap-1">
-            <span className="text-[10px] font-sans font-bold text-indigo-600 uppercase tracking-widest">
+            <span className="text-[11px] font-sans font-bold text-indigo-600 uppercase tracking-widest">
               {catalystTitle}
             </span>
             <ShieldCheck className="w-3 h-3 text-indigo-600" />
           </div>
           <div className="mt-1">
-            <span className="text-lg font-black text-[#F0FAFF]">
+            <span className="text-lg font-black text-foreground">
               {catalystValue}
             </span>
             <span className="block text-[11px] font-sans text-muted-foreground mt-0.5">

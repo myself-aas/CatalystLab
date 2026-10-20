@@ -152,7 +152,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
       <div className="flex items-center justify-between px-3.5 py-2.5 bg-muted/40 border-b border-border/80 select-none">
         <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#F7FDFF]/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FFFFFF]/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]/80" />
           </div>
@@ -162,7 +162,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             <span className="text-muted-foreground">{filename}</span>
           </div>
 
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary text-muted-foreground border border-border uppercase">
+          <span className="text-[11px] px-1.5 py-0.5 rounded bg-primary text-muted-foreground border border-border uppercase">
             {language}
           </span>
         </div>

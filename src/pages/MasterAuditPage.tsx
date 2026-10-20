@@ -29,11 +29,11 @@ export const MasterAuditPage: React.FC = () => {
         canonicalUrl="https://www.catalystlab.tech/"
       />
       <HeroSection />
-      <EnzymeGrid />
-      <LatestNewsAndInsights />
-      <HowItWorks />
-      <Testimonials />
-      <FaqAccordion />
+      <div className="content-auto"><EnzymeGrid /></div>
+      <div className="content-auto"><LatestNewsAndInsights /></div>
+      <div className="content-auto"><HowItWorks /></div>
+      <div className="content-auto"><Testimonials /></div>
+      <div className="content-auto"><FaqAccordion /></div>
       <FinalCTA />
     </div>
   );

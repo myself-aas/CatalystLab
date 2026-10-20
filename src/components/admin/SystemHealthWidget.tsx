@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { clickableProps } from '../../lib/keyboard';
 import { 
   FirestoreAuditLog, 
   getFirestoreAuditLogs, 
@@ -210,7 +211,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-background/40 bg-primary px-3.5 py-2 text-xs font-semibold ds-muted hover:text-primary-foreground hover:bg-muted transition-all disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-background/40 bg-primary px-3.5 py-2 text-xs font-semibold ds-muted hover:text-primary-foreground hover:bg-muted transition disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
               title="Sync latest Firestore audit logs"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? 'animate-spin text-cyan-400' : ''}`} />
@@ -220,7 +221,7 @@ export const SystemHealthWidget: React.FC = () => {
             <button
               onClick={handleRunDiagnosticAudit}
               disabled={runningDiagnostic}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-xs active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
             >
               <Play className={`h-3.5 w-3.5 ${runningDiagnostic ? 'animate-spin' : ''}`} />
               <span>{runningDiagnostic ? 'Probing Engines...' : 'Run Diagnostics'}</span>
@@ -235,7 +236,7 @@ export const SystemHealthWidget: React.FC = () => {
               <CheckCircle2 className="h-4 w-4 text-cyan-400 shrink-0" />
               <span>{livePingStatus.message}</span>
             </div>
-            <span className="text-[10px] text-cyan-300/70 font-mono">FIRESTORE RECORDED</span>
+            <span className="text-[11px] text-cyan-300/70 font-mono">FIRESTORE RECORDED</span>
           </div>
         )}
       </div>
@@ -256,7 +257,7 @@ export const SystemHealthWidget: React.FC = () => {
                   ? 'bg-[#F0FAFF] shadow-[0_0_8px_rgba(52,211,153,0.8)]' 
                   : systemStatus === 'warning' 
                     ? 'bg-[#F0FAFF]' 
-                    : 'bg-[#F7FDFF]'
+                    : 'bg-[#FFFFFF]'
               }`} />
               <span className="text-xl font-black text-foreground">
                 {systemStatus === 'optimal' ? '100% Nominal' : systemStatus === 'warning' ? 'Warning' : 'Degraded'}
@@ -333,7 +334,7 @@ export const SystemHealthWidget: React.FC = () => {
           <div className="flex items-center gap-1.5 bg-muted p-1 rounded-xl border border-border text-xs">
             <button
               onClick={() => setSelectedFilter('all')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
+              className={`px-2.5 py-1 rounded-lg font-semibold transition ${
                 selectedFilter === 'all' 
                   ? 'bg-muted-foreground text-foreground shadow-sm' 
                   : 'ds-muted hover:text-foreground'
@@ -343,7 +344,7 @@ export const SystemHealthWidget: React.FC = () => {
             </button>
             <button
               onClick={() => setSelectedFilter('healthy')}
-              className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
+              className={`px-2.5 py-1 rounded-lg font-semibold transition ${
                 selectedFilter === 'healthy' 
                   ? 'bg-emerald-600 text-primary-foreground shadow-sm' 
                   : 'ds-muted hover:text-emerald-300'
@@ -354,7 +355,7 @@ export const SystemHealthWidget: React.FC = () => {
             {warningCount > 0 && (
               <button
                 onClick={() => setSelectedFilter('warning')}
-                className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
+                className={`px-2.5 py-1 rounded-lg font-semibold transition ${
                   selectedFilter === 'warning' 
                     ? 'bg-amber-600 text-primary-foreground shadow-sm' 
                     : 'ds-muted hover:text-amber-300'
@@ -366,7 +367,7 @@ export const SystemHealthWidget: React.FC = () => {
             {criticalCount > 0 && (
               <button
                 onClick={() => setSelectedFilter('critical')}
-                className={`px-2.5 py-1 rounded-lg font-semibold transition-all ${
+                className={`px-2.5 py-1 rounded-lg font-semibold transition ${
                   selectedFilter === 'critical' 
                     ? 'bg-rose-600 text-primary-foreground shadow-sm' 
                     : 'ds-muted hover:text-rose-300'
@@ -413,10 +414,10 @@ export const SystemHealthWidget: React.FC = () => {
               return (
                 <div
                   key={log.id || `log-${index}`}
-                  className="ds-card hover:bg-muted transition-all overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring p-4"
+                  className="ds-card hover:bg-muted transition overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring p-4"
                 >
                   <div 
-                    onClick={() => setExpandedLogId(isExpanded ? null : (log.id || `log-${index}`))}
+                    {...clickableProps} onClick={() => setExpandedLogId(isExpanded ? null : (log.id || `log-${index}`))}
                     className="p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer select-none"
                   >
                     <div className="flex items-center gap-2.5 overflow-hidden">
@@ -426,11 +427,11 @@ export const SystemHealthWidget: React.FC = () => {
                           ? 'bg-[#F0FAFF]'
                           : log.status === 'warning'
                             ? 'bg-[#F0FAFF]'
-                            : 'bg-[#F7FDFF]'
+                            : 'bg-[#FFFFFF]'
                       }`} />
 
                       {/* Engine Tag */}
-                      <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-bold ds-muted border border-border uppercase shrink-0">
+                      <span className="rounded bg-muted px-1.5 py-0.5 text-[11px] font-bold ds-muted border border-border uppercase shrink-0">
                         {log.engine || 'SYSTEM'}
                       </span>
 

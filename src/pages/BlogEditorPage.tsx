@@ -163,7 +163,7 @@ export const BlogEditorPage: React.FC = () => {
  </div>
 
  {error && (
- <div className="mb-4 rounded-xl border border-rose-500/20 bg-[#F7FDFF]/10 p-3 text-sm text-rose-300 font-mono">
+ <div className="mb-4 rounded-xl border border-rose-500/20 bg-[#FFFFFF]/10 p-3 text-sm text-rose-300 font-mono">
  {error}
  </div>
  )}
@@ -172,7 +172,7 @@ export const BlogEditorPage: React.FC = () => {
  <BlogEditorSkeleton />
  ) : preview ? (
  <article className="ds-card space-y-4 p-6">
- <p className="font-mono text-[11px] uppercase tracking-wider text-[#F0FAFF]">{category} · {status}</p>
+ <p className="font-mono text-[11px] uppercase tracking-wider text-foreground">{category} · {status}</p>
  <h2 className="framer-section-headline text-foreground">{title || 'Untitled'}</h2>
  {excerpt && <p className="framer-body-text">{excerpt}</p>}
  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">{content}</pre>

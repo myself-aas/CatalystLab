@@ -98,13 +98,13 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
         </div>
 
         {/* Engine Switcher */}
-        <div className="flex items-center gap-1 bg-background p-1 rounded-xl border border-border text-[10px]">
+        <div className="flex items-center gap-1 bg-background p-1 rounded-xl border border-border text-[11px]">
           {(['vitalzyme', 'edgevmax', 'riskprotease', 'ecoholo'] as SandboxType[]).map((st) => (
             <button
               key={st}
               type="button"
               onClick={() => setActiveSandbox(st)}
-              className={`px-2 py-0.5 rounded-md font-bold uppercase transition-all cursor-pointer ${
+              className={`px-2 py-0.5 rounded-md font-bold uppercase transition cursor-pointer ${
                 activeSandbox === st
                   ? 'bg-primary text-foreground shadow-xs'
                   : 'text-muted-foreground hover:text-primary-foreground'
@@ -145,7 +145,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   onChange={(e) => setLcpMs(Number(e.target.value))}
                   className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
                 />
-                <span className="text-[10px] text-muted-foreground block">&lt;1200ms: Optimal</span>
+                <span className="text-[11px] text-muted-foreground block">&lt;1200ms: Optimal</span>
               </div>
 
               <div className="space-y-1.5 bg-background p-3 rounded-xl border border-border/80">
@@ -162,7 +162,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   onChange={(e) => setClsVal(Number(e.target.value))}
                   className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-emerald-400"
                 />
-                <span className="text-[10px] text-muted-foreground block">&lt;0.05: Zero shift</span>
+                <span className="text-[11px] text-muted-foreground block">&lt;0.05: Zero shift</span>
               </div>
 
               <div className="space-y-1.5 bg-background p-3 rounded-xl border border-border/80">
@@ -179,7 +179,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   onChange={(e) => setInpMs(Number(e.target.value))}
                   className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-purple-500"
                 />
-                <span className="text-[10px] text-muted-foreground block">&lt;80ms: Instant</span>
+                <span className="text-[11px] text-muted-foreground block">&lt;80ms: Instant</span>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   key={pop}
                   type="button"
                   onClick={() => setSelectedPoP(pop)}
-                  className={`px-3 py-1.5 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg border text-xs font-mono transition cursor-pointer ${
                     selectedPoP === pop
                       ? 'bg-primary/20 border-primary text-cyan-400 font-bold'
                       : 'bg-background border-border text-muted-foreground hover:text-primary-foreground'

@@ -83,7 +83,7 @@ export const ApiOverviewPage: React.FC = () => {
  <div className="ds-page-shell">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
- <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-[#F0FAFF]">
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-foreground">
  <Code2 className="h-3.5 w-3.5"/>
  <span>REST API v1.0 • OpenAPI 3.1 Compliant</span>
  </div>
@@ -175,7 +175,7 @@ export const ApiOverviewPage: React.FC = () => {
  </span>
  <button
  onClick={() => handleCopy('quickstart', quickstartCode)}
- className="flex items-center gap-1 framer-micro-tag font-bold text-[#F0FAFF] hover:text-[#F0FAFF] cursor-pointer"
+ className="flex items-center gap-1 framer-micro-tag font-bold text-foreground hover:text-foreground cursor-pointer"
  >
  {copiedKey === 'quickstart' ? (
  <>
@@ -200,7 +200,7 @@ export const ApiOverviewPage: React.FC = () => {
  <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
  <div className="ds-card p-6 space-y-3">
  <div className="flex items-center gap-2.5">
- <div className="p-2 rounded-xl bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
+ <div className="p-2 rounded-xl bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
  <Server className="h-5 w-5"/>
  </div>
  <h3 className="text-base font-bold text-foreground">Base URL</h3>
@@ -262,16 +262,16 @@ export const ApiOverviewPage: React.FC = () => {
  <span className="framer-micro-tag text-muted-foreground">
  {endpointsInCat.length} Endpoints
  </span>
- <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all"/>
+ <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition"/>
  </div>
- <h3 className="framer-card-title text-foreground group-hover:text-[#F0FAFF] transition-colors">
+ <h3 className="framer-card-title text-foreground group-hover:text-foreground transition-colors">
  {cat}
  </h3>
  <p className="framer-body-text text-xs mt-1 line-clamp-2">
  {endpointsInCat[0]?.description || 'API endpoints for ' + cat}
  </p>
  </div>
- <div className="mt-4 pt-3 border-t border-border flex items-center gap-1.5 text-xs font-semibold text-[#F0FAFF]">
+ <div className="mt-4 pt-3 border-t border-border flex items-center gap-1.5 text-xs font-semibold text-foreground">
  <span>View Documentation</span>
  <ArrowRight className="h-3.5 w-3.5 shrink-0"/>
  </div>
@@ -311,10 +311,10 @@ export const ApiOverviewPage: React.FC = () => {
  className="ds-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 ds-card-interactive"
  >
  <div className="flex items-start sm:items-center gap-3 min-w-0">
- <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase shrink-0 border ${
+ <span className={`px-2 py-0.5 rounded-full text-[11px] font-mono font-bold uppercase shrink-0 border ${
  ep.method === 'POST' ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20' :
- ep.method === 'GET' ? 'bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20' :
- ep.method === 'DELETE' ? 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20' :
+ ep.method === 'GET' ? 'bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20' :
+ ep.method === 'DELETE' ? 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20' :
  'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
  }`}>
  {ep.method}

@@ -33,7 +33,7 @@ export const EngineReportDashboard: React.FC<EngineReportDashboardProps> = ({
         </div>
         {parsed.healthScore > 0 && (
           <div className="rounded-xl border border-border bg-muted/40 px-4 py-2 text-right">
-            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Score</div>
+            <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Score</div>
             <div className="font-mono text-2xl font-semibold text-foreground">{parsed.healthScore}</div>
           </div>
         )}

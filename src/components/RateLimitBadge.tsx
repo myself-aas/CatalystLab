@@ -1,4 +1,5 @@
 import React from 'react';
+import { clickableProps } from '../lib/keyboard';
 import { useAuth } from '../context/AuthContext';
 import { getRateLimitStatus } from '../utils/rateLimiter';
 import { Zap, Crown, Clock, LogIn, Info } from 'lucide-react';
@@ -15,7 +16,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
   if (status.isUnlimited) {
     return (
       <div 
-        onClick={onOpenInfo}
+        {...clickableProps} onClick={onOpenInfo}
         className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-foreground shadow-sm cursor-pointer hover:border-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         title="Primary Superadmin - Unlimited Audits"
       >
@@ -29,7 +30,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
   const isDanger = status.remaining === 0;
 
   const badgeColor = isDanger 
-    ? 'border-rose-500/20 bg-[#F7FDFF]/10 text-rose-400 font-semibold' 
+    ? 'border-rose-500/20 bg-[#FFFFFF]/10 text-rose-400 font-semibold' 
     : isWarning 
     ? 'border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400 font-semibold' 
     : 'border-border bg-muted/60 text-foreground font-semibold';
@@ -37,7 +38,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
   if (compact) {
     return (
       <div 
-        onClick={onOpenInfo}
+        {...clickableProps} onClick={onOpenInfo}
         className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-mono font-medium cursor-pointer transition-colors ${badgeColor}`}
         title={`Daily quota: ${status.used}/${status.limit} units used. Resets in ${status.formattedResetTime}`}
       >
@@ -58,7 +59,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
             <span className="text-xs font-bold text-foreground">
               {status.tierLabel} Quota
             </span>
-            <span className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${badgeColor}`}>
+            <span className={`text-[11px] font-mono font-bold px-1.5 py-0.5 rounded border ${badgeColor}`}>
               {status.singleRemaining} / {status.singleLimit} Remaining Today
             </span>
           </div>
@@ -86,7 +87,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
           <button
             type="button"
             onClick={onOpenInfo}
-            className="text-foreground hover:text-foreground p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="min-h-11 min-w-11 text-foreground hover:text-foreground p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="View Rate Limit Tiers"
           >
             <Info className="h-3.5 w-3.5" />

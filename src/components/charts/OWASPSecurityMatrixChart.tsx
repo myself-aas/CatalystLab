@@ -157,8 +157,8 @@ header {
         </div>
         <div className="h-2.5 w-full rounded-full bg-background overflow-hidden border border-background/30">
           <div
-            className={`h-full transition-all ${
-              compliancePct >= 80 ? 'bg-[#F0FAFF]' : compliancePct >= 50 ? 'bg-primary' : 'bg-[#F7FDFF]'
+            className={`h-full transition ${
+              compliancePct >= 80 ? 'bg-[#F0FAFF]' : compliancePct >= 50 ? 'bg-primary' : 'bg-[#FFFFFF]'
             }`}
             style={{ width: `${compliancePct}%` }}
           />
@@ -188,7 +188,7 @@ header {
                       <Check className="h-3 w-3" /> ACTIVE
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 rounded-md bg-[#F7FDFF]/15 px-2 py-0.5 text-[11px] font-bold text-rose-400 border border-rose-500/30">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-[#FFFFFF]/15 px-2 py-0.5 text-[11px] font-bold text-rose-400 border border-rose-500/30">
                       <AlertTriangle className="h-3 w-3" /> MISSING
                     </span>
                   )}

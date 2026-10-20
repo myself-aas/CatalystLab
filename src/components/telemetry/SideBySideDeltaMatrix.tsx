@@ -158,7 +158,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
         <form onSubmit={handleRunComparison} className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
           {/* Domain A Input */}
           <div className="md:col-span-5 relative">
-            <label className="block text-[10px] font-mono uppercase text-primary font-semibold mb-1">
+            <label className="block text-[11px] font-mono uppercase text-primary font-semibold mb-1">
               Domain Alpha (Benchmark A)
             </label>
             <input
@@ -179,7 +179,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
 
           {/* Domain B Input */}
           <div className="md:col-span-5 relative">
-            <label className="block text-[10px] font-mono uppercase text-emerald-500 font-semibold mb-1">
+            <label className="block text-[11px] font-mono uppercase text-emerald-500 font-semibold mb-1">
               Domain Beta (Benchmark B)
             </label>
             <input
@@ -195,7 +195,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
             <button
               type="submit"
               disabled={isLoading || !urlAInput || !urlBInput}
-              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-foreground font-bold text-sm font-mono flex items-center justify-center gap-2 shadow-md shadow-primary/20 transition-all disabled:opacity-50"
+              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-foreground font-bold text-sm font-mono flex items-center justify-center gap-2 shadow-md shadow-primary/20 transition disabled:opacity-50"
             >
               {isLoading ? (
                 <span>Synthesizing Comparative Delta...</span>
@@ -239,7 +239,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono uppercase text-muted-foreground">Differential Synthesis</span>
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#F0FAFF]/15 text-emerald-500 border border-emerald-500/30">
+              <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-[#F0FAFF]/15 text-emerald-500 border border-emerald-500/30">
                 {scoreDelta >= 0 ? `+${scoreDelta} pts Delta` : `${scoreDelta} pts Delta`}
               </span>
             </div>
@@ -252,12 +252,12 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
         {/* Head-to-Head Big Score Chips */}
         <div className="flex items-center gap-4 font-mono">
           <div className="text-center px-4 py-2 rounded-lg bg-primary/90 border border-primary/40">
-            <div className="text-[10px] text-primary uppercase font-semibold">Alpha</div>
+            <div className="text-[11px] text-primary uppercase font-semibold">Alpha</div>
             <div className="text-xl font-bold text-foreground">{scoreA}</div>
           </div>
           <div className="text-muted-foreground font-bold">:</div>
           <div className="text-center px-4 py-2 rounded-lg bg-primary/90 border border-emerald-500/40">
-            <div className="text-[10px] text-emerald-500 uppercase font-semibold">Beta</div>
+            <div className="text-[11px] text-emerald-500 uppercase font-semibold">Beta</div>
             <div className="text-xl font-bold text-foreground">{scoreB}</div>
           </div>
         </div>
@@ -286,14 +286,14 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
                     {/* Vector Name */}
                     <td className="py-3.5 px-4">
                       <div className="font-semibold text-muted-foreground text-xs">{dim.name}</div>
-                      <div className="text-[10px] text-muted-foreground">{dim.metricLabel}</div>
+                      <div className="text-[11px] text-muted-foreground">{dim.metricLabel}</div>
                     </td>
 
                     {/* Domain A Metric & Score */}
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-foreground">{resA.score || 80}</span>
-                        <span className="text-[10px] text-muted-foreground">({resA.value})</span>
+                        <span className="text-[11px] text-muted-foreground">({resA.value})</span>
                       </div>
                     </td>
 
@@ -301,7 +301,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-foreground">{resB.score || 75}</span>
-                        <span className="text-[10px] text-muted-foreground">({resB.value})</span>
+                        <span className="text-[11px] text-muted-foreground">({resB.value})</span>
                       </div>
                     </td>
 
@@ -313,7 +313,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
                           +{delta} pts
                         </span>
                       ) : delta < 0 ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#F7FDFF]/15 text-rose-500 border border-rose-500/30 font-bold text-[11px]">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#FFFFFF]/15 text-rose-500 border border-rose-500/30 font-bold text-[11px]">
                           <ArrowDownRight className="w-3 h-3" />
                           {delta} pts
                         </span>

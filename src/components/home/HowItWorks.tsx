@@ -47,7 +47,7 @@ export const HowItWorks: React.FC = () => {
         <SectionHeader
           eyebrow={
             <>
-              <Network className="size-3.5 text-[#F0FAFF]" />
+              <Network className="size-3.5 text-foreground" />
               <span>Synchronous pipeline</span>
             </>
           }
@@ -87,13 +87,13 @@ export const HowItWorks: React.FC = () => {
 
                   {/* Desktop Node */}
                   <div className="hidden md:flex mb-6 relative size-14 items-center justify-center rounded-2xl bg-surface border border-foreground/10 text-foreground z-10 shadow-xl transition-[transform,border-color] duration-200 ease-out hover:-translate-y-[2px] hover:border-foreground/25 hover:shadow-[0_0_20px_-4px_rgba(240,250,255,0.18)]">
-                    <Icon className="size-6 text-[#F0FAFF]" />
+                    <Icon className="size-6 text-foreground" />
                   </div>
 
                   {/* Content Container */}
                   <div className="flex-1 min-w-0">
                     <div className="md:hidden mb-2 size-8 flex items-center justify-center rounded-lg bg-surface border border-foreground/10 text-foreground shadow-md">
-                      <Icon className="size-4 text-[#F0FAFF]" />
+                      <Icon className="size-4 text-foreground" />
                     </div>
 
                     <h3 className="framer-card-title text-foreground">

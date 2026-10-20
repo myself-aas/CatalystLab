@@ -1,4 +1,8 @@
 import type { EngineMeta } from '../types';
+import methodImage from '../assets/images/page-methodology.jpg';
+import apiImage from '../assets/images/page-api.jpg';
+import productsHero from '../assets/images/page-products.jpg';
+import synthShiftImage from '../assets/images/product-studio.jpg';
 // The Pexels photo 3861958 that these three engines used now answers 503, so
 // they mount local assets instead: a dead third-party image was the homepage's
 // only console error and it cost best-practices points on every run (D17).
@@ -26,7 +30,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'platform_migration_audit.py',
     route: '/docs/synthshift',
     docsAnchor: 'engine-par',
-    image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: synthShiftImage,
     keyVectors: [
       'Site Topology & Route Hierarchy Mapping',
       'Canonical URL Destination Synchronization',
@@ -200,7 +204,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'website_health.py',
     route: '/docs/vitalzyme',
     docsAnchor: 'engine-health',
-    image: 'https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: synthShiftImage,
     keyVectors: [
       'DOM Tree Recursion Depth & Total Node Volume',
       'Render-Blocking Stylesheets & Script Bottlenecks',
@@ -259,7 +263,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'edge_latency.py',
     route: '/docs/edgevmax',
     docsAnchor: 'engine-latency',
-    image: 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: productsHero,
     keyVectors: [
       'Multi-Region Anycast Edge Routing Radar (US, EU, AP, SA)',
       '12 Global PoPs Time-To-First-Byte (TTFB) Comparison',
@@ -317,7 +321,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'compliance_risk_audit.py',
     route: '/docs/riskprotease',
     docsAnchor: 'engine-compliance',
-    image: 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: methodImage,
     keyVectors: [
       'Strict-Transport-Security (HSTS 2-Year Preload Verification)',
       'Content-Security-Policy (Strict CSP Nonces & Hash Validation)',
@@ -433,7 +437,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'llmo_optimizer.py',
     route: '/docs/allostersearch',
     docsAnchor: 'engine-llmo',
-    image: 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: methodImage,
     keyVectors: [
       'Schema.org TechArticle & Entity Graph Depth',
       'Factual Information Density Index for AI Citation',

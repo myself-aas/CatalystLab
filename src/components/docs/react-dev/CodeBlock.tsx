@@ -32,7 +32,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
               variant="terminal"
               label="Copy"
               copiedLabel="Copied"
-              className="py-0.5 px-2 text-[10px]"
+              className="py-0.5 px-2 text-[11px]"
             />
           </div>
         </div>
@@ -41,7 +41,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
       {/* Code Body */}
       <div className="relative">
         {!filename && !isTerminal && (
-          <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-all duration-200 z-10">
+          <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition duration-200 z-10">
             <CopyButton
               text={code}
               variant="icon"

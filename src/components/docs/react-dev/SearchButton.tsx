@@ -17,7 +17,7 @@ export const SearchButton: React.FC<SearchButtonProps> = ({
     <button
       onClick={onClick}
       className={cn(
-        "flex items-center gap-3 px-3 py-1.5 md:py-2 text-sm text-muted-foreground bg-muted/50 hover:bg-muted/80 hover:text-foreground transition-all duration-200 border border-transparent hover:border-border rounded-full md:rounded-xl md:w-64 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--react-cyan)]",
+        "flex items-center gap-3 px-3 py-1.5 md:py-2 text-sm text-muted-foreground bg-muted/50 hover:bg-muted/80 hover:text-foreground transition duration-200 border border-transparent hover:border-border rounded-full md:rounded-xl md:w-64 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--react-cyan)]",
         className
       )}
       aria-label="Search"
@@ -26,7 +26,7 @@ export const SearchButton: React.FC<SearchButtonProps> = ({
       <span className="hidden md:inline-block">Search</span>
       
       {shortcut && (
-        <kbd className="hidden md:flex items-center ml-auto px-1.5 py-0.5 text-[10px] font-mono rounded bg-background border border-border text-muted-foreground shadow-sm">
+        <kbd className="hidden md:flex items-center ml-auto px-1.5 py-0.5 text-[11px] font-mono rounded bg-background border border-border text-muted-foreground shadow-sm">
           {shortcut}
         </kbd>
       )}

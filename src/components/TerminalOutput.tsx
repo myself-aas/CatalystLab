@@ -106,7 +106,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   const getStatusBadge = () => {
     if (loading) {
       return (
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-[#F0FAFF]/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-[#F0FAFF]/10 px-2 py-0.5 text-[11px] font-mono font-bold uppercase tracking-wider text-cyan-400">
           <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF] animate-ping" />
           <span>Executing</span>
         </span>
@@ -114,7 +114,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     }
     if (!output) {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/60 px-2 py-0.5 text-[10px] font-mono font-medium text-muted-foreground">
+        <span className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/60 px-2 py-0.5 text-[11px] font-mono font-medium text-muted-foreground">
           <span className="h-1.5 w-1.5 rounded-full bg-muted0" />
           <span>Standby</span>
         </span>
@@ -122,7 +122,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     }
     if (output.includes('[-] FAIL:') || output.includes('[!] CRITICAL:') || output.includes('STATUS: CRITICAL') || output.includes('[ERROR]')) {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full border border-rose-500/40 bg-[#F7FDFF]/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-rose-400">
+        <span className="inline-flex items-center gap-1 rounded-full border border-rose-500/40 bg-[#FFFFFF]/15 px-2 py-0.5 text-[11px] font-mono font-bold uppercase tracking-wider text-rose-400">
           <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
           <span>Needs Action</span>
         </span>
@@ -130,14 +130,14 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     }
     if (output.includes('[~] WARNING:') || output.includes('STATUS: MODERATE') || output.includes('[WARN]')) {
       return (
-        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-[#F0FAFF]/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300">
+        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-[#F0FAFF]/15 px-2 py-0.5 text-[11px] font-mono font-bold uppercase tracking-wider text-amber-300">
           <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF]" />
           <span>Warning</span>
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-[#F0FAFF]/15 px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">
+      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-[#F0FAFF]/15 px-2 py-0.5 text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-400">
         <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF]" />
         <span>Optimal</span>
       </span>
@@ -247,7 +247,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-emerald-400 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/15 border border-emerald-500/30 text-[10px] text-emerald-400 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/15 border border-emerald-500/30 text-[11px] text-emerald-400 font-mono font-bold mr-2 select-none">
           PASS
         </span>
       );
@@ -264,7 +264,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-rose-400 font-bold';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-[#F7FDFF]/20 border border-rose-500/40 text-[10px] text-rose-400 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#FFFFFF]/20 border border-rose-500/40 text-[11px] text-rose-400 font-mono font-bold mr-2 select-none">
           FAIL
         </span>
       );
@@ -278,7 +278,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-amber-300 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/20 border border-amber-500/40 text-[10px] text-amber-300 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/20 border border-amber-500/40 text-[11px] text-amber-300 font-mono font-bold mr-2 select-none">
           WARN
         </span>
       );
@@ -292,14 +292,14 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     ) {
       colorClass = 'text-purple-400 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/20 border border-purple-500/40 text-[10px] text-purple-300 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/20 border border-purple-500/40 text-[11px] text-purple-300 font-mono font-bold mr-2 select-none">
           EXEC
         </span>
       );
     } else if (line.startsWith('[sys]') || line.startsWith('[*]') || line.includes('[INFO]')) {
       colorClass = 'text-cyan-300 font-medium';
       badge = (
-        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/15 border border-cyan-500/30 text-[10px] text-cyan-300 font-mono font-bold mr-2 select-none">
+        <span className="px-1.5 py-0.2 rounded bg-[#F0FAFF]/15 border border-cyan-500/30 text-[11px] text-cyan-300 font-mono font-bold mr-2 select-none">
           INFO
         </span>
       );
@@ -312,7 +312,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
         key={idx}
         className={`${colorClass} leading-relaxed break-words hover:bg-primary-hover/50 px-1 py-0.5 rounded transition-colors flex items-baseline font-mono text-xs`}
       >
-        <span className="text-muted-foreground select-none text-[10px] w-8 shrink-0 text-right pr-2">
+        <span className="text-muted-foreground select-none text-[11px] w-8 shrink-0 text-right pr-2">
           {idx + 1}
         </span>
         {badge}
@@ -324,13 +324,13 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
   return (
     <motion.div 
       whileHover={{ scale: 1.01, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-      className="flex flex-col rounded-xl border border-border bg-card shadow-2xl overflow-hidden transition-all duration-300 group focus-within:ring-1 focus-within:ring-cyan-500/50 relative"
+      className="flex flex-col rounded-xl border border-border bg-card shadow-2xl overflow-hidden transition duration-300 group focus-within:ring-1 focus-within:ring-cyan-500/50 relative"
     >
       {/* Terminal Bar Chrome */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/90 bg-muted/80 px-4 py-3 select-none backdrop-blur-md z-20">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#F7FDFF]/80 shadow-sm" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FFFFFF]/80 shadow-sm" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#F0FAFF]/80 shadow-sm" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#F0FAFF]/80 shadow-sm" />
           </div>
@@ -352,7 +352,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           {isComplianceEngine && (
             <button
               onClick={() => setShowGauges(!showGauges)}
-              className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-mono font-medium transition-all active:scale-95 ${
+              className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-mono font-medium transition active:scale-95 ${
                 showGauges
                   ? 'border-cyan-500/40 bg-[#F0FAFF]/10 text-cyan-300'
                   : 'border-border bg-primary text-muted-foreground hover:text-muted-foreground'
@@ -367,7 +367,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           {/* Auto-Scroll Toggle with Hover Pause Feedback */}
           <button
             onClick={() => setAutoScroll(!autoScroll)}
-            className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-mono font-medium transition-all active:scale-95 ${
+            className={`flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-mono font-medium transition active:scale-95 ${
               autoScroll
                 ? isHovered
                   ? 'border-amber-500/50 bg-[#F0FAFF]/15 text-amber-300'
@@ -401,7 +401,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           <button
             onClick={handleCopy}
             disabled={!output}
-            className="flex items-center gap-1 rounded-lg border border-border bg-primary/90 px-2 py-1 text-[11px] font-mono font-medium text-muted-foreground hover:border-border hover:bg-primary-hover hover:text-primary-foreground disabled:opacity-40 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+            className="flex items-center gap-1 rounded-lg border border-border bg-primary/90 px-2 py-1 text-[11px] font-mono font-medium text-muted-foreground hover:border-border hover:bg-primary-hover hover:text-primary-foreground disabled:opacity-40 transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
             title="Copy output"
             aria-label="Copy terminal output"
           >
@@ -421,7 +421,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           {/* Expand / Minimize */}
           <button
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg border border-border bg-primary/90 p-1 text-muted-foreground hover:border-border hover:bg-primary-hover hover:text-primary-foreground transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+            className="rounded-lg border border-border bg-primary/90 p-1 text-muted-foreground hover:border-border hover:bg-primary-hover hover:text-primary-foreground transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
             title={expanded ? 'Collapse console' : 'Expand console'}
             aria-label={expanded ? 'Collapse console' : 'Expand console'}
           >
@@ -452,7 +452,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           {filterQuery && (
             <button
               onClick={() => setFilterQuery('')}
-              className="text-[10px] text-muted-foreground hover:text-muted-foreground"
+              className="text-[11px] text-muted-foreground hover:text-muted-foreground"
             >
               Clear
             </button>
@@ -465,7 +465,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
             <button
               key={level}
               onClick={() => setActiveLevelFilter(level)}
-              className={`px-1.5 py-0.5 rounded text-[10px] font-mono transition-colors ${
+              className={`px-1.5 py-0.5 rounded text-[11px] font-mono transition-colors ${
                 activeLevelFilter === level
                   ? 'bg-muted text-cyan-300 font-bold border border-border'
                   : 'text-muted-foreground hover:text-muted-foreground'
@@ -528,7 +528,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
       </div>
 
       {/* Footer Status Bar */}
-      <div className="flex items-center justify-between px-4 py-1.5 bg-muted/40 border-t border-border/80 text-[10px] font-mono text-muted-foreground z-20 select-none">
+      <div className="flex items-center justify-between px-4 py-1.5 bg-muted/40 border-t border-border/80 text-[11px] font-mono text-muted-foreground z-20 select-none">
         <div className="flex items-center gap-2">
           <span>{filteredLines.length} lines</span>
           {filterQuery && <span className="text-cyan-400">(filtered)</span>}

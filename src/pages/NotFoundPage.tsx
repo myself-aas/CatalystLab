@@ -22,7 +22,7 @@ export const NotFoundPage: React.FC = () => {
  />
 
  {/* Ambient background grid & glow */}
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none opacity-20"/>
 
@@ -49,12 +49,12 @@ export const NotFoundPage: React.FC = () => {
  <div className="ds-card p-4 text-left font-mono text-xs text-muted-foreground space-y-1.5 backdrop-blur-md">
  <div className="flex items-center justify-between text-[11px] text-muted-foreground pb-2 border-b border-border">
  <span className="flex items-center gap-1.5">
- <Terminal className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
+ <Terminal className="h-3.5 w-3.5 text-foreground shrink-0"/>
  <span>EDGE_GATEWAY_TRACE</span>
  </span>
  <span className="text-amber-400">ERR_DNS_UNRESOLVED</span>
  </div>
- <div className="text-muted-foreground">Origin: <span className="text-[#F0FAFF]">Client Anycast Ingress</span></div>
+ <div className="text-muted-foreground">Origin: <span className="text-foreground">Client Anycast Ingress</span></div>
  <div className="text-muted-foreground">Mesh Status: <span className="text-emerald-400">42 PoPs Operational</span></div>
  <div className="text-muted-foreground text-[11px]">Recommended action: Return to root routing matrix or dispatch domain diagnostic.</div>
  </div>
@@ -73,7 +73,7 @@ export const NotFoundPage: React.FC = () => {
  to="/launch-audit"
  className="ds-btn ds-btn-secondary text-xs sm:text-sm"
  >
- <Activity className="h-4 w-4 text-[#F0FAFF] shrink-0"/>
+ <Activity className="h-4 w-4 text-foreground shrink-0"/>
  <span>Launch New Audit</span>
  </Link>
 
@@ -92,7 +92,7 @@ export const NotFoundPage: React.FC = () => {
  <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
  <div className="w-full ds-card p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative">
  <div className="absolute top-3 left-4 framer-micro-tag text-muted-foreground flex items-center gap-1.5">
- <Globe2 className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
+ <Globe2 className="h-3.5 w-3.5 text-foreground shrink-0"/>
  <span>STATIC POPS IDLE FRAME</span>
  </div>
  

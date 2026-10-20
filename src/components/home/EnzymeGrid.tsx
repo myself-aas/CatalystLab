@@ -17,7 +17,7 @@ const CardBase = ({ children, className = "", delay = 0, span = 1 }: any) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.15 }}
     transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-    className={`group relative bg-card rounded-[24px] sm:rounded-[40px] p-4 sm:p-8 flex flex-col hover:-translate-y-1.5 transition-all duration-300 border border-border/60 shadow-sm hover:shadow-md ${span === 2 ? 'col-span-2' : 'col-span-1'} ${className}`}
+    className={`group relative bg-card rounded-[24px] sm:rounded-[40px] p-4 sm:p-8 flex flex-col hover:-translate-y-1.5 transition duration-300 border border-border/60 shadow-sm hover:shadow-md ${span === 2 ? 'col-span-2' : 'col-span-1'} ${className}`}
   >
     {children}
   </motion.div>
@@ -29,7 +29,7 @@ const BarChartCard = ({ delay }: { delay: number }) => (
       <h3 className="text-base sm:text-xl font-medium text-foreground tracking-tight">Consumption</h3>
       <div className="flex items-center gap-1.5">
         <div className="size-1.5 sm:size-2 rounded-full bg-[#F0FAFF] animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.6)]" />
-        <span className="text-[9px] sm:text-[10px] text-muted-foreground font-mono uppercase tracking-wider hidden sm:inline-block">Live</span>
+        <span className="text-[11px] sm:text-[11px] text-muted-foreground font-mono uppercase tracking-wider hidden sm:inline-block">Live</span>
       </div>
     </div>
     
@@ -46,7 +46,7 @@ const BarChartCard = ({ delay }: { delay: number }) => (
         </div>
       ))}
     </div>
-    <div className="flex justify-between text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-widest font-mono mb-6 sm:mb-8">
+    <div className="flex justify-between text-[8px] sm:text-[11px] text-muted-foreground uppercase tracking-widest font-mono mb-6 sm:mb-8">
       <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
     </div>
     
@@ -64,7 +64,7 @@ const DotMatrixCard = ({ delay }: { delay: number }) => {
     <CardBase delay={delay}>
       <div className="flex justify-between items-start mb-4 sm:mb-6">
         <div>
-          <span className="text-[9px] sm:text-[10px] font-mono text-muted-foreground uppercase tracking-widest mb-1 block">Routing</span>
+          <span className="text-[11px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-widest mb-1 block">Routing</span>
           <h3 className="text-2xl sm:text-4xl font-light text-foreground tracking-tighter mt-1">+326<span className="text-sm sm:text-xl text-muted-foreground">%</span></h3>
         </div>
       </div>
@@ -108,9 +108,9 @@ const SegmentedThresholdCard = ({ delay }: { delay: number }) => (
       </div>
       
       <div className="flex-1 bg-foreground/[0.02] rounded-[16px] sm:rounded-[24px] p-4 sm:p-8 border border-foreground/5 flex flex-col justify-center relative overflow-hidden group-hover:bg-foreground/[0.04] transition-colors duration-500 order-1 lg:order-2">
-         <div className="flex justify-between items-center text-[10px] sm:text-xs font-mono text-muted-foreground mb-4 sm:mb-6">
+         <div className="flex justify-between items-center text-[11px] sm:text-xs font-mono text-muted-foreground mb-4 sm:mb-6">
            <span>Q1 - Q2</span>
-           <span className="text-red-400 font-medium bg-[#F7FDFF]/10 px-2 py-0.5 rounded-full">68%</span>
+           <span className="text-red-400 font-medium bg-[#FFFFFF]/10 px-2 py-0.5 rounded-full">68%</span>
          </div>
          
          <div className="relative h-24 sm:h-36 flex items-end justify-between gap-2 sm:gap-6 z-10 mt-auto">
@@ -129,9 +129,9 @@ const SegmentedThresholdCard = ({ delay }: { delay: number }) => (
                   whileInView={{ height: `${item.val}%` }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: delay + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-[#1F2223] border border-white/10 rounded-xl sm:rounded-2xl relative flex items-end justify-center pb-2 sm:pb-3 shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
+                  className="bg-background border border-white/10 rounded-xl sm:rounded-2xl relative flex items-end justify-center pb-2 sm:pb-3 shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
                 >
-                  <span className="text-[8px] sm:text-[10px] lg:text-xs font-mono text-foreground font-medium">{item.label}</span>
+                  <span className="text-[8px] sm:text-[11px] lg:text-xs font-mono text-foreground font-medium">{item.label}</span>
                 </motion.div>
               </div>
             ))}
@@ -151,11 +151,11 @@ const LayeredCodeCard = ({ delay }: { delay: number }) => (
             
             <div className="absolute inset-0 bg-card rounded-[20px] sm:rounded-3xl border border-border shadow-xl p-4 sm:p-6 flex flex-col transform transition-transform duration-500 group-hover:translate-y-0 group-hover:scale-[1.02] overflow-hidden">
                 <div className="flex gap-1 sm:gap-1.5 mb-4 sm:mb-6">
-                  <div className="size-2 sm:size-3 rounded-full bg-[#F7FDFF]/80" />
+                  <div className="size-2 sm:size-3 rounded-full bg-[#FFFFFF]/80" />
                   <div className="size-2 sm:size-3 rounded-full bg-[#F0FAFF]/80" />
                   <div className="size-2 sm:size-3 rounded-full bg-[#F0FAFF]/80" />
                 </div>
-                <div className="font-mono text-[9px] sm:text-xs leading-loose text-muted-foreground whitespace-pre overflow-x-auto no-scrollbar">
+                <div className="font-mono text-[11px] sm:text-xs leading-loose text-muted-foreground whitespace-pre overflow-x-auto no-scrollbar">
                   <span className="text-purple-400">class</span> <span className="text-amber-400">LLMKinase</span>:<br/>
                   &nbsp;&nbsp;<span className="text-blue-400">def</span> <span className="text-emerald-400">__init__</span>(self):<br/>
                   <span className="opacity-50 mt-1 sm:mt-2 block"># AI Manifest Validation</span>
@@ -171,7 +171,7 @@ const LayeredCodeCard = ({ delay }: { delay: number }) => (
                   className="absolute right-3 bottom-3 sm:-right-2 sm:-bottom-2 bg-background border border-border shadow-lg rounded-full px-2 sm:px-4 py-1 sm:py-2 flex items-center gap-1.5 sm:gap-2 z-10"
                 >
                   <div className="size-1.5 sm:size-2 rounded-full bg-[#F0FAFF] animate-pulse" />
-                  <span className="text-[9px] sm:text-xs font-mono font-medium text-foreground">Valid</span>
+                  <span className="text-[11px] sm:text-xs font-mono font-medium text-foreground">Valid</span>
                 </motion.div>
             </div>
          </div>
@@ -191,19 +191,19 @@ const LayeredCodeCard = ({ delay }: { delay: number }) => (
 const TimelineCard = ({ delay }: { delay: number }) => (
   <CardBase delay={delay}>
     <div className="flex justify-between items-start mb-6 sm:mb-8">
-      <span className="text-[8px] sm:text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Migrations</span>
-      <span className="text-[8px] sm:text-[10px] font-mono text-foreground uppercase tracking-widest bg-foreground/10 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">AST</span>
+      <span className="text-[8px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-widest">Migrations</span>
+      <span className="text-[8px] sm:text-[11px] font-mono text-foreground uppercase tracking-widest bg-foreground/10 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">AST</span>
     </div>
     
     <div className="flex-1 flex flex-col gap-3 sm:gap-5 mb-6 sm:mb-10 justify-center mt-auto">
        {[
-         { label: '0:46', pattern: ['w-2 sm:w-3 bg-[#F7FDFF]', 'w-3 sm:w-5 bg-[#F7FDFF]'] },
+         { label: '0:46', pattern: ['w-2 sm:w-3 bg-[#FFFFFF]', 'w-3 sm:w-5 bg-[#FFFFFF]'] },
          { label: '1:32', pattern: ['w-4 sm:w-8 bg-foreground/20', 'w-6 sm:w-10 bg-foreground/20', 'w-3 sm:w-6 bg-foreground/20'] },
          { label: '4:54', pattern: ['w-3 sm:w-5 bg-foreground/40', 'w-2 sm:w-3 bg-foreground/40', 'w-8 sm:w-16 bg-foreground/40', 'w-4 sm:w-8 bg-foreground/40'] },
          { label: '8:12', pattern: ['w-4 sm:w-8 bg-foreground', 'w-6 sm:w-12 bg-foreground'] },
        ].map((row, i) => (
          <div key={i} className="flex items-center gap-2 sm:gap-4">
-           <span className="text-[9px] sm:text-xs font-mono text-muted-foreground w-6 sm:w-8">{row.label}</span>
+           <span className="text-[11px] sm:text-xs font-mono text-muted-foreground w-6 sm:w-8">{row.label}</span>
            <div className="flex items-center gap-1 sm:gap-2 flex-1">
              {row.pattern.map((p, j) => (
                <motion.div 
@@ -235,7 +235,7 @@ const MetricCard = ({ delay }: { delay: number }) => (
     </div>
     
     <div className="flex flex-col mb-6 sm:mb-8 mt-auto">
-      <span className="text-[8px] sm:text-[10px] font-mono font-medium text-muted-foreground mb-1 sm:mb-2 uppercase tracking-widest">Success Rate</span>
+      <span className="text-[8px] sm:text-[11px] font-mono font-medium text-muted-foreground mb-1 sm:mb-2 uppercase tracking-widest">Success Rate</span>
       <h3 className="text-3xl sm:text-6xl font-light text-foreground tracking-tighter mb-3 sm:mb-4">
         99<span className="text-xl sm:text-3xl text-muted-foreground">.8%</span>
       </h3>
@@ -250,7 +250,7 @@ const MetricCard = ({ delay }: { delay: number }) => (
             className="h-full bg-[#F0FAFF] rounded-full" 
           />
         </div>
-        <span className="text-[8px] sm:text-[10px] font-mono text-emerald-400 font-medium bg-[#F0FAFF]/10 px-1.5 sm:px-2 py-0.5 rounded">+1.2%</span>
+        <span className="text-[8px] sm:text-[11px] font-mono text-emerald-400 font-medium bg-[#F0FAFF]/10 px-1.5 sm:px-2 py-0.5 rounded">+1.2%</span>
       </div>
     </div>
     
@@ -267,7 +267,7 @@ export const EnzymeGrid: React.FC = () => {
         <SectionHeader
           eyebrow={
             <>
-              <Layers className="size-3.5 text-[#F0FAFF]" />
+              <Layers className="size-3.5 text-foreground" />
               <span>Autonomous engines</span>
             </>
           }

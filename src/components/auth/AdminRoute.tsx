@@ -171,7 +171,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
 
                   <button
                     onClick={() => logout().then(() => login())}
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-5 py-2.5 text-xs font-bold text-foreground hover:bg-muted-foreground/80 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-5 py-2.5 text-xs font-bold text-foreground hover:bg-muted-foreground/80 transition shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <LogIn className="h-3.5 w-3.5" />
                     <span>Switch Account</span>
@@ -180,7 +180,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
               ) : (
                 <button
                   onClick={() => login()}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-5 py-2.5 text-xs font-bold text-foreground hover:bg-muted-foreground/80 transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-5 py-2.5 text-xs font-bold text-foreground hover:bg-muted-foreground/80 transition shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <LogIn className="h-3.5 w-3.5" />
                   <span>Sign In with Google</span>
@@ -199,7 +199,7 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
                   });
                   setTokenSuperadminVerified(true);
                 }}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-4 py-2 text-xs font-bold text-emerald-300 shadow-sm transition-all hover:bg-emerald-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-4 py-2 text-xs font-bold text-emerald-300 shadow-sm transition hover:bg-emerald-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
               >
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Dev-only superadmin session</span>

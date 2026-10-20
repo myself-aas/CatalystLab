@@ -44,22 +44,22 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system'); // Local mock for demo if no context
 
   return (
-    <div className="min-h-screen bg-[#1F2223] font-sans antialiased selection:bg-[rgba(240,250,255,0.10)] selection:text-[#F0FAFF] text-[#F0FAFF] pt-16">
+    <div className="min-h-screen bg-background font-sans antialiased selection:bg-[rgba(240,250,255,0.10)] selection:text-foreground text-foreground pt-16">
       {/* Top Navigation Bar */}
       <TopNav>
         {/* Left: Brand & Mobile Menu */}
         <div className="flex items-center gap-4 lg:w-72">
           <button
-            className="lg:hidden p-2 -ml-2 text-[rgba(240,250,255,0.65)] hover:text-[#F0FAFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(240,250,255,0.20)] rounded-full hover:bg-[rgba(240,250,255,0.05)]"
+            className="lg:hidden p-2 -ml-2 text-[rgba(240,250,255,0.65)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(240,250,255,0.20)] rounded-full hover:bg-[rgba(240,250,255,0.05)]"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             aria-label="Toggle sidebar"
           >
             {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          <a href="/" className="flex items-center gap-2 text-[#F0FAFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(240,250,255,0.20)] rounded-full px-1 py-1">
+          <a href="/" className="flex items-center gap-2 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(240,250,255,0.20)] rounded-full px-1 py-1">
             {brandIcon || (
-              <svg width="22" height="22" viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#F0FAFF]">
+              <svg width="22" height="22" viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-foreground">
                 <circle cx="0" cy="0" r="2" fill="currentColor"></circle>
                 <g stroke="currentColor" strokeWidth="1" fill="none">
                   <ellipse rx="10" ry="4.5"></ellipse>
@@ -88,7 +88,7 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
 
           <div className="flex items-center gap-2 ml-4 pl-4 border-l border-[rgba(240,250,255,0.08)] hidden sm:flex">
             <button
-              className="p-2 text-[rgba(240,250,255,0.55)] hover:text-[#F0FAFF] transition-colors rounded-full hover:bg-[rgba(240,250,255,0.05)]"
+              className="p-2 text-[rgba(240,250,255,0.55)] hover:text-foreground transition-colors rounded-full hover:bg-[rgba(240,250,255,0.05)]"
               title="Toggle theme"
               onClick={() => {
                 const next = theme === 'light' ? 'dark' : 'light';
@@ -104,7 +104,7 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
               <a
                 href={githubUrl}
                 target="_blank" rel="noopener noreferrer"
-                className="p-2 text-[rgba(240,250,255,0.55)] hover:text-[#F0FAFF] transition-colors rounded-full hover:bg-[rgba(240,250,255,0.05)]"
+                className="p-2 text-[rgba(240,250,255,0.55)] hover:text-foreground transition-colors rounded-full hover:bg-[rgba(240,250,255,0.05)]"
               >
                 <GithubIcon />
               </a>

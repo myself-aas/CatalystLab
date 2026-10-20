@@ -1,4 +1,5 @@
 import React from 'react';
+import { clickableProps } from '../../lib/keyboard';
 import { 
   Activity, 
   FileText, 
@@ -44,7 +45,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
           <span className="text-xs uppercase tracking-wider text-muted-foreground">
             Platform Telemetry Matrix
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[var(--bg-surface)] border border-border text-foreground">
+          <span className="text-[11px] px-2 py-0.5 rounded-full bg-[var(--bg-surface)] border border-border text-foreground">
             3-Column Bento Engine
           </span>
         </div>
@@ -58,7 +59,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono">
         {/* Metric 1: Global Diagnostic Architecture Health (Primary Metric) */}
         <div
-          onClick={() => onNavigateTab('audits')}
+          {...clickableProps} onClick={() => onNavigateTab('audits')}
           className="ds-card ds-card-interactive group p-4 sm:p-5 flex flex-col justify-between cursor-pointer"
           title="Click to view full audit dossiers vault"
         >
@@ -66,14 +67,14 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar - Strict Visual Parity with Audit Dossier Cards */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#F0FAFF] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-foreground shrink-0">
                   <Activity className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Global Health Score
                   </h3>
-                  <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
+                  <span className="text-[11px] ds-muted flex items-center gap-1 truncate">
                     <Layers className="h-2.5 w-2.5" />
                     Diagnostic Engine Composite
                   </span>
@@ -87,7 +88,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                     ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20'
                     : avgScore >= 75
                     ? 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
-                    : 'bg-[#F7FDFF]/10 text-red-400 border-red-500/20'
+                    : 'bg-[#FFFFFF]/10 text-red-400 border-red-500/20'
                 }`}
               >
                 {avgScore}/100
@@ -113,7 +114,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               {/* Progress bar */}
               <div className="w-full bg-[var(--bg-surface)] rounded-full h-1.5 overflow-hidden mt-2">
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${
+                  className={`h-full rounded-full transition duration-500 ${
                     avgScore >= 90
                       ? 'bg-gradient-to-r from-emerald-500 to-[#F0FAFF]'
                       : avgScore >= 75
@@ -128,7 +129,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
           {/* Card Action Footer */}
           <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
-            <span className="text-[10px] ds-muted truncate">
+            <span className="text-[11px] ds-muted truncate">
               {totalAudits} dossiers evaluated
             </span>
             <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">
@@ -140,7 +141,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
         {/* Metric 2: Telemetry Dossiers Recorded */}
         <div
-          onClick={() => onNavigateTab('audits')}
+          {...clickableProps} onClick={() => onNavigateTab('audits')}
           className="ds-card ds-card-interactive group p-4 sm:p-5 flex flex-col justify-between cursor-pointer"
           title="Click to inspect all recorded dossiers"
         >
@@ -148,14 +149,14 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#F0FAFF] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-foreground shrink-0">
                   <FileText className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Telemetry Dossiers
                   </h3>
-                  <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
+                  <span className="text-[11px] ds-muted flex items-center gap-1 truncate">
                     <Cpu className="h-2.5 w-2.5" />
                     Autonomous AST Records
                   </span>
@@ -174,7 +175,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                 <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   {totalAudits}
                 </span>
-                <span className="text-[11px] font-bold text-[#F0FAFF] flex items-center gap-0.5">
+                <span className="text-[11px] font-bold text-foreground flex items-center gap-0.5">
                   <TrendingUp className="h-3 w-3" />
                   Active Scan
                 </span>
@@ -184,7 +185,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                 {uniqueDomains} unique domain{uniqueDomains === 1 ? '' : 's'} continuously profiled with AST diffs and DOM snapshots.
               </p>
 
-              <div className="flex items-center gap-2 pt-1 text-[10px] text-muted-foreground font-mono">
+              <div className="flex items-center gap-2 pt-1 text-[11px] text-muted-foreground font-mono">
                 <span className="truncate max-w-[150px] px-1.5 py-0.5 rounded bg-[var(--bg-surface)] border border-border text-foreground">
                   {targetDomain}
                 </span>
@@ -195,7 +196,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
           {/* Card Action Footer */}
           <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
-            <span className="text-[10px] ds-muted truncate">
+            <span className="text-[11px] ds-muted truncate">
               {uniqueDomains} Hostnames Monitored
             </span>
             <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">
@@ -207,7 +208,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
         {/* Metric 3: Compute Quota & Allocation */}
         <div
-          onClick={() => onNavigateTab('rate-limits')}
+          {...clickableProps} onClick={() => onNavigateTab('rate-limits')}
           className="ds-card ds-card-interactive group p-4 sm:p-5 flex flex-col justify-between cursor-pointer"
           title="Click to manage rate limit allocation"
         >
@@ -222,7 +223,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                   <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Compute Quota
                   </h3>
-                  <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
+                  <span className="text-[11px] ds-muted flex items-center gap-1 truncate">
                     Daily Telemetry Allocation
                   </span>
                 </div>
@@ -252,7 +253,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               {/* Progress bar */}
               <div className="w-full bg-[var(--bg-surface)] rounded-full h-1.5 overflow-hidden mt-2">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 transition-all duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 transition duration-500"
                   style={{ width: `${quotaPercentage}%` }}
                 />
               </div>
@@ -261,7 +262,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
           {/* Card Action Footer */}
           <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
-            <span className="text-[10px] ds-muted truncate">
+            <span className="text-[11px] ds-muted truncate">
               Resets at 00:00 UTC
             </span>
             <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">
@@ -273,7 +274,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
         {/* Metric 4: Edge Kinase Mesh Latency */}
         <div
-          onClick={() => onNavigateTab('monitoring')}
+          {...clickableProps} onClick={() => onNavigateTab('monitoring')}
           className="ds-card ds-card-interactive group p-4 sm:p-5 flex flex-col justify-between cursor-pointer"
           title="Click to open live edge mesh radar"
         >
@@ -288,7 +289,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                   <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Edge Mesh Matrix
                   </h3>
-                  <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
+                  <span className="text-[11px] ds-muted flex items-center gap-1 truncate">
                     Anycast PoP Routing
                   </span>
                 </div>
@@ -324,7 +325,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
           {/* Card Action Footer */}
           <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
-            <span className="text-[10px] ds-muted truncate">
+            <span className="text-[11px] ds-muted truncate">
               Global Anycast Routing
             </span>
             <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">
@@ -336,7 +337,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
         {/* Metric 5: GHLyase Autonomous PR Patches */}
         <div
-          onClick={() => onNavigateTab('patches')}
+          {...clickableProps} onClick={() => onNavigateTab('patches')}
           className="ds-card ds-card-interactive group p-4 sm:p-5 flex flex-col justify-between cursor-pointer"
           title="Click to view automated pull request patches"
         >
@@ -344,14 +345,14 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[#F0FAFF] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-foreground shrink-0">
                   <GitBranch className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     Automated PR Patches
                   </h3>
-                  <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
+                  <span className="text-[11px] ds-muted flex items-center gap-1 truncate">
                     GHLyase AST Engine
                   </span>
                 </div>
@@ -369,7 +370,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                 <span className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-foreground">
                   3 Branches
                 </span>
-                <span className="text-[11px] font-bold text-[#F0FAFF]">
+                <span className="text-[11px] font-bold text-foreground">
                   Verified AST Diff
                 </span>
               </div>
@@ -387,7 +388,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
           {/* Card Action Footer */}
           <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
-            <span className="text-[10px] ds-muted truncate">
+            <span className="text-[11px] ds-muted truncate">
               GitHub Pipeline Active
             </span>
             <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">
@@ -399,7 +400,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
         {/* Metric 6: OWASP Transport Shield (RiskProtease) */}
         <div
-          onClick={() => onNavigateTab('security')}
+          {...clickableProps} onClick={() => onNavigateTab('security')}
           className="ds-card ds-card-interactive group p-4 sm:p-5 flex flex-col justify-between cursor-pointer"
           title="Click to view OWASP security audit logs"
         >
@@ -414,7 +415,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                   <h3 className="text-xs font-bold text-foreground truncate group-hover:text-foreground transition-colors">
                     OWASP Security Vault
                   </h3>
-                  <span className="text-[10px] ds-muted flex items-center gap-1 truncate">
+                  <span className="text-[11px] ds-muted flex items-center gap-1 truncate">
                     TLS 1.3 &amp; Header Audit
                   </span>
                 </div>
@@ -450,7 +451,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
           {/* Card Action Footer */}
           <div className="pt-2.5 border-t border-border flex items-center justify-between gap-2">
-            <span className="text-[10px] ds-muted truncate">
+            <span className="text-[11px] ds-muted truncate">
               OWASP Top 10 Compliant
             </span>
             <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1 shrink-0">

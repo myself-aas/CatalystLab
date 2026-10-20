@@ -148,7 +148,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <div className="space-y-2">
                 <Link
                   to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <LogIn className="h-4 w-4" />
                   <span>Sign In (Email, Gmail, GitHub)</span>
@@ -175,7 +175,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               <div className="space-y-2">
                 <button
                   onClick={() => openTrialModal('pro')}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-3 text-xs sm:text-sm font-bold text-primary-foreground transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Zap className="h-4 w-4" />
                   <span>Start 7-Day Pro Free Trial</span>

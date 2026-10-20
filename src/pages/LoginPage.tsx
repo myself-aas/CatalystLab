@@ -156,7 +156,7 @@ export const LoginPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#2C3032 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(#F3F4F6 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -168,16 +168,16 @@ export const LoginPage: React.FC = () => {
  <Link to="/" className="flex items-center gap-2 group focus:outline-none">
  <BrandLogo size="sm" />
  <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
- Catalyst<span className="text-[#F0FAFF]">Lab</span>
+ Catalyst<span className="text-foreground">Lab</span>
  </span>
  </Link>
- <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+ <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
  Security Gateway
  </span>
  </div>
 
  {/* Live Ingress Badge */}
- <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[10px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+ <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
  <ShieldCheck className="size-3 text-emerald-400" />
  <span>TLS 1.3 &bull; Mutual TLS Auth Ready &bull; OWASP Compliant</span>
  </div>
@@ -194,7 +194,7 @@ export const LoginPage: React.FC = () => {
 
  {/* Error / Feedback Alert Banner */}
  {activeErrorMessage && (
- <div className="mb-5 rounded-xl border border-rose-500/30 bg-[#F7FDFF]/10 p-3.5 text-xs text-rose-300">
+ <div className="mb-5 rounded-xl border border-rose-500/30 bg-[#FFFFFF]/10 p-3.5 text-xs text-rose-300">
  <div className="flex items-start gap-2.5">
  <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
  <div className="flex-1 space-y-1">
@@ -264,7 +264,7 @@ export const LoginPage: React.FC = () => {
  <div className="absolute inset-0 flex items-center">
  <div className="w-full border-t border-border" />
  </div>
- <div className="relative flex justify-center text-[10px] font-mono uppercase tracking-wider">
+ <div className="relative flex justify-center text-[11px] font-mono uppercase tracking-wider">
  <span className="bg-surface px-2 text-muted-foreground">
  Or Authenticate via Workspace Credentials
  </span>
@@ -322,13 +322,13 @@ export const LoginPage: React.FC = () => {
  type="checkbox"
  checked={keepActive}
  onChange={(e) => setKeepActive(e.target.checked)}
- className="rounded bg-background border-border-strong text-[#F0FAFF] focus:ring-0 focus:ring-offset-0 size-3.5"
+ className="rounded bg-background border-border-strong text-foreground focus:ring-0 focus:ring-offset-0 size-3.5"
  />
  <span>Keep session active (30 days)</span>
  </label>
  <Link
  to="/forgot-password"
- className="text-[#F0FAFF] hover:underline"
+ className="text-foreground hover:underline"
  >
  Forgot password?
  </Link>
@@ -356,7 +356,7 @@ export const LoginPage: React.FC = () => {
  {/* Passkey / CLI Terminal Runner */}
  <div className="mt-5 p-2.5 rounded-xl bg-background border border-border flex items-center justify-between gap-2 text-[11px] font-mono text-muted-foreground">
  <div className="flex items-center gap-1.5 truncate">
- <Terminal className="size-3.5 text-[#F0FAFF] shrink-0" />
+ <Terminal className="size-3.5 text-foreground shrink-0" />
  <span className="truncate">npx catalystlab login</span>
  </div>
  <CopyButton
@@ -364,7 +364,7 @@ export const LoginPage: React.FC = () => {
  variant="terminal"
  label="Copy"
  copiedLabel="Copied"
- className="py-0.5 px-2 text-[10px]"
+ className="py-0.5 px-2 text-[11px]"
  />
  </div>
 
@@ -376,14 +376,14 @@ export const LoginPage: React.FC = () => {
  <button
  type="button"
  onClick={() => handleSandboxLogin('superadmin')}
- className="px-2 py-1 rounded bg-[#F0FAFF]/10 border border-amber-500/30 text-amber-300 hover:bg-[#F0FAFF]/20 transition-all font-mono"
+ className="px-2 py-1 rounded bg-[#F0FAFF]/10 border border-amber-500/30 text-amber-300 hover:bg-[#F0FAFF]/20 transition font-mono"
  >
  Superadmin
  </button>
  <button
  type="button"
  onClick={() => handleSandboxLogin('pro')}
- className="px-2 py-1 rounded bg-[#F0FAFF]/10 border border-blue-500/30 text-blue-300 hover:bg-[#F0FAFF]/20 transition-all font-mono"
+ className="px-2 py-1 rounded bg-[#F0FAFF]/10 border border-blue-500/30 text-blue-300 hover:bg-[#F0FAFF]/20 transition font-mono"
  >
  Team Pro
  </button>
@@ -394,7 +394,7 @@ export const LoginPage: React.FC = () => {
  {/* Switch to Sign Up */}
  <div className="mt-5 pt-4 border-t border-border text-center text-xs text-muted-foreground">
  Don&apos;t have an organization workspace yet?{' '}
- <Link to="/signup" className="text-foreground hover:text-[#F0FAFF] font-medium transition-colors">
+ <Link to="/signup" className="text-foreground hover:text-foreground font-medium transition-colors">
  Create an account &rarr;
  </Link>
  </div>

@@ -98,7 +98,7 @@ export const EnterpriseScaleChart: React.FC = () => {
             type="button"
             onClick={triggerSimulation}
             disabled={simulationActive}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary text-foreground hover:bg-background text-sm font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary text-foreground hover:bg-background text-sm font-mono font-bold transition shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Sparkles className={`h-3.5 w-3.5 text-foreground ${simulationActive ? 'animate-spin' : ''}`} />
             <span>{simulationActive ? 'Simulating SLA Load...' : 'Simulate Enterprise Load'}</span>
@@ -115,7 +115,7 @@ export const EnterpriseScaleChart: React.FC = () => {
                 key={pillar.id}
                 type="button"
                 onClick={() => setActivePillar(idx)}
-                className={`text-left p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                className={`text-left p-3.5 rounded-2xl border transition duration-200 cursor-pointer flex flex-col justify-between ${
                   isActive
                     ? 'bg-muted border-sky-400 shadow-[0_0_20px_rgba(56,189,248,0.2)] ring-1 ring-sky-400'
                     : 'bg-background/80 border-border hover:bg-muted/80 hover:border-muted-foreground'
@@ -169,7 +169,7 @@ export const EnterpriseScaleChart: React.FC = () => {
               <div className="pt-2 flex flex-wrap items-center gap-3 text-sm font-mono">
                 <Link
                   to="/launch-audit"
-                  className="inline-flex items-center gap-1.5 bg-primary hover:bg-background text-foreground px-3.5 py-1.5 rounded-xl font-bold transition-all shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex items-center gap-1.5 bg-primary hover:bg-background text-foreground px-3.5 py-1.5 rounded-xl font-bold transition shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span>Audit Infrastructure SLA</span>
                   <ArrowRight className="h-3.5 w-3.5" />

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useId } from 'react';
+import { clickableProps } from '../../lib/keyboard';
 import { motion, AnimatePresence } from 'motion/react';
 import { Terminal, CornerDownLeft, Loader2, X, Globe, Shield, Sparkles, Check } from 'lucide-react';
 
@@ -69,7 +70,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
   return (
     <div
       id={`container-${inputId}`}
-      className={`w-full transition-all duration-300 ${className}`}
+      className={`w-full transition duration-300 ${className}`}
     >
       {/* Screen Reader Announcements */}
       <span className="sr-only" id={`${inputId}-description`}>
@@ -78,8 +79,8 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
 
       {/* Terminal Command Line Container */}
       <div
-        onClick={() => inputRef.current?.focus()}
-        className={`relative group rounded-xl transition-all duration-300 cursor-text ${
+        {...clickableProps} onClick={() => inputRef.current?.focus()}
+        className={`relative group rounded-xl transition duration-300 cursor-text ${
           isFocused
             ? 'border-primary shadow-linear-cta bg-card/95'
             : 'border-border hover:border-border/80 bg-card/90 shadow-linear-card'
@@ -93,7 +94,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
             <div className="flex items-center gap-2">
               {/* Traffic light LEDs */}
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#F7FDFF]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FFFFFF]" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]" />
               </div>
@@ -105,11 +106,11 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
 
             <div className="flex items-center gap-2">
               {badgeText && (
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-primary/10 text-primary border border-primary/30">
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-primary/10 text-primary border border-primary/30">
                   {badgeText}
                 </span>
               )}
-              <span className="text-[10px] font-mono text-muted-foreground">
+              <span className="text-[11px] font-mono text-muted-foreground">
                 PORT:3000 • TLS:ACTIVE
               </span>
             </div>
@@ -203,7 +204,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               id={`${inputId}-submit`}
               disabled={!value.trim() || isLoading || disabled}
               aria-label="Execute Telemetry Audit Scan"
-              className={`flex items-center gap-2 font-mono font-bold rounded-lg transition-all select-none ${
+              className={`flex items-center gap-2 font-mono font-bold rounded-lg transition select-none ${
                 isHero
                   ? 'px-3.5 sm:px-5 py-2 text-xs sm:text-sm'
                   : isCompact

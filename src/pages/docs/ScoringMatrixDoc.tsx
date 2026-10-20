@@ -149,7 +149,7 @@ export const ScoringMatrixDoc: React.FC = () => {
  <p className="text-xs text-foreground-muted mt-1">Latency or DOM Bottlenecks</p>
  </div>
 
- <div className="rounded-xl border border-rose-500/30 bg-[#F7FDFF]/10 p-4 text-center">
+ <div className="rounded-xl border border-rose-500/30 bg-[#FFFFFF]/10 p-4 text-center">
  <div className="text-2xl font-black text-rose-700">&lt; 60</div>
  <div className="font-bold text-foreground mt-1">Grade F (Deficient)</div>
  <p className="text-xs text-foreground-muted mt-1">Critical Security & INP Issues</p>

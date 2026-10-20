@@ -91,7 +91,7 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
           {isGuest ? (
             <button
               onClick={() => login()}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <LogIn className="h-3.5 w-3.5" />
               <span>Sign In</span>
@@ -99,7 +99,7 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
           ) : (
             <button
               onClick={() => openTrialModal('pro')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-muted border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Zap className="h-3.5 w-3.5" />
               <span>Start 7-Day Free Trial</span>

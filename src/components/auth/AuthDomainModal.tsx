@@ -64,7 +64,7 @@ export const AuthDomainModal: React.FC = () => {
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute right-4 top-4 rounded-xl p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="min-h-11 min-w-11 absolute right-4 top-4 rounded-xl p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Close dialog"
         >
           <X className="h-5 w-5" />
@@ -88,8 +88,8 @@ export const AuthDomainModal: React.FC = () => {
         {/* Domain Display & Copy Box */}
         <div className="mb-5 rounded-xl border border-border bg-muted p-3.5">
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-            <span className="font-semibold uppercase tracking-wider text-[10px] text-muted-foreground">Current Host Domain</span>
-            <span className="font-mono text-[10px] text-amber-300 font-bold">Action Required in Firebase</span>
+            <span className="font-semibold uppercase tracking-wider text-[11px] text-muted-foreground">Current Host Domain</span>
+            <span className="font-mono text-[11px] text-amber-300 font-bold">Action Required in Firebase</span>
           </div>
           <div className="flex items-center justify-between gap-2 rounded-lg bg-background border border-border px-3 py-2">
             <div className="flex items-center gap-2 truncate">
@@ -100,7 +100,7 @@ export const AuthDomainModal: React.FC = () => {
             </div>
             <button
               onClick={handleCopyDomain}
-              className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition-all shrink-0 ${
+              className={`min-h-11 min-w-11 flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition shrink-0 ${
                 copied 
                   ? 'bg-emerald-600 text-primary-foreground' 
                   : 'bg-muted-foreground text-primary-foreground hover:bg-muted-foreground/80'
@@ -156,7 +156,7 @@ export const AuthDomainModal: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={handleSignInAsSuperadmin}
-              className="flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-3.5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-muted-foreground/80 transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center justify-center gap-2 rounded-xl bg-muted-foreground px-3.5 py-2.5 text-xs font-bold text-primary-foreground hover:bg-muted-foreground/80 transition shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
               <span>Sign In as Superadmin</span>
@@ -164,7 +164,7 @@ export const AuthDomainModal: React.FC = () => {
 
             <button
               onClick={handleSignInAsDeveloper}
-              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3.5 py-2.5 text-xs font-bold text-foreground transition-all hover:bg-muted/80 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-3.5 py-2.5 text-xs font-bold text-foreground transition hover:bg-muted/80 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <UserCheck className="h-4 w-4 text-primary" />
               <span>Sign In as Developer</span>

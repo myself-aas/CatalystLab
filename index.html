@@ -8,13 +8,15 @@
     <meta name="description" content="Precision auditing for the modern engineering stack. Multi-dimensional web health, architecture intelligence & automated telemetry diagnostics across 42 global edge nodes." />
     <meta name="keywords" content="web health, telemetry, diagnostics, OWASP, security audit, WCAG, accessibility, edge computing, AI readiness, telemetry diagnostics" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1F2223" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F0FAFF" />
-    <meta name="theme-color" content="#1F2223" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111827" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
+    <meta name="theme-color" content="#FFFFFF" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -75,7 +77,7 @@
             }
           }
           var saved = localStorage.getItem('catalystlab_theme_preference');
-          var theme = (saved === 'light' || saved === 'dark' || saved === 'system') ? saved : 'dark';
+          var theme = (saved === 'light' || saved === 'dark' || saved === 'system') ? saved : 'light';
           var dark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
           var root = document.documentElement;
           root.setAttribute('data-theme', dark ? 'dark' : 'light');

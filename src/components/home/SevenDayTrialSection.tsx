@@ -31,7 +31,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'Core Web Vitals',
       metric: '99.4/100',
       detail: 'TTFB: 14ms • LCP: 0.72s',
-      color: '#F7FDFF',
+      color: '#FFFFFF',
       badge: 'Speed Index'
     },
     {
@@ -55,7 +55,7 @@ export const SevenDayTrialSection: React.FC = () => {
       title: 'OWASP Zero-Trust',
       metric: 'Grade A+',
       detail: 'TLS 1.3 • Strict CSP & HSTS',
-      color: '#F7FDFF',
+      color: '#FFFFFF',
       badge: 'SecOps'
     },
     {
@@ -78,7 +78,7 @@ export const SevenDayTrialSection: React.FC = () => {
           
           {/* LEFT COLUMN */}
           <LazyReveal direction="left" className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#F0FAFF] shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-foreground shadow-sm">
               <Terminal className="w-3.5 h-3.5" />
               <span>AUDIT. AUTOMATE. OPTIMIZE.</span>
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-pulse ml-1" />
@@ -100,7 +100,7 @@ export const SevenDayTrialSection: React.FC = () => {
                   type="button"
                   id="trial-section-start-btn"
                   onClick={() => openTrialModal('pro')}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-6 py-3.5 text-sm font-sans font-bold text-primary-foreground shadow-md active:scale-95 transition-all cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-6 py-3.5 text-sm font-sans font-bold text-primary-foreground shadow-md active:scale-95 transition cursor-pointer"
                 >
                   <span>Start 7-Day Free Trial</span>
                   <ChevronRight className="h-4 w-4" />
@@ -171,7 +171,7 @@ export const SevenDayTrialSection: React.FC = () => {
                     <Calendar className="h-4 w-4 text-indigo-600" />
                     <span>Continuous Cron Log</span>
                   </div>
-                  <span className="text-[10px] text-emerald-400 font-bold uppercase bg-[#F0FAFF]/10 border border-emerald-500/20 px-2 py-0.5 rounded shadow-sm">
+                  <span className="text-[11px] text-emerald-400 font-bold uppercase bg-[#F0FAFF]/10 border border-emerald-500/20 px-2 py-0.5 rounded shadow-sm">
                     24/7 Active
                   </span>
                 </div>
@@ -231,7 +231,7 @@ export const SevenDayTrialSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setActiveToolTab('inspect')}
-                      className={`p-2.5 rounded-lg text-xs transition-all flex items-center gap-2 ${
+                      className={`p-2.5 rounded-lg text-xs transition flex items-center gap-2 ${
                         activeToolTab === 'inspect' ? 'bg-primary text-primary-foreground shadow-md' : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                       }`}
                       title="Telemetry Inspector"
@@ -242,7 +242,7 @@ export const SevenDayTrialSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setActiveToolTab('vitals')}
-                      className={`p-2.5 rounded-lg text-xs transition-all flex items-center gap-2 ${
+                      className={`p-2.5 rounded-lg text-xs transition flex items-center gap-2 ${
                         activeToolTab === 'vitals' ? 'bg-primary text-primary-foreground shadow-md' : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                       }`}
                       title="Core Web Vitals"
@@ -253,7 +253,7 @@ export const SevenDayTrialSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setActiveToolTab('secops')}
-                      className={`p-2.5 rounded-lg text-xs transition-all flex items-center gap-2 ${
+                      className={`p-2.5 rounded-lg text-xs transition flex items-center gap-2 ${
                         activeToolTab === 'secops' ? 'bg-primary text-primary-foreground shadow-md' : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                       }`}
                       title="SecOps"
@@ -264,7 +264,7 @@ export const SevenDayTrialSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setActiveToolTab('api')}
-                      className={`p-2.5 rounded-lg text-xs transition-all flex items-center gap-2 ${
+                      className={`p-2.5 rounded-lg text-xs transition flex items-center gap-2 ${
                         activeToolTab === 'api' ? 'bg-primary text-primary-foreground shadow-md' : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                       }`}
                       title="API"
@@ -280,22 +280,22 @@ export const SevenDayTrialSection: React.FC = () => {
                       <span className="truncate max-w-[140px] text-foreground font-bold font-mono">
                         https://catalystlab.tech
                       </span>
-                      <span className="text-emerald-400 bg-[#F0FAFF]/10 px-2 py-0.5 rounded text-[10px] font-bold border border-emerald-500/20 shadow-sm">
+                      <span className="text-emerald-400 bg-[#F0FAFF]/10 px-2 py-0.5 rounded text-[11px] font-bold border border-emerald-500/20 shadow-sm">
                         PRO TRIAL ACTIVE
                       </span>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 text-center">
                       <div className="bg-background p-2 rounded-lg border border-border shadow-sm">
-                        <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">LCP</div>
+                        <div className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider mb-1">LCP</div>
                         <div className="text-xs font-bold text-emerald-600 font-mono">0.74s</div>
                       </div>
                       <div className="bg-background p-2 rounded-lg border border-border shadow-sm">
-                        <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">CLS</div>
+                        <div className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider mb-1">CLS</div>
                         <div className="text-xs font-bold text-emerald-600 font-mono">0.001</div>
                       </div>
                       <div className="bg-background p-2 rounded-lg border border-border shadow-sm">
-                        <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">QUOTA</div>
+                        <div className="text-[11px] text-muted-foreground font-bold uppercase tracking-wider mb-1">QUOTA</div>
                         <div className="text-xs font-bold text-foreground font-mono">5k/day</div>
                       </div>
                     </div>

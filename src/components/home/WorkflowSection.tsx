@@ -93,7 +93,7 @@ export const WorkflowSection: React.FC = () => {
                     <div className="hidden lg:flex w-[80px] h-[80px] mx-auto bg-surface border border-border rounded-2xl items-center justify-center relative group-hover:border-foreground/30 transition-colors shadow-xl">
                       <Icon className="size-8 text-foreground/50 group-hover:text-foreground transition-colors" />
                       <div className="absolute -bottom-3 left-1/2 -translate-x-1/2">
-                        <span className="text-[#F0FAFF] font-mono text-xs bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 px-2 py-0.5 rounded shadow-sm whitespace-nowrap">
+                        <span className="text-foreground font-mono text-xs bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 px-2 py-0.5 rounded shadow-sm whitespace-nowrap">
                           {step.time}
                         </span>
                       </div>
@@ -101,11 +101,11 @@ export const WorkflowSection: React.FC = () => {
 
                     <div className="flex-1 min-w-0 lg:text-center lg:mt-6 space-y-2">
                       <h3 className="framer-card-title text-foreground">
-                        <span className="text-[#F0FAFF] mr-2 font-mono">{step.number}.</span>
+                        <span className="text-foreground mr-2 font-mono">{step.number}.</span>
                         {step.title.split(' (')[0]}
                       </h3>
                       <div className="lg:hidden mb-2">
-                        <span className="text-[#F0FAFF] font-mono text-[10px] bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 px-1.5 py-0.5 rounded">
+                        <span className="text-foreground font-mono text-[11px] bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 px-1.5 py-0.5 rounded">
                           {step.title.match(/\((.*?)\)/)?.[1]}
                         </span>
                       </div>

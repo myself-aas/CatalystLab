@@ -302,7 +302,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
         />
         {glassmorphism && (
           <div
-            className={cn("absolute inset-4 sm:inset-5 border shadow-2xl transition-all duration-500 pointer-events-none z-[1]", blurClass)}
+            className={cn("absolute inset-4 sm:inset-5 border shadow-2xl transition duration-500 pointer-events-none z-[1]", blurClass)}
             style={{ borderRadius: '1.75rem' }}
           />
         )}
@@ -454,7 +454,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
               className="shrink-0"
             >
               {action || (
-                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-background/20 hover:bg-background/30 backdrop-blur-md text-primary-foreground font-bold text-xs transition-all border border-foreground/30 shadow-md">
+                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-background/20 hover:bg-background/30 backdrop-blur-md text-primary-foreground font-bold text-xs transition border border-foreground/30 shadow-md">
                   <span>Run Audit</span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>

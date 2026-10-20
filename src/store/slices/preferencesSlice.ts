@@ -33,7 +33,7 @@ export const createPreferencesSlice: StateCreator<
     whiteLabel: {
       enabled: false,
       brandName: 'Catalyst Enterprise',
-      primaryColor: '#1F2223'
+      primaryColor: '#111827'
     },
     updatedAt: Date.now()
   },

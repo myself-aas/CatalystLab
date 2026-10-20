@@ -109,7 +109,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
             type="button"
             onClick={exportCSV}
             disabled={inquiries.length === 0}
-            className="flex items-center gap-1.5 rounded-xl bg-background text-primary-foreground px-3.5 py-2 text-xs font-mono font-bold hover:bg-muted/80 transition-all disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center gap-1.5 rounded-xl bg-background text-primary-foreground px-3.5 py-2 text-xs font-mono font-bold hover:bg-muted/80 transition disabled:opacity-50 cursor-pointer shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export CSV</span>
@@ -148,7 +148,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter by email, company, name, or keywords..."
-          className="w-full ds-control bg-background border border-border py-2.5 pl-10 pr-4 text-xs font-mono text-foreground placeholder-gray-400 focus:border-border focus:outline-none focus:ring-1 focus:ring-ring/30 transition-all shadow-xs"
+          className="w-full ds-control bg-background border border-border py-2.5 pl-10 pr-4 text-xs font-mono text-foreground placeholder-gray-400 focus:border-border focus:outline-none focus:ring-1 focus:ring-ring/30 transition shadow-xs"
         />
       </div>
 
@@ -183,7 +183,7 @@ export const ContactInquiriesAdminView: React.FC = () => {
                     )}
                   </button>
                   {item.source && (
-                    <span className="rounded-md bg-accent px-2 py-0.5 text-[10px] font-mono ds-muted border border-border">
+                    <span className="rounded-md bg-accent px-2 py-0.5 text-[11px] font-mono ds-muted border border-border">
                       {item.source}
                     </span>
                   )}

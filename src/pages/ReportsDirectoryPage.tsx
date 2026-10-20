@@ -135,14 +135,14 @@ export const ReportsDirectoryPage: React.FC = () => {
  
  {/* Header Banner */}
  <section className="relative overflow-hidden border-b border-border sm:px-6 lg:px-8 ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 max-w-3xl mx-auto space-y-6">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div>
- <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-[#F0FAFF] mb-4">
- <FileText className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-foreground mb-4">
+ <FileText className="h-3.5 w-3.5 text-foreground shrink-0"/>
  <span>Diagnostic Report Directory</span>
  </div>
  <h1 className="framer-hero-title text-foreground">
@@ -249,12 +249,12 @@ export const ReportsDirectoryPage: React.FC = () => {
  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-muted text-muted-foreground border border-border shadow-sm">
  <Activity className="h-4 w-4"/>
  </span>
- <span className="text-[10px] uppercase font-bold text-muted-foreground bg-accent .5 py-1 rounded-md border border-border tracking-wider">
+ <span className="text-[11px] uppercase font-bold text-muted-foreground bg-accent .5 py-1 rounded-md border border-border tracking-wider">
  {meta.name}
  </span>
  </div>
 
- <div className="font-extrabold text-base text-foreground group-hover:text-[#F0FAFF] transition-colors truncate font-sans">
+ <div className="font-extrabold text-base text-foreground group-hover:text-foreground transition-colors truncate font-sans">
  {domainName}
  </div>
  <div className="text-xs text-muted-foreground truncate mt-1 font-sans">
@@ -307,11 +307,11 @@ export const ReportsDirectoryPage: React.FC = () => {
  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-surface text-muted-foreground border border-border shadow-sm">
  <Icon className="h-4 w-4 shrink-0"/>
  </span>
- <span className="text-[10px] uppercase font-mono text-muted-foreground bg-[var(--bg-surface)] px-2 py-0.5 rounded border border-foreground/10 tracking-wider">
+ <span className="text-[11px] uppercase font-mono text-muted-foreground bg-[var(--bg-surface)] px-2 py-0.5 rounded border border-foreground/10 tracking-wider">
  {item.category}
  </span>
  </div>
- <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+ <span className={`text-[11px] font-mono px-2 py-0.5 rounded border ${
  isGradeA 
  ? 'border-emerald-500/20 bg-[#F0FAFF]/10 text-emerald-400' 
  : 'border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400'
@@ -320,7 +320,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  </span>
  </div>
 
- <div className="framer-card-title text-foreground group-hover:text-[#F0FAFF] transition-colors truncate">
+ <div className="framer-card-title text-foreground group-hover:text-foreground transition-colors truncate">
  {item.domain}
  </div>
  <p className="framer-body-text text-sm mt-1.5 line-clamp-2">
@@ -328,7 +328,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  </p>
 
  <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-mono">
- <span className="text-[#F0FAFF] font-bold">{item.score}/100 Score</span>
+ <span className="text-foreground font-bold">{item.score}/100 Score</span>
  <span className="flex items-center gap-1 font-bold text-muted-foreground group-hover:text-foreground transition-colors">
  <span>Explore Benchmark</span>
  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 shrink-0"/>

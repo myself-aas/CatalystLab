@@ -76,7 +76,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-label="Export report in multiple compliance and telemetry formats"
-        className={`inline-flex items-center gap-2 rounded-xl transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${buttonStyle}`}
+        className={`inline-flex items-center gap-2 rounded-xl transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${buttonStyle}`}
       >
         <Download className="w-3.5 h-3.5" />
         <span>{buttonLabel}</span>
@@ -85,7 +85,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-64 origin-top-right rounded-xl bg-primary/95 backdrop-blur-xl border border-border/80 shadow-2xl p-1.5 z-50 animate-fadeIn">
-          <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border">
+          <div className="px-3 py-2 text-[11px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border">
             Export Format Specification
           </div>
 
@@ -101,7 +101,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
                 <Printer className="w-4 h-4 text-cyan-400" />
                 <div>
                   <div className="font-semibold">Executive PDF Dossier</div>
-                  <div className="text-[10px] text-muted-foreground">Native high-res print stylesheet</div>
+                  <div className="text-[11px] text-muted-foreground">Native high-res print stylesheet</div>
                 </div>
               </div>
               {lastExported === 'pdf' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -118,7 +118,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
                 <Shield className="w-4 h-4 text-amber-400" />
                 <div>
                   <div className="font-semibold">OASIS SARIF v2.1.0</div>
-                  <div className="text-[10px] text-muted-foreground">GitHub & GitLab Code Scanning</div>
+                  <div className="text-[11px] text-muted-foreground">GitHub & GitLab Code Scanning</div>
                 </div>
               </div>
               {lastExported === 'sarif' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -135,7 +135,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
                 <FileText className="w-4 h-4 text-indigo-400" />
                 <div>
                   <div className="font-semibold">CycloneDX v1.5 SBOM</div>
-                  <div className="text-[10px] text-muted-foreground">Security & dependency standard</div>
+                  <div className="text-[11px] text-muted-foreground">Security & dependency standard</div>
                 </div>
               </div>
               {lastExported === 'cyclonedx' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -152,7 +152,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
                 <Table className="w-4 h-4 text-emerald-400" />
                 <div>
                   <div className="font-semibold">Tabular CSV Metrics</div>
-                  <div className="text-[10px] text-muted-foreground">Excel / Google Sheets breakdown</div>
+                  <div className="text-[11px] text-muted-foreground">Excel / Google Sheets breakdown</div>
                 </div>
               </div>
               {lastExported === 'csv' && <Check className="w-3.5 h-3.5 text-emerald-400" />}
@@ -169,7 +169,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
                 <Code className="w-4 h-4 text-purple-400" />
                 <div>
                   <div className="font-semibold">Raw Machine JSON</div>
-                  <div className="text-[10px] text-muted-foreground">Complete raw telemetry payload</div>
+                  <div className="text-[11px] text-muted-foreground">Complete raw telemetry payload</div>
                 </div>
               </div>
               {lastExported === 'json' && <Check className="w-3.5 h-3.5 text-emerald-400" />}

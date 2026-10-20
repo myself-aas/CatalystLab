@@ -45,7 +45,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
   return (
     <aside 
       aria-label="Role and Security Preview Panel" 
-      className={`fixed right-3 sm:right-4 z-40 flex flex-col items-end transition-all duration-300 ${
+      className={`fixed right-3 sm:right-4 z-40 flex flex-col items-end transition duration-300 ${
         showAppChrome
           ? 'bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] lg:bottom-4'
           : 'bottom-[max(1rem,env(safe-area-inset-bottom))]'
@@ -89,7 +89,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                   onClick={() => {
                     setSimulatedRole(item.role);
                   }}
-                  className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
+                  className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition ${
                     isSelected
                       ? 'bg-[#F0FAFF]/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
                       : 'hover:bg-muted text-muted-foreground border border-transparent'
@@ -99,14 +99,14 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                     <Icon className={`h-4 w-4 shrink-0 ${isSelected ? 'text-cyan-400' : 'text-muted-foreground'}`} />
                     <span className="truncate">{item.label}</span>
                     {isReal && (
-                      <span className="text-[10px] bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded font-mono">
+                      <span className="text-[11px] bg-muted/60 text-muted-foreground px-1.5 py-0.5 rounded font-mono">
                         (Auth)
                       </span>
                     )}
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="text-[10px] font-mono text-muted-foreground">
+                    <span className="text-[11px] font-mono text-muted-foreground">
                       {item.badge}
                     </span>
                     {isSelected && <Check className="h-3.5 w-3.5 text-cyan-400" />}
@@ -116,7 +116,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
             })}
           </div>
 
-          <div className="mt-3 pt-2.5 border-t border-border flex items-center justify-between text-[10px] font-mono text-muted-foreground">
+          <div className="mt-3 pt-2.5 border-t border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground">
             <span>Effective: <strong className="text-primary-foreground">{currentConfig.displayName}</strong></span>
             <span>Compute: <strong className="text-cyan-300">{currentConfig.dailyComputeUnits > 90000 ? '∞' : currentConfig.dailyComputeUnits}</strong></span>
           </div>

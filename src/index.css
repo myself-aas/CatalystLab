@@ -11,18 +11,18 @@
 
 :root {
   /* Surface Layers */
-  --bg-canvas: #1F2223;                     /* Absolute ground */
+  --bg-canvas: #111827;                     /* Absolute ground — Ink Navy */
   --bg-surface-lowest: #1F2223;              /* Recessed wells / code backgrounds */
-  --bg-surface-low: #2C2F32;                 /* Base cards and bento containers */
-  --bg-surface-card: #2C3032;                /* Nested widgets and active items */
-  --bg-surface-elevated: #2C3032;            /* Hover states, popovers, tooltips */
+  --bg-surface-low: #1B2537;                 /* Base cards and bento containers */
+  --bg-surface-card: #1B2537;                /* Nested widgets and active items */
+  --bg-surface-elevated: #232F47;            /* Hover states, popovers, tooltips */
   --bg-glass-overlay: rgba(31, 34, 35, 0.65); /* Floating pill and nav blur */
 
   /* Hairline Borders (Alpha Transparency) */
   --border-subtle: rgba(247, 253, 255, 0.07);
   --border-default: rgba(247, 253, 255, 0.12);
   --border-hover: rgba(247, 253, 255, 0.22);
-  --border-glow: rgba(0, 102, 255, 0.40);
+  --border-glow: rgba(37, 99, 235, 0.40);
 
   /* Typography & Foreground */
   --text-primary: #F7FDFF;
@@ -32,18 +32,21 @@
 
   /* Pure MONOCHROME palette — no color accents.
      Canvas #1F2223 · Surface #2C2F32/#2C3032 · Text #F0FAFF · Bright #F7FDFF */
-  --accent-framer-blue: #F0FAFF;
-  --accent-cyan-edge: #F0FAFF;
-  --accent-emerald-vital: #F0FAFF;
-  --accent-violet-synth: rgba(240,250,255,0.75);
-  --accent-amber-sec: rgba(240,250,255,0.6);
-  --accent-red-risk: #F7FDFF;
-  --color-cyan-neon: #F0FAFF;
-  --color-cyan-terminal: rgba(240,250,255,0.5);
-  --color-green-terminal: rgba(240,250,255,0.6);
-  --color-red-terminal: #F7FDFF;
-  --color-purple-terminal: rgba(240,250,255,0.7);
-  --color-amber-terminal: rgba(240,250,255,0.75);
+  /* Catalyst identity: reaction-blue primary + per-engine hues (see
+     src/styles/card-tokens.css --hue-*). Status must never collapse to the
+     text colour — colour is data here (WCAG 1.4.1). */
+  --accent-framer-blue: #2563EB;
+  --accent-cyan-edge: #22D3EE;
+  --accent-emerald-vital: #34D399;
+  --accent-violet-synth: #A78BFA;
+  --accent-amber-sec: #FBBF24;
+  --accent-red-risk: #F87171;
+  --color-cyan-neon: #22D3EE;
+  --color-cyan-terminal: #22D3EE;
+  --color-green-terminal: #34D399;
+  --color-red-terminal: #F87171;
+  --color-purple-terminal: #A78BFA;
+  --color-amber-terminal: #FBBF24;
 
   /* Layout Geometry & Dynamic Chrome Spacing */
   --trial-banner-height: 0px;
@@ -78,7 +81,7 @@
 :root {
 
   /* Radiance & Shadows */
-  --glow-radial-hero: radial-gradient(circle 600px at 50% 0%, rgba(0, 102, 255, 0.15), transparent 70%);
+  --glow-radial-hero: radial-gradient(circle 600px at 50% 0%, rgba(37, 99, 235, 0.15), transparent 70%);
   --glow-card-subsurface: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 60%);
   --shadow-hairline: 0 0 0 1px var(--border-default);
   --shadow-elevated: 0 12px 36px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border-default);
@@ -145,12 +148,12 @@
   --theme-zinc-950: #1F2223;
 
   /* App Substrate */
-  --bg-app: #F7FDFF;
-  --bg-void: #F7FDFF;
-  --bg-panel: #F7FDFF;
-  --bg-panel-hover: #F0FAFF;
-  --bg-surface: #F0FAFF;
-  --bg-surface-elevated: #F7FDFF;
+  --bg-app: #FFFFFF;
+  --bg-void: #FFFFFF;
+  --bg-panel: #FFFFFF;
+  --bg-panel-hover: #F3F4F6;
+  --bg-surface: #F3F4F6;
+  --bg-surface-elevated: #FFFFFF;
   
   --text-primary: #1F2223;
   --text-secondary: #2C2F32;
@@ -163,33 +166,37 @@
   --border-focus: #2C3032;
 
   /* Semantic Core */
-  --app-background: #ffffff;
-  --app-foreground: #1F2223;
-  --app-card: #ffffff;
-  --app-card-foreground: #1F2223;
-  --app-popover: #ffffff;
-  --app-popover-foreground: #1F2223;
-  --app-primary: #F0FAFF;
-  --app-primary-hover: #F7FDFF;
-  --app-primary-foreground: #1F2223;
-  --app-secondary: #2C3032;
+  --app-background: #FFFFFF;
+  --app-foreground: #1C1E21;
+  --app-card: #FFFFFF;
+  --app-card-foreground: #1C1E21;
+  --app-popover: #FFFFFF;
+  --app-popover-foreground: #1C1E21;
+  --app-primary: #000000;
+  --app-primary-hover: #444950;
+  --app-primary-foreground: #000000;
+  --app-secondary: rgba(255,255,255,0.08);
   --app-secondary-foreground: #F0FAFF;
-  --app-muted: #F7FDFF;
-  --app-muted-foreground: rgba(240,250,255,0.45);
-  --app-accent: rgba(240,250,255,0.08);
-  --app-accent-foreground: #F0FAFF;
-  --app-destructive: #2C3032;
+  --app-muted: #F1F4F7;
+  --app-muted-foreground: #4B4C4F;
+  --app-accent: rgba(0,100,224,0.08);
+  --app-accent-foreground: #0457CB;
+  --app-destructive: #E41E3F;
+  --app-success: #1E7D34;
+  --app-warning: #9A6B0F;
+  --app-danger: #E41E3F;
+  --app-info: #0091FF;
   --app-destructive-foreground: #F7FDFF;
-  --app-border: #dadce0;
+  --app-border: #CED0D4;
   --app-input: rgba(240,250,255,0.65);
-  --app-ring: rgba(240,250,255,0.35);
+  --app-ring: rgba(0,100,224,0.45);
 
   /* Surface Layers (Light Mode) */
   --bg-canvas: #F7FDFF;
   --bg-surface-lowest: #F0FAFF;
   --bg-surface-low: #F0FAFF;
   --bg-surface-card: #F7FDFF;
-  --bg-surface-elevated: #F7FDFF;
+  --bg-surface-elevated: #FFFFFF;
   --bg-glass-overlay: rgba(247, 253, 255, 0.85);
 
   /* Linear / Modern Design System Tokens (Light Mode equivalents) */
@@ -206,7 +213,7 @@
   --accent-glow: rgba(240,250,255,0.10);
   --border-default: #dadce0;
   --border-hover: rgba(240,250,255,0.65);
-  --border-accent: rgba(0, 102, 255, 0.25);
+  --border-accent: rgba(37, 99, 235, 0.25);
 
   /* Legacy aliases for backward compatibility */
   --color-background: var(--app-background);
@@ -239,11 +246,12 @@
   --scrollbar-thumb: rgba(100, 116, 139, 0.4);
   --scrollbar-thumb-hover: rgba(100, 116, 139, 0.65);
   
-  --color-focus-ring: #2C3032;
-  --color-link: #F0FAFF;
-  --color-success: #F0FAFF;
-  --color-warning: #F0FAFF;
-  --color-danger: #F7FDFF;
+  --color-focus-ring: #1876F2;
+  --color-link: #0064E0;
+  --color-success: #047857;
+  --color-warning: #B45309;
+  --color-danger: #C81E1E;
+  --color-info: #2563EB;
   --surface-overlay: rgba(255, 255, 255, 0.88);
   --surface-overlay-strong: rgba(255, 255, 255, 0.96);
   --content-max-width: 1400px;
@@ -264,8 +272,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   color-scheme: dark;
 
   /* --- Linear / Modern Design System Tokens (Mono Palette) --- */
-  --background-deep: #1F2223;
-  --background-base: #1F2223;
+  --background-deep: #111827;
+  --background-base: #111827;
   --background-elevated: #2C2F32;
   --surface: #2C3032;
   --surface-hover: rgba(240, 250, 255, 0.08);
@@ -320,7 +328,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --bg-canvas: #1F2223;
   --bg-surface-lowest: #2C2F32;
   --bg-surface-low: #2C3032;
-  --bg-surface-card: #2C3032;
+  --bg-surface-card: #1B2537;
   --bg-surface-elevated: #2C2F32;
   --bg-app: #1F2223;
   --bg-void: #1F2223;
@@ -339,24 +347,28 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --border-focus: rgba(240, 250, 255, 0.40);
 
   /* Semantic Core (Mono System) */
-  --app-background: #1F2223;
-  --app-foreground: #F7FDFF;
-  --app-card: #2C3032;
-  --app-card-foreground: #F7FDFF;
-  --app-popover: #2C3032;
-  --app-popover-foreground: #F7FDFF;
-  --app-primary: #F0FAFF;
-  --app-primary-hover: #F7FDFF;
-  --app-primary-foreground: #1F2223;
+  --app-background: #0A1317;
+  --app-foreground: #FFFFFF;
+  --app-card: #1C1E21;
+  --app-card-foreground: #FFFFFF;
+  --app-popover: #1C1E21;
+  --app-popover-foreground: #FFFFFF;
+  --app-primary: #FFFFFF;
+  --app-primary-hover: #DEE3E9;
+  --app-primary-foreground: #FFFFFF;
   --app-secondary: #2C3032;
   --app-secondary-foreground: #F0FAFF;
-  --app-muted: #2C3032;
-  --app-muted-foreground: #F0FAFF;
+  --app-muted: rgba(255,255,255,0.08);
+  --app-muted-foreground: rgba(255,255,255,0.72);
   --app-accent: rgba(240,250,255,0.08);
   --app-accent-foreground: #F0FAFF;
-  --app-destructive: #2C3032;
-  --app-destructive-foreground: #F7FDFF;
-  --app-border: rgba(240, 250, 255, 0.14);
+  --app-destructive: #DC2626;
+  --app-success: #31A24C;
+  --app-warning: #F7B928;
+  --app-danger: #F0284A;
+  --app-info: #22D3EE;
+  --app-destructive-foreground: #FFFFFF;
+  --app-border: rgba(255,255,255,0.14);
   --app-input: rgba(240, 250, 255, 0.22);
   --app-ring: rgba(240,250,255,0.35);
 
@@ -391,11 +403,12 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --scrollbar-thumb: rgba(255, 255, 255, 0.15);
   --scrollbar-thumb-hover: rgba(255, 255, 255, 0.25);
   
-  --color-focus-ring: #F0FAFF;
-  --color-link: #F0FAFF;
-  --color-success: #F0FAFF;
-  --color-warning: #F0FAFF;
-  --color-danger: #F7FDFF;
+  --color-focus-ring: #66A6FF;
+  --color-link: #66A6FF;
+  --color-success: #34D399;
+  --color-warning: #FBBF24;
+  --color-danger: #F87171;
+  --color-info: #22D3EE;
   --surface-overlay: rgba(5, 5, 6, 0.88);
   --surface-overlay-strong: rgba(5, 5, 6, 0.96);
   --sat: env(safe-area-inset-top, 0px);
@@ -487,30 +500,48 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-border-hover: var(--border-hover, rgba(255, 255, 255, 0.10));
   --color-border-accent: var(--border-accent, rgba(94, 106, 210, 0.30));
   --font-sans: "Inter", system-ui, sans-serif;
+  /* Display face: Space Grotesk (geometric, instrument-like) — headlines only.
+     Body stays Inter for legibility; JetBrains Mono is for data/telemetry only. */
+  --font-display: "Optimistic VF", "Inter", system-ui, -apple-system, sans-serif;
+  /* Role scale (typeset): purpose-named, not per-component arbitrary sizes.
+     Readable floor 12px (text-label); 11px only for mono data labels. */
+  --text-display: 4rem;     --text-display--line-height: 1.16;
+  --text-headline: 3rem;    --text-headline--line-height: 1.17;
+  --text-title: 2.25rem;    --text-title--line-height: 1.28;
+  --text-body: 1rem;        --text-body--line-height: 1.5;
+  --text-label: 0.75rem;    --text-label--line-height: 1.33;
+  --text-data: 0.6875rem;   --text-data--line-height: 1.4;
+  --color-buy: #0064E0;
+  --color-buy-hover: #0457CB;
+  --color-buy-foreground: #FFFFFF;
+  --color-success: var(--app-success);
+  --color-warning: var(--app-warning);
+  --color-danger: var(--app-danger);
+  --color-info: var(--app-info);
 }
 
 @theme {
   /* CatalystLab Blue Core */
-  --color-linear-indigo: #F0FAFF;
-  --color-linear-indigo-bright: #F7FDFF;
+  --color-linear-indigo: #2563EB;
+  --color-linear-indigo-bright: #2563EB;
   --color-linear-indigo-glow: rgba(240,250,255,0.15);
   --color-linear-space-deep: #1F2223;
   --color-linear-space-base: #1F2223;
   --color-linear-space-elevated: #2C2F32;
 
   /* Palette Accents */
-  --color-accent-amber: #F0FAFF;
+  --color-accent-amber: #F59E0B;
   --color-accent-amber-light: rgba(240,250,255,0.1);
   --color-accent-amber-dark: #2C3032;
   --color-accent-amber-tint: rgba(240,250,255,0.04);
-  --color-accent-red: #F7FDFF;
+  --color-accent-red: #EF4444;
   --color-accent-red-light: rgba(247,253,255,0.08);
   --color-accent-red-dark: #2C3032;
   --color-accent-red-tint: rgba(247,253,255,0.04);
-  --color-accent-cyan: #F0FAFF;
-  --color-accent-emerald: #F0FAFF;
-  --color-accent-rose: #F7FDFF;
-  --color-accent-purple: #F0FAFF;
+  --color-accent-cyan: #06B6D4;
+  --color-accent-emerald: #10B981;
+  --color-accent-rose: #F43F5E;
+  --color-accent-purple: #8B5CF6;
   --color-silver-main: rgba(240,250,255,0.55);
   --color-silver-light: rgba(240,250,255,0.65);
 }
@@ -657,10 +688,10 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
 @layer utilities {
   /* Framer-grade Fluid Typography & Negative Tracking */
   .framer-hero-title {
-    @apply text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[1.05];
+    @apply font-display text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.04em] leading-[1.05];
   }
   .framer-section-headline {
-    @apply text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12];
+    @apply font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-[-0.035em] leading-[1.12];
   }
   .framer-card-title {
     @apply text-lg sm:text-xl font-medium tracking-[-0.02em];
@@ -672,7 +703,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     @apply text-[11px] font-mono tracking-[0.04em] uppercase;
   }
   .framer-code-terminal {
-    @apply font-mono text-xs sm:text-[13px] leading-relaxed text-[#F0FAFF];
+    @apply font-mono text-xs sm:text-[13px] leading-relaxed text-[#22D3EE];
   }
 
   .animate-in {
@@ -1498,6 +1529,9 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
 }
 
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
 /* Tabular figures for telemetry numbers */
 .metric-tabular {
   font-family: var(--font-mono);
@@ -1590,26 +1624,24 @@ html:not(.dark) .shadow-linear-cta {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
+  /* Remove spatial/spectacle motion; keep instant-but-visible state feedback
+     (opacity/colour) so actions still confirm themselves. Not a blanket kill. */
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
-  .catalyst-media-img,
-  .catalyst-duotone-layer,
-  .catalyst-spotlight,
-  .scan-reveal-bar,
-  .scanline-overlay::after {
-    transition: none !important;
+  .animate-marquee-horizontal, .animate-ping, .animate-bounce,
+  .animate-linear-blob, .animate-linear-blob-delayed, .animate-linear-blob-slow,
+  .catalyst-media-img, .catalyst-duotone-layer, .catalyst-spotlight,
+  .scan-reveal-bar, .scanline-overlay::after {
     animation: none !important;
+    transition: none !important;
     transform: none !important;
   }
-
   .group:hover .catalyst-media-img,
-  .catalyst-media-interactive:hover .catalyst-media-img {
-    transform: none !important;
+  .catalyst-media-interactive:hover .catalyst-media-img { transform: none !important; }
+  a, button, input, select, textarea, [role="button"], [tabindex] {
+    transition-property: opacity, color, background-color, border-color, outline-color, box-shadow !important;
+    transition-duration: 100ms !important;
   }
 }
 .ds-nav-active {
@@ -1617,4 +1649,10 @@ html:not(.dark) .shadow-linear-cta {
   color: var(--text-primary);
   font-weight: 600;
   border: 1px solid rgba(240, 250, 255, 0.22);
+}
+
+/* Below-fold sections skip off-screen rendering work (vercel-react-best-practices: rendering-content-visibility) */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
 }

@@ -80,7 +80,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
     if (val >= 90) return 'text-emerald-400 border-emerald-500/30 bg-[#F0FAFF]/10';
     if (val >= 75) return 'text-cyan-400 border-cyan-500/30 bg-[#F0FAFF]/10';
     if (val >= 50) return 'text-amber-400 border-amber-500/30 bg-[#F0FAFF]/10';
-    return 'text-rose-400 border-rose-500/30 bg-[#F7FDFF]/10';
+    return 'text-rose-400 border-rose-500/30 bg-[#FFFFFF]/10';
   };
 
   const getScoreGrade = (val: number) => {
@@ -141,15 +141,15 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
             <div className="relative px-6 py-5 border-b border-border/60 bg-gradient-to-r from-foreground/[0.03] via-transparent to-blue-500/[0.04] shrink-0">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="size-9 rounded-lg bg-[#F0FAFF]/10 border border-blue-500/20 flex items-center justify-center text-[#F0FAFF] shrink-0">
+                  <div className="size-9 rounded-lg bg-[#F0FAFF]/10 border border-blue-500/20 flex items-center justify-center text-foreground shrink-0">
                     <Activity className="size-5" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="framer-micro-tag text-[#F0FAFF]">
+                      <span className="framer-micro-tag text-foreground">
                         {report.engine || 'Master Audit Engine'}
                       </span>
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
                         <CheckCircle2 className="size-2.5" />
                         Verified Telemetry
                       </span>
@@ -193,7 +193,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                   <a 
                     href={report.url.startsWith('http') ? report.url : `https://${report.url}`}
                     target="_blank" rel="noopener noreferrer" 
-                    className="text-foreground hover:text-[#F0FAFF] underline underline-offset-2 truncate"
+                    className="text-foreground hover:text-foreground underline underline-offset-2 truncate"
                   >
                     {report.url}
                   </a>
@@ -246,39 +246,39 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
                     <Zap className="size-3.5 text-amber-400" />
-                    <span className="framer-micro-tag text-[10px]">Latency / TTFB</span>
+                    <span className="framer-micro-tag text-[11px]">Latency / TTFB</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">
                     {score >= 90 ? '24ms' : score >= 75 ? '68ms' : '142ms'}
                   </div>
-                  <span className="text-[10px] text-emerald-400 font-mono">99.9th percentile</span>
+                  <span className="text-[11px] text-emerald-400 font-mono">99.9th percentile</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
                     <ShieldCheck className="size-3.5 text-emerald-400" />
-                    <span className="framer-micro-tag text-[10px]">Security / RFC</span>
+                    <span className="framer-micro-tag text-[11px]">Security / RFC</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">100%</div>
-                  <span className="text-[10px] text-muted-foreground font-mono">HSTS & CSP Active</span>
+                  <span className="text-[11px] text-muted-foreground font-mono">HSTS & CSP Active</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <Layers className="size-3.5 text-[#F0FAFF]" />
-                    <span className="framer-micro-tag text-[10px]">Edge Cache</span>
+                    <Layers className="size-3.5 text-foreground" />
+                    <span className="framer-micro-tag text-[11px]">Edge Cache</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">HIT (98.4%)</div>
-                  <span className="text-[10px] text-cyan-400 font-mono">Global CDN Warm</span>
+                  <span className="text-[11px] text-cyan-400 font-mono">Global CDN Warm</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <Activity className="size-3.5 text-[#F0FAFF]" />
-                    <span className="framer-micro-tag text-[10px]">Engine Status</span>
+                    <Activity className="size-3.5 text-foreground" />
+                    <span className="framer-micro-tag text-[11px]">Engine Status</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">Stable</div>
-                  <span className="text-[10px] text-emerald-400 font-mono">Zero Drift</span>
+                  <span className="text-[11px] text-emerald-400 font-mono">Zero Drift</span>
                 </div>
               </motion.div>
 
@@ -314,12 +314,12 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Terminal className="size-3.5 text-[#F0FAFF]" />
-                    <h3 className="framer-micro-tag text-[#F0FAFF]">Raw Telemetry Findings & Output</h3>
+                    <Terminal className="size-3.5 text-foreground" />
+                    <h3 className="framer-micro-tag text-foreground">Raw Telemetry Findings & Output</h3>
                   </div>
                   <button
                     onClick={handleCopyTelemetry}
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono bg-[var(--bg-surface)] hover:bg-foreground/10 text-muted-foreground hover:text-foreground border border-foreground/10 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-mono bg-[var(--bg-surface)] hover:bg-foreground/10 text-muted-foreground hover:text-foreground border border-foreground/10 transition-colors cursor-pointer"
                   >
                     {copied ? (
                       <>

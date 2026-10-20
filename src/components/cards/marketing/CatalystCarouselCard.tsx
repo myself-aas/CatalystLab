@@ -47,7 +47,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
       onClick={onSelect}
       className={twMerge(
         clsx(
-          'w-[260px] sm:w-[280px] md:w-[300px] h-[380px] sm:h-[420px] rounded-3xl p-5 sm:p-6 flex flex-col justify-between shrink-0 snap-start cursor-pointer select-none transition-all duration-300 relative overflow-hidden',
+          'w-[260px] sm:w-[280px] md:w-[300px] h-[380px] sm:h-[420px] rounded-3xl p-5 sm:p-6 flex flex-col justify-between shrink-0 snap-start cursor-pointer select-none transition duration-300 relative overflow-hidden',
           isActive && 'ring-2 ring-foreground/40 shadow-[0_25px_50px_-12px_var(--card-glow)]',
           className
         )
@@ -100,7 +100,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
           {actionUrl ? (
             <a
               href={actionUrl}
-              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition-all group/cta shadow-sm"
+              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition group/cta shadow-sm"
             >
               <span>{actionLabel}</span>
               <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" />
@@ -108,7 +108,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
           ) : (
             <button
               type="button"
-              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition-all group/cta shadow-sm"
+              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition group/cta shadow-sm"
             >
               <span>{actionLabel}</span>
               <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" />

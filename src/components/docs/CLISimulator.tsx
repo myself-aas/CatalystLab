@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { clickableProps } from '../../lib/keyboard';
 import { 
   Terminal as TerminalIcon, 
   Play, 
@@ -222,7 +223,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
       <div className="p-3 bg-muted/40 border-b border-border flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#F7FDFF]/80 border border-rose-600/50" />
+            <span className="h-3 w-3 rounded-full bg-[#FFFFFF]/80 border border-rose-600/50" />
             <span className="h-3 w-3 rounded-full bg-[#F0FAFF]/80 border border-amber-500/50" />
             <span className="h-3 w-3 rounded-full bg-[#F0FAFF]/80 border border-emerald-600/50" />
           </div>
@@ -251,7 +252,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
 
       {/* Preset Command Shortcuts */}
       <div className="px-3 py-2 bg-card border-b border-border/80 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-[11px]">
-        <span className="text-muted-foreground text-[10px] shrink-0 font-bold">PRESETS:</span>
+        <span className="text-muted-foreground text-[11px] shrink-0 font-bold">PRESETS:</span>
         {[
           'catalyst run --engine vitalzyme',
           'catalyst run --engine edgevmax',
@@ -272,7 +273,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
 
       {/* Terminal Output Stream */}
       <div 
-        onClick={() => inputRef.current?.focus()}
+        {...clickableProps} onClick={() => inputRef.current?.focus()}
         className="flex-1 p-4 space-y-3 overflow-y-auto min-h-[280px] max-h-[500px] select-text cursor-text"
       >
         {logs.map((log) => (
@@ -334,7 +335,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
           onClick={() => handleCommand(inputVal)}
           disabled={!inputVal.trim()}
           aria-label="Execute command"
-          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-[#F0FAFF] disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-[#F0FAFF] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
           title="Run command (Enter)"
         >
           <CornerDownLeft className="h-3.5 w-3.5" aria-hidden="true" />

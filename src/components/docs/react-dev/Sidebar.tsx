@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className="flex items-center justify-between">
                       <span>{item.title}</span>
                       {item.badge && (
-                        <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-muted text-muted-foreground border border-border">
+                        <span className="px-1.5 py-0.5 text-[11px] font-mono rounded bg-muted text-muted-foreground border border-border">
                           {item.badge}
                         </span>
                       )}

@@ -131,7 +131,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
                     const planTier: PlanTier = spec.id === 'starter' ? 'pro' : spec.id;
                     if (onSelectPlan) onSelectPlan(planTier);
                   }}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition cursor-pointer ${
                     isSelected
                       ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-foreground shadow-lg shadow-cyan-500/20 scale-105'
                       : 'text-muted-foreground hover:text-primary-foreground hover:bg-primary-hover/60'
@@ -199,7 +199,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-black text-emerald-400">{currentSpec.price}</div>
-                  <div className="text-[10px] text-muted-foreground">{currentSpec.nodeCount} Nodes Deployed</div>
+                  <div className="text-[11px] text-muted-foreground">{currentSpec.nodeCount} Nodes Deployed</div>
                 </div>
               </div>
 
@@ -210,11 +210,11 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
               {/* Quick Spec Metrics Grid */}
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <div className="p-3 rounded-2xl bg-foreground/80 border border-border">
-                  <div className="text-muted-foreground text-[10px]">ANYCAST LATENCY</div>
+                  <div className="text-muted-foreground text-[11px]">ANYCAST LATENCY</div>
                   <div className="text-base font-bold text-cyan-300 mt-0.5">{currentSpec.latency}</div>
                 </div>
                 <div className="p-3 rounded-2xl bg-foreground/80 border border-border">
-                  <div className="text-muted-foreground text-[10px]">UPTIME SLA</div>
+                  <div className="text-muted-foreground text-[11px]">UPTIME SLA</div>
                   <div className="text-base font-bold text-emerald-400 mt-0.5">{currentSpec.sla}</div>
                 </div>
               </div>
@@ -228,7 +228,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
               <div className="pt-2">
                 <Link
                   to={selectedTier === 'free' ? '/launch-audit' : `/login?tier=${selectedTier}`}
-                  className="w-full py-3 px-4 rounded-xl bg-[#F0FAFF] hover:bg-[#F0FAFF] text-foreground font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-cyan-500/20 active:scale-95 text-sm"
+                  className="w-full py-3 px-4 rounded-xl bg-[#F0FAFF] hover:bg-[#F0FAFF] text-foreground font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-cyan-500/20 active:scale-95 text-sm"
                 >
                   <span>{selectedTier === 'free' ? 'Run Free 6-Node Scan' : `Start 7-Day ${currentSpec.name} Trial`}</span>
                   <ArrowRight className="h-4 w-4" />

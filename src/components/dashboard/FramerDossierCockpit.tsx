@@ -60,17 +60,17 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
           <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Activity className="size-3.5 text-[#F0FAFF]" />
+                <Activity className="size-3.5 text-foreground" />
                 CWV Pass Rate
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
                 Pass
               </span>
             </div>
 
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-semibold tracking-[-0.03em] text-foreground">99.9%</span>
-              <div className="flex items-center text-xs text-[#F0FAFF]">
+              <div className="flex items-center text-xs text-foreground">
                 <ArrowUpRight className="size-3 mr-0.5" />
                 <span>+0.4%</span>
               </div>
@@ -87,10 +87,10 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
           <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <ShieldCheck className="size-3.5 text-[#F0FAFF]" />
+                <ShieldCheck className="size-3.5 text-foreground" />
                 OWASP Transport
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-blue-400 border border-blue-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-blue-400 border border-blue-500/20">
                 Grade A+
               </span>
             </div>
@@ -114,7 +114,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 <Cpu className="size-3.5 text-[rgba(240,250,255,0.75)]" />
                 AI Discoverability
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-purple-400 border border-purple-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-purple-400 border border-purple-500/20">
                 AEO Index
               </span>
             </div>
@@ -134,10 +134,10 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
           <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Globe className="size-3.5 text-[#F0FAFF]" />
+                <Globe className="size-3.5 text-foreground" />
                 Edge Mesh P95
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-cyan-400 border border-cyan-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-cyan-400 border border-cyan-500/20">
                 {TOTAL_POPS_COUNT} PoPs
               </span>
             </div>
@@ -164,7 +164,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
               <h2 className="text-lg font-semibold tracking-tight text-foreground">
                 Autonomous Diagnostic Engines
               </h2>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-foreground/10 text-foreground border border-border">
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-foreground/10 text-foreground border border-border">
                 8 Active
               </span>
             </div>
@@ -177,7 +177,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
           <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-background border border-border">
             <button
               onClick={() => setActiveEngineTab('synthshift')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
                 activeEngineTab === 'synthshift'
                   ? 'bg-surface text-foreground shadow-sm border border-border'
                   : 'text-muted-foreground hover:text-foreground'
@@ -187,7 +187,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             </button>
             <button
               onClick={() => setActiveEngineTab('vitalzyme')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
                 activeEngineTab === 'vitalzyme'
                   ? 'bg-surface text-foreground shadow-sm border border-border'
                   : 'text-muted-foreground hover:text-foreground'
@@ -197,7 +197,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             </button>
             <button
               onClick={() => setActiveEngineTab('edgekinase')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
                 activeEngineTab === 'edgekinase'
                   ? 'bg-surface text-foreground shadow-sm border border-border'
                   : 'text-muted-foreground hover:text-foreground'
@@ -207,7 +207,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             </button>
             <button
               onClick={() => setActiveEngineTab('riskprotease')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
                 activeEngineTab === 'riskprotease'
                   ? 'bg-surface text-foreground shadow-sm border border-border'
                   : 'text-muted-foreground hover:text-foreground'
@@ -225,14 +225,14 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
               <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
                 <FileCode2 className="size-4 text-[rgba(240,250,255,0.75)]" />
                 <span className="text-foreground font-medium">AST Code Visualizer: index.html DOM Schema</span>
-                <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 border border-purple-500/20 text-purple-300 text-[10px]">
+                <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 border border-purple-500/20 text-purple-300 text-[11px]">
                   +24 lines / -18 lines
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => setDiffMode('split')}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-lg transition-all ${
+                  className={`px-2.5 py-1 text-[11px] font-mono rounded-lg transition ${
                     diffMode === 'split' ? 'bg-foreground/15 text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -240,7 +240,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 </button>
                 <button
                   onClick={() => setDiffMode('unified')}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-lg transition-all ${
+                  className={`px-2.5 py-1 text-[11px] font-mono rounded-lg transition ${
                     diffMode === 'unified' ? 'bg-foreground/15 text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -325,7 +325,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
           <div className="pt-5 space-y-4">
             <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
               <div className="flex items-center gap-2">
-                <Clock className="size-4 text-[#F0FAFF]" />
+                <Clock className="size-4 text-foreground" />
                 <span className="text-foreground font-medium">Sub-Millisecond Loading Timeline</span>
               </div>
               <span>Total Session: 1,060ms</span>
@@ -380,7 +380,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
                   <span className="text-muted-foreground">5. Largest Contentful Paint (LCP)</span>
-                  <span className="text-[#F0FAFF]">1,060.0ms (P95 Target Met)</span>
+                  <span className="text-foreground">1,060.0ms (P95 Target Met)</span>
                 </div>
                 <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-emerald-500 to-[#F0FAFF] rounded-full" style={{ width: '92%' }} />
@@ -395,7 +395,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
           <div className="pt-5 space-y-4">
             <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
               <div className="flex items-center gap-2">
-                <Globe className="size-4 text-[#F0FAFF]" />
+                <Globe className="size-4 text-foreground" />
                 <span className="text-foreground font-medium">38-PoP Global Mesh Ping Telemetry</span>
               </div>
               <span className="text-emerald-400">100% Health Status</span>
@@ -408,7 +408,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                   <span className="text-cyan-400">14ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 14.2ms</div>
-                <div className="text-[10px] text-emerald-400 mt-1">16 PoPs Active</div>
+                <div className="text-[11px] text-emerald-400 mt-1">16 PoPs Active</div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-background border border-border">
@@ -417,7 +417,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                   <span className="text-cyan-400">19ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 19.1ms</div>
-                <div className="text-[10px] text-emerald-400 mt-1">12 PoPs Active</div>
+                <div className="text-[11px] text-emerald-400 mt-1">12 PoPs Active</div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-background border border-border">
@@ -426,7 +426,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                   <span className="text-cyan-400">32ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 32.6ms</div>
-                <div className="text-[10px] text-emerald-400 mt-1">8 PoPs Active</div>
+                <div className="text-[11px] text-emerald-400 mt-1">8 PoPs Active</div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-background border border-border">
@@ -435,7 +435,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                   <span className="text-cyan-400">44ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 44.0ms</div>
-                <div className="text-[10px] text-emerald-400 mt-1">2 PoPs Active</div>
+                <div className="text-[11px] text-emerald-400 mt-1">2 PoPs Active</div>
               </div>
             </div>
           </div>
@@ -455,7 +455,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             <div className="divide-y divide-white/5 border border-border rounded-xl bg-background font-mono text-xs overflow-hidden">
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[10px]">
+                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
                     PASS
                   </span>
                   <span className="text-foreground">TLS 1.3 Cipher Suite Enforced (CHACHA20-POLY1305)</span>
@@ -465,7 +465,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
 
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[10px]">
+                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
                     PASS
                   </span>
                   <span className="text-foreground">HSTS Preload Directive with max-age=31536000</span>
@@ -475,7 +475,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
 
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[10px]">
+                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
                     PASS
                   </span>
                   <span className="text-foreground">Content-Security-Policy (default-src &apos;self&apos;)</span>
@@ -485,7 +485,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
 
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-blue-400 border border-blue-500/20 text-[10px]">
+                  <span className="px-2 py-0.5 rounded bg-[#F0FAFF]/10 text-blue-400 border border-blue-500/20 text-[11px]">
                     INFO
                   </span>
                   <span className="text-muted-foreground">Permissions-Policy refined for camera=(), microphone=()</span>
@@ -502,13 +502,13 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div className="space-y-1.5 max-w-xl">
             <div className="flex items-center gap-2">
-              <GitPullRequest className="size-4 text-[#F0FAFF]" />
+              <GitPullRequest className="size-4 text-foreground" />
               <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
                 Automated Patch Ready for {targetDomain}
               </span>
             </div>
             <h3 className="text-lg font-semibold tracking-tight text-foreground">
-              Branch: <span className="font-mono text-[#F0FAFF]">catalyst/patch-cwv-vitalzyme-v24</span>
+              Branch: <span className="font-mono text-foreground">catalyst/patch-cwv-vitalzyme-v24</span>
             </h3>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Eliminates render-blocking CSS and defers non-critical JS chunks to recover 420ms on mobile LCP. Tested against AST regression suites.
@@ -519,7 +519,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             <button
               type="button"
               onClick={() => setShowDiffModal(!showDiffModal)}
-              className="px-4 py-2 rounded-xl bg-surface hover:bg-surface border border-border hover:border-border-strong text-foreground text-xs font-medium transition-all cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-surface hover:bg-surface border border-border hover:border-border-strong text-foreground text-xs font-medium transition cursor-pointer"
             >
               {showDiffModal ? 'Hide Unified Diff' : 'Review Unified Diff'}
             </button>
@@ -534,7 +534,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 type="button"
                 onClick={handleDeployPR}
                 disabled={prDeployStatus === 'deploying'}
-                className="px-4 py-2 rounded-xl bg-foreground hover:bg-neutral-200 text-background text-xs font-semibold shadow-[0_0_18px_rgba(255,255,255,0.3)] flex items-center gap-2 transition-all active:scale-[0.98] cursor-pointer disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-foreground hover:bg-neutral-200 text-background text-xs font-semibold shadow-[0_0_18px_rgba(255,255,255,0.3)] flex items-center gap-2 transition active:scale-[0.98] cursor-pointer disabled:opacity-50"
               >
                 {prDeployStatus === 'deploying' ? (
                   <>

@@ -44,7 +44,7 @@ export const WorkflowStepCard: React.FC<WorkflowStepCardProps> = ({
         <div className="flex items-center gap-4">
           {/* Stacked Step Time Chip (R4 Anatomy) */}
           <div className="flex flex-col items-center justify-center w-14 h-16 rounded-xl bg-muted border border-border font-mono text-center shrink-0 shadow-sm overflow-hidden">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-accent w-full py-1">
+            <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest bg-accent w-full py-1">
               STEP
             </span>
             <span className="text-xl font-black text-indigo-600 bg-background w-full py-0.5">0{stepNumber}</span>
@@ -62,7 +62,7 @@ export const WorkflowStepCard: React.FC<WorkflowStepCardProps> = ({
         </div>
 
         {status === 'COMPLETED' && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-sans font-bold uppercase tracking-wider bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 shrink-0 shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-sans font-bold uppercase tracking-wider bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 shrink-0 shadow-sm">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>PASS</span>
           </span>
