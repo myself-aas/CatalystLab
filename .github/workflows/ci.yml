@@ -121,7 +121,7 @@ jobs:
 
       - name: "Semgrep SAST scan (Plan 3.14)"
         run: |
-          pipx install semgrep==1.102.0
+          pipx install semgrep==1.181.0
           semgrep scan --config .semgrep.yml --error server src scripts worker > /tmp/semgrep.log 2>&1 || {
             echo "::error::Semgrep failed: $(tail -n 25 /tmp/semgrep.log | tr '\n' ' ')"
             cat /tmp/semgrep.log

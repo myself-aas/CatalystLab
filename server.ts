@@ -92,15 +92,18 @@ async function startServer(): Promise<void> {
     const indexHtml = path.join(distPath, 'index.html');
     const notFoundHtml = path.join(distPath, '404.html');
 
-    // Fast path for non-asset route shells before hitting filesystem static stat()
+    // Fast path for legacy redirects (including `.html` paths) & prerendered route shells
     app.use((req: Request, res: Response, next: NextFunction) => {
-      if ((req.method !== 'GET' && req.method !== 'HEAD') || req.path.includes('.')) {
+      if (req.method !== 'GET' && req.method !== 'HEAD') {
         return next();
       }
       const legacyTarget = compiledRoutes?.legacyRedirects.get(req.path);
       if (legacyTarget) {
         res.redirect(301, legacyTarget);
         return;
+      }
+      if (req.path.includes('.')) {
+        return next();
       }
       const shell = req.path === '/'
         ? indexHtml
