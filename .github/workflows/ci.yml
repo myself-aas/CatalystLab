@@ -133,7 +133,14 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      - name: Fail when Lighthouse assertions failed
+      # SEO is enforced here, per route: a `noindex` app shell (D11) is exempt
+      # because Lighthouse's is-crawlable audit fails on it by design. Everything
+      # else (a11y, best-practices, performance) is asserted by lhci itself.
+      - name: Fail when a route missed its budget
+        if: always()
+        run: node scripts/report-lhci.mjs --strict > /dev/null
+
+      - name: Fail when Lighthouse collection failed
         if: steps.lhci.outcome == 'failure'
         run: |
           echo "::error::Lighthouse CI did not pass. Scores are in the job summary and the PR comment; raw reports are in the lighthouse-reports artifact."

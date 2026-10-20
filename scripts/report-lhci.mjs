@@ -23,6 +23,13 @@ const dirFlag = args.indexOf('--dir');
 const reportDir = resolve(dirFlag >= 0 ? args[dirFlag + 1] : '.lighthouseci');
 const configPath = resolve('.lighthouserc.json');
 
+const CATEGORY_LABELS = new Map([
+  ['performance', 'Perf'],
+  ['accessibility', 'A11y'],
+  ['best-practices', 'Best practices'],
+  ['seo', 'SEO'],
+]);
+
 const CATEGORIES = [
   { id: 'performance', label: 'Perf' },
   { id: 'accessibility', label: 'A11y' },
@@ -78,7 +85,34 @@ function pathOf(lhr) {
   }
 }
 
+/**
+ * Routes the prerender step marked `noindex, nofollow` (D11). They are
+ * application shells, not landing pages, so the SEO category does not apply to
+ * them: Lighthouse's `is-crawlable` audit fails on purpose there. Read from
+ * dist/routes.json so the exemption follows the router instead of a hard-coded
+ * list.
+ */
+function readNoindexRoutes() {
+  try {
+    const manifest = JSON.parse(readFileSync(resolve('dist/routes.json'), 'utf8'));
+    const routes = manifest?.appRoutes || [];
+    return new Set(routes.map((route) => (route === '/' ? '/' : route.replace(/\/+$/, ''))));
+  } catch {
+    return new Set();
+  }
+}
+
 const assertions = readAssertions();
+
+// SEO is asserted here rather than by Lighthouse CI because the budget is
+// route-aware: `categories:seo` is off in .lighthouserc.json (a `noindex` app
+// shell fails Lighthouse's is-crawlable audit on purpose, D11), so this script
+// applies the 0.85 budget to every indexable route and skips the shells listed
+// in dist/routes.json. A11y, best-practices and performance stay enforced by
+// Lighthouse CI itself for all routes.
+if (!assertions.has('seo')) assertions.set('seo', { level: 'error', minScore: 0.85 });
+
+const noindexRoutes = readNoindexRoutes();
 const reports = readReports();
 
 if (reports.length === 0) {
@@ -102,10 +136,11 @@ for (const lhr of reports) {
   }
   for (const [id, group] of Object.entries(lhr.categories || {})) {
     for (const ref of group.auditRefs || []) {
+      if (!(ref.weight > 0)) continue; // unweighted audits cannot move the score
       const audit = lhr.audits?.[ref.id];
-      if (audit && audit.score !== null && audit.score < 0.9 && audit.scoreDisplayMode === 'binary') {
-        entry.failingAudits.add(`${id}: ${ref.id}`);
-      }
+      if (!audit || audit.score === null || audit.score >= 0.9) continue;
+      const label = CATEGORY_LABELS.get(id) || id;
+      entry.failingAudits.add(`${label} \u2014 ${audit.title || ref.id} (\`${ref.id}\`)`);
     }
   }
   byUrl.set(key, entry);
@@ -118,6 +153,8 @@ for (const [url, entry] of byUrl) {
     const assertion = assertions.get(category.id);
     const score = entry.scores[category.id];
     if (!assertion || score === undefined) continue;
+    // A noindex app shell is exempt from SEO only (D11); everything else applies.
+    if (category.id === 'seo' && noindexRoutes.has(url)) continue;
     if (score < assertion.minScore) {
       const line = `\`${url}\` ${category.label} ${(score * 100).toFixed(0)} < ${(assertion.minScore * 100).toFixed(0)}`;
       (assertion.level === 'error' ? failures : warnings).push(line);
@@ -139,6 +176,7 @@ for (const [url, entry] of [...byUrl.entries()].sort()) {
   const cells = CATEGORIES.map((category) => {
     const score = entry.scores[category.id];
     if (score === undefined) return 'n/a';
+    if (category.id === 'seo' && noindexRoutes.has(url)) return `${(score * 100).toFixed(0)} (noindex)`;
     const assertion = assertions.get(category.id);
     const percent = (score * 100).toFixed(0);
     if (!assertion) return percent;
@@ -155,6 +193,17 @@ if (failures.length > 0 || warnings.length > 0) {
   console.log('### Below threshold');
   console.log('');
   for (const line of [...failures, ...warnings]) console.log(`- ${line}`);
+}
+
+const withFailures = [...byUrl.entries()].filter(([, entry]) => entry.failingAudits.size > 0);
+if (withFailures.length > 0) {
+  console.log('');
+  console.log('### Weighted audits that lost points');
+  console.log('');
+  for (const [url, entry] of withFailures.sort()) {
+    console.log(`- \`${url}\``);
+    for (const audit of [...entry.failingAudits].sort()) console.log(`  - ${audit}`);
+  }
 }
 
 console.log('');
