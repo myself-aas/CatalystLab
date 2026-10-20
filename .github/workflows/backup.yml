@@ -1,0 +1,58 @@
+name: Scheduled Backup & Restore Verification
+
+on:
+  schedule:
+    # Runs daily at 02:15 UTC to guarantee RPO <= 24h (D9 / Plan 4.6)
+    - cron: '15 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-backup-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  backup-and-restore-drill:
+    name: Daily Snapshot Verification & Restore Drill
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies cleanly
+        run: npm ci
+
+      - name: Execute clean-instance backup & restore verification drill
+        run: npm run drill:restore | tee /tmp/restore-drill-report.json
+
+      - name: Export cloud Firestore & MongoDB snapshot (when production secrets present)
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          GCP_BACKUP_BUCKET: ${{ secrets.FIRESTORE_BACKUP_BUCKET }}
+        run: |
+          if [ -z "${GCP_SA_KEY}" ] || [ -z "${GCP_BACKUP_BUCKET}" ]; then
+            echo "::notice::Cloud export secrets (FIREBASE_SERVICE_ACCOUNT_JSON / FIRESTORE_BACKUP_BUCKET) not configured yet; isolated restore drill verified."
+            exit 0
+          fi
+          gcloud auth activate-service-account --key-file=<(printf '%s' "${GCP_SA_KEY}")
+          PROJECT_ID="$(node -e 'console.log(JSON.parse(process.env.GCP_SA_KEY).project_id)')"
+          STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+          gcloud firestore export "${GCP_BACKUP_BUCKET}/daily/${STAMP}" \
+            --project="${PROJECT_ID}" \
+            --collection-ids=users,api_keys,user_subscriptions,payment_events,github_connected_repos,contact_messages
+
+      - name: Archive restore verification report (30-day retention)
+        uses: actions/upload-artifact@v7
+        with:
+          name: restore-drill-report-${{ github.run_id }}
+          path: /tmp/restore-drill-report.json
+          retention-days: 30

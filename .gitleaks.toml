@@ -1,0 +1,39 @@
+title = "CatalystLab Secret Scanning Configuration (Plan 3.13)"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "mongodb-atlas-credentials"
+description = "MongoDB / MongoDB Atlas connection string containing embedded password"
+regex = '''mongodb(?:\+srv)?://[^\s'":/]+:[^\s'"@]{8,}@[a-zA-Z0-9._-]+'''
+tags = ["secret", "database", "mongodb"]
+
+[[rules]]
+id = "catalystlab-live-api-key"
+description = "CatalystLab live production API key"
+regex = '''cat_live_[a-fA-F0-9]{32,}'''
+tags = ["secret", "api-key"]
+
+[[rules]]
+id = "private-key-pem-block"
+description = "PEM-encoded private key block"
+regex = '''-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'''
+tags = ["secret", "private-key"]
+
+[allowlist]
+description = "Documented test fixtures, public Firebase client config, and remediated historical commit SEC-2026-01"
+paths = [
+  '''^\.github/fixtures/ci-service-account\.json$''',
+  '''^firebase-applet-config\.json$''',
+  '''^src/tests/.*''',
+  '''^scripts/run-restore-drill\.ts$''',
+  '''^docs/security/review-2026-10\.md$''',
+  '''^docs/release/checklist\.md$''',
+]
+# Historical commit e4bff70cb4f10112b7f668b592b2e1d3e7340b01 (2026-08-22) contained an old
+# MongoDB Atlas URI already removed from HEAD; tracked as SEC-2026-01 in docs/security/review-2026-10.md
+# for Atlas credential rotation + owner force-push history scrub (`git filter-repo`).
+commits = [
+  "e4bff70cb4f10112b7f668b592b2e1d3e7340b01",
+]

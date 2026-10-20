@@ -1,0 +1,93 @@
+groups:
+  - name: catalystlab_production_slos
+    interval: 30s
+    rules:
+      - alert: CatalystLabApiDown
+        expr: probe_success{job="catalystlab-health"} == 0
+        for: 2m
+        labels:
+          severity: sev1
+          service: catalystlab-api
+        annotations:
+          summary: "CatalystLab /api/v1/system/health probe is unreachable"
+          description: "Synthetic liveness probe against /api/v1/system/health has failed continuously for 2 minutes (violates 99.5% 30-day availability SLO)."
+          runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/runbook.md#4-incident-response"
+
+      - alert: CatalystLabHigh5xxRate
+        expr: |
+          (
+            sum(rate(http_requests_total{service="catalystlab-api",status=~"5.."}[5m]))
+            /
+            clamp_min(sum(rate(http_requests_total{service="catalystlab-api"}[5m])), 0.001)
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: sev1
+          service: catalystlab-api
+        annotations:
+          summary: "CatalystLab 5xx error rate exceeds 1% threshold"
+          description: "5xx error ratio has exceeded 1.0% over a 5-minute window, burning the 99.5% monthly availability error budget."
+          runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/runbook.md#4-incident-response"
+
+      - alert: CatalystLabApiLatencyP95Breach
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(http_request_duration_ms_bucket{service="catalystlab-api",tier="api"}[5m])) by (le)
+          ) > 150
+        for: 10m
+        labels:
+          severity: sev2
+          service: catalystlab-api
+        annotations:
+          summary: "CatalystLab core API p95 latency > 150 ms (D16 SLO)"
+          description: "Core API / telemetry ingest 95th-percentile latency exceeded the locked 150 ms SLO for 10 consecutive minutes."
+          runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/slo.md"
+
+      - alert: CatalystLabOriginHtmlLatencyP95Breach
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(http_request_duration_ms_bucket{service="catalystlab-api",tier="static"}[5m])) by (le)
+          ) > 100
+        for: 10m
+        labels:
+          severity: sev3
+          service: catalystlab-api
+        annotations:
+          summary: "CatalystLab origin HTML shell p95 latency > 100 ms"
+          description: "Origin HTML rendering + CSP nonce injection exceeded 100 ms p95 over 10 minutes."
+          runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/slo.md"
+
+      - alert: CatalystLabWebhookVerificationSpike
+        expr: sum(increase(payment_webhook_failures_total{service="catalystlab-api"}[15m])) >= 5
+        for: 1m
+        labels:
+          severity: sev2
+          service: catalystlab-billing
+        annotations:
+          summary: "Payment or GitHub webhook signature/processing failure spike"
+          description: "5 or more signed webhook deliveries failed verification or returned 503 STORE_UNAVAILABLE within 15 minutes."
+          runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/runbook.md#5-known-failure-modes"
+
+      - alert: CatalystLabBackupStaleOver26Hours
+        expr: (time() - catalystlab_last_successful_backup_timestamp_seconds) > 93600
+        for: 15m
+        labels:
+          severity: sev2
+          service: catalystlab-storage
+        annotations:
+          summary: "Daily Firestore/MongoDB backup older than 26 hours (RPO 24h breach risk)"
+          description: "Scheduled 02:15 UTC snapshot export has not recorded a fresh completion within 26 hours."
+          runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/drills/restore-drill-2026-10-21.md"
+
+      - alert: CatalystLabTlsCertificateExpiringSoon
+        expr: probe_ssl_earliest_cert_expiry - time() < 14 * 86400
+        for: 1h
+        labels:
+          severity: sev2
+          service: catalystlab-edge
+        annotations:
+          summary: "TLS certificate expires in under 14 days"
+          description: "Edge or API origin X.509 certificate has fewer than 14 days validity remaining."
+          runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/runbook.md"

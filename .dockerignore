@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+.lighthouseci
+playwright-report
+test-results
+.git
+.env
+.env.*
+!.env.example
+!.env.staging.example
+!.env.production.example
+*.log
+tmp

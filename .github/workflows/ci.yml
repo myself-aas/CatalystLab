@@ -1,8 +1,19 @@
 name: CI
 
-# Answer #8 (2026-10-19): every pull request runs the full local gate set, and
-# ESLint now covers server/**, components/** and types/** as well as src/**.
-# Nothing merges on a partial run.
+# Answer #8 (2026-10-19) + Release Readiness Blockers #1–#8 (2026-10-21):
+# Every pull request and push to `main` executes the complete verification suite:
+#   1. Gates (Node 24): env parity (41 keys), ESLint, TypeScript, Vitest + coverage
+#      ratchet, zero-vulnerability npm audit (prod + dev), clean-instance backup &
+#      restore drill, 2Checkout sandbox webhook retry/ordering e2e, full-history
+#      secret scan, production peak load test (D16 SLOs), live server header/CSP
+#      verification, and remote media R4 contract check.
+#   2. Security, SAST, Alerts & Container Audit: full-history Gitleaks scan,
+#      Semgrep SAST ruleset, Prometheus alert rule validation (`promtool`), and
+#      multi-stage non-root Docker build + live container health/CSP smoke verification.
+#   3. Browser E2E & Zero-CSP-Violation Smoke: headless Chromium Playwright suite
+#      verifying zero `securitypolicyviolation` DOM events and zero console CSP errors.
+#   4. Lighthouse CI (answer #12): Accessibility >= 0.90, SEO >= 0.85, Best Practices
+#      budgets across the running production server with zero CSP regressions.
 
 on:
   pull_request:
@@ -21,15 +32,13 @@ jobs:
     name: Gates (Node 24)
     runs-on: ubuntu-24.04
     env:
-      # check:env hard-fails in CI without these two, so both jobs set them.
-      # The service-account fixture is NOT a credential: firebase-admin rejects
-      # it, serverAuth catches the error and the API fails closed (401 on
-      # identity-dependent routes). Real secrets are supplied at deploy time.
       APP_ORIGIN: https://www.catalystlab.tech
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v7
         with:
@@ -46,14 +55,26 @@ jobs:
       - name: Coverage ratchet (vitest.config.ts thresholds)
         run: npm run test:coverage
 
-      - name: Security audit
-        run: npm audit --audit-level=high
+      - name: Dependency vulnerability gate (0 vulnerabilities across prod + dev, Blocker #1)
+        run: npm audit --audit-level=low
 
-      - name: Production smoke test (prerendered shell, 404 status, legacy redirect)
+      - name: Clean-instance backup & restore verification drill (Plan 4.6 / Blocker #6 & #8)
+        run: npm run drill:restore
+
+      - name: Payment sandbox, 503 outage retry, idempotency & Q32 gate e2e (Blocker #8)
+        run: npm run test:payments-sandbox
+
+      - name: Working-tree & full git history secret audit (Plan 3.13 / Blocker #7)
+        run: npm run sec:secrets
+
+      - name: Production server peak load test & D16 p95 SLO verification (Plan 10.3 / Blocker #6)
+        run: npm run test:load
+
+      - name: Production smoke & security header contract check (Plan 3.5, 3.8, 5.7, Q32)
         run: |
-          NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/server.log 2>&1 &
+          NODE_ENV=production PORT=3000 PAYMENTS_ENABLED=false node dist/server.cjs > /tmp/server.log 2>&1 &
           SERVER_PID=$!
-          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          trap 'kill -TERM "$SERVER_PID" 2>/dev/null || true' EXIT
           ok=0
           for _ in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1; then ok=1; break; fi
@@ -65,14 +86,10 @@ jobs:
             exit 1
           fi
           set -e
-          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/pricing)" = "200"
-          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/dashboard)" = "200"
+          node scripts/verify-deployment.mjs http://127.0.0.1:3000
           test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/pricing.html)" = "301"
-          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/definitely-not-a-page)" = "404"
           test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/api/v1/reports)" = "501"
           curl -fsS http://127.0.0.1:3000/pricing | grep -q 'rel="canonical" href="https://www.catalystlab.tech/pricing"'
-          curl -fsS http://127.0.0.1:3000/dashboard | grep -q 'noindex, nofollow'
-          curl -fsS http://127.0.0.1:3000/sitemap.xml | grep -q '<urlset'
 
       - name: Media integrity
         run: npm run media:check
@@ -85,6 +102,84 @@ jobs:
           path: dist
           retention-days: 7
 
+  security-and-container:
+    name: Security, SAST, Alert Rules & Container Audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Gitleaks full git history scan (Plan 3.13 / Blocker #7)
+        run: |
+          go install github.com/zricethezav/gitleaks/v8@v8.21.2
+          "$(go env GOPATH)/bin/gitleaks" detect --source . --config .gitleaks.toml --redact --verbose
+
+      - name: Semgrep SAST scan (Plan 3.14 / Blocker #7)
+        run: |
+          pipx install semgrep==1.102.0
+          semgrep scan --config .semgrep.yml --error server src scripts worker
+
+      - name: Validate Prometheus alert rules syntax (Plan 8.5 / Blocker #6)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq prometheus
+          promtool check rules docs/ops/alerts.yml
+
+      - name: Build production Docker image & verify non-root runtime + live contracts (Plan 5.1)
+        run: |
+          docker build -t catalystlab:ci .
+          RUNTIME_USER="$(docker inspect --format '{{.Config.User}}' catalystlab:ci)"
+          test "${RUNTIME_USER}" = "node"
+          docker run -d --rm --name catalystlab-ci-container -p 3100:3000 \
+            -e APP_ORIGIN=http://127.0.0.1:3100 \
+            -e PAYMENTS_ENABLED=false \
+            catalystlab:ci
+          trap 'docker stop catalystlab-ci-container >/dev/null 2>&1 || true' EXIT
+          ok=0
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3100/api/v1/system/health > /dev/null 2>&1; then ok=1; break; fi
+            sleep 1
+          done
+          if [ "$ok" != "1" ]; then
+            docker logs catalystlab-ci-container
+            exit 1
+          fi
+          node scripts/verify-deployment.mjs http://127.0.0.1:3100
+
+  e2e-chromium:
+    name: Headless Chromium E2E & Zero-CSP-Violation Smoke
+    runs-on: ubuntu-24.04
+    env:
+      APP_ORIGIN: http://127.0.0.1:3098
+      VITE_APP_ORIGIN: http://127.0.0.1:3098
+      FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies & Chromium browser
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Build production bundle & execute Playwright E2E suite (Plan 3.8 & 9.2)
+        run: |
+          npm run build
+          npm run test:e2e
+
   lighthouse:
     name: Lighthouse CI (answer #12)
     runs-on: ubuntu-24.04
@@ -92,9 +187,6 @@ jobs:
       contents: read
       pull-requests: write
     env:
-      # NODE_ENV must NOT be set job-wide: `npm ci` skips devDependencies when
-      # NODE_ENV=production, which removes vite and esbuild and breaks the build.
-      # It is scoped to the two steps that boot the production host.
       APP_ORIGIN: https://www.catalystlab.tech
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
@@ -109,10 +201,6 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      # Lighthouse audits the real production host (node dist/server.cjs), not a
-      # bare static directory, so the API the SPA calls exists and a missing
-      # endpoint cannot be mistaken for a page defect. Boot it once first: if the
-      # host cannot start, that is the failure to report, not an empty report set.
       - name: Verify the production host boots
         run: |
           NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/lhci-server.log 2>&1 &
@@ -130,11 +218,6 @@ jobs:
           fi
           echo "production host boots and answers /api/health"
 
-      # Assertions live in .lighthouserc.json: accessibility >= 0.9 and
-      # best-practices / SEO >= 0.85 fail the run, performance warns below 0.5.
-      # Five URLs are audited explicitly (no crawl) and reports are written to
-      # .lighthouseci/reports instead of temporary public storage, so the job has
-      # no external upload dependency.
       - name: Lighthouse CI
         id: lhci
         continue-on-error: true
@@ -144,8 +227,6 @@ jobs:
           PORT: '3000'
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
 
-      # The raw runner log is only reachable from the Actions UI, so the scores
-      # are published to the job summary and, on a PR, as a comment.
       - name: Summarise Lighthouse scores
         if: always()
         run: node scripts/report-lhci.mjs | tee -a "$GITHUB_STEP_SUMMARY" > /tmp/lhci-report.md
@@ -171,9 +252,6 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      # SEO is enforced here, per route: a `noindex` app shell (D11) is exempt
-      # because Lighthouse's is-crawlable audit fails on it by design. Everything
-      # else (a11y, best-practices, performance) is asserted by lhci itself.
       - name: Fail when a route missed its budget
         if: always()
         run: node scripts/report-lhci.mjs --strict > /dev/null

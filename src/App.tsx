@@ -2,7 +2,7 @@ import { NewsletterModal } from "./components/common/NewsletterModal";
 import { PaymentCheckoutModal } from "./components/common/PaymentCheckoutModal";
 import React, { useState, useEffect, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, MotionConfig } from "motion/react";
 import { PageTransition } from "./components/common/LazyAnimate";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Navbar } from './components/layout/Navbar';
@@ -181,8 +181,13 @@ export const App: React.FC = () => {
     };
   }, []);
 
+  const cspNonce =
+    typeof document !== 'undefined'
+      ? document.querySelector('meta[property="csp-nonce"]')?.getAttribute('content') || undefined
+      : undefined;
+
   return (
-    <>
+    <MotionConfig nonce={cspNonce}>
       <div 
         data-theme={resolvedTheme}
         className={`app-shell ${pagePolarity} flex flex-col w-full max-w-full text-foreground animate-app-fade-in relative min-h-screen pb-[calc(4rem+env(safe-area-inset-bottom,0px))] lg:pb-0 ${resolvedTheme === "dark" ? "bg-transparent" : "bg-background"}`}
@@ -633,7 +638,7 @@ export const App: React.FC = () => {
       />
       </div>
     </div>
-    </>
+    </MotionConfig>
   );
 };
 export default App;

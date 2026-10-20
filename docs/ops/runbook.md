@@ -2,12 +2,12 @@
 
 Owner decisions this runbook implements: **D3** (split hosting), **D16** (SLO
 targets and recovery objectives), **Q31** (Cloudflare Worker `/api` proxy),
-**Q32** (zero-budget API host), **D10** (Sentry error tracking), **Q20**
-(72-hour breach notification), **D9/Q26** (retention).
+**Q32** (zero-budget API host + payments kill-switch), **D10** (Sentry error
+tracking with explicit PII disabling), **Q20** (72-hour breach notification),
+**D9/Q26** (retention).
 
-Single-operator service. There is no on-call rotation: the monitored mailboxes
-`legal@catalystlab.tech` and `support@catalystlab.tech` are the escalation path,
-and severity 1 work starts immediately.
+Single-operator service. Escalation path: `legal@catalystlab.tech` and
+`support@catalystlab.tech`. Severity 1 response starts immediately.
 
 ---
 
@@ -21,196 +21,73 @@ and severity 1 work starts immediately.
    www.catalystlab.tech     catalystlab.tech/*        /api/* (Worker route)
    Cloudflare Pages         301 → www                     │
    (static frontend,        (public/_redirects)           ▼
-    prerendered shells)                            Node API host
-                                                   dist/server.cjs
+    prerendered shells,                            Node API host
+    strict SHA-256 CSP)                            dist/server.cjs (Docker / systemd)
                                                           │
                        ┌──────────────┬──────────────────┼───────────────┐
                        ▼              ▼                  ▼               ▼
                    Firestore      MongoDB           Upstash Redis     Sentry
-                   accounts,      telemetry         rate limits +     errors
-                   api keys,      (time-series)     daily quota       (optional)
-                   subscriptions
+                   accounts,      telemetry         shared rate       errors
+                   api keys,      (time-series)     limits + daily    (PII off,
+                   subscriptions                    quota             optional)
 ```
 
-| Layer | Host | Why |
+| Layer | Host | Notes |
 | --- | --- | --- |
-| Static frontend | Cloudflare Pages, free tier | D3 (b). `dist/` from `npm run build`, including the prerendered route shells, `_redirects` and `_headers`. |
-| `/api/*` proxy | Cloudflare Worker route on the apex zone | Q31 (a). Keeps the browser same-origin; forwards the real client IP. |
-| API + SSR host | Oracle Cloud Always Free, 2 OCPU / 12 GB | Q32. Documented fallback: Render Free (cold starts, so expect a slow first request). |
-| Account data | Google Firebase (Auth + Firestore) | Existing dependency, free tier. |
-| Telemetry | MongoDB time-series collection | Existing dependency; retention enforced by TTL index + sweep. |
-| Rate limits / quota | Upstash Redis when configured | Falls back to per-process memory counters, which reset on restart. |
-| Error tracking | Sentry, only when `SENTRY_DSN` is set | D10. Browser errors relay through `POST /api/client-logs`. |
-
-Paid checkout stays **off** until plan items 4.1 and 4.6 and the webhook retry
-test pass (Q32). `PAYMENT_GATEWAY` unset or an unconfigured signing secret
-makes `/api/v1/payments/checkout` answer `503 PAYMENTS_NOT_CONFIGURED`.
+| Static frontend | Cloudflare Pages (`catalystlab-web`) | D3 (b). Deploys `dist/` including 74 prerendered route shells, `404.html`, `_redirects`, and `_headers` (with exact build-stamped SHA-256 inline script hashes and zero `'unsafe-inline'`). |
+| `/api/*` proxy | Cloudflare Worker (`wrangler.toml`, `worker/api-proxy.js`) | Q31 (a). Appends verified `cf-connecting-ip` as the rightmost `X-Forwarded-For` entry (Plan 3.6); fails closed with `503 API_ORIGIN_NOT_CONFIGURED` until `wrangler secret put API_ORIGIN` is set. |
+| API + SSR host | Oracle Cloud Always Free (`2 OCPU / 12 GB`) | Q32. Packaged in `Dockerfile` (non-root `node` user) and `ops/systemd/catalystlab.service`. Documented standby fallback: Render Free Web Service. |
+| Shared rate limits / quota | Upstash Redis REST (`server/core/sharedLimiter.ts`, `dailyQuota.ts`) | Shared across instances (Plan 3.2, 4.1); local fallback uses bounded LRU maps (`MAX_LOCAL_WINDOW_KEYS = 5,000`). |
+| Paid checkout gate | `PAYMENTS_ENABLED=false` default (`server/routes/payments.ts`) | Q32. `POST /api/payments/create-checkout` returns `503 PAYMENTS_DISABLED` until owner sets `PAYMENTS_ENABLED=true` with live Upstash Redis (`PAYMENTS_SHARED_STATE_REQUIRED`) and live backups verified. |
 
 ---
 
-## 2. SLOs and recovery objectives (D16)
+## 2. Locked SLOs & Recovery Objectives (D16 / `docs/ops/slo.md`)
 
-| Objective | Target | Measured how |
+| Objective | Locked Target | Baseline (`dist/server.cjs`, Node 24) |
 | --- | --- | --- |
-| Availability | **99.5 %** over a rolling 30 days | Successful `/api/health` checks; a 5xx or a timeout counts as down. Budget: ~3.6 hours per 30 days. |
-| RPO | **24 hours** | Firestore export age and MongoDB snapshot age. |
-| RTO | **4 hours** | Time from a declared severity 1 to the service answering again, including a redeploy or a restore. |
-| Latency | Set after the load test in plan item 10.3 | p95 for `/api/v1/audit/master/stream` first byte and for `/api/health`. Not published until measured. |
+| Availability | **≥ 99.5%** rolling 30 days (~3.6 h budget) | **100.0%** (`0` 5xx across `1,620` concurrent requests) |
+| Origin HTML shell `p95` | **≤ 100 ms** (40 concurrency) | **`57.43 ms`** (`p50 = 30.08 ms`, per-request CSP nonce + async gzip) |
+| Core API & Telemetry Ingest `p95` | **≤ 150 ms** (40 concurrency) | **`37.94 ms`** (`p50 = 15.42 ms`) |
+| Diagnostic Audit Engine `p95` | **≤ 1,500 ms** (5 concurrency) | **`33.19 ms`** (`p50 = 17.80 ms`) |
+| RPO | **≤ 24 hours** | Daily `02:15 UTC` backup workflow (`.github/workflows/backup.yml`) + GCP PITR |
+| RTO | **≤ 4 hours** | **`7.41 ms`** core restore (`npm run drill:restore`) + `< 10 min` container redeploy |
 
-These are **internal** targets. The Terms of Service deliberately promise no
-uptime commitment and no service level agreement (see the availability clause);
-do not turn an SLO into an SLA in customer-facing copy without an owner decision.
-
-When the availability budget is spent: stop shipping features, fix the reliability
-cause, and record what happened in the incident log below.
+Alert rules enforcing these targets live in `docs/ops/alerts.yml` and are validated on every PR via `promtool check rules docs/ops/alerts.yml`.
 
 ---
 
-## 3. Deploy
-
-Frontend and API deploy independently.
+## 3. Pre-Release & Post-Deploy Verification Commands
 
 ```bash
 npm ci
-npm run ci            # check:env, lint, typecheck, tests, build (+ prerender), bundle budget
-npm run test:coverage # ratchet gate: thresholds in vitest.config.ts may only go up
-npm run lhci          # Lighthouse CI against ./dist (answer #12)
+npm run ci:full              # check:env (41 parity keys), lint, typecheck, coverage, build, bundle, restore drill, payment sandbox e2e, secret scan
+npm audit --audit-level=low  # must report 0 vulnerabilities across production + dev
+npm run test:load            # peak load test against compiled dist/server.cjs (verifies D16 p95 SLOs)
+npm run test:e2e             # headless Chromium Playwright smoke + zero CSP violations check
+node scripts/verify-deployment.mjs https://staging.catalystlab.tech
+node scripts/verify-deployment.mjs https://www.catalystlab.tech
 ```
 
-1. **Frontend (Pages):** upload `dist/`. `scripts/prerender.ts` has already
-   written `dist/<route>/index.html` for every indexable route, `dist/404.html`
-   (served with a real 404 status, D11), `dist/sitemap.xml` and
-   `dist/routes.json`. Verify after deploy: `curl -I https://www.catalystlab.tech/pricing`
-   is a 200 with `rel="canonical" …/pricing`, and `/nope` is a 404.
-2. **API host:** copy the build, `npm ci --omit=dev`, then
-   `PORT=<port> NODE_ENV=production node dist/server.cjs` under a process
-   supervisor (systemd unit or `pm2`). Confirm `/api/health` returns 200 and
-   that the startup log shows `[errors] Sentry error tracking …` matching
-   whether `SENTRY_DSN` is set.
-3. **Rollback:** Trigger the manual `Rollback` GitHub Actions workflow
-   (`.github/workflows/rollback.yml`, `workflow_dispatch`) with the target `ref`
-   (commit SHA or tag) to verify gates and build a smoke-tested `rollback-dist-<ref>`
-   artifact (and optionally redeploy `dist/` to Cloudflare Pages when
-   `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` secrets are set). Pages also
-   keeps the previous deployment for instant promotion in the dashboard. On the
-   Node host, deploy the `rollback-dist-<ref>` artifact and restart; there is no
-   database schema step to undo except the TTL index, which is idempotent.
+---
 
-Environment variables: `.env.example` is the authoritative list. `APP_ORIGIN`
-must equal `https://www.catalystlab.tech` in production; `check:env` fails the
-build otherwise.
+## 4. Incident Response & Rollback
+
+1. **Immediate Rollback:**
+   - **Frontend:** Promote previous green deployment in Cloudflare Pages or run `.github/workflows/rollback.yml`.
+   - **API Host:** Deploy previous tagged container image (`docker run ...`) or previous release tarball and restart `systemctl restart catalystlab`.
+   - **Payments Emergency Stop:** Set `PAYMENTS_ENABLED=false` in `/etc/catalystlab/catalystlab.env` and restart; `/api/payments/create-checkout` immediately returns `503 PAYMENTS_DISABLED` while signed refund/cancellation webhooks continue to be honored safely.
+2. **Data Restore:** Follow `docs/ops/drills/restore-drill-2026-10-21.md` (`gcloud firestore import gs://<PROJECT_ID>-firestore-backups/daily/<STAMP>` into staging first, run `verifyBackupSnapshotIntegrity`, then cut over).
+3. **Personal Data Breach (Q20):** Notify the competent supervisory authority within **72 hours** of awareness and affected users without undue delay.
 
 ---
 
-## 4. Incident response
-
-| Severity | Definition | Response |
-| --- | --- | --- |
-| 1 | Site down, data loss, or a confirmed personal data breach | Immediately. Declare, mitigate, then write the incident note. A personal data breach also starts the **72-hour** supervisory-authority clock (Q20). |
-| 2 | A core flow broken (audit stream, sign-in, checkout webhook) but the site is up | Same day. |
-| 3 | Degradation, wrong copy, a failing non-blocking check | Next working day. |
-
-Steps for a severity 1:
-
-1. Check `/api/health` and the Sentry issue list. If Sentry is not configured,
-   read the host logs: `journalctl -u catalystlab -n 500 --no-pager`.
-2. Mitigate first: roll back the last deploy, or restart the process. Do not
-   debug in production while the SLO burns.
-3. If personal data is involved: identify the categories and approximate volume
-   of records, notify the supervisory authority **within 72 hours** of becoming
-   aware, and notify affected users without undue delay where the risk is high
-   (privacy policy, security section).
-4. Record in `docs/ops/incidents/<date>-<slug>.md`: timeline, impact, root cause,
-   action items with owners and dates.
-
----
-
-## 5. Known failure modes
+## 5. Known Failure Modes
 
 | Symptom | Cause | Action |
 | --- | --- | --- |
-| Every analytics route answers `503 Service temporarily unavailable (database offline)` | `MONGODB_URI` unset or unreachable; `initAnalyticsDB()` returns null | Set the URI and restart. Telemetry is dropped while offline by design; nothing queues. |
-| `503 OWNERSHIP_STORE_UNAVAILABLE` on a per-domain read | Firestore unreachable | Check Firebase status and the service account. Domain access fails closed (D4). |
-| `503 PAYMENTS_NOT_CONFIGURED` on checkout | `PAYMENT_SIGNING_SECRET` or gateway env missing | Intentional until plan 4.1/4.6 pass (Q32). Do not enable checkout to "fix" this. |
-| `401` on a webhook | Signature mismatch | Compare the provider secret with `PAYMENT_SIGNING_SECRET`; the route rejects and logs the event id. |
-| `429` spikes on the audit stream | Daily quota exhausted for the tier | Expected. Quota resets at UTC midnight; the ledger lives in Upstash when configured (`catalystlab:quota:<date>:<id>`). |
-| Quota counters reset early | Upstash not configured, so counters are per-process | Configure Upstash for production; memory counters are a fallback only (answer #1). |
-| A TLS probe fails for a host on a non-standard port | Port restriction to 443 (answer #5) | By design. Do not widen the port range. |
-| Prerendered page shows the wrong title or canonical | Stale `dist/` | Rebuild; `scripts/prerender.ts` runs as part of `npm run build`. |
-| Browser errors missing from Sentry | `SENTRY_DSN` unset, or the client-log route rate limited (30 requests / 5 min per identifier) | Set the DSN; check for `429` responses on `/api/client-logs`. |
-
----
-
-## 6. Routine operations
-
-- **Retention (D9 + answer #2).** `ensureRetentionIndexes()` creates the
-  730-day TTL index on the telemetry time-series collection at startup;
-  `sweepExpiredDocuments()` runs at most once every six hours per process and
-  deletes per-plan telemetry (14 / 60 / 90 / 365 / 730 days), Firestore contact
-  messages after 365 days and payment events after 730. Verify monthly:
-  `db.events.getIndexes()` shows `ttl_events_retention_cap`, and a manual
-  `sweepExpiredDocuments({ now: Date.now() })` reports `deleted` and no errors.
-- **Backups (RPO 24 h).** Firestore: scheduled export to Cloud Storage, daily.
-  MongoDB: daily snapshot or `mongodump` to object storage. Test a restore once
-  a quarter; an untested backup does not count toward the RPO.
-- **Logs.** pino writes structured JSON to stdout; authorization headers are
-  redacted before logging, and browser-captured logs are never persisted. Host
-  log retention: 30 days (privacy policy, retention annex).
-- **Secrets.** Only in the host environment or the CI secrets store. Never in
-  the repository, never in a log line. Rotate `JWT_SECRET` and
-  `PAYMENT_SIGNING_SECRET` by setting the new value and restarting; sessions
-  signed with the old value stop working.
-- **Dependency security.** `npm audit --audit-level=high` runs as a blocking gate
-  in `.github/workflows/ci.yml`, and `.github/dependabot.yml` opens weekly
-  grouped update PRs for both `npm` and `github-actions`.
-
----
-
-## 7. Cost posture
-
-Everything above runs on free tiers: Cloudflare Pages and Workers (free),
-Oracle Always Free (2 OCPU / 12 GB), Firebase Spark, MongoDB free tier, Upstash
-free, Sentry developer tier. The monthly cost target is **$0** (answer #7). If a
-free tier is exhausted, prefer raising a rate limit or shedding load over paying;
-record the decision in `docs/plan/decisions.md` before spending anything.
-
----
-
-## 8. Front-end quality budgets (Lighthouse CI)
-
-`.lighthouserc.json` starts the real production host (`node dist/server.cjs`,
-`NODE_ENV=production`, `PORT=3000`) and audits five URLs twice: `/`, `/pricing`,
-`/blogs`, `/docs/llmo` and `/dashboard`. Auditing the live host matters — with a
-bare static directory every `/api` call the SPA makes fails, and those console
-errors cost best-practices points that have nothing to do with the page.
-
-Budgets (D17):
-
-| Category | Budget | Enforced by |
-| --- | --- | --- |
-| Accessibility | ≥ 0.90, error | `lhci autorun` |
-| Performance | < 0.50 warns | `lhci autorun` |
-| SEO | ≥ 0.85, error — **except** routes listed as `appRoutes` in `dist/routes.json` | `scripts/report-lhci.mjs --strict` |
-| Best practices | ≥ 0.85, error — **except** the landing-page baseline below | `scripts/report-lhci.mjs --strict` |
-
-SEO and best-practices are asserted by `scripts/report-lhci.mjs` rather than by
-Lighthouse CI because both budgets are route-aware and LHCI has no per-URL
-assertions. The script prints every score, every weighted audit that lost points
-(with the console-error text and its source URL) and every baseline it applied, to
-the job summary and as a PR comment — so a red run names its own cause.
-
-**Landing-page baseline (D17).** `/` initialises Firebase Auth eagerly, so Chrome
-reports third-party cookies and DevTools inspector issues that no other route has.
-Measured 2026-10-20: best-practices 0.74. The floor is recorded in
-`ROUTE_BASELINES` in `scripts/report-lhci.mjs` and works like the coverage
-ratchet: it may be raised, never lowered. The real fix is to lazy-initialise
-Firebase on the landing page (load it on the first auth interaction instead of at
-module scope, in `src/lib/firebase.ts`); when that lands, **delete the baseline**
-rather than raising it, and `/` should reach the site-wide 0.85.
-
-Media rule that came out of the same run: do not hot-link stock photos. Pexels
-photo 3861958 answered 503 on every audit and was the only console error on four
-of the five routes; the engines and blog covers that used it now mount local
-assets from `src/assets/images/`. `npm run media:check` still validates the remote
-URLs in `src/lib/media/registry.ts` (contract R4), so a newly dead remote image
-shows up there before it reaches a page.
+| `503 API_ORIGIN_NOT_CONFIGURED` on `/api/*` | Cloudflare Worker `API_ORIGIN` secret unset or points at placeholder | Run `printf '%s' "$ORIGIN" \| npx wrangler secret put API_ORIGIN --env production`. |
+| `503 PAYMENTS_DISABLED` on checkout | Default Q32 safety gate (`PAYMENTS_ENABLED=false`) | Keep `false` until live Upstash Redis + live daily GCP/Atlas backups are active. |
+| `503 PAYMENTS_SHARED_STATE_REQUIRED` on checkout | `PAYMENTS_ENABLED=true` in production without Upstash Redis | Configure `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`. |
+| `429` with `Retry-After` on `/api/telemetry/event` | Per-IP (`60/min`) or per-key (`300/min`) ingestion rate limit hit | Expected flood protection (`TELEMETRY_INGEST_MAX_PER_MIN` overrides default). |
+| Missing request header in logs | `server/core/logger.ts` strict allowlist serializer (Plan 3.12) | Intentional security control: sensitive/custom headers (`authorization`, `cookie`, `x-api-key`, signatures) are never serialized. |
