@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
  */
 
 test.describe('Release Smoke & Strict Zero-Unsafe-Inline CSP Verification', () => {
-  test('renders /, /pricing, /blog, and /contact with ZERO CSP violations and strict headers', async ({ page }) => {
+  test('renders /, /pricing, /blogs, /docs/llmo, and /contact with ZERO CSP violations and strict headers', async ({ page }) => {
     const cspViolations: string[] = [];
 
     page.on('console', (msg) => {
@@ -22,7 +22,7 @@ test.describe('Release Smoke & Strict Zero-Unsafe-Inline CSP Verification', () =
       });
     });
 
-    for (const route of ['/', '/pricing', '/blog', '/contact']) {
+    for (const route of ['/', '/pricing', '/blogs', '/docs/llmo', '/contact']) {
       const response = await page.goto(route, { waitUntil: 'networkidle' });
       expect(response?.status(), `status for ${route}`).toBe(200);
 

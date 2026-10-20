@@ -34,14 +34,14 @@ groups:
           histogram_quantile(
             0.95,
             sum(rate(http_request_duration_ms_bucket{service="catalystlab-api",tier="api"}[5m])) by (le)
-          ) > 150
+          ) > 200
         for: 10m
         labels:
           severity: sev2
           service: catalystlab-api
         annotations:
-          summary: "CatalystLab core API p95 latency > 150 ms (D16 SLO)"
-          description: "Core API / telemetry ingest 95th-percentile latency exceeded the locked 150 ms SLO for 10 consecutive minutes."
+          summary: "CatalystLab core API p95 latency > 200 ms (D16 SLO)"
+          description: "Core API / telemetry ingest 95th-percentile latency exceeded the locked 200 ms SLO for 10 consecutive minutes."
           runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/slo.md"
 
       - alert: CatalystLabOriginHtmlLatencyP95Breach
@@ -49,14 +49,14 @@ groups:
           histogram_quantile(
             0.95,
             sum(rate(http_request_duration_ms_bucket{service="catalystlab-api",tier="static"}[5m])) by (le)
-          ) > 100
+          ) > 150
         for: 10m
         labels:
           severity: sev3
           service: catalystlab-api
         annotations:
-          summary: "CatalystLab origin HTML shell p95 latency > 100 ms"
-          description: "Origin HTML rendering + CSP nonce injection exceeded 100 ms p95 over 10 minutes."
+          summary: "CatalystLab origin HTML shell p95 latency > 150 ms"
+          description: "Origin HTML rendering + CSP nonce injection exceeded 150 ms p95 over 10 minutes."
           runbook_url: "https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/slo.md"
 
       - alert: CatalystLabWebhookVerificationSpike

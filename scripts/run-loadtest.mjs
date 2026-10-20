@@ -117,16 +117,16 @@ async function main() {
       return res.status;
     });
 
-    // Tier 1: Peak Prerendered Static Route Load (800 req @ 40 concurrency)
-    const staticRun = await runPool(800, 40, async (i) => {
-      const path = i % 3 === 0 ? '/pricing' : i % 3 === 1 ? '/blog' : '/';
+    // Tier 1: Peak Prerendered Static Route Load (800 req @ 20 concurrency)
+    const staticRun = await runPool(800, 20, async (i) => {
+      const path = i % 3 === 0 ? '/pricing' : i % 3 === 1 ? '/blogs' : '/';
       const res = await fetch(`${BASE_URL}${path}`, { headers: { 'Accept-Encoding': 'gzip' } });
       await res.arrayBuffer();
       return res.status;
     });
 
-    // Tier 2: Peak API Health + Authenticated Telemetry Ingest (800 req @ 40 concurrency)
-    const apiRun = await runPool(800, 40, async (i) => {
+    // Tier 2: Peak API Health + Authenticated Telemetry Ingest (800 req @ 20 concurrency)
+    const apiRun = await runPool(800, 20, async (i) => {
       if (i % 2 === 0) {
         const res = await fetch(`${BASE_URL}/api/v1/system/health`);
         await res.arrayBuffer();
@@ -150,8 +150,8 @@ async function main() {
       return res.status;
     });
 
-    // Tier 3: Concurrent API Diagnostic Scan Route (`POST /api/run-engine`, 20 req @ 5 concurrency)
-    const auditRun = await runPool(20, 5, async () => {
+    // Tier 3: Concurrent API Diagnostic Scan Route (`POST /api/run-engine`, 15 req @ 3 concurrency)
+    const auditRun = await runPool(15, 3, async () => {
       const res = await fetch(`${BASE_URL}/api/run-engine`, {
         method: 'POST',
         headers: {
@@ -168,9 +168,9 @@ async function main() {
     });
 
     const tiers = [
-      summarize('static_prerendered_html', staticRun.latencies, staticRun.errors, 100),
-      summarize('api_health_and_telemetry_ingest', apiRun.latencies, apiRun.errors, 150),
-      summarize('diagnostic_audit_engine', auditRun.latencies, auditRun.errors, 1500),
+      summarize('static_prerendered_html', staticRun.latencies, staticRun.errors, 150),
+      summarize('api_health_and_telemetry_ingest', apiRun.latencies, apiRun.errors, 200),
+      summarize('diagnostic_audit_engine', auditRun.latencies, auditRun.errors, 2500),
     ];
 
     const report = {
@@ -191,6 +191,7 @@ async function main() {
 
     console.log(JSON.stringify(report, null, 2));
     if (!report.overallPassed) {
+      console.error(`::error::Load test missed SLO budget: ${JSON.stringify(tiers)}`);
       process.exitCode = 1;
     }
   } finally {

@@ -1,20 +1,5 @@
 name: CI
 
-# Answer #8 (2026-10-19) + Release Readiness Blockers #1–#8 (2026-10-21):
-# Every pull request and push to `main` executes the complete verification suite:
-#   1. Gates (Node 24): env parity (41 keys), ESLint, TypeScript, Vitest + coverage
-#      ratchet, zero-vulnerability npm audit (prod + dev), clean-instance backup &
-#      restore drill, 2Checkout sandbox webhook retry/ordering e2e, full-history
-#      secret scan, production peak load test (D16 SLOs), live server header/CSP
-#      verification, and remote media R4 contract check.
-#   2. Security, SAST, Alerts & Container Audit: full-history Gitleaks scan,
-#      Semgrep SAST ruleset, Prometheus alert rule validation (`promtool`), and
-#      multi-stage non-root Docker build + live container health/CSP smoke verification.
-#   3. Browser E2E & Zero-CSP-Violation Smoke: headless Chromium Playwright suite
-#      verifying zero `securitypolicyviolation` DOM events and zero console CSP errors.
-#   4. Lighthouse CI (answer #12): Accessibility >= 0.90, SEO >= 0.85, Best Practices
-#      budgets across the running production server with zero CSP regressions.
-
 on:
   pull_request:
   push:
@@ -48,29 +33,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # check:env && lint && typecheck && test && build (+ prerender) && check:bundle
       - name: Full gate set
         run: npm run ci
 
       - name: Coverage ratchet (vitest.config.ts thresholds)
         run: npm run test:coverage
 
-      - name: Dependency vulnerability gate (0 vulnerabilities across prod + dev, Blocker #1)
+      - name: "Dependency vulnerability gate (0 vulnerabilities across prod + dev)"
         run: npm audit --audit-level=low
 
-      - name: Clean-instance backup & restore verification drill (Plan 4.6 / Blocker #6 & #8)
+      - name: "Clean-instance backup & restore verification drill (Plan 4.6)"
         run: npm run drill:restore
 
-      - name: Payment sandbox, 503 outage retry, idempotency & Q32 gate e2e (Blocker #8)
+      - name: "Payment sandbox, 503 outage retry, idempotency & Q32 gate e2e"
         run: npm run test:payments-sandbox
 
-      - name: Working-tree & full git history secret audit (Plan 3.13 / Blocker #7)
+      - name: "Working-tree & full git history secret audit (Plan 3.13)"
         run: npm run sec:secrets
 
-      - name: Production server peak load test & D16 p95 SLO verification (Plan 10.3 / Blocker #6)
-        run: npm run test:load
+      - name: "Production server peak load test & D16 p95 SLO verification (Plan 10.3)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run test:load > /tmp/loadtest.json 2>&1 || {
+            echo "::error::Load test output: $(tr '\n' ' ' < /tmp/loadtest.json | cut -c1-900)"
+            cat /tmp/loadtest.json
+            exit 1
+          }
+          cat /tmp/loadtest.json
 
-      - name: Production smoke & security header contract check (Plan 3.5, 3.8, 5.7, Q32)
+      - name: "Production smoke & security header contract check (Plan 3.5, 3.8, 5.7, Q32)"
         run: |
           NODE_ENV=production PORT=3000 PAYMENTS_ENABLED=false node dist/server.cjs > /tmp/server.log 2>&1 &
           SERVER_PID=$!
@@ -103,7 +95,7 @@ jobs:
           retention-days: 7
 
   security-and-container:
-    name: Security, SAST, Alert Rules & Container Audit
+    name: "Security, SAST, Alert Rules & Container Audit"
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
@@ -118,25 +110,38 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Gitleaks full git history scan (Plan 3.13 / Blocker #7)
+      - name: "Gitleaks full git history scan (Plan 3.13)"
         run: |
           go install github.com/zricethezav/gitleaks/v8@v8.21.2
-          "$(go env GOPATH)/bin/gitleaks" detect --source . --config .gitleaks.toml --redact --verbose
+          "$(go env GOPATH)/bin/gitleaks" detect --source . --config .gitleaks.toml --redact --report-format json --report-path /tmp/gitleaks.json || {
+            SUMMARY="$(jq -c '[.[] | {RuleID, File, StartLine, Commit: (.Commit[0:12])}]' /tmp/gitleaks.json 2>/dev/null || cat /tmp/gitleaks.json)"
+            echo "::error::Gitleaks findings: ${SUMMARY}"
+            exit 1
+          }
 
-      - name: Semgrep SAST scan (Plan 3.14 / Blocker #7)
+      - name: "Semgrep SAST scan (Plan 3.14)"
         run: |
           pipx install semgrep==1.102.0
-          semgrep scan --config .semgrep.yml --error server src scripts worker
+          semgrep scan --config .semgrep.yml --error server src scripts worker > /tmp/semgrep.log 2>&1 || {
+            echo "::error::Semgrep failed: $(tail -n 25 /tmp/semgrep.log | tr '\n' ' ')"
+            cat /tmp/semgrep.log
+            exit 1
+          }
+          cat /tmp/semgrep.log
 
-      - name: Validate Prometheus alert rules syntax (Plan 8.5 / Blocker #6)
+      - name: "Validate Prometheus alert rules syntax (Plan 8.5)"
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq prometheus
           promtool check rules docs/ops/alerts.yml
 
-      - name: Build production Docker image & verify non-root runtime + live contracts (Plan 5.1)
+      - name: "Build production Docker image & verify non-root runtime + live contracts (Plan 5.1)"
         run: |
-          docker build -t catalystlab:ci .
+          docker build -t catalystlab:ci . > /tmp/docker.log 2>&1 || {
+            echo "::error::Docker build failed: $(tail -n 25 /tmp/docker.log | tr '\n' ' ')"
+            cat /tmp/docker.log
+            exit 1
+          }
           RUNTIME_USER="$(docker inspect --format '{{.Config.User}}' catalystlab:ci)"
           test "${RUNTIME_USER}" = "node"
           docker run -d --rm --name catalystlab-ci-container -p 3100:3000 \
@@ -150,13 +155,13 @@ jobs:
             sleep 1
           done
           if [ "$ok" != "1" ]; then
-            docker logs catalystlab-ci-container
+            echo "::error::Docker container did not answer health probe: $(docker logs catalystlab-ci-container 2>&1 | tr '\n' ' ')"
             exit 1
           fi
           node scripts/verify-deployment.mjs http://127.0.0.1:3100
 
   e2e-chromium:
-    name: Headless Chromium E2E & Zero-CSP-Violation Smoke
+    name: "Headless Chromium E2E & Zero-CSP-Violation Smoke"
     runs-on: ubuntu-24.04
     env:
       APP_ORIGIN: http://127.0.0.1:3098
@@ -170,15 +175,20 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - name: Install dependencies & Chromium browser
+      - name: "Install dependencies & Chromium browser"
         run: |
           npm ci
           npx playwright install --with-deps chromium
 
-      - name: Build production bundle & execute Playwright E2E suite (Plan 3.8 & 9.2)
+      - name: "Build production bundle & execute Playwright E2E suite (Plan 3.8 & 9.2)"
         run: |
           npm run build
-          npm run test:e2e
+          npm run test:e2e > /tmp/playwright.log 2>&1 || {
+            echo "::error::Playwright E2E failed: $(tail -n 30 /tmp/playwright.log | tr '\n' ' ')"
+            cat /tmp/playwright.log
+            exit 1
+          }
+          cat /tmp/playwright.log
 
   lighthouse:
     name: Lighthouse CI (answer #12)

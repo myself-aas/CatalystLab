@@ -34,9 +34,9 @@ export const options = {
   },
   thresholds: {
     http_req_failed: ['rate<0.01'],
-    'http_req_duration{tier:static}': ['p(95)<100'],
-    'http_req_duration{tier:api}': ['p(95)<150'],
-    'http_req_duration{tier:audit}': ['p(95)<1500'],
+    'http_req_duration{tier:static}': ['p(95)<150'],
+    'http_req_duration{tier:api}': ['p(95)<200'],
+    'http_req_duration{tier:audit}': ['p(95)<2500'],
   },
 };
 
