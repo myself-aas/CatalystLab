@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
   Search, 
   LayoutDashboard, 
@@ -307,6 +307,14 @@ export default function SidebarNavPreview() {
   const [activeId, setActiveId] = useState('home');
   const [activeWorkspace, setActiveWorkspace] = useState('Acme Corp');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus the palette input when it opens. Programmatic focus (instead of the
+  // `autoFocus` attribute) keeps focus management explicit and avoids stealing
+  // focus on first paint.
+  useEffect(() => {
+    if (isSearchOpen) searchInputRef.current?.focus();
+  }, [isSearchOpen]);
 
   const activeItem = flatMockData.find(i => i.id === activeId);
   const activeTitle = activeItem ? activeItem.title : 'Dashboard';
@@ -426,7 +434,7 @@ export default function SidebarNavPreview() {
               <div className="flex items-center px-4 border-b border-border/50">
                 <Search className="w-[18px] h-[18px] text-muted-foreground/70 mr-3 shrink-0" strokeWidth={1.5} />
                 <input 
-                  autoFocus
+                  ref={searchInputRef}
                   className="flex-1 bg-transparent py-4 outline-none text-[14px] text-foreground placeholder:text-muted-foreground/50"
                   placeholder="Search projects, docs, or actions..."
                 />

@@ -13,19 +13,22 @@ import {
   MASTER_AUDIT_COST,
   SINGLE_ENGINE_COST
 } from '../core/rateLimit';
+import { readDailyUnits } from '../core/dailyQuota';
 
 // Rate-limit status introspection and the 5-tier plan catalog.
 
 export function registerPlanRoutes(app: import('express').Express): void {
 
 // Rate Limit Status Query Endpoint
-app.get('/api/rate-limit/status', (req: Request, res: Response): void => {
+app.get('/api/rate-limit/status', async (req: Request, res: Response): Promise<void> => {
   const { dateKey, resetAt, resetInSeconds, formattedResetTime } = getUtcMidnight();
   const identity = resolveClientIdentity(req);
 
   const storeKey = `${dateKey}_${identity.identifier}`;
   const record = dailyRateLimitStore.get(storeKey);
-  const unitsUsed = record ? record.unitsUsed : 0;
+  // Prefer the shared (Upstash) daily ledger over this instance's view.
+  const shared = await readDailyUnits(identity.identifier, dateKey);
+  const unitsUsed = shared.unitsUsed ?? (record ? record.unitsUsed : 0);
   const limit = identity.limit || FREE_USER_DAILY_UNITS;
   const unitsRemaining = Math.max(0, limit - unitsUsed);
 
@@ -40,6 +43,7 @@ app.get('/api/rate-limit/status', (req: Request, res: Response): void => {
     subscriptionPlan: identity.subscriptionPlan,
     isTrialActive: identity.isTrialActive,
     dailyLimit: limit,
+    quotaBackend: shared.backend,
     unitsUsed,
     unitsRemaining,
     masterAuditsRemaining: Math.floor(unitsRemaining / MASTER_AUDIT_COST),

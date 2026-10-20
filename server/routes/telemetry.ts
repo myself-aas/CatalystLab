@@ -8,6 +8,8 @@ import { sendSlackWebhook, sendDiscordWebhook } from '../../src/lib/webhookServi
 import { telemetryEventSchema } from '../../src/lib/validation';
 import { logger } from '../core/logger';
 import { requireSuperadmin } from '../core/authz';
+import { authorizeAnalyticsDomain } from '../core/domainAccess';
+import { maybeSweepOnRequest } from '../core/retention';
 
 // First-party telemetry script serving, event ingestion (ad-blocker proof
 // proxy strategy), and the zero-cost analytical query pipelines.
@@ -144,6 +146,11 @@ const handleTelemetryEvent = (req: Request, res: Response): void => {
   }
 
   // 6. Asynchronous Edge Response
+  if (processedCount > 0) {
+    // Question 2: retention is enforced by the Mongo TTL index AND by a sweep
+    // that piggybacks on ingestion (throttled, never awaited).
+    maybeSweepOnRequest();
+  }
   res.status(202).json({ success: true, processed: processedCount });
 };
 
@@ -178,9 +185,20 @@ app.get('/api/analytics/stats', async (req: Request, res: Response): Promise<voi
     const domain = (req.query.domain as string) || 'all';
     const timeframe = ((req.query.timeframe as string) || '7d') as '24h' | '7d' | '30d' | 'all';
 
-    const stats = await getAnalyticsStats({ domain, timeframe });
+    // D4: the global aggregate is public; a specific domain requires a
+    // verified identity that owns it.
+    const access = await authorizeAnalyticsDomain(req, domain);
+    if (!access.allowed) {
+      res.status(access.status ?? 403).json({ success: false, code: access.code, error: access.error });
+      return;
+    }
+    const scopeDomain = access.scope === 'global' ? 'all' : access.domain;
+
+    const stats = await getAnalyticsStats({ domain: scopeDomain, timeframe });
     res.json({
       success: true,
+      domain: scopeDomain,
+      scope: access.scope,
       stats
     });
   } catch (err: any) {
@@ -193,10 +211,20 @@ app.get('/api/analytics/stats', async (req: Request, res: Response): Promise<voi
 app.get('/api/analytics/realtime', async (req: Request, res: Response): Promise<void> => {
   try {
     const domain = (req.query.domain as string) || 'all';
-    const stats = await getAnalyticsStats({ domain, timeframe: '24h' });
+
+    // D4: per-domain realtime numbers are owner-only.
+    const access = await authorizeAnalyticsDomain(req, domain);
+    if (!access.allowed) {
+      res.status(access.status ?? 403).json({ success: false, code: access.code, error: access.error });
+      return;
+    }
+    const scopeDomain = access.scope === 'global' ? 'all' : access.domain;
+
+    const stats = await getAnalyticsStats({ domain: scopeDomain, timeframe: '24h' });
     res.json({
       success: true,
-      domain,
+      domain: scopeDomain,
+      scope: access.scope,
       activeVisitorsNow: stats.activeVisitorsNow,
       todayUniqueVisitors: stats.uniqueVisitors,
       todayPageviews: stats.totalPageviews,
@@ -211,7 +239,14 @@ app.get('/api/analytics/realtime', async (req: Request, res: Response): Promise<
 app.post('/api/analytics/anomalies/check', async (req: Request, res: Response): Promise<void> => {
   try {
     const { domain = 'all', notify = false, alertEmail, slackWebhookUrl, discordWebhookUrl } = req.body;
-    const result = await detectTrafficAnomalies(domain);
+
+    // D4: anomaly detection over one customer's domain is owner-only.
+    const access = await authorizeAnalyticsDomain(req, domain);
+    if (!access.allowed) {
+      res.status(access.status ?? 403).json({ success: false, code: access.code, error: access.error });
+      return;
+    }
+    const result = await detectTrafficAnomalies(access.scope === 'global' ? 'all' : access.domain);
 
     let notificationsDispatched = { email: false, slack: false, discord: false };
     if (notify) {

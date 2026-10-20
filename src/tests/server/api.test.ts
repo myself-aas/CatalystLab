@@ -5,8 +5,11 @@
 // (404 JSON, request correlation, client-log sink).
 import type { Express } from 'express';
 import request from 'supertest';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { createHmac } from 'crypto';
+import { setSubscriptionStoreForTests, SUBSCRIPTION_COLLECTION } from '@server/core/subscriptions';
+import { buildCheckoutCustomField } from '@server/core/subscriptions';
+import { MemorySubscriptionStore } from '../helpers/memorySubscriptionStore';
 
 let app: Express;
 
@@ -50,15 +53,68 @@ describe('C1: payments fail closed', () => {
     expect(res.body.status).toBe('error');
   });
 
-  it('2Checkout webhook accepts a valid HMAC over the raw body', async () => {
+  it('2Checkout webhook refuses a signed payload it cannot attribute (422)', async () => {
     const body = JSON.stringify({ message_type: 'ORDER_CREATED', sale_id: 12345 });
     const res = await request(app)
       .post('/api/payments/webhook/2checkout')
       .set('Content-Type', 'application/json')
       .set('x-signature-256', hmacSha256(body, PAY_SECRET))
       .send(body);
-    expect(res.status).toBe(200);
-    expect(res.body.received).toBe(true);
+    expect(res.status).toBe(422);
+    expect(res.body.reason).toBe('MISSING_OWNER');
+    expect(res.body.applied).toBe(false);
+  });
+
+  it('2Checkout webhook activates the subscription from a signed payload (D1)', async () => {
+    const store = new MemorySubscriptionStore();
+    setSubscriptionStoreForTests(store);
+    try {
+      const body = JSON.stringify({
+        message_type: 'ORDER_CREATED',
+        sale_id: '998877',
+        customer_email: 'owner@example.com',
+        custom: buildCheckoutCustomField('uid_webhook_1', 'pro', 'annual', 'ord_webhook_1')
+      });
+      const res = await request(app)
+        .post('/api/payments/webhook/2checkout')
+        .set('Content-Type', 'application/json')
+        .set('x-signature-256', hmacSha256(body, PAY_SECRET))
+        .send(body);
+
+      expect(res.status).toBe(200);
+      expect(res.body.applied).toBe(true);
+      expect(res.body.reason).toBe('APPLIED');
+      expect(res.body.subscription.planId).toBe('pro');
+      expect(res.body.subscription.status).toBe('active');
+      expect(store.get(SUBSCRIPTION_COLLECTION, 'uid_webhook_1')?.planId).toBe('pro');
+
+      // Replaying the same signed bytes must be a no-op, not a second write.
+      const replay = await request(app)
+        .post('/api/payments/webhook/2checkout')
+        .set('Content-Type', 'application/json')
+        .set('x-signature-256', hmacSha256(body, PAY_SECRET))
+        .send(body);
+      expect(replay.status).toBe(200);
+      expect(replay.body.applied).toBe(false);
+      expect(replay.body.reason).toBe('DUPLICATE_EVENT');
+    } finally {
+      setSubscriptionStoreForTests(null);
+    }
+  });
+
+  it('2Checkout webhook answers 503 when no subscription store is configured', async () => {
+    const body = JSON.stringify({
+      message_type: 'ORDER_CREATED',
+      sale_id: '555',
+      custom: buildCheckoutCustomField('uid_webhook_2', 'starter', 'monthly', 'ord_webhook_2')
+    });
+    const res = await request(app)
+      .post('/api/payments/webhook/2checkout')
+      .set('Content-Type', 'application/json')
+      .set('x-signature-256', hmacSha256(body, PAY_SECRET))
+      .send(body);
+    expect(res.status).toBe(503);
+    expect(res.body.reason).toBe('STORE_UNAVAILABLE');
   });
 
   it('2Checkout webhook rejects a tampered signature', async () => {
@@ -326,29 +382,60 @@ describe('Notifications surface', () => {
   });
 });
 
-describe('Reports and blogs surface', () => {
-  it('lists reports, synthesizes permalinks, and 404s unknown exports', async () => {
+describe('Reports and blogs surface (501 until real)', () => {
+  // Owner decision 2026-10-19: these endpoints used to answer with fabricated
+  // sample catalogs. They must now report 501 and serve no invented records.
+  it('answers 501 with a stable NOT_IMPLEMENTED code on every report route', async () => {
     const list = await request(app).get('/api/v1/reports');
-    expect(list.status).toBe(200);
+    expect(list.status).toBe(501);
+    expect(list.body.success).toBe(false);
+    expect(list.body.code).toBe('NOT_IMPLEMENTED');
+    expect(list.body.reports).toBeUndefined();
 
-    // Permalinks are synthetic dossiers derived from the slug (demo surface).
     const permalink = await request(app).get('/api/v1/reports/permalink/example-com');
-    expect(permalink.status).toBe(200);
-    expect(permalink.body.score).toBeDefined();
+    expect(permalink.status).toBe(501);
+    expect(permalink.body.code).toBe('NOT_IMPLEMENTED');
+    expect(permalink.body.score).toBeUndefined();
 
-    // Export synthesizes a dossier for any id (demo surface).
     const exported = await request(app).post('/api/v1/reports/unknown-id/export').send({ format: 'json' });
-    expect(exported.status).toBe(200);
-    expect(exported.body.reportId).toBe('unknown-id');
+    expect(exported.status).toBe(501);
+    expect(exported.body.code).toBe('NOT_IMPLEMENTED');
+    expect(exported.body.content).toBeUndefined();
   });
 
-  it('lists blogs and synthesizes dossier content for slugs', async () => {
+  it('answers 501 on the blogs routes instead of echoing the slug back', async () => {
     const list = await request(app).get('/api/v1/blogs');
-    expect(list.status).toBe(200);
+    expect(list.status).toBe(501);
+    expect(list.body.code).toBe('NOT_IMPLEMENTED');
+    expect(list.body.articles).toBeUndefined();
 
     const post = await request(app).get('/api/v1/blogs/any-slug');
-    expect(post.status).toBe(200);
-    expect(post.body.title).toBeDefined();
+    expect(post.status).toBe(501);
+    expect(post.body.code).toBe('NOT_IMPLEMENTED');
+    expect(post.body.title).toBeUndefined();
+  });
+
+  it('points callers at the measured master-audit stream', async () => {
+    const list = await request(app).get('/api/v1/reports');
+    expect(list.body.useInstead).toMatch(/audit\/master\/stream/);
+  });
+});
+
+describe('Master audit JSON variant is gone', () => {
+  // Owner decision 2026-10-19: POST /api/v1/audit/master answered with a
+  // hard-coded compositeScore of 92. Only the SSE stream may serve audits.
+  it('no longer serves the synchronous JSON master audit', async () => {
+    const res = await request(app).post('/api/v1/audit/master').send({ url: 'https://example.com' });
+    expect(res.status).toBe(404);
+    expect(res.body.compositeScore).toBeUndefined();
+  });
+
+  it('still registers the streaming master audit paths', async () => {
+    // No url => 400 from the stream handler, which proves the route exists
+    // without opening an SSE connection or touching the network.
+    const res = await request(app).post('/api/v1/audit/master/stream').send({});
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/url/i);
   });
 });
 
@@ -366,6 +453,23 @@ describe('Engines surface validation', () => {
 
     const unknown = await request(app).get('/api/v1/engines/not-an-engine');
     expect(unknown.status).toBe(404);
+  });
+
+  it('does not expose the unreleased ai_search engine (Q39)', async () => {
+    const catalog = await request(app).get('/api/v1/engines');
+    const ids = (catalog.body.engines as Array<{ id: string }>).map((engine) => engine.id);
+    expect(ids).not.toContain('ai_search');
+    expect(catalog.body.total).toBe(ids.length);
+
+    const detail = await request(app).get('/api/v1/engines/ai_search');
+    expect(detail.status).toBe(404);
+  });
+
+  it('reports the TLS probe restriction on the monitor probe surface', async () => {
+    // A non-443 port must skip the certificate probe instead of connecting.
+    const res = await request(app).post('/api/monitor/probe').send({ url: 'https://127.0.0.1:8443/' });
+    expect(res.status).toBe(400);
+    expect(res.body.success).toBe(false);
   });
 
   it('rejects /api/run-engine calls with missing or blocked URLs', async () => {
@@ -424,32 +528,42 @@ describe('State-sync auth coverage (C4 completion)', () => {
   });
 });
 
-describe('DodoPay webhook (C1 completion)', () => {
-  it('rejects unsigned payloads with a configured secret', async () => {
-    const res = await request(app).post('/api/payments/webhook/dodopay').send({ event: 'payment.succeeded' });
-    expect(res.status).toBe(401);
+describe('DodoPay gateway is disabled (D2)', () => {
+  // Owner decision: 2Checkout is the single live gateway. Dodo stays in code
+  // but its webhook and checkout paths refuse to operate.
+  afterEach(() => {
+    delete process.env.PAYMENT_GATEWAY;
   });
 
-  it('accepts a validly-signed event and rejects tampering', async () => {
+  it('rejects every webhook delivery with GATEWAY_DISABLED, signed or not', async () => {
+    const unsigned = await request(app).post('/api/payments/webhook/dodopay').send({ event: 'payment.succeeded' });
+    expect(unsigned.status).toBe(503);
+    expect(unsigned.body.code).toBe('GATEWAY_DISABLED');
+
     const body = JSON.stringify({ event: 'payment.succeeded', payment_id: 'pay_1' });
-    const valid = await request(app)
+    const signed = await request(app)
       .post('/api/payments/webhook/dodopay')
       .set('Content-Type', 'application/json')
       .set('x-signature-256', hmacSha256(body, PAY_SECRET))
       .send(body);
-    expect(valid.status).toBe(200);
-
-    const forged = await request(app)
-      .post('/api/payments/webhook/dodopay')
-      .set('Content-Type', 'application/json')
-      .set('x-signature-256', hmacSha256(body, 'evil'))
-      .send(body);
-    expect(forged.status).toBe(401);
+    expect(signed.status).toBe(503);
+    expect(signed.body.code).toBe('GATEWAY_DISABLED');
   });
 
-  it('create-checkout fails closed for the dodopay gateway too', async () => {
+  it('refuses a client-selected gateway that is not live', async () => {
     const res = await request(app).post('/api/payments/create-checkout').send({ planId: 'pro', gateway: 'dodopay' });
-    expect(res.status).toBe(503);
+    expect(res.status).toBe(400);
+    expect(res.body.code).toBe('GATEWAY_NOT_AVAILABLE');
+  });
+
+  it('rejects unknown and unpurchasable planIds instead of defaulting to pro', async () => {
+    const unknown = await request(app).post('/api/payments/create-checkout').send({ planId: 'enterprise-plus' });
+    expect(unknown.status).toBe(400);
+    expect(unknown.body.code).toBe('UNKNOWN_PLAN');
+
+    const free = await request(app).post('/api/payments/create-checkout').send({ planId: 'free' });
+    expect(free.status).toBe(400);
+    expect(free.body.code).toBe('UNKNOWN_PLAN');
   });
 });
 

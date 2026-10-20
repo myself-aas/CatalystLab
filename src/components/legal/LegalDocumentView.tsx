@@ -3,7 +3,7 @@ import { ShieldAlert, ListTree } from 'lucide-react';
 import { SEOHead } from '../common/SEOHead';
 import { ALL_PLANS_LIST } from '../../data/pricingData';
 import type { LegalBlock, LegalDocumentContent } from '../../legal/types';
-import { DRAFT_NOTICE, LEGAL_DRAFT_VERSION, EFFECTIVE_DATE, SITE_ORIGIN } from '../../legal/legalMeta';
+import { PUBLICATION_NOTICE, LEGAL_VERSION, EFFECTIVE_DATE, SITE_ORIGIN } from '../../legal/legalMeta';
 
 /**
  * Splits text on [ASK USER: ...] markers. Odd indices are the captured markers,
@@ -46,7 +46,9 @@ const PlanTable: React.FC = () => (
             <td className="py-2 pr-4 text-foreground">{plan.name}</td>
             <td className="py-2 pr-4">{plan.priceMonthly === 0 ? 'Free' : `$${plan.priceMonthly} / month`}</td>
             <td className="py-2 pr-4">
-              {plan.priceMonthly === 0 ? '—' : <RenderText text="[ASK USER: confirm annual price]" />}
+              {plan.priceMonthly === 0
+                ? '—'
+                : `$${plan.annualBillingTotal} billed yearly ($${plan.priceAnnualMonthly} / month)`}
             </td>
             <td className="py-2">{plan.trialDays > 0 ? `${plan.trialDays} days` : 'None'}</td>
           </tr>
@@ -109,17 +111,19 @@ export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc
     <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
       <div className="mx-auto max-w-6xl space-y-4">
         <p className="framer-micro-tag text-muted-foreground font-mono">
-          Version {doc.version || LEGAL_DRAFT_VERSION} · Effective <RenderText text={EFFECTIVE_DATE} />
+          Version {doc.version || LEGAL_VERSION} · Effective <RenderText text={EFFECTIVE_DATE} />
         </p>
         <h1 className="framer-section-headline text-foreground">{doc.title}</h1>
         <p className="framer-body-text max-w-3xl"><RenderText text={doc.intro} /></p>
-        <div
-          role="note"
-          className="flex items-start gap-2 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 text-xs text-amber-100"
-        >
-          <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" aria-hidden="true" />
-          <span>{DRAFT_NOTICE}</span>
-        </div>
+        {PUBLICATION_NOTICE ? (
+          <div
+            role="note"
+            className="flex items-start gap-2 rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground"
+          >
+            <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+            <span>{PUBLICATION_NOTICE}</span>
+          </div>
+        ) : null}
       </div>
     </section>
 

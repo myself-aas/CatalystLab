@@ -25,6 +25,7 @@ import { useSubscription } from '../../context/SubscriptionContext';
 import { cn } from '../../lib/utils';
 import { NavbarSearch } from './NavbarSearch';
 import { MainMenuOverlay } from './MainMenuOverlay';
+import { TOTAL_POPS_COUNT } from '../../lib/edge/pops';
 
 interface EngineItem {
   id: string;
@@ -256,7 +257,7 @@ export const Navbar: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-75" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#F0FAFF]" />
               </span>
-              <span>38/38 PoPs Active</span>
+              <span>{TOTAL_POPS_COUNT} PoPs Active</span>
             </div>
           </div>
 

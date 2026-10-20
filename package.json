@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "build": "vite build && tsx scripts/prerender.ts && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
@@ -17,9 +17,12 @@
     "check:env": "node scripts/check-env.mjs",
     "media:check": "node scripts/verify-media.mjs",
     "test:coverage": "vitest run --coverage",
-    "check:bundle": "node scripts/check-bundle-budget.mjs"
+    "check:bundle": "node scripts/check-bundle-budget.mjs",
+    "lhci": "lhci autorun",
+    "ci:full": "npm run ci && npm run test:coverage"
   },
   "dependencies": {
+    "@sentry/node": "^9.47.2",
     "@tailwindcss/vite": "^4.0.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.2",
@@ -47,7 +50,6 @@
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.0.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
     "ua-parser-js": "^2.0.10",
     "vite": "^6.0.3",
     "zod": "^4.5.4",
@@ -55,6 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
+    "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.63.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
@@ -76,6 +79,7 @@
     "playwright": "^1.63.0",
     "supertest": "^7.2.2",
     "terser": "^5.51.2",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^8.24.0",
     "vitest": "^5.0.0"
   }

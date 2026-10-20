@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import heroImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
 import { cn } from "@/lib/utils";
 import { motion, type Variants } from "motion/react";
 import { AnimatedGroup } from "@/components/ui/animated-group";
@@ -265,7 +266,7 @@ export default function HeroSection6() {
                 transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
               >
                 <Iphone15Pro
-                  src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1"
+                  src={heroImage}
                   className="w-full h-[260px] md:h-[380px] lg:h-[440px]"
                 />
               </motion.div>

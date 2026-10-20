@@ -26,7 +26,9 @@ export const createAuditsSlice: StateCreator<
 > = (set, get) => ({
   auditRecords: [],
   activeRunningEngine: null,
-  compositeScore: 92,
+  // No score is known until an audit reports one. A synthetic default (92)
+  // was rendered as a real measurement.
+  compositeScore: null,
   auditsLoading: false,
 
   setAuditRecords: (records: AuditRecordDocument[]) => {

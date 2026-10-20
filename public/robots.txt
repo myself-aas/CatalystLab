@@ -1,3 +1,86 @@
+# CatalystLab crawler policy
+# Owner decisions: D12 (AI crawler policy) and D14 (www is canonical), 2026-10-19.
+# Sitemap and the prerendered route shells are generated at build time
+# (scripts/prerender.ts), so this file and the index stay in step.
+
+# --- Search engines and answer engines that send users here: allowed ---
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /admin
+Disallow: /admin/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /admin
+Disallow: /admin/
+
+# AI answer engines that attribute and link back to the source: allowed.
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
+User-agent: Claude-User
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
+# --- Bulk training crawlers: not allowed (D12) ---
+# These fetch at scale for model training without sending readers to the site.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+# --- Everything else ---
 User-agent: *
 Allow: /
 Allow: /blogs
@@ -9,11 +92,28 @@ Allow: /compare
 Allow: /report
 Allow: /reports/
 Allow: /contact
+Allow: /methodology
+Allow: /security
+Allow: /engines
+Allow: /legal
 
+# Application surfaces (noindex in the HTML as well) and the API.
 Disallow: /admin
 Disallow: /admin/
 Disallow: /dashboard
 Disallow: /dashboard/
+Disallow: /app
+Disallow: /app/
+Disallow: /audit
+Disallow: /user-dashboard
+Disallow: /login
+Disallow: /signin
+Disallow: /register
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
 Disallow: /api/
+Disallow: /stats/
+Disallow: /telemetry/
 
 Sitemap: https://www.catalystlab.tech/sitemap.xml

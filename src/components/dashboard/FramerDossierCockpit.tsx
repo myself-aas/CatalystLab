@@ -22,6 +22,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { CopyButton } from '../ui/CopyButton';
+import { TOTAL_POPS_COUNT } from '../../lib/edge/pops';
 
 interface FramerDossierCockpitProps {
   targetDomain?: string;
@@ -137,7 +138,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 Edge Mesh P95
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-cyan-400 border border-cyan-500/20">
-                38 PoPs
+                {TOTAL_POPS_COUNT} PoPs
               </span>
             </div>
 

@@ -56,6 +56,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { GitBranch } from 'lucide-react';
 import { logger } from '../lib/logger';
 import { UserDashboardSkeleton, SkeletonCard, SkeletonTable } from '../components/skeleton';
+import { TOTAL_POPS_COUNT } from '../lib/edge/pops';
 
 export const UserDashboardPage: React.FC = () => {
  const { 
@@ -459,7 +460,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
        </div>
      ))}
    </div>
-   <span className="text-[10px] font-mono text-muted-foreground">38 PoPs</span>
+   <span className="text-[10px] font-mono text-muted-foreground">{TOTAL_POPS_COUNT} PoPs</span>
  </div>
  <div className="text-[11px] font-semibold text-[#F0FAFF] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
  <span>Open Dossier</span>

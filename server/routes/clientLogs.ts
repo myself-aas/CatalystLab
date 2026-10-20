@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { z } from 'zod';
 import { logger } from '../core/logger';
 import { getAttachedIdentity } from '../../src/lib/serverAuth';
+import { captureClientError } from '../core/errorTracking';
 
 // Phase 3 (item 15): client error-reporting sink. The browser logger batches
 // warn/error events and beacons them here; each event is schema-validated,
@@ -79,6 +80,10 @@ export function registerClientLogRoutes(app: express.Express): void {
       };
       if (event.level === 'error') {
         logger.error(logContext, event.message + (event.stack ? `\n${event.stack}` : ''));
+        // D10: relay to Sentry through the server so the browser bundle carries
+        // no SDK and no DSN, and so every event passes the PII scrubber. This
+        // is a no-op when SENTRY_DSN is unset.
+        captureClientError(event);
       } else {
         logger.warn(logContext, event.message);
       }

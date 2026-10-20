@@ -4,7 +4,7 @@ Website-quality intelligence platform: a Vite 6 + React 18 SPA with an integrate
 
 > Review remediation status: **Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ✅** — see [`CODE_REVIEW.md`](./CODE_REVIEW.md) for the historical audit, and [`PRODUCTION_READINESS_AUDIT.md`](./PRODUCTION_READINESS_AUDIT.md) for the current full audit, findings, and phased plan.
 
-> **Current state (2026-09-05):** all four mandatory local gates are green — `npx tsc --noEmit` (0 errors), `npm run lint` (0 problems), `npm test` (177 passed), `npm run build` (succeeds, vendor bundle budget still needs Phase 3 splitting).
+> **Current state (2026-10-19):** every gate is green — `npm run check:env`, `npm run lint` (0 problems over `src/`, `server/`, `components/`, `types/`, `scripts/`), `npx tsc --noEmit` (0 errors, `strict: true`), `npm test` (309 passed in 29 files), `npm run test:coverage` (ratchet met), `npm run build` (including the prerender step) and `npm run check:bundle`. CI runs the same set on every PR.
 
 ## Quickstart
 
@@ -22,15 +22,18 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | tsx server.ts (Express + Vite middleware, HMR off for proxy compatibility) |
-| `npm run build` | Production bundle to `dist/` |
-| `npm test` | Vitest suite (177 tests: UI + server route suite) |
-| `npm run test:coverage` | Same suite with v8 coverage, thresholds gated on `server/**` |
+| `npm run build` | Production bundle to `dist/`, then `scripts/prerender.ts` (74 route shells, `404.html`, `sitemap.xml`, `routes.json`), then esbuild → `dist/server.cjs` |
+| `npm test` | Vitest suite (309 tests in 29 files: UI + server route suite) |
+| `npm run test:coverage` | Same suite with v8 coverage; global thresholds are the measured baseline (68/55/72/69) and may only be raised |
 | `npm run typecheck` | `tsc --noEmit` (hard gate, must stay clean) |
 | `npm run lint` | ESLint (0 warnings tolerated) |
 | `npm run check:bundle` | Enforce JS bundle-size budgets after `npm run build` |
-| `npm run ci` | Run the full local gate: lint → typecheck → test → build → bundle budget |
+| `npm run ci` | Full local gate: check:env → lint → typecheck → test → build → bundle budget |
+| `npm run ci:full` | `npm run ci` plus the coverage ratchet |
+| `npm run lhci` | Lighthouse CI against `./dist` using `.lighthouserc.json` (a11y ≥ 0.9 and best-practices/SEO ≥ 0.85 fail; performance < 0.5 warns) |
+| `npm run media:check` | Verify referenced media assets exist |
 
-CI currently only runs media verification (`.github/workflows/media-verify.yml`). The local full gate is `npm run ci`. Add the CI job from [`PRODUCTION_READINESS_AUDIT.md`](./PRODUCTION_READINESS_AUDIT.md) Phase 1 before shipping so lint, `tsc --noEmit` (**hard gate** — the tree must compile clean under `strict: true`), the 177-test suite, the production build, and the bundle budget all run on every PR.
+Every pull request runs the full gate set in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) on Node 24 (owner answer #8): `npm run ci` (check:env, ESLint over `src/`, `server/`, `components/`, `types/`, `scripts/`, `tsc --noEmit` under `strict: true`, the 309-test suite, the production build including prerender, and the bundle budget), then the coverage ratchet, a production smoke test that boots `dist/server.cjs` and asserts the prerendered shells, the real 404 status, the legacy `.html` 301s and the `501` synthetic endpoints, and `npm run media:check`. A second job runs Lighthouse CI (answer #12). `.github/workflows/media-verify.yml` is kept for media integrity on its own trigger.
 
 ## Environment variables
 
@@ -38,7 +41,10 @@ Everything is optional; behavior when unset is listed. See [`.env.example`](./.e
 
 | Group | Variables | Unset behavior |
 | --- | --- | --- |
-| Firebase (client) | `VITE_FIREBASE_*` | Auth/FS features degrade gracefully |
+| Origin (Q42) | `APP_ORIGIN`, `VITE_APP_ORIGIN` | Canonical origin for canonical/og:url, sitemap and prerendered shells; `check:env` fails without one |
+| Signing (Q42) | `JWT_SECRET` / `PAYMENT_SIGNING_SECRET` | `check:env` requires at least one; checkout answers `503` without the gateway secret |
+| Quota and rate limits (answer #1) | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Counters live in process memory and reset on restart — not acceptable in production |
+| Error tracking (D10) | `SENTRY_DSN`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` | Sentry off; client errors stay in the pino logs only |
 | Firebase Admin (server) | `FIREBASE_SERVICE_ACCOUNT_JSON` / `_PATH` | `/api/state/sync` → `401` for everyone (fail closed) |
 | MongoDB | `MONGODB_URI`, `MONGODB_DB_NAME` | Analytics buffer in memory (zero-cost mode) |
 | Mailgun | `MAILGUN_*` | Emails dispatch in **mock mode** (logged, never sent) |
@@ -49,7 +55,11 @@ Everything is optional; behavior when unset is listed. See [`.env.example`](./.e
 
 ## Architecture
 
-One HTTP server hosts both the Express API and the SPA (static `dist/` in production, Vite middleware in development). The full diagram and data flows live in [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md); the audit-engine inventory is in [`docs/ENGINES.md`](./docs/ENGINES.md).
+One HTTP server hosts both the Express API and the SPA (static `dist/` in production, Vite middleware in development). In production the server answers a route from its prerendered shell when one exists, serves the app shell for client-only routes, 301s the legacy `.html` aliases and returns a real **404** for everything else (D11/D14).
+
+Production hosting is split (D3 (b), Q31, Q32): the static frontend on Cloudflare Pages, `/api/*` proxied to the Node API host by a Cloudflare Worker route (`worker/api-proxy.js`, `wrangler.toml`), and the API on Oracle Cloud Always Free with Render Free as the documented fallback. SLOs, deploy steps, rollback and incident response are in [`docs/ops/runbook.md`](./docs/ops/runbook.md).
+
+The full diagram and data flows live in [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md); the audit-engine inventory is in [`docs/ENGINES.md`](./docs/ENGINES.md).
 
 ```
 server.ts                 process entrypoint: HTTP server, Vite/static wiring, PORT/HOST
@@ -70,8 +80,8 @@ src/                      React SPA (279 files) — pages, components, stores, e
 - **Payments**: fail closed. `/api/payments/verify` never grants entitlements; webhooks require HMAC-SHA256 over the raw body; missing gateway credentials → `503`.
 - **Webhooks**: GitHub deliveries verify `x-hub-signature-256` over the raw body; unknown `repoId`s are rejected, never auto-provisioned. Repo secrets are never echoed back to clients.
 - **SSRF**: every engine request goes through the guard — scheme allowlist, private/loophead range blocking, DNS resolution pinned to the validated address (anti-rebinding), response-size caps, TLS verification on.
-- **Rate limiting**: per-identity daily unit budgets + 60s burst windows, in-memory, keyed by server-derived identity; visitor budget 20 units/day.
-- **Secrets hygiene**: the Firebase **web** config (`firebase-applet-config.json`, `VITE_FIREBASE_*`) is public by design — it identifies the Firebase project and is safe to ship in the client bundle. The Admin **service account** is the credential, kept out of Git and provided via `FIREBASE_SERVICE_ACCOUNT_*`.
+- **Rate limiting**: per-identity daily unit budgets + 60s burst windows, keyed by server-derived identity; visitor budget 20 units/day, master audit 10 units, single engine 1 unit. The ledger uses Upstash when configured and process memory otherwise (`server/core/rateLimit.ts`, `server/core/dailyQuota.ts`).
+- **Secrets hygiene**: the Firebase **web** config (`firebase-applet-config.json`) is public by design — it identifies the Firebase project and is safe to ship in the client bundle. The Admin **service account** is the credential, kept out of Git and provided via `FIREBASE_SERVICE_ACCOUNT_*`. No Sentry DSN or SDK ships to the browser: client errors relay through `POST /api/client-logs` and the server forwards them, scrubbed.
 
 ## Observability
 
@@ -81,8 +91,8 @@ src/                      React SPA (279 files) — pages, components, stores, e
 ## Testing
 
 ```bash
-npm test                 # 177 tests — UI (jsdom) + server routes (node + supertest)
-npm run test:coverage    # coverage gate: server/** ≥70% lines/statements/functions
+npm test                 # 309 tests in 29 files — UI (jsdom) + server routes (node + supertest)
+npm run test:coverage    # coverage ratchet: global thresholds are the measured baseline (see vitest.config.ts)
 ```
 
 The server suite covers every security-critical flow: payment fail-closed behavior, webhook HMAC verification (valid/forged/unknown), identity-spoof resistance, state-sync auth, SSRF blocking, telemetry schema validation, and the client-log sink.

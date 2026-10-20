@@ -4,6 +4,10 @@
  */
 
 import { errorMessage } from './utils';
+
+/** Hard timeout for the Mailgun HTTP call (ms). */
+const MAILGUN_TIMEOUT_MS = 10_000;
+
 export interface EmailRecipient {
   email: string;
   name?: string;
@@ -335,7 +339,10 @@ export async function sendEmailViaMailgun(options: {
         'Authorization': authHeader,
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: formData.toString()
+      body: formData.toString(),
+      // Bound the outbound call: Mailgun must not be able to hold a request
+      // (and its Express worker slot) open indefinitely.
+      signal: AbortSignal.timeout(MAILGUN_TIMEOUT_MS)
     });
 
     const responseData = await response.json().catch(() => ({}));

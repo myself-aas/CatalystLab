@@ -1,0 +1,30 @@
+# Cloudflare deployment config for the split hosting decision (D3 (b)).
+#
+#   Static frontend -> Cloudflare Pages  (deploy: npx wrangler pages deploy dist --project-name catalystlab-web)
+#   /api/*          -> this Worker route -> the Node API host (Q31 (a), Q32)
+#
+# A single wrangler.toml describes either a Worker or a Pages project, so the
+# Pages side is deployed with the command above; dist/ already contains the
+# prerendered route shells, _redirects and _headers that Pages reads.
+#
+#   npx wrangler deploy                     # publish the proxy
+#   npx wrangler tail --format pretty       # watch requests while testing
+
+name = "catalystlab-api-proxy"
+main = "worker/api-proxy.js"
+compatibility_date = "2026-10-19"
+compatibility_flags = ["nodejs_compat"]
+
+# Attach the Worker to /api/* on both the canonical host and the apex, so a
+# request that reaches the apex before the 301 still finds the API.
+routes = [
+  { pattern = "www.catalystlab.tech/api/*", zone_name = "catalystlab.tech" },
+  { pattern = "catalystlab.tech/api/*", zone_name = "catalystlab.tech" },
+]
+
+[vars]
+# Origin of the Node API host. Internal name; never exposed to the browser.
+API_ORIGIN = "https://api.catalystlab.tech"
+
+[observability]
+enabled = true

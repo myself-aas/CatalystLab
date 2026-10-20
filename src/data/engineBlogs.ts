@@ -1,4 +1,7 @@
 import type { BlogPost, EngineType } from '../types';
+// Local covers: the Pexels photo 3861958 these two posts used answers 503 (D17).
+import securityGovernanceCover from '../assets/images/catalyst_bg_2_1787217684318.jpg';
+import migrationSeoCover from '../assets/images/hero_network_visualization_1787838371820.jpg';
 
 export const ENGINE_SEEDED_BLOGS: Record<string, BlogPost[]> = {
   health: [
@@ -244,7 +247,7 @@ The standard SWD formula models energy consumption across four primary segments:
       title: 'OWASP Hardened Security Headers & GDPR Cookie Governance Architecture',
       slug: 'owasp-security-headers-gdpr-governance',
       excerpt: 'Complete production implementation of Strict-Transport-Security, Content-Security-Policy nonces, and privacy consent tiers.',
-      coverImage: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      coverImage: securityGovernanceCover,
       authorAvatar: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop&dpr=2',
       content: `## Defense-in-Depth for Modern Ingress Points
 
@@ -273,7 +276,7 @@ Web application firewalls are insufficient if individual HTTP responses lack cry
       title: 'Zero-Downtime Platform Migration: 301 Redirects and SEO Canonical Parity',
       slug: 'zero-downtime-platform-migration-seo-parity',
       excerpt: 'Architectural blueprint for transitioning legacy CMS systems to modern decoupled edge frameworks without traffic loss.',
-      coverImage: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      coverImage: migrationSeoCover,
       authorAvatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop&dpr=2',
       content: `## Migrating Without Losing Organic Authority
 

@@ -1,0 +1,173 @@
+name: CI
+
+# Answer #8 (2026-10-19): every pull request runs the full local gate set, and
+# ESLint now covers server/**, components/** and types/** as well as src/**.
+# Nothing merges on a partial run.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    name: Gates (Node 24)
+    runs-on: ubuntu-latest
+    env:
+      # check:env hard-fails in CI without these two, so both jobs set them.
+      # The service-account fixture is NOT a credential: firebase-admin rejects
+      # it, serverAuth catches the error and the API fails closed (401 on
+      # identity-dependent routes). Real secrets are supplied at deploy time.
+      APP_ORIGIN: https://www.catalystlab.tech
+      VITE_APP_ORIGIN: https://www.catalystlab.tech
+      FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # check:env && lint && typecheck && test && build (+ prerender) && check:bundle
+      - name: Full gate set
+        run: npm run ci
+
+      - name: Coverage ratchet (vitest.config.ts thresholds)
+        run: npm run test:coverage
+
+      - name: Production smoke test (prerendered shell, 404 status, legacy redirect)
+        run: |
+          NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/server.log 2>&1 &
+          SERVER_PID=$!
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1 && break; sleep 1; done
+          set -e
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/pricing)" = "200"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/dashboard)" = "200"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/pricing.html)" = "301"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/definitely-not-a-page)" = "404"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/api/v1/reports)" = "501"
+          curl -fsS http://127.0.0.1:3000/pricing | grep -q 'rel="canonical" href="https://www.catalystlab.tech/pricing"'
+          curl -fsS http://127.0.0.1:3000/dashboard | grep -q 'noindex, nofollow'
+          curl -fsS http://127.0.0.1:3000/sitemap.xml | grep -q '<urlset'
+          kill $SERVER_PID
+
+      - name: Media integrity
+        run: npm run media:check
+
+      - name: Upload build output
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse CI (answer #12)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      # NODE_ENV must NOT be set job-wide: `npm ci` skips devDependencies when
+      # NODE_ENV=production, which removes vite and esbuild and breaks the build.
+      # It is scoped to the two steps that boot the production host.
+      APP_ORIGIN: https://www.catalystlab.tech
+      VITE_APP_ORIGIN: https://www.catalystlab.tech
+      FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      # Lighthouse audits the real production host (node dist/server.cjs), not a
+      # bare static directory, so the API the SPA calls exists and a missing
+      # endpoint cannot be mistaken for a page defect. Boot it once first: if the
+      # host cannot start, that is the failure to report, not an empty report set.
+      - name: Verify the production host boots
+        run: |
+          NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/lhci-server.log 2>&1 &
+          SERVER_PID=$!
+          ok=0
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1; then ok=1; break; fi
+            sleep 1
+          done
+          kill "$SERVER_PID" 2>/dev/null || true
+          if [ "$ok" != "1" ]; then
+            echo "::error::dist/server.cjs did not answer /api/health within 30s"
+            tail -40 /tmp/lhci-server.log
+            exit 1
+          fi
+          echo "production host boots and answers /api/health"
+
+      # Assertions live in .lighthouserc.json: accessibility >= 0.9 and
+      # best-practices / SEO >= 0.85 fail the run, performance warns below 0.5.
+      # Five URLs are audited explicitly (no crawl) and reports are written to
+      # .lighthouseci/reports instead of temporary public storage, so the job has
+      # no external upload dependency.
+      - name: Lighthouse CI
+        id: lhci
+        continue-on-error: true
+        run: npx lhci autorun
+        env:
+          NODE_ENV: production
+          PORT: '3000'
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+
+      # The raw runner log is only reachable from the Actions UI, so the scores
+      # are published to the job summary and, on a PR, as a comment.
+      - name: Summarise Lighthouse scores
+        if: always()
+        run: node scripts/report-lhci.mjs | tee -a "$GITHUB_STEP_SUMMARY" > /tmp/lhci-report.md
+
+      - name: Comment scores on the pull request
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "### Lighthouse CI — commit $GITHUB_SHA"
+            echo
+            cat /tmp/lhci-report.md
+          } > /tmp/lhci-comment.md
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file /tmp/lhci-comment.md
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          retention-days: 7
+          if-no-files-found: ignore
+
+      # SEO is enforced here, per route: a `noindex` app shell (D11) is exempt
+      # because Lighthouse's is-crawlable audit fails on it by design. Everything
+      # else (a11y, best-practices, performance) is asserted by lhci itself.
+      - name: Fail when a route missed its budget
+        if: always()
+        run: node scripts/report-lhci.mjs --strict > /dev/null
+
+      - name: Fail when Lighthouse collection failed
+        if: steps.lhci.outcome == 'failure'
+        run: |
+          echo "::error::Lighthouse CI did not pass. Scores are in the job summary and the PR comment; raw reports are in the lighthouse-reports artifact."
+          exit 1

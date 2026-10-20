@@ -1,0 +1,511 @@
+
+=== DIRECTORY TREE (max depth 3, source files only) ===
+.env.example
+.env.production.example
+.github
+.github/CODEOWNERS
+.github/copilot-instructions.md
+.github/workflows
+.github/workflows/media-verify.yml
+.gitignore
+.lighthouserc.json
+.nvmrc
+AGENTS.md
+CLAUDE.md
+CODE_REVIEW.md
+GEMINI.md
+README.md
+api
+api/health.ts
+api/monitor
+api/monitor/probe.ts
+api/monitor/system-health.ts
+api/run-engine.ts
+app
+app/api
+app/api/scan
+app/api/scan/stream
+app/applet
+app/applet/metadata.json
+app/applet/src
+app/applet/src/App.tsx
+app/applet/src/components
+app/applet/src/index.css
+app/applet/src/main.tsx
+app/applet/src/types.ts
+archive
+archive/automation
+archive/automation/append_css.cjs
+archive/automation/clean_typography.cjs
+archive/automation/ds_sidebar.py
+archive/automation/ds_upgrade.py
+archive/automation/fix_admin_tabs.py
+archive/automation/fix_buttons.cjs
+archive/automation/fix_charts_files.py
+archive/automation/fix_colors.py
+archive/automation/fix_colors_audit_insights.py
+archive/automation/fix_colors_blogeditor.py
+archive/automation/fix_colors_carousel.py
+archive/automation/fix_colors_cli.py
+archive/automation/fix_colors_code_block.py
+archive/automation/fix_colors_engine_charts.py
+archive/automation/fix_colors_enterprise.py
+archive/automation/fix_colors_logstream.py
+archive/automation/fix_colors_master_audit.py
+archive/automation/fix_colors_matrix.py
+archive/automation/fix_colors_pipeline.py
+archive/automation/fix_colors_radar.py
+archive/automation/fix_colors_sandbox.py
+archive/automation/fix_components.py
+archive/automation/fix_components_1.py
+archive/automation/fix_components_2.py
+archive/automation/fix_components_3.py
+archive/automation/fix_doc_colors.cjs
+archive/automation/fix_docs_files.py
+archive/automation/fix_docs_mobile_bar.cjs
+archive/automation/fix_eyebrows.py
+archive/automation/fix_grid.cjs
+archive/automation/fix_hero_section.py
+archive/automation/fix_heroes.py
+archive/automation/fix_home_files.py
+archive/automation/fix_home_hero.py
+archive/automation/fix_inputs.py
+archive/automation/fix_inputs2.py
+archive/automation/fix_layouts.cjs
+archive/automation/fix_overflow.sh
+archive/automation/fix_remaining.py
+archive/automation/fix_remaining_pages.py
+archive/automation/fix_sections.py
+archive/automation/fix_seven_day.cjs
+archive/automation/fix_sidebar.py
+archive/automation/fix_tables.sh
+archive/automation/fix_toolpage.cjs
+archive/automation/fix_typography.sh
+archive/automation/fix_typography2.sh
+archive/automation/fix_typography_sizes.cjs
+archive/automation/fix_workflow_grid_finally.cjs
+archive/automation/fix_workflow_typography.cjs
+archive/automation/massive_hex_replace.py
+archive/automation/rewrite_workflow.cjs
+archive/automation/test_master_audit.cjs
+archive/automation/test_pipeline.cjs
+archive/automation/update_bento_grid.cjs
+archive/automation/update_contact_page.cjs
+archive/automation/update_contact_page2.cjs
+archive/automation/update_docs_css.cjs
+archive/automation/update_docs_layout.cjs
+archive/automation/update_docslayout.cjs
+archive/automation/update_faq.cjs
+archive/automation/update_hub_widgets.cjs
+archive/automation/update_navbar.cjs
+archive/automation/update_system_overview.cjs
+archive/automation/workspace
+archive/automation/workspace/refactor_colors.sh
+archive/legacy-next
+archive/legacy-next/api
+archive/legacy-next/api/health.ts
+archive/legacy-next/api/monitor
+archive/legacy-next/api/run-engine.ts
+archive/legacy-next/app
+archive/legacy-next/app/api
+archive/legacy-next/app/applet
+archive/legacy-next/next.config.ts
+assets
+assets/banners
+assets/banners/hero-banner.html
+assets/banners/hero-banner.png
+bun.lock
+components
+components/telemetry
+components/telemetry/AuditScoreMatrixRadar.tsx
+components/telemetry/DiagnosticConsoleCard.tsx
+components/telemetry/GuestQuotaBanner.tsx
+components/telemetry/LiveTerminalStream.tsx
+components/telemetry/MasterTelemetryGrid.tsx
+components/telemetry/SideBySideDeltaMatrix.tsx
+components/ui
+components/ui/BenchmarkCard.tsx
+components/ui/CodeBlock.tsx
+components/ui/TelemetryCard.tsx
+components/ui/TerminalInput.tsx
+components/ui/cobe-globe-cdn.tsx
+components/ui/dashboard-sidebar.tsx
+components/ui/demo.tsx
+components/ui/edge-mesh-globe.tsx
+components/ui/index.ts
+components.json
+docs
+docs/ARCHITECTURE.md
+docs/ENGINES.md
+docs/audit
+docs/audit/perf-rendering-2026-10
+docs/audit/perf-rendering-2026-10/00-MASTER.md
+docs/audit/perf-rendering-2026-10/01-measurements.md
+docs/audit/perf-rendering-2026-10/02-client-rendering.md
+docs/audit/perf-rendering-2026-10/03-delivery-and-bundle.md
+docs/audit/perf-rendering-2026-10/04-state-build-server-deps-tests.md
+docs/audit/perf-rendering-2026-10/05-remediation.md
+docs/audit/perf-rendering-2026-10/tools
+docs/audit/seo-aeo-2026-10
+docs/audit/seo-aeo-2026-10/00-SEO-AEO-AUDIT.md
+docs/audit/seo-aeo-2026-10/tools
+docs/codebase
+docs/codebase/.codebase-scan.txt
+docs/codebase/ARCHITECTURE.md
+docs/codebase/CONCERNS.md
+docs/codebase/CONVENTIONS.md
+docs/codebase/INTEGRATIONS.md
+docs/codebase/STACK.md
+docs/codebase/STRUCTURE.md
+docs/codebase/TESTING.md
+docs/plan
+docs/plan/decisions.md
+docs/plan/grilling-tree.md
+docs/plan/production-readiness-plan.md
+ds_section_divs.cjs
+ds_sidebar.py
+ds_upgrade.py
+eslint.config.js
+favicon.svg
+firebase-applet-config.json
+firebase-blueprint.json
+firestore.rules
+fix-bg-white5.mjs
+fix-slate-replacements.mjs
+fix_admin_tabs.py
+fix_ambient.cjs
+fix_badges.cjs
+fix_charts_files.py
+fix_colors.py
+fix_colors_audit_insights.py
+fix_colors_blogeditor.py
+fix_colors_carousel.py
+fix_colors_cli.py
+fix_colors_code_block.py
+fix_colors_engine_charts.py
+fix_colors_enterprise.py
+fix_colors_logstream.py
+fix_colors_master_audit.py
+fix_colors_matrix.py
+fix_colors_pipeline.py
+fix_colors_radar.py
+fix_colors_sandbox.py
+fix_components.py
+fix_components_1.py
+fix_components_2.py
+fix_components_3.py
+fix_docs_files.py
+fix_docs_mobile_bar.cjs
+fix_eyebrows.py
+fix_hero_section.py
+fix_heroes.py
+fix_home_files.py
+
+=== STACK DETECTION (manifest files) ===
+
+--- package-lock.json ---
+{
+  "name": "catalystlab",
+  "version": "2.4.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "catalystlab",
+      "version": "2.4.0",
+      "dependencies": {
+        "@tailwindcss/vite": "^4.0.0",
+        "@upstash/ratelimit": "^2.0.8",
+        "@upstash/redis": "^1.38.2",
+        "@vitejs/plugin-react": "^4.3.4",
+        "cheerio": "^1.0.0",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "cobe": "^2.0.1",
+        "d3": "^7.9.0",
+        "dompurify": "^3.4.17",
+        "dotenv": "^17.4.2",
+        "express": "^4.22.3",
+        "firebase": "^12.17.1",
+        "firebase-admin": "^14.2.0",
+        "geoip-lite": "^2.0.3",
+        "helmet": "^8.3.0",
+        "lucide-react": "^1.33.0",
+        "mongodb": "^7.5.0",
+        "motion": "^13.1.0",
+        "pino": "^10.3.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^7.18.4",
+        "recharts": "^3.10.1",
+        "tailwind-merge": "^3.6.0",
+        "tailwindcss": "^4.0.0",
+        "tsx": "^4.19.2",
+        "typescript": "^5.7.2",
+        "ua-parser-js": "^2.0.10",
+        "vite": "^6.0.3",
+        "zod": "^4.5.4",
+        "zustand": "^5.0.15"
+      },
+      "devDependencies": {
+        "@eslint/js": "^9.20.0",
+        "@playwright/test": "^1.63.0",
+        "@testing-library/jest-dom": "^7.0.1",
+        "@testing-library/react": "^16.3.2",
+        "@types/d3": "^7.4.3",
+        "@types/dompurify": "^3.2.0",
+        "@types/express": "^4.17.21",
+        "@types/geoip-lite": "^1.4.4",
+        "@types/node": "^26.2.0",
+        "@types/react": "^18.3.0",
+        "@types/react-dom": "^18.3.0",
+        "@types/supertest": "^7.2.1",
+        "@types/ua-parser-js": "^0.7.39",
+        "@vitest/coverage-v8": "^5.0.0",
+        "esbuild": "^0.28.2",
+        "eslint": "^9.20.0",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "eslint-plugin-react": "^7.37.4",
+        "jsdom": "^30.0.1",
+        "playwright": "^1.63.0",
+        "supertest": "^7.2.2",
+        "terser": "^5.51.2",
+        "typescript-eslint": "^8.24.0",
+        "vitest": "^5.0.0"
+      },
+      "engines": {
+        "node": ">=24"
+      }
+    },
+    "node_modules/@adobe/css-tools": {
+      "version": "4.5.0",
+      "resolved": "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.5.0.tgz",
+      "integrity": "sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==",
+      "dev": true,
+      "license": "MIT"
+    },
+
+[TRUNCATED] Showing first 80 of 13426 lines.
+--- package.json ---
+{
+  "name": "catalystlab",
+  "private": true,
+  "version": "2.4.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "start": "node dist/server.cjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "ci": "npm run check:env && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
+    "check:env": "node scripts/check-env.mjs",
+    "media:check": "node scripts/verify-media.mjs",
+    "test:coverage": "vitest run --coverage",
+    "check:bundle": "node scripts/check-bundle-budget.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "cheerio": "^1.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cobe": "^2.0.1",
+    "d3": "^7.9.0",
+    "dompurify": "^3.4.17",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.3",
+    "firebase": "^12.17.1",
+    "firebase-admin": "^14.2.0",
+    "geoip-lite": "^2.0.3",
+    "helmet": "^8.3.0",
+    "lucide-react": "^1.33.0",
+    "mongodb": "^7.5.0",
+    "motion": "^13.1.0",
+    "pino": "^10.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4",
+    "recharts": "^3.10.1",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "ua-parser-js": "^2.0.10",
+    "vite": "^6.0.3",
+    "zod": "^4.5.4",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@playwright/test": "^1.63.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/d3": "^7.4.3",
+    "@types/dompurify": "^3.2.0",
+    "@types/express": "^4.17.21",
+    "@types/geoip-lite": "^1.4.4",
+    "@types/node": "^26.2.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/supertest": "^7.2.1",
+    "@types/ua-parser-js": "^0.7.39",
+    "@vitest/coverage-v8": "^5.0.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^9.20.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.4",
+    "jsdom": "^30.0.1",
+    "playwright": "^1.63.0",
+    "supertest": "^7.2.2",
+    "terser": "^5.51.2",
+    "typescript-eslint": "^8.24.0",
+    "vitest": "^5.0.0"
+
+[TRUNCATED] Showing first 80 of 82 lines.
+--- pyproject.toml ---
+# Python tooling config for scripts/replace_images.py (inert to the JS toolchain).
+# Install dev tools:  python3 -m pip install -r scripts/requirements-dev.txt
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+mypy_path = ["scripts"]
+files = ["scripts"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["scripts/tests"]
+pythonpath = ["scripts"]
+addopts = "-q"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_also = ['if __name__ == "__main__":']
+
+
+=== ENTRY POINTS ===
+No common entry points found. Check 'main' or 'scripts.start' in manifest files above.
+
+=== LINTING AND FORMATTING CONFIG ===
+Found: eslint.config.js
+Found: tsconfig.json
+
+=== ENVIRONMENT VARIABLE TEMPLATES ===
+--- .env.example ---
+ALLOW_UNAUTH_DEMO=
+DODOPAY_API_KEY=
+DODOPAY_SANDBOX_MODE=
+DODOPAY_WEBHOOK_SECRET=
+FIREBASE_SERVICE_ACCOUNT_JSON=
+FIREBASE_SERVICE_ACCOUNT_PATH=
+GITHUB_WEBHOOK_SECRET=
+GOOGLE_APPLICATION_CREDENTIALS=
+HOST=
+LOG_LEVEL=
+MAILGUN_API_KEY=
+MAILGUN_DOMAIN=
+MAILGUN_FROM_EMAIL=
+MAILGUN_FROM_NAME=
+MAILGUN_HOST=
+MONGODB_DB_NAME=
+MONGODB_URI=
+PAYMENTS_WEBHOOK_SECRET=
+PAYMENTS_WEBHOOK_SECRET_2CHECKOUT=
+PAYMENTS_WEBHOOK_SECRET_DODOPAY=
+TRUST_PROXY=
+UPSTASH_REDIS_REST_TOKEN=
+UPSTASH_REDIS_REST_URL=
+V2CHECKOUT_MERCHANT_CODE=
+V2CHECKOUT_SANDBOX_MODE=
+V2CHECKOUT_SECRET_KEY=
+VALID_API_KEYS=
+
+=== TODO / FIXME / HACK (production code only, test dirs excluded) ===
+None found.
+
+=== GIT RECENT COMMITS (last 20) ===
+d6c15be Merge pull request #25 from myself-aas/arena/9369d7c0-catalystlab
+
+=== HIGH-CHURN FILES (last 90 days, top 20) ===
+   1 .env.example
+   1 .env.production.example
+   1 .github/CODEOWNERS
+   1 .github/copilot-instructions.md
+   1 .github/workflows/media-verify.yml
+   1 .gitignore
+   1 .lighthouserc.json
+   1 .nvmrc
+   1 AGENTS.md
+   1 CLAUDE.md
+   1 CODE_REVIEW.md
+   1 GEMINI.md
+   1 README.md
+   1 api/health.ts
+   1 api/monitor/probe.ts
+   1 api/monitor/system-health.ts
+   1 api/run-engine.ts
+   1 app/api/scan/stream/route.ts
+   1 app/applet/metadata.json
+   1 app/applet/src/App.tsx
+
+=== MONOREPO SIGNALS ===
+No monorepo signals detected.
+
+=== CODE METRICS ===
+Total files scanned: 653
+Total lines of code: 100612
+
+Files by language:
+  TypeScript/React: 292
+  Other: 151
+  TypeScript: 133
+  Python: 72
+  JavaScript: 5
+
+Top 10 largest files:
+src/assets/images/allostersearch_llmo_1787420226857.jpg: 1308.2KB
+src/assets/images/about_us_hero_1787216854874.jpg: 1163.7KB
+src/assets/images/catalyst_bg_2_1787217684318.jpg: 1034.1KB
+assets/banners/hero-banner.png: 797.7KB
+src/assets/images/hero_network_visualization_1787838371820.jpg: 644.0KB
+src/assets/images/hero_ambient_background_1787838402609.jpg: 565.2KB
+package-lock.json: 469.5KB
+src/assets/images/catalystlab_logo_1787003898085.jpg: 252.9KB
+bun.lock: 230.6KB
+public/style.css: 66.0KB
+
+=== CI/CD PIPELINES ===
+CI/CD: GitHub Actions
+
+=== CONTAINERS & ORCHESTRATION ===
+No containerization configs detected.
+
+=== SECURITY & COMPLIANCE ===
+No security configs detected.
+
+=== PERFORMANCE & TESTING ===
+No performance testing configs detected.
+
+=== SCAN COMPLETE ===

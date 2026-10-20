@@ -35,14 +35,12 @@
     "src",
     "server.ts",
     "vite.config.ts",
-    "lib",
+    "server",
+    "scripts",
     "types",
-    "components",
-    "app",
-    "prisma"
+    "components"
   ],
   "exclude": [
-    "app",
     "dist",
     "node_modules"
   ]

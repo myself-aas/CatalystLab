@@ -13,15 +13,21 @@ export default tseslint.config(
       '*.config.ts',
       'build/**',
       'scripts/**',
-      'api/**',
       'public/**'
     ]
   },
   {
-    files: ['src/**/*.{ts,tsx,js,jsx}'],
+    files: [
+      'src/**/*.{ts,tsx,js,jsx}',
+      'components/**/*.{ts,tsx,js,jsx}',
+      'server/**/*.{ts,js}',
+      'server.ts',
+      'types/**/*.ts'
+    ],
     plugins: {
       'jsx-a11y': jsxA11y,
       'react': reactPlugin,
+      '@typescript-eslint': tseslint.plugin,
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -32,6 +38,7 @@ export default tseslint.config(
       }
     },
     rules: {
+      ...tseslint.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
       'jsx-a11y/alt-text': 'error',
       'jsx-a11y/aria-props': 'error',

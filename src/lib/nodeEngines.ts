@@ -2,7 +2,7 @@ const HTTP_TIMEOUT_MS = 10000;
 import * as cheerio from 'cheerio';
 import { guardedFetch } from './networkSecurity';
 import { URL } from 'url';
-import { getEmailSecurityProfile, getSslCertificateInfo, enumerateSubdomains } from './securityAudit';
+import { getEmailSecurityProfile, enumerateSubdomains } from './securityAudit';
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);

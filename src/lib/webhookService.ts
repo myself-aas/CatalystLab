@@ -133,192 +133,166 @@ export function formatDiscordEmbed(data: WebhookPayloadData) {
 }
 
 /**
- * Dispatch Slack Webhook using native fetch
+ * Outbound dispatch timeout. Every webhook send is bounded so a slow or
+ * black-holed target cannot hold an Express request open indefinitely.
  */
-export async function sendSlackWebhook(webhookUrl: string, data: WebhookPayloadData): Promise<WebhookResult> {
-  const start = performance.now();
-  if (!webhookUrl || !webhookUrl.startsWith('https://hooks.slack.com/')) {
-    // Mock / non-live url fallback
-    return {
-      success: true,
-      destination: 'slack',
-      statusCode: 200,
-      responseTimeMs: 25
-    };
-  }
+const WEBHOOK_TIMEOUT_MS = 10_000;
 
+/** Parses `rawUrl` and returns it only when it is an absolute `https:` URL. */
+function parseHttpsUrl(rawUrl: string): URL | null {
+  if (!rawUrl) return null;
   try {
-    const payload = formatSlackBlocks(data);
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const elapsed = Math.round(performance.now() - start);
-
-    if (!response.ok) {
-      const text = await response.text();
-      return {
-        success: false,
-        destination: 'slack',
-        statusCode: response.status,
-        error: text || response.statusText,
-        responseTimeMs: elapsed
-      };
-    }
-
-    return {
-      success: true,
-      destination: 'slack',
-      statusCode: response.status,
-      responseTimeMs: elapsed
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      destination: 'slack',
-      error: err?.message || 'Network error dispatching Slack webhook',
-      responseTimeMs: Math.round(performance.now() - start)
-    };
+    const parsed = new URL(rawUrl);
+    return parsed.protocol === 'https:' ? parsed : null;
+  } catch {
+    return null;
   }
 }
 
 /**
- * Dispatch Discord Webhook using native fetch
+ * Slack incoming-webhook check. The URL is parsed, not substring-matched:
+ * `https://evil.example/?hooks.slack.com/services/x` must not pass.
  */
-export async function sendDiscordWebhook(webhookUrl: string, data: WebhookPayloadData): Promise<WebhookResult> {
+export function isSlackWebhookUrl(rawUrl: string): boolean {
+  const parsed = parseHttpsUrl(rawUrl);
+  if (!parsed) return false;
+  if (parsed.hostname.toLowerCase() !== 'hooks.slack.com') return false;
+  return parsed.pathname.startsWith('/services/');
+}
+
+/**
+ * Discord webhook check (Q41 / plan 3.4). Requires `https`, the host
+ * `discord.com` or `discordapp.com` (including the `canary.` / `ptb.` release
+ * channels) and a path under `/api/webhooks/`.
+ */
+export function isDiscordWebhookUrl(rawUrl: string): boolean {
+  const parsed = parseHttpsUrl(rawUrl);
+  if (!parsed) return false;
+  const host = parsed.hostname.toLowerCase();
+  const allowed = ['discord.com', 'discordapp.com'].some(
+    (base) => host === base || host.endsWith(`.${base}`)
+  );
+  if (!allowed) return false;
+  return parsed.pathname.startsWith('/api/webhooks/');
+}
+
+/**
+ * Single outbound path for every webhook destination: `guardedFetch` resolves
+ * DNS once, rejects private/loopback/link-local/metadata addresses, pins the
+ * socket to the validated IP (anti-rebinding), re-validates every redirect hop,
+ * caps the response body and enforces the timeout.
+ */
+async function dispatchWebhook(
+  destination: WebhookResult['destination'],
+  webhookUrl: string,
+  bodyString: string,
+  extraHeaders: Record<string, string> = {}
+): Promise<WebhookResult> {
   const start = performance.now();
-  if (!webhookUrl || !webhookUrl.includes('discord.com/api/webhooks/')) {
-    // Mock / non-live url fallback
-    return {
-      success: true,
-      destination: 'discord',
-      statusCode: 204,
-      responseTimeMs: 20
-    };
-  }
-
   try {
-    const payload = formatDiscordEmbed(data);
-    const response = await fetch(webhookUrl, {
+    const { guardedFetch } = await import('./networkSecurity');
+    const response = await guardedFetch(webhookUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json', ...extraHeaders },
+      body: bodyString,
+      timeoutMs: WEBHOOK_TIMEOUT_MS
     });
-
     const elapsed = Math.round(performance.now() - start);
 
     if (!response.ok && response.status !== 204) {
-      const text = await response.text();
+      const text = (await response.text()).slice(0, 500);
       return {
         success: false,
-        destination: 'discord',
+        destination,
         statusCode: response.status,
-        error: text || response.statusText,
+        error: text || `Target returned HTTP status ${response.status}`,
         responseTimeMs: elapsed
       };
     }
 
     return {
       success: true,
-      destination: 'discord',
+      destination,
       statusCode: response.status,
       responseTimeMs: elapsed
     };
   } catch (err: any) {
     return {
       success: false,
-      destination: 'discord',
-      error: err?.message || 'Network error dispatching Discord webhook',
+      destination,
+      error: err?.message || `Network error dispatching ${destination} webhook`,
       responseTimeMs: Math.round(performance.now() - start)
     };
   }
 }
 
 /**
- * Dispatch Generic REST Webhook with HMAC signature
+ * Dispatch a Slack incoming webhook. Fail closed: a URL that is not a real
+ * Slack webhook is rejected instead of being silently "mocked" as delivered.
+ */
+export async function sendSlackWebhook(webhookUrl: string, data: WebhookPayloadData): Promise<WebhookResult> {
+  if (!isSlackWebhookUrl(webhookUrl)) {
+    return {
+      success: false,
+      destination: 'slack',
+      error: 'Target is not a Slack incoming webhook URL (expected https://hooks.slack.com/services/...).'
+    };
+  }
+  return dispatchWebhook('slack', webhookUrl, JSON.stringify(formatSlackBlocks(data)));
+}
+
+/**
+ * Dispatch a Discord webhook. Fail closed on anything that is not a parsed
+ * `https://discord.com/api/webhooks/...` (or `discordapp.com`) URL.
+ */
+export async function sendDiscordWebhook(webhookUrl: string, data: WebhookPayloadData): Promise<WebhookResult> {
+  if (!isDiscordWebhookUrl(webhookUrl)) {
+    return {
+      success: false,
+      destination: 'discord',
+      error: 'Target is not a Discord webhook URL (expected https://discord.com/api/webhooks/...).'
+    };
+  }
+  return dispatchWebhook('discord', webhookUrl, JSON.stringify(formatDiscordEmbed(data)));
+}
+
+/**
+ * Dispatch a generic REST webhook with an optional HMAC-SHA256 signature over
+ * the exact bytes that are sent. SSRF validation happens inside `guardedFetch`,
+ * on the same DNS answer the socket is pinned to (no validate-then-fetch race).
  */
 export async function sendGenericWebhook(webhookUrl: string, data: WebhookPayloadData, secret?: string): Promise<WebhookResult> {
-  const start = performance.now();
-  if (!webhookUrl || !webhookUrl.startsWith('https://')) {
+  const scheme = parseHttpsUrl(webhookUrl);
+  if (!scheme) {
     return {
       success: false,
       destination: 'generic',
-      error: 'Invalid target webhook URL scheme (must begin with https://)'
+      error: 'Invalid target webhook URL scheme (must be an absolute https:// URL).'
     };
   }
 
-  try {
-    const { validatePublicUrl } = await import('./networkSecurity');
-    const validation = await validatePublicUrl(webhookUrl);
-    if (!validation.valid) {
-      return {
-        success: false,
-        destination: 'generic',
-        error: validation.error || 'Target URL blocked by SSRF guard.'
-      };
-    }
-    webhookUrl = validation.normalizedUrl || webhookUrl;
-  } catch (err: any) {
-    return {
-      success: false,
-      destination: 'generic',
-      error: err?.message || 'Webhook target failed SSRF validation.'
-    };
+  const payloadString = JSON.stringify({
+    event: data.event,
+    timestamp: data.timestamp || Date.now(),
+    domain: data.domain,
+    title: data.title,
+    summary: data.summary,
+    metrics: data.metrics || [],
+    severity: data.severity || 'info',
+    actionUrl: data.actionUrl,
+    score: data.score
+  });
+
+  const headers: Record<string, string> = {
+    'User-Agent': 'CatalystLab-Telemetry-Dispatcher/2.5.0'
+  };
+
+  if (secret) {
+    const crypto = await import('crypto');
+    const hmac = crypto.createHmac('sha256', secret);
+    hmac.update(payloadString);
+    headers['X-Catalyst-Signature'] = `sha256=${hmac.digest('hex')}`;
   }
 
-  try {
-    const payloadString = JSON.stringify({
-      event: data.event,
-      timestamp: data.timestamp || Date.now(),
-      domain: data.domain,
-      title: data.title,
-      summary: data.summary,
-      metrics: data.metrics || [],
-      severity: data.severity || 'info',
-      actionUrl: data.actionUrl,
-      score: data.score
-    });
-
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-      'User-Agent': 'CatalystLab-Telemetry-Dispatcher/2.5.0'
-    };
-
-    if (secret) {
-      // Create HMAC signature if secret provided
-      try {
-        const crypto = await import('crypto');
-        const hmac = crypto.createHmac('sha256', secret);
-        hmac.update(payloadString);
-        headers['X-Catalyst-Signature'] = `sha256=${hmac.digest('hex')}`;
-      } catch {
-        // In browser contexts or if crypto unavailable
-      }
-    }
-
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers,
-      body: payloadString
-    });
-
-    const elapsed = Math.round(performance.now() - start);
-
-    return {
-      success: response.ok,
-      destination: 'generic',
-      statusCode: response.status,
-      error: response.ok ? undefined : `Target returned HTTP status ${response.status}`,
-      responseTimeMs: elapsed
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      destination: 'generic',
-      error: err?.message || 'Network error dispatching generic webhook',
-      responseTimeMs: Math.round(performance.now() - start)
-    };
-  }
+  return dispatchWebhook('generic', webhookUrl, payloadString, headers);
 }

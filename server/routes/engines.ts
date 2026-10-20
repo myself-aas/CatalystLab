@@ -151,9 +151,22 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
     const isHttps = parsedUrl.protocol === 'https:';
     const startTime = performance.now();
 
-    let sslInfo: { valid: boolean; daysRemaining?: number; issuer?: string } = { valid: false };
-    if (isHttps) {
-      sslInfo = await getSslDetails(parsedUrl.hostname, parsedUrl.port ? parseInt(parsedUrl.port) : 443);
+    // SECURITY (owner decision, 2026-10-19): TLS probes run against port 443
+    // only. An explicit non-443 port in the submitted URL skips the probe and
+    // reports why, instead of connecting to that port.
+    const explicitPort = parsedUrl.port ? parseInt(parsedUrl.port, 10) : undefined;
+    const tlsProbeAllowed = isHttps && (explicitPort === undefined || explicitPort === 443);
+
+    let sslInfo: { valid: boolean; daysRemaining?: number; issuer?: string; skippedReason?: string } = {
+      valid: false,
+      skippedReason: tlsProbeAllowed
+        ? undefined
+        : (isHttps
+          ? 'TLS certificate probes are restricted to port 443.'
+          : 'Target is not served over HTTPS; no certificate to probe.')
+    };
+    if (tlsProbeAllowed) {
+      sslInfo = await getSslDetails(parsedUrl.hostname);
     }
 
     const reqPromise = (async (): Promise<{
@@ -208,6 +221,7 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
         sslValid: sslInfo.valid,
         sslDaysRemaining: sslInfo.daysRemaining,
         sslIssuer: sslInfo.issuer,
+        sslProbeSkipped: sslInfo.skippedReason,
         timestamp: Date.now()
       });
     } catch (err: any) {
@@ -259,7 +273,7 @@ app.get('/api/health', (req: Request, res: Response) => {
 app.get('/api/v1/engines', (req: Request, res: Response) => {
   const engines = [
     { id: 'health', name: 'Website Health & DOM Engine', category: 'Performance', script: 'website_health.py', route: '/health', weight: 0.20, description: 'Measures DOM depth, node count, script blocking, and payload size.' },
-    { id: 'latency', name: 'Global Edge Latency Radar', category: 'Edge & Network', script: 'edge_latency.py', route: '/latency', weight: 0.20, description: 'Evaluates TTFB, TLS 1.3 resumption, and Anycast routing across 12 worldwide PoPs.' },
+    { id: 'latency', name: 'Global Edge Latency Radar', category: 'Edge & Network', script: 'edge_latency.py', route: '/latency', weight: 0.20, description: 'Evaluates TTFB, TLS 1.3 resumption, and Anycast routing across the 42 PoPs in the edge map.' },
     { id: 'ai_ready', name: 'AI Readiness & llms.txt Inspector', category: 'AI & Crawlers', script: 'ai_readiness.py', route: '/ai-readiness', weight: 0.15, description: 'Inspects robots.txt crawler policies, /llms.txt manifests, and JSON-LD schemas.' },
     { id: 'repo', name: 'Git Repository Hygiene & SecOps', category: 'SecOps & Code', script: 'repo_scanner.py', route: '/repo-scanner', weight: 0.15, description: 'Audits open source licenses, SECURITY.md disclosures, Dependabot, and CI/CD.' },
     { id: 'eco', name: 'Eco-Carbon & Green Web Audit', category: 'ESG & Green', script: 'eco_carbon_audit.py', route: '/eco-audit', weight: 0.15, description: 'Calculates energy (kWh) and greenhouse gas emissions (g CO2) via SWD Model v4.' },
@@ -285,7 +299,7 @@ app.get('/api/v1/engines/:engine', (req: Request, res: Response) => {
       url: { type: 'string', required: true, description: 'Target URL or Git repository URL' },
       auditSessionId: { type: 'string', required: false }
     },
-    rateLimit: '5 scans/day (Visitor), 10 scans/day (User)'
+    rateLimit: 'A single-engine scan costs 1 unit from the daily budget (visitor 20 units/day, Community 50, Starter 150, Pro 500, Team 1500, Enterprise 5000).'
   });
 });
 
@@ -340,59 +354,12 @@ app.post('/api/v1/engines/:engine/scan', createEngineRateLimitMiddleware({ cost:
 });
 
 // 2. Master Audit Endpoint
-app.post('/api/v1/audit/master', createEngineRateLimitMiddleware({ cost: MASTER_AUDIT_COST, isMaster: true }), async (req: Request, res: Response): Promise<void> => {
-  try {
-    const parsedMaster = checkUrlSchema.safeParse(req.body);
-    if (!parsedMaster.success || !parsedMaster.data.url) {
-      res.status(400).json({ success: false, error: parsedMaster.success ? 'Target URL is required.' : firstIssue(parsedMaster.error) });
-      return;
-    }
-    const url: string = parsedMaster.data.url;
-
-    const validation = await validatePublicUrl(url);
-    if (!validation.valid) {
-      res.status(400).json({ success: false, error: validation.error || 'Invalid or forbidden target URL.' });
-      return;
-    }
-
-    const targetUrl = validation.normalizedUrl || url;
-    const rateStatus = (req as any).rateLimitStatus;
-    const primaryEngines = ['health', 'compliance', 'ai_ready', 'latency', 'eco', 'migration', 'llmo', 'repo'];
-    const results: Record<string, any> = {};
-
-    await Promise.allSettled(
-      primaryEngines.map(async (eng) => {
-        try {
-          const out = await runNativeEngine(targetUrl, eng);
-          results[eng] = { status: 'completed', preview: out ? out.slice(0, 300) : 'Completed', rawOutput: out };
-        } catch (err: any) {
-          results[eng] = { status: 'error', error: err.message };
-        }
-      })
-    );
-
-    res.json({
-      success: true,
-      url: targetUrl,
-      compositeScore: 92,
-      grade: 'A',
-      totalEnginesAudited: primaryEngines.length,
-      engines: results,
-      rateLimit: {
-        tier: rateStatus?.tier || 'user',
-        tierLabel: rateStatus?.tierLabel || 'Registered User',
-        remaining: rateStatus?.unitsRemaining,
-        limit: rateStatus?.limit,
-        used: rateStatus?.unitsUsed,
-        resetAt: rateStatus?.resetAt,
-        formattedResetTime: rateStatus?.formattedResetTime
-      },
-      timestamp: Date.now()
-    });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
+// REMOVED (owner decision, 2026-10-19): the synchronous JSON variant of
+// POST /api/v1/audit/master answered with a hard-coded `compositeScore: 92`
+// and `grade: 'A'` regardless of what the engines measured. The real
+// orchestrator is the SSE stream below (/api/v1/audit/master/stream), which
+// forwards each engine's measured output. Clients must use the stream; a POST
+// to the removed path now falls through to the 404 handler.
 
 // 2b. Master Audit Real-Time SSE Streaming Orchestrator (/api/v1/audit/master/stream & /api/master-audit/stream)
 const handleMasterAuditStream = async (req: Request, res: Response): Promise<void> => {
