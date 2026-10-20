@@ -62,7 +62,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'Universal Engine Scan Dispatcher',
     description: 'Executes a single specified diagnostic engine against a target URL or Git repository in a sandboxed runtime environment with sliding rate limiting.',
     auth: 'None (Public) / Optional User Token',
-    rateLimit: '5 scans/day (Visitor), 10 scans/day (User), Unlimited (Admin)',
+    rateLimit: 'A single-engine scan costs 1 unit from the daily budget: visitor 20 units/day, Community 50, Starter 150, Pro 500, Team 1500, Enterprise 5000. Superadmin is unlimited.',
     tags: ['engines', 'scan', 'telemetry'],
     requestBody: {
       contentType: 'application/json',
@@ -131,7 +131,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'List All Diagnostic Engines',
     description: 'Retrieves metadata, technical specifications, execution script names, categories, and benchmark targets for all 8 diagnostic engines.',
     auth: 'None (Public)',
-    rateLimit: '60 req/min',
+rateLimit: 'Public catalog read. No per-route limiter is applied.',
     tags: ['engines', 'metadata'],
     responses: [
       {
@@ -226,7 +226,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'DOM Health & Web Vitals Scan',
     description: 'Dedicated endpoint for Website Health telemetry. Parses DOM depth, total node count, synchronous script blocking, and payload size.',
     auth: 'None (Public)',
-    rateLimit: '5 scans/day (Visitor), 10 scans/day (User)',
+    rateLimit: 'A single-engine scan costs 1 unit from the daily budget: visitor 20 units/day, Community 50, Starter 150, Pro 500, Team 1500, Enterprise 5000.',
     engineId: 'health',
     tags: ['engines', 'health', 'dom', 'web-vitals'],
     requestBody: {
@@ -280,7 +280,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'Global Edge Latency Scan (12 PoPs)',
     description: 'Dedicated endpoint to measure synthetic Time-To-First-Byte (TTFB), DNS resolution, TLS 1.3 handshake, and Anycast propagation across 12 global regions.',
     auth: 'None (Public)',
-    rateLimit: '5 scans/day (Visitor), 10 scans/day (User)',
+    rateLimit: 'A single-engine scan costs 1 unit from the daily budget: visitor 20 units/day, Community 50, Starter 150, Pro 500, Team 1500, Enterprise 5000.',
     engineId: 'latency',
     tags: ['engines', 'latency', 'edge', 'ttfb'],
     requestBody: {
@@ -336,7 +336,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'AI Readiness & llms.txt Scan',
     description: 'Inspects robots.txt crawler policies for GPTBot, ClaudeBot, PerplexityBot, checks /llms.txt manifest, and parses JSON-LD graphs.',
     auth: 'None (Public)',
-    rateLimit: '5 scans/day (Visitor), 10 scans/day (User)',
+    rateLimit: 'A single-engine scan costs 1 unit from the daily budget: visitor 20 units/day, Community 50, Starter 150, Pro 500, Team 1500, Enterprise 5000.',
     engineId: 'ai_ready',
     tags: ['engines', 'ai_ready', 'llms-txt', 'crawlers'],
     requestBody: {
@@ -385,53 +385,47 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     id: 'master-audit',
     category: 'Master Audit',
     method: 'POST',
-    path: '/api/v1/audit/master',
-    summary: 'Full Master Multi-Engine Audit',
-    description: 'Executes parallel synchronous telemetry evaluation across all 8 diagnostic engines, calculates the 0-100 composite quality score, and returns unified diagnostics.',
+    path: '/api/v1/audit/master/stream',
+    summary: 'Master Multi-Engine Audit (Server-Sent Events)',
+    description: 'Runs all 8 diagnostic engines against one target and streams progress as Server-Sent Events: `session_init`, then an `engine_start` / `engine_complete` pair per engine carrying that engine\'s measured output, then `audit_complete`. GET with `?url=` is accepted on the same paths (`/api/v1/audit/master/stream`, `/api/master-audit/stream`, `/api/scan/stream`). The former synchronous JSON variant of `POST /api/v1/audit/master` was removed: it answered with a hard-coded composite score instead of the engines\' measurements.',
     auth: 'None (Public) / Token',
-    rateLimit: '1 audit/day (Visitor), 3 audits/day (User), Unlimited (Admin)',
-    tags: ['master', 'composite', 'full-audit'],
+    rateLimit: 'A master audit costs 10 units from the daily budget (visitor 20, free user 50, starter 150, pro 500, team 1500, enterprise 5000 units/day).',
+    tags: ['master', 'sse', 'stream'],
     requestBody: {
       contentType: 'application/json',
       required: true,
-      description: 'Target URL for comprehensive multi-vector quality audit.',
+      description: 'Target URL for the multi-engine audit (also accepted as the `url` query parameter).',
       schema: {
         type: 'object',
         properties: {
-          url: { type: 'string', description: 'Target URL to audit' },
-          saveToHistory: { type: 'boolean', default: true },
-          auditSessionId: { type: 'string' }
+          url: { type: 'string', description: 'Target URL to audit' }
         },
         required: ['url']
       },
       defaultPayload: {
-        url: 'https://example.com',
-        saveToHistory: true,
-        auditSessionId: 'master_session_789'
+        url: 'https://example.com'
       }
     },
     responses: [
       {
         status: 200,
-        description: 'Composite master audit results with sub-engine breakdown.',
-        example: {
-          success: true,
-          url: 'https://example.com',
-          compositeScore: 92,
-          grade: 'A',
-          timestamp: 1771465200000,
-          engines: {
-            health: { score: 96, status: 'pass', maxDepth: 14, nodes: 412 },
-            latency: { score: 94, status: 'pass', averageTtfbMs: 142 },
-            ai_ready: { score: 88, status: 'pass', llmsTxt: true, allowedBots: 5 },
-            repo: { score: 90, status: 'pass', license: 'MIT', securityPolicy: true },
-            eco: { score: 95, status: 'pass', gCO2: 0.18, rating: 'A+' },
-            compliance: { score: 90, status: 'pass', hsts: true, csp: true },
-            migration: { score: 92, status: 'pass', riskIndex: 12 },
-            llmo: { score: 89, status: 'pass', ragReadiness: 94 }
-          },
-          summary: 'The target domain demonstrates exceptional architecture health, ultra-low TTFB latency across all regions, and strong AI LLM citation compatibility.'
-        }
+        description: '`text/event-stream`. One event per lifecycle step; `engine_complete.output` is the raw measured engine output.',
+        example: [
+          { event: 'session_init', data: { url: 'https://example.com', sessionId: 'master_stream_1771465200000', enginesCount: 8 } },
+          { event: 'engine_start', data: { engine: 'health', name: 'VitalZyme (DOM & Core Vitals)', index: 0, total: 8, progress: 0 } },
+          { event: 'engine_complete', data: { engine: 'health', name: 'VitalZyme (DOM & Core Vitals)', status: 'success', output: '<raw engine output>', preview: '<first 200 chars>', progress: 13 } },
+          { event: 'audit_complete', data: { success: true, url: 'https://example.com', totalEngines: 8 } }
+        ]
+      },
+      {
+        status: 400,
+        description: 'Missing target URL, or the target was rejected by the SSRF guard.',
+        example: { success: false, error: 'Invalid or forbidden target URL.' }
+      },
+      {
+        status: 429,
+        description: 'Daily unit budget or burst window exhausted.',
+        example: { success: false, error: 'Daily audit quota exceeded.' }
       }
     ]
   },
@@ -443,7 +437,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'Side-by-Side Domain Benchmark Comparison',
     description: 'Executes master quality audits for two distinct domains and returns a differential vector matrix highlighting competitive performance and security gaps.',
     auth: 'None (Public)',
-    rateLimit: '2 comparisons/day',
+    rateLimit: 'A comparison costs 1 unit from the daily budget (see /api/rate-limit/status).',
     tags: ['compare', 'benchmark', 'differential'],
     requestBody: {
       contentType: 'application/json',
@@ -489,44 +483,24 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     category: 'Reports & Dossiers',
     method: 'GET',
     path: '/api/v1/reports',
-    summary: 'List Audit Reports',
-    description: 'Retrieves a paginated list of public or user-scoped audit reports with optional filtering by engine, minimum score, or domain search.',
+    summary: 'List Audit Reports (not implemented)',
+    description: 'Report persistence is not built yet. The endpoint previously returned a fabricated sample catalog; it now returns 501 until saved audits are stored and served. Measured results for a single target come from the master audit stream.',
     auth: 'None (Public) / User Token',
-    rateLimit: '60 req/min',
-    tags: ['reports', 'history', 'permalinks'],
+    rateLimit: 'n/a (route answers 501 before any work)',
+    tags: ['reports', 'not-implemented'],
     parameters: [
-      { name: 'limit', in: 'query', type: 'integer', required: false, default: '20', description: 'Number of reports to return (max 100)' },
-      { name: 'engine', in: 'query', type: 'string', required: false, description: 'Filter by diagnostic engine (e.g. health, latency, all)' },
-      { name: 'search', in: 'query', type: 'string', required: false, description: 'Search reports by domain name keyword' }
+      { name: 'limit', in: 'query', type: 'integer', required: false, default: '20', description: 'Reserved for the implemented version: number of reports to return' },
+      { name: 'search', in: 'query', type: 'string', required: false, description: 'Reserved for the implemented version: domain keyword filter' }
     ],
     responses: [
       {
-        status: 200,
-        description: 'Array of audit reports.',
+        status: 501,
+        description: 'Capability not implemented; no synthetic catalog is served.',
         example: {
-          success: true,
-          count: 2,
-          total: 1240,
-          reports: [
-            {
-              id: 'rep_abc123',
-              url: 'https://example.com',
-              engine: 'all',
-              score: 92,
-              title: 'Master Multi-Engine Quality Audit: https://example.com',
-              permalink: '/reports/example-com',
-              createdAt: 1771465200000
-            },
-            {
-              id: 'rep_def456',
-              url: 'https://react.dev',
-              engine: 'health',
-              score: 96,
-              title: 'Website Health: https://react.dev',
-              permalink: '/reports/react-dev',
-              createdAt: 1771464000000
-            }
-          ]
+          success: false,
+          code: 'NOT_IMPLEMENTED',
+          error: 'The audit report catalog is not implemented on this deployment. This endpoint previously returned sample data instead of real records.',
+          useInstead: 'POST /api/v1/audit/master/stream returns measured engine output for a target URL.'
         }
       }
     ]
@@ -536,37 +510,22 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     category: 'Reports & Dossiers',
     method: 'GET',
     path: '/api/v1/reports/permalink/{slug}',
-    summary: 'Get Report by Domain Slug',
-    description: 'Fetches the complete telemetry and article dossier for a canonical domain slug (e.g. `example-com`, `github-com`).',
+    summary: 'Get Report by Domain Slug (not implemented)',
+    description: 'The previous implementation reconstructed a dossier from the requested slug (title, summary and "48 quality assertions" were invented per request). It returns 501 until reports are persisted.',
     auth: 'None (Public)',
-    rateLimit: '120 req/min',
-    tags: ['reports', 'permalink', 'slug'],
+    rateLimit: 'n/a (route answers 501 before any work)',
+    tags: ['reports', 'permalink', 'not-implemented'],
     parameters: [
       { name: 'slug', in: 'path', type: 'string', required: true, description: 'Normalized domain slug (e.g. example-com)', example: 'example-com' }
     ],
     responses: [
       {
-        status: 200,
-        description: 'Complete report dossier.',
-        example: {
-          success: true,
-          id: 'rep_abc123',
-          slug: 'example-com',
-          url: 'https://example.com',
-          engine: 'all',
-          score: 92,
-          grade: 'A',
-          summary: 'Comprehensive multi-engine audit for example.com',
-          output: '... raw telemetry buffer ...',
-          createdAt: 1771465200000
-        }
-      },
-      {
-        status: 404,
-        description: 'Report not found for given slug.',
+        status: 501,
+        description: 'Capability not implemented.',
         example: {
           success: false,
-          error: "Report dossier not found for slug 'unknown-xyz'"
+          code: 'NOT_IMPLEMENTED',
+          error: 'Report permalinks is not implemented on this deployment. This endpoint previously returned sample data instead of real records.'
         }
       }
     ]
@@ -576,22 +535,22 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     category: 'Reports & Dossiers',
     method: 'POST',
     path: '/api/v1/reports/{id}/export',
-    summary: 'Export Report as Structured JSON or Markdown Dossier',
-    description: 'Exports a saved report into machine-readable JSON specification or formatted GitHub Markdown dossier for integration into issue trackers and compliance audits.',
+    summary: 'Export Report (not implemented)',
+    description: 'Export produced a stub document for any `id`, including ids that do not exist. It returns 501 until reports are persisted and exportable.',
     auth: 'None (Public)',
-    rateLimit: '30 req/min',
-    tags: ['reports', 'export', 'markdown'],
+    rateLimit: 'n/a (route answers 501 before any work)',
+    tags: ['reports', 'export', 'not-implemented'],
     parameters: [
       { name: 'id', in: 'path', type: 'string', required: true, description: 'Report unique document ID', example: 'rep_abc123' }
     ],
     requestBody: {
       contentType: 'application/json',
       required: false,
-      description: 'Export format preference.',
+      description: 'Export format preference (reserved for the implemented version).',
       schema: {
         type: 'object',
         properties: {
-          format: { type: 'string', enum: ['json', 'markdown', 'pdf-spec'], default: 'json' }
+          format: { type: 'string', enum: ['json', 'markdown'], default: 'markdown' }
         }
       },
       defaultPayload: {
@@ -600,13 +559,12 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     },
     responses: [
       {
-        status: 200,
-        description: 'Formatted report document content.',
+        status: 501,
+        description: 'Capability not implemented.',
         example: {
-          success: true,
-          reportId: 'rep_abc123',
-          format: 'markdown',
-          content: `# Telemetry Quality Dossier: example.com\n**Score**: 92/100 (Grade A)\n**Generated**: 2026-08-19\n\n## Core Findings\n- DOM Depth: 14 levels (Pass)\n- Global TTFB: 142ms (Pass)\n- OWASP Security: Strict CSP & HSTS Active (Pass)`
+          success: false,
+          code: 'NOT_IMPLEMENTED',
+          error: 'Report export is not implemented on this deployment. This endpoint previously returned sample data instead of real records.'
         }
       }
     ]
@@ -620,40 +578,20 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     category: 'Blogs & Research',
     method: 'GET',
     path: '/api/v1/blogs',
-    summary: 'List Engineering & Research Articles',
-    description: 'Retrieves technical engineering blog posts, architectural deep dives, and audit case studies published on CatalystLab.',
+    summary: 'List Articles (not implemented)',
+    description: 'The blogs API returned three hard-coded articles regardless of what is published. Published articles live in Firestore and are read by the client (getBlogPosts) for the /blogs routes; this endpoint returns 501 until it serves the same collection.',
     auth: 'None (Public)',
-    rateLimit: '120 req/min',
-    tags: ['blogs', 'articles', 'education'],
-    parameters: [
-      { name: 'tag', in: 'query', type: 'string', required: false, description: 'Filter by category tag (e.g. latency, security, ai, core-web-vitals)' },
-      { name: 'search', in: 'query', type: 'string', required: false, description: 'Keyword search across titles and excerpts' }
-    ],
+    rateLimit: 'n/a (route answers 501 before any work)',
+    tags: ['blogs', 'not-implemented'],
     responses: [
       {
-        status: 200,
-        description: 'List of blog articles.',
+        status: 501,
+        description: 'Capability not implemented.',
         example: {
-          success: true,
-          count: 6,
-          articles: [
-            {
-              slug: 'dom-recursion-depth-and-mobile-inp',
-              title: 'DOM Recursion Depth: How Deep Nesting Destroys Mobile INP',
-              author: 'CatalystLab Telemetry Team',
-              category: 'Performance & DOM',
-              readTime: '6 min read',
-              publishedDate: '2026-08-15'
-            },
-            {
-              slug: 'llms-txt-standard-and-autonomous-crawlers',
-              title: 'The /llms.txt Standard: Preparing Web Architecture for AI Agents',
-              author: 'CatalystLab AI Research',
-              category: 'AI Readiness',
-              readTime: '8 min read',
-              publishedDate: '2026-08-10'
-            }
-          ]
+          success: false,
+          code: 'NOT_IMPLEMENTED',
+          error: 'The blogs API is not implemented on this deployment. This endpoint previously returned sample data instead of real records.',
+          useInstead: 'Articles are read from Firestore by the client (getBlogPosts) and rendered at /blogs.'
         }
       }
     ]
@@ -663,26 +601,23 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     category: 'Blogs & Research',
     method: 'GET',
     path: '/api/v1/blogs/{slug}',
-    summary: 'Get Article by Slug',
-    description: 'Retrieves the complete Markdown article content, schema metadata, and related engine references.',
+    summary: 'Get Article by Slug (not implemented)',
+    description: 'The previous implementation echoed any slug back with the same placeholder body. It returns 501 until it reads the published article collection.',
     auth: 'None (Public)',
-    rateLimit: '120 req/min',
-    tags: ['blogs', 'content'],
+    rateLimit: 'n/a (route answers 501 before any work)',
+    tags: ['blogs', 'content', 'not-implemented'],
     parameters: [
       { name: 'slug', in: 'path', type: 'string', required: true, description: 'Blog post slug identifier', example: 'dom-recursion-depth-and-mobile-inp' }
     ],
     responses: [
       {
-        status: 200,
-        description: 'Full blog article object.',
+        status: 501,
+        description: 'Capability not implemented.',
         example: {
-          success: true,
-          slug: 'dom-recursion-depth-and-mobile-inp',
-          title: 'DOM Recursion Depth: How Deep Nesting Destroys Mobile INP',
-          author: 'CatalystLab Telemetry Team',
-          content: '## Understanding DOM Depth Thrashing\nExcessive <div> nesting exponentially increases browser recalculate style times...',
-          tags: ['performance', 'health', 'dom', 'web-vitals'],
-          relatedEngine: 'health'
+          success: false,
+          code: 'NOT_IMPLEMENTED',
+          error: 'The blogs API is not implemented on this deployment. This endpoint previously returned sample data instead of real records.',
+          useInstead: 'Articles are read from Firestore by the client (getBlogPosts) and rendered at /blogs/:slug.'
         }
       }
     ]
@@ -699,7 +634,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'Get Current Authenticated User Profile & Quota',
     description: 'Returns profile details, current rate-limit usage, remaining daily quota, and saved audit count for the requesting client.',
     auth: 'Bearer Token (Firebase Auth) / X-API-Key',
-    rateLimit: '60 req/min',
+    rateLimit: 'Requires a verified identity. No per-route limiter is applied.',
     tags: ['users', 'profile', 'quota'],
     responses: [
       {
@@ -729,7 +664,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'Generate New Developer API Key',
     description: 'Generates a secure API key for programmatic headless integrations (CI/CD pipelines, automated daemons, custom CLI scripts).',
     auth: 'Bearer Token (Firebase Auth)',
-    rateLimit: '5 req/hour',
+    rateLimit: 'Requires a verified identity. No per-route limiter is applied.',
     tags: ['users', 'api-keys', 'security'],
     requestBody: {
       contentType: 'application/json',
@@ -776,7 +711,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'List Automated Monitoring Workflows',
     description: 'Retrieves scheduled recurring quality audits, cron monitors, and threshold alerting triggers configured for domain properties.',
     auth: 'Bearer Token / X-API-Key',
-    rateLimit: '60 req/min',
+    rateLimit: 'Requires a verified identity. No per-route limiter is applied.',
     tags: ['workflows', 'automation', 'cron'],
     responses: [
       {
@@ -810,7 +745,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'CI/CD Quality Gate Assertion Check',
     description: 'Evaluates a staging or PR preview URL against strict customizable quality gate thresholds (e.g. minCompositeScore: 90, maxDomDepth: 32, maxTtfbMs: 350). Returns exit code 0 or 1 for build automation.',
     auth: 'X-API-Key / Bearer Token',
-    rateLimit: '30 req/min',
+    rateLimit: 'Requires a verified identity. No per-route limiter is applied.',
     tags: ['automation', 'cicd', 'quality-gate', 'github-actions'],
     requestBody: {
       contentType: 'application/json',
@@ -888,7 +823,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'List Available Integrations & Connectors',
     description: 'Lists all available external integrations including GitHub Actions, GitLab CI, Slack, Discord, Datadog, and Generic Webhook dispatchers.',
     auth: 'None (Public)',
-    rateLimit: '60 req/min',
+rateLimit: 'Requires a verified identity. No per-route limiter is applied.',
     tags: ['integrations', 'connectors', 'webhooks'],
     responses: [
       {
@@ -916,7 +851,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'Send Test Webhook with HMAC Signature',
     description: 'Dispatches a sample telemetry event payload with an `X-CatalystLab-Signature-256` HMAC header to verify endpoint integrity.',
     auth: 'Bearer Token / X-API-Key',
-    rateLimit: '10 req/min',
+rateLimit: 'HMAC-verified; no per-route limiter is applied.',
     tags: ['integrations', 'webhooks', 'hmac'],
     requestBody: {
       contentType: 'application/json',
@@ -967,7 +902,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'Telemetry Cluster Health & Engine Telemetry',
     description: 'Retrieves cluster health, uptime seconds, memory footprint (RSS/heap), active Python engines count, and host platform diagnostics.',
     auth: 'None (Public)',
-    rateLimit: '120 req/min',
+rateLimit: 'Public health read. No per-route limiter is applied.',
     tags: ['system', 'health', 'metrics', 'telemetry'],
     responses: [
       {
@@ -998,7 +933,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'High-Precision Uptime & SSL Socket Probe',
     description: 'Executes high-precision HTTP latency socket probe, inspects TLS x509 certificate expiry days remaining, issuer authority, and server status.',
     auth: 'None (Public)',
-    rateLimit: '30 req/min',
+rateLimit: 'A probe costs 1 unit from the daily budget (visitor 20 units/day, Community 50, Starter 150, Pro 500, Team 1500, Enterprise 5000).',
     tags: ['system', 'probe', 'uptime', 'ssl'],
     requestBody: {
       contentType: 'application/json',
@@ -1047,7 +982,7 @@ export const API_ENDPOINTS: ApiEndpointSpec[] = [
     summary: 'OpenAPI 3.1.0 Machine-Readable Specification',
     description: 'Returns the complete OpenAPI 3.1.0 JSON specification for the entire CatalystLab Telemetry API platform.',
     auth: 'None (Public)',
-    rateLimit: '120 req/min',
+rateLimit: 'Public machine-readable spec. No per-route limiter is applied.',
     tags: ['openapi', 'spec', 'swagger'],
     responses: [
       {

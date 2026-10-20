@@ -1,5 +1,7 @@
-// Canonical engine catalog shared by the Express server and the Vercel
-// serverless entry point (api/run-engine.ts).
+// Canonical engine allowlist for the Express API. The Vercel serverless twins
+// under `api/` were deleted (owner decision D8), so this map is now consumed by
+// `server/routes/engines.ts` only. The `.py` values are historical labels: the
+// engines themselves run in-process from `src/lib/nodeEngines.ts` (D7).
 
 import { engineRunSchemaFactory } from '../../src/lib/validation';
 

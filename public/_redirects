@@ -1,0 +1,71 @@
+# CatalystLab edge redirects — Cloudflare Pages (owner decisions D14 and D3/Q31)
+#
+# Format: <from> <to> [<status>]  (a 200 is a rewrite, 301/302 are redirects)
+# Static assets — including the prerendered route shells written by
+# scripts/prerender.ts — are matched before these rules, so a prerendered
+# /pricing/index.html always wins over the rewrites below.
+#
+# /api/* is NOT handled here: Q31 chose a Cloudflare Worker route on the apex
+# zone that forwards /api/* to the Node API host (see worker/api-proxy.js).
+
+# --- D14: www is canonical; the apex 301s to it ---
+https://catalystlab.tech/*  https://www.catalystlab.tech/:splat  301
+https://catalystlab.tech/   https://www.catalystlab.tech/        301
+
+# --- D14: the 18 legacy .html pages 301 to the clean routes ---
+/index.html          /                    301
+/admin.html          /admin               301
+/dashboard.html      /dashboard           301
+/ai-readiness.html   /ai-readiness        301
+/blogs.html          /blogs               301
+/compare.html        /compare             301
+/compliance.html     /compliance          301
+/contact.html        /contact             301
+/eco-audit.html      /eco-audit           301
+/health.html         /health              301
+/latency.html        /latency             301
+/llmo.html           /llmo                301
+/methodology.html    /methodology         301
+/migration.html      /migration           301
+/repo-scanner.html   /repo-scanner        301
+/report.html         /report              301
+/reports.html        /reports             301
+/security.html       /security            301
+
+# Other legacy aliases that the SPA router still lists.
+/api-docs.html       /api-docs            301
+/api-reference.html  /api-reference       301
+/audit.html          /audit               301
+/cookies.html        /cookies             301
+/docs.html           /docs                301
+/engines.html        /engines             301
+/forgot-password.html /forgot-password    301
+/integrations.html   /integrations        301
+/launch-audit.html   /launch-audit        301
+/legal.html          /legal               301
+/login.html          /login               301
+/master-audit.html   /master-audit        301
+/playground.html     /playground          301
+/plugins.html        /plugins             301
+/pricing.html        /pricing             301
+/privacy.html        /privacy             301
+/products.html       /products            301
+/refund.html         /refund              301
+/register.html       /register            301
+/reset-password.html /reset-password      301
+/signin.html         /signin              301
+/signup.html         /signup              301
+/terms.html          /terms               301
+/user-dashboard.html /user-dashboard      301
+
+# --- Client-only (dynamic) SPA routes: rewrite to the app shell ---
+# Anything not prerendered and not matched above falls through to /404.html,
+# which Cloudflare Pages serves with a real 404 status (D11).
+/blogs/*       /index.html  200
+/blog/*        /index.html  200
+/reports/*     /index.html  200
+/report/*      /index.html  200
+/playground/*  /index.html  200
+/dashboard/*   /index.html  200
+/admin/*       /index.html  200
+/docs/*        /index.html  200

@@ -3,6 +3,8 @@ import { getAttachedIdentity, identityToEntitlements } from '../../src/lib/serve
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 import { API_KEY_PREFIX, findApiKey } from './apiKeys';
+import { chargeDailyUnits, getSharedUpstashRedis, isDistributedQuotaEnabled } from './dailyQuota';
+import { logger } from './logger';
 
 
 // In-memory tiered rate limiting core. See docs / RateLimitingDoc for the
@@ -77,8 +79,10 @@ function getUpstashLimiter(): Ratelimit | null {
     return null;
   }
   try {
+    // Reuse the shared client so the burst limiter and the daily ledger talk
+    // to the same Upstash REST endpoint (owner decision, question 1).
     upstashLimiter = new Ratelimit({
-      redis: new Redis({ url, token }),
+      redis: getSharedUpstashRedis() || new Redis({ url, token }),
       limiter: Ratelimit.slidingWindow(120, '1 m'),
       prefix: 'catalystlab:rl'
     });
@@ -207,6 +211,19 @@ function getOrCreateRateLimitRecord(key: string, tier: RateLimitTier): RateLimit
     });
   }
   return dailyRateLimitStore.get(key)!;
+}
+
+/**
+ * Refunds units in the in-process ledger. Used when the shared (Upstash)
+ * daily ledger denies a request that the local ledger had already charged, so
+ * the two ledgers do not drift apart.
+ */
+export function releaseLocalCharge(identifier: string, dateKey: string, units: number): void {
+  if (units <= 0) return;
+  const record = dailyRateLimitStore.get(`${dateKey}_${identifier}`);
+  if (!record) return;
+  record.unitsUsed = Math.max(0, record.unitsUsed - units);
+  record.lastUpdated = Date.now();
 }
 
 // Evaluate Rate Limit & Deduplicate Multi-Engine Sessions
@@ -389,6 +406,62 @@ export function createEngineRateLimitMiddleware(options: { cost?: number; isMast
         error: result.error
       });
       return;
+    }
+
+    // Shared daily quota ledger (owner decision, question 1): every instance
+    // charges one Upstash counter, so scaling out cannot multiply the budget.
+    if (isDistributedQuotaEnabled()) {
+      const identity = resolveClientIdentity(req);
+      const { dateKey, resetInSeconds } = getUtcMidnight();
+      try {
+        const charge = await chargeDailyUnits({
+          identifier: identity.identifier,
+          dateKey,
+          ttlSeconds: resetInSeconds,
+          units: result.costCharged,
+          limit: result.limit
+        });
+        if (!charge.allowed) {
+          // Give the local charge back: the request is denied, so it must not
+          // consume budget in either ledger.
+          releaseLocalCharge(identity.identifier, dateKey, result.costCharged);
+          res.status(429).json({
+            success: false,
+            rateLimitExceeded: true,
+            scope: 'daily',
+            backend: charge.backend,
+            tier: result.tier,
+            tierLabel: result.tierLabel,
+            limit: result.limit,
+            used: charge.unitsUsed,
+            remaining: charge.unitsRemaining,
+            resetAt: result.resetAt,
+            resetInSeconds: charge.resetInSeconds,
+            formattedResetTime: result.formattedResetTime,
+            error: 'Daily compute-unit quota exhausted across all API instances. Resets at UTC midnight.'
+          });
+          return;
+        }
+        // Report the shared numbers, not this instance's local view.
+        if (charge.unitsUsed !== null) {
+          result.unitsUsed = charge.unitsUsed;
+          result.unitsRemaining = charge.unitsRemaining;
+          if (!res.headersSent) {
+            res.setHeader('X-RateLimit-Used', String(charge.unitsUsed));
+            res.setHeader('X-RateLimit-Remaining', String(charge.unitsRemaining));
+            res.setHeader('X-RateLimit-Backend', charge.backend);
+          }
+        }
+      } catch (err) {
+        // Fail closed in production: without the shared ledger a second
+        // instance would hand out a second full budget.
+        if (process.env.NODE_ENV === 'production') {
+          logger.error({ err }, '[RateLimit] Shared daily quota unavailable');
+          res.status(503).json({ success: false, error: 'Rate limiter unavailable.' });
+          return;
+        }
+        logger.warn({ err }, '[RateLimit] Shared daily quota unavailable; continuing on the in-process ledger');
+      }
     }
 
     const distributed = getUpstashLimiter();

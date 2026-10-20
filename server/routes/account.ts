@@ -11,6 +11,7 @@ import crypto from 'crypto';
 import { requireIdentity, isDemoUnauthAllowed } from '../core/authz';
 import { logger } from '../core/logger';
 import { getAttachedIdentity, getAdminFirestore } from '../../src/lib/serverAuth';
+import { readDailyUnits } from '../core/dailyQuota';
 import {
   createApiKey,
   deleteApiKey,
@@ -74,12 +75,14 @@ app.get('/api/v1/users/me', (req: Request, res: Response) => {
   });
 });
 
-app.get('/api/v1/users/me/quota', (req: Request, res: Response) => {
-  const { resetAt, resetInSeconds, formattedResetTime } = getUtcMidnight();
+app.get('/api/v1/users/me/quota', async (req: Request, res: Response): Promise<void> => {
+  const { dateKey, resetAt, resetInSeconds, formattedResetTime } = getUtcMidnight();
   const identity = resolveClientIdentity(req);
-  const storeKey = `${getUtcMidnight().dateKey}_${identity.identifier}`;
-  const record = dailyRateLimitStore.get(storeKey);
-  const unitsUsed = record ? record.unitsUsed : 0;
+  const record = dailyRateLimitStore.get(`${dateKey}_${identity.identifier}`);
+  // Report the shared ledger when one is configured: a per-instance number
+  // would under-report usage the moment the API scales out (question 1).
+  const shared = await readDailyUnits(identity.identifier, dateKey);
+  const unitsUsed = shared.unitsUsed ?? (record ? record.unitsUsed : 0);
   const limit = identity.limit;
   const unitsRemaining = limit === null ? Infinity : Math.max(0, limit - unitsUsed);
 
@@ -87,6 +90,7 @@ app.get('/api/v1/users/me/quota', (req: Request, res: Response) => {
     success: true,
     tier: identity.tier,
     tierLabel: identity.tierLabel,
+    quotaBackend: shared.backend,
     limit,
     used: unitsUsed,
     remaining: unitsRemaining,

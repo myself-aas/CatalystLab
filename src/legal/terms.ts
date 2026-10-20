@@ -1,5 +1,17 @@
 import type { LegalDocumentContent } from './types';
-import { GOVERNING_LAW, LEGAL_DRAFT_VERSION, LEGAL_EMAIL, LEGAL_ENTITY, LEGAL_ADDRESS, CONTACT_PATH } from './legalMeta';
+import {
+  CHANGE_NOTICE_DAYS,
+  CONTACT_PATH,
+  EFFECTIVE_DATE,
+  GOVERNING_COURTS,
+  GOVERNING_LAW,
+  LIABILITY_CAP,
+  LEGAL_EMAIL,
+  LEGAL_ENTITY,
+  LEGAL_VERSION,
+  MINIMUM_AGE,
+  TRIAL_DAYS,
+} from './legalMeta';
 
 export const termsDocument: LegalDocumentContent = {
   slug: 'terms',
@@ -7,9 +19,9 @@ export const termsDocument: LegalDocumentContent = {
   seoDescription:
     'The terms that govern use of CatalystLab: accounts, plans and trials, acceptable use of diagnostic scans, and liability.',
   canonicalPath: '/terms',
-  version: LEGAL_DRAFT_VERSION,
+  version: LEGAL_VERSION,
   intro:
-    'These terms are the agreement between you and the operator of CatalystLab. They cover accounts, plans, acceptable use of diagnostic scans, and the limits on what we promise. Read the summary at the top of each section first. The numbered clauses are the binding text.',
+    `These terms are the agreement between you and the operator of CatalystLab. They cover accounts, plans, acceptable use of diagnostic scans, and the limits on what we promise. Read the summary at the top of each section first. The numbered clauses are the binding text. This version took effect on ${EFFECTIVE_DATE}. Every value in this document is a decided one: there is no open item left.`,
   sections: [
     {
       id: 'definitions',
@@ -21,7 +33,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: `"CatalystLab", "we", "us" means ${LEGAL_ENTITY}, located at ${LEGAL_ADDRESS}.`,
+              text: `"CatalystLab", "we", "us" means ${LEGAL_ENTITY}. We do not publish a postal address; ${LEGAL_EMAIL} is our monitored mailbox and our address for notices.`,
             },
             {
               kind: 'p',
@@ -65,7 +77,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'You must be able to form a binding contract in your jurisdiction. [ASK USER: minimum age, for example 18, or 13 with parental consent.] If you use the Service for an organization, you confirm that you are authorized to bind that organization.',
+              text: `You must be able to form a binding contract in your jurisdiction and be at least ${MINIMUM_AGE} years old. If you use the Service for an organization, you confirm that you are authorized to bind that organization.`,
             },
           ],
         },
@@ -106,7 +118,7 @@ export const termsDocument: LegalDocumentContent = {
       annex: [
         {
           kind: 'p',
-          text: 'API keys are issued per Account. Keys can be rotated. Keys and quotas are held in server memory in the current build, so they are reset when the service restarts. [ASK USER: confirm whether keys will persist across restarts before publication.]',
+          text: 'API keys are issued per Account, stored as SHA-256 hashes in Firestore so they survive restarts, and can be rotated, revoked or deleted by you at any time. Daily quota usage is counted in Upstash when it is configured and in process memory otherwise; either way the counter resets at UTC midnight.',
         },
       ],
     },
@@ -132,7 +144,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'Starter, Pro, Team, and Enterprise include a 7-day trial. A trial can be used once per Account. [ASK USER: confirm whether a payment method is required to start a trial, and when billing begins after the trial ends.]',
+              text: `Starter, Pro, Team, and Enterprise include a ${TRIAL_DAYS}-day trial, which can be used once per Account. No payment method is required to start a trial and nothing is charged during it. If you take no action when the trial ends your Account moves to the Community plan; if you choose a paid plan, billing starts on the day you complete checkout.`,
             },
           ],
         },
@@ -142,7 +154,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'Paid plans are billed monthly or annually, as selected at checkout. [ASK USER: billing currency, tax handling, renewal notice period, and the merchant of record for each payment provider.] Payment is processed by a third-party payment provider, and we do not store full card numbers.',
+              text: `Paid plans are billed monthly or annually, as selected at checkout. All prices are in US dollars and exclude any applicable taxes, duties or levies, which remain your responsibility. The merchant of record is the payment provider that processed your checkout (2Checkout/Verifone or Dodo Payments); it calculates and remits tax where it is required to. Payment is processed by that provider and we never see or store your full card number. A paid plan renews automatically for successive periods of the same length until you cancel, and we will tell you about a price increase at least ${CHANGE_NOTICE_DAYS} days before it applies to your renewal.`,
             },
           ],
         },
@@ -158,7 +170,7 @@ export const termsDocument: LegalDocumentContent = {
         },
       ],
       annex: [
-        { kind: 'p', text: '[ASK USER: internal reviewer note, remove before publication.] Plan prices below come from the pricing data in the application. Annual prices are under review because checkout and the pricing page currently disagree.' },
+        { kind: 'p', text: 'Plan prices below are rendered from the same pricing data that drives the pricing page and checkout (src/data/pricingData.ts and server/core/pricing.ts), so the three cannot disagree. The annual figure is the total charged once per year.' },
         { kind: 'plan-table' },
       ],
     },
@@ -205,7 +217,7 @@ export const termsDocument: LegalDocumentContent = {
         },
         {
           kind: 'p',
-          text: 'Burst limits are 15 requests per minute for visitors, 45 for signed-in users, and 120 per API key. Source: server/core/rateLimit.ts. Burst limits use Upstash when it is configured. Otherwise they use in-memory counters. Daily units reset at UTC midnight. [ASK USER: confirm that these values are the published values.]',
+          text: 'Burst limits are 15 requests per minute for visitors, 45 for signed-in users, and 120 per API key. Source: server/core/rateLimit.ts. Burst limits use Upstash when it is configured. Otherwise they use in-memory counters. Daily units reset at UTC midnight. These are the values the API enforces and the same numbers are published on the pricing page.',
         },
       ],
     },
@@ -318,7 +330,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: '[ASK USER: state whether any availability commitment is offered, and to which plans. No uptime commitment is implemented in the current code.] Except where expressly agreed in writing, the Service is provided on an as-available basis.',
+              text: 'We offer no uptime commitment and no service level agreement on any plan, including Enterprise, except where one is agreed in a separate written contract with you. Except where expressly agreed in writing, the Service is provided on an as-available basis. Planned maintenance is announced in advance; we do not offer service credits for downtime.',
             },
           ],
         },
@@ -387,7 +399,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'To the maximum extent permitted by law, our total liability for all claims relating to the Service is limited to [ASK USER: liability cap, for example the fees paid in the 12 months before the claim, or a fixed amount]. Nothing in these terms limits liability that cannot be limited under applicable law.',
+              text: `To the maximum extent permitted by law, our total liability for all claims relating to the Service is limited to ${LIABILITY_CAP}. Nothing in these terms limits liability that cannot be limited under applicable law.`,
             },
           ],
         },
@@ -403,7 +415,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: '[ASK USER: indemnity scope.] You agree to defend and indemnify us against third-party claims arising from your breach of these terms, including clause 6.1, or from Targets you submit.',
+              text: 'You agree to defend and indemnify us, and our officers, employees and agents, against third-party claims and reasonable legal fees arising from: your breach of these terms, including clause 6.1; the Targets you submit or the way you use the results; your violation of applicable law; or your violation of the rights of a third party. We will notify you of a claim promptly, let you control its defence and settlement, and will not settle in a way that admits fault for you without your prior consent. This indemnity does not apply to a claim arising solely from our breach of these terms.',
             },
           ],
         },
@@ -421,7 +433,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'You may stop using the Service at any time and may move to the Community plan at any time. Paid-plan cancellation and refunds follow the Refund Policy. [ASK USER: confirm the self-service cancellation path; the current build supports only the downgrade to the Community plan.]',
+              text: 'You may stop using the Service at any time and may move to the Community plan at any time. Paid-plan cancellation and refunds follow the Refund Policy: you can cancel by writing to the monitored legal mailbox or through the contact form, and you can move to the Community plan yourself from your dashboard. Cancellation stops the next renewal; paid features stay available until the end of the period you already paid for.',
             },
           ],
         },
@@ -457,7 +469,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'We may update these terms. We will publish the new version with a new effective date and give [ASK USER: notice period] for material changes. Continued use after the effective date means you accept the changes.',
+              text: `We may update these terms. We will publish the new version with a new effective date and give at least ${CHANGE_NOTICE_DAYS} days' notice for material changes, through an in-product banner and an email to the address on your Account. Continued use after the effective date means you accept the changes.`,
             },
           ],
         },
@@ -473,7 +485,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: `These terms are governed by ${GOVERNING_LAW}. [ASK USER: dispute resolution steps, such as informal resolution, arbitration, or courts.]`,
+              text: `These terms are governed by ${GOVERNING_LAW}, without regard to its conflict of laws rules. Before either side files a claim, we will both try to resolve the dispute informally for 30 days by writing to ${LEGAL_EMAIL}. If that does not resolve it, the courts of ${GOVERNING_COURTS} have exclusive jurisdiction and both parties submit to their personal jurisdiction. Nothing in these terms removes a mandatory consumer protection right under the law of the country where you live.`,
             },
           ],
         },
@@ -489,7 +501,7 @@ export const termsDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: `Use the contact form at ${CONTACT_PATH} or write to ${LEGAL_EMAIL}. [ASK USER: confirm the legal mailbox is monitored, and add a postal address for formal notices.]`,
+              text: `Use the contact form at ${CONTACT_PATH} or write to ${LEGAL_EMAIL}. That mailbox is monitored and is our address for formal notices: we do not publish a postal address, and a notice sent to that mailbox is treated as delivered when we acknowledge it, or two business days after it is sent if we do not answer.`,
             },
           ],
         },

@@ -1,4 +1,6 @@
-import '@testing-library/jest-dom';
+// Q38 (owner decision, 2026-10-19): the `/vitest` entry point augments Vitest's
+// `Assertion` interface, so `toBeInTheDocument` and friends type-check.
+import '@testing-library/jest-dom/vitest';
 
 // Vitest is never production. Allow unauthenticated demo surfaces so the
 // route suite can exercise GitHub/notifications without Firebase Admin.

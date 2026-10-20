@@ -1,5 +1,17 @@
 import type { LegalDocumentContent } from './types';
-import { CONTACT_PATH, LEGAL_DRAFT_VERSION, LEGAL_EMAIL } from './legalMeta';
+import {
+  CHANGE_NOTICE_DAYS,
+  CONTACT_PATH,
+  EFFECTIVE_DATE,
+  LEGAL_EMAIL,
+  LEGAL_VERSION,
+  REFUND_ACK_BUSINESS_DAYS,
+  REFUND_DECISION_BUSINESS_DAYS,
+  REFUND_PROCESS_BUSINESS_DAYS,
+  REFUND_WINDOW_ANNUAL_DAYS,
+  REFUND_WINDOW_MONTHLY_DAYS,
+  TRIAL_DAYS,
+} from './legalMeta';
 
 export const refundDocument: LegalDocumentContent = {
   slug: 'refund',
@@ -7,9 +19,9 @@ export const refundDocument: LegalDocumentContent = {
   seoDescription:
     'How refunds, cancellations, trials, and billing errors work for CatalystLab paid plans, with the steps to request one.',
   canonicalPath: '/refund',
-  version: LEGAL_DRAFT_VERSION,
+  version: LEGAL_VERSION,
   intro:
-    'This policy explains when you can get your money back for a CatalystLab paid plan, how to ask for it, and how long it takes. The Community plan is free and is not charged. Where the process depends on a provider or a decision the company has not made yet, the policy says so.',
+    `This policy explains when you can get your money back for a CatalystLab paid plan, how to ask for it, and how long it takes. The Community plan is free and is not charged. Every window and service level below is a decided commitment, not a placeholder. This version took effect on ${EFFECTIVE_DATE}.`,
   sections: [
     {
       id: 'scope',
@@ -32,7 +44,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'The prices in the annex are the monthly list prices. The price shown at checkout, for the billing cycle you choose, is the price you pay. [ASK USER: confirm the annual prices. The checkout server and the pricing page currently disagree.]',
+              text: 'The prices in the annex are the monthly list prices. The annex also shows the annual total, and both figures are rendered from the same data that drives checkout, so they cannot disagree. The price shown at checkout, for the billing cycle you choose, is the price you pay.',
             },
           ],
         },
@@ -56,7 +68,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'Starter, Pro, Team, and Enterprise include a 7-day trial, which can be used once per account. [ASK USER: confirm whether a payment method is required to start a trial, and whether any charge is made during the trial.] If you cancel before the trial ends, you will not be charged.',
+              text: `Starter, Pro, Team, and Enterprise include a ${TRIAL_DAYS}-day trial, which can be used once per account. No payment method is required to start a trial and no charge is made during it. If you cancel before the trial ends, you will not be charged.`,
             },
           ],
         },
@@ -66,7 +78,7 @@ export const refundDocument: LegalDocumentContent = {
       id: 'eligibility',
       title: 'When you can get a refund',
       summary:
-        'You can request a refund within the refund window if you have not used the paid features in a material way. [ASK USER: confirm the refund commitment.] Other cases are reviewed individually.',
+        'You can request a refund within the refund window if you have not used the paid features in a material way, and in that case the refund is granted as of right. Material use is judged against the entitlement you paid for: as a rule, if you have consumed more than half of the quota included in your plan during the paid period, we treat the plan as materially used. Where your usage sits close to that line, we decide in your favour. Other cases are reviewed individually.',
       clauses: [
         {
           id: '3.1',
@@ -74,7 +86,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: '[ASK USER: refund window for monthly plans, for example 7 days from the first paid charge.] [ASK USER: refund window for annual plans, for example 14 days.] Requests made after the window are reviewed individually.',
+              text: `For a monthly plan you can request a refund within ${REFUND_WINDOW_MONTHLY_DAYS} days of the charge. For an annual plan, within ${REFUND_WINDOW_ANNUAL_DAYS} days of the charge. Both windows start on the date of the first paid charge for that plan. Requests made after the window are reviewed individually.`,
             },
           ],
         },
@@ -101,7 +113,7 @@ export const refundDocument: LegalDocumentContent = {
               kind: 'ul',
               items: [
                 'Requests made after the refund window, unless section 3.2 applies.',
-                'Charges for usage that already consumed compute, where the usage is material. [ASK USER: define "material".]',
+                'Charges for usage that already consumed compute, where that usage exceeds half of the quota included in the paid plan.',
                 'Accounts suspended or terminated for breach of the Terms of Service.',
               ],
             },
@@ -125,8 +137,8 @@ export const refundDocument: LegalDocumentContent = {
                 'Sign in to the account that made the purchase.',
                 `Send a request through the contact form at ${CONTACT_PATH} with the subject "Refund request", or write to ${LEGAL_EMAIL}.`,
                 'Include the account email address, the plan, the billing date, the amount charged, and the reason for the request. Attach the order or receipt ID if you have it.',
-                'We confirm receipt within [ASK USER: acknowledgment time, for example 2 business days].',
-                'We review the request and reply with a decision within [ASK USER: decision time, for example 5 business days].',
+                `We confirm receipt within ${REFUND_ACK_BUSINESS_DAYS} business days.`,
+                `We review the request and reply with a decision within ${REFUND_DECISION_BUSINESS_DAYS} business days.`,
                 'If approved, we ask the payment provider to refund the original payment method. Your plan moves to the Community plan at the same time.',
                 'You receive a written confirmation of the refund amount and the expected date it reaches your account.',
               ],
@@ -139,7 +151,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'An approved refund covers the amount charged for the disputed billing period, minus any non-refundable charges listed in section 3.3. [ASK USER: confirm whether payment provider fees are refunded.]',
+              text: 'An approved refund covers the amount charged for the disputed billing period, minus any non-refundable charges listed in section 3.3. Payment provider fees are not deducted from your refund; we absorb them.',
             },
           ],
         },
@@ -156,7 +168,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: '[ASK USER: name the merchant of record for each payment provider (2Checkout and Dodo Payments are both integrated in the code).] Refunds are issued by the payment provider that processed the original charge. Processing time depends on the provider and your bank, typically [ASK USER: expected processing time] after approval.',
+              text: `2Checkout (Verifone) and Dodo Payments each act as merchant of record for the checkout they processed; the provider named on your receipt is the one that refunds you. Refunds are issued by that provider and reach you up to ${REFUND_PROCESS_BUSINESS_DAYS} business days after approval, depending on the provider and your bank.`,
             },
           ],
         },
@@ -164,7 +176,7 @@ export const refundDocument: LegalDocumentContent = {
       annex: [
         {
           kind: 'p',
-          text: '[ASK USER: internal reviewer note, remove before publication.] Current state: the checkout server creates payment sessions for 2Checkout and Dodo Payments. Webhooks for both providers verify the signature and return success, but do not yet grant or revoke plans (server/routes/payments.ts). Until paid activation is implemented, refunds must be handled manually. [ASK USER: confirm the manual refund procedure before paid plans open.]',
+          text: 'Current state: the checkout server creates payment sessions for 2Checkout and Dodo Payments, and verified webhook events for both providers grant, renew, cancel or refund a plan and write an audit record for every event they accept (server/core/subscriptions.ts). A refund event moves the plan back to Community and records the refund; the money itself is returned by the payment provider that processed the charge.',
         },
       ],
     },
@@ -180,7 +192,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'You can stop renewal at any time. [ASK USER: describe the self-service cancellation path. The current build supports moving to the Community plan, but no cancellation route exists yet.] Until then, send a cancellation request through the contact form.',
+              text: 'You can stop renewal at any time by sending a cancellation request through the contact form or by writing to the monitored legal mailbox, and you can move to the Community plan yourself from your dashboard.',
             },
           ],
         },
@@ -190,7 +202,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: 'Your paid features remain available until the end of the period you have paid for. After that, your plan moves to the Community plan. [ASK USER: confirm this rule.]',
+              text: 'Your paid features remain available until the end of the period you have paid for. After that, your plan moves to the Community plan automatically and no further charge is made.',
             },
           ],
         },
@@ -241,7 +253,7 @@ export const refundDocument: LegalDocumentContent = {
           blocks: [
             {
               kind: 'p',
-              text: `We may update this policy. Changes apply to purchases made after the effective date. Questions: use ${CONTACT_PATH} or write to ${LEGAL_EMAIL}. [ASK USER: confirm the mailbox is monitored.]`,
+              text: `We may update this policy. Changes apply to purchases made after the effective date, and we give at least ${CHANGE_NOTICE_DAYS} days' notice for a material change. Questions: use ${CONTACT_PATH} or write to ${LEGAL_EMAIL}, which is monitored and answered.`,
             },
           ],
         },

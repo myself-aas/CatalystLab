@@ -11,6 +11,7 @@ import { BrandLogo } from '../common/BrandLogo';
 import { SyncStatusBadge } from '../common/SyncStatusBadge';
 import { FooterBackgroundGradient } from '../ui/hover-footer';
 import { FOOTER_GROUPS, CANONICAL } from '../../navigation';
+import { TOTAL_POPS_COUNT } from '../../lib/edge/pops';
 
 const LEGAL_LINKS = [
   { label: 'Terms', to: CANONICAL.terms },
@@ -43,7 +44,7 @@ export const Footer: React.FC = () => {
                 <BrandLogo size="md" />
               </Link>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics across 38 global edge nodes. Precision auditing for the modern engineering stack.
+                Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics across {TOTAL_POPS_COUNT} global edge nodes. Precision auditing for the modern engineering stack.
                 <span className="block mt-4 font-mono text-[#F0FAFF] opacity-60">CONNECT &lt;/&gt; &amp;</span>
               </p>
             </div>

@@ -13,7 +13,13 @@ import type {
  * Universal SSL/TLS Metadata Analyzer
  * Extracts is_expired, days_until_expiration, encryption_algorithm, issuer and validation alerts.
  */
-export async function getSslCertificateInfo(rawHostname: string, port = 443): Promise<SslStatusInfo> {
+/**
+ * SECURITY (owner decision, 2026-10-19): TLS metadata analysis is pinned to
+ * port 443 so the analyzer cannot be pointed at arbitrary internal ports.
+ */
+export const SSL_ANALYSIS_PORT = 443;
+
+export async function getSslCertificateInfo(rawHostname: string): Promise<SslStatusInfo> {
   const cleanHost = rawHostname
     .replace(/^https?:\/\//i, '')
     .split('/')[0]
@@ -25,7 +31,7 @@ export async function getSslCertificateInfo(rawHostname: string, port = 443): Pr
       const socket = tls.connect(
         {
           host: cleanHost,
-          port,
+          port: SSL_ANALYSIS_PORT,
           servername: cleanHost,
           timeout: 4500,
           rejectUnauthorized: false

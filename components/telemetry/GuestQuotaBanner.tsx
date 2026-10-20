@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ShieldAlert, Zap, Clock, Sparkles, ChevronRight, Lock } from 'lucide-react';
 import type { GuestQuotaStatus } from '../../types/telemetry';
 

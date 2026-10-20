@@ -1,7 +1,0 @@
-{
-  "name": "CatalystLab",
-  "description": "Multi-Dimensional Web Health, OWASP Security, WCAG Accessibility, and AI Readiness Telemetry Platform.",
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { SITE_ORIGIN, robotsDirectiveFor } from '../../config/site';
 
 export interface SEOProps {
   title: string;
@@ -12,6 +13,11 @@ export interface SEOProps {
   author?: string;
   publishedTime?: string;
   structuredData?: Record<string, any>;
+  /**
+   * Path used to decide the robots directive (D11). Defaults to the current
+   * location, which already makes application and auth surfaces `noindex`.
+   */
+  routePath?: string;
 }
 
 export const SEOHead: React.FC<SEOProps> = ({
@@ -21,13 +27,17 @@ export const SEOHead: React.FC<SEOProps> = ({
   canonicalUrl,
   canonicalPath,
   ogType = 'website',
-  ogImage = 'https://www.catalystlab.tech/og-banner.png',
+  ogImage = `${SITE_ORIGIN}/og-banner.png`,
   author = 'CatalystLab Telemetry Team',
   publishedTime,
-  structuredData
+  structuredData,
+  routePath
 }) => {
   const fullTitle = title.includes('CatalystLab') ? title : `${title} | CatalystLab Documentation & Developer Hub`;
-  const SITE_ORIGIN = 'https://www.catalystlab.tech';
+  const pathForRobots =
+    routePath || (typeof window !== 'undefined' ? window.location.pathname : '/');
+  // D11: application, authentication and editor surfaces stay out of the index.
+  const robotsDirective = robotsDirectiveFor(pathForRobots);
   const currentUrl = canonicalUrl || (canonicalPath ? `${SITE_ORIGIN}${canonicalPath}` : typeof window !== 'undefined' ? window.location.href : SITE_ORIGIN);
 
   useEffect(() => {
@@ -51,7 +61,7 @@ export const SEOHead: React.FC<SEOProps> = ({
       setMetaTag('name', 'keywords', keywords.join(', '));
     }
     setMetaTag('name', 'author', author);
-    setMetaTag('name', 'robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
+    setMetaTag('name', 'robots', robotsDirective);
 
     // Open Graph
     setMetaTag('property', 'og:site_name', 'CatalystLab Telemetry & Quality Engine');
@@ -97,7 +107,7 @@ export const SEOHead: React.FC<SEOProps> = ({
     } else if (scriptTag) {
       scriptTag.remove();
     }
-  }, [fullTitle, description, keywords, currentUrl, ogType, ogImage, author, publishedTime, structuredData]);
+  }, [fullTitle, description, keywords, currentUrl, ogType, ogImage, author, publishedTime, structuredData, robotsDirective]);
 
   return null;
 };

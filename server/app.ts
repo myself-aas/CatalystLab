@@ -5,6 +5,7 @@ import fs from 'fs';
 import crypto from 'crypto';
 import { attachIdentity } from '../src/lib/serverAuth';
 import { requestLoggingMiddleware } from './core/logger';
+import { captureException } from './core/errorTracking';
 import { logger } from './core/logger';
 
 // Decomposed route modules (Phase 2) + client-log sink (Phase 3).
@@ -20,6 +21,7 @@ import { registerSystemRoutes } from './routes/system';
 import { registerPaymentRoutes } from './routes/payments';
 import { registerClientLogRoutes } from './routes/clientLogs';
 import { registerContactRoutes } from './routes/contact';
+import { ensureRetentionIndexes } from './core/retention';
 
 /**
  * Builds the fully-configured Express app (security headers, body limits,
@@ -166,6 +168,12 @@ export async function createApp(): Promise<express.Express> {
 
   // CRITICAL route-level fallback: Handle database queries failing gracefully when MongoDB is offline:
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    // D10: an exception that reached the Express handler is a real defect, so
+    // it goes to the tracker (scrubbed there) unless it is only the database
+    // being offline, which is an expected condition we already log as a warning.
+    if (!(err?.name === 'MongooseError' || err?.name === 'MongoNetworkError')) {
+      captureException(err, { path: req.path, method: req.method, requestId: req.requestId });
+    }
     if (res.headersSent) {
       return next(err);
     }
@@ -174,6 +182,12 @@ export async function createApp(): Promise<express.Express> {
       return res.status(503).json({ error: 'Service temporarily unavailable (database offline)' });
     }
     next(err);
+  });
+
+  // Retention (D9 + question 2): make sure the TTL backstop exists. This is a
+  // no-op when Mongo is not configured, and it never blocks startup.
+  ensureRetentionIndexes().catch((err: unknown) => {
+    logger.warn({ err }, '[Retention] TTL index bootstrap failed');
   });
 
   return app;

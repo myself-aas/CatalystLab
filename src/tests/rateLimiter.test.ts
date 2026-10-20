@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
+import { describe, it, expect, beforeEach, beforeAll, afterAll, vi } from 'vitest';
 import {
   VISITOR_DAILY_LIMIT,
   FREE_DAILY_LIMIT,
@@ -25,7 +25,13 @@ const createMockLocalStorage = () => {
 
 describe('Rate Limiter & Quota Allocation Engine', () => {
   beforeAll(() => {
-    (globalThis as any).localStorage = createMockLocalStorage();
+    // jsdom 30 exposes `localStorage` as a getter-only property, so a plain
+    // assignment throws. `vi.stubGlobal` replaces it and is undone automatically.
+    vi.stubGlobal('localStorage', createMockLocalStorage());
+  });
+
+  afterAll(() => {
+    vi.unstubAllGlobals();
   });
 
   beforeEach(() => {

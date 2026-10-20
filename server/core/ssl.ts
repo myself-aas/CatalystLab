@@ -2,8 +2,17 @@ import tls from 'tls';
 
 
 
-// Helper to check SSL certificate days remaining
-export function getSslDetails(hostname: string, port = 443): Promise<{ valid: boolean; daysRemaining?: number; issuer?: string }> {
+/**
+ * Certificate days-remaining probe.
+ *
+ * SECURITY (owner decision, 2026-10-19): the probe is hard-pinned to port 443.
+ * Accepting a caller-supplied port would let a public endpoint be used as a
+ * TLS port scanner against internal hosts, so the parameter is gone rather
+ * than clamped.
+ */
+export const TLS_PROBE_PORT = 443;
+
+export function getSslDetails(hostname: string): Promise<{ valid: boolean; daysRemaining?: number; issuer?: string }> {
   return new Promise((resolve) => {
     let resolved = false;
     const safeResolve = (result: { valid: boolean; daysRemaining?: number; issuer?: string }) => {
@@ -16,7 +25,7 @@ export function getSslDetails(hostname: string, port = 443): Promise<{ valid: bo
       const socket = tls.connect(
         {
           host: hostname,
-          port,
+          port: TLS_PROBE_PORT,
           servername: hostname,
           timeout: 4000
         },

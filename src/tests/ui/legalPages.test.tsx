@@ -52,9 +52,52 @@ describe('legal document content model', () => {
     }
   });
 
-  it.each(documents)('$name marks all open items with [ASK USER]', ({ doc }) => {
-    // Any claim the code cannot back must stay open. Each document has at least one open item.
-    expect(documentText(doc)).toContain('[ASK USER');
+  it.each(documents)('$name has no unresolved [ASK USER] marker left', ({ doc }) => {
+    // Every open item was resolved by an owner decision (docs/plan/decisions.md,
+    // answers #6 and #7 plus Q20-Q36, 2026-10-19). A marker reappearing here
+    // means published copy is asserting something nobody has decided.
+    expect(documentText(doc)).not.toContain('[ASK USER');
+    expect(documentText(doc)).not.toContain('${'); // un-interpolated template literal
+  });
+
+  it.each(documents)('$name carries the decided legal values', ({ doc }) => {
+    const all = documentText(doc);
+    // Q29/#7: notices go to a monitored mailbox, no postal address is published.
+    expect(all).toContain('legal@catalystlab.tech');
+    expect(all).not.toContain('[ASK USER: registered address]');
+    // Every document states when it took effect (Q34: effective on publication).
+    expect(all).toContain('2026-10-19');
+  });
+
+  it('publishes the decisions the owner made', () => {
+    const terms = documentText(termsDocument);
+    const privacy = documentText(privacyDocument);
+    const refund = documentText(refundDocument);
+
+    // Q33/Q35: governing law and forum.
+    expect(terms).toContain("laws of the People's Republic of Bangladesh");
+    expect(terms).toContain('courts of Mymensingh');
+    // Q20: minimum age and breach notification window.
+    expect(terms).toContain('18 years old');
+    expect(privacy).toContain('72 hours');
+    expect(privacy).toContain('18 and over');
+    // Q21: refund windows and handling service levels.
+    expect(refund).toContain('7 days of the charge');
+    expect(refund).toContain('14 days of the charge');
+    expect(refund).toContain('2 business days');
+    expect(refund).toContain('5 business days');
+    expect(refund).toContain('10 business days');
+    // Q24: liability cap. Q25: notice period. Q28: rights response window.
+    expect(terms).toContain('fees you paid us in the 12 months before the event');
+    expect(terms).toContain('30 days');
+    expect(privacy).toContain('one month');
+    // Q27: no advertising identifiers; subprocessors under a DPA.
+    expect(privacy).toContain('advertising identifier');
+    expect(privacy).toContain('data processing agreement');
+    // Q26/D9: retention is enforced, per plan.
+    expect(privacy).toContain('14 days on Community');
+    expect(privacy).toContain('730');
+    expect(privacy).toContain('365');
   });
 
   it('does not reintroduce claims the code cannot support', () => {
@@ -84,26 +127,14 @@ describe.each(documents)('$name page', ({ doc, Page }) => {
     for (const section of doc.sections) {
       expect(container.querySelector(`#${section.id}`)).not.toBeNull();
     }
-    expect(container.querySelector('[role="note"]')?.textContent).toContain('Draft for review');
+    expect(container.querySelector('[role="note"]')?.textContent).toContain('Version 1.0');
   });
 
-  it('highlights every [ASK USER] marker and leaves no raw markers in plain text', () => {
+  it('renders no [ASK USER] marker anywhere on the page', () => {
     const { container } = render(<Page />, { wrapper });
-    const marks = container.querySelectorAll('mark[data-ask-user="true"]');
-    expect(marks.length).toBeGreaterThan(0);
-    marks.forEach((m) => expect(m.textContent?.startsWith('[ASK USER')).toBe(true));
-
-    // Any element whose own text node contains a marker must be a <mark>.
-    const elements = Array.from(container.querySelectorAll('*'));
-    for (const el of elements) {
-      const ownText = Array.from(el.childNodes)
-        .filter((n) => n.nodeType === 3)
-        .map((n) => n.textContent ?? '')
-        .join('');
-      if (ownText.includes('[ASK USER')) {
-        expect(el.tagName).toBe('MARK');
-      }
-    }
+    // The highlighter still exists for future drafts; a published page shows none.
+    expect(container.querySelectorAll('mark[data-ask-user="true"]').length).toBe(0);
+    expect(container.textContent ?? '').not.toContain('[ASK USER');
   });
 
   it('keeps technical annexes collapsed by default', () => {
@@ -129,5 +160,10 @@ describe('legal page wiring', () => {
     expect(text).toContain('Starter');
     expect(text).toContain('$9 / month');
     expect(text).toContain('$99 / month');
+    // The annual column used to be an [ASK USER] marker; it now shows the
+    // annual totals that server/core/pricing.ts charges.
+    expect(text).toContain('$84 billed yearly ($7 / month)');
+    expect(text).toContain('$948 billed yearly ($79 / month)');
+    expect(text).not.toContain('[ASK USER');
   });
 });

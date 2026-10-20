@@ -13,6 +13,7 @@ import {
   Layers
 } from 'lucide-react';
 import type { RateLimitStatus } from '../../utils/rateLimiter';
+import { TOTAL_POPS_COUNT } from '../../lib/edge/pops';
 
 export interface DashboardMetricsBentoGridProps {
   totalAudits: number;
@@ -295,7 +296,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
 
               {/* Pill */}
               <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20">
-                38 PoPs Active
+                {TOTAL_POPS_COUNT} PoPs Active
               </div>
             </div>
 

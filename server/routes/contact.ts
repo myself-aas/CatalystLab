@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import { z } from 'zod';
 import { logger } from '../core/logger';
 import { getAdminFirestore, getAttachedIdentity } from '../../src/lib/serverAuth';
+import { CONTACT_RETENTION_DAYS, expireAt, maybeSweepOnRequest } from '../core/retention';
 import { clientIp } from '../core/rateLimit';
 
 /**
@@ -113,6 +114,9 @@ export function registerContactRoutes(app: express.Express): void {
       honeypot: '',
       status: 'new',
       createdAt: Date.now(),
+      // Q26/D9: contact messages are deleted 365 days after submission. The
+      // stamp is what the sweep (and the Firestore TTL policy) acts on.
+      expireAt: expireAt(Date.now(), CONTACT_RETENTION_DAYS),
       ownerId: identity?.uid || 'guest',
       submittedIpHash: require('crypto').createHash('sha256').update(ip).digest('hex').slice(0, 16),
       userAgent: (req.headers['user-agent'] || '').toString().slice(0, 400)
@@ -124,6 +128,9 @@ export function registerContactRoutes(app: express.Express): void {
         throw new Error('Firestore Admin unavailable; contact intake is offline.');
       }
       await db.collection('contact_inquiries').doc(inquiryId).set(payload);
+      // Question 2: retention is enforced by the TTL backstop AND by a sweep
+      // that piggybacks on incoming requests (throttled, never awaited).
+      maybeSweepOnRequest();
 
       logger.info({ inquiryId, source: payload.source, ipHash: payload.submittedIpHash }, '[contact] Inquiry recorded');
       res.status(201).json({ success: true, inquiryId });

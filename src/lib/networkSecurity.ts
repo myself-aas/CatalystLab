@@ -158,6 +158,12 @@ export interface GuardedFetchOptions {
   isRepo?: boolean;
   /** Maximum accepted response body size in bytes (default 5 MB). */
   maxBytes?: number;
+  /**
+   * Optional request body (used by the outbound webhook dispatcher). When set,
+   * `Content-Length` is computed from the UTF-8 byte length so the request is
+   * never sent as `Transfer-Encoding: chunked`.
+   */
+  body?: string;
   /** Redirect hops followed; every hop is re-validated against the SSRF guard. */
   maxRedirects?: number;
   /**
@@ -194,7 +200,13 @@ function pinnedRequest(
       parsedUrl,
       {
         method: options.method || 'GET',
-        headers: { 'User-Agent': 'CatalystLab-Telemetry/2.0', ...(options.headers || {}) },
+        headers: {
+          'User-Agent': 'CatalystLab-Telemetry/2.0',
+          ...(options.body !== undefined
+            ? { 'Content-Length': String(Buffer.byteLength(options.body)) }
+            : {}),
+          ...(options.headers || {})
+        },
         timeout: options.timeoutMs ?? 10000,
         // Pin the connection to the DNS answer validated by the SSRF guard:
         // the socket can never reach an address the guard did not approve.
@@ -216,7 +228,11 @@ function pinnedRequest(
     );
     req.on('error', reject);
     req.on('timeout', () => req.destroy(new Error(`Request timed out after ${options.timeoutMs ?? 10000}ms.`)));
-    req.end();
+    if (options.body !== undefined) {
+      req.end(options.body);
+    } else {
+      req.end();
+    }
   });
 }
 
@@ -264,7 +280,8 @@ export async function guardedFetch(rawUrl: string, options: GuardedFetchOptions 
       stream.resume(); // drain the redirect body
       currentUrl = new URL(headers.location, parsedUrl).toString();
       if (status === 303 && (options.method || 'GET') !== 'HEAD') {
-        options = { ...options, method: 'GET' };
+        // A 303 must be re-issued as a GET without the original body.
+        options = { ...options, method: 'GET', body: undefined };
       }
       continue;
     }

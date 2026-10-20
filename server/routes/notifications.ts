@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { getAnalyticsStats } from '../../src/lib/analyticsEngine';
 import { generateWeeklyReportHtml, generateAnomalyAlertHtml, sendEmailViaMailgun, AnalyticsWeeklyData, AnomalyAlertData } from '../../src/lib/emailService';
 import { sendSlackWebhook, sendDiscordWebhook, sendGenericWebhook } from '../../src/lib/webhookService';
-import { validatePublicUrl } from '../../src/lib/networkSecurity';
 import { requireSuperadminInProduction } from '../core/authz';
 
 // Notification pipelines: Mailgun email (digests, anomaly alerts) and
@@ -221,12 +220,10 @@ app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Respon
       results.discord = await sendDiscordWebhook(discordWebhookUrl, payload);
     }
     if (genericWebhookUrl) {
-      const validation = await validatePublicUrl(String(genericWebhookUrl));
-      if (!validation.valid) {
-        results.generic = { success: false, destination: 'generic', error: validation.error || 'Target URL blocked by SSRF guard.' };
-      } else {
-        results.generic = await sendGenericWebhook(validation.normalizedUrl || genericWebhookUrl, payload, webhookSecret);
-      }
+      // SSRF validation is performed by guardedFetch inside sendGenericWebhook,
+      // on the same DNS answer the socket is pinned to. Validating here first
+      // and fetching afterwards would leave a rebinding window open.
+      results.generic = await sendGenericWebhook(String(genericWebhookUrl), payload, webhookSecret);
     }
 
     res.json({

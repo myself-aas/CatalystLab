@@ -36,7 +36,6 @@ export const logger = pino({
 });
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       /** Correlation ID assigned (or honored from `x-request-id`) per request. */
