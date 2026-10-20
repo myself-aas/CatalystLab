@@ -14,6 +14,7 @@
  */
 // Q42: pick up APP_ORIGIN / VITE_APP_ORIGIN from .env when the build runs locally.
 import 'dotenv/config';
+import crypto from 'crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 import { ALL_PLANS_LIST } from '../src/data/pricingData';
@@ -511,8 +512,33 @@ function main(): void {
   );
 
   const indexable = routes.filter((route) => !isAppRoute(route.path) && !isAuthRoute(route.path)).length;
+
+  // Plan 3.8: stamp exact SHA-256 hashes of all built inline <script> blocks
+  // across dist/index.html into dist/_headers so Cloudflare Pages enforces the
+  // exact same zero-'unsafe-inline' CSP as Express in server/app.ts.
+  const builtIndexHtml = readFileSync(path.join(DIST, 'index.html'), 'utf8');
+  const scriptHashes = new Set<string>();
+  for (const htmlDoc of [builtIndexHtml, notFound]) {
+    const inlineScriptRegex = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+    let match: RegExpExecArray | null;
+    while ((match = inlineScriptRegex.exec(htmlDoc)) !== null) {
+      const content = match[1];
+      if (content.trim().length > 0) {
+        scriptHashes.add(`'sha256-${crypto.createHash('sha256').update(content).digest('base64')}'`);
+      }
+    }
+  }
+  const distHeadersPath = path.join(DIST, '_headers');
+  if (existsSync(distHeadersPath)) {
+    const rawHeaders = readFileSync(distHeadersPath, 'utf8');
+    const stampedHeaders = rawHeaders
+      .replace('__INLINE_SCRIPT_HASHES__', Array.from(scriptHashes).join(' '))
+      .replace(/  +/g, (spaces, offset, full) => (full[offset - 1] === '\n' ? spaces : ' '));
+    writeFileSync(distHeadersPath, stampedHeaders);
+  }
+
   console.log(
-    `[prerender] wrote ${written.length} route shells (${indexable} indexable, ${appShells.length} noindex), dist/404.html, dist/sitemap.xml (${sitemapRoutes.length} URLs) and dist/routes.json`
+    `[prerender] wrote ${written.length} route shells (${indexable} indexable, ${appShells.length} noindex), dist/404.html, dist/sitemap.xml (${sitemapRoutes.length} URLs), dist/_headers (${scriptHashes.size} CSP hashes) and dist/routes.json`
   );
   if (missing.length) {
     console.warn(`[prerender] skipped ${missing.length} route(s) absent from src/App.tsx: ${missing.join(', ')}`);

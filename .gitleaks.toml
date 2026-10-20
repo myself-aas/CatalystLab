@@ -1,0 +1,55 @@
+title = "CatalystLab Secret Scanning Configuration (Plan 3.13)"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "mongodb-atlas-credentials"
+description = "MongoDB / MongoDB Atlas connection string containing embedded password"
+regex = '''mongodb(?:\+srv)?://[^\s'":/]+:[^\s'"@]{8,}@[a-zA-Z0-9._-]+'''
+tags = ["secret", "database", "mongodb"]
+
+[[rules]]
+id = "catalystlab-live-api-key"
+description = "CatalystLab live production API key"
+regex = '''cat_live_[a-fA-F0-9]{32,}'''
+tags = ["secret", "api-key"]
+
+[[rules]]
+id = "private-key-pem-block"
+description = "PEM-encoded private key block"
+regex = '''-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'''
+tags = ["secret", "private-key"]
+
+[allowlist]
+description = "Public client-side Firebase Web SDK project identifier, synthetic test fixtures, and catalogued historical finding SEC-2026-01"
+paths = [
+  '''^\.env(?:\.[a-zA-Z0-9_-]+)?\.example$''',
+  '''^\.github/fixtures/ci-service-account\.json$''',
+  '''^firebase-applet-config\.json$''',
+  '''^src/lib/firebase\.ts$''',
+  '''^src/data/(?:faqData|apiSpecs)\.ts$''',
+  '''^app/login/page\.tsx$''',
+  '''^src/tests/.*''',
+  '''^scripts/run-restore-drill\.ts$''',
+  '''^scripts/e2e-payment-sandbox\.ts$''',
+  '''^scripts/run-loadtest\.mjs$''',
+  '''^ops/loadtest/k6-peak\.js$''',
+  '''^docs/security/review-2026-10\.md$''',
+  '''^docs/release/checklist\.md$''',
+]
+regexes = [
+  # Public Firebase Web SDK browser config identifier (not a server credential; restricted via HTTP referrer + Firestore rules)
+  '''AIzaSy[A-Za-z0-9_-]{33}''',
+  # Documented sample / synthetic non-credential tokens used in examples and tests
+  '''cat_live_9f83b271[a-zA-Z0-9_]*''',
+  '''cat_live_sample_[a-zA-Z0-9_]*''',
+  '''cat_whsec_[a-zA-Z0-9_]*''',
+  '''whsec_(?:unit_test|sandbox_e2e|test)[a-zA-Z0-9_]*''',
+]
+# Historical commit e4bff70cb4f10112b7f668b592b2e1d3e7340b01 (2026-08-22) contained an old
+# MongoDB Atlas URI + bundled dist snapshot already removed from HEAD; tracked as SEC-2026-01
+# in docs/security/review-2026-10.md for Atlas credential rotation + owner git filter-repo scrub.
+commits = [
+  "e4bff70cb4f10112b7f668b592b2e1d3e7340b01",
+]

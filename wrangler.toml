@@ -1,30 +1,37 @@
-# Cloudflare deployment config for the split hosting decision (D3 (b)).
+# Cloudflare deployment config for the split hosting decision (D3 (b), Q31 (a)).
 #
-#   Static frontend -> Cloudflare Pages  (deploy: npx wrangler pages deploy dist --project-name catalystlab-web)
-#   /api/*          -> this Worker route -> the Node API host (Q31 (a), Q32)
+#   Static frontend -> Cloudflare Pages  (`npx wrangler pages deploy dist --project-name catalystlab-web`)
+#   /api/*          -> this Worker route -> private Node API host (Oracle Always Free / Render fallback, Q32)
 #
-# A single wrangler.toml describes either a Worker or a Pages project, so the
-# Pages side is deployed with the command above; dist/ already contains the
-# prerendered route shells, _redirects and _headers that Pages reads.
+# IMPORTANT (Blocker #2): `API_ORIGIN` is NEVER hardcoded to a fictional hostname in Git.
+# Inject the live upstream origin securely via Cloudflare Worker Secrets before traffic cutover:
+#   printf '%s' "$API_ORIGIN_URL" | npx wrangler secret put API_ORIGIN --env staging
+#   printf '%s' "$API_ORIGIN_URL" | npx wrangler secret put API_ORIGIN --env production
 #
-#   npx wrangler deploy                     # publish the proxy
-#   npx wrangler tail --format pretty       # watch requests while testing
+# Until `API_ORIGIN` is set to a live HTTPS origin, `worker/api-proxy.js` fails closed
+# with HTTP 503 (`code: "API_ORIGIN_NOT_CONFIGURED"`), rather than forwarding to NXDOMAIN.
 
 name = "catalystlab-api-proxy"
 main = "worker/api-proxy.js"
 compatibility_date = "2026-10-19"
 compatibility_flags = ["nodejs_compat"]
 
-# Attach the Worker to /api/* on both the canonical host and the apex, so a
-# request that reaches the apex before the 301 still finds the API.
+[vars]
+# Intentionally empty in VCS; set per environment via `wrangler secret put API_ORIGIN`.
+API_ORIGIN = ""
+
+[observability]
+enabled = true
+
+[env.staging]
+name = "catalystlab-api-proxy-staging"
+routes = [
+  { pattern = "staging.catalystlab.tech/api/*", zone_name = "catalystlab.tech" },
+]
+
+[env.production]
+name = "catalystlab-api-proxy"
 routes = [
   { pattern = "www.catalystlab.tech/api/*", zone_name = "catalystlab.tech" },
   { pattern = "catalystlab.tech/api/*", zone_name = "catalystlab.tech" },
 ]
-
-[vars]
-# Origin of the Node API host. Internal name; never exposed to the browser.
-API_ORIGIN = "https://api.catalystlab.tech"
-
-[observability]
-enabled = true

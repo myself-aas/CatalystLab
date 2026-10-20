@@ -5,6 +5,7 @@ import { logger } from '../core/logger';
 import { getAdminFirestore, getAttachedIdentity } from '../../src/lib/serverAuth';
 import { CONTACT_RETENTION_DAYS, expireAt, maybeSweepOnRequest } from '../core/retention';
 import { clientIp } from '../core/rateLimit';
+import { checkSharedWindowLimit } from '../core/sharedLimiter';
 
 /**
  * Contact / Get-in-touch intake.
@@ -14,12 +15,8 @@ import { clientIp } from '../core/rateLimit';
  * is:
  *   - schema-validated server-side (Zod),
  *   - honeypot-checked (hidden `website` field),
- *   - rate-limited per IP (and per authenticated UID when present),
+ *   - rate-limited per IP / UID across instances via shared Redis (4.1/4.2),
  *   - normalized & capped before persistence.
- *
- * `firestore.rules` denies direct client creates on `contact_inquiries`, the
- * Admin SDK bypasses client rules, and the UI receives a deterministic ticket
- * id from the server only after the write succeeds.
  */
 
 const inquirySchema = z.object({
@@ -36,41 +33,32 @@ const inquirySchema = z.object({
     .optional()
 });
 
-// Per-IP/UID sliding window: max 3 submissions / 15 min, max 5 / hour.
+// Per-IP/UID windows: max 3 submissions / 15 min, max 5 / hour.
 const CONTACT_HOUR_WINDOW_MS = 60 * 60 * 1000;
 const CONTACT_15MIN_WINDOW_MS = 15 * 60 * 1000;
 const CONTACT_MAX_PER_15MIN = 3;
 const CONTACT_MAX_PER_HOUR = 5;
 
-const hits = new Map<string, number[]>();
+async function allowContact(identifier: string): Promise<boolean> {
+  const shortDecision = await checkSharedWindowLimit({
+    namespace: 'contact-15m',
+    identifier,
+    maxRequests: CONTACT_MAX_PER_15MIN,
+    windowMs: CONTACT_15MIN_WINDOW_MS
+  });
+  if (!shortDecision.allowed) return false;
 
-function allowContact(identifier: string): boolean {
-  const now = Date.now();
-  const hourStart = now - CONTACT_HOUR_WINDOW_MS;
-  const quarterStart = now - CONTACT_15MIN_WINDOW_MS;
-  const recent = (hits.get(identifier) || []).filter((t) => t > hourStart);
-
-  const inLastHour = recent.length;
-  const inLast15Min = recent.filter((t) => t > quarterStart).length;
-
-  if (inLastHour >= CONTACT_MAX_PER_HOUR || inLast15Min >= CONTACT_MAX_PER_15MIN) {
-    hits.set(identifier, recent);
-    return false;
-  }
-
-  recent.push(now);
-  hits.set(identifier, recent);
-  // Opportunistic GC to keep the map bounded under abuse.
-  if (hits.size > 5000) {
-    for (const [key, times] of hits) {
-      if (!times.some((t) => t > hourStart)) hits.delete(key);
-    }
-  }
-  return true;
+  const hourDecision = await checkSharedWindowLimit({
+    namespace: 'contact-1h',
+    identifier,
+    maxRequests: CONTACT_MAX_PER_HOUR,
+    windowMs: CONTACT_HOUR_WINDOW_MS
+  });
+  return hourDecision.allowed;
 }
 
 function makeInquiryId(): string {
-  const rand = Math.random().toString(36).substring(2, 9);
+  const rand = crypto.randomBytes(4).toString('hex');
   return `inq_${Date.now()}_${rand}`;
 }
 
@@ -80,7 +68,15 @@ export function registerContactRoutes(app: express.Express): void {
     const ip = clientIp(req);
     const identifier = identity?.uid && identity.uid.length > 0 ? `uid_${identity.uid}` : `ip_${ip}`;
 
-    if (!allowContact(identifier)) {
+    let permitted = false;
+    try {
+      permitted = await allowContact(identifier);
+    } catch {
+      res.status(503).json({ success: false, error: 'Contact rate limiter unavailable.' });
+      return;
+    }
+
+    if (!permitted) {
       res.status(429).json({
         success: false,
         error: 'Too many contact submissions. Please try again later.'
@@ -95,8 +91,6 @@ export function registerContactRoutes(app: express.Express): void {
     }
 
     const data = parsed.data;
-    // Honeypot: bots fill a hidden field real users never see. Acknowledge
-    // success without persisting so automated scanners move on.
     if (data.honeypot && data.honeypot.trim().length > 0) {
       res.status(202).json({ success: true, inquiryId: makeInquiryId(), honeypot: true });
       return;
@@ -114,11 +108,9 @@ export function registerContactRoutes(app: express.Express): void {
       honeypot: '',
       status: 'new',
       createdAt: Date.now(),
-      // Q26/D9: contact messages are deleted 365 days after submission. The
-      // stamp is what the sweep (and the Firestore TTL policy) acts on.
       expireAt: expireAt(Date.now(), CONTACT_RETENTION_DAYS),
       ownerId: identity?.uid || 'guest',
-      submittedIpHash: require('crypto').createHash('sha256').update(ip).digest('hex').slice(0, 16),
+      submittedIpHash: crypto.createHash('sha256').update(ip).digest('hex').slice(0, 16),
       userAgent: (req.headers['user-agent'] || '').toString().slice(0, 400)
     };
 
@@ -128,8 +120,6 @@ export function registerContactRoutes(app: express.Express): void {
         throw new Error('Firestore Admin unavailable; contact intake is offline.');
       }
       await db.collection('contact_inquiries').doc(inquiryId).set(payload);
-      // Question 2: retention is enforced by the TTL backstop AND by a sweep
-      // that piggybacks on incoming requests (throttled, never awaited).
       maybeSweepOnRequest();
 
       logger.info({ inquiryId, source: payload.source, ipHash: payload.submittedIpHash }, '[contact] Inquiry recorded');

@@ -1,0 +1,119 @@
+name: Deploy Staging & Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: 'Target environment (staging or production)'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: deploy-${{ inputs.target_environment || 'staging' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy-staging:
+    name: Deploy Staging (Cloudflare Pages + Worker + Smoke)
+    if: github.event_name == 'push' || inputs.target_environment == 'staging'
+    runs-on: ubuntu-24.04
+    environment:
+      name: staging
+      url: https://staging.catalystlab.tech
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies cleanly
+        run: npm ci
+
+      - name: Verify environment parity & build staging bundle
+        env:
+          CI: 'true'
+          NODE_ENV: production
+          APP_ORIGIN: https://staging.catalystlab.tech
+          VITE_APP_ORIGIN: https://staging.catalystlab.tech
+          FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
+        run: |
+          npm run check:env
+          npm run build
+          npm run check:bundle
+
+      - name: Deploy Cloudflare Pages + Worker (when Cloudflare secrets configured)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          STAGING_API_ORIGIN: ${{ secrets.STAGING_API_ORIGIN }}
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID}" ] || [ -z "${STAGING_API_ORIGIN}" ]; then
+            echo "::notice::Staging Cloudflare secrets (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, STAGING_API_ORIGIN) not yet populated by owner in GitHub Environment 'staging'. Build artifact verified ready for deploy."
+            exit 0
+          fi
+          npx wrangler pages deploy dist --project-name=catalystlab-web --branch=staging
+          printf '%s' "${STAGING_API_ORIGIN}" | npx wrangler secret put API_ORIGIN --env staging
+          npx wrangler deploy --env staging
+          node scripts/verify-deployment.mjs https://staging.catalystlab.tech
+
+  deploy-production:
+    name: Deploy Production (Manual Owner Gate — D3 / Q31 / Q32)
+    if: github.event_name == 'workflow_dispatch' && inputs.target_environment == 'production'
+    runs-on: ubuntu-24.04
+    environment:
+      name: production
+      url: https://www.catalystlab.tech
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies cleanly
+        run: npm ci
+
+      - name: Verify production environment parity & build canonical www bundle
+        env:
+          CI: 'true'
+          NODE_ENV: production
+          APP_ORIGIN: https://www.catalystlab.tech
+          VITE_APP_ORIGIN: https://www.catalystlab.tech
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          npm run check:env
+          npm run build
+          npm run check:bundle
+
+      - name: Deploy Cloudflare Pages + Worker + Verify Live Contracts
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PRODUCTION_API_ORIGIN: ${{ secrets.PRODUCTION_API_ORIGIN }}
+        run: |
+          : "${CLOUDFLARE_API_TOKEN:?Missing CLOUDFLARE_API_TOKEN in production GitHub Environment}"
+          : "${CLOUDFLARE_ACCOUNT_ID:?Missing CLOUDFLARE_ACCOUNT_ID in production GitHub Environment}"
+          : "${PRODUCTION_API_ORIGIN:?Missing PRODUCTION_API_ORIGIN in production GitHub Environment}"
+          npx wrangler pages deploy dist --project-name=catalystlab-web --branch=main
+          printf '%s' "${PRODUCTION_API_ORIGIN}" | npx wrangler secret put API_ORIGIN --env production
+          npx wrangler deploy --env production
+          node scripts/verify-deployment.mjs https://www.catalystlab.tech

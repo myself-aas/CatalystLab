@@ -96,18 +96,37 @@ export async function validatePublicUrl(rawUrl: string, isRepo: boolean = false)
   }
 
   const hostname = parsed.hostname.toLowerCase();
+  const bareHost = hostname.replace(/^\[|\]$/g, '');
 
   // Block localhost, local network names, and explicit reserved domains
   if (
-    hostname === 'localhost' ||
-    hostname === '127.0.0.1' ||
-    hostname === '::1' ||
-    hostname === '0.0.0.0' ||
-    hostname.endsWith('.local') ||
-    hostname.endsWith('.internal') ||
-    hostname.endsWith('.localhost')
+    bareHost === 'localhost' ||
+    bareHost === '127.0.0.1' ||
+    bareHost === '::1' ||
+    bareHost === '0.0.0.0' ||
+    bareHost.endsWith('.local') ||
+    bareHost.endsWith('.internal') ||
+    bareHost.endsWith('.localhost')
   ) {
     return { valid: false, error: 'Internal hostnames and loopback addresses cannot be audited.' };
+  }
+
+  // Classify raw IPv4/IPv6 literals directly before invoking DNS resolution
+  const isIpLiteral = /^\d{1,3}(\.\d{1,3}){3}$/.test(bareHost) || bareHost.includes(':');
+  if (isIpLiteral) {
+    if (isPrivateIp(bareHost)) {
+      return {
+        valid: false,
+        error: 'Target IP is a private or reserved network address. Access blocked.',
+        hostname: bareHost
+      };
+    }
+    return {
+      valid: true,
+      normalizedUrl: parsed.toString(),
+      hostname: bareHost,
+      ip: bareHost
+    };
   }
 
   // Resolve hostname DNS to check target IP against SSRF ranges

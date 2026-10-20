@@ -1,0 +1,70 @@
+rules:
+  - id: catalystlab-no-eval-or-new-function
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: "Dynamic code evaluation via eval() or new Function() is prohibited (OWASP A03 / CWE-95)."
+    metadata:
+      cwe: "CWE-95"
+      owasp: "A03:2021 - Injection"
+    patterns:
+      - pattern-either:
+          - pattern: eval(...)
+          - pattern: new Function(...)
+          - pattern: Function(...)
+
+  - id: catalystlab-no-dangerously-set-inner-html
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: "dangerouslySetInnerHTML risks DOM XSS without strict sanitization review (OWASP A03 / CWE-79)."
+    metadata:
+      cwe: "CWE-79"
+      owasp: "A03:2021 - Injection"
+    pattern: dangerouslySetInnerHTML={...}
+
+  - id: catalystlab-no-child-process-exec-interpolation
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: "Avoid child_process.exec / execSync shell command execution; prefer execFile / execFileSync with explicit argument arrays (CWE-78)."
+    metadata:
+      cwe: "CWE-78"
+      owasp: "A03:2021 - Injection"
+    patterns:
+      - pattern-either:
+          - pattern: child_process.exec(...)
+          - pattern: child_process.execSync(...)
+          - pattern: exec(`...${$VAR}...`, ...)
+          - pattern: execSync(`...${$VAR}...`, ...)
+
+  - id: catalystlab-no-unsafe-inline-in-csp
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: "CSP directive must never include 'unsafe-inline' in server policy (Plan 3.8 / Blocker #5)."
+    metadata:
+      cwe: "CWE-693"
+    paths:
+      include:
+        - /server/
+    pattern: "'unsafe-inline'"
+
+  - id: catalystlab-no-raw-header-projection-in-logger
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: "Logger serializer must never clone or emit full req.headers objects; use strict allowlist only (Plan 3.12 / Blocker #4)."
+    metadata:
+      cwe: "CWE-532"
+    paths:
+      include:
+        - /server/core/logger.ts
+    patterns:
+      - pattern-either:
+          - pattern: "{ ...$REQ.headers }"
+          - pattern: Object.assign({}, $REQ.headers)
+
+  - id: catalystlab-no-non-constant-time-hmac-compare
+    languages: [typescript, javascript]
+    severity: ERROR
+    message: "Compare cryptographic digests with crypto.timingSafeEqual, never === or !== (CWE-208)."
+    metadata:
+      cwe: "CWE-208"
+    patterns:
+      - pattern: crypto.createHmac(...).update(...).digest(...) === $SIG

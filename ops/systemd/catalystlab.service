@@ -1,0 +1,36 @@
+[Unit]
+Description=CatalystLab Telemetry & Diagnostics API (Node 24)
+Documentation=https://github.com/myself-aas/CatalystLab/blob/main/docs/ops/runbook.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=catalystlab
+Group=catalystlab
+WorkingDirectory=/opt/catalystlab
+EnvironmentFile=/etc/catalystlab/catalystlab.env
+ExecStartPre=/usr/bin/node /opt/catalystlab/scripts/check-env.mjs
+ExecStart=/usr/bin/node /opt/catalystlab/dist/server.cjs
+Restart=always
+RestartSec=5
+TimeoutStopSec=15
+KillSignal=SIGTERM
+
+# Resource bounds tailored to Oracle Cloud Always Free (2 OCPU / 12 GB RAM, Q32)
+CPUQuota=200%
+MemoryMax=10G
+TasksMax=512
+
+# Systemd sandboxing & privilege drop
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadOnlyPaths=/opt/catalystlab
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=catalystlab-api
+
+[Install]
+WantedBy=multi-user.target

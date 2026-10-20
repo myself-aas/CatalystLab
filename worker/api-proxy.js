@@ -1,17 +1,17 @@
 /**
- * Same-origin `/api/*` proxy for the split hosting decision.
+ * Same-origin `/api/*` proxy for split hosting (D3 (b), Q31 (a)).
  *
- * Owner decisions: D3 (b) — the static frontend runs on Cloudflare Pages while
- * the Express API runs on a Node host (Q32) — and Q31 (a), which chose a
- * Cloudflare Worker route on the apex zone to forward `/api/*` to that host.
- * The browser therefore only ever talks to www.catalystlab.tech: no CORS
- * preflight for first-party calls, and no API host name is published.
- *
- * Deploy: `npx wrangler deploy` (see wrangler.toml). Set `API_ORIGIN` to the
- * API host's origin, for example https://api-internal.catalystlab.tech.
+ * Security invariants:
+ *   1. Fails closed (`503 API_ORIGIN_NOT_CONFIGURED`) when `env.API_ORIGIN` is
+ *      empty, non-HTTPS (outside localhost dev), or points at unprovisioned
+ *      placeholder hostnames (`api.catalystlab.tech`, `example.com`).
+ *   2. Appends `cf-connecting-ip` as the RIGHTMOST `X-Forwarded-For` entry so
+ *      `server/core/rateLimit.ts` (`clientIp` rightmost hop when TRUST_PROXY=true,
+ *      Plan 3.6) cannot be spoofed by client-supplied `X-Forwarded-For` headers.
+ *   3. Strips RFC 9110 §7.6.1 hop-by-hop headers and upstream `set-cookie-domain`,
+ *      and streams SSE responses (`/api/v1/audit/master/stream`) without buffering.
  */
 
-/** Hop-by-hop headers must not be forwarded (RFC 9110 §7.6.1). */
 const HOP_BY_HOP = new Set([
   'connection',
   'keep-alive',
@@ -21,11 +21,17 @@ const HOP_BY_HOP = new Set([
   'trailer',
   'transfer-encoding',
   'upgrade',
-  // The Cloudflare pseudo-header would otherwise be echoed upstream twice.
   'cf-connecting-ip',
   'cf-ipcountry',
   'cf-ray',
   'cf-visitor',
+]);
+
+const PLACEHOLDER_HOSTS = new Set([
+  'api.catalystlab.tech',
+  'api.example.com',
+  'example.com',
+  'your-api-host.example.com',
 ]);
 
 function jsonResponse(status, body) {
@@ -35,20 +41,48 @@ function jsonResponse(status, body) {
   });
 }
 
-function buildUpstreamHeaders(request) {
+export function validateConfiguredOrigin(rawOrigin) {
+  const trimmed = String(rawOrigin || '').trim().replace(/\/+$/, '');
+  if (!trimmed) {
+    return { valid: false, reason: 'API_ORIGIN is empty.' };
+  }
+  let parsed;
+  try {
+    parsed = new URL(trimmed);
+  } catch {
+    return { valid: false, reason: 'API_ORIGIN is not a valid URL.' };
+  }
+  const host = parsed.hostname.toLowerCase();
+  const isLocal = host === 'localhost' || host === '127.0.0.1';
+  if (parsed.protocol !== 'https:' && !(parsed.protocol === 'http:' && isLocal)) {
+    return { valid: false, reason: 'API_ORIGIN must use https://.' };
+  }
+  if (PLACEHOLDER_HOSTS.has(host)) {
+    return { valid: false, reason: `API_ORIGIN points to unprovisioned placeholder host "${host}".` };
+  }
+  return { valid: true, origin: `${parsed.protocol}//${parsed.host}` };
+}
+
+export function buildUpstreamHeaders(request) {
   const headers = new Headers();
   for (const [key, value] of request.headers.entries()) {
     if (HOP_BY_HOP.has(key.toLowerCase())) continue;
     headers.set(key, value);
   }
 
-  const clientIp = request.headers.get('cf-connecting-ip') || '';
-  // The API only trusts X-Forwarded-For when TRUST_PROXY=true, and it takes the
-  // leftmost entry, so the real client IP goes first.
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  headers.set('x-forwarded-for', clientIp ? (forwardedFor ? `${clientIp}, ${forwardedFor}` : clientIp) : forwardedFor || '');
-  headers.set('x-forwarded-proto', new URL(request.url).protocol.replace(':', ''));
-  headers.set('x-forwarded-host', new URL(request.url).host);
+  const clientIp = (request.headers.get('cf-connecting-ip') || '').trim();
+  const forwardedFor = (request.headers.get('x-forwarded-for') || '').trim();
+  // Plan 3.6: append the verified Cloudflare edge client IP at the RIGHT end of
+  // X-Forwarded-For so a spoofed client header at position 0 is ignored upstream.
+  if (clientIp) {
+    headers.set('x-forwarded-for', forwardedFor ? `${forwardedFor}, ${clientIp}` : clientIp);
+  } else {
+    headers.delete('x-forwarded-for');
+  }
+
+  const parsedUrl = new URL(request.url);
+  headers.set('x-forwarded-proto', parsedUrl.protocol.replace(':', ''));
+  headers.set('x-forwarded-host', parsedUrl.host);
   return headers;
 }
 
@@ -57,20 +91,21 @@ export default {
     const url = new URL(request.url);
 
     if (!url.pathname.startsWith('/api/') && url.pathname !== '/api') {
-      // The Worker is attached to the /api/* route, so this should not happen.
       return jsonResponse(404, { success: false, error: 'Not an API route.' });
     }
 
-    const origin = (env.API_ORIGIN || '').replace(/\/+$/, '');
-    if (!origin) {
-      return jsonResponse(503, { success: false, error: 'API_ORIGIN is not configured.' });
+    const validated = validateConfiguredOrigin(env?.API_ORIGIN);
+    if (!validated.valid) {
+      return jsonResponse(503, {
+        success: false,
+        code: 'API_ORIGIN_NOT_CONFIGURED',
+        error: 'Upstream API origin is not configured on this edge deployment.',
+      });
     }
 
-    const upstream = `${origin}${url.pathname}${url.search}`;
+    const upstream = `${validated.origin}${url.pathname}${url.search}`;
 
     try {
-      // No timeout is set on purpose: /api/v1/audit/master/stream is a
-      // server-sent event stream that stays open for the whole audit.
       const response = await fetch(upstream, {
         method: request.method,
         headers: buildUpstreamHeaders(request),
@@ -79,14 +114,16 @@ export default {
       });
 
       const headers = new Headers(response.headers);
-      // The API host name must not leak into what the browser sees.
       headers.delete('set-cookie-domain');
-      return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
-    } catch (error) {
-      // 502 rather than 504: the Worker could not complete the request, and the
-      // distinction does not matter to the client. Never leak the upstream name.
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
+    } catch {
       return jsonResponse(502, {
         success: false,
+        code: 'API_UPSTREAM_UNREACHABLE',
         error: 'The API host did not answer. Try again shortly.',
       });
     }

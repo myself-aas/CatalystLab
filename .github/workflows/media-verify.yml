@@ -6,21 +6,29 @@ on:
   pull_request:
     branches: [main, master]
 
+concurrency:
+  group: media-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   verify-media:
     name: Verify Remote Media Endpoints (R4 Contract)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version-file: .nvmrc
+          cache: npm
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Verify Live Unsplash & Pexels Endpoints
         run: npm run media:check

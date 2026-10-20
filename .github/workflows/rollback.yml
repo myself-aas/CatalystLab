@@ -1,0 +1,82 @@
+name: Rollback
+
+# Manual rollback workflow aligned with docs/ops/runbook.md §3 and D3 split
+# hosting (Cloudflare Pages frontend + Node API host). Never hardcodes secrets;
+# credentials come exclusively from GitHub Secrets when Pages deployment is enabled.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git tag or commit SHA to roll back to'
+        required: true
+        type: string
+      deploy_pages:
+        description: 'Deploy verified dist/ bundle to Cloudflare Pages (requires CLOUDFLARE_API_TOKEN & CLOUDFLARE_ACCOUNT_ID secrets)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    name: Build & Verify Rollback Artifact (Node 24)
+    runs-on: ubuntu-24.04
+    env:
+      APP_ORIGIN: https://www.catalystlab.tech
+      VITE_APP_ORIGIN: https://www.catalystlab.tech
+      FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
+    steps:
+      - name: Checkout target ref
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run quality gates and build rollback bundle
+        run: npm run ci
+
+      - name: Smoke-test rollback production server
+        run: |
+          NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/rollback-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          ok=0
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1; then ok=1; break; fi
+            sleep 1
+          done
+          if [ "$ok" != "1" ]; then
+            echo "::error::Rollback build failed /api/health smoke check"
+            tail -40 /tmp/rollback-server.log
+            exit 1
+          fi
+
+      - name: Upload verified rollback artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: rollback-dist-${{ inputs.ref }}
+          path: dist
+          retention-days: 14
+
+      - name: Roll back Cloudflare Pages deployment
+        if: inputs.deploy_pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets must be configured to deploy to Cloudflare Pages."
+            exit 1
+          fi
+          npx --yes wrangler pages deploy dist --project-name=catalystlab

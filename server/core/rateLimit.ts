@@ -41,6 +41,9 @@ export interface RateLimitRecord {
   tier: RateLimitTier;
 }
 
+export const MAX_DAILY_RATE_LIMIT_ENTRIES = 10_000;
+export const MAX_SESSION_COST_ENTRIES = 256;
+
 // In-memory rate limit ledger: Map<dateKey_identifier, RateLimitRecord>
 export const dailyRateLimitStore = new Map<string, RateLimitRecord>();
 
@@ -59,14 +62,24 @@ export function getUtcMidnight(): { dateKey: string; resetAt: Date; resetInSecon
 }
 
 export function clientIp(req: Request): string {
-  // Only honor X-Forwarded-For when the process is behind a trusted proxy.
+  // Plan 3.6: keep TRUST_PROXY off by default. When enabled behind a single
+  // trusted edge proxy (Cloudflare Worker / reverse proxy), read the RIGHTMOST
+  // X-Forwarded-For entry appended by the trusted proxy so a client-supplied
+  // spoofed leftmost X-Forwarded-For header cannot rotate rate-limit buckets.
   if (process.env.TRUST_PROXY === 'true') {
     const xff = req.headers['x-forwarded-for'];
-    if (typeof xff === 'string' && xff.trim()) {
-      return xff.split(',')[0].trim();
+    const raw = Array.isArray(xff) ? xff[xff.length - 1] : xff;
+    if (typeof raw === 'string' && raw.trim()) {
+      const parts = raw
+        .split(',')
+        .map((entry) => entry.trim())
+        .filter(Boolean);
+      if (parts.length > 0) {
+        return parts[parts.length - 1];
+      }
     }
   }
-  return req.socket.remoteAddress || '127.0.0.1';
+  return req.socket?.remoteAddress || '127.0.0.1';
 }
 
 let upstashLimiter: Ratelimit | null | undefined;
@@ -202,6 +215,22 @@ export function resolveClientIdentity(req: Request): {
 
 function getOrCreateRateLimitRecord(key: string, tier: RateLimitTier): RateLimitRecord {
   if (!dailyRateLimitStore.has(key)) {
+    // Plan 4.2: strictly bound map growth under high unique-IP churn.
+    if (dailyRateLimitStore.size >= MAX_DAILY_RATE_LIMIT_ENTRIES) {
+      const { dateKey } = getUtcMidnight();
+      for (const existingKey of dailyRateLimitStore.keys()) {
+        if (!existingKey.startsWith(dateKey)) {
+          dailyRateLimitStore.delete(existingKey);
+        }
+        if (dailyRateLimitStore.size < MAX_DAILY_RATE_LIMIT_ENTRIES) break;
+      }
+      if (dailyRateLimitStore.size >= MAX_DAILY_RATE_LIMIT_ENTRIES) {
+        const oldestKey = dailyRateLimitStore.keys().next().value;
+        if (oldestKey !== undefined) {
+          dailyRateLimitStore.delete(oldestKey);
+        }
+      }
+    }
     dailyRateLimitStore.set(key, {
       unitsUsed: 0,
       sessionCostMap: new Map<string, number>(),
@@ -355,6 +384,12 @@ export function evaluateAndChargeRateLimit(
   record.unitsUsed += costToCharge;
   record.lastUpdated = now;
   if (sessionId) {
+    if (!record.sessionCostMap.has(sessionId) && record.sessionCostMap.size >= MAX_SESSION_COST_ENTRIES) {
+      const oldestSession = record.sessionCostMap.keys().next().value;
+      if (oldestSession !== undefined) {
+        record.sessionCostMap.delete(oldestSession);
+      }
+    }
     const prev = record.sessionCostMap.get(sessionId) || 0;
     record.sessionCostMap.set(sessionId, prev + costToCharge);
   }
@@ -490,7 +525,7 @@ export function createEngineRateLimitMiddleware(options: { cost?: number; isMast
   };
 }
 
-// Clean old rate limit map entries every hour
+// Clean old rate limit map entries every hour without keeping CLI exits alive
 setInterval(() => {
   const { dateKey } = getUtcMidnight();
   for (const key of dailyRateLimitStore.keys()) {
@@ -498,4 +533,4 @@ setInterval(() => {
       dailyRateLimitStore.delete(key);
     }
   }
-}, 1000 * 60 * 60);
+}, 1000 * 60 * 60).unref();

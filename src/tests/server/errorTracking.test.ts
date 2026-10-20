@@ -10,7 +10,13 @@ vi.mock('@sentry/node', () => ({
   captureException: vi.fn(),
 }));
 
-import { captureEvent, captureException as sentryCaptureException, init as sentryInit } from '@sentry/node';
+import {
+  NodeClient,
+  captureEvent,
+  captureException as sentryCaptureException,
+  defaultStackParser,
+  init as sentryInit,
+} from '@sentry/node';
 import {
   captureClientError,
   captureException,
@@ -99,17 +105,45 @@ describe('error tracking lifecycle (D10)', () => {
     expect(sentryCaptureException).not.toHaveBeenCalled();
   });
 
-  it('initialises with scrubbing hooks and no default PII when a DSN is set', () => {
+  it('initialises with scrubbing hooks and no automatic PII collection when a DSN is set', async () => {
     expect(
       initErrorTracking({ SENTRY_DSN: FAKE_DSN, SENTRY_ENVIRONMENT: 'staging', SENTRY_TRACES_SAMPLE_RATE: '0.25' })
     ).toBe(true);
     expect(isErrorTrackingEnabled()).toBe(true);
-    const options = vi.mocked(sentryInit).mock.calls[0][0] as Record<string, unknown>;
-    expect(options.dsn).toBe(FAKE_DSN);
-    expect(options.environment).toBe('staging');
-    expect(options.tracesSampleRate).toBe(0.25);
-    expect(options.sendDefaultPii).toBe(false);
-    expect(typeof options.beforeSend).toBe('function');
+    const options = vi.mocked(sentryInit).mock.calls[0][0];
+    expect(options).toBeDefined();
+    expect(options?.dsn).toBe(FAKE_DSN);
+    expect(options?.environment).toBe('staging');
+    expect(options?.tracesSampleRate).toBe(0.25);
+    expect(options?.dataCollection).toEqual({
+      userInfo: false,
+      cookies: false,
+      httpHeaders: false,
+      httpBodies: [],
+      urlQueryParams: false,
+      databaseQueryData: false,
+      stackFrameVariables: false,
+    });
+    const actualSentry = await vi.importActual<{
+      NodeClient: typeof NodeClient;
+      defaultStackParser: typeof defaultStackParser;
+    }>('@sentry/node');
+    const realClient = new actualSentry.NodeClient({
+      ...options,
+      stackParser: actualSentry.defaultStackParser,
+      integrations: [],
+      transport: vi.fn() as never,
+    });
+    expect(realClient.getDataCollectionOptions()).toMatchObject({
+      userInfo: false,
+      cookies: false,
+      httpHeaders: { request: false, response: false },
+      httpBodies: [],
+      urlQueryParams: false,
+      databaseQueryData: false,
+      stackFrameVariables: false,
+    });
+    expect(typeof options?.beforeSend).toBe('function');
   });
 
   it('clamps a bad sample rate and does not re-initialise twice', () => {

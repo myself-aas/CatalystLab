@@ -72,7 +72,6 @@ export default defineConfig({
             }
             if (
               id.includes('/zustand/') ||
-              id.includes('/dompurify/') ||
               id.includes('/clsx/') ||
               id.includes('/tailwind-merge/') ||
               id.includes('/es-toolkit/') ||

@@ -3,6 +3,9 @@ node_modules/
 
 # Testing
 coverage/
+.lighthouseci/
+playwright-report/
+test-results/
 
 # Production builds
 build/
@@ -12,10 +15,11 @@ dist/
 .output/
 
 # Secrets — never commit real env files. The templates (.env.example,
-# .env.production.example) are tracked because they contain no credentials.
+# .env.staging.example, .env.production.example) are tracked because they contain no credentials.
 .env
 .env.*
 !.env.example
+!.env.staging.example
 !.env.production.example
 
 # Logs

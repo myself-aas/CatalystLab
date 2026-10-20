@@ -1,6 +1,8 @@
+import crypto from 'crypto';
 import express, { Request, Response } from 'express';
 import { verifyHmacSha256 } from '../../src/lib/webhookSecurity';
 import { logger } from '../core/logger';
+import { isDistributedQuotaEnabled } from '../core/dailyQuota';
 import { priceForPlan } from '../core/pricing';
 import {
   activeGateway,
@@ -10,19 +12,50 @@ import {
   normalize2CheckoutEvent,
   normalizeDodoEvent,
   type ApplyOutcome,
-  type GatewayEvent,
-  type GatewayId
+  type GatewayId,
+  type GatewayEvent
 } from '../core/subscriptions';
 
 // Payment gateways. Owner decisions (2026-10-19):
-//   D1 — a signed gateway webhook writes the subscription. The client never
-//        activates a paid plan and never reports its own entitlement.
-//   D2 — 2Checkout is the single live gateway; Dodo Payments stays in the code
-//        base but is disabled unless PAYMENT_GATEWAY=dodopay is set.
+//   D1  — a signed gateway webhook writes the subscription. The client never
+//         activates a paid plan and never reports its own entitlement.
+//   D2  — 2Checkout is the single live gateway; Dodo Payments stays in the code
+//         base but is disabled unless PAYMENT_GATEWAY=dodopay is set.
+//   Q32 — Paid checkout stays off until shared distributed state (4.1),
+//         scheduled backups + verified restore (4.6), and webhook retry tests
+//         are enabled on the live host via `PAYMENTS_ENABLED=true`.
 //   2.1 — prices come from `src/data/pricingData.ts` (server/core/pricing.ts),
-//        the same source the pricing page renders.
-// Everything fails closed: no credentials ⇒ no checkout, no durable write ⇒
-// no entitlement, unknown plan ⇒ rejected.
+//         the same source the pricing page renders.
+
+export function checkCheckoutReadiness():
+  | { ready: true }
+  | { ready: false; code: 'PAYMENTS_DISABLED' | 'PAYMENTS_SHARED_STATE_REQUIRED'; error: string } {
+  const flag = (process.env.PAYMENTS_ENABLED || '').trim().toLowerCase();
+  if (flag === 'false' || flag === '0' || flag === 'off') {
+    return {
+      ready: false,
+      code: 'PAYMENTS_DISABLED',
+      error: 'Paid checkout is explicitly disabled (PAYMENTS_ENABLED=false, owner decision Q32).'
+    };
+  }
+  if (process.env.NODE_ENV === 'production') {
+    if (flag !== 'true') {
+      return {
+        ready: false,
+        code: 'PAYMENTS_DISABLED',
+        error: 'Paid checkout is disabled in production until PAYMENTS_ENABLED=true is set after Q32 prerequisites.'
+      };
+    }
+    if (!isDistributedQuotaEnabled()) {
+      return {
+        ready: false,
+        code: 'PAYMENTS_SHARED_STATE_REQUIRED',
+        error: 'Paid checkout requires shared distributed quota state (Upstash Redis) in production (plan 4.1 / Q32).'
+      };
+    }
+  }
+  return { ready: true };
+}
 
 /** Maps an application outcome onto the HTTP status the gateway should see. */
 function outcomeStatus(outcome: ApplyOutcome): number {
@@ -31,16 +64,12 @@ function outcomeStatus(outcome: ApplyOutcome): number {
     case 'DUPLICATE_EVENT':
     case 'STALE_EVENT':
     case 'IGNORED_EVENT':
-      // Acknowledged: retrying would not change the result.
       return 200;
     case 'MISSING_OWNER':
     case 'MISSING_PLAN':
-      // Signature valid but the payload cannot be attributed; a retry of the
-      // same bytes will not help, so report it as unprocessable.
       return 422;
     case 'STORE_UNAVAILABLE':
     default:
-      // Nothing was written: make the gateway retry.
       return 503;
   }
 }
@@ -54,7 +83,6 @@ function outcomeBody(outcome: ApplyOutcome): Record<string, unknown> {
   };
   if (outcome.detail) base.detail = outcome.detail;
   if (outcome.subscription) {
-    // Only the fields a gateway or an operator needs; never the full document.
     base.subscription = {
       ownerId: outcome.subscription.ownerId,
       planId: outcome.subscription.planId,
@@ -83,7 +111,6 @@ async function handleGatewayWebhook(
       return;
     }
 
-    // Verify the HMAC over the raw body before anything else is touched.
     const secret =
       (gateway === '2checkout'
         ? process.env.PAYMENTS_WEBHOOK_SECRET_2CHECKOUT || process.env.V2CHECKOUT_SECRET_KEY
@@ -114,83 +141,119 @@ async function handleGatewayWebhook(
 }
 
 export function registerPaymentRoutes(app: express.Express): void {
+  app.post('/api/payments/create-checkout', express.json(), async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { planId, billingCycle, gateway, userId, userEmail } = req.body || {};
+      if (!planId) {
+        res.status(400).json({ success: false, error: 'Missing planId' });
+        return;
+      }
 
-// --- CHECKOUT: 2Checkout (Verifone) is the live gateway (D2) ---
-app.post('/api/payments/create-checkout', express.json(), async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { planId, billingCycle, gateway, userId, userEmail } = req.body || {};
-    if (!planId) {
-      res.status(400).json({ success: false, error: 'Missing planId' });
-      return;
-    }
-
-    // 2.3: an unknown or tampered planId is rejected instead of silently
-    // falling back to `pro`.
-    const price = priceForPlan(planId, billingCycle);
-    if (!price) {
-      res.status(400).json({
-        success: false,
-        code: 'UNKNOWN_PLAN',
-        error: `"${String(planId)}" is not a purchasable plan. See GET /api/plans for the catalog.`
-      });
-      return;
-    }
-
-    const live = activeGateway();
-    // D2: the client cannot choose a gateway that is not live.
-    const requested = typeof gateway === 'string' ? gateway.toLowerCase() : undefined;
-    if (requested && requested !== live) {
-      res.status(400).json({
-        success: false,
-        code: 'GATEWAY_NOT_AVAILABLE',
-        error: `The "${requested}" gateway is disabled on this deployment. ${live} is the single live gateway.`
-      });
-      return;
-    }
-
-    const orderId = `ord_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    // Merchant passthrough: the webhook attributes the payment from these
-    // signed bytes, never from client input at webhook time (D1).
-    const custom = buildCheckoutCustomField(
-      typeof userId === 'string' ? userId : undefined,
-      price.planId,
-      price.billingCycle,
-      orderId
-    );
-
-    if (live === '2checkout') {
-      // SECURITY (Phase 0): no demo credential fallbacks. A paywall without
-      // configured credentials must refuse to start a checkout, not fake one.
-      const merchantCode = process.env.V2CHECKOUT_MERCHANT_CODE;
-      if (!merchantCode) {
-        res.status(503).json({
+      const price = priceForPlan(planId, billingCycle);
+      if (!price) {
+        res.status(400).json({
           success: false,
-          code: 'PAYMENTS_NOT_CONFIGURED',
-          error: 'Payments are not configured (missing V2CHECKOUT_MERCHANT_CODE).'
+          code: 'UNKNOWN_PLAN',
+          error: `"${String(planId)}" is not a purchasable plan. See GET /api/plans for the catalog.`
+        });
+      }
+
+      if (!price) return;
+
+      const live = activeGateway();
+      const requested = typeof gateway === 'string' ? gateway.toLowerCase() : undefined;
+      if (requested && requested !== live) {
+        res.status(400).json({
+          success: false,
+          code: 'GATEWAY_NOT_AVAILABLE',
+          error: `The "${requested}" gateway is disabled on this deployment. ${live} is the single live gateway.`
         });
         return;
       }
-      const isSandbox = process.env.V2CHECKOUT_SANDBOX_MODE !== 'false';
-      const host = isSandbox ? 'https://sandbox.2checkout.com' : 'https://secure.2checkout.com';
-      const params = new URLSearchParams({
-        merchant: merchantCode,
-        tpi: '1',
-        prod: price.planId,
-        price: String(price.amount),
-        currency: price.currency,
-        custom,
-        merchant_order_id: orderId,
-        lang: 'en'
-      });
-      if (typeof userEmail === 'string' && userEmail.includes('@')) {
-        params.set('email', userEmail);
+
+      const readiness = checkCheckoutReadiness();
+      if (!readiness.ready) {
+        res.status(503).json({
+          success: false,
+          code: readiness.code,
+          error: readiness.error
+        });
+        return;
       }
+
+      const orderId = `ord_${Date.now()}_${crypto.randomBytes(3).toString('hex')}`;
+      const custom = buildCheckoutCustomField(
+        typeof userId === 'string' ? userId : undefined,
+        price.planId,
+        price.billingCycle,
+        orderId
+      );
+
+      if (live === '2checkout') {
+        const merchantCode = process.env.V2CHECKOUT_MERCHANT_CODE;
+        if (!merchantCode) {
+          res.status(503).json({
+            success: false,
+            code: 'PAYMENTS_NOT_CONFIGURED',
+            error: 'Payments are not configured (missing V2CHECKOUT_MERCHANT_CODE).'
+          });
+          return;
+        }
+        const isSandbox = process.env.V2CHECKOUT_SANDBOX_MODE !== 'false';
+        const host = isSandbox ? 'https://sandbox.2checkout.com' : 'https://secure.2checkout.com';
+        const params = new URLSearchParams({
+          merchant: merchantCode,
+          tpi: '1',
+          prod: price.planId,
+          price: String(price.amount),
+          currency: price.currency,
+          custom,
+          merchant_order_id: orderId,
+          lang: 'en'
+        });
+        if (typeof userEmail === 'string' && userEmail.includes('@')) {
+          params.set('email', userEmail);
+        }
+
+        res.json({
+          success: true,
+          gateway: '2checkout',
+          mode: isSandbox ? 'sandbox' : 'live',
+          checkoutUrl: `${host}/checkout/purchase?${params.toString()}`,
+          orderId,
+          amount: price.amount,
+          currency: price.currency,
+          planId: price.planId,
+          planName: price.name,
+          billingCycle: price.billingCycle
+        });
+        return;
+      }
+
+      const apiKey = process.env.DODOPAY_API_KEY;
+      if (!apiKey) {
+        res.status(503).json({
+          success: false,
+          code: 'PAYMENTS_NOT_CONFIGURED',
+          error: 'Payments are not configured (missing DODOPAY_API_KEY).'
+        });
+        return;
+      }
+      const isSandbox = process.env.DODOPAY_SANDBOX_MODE !== 'false';
+      const host = isSandbox ? 'https://test.dodopayments.com' : 'https://checkout.dodopayments.com';
+      const params = new URLSearchParams({
+        amount: String(price.amount),
+        currency: price.currency,
+        plan: price.planId,
+        custom,
+        merchant_order_id: orderId
+      });
 
       res.json({
         success: true,
-        gateway: '2checkout',
+        gateway: 'dodopay',
         mode: isSandbox ? 'sandbox' : 'live',
-        checkoutUrl: `${host}/checkout/purchase?${params.toString()}`,
+        checkoutUrl: `${host}/pay/${orderId}?${params.toString()}`,
         orderId,
         amount: price.amount,
         currency: price.currency,
@@ -198,67 +261,26 @@ app.post('/api/payments/create-checkout', express.json(), async (req: Request, r
         planName: price.name,
         billingCycle: price.billingCycle
       });
-      return;
+    } catch (err: unknown) {
+      logger.error({ err }, '[Payments] Checkout initialization failed');
+      res.status(500).json({ success: false, error: 'Payment initialization failed' });
     }
-
-    // Dodo Payments: present in code, disabled unless it is the live gateway.
-    const apiKey = process.env.DODOPAY_API_KEY;
-    if (!apiKey) {
-      res.status(503).json({
-        success: false,
-        code: 'PAYMENTS_NOT_CONFIGURED',
-        error: 'Payments are not configured (missing DODOPAY_API_KEY).'
-      });
-      return;
-    }
-    const isSandbox = process.env.DODOPAY_SANDBOX_MODE !== 'false';
-    const host = isSandbox ? 'https://test.dodopayments.com' : 'https://checkout.dodopayments.com';
-    const params = new URLSearchParams({
-      amount: String(price.amount),
-      currency: price.currency,
-      plan: price.planId,
-      custom,
-      merchant_order_id: orderId
-    });
-
-    res.json({
-      success: true,
-      gateway: 'dodopay',
-      mode: isSandbox ? 'sandbox' : 'live',
-      checkoutUrl: `${host}/pay/${orderId}?${params.toString()}`,
-      orderId,
-      amount: price.amount,
-      currency: price.currency,
-      planId: price.planId,
-      planName: price.name,
-      billingCycle: price.billingCycle
-    });
-  } catch (err: any) {
-    logger.error({ err }, '[Payments] Checkout initialization failed');
-    res.status(500).json({ success: false, error: err.message || 'Payment initialization failed' });
-  }
-});
-
-// --- WEBHOOKS: the only writer of a paid subscription (D1) ---
-app.post('/api/payments/webhook/2checkout', express.json(), async (req: Request, res: Response): Promise<void> => {
-  await handleGatewayWebhook('2checkout', req, res, (payload, receivedAt) => normalize2CheckoutEvent(payload, receivedAt));
-});
-
-app.post('/api/payments/webhook/dodopay', express.json(), async (req: Request, res: Response): Promise<void> => {
-  await handleGatewayWebhook('dodopay', req, res, (payload, receivedAt) => normalizeDodoEvent(payload, receivedAt));
-});
-
-app.post('/api/payments/verify', express.json(), async (req: Request, res: Response): Promise<void> => {
-  // SECURITY (Phase 0, fail closed): this endpoint previously returned
-  // success for ANY payload, letting clients self-activate paid plans.
-  // Entitlements are provisioned exclusively from signed gateway webhooks
-  // (D1) and read back from the subscription of record.
-  void req;
-  res.status(503).json({
-    success: false,
-    code: 'PAYMENTS_VERIFICATION_UNAVAILABLE',
-    error: 'Payment verification is not configured on this deployment. Entitlements are provisioned exclusively from signed gateway webhooks and read from GET /api/v1/users/me.'
   });
-});
 
+  app.post('/api/payments/webhook/2checkout', express.json(), async (req: Request, res: Response): Promise<void> => {
+    await handleGatewayWebhook('2checkout', req, res, (payload, receivedAt) => normalize2CheckoutEvent(payload, receivedAt));
+  });
+
+  app.post('/api/payments/webhook/dodopay', express.json(), async (req: Request, res: Response): Promise<void> => {
+    await handleGatewayWebhook('dodopay', req, res, (payload, receivedAt) => normalizeDodoEvent(payload, receivedAt));
+  });
+
+  app.post('/api/payments/verify', express.json(), async (req: Request, res: Response): Promise<void> => {
+    void req;
+    res.status(503).json({
+      success: false,
+      code: 'PAYMENTS_VERIFICATION_UNAVAILABLE',
+      error: 'Payment verification is not configured on this deployment. Entitlements are provisioned exclusively from signed gateway webhooks and read from GET /api/v1/users/me.'
+    });
+  });
 }
