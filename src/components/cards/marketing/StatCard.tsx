@@ -58,7 +58,7 @@ export const StatCard: React.FC<StatCardProps> = ({
               trend === 'up'
                 ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20'
                 : trend === 'down'
-                ? 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20'
+                ? 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20'
                 : 'bg-accent text-muted-foreground border border-border'
             )}
           >

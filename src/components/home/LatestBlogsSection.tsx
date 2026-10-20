@@ -214,8 +214,8 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-border">
           <div className="space-y-3 max-w-2xl">
             {badgeText && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-[#F0FAFF] tracking-widest uppercase shadow-sm">
-                <Sparkles className="h-4 w-4 text-[#F0FAFF]" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1.5 text-xs font-sans font-bold text-foreground tracking-widest uppercase shadow-sm">
+                <Sparkles className="h-4 w-4 text-foreground" />
                 <span>{badgeText}</span>
               </div>
             )}
@@ -267,7 +267,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`shrink-0 flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-sans transition-all shadow-sm cursor-pointer border ${
+                  className={`shrink-0 flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-sans transition shadow-sm cursor-pointer border ${
                     isActive 
                       ? 'bg-primary text-primary-foreground border-border font-bold shadow-md' 
                       : 'bg-background text-muted-foreground border-border hover:text-foreground hover:bg-muted font-medium'
@@ -275,7 +275,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                 >
                   <Icon className="h-4 w-4" />
                   <span>{cat.label}</span>
-                  <span className={`ml-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold ${isActive ? 'bg-background/20 text-primary-foreground' : 'bg-accent text-muted-foreground'}`}>
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-md text-[11px] font-bold ${isActive ? 'bg-background/20 text-primary-foreground' : 'bg-accent text-muted-foreground'}`}>
                     {count}
                   </span>
                 </button>
@@ -414,7 +414,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               </button>
 
               <div className="flex items-center gap-2 mb-4">
-                <span className="rounded bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20 px-3 py-1 text-xs font-bold shadow-sm">
+                <span className="rounded bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20 px-3 py-1 text-xs font-bold shadow-sm">
                   {previewPost.category}
                 </span>
                 <span className="text-xs font-medium text-muted-foreground">
@@ -432,7 +432,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   alt={previewPost.title} 
                   className="w-full h-full object-cover"
                   
-                />
+                loading="lazy" decoding="async" />
               </div>
 
               <p className="text-sm text-muted-foreground font-medium leading-relaxed mb-6">
@@ -454,7 +454,7 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
                   <Link
                     to={`/blog/${previewPost.slug || previewPost.id}`}
                     onClick={() => setPreviewPost(null)}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover px-5 py-2.5 text-xs font-bold text-primary-foreground transition-all shadow-md"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover px-5 py-2.5 text-xs font-bold text-primary-foreground transition shadow-md"
                   >
                     <span>Read Full Article</span>
                     <ArrowRight className="h-4 w-4" />

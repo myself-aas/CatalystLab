@@ -22,7 +22,7 @@ export const LinearAmbientBackground: React.FC = () => {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,#2C3032_0%,#2C2F32_55%,#1F2223_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-10%,#F3F4F6_0%,#F3F4F6_55%,#111827_100%)]" />
 
       <div className="absolute top-[-15%] left-1/2 -translate-x-1/2">
         <div

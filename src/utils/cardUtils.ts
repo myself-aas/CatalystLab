@@ -78,7 +78,7 @@ export const getDifficultyTheme = (difficulty: 'Easy' | 'Moderate' | 'Hard' | 'E
       return {
         label: 'Expert',
         colorClass: 'text-rose-400',
-        bgClass: 'bg-[#F7FDFF]/10 border-rose-500/30',
+        bgClass: 'bg-[#FFFFFF]/10 border-rose-500/30',
         dotColor: 'bg-rose-400',
         badgeBorder: 'border-rose-500/40',
       };

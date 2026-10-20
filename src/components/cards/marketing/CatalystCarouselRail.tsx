@@ -97,7 +97,7 @@ export const CatalystCarouselRail: React.FC<CatalystCarouselRailProps> = ({
             disabled={!canScrollLeft}
             aria-label="Previous engine"
             className={clsx(
-              'w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
+              'w-8 h-8 rounded-full flex items-center justify-center border transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
               canScrollLeft
                 ? 'bg-primary text-primary-foreground border-border hover:bg-primary-hover hover:border-border cursor-pointer shadow-sm'
                 : 'bg-foreground/60 text-muted-foreground border-border/60 cursor-not-allowed opacity-40'
@@ -111,7 +111,7 @@ export const CatalystCarouselRail: React.FC<CatalystCarouselRailProps> = ({
             disabled={!canScrollRight}
             aria-label="Next engine"
             className={clsx(
-              'w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
+              'w-8 h-8 rounded-full flex items-center justify-center border transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
               canScrollRight
                 ? 'bg-primary text-primary-foreground border-border hover:bg-primary-hover hover:border-border cursor-pointer shadow-sm'
                 : 'bg-foreground/60 text-muted-foreground border-border/60 cursor-not-allowed opacity-40'

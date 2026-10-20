@@ -150,7 +150,7 @@ export const CardMedia: React.FC<CardMediaProps> = ({
           transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           className={twMerge(
             clsx(
-              'w-full h-full object-cover transition-all duration-700 ease-out',
+              'w-full h-full object-cover transition duration-700 ease-out',
               isLoaded ? 'opacity-100' : 'opacity-0',
               enableDuotone && 'grayscale-[65%] contrast-[1.1] brightness-[0.88] group-hover:grayscale-0 group-hover:brightness-95'
             )

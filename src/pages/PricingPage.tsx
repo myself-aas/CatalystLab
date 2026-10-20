@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import pricingImage from '../assets/images/page-pricing.jpg';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Check, CreditCard, Sparkles, X } from 'lucide-react';
@@ -47,11 +48,11 @@ export default function PricingPage() {
  />
 
  <section className="relative overflow-hidden pb-8 w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 ds-page-shell text-center">
- <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-[#F0FAFF]">
- <CreditCard className="size-3.5 text-[#F0FAFF] shrink-0"/>
+ <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-foreground">
+ <CreditCard className="size-3.5 text-foreground shrink-0"/>
  <span>Compute units, not seats-first</span>
  </div>
  <h1 className="framer-hero-title text-foreground">
@@ -60,12 +61,15 @@ export default function PricingPage() {
  <p className="mx-auto mt-4 max-w-3xl framer-body-text">
  Start free. Unlock 42 PoPs, CI gates, and white-label dossiers when the lab outgrows a laptop.
  </p>
+ <figure className="mx-auto mt-10 max-w-4xl">
+   <img src={pricingImage} alt="Team comparing CatalystLab pricing plans at a bright office table" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+ </figure>
 
  <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-foreground/10 bg-[var(--bg-surface)] p-1 font-mono text-xs">
  <button
  type="button"
  onClick={() => setAnnual(false)}
- className={`rounded-full px-3 py-1.5 transition-all duration-200 ${
+ className={`rounded-full px-3 py-1.5 transition duration-200 ${
  !annual ? 'bg-foreground/15 text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
  }`}
  >
@@ -74,12 +78,12 @@ export default function PricingPage() {
  <button
  type="button"
  onClick={() => setAnnual(true)}
- className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition-all duration-200 ${
+ className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition duration-200 ${
  annual ? 'bg-foreground/15 text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  Annual
- <span className="rounded-full bg-[#F0FAFF]/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 text-[10px]">
+ <span className="rounded-full bg-[#F0FAFF]/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 text-[11px]">
  −20%
  </span>
  </button>
@@ -111,7 +115,7 @@ export default function PricingPage() {
  {plan.badge}
  </span>
  {popular && (
- <span className="inline-flex items-center gap-1 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-2.5 py-0.5 framer-micro-tag text-[#F0FAFF]">
+ <span className="inline-flex items-center gap-1 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-2.5 py-0.5 framer-micro-tag text-foreground">
  <Sparkles className="size-3 shrink-0"/>
  Recommended
  </span>
@@ -165,7 +169,7 @@ export default function PricingPage() {
  {community && (
  <LinearCard className="flex flex-col justify-between gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
  <div>
- <p className="framer-micro-tag text-[#F0FAFF]">{community.badge}</p>
+ <p className="framer-micro-tag text-foreground">{community.badge}</p>
  <h3 className="mt-1 framer-card-title text-foreground">{community.name}</h3>
  <p className="mt-1 framer-body-text text-sm">{community.tagline}</p>
  </div>
@@ -183,7 +187,7 @@ export default function PricingPage() {
  {enterprise && (
  <LinearCard className="flex flex-col justify-between gap-6 border-primary/20 p-6 sm:flex-row sm:items-center sm:p-8">
  <div>
- <p className="framer-micro-tag text-[#F0FAFF]">{enterprise.badge}</p>
+ <p className="framer-micro-tag text-foreground">{enterprise.badge}</p>
  <h3 className="mt-1 framer-card-title text-foreground">{enterprise.name}</h3>
  <p className="mt-1 framer-body-text text-sm">{enterprise.tagline}</p>
  </div>

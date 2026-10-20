@@ -187,7 +187,7 @@ export const SignUpPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#2C3032 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(#F3F4F6 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -199,16 +199,16 @@ export const SignUpPage: React.FC = () => {
  <Link to="/" className="flex items-center gap-2 group focus:outline-none">
  <BrandLogo size="sm" />
  <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
- Catalyst<span className="text-[#F0FAFF]">Lab</span>
+ Catalyst<span className="text-foreground">Lab</span>
  </span>
  </Link>
- <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+ <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
  Security Gateway
  </span>
  </div>
 
  {/* Live Ingress Badge */}
- <div className="mb-4 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[10px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+ <div className="mb-4 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
  <ShieldCheck className="size-3 text-emerald-400" />
  <span>TLS 1.3 &bull; Mutual TLS Auth Ready &bull; OWASP Compliant</span>
  </div>
@@ -228,7 +228,7 @@ export const SignUpPage: React.FC = () => {
  <button
  type="button"
  onClick={() => setScope('developer')}
- className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+ className={`py-1.5 px-2 rounded-lg text-xs font-medium transition cursor-pointer ${
  scope === 'developer'
  ? 'bg-surface-elevated text-foreground border border-border shadow-sm'
  : 'text-muted-foreground hover:text-foreground'
@@ -239,7 +239,7 @@ export const SignUpPage: React.FC = () => {
  <button
  type="button"
  onClick={() => setScope('team')}
- className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+ className={`py-1.5 px-2 rounded-lg text-xs font-medium transition cursor-pointer ${
  scope === 'team'
  ? 'bg-surface-elevated text-foreground border border-border shadow-sm'
  : 'text-muted-foreground hover:text-foreground'
@@ -250,7 +250,7 @@ export const SignUpPage: React.FC = () => {
  <button
  type="button"
  onClick={() => setScope('enterprise')}
- className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+ className={`py-1.5 px-2 rounded-lg text-xs font-medium transition cursor-pointer ${
  scope === 'enterprise'
  ? 'bg-surface-elevated text-foreground border border-border shadow-sm'
  : 'text-muted-foreground hover:text-foreground'
@@ -263,7 +263,7 @@ export const SignUpPage: React.FC = () => {
  {/* Tier Scope Context Chip */}
  <div className="mb-5 p-2 rounded-lg bg-surface border border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground">
  <span>Allocation:</span>
- <span className="text-[#F0FAFF]">
+ <span className="text-foreground">
  {scope === 'developer' && '1 Domain • 50 Audits/Mo • Free CLI'}
  {scope === 'team' && '5 Domains • 1,500 Audits/Mo • Auto-PR Patches'}
  {scope === 'enterprise' && 'Unlimited Domains • 38-PoP Dedicated Mesh'}
@@ -272,7 +272,7 @@ export const SignUpPage: React.FC = () => {
 
  {/* Error Alert */}
  {activeErrorMessage && (
- <div className="mb-4 rounded-xl border border-rose-500/30 bg-[#F7FDFF]/10 p-3 text-xs text-rose-300">
+ <div className="mb-4 rounded-xl border border-rose-500/30 bg-[#FFFFFF]/10 p-3 text-xs text-rose-300">
  <div className="flex items-start gap-2">
  <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
  <div className="flex-1">
@@ -334,7 +334,7 @@ export const SignUpPage: React.FC = () => {
  <div className="absolute inset-0 flex items-center">
  <div className="w-full border-t border-border" />
  </div>
- <div className="relative flex justify-center text-[10px] font-mono uppercase tracking-wider">
+ <div className="relative flex justify-center text-[11px] font-mono uppercase tracking-wider">
  <span className="bg-surface px-2 text-muted-foreground">
  Or Register Direct
  </span>
@@ -409,7 +409,7 @@ export const SignUpPage: React.FC = () => {
  <label className="block text-xs font-mono uppercase tracking-wider text-muted-foreground">
  Password
  </label>
- <span className="text-[10px] font-mono text-[#F0FAFF]">{entropyLabel}</span>
+ <span className="text-[11px] font-mono text-foreground">{entropyLabel}</span>
  </div>
  <div className="relative">
  <input
@@ -433,10 +433,10 @@ export const SignUpPage: React.FC = () => {
 
  {/* 4-Bar Reactive Password Strength Gauge */}
  <div className="grid grid-cols-4 gap-1.5 mt-2">
- <div className={`h-1 rounded-full transition-all duration-300 ${entropyScore >= 1 ? (entropyScore === 1 ? 'bg-[#F7FDFF]' : entropyScore === 2 ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]') : 'bg-foreground/10'}`} />
- <div className={`h-1 rounded-full transition-all duration-300 ${entropyScore >= 2 ? (entropyScore === 2 ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]') : 'bg-foreground/10'}`} />
- <div className={`h-1 rounded-full transition-all duration-300 ${entropyScore >= 3 ? 'bg-[#F0FAFF]' : 'bg-foreground/10'}`} />
- <div className={`h-1 rounded-full transition-all duration-300 ${entropyScore >= 4 ? 'bg-[#F0FAFF]' : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 1 ? (entropyScore === 1 ? 'bg-[#FFFFFF]' : entropyScore === 2 ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]') : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 2 ? (entropyScore === 2 ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]') : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 3 ? 'bg-[#F0FAFF]' : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 4 ? 'bg-[#F0FAFF]' : 'bg-foreground/10'}`} />
  </div>
  </div>
 
@@ -447,11 +447,11 @@ export const SignUpPage: React.FC = () => {
  type="checkbox"
  checked={agreeTerms}
  onChange={(e) => setAgreeTerms(e.target.checked)}
- className="mt-0.5 rounded bg-background border-border-strong text-[#F0FAFF] focus:ring-0 focus:ring-offset-0 size-3.5 shrink-0"
+ className="mt-0.5 rounded bg-background border-border-strong text-foreground focus:ring-0 focus:ring-offset-0 size-3.5 shrink-0"
  />
  <span>
  I agree to the CatalystLab Terms &amp;{' '}
- <a href="#compliance" className="text-[#F0FAFF] hover:underline">SOC2 Type II Report</a>{' '}
+ <a href="#compliance" className="text-foreground hover:underline">SOC2 Type II Report</a>{' '}
  with zero-data retention on source AST payloads.
  </span>
  </label>
@@ -479,7 +479,7 @@ export const SignUpPage: React.FC = () => {
  {/* Bottom Switch */}
  <div className="mt-5 pt-4 border-t border-border text-center text-xs text-muted-foreground">
  Already an authorized workspace member?{' '}
- <Link to="/login" className="text-foreground hover:text-[#F0FAFF] font-medium transition-colors">
+ <Link to="/login" className="text-foreground hover:text-foreground font-medium transition-colors">
  Log in to console &rarr;
  </Link>
  </div>

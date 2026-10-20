@@ -51,7 +51,7 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
             {stat.delta && (
               <span
                 className={clsx(
-                  'text-[10px] font-mono font-semibold px-1 rounded',
+                  'text-[11px] font-mono font-semibold px-1 rounded',
                   stat.trend === 'up'
                     ? 'text-emerald-300 bg-emerald-950/80 border border-emerald-500/30'
                     : stat.trend === 'down'

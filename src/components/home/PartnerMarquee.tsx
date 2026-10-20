@@ -126,7 +126,7 @@ export const PartnerMarquee: React.FC = () => {
                 target="_blank" rel="noopener noreferrer"
                 aria-label={partner.name}
                 title={partner.name}
-                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-foreground/40 focus:outline-none transition-all duration-200 text-foreground shrink-0 hover:scale-110 transform"
+                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-foreground/40 focus:outline-none transition duration-200 text-foreground shrink-0 hover:scale-110 transform"
               >
                 {partner.icon}
               </a>
@@ -146,7 +146,7 @@ export const PartnerMarquee: React.FC = () => {
                 tabIndex={-1}
                 aria-label={partner.name}
                 title={partner.name}
-                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-foreground/40 focus:outline-none transition-all duration-200 text-foreground shrink-0 hover:scale-110 transform"
+                className="flex items-center justify-center p-1.5 rounded-lg opacity-50 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-foreground/40 focus:outline-none transition duration-200 text-foreground shrink-0 hover:scale-110 transform"
               >
                 {partner.icon}
               </a>

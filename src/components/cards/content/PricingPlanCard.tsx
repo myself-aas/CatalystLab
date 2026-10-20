@@ -67,7 +67,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition-all duration-200 bg-background ${
+      className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition duration-200 bg-background ${
         isPopular
           ? 'border-2 border-border shadow-md lg:-translate-y-1.5'
           : 'border border-border hover:border-border shadow-sm'
@@ -78,7 +78,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
         <div className="flex items-center justify-between gap-2 mb-3">
           {badge ? (
             <span
-              className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
+              className={`text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
                 isPopular
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-accent text-muted-foreground border border-border'
@@ -87,13 +87,13 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
               {badge}
             </span>
           ) : (
-            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
+            <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">
               PLAN TIER
             </span>
           )}
 
           {isCurrent && (
-            <span className="px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold">
+            <span className="px-2 py-0.5 rounded-full bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-mono font-bold">
               ACTIVE
             </span>
           )}
@@ -135,7 +135,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 
         {/* Feature List */}
         <div className="space-y-2 mt-4">
-          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
             Included Capabilities:
           </span>
           <ul className="space-y-2 pt-1">
@@ -158,7 +158,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
                   )}
                   <span className="leading-snug flex-1">{text}</span>
                   {featBadge && (
-                    <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-accent text-muted-foreground border border-border shrink-0">
+                    <span className="text-[11px] font-mono font-semibold px-1.5 py-0.5 rounded bg-accent text-muted-foreground border border-border shrink-0">
                       {featBadge}
                     </span>
                   )}
@@ -174,7 +174,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
         <button
           onClick={onCtaClick}
           disabled={ctaDisabled}
-          className={`w-full py-2.5 px-4 rounded-xl font-mono text-xs font-bold transition-all shadow-sm cursor-pointer ${
+          className={`w-full py-2.5 px-4 rounded-xl font-mono text-xs font-bold transition shadow-sm cursor-pointer ${
             isPopular
               ? 'bg-primary hover:bg-primary-hover text-primary-foreground'
               : 'bg-accent hover:bg-accent text-foreground border border-border'
@@ -184,7 +184,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
         </button>
 
         {ctaSubtext && (
-          <p className="mt-2 text-center text-[10px] text-muted-foreground font-mono">
+          <p className="mt-2 text-center text-[11px] text-muted-foreground font-mono">
             {ctaSubtext}
           </p>
         )}

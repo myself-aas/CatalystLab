@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { clickableProps } from '../lib/keyboard';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useRoleSecurity } from '../context/RoleSecurityContext';
@@ -258,7 +259,7 @@ export const UserDashboardPage: React.FC = () => {
  <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(240,250,255,0.05),transparent_70%)] pointer-events-none" />
  
  <div className="w-full max-w-md p-8 ds-card bg-surface border-border shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-[#F0FAFF] mb-5 shadow-inner">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-foreground mb-5 shadow-inner">
  <LogIn className="h-5 w-5" />
  </div>
  <h2 className="framer-card-title text-xl sm:text-2xl text-foreground">Developer Access Required</h2>
@@ -338,7 +339,7 @@ export const UserDashboardPage: React.FC = () => {
    {/* Welcome Header Section */}
    <div className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-5 bg-[rgba(31,34,35,0.85)] backdrop-blur-2xl border-b border-[rgba(240,250,255,0.08)] px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
      <div>
-       <div className="framer-micro-tag text-[#F0FAFF] mb-2">Platform Control Center</div>
+       <div className="framer-micro-tag text-foreground mb-2">Platform Control Center</div>
        <h1 className="framer-hero-title text-3xl sm:text-4xl lg:text-5xl text-foreground">
          {getGreeting()}, <span className="text-foreground/60">{userName}</span>
        </h1>
@@ -380,7 +381,7 @@ export const UserDashboardPage: React.FC = () => {
 <div className="space-y-4">
 <div className="flex items-center justify-between">
 <div className="flex items-center gap-3">
-<div className="framer-micro-tag text-[#F0FAFF]">Telemetry Vault</div>
+<div className="framer-micro-tag text-foreground">Telemetry Vault</div>
 <h2 className="framer-card-title text-foreground">Recent Audit Dossiers</h2>
 </div>
 <button
@@ -412,14 +413,14 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Top Card Bar - Visual Parity with Audit Dossier Cards */}
  <div className="flex items-start justify-between gap-3 pb-3 border-b border-foreground/5">
  <div className="flex items-center gap-3 min-w-0">
- <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-[#F0FAFF] shrink-0 group-hover:border-[#F0FAFF]/30 transition-colors">
+ <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-foreground shrink-0 group-hover:border-[#F0FAFF]/30 transition-colors">
  <Globe className="h-4 w-4" />
  </div>
  <div className="min-w-0">
- <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-[#F0FAFF] transition-colors tracking-tight">
+ <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-foreground transition-colors tracking-tight">
  {extractDomainFromUrl(report.url)}
  </h4>
- <span className="text-[10px] font-mono text-muted-foreground flex items-center gap-1.5 mt-0.5">
+ <span className="text-[11px] font-mono text-muted-foreground flex items-center gap-1.5 mt-0.5">
  <Calendar className="h-3 w-3" />
  {report.createdAt ? new Date(report.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'}
  </span>
@@ -440,7 +441,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
 
  {/* Middle Content */}
  <div className="py-4 space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 py-0.5 px-2 text-[9px] font-mono font-bold text-[#F0FAFF] uppercase tracking-wider">
+ <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 py-0.5 px-2 text-[11px] font-mono font-bold text-foreground uppercase tracking-wider">
  <Sparkles className="h-2.5 w-2.5" />
  <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
  </div>
@@ -460,9 +461,9 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
        </div>
      ))}
    </div>
-   <span className="text-[10px] font-mono text-muted-foreground">{TOTAL_POPS_COUNT} PoPs</span>
+   <span className="text-[11px] font-mono text-muted-foreground">{TOTAL_POPS_COUNT} PoPs</span>
  </div>
- <div className="text-[11px] font-semibold text-[#F0FAFF] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+ <div className="text-[11px] font-semibold text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
  <span>Open Dossier</span>
  <ArrowRight className="h-3 w-3" />
  </div>
@@ -479,7 +480,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {activeTab === 'patches' && (
  <div className="space-y-6">
  <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-[#F0FAFF] mb-1">
+ <div className="flex items-center gap-2 text-xs text-foreground mb-1">
  <GitBranch className="size-3.5" />
  <span>GHLyase · Autonomous Patch Deployment Pipeline</span>
  </div>
@@ -632,7 +633,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  return (
  <div
  key={report.id}
- onClick={() => handleNavigateToReport(report)}
+ {...clickableProps} onClick={() => handleNavigateToReport(report)}
  className="ds-card group p-4 flex flex-col ds-card-interactive"
  >
  <div>
@@ -646,7 +647,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <h4 className="text-xs font-bold text-foreground truncate group-hover:text-amber-600 transition-colors">
  {domain}
  </h4>
- <span className="text-[10px] ds-muted flex items-center gap-1">
+ <span className="text-[11px] ds-muted flex items-center gap-1">
  <Calendar className="h-2.5 w-2.5"/>
  {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
  </span>
@@ -659,7 +660,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20'
  : (report.score || 90) >= 75
  ? 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
- : 'bg-[#F7FDFF]/10 text-rose-400 border-rose-500/20'
+ : 'bg-[#FFFFFF]/10 text-rose-400 border-rose-500/20'
  }`}>
  {report.score || 92}/100
  </div>
@@ -667,7 +668,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
 
  {/* Middle Content */}
  <div className="py-3 space-y-1.5">
- <div className="inline-flex items-center gap-1 rounded bg-accent border border-border py-0.5 text-[10px] font-bold ds-muted">
+ <div className="inline-flex items-center gap-1 rounded bg-accent border border-border py-0.5 text-[11px] font-bold ds-muted">
  <Sparkles className="h-2.5 w-2.5 text-amber-500"/>
  <span>{engineMeta.name}</span>
  </div>
@@ -708,7 +709,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <button
  onClick={(e) => handleDelete(report.id!, e)}
  disabled={deletingId === report.id}
- className="p-1 rounded ds-muted hover:bg-[#F7FDFF]/10 hover:text-rose-400 transition-colors cursor-pointer"
+ className="p-1 rounded ds-muted hover:bg-[#FFFFFF]/10 hover:text-rose-400 transition-colors cursor-pointer"
  title="Delete Report"
  >
  <Trash2 className="h-3.5 w-3.5"/>
@@ -823,7 +824,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {activeTab === 'reports' && (
  <div className="space-y-6">
  <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-[#F0FAFF] mb-1">
+ <div className="flex items-center gap-2 text-xs text-foreground mb-1">
  <FileText className="size-3.5" />
  <span>CatalystLab · Telemetry Dossiers &amp; Executive Compliance Reports</span>
  </div>
@@ -846,19 +847,19 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Summary Metrics Grid */}
  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-border">
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[10px] uppercase text-muted-foreground">Total Dossiers</div>
+ <div className="text-[11px] uppercase text-muted-foreground">Total Dossiers</div>
  <div className="text-lg font-bold text-foreground mt-0.5">{reports.length}</div>
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[10px] uppercase text-muted-foreground">Mean Health Score</div>
+ <div className="text-[11px] uppercase text-muted-foreground">Mean Health Score</div>
  <div className="text-lg font-bold text-emerald-400 mt-0.5">{avgScore}/100</div>
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[10px] uppercase text-muted-foreground">Unique Edge Meshes</div>
- <div className="text-lg font-bold text-[#F0FAFF] mt-0.5">{uniqueDomains}</div>
+ <div className="text-[11px] uppercase text-muted-foreground">Unique Edge Meshes</div>
+ <div className="text-lg font-bold text-foreground mt-0.5">{uniqueDomains}</div>
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[10px] uppercase text-muted-foreground">Export Standards</div>
+ <div className="text-[11px] uppercase text-muted-foreground">Export Standards</div>
  <div className="text-lg font-bold text-purple-400 mt-0.5">PDF · JSON · CSV</div>
  </div>
  </div>
@@ -910,7 +911,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  </button>
  <button
  onClick={() => handleNavigateToReport(report)}
- className="text-xs text-[#F0FAFF] hover:underline flex items-center gap-1 cursor-pointer"
+ className="text-xs text-foreground hover:underline flex items-center gap-1 cursor-pointer"
  >
  <span>View</span>
  <ArrowRight className="size-3" />

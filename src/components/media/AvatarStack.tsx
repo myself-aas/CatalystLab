@@ -106,10 +106,10 @@ const AvatarSingle: React.FC<{
             decoding="async"
             
             onError={handleError}
-            className="w-full h-full object-cover grayscale-[0.2] contrast-[1.05] hover:grayscale-0 transition-all duration-300"
+            className="w-full h-full object-cover grayscale-[0.2] contrast-[1.05] hover:grayscale-0 transition duration-300"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-cyan-900 to-background flex items-center justify-center text-[10px] font-bold text-cyan-200">
+          <div className="w-full h-full bg-gradient-to-br from-cyan-900 to-background flex items-center justify-center text-[11px] font-bold text-cyan-200">
             {avatar.name.slice(0, 2).toUpperCase()}
           </div>
         )}
@@ -150,7 +150,7 @@ export const AvatarStack: React.FC<AvatarStackProps> = ({
 
       {remainder > 0 && (
         <div
-          className={`${sizeClasses[size]} rounded-full border-2 border-background bg-muted/40 flex items-center justify-center text-[10px] font-mono font-bold text-cyan-400 shadow-md z-10`}
+          className={`${sizeClasses[size]} rounded-full border-2 border-background bg-muted/40 flex items-center justify-center text-[11px] font-mono font-bold text-cyan-400 shadow-md z-10`}
         >
           +{remainder}
         </div>
@@ -166,7 +166,7 @@ export const AvatarStack: React.FC<AvatarStackProps> = ({
           className="absolute -top-12 left-0 z-40 px-2.5 py-1.5 rounded-lg bg-muted/95 border border-border backdrop-blur-md shadow-2xl font-mono text-[11px] pointer-events-none whitespace-nowrap"
         >
           <div className="font-bold text-primary-foreground leading-tight">{hoveredAvatar.name}</div>
-          <div className="text-[10px] text-cyan-400 leading-tight mt-0.5">
+          <div className="text-[11px] text-cyan-400 leading-tight mt-0.5">
             {hoveredAvatar.role} • {hoveredAvatar.company}
           </div>
         </motion.div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import securityImage from '../assets/images/page-security.jpg';
 import { ArrowRight, Key, ShieldCheck } from 'lucide-react';
 import { SecurityDisclosureSection } from '../components/legal/SecurityDisclosureSection';
 import { SEOHead } from '../components/common/SEOHead';
@@ -15,7 +16,7 @@ export const SecurityPage: React.FC = () => {
 
  {/* Dedicated Hero Header */}
  <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 ds-page-shell">
@@ -31,6 +32,9 @@ export const SecurityPage: React.FC = () => {
  <p className="framer-body-text">
  Our vulnerability intake program, PGP public key, CVSS severity tiers, and legal Safe Harbor pledge protecting ethical security researchers.
  </p>
+ <figure className="mx-auto mt-10 max-w-4xl">
+   <img src={securityImage} alt="Security analyst reviewing blue security dashboards" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+ </figure>
  </div>
 
  {/* Quick Actions */}

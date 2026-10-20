@@ -60,7 +60,7 @@ export const ReactDevDesignPage: React.FC = () => {
  In a typical React application, theming can be achieved by toggling a class on the `&lt;html&gt;` element (e.g., `.dark`) which then redefines CSS custom properties.
  </p>
  <CodeBlock 
- code={`html.dark {\n --react-cyan: #F0FAFF;\n --react-wash: #1F2223;\n}`} 
+ code={`html.dark {\n --react-cyan: #F0FAFF;\n --react-wash: #111827;\n}`} 
  language="css"
  filename="styles.css"
  />
@@ -95,7 +95,7 @@ export const ReactDevDesignPage: React.FC = () => {
  
  <CodeDiagram>
  <CodeBlock 
- code={`function Avatar({ user }) {\n return (\n <img \n className="avatar"\n src={user.imageUrl}\n alt={user.name}\n />\n );\n}`}
+ code={`function Avatar({ user }) {\n return (\n <img \n className="avatar"\n src={user.imageUrl}\n alt={user.name}\n loading="lazy" decoding="async" />\n );\n}`}
  language="tsx"
  />
  <div className="flex flex-col items-center gap-2">

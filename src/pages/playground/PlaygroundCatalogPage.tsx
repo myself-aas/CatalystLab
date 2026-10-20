@@ -140,15 +140,15 @@ export const PlaygroundCatalogPage: React.FC = () => {
  >
  <div>
  <div className="flex items-center justify-between mb-4">
- <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-foreground/10 text-[#F0FAFF]">
- <Icon className="h-5 w-5 text-[#F0FAFF] shrink-0 transition-colors"/>
+ <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-foreground/10 text-foreground">
+ <Icon className="h-5 w-5 text-foreground shrink-0 transition-colors"/>
  </div>
- <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
+ <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
  {engine.category}
  </span>
  </div>
 
- <h3 className="framer-card-title text-foreground group-hover:text-[#F0FAFF] transition-colors">
+ <h3 className="framer-card-title text-foreground group-hover:text-foreground transition-colors">
  {engine.name}
  </h3>
  <p className="framer-body-text text-xs mt-2 line-clamp-2">
@@ -160,7 +160,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <span className="font-mono text-muted-foreground">
  Cost: <strong>{engine.cost} scan credit</strong>
  </span>
- <span className="font-bold text-[#F0FAFF] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+ <span className="font-bold text-foreground flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
  <span>Open Console</span>
  <ArrowRight className="h-3.5 w-3.5 shrink-0"/>
  </span>

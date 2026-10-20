@@ -177,11 +177,11 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       <div className="p-5 border-b border-border">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-[#F0FAFF]/10 text-[#F0FAFF] border border-[#F0FAFF]/20">
+            <div className="p-2 rounded-lg bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
               <ArrowLeftRight className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-[10px] font-sans font-bold tracking-widest text-[#F0FAFF] uppercase">
+              <span className="text-[11px] font-sans font-bold tracking-widest text-foreground uppercase">
                 COMPARATIVE TELEMETRY MATRIX
               </span>
               <h3 className="text-base font-bold text-foreground">
@@ -208,7 +208,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
               <button
                 key={vec.id}
                 onClick={() => setSelectedVectorId(vec.id)}
-                className={`w-full p-3 rounded-xl border transition-all ${
+                className={`w-full p-3 rounded-xl border transition ${
                   isSelected
                     ? 'border-[#F0FAFF]/30 bg-[#F0FAFF]/10 shadow-sm'
                     : 'border-border hover:border-border hover:bg-muted'
@@ -216,7 +216,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <Icon className={`w-4 h-4 ${isSelected ? 'text-[#F0FAFF]' : 'text-muted-foreground'}`} />
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-foreground' : 'text-muted-foreground'}`} />
                     <span className={`text-sm font-sans font-semibold ${isSelected ? 'text-foreground' : 'text-muted-foreground'}`}>
                       {vec.name}
                     </span>

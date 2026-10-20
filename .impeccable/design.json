@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-21T00:00:00+06:00",
+  "title": "Design System: CatalystLab",
+  "extensions": {
+    "colorMeta": {
+      "catalyst-blue": { "role": "primary", "displayName": "Catalyst Blue", "canonical": "#0066FF", "tonalRamp": ["#001133", "#002266", "#0044BB", "#0066FF", "#3385FF", "#66A6FF", "#99C2FF", "#CCE0FF"] },
+      "bench-charcoal": { "role": "neutral", "displayName": "Bench Charcoal", "canonical": "#1F2223", "tonalRamp": ["#0B0D0D", "#141617", "#1F2223", "#2C3032", "#3A3F42", "#5A6165", "#9AA3A6", "#F0FAFF"] },
+      "assay-cyan": { "role": "tertiary", "displayName": "Assay Cyan", "canonical": "#22D3EE", "tonalRamp": ["#03252B", "#065A6B", "#0899B5", "#22D3EE", "#5EE3F5", "#93EDF9", "#C4F6FC", "#ECFDFE"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero and section headlines only." },
+      "data": { "displayName": "Data", "purpose": "Scores, quotas, telemetry — tabular mono only." }
+    },
+    "shadows": [
+      { "name": "ambient-hover", "value": "0 8px 28px -8px rgba(0,0,0,0.5)", "purpose": "Panel lift on hover only; surfaces are flat at rest." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Confident arrivals; exits faster than entrances." },
+      { "name": "feedback", "value": "100ms", "purpose": "State-change feedback, preserved under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" }, { "name": "md", "value": "768px" }, { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (dark)", "kind": "button", "refersTo": "button-primary-dark",
+      "description": "The one primary action per surface.",
+      "html": "<button class=\"ds-btn-primary\">Run Instant Audit</button>",
+      "css": ".ds-btn-primary { background: var(--color-primary, #F0FAFF); color: #1F2223; border: 1px solid transparent; border-radius: 9999px; min-height: 44px; padding: 0 20px; font: 600 14px Inter, system-ui, sans-serif; cursor: pointer; transition: background-color 160ms ease, box-shadow 160ms ease; } .ds-btn-primary:hover { background: #F7FDFF; } .ds-btn-primary:focus-visible { outline: 2px solid #66A6FF; outline-offset: 2px; }"
+    },
+    {
+      "name": "Audit URL Input", "kind": "input", "refersTo": "ds-input",
+      "description": "Domain entry for the hero audit form.",
+      "html": "<input class=\"ds-input\" type=\"url\" placeholder=\"https://your-domain.com\" aria-label=\"Domain URL to audit\">",
+      "css": ".ds-input { width: 100%; min-height: 44px; border-radius: 12px; padding: 0 14px; background: #17191A; color: #F7FDFF; border: 1px solid rgba(240,250,255,0.14); font: 400 16px Inter, system-ui, sans-serif; } .ds-input:focus { outline: none; border-color: rgba(240,250,255,0.35); box-shadow: 0 0 0 3px rgba(0,102,255,0.25); }"
+    },
+    {
+      "name": "Panel Card", "kind": "card", "refersTo": "card-panel",
+      "description": "Instrument panel surface; flat at rest, lifts on hover.",
+      "html": "<div class=\"ds-card-panel\"><strong>Global Health Score</strong><p>Readings from eight engines.</p></div>",
+      "css": ".ds-card-panel { background: #2C3032; color: #F0FAFF; border: 1px solid rgba(240,250,255,0.08); border-radius: 16px; padding: 20px; font: 400 14px Inter, system-ui, sans-serif; transition: border-color 200ms ease, box-shadow 200ms ease; } .ds-card-panel:hover { border-color: rgba(240,250,255,0.2); box-shadow: 0 8px 28px -8px rgba(0,0,0,0.5); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Mission Control",
+    "overview": "CatalystLab is a telemetry floor, not a marketing page with charts. Colour is data, type is instrumentation, and each surface gets one authored moment.",
+    "keyCharacteristics": ["Colour is data, never decoration", "One authored moment per surface", "Density through hierarchy, never smaller type"],
+    "rules": [
+      { "name": "The Colour-Is-Data Rule", "body": "Every hue answers what is the state of what; severity never collapses to the text colour.", "section": "colors" },
+      { "name": "The 12px Floor Rule", "body": "Nothing readable below 12px; 11px only as mono data.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Border or shadow at rest, not both; shadow is earned by floating or responding.", "section": "elevation" }
+    ],
+    "dos": ["Do route every colour through semantic tokens", "Do give every interactive element keyboard parity and 44px of target"],
+    "donts": ["Don't put an eyebrow label above a heading", "Don't flatten severity into one colour"]
+  }
+}

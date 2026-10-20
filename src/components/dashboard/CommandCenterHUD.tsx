@@ -289,7 +289,7 @@ export const CommandCenterHUD: React.FC = () => {
                   <Crosshair className="h-3.5 w-3.5 text-cyan-500 dark:text-cyan-400" />
                   TARGET HOST
                 </span>
-                <span className="text-[10px] text-emerald-500 dark:text-emerald-400 bg-[#F0FAFF]/10 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30 dark:border-emerald-800/40 font-bold">
+                <span className="text-[11px] text-emerald-500 dark:text-emerald-400 bg-[#F0FAFF]/10 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30 dark:border-emerald-800/40 font-bold">
                   PROBE READY
                 </span>
               </div>
@@ -310,7 +310,7 @@ export const CommandCenterHUD: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-2 px-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-linear-cta"
+                  className="w-full py-2 px-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition flex items-center justify-center gap-1.5 cursor-pointer shadow-linear-cta"
                 >
                   <span>Sync Telemetry</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -319,7 +319,7 @@ export const CommandCenterHUD: React.FC = () => {
 
               {/* Quick Presets */}
               <div className="pt-2 border-t border-border/80">
-                <span className="text-[10px] text-muted-foreground block mb-1.5 uppercase font-bold tracking-wider">
+                <span className="text-[11px] text-muted-foreground block mb-1.5 uppercase font-bold tracking-wider">
                   Quick Benchmark Targets:
                 </span>
                 <div className="flex flex-wrap gap-1">
@@ -332,7 +332,7 @@ export const CommandCenterHUD: React.FC = () => {
                         setActiveDomain(d);
                         triggerSyntheticProbe();
                       }}
-                      className={`px-2 py-0.5 rounded border text-[10px] transition-colors cursor-pointer ${
+                      className={`px-2 py-0.5 rounded border text-[11px] transition-colors cursor-pointer ${
                         activeDomain === d
                           ? 'bg-primary/20 border-primary text-primary font-bold'
                           : 'bg-muted/40 dark:bg-card border-border text-muted-foreground hover:text-primary-foreground'
@@ -356,7 +356,7 @@ export const CommandCenterHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setFocusEngine(null)}
-                    className="text-[10px] text-muted-foreground hover:text-primary-foreground underline cursor-pointer"
+                    className="text-[11px] text-muted-foreground hover:text-primary-foreground underline cursor-pointer"
                   >
                     Reset (Show All)
                   </button>
@@ -375,7 +375,7 @@ export const CommandCenterHUD: React.FC = () => {
                       key={engine.id}
                       type="button"
                       onClick={() => toggleFocusEngine(engine.id)}
-                      className={`w-full flex items-center justify-between p-2 rounded-xl border transition-all text-left cursor-pointer ${
+                      className={`w-full flex items-center justify-between p-2 rounded-xl border transition text-left cursor-pointer ${
                         isFocused
                           ? 'bg-primary/20 border-primary text-foreground shadow-sm font-bold'
                           : 'bg-muted/30 dark:bg-card border-border/80 text-muted-foreground hover:bg-accent hover:border-border'
@@ -385,7 +385,7 @@ export const CommandCenterHUD: React.FC = () => {
                         <span className={`h-1.5 w-1.5 rounded-full ${isFocused ? 'bg-[#F0FAFF] dark:bg-[#F0FAFF] animate-ping' : 'bg-muted'}`} />
                         <span className="truncate">{engine.name}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 shrink-0 text-[10px]">
+                      <div className="flex items-center gap-1.5 shrink-0 text-[11px]">
                         <span className="text-muted-foreground">{engine.phase}</span>
                         <span className="text-emerald-500 dark:text-emerald-400 font-bold">[{engine.score}]</span>
                       </div>
@@ -402,7 +402,7 @@ export const CommandCenterHUD: React.FC = () => {
                   <Globe className="h-3.5 w-3.5 text-cyan-500 dark:text-cyan-400" />
                   LIVE ANYCAST RADAR
                 </span>
-                <span className="text-[10px] text-emerald-500 dark:text-emerald-400 font-bold">42 / 42 ONLINE</span>
+                <span className="text-[11px] text-emerald-500 dark:text-emerald-400 font-bold">42 / 42 ONLINE</span>
               </div>
 
               {/* 3D WebGL Live Edge Mesh Globe */}
@@ -419,7 +419,7 @@ export const CommandCenterHUD: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-[10px]">
+              <div className="grid grid-cols-2 gap-2 text-[11px]">
                 <div className="bg-muted/40 dark:bg-background p-2 rounded-lg border border-border">
                   <div className="text-muted-foreground">IAD • US-East</div>
                   <div className="text-primary-foreground font-bold mt-0.5">12.4ms • 100%</div>
@@ -498,7 +498,7 @@ export const CommandCenterHUD: React.FC = () => {
                       key={engine.id}
                       layout
                       transition={{ duration: 0.2 }}
-                      className={`relative rounded-2xl border transition-all overflow-hidden ${
+                      className={`relative rounded-2xl border transition overflow-hidden ${
                         isFocused
                           ? 'bg-card border-primary ring-2 ring-primary/50 shadow-sm z-10'
                           : isDimmed
@@ -518,7 +518,7 @@ export const CommandCenterHUD: React.FC = () => {
                               <h3 className="font-bold text-primary-foreground text-base tracking-tight">
                                 {engine.name}
                               </h3>
-                              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-cyan-500 dark:text-cyan-400 border border-border">
+                              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-muted text-cyan-500 dark:text-cyan-400 border border-border">
                                 {engine.phase}
                               </span>
                             </div>
@@ -532,7 +532,7 @@ export const CommandCenterHUD: React.FC = () => {
                         <div className="flex items-center gap-2 shrink-0">
                           <div className="text-right font-mono">
                             <div className="text-lg font-black text-primary-foreground">{engine.score}</div>
-                            <div className="text-[10px] text-emerald-500 dark:text-emerald-400 uppercase font-bold">● Healthy</div>
+                            <div className="text-[11px] text-emerald-500 dark:text-emerald-400 uppercase font-bold">● Healthy</div>
                           </div>
                         </div>
                       </div>
@@ -586,11 +586,11 @@ export const CommandCenterHUD: React.FC = () => {
                                 <div key={idx} className="p-2 rounded-lg bg-muted/50 dark:bg-card border border-border/80 flex items-center justify-between gap-2">
                                   <div className="truncate">
                                     <div className="text-muted-foreground truncate text-[11px]">{vec.name}</div>
-                                    <div className="text-[10px] text-muted-foreground">Benchmark: {vec.benchmark}</div>
+                                    <div className="text-[11px] text-muted-foreground">Benchmark: {vec.benchmark}</div>
                                   </div>
                                   <div className="text-right shrink-0">
                                     <div className="text-primary-foreground font-bold">{vec.value}</div>
-                                    <div className="text-[10px] text-emerald-500 dark:text-emerald-400">● Pass</div>
+                                    <div className="text-[11px] text-emerald-500 dark:text-emerald-400">● Pass</div>
                                   </div>
                                 </div>
                               ))}

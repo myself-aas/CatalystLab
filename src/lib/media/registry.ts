@@ -2,7 +2,9 @@
  * ============================================================================
  * CATALYSTLAB VERIFIED MEDIA REGISTRY & MANIFEST (v2)
  * ============================================================================
- * Strict compliance manifest for copyright-free Pexels & Pexels imagery and videos.
+ * Media manifest. Scene and avatar slots (U_/P_ constants) resolve to self-hosted,
+ * AI-generated assets in src/assets/images (2026-10-21 media replacement);
+ * MEDIA_REGISTRY below still carries licensed remote entries with fallbacks.
  *
  * HARD CONTRACT RULES:
  * R1: ZERO-EMPTY-SLOT: Every slot mounts real remote URLs from this manifest.
@@ -11,6 +13,18 @@
  * R4: VERIFY TOOLING: Validated by scripts/verify-media.mjs (`npm run media:check`).
  * R5: LICENSING: Commercial use permitted without attribution; credits tracked.
  */
+
+import imgServer from '../../assets/images/catalyst_bg_2_1787217684318.jpg';
+import imgProducts from '../../assets/images/page-products.jpg';
+import imgMethod from '../../assets/images/page-methodology.jpg';
+import imgOps from '../../assets/images/hero_network_visualization_1787838371820.jpg';
+import imgSecurity from '../../assets/images/page-security.jpg';
+import imgAmbient from '../../assets/images/hero_ambient_background_1787838402609.jpg';
+import imgApi from '../../assets/images/page-api.jpg';
+import imgAiSearch from '../../assets/images/allostersearch_llmo_1787420226857.jpg';
+import imgTeam from '../../assets/images/about_us_hero_1787216854874.jpg';
+import avatar1 from '../../assets/images/avatar-1.jpg';
+import avatar2 from '../../assets/images/avatar-2.jpg';
 
 export type MediaTreatment =
   | 'catalyst-grade-hero'
@@ -76,25 +90,25 @@ export const DEFAULT_BLUR_SHIMMER =
 // ============================================================================
 
 // Pexels Images (Verified Live IDs)
-export const U_SERVER = 'https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=2400';
-export const U_NET = 'https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-export const U_CIRCUIT = 'https://images.pexels.com/photos/281260/pexels-photo-281260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-export const U_MATRIX = 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-export const U_CYBER = 'https://images.pexels.com/photos/574070/pexels-photo-574070.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-export const U_GLOBE = 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-export const U_CODE = 'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-export const U_NEON = 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+export const U_SERVER = imgServer;
+export const U_NET = imgProducts;
+export const U_CIRCUIT = imgMethod;
+export const U_MATRIX = imgOps;
+export const U_CYBER = imgSecurity;
+export const U_GLOBE = imgAmbient;
+export const U_CODE = imgApi;
+export const U_NEON = imgAiSearch;
 
 // Pexels Avatars (Faces crop)
-export const U_FACE_1 = 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop&dpr=2';
-export const U_FACE_2 = 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop&dpr=2';
-export const U_FACE_3 = 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop&dpr=2';
-export const U_FACE_4 = 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=160&h=160&fit=crop&dpr=2';
+export const U_FACE_1 = avatar2;
+export const U_FACE_2 = avatar1;
+export const U_FACE_3 = avatar1;
+export const U_FACE_4 = avatar2;
 
 // Pexels Images
-export const P_DC = 'https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=2400';
-export const P_TECH = 'https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg?auto=compress&cs=tinysrgb&w=2400';
-export const P_WORK = 'https://images.pexels.com/photos/4384679/pexels-photo-4384679.jpeg?auto=compress&cs=tinysrgb&w=2000';
+export const P_DC = imgServer;
+export const P_TECH = imgProducts;
+export const P_WORK = imgTeam;
 
 // Pexels Videos (Direct Hotlink)
 export const V_HERO = 'https://videos.pexels.com/video-files/19575751/19575751-uhd_2560_1440_30fps.mp4';

@@ -30,7 +30,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {
       // localStorage may be inaccessible in sandboxed environments
     }
-    return 'dark';
+    return 'light';
   });
 
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() => {
@@ -38,7 +38,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const existing = document.documentElement.getAttribute('data-theme');
       if (existing === 'light' || existing === 'dark') return existing;
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
 
       // Keep the browser chrome tint in sync with the app theme
-      const themeColor = effectiveTheme === 'dark' ? '#1F2223' : '#F7FDFF';
+      const themeColor = effectiveTheme === 'dark' ? '#111827' : '#FFFFFF';
       let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])');
       if (!meta) {
         meta = document.createElement('meta');

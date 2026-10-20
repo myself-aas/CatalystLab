@@ -67,13 +67,13 @@ export const ArchitectureComparator: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative overflow-hidden p-6 rounded-2xl bg-foreground/70 border border-foreground/8 hover:bg-primary/60 hover:border-foreground/20 transition-all duration-300 flex flex-col justify-between min-h-[260px] backdrop-blur-xl shadow-lg"
+              className="group relative overflow-hidden p-6 rounded-2xl bg-foreground/70 border border-foreground/8 hover:bg-primary/60 hover:border-foreground/20 transition duration-300 flex flex-col justify-between min-h-[260px] backdrop-blur-xl shadow-lg"
             >
               {/* Top Bar: Name & Live Status Ping */}
               <div className="flex items-start justify-between relative z-10">
                 <div>
                   <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-medium">{spec.name}</h3>
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-cyan-400 mt-1 block">
+                  <span className="font-mono text-[11px] uppercase tracking-widest text-cyan-400 mt-1 block">
                     {spec.badge}
                   </span>
                 </div>

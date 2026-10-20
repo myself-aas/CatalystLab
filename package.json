@@ -25,7 +25,8 @@
     "test:coverage": "vitest run --coverage",
     "check:bundle": "node scripts/check-bundle-budget.mjs",
     "lhci": "lhci autorun",
-    "ci:full": "npm run ci && npm run test:coverage && npm run drill:restore && npm run test:payments-sandbox && npm run sec:secrets"
+    "ci:full": "npm run ci && npm run test:coverage && npm run drill:restore && npm run test:payments-sandbox && npm run sec:secrets",
+    "check:design": "node scripts/check-design-tokens.mjs"
   },
   "dependencies": {
     "@sentry/node": "^11.8.0",

@@ -203,7 +203,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setTheme('light')}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
+                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
                 theme === 'light' ? "bg-[var(--app-background)] text-[var(--text-primary)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
               )}
             >
@@ -216,7 +216,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setTheme('dark')}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
+                "flex-1 flex items-center justify-center gap-2 py-1.5 text-[13px] font-medium rounded-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer",
                 theme === 'dark' ? "bg-[var(--app-background)] text-[var(--text-primary)] shadow-sm border border-[var(--border-subtle)]" : "ds-muted hover:text-foreground"
               )}
             >
@@ -239,7 +239,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
         <div className={cn("flex items-center", isExpanded ? "gap-3 px-2" : "justify-center")}>
           <div className="size-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0 border border-accent/30 overflow-hidden">
             {user?.photoURL ? (
-              <img src={user.photoURL} alt="User" className="size-full object-cover" />
+              <img src={user.photoURL} alt="User" className="size-full object-cover" loading="lazy" decoding="async" />
             ) : (
               <span className="text-[13px] font-medium text-accent-bright">
                 {user?.email?.[0].toUpperCase() || 'C'}

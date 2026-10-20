@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { clickableProps } from '../../lib/keyboard';
 import { motion } from 'motion/react';
 import { EdgeMeshGlobe } from '../ui/edge-mesh-globe';
 import { 
@@ -111,7 +112,7 @@ export const WebhookFanoutMesh: React.FC = () => {
             type="button"
             onClick={handleTestFanout}
             disabled={isFiring}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-foreground text-xs sm:text-sm font-mono font-bold transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-foreground text-xs sm:text-sm font-mono font-bold transition shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
           >
             <Send className={`h-4 w-4 ${isFiring ? 'animate-bounce' : ''}`} />
             <span>{isFiring ? 'Broadcasting Fan-Out Webhooks...' : 'Trigger Fan-Out Test'}</span>
@@ -172,8 +173,8 @@ export const WebhookFanoutMesh: React.FC = () => {
               return (
                 <div
                   key={dest.id}
-                  onClick={() => setSelectedDest(dest.id)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                  {...clickableProps} onClick={() => setSelectedDest(dest.id)}
+                  className={`p-4 rounded-2xl border transition cursor-pointer ${
                     isSelected
                       ? 'bg-blue-600/20 border-cyan-500 shadow-lg ring-1 ring-cyan-500/50 text-primary-foreground'
                       : 'bg-primary/60 border-border hover:bg-primary text-muted-foreground'
@@ -184,7 +185,7 @@ export const WebhookFanoutMesh: React.FC = () => {
                       <Webhook className={`h-4 w-4 ${isSelected ? 'text-cyan-400' : 'text-muted-foreground'}`} />
                       <span>{dest.name}</span>
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-muted text-emerald-400 border border-border">
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-muted text-emerald-400 border border-border">
                       {dest.avgLatency}
                     </span>
                   </div>
@@ -193,7 +194,7 @@ export const WebhookFanoutMesh: React.FC = () => {
                     {dest.endpoint}
                   </div>
 
-                  <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground pt-2 border-t border-border/80">
+                  <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground pt-2 border-t border-border/80">
                     <span>{dest.category}</span>
                     <span className="text-cyan-300 font-bold">{dest.tlsVersion}</span>
                   </div>

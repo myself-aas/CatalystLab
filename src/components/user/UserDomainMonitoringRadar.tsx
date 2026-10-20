@@ -121,7 +121,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
         <div className="mt-6">
           <Link
             to="/master-audit"
-            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-6 py-2.5 text-xs font-bold text-primary-foreground shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-6 py-2.5 text-xs font-bold text-primary-foreground shadow-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Zap className="h-4 w-4" />
             <span>Launch First Master Audit</span>
@@ -150,7 +150,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
 
         <Link
           to="/master-audit"
-          className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2 text-xs font-bold text-primary-foreground shadow-md transition-all shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2 text-xs font-bold text-primary-foreground shadow-md transition shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Play className="h-3.5 w-3.5" />
           <span>Audit New Target</span>
@@ -162,7 +162,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
         {domains.map((item) => (
           <div
             key={item.domain}
-            className="ds-card p-5 shadow-sm transition-all hover:border-border hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="ds-card p-5 shadow-sm transition hover:border-border hover:shadow-md flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <div>
               {/* Domain Card Header */}
@@ -190,7 +190,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                   item.avgScore >= 90 
                     ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20' 
                     : item.avgScore >= 75
-                      ? 'bg-[#F0FAFF]/10 text-[#F0FAFF] border-[#F0FAFF]/20'
+                      ? 'bg-[#F0FAFF]/10 text-foreground border-[#F0FAFF]/20'
                       : 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
                 }`}>
                   {item.avgScore}/100
@@ -207,7 +207,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                   <div className="text-sm font-bold text-foreground mt-1">
                     {item.latencyMs ? `${item.latencyMs} ms` : '—'}
                   </div>
-                  <span className="text-[10px] text-emerald-600 font-sans">
+                  <span className="text-[11px] text-emerald-600 font-sans">
                     {item.latencyMs && item.latencyMs < 120 ? 'Optimal' : 'Standard'}
                   </span>
                 </div>
@@ -220,7 +220,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
                   <div className="text-sm font-bold text-foreground mt-1">
                     {item.sslDays ? `${item.sslDays} Days` : 'Active'}
                   </div>
-                  <span className="text-[10px] text-emerald-600 font-sans">
+                  <span className="text-[11px] text-emerald-600 font-sans">
                     TLS 1.3 Valid
                   </span>
                 </div>

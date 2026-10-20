@@ -165,15 +165,15 @@ export const AboutPage: React.FC = () => {
  />
 
  {/* Atmospheric Lighting */}
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  {/* Hero Section */}
  <section className="relative z-10 border-b border-border w-full ds-section">
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center space-y-6">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-[#F0FAFF] backdrop-blur-md">
- <Sparkles className="size-3.5 text-[#F0FAFF] shrink-0"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-foreground backdrop-blur-md">
+ <Sparkles className="size-3.5 text-foreground shrink-0"/>
  <span>Autonomous Telemetry Infrastructure</span>
  </div>
 
@@ -193,12 +193,12 @@ export const AboutPage: React.FC = () => {
  </div>
 
  <div className="ds-card p-4">
- <div className="text-2xl font-bold font-mono text-[#F0FAFF]">42 PoPs</div>
+ <div className="text-2xl font-bold font-mono text-foreground">42 PoPs</div>
  <div className="framer-micro-tag text-muted-foreground mt-1">Global edge Anycast mesh</div>
  </div>
 
  <div className="ds-card p-4">
- <div className="text-2xl font-bold font-mono text-[#F0FAFF]">&lt; 4.8s</div>
+ <div className="text-2xl font-bold font-mono text-foreground">&lt; 4.8s</div>
  <div className="framer-micro-tag text-muted-foreground mt-1">Dossier synthesis latency</div>
  </div>
 
@@ -217,8 +217,8 @@ export const AboutPage: React.FC = () => {
  {/* The Problem & Our Mission */}
  <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
  <LazyReveal direction="left" className="lg:col-span-7 space-y-5">
- <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-[#F0FAFF] backdrop-blur-md">
- <Terminal className="size-3.5 text-[#F0FAFF] shrink-0"/>
+ <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-foreground backdrop-blur-md">
+ <Terminal className="size-3.5 text-foreground shrink-0"/>
  <span>Genesis &amp; Mission</span>
  </div>
 
@@ -256,7 +256,7 @@ export const AboutPage: React.FC = () => {
  <div className="ds-card p-6 space-y-4 font-mono">
  <div className="flex items-center justify-between border-b border-border pb-3.5">
  <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
- <Activity className="size-4 text-[#F0FAFF] shrink-0"/>
+ <Activity className="size-4 text-foreground shrink-0"/>
  <span>Telemetry Benchmark Grid</span>
  </div>
  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
@@ -332,7 +332,7 @@ export const AboutPage: React.FC = () => {
  key={eng.id}
  type="button"
  onClick={() => setSelectedEngine(eng.id)}
- className={`group flex items-center justify-between p-3.5 rounded-2xl border transition-all text-left cursor-pointer ${
+ className={`group flex items-center justify-between p-3.5 rounded-2xl border transition text-left cursor-pointer ${
  isSelected
  ? 'border-primary bg-primary/10 text-foreground shadow-[0_0_20px_rgba(94,106,210,0.15)] ring-1 ring-primary/50'
  : 'border-border dark:border-border bg-card dark:bg-muted/20 text-muted-foreground hover:border-border/80 hover:bg-accent hover:text-foreground'
@@ -347,7 +347,7 @@ export const AboutPage: React.FC = () => {
  </div>
  <div>
  <div className="text-xs font-semibold text-foreground font-sans">{eng.name}</div>
- <div className="text-[10px] font-mono text-muted-foreground mt-0.5">{eng.category}</div>
+ <div className="text-[11px] font-mono text-muted-foreground mt-0.5">{eng.category}</div>
  </div>
  </div>
  <ChevronRight className={`size-4 transition-transform ${isSelected ? 'translate-x-0.5 text-primary' : 'text-muted-foreground/40 group-hover:text-muted-foreground'}`} />
@@ -497,11 +497,11 @@ export const AboutPage: React.FC = () => {
  <div className="shrink-0 flex items-center gap-3">
  <div className="ds-card p-3 text-center">
  <div className="text-lg font-bold font-mono text-foreground">99.99%</div>
- <div className="text-[10px] text-muted-foreground font-sans">Node Availability</div>
+ <div className="text-[11px] text-muted-foreground font-sans">Node Availability</div>
  </div>
  <div className="ds-card p-3 text-center">
  <div className="text-lg font-bold font-mono text-cyan-400">&lt; 2.5ms</div>
- <div className="text-[10px] text-muted-foreground font-sans">Internal Jitter</div>
+ <div className="text-[11px] text-muted-foreground font-sans">Internal Jitter</div>
  </div>
  </div>
  </div>
@@ -549,15 +549,15 @@ export const AboutPage: React.FC = () => {
  src={member.image} 
  alt={member.name} 
  referrerPolicy="no-referrer"
- className="w-full h-full object-cover grayscale contrast-125 opacity-90 group-hover/card:scale-105 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition-all duration-500"
- />
+ className="w-full h-full object-cover grayscale contrast-125 opacity-90 group-hover/card:scale-105 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition duration-500"
+ loading="lazy" decoding="async" />
  <div className="absolute inset-0 bg-gradient-to-t from-background dark:from-[var(--bg-surface-elevated)] via-transparent to-transparent opacity-60"/>
  </div>
 
  <div className="space-y-1">
  <h3 className="text-sm font-bold text-foreground font-sans">{member.name}</h3>
  <div className="text-xs text-primary font-medium font-sans">{member.role}</div>
- <div className="text-[10px] font-mono text-cyan-400 mt-0.5">{member.specialty}</div>
+ <div className="text-[11px] font-mono text-cyan-400 mt-0.5">{member.specialty}</div>
  </div>
 
  <p className="text-xs text-muted-foreground leading-relaxed font-sans">

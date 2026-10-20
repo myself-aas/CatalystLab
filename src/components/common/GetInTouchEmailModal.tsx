@@ -189,7 +189,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="w-full rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground py-3 text-sm font-mono font-bold transition-all shadow-md active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="w-full rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground py-3 text-sm font-mono font-bold transition shadow-md active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     Done & Close
                   </button>
@@ -244,7 +244,7 @@ export const GetInTouchEmailModal: React.FC<GetInTouchEmailModalProps> = ({
                           key={t.id}
                           type="button"
                           onClick={() => setTopic(t.id)}
-                          className={`rounded-xl px-2.5 py-1.5 text-left text-sm font-mono transition-all border cursor-pointer ${
+                          className={`rounded-xl px-2.5 py-1.5 text-left text-sm font-mono transition border cursor-pointer ${
                             topic === t.id
                               ? 'border-primary bg-primary/15 text-primary font-bold shadow-xs'
                               : 'border-border bg-background/60 text-muted-foreground hover:border-primary/50 hover:text-foreground'

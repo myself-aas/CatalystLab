@@ -113,7 +113,7 @@ export const CookiePreferenceCenter: React.FC = () => {
 
             <button
               onClick={handleSave}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-sm cursor-pointer"
             >
               {saved ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <ShieldCheck className="h-3.5 w-3.5 text-amber-400" />}
               <span>{saved ? 'Preferences Saved!' : 'Save My Preferences'}</span>
@@ -127,7 +127,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Lock className="h-3.5 w-3.5 text-emerald-400" />
                   <span className="font-bold text-xs text-foreground font-sans">Strictly Essential &amp; Authentication Tokens</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-500/20 bg-[#F0FAFF]/10 text-emerald-400">
+                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-500/20 bg-[#F0FAFF]/10 text-emerald-400">
                     Always Active
                   </span>
                 </div>
@@ -151,7 +151,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Zap className="h-3.5 w-3.5 text-amber-400" />
                   <span className="font-bold text-xs text-foreground font-sans">Diagnostic Telemetry Cache</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400">
+                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400">
                     Recommended
                   </span>
                 </div>
@@ -184,7 +184,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Globe className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="font-bold text-xs text-foreground font-sans">Anonymous Usage &amp; Crash Metrics</span>
-                  <span className="text-[10px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-border bg-accent text-muted-foreground">
+                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-border bg-accent text-muted-foreground">
                     Optional
                   </span>
                 </div>
@@ -240,7 +240,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   <tr key={idx} className="hover:bg-muted transition-colors">
                     <td className="py-3 px-3 font-bold text-amber-700 font-mono">{item.name}</td>
                     <td className="py-3 px-3">
-                      <span className="rounded bg-accent border border-border px-2 py-0.5 text-[10px] font-semibold text-foreground">
+                      <span className="rounded bg-accent border border-border px-2 py-0.5 text-[11px] font-semibold text-foreground">
                         {item.category}
                       </span>
                     </td>
@@ -271,7 +271,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                 <button
                   key={b}
                   onClick={() => setActiveBrowser(b)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-bold capitalize transition-all cursor-pointer ${
+                  className={`rounded-lg px-3 py-1.5 text-xs font-bold capitalize transition cursor-pointer ${
                     activeBrowser === b
                       ? 'bg-primary text-primary-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground'
@@ -284,7 +284,7 @@ export const CookiePreferenceCenter: React.FC = () => {
           </div>
 
           <div className="mt-5 rounded-xl border border-border bg-muted p-4">
-            <span className="text-[10px] uppercase font-bold text-amber-700">Instructions for {activeBrowser.toUpperCase()}:</span>
+            <span className="text-[11px] uppercase font-bold text-amber-700">Instructions for {activeBrowser.toUpperCase()}:</span>
             <p className="text-xs text-muted-foreground mt-1.5 font-sans leading-relaxed">
               {browserInstructions[activeBrowser]}
             </p>

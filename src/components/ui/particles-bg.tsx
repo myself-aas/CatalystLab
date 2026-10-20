@@ -29,7 +29,7 @@ export default function ParticlesComponent() {
     const colors = {
       particles: 'rgba(240,250,255,0.75)', // Warm amber from swatch
       lines: 'rgba(240,250,255,0.65)',     // Clean silver grey from swatch
-      accent: '#F7FDFF',    // Crimson red from swatch
+      accent: '#FFFFFF',    // Crimson red from swatch
     };
 
     // @ts-ignore

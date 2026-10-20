@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { clickableProps } from '../lib/keyboard';
 import { useAuth } from '../context/AuthContext';
 import { RateLimitThresholdAlert } from '../components/RateLimitThresholdAlert';
 import { 
@@ -473,7 +474,7 @@ func main() {
  
  {/* Top Header Hero */}
  <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[linear-gradient(to_right,#F0FAFF25_1px,transparent_1px),linear-gradient(to_bottom,#F0FAFF25_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 
@@ -481,18 +482,18 @@ func main() {
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  
  <div className="flex items-center gap-4">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border text-[#F0FAFF] shadow-xs backdrop-blur-md shrink-0">
- <Terminal className="h-6 w-6 text-[#F0FAFF]"/>
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border text-foreground shadow-xs backdrop-blur-md shrink-0">
+ <Terminal className="h-6 w-6 text-foreground"/>
  </div>
  <div>
  <div className="flex flex-wrap items-center gap-2.5">
  <h1 className="framer-section-headline text-2xl sm:text-3xl text-foreground font-semibold">
  Engine Test{' '}
- <span className="text-[#F0FAFF]">
+ <span className="text-foreground">
  Playground
  </span>
  </h1>
- <span className="rounded-full bg-[#F0FAFF]/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-[#F0FAFF]">
+ <span className="rounded-full bg-[#F0FAFF]/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-foreground">
  {endpointPath}
  </span>
  </div>
@@ -516,7 +517,7 @@ func main() {
  to="/api-docs"
  className="ds-btn ds-btn-secondary text-xs"
  >
- <FileJson className="h-3.5 w-3.5 text-[#F0FAFF] shrink-0"/>
+ <FileJson className="h-3.5 w-3.5 text-foreground shrink-0"/>
  <span>OpenAPI Docs</span>
  </Link>
  </div>
@@ -543,7 +544,7 @@ func main() {
  <button
  key={eng.id}
  onClick={() => handleEngineChange(eng.id)}
- className={`flex items-center gap-2 rounded-xl py-1.5 text-xs font-bold whitespace-nowrap transition-all border shrink-0 cursor-pointer ${
+ className={`flex items-center gap-2 rounded-xl py-1.5 text-xs font-bold whitespace-nowrap transition border shrink-0 cursor-pointer ${
  isSelected
  ? 'border-border bg-primary text-primary-foreground shadow-sm'
  : 'border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent'
@@ -553,7 +554,7 @@ func main() {
  eng.id === 'master' ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]'
  }`} />
  <span>{eng.name}</span>
- <span className={`text-[10px] py-0.5 rounded ${
+ <span className={`text-[11px] py-0.5 rounded ${
  isSelected ? 'bg-accent text-foreground' : 'bg-accent text-muted-foreground'
  }`}>
  {eng.cost} {eng.cost === 1 ? 'unit' : 'units'}
@@ -608,10 +609,10 @@ func main() {
  <div className="rounded-xl bg-muted border border-border p-2.5 text-xs space-y-1">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-1.5 font-bold text-foreground">
- <span className="rounded bg-primary px-2.5 py-0.5 text-[10px] text-primary-foreground">POST</span>
+ <span className="rounded bg-primary px-2.5 py-0.5 text-[11px] text-primary-foreground">POST</span>
  <span>{endpointPath}</span>
  </div>
- <span className="text-[10px] font-bold text-amber-400 bg-[#F0FAFF]/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
+ <span className="text-[11px] font-bold text-amber-400 bg-[#F0FAFF]/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
  Cost: {activeEngine.cost} Unit
  </span>
  </div>
@@ -704,7 +705,7 @@ func main() {
  <div className="ds-card flex items-center p-2.5">
  <div>
  <div className="text-xs font-bold text-foreground">Bypass Server Cache (forceFresh)</div>
- <div className="text-[10px] text-muted-foreground font-sans">Forces a live DNS/HTTP probe bypass</div>
+ <div className="text-[11px] text-muted-foreground font-sans">Forces a live DNS/HTTP probe bypass</div>
  </div>
  <input
  type="checkbox"
@@ -768,14 +769,14 @@ func main() {
  <button
  type="button"
  onClick={() => setAuthMode('session')}
- className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'session' ? 'bg-foreground/15 text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}`}
+ className={`px-2.5 py-0.5 rounded cursor-pointer transition ${authMode === 'session' ? 'bg-foreground/15 text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}`}
  >
  Session
  </button>
  <button
  type="button"
  onClick={() => setAuthMode('apiKey')}
- className={`px-2.5 py-0.5 rounded cursor-pointer transition-all ${authMode === 'apiKey' ? 'bg-foreground/15 text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}`}
+ className={`px-2.5 py-0.5 rounded cursor-pointer transition ${authMode === 'apiKey' ? 'bg-foreground/15 text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}`}
  >
  API Key
  </button>
@@ -865,12 +866,12 @@ func main() {
  {history.map((item) => (
  <div
  key={item.id}
- onClick={() => handleLoadFromHistory(item)}
+ {...clickableProps} onClick={() => handleLoadFromHistory(item)}
  className="flex items-center justify-between p-1.5 rounded-lg hover:bg-accent border border-transparent hover:border-border cursor-pointer transition-colors text-xs"
  >
  <div className="flex items-center gap-1.5 overflow-hidden">
- <span className={`text-[10px] font-mono font-bold py-0.5 rounded ${
- item.status === 200 ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20' : 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20'
+ <span className={`text-[11px] font-mono font-bold py-0.5 rounded ${
+ item.status === 200 ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20' : 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20'
  }`}>
  {item.status}
  </span>
@@ -906,25 +907,25 @@ func main() {
 
  {responseStatus !== null && (
  <div className="flex items-center gap-1.5 ml-2">
- <span className={`rounded px-2.5 py-0.5 text-[10px] font-bold ${
+ <span className={`rounded px-2.5 py-0.5 text-[11px] font-bold ${
  responseStatus === 200 
  ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20'
  : responseStatus === 429
- ? 'bg-[#F7FDFF]/10 text-rose-400 border border-rose-500/20'
+ ? 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20'
  : 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
  }`}>
  {responseStatus} {responseStatusText}
  </span>
 
  {responseTimeMs !== null && (
- <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
+ <span className="flex items-center gap-0.5 text-[11px] text-muted-foreground">
  <Clock className="h-2.5 w-2.5"/>
  {responseTimeMs}ms
  </span>
  )}
 
  {responseSizeKb !== null && (
- <span className="text-[10px] text-muted-foreground">
+ <span className="text-[11px] text-muted-foreground">
  • {responseSizeKb}KB
  </span>
  )}

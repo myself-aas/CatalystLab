@@ -47,7 +47,7 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.mem
           return (
             <div
               key={dim.name}
-              className="rounded-xl border border-background/30 bg-muted p-4 transition-all hover:border-background/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="rounded-xl border border-background/30 bg-muted p-4 transition hover:border-background/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div className="flex items-center justify-between gap-2 mb-3">
                 <span
@@ -68,7 +68,7 @@ export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.mem
               {/* Mini progress bar */}
               <div className="h-1.5 w-full rounded-full bg-accent overflow-hidden mt-2.5 border border-background/20">
                 <div
-                  className="h-full rounded-full transition-all duration-700"
+                  className="h-full rounded-full transition duration-700"
                   style={{
                     width: `${dim.score}%`,
                     backgroundColor: dim.color

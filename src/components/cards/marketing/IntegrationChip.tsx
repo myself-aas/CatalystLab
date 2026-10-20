@@ -28,7 +28,7 @@ export const IntegrationChip: React.FC<IntegrationChipProps> = ({
     <div
       className={twMerge(
         clsx(
-          'inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-background hover:bg-muted border border-border hover:border-border font-sans text-xs text-muted-foreground transition-all duration-200 shadow-sm select-none shrink-0 group',
+          'inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-background hover:bg-muted border border-border hover:border-border font-sans text-xs text-muted-foreground transition duration-200 shadow-sm select-none shrink-0 group',
           active && 'hover:border-border hover:shadow-md',
           className
         )
@@ -41,13 +41,13 @@ export const IntegrationChip: React.FC<IntegrationChipProps> = ({
           {name}
         </span>
         {category && (
-          <span className="text-[10px] text-muted-foreground truncate">
+          <span className="text-[11px] text-muted-foreground truncate">
             {category}
           </span>
         )}
       </div>
       {status && (
-        <span className="ml-2 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider uppercase bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+        <span className="ml-2 px-2 py-0.5 rounded-md text-[11px] font-bold tracking-wider uppercase bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
           {status}
         </span>
       )}

@@ -27,7 +27,7 @@ export const EngineInput: React.FC<EngineInputProps> = ({
   return (
     <form
       onSubmit={onSubmit}
-      className="group flex w-full flex-col gap-2 rounded-2xl border border-border bg-muted/40 p-1.5 shadow-linear-card backdrop-blur-xl transition-all duration-300 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 sm:flex-row"
+      className="group flex w-full flex-col gap-2 rounded-2xl border border-border bg-muted/40 p-1.5 shadow-linear-card backdrop-blur-xl transition duration-300 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 sm:flex-row"
     >
       <div className="flex flex-1 items-center px-4 py-2">
         <Zap className="mr-3 size-4 shrink-0 text-muted-foreground" />

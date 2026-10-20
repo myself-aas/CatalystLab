@@ -73,7 +73,7 @@ export const ApiNavSidebar: React.FC = () => {
               <Terminal className="h-4 w-4 text-emerald-400" />
               <span>Interactive Playground</span>
             </div>
-            <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-[#F0FAFF]/20 text-emerald-300 border border-emerald-500/30">
+            <span className="text-[11px] font-bold uppercase px-1.5 py-0.5 rounded bg-[#F0FAFF]/20 text-emerald-300 border border-emerald-500/30">
               Live
             </span>
           </Link>

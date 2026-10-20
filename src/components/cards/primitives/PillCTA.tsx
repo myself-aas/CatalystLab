@@ -8,7 +8,7 @@ import { useCardContext } from './CardContext';
 import { useMagnetic } from '../hooks/useMagnetic';
 
 const pillVariants = cva(
-  'group/btn inline-flex items-center justify-center font-medium text-xs tracking-tight transition-all duration-200 select-none whitespace-nowrap shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary',
+  'group/btn inline-flex items-center justify-center font-medium text-xs tracking-tight transition duration-200 select-none whitespace-nowrap shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary',
   {
     variants: {
       variant: {

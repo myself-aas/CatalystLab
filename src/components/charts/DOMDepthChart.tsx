@@ -63,7 +63,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
         <div className="rounded-xl border border-border bg-muted p-3.5">
           <div className="text-[11px] text-muted-foreground uppercase tracking-wider font-mono">Total DOM Nodes</div>
           <div className="text-xl font-black text-foreground mt-0.5">{domElementsCount.toLocaleString()}</div>
-          <div className="text-[10px] text-muted-foreground/70 mt-1">
+          <div className="text-[11px] text-muted-foreground/70 mt-1">
             Threshold: &lt;1,500 nodes
           </div>
         </div>
@@ -71,7 +71,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
         <div className="rounded-xl border border-border bg-muted p-3.5">
           <div className="text-[11px] text-muted-foreground uppercase tracking-wider font-mono">Max Nesting Depth</div>
           <div className="text-xl font-black text-muted-foreground mt-0.5">{domDepthLevel} Levels</div>
-          <div className="text-[10px] text-muted-foreground/70 mt-1">
+          <div className="text-[11px] text-muted-foreground/70 mt-1">
             Threshold: &lt;32 levels
           </div>
         </div>
@@ -81,7 +81,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
           <div className={`text-xl font-black mt-0.5 ${blockingScriptsCount === 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
             {blockingScriptsCount}
           </div>
-          <div className="text-[10px] text-muted-foreground/70 mt-1">
+          <div className="text-[11px] text-muted-foreground/70 mt-1">
             {blockingScriptsCount === 0 ? 'Optimal (0 in <head>)' : 'Parser Blocking Risk'}
           </div>
         </div>
@@ -91,7 +91,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
           <div className={`text-sm font-bold mt-1 ${isHealthy ? 'text-emerald-400' : isWarning ? 'text-muted-foreground' : 'text-rose-400'}`}>
             {complexityRating}
           </div>
-          <div className="text-[10px] text-muted-foreground/70 mt-1">
+          <div className="text-[11px] text-muted-foreground/70 mt-1">
             Layout calculation speed
           </div>
         </div>
@@ -109,7 +109,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
             <div
               key={cat.name}
               style={{ width: `${Math.max(2, cat.pct)}%`, backgroundColor: cat.color }}
-              className="h-full first:rounded-l-lg last:rounded-r-lg transition-all hover:opacity-80 relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="h-full first:rounded-l-lg last:rounded-r-lg transition hover:opacity-80 relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               title={`${cat.name}: ${cat.count} nodes (${cat.pct}%)`}
             />
           ))}
@@ -141,7 +141,7 @@ export const DOMDepthChart: React.FC<DOMDepthChartProps> = React.memo(({
           
           <div className="h-2.5 w-full rounded-full bg-background overflow-hidden border border-border">
             <div
-              className={`h-full transition-all ${
+              className={`h-full transition ${
                 payloadKb < 50 ? 'bg-[#F0FAFF]' : payloadKb < 150 ? 'bg-muted-foreground' : 'bg-muted'
               }`}
               style={{ width: `${Math.min(100, (payloadKb / 200) * 100)}%` }}

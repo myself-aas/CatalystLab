@@ -79,13 +79,13 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
       <div className="relative z-10 p-4 sm:p-5 flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-foreground/80 border border-foreground/15 backdrop-blur-md">
           <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="text-[10px] font-mono font-bold text-primary-foreground uppercase tracking-wider">
+          <span className="text-[11px] font-mono font-bold text-primary-foreground uppercase tracking-wider">
             CRON TELEMETRY
           </span>
         </div>
 
         <span
-          className={`px-2.5 py-0.5 rounded-full border text-[10px] font-mono font-bold tracking-wider uppercase backdrop-blur-md ${
+          className={`px-2.5 py-0.5 rounded-full border text-[11px] font-mono font-bold tracking-wider uppercase backdrop-blur-md ${
             statusColors[status]
           }`}
         >

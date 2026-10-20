@@ -31,7 +31,7 @@ export const StackedDateChip: React.FC<StackedDateChipProps> = ({
     >
       <span
         className={clsx(
-          'text-[10px] font-bold uppercase tracking-wider px-1 rounded-t-lg w-full text-center',
+          'text-[11px] font-bold uppercase tracking-wider px-1 rounded-t-lg w-full text-center',
           variant === 'solid'
             ? 'bg-primary text-primary-foreground'
             : 'bg-background/30 text-primary-foreground'
@@ -43,7 +43,7 @@ export const StackedDateChip: React.FC<StackedDateChipProps> = ({
       {weekday && (
         <span
           className={clsx(
-            'text-[10px] font-semibold uppercase',
+            'text-[11px] font-semibold uppercase',
             variant === 'solid' ? 'text-muted-foreground' : 'text-muted-foreground'
           )}
         >

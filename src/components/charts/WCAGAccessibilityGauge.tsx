@@ -76,18 +76,18 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
                 cx="60"
                 cy="60"
                 r={radius}
-                stroke={altTextCoveragePct >= 90 ? '#F0FAFF' : altTextCoveragePct >= 60 ? 'rgba(240,250,255,0.25)' : '#F7FDFF'}
+                stroke={altTextCoveragePct >= 90 ? '#F0FAFF' : altTextCoveragePct >= 60 ? 'rgba(240,250,255,0.25)' : '#FFFFFF'}
                 strokeWidth="10"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
                 strokeLinecap="round"
                 fill="transparent"
-                className="transition-all duration-1000 ease-out"
+                className="transition duration-1000 ease-out"
               />
             </svg>
             <div className="absolute flex flex-col items-center">
               <span className="text-xl font-black text-foreground font-mono">{altTextCoveragePct.toFixed(0)}%</span>
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Coverage</span>
+              <span className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">Coverage</span>
             </div>
           </div>
 
@@ -157,7 +157,7 @@ export const WCAGAccessibilityGauge: React.FC<WCAGAccessibilityGaugeProps> = Rea
 
       {/* Legal Summary Banner */}
       <div className={`rounded-xl p-3.5 border flex items-center gap-3 text-xs ${
-        isHighLiability ? 'bg-[#F7FDFF]/10 border-rose-500/20 text-rose-300' : 'bg-muted border-border text-foreground'
+        isHighLiability ? 'bg-[#FFFFFF]/10 border-rose-500/20 text-rose-300' : 'bg-muted border-border text-foreground'
       }`}>
         <HeartHandshake className="h-5 w-5 shrink-0 text-foreground" />
         <span>

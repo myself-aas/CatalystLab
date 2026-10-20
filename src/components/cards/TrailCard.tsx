@@ -51,7 +51,7 @@ export const TrailCard: React.FC<TrailCardProps> = ({
       onClick={handleCardClick}
       onKeyDown={handleCardKeyDown}
       aria-label={`Trail card: ${title}, ${subtitle}. Difficulty: ${difficulty}.`}
-      className={`group relative flex flex-col w-full rounded-2xl bg-[#2C3032] border border-white/5 backdrop-blur-xl hover:bg-[#2C2F32] hover:border-white/10 transition-all duration-500 ease-out shadow-lg hover:shadow-2xl hover:shadow-cyan-500/10 overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-zinc-950 text-[#F7FDFF] ${
+      className={`group relative flex flex-col w-full rounded-2xl bg-white border border-[#111827]/[0.06] hover:bg-[#F3F4F6] hover:border-[#111827]/[0.12] transition duration-500 ease-out shadow-lg hover:shadow-2xl hover:shadow-cyan-500/10 overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-white text-[#111827] ${
         onCardPress ? 'cursor-pointer hover:-translate-y-1.5' : ''
       } ${className}`}
     >

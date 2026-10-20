@@ -90,7 +90,7 @@ export const ScanRevealFigure: React.FC<ScanRevealFigureProps> = ({
       {caption && (
         <figcaption className="px-4 py-2.5 bg-muted/40 border-t border-border/80 font-mono text-[11px] text-muted-foreground flex items-center justify-between">
           <span className="truncate">{caption}</span>
-          <span className="text-cyan-400 text-[10px] uppercase font-bold shrink-0 ml-2">
+          <span className="text-cyan-400 text-[11px] uppercase font-bold shrink-0 ml-2">
             [VERIFIED ASSET]
           </span>
         </figcaption>

@@ -44,7 +44,7 @@ export const MiniDashboardCard: React.FC<MiniDashboardCardProps> = ({
       variant="surface"
       hue={hue}
       lift={false}
-      className={`p-4 sm:p-5 flex flex-col justify-between border border-border bg-background shadow-sm hover:border-border hover:shadow-md transition-all ${className || ''}`}
+      className={`p-4 sm:p-5 flex flex-col justify-between border border-border bg-background shadow-sm hover:border-border hover:shadow-md transition ${className || ''}`}
     >
       <div>
         {/* Header Row: Title & Status Indicator */}
@@ -63,7 +63,7 @@ export const MiniDashboardCard: React.FC<MiniDashboardCardProps> = ({
 
           <div className="flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-md bg-muted border border-border shadow-sm">
             {isLive && <span className="w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />}
-            <span className="text-[10px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
+            <span className="text-[11px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
               {status}
             </span>
           </div>

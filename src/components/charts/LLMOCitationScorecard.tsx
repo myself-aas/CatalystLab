@@ -81,7 +81,7 @@ export const LLMOCitationScorecard: React.FC<LLMOCitationScorecardProps> = React
                 PASS
               </span>
             ) : (
-              <span className="text-[11px] font-mono font-bold text-rose-600 bg-[#F7FDFF]/15 px-2 py-0.5 rounded border border-rose-500/30">
+              <span className="text-[11px] font-mono font-bold text-rose-600 bg-[#FFFFFF]/15 px-2 py-0.5 rounded border border-rose-500/30">
                 INCOMPLETE
               </span>
             )}

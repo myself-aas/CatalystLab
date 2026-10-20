@@ -30,7 +30,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
       <button
         type="button"
         onClick={() => setDropdownOpen(!dropdownOpen)}
-        className="group flex size-9 items-center justify-center rounded-full border border-border-default bg-card/80 backdrop-blur-md text-foreground-muted hover:text-foreground hover:bg-card-hover hover:border-accent/40 transition-all duration-200 active:scale-95 shadow-linear-card cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+        className="group flex size-9 items-center justify-center rounded-full border border-border-default bg-card/80 backdrop-blur-md text-foreground-muted hover:text-foreground hover:bg-card-hover hover:border-accent/40 transition duration-200 active:scale-95 shadow-linear-card cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
         aria-label={`Theme: ${theme}. Choose display theme`}
         aria-expanded={dropdownOpen}
         aria-haspopup="menu"

@@ -120,7 +120,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       riskColor = '#F0FAFF'; // Amber
     } else if (resolvedData.risk === 'High Risk') {
       riskFraction = 0.88;
-      riskColor = '#F7FDFF'; // Rose
+      riskColor = '#FFFFFF'; // Rose
     }
 
     const currentAngle = minAngle + riskFraction * (maxAngle - minAngle);
@@ -145,7 +145,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
     const segments = [
       { start: minAngle, end: minAngle + (maxAngle - minAngle) * 0.33, color: '#F0FAFF', label: 'LOW' },
       { start: minAngle + (maxAngle - minAngle) * 0.33, end: minAngle + (maxAngle - minAngle) * 0.66, color: '#F0FAFF', label: 'MED' },
-      { start: minAngle + (maxAngle - minAngle) * 0.66, end: maxAngle, color: '#F7FDFF', label: 'HIGH' }
+      { start: minAngle + (maxAngle - minAngle) * 0.66, end: maxAngle, color: '#FFFFFF', label: 'HIGH' }
     ];
 
     segments.forEach((seg, i) => {
@@ -193,7 +193,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
       .attr('fill', 'var(--app-foreground)')
-      .attr('stroke', 'var(--app-background, #1F2223)')
+      .attr('stroke', 'var(--app-background, #111827)')
       .attr('stroke-width', 2);
 
     // Needle Line
@@ -225,7 +225,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
     const ticks = [
       { angle: minAngle, label: 'Low', color: '#F0FAFF' },
       { angle: 0, label: 'Med', color: '#F0FAFF' },
-      { angle: maxAngle, label: 'High', color: '#F7FDFF' }
+      { angle: maxAngle, label: 'High', color: '#FFFFFF' }
     ];
 
     ticks.forEach((t) => {
@@ -282,7 +282,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     let sslColor = '#F0FAFF'; // Green
     if (resolvedData.ssl.is_expired || days <= 0) {
-      sslColor = '#F7FDFF'; // Rose / Expired
+      sslColor = '#FFFFFF'; // Rose / Expired
     } else if (days <= 30) {
       sslColor = '#F0FAFF'; // Amber / Expiring Soon
     }
@@ -364,7 +364,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
       .attr('fill', 'var(--app-foreground)')
-      .attr('stroke', 'var(--app-background, #1F2223)')
+      .attr('stroke', 'var(--app-background, #111827)')
       .attr('stroke-width', 2);
 
     // Needle
@@ -390,7 +390,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     // Ticks & Labels
     const ticks = [
-      { angle: minAngle, label: '0d', color: '#F7FDFF' },
+      { angle: minAngle, label: '0d', color: '#FFFFFF' },
       { angle: minAngle + (maxAngle - minAngle) * (30 / maxDays), label: '30d', color: '#F0FAFF' },
       { angle: maxAngle, label: '90d+', color: '#F0FAFF' }
     ];
@@ -445,16 +445,16 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-border bg-accent text-foreground">
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full border border-border bg-accent text-foreground">
             D3 v7.9 Engine
           </span>
           <span
-            className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded-full border ${
+            className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded-full border ${
               resolvedData.risk === 'Low Risk'
                 ? 'bg-[#F0FAFF]/10 text-emerald-600 border-emerald-500/30'
                 : resolvedData.risk === 'Medium Risk'
                 ? 'bg-[#F0FAFF]/10 text-amber-700 border-amber-500/30'
-                : 'bg-[#F7FDFF]/10 text-rose-600 border-rose-500/30'
+                : 'bg-[#FFFFFF]/10 text-rose-600 border-rose-500/30'
             }`}
           >
             {resolvedData.risk}
@@ -472,12 +472,12 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
               <span>Email Spoofing Risk Level</span>
             </div>
             <span
-              className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+              className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                 resolvedData.risk === 'Low Risk'
                   ? 'text-emerald-600 border-emerald-500/30 bg-[#F0FAFF]/10'
                   : resolvedData.risk === 'Medium Risk'
                   ? 'text-amber-700 border-amber-500/30 bg-[#F0FAFF]/10'
-                  : 'text-rose-600 border-rose-500/30 bg-[#F7FDFF]/10'
+                  : 'text-rose-600 border-rose-500/30 bg-[#FFFFFF]/10'
               }`}
             >
               {resolvedData.risk}
@@ -497,7 +497,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
               className={`flex items-center justify-between p-2 rounded-lg border ${
                 resolvedData.spf === 'Configured'
                   ? 'bg-[#F0FAFF]/10 border-emerald-500/30 text-emerald-700'
-                  : 'bg-[#F7FDFF]/10 border-rose-500/30 text-rose-700'
+                  : 'bg-[#FFFFFF]/10 border-rose-500/30 text-rose-700'
               }`}
             >
               <div className="flex items-center gap-1">
@@ -508,14 +508,14 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                 )}
                 <span>SPF</span>
               </div>
-              <span className="text-[10px] font-semibold">{resolvedData.spf}</span>
+              <span className="text-[11px] font-semibold">{resolvedData.spf}</span>
             </div>
 
             <div
               className={`flex items-center justify-between p-2 rounded-lg border ${
                 resolvedData.dmarc === 'Configured'
                   ? 'bg-[#F0FAFF]/10 border-emerald-500/30 text-emerald-700'
-                  : 'bg-[#F7FDFF]/10 border-rose-500/30 text-rose-700'
+                  : 'bg-[#FFFFFF]/10 border-rose-500/30 text-rose-700'
               }`}
             >
               <div className="flex items-center gap-1">
@@ -526,7 +526,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
                 )}
                 <span>DMARC</span>
               </div>
-              <span className="text-[10px] font-semibold">{resolvedData.dmarc}</span>
+              <span className="text-[11px] font-semibold">{resolvedData.dmarc}</span>
             </div>
           </div>
         </div>
@@ -539,12 +539,12 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
               <span>SSL Expiration & TLS Validity</span>
             </div>
             <span
-              className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+              className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                 resolvedData.ssl.validation_alert === 'Secure'
                   ? 'text-emerald-600 border-emerald-500/30 bg-[#F0FAFF]/10'
                   : resolvedData.ssl.validation_alert === 'Warning: Expiring Soon'
                   ? 'text-amber-700 border-amber-500/30 bg-[#F0FAFF]/10'
-                  : 'text-rose-600 border-rose-500/30 bg-[#F7FDFF]/10'
+                  : 'text-rose-600 border-rose-500/30 bg-[#FFFFFF]/10'
               }`}
             >
               {resolvedData.ssl.validation_alert}

@@ -65,11 +65,15 @@ describe('PartnerMarquee & Viewport Layout Tests', () => {
     const marqueeRegion = screen.getByRole('region', { name: /Partner Logos Marquee/i });
     expect(marqueeRegion).toBeInTheDocument();
 
-    // Verify viewport height allocations
-    const carouselContainer = container.querySelector('div[class*="h-[calc(100dvh*2.5/3)]"]');
+    // Verify layout allocations: visible pitch, flexible proof carousel, base marquee strip
+    const carouselContainer = container.querySelector('div[class*="flex-1"]');
     expect(carouselContainer).toBeInTheDocument();
 
-    const marqueeContainer = container.querySelector('div[class*="h-[calc(100dvh*0.5/3)]"]');
+    const marqueeContainer = container.querySelector('div[class*="shrink-0"]');
     expect(marqueeContainer).toBeInTheDocument();
+
+    // The audit form and H1 are visible (no sr-only duplicate)
+    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
+    expect(screen.getByLabelText(/Domain URL to audit/i)).toBeInTheDocument();
   });
 });

@@ -29,7 +29,7 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-[2rem] border border-border/40 shadow-xl transition-all duration-300 hover:shadow-2xl min-h-[380px] flex flex-col justify-between text-primary-foreground',
+        'relative overflow-hidden rounded-[2rem] border border-border/40 shadow-xl transition duration-300 hover:shadow-2xl min-h-[380px] flex flex-col justify-between text-primary-foreground',
         className
       )}
     >

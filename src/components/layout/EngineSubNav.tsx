@@ -38,7 +38,7 @@ export const EngineSubNav: React.FC = () => {
                 <NavLink
                   to={engine.route}
                   className={({ isActive }) => cn(
-                    "group flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-all",
+                    "group flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
                     isActive
                       ? "bg-primary/10 text-primary shadow-[inset_0_0_0_1px_rgba(var(--primary),0.2)]"

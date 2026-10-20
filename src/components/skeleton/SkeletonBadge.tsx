@@ -12,7 +12,7 @@ export const SkeletonBadge: React.FC<SkeletonBadgeProps> = ({
   className,
 }) => {
   const sizeClasses = {
-    sm: 'h-4 w-16 text-[10px]',
+    sm: 'h-4 w-16 text-[11px]',
     md: 'h-6 w-24 text-xs',
     lg: 'h-7 w-28 text-sm',
   }[size];

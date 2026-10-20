@@ -175,7 +175,7 @@ export const BlogManagementView: React.FC = () => {
           {/* Dedicated Page Navigation Link (No Popups!) */}
           <Link
             to="/admin/blogs/create"
-            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2.5 text-xs font-bold text-foreground transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2.5 text-xs font-bold text-foreground transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Plus className="h-4 w-4 stroke-[3]" />
             <span>Create New Article</span>
@@ -266,7 +266,7 @@ export const BlogManagementView: React.FC = () => {
             return (
               <div
                 key={post.id || post.slug}
-                className="ds-card p-4 sm:p-5 shadow-md transition-all hover:border-cyan-500/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="ds-card p-4 sm:p-5 shadow-md transition hover:border-cyan-500/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   
@@ -313,7 +313,7 @@ export const BlogManagementView: React.FC = () => {
                         <>
                           <span className="ds-muted">•</span>
                           {post.tags.slice(0, 4).map((t) => (
-                            <span key={t} className="rounded bg-muted px-2 py-0.5 text-[10px] font-medium ds-muted">
+                            <span key={t} className="rounded bg-muted px-2 py-0.5 text-[11px] font-medium ds-muted">
                               #{t}
                             </span>
                           ))}

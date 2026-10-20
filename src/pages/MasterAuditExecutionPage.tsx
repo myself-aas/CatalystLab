@@ -214,7 +214,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  />
 
  <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex items-center justify-between">
@@ -225,7 +225,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <ArrowLeft className="size-3.5 shrink-0"/>
  Back to home
  </Link>
- <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-[#F0FAFF]">
+ <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-foreground">
  <ShieldCheck className="size-3.5 shrink-0"/>
  8-engine orchestrator
  </span>
@@ -265,20 +265,20 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <LinearCard className="p-5"lift={false}>
  <div className="flex items-center justify-between gap-3">
  <div className="flex items-center gap-2 text-sm text-foreground">
- <Activity className="size-4 text-[#F0FAFF] shrink-0"/>
+ <Activity className="size-4 text-foreground shrink-0"/>
  {loading
  ? `Engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
  : `${completedCount} of ${MASTER_ENGINES.length} engines finished`}
  </div>
  {compositeScore !== null && (
- <div className="font-mono text-sm text-[#F0FAFF]">
+ <div className="font-mono text-sm text-foreground">
  Composite {compositeScore}/100
  </div>
  )}
  </div>
  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted/60">
  <div
- className="h-full rounded-full bg-[#F0FAFF] transition-all"
+ className="h-full rounded-full bg-[#F0FAFF] transition"
  style={{ width: `${loading ? Math.max(progressPct, 8) : progressPct}%` }}
  />
  </div>

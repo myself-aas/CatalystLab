@@ -71,7 +71,7 @@ export const LiveCronLogStream: React.FC = () => {
       case 'WARN':
         return 'bg-[#F0FAFF]/10 text-amber-500 border-amber-500/30';
       case 'ERROR':
-        return 'bg-[#F7FDFF]/10 text-rose-500 border-rose-500/30';
+        return 'bg-[#FFFFFF]/10 text-rose-500 border-rose-500/30';
       case 'BENCHMARK':
         return 'bg-[#F0FAFF]/10 text-fuchsia-500 border-purple-500/30';
       default:
@@ -91,7 +91,7 @@ export const LiveCronLogStream: React.FC = () => {
             )}
           </div>
           <span className="font-bold text-foreground tracking-wide">Live Telemetry Cron Stream</span>
-          <span className="px-1.5 py-0.5 rounded text-[10px] bg-muted text-muted-foreground border border-border">
+          <span className="px-1.5 py-0.5 rounded text-[11px] bg-muted text-muted-foreground border border-border">
             {cronLogs.length} events
           </span>
         </div>
@@ -101,7 +101,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={toggleAutoStream}
-            className={`p-1.5 rounded-lg border transition-all cursor-pointer flex items-center gap-1 text-[11px] ${
+            className={`min-h-11 min-w-11 p-1.5 rounded-lg border transition cursor-pointer flex items-center gap-1 text-[11px] ${
               autoStreamActive 
                 ? 'bg-[#F0FAFF]/10 border-emerald-500/30 text-emerald-400 hover:bg-[#F0FAFF]/20' 
                 : 'bg-muted border-border text-muted-foreground hover:text-muted-foreground'
@@ -124,7 +124,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={clearLogs}
-            className="p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 hover:border-rose-500/30 transition-colors cursor-pointer"
+            className="min-h-11 min-w-11 p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 hover:border-rose-500/30 transition-colors cursor-pointer"
             title="Clear logs"
           >
             <Trash2 className="h-3 w-3" />
@@ -152,7 +152,7 @@ export const LiveCronLogStream: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 text-[10px] text-muted-foreground shrink-0">
+        <div className="flex items-center gap-2 text-[11px] text-muted-foreground shrink-0">
           <label className="flex items-center gap-1 cursor-pointer select-none">
             <input
               type="checkbox"
@@ -178,9 +178,9 @@ export const LiveCronLogStream: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="group p-2 rounded-lg bg-muted/40 border border-border/80 hover:border-border transition-all text-left space-y-1"
+              className="group p-2 rounded-lg bg-muted/40 border border-border/80 hover:border-border transition text-left space-y-1"
             >
-              <div className="flex items-center justify-between gap-2 text-[10px]">
+              <div className="flex items-center justify-between gap-2 text-[11px]">
                 <div className="flex items-center gap-1.5 truncate">
                   <span className={`px-1.5 py-0.5 rounded border font-bold ${getLevelBadgeClass(log.level)}`}>
                     {log.level}
@@ -191,14 +191,14 @@ export const LiveCronLogStream: React.FC = () => {
 
                 <div className="flex items-center gap-1 shrink-0">
                   {log.durationMs && (
-                    <span className="text-[10px] text-emerald-400 bg-emerald-950/40 px-1 rounded border border-emerald-800/40">
+                    <span className="text-[11px] text-emerald-400 bg-emerald-950/40 px-1 rounded border border-emerald-800/40">
                       {log.durationMs}ms
                     </span>
                   )}
                   <button
                     type="button"
                     onClick={() => handleCopyLog(log)}
-                    className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-primary-hover text-muted-foreground hover:text-muted-foreground transition-all cursor-pointer"
+                    className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-primary-hover text-muted-foreground hover:text-muted-foreground transition cursor-pointer"
                     title="Copy event JSON"
                   >
                     {copiedId === log.id ? (
@@ -226,7 +226,7 @@ export const LiveCronLogStream: React.FC = () => {
       </div>
 
       {/* Stream Footer Telemetry Bar */}
-      <div className="p-2 bg-muted/40 border-t border-border flex items-center justify-between text-[10px] text-muted-foreground">
+      <div className="p-2 bg-muted/40 border-t border-border flex items-center justify-between text-[11px] text-muted-foreground">
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1">
             <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />

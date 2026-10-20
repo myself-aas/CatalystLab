@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import apiImage from '../assets/images/page-api.jpg';
 import { ApiPlayground } from '../components/api/ApiPlayground';
 import { SEOHead } from '../components/common/SEOHead';
 
@@ -20,6 +21,9 @@ export const ApiDocsPage: React.FC = () => {
  </p>
  </div>
 
+ <figure className="mx-auto mb-12 max-w-4xl">
+   <img src={apiImage} alt="Developers pair-programming against the CatalystLab API" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+ </figure>
  <ApiPlayground />
  </div>
  </div>

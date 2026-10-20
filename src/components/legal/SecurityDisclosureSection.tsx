@@ -45,7 +45,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
   const severityMatrix = [
     {
       level: 'Critical',
-      color: 'border-rose-500/20 bg-[#F7FDFF]/10 text-rose-400',
+      color: 'border-rose-500/20 bg-[#FFFFFF]/10 text-rose-400',
       badge: 'Immediate P0',
       targetFix: '< 12 Hours',
       examples: 'Remote Code Execution (RCE), Authentication Bypass, Database SQL/Firestore Injection'
@@ -91,7 +91,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-border pt-5">
             <div className="rounded-xl border border-border bg-muted p-3.5">
-              <span className="text-[10px] uppercase font-bold text-amber-600">Target Triage Time</span>
+              <span className="text-[11px] uppercase font-bold text-amber-600">Target Triage Time</span>
               <div className="text-base font-bold text-foreground mt-0.5 flex items-center gap-1.5">
                 <Clock className="h-3.5 w-3.5 text-amber-600" />
                 <span>&lt; 2 Hours</span>
@@ -99,7 +99,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
             </div>
 
             <div className="rounded-xl border border-border bg-muted p-3.5">
-              <span className="text-[10px] uppercase font-bold text-emerald-600">Safe Harbor Status</span>
+              <span className="text-[11px] uppercase font-bold text-emerald-600">Safe Harbor Status</span>
               <div className="text-base font-bold text-foreground mt-0.5 flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
                 <span>Full Legal Pledge</span>
@@ -107,7 +107,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
             </div>
 
             <div className="rounded-xl border border-border bg-muted p-3.5">
-              <span className="text-[10px] uppercase font-bold text-amber-600">Hall of Fame</span>
+              <span className="text-[11px] uppercase font-bold text-amber-600">Hall of Fame</span>
               <div className="text-base font-bold text-foreground mt-0.5 flex items-center gap-1.5">
                 <Award className="h-3.5 w-3.5 text-amber-600" />
                 <span>Public Recognition</span>
@@ -136,7 +136,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
               >
                 <div className="flex items-center justify-between">
                   <span className="font-extrabold text-xs">{item.level} Severity</span>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-current">
+                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border border-current">
                     SLA: {item.targetFix}
                   </span>
                 </div>
@@ -309,7 +309,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-2.5 text-xs font-bold text-primary-foreground transition-all shadow-sm cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-2.5 text-xs font-bold text-primary-foreground transition shadow-sm cursor-pointer"
               >
                 <Send className="h-3.5 w-3.5 text-amber-400" />
                 <span>Transmit Encrypted Security Report</span>

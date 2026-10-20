@@ -255,7 +255,7 @@ export const DomainReportArticlePage: React.FC = () => {
  />
  
  {/* Main Hero Header */}
- <header className="border-b border-border bg-[#2C2F32] py-8 md:py-12 sm:px-6 lg:px-8">
+ <header className="border-b border-border bg-[#F3F4F6] py-8 md:py-12 sm:px-6 lg:px-8">
  <div className="ds-page-shell space-y-5">
  
  {/* Badge & Category */}

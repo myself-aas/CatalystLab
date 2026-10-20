@@ -75,7 +75,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
         </div>
 
         <div className="px-4 py-2.5 rounded-2xl bg-muted/40 border border-border text-right">
-          <span className="text-[10px] text-muted-foreground block uppercase font-bold">Estimated Net Savings</span>
+          <span className="text-[11px] text-muted-foreground block uppercase font-bold">Estimated Net Savings</span>
           <span className="text-xl font-extrabold text-foreground font-mono">${annualDollarSavings.toLocaleString()} / yr</span>
         </div>
       </div>
@@ -110,7 +110,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               onChange={(e) => setMonthlyProbes(Number(e.target.value))}
               className="w-full h-2 bg-muted/40 rounded-lg appearance-none cursor-pointer accent-primary"
             />
-            <div className="flex justify-between text-[10px] text-muted-foreground">
+            <div className="flex justify-between text-[11px] text-muted-foreground">
               <span>10k (Hobby)</span>
               <span>500k (Pro)</span>
               <span>2.5M+ (Enterprise)</span>
@@ -143,7 +143,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               onChange={(e) => setProductionDomains(Number(e.target.value))}
               className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer accent-emerald-600"
             />
-            <div className="flex justify-between text-[10px] text-muted-foreground">
+            <div className="flex justify-between text-[11px] text-muted-foreground">
               <span>1 domain</span>
               <span>10 domains</span>
               <span>50+ domains</span>
@@ -176,7 +176,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
               onChange={(e) => setEngineerSeats(Number(e.target.value))}
               className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer accent-indigo-600"
             />
-            <div className="flex justify-between text-[10px] text-muted-foreground">
+            <div className="flex justify-between text-[11px] text-muted-foreground">
               <span>1 seat</span>
               <span>10 seats</span>
               <span>30+ seats</span>
@@ -189,57 +189,57 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           <div className="grid grid-cols-2 gap-3">
             {/* Metric 1 */}
             <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
-              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
+              <div className="text-[11px] text-muted-foreground font-bold flex items-center gap-1">
                 <Clock className="h-3 w-3 text-muted-foreground" />
                 DevOps Time Saved
               </div>
               <div className="text-xl font-extrabold text-foreground font-mono">
                 {hoursSavedPerMonth} hrs<span className="text-xs text-muted-foreground font-normal">/mo</span>
               </div>
-              <div className="text-[10px] text-primary font-bold">Automated CI/CD Gates</div>
+              <div className="text-[11px] text-primary font-bold">Automated CI/CD Gates</div>
             </div>
 
             {/* Metric 2 */}
             <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
-              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
+              <div className="text-[11px] text-muted-foreground font-bold flex items-center gap-1">
                 <ShieldCheck className="h-3 w-3 text-emerald-600" />
                 Outages Prevented
               </div>
               <div className="text-xl font-extrabold text-foreground font-mono">
                 ~{incidentsPreventedPerYear} incidents<span className="text-xs text-muted-foreground font-normal">/yr</span>
               </div>
-              <div className="text-[10px] text-primary font-bold">Zero client-script errors</div>
+              <div className="text-[11px] text-primary font-bold">Zero client-script errors</div>
             </div>
 
             {/* Metric 3 */}
             <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
-              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
+              <div className="text-[11px] text-muted-foreground font-bold flex items-center gap-1">
                 <Leaf className="h-3 w-3 text-emerald-600" />
                 Carbon Offset
               </div>
               <div className="text-xl font-extrabold text-foreground font-mono">
                 {carbonAvoidedKg} kg<span className="text-xs text-muted-foreground font-normal"> CO2e/yr</span>
               </div>
-              <div className="text-[10px] text-primary font-bold">Green Web Protocol</div>
+              <div className="text-[11px] text-primary font-bold">Green Web Protocol</div>
             </div>
 
             {/* Metric 4 */}
             <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
-              <div className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
+              <div className="text-[11px] text-muted-foreground font-bold flex items-center gap-1">
                 <DollarSign className="h-3 w-3 text-amber-600" />
                 Net Productivity
               </div>
               <div className="text-xl font-extrabold text-foreground font-mono">
                 {Math.round((annualDollarSavings / (engineerSeats * 120000)) * 100)}%
               </div>
-              <div className="text-[10px] text-muted-foreground font-bold">Engineering Velocity</div>
+              <div className="text-[11px] text-muted-foreground font-bold">Engineering Velocity</div>
             </div>
           </div>
 
           {/* Recommended Plan Match Box */}
           <div className="p-4 rounded-2xl bg-muted/40 border border-border flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+              <div className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
                 Optimal Plan Recommendation:
               </div>
               <div className="text-base font-extrabold text-foreground mt-0.5">

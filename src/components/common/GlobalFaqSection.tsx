@@ -199,7 +199,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={`Search ${totalQuestions} questions across all tabs (e.g. CI/CD, TTFB, /llms.txt)...`}
-                  className="w-full pl-11 pr-10 py-3 rounded-xl bg-muted border border-border text-xs font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-border transition-all shadow-sm"
+                  className="w-full pl-11 pr-10 py-3 rounded-xl bg-muted border border-border text-xs font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-border transition shadow-sm"
                 />
                 {searchQuery && (
                   <button
@@ -223,7 +223,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                 <span className="text-xs font-mono font-bold text-foreground">
                   Search Results for &ldquo;{searchQuery}&rdquo;
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-accent text-foreground border border-border text-[10px] font-mono font-bold">
+                <span className="px-2 py-0.5 rounded-full bg-accent text-foreground border border-border text-[11px] font-mono font-bold">
                   {searchResults.length} match{searchResults.length === 1 ? '' : 'es'}
                 </span>
               </div>
@@ -268,11 +268,11 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                       >
                         <div className="space-y-1 pr-2">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-accent border border-border text-muted-foreground text-[10px] font-mono font-semibold">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-accent border border-border text-muted-foreground text-[11px] font-mono font-semibold">
                               {res.categoryLabel}
                             </span>
                             {res.item.badge && (
-                              <span className="px-2 py-0.5 rounded bg-primary text-primary-foreground text-[10px] font-mono font-bold">
+                              <span className="px-2 py-0.5 rounded bg-primary text-primary-foreground text-[11px] font-mono font-bold">
                                 {res.item.badge}
                               </span>
                             )}
@@ -316,7 +316,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   <button
                     key={cat.id}
                     onClick={() => handleSelectCategory(cat.id)}
-                    className={`shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
+                    className={`shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition ${
                       isActive
                         ? 'bg-primary text-primary-foreground shadow-sm'
                         : 'bg-background text-muted-foreground border border-border hover:bg-muted'
@@ -324,7 +324,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   >
                     {getCategoryIcon(cat.iconName || cat.id)}
                     <span>{cat.label}</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground font-mono">
+                    <span className="text-[11px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground font-mono">
                       {cat.items.length}
                     </span>
                   </button>
@@ -336,7 +336,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
               {/* Desktop Left Tab Navigation Column */}
               <div className="hidden lg:flex lg:col-span-4 flex-col gap-2 sticky top-24">
                 <div className="px-2 pb-1">
-                  <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
+                  <span className="text-[11px] font-mono font-bold text-muted-foreground uppercase tracking-wider">
                     Topic Categories ({resolvedCategories.length})
                   </span>
                 </div>
@@ -391,7 +391,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                       <h3 className="text-sm sm:text-base font-bold text-foreground font-sans">
                         {activeCategory?.label}
                       </h3>
-                      <span className="px-2 py-0.5 rounded bg-background text-muted-foreground text-[10px] font-bold border border-border">
+                      <span className="px-2 py-0.5 rounded bg-background text-muted-foreground text-[11px] font-bold border border-border">
                         {activeCategory?.items.length} items
                       </span>
                     </div>
@@ -436,7 +436,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                         >
                           <div className="space-y-1 pr-2">
                             {item.badge && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded bg-accent border border-border text-foreground text-[10px] font-mono font-bold mb-1">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded bg-accent border border-border text-foreground text-[11px] font-mono font-bold mb-1">
                                 {item.badge}
                               </span>
                             )}
@@ -478,7 +478,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                   <div className="space-y-1">
                     <div className="flex items-center gap-1.5">
                       <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">Direct Engineering Support</span>
+                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-muted-foreground">Direct Engineering Support</span>
                     </div>
                     <h4 className="font-extrabold text-foreground text-sm sm:text-base font-sans">
                       Still have questions about CatalystLab?
@@ -496,7 +496,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                     </Link>
                     <Link
                       to={contactLink}
-                      className="inline-flex items-center justify-center px-4 py-2 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-mono text-xs font-bold transition-all shadow-sm"
+                      className="inline-flex items-center justify-center px-4 py-2 bg-primary hover:bg-primary-hover text-primary-foreground rounded-xl font-mono text-xs font-bold transition shadow-sm"
                     >
                       {contactActionText}
                     </Link>

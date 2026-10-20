@@ -20,7 +20,7 @@ import { EngineType } from '../../types';
 const ENZYME_LIST: { id: EngineType; label: string; name: string; color: string }[] = [
   { id: 'health', label: '[VitalZyme]', name: 'Core Web Vitals', color: '#F0FAFF' },
   { id: 'latency', label: '[EdgeVmax]', name: 'Edge Latency', color: '#F0FAFF' },
-  { id: 'compliance', label: '[RiskProtease]', name: 'SecOps & CSP', color: '#F7FDFF' },
+  { id: 'compliance', label: '[RiskProtease]', name: 'SecOps & CSP', color: '#FFFFFF' },
   { id: 'ai_ready', label: '[LLM-Kinase]', name: 'AI Crawler Readiness', color: '#F0FAFF' },
   { id: 'eco', label: '[EcoHolo]', name: 'Digital Carbon', color: '#F0FAFF' },
   { id: 'repo', label: '[GitLygase]', name: 'AST Hygiene', color: '#F0FAFF' },
@@ -110,7 +110,7 @@ export const StickyHUD: React.FC = () => {
 
   // System load color styling
   const getLoadColor = (load: number) => {
-    if (load > 75) return 'text-rose-400 bg-[#F7FDFF]';
+    if (load > 75) return 'text-rose-400 bg-[#FFFFFF]';
     if (load > 45) return 'text-amber-400 bg-[#F0FAFF]';
     return 'text-emerald-400 bg-[#F0FAFF]';
   };
@@ -125,9 +125,9 @@ export const StickyHUD: React.FC = () => {
     <aside
       id="telemetry-sticky-hud"
       aria-label="Real-time Telemetry Sticky HUD"
-      className="fixed bottom-6 right-6 z-50 pointer-events-none flex flex-col items-end justify-end transition-all duration-300"
+      className="fixed bottom-6 right-6 z-50 pointer-events-none flex flex-col items-end justify-end transition duration-300"
     >
-      <div className="w-auto max-w-xl pointer-events-auto flex flex-col items-end transition-all duration-300">
+      <div className="w-auto max-w-xl pointer-events-auto flex flex-col items-end transition duration-300">
         
         {/* Expandable Live Terminal Log Drawer */}
         <AnimatePresence>
@@ -145,7 +145,7 @@ export const StickyHUD: React.FC = () => {
                   <span className="font-semibold text-foreground uppercase tracking-wider text-[11px]">
                     Autonomous Telemetry Cron Stream
                   </span>
-                  <span className="flex items-center gap-1.5 text-[10px] text-foreground-muted ml-2">
+                  <span className="flex items-center gap-1.5 text-[11px] text-foreground-muted ml-2">
                     <span className="size-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />
                     <span>{cronLogs.length} live events</span>
                   </span>
@@ -155,7 +155,7 @@ export const StickyHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={toggleAutoStream}
-                    className={`px-2 py-0.5 rounded text-[10px] font-semibold transition-colors cursor-pointer ${
+                    className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors cursor-pointer ${
                       autoStreamActive
                         ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/30'
                         : 'bg-muted/40 text-foreground-muted border border-border-default'
@@ -185,8 +185,8 @@ export const StickyHUD: React.FC = () => {
                     key={log.id} 
                     className="flex items-start gap-2 text-foreground-muted font-mono hover:bg-muted/30 p-1 rounded transition-colors"
                   >
-                    <span className="text-foreground-muted/70 shrink-0 text-[10px]">{log.timestamp}</span>
-                    <span className={`px-1.5 py-0.2 rounded text-[10px] font-semibold shrink-0 ${
+                    <span className="text-foreground-muted/70 shrink-0 text-[11px]">{log.timestamp}</span>
+                    <span className={`px-1.5 py-0.2 rounded text-[11px] font-semibold shrink-0 ${
                       log.level === 'CRON' ? 'bg-accent/15 text-accent-bright border border-accent/25' :
                       log.level === 'WARN' ? 'bg-[#F0FAFF]/15 text-amber-400 border border-amber-500/30' :
                       log.level === 'BENCHMARK' ? 'bg-[#F0FAFF]/15 text-purple-400 border border-purple-500/30' :
@@ -194,10 +194,10 @@ export const StickyHUD: React.FC = () => {
                     }`}>
                       {log.level}
                     </span>
-                    <span className="text-foreground-muted/70 text-[10px] shrink-0">[{log.popRegion}]</span>
+                    <span className="text-foreground-muted/70 text-[11px] shrink-0">[{log.popRegion}]</span>
                     <span className="text-foreground flex-1 break-all">{log.message}</span>
                     {log.durationMs && (
-                      <span className="text-[10px] text-emerald-400 shrink-0">{log.durationMs}ms</span>
+                      <span className="text-[11px] text-emerald-400 shrink-0">{log.durationMs}ms</span>
                     )}
                   </div>
                 ))}
@@ -230,7 +230,7 @@ export const StickyHUD: React.FC = () => {
                       toggleFocusEngine(focusEngine);
                       setShowEngineSelector(false);
                     }}
-                    className="text-accent-bright hover:underline text-[10px] font-semibold cursor-pointer"
+                    className="text-accent-bright hover:underline text-[11px] font-semibold cursor-pointer"
                   >
                     Clear Focus (Show All)
                   </button>
@@ -248,7 +248,7 @@ export const StickyHUD: React.FC = () => {
                         toggleFocusEngine(enzyme.id);
                         setShowEngineSelector(false);
                       }}
-                      className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                      className={`p-2 rounded-xl border text-left transition cursor-pointer ${
                         isSelected
                           ? 'bg-accent/15 border-accent/60 text-foreground shadow-2xs'
                           : 'bg-muted/30 border-border-default text-foreground-muted hover:text-foreground hover:border-accent/30'
@@ -257,7 +257,7 @@ export const StickyHUD: React.FC = () => {
                       <div className="font-semibold text-[11px]" style={{ color: isSelected ? 'var(--accent-bright, #F0FAFF)' : enzyme.color }}>
                         {enzyme.label}
                       </div>
-                      <div className="text-[10px] text-foreground-muted truncate mt-0.5 font-sans">
+                      <div className="text-[11px] text-foreground-muted truncate mt-0.5 font-sans">
                         {enzyme.name}
                       </div>
                     </button>
@@ -279,7 +279,7 @@ export const StickyHUD: React.FC = () => {
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             type="button"
             onClick={toggleHudExpanded}
-            className="group relative flex items-center justify-center size-14 rounded-2xl border border-accent/40 bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition-all duration-200 cursor-pointer pointer-events-auto"
+            className="group relative flex items-center justify-center size-14 rounded-2xl border border-accent/40 bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition duration-200 cursor-pointer pointer-events-auto"
             aria-label="Open Telemetry HUD Terminal"
             title="Open Telemetry HUD Terminal"
           >
@@ -301,7 +301,7 @@ export const StickyHUD: React.FC = () => {
             </svg>
           </motion.button>
         ) : (
-          <div className="relative w-full max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-2xl border border-border-default bg-card/90 dark:bg-card/90 backdrop-blur-xl shadow-linear-card font-mono text-xs transition-all duration-300">
+          <div className="relative w-full max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-2xl border border-border-default bg-card/90 dark:bg-card/90 backdrop-blur-xl shadow-linear-card font-mono text-xs transition duration-300">
             
             {/* Top Scanline / Scanning Progress Bar */}
             {isScanning ? (
@@ -328,7 +328,7 @@ export const StickyHUD: React.FC = () => {
                 >
                   <div className="flex items-center gap-1.5">
                     <Activity className="size-3.5 text-accent-bright" />
-                    <span className="text-[10px] text-foreground-muted font-bold uppercase hidden md:inline">
+                    <span className="text-[11px] text-foreground-muted font-bold uppercase hidden md:inline">
                       SYS LOAD:
                     </span>
                   </div>
@@ -338,7 +338,7 @@ export const StickyHUD: React.FC = () => {
                     </span>
                     <div className="w-10 h-1.5 bg-muted/80 rounded-full overflow-hidden hidden sm:block">
                       <div 
-                        className={`h-full transition-all duration-500 ${getLoadColor(systemLoad).split(' ')[1]}`}
+                        className={`h-full transition duration-500 ${getLoadColor(systemLoad).split(' ')[1]}`}
                         style={{ width: `${Math.min(100, systemLoad)}%` }}
                       />
                     </div>
@@ -361,7 +361,7 @@ export const StickyHUD: React.FC = () => {
                 {/* Scroll Depth Telemetry */}
                 <div 
                   title="Page Telemetry Scroll Traversal"
-                  className="hidden xl:flex items-center gap-1.5 px-2 py-1 rounded-xl bg-muted/40 dark:bg-muted/30 border border-border-default text-[10px] text-foreground-muted"
+                  className="hidden xl:flex items-center gap-1.5 px-2 py-1 rounded-xl bg-muted/40 dark:bg-muted/30 border border-border-default text-[11px] text-foreground-muted"
                 >
                   <span>DEPTH:</span>
                   <span className="text-foreground font-semibold">{scrollDepthPercentage}%</span>
@@ -375,7 +375,7 @@ export const StickyHUD: React.FC = () => {
                   onClick={() => setShowEngineSelector(!showEngineSelector)}
                   aria-expanded={showEngineSelector}
                   aria-controls="telemetry-engine-selector"
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[11px] font-semibold transition-all cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[11px] font-semibold transition cursor-pointer ${
                     focusEngine
                       ? 'bg-accent/15 border-accent/60 text-accent-bright shadow-2xs'
                       : 'bg-muted/40 dark:bg-muted/30 border-border-default text-foreground-muted hover:border-accent/40 hover:text-foreground'
@@ -392,7 +392,7 @@ export const StickyHUD: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowLogDrawer(!showLogDrawer)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[11px] font-semibold transition-all cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[11px] font-semibold transition cursor-pointer ${
                     showLogDrawer
                       ? 'bg-accent/15 border-accent/60 text-foreground'
                       : 'bg-muted/40 dark:bg-muted/30 border-border-default text-foreground-muted hover:text-foreground'
@@ -416,7 +416,7 @@ export const StickyHUD: React.FC = () => {
                       type="button"
                       onClick={cancelScan}
                       title="Cancel Scan"
-                      className="inline-flex size-8 items-center justify-center rounded-lg bg-[#F7FDFF]/10 border border-rose-500/40 text-rose-400 hover:bg-[#F7FDFF]/20 transition-colors"
+                      className="inline-flex size-8 items-center justify-center rounded-lg bg-[#FFFFFF]/10 border border-rose-500/40 text-rose-400 hover:bg-[#FFFFFF]/20 transition-colors"
                       aria-label="Cancel scan"
                     >
                       <X aria-hidden="true" className="size-3.5" />
@@ -426,7 +426,7 @@ export const StickyHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => startMockScan(activeDomain)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent hover:bg-accent-bright text-foreground text-xs font-semibold transition-all shadow-linear-cta cursor-pointer active:scale-95"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent hover:bg-accent-bright text-foreground text-xs font-semibold transition shadow-linear-cta cursor-pointer active:scale-95"
                   >
                     <Play className="size-3 fill-current" />
                     <span>RUN PROBE</span>

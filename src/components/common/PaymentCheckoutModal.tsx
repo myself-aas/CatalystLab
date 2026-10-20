@@ -100,7 +100,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
         className="relative w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden text-foreground animate-scaleUp"
       >
         {/* Top Header Gradient Bar */}
-        <div className={`h-2 bg-gradient-to-r ${gateway === '2checkout' ? 'from-amber-500 via-amber-600 to-amber-700' : 'from-cyan-500 via-cyan-600 to-cyan-700'} transition-all duration-300`} />
+        <div className={`h-2 bg-gradient-to-r ${gateway === '2checkout' ? 'from-amber-500 via-amber-600 to-amber-700' : 'from-cyan-500 via-cyan-600 to-cyan-700'} transition duration-300`} />
 
         {/* Close Button */}
         <button 
@@ -138,7 +138,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
               <button
                 type="button"
                 onClick={() => setGateway('2checkout')}
-                className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border text-left transition flex items-center justify-between ${
                   gateway === '2checkout'
                     ? 'bg-primary/10 border-primary text-foreground shadow-sm'
                     : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
@@ -156,7 +156,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
               <button
                 type="button"
                 onClick={() => setGateway('dodopay')}
-                className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between ${
+                className={`p-3.5 rounded-xl border text-left transition flex items-center justify-between ${
                   gateway === 'dodopay'
                     ? 'bg-accent border-foreground text-foreground shadow-sm'
                     : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
@@ -188,14 +188,14 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                     key={tierKey}
                     type="button"
                     onClick={() => setSelectedPlan(tierKey)}
-                    className={`relative p-3 rounded-xl text-left border transition-all ${
+                    className={`relative p-3 rounded-xl text-left border transition ${
                       isSelected 
                         ? 'bg-primary/10 border-primary text-foreground shadow-sm' 
                         : 'bg-muted border-border text-muted-foreground hover:border-border-strong'
                     }`}
                   >
                     {tierItem.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-primary text-primary-foreground shadow-xs">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[11px] font-bold rounded bg-primary text-primary-foreground shadow-xs">
                         POPULAR
                       </span>
                     )}
@@ -216,7 +216,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
               <button
                 type="button"
                 onClick={() => setBillingCycle('monthly')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
                   billingCycle === 'monthly' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
@@ -225,12 +225,12 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
               <button
                 type="button"
                 onClick={() => setBillingCycle('annual')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
                   billingCycle === 'annual' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 <span>Annual</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#F0FAFF]/15 text-emerald-400 border border-emerald-500/20 font-mono font-bold">Save 15%</span>
+                <span className="px-1.5 py-0.5 rounded text-[11px] bg-[#F0FAFF]/15 text-emerald-400 border border-emerald-500/20 font-mono font-bold">Save 15%</span>
               </button>
             </div>
           </div>
@@ -252,7 +252,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
           </div>
 
           {error && (
-            <div className="mt-4 p-3 rounded-lg bg-[#F7FDFF]/10 border border-rose-500/20 text-xs text-rose-400 flex items-center gap-2">
+            <div className="mt-4 p-3 rounded-lg bg-[#FFFFFF]/10 border border-rose-500/20 text-xs text-rose-400 flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
               <span>{error}</span>
             </div>
@@ -287,7 +287,7 @@ export const PaymentCheckoutModal: React.FC<PaymentCheckoutModalProps> = ({
                 type="button"
                 onClick={handleStartCheckout}
                 disabled={loading || success}
-                className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-2 ${
+                className={`px-6 py-2.5 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2 ${
                   success
                     ? 'bg-emerald-600 text-primary-foreground'
                     : 'bg-foreground hover:bg-foreground/90 text-primary-foreground border border-border'

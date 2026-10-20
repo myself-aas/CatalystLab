@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import contactImage from '../assets/images/page-contact.jpg';
 import { 
  ArrowRight,
  Send,
@@ -86,21 +87,24 @@ export const ContactPage: React.FC = () => {
  <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed tracking-[-0.01em]">
  No sales fluff. Whether you're debugging an OWASP flag, setting up CI/CD pipeline triggers, or upgrading to Enterprise, you speak directly with the engineers building the engines.
  </p>
+ <figure className="mt-2">
+   <img src={contactImage} alt="CatalystLab support specialist ready to help" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+ </figure>
  </div>
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
  <div className="flex flex-col gap-2">
- <Clock className="size-5 text-[#F0FAFF]" />
+ <Clock className="size-5 text-foreground" />
  <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">&lt; 18m</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Avg Response</span>
  </div>
  <div className="flex flex-col gap-2">
- <Globe className="size-5 text-[#F0FAFF]" />
+ <Globe className="size-5 text-foreground" />
  <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">38</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Edge PoPs</span>
  </div>
  <div className="flex flex-col gap-2">
- <Activity className="size-5 text-[#F0FAFF]" />
+ <Activity className="size-5 text-foreground" />
  <span className="text-2xl font-semibold text-foreground tracking-[-0.02em]">99.99%</span>
  <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">P95 SLA</span>
  </div>
@@ -181,7 +185,7 @@ export const ContactPage: React.FC = () => {
  onClick={() => setDepartment(dep.id)}
  className={`relative px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left overflow-hidden border ${
  department === dep.id 
- ? 'text-[#F0FAFF] border-[#F0FAFF]/30' 
+ ? 'text-foreground border-[#F0FAFF]/30' 
  : 'bg-surface text-muted-foreground border-border hover:border-border-strong hover:text-foreground'
  }`}
  >

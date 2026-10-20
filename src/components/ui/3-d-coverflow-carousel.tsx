@@ -184,7 +184,7 @@ function CoverflowCard({
                   {item.titleLine1}
                 </h4>
                 {item.shortCode && (
-                  <span className="hidden xs:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-foreground/10 text-[#F0FAFF] border border-foreground/10">
+                  <span className="hidden xs:inline-block text-[11px] font-mono px-1.5 py-0.5 rounded bg-foreground/10 text-foreground border border-foreground/10">
                     [{item.shortCode}]
                   </span>
                 )}
@@ -232,7 +232,7 @@ function CoverflowCard({
               title="Architecture Spec"
               className="ds-btn ds-btn-secondary px-3 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 bg-foreground/10 hover:bg-foreground/20 text-foreground border border-foreground/20 backdrop-blur-md cursor-pointer"
             >
-              <FileCode2 className="size-4 shrink-0 text-[#F0FAFF]" />
+              <FileCode2 className="size-4 shrink-0 text-foreground" />
               <span className="hidden md:inline">Docs</span>
             </motion.button>
           </div>
@@ -467,7 +467,7 @@ export function CoverFlowCarousel({
           whileTap={{ scale: 0.9 }}
           onClick={prevSlide}
           aria-label="Previous engine"
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 size-10 sm:size-12 rounded-full bg-background/60 hover:bg-background/85 text-foreground/90 hover:text-foreground border border-foreground/20 backdrop-blur-xl flex items-center justify-center transition-all shadow-xl cursor-pointer"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-40 size-10 sm:size-12 rounded-full bg-background/60 hover:bg-background/85 text-foreground/90 hover:text-foreground border border-foreground/20 backdrop-blur-xl flex items-center justify-center transition shadow-xl cursor-pointer"
         >
           <ChevronLeft className="size-5 sm:size-6" />
         </motion.button>
@@ -478,7 +478,7 @@ export function CoverFlowCarousel({
           whileTap={{ scale: 0.9 }}
           onClick={nextSlide}
           aria-label="Next engine"
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 size-10 sm:size-12 rounded-full bg-background/60 hover:bg-background/85 text-foreground/90 hover:text-foreground border border-foreground/20 backdrop-blur-xl flex items-center justify-center transition-all shadow-xl cursor-pointer"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 size-10 sm:size-12 rounded-full bg-background/60 hover:bg-background/85 text-foreground/90 hover:text-foreground border border-foreground/20 backdrop-blur-xl flex items-center justify-center transition shadow-xl cursor-pointer"
         >
           <ChevronRight className="size-5 sm:size-6" />
         </motion.button>

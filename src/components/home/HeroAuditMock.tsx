@@ -32,7 +32,7 @@ export const HeroAuditMock: React.FC = () => {
 
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="size-2.5 rounded-full bg-[#F7FDFF]" />
+          <span className="size-2.5 rounded-full bg-[#FFFFFF]" />
           <span className="size-2.5 rounded-full bg-[#F0FAFF]" />
           <span className="size-2.5 rounded-full bg-[#F0FAFF]" />
         </div>
@@ -56,10 +56,10 @@ export const HeroAuditMock: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12">
         <div className="border-b border-border p-5 lg:col-span-7 lg:border-b-0 lg:border-r">
           <div className="mb-4 flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               Engine matrix
             </p>
-            <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-primary">
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-primary">
               Live
             </span>
           </div>
@@ -83,7 +83,7 @@ export const HeroAuditMock: React.FC = () => {
                       style={{ width: `${row.score}%` }}
                     />
                   </div>
-                  <p className="mt-1 font-mono text-[10px] tracking-wide text-muted-foreground">{row.vector}</p>
+                  <p className="mt-1 font-mono text-[11px] tracking-wide text-muted-foreground">{row.vector}</p>
                 </div>
               </motion.div>
             ))}
@@ -103,10 +103,10 @@ export const HeroAuditMock: React.FC = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-xl border border-border bg-muted/20 hover:bg-muted/40 hover:border-foreground/25 p-3 transition-all cursor-pointer shadow-xs"
+                className="rounded-xl border border-border bg-muted/20 hover:bg-muted/40 hover:border-foreground/25 p-3 transition cursor-pointer shadow-xs"
               >
                 <stat.icon className="mb-2 size-3.5 text-primary" />
-                <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   {stat.label}
                 </p>
                 <p className="mt-0.5 font-mono text-lg font-semibold tracking-tight text-foreground">
@@ -118,7 +118,7 @@ export const HeroAuditMock: React.FC = () => {
           <motion.div
             whileHover={{ scale: 1.015 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 rounded-xl border border-border bg-background hover:border-foreground/20 p-3 font-mono text-[11px] leading-relaxed text-muted-foreground transition-all cursor-text"
+            className="flex-1 rounded-xl border border-border bg-background hover:border-foreground/20 p-3 font-mono text-[11px] leading-relaxed text-muted-foreground transition cursor-text"
           >
             <p className="text-primary">$ catalystlab audit stripe.com</p>
             <p className="mt-1">→ resolved 42 anycast PoPs · 11ms</p>

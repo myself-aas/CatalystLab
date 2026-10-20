@@ -88,7 +88,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
       case 'pass':
         return {
           icon: ShieldCheck,
-          color: 'text-[#F0FAFF] bg-[#F0FAFF]/10 border-[#F0FAFF]/20',
+          color: 'text-foreground bg-[#F0FAFF]/10 border-[#F0FAFF]/20',
           label: 'PASSED',
         };
       case 'warn':
@@ -100,7 +100,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
       case 'fail':
         return {
           icon: XCircle,
-          color: 'text-rose-400 bg-[#F7FDFF]/10 border-rose-500/20',
+          color: 'text-rose-400 bg-[#FFFFFF]/10 border-rose-500/20',
           label: 'CRITICAL',
         };
     }
@@ -128,7 +128,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
   return (
     <div
       id={cardId}
-      className={`rounded-2xl border border-border bg-card/40 backdrop-blur-xl shadow-sm transition-all duration-300 hover:border-border hover:shadow-md overflow-hidden ${className}`}
+      className={`rounded-2xl border border-border bg-card/40 backdrop-blur-xl shadow-sm transition duration-300 hover:border-border hover:shadow-md overflow-hidden ${className}`}
     >
       {/* Card Header & Primary Display */}
       <div className="p-4 sm:p-5">
@@ -145,12 +145,12 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
               </span>
 
               {shortCode && (
-                <span className="text-[10px] font-mono font-medium text-muted-foreground bg-card/80 px-1.5 py-0.5 rounded-md border border-border">
+                <span className="text-[11px] font-mono font-medium text-muted-foreground bg-card/80 px-1.5 py-0.5 rounded-md border border-border">
                   {shortCode}
                 </span>
               )}
 
-              <span className="text-[10px] font-mono font-medium text-muted-foreground bg-card/50 border border-border px-2 py-0.5 rounded-md">
+              <span className="text-[11px] font-mono font-medium text-muted-foreground bg-card/50 border border-border px-2 py-0.5 rounded-md">
                 {category}
               </span>
             </div>
@@ -167,17 +167,17 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                 score >= 90
                   ? 'text-emerald-400 border-emerald-500/20 bg-[#F0FAFF]/10'
                   : score >= 75
-                  ? 'text-[#F0FAFF] border-[#F0FAFF]/20 bg-[#F0FAFF]/10'
+                  ? 'text-foreground border-[#F0FAFF]/20 bg-[#F0FAFF]/10'
                   : score >= 60
                   ? 'text-amber-400 border-amber-500/20 bg-[#F0FAFF]/10'
-                  : 'text-rose-400 border-rose-500/20 bg-[#F7FDFF]/10'
+                  : 'text-rose-400 border-rose-500/20 bg-[#FFFFFF]/10'
               }`}
             >
               <Activity className="w-4 h-4 animate-pulse" />
               <span>{score}</span>
-              <span className="text-[10px] font-medium text-muted-foreground">/100</span>
+              <span className="text-[11px] font-medium text-muted-foreground">/100</span>
             </div>
-            <span className="text-[10px] font-mono text-muted-foreground mt-1.5">
+            <span className="text-[11px] font-mono text-muted-foreground mt-1.5">
               {executionTimeMs}ms • {status}
             </span>
           </div>
@@ -199,7 +199,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             </div>
 
             <div>
-              <p className="text-[10px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
+              <p className="text-[11px] font-sans font-bold text-muted-foreground uppercase tracking-widest">
                 {primaryMetric.label}
               </p>
               <div className="flex items-baseline gap-1.5">
@@ -218,7 +218,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
           {/* Delta Indicator Badge */}
           {primaryMetric.deltaText && (
             <div className="text-right">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-sans font-bold uppercase tracking-wider bg-[rgba(240,250,255,0.06)] text-emerald-700 border border-emerald-200 shadow-sm">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-sans font-bold uppercase tracking-wider bg-[rgba(240,250,255,0.06)] text-emerald-700 border border-emerald-200 shadow-sm">
                 {primaryMetric.deltaText}
               </span>
             </div>
@@ -233,7 +233,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             onClick={() => setIsExpanded((prev) => !prev)}
             aria-expanded={isExpanded}
             aria-controls={`${cardId}-subvectors-content`}
-            className="flex items-center gap-1.5 text-xs font-sans font-bold text-[#F0FAFF] hover:text-[#F0FAFF] transition-colors py-1.5 px-3 rounded-lg hover:bg-[#F0FAFF]/10 border border-transparent hover:border-[#F0FAFF]/20"
+            className="flex items-center gap-1.5 text-xs font-sans font-bold text-foreground hover:text-foreground transition-colors py-1.5 px-3 rounded-lg hover:bg-[#F0FAFF]/10 border border-transparent hover:border-[#F0FAFF]/20"
           >
             <span>6 Sub-Vectors</span>
             <motion.div
@@ -287,11 +287,11 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             className="border-t border-border bg-card/50 px-4 py-4 sm:px-5"
           >
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-border/60">
-              <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+              <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
                 <Terminal className="w-3 h-3 text-indigo-500" />
                 <span>MICRO-ANALYZER DIAGNOSTIC VECTORS (6/6)</span>
               </span>
-              <span className="text-[10px] font-mono text-muted-foreground font-medium">
+              <span className="text-[11px] font-mono text-muted-foreground font-medium">
                 PROBE_CYCLE: #08
               </span>
             </div>
@@ -306,14 +306,14 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                   <div
                     key={vector.id || `vec-${idx}`}
                     id={`${cardId}-vector-${idx}`}
-                    className="p-3 rounded-xl bg-card/40 backdrop-blur-xl border border-border hover:border-border hover:shadow-sm transition-all flex flex-col justify-between gap-2 shadow-sm"
+                    className="p-3 rounded-xl bg-card/40 backdrop-blur-xl border border-border hover:border-border hover:shadow-sm transition flex flex-col justify-between gap-2 shadow-sm"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-xs font-sans font-bold text-card-foreground truncate tracking-tight">
                         {vector.name}
                       </span>
                       <span
-                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-sans font-bold uppercase tracking-widest border ${badge.color}`}
+                        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[11px] font-sans font-bold uppercase tracking-widest border ${badge.color}`}
                       >
                         <BadgeIcon className="w-2.5 h-2.5" />
                         <span>{badge.label}</span>
@@ -324,13 +324,13 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                       <span className="text-sm font-black font-mono text-card-foreground">
                         {vector.value}
                         {vector.unit && (
-                          <span className="text-[10px] font-medium text-muted-foreground ml-0.5">
+                          <span className="text-[11px] font-medium text-muted-foreground ml-0.5">
                             {vector.unit}
                           </span>
                         )}
                       </span>
                       {vector.benchmark && (
-                        <span className="text-[10px] font-mono text-muted-foreground truncate">
+                        <span className="text-[11px] font-mono text-muted-foreground truncate">
                           tgt: {vector.benchmark}
                         </span>
                       )}

@@ -75,7 +75,7 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = React
                 <div className="flex items-center justify-between text-xs mb-1.5">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full" style={{
-                      backgroundColor: isFast ? '#F0FAFF' : isModerate ? '#F0FAFF' : '#F7FDFF'
+                      backgroundColor: isFast ? '#F0FAFF' : isModerate ? '#F0FAFF' : '#FFFFFF'
                     }} />
                     <span className="font-bold text-foreground">{pop.region}</span>
                     <span className="text-muted-foreground font-mono text-[11px]">({pop.location})</span>
@@ -85,8 +85,8 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = React
 
                 <div className="h-2 w-full rounded-full bg-background overflow-hidden border border-background/20">
                   <div
-                    className={`h-full rounded-full transition-all duration-700 ${
-                      isFast ? 'bg-[#F0FAFF]' : isModerate ? 'bg-muted0' : 'bg-[#F7FDFF]'
+                    className={`h-full rounded-full transition duration-700 ${
+                      isFast ? 'bg-[#F0FAFF]' : isModerate ? 'bg-muted0' : 'bg-[#FFFFFF]'
                     }`}
                     style={{ width: `${barWidth}%` }}
                   />
@@ -106,22 +106,22 @@ export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = React
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[10px] text-muted-foreground uppercase font-mono">1. DNS Resolution</div>
+            <div className="text-[11px] text-muted-foreground uppercase font-mono">1. DNS Resolution</div>
             <div className="text-sm font-bold text-muted-foreground font-mono mt-0.5">{dnsTime} ms</div>
           </div>
 
           <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[10px] text-muted-foreground uppercase font-mono">2. TLS Handshake</div>
+            <div className="text-[11px] text-muted-foreground uppercase font-mono">2. TLS Handshake</div>
             <div className="text-sm font-bold text-stone-500 font-mono mt-0.5">{tlsTime} ms</div>
           </div>
 
           <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[10px] text-muted-foreground uppercase font-mono">3. Server Processing</div>
+            <div className="text-[11px] text-muted-foreground uppercase font-mono">3. Server Processing</div>
             <div className="text-sm font-bold text-emerald-400 font-mono mt-0.5">{ttfbWaitTime} ms</div>
           </div>
 
           <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[10px] text-muted-foreground uppercase font-mono">4. Content Stream</div>
+            <div className="text-[11px] text-muted-foreground uppercase font-mono">4. Content Stream</div>
             <div className="text-sm font-bold text-foreground font-mono mt-0.5">{downloadTime} ms</div>
           </div>
         </div>

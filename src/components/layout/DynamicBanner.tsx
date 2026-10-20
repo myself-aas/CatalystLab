@@ -101,7 +101,7 @@ export const DynamicBanner: React.FC = () => {
           src={bannerConfig.image}
           alt=""
           className="w-full h-full object-cover object-center opacity-25 filter grayscale contrast-125"
-        />
+        loading="lazy" decoding="async" />
         {/* Dark Gradient Scrim Layering (Satisfies Background Layering Directive) */}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/60" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-transparent to-transparent" />

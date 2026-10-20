@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { clickableProps } from '../../lib/keyboard';
 import { motion, AnimatePresence } from 'motion/react';
 import { LazyReveal } from '../common/LazyAnimate';
 import { EdgeMeshGlobe } from '../ui/edge-mesh-globe';
@@ -69,7 +70,7 @@ export const MeshNetworkSection: React.FC = () => {
     >
       {/* Background ambient lighting */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(0,180,255,0.06)_0%,transparent_80%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#2C303215_1px,transparent_1px),linear-gradient(to_bottom,#2C303215_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#F3F4F615_1px,transparent_1px),linear-gradient(to_bottom,#F3F4F615_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -94,7 +95,7 @@ export const MeshNetworkSection: React.FC = () => {
               type="button"
               onClick={handleTriggerGlobalProbe}
               disabled={isSynthesizing}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F0FAFF] hover:bg-[#F0FAFF] text-foreground text-xs sm:text-sm font-mono font-bold transition-all shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F0FAFF] hover:bg-[#F0FAFF] text-foreground text-xs sm:text-sm font-mono font-bold transition shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
             >
               <RefreshCw className={`h-4 w-4 ${isSynthesizing ? 'animate-spin' : ''}`} />
               <span>{isSynthesizing ? 'Probing 42 Mesh Nodes...' : 'Probe All 42 Nodes'}</span>
@@ -198,28 +199,28 @@ export const MeshNetworkSection: React.FC = () => {
                   return (
                     <div
                       key={pop.id}
-                      onClick={() => setFocusedPoP(pop)}
-                      className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
+                      {...clickableProps} onClick={() => setFocusedPoP(pop)}
+                      className={`flex items-center justify-between p-2.5 rounded-xl border transition cursor-pointer ${
                         isSelected
                           ? 'bg-blue-600/20 border-cyan-500/80 shadow-md ring-1 ring-cyan-500/40 text-primary-foreground'
                           : 'bg-primary/50 border-border/80 hover:bg-primary hover:border-border text-muted-foreground'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="text-[10px] font-mono text-muted-foreground w-4 text-right">{idx + 1}</span>
+                        <span className="text-[11px] font-mono text-muted-foreground w-4 text-right">{idx + 1}</span>
                         <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted border border-border text-[11px] font-mono font-bold text-cyan-300 shrink-0">
                           {pop.code}
                         </div>
                         <div className="min-w-0">
                           <div className="text-xs font-bold text-foreground truncate">{pop.location}</div>
-                          <div className="text-[10px] font-mono text-muted-foreground truncate">{pop.region}</div>
+                          <div className="text-[11px] font-mono text-muted-foreground truncate">{pop.region}</div>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3 shrink-0">
                         <div className="text-right">
                           <div className="text-xs font-mono font-bold text-emerald-400">{pop.ttfbMs} ms</div>
-                          <div className="text-[10px] font-mono text-muted-foreground">{pop.tlsRtt}</div>
+                          <div className="text-[11px] font-mono text-muted-foreground">{pop.tlsRtt}</div>
                         </div>
                         <ChevronRight className={`h-4 w-4 transition-transform ${isSelected ? 'text-cyan-400 translate-x-0.5' : 'text-muted-foreground'}`} />
                       </div>
@@ -237,7 +238,7 @@ export const MeshNetworkSection: React.FC = () => {
                   <span>SLA GUARANTEE</span>
                 </div>
                 <div className="text-lg font-bold font-mono text-primary-foreground">99.99% Edge Uptime</div>
-                <div className="text-[10px] font-mono text-muted-foreground mt-0.5">BGP Anycast failover &lt; 50ms</div>
+                <div className="text-[11px] font-mono text-muted-foreground mt-0.5">BGP Anycast failover &lt; 50ms</div>
               </div>
 
               <div className="rounded-2xl border border-border bg-foreground/60 p-3.5 backdrop-blur-md flex flex-col justify-between">
@@ -246,7 +247,7 @@ export const MeshNetworkSection: React.FC = () => {
                   <span>GREEN CDN INDEX</span>
                 </div>
                 <div className="text-lg font-bold font-mono text-emerald-400">100% Zero-Carbon</div>
-                <div className="text-[10px] font-mono text-muted-foreground mt-0.5">Renewable edge data centers</div>
+                <div className="text-[11px] font-mono text-muted-foreground mt-0.5">Renewable edge data centers</div>
               </div>
             </div>
 

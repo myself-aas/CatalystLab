@@ -43,7 +43,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         <button
           onClick={onClose}
           aria-label="Close Rate Limit Modal"
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="min-h-11 min-w-11 absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <X className="h-5 w-5" />
         </button>
@@ -52,7 +52,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         <div className="flex items-center gap-3 mb-5">
           <div className={`flex h-11 w-11 items-center justify-center rounded-xl border text-xl ${
             (status.isMasterExceeded || status.isSingleExceeded)
-              ? 'border-rose-500/40 bg-[#F7FDFF]/20 text-rose-400' 
+              ? 'border-rose-500/40 bg-[#FFFFFF]/20 text-rose-400' 
               : 'border-border bg-foreground/20 text-muted-foreground'
           }`}>
             {(status.isMasterExceeded || status.isSingleExceeded) ? <AlertTriangle className="h-6 w-6" /> : <Zap className="h-6 w-6" />}
@@ -114,7 +114,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <UserIcon className="h-4 w-4 text-foreground" />
                 <span className="text-xs font-bold text-foreground">1. Community (Free)</span>
               </div>
-              <span className="rounded-md bg-background border border-background/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
+              <span className="rounded-md bg-background border border-background/30 px-2 py-0.5 text-[11px] font-mono font-bold text-foreground">
                 {FREE_DAILY_LIMIT} Units / Day
               </span>
             </div>
@@ -134,7 +134,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <Zap className="h-4 w-4 text-foreground" />
                 <span className="text-xs font-bold text-foreground">2. Starter ($9) &amp; Pro ($19)</span>
               </div>
-              <span className="rounded-md bg-primary/15 border border-background/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
+              <span className="rounded-md bg-primary/15 border border-background/30 px-2 py-0.5 text-[11px] font-mono font-bold text-foreground">
                 150 - 500 Units / Day
               </span>
             </div>
@@ -154,7 +154,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                 <Crown className="h-4 w-4 text-foreground" />
                 <span className="text-xs font-bold text-foreground">3. Team ($49) &amp; Enterprise ($99)</span>
               </div>
-              <span className="rounded-md bg-primary/15 border border-background/30 px-2 py-0.5 text-[10px] font-mono font-bold text-foreground">
+              <span className="rounded-md bg-primary/15 border border-background/30 px-2 py-0.5 text-[11px] font-mono font-bold text-foreground">
                 1,500 - 5,000 Units / Day
               </span>
             </div>
@@ -180,7 +180,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                   } catch (e) { logger.error("Ignored error:", e); }
                 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <LogIn className="h-3.5 w-3.5" />
                 <span>Sign In for 50 Units Free</span>
@@ -192,7 +192,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
                     onClose();
                     openTrialModal('pro');
                   }}
-                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition-all shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span>Start 7-Day Trial</span>
                   <ArrowRight className="h-3.5 w-3.5" />

@@ -69,7 +69,7 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
             </div>
             <div className="h-2.5 w-full rounded-full bg-accent overflow-hidden border border-emerald-500/20">
               <div
-                className="h-full bg-[#F0FAFF] rounded-full transition-all"
+                className="h-full bg-[#F0FAFF] rounded-full transition"
                 style={{ width: `${Math.min(100, (emissionsPerVisitGrams / 1.5) * 100)}%` }}
               />
             </div>
@@ -129,17 +129,17 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
           <div className="rounded-lg bg-background p-3 border border-background/30 shadow-sm">
-            <div className="text-[10px] text-muted-foreground uppercase font-mono">Monthly Footprint</div>
+            <div className="text-[11px] text-muted-foreground uppercase font-mono">Monthly Footprint</div>
             <div className="text-base font-black text-emerald-600 font-mono mt-0.5">{calculatedMonthlyKg} kg CO2e</div>
           </div>
 
           <div className="rounded-lg bg-background p-3 border border-background/30 shadow-sm">
-            <div className="text-[10px] text-muted-foreground uppercase font-mono">Annual Extrapolation</div>
+            <div className="text-[11px] text-muted-foreground uppercase font-mono">Annual Extrapolation</div>
             <div className="text-base font-black text-foreground font-mono mt-0.5">{calculatedYearlyKg} kg CO2e/yr</div>
           </div>
 
           <div className="rounded-lg bg-background p-3 border border-background/30 shadow-sm">
-            <div className="text-[10px] text-muted-foreground uppercase font-mono">Offset Equivalence</div>
+            <div className="text-[11px] text-muted-foreground uppercase font-mono">Offset Equivalence</div>
             <div className="text-base font-black text-foreground font-mono mt-0.5">{calculatedTrees} Mature Trees</div>
           </div>
         </div>

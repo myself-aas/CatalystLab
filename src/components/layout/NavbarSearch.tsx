@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { clickableProps } from '../../lib/keyboard';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -394,7 +395,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   setIsOpen(false);
                   setQuery('');
                 }}
-                className="px-1.5 py-0.5 rounded-md text-[10px] font-mono shrink-0 transition-colors bg-[var(--bg-surface)] text-foreground-muted hover:text-foreground"
+                className="px-1.5 py-0.5 rounded-md text-[11px] font-mono shrink-0 transition-colors bg-[var(--bg-surface)] text-foreground-muted hover:text-foreground"
                 title="Close search"
               >
                 Esc
@@ -415,9 +416,9 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
             className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-2xl border border-[var(--border-subtle)] bg-[var(--app-background)]/95 shadow-linear-card z-50 overflow-hidden font-mono text-xs backdrop-blur-2xl text-foreground"
           >
             {/* Header label inside dropdown */}
-            <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[10px] uppercase tracking-wider text-foreground-muted">
+            <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[11px] uppercase tracking-wider text-foreground-muted">
               <span>{query ? `Suggestions for "${query}"` : 'Quick Navigation'}</span>
-              <span className="text-[10px] font-normal normal-case opacity-75">↑↓ Navigate • ↵ Select</span>
+              <span className="text-[11px] font-normal normal-case opacity-75">↑↓ Navigate • ↵ Select</span>
             </div>
 
             {/* Suggestions list */}
@@ -428,9 +429,9 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   return (
                     <div
                       key={item.id}
-                      onClick={() => handleSelect(item)}
+                      {...clickableProps} onClick={() => handleSelect(item)}
                       onMouseEnter={() => setSelectedIndex(idx)}
-                      className={`flex items-start gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-150 ${
+                      className={`flex items-start gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition duration-150 ${
                         isSelected
                           ? 'bg-[var(--bg-panel-hover)] text-foreground shadow-2xs'
                           : 'hover:bg-[var(--bg-surface)] text-foreground-muted'
@@ -463,7 +464,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                           }`}>
                             {item.title}
                           </span>
-                          <span className={`text-[9px] px-1.5 py-0.5 rounded-md border font-mono shrink-0 ${getCategoryBadgeClass(item.category)}`}>
+                          <span className={`text-[11px] px-1.5 py-0.5 rounded-md border font-mono shrink-0 ${getCategoryBadgeClass(item.category)}`}>
                             {item.category}
                           </span>
                         </div>
@@ -500,7 +501,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
 
             {/* Quick action chips when not typing */}
             {!query && (
-              <div className="px-3 py-2 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-wrap items-center gap-1.5 text-[10px] text-foreground-muted">
+              <div className="px-3 py-2 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-wrap items-center gap-1.5 text-[11px] text-foreground-muted">
                 <span>Trending:</span>
                 <button
                   type="button"

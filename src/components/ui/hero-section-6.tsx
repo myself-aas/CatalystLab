@@ -30,7 +30,7 @@ const Iphone15Pro: React.FC<Iphone15ProProps> = ({
         preserveAspectRatio="xMidYMid meet"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="transition-all duration-500 ease-in-out"
+        className="transition duration-500 ease-in-out"
         {...props}
       >
         {/* Outer frame */}
@@ -224,7 +224,7 @@ export default function HeroSection6() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-16 mx-auto">
             <a
               href="/master-audit"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-[#F0FAFF] text-primary-foreground w-full sm:w-auto shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-[#F0FAFF] text-primary-foreground w-full sm:w-auto shadow-lg shadow-blue-600/30 transition cursor-pointer"
             >
               <span>Launch Master Audit</span>
               <ArrowRight className="h-4 w-4" />
@@ -254,7 +254,7 @@ export default function HeroSection6() {
                 src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="CatalystLab Telemetry Dashboard"
                 className="object-cover object-top w-full h-[320px] sm:h-[440px] md:h-[520px]"
-              />
+              loading="lazy" decoding="async" />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
             </motion.div>
 

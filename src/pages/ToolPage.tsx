@@ -196,7 +196,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <EngineSubNav />
 
  <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#2C3032_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex justify-end">
@@ -204,7 +204,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  to={`/docs#${meta.docsAnchor || 'overview'}`}
  className="ds-btn ds-btn-secondary text-xs"
  >
- <BookOpen className="size-3.5 text-[#F0FAFF] shrink-0"/>
+ <BookOpen className="size-3.5 text-foreground shrink-0"/>
  <span>Engine docs</span>
  <ExternalLink className="size-3 shrink-0"/>
  </Link>
@@ -223,7 +223,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <span className="rounded-full border border-border bg-[var(--bg-surface)] px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
  {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
  </span>
- <span className="inline-flex items-center gap-1 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 font-mono text-[11px] text-[#F0FAFF]">
+ <span className="inline-flex items-center gap-1 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 font-mono text-[11px] text-foreground">
  <ShieldCheck className="size-3.5 shrink-0"/>
  Replaces {meta.departmentReplaced}
  </span>
@@ -269,7 +269,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <h3 className="text-sm font-semibold text-foreground">Saved to your dashboard</h3>
  <p className="mt-0.5 text-xs text-muted-foreground">
  Permalink:{' '}
- <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-[#F0FAFF] hover:underline">
+ <a href={permalinkUrl} target="_blank" rel="noreferrer" className="text-foreground hover:underline">
  {permalinkUrl}
  </a>
  </p>

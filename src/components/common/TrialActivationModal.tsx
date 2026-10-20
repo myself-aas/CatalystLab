@@ -119,14 +119,14 @@ export const TrialActivationModal: React.FC = () => {
                     key={tierKey}
                     type="button"
                     onClick={() => setSelectedPlan(tierKey)}
-                    className={`relative p-3 rounded-xl text-left border transition-all ${
+                    className={`relative p-3 rounded-xl text-left border transition ${
                       isSelected 
                         ? 'bg-[#F0FAFF]/10 border-cyan-500 shadow-md text-primary-foreground' 
                         : 'bg-background/60 border-border/60 text-muted-foreground hover:border-border'
                     }`}
                   >
                     {item.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[10px] font-bold rounded bg-[#F0FAFF] text-foreground">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[11px] font-bold rounded bg-[#F0FAFF] text-foreground">
                         POPULAR
                       </span>
                     )}
@@ -201,7 +201,7 @@ export const TrialActivationModal: React.FC = () => {
                 type="button"
                 onClick={handleActivate}
                 disabled={loading || success}
-                className={`w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition-all shadow-lg flex items-center justify-center gap-2 ${
+                className={`w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition shadow-lg flex items-center justify-center gap-2 ${
                   success
                     ? 'bg-[#F0FAFF] text-primary-foreground'
                     : 'bg-primary hover:bg-muted border border-border text-primary-foreground'

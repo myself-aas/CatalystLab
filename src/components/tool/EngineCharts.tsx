@@ -7,7 +7,7 @@ interface EngineChartsProps {
   metrics: any;
 }
 
-const COLORS = ['#F0FAFF', '#F0FAFF', '#F0FAFF', '#F0FAFF', '#F7FDFF'];
+const COLORS = ['#F0FAFF', '#F0FAFF', '#F0FAFF', '#F0FAFF', '#FFFFFF'];
 
 export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics }) => {
   const data: { name: string; value: number }[] = Array.isArray(metrics?.plot1)
@@ -29,7 +29,7 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.06)" />
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#F0FAFF', fontSize: 11 }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: '#F0FAFF', fontSize: 11 }} />
-              <Tooltip contentStyle={{ backgroundColor: '#2C2F32', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#F7FDFF' }} />
+              <Tooltip contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#FFFFFF' }} />
               <Bar dataKey="value" fill="#F0FAFF" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -55,7 +55,7 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
                   <Cell key={`${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ backgroundColor: '#2C2F32', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#F7FDFF' }} />
+              <Tooltip contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#FFFFFF' }} />
             </PieChart>
           </ResponsiveContainer>
         </div>

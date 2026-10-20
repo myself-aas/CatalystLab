@@ -235,25 +235,25 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
     switch (status) {
       case 'OPTIMAL':
         return (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#F0FAFF]/15 text-emerald-400 border border-emerald-500/30">
+          <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#F0FAFF]/15 text-emerald-400 border border-emerald-500/30">
             OPTIMAL
           </span>
         );
       case 'COMPLIANT':
         return (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#F0FAFF]/15 text-cyan-300 border border-cyan-500/30">
+          <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#F0FAFF]/15 text-cyan-300 border border-cyan-500/30">
             COMPLIANT
           </span>
         );
       case 'MODERATE':
         return (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#F0FAFF]/15 text-amber-300 border border-amber-500/30">
+          <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#F0FAFF]/15 text-amber-300 border border-amber-500/30">
             MODERATE
           </span>
         );
       case 'CRITICAL':
         return (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#F7FDFF]/20 text-rose-400 border border-rose-500/40">
+          <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#FFFFFF]/20 text-rose-400 border border-rose-500/40">
             CRITICAL
           </span>
         );
@@ -284,7 +284,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
           <button
             type="button"
             onClick={() => setShowBenchmark(!showBenchmark)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono transition-all active:scale-95 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono transition active:scale-95 ${
               showBenchmark
                 ? 'border-indigo-500/40 bg-[#F0FAFF]/15 text-indigo-300'
                 : 'border-border bg-primary text-muted-foreground hover:text-muted-foreground'
@@ -351,7 +351,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                     <polygon
                       points={ringPoints}
                       fill="none"
-                      stroke="#2C3032"
+                      stroke="#F3F4F6"
                       strokeWidth={ringValue === 100 ? '1.5' : '1'}
                       strokeDasharray={ringValue === 100 ? undefined : '3 3'}
                     />
@@ -381,10 +381,10 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                     y1={cy}
                     x2={outer.x}
                     y2={outer.y}
-                    stroke={isHovered ? '#F0FAFF' : '#2C3032'}
+                    stroke={isHovered ? '#F0FAFF' : '#F3F4F6'}
                     strokeWidth={isHovered ? '2' : '1'}
                     strokeDasharray="2 2"
-                    className="transition-all duration-200"
+                    className="transition duration-200"
                   />
                 );
               })}
@@ -397,7 +397,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                   stroke="#F0FAFF"
                   strokeWidth="1.5"
                   strokeDasharray="4 3"
-                  className="transition-all duration-300"
+                  className="transition duration-300"
                 />
               )}
 
@@ -408,7 +408,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                 stroke="#F0FAFF"
                 strokeWidth="2.5"
                 strokeLinejoin="round"
-                className="transition-all duration-500 ease-out drop-shadow-md"
+                className="transition duration-500 ease-out drop-shadow-md"
               />
 
               {/* Interactive Nodes on Score Vertices */}
@@ -444,10 +444,10 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                       cy={coords.y}
                       r={isHovered ? 7 : 5}
                       fill={dim.color}
-                      stroke="#1F2223"
+                      stroke="#111827"
                       strokeWidth="2"
                       filter={isHovered ? 'url(#nodeGlow)' : undefined}
-                      className="transition-all duration-200"
+                      className="transition duration-200"
                     />
 
                     {/* Node Core */}
@@ -455,7 +455,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                       cx={coords.x}
                       cy={coords.y}
                       r="2.5"
-                      fill="#F7FDFF"
+                      fill="#FFFFFF"
                       className="pointer-events-none"
                     />
                   </g>
@@ -509,7 +509,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
               })}
 
               {/* Center Composite Target Icon */}
-              <circle cx={cx} cy={cy} r="18" fill="#1F2223" stroke="#2C3032" strokeWidth="1.5" />
+              <circle cx={cx} cy={cy} r="18" fill="#111827" stroke="#F3F4F6" strokeWidth="1.5" />
               <text
                 x={cx}
                 y={cy + 4}
@@ -541,7 +541,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                     <div className="h-5 w-px bg-muted mx-1" />
                     <div className="text-right">
                       <div className="text-cyan-300 font-bold">{dim.score}/100</div>
-                      <div className="text-[10px] text-muted-foreground">Benchmark: {dim.benchmark}</div>
+                      <div className="text-[11px] text-muted-foreground">Benchmark: {dim.benchmark}</div>
                     </div>
                   </div>
                 );
@@ -565,7 +565,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                   <button
                     key={cat}
                     onClick={() => setCategoryFilter(cat)}
-                    className={`px-2.5 py-1 rounded-lg text-[10px] font-mono uppercase tracking-wider transition-all ${
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-mono uppercase tracking-wider transition ${
                       categoryFilter === cat
                         ? 'bg-muted text-cyan-300 font-bold border border-border'
                         : 'text-muted-foreground hover:text-muted-foreground'
@@ -576,7 +576,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                 )
               )}
             </div>
-            <span className="text-[10px] font-mono text-muted-foreground hidden sm:inline">
+            <span className="text-[11px] font-mono text-muted-foreground hidden sm:inline">
               {filteredMatrix.length} Engines
             </span>
           </div>
@@ -593,7 +593,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                   onMouseEnter={() => setHoveredAxis(dim.id)}
                   onMouseLeave={() => setHoveredAxis(null)}
                   onClick={() => onSelectEngine && onSelectEngine(dim.id)}
-                  className={`group flex items-center justify-between gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                  className={`group flex items-center justify-between gap-3 p-3 rounded-xl border transition cursor-pointer ${
                     isHovered
                       ? 'border-cyan-500/50 bg-primary/90 shadow-lg shadow-cyan-500/5'
                       : 'border-border/80 bg-foreground/60 hover:border-border hover:bg-primary/50'
@@ -617,7 +617,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                         <span className="text-xs font-bold text-muted-foreground truncate group-hover:text-cyan-300 transition-colors">
                           {dim.name}
                         </span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-muted text-muted-foreground font-mono hidden sm:inline">
+                        <span className="text-[11px] px-1.5 py-0.2 rounded bg-muted text-muted-foreground font-mono hidden sm:inline">
                           {dim.sdlcPhase}
                         </span>
                       </div>
@@ -632,11 +632,11 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                     <div className="text-right">
                       <div className="font-mono text-xs font-bold text-foreground">
                         {dim.score}
-                        <span className="text-muted-foreground text-[10px]">/100</span>
+                        <span className="text-muted-foreground text-[11px]">/100</span>
                       </div>
                       <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden mt-1 border border-border">
                         <div
-                          className="h-full rounded-full transition-all duration-500"
+                          className="h-full rounded-full transition duration-500"
                           style={{
                             width: `${dim.score}%`,
                             backgroundColor: dim.color

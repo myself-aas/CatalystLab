@@ -45,12 +45,12 @@ export const Footer: React.FC = () => {
               </Link>
               <p className="text-sm leading-relaxed text-muted-foreground">
                 Multi-dimensional web health, architecture intelligence &amp; automated telemetry diagnostics across {TOTAL_POPS_COUNT} global edge nodes. Precision auditing for the modern engineering stack.
-                <span className="block mt-4 font-mono text-[#F0FAFF] opacity-60">CONNECT &lt;/&gt; &amp;</span>
+                <span className="block mt-4 font-mono text-foreground opacity-60">CONNECT &lt;/&gt; &amp;</span>
               </p>
             </div>
 
             <div className="flex flex-col space-y-4">
-              <h4 className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+              <h4 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
                 Connect
               </h4>
               <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export const Footer: React.FC = () => {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="size-9 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-foreground transition-all shadow-2xs group"
+                    className="size-9 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-neutral-400 hover:text-foreground transition shadow-2xs group"
                     aria-label={`CatalystLab on ${social.label}`}
                   >
                     <social.icon className="size-4.5 transition-transform group-hover:scale-110" />
@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
                 <li key={item.label}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition-all"
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -104,7 +104,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition-all"
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -123,7 +123,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition-all"
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -161,10 +161,10 @@ export const Footer: React.FC = () => {
           <button
             type="button"
             onClick={scrollToTop}
-            className="group flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-mono text-neutral-400 transition-all duration-200 hover:border-border-strong hover:text-foreground hover:bg-surface-elevated shadow-2xs cursor-pointer"
+            className="group flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-mono text-neutral-400 transition duration-200 hover:border-border-strong hover:text-foreground hover:bg-surface-elevated shadow-2xs cursor-pointer"
             aria-label="Scroll to top"
           >
-            <ArrowUp className="size-3.5 text-[#F0FAFF] group-hover:-translate-y-0.5 transition-transform duration-200" />
+            <ArrowUp className="size-3.5 text-foreground group-hover:-translate-y-0.5 transition-transform duration-200" />
             <span>TOP</span>
           </button>
         </div>

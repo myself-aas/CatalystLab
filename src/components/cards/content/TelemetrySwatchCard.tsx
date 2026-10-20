@@ -89,14 +89,14 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         type="button"
         id={id}
         onClick={onClick}
-        className={`group w-full text-left rounded-xl p-3 border transition-all cursor-pointer font-mono select-none ${
+        className={`group w-full text-left rounded-xl p-3 border transition cursor-pointer font-mono select-none ${
           isActive
             ? 'bg-background border-indigo-400 shadow-md ring-2 ring-indigo-500/10'
             : 'bg-background/60 border-border hover:border-border opacity-80 hover:opacity-100 hover:bg-background shadow-sm'
         } ${className || ''}`}
       >
         <div className="flex items-center justify-between gap-1 mb-1">
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold truncate">
+          <span className="text-[11px] uppercase tracking-widest text-muted-foreground font-bold truncate">
             {displayBadge}
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-pulse shrink-0" />
@@ -106,12 +106,12 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
           {displayValue}
         </div>
 
-        <div className="text-[10px] text-muted-foreground font-medium truncate mt-0.5 font-sans">
+        <div className="text-[11px] text-muted-foreground font-medium truncate mt-0.5 font-sans">
           {displayTitle}
         </div>
 
         {miniStats && miniStats.length > 0 && (
-          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-border text-[10px] text-muted-foreground font-mono">
+          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-border text-[11px] text-muted-foreground font-mono">
             {miniStats.map((ms, idx) => (
               <span key={idx}>
                 {ms.label}: <strong className="text-foreground">{ms.value}</strong>
@@ -139,7 +139,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
           </div>
 
           <div
-            className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-mono font-bold uppercase tracking-wider ${currentStyle.bg}`}
+            className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-mono font-bold uppercase tracking-wider ${currentStyle.bg}`}
           >
             <StatusIcon className="w-3 h-3" />
             <span>{status}</span>
@@ -161,7 +161,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
 
       {/* Target Progress & Benchmark Footer */}
       <div className="mt-4 pt-3 border-t border-border/80">
-        <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground mb-1.5">
+        <div className="flex items-center justify-between text-[11px] font-mono text-muted-foreground mb-1.5">
           <span>Target: {benchmarkTarget}</span>
           <span className="text-muted-foreground">{percentile} Telemetry</span>
         </div>
@@ -169,12 +169,12 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
         {/* Minimalist Gauge Bar */}
         <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${currentStyle.bar}`}
+            className={`h-full rounded-full transition duration-500 ${currentStyle.bar}`}
             style={{ width: status === 'OPTIMAL' || status === 'PASS' ? '92%' : '65%' }}
           />
         </div>
 
-        <div className="flex items-center justify-between mt-2 text-[10px] font-mono">
+        <div className="flex items-center justify-between mt-2 text-[11px] font-mono">
           <span className="text-muted-foreground">Global Edge Mesh</span>
           <span className="text-emerald-400 flex items-center gap-0.5 font-bold">
             <ArrowUpRight className="w-3 h-3" />

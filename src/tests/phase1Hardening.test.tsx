@@ -43,7 +43,7 @@ vi.mock('firebase-admin/firestore', () => ({
 
 describe('serializeJsonLd (Phase 1: script-breakout hardening)', () => {
   it('escapes < so </script> cannot terminate the JSON-LD block', () => {
-    const out = serializeJsonLd({ name: '</script><img src=x onerror=alert(1)>' });
+    const out = serializeJsonLd({ name: '</script><img src=x onerror=alert(1) loading="lazy" decoding="async">' });
     expect(out).not.toContain('</script>');
     expect(out).toContain('\\u003c/script>');
   });
