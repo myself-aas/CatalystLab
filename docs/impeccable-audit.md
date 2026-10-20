@@ -265,3 +265,22 @@ Verification: check:design ✓ · typecheck ✓ · vite build ✓ · bundle ✓ 
   catalogue entries and the V_ Pexels video files remain licensed remotes
   with fallback chains — replacing those needs either the HyperFrames render
   (Chrome, unavailable here) or a generated-video provider with credentials.
+
+### Product photoshoot pass (higgsfield-product-photoshoot skill)
+The skill was fetched and read in full (supporting files resolve to
+`/tmp/skills-use-Osfe8e/higgsfield-product-photoshoot/SKILL.md` — SKILL.md only).
+Its bootstrap could not complete in this sandbox: the CLI install script and
+the npm package's binary both download from GitHub release hosts that are
+blocked here, and `higgsfield auth login` is interactive — so no Higgsfield
+job was submitted and no Higgsfield URLs are claimed. The skill's mode system
+was applied with this environment's image generation instead, for the product
+(CatalystLab platform) in the Clean SaaS world:
+- `hero_banner` → `src/assets/images/page-products.jpg` replaced (device trio,
+  royal-blue dashboards, white studio, 82 KB) and is the Products hero.
+- `product_shot` → `product-studio.jpg` (single laptop, white catalog ground),
+  now the SynthShift engine image.
+- `lifestyle_scene` → `product-lifestyle.jpg` (engineers using the platform),
+  now the Products parallax banner.
+Products data (`src/data/engines.ts`) now has **zero** Pexels image hotlinks.
+If Higgsfield auth becomes available, re-run:
+`higgsfield product-photoshoot create --mode hero_banner --prompt "CatalystLab dashboard on devices, Clean SaaS royal blue" --image src/assets/images/page-products.jpg --count 3`.

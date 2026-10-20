@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import productLifestyle from '../assets/images/product-lifestyle.jpg';
 import productsImage from '../assets/images/page-products.jpg';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -159,7 +160,7 @@ export default {
  Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains. Prevent Core Web Vitals regressions, OWASP header drift, and AI readiness drops before users notice.
  </p>
  <figure className="mx-auto mt-10 max-w-4xl">
-   <img src={productsImage} alt="Engineer reviewing diagnostic dashboards across three monitors" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+   <img src={productsImage} alt="CatalystLab dashboard on laptop, tablet and phone in a bright studio" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
  </figure>
 
  <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -190,7 +191,7 @@ export default {
 
  {/* Immersive Products Parallax Banner */}
  <ParallaxSection
- bgImage="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+ bgImage={productLifestyle}
  overlayOpacity={0.88}
  height="min-h-[320px]"
  className="border-y border-border"
