@@ -36,8 +36,9 @@ jobs:
 
       - name: Export cloud Firestore & MongoDB snapshot (when production secrets present)
         env:
-          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          GCP_BACKUP_BUCKET: ${{ secrets.FIRESTORE_BACKUP_BUCKET }}
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON || secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          GCP_BACKUP_BUCKET: ${{ secrets.FIRESTORE_BACKUP_BUCKET || secrets.BACKUP_GCS_BUCKET }}
+          FIRESTORE_DB_ID: ${{ vars.FIRESTORE_DATABASE_ID || '(default)' }}
         run: |
           if [ -z "${GCP_SA_KEY}" ] || [ -z "${GCP_BACKUP_BUCKET}" ]; then
             echo "::notice::Cloud export secrets (FIREBASE_SERVICE_ACCOUNT_JSON / FIRESTORE_BACKUP_BUCKET) not configured yet; isolated restore drill verified."
@@ -48,6 +49,7 @@ jobs:
           STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
           gcloud firestore export "${GCP_BACKUP_BUCKET}/daily/${STAMP}" \
             --project="${PROJECT_ID}" \
+            --database="${FIRESTORE_DB_ID}" \
             --collection-ids=users,api_keys,user_subscriptions,payment_events,github_connected_repos,contact_messages
 
       - name: Archive restore verification report (30-day retention)

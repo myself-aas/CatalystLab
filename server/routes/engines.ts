@@ -285,7 +285,7 @@ app.get('/api/v1/engines', (req: Request, res: Response) => {
 });
 
 app.get('/api/v1/engines/:engine', (req: Request, res: Response) => {
-  const { engine } = req.params;
+  const engine = String(req.params.engine ?? '');
   const script = ENGINE_SCRIPT_MAP[engine];
   if (!script) {
     res.status(404).json({ success: false, error: `Engine '${engine}' not found.` });
@@ -305,7 +305,7 @@ app.get('/api/v1/engines/:engine', (req: Request, res: Response) => {
 
 // Dedicated Engine Scan endpoint
 app.post('/api/v1/engines/:engine/scan', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE_COST }), async (req: Request, res: Response): Promise<void> => {
-  const { engine } = req.params;
+  const engine = String(req.params.engine ?? '');
   if (!ENGINE_SCRIPT_MAP[engine]) {
     res.status(404).json({ success: false, error: `Engine '${engine}' not found.` });
     return;

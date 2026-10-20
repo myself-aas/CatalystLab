@@ -142,7 +142,7 @@ export interface StackedDateChipProps extends Omit<React.HTMLAttributes<HTMLDivE
   className?: string;
 }
 
-export interface FavoriteButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface FavoriteButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onToggle'> {
   isFavorite?: boolean;
   onToggle?: (isFav: boolean) => void;
   ariaLabel?: string;

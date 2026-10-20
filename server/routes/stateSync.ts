@@ -142,7 +142,8 @@ app.delete('/api/state/sync/:collection/:id', async (req: Request, res: Response
       res.status(401).json({ success: false, error: 'Authentication required to sync state. Sign in and retry with a Bearer ID token.' });
       return;
     }
-    const { collection, id } = req.params;
+    const collection = String(req.params.collection ?? '');
+    const id = String(req.params.id ?? '');
     const db = getDbInstance() || await initAnalyticsDB();
     if (db) {
       await db.collection(collection).deleteOne({ id, ownerId: uid });

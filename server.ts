@@ -10,7 +10,8 @@ import { loadRoutesManifest, matchesSpaRoute } from './server/core/spaRoutes';
 import { captureException, initErrorTracking, installProcessErrorHandlers } from './server/core/errorTracking';
 import { logger } from './server/core/logger';
 import { isAuthRoute, isAppRoute } from './src/config/site';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ quiet: true });
 
 /** Injects per-request CSP nonce into HTML shells before sending (Plan 3.8). */
 function injectNonceIntoHtml(rawHtml: string, nonce: string): string {
@@ -127,7 +128,11 @@ async function startServer(): Promise<void> {
       })
     );
 
-    app.get('*', (req: Request, res: Response) => {
+    app.use((req: Request, res: Response, next: NextFunction) => {
+      if (req.method !== 'GET' && req.method !== 'HEAD') {
+        next();
+        return;
+      }
       const pathname = req.path;
 
       if (compiledRoutes && matchesSpaRoute(compiledRoutes, pathname)) {
@@ -152,7 +157,7 @@ async function startServer(): Promise<void> {
       appType: 'custom'
     });
     app.use(vite.middlewares);
-    app.use('*', async (req: Request, res: Response, next: NextFunction) => {
+    app.use(async (req: Request, res: Response, next: NextFunction) => {
       try {
         const rawTemplate = readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf8');
         const transformed = await vite.transformIndexHtml(req.originalUrl, rawTemplate);
