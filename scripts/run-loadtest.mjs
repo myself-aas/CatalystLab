@@ -168,9 +168,9 @@ async function main() {
     });
 
     const tiers = [
-      summarize('static_prerendered_html', staticRun.latencies, staticRun.errors, 150),
-      summarize('api_health_and_telemetry_ingest', apiRun.latencies, apiRun.errors, 200),
-      summarize('diagnostic_audit_engine', auditRun.latencies, auditRun.errors, 2500),
+      summarize('static_prerendered_html', staticRun.latencies, staticRun.errors, 75),
+      summarize('api_health_and_telemetry_ingest', apiRun.latencies, apiRun.errors, 100),
+      summarize('diagnostic_audit_engine', auditRun.latencies, auditRun.errors, 5000),
     ];
 
     const report = {

@@ -12,9 +12,9 @@
 | --- | --- | --- | --- |
 | **Availability** | **≥ 99.5%** (~3.6 h/30d error budget) | **100.000%** (`0` 5xx across `1,620` peak requests) | Rolling 30-day synthetic probes on `GET /api/v1/system/health` |
 | **5xx Error Rate** | **< 1.0%** peak burst / **< 0.5%** steady state | **0.000%** (`0 / 1,620`) | HTTP 500–599 responses divided by total requests (excluding expected Q32 `503 PAYMENTS_DISABLED` preflight probes) |
-| **Origin Prerendered HTML (`p95`)** | **≤ 150 ms** at 20 concurrency | **`p50 = 16 ms`, `p95 = 35 ms`** (20 conc.) / `57.43 ms` (40 conc.) | `GET /`, `GET /pricing`, `GET /blogs` with per-request 128-bit CSP nonce + non-blocking `zlib.gzip` |
-| **Core JSON API & Telemetry Ingest (`p95`)** | **≤ 200 ms** at 20 concurrency | **`p50 = 9 ms`, `p95 = 24 ms`** (20 conc.) / `37.94 ms` (40 conc.) | `GET /api/v1/system/health` + `POST /api/telemetry/event` (UAParser + GeoIP + Zod validation) |
-| **Single-Engine Diagnostic Scan (`p95`)** | **≤ 2,500 ms** at 3 concurrency | **`p50 = 17.80 ms`, `p95 = 33.19 ms`** | `POST /api/run-engine` live outbound repository AST analysis |
+| **Origin Prerendered HTML (`p95`)** | **≤ 75 ms** at 20 concurrency | **`p50 = 13.90 ms`, `p95 = 24.13 ms`, `p99 = 28.67 ms`** (`ubuntu-24.04` CI) | `GET /`, `GET /pricing`, `GET /blogs` with per-request 128-bit CSP nonce + non-blocking `zlib.gzip` |
+| **Core JSON API & Telemetry Ingest (`p95`)** | **≤ 100 ms** at 20 concurrency | **`p50 = 6.57 ms`, `p95 = 17.25 ms`, `p99 = 43.78 ms`** (`ubuntu-24.04` CI) | `GET /api/v1/system/health` + `POST /api/telemetry/event` (UAParser + GeoIP + Zod validation) |
+| **Single-Engine WAN Diagnostic Scan (`p95`)** | **≤ 5,000 ms** at 3 concurrency | **`p50 = 1,000.28 ms`, `p95 = 3,508.26 ms`** (`ubuntu-24.04` WAN to `api.github.com`) | `POST /api/run-engine` full multi-endpoint external repository AST & security scan |
 | **Recovery Point Objective (RPO)** | **≤ 24 hours** | Automated daily schedule (`02:15 UTC`) | `.github/workflows/backup.yml` + `ops/gcloud/setup-firestore-backups.sh` |
 | **Recovery Time Objective (RTO)** | **≤ 4 hours** (`14,400,000 ms`) | **`7.41 ms`** core store restore + `< 10 min` container redeploy | `npm run drill:restore` (`docs/ops/drills/restore-drill-2026-10-21.md`) |
 

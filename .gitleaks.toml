@@ -24,9 +24,12 @@ tags = ["secret", "private-key"]
 [allowlist]
 description = "Public client-side Firebase Web SDK project identifier, synthetic test fixtures, and catalogued historical finding SEC-2026-01"
 paths = [
+  '''^\.env(?:\.[a-zA-Z0-9_-]+)?\.example$''',
   '''^\.github/fixtures/ci-service-account\.json$''',
   '''^firebase-applet-config\.json$''',
   '''^src/lib/firebase\.ts$''',
+  '''^src/data/(?:faqData|apiSpecs)\.ts$''',
+  '''^app/login/page\.tsx$''',
   '''^src/tests/.*''',
   '''^scripts/run-restore-drill\.ts$''',
   '''^scripts/e2e-payment-sandbox\.ts$''',

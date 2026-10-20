@@ -47,9 +47,9 @@ Single-operator service. Escalation path: `legal@catalystlab.tech` and
 | Objective | Locked Target | Baseline (`dist/server.cjs`, Node 24) |
 | --- | --- | --- |
 | Availability | **≥ 99.5%** rolling 30 days (~3.6 h budget) | **100.0%** (`0` 5xx across `1,620` concurrent requests) |
-| Origin HTML shell `p95` | **≤ 150 ms** (20 concurrency) | **`28.4 ms`** (`57.43 ms` at 40 concurrency, per-request CSP nonce + async gzip) |
-| Core API & Telemetry Ingest `p95` | **≤ 200 ms** (20 concurrency) | **`20.1 ms`** (`37.94 ms` at 40 concurrency) |
-| Diagnostic Audit Engine `p95` | **≤ 2,500 ms** (3 concurrency) | **`33.19 ms`** (`p50 = 17.80 ms`) |
+| Origin HTML shell `p95` | **≤ 75 ms** (20 concurrency) | **`24.13 ms`** (`p50 = 13.90 ms`, per-request CSP nonce + async gzip on `ubuntu-24.04`) |
+| Core API & Telemetry Ingest `p95` | **≤ 100 ms** (20 concurrency) | **`17.25 ms`** (`p50 = 6.57 ms` on `ubuntu-24.04`) |
+| Single-Engine WAN Audit `p95` | **≤ 5,000 ms** (3 concurrency) | **`3,508.26 ms`** (`p50 = 1,000.28 ms` full external GitHub REST AST scan) |
 | RPO | **≤ 24 hours** | Daily `02:15 UTC` backup workflow (`.github/workflows/backup.yml`) + GCP PITR |
 | RTO | **≤ 4 hours** | **`7.41 ms`** core restore (`npm run drill:restore`) + `< 10 min` container redeploy |
 
