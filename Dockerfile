@@ -32,6 +32,7 @@ RUN npm ci --omit=dev && npm cache clean --force
 
 COPY --from=build --chown=node:node /app/dist ./dist
 COPY --from=build --chown=node:node /app/public ./public
+COPY --from=build --chown=node:node /app/scripts ./scripts
 
 USER node
 EXPOSE 3000

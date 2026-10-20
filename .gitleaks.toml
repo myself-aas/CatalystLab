@@ -37,6 +37,7 @@ paths = [
   '''^ops/loadtest/k6-peak\.js$''',
   '''^docs/security/review-2026-10\.md$''',
   '''^docs/release/checklist\.md$''',
+  '''^docs/ops/environment-and-deployment-guide\.md$''',
 ]
 regexes = [
   # Public Firebase Web SDK browser config identifier (not a server credential; restricted via HTTP referrer + Firestore rules)

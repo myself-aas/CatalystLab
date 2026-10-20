@@ -1,8 +1,9 @@
 # CatalystLab Release Checklist & 8-Blocker Resolution Ledger
 
-**Release branch:** `arena/4fe24dc8-catalystlab`  
+**Release branch:** `arena/5eba323f-catalystlab`  
 **Verification date:** 2026-10-21  
-**Node / npm toolchain:** Node `v24.22.0` (`.nvmrc`), `npm 10.9.8`
+**Node / npm toolchain:** Node `v24.22.0` (`.nvmrc`), `npm 10.9.8`  
+**Complete `.env` & Production Deployment Guide:** [`docs/ops/environment-and-deployment-guide.md`](../ops/environment-and-deployment-guide.md)
 
 ---
 

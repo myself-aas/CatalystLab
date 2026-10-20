@@ -133,7 +133,11 @@ async function getFirestore(): Promise<import('firebase-admin/firestore').Firest
       return null;
     }
     const adminFirestore = await import('firebase-admin/firestore');
-    cachedFirestore = adminFirestore.getFirestore(adminApp.getApps()[0]);
+    const configuredDbId = process.env.FIRESTORE_DATABASE_ID?.trim();
+    cachedFirestore =
+      configuredDbId && configuredDbId !== '(default)'
+        ? adminFirestore.getFirestore(adminApp.getApps()[0], configuredDbId)
+        : adminFirestore.getFirestore(adminApp.getApps()[0]);
     return cachedFirestore;
   } catch {
     cachedFirestore = null;
