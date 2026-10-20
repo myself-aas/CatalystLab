@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
+import { describe, it, expect, vi, afterAll, beforeAll, beforeEach } from 'vitest';
 import { verifyHmacSha256, signHmacSha256 } from '../lib/webhookSecurity';
 import { guardedFetch } from '../lib/networkSecurity';
 
@@ -22,7 +22,8 @@ vi.mock('dns', async (importOriginal) => {
  * to a public IP, and everything else fails with ENOTFOUND (fail closed).
  * promisify may call the mock with (host, cb) or (host, opts, cb).
  */
-beforeAll(() => {
+beforeEach(() => {
+  lookupMock.mockReset();
   lookupMock.mockImplementation((...args: unknown[]) => {
     const host = args[0] as string;
     const cb = args[args.length - 1] as (err: NodeJS.ErrnoException | null, address?: string, family?: number) => void;
@@ -90,6 +91,7 @@ describe('guardedFetch SSRF enforcement (Phase 0 DNS pinning)', () => {
   it.each([
     ['http://localhost:3000/admin', 'loopback hostname'],
     ['http://127.0.0.1:8080/', 'loopback IP literal'],
+    ['http://[::1]:8080/', 'IPv6 loopback literal'],
     ['http://169.254.169.254/latest/meta-data/', 'cloud metadata endpoint'],
     ['http://10.1.2.3/internal', 'RFC1918 private'],
     ['http://192.168.0.42/router', 'RFC1918 private'],
@@ -138,6 +140,10 @@ describe('guardedFetch positive path (offline integration via local server)', ()
     });
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
     port = (server.address() as { port: number }).port;
+  });
+
+  afterAll(async () => {
+    await new Promise<void>((resolve) => server.close(() => resolve()));
   });
 
   it('returns status/headers/body through the pinned connection', async () => {
