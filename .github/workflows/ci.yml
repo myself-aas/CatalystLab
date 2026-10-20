@@ -80,11 +80,9 @@ jobs:
       contents: read
       pull-requests: write
     env:
-      # Lighthouse audits the real production host (node dist/server.cjs), not a
-      # bare static directory, so the API the SPA calls exists and a missing
-      # endpoint cannot be mistaken for a page defect.
-      NODE_ENV: production
-      PORT: '3000'
+      # NODE_ENV must NOT be set job-wide: `npm ci` skips devDependencies when
+      # NODE_ENV=production, which removes vite and esbuild and breaks the build.
+      # It is scoped to the two steps that boot the production host.
       APP_ORIGIN: https://www.catalystlab.tech
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
@@ -99,6 +97,27 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # Lighthouse audits the real production host (node dist/server.cjs), not a
+      # bare static directory, so the API the SPA calls exists and a missing
+      # endpoint cannot be mistaken for a page defect. Boot it once first: if the
+      # host cannot start, that is the failure to report, not an empty report set.
+      - name: Verify the production host boots
+        run: |
+          NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/lhci-server.log 2>&1 &
+          SERVER_PID=$!
+          ok=0
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1; then ok=1; break; fi
+            sleep 1
+          done
+          kill "$SERVER_PID" 2>/dev/null || true
+          if [ "$ok" != "1" ]; then
+            echo "::error::dist/server.cjs did not answer /api/health within 30s"
+            tail -40 /tmp/lhci-server.log
+            exit 1
+          fi
+          echo "production host boots and answers /api/health"
+
       # Assertions live in .lighthouserc.json: accessibility >= 0.9 and
       # best-practices / SEO >= 0.85 fail the run, performance warns below 0.5.
       # Five URLs are audited explicitly (no crawl) and reports are written to
@@ -109,6 +128,8 @@ jobs:
         continue-on-error: true
         run: npx lhci autorun
         env:
+          NODE_ENV: production
+          PORT: '3000'
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
 
       # The raw runner log is only reachable from the Actions UI, so the scores
