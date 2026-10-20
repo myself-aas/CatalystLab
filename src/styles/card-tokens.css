@@ -11,12 +11,12 @@
   --text-muted-secondary: #F0FAFF;
   
   /* --- Structural Geometry (16px Card Radius per Linear Design System) --- */
-  --card-radius-outer: 16px;
-  --card-radius-inner: 12px;
+  --card-radius-outer: 32px;
+  --card-radius-inner: 16px;
   --card-radius-pill: 9999px;
   --card-radius-chip: 6px;
-  --trail-card-radius-outer: 16px;
-  --trail-card-radius-inner: 12px;
+  --trail-card-radius-outer: 32px;
+  --trail-card-radius-inner: 16px;
 
   /* --- Per-Enzyme Biochemical Hue Tokens (HSL Values) --- */
   --hue-vitalzyme: 142 71% 45%;        /* Emerald / Core Health */

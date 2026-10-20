@@ -1,39 +1,54 @@
 ---
 name: CatalystLab
-description: Mission-control telemetry laboratory for multi-dimensional web-health auditing.
+description: Meta-derived design system (voltagent/awesome-design-md meta/DESIGN.md) adapted to CatalystLab telemetry.
 colors:
-  royal-blue: "#2563EB"
-  deep-blue: "#1E40AF"
-  mist-gray: "#F3F4F6"
-  pure-white: "#FFFFFF"
-  ink-navy: "#111827"
-  # Assay hues are DATA only (severity/engine identity), never brand surfaces:
-  vital-emerald: "#34D399"
-  risk-crimson: "#F87171"
-  caution-amber: "#FBBF24"
-  assay-cyan: "#22D3EE"
+  primary: "#0064E0"
+  primary-deep: "#0457CB"
+  primary-soft: "#0091FF"
+  on-primary: "#FFFFFF"
+  ink-button: "#000000"
+  fb-blue: "#1876F2"
+  success: "#31A24C"
+  attention: "#F2A918"
+  warning: "#F7B928"
+  critical: "#E41E3F"
+  critical-strong: "#F0284A"
+  canvas: "#FFFFFF"
+  surface-soft: "#F1F4F7"
+  ink-deep: "#0A1317"
+  ink: "#1C1E21"
+  charcoal: "#444950"
+  slate: "#4B4C4F"
+  steel: "#5D6C7B"
+  stone: "#8595A4"
+  hairline: "#CED0D4"
+  hairline-soft: "#DEE3E9"
 typography:
   display:
-    fontFamily: "Space Grotesk, Inter, system-ui, sans-serif"
-    fontSize: "clamp(2.25rem, 6vw, 3.75rem)"
-    fontWeight: 600
-    lineHeight: 1.05
-    letterSpacing: "-0.04em"
+    fontFamily: "Optimistic VF, Inter, system-ui, sans-serif"
+    fontSize: "4rem"
+    fontWeight: 500
+    lineHeight: 1.16
   headline:
-    fontFamily: "Space Grotesk, Inter, system-ui, sans-serif"
+    fontFamily: "Optimistic VF, Inter, system-ui, sans-serif"
+    fontSize: "3rem"
+    fontWeight: 500
+    lineHeight: 1.17
+  title:
+    fontFamily: "Optimistic VF, Inter, system-ui, sans-serif"
     fontSize: "2.25rem"
-    fontWeight: 600
-    lineHeight: 1.12
+    fontWeight: 500
+    lineHeight: 1.28
   body:
     fontFamily: "Inter, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
-    lineHeight: 1.65
+    lineHeight: 1.5
   label:
     fontFamily: "Inter, system-ui, sans-serif"
     fontSize: "0.75rem"
-    fontWeight: 600
-    lineHeight: 1.4
+    fontWeight: 700
+    lineHeight: 1.33
   data:
     fontFamily: "JetBrains Mono, ui-monospace, monospace"
     fontSize: "0.6875rem"
@@ -41,40 +56,51 @@ typography:
     lineHeight: 1.4
     fontFeature: "tnum"
 rounded:
-  panel: "16px"
-  inner: "12px"
-  chip: "6px"
-  pill: "9999px"
+  xs: "2px"
+  sm: "4px"
+  md: "6px"
+  lg: "8px"
+  xl: "16px"
+  xxl: "24px"
+  xxxl: "32px"
+  full: "100px"
 spacing:
-  sm: "8px"
-  md: "16px"
-  lg: "24px"
-  xl: "32px"
+  xs: "8px"
+  sm: "10px"
+  md: "12px"
+  base: "16px"
+  lg: "20px"
+  xl: "24px"
+  xxl: "32px"
+  section: "64px"
 components:
   button-primary:
-    backgroundColor: "{colors.catalyst-blue-deep}"
-    textColor: "#FFFFFF"
-    rounded: "{rounded.pill}"
-    padding: "0 20px"
+    backgroundColor: "{colors.ink-button}"
+    textColor: "{colors.on-primary}"
+    rounded: "{rounded.full}"
+    padding: "14px 30px"
     height: "44px"
-  button-primary-dark:
-    backgroundColor: "{colors.ice-reading}"
-    textColor: "{colors.bench-charcoal}"
-    rounded: "{rounded.pill}"
-    padding: "0 20px"
+  button-buy:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.on-primary}"
+    rounded: "{rounded.full}"
+    padding: "14px 30px"
     height: "44px"
   card-panel:
-    backgroundColor: "{colors.instrument-panel}"
-    textColor: "{colors.ice-reading}"
-    rounded: "{rounded.panel}"
-    padding: "20px"
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.xxxl}"
+    padding: "32px"
 ---
+
 
 # Design System: CatalystLab
 
 ## Overview
 
-**Creative North Star: "Mission Control"** (confirmed 2026-10-21; palette replaced 2026-10-21 by the owner-pinned Clean SaaS palette)
+**Creative North Star: "Mission Control"** (confirmed 2026-10-21)
+
+**System source (2026-10-21):** the Meta design system from voltagent/awesome-design-md (`design-md/meta/DESIGN.md`, v-alpha), adopted globally at the owner's direction. It supersedes the Clean SaaS palette recorded in ADR 0001; that ADR is retained for history. Optimistic VF is proprietary, so the stack falls back to Inter (metric-compatible humanist sans); JetBrains Mono remains only for telemetry data — a documented deviation, since Meta's commerce system has no data role.
 
 CatalystLab is a telemetry floor, not a marketing page with charts. Operators
 arrive, read instruments, and act. The interface is a clean, light SaaS surface

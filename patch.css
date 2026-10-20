@@ -8,11 +8,11 @@
 /* ---------- TOKEN UPGRADES (softer geometry, tighter shadows, larger radii) ---------- */
 :root {
   /* Larger, softer card radii matching reference designs */
-  --card-radius-outer: 16px;
+  --card-radius-outer: 32px;
   --card-radius-inner: 16px;
   --card-radius-pill: 9999px;
   --card-radius-chip: 9999px;
-  --trail-card-radius-outer: 16px;
+  --trail-card-radius-outer: 32px;
   --trail-card-radius-inner: 16px;
 
   /* Refined shadows: softer, more diffuse, less harsh */
@@ -55,7 +55,7 @@ body {
 
 /* ---------- CARD PRIMITIVES (Bento Rounded) ---------- */
 .ds-card {
-  border-radius: 16px !important;
+  border-radius: 32px !important;
   border: 1px solid rgba(240, 250, 255, 0.07) !important;
   background: #FFFFFF;
   box-shadow:
@@ -113,10 +113,16 @@ body {
   transition: transform 160ms cubic-bezier(0.16,1,0.3,1), box-shadow 160ms ease, background 160ms ease;
 }
 
-.ds-btn-primary {
-  background: #2563EB !important;
+.ds-btn-buy {
+  background: #0064E0 !important;
   color: #FFFFFF !important;
-  border: 1px solid #2563EB !important;
+  border: 1px solid #0064E0 !important;
+}
+.ds-btn-buy:hover { background: #0457CB !important; border-color: #0457CB !important; }
+.ds-btn-primary {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #000000 !important;
   box-shadow: 0 2px 10px rgba(240, 250, 255, 0.12), inset 0 1px 0 rgba(255,255,255,0.2);
 }
 .ds-btn-primary:hover {
@@ -478,7 +484,7 @@ nav input[type="text"] {
 [class*="TestimonialCard"],
 [class*="PricingPlanCard"],
 [class*="EngineVectorCard"] {
-  border-radius: 16px !important;
+  border-radius: 32px !important;
   overflow: hidden;
 }
 
@@ -575,7 +581,7 @@ input[type="checkbox"], input[type="radio"] {
 
 /* ---------- CODE BLOCKS ---------- */
 pre {
-  border-radius: 16px !important;
+  border-radius: 32px !important;
   border: 1px solid rgba(240,250,255,0.08) !important;
   background: #1F2223 !important;
 }
@@ -715,7 +721,7 @@ details > summary {
 /* ---------- TOASTS ---------- */
 [class*="toast"],
 [class*="Toast"] {
-  border-radius: 16px !important;
+  border-radius: 32px !important;
   background: #2C3032 !important;
   border: 1px solid rgba(240,250,255,0.10) !important;
   box-shadow: 0 8px 32px -8px rgba(0,0,0,0.7) !important;
@@ -778,7 +784,7 @@ article img {
 
 /* ---------- TESTIMONIAL CARD ---------- */
 [class*="Testimonial"] {
-  border-radius: 16px !important;
+  border-radius: 32px !important;
 }
 
 /* ---------- FIX STICKY IN-PAGE HEADERS (they must sit BELOW the navbar) ---------- */
@@ -975,7 +981,7 @@ html, body { overflow-x: hidden; }
 .recharts-wrapper text, .recharts-wrapper .recharts-text { fill: rgba(240,250,255,0.55) !important; }
 .recharts-wrapper .recharts-legend-item-text { color: rgba(240,250,255,0.65) !important; }
 .recharts-wrapper .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: #2C3032 !important; border: 1px solid rgba(240,250,255,0.08) !important; border-radius: 16px !important;
+  background: #2C3032 !important; border: 1px solid rgba(240,250,255,0.08) !important; border-radius: 32px !important;
   color: #F0FAFF !important;
 }
 .recharts-dot, .recharts-active-dot circle { fill: #F0FAFF !important; stroke: #1F2223 !important; }

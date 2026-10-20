@@ -153,7 +153,7 @@ export default function PricingPage() {
  type="button"
  onClick={() => openCheckout(plan.id)}
  className={`ds-btn mt-8 h-11 w-full text-sm font-medium ${
- popular ? 'ds-btn-primary' : 'ds-btn-secondary'
+ popular ? 'ds-btn-buy' : 'ds-btn-secondary'
  }`}
  >
  {plan.ctaTextTrial}

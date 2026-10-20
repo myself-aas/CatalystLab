@@ -167,29 +167,29 @@
 
   /* Semantic Core */
   --app-background: #FFFFFF;
-  --app-foreground: #111827;
+  --app-foreground: #1C1E21;
   --app-card: #FFFFFF;
-  --app-card-foreground: #111827;
+  --app-card-foreground: #1C1E21;
   --app-popover: #FFFFFF;
-  --app-popover-foreground: #111827;
-  --app-primary: #2563EB;
-  --app-primary-hover: #1E40AF;
-  --app-primary-foreground: #FFFFFF;
+  --app-popover-foreground: #1C1E21;
+  --app-primary: #000000;
+  --app-primary-hover: #444950;
+  --app-primary-foreground: #000000;
   --app-secondary: rgba(255,255,255,0.08);
   --app-secondary-foreground: #F0FAFF;
-  --app-muted: #F3F4F6;
-  --app-muted-foreground: rgba(17,24,39,0.68);
-  --app-accent: rgba(37,99,235,0.08);
-  --app-accent-foreground: #1E40AF;
-  --app-destructive: #C81E1E;
-  --app-success: #047857;
-  --app-warning: #B45309;
-  --app-danger: #C81E1E;
-  --app-info: #2563EB;
+  --app-muted: #F1F4F7;
+  --app-muted-foreground: #4B4C4F;
+  --app-accent: rgba(0,100,224,0.08);
+  --app-accent-foreground: #0457CB;
+  --app-destructive: #E41E3F;
+  --app-success: #1E7D34;
+  --app-warning: #9A6B0F;
+  --app-danger: #E41E3F;
+  --app-info: #0091FF;
   --app-destructive-foreground: #F7FDFF;
-  --app-border: rgba(17,24,39,0.12);
+  --app-border: #CED0D4;
   --app-input: rgba(240,250,255,0.65);
-  --app-ring: rgba(37,99,235,0.35);
+  --app-ring: rgba(0,100,224,0.45);
 
   /* Surface Layers (Light Mode) */
   --bg-canvas: #F7FDFF;
@@ -246,8 +246,8 @@
   --scrollbar-thumb: rgba(100, 116, 139, 0.4);
   --scrollbar-thumb-hover: rgba(100, 116, 139, 0.65);
   
-  --color-focus-ring: #2563EB;
-  --color-link: #2563EB;
+  --color-focus-ring: #1876F2;
+  --color-link: #0064E0;
   --color-success: #047857;
   --color-warning: #B45309;
   --color-danger: #C81E1E;
@@ -347,14 +347,14 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --border-focus: rgba(240, 250, 255, 0.40);
 
   /* Semantic Core (Mono System) */
-  --app-background: #111827;
+  --app-background: #0A1317;
   --app-foreground: #FFFFFF;
-  --app-card: #1B2537;
+  --app-card: #1C1E21;
   --app-card-foreground: #FFFFFF;
-  --app-popover: #1B2537;
+  --app-popover: #1C1E21;
   --app-popover-foreground: #FFFFFF;
-  --app-primary: #2563EB;
-  --app-primary-hover: #1E40AF;
+  --app-primary: #FFFFFF;
+  --app-primary-hover: #DEE3E9;
   --app-primary-foreground: #FFFFFF;
   --app-secondary: #2C3032;
   --app-secondary-foreground: #F0FAFF;
@@ -363,9 +363,9 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --app-accent: rgba(240,250,255,0.08);
   --app-accent-foreground: #F0FAFF;
   --app-destructive: #DC2626;
-  --app-success: #34D399;
-  --app-warning: #FBBF24;
-  --app-danger: #F87171;
+  --app-success: #31A24C;
+  --app-warning: #F7B928;
+  --app-danger: #F0284A;
   --app-info: #22D3EE;
   --app-destructive-foreground: #FFFFFF;
   --app-border: rgba(255,255,255,0.14);
@@ -502,15 +502,18 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --font-sans: "Inter", system-ui, sans-serif;
   /* Display face: Space Grotesk (geometric, instrument-like) — headlines only.
      Body stays Inter for legibility; JetBrains Mono is for data/telemetry only. */
-  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-display: "Optimistic VF", "Inter", system-ui, -apple-system, sans-serif;
   /* Role scale (typeset): purpose-named, not per-component arbitrary sizes.
      Readable floor 12px (text-label); 11px only for mono data labels. */
-  --text-display: 3.75rem;  --text-display--line-height: 1.05;
-  --text-headline: 2.25rem; --text-headline--line-height: 1.12;
-  --text-title: 1.25rem;    --text-title--line-height: 1.3;
-  --text-body: 1rem;        --text-body--line-height: 1.65;
-  --text-label: 0.75rem;    --text-label--line-height: 1.4;
+  --text-display: 4rem;     --text-display--line-height: 1.16;
+  --text-headline: 3rem;    --text-headline--line-height: 1.17;
+  --text-title: 2.25rem;    --text-title--line-height: 1.28;
+  --text-body: 1rem;        --text-body--line-height: 1.5;
+  --text-label: 0.75rem;    --text-label--line-height: 1.33;
   --text-data: 0.6875rem;   --text-data--line-height: 1.4;
+  --color-buy: #0064E0;
+  --color-buy-hover: #0457CB;
+  --color-buy-foreground: #FFFFFF;
   --color-success: var(--app-success);
   --color-warning: var(--app-warning);
   --color-danger: var(--app-danger);

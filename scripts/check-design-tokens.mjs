@@ -18,9 +18,10 @@ for (const name of ['--color-success', '--color-warning', '--color-danger', '--c
 }
 const distinct = new Set(['--color-success', '--color-warning', '--color-danger'].flatMap(pick));
 if (distinct.size < 4) errors.push(`success/warning/danger must be mutually distinct in both themes (got ${distinct.size} distinct values)`);
-if ((css.match(/--app-primary:\s*#2563EB/gi)||[]).length < 2) errors.push('--app-primary must be Clean SaaS Royal Blue #2563EB in both themes (user-pinned palette)');
-if (!/--app-hover|--app-primary-hover:\s*#1E40AF/i.test(css)) errors.push('--app-primary-hover must be Deep Blue #1E40AF (user-pinned palette)');
-if (/--app-background:\s*#1F2223/i.test(css)) errors.push('charcoal canvas #1F2223 must not return — canvas is #FFFFFF (light) / #111827 Ink Navy (dark)');
+if (!/--app-primary:\s*#000000/i.test(css)) errors.push('Meta system: light --app-primary must be ink-button #000000 (marketing primary is black)');
+if (!/--color-buy:\s*#0064E0/i.test(css)) errors.push('Meta system: --color-buy must be cobalt #0064E0 (purchase CTAs only)');
+if (!/--color-buy-hover:\s*#0457CB/i.test(css)) errors.push('Meta system: --color-buy-hover must be primary-deep #0457CB');
+if (/--app-background:\s*#1F2223/i.test(css)) errors.push('charcoal canvas #1F2223 must not return — canvas is #FFFFFF (light) / #0A1317 ink-deep (dark)');
 if (/--app-muted-foreground:\s*rgba\(240,250,255/i.test(css)) errors.push('light --app-muted-foreground regressed to a white-based value');
 if (!/--font-display:/.test(css)) errors.push('--font-display token missing (font-display utilities silently fall back)');
 if (/^p,\s*\.text-muted-foreground\s*\{/m.test(patch) || /^h1,\s*h2,\s*h3,\s*h4\s*\{[^}]*color/m.test(patch))

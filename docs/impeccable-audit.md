@@ -284,3 +284,33 @@ was applied with this environment's image generation instead, for the product
 Products data (`src/data/engines.ts`) now has **zero** Pexels image hotlinks.
 If Higgsfield auth becomes available, re-run:
 `higgsfield product-photoshoot create --mode hero_banner --prompt "CatalystLab dashboard on devices, Clean SaaS royal blue" --image src/assets/images/page-products.jpg --count 3`.
+
+## Meta design system adoption + Lighthouse CI fix (2026-10-21)
+
+CI diagnosis: the only failing check was Lighthouse CI — `/blogs` Accessibility 87 < 90
+budget in `scripts/report-lhci.mjs --strict`. All other checks (Gates, E2E/CSP,
+Security, Vercel, Media Verification) passed.
+
+CI fixes:
+- `/blogs`: `button-name` — icon-only filter button had no accessible name → added
+  `type="button" aria-label="Filter articles"`.
+- `/blogs` + `/`: `heading-order` — the shell rendered a duplicate "Discover" h1
+  above the real page heading → shell heading demoted to `<p>`, page heading is the
+  single h1, article titles h2 (no skips).
+- `/blogs`: `color-contrast` — white-based `rgba(240,250,255,…)` text/borders left
+  from the dark-canvas era were near-invisible on the light canvas → replaced with
+  ink/muted-foreground tokens.
+
+Meta system (voltagent/awesome-design-md `design-md/meta/DESIGN.md`) adopted globally:
+tokens in src/index.css + patch.css + src/styles/card-tokens.css —
+- Marketing primary CTA = ink-button #000000 (pressed #444950); cobalt #0064E0
+  (hover #0457CB) reserved for purchase CTAs only → pricing popular plan uses
+  `ds-btn-buy`.
+- Canvas #FFFFFF, surface-soft #F1F4F7, ink #1C1E21,ink-deep #0A1317 (dark canvas),
+  slate #4B4C4F, hairlines #CED0D4/#DEE3E9; buttons 100px pills (never squared).
+- Optimistic VF type scale (64/48/36/28/24, weights 500 + 300 editorial, body
+  16px/1.5/−0.16px); Optimistic is proprietary → Inter fallback stack; Space Grotesk
+  dropped (also removes the fonts.gstatic 503 seen in CI on /pricing).
+- Cards: 32px photo/feature radius, 16px inner tiles (`card-tokens.css`).
+- DESIGN.md front-matter rewritten to Meta tokens; ADR 0001 marked superseded.
+- `check-design-tokens.mjs` re-pinned to Meta ink-button/cobalt tokens.
