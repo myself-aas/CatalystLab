@@ -80,6 +80,11 @@ jobs:
       contents: read
       pull-requests: write
     env:
+      # Lighthouse audits the real production host (node dist/server.cjs), not a
+      # bare static directory, so the API the SPA calls exists and a missing
+      # endpoint cannot be mistaken for a page defect.
+      NODE_ENV: production
+      PORT: '3000'
       APP_ORIGIN: https://www.catalystlab.tech
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json

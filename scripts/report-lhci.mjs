@@ -93,13 +93,44 @@ function pathOf(lhr) {
  * list.
  */
 function readNoindexRoutes() {
+  const manifestPath = resolve('dist/routes.json');
+  if (!existsSync(manifestPath)) {
+    // Only happens when dist/ has not been built (local runs): every route is
+    // then treated as indexable, so SEO is asserted everywhere.
+    console.error('[report-lhci] dist/routes.json not found: noindex SEO exemptions disabled.');
+    return new Set();
+  }
   try {
-    const manifest = JSON.parse(readFileSync(resolve('dist/routes.json'), 'utf8'));
-    const routes = manifest?.appRoutes || [];
-    return new Set(routes.map((route) => (route === '/' ? '/' : route.replace(/\/+$/, ''))));
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    const routes = (manifest?.appRoutes || []).map((route) => (Array.isArray(route) ? route[0] : route));
+    return new Set(
+      routes.filter((route) => typeof route === 'string').map((route) => (route === '/' ? '/' : route.replace(/\/+$/, '')))
+    );
   } catch {
     return new Set();
   }
+}
+
+/**
+ * Pulls the first couple of concrete details out of a failing audit, so the
+ * report says what to fix ("TypeError: ... at main.js") and not only which audit
+ * lost points. Kept short on purpose: this ends up in a PR comment.
+ */
+function describeAudit(audit) {
+  const items = audit?.details?.items;
+  if (!Array.isArray(items) || items.length === 0) return '';
+  const snippets = items
+    .slice(0, 2)
+    .map((item) => {
+      if (!item || typeof item !== 'object') return String(item);
+      const raw =
+        item.text ?? item.description ?? item.message ?? item.label ?? item.source ?? item.failureMessage ?? '';
+      const text = String(raw).replace(/\s+/g, ' ').trim();
+      return text.length > 220 ? `${text.slice(0, 217)}...` : text;
+    })
+    .filter(Boolean);
+  if (snippets.length === 0) return '';
+  return `\n    - ${snippets.join('\n    - ')}`;
 }
 
 const assertions = readAssertions();
@@ -140,7 +171,7 @@ for (const lhr of reports) {
       const audit = lhr.audits?.[ref.id];
       if (!audit || audit.score === null || audit.score >= 0.9) continue;
       const label = CATEGORY_LABELS.get(id) || id;
-      entry.failingAudits.add(`${label} \u2014 ${audit.title || ref.id} (\`${ref.id}\`)`);
+      entry.failingAudits.add(`${label} \u2014 ${audit.title || ref.id} (\`${ref.id}\`)${describeAudit(audit)}`);
     }
   }
   byUrl.set(key, entry);
