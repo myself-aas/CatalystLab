@@ -123,8 +123,11 @@ function describeAudit(audit) {
     .slice(0, 2)
     .map((item) => {
       if (!item || typeof item !== 'object') return String(item);
+      const location = item.sourceLocation?.url || item.url || item.href || '';
       const raw =
         item.text ?? item.description ?? item.message ?? item.label ?? item.source ?? item.failureMessage ?? '';
+      // A console error is only actionable with the URL that produced it.
+      if (location && !String(raw).includes(location)) return `${String(raw).replace(/\s+/g, ' ').trim()} [${location}]`;
       const text = String(raw).replace(/\s+/g, ' ').trim();
       return text.length > 220 ? `${text.slice(0, 217)}...` : text;
     })
