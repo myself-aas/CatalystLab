@@ -1,4 +1,10 @@
 import type { EngineMeta } from '../types';
+// The Pexels photo 3861958 that these three engines used now answers 503, so
+// they mount local assets instead: a dead third-party image was the homepage's
+// only console error and it cost best-practices points on every run (D17).
+import gitLygaseImage from '../assets/images/hero_network_visualization_1787838371820.jpg';
+import ecoHoloImage from '../assets/images/catalyst_bg_2_1787217684318.jpg';
+import llmKinaseImage from '../assets/images/allostersearch_llmo_1787420226857.jpg';
 
 export const ENGINES_MAP: Record<string, EngineMeta> = {
   // SDLC Phase 1: SynthShift
@@ -78,7 +84,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'repo_scanner.py',
     route: '/docs/gitlygase',
     docsAnchor: 'engine-repo-scanner',
-    image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: gitLygaseImage,
     keyVectors: [
       'Open-Source License Compatibility (MIT, Apache, GPL)',
       'SECURITY.md Vulnerability Disclosure Policy',
@@ -136,7 +142,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'eco_carbon_audit.py',
     route: '/docs/ecoholo',
     docsAnchor: 'engine-eco-audit',
-    image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: ecoHoloImage,
     keyVectors: [
       'Sustainable Web Design (SWD) Carbon Model Scoring',
       'CO2 Grams per 10,000 Pageviews Benchmark',
@@ -369,7 +375,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'ai_readiness.py',
     route: '/docs/llm-kinase',
     docsAnchor: 'engine-ai-readiness',
-    image: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    image: llmKinaseImage,
     keyVectors: [
       'Root /llms.txt and /llms-full.txt Manifest Discovery',
       'Robots.txt AI Agent Crawling Directives (GPTBot, ClaudeBot, PerplexityBot)',

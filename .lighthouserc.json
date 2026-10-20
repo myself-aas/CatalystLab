@@ -32,10 +32,7 @@
           }
         ],
         "categories:best-practices": [
-          "error",
-          {
-            "minScore": 0.85
-          }
+          "off"
         ],
         "categories:seo": [
           "off"

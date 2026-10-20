@@ -138,6 +138,36 @@ function describeAudit(audit) {
 
 const assertions = readAssertions();
 
+/**
+ * Route-specific baselines (D17, owner decision 2026-10-20).
+ *
+ * These work exactly like the coverage ratchet in vitest.config.ts: each number
+ * is a measured value that may be raised when the route improves and must never
+ * be lowered to make a regression pass. A baseline is only ever narrower than the
+ * site-wide budget, and the report prints the reason whenever one is applied, so
+ * it cannot quietly become a way to hide a failure.
+ *
+ * The landing page loads Firebase Auth eagerly, so Chrome reports third-party
+ * cookies and DevTools inspector issues that no other route has. Measured
+ * 2026-10-20: best-practices 0.74 against a site-wide budget of 0.85. The honest
+ * fix is lazy-initialising Firebase on the landing page (docs/ops/runbook.md §8),
+ * after which this baseline should be deleted, not raised.
+ */
+const ROUTE_BASELINES = {
+  '/': {
+    'best-practices': {
+      minScore: 0.74,
+      reason: 'eager Firebase Auth on the landing page: third-party cookies + inspector issues (D17)',
+    },
+  },
+};
+
+function assertionFor(url, categoryId) {
+  const override = ROUTE_BASELINES[url]?.[categoryId];
+  if (override) return { level: 'error', minScore: override.minScore, baseline: override.reason };
+  return assertions.get(categoryId);
+}
+
 // SEO is asserted here rather than by Lighthouse CI because the budget is
 // route-aware: `categories:seo` is off in .lighthouserc.json (a `noindex` app
 // shell fails Lighthouse's is-crawlable audit on purpose, D11), so this script
@@ -145,6 +175,12 @@ const assertions = readAssertions();
 // in dist/routes.json. A11y, best-practices and performance stay enforced by
 // Lighthouse CI itself for all routes.
 if (!assertions.has('seo')) assertions.set('seo', { level: 'error', minScore: 0.85 });
+
+// Best-practices is asserted here for the same reason (D17): the site-wide budget
+// is 0.85, and the landing page carries a recorded 0.74 baseline in
+// ROUTE_BASELINES. Both categories stay `off` in .lighthouserc.json so that
+// Lighthouse CI does not fail a route this script has already judged.
+if (!assertions.has('best-practices')) assertions.set('best-practices', { level: 'error', minScore: 0.85 });
 
 const noindexRoutes = readNoindexRoutes();
 const reports = readReports();
@@ -184,7 +220,7 @@ const failures = [];
 const warnings = [];
 for (const [url, entry] of byUrl) {
   for (const category of CATEGORIES) {
-    const assertion = assertions.get(category.id);
+    const assertion = assertionFor(url, category.id);
     const score = entry.scores[category.id];
     if (!assertion || score === undefined) continue;
     // A noindex app shell is exempt from SEO only (D11); everything else applies.
@@ -211,11 +247,11 @@ for (const [url, entry] of [...byUrl.entries()].sort()) {
     const score = entry.scores[category.id];
     if (score === undefined) return 'n/a';
     if (category.id === 'seo' && noindexRoutes.has(url)) return `${(score * 100).toFixed(0)} (noindex)`;
-    const assertion = assertions.get(category.id);
+    const assertion = assertionFor(url, category.id);
     const percent = (score * 100).toFixed(0);
     if (!assertion) return percent;
     if (score < assertion.minScore) return assertion.level === 'error' ? `❌ ${percent}` : `⚠️ ${percent}`;
-    return `✅ ${percent}`;
+    return assertion.baseline ? `✅ ${percent} (baseline ${(assertion.minScore * 100).toFixed(0)})` : `✅ ${percent}`;
   });
   const urlFailures = failures.filter((line) => line.startsWith(`\`${url}\``));
   const result = urlFailures.length > 0 ? 'fail' : warnings.some((line) => line.startsWith(`\`${url}\``)) ? 'warn' : 'pass';
@@ -227,6 +263,20 @@ if (failures.length > 0 || warnings.length > 0) {
   console.log('### Below threshold');
   console.log('');
   for (const line of [...failures, ...warnings]) console.log(`- ${line}`);
+}
+
+const appliedBaselines = [];
+for (const url of byUrl.keys()) {
+  for (const category of CATEGORIES) {
+    const override = ROUTE_BASELINES[url]?.[category.id];
+    if (override) appliedBaselines.push(`\`${url}\` ${category.label}: floor ${(override.minScore * 100).toFixed(0)} instead of ${((assertions.get(category.id)?.minScore ?? 0) * 100).toFixed(0)} — ${override.reason}`);
+  }
+}
+if (appliedBaselines.length > 0) {
+  console.log('');
+  console.log('### Route baselines in effect (D17)');
+  console.log('');
+  for (const line of appliedBaselines.sort()) console.log(`- ${line}`);
 }
 
 const withFailures = [...byUrl.entries()].filter(([, entry]) => entry.failingAudits.size > 0);

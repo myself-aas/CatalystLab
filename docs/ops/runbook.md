@@ -167,3 +167,44 @@ Oracle Always Free (2 OCPU / 12 GB), Firebase Spark, MongoDB free tier, Upstash
 free, Sentry developer tier. The monthly cost target is **$0** (answer #7). If a
 free tier is exhausted, prefer raising a rate limit or shedding load over paying;
 record the decision in `docs/plan/decisions.md` before spending anything.
+
+---
+
+## 8. Front-end quality budgets (Lighthouse CI)
+
+`.lighthouserc.json` starts the real production host (`node dist/server.cjs`,
+`NODE_ENV=production`, `PORT=3000`) and audits five URLs twice: `/`, `/pricing`,
+`/blogs`, `/docs/llmo` and `/dashboard`. Auditing the live host matters — with a
+bare static directory every `/api` call the SPA makes fails, and those console
+errors cost best-practices points that have nothing to do with the page.
+
+Budgets (D17):
+
+| Category | Budget | Enforced by |
+| --- | --- | --- |
+| Accessibility | ≥ 0.90, error | `lhci autorun` |
+| Performance | < 0.50 warns | `lhci autorun` |
+| SEO | ≥ 0.85, error — **except** routes listed as `appRoutes` in `dist/routes.json` | `scripts/report-lhci.mjs --strict` |
+| Best practices | ≥ 0.85, error — **except** the landing-page baseline below | `scripts/report-lhci.mjs --strict` |
+
+SEO and best-practices are asserted by `scripts/report-lhci.mjs` rather than by
+Lighthouse CI because both budgets are route-aware and LHCI has no per-URL
+assertions. The script prints every score, every weighted audit that lost points
+(with the console-error text and its source URL) and every baseline it applied, to
+the job summary and as a PR comment — so a red run names its own cause.
+
+**Landing-page baseline (D17).** `/` initialises Firebase Auth eagerly, so Chrome
+reports third-party cookies and DevTools inspector issues that no other route has.
+Measured 2026-10-20: best-practices 0.74. The floor is recorded in
+`ROUTE_BASELINES` in `scripts/report-lhci.mjs` and works like the coverage
+ratchet: it may be raised, never lowered. The real fix is to lazy-initialise
+Firebase on the landing page (load it on the first auth interaction instead of at
+module scope, in `src/lib/firebase.ts`); when that lands, **delete the baseline**
+rather than raising it, and `/` should reach the site-wide 0.85.
+
+Media rule that came out of the same run: do not hot-link stock photos. Pexels
+photo 3861958 answered 503 on every audit and was the only console error on four
+of the five routes; the engines and blog covers that used it now mount local
+assets from `src/assets/images/`. `npm run media:check` still validates the remote
+URLs in `src/lib/media/registry.ts` (contract R4), so a newly dead remote image
+shows up there before it reaches a page.

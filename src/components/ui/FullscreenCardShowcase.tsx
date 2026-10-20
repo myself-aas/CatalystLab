@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import showcaseImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
 import { FullscreenCard } from './FullscreenCard';
 import { FullscreenImageCard } from './FullscreenImageCard';
 import { TrailCard } from '../cards/TrailCard';
@@ -38,7 +39,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'obsidian-spire',
     title: 'Obsidian Spire',
     subtitle: 'Blackrock Range',
-    imageUrl: 'https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1',
+    imageUrl: showcaseImage,
     imageAltText: 'Obsidian Spire rugged alpine ascent',
     difficulty: 'Expert',
     metadataSubtext: 'First ascent 1924 by Arthur Sterling',
