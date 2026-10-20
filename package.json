@@ -22,7 +22,7 @@
     "ci:full": "npm run ci && npm run test:coverage"
   },
   "dependencies": {
-    "@sentry/node": "^9.47.2",
+    "@sentry/node": "^11.8.0",
     "@tailwindcss/vite": "^4.0.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.2",
@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
-    "@lhci/cli": "^0.14.0",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.63.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
