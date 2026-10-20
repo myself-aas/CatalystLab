@@ -10,7 +10,7 @@
     "dev": "tsx server.ts",
     "build": "vite build && tsx scripts/prerender.ts && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
-    "test": "vitest run",
+    "test": "vitest run --sequence.shuffle",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "ci": "npm run check:env && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
@@ -82,5 +82,13 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.24.0",
     "vitest": "^5.0.0"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.6",
+    "@puppeteer/browsers": "^3.2.5",
+    "argparse": "^2.0.1",
+    "basic-ftp": "^6.2.3",
+    "tmp": "^0.2.7",
+    "uuid": "^11.1.1"
   }
 }

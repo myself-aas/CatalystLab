@@ -67,7 +67,7 @@ export function scrubEvent<T extends Record<string, unknown>>(event: T): T {
     const cleanRequest: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(request)) {
       // The IP is never forwarded: Sentry would otherwise store it even with
-      // sendDefaultPii disabled once a value is present.
+      // dataCollection.userInfo disabled once a value is present.
       if (key === 'ip_address' || key === 'cookies' || key === 'headers') continue;
       cleanRequest[key] = scrubValue(value);
     }
@@ -153,8 +153,19 @@ export function initErrorTracking(env: NodeJS.ProcessEnv = process.env): boolean
     environment: env.SENTRY_ENVIRONMENT || env.NODE_ENV || 'production',
     release: env.SENTRY_RELEASE || env.npm_package_version || undefined,
     tracesSampleRate: Number.isFinite(tracesSampleRate) ? Math.min(Math.max(tracesSampleRate, 0), 1) : 0,
-    // Never let the SDK collect IPs, cookies or headers on its own (D10).
-    sendDefaultPii: false,
+    // Never let the SDK collect user info, IPs, cookies, headers, bodies, query
+    // params, database payloads or local variables on its own (D10). Sentry v11
+    // replaced `sendDefaultPii` with `dataCollection`, where omitted categories
+    // default to collecting data.
+    dataCollection: {
+      userInfo: false,
+      cookies: false,
+      httpHeaders: false,
+      httpBodies: [],
+      urlQueryParams: false,
+      databaseQueryData: false,
+      stackFrameVariables: false,
+    },
     maxBreadcrumbs: 50,
     beforeSend: (event) => scrubEvent(event as unknown as Record<string, unknown>) as unknown as Sentry.ErrorEvent,
   });

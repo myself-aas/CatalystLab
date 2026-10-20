@@ -19,7 +19,7 @@ permissions:
 jobs:
   gates:
     name: Gates (Node 24)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       # check:env hard-fails in CI without these two, so both jobs set them.
       # The service-account fixture is NOT a credential: firebase-admin rejects
@@ -29,9 +29,9 @@ jobs:
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -46,11 +46,24 @@ jobs:
       - name: Coverage ratchet (vitest.config.ts thresholds)
         run: npm run test:coverage
 
+      - name: Security audit
+        run: npm audit --audit-level=high
+
       - name: Production smoke test (prerendered shell, 404 status, legacy redirect)
         run: |
           NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/server.log 2>&1 &
           SERVER_PID=$!
-          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1 && break; sleep 1; done
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          ok=0
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1; then ok=1; break; fi
+            sleep 1
+          done
+          if [ "$ok" != "1" ]; then
+            echo "::error::dist/server.cjs did not answer /api/health within 30s"
+            tail -40 /tmp/server.log
+            exit 1
+          fi
           set -e
           test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/pricing)" = "200"
           test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/dashboard)" = "200"
@@ -60,14 +73,13 @@ jobs:
           curl -fsS http://127.0.0.1:3000/pricing | grep -q 'rel="canonical" href="https://www.catalystlab.tech/pricing"'
           curl -fsS http://127.0.0.1:3000/dashboard | grep -q 'noindex, nofollow'
           curl -fsS http://127.0.0.1:3000/sitemap.xml | grep -q '<urlset'
-          kill $SERVER_PID
 
       - name: Media integrity
         run: npm run media:check
 
       - name: Upload build output
         if: github.event_name == 'push'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
@@ -75,7 +87,7 @@ jobs:
 
   lighthouse:
     name: Lighthouse CI (answer #12)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       pull-requests: write
@@ -87,9 +99,9 @@ jobs:
       VITE_APP_ORIGIN: https://www.catalystlab.tech
       FIREBASE_SERVICE_ACCOUNT_PATH: .github/fixtures/ci-service-account.json
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -152,7 +164,7 @@ jobs:
 
       - name: Upload Lighthouse reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
           path: .lighthouseci

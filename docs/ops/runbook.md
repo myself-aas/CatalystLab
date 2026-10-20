@@ -87,9 +87,14 @@ npm run lhci          # Lighthouse CI against ./dist (answer #12)
    supervisor (systemd unit or `pm2`). Confirm `/api/health` returns 200 and
    that the startup log shows `[errors] Sentry error tracking …` matching
    whether `SENTRY_DSN` is set.
-3. **Rollback:** Pages keeps the previous deployment — promote it. On the Node
-   host, redeploy the previous commit and restart; there is no database schema
-   step to undo except the TTL index, which is idempotent.
+3. **Rollback:** Trigger the manual `Rollback` GitHub Actions workflow
+   (`.github/workflows/rollback.yml`, `workflow_dispatch`) with the target `ref`
+   (commit SHA or tag) to verify gates and build a smoke-tested `rollback-dist-<ref>`
+   artifact (and optionally redeploy `dist/` to Cloudflare Pages when
+   `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` secrets are set). Pages also
+   keeps the previous deployment for instant promotion in the dashboard. On the
+   Node host, deploy the `rollback-dist-<ref>` artifact and restart; there is no
+   database schema step to undo except the TTL index, which is idempotent.
 
 Environment variables: `.env.example` is the authoritative list. `APP_ORIGIN`
 must equal `https://www.catalystlab.tech` in production; `check:env` fails the
@@ -155,8 +160,9 @@ Steps for a severity 1:
   the repository, never in a log line. Rotate `JWT_SECRET` and
   `PAYMENT_SIGNING_SECRET` by setting the new value and restarting; sessions
   signed with the old value stop working.
-- **Dependency security.** `npm audit --omit=dev` weekly (plan item 3.10);
-  update in a dedicated PR so a failing audit does not block a feature.
+- **Dependency security.** `npm audit --audit-level=high` runs as a blocking gate
+  in `.github/workflows/ci.yml`, and `.github/dependabot.yml` opens weekly
+  grouped update PRs for both `npm` and `github-actions`.
 
 ---
 

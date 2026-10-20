@@ -5,8 +5,9 @@
 // (404 JSON, request correlation, client-log sink).
 import type { Express } from 'express';
 import request from 'supertest';
-import { afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { createHmac } from 'crypto';
+import { dailyRateLimitStore } from '@server/core/rateLimit';
 import { setSubscriptionStoreForTests, SUBSCRIPTION_COLLECTION } from '@server/core/subscriptions';
 import { buildCheckoutCustomField } from '@server/core/subscriptions';
 import { MemorySubscriptionStore } from '../helpers/memorySubscriptionStore';
@@ -169,6 +170,10 @@ describe('C3: GitHub webhook HMAC verification', () => {
 });
 
 describe('C2: identity cannot be spoofed via client headers', () => {
+  beforeEach(() => {
+    dailyRateLimitStore.clear();
+  });
+
   it('spoofed superadmin headers still resolve to the visitor tier', async () => {
     const res = await request(app)
       .get('/api/v1/users/me/quota')
