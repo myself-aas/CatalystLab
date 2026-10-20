@@ -13,7 +13,8 @@
  * and edge-node count in the JSON-LD cannot drift from the product (D15).
  */
 // Q42: pick up APP_ORIGIN / VITE_APP_ORIGIN from .env when the build runs locally.
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ quiet: true });
 import crypto from 'crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';

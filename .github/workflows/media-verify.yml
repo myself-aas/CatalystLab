@@ -28,7 +28,19 @@ jobs:
           cache: npm
 
       - name: Install Dependencies
-        run: npm ci
+        run: |
+          npm ci > /tmp/npm-ci.log 2>&1 || {
+            echo "::error title=Dependency Lockfile ERESOLVE::$(grep -E 'npm error|ERESOLVE|Conflicting peer' /tmp/npm-ci.log | head -n 8 | tr '\n' ' ')"
+            cat /tmp/npm-ci.log
+            exit 1
+          }
+          cat /tmp/npm-ci.log
 
       - name: Verify Live Unsplash & Pexels Endpoints
-        run: npm run media:check
+        run: |
+          npm run media:check > /tmp/media-check.log 2>&1 || {
+            echo "::error title=Remote Media Endpoint Failure::$(tail -n 15 /tmp/media-check.log | tr '\n' ' ')"
+            cat /tmp/media-check.log
+            exit 1
+          }
+          cat /tmp/media-check.log

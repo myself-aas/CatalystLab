@@ -48,9 +48,9 @@ jobs:
 
       - name: Smoke-test rollback production server
         run: |
-          NODE_ENV=production PORT=3000 node dist/server.cjs > /tmp/rollback-server.log 2>&1 &
+          NODE_ENV=production PORT=3000 PAYMENTS_ENABLED=false node dist/server.cjs > /tmp/rollback-server.log 2>&1 &
           SERVER_PID=$!
-          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          trap 'kill -TERM "$SERVER_PID" 2>/dev/null || true' EXIT
           ok=0
           for _ in $(seq 1 30); do
             if curl -fsS http://127.0.0.1:3000/api/health > /dev/null 2>&1; then ok=1; break; fi
@@ -61,6 +61,7 @@ jobs:
             tail -40 /tmp/rollback-server.log
             exit 1
           fi
+          node scripts/verify-deployment.mjs http://127.0.0.1:3000
 
       - name: Upload verified rollback artifact
         uses: actions/upload-artifact@v7
@@ -79,4 +80,4 @@ jobs:
             echo "::error::CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets must be configured to deploy to Cloudflare Pages."
             exit 1
           fi
-          npx --yes wrangler pages deploy dist --project-name=catalystlab
+          npx --yes wrangler pages deploy dist --project-name=catalystlab-web

@@ -289,7 +289,7 @@ app.post('/api/v1/users/me/api-keys/:id/rotate', async (req: Request, res: Respo
     res.status(401).json({ success: false, error: 'Authentication required.' });
     return;
   }
-  const { id } = req.params;
+  const id = String(req.params.id ?? '');
   if (!/^[A-Za-z0-9_-]{1,128}$/.test(id)) {
     res.status(400).json({ success: false, error: 'Invalid API key id.' });
     return;
@@ -326,7 +326,7 @@ app.post('/api/v1/users/me/api-keys/:id/revoke', async (req: Request, res: Respo
     res.status(401).json({ success: false, error: 'Authentication required.' });
     return;
   }
-  const { id } = req.params;
+  const id = String(req.params.id ?? '');
   if (!/^[A-Za-z0-9_-]{1,128}$/.test(id)) {
     res.status(400).json({ success: false, error: 'Invalid API key id.' });
     return;
@@ -353,7 +353,7 @@ app.delete('/api/v1/users/me/api-keys/:id', async (req: Request, res: Response):
     res.status(401).json({ success: false, error: 'Authentication required.' });
     return;
   }
-  const { id } = req.params;
+  const id = String(req.params.id ?? '');
   if (!/^[A-Za-z0-9_-]{1,128}$/.test(id)) {
     res.status(400).json({ success: false, error: 'Invalid API key id.' });
     return;

@@ -303,11 +303,12 @@ export async function createApp(): Promise<express.Express> {
   registerClientLogRoutes(app);
   registerContactRoutes(app);
 
-  app.all(['/api/*', '/stats/*', '/telemetry/*'], (req: Request, res: Response) => {
+  app.use(['/api', '/stats', '/telemetry'], (req: Request, res: Response) => {
     if (!res.headersSent) {
+      const fullPath = req.originalUrl.split('?')[0] || req.path;
       res.status(404).json({
         success: false,
-        error: `API endpoint '${req.method} ${req.path}' not found.`
+        error: `API endpoint '${req.method} ${fullPath}' not found.`
       });
     }
   });

@@ -9,6 +9,21 @@ updates:
       npm-dependencies:
         patterns:
           - '*'
+        update-types:
+          - 'version-update:semver-minor'
+          - 'version-update:semver-patch'
+    ignore:
+      # eslint-plugin-jsx-a11y@6.x and eslint-plugin-react@7.x declare peer eslint <= 9
+      - dependency-name: 'eslint'
+        versions:
+          - '>= 10.0.0'
+      - dependency-name: '@eslint/js'
+        versions:
+          - '>= 10.0.0'
+      # typescript-eslint@8.x declares peer typescript < 6.1.0
+      - dependency-name: 'typescript'
+        versions:
+          - '>= 6.1.0'
 
   - package-ecosystem: github-actions
     directory: /

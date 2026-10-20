@@ -31,7 +31,13 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci > /tmp/npm-ci.log 2>&1 || {
+            echo "::error title=Dependency Lockfile ERESOLVE::$(grep -E 'npm error|ERESOLVE|Conflicting peer' /tmp/npm-ci.log | head -n 8 | tr '\n' ' ')"
+            cat /tmp/npm-ci.log
+            exit 1
+          }
+          cat /tmp/npm-ci.log
 
       - name: Full gate set
         run: npm run ci
@@ -108,7 +114,13 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci > /tmp/npm-ci.log 2>&1 || {
+            echo "::error title=Dependency Lockfile ERESOLVE::$(grep -E 'npm error|ERESOLVE|Conflicting peer' /tmp/npm-ci.log | head -n 8 | tr '\n' ' ')"
+            cat /tmp/npm-ci.log
+            exit 1
+          }
+          cat /tmp/npm-ci.log
 
       - name: "Gitleaks full git history scan (Plan 3.13)"
         run: |
@@ -177,7 +189,12 @@ jobs:
 
       - name: "Install dependencies & Chromium browser"
         run: |
-          npm ci
+          npm ci > /tmp/npm-ci.log 2>&1 || {
+            echo "::error title=Dependency Lockfile ERESOLVE::$(grep -E 'npm error|ERESOLVE|Conflicting peer' /tmp/npm-ci.log | head -n 8 | tr '\n' ' ')"
+            cat /tmp/npm-ci.log
+            exit 1
+          }
+          cat /tmp/npm-ci.log
           npx playwright install --with-deps chromium
 
       - name: "Build production bundle & execute Playwright E2E suite (Plan 3.8 & 9.2)"
@@ -191,7 +208,7 @@ jobs:
           cat /tmp/playwright.log
 
   lighthouse:
-    name: Lighthouse CI (answer #12)
+    name: "Lighthouse CI (answer #12)"
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -208,7 +225,14 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: |
+          npm ci > /tmp/npm-ci.log 2>&1 || {
+            echo "::error title=Dependency Lockfile ERESOLVE::$(grep -E 'npm error|ERESOLVE|Conflicting peer' /tmp/npm-ci.log | head -n 8 | tr '\n' ' ')"
+            cat /tmp/npm-ci.log
+            exit 1
+          }
+          cat /tmp/npm-ci.log
       - run: npm run build
 
       - name: Verify the production host boots

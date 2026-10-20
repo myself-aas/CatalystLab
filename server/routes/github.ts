@@ -380,7 +380,7 @@ export function registerGithubRoutes(app: express.Express): void {
   app.delete('/api/v1/integrations/github/repos/:id', async (req: Request, res: Response) => {
     if (!requireIdentity(req, res)) return;
     await ensureReposHydrated();
-    const { id } = req.params;
+    const id = String(req.params.id ?? '');
     const repo = serverConnectedRepos.get(id);
     if (!repo) {
       res.status(404).json({ success: false, error: 'Repository not found.' });
@@ -408,7 +408,7 @@ export function registerGithubRoutes(app: express.Express): void {
       res.status(404).json({ success: false, error: 'Webhook simulation is disabled in production.' });
       return;
     }
-    const { id } = req.params;
+    const id = String(req.params.id ?? '');
     const { eventType = 'push', branch, commitMessage, prTitle, author = 'catalyst-developer' } = req.body;
 
     const repo = serverConnectedRepos.get(id);
