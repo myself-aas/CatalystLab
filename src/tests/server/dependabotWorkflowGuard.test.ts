@@ -103,4 +103,9 @@ describe('GitHub Actions Workflows & Dependabot Peer-Integrity Guards', () => {
       ).toBe(false);
     }
   });
+
+  it('keeps index.html free of inline on* event attributes that violate script-src-attr none', () => {
+    const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+    expect(/\s+on[a-z]+\s*=/i.test(html)).toBe(false);
+  });
 });

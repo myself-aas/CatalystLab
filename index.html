@@ -20,7 +20,6 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://images.unsplash.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.rel='stylesheet'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
     <script>
@@ -37,6 +36,19 @@
                 el.nonce = nonce;
               }
               return el;
+            };
+          }
+          if (typeof Element !== 'undefined') {
+            var origSetAttr = Element.prototype.setAttribute;
+            Element.prototype.setAttribute = function (name, value) {
+              var lower = name ? String(name).toLowerCase() : '';
+              if (lower.indexOf('on') === 0 && value === 'return;') {
+                if (lower in this) {
+                  this[lower] = function () {};
+                }
+                return;
+              }
+              return origSetAttr.call(this, name, value);
             };
           }
           if (typeof CSSStyleDeclaration !== 'undefined') {
