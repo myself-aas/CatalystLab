@@ -1,0 +1,17 @@
+{
+  "name": "hero-launch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.185 preview",
+    "check": "npx --yes hyperframes@0.8.185 check",
+    "render": "npx --yes hyperframes@0.8.185 render",
+    "publish": "npx --yes hyperframes@0.8.185 publish"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "gsap": "^3.15.0",
+    "puppeteer-core": "^25.15.0"
+  }
+}

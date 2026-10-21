@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="/assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: 'Inter';
+        src: url('/assets/fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
+        font-weight: 100 900;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        src: url('/assets/fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
+        font-weight: 100 800;
+        font-style: normal;
+      }
+      :root {
+        --ground: #ffffff;
+        --well: #f1f4f7;
+        --ink: #1c1e21;
+        --ink60: rgba(28, 30, 33, 0.62);
+        --hair: #ced0d4;
+        --cobalt: #0064e0;
+        --sans: 'Inter', system-ui, sans-serif;
+        --mono: 'JetBrains Mono', ui-monospace, monospace;
+        --card-shadow: 0 24px 48px rgba(28, 30, 33, 0.1);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 1920px; height: 1080px; background: var(--ground); font-family: var(--sans); color: var(--ink); }
+      .scene { position: absolute; inset: 0; overflow: hidden; background: var(--ground); }
+      .plate { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; object-position: left top; }
+      .mono { font-family: var(--mono); }
+      .hairbox { border: 1px solid var(--hair); background: var(--ground); }
+      .card { position: absolute; background: var(--ground); border: 1px solid var(--hair); box-shadow: var(--card-shadow); }
+      .tile { position: absolute; width: 96px; height: 56px; background: var(--well); border: 1px solid var(--hair); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--ink60); }
+      .chip { position: absolute; width: 80px; height: 44px; background: var(--well); border: 1px solid var(--hair); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 28px; color: var(--ink60); }
+      .stamp { position: absolute; left: 1150px; top: 700px; padding: 18px 40px; border: 3px solid var(--cobalt); background: var(--ground); font-family: var(--mono); font-size: 96px; font-weight: 700; color: var(--cobalt); letter-spacing: -0.02em; }
+      .cursor { position: absolute; left: 0; top: 0; width: 62px; height: 96px; filter: drop-shadow(0 4px 8px rgba(28, 30, 33, 0.25)); }
+      .ripple { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border: 3px solid var(--cobalt); border-radius: 50%; }
+      .h1line { position: absolute; left: 192px; font-size: 96px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); }
+      .subline { position: absolute; left: 196px; top: 640px; font-size: 40px; font-weight: 500; color: var(--ink60); letter-spacing: -0.01em; }
+      .claim { position: absolute; left: 192px; top: 460px; font-size: 88px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); }
+      .cobalt { color: var(--cobalt); }
+      .world { position: absolute; left: 340px; top: 220px; width: 1240px; height: 640px; }
+      .wname { position: absolute; left: 60px; top: 52px; font-size: 44px; font-weight: 700; letter-spacing: -0.02em; }
+      .wverb { position: absolute; right: 60px; top: 58px; font-family: var(--mono); font-size: 40px; font-weight: 500; color: var(--cobalt); }
+      .wrule { position: absolute; left: 60px; right: 60px; top: 130px; height: 1px; background: var(--hair); }
+      .wrow { position: absolute; left: 60px; right: 60px; height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--well); }
+      .wlab { font-family: var(--mono); font-size: 28px; color: var(--ink60); }
+      .wval { font-family: var(--mono); font-size: 32px; font-weight: 500; color: var(--ink); }
+      .whero { position: absolute; left: 60px; bottom: 48px; font-family: var(--mono); font-size: 96px; font-weight: 700; color: var(--cobalt); letter-spacing: -0.02em; }
+      .wherolab { position: absolute; left: 62px; bottom: 150px; font-family: var(--mono); font-size: 28px; color: var(--ink60); }
+      .bar { position: absolute; height: 10px; background: var(--cobalt); border-radius: 5px; }
+      .bartrack { position: absolute; height: 10px; background: var(--well); border-radius: 5px; }
+      .verdict { position: absolute; left: 500px; top: 860px; width: 920px; height: 120px; display: flex; align-items: center; justify-content: center; gap: 0; font-family: var(--mono); font-size: 40px; font-weight: 500; color: var(--ink60); }
+      .verdict b { font-weight: 700; color: var(--cobalt); padding: 0 6px; }
+      .frag { position: absolute; width: 140px; height: 8px; background: var(--hair); }
+      .cta { position: absolute; left: 0; right: 0; top: 800px; text-align: center; font-family: var(--mono); font-size: 40px; font-weight: 500; color: var(--ink); }
+      .urlchip { position: absolute; left: 240px; top: 500px; width: 430px; height: 84px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 32px; color: var(--ink); }
+      .counter { position: absolute; left: 240px; top: 170px; font-family: var(--mono); font-size: 140px; font-weight: 700; color: var(--cobalt); letter-spacing: -0.03em; }
+      .counterlab { position: absolute; left: 244px; top: 330px; font-family: var(--mono); font-size: 28px; color: var(--ink60); }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-0xju" id="root" data-composition-id="main" data-start="0" data-duration="31" data-width="1920" data-height="1080">
+
+      <!-- S1 HOOK 0-2.4 : hero already alive, tiles rain, p95 stamp lands -->
+      <div data-hf-id="hf-misw" id="s1-hook" class="clip scene" data-start="0" data-duration="2.4" data-track-index="0">
+        <div data-hf-id="hf-jvx2" id="s1-plate" class="clip" data-start="0" data-duration="2.4" data-track-index="1">
+          <img data-hf-id="hf-vrwy" class="plate" src="/assets/captures/home.png" alt="" />
+        </div>
+        <div data-hf-id="hf-gllt" class="clip" data-start="0" data-duration="2.4" data-track-index="2" id="tiles"></div>
+        <div data-hf-id="hf-5e9l" id="s1-stamp" class="clip" data-start="0" data-duration="2.4" data-track-index="3">
+          <div data-hf-id="hf-5574" class="stamp" id="stamp">24.13 ms</div>
+        </div>
+      </div>
+
+      <!-- S2 TENSION 2.4-6.0 : real form at 1.8x, cursor types + presses -->
+      <div data-hf-id="hf-0seh" id="s2-tension" class="clip scene" data-start="2.4" data-duration="3.6" data-track-index="0">
+        <div data-hf-id="hf-buzk" id="s2-card" class="clip" data-start="2.4" data-duration="3.6" data-track-index="1">
+          <div data-hf-id="hf-v711" class="card" id="formcard" style="left:140px;top:380px;width:1400px;height:320px;border-radius:24px;">
+            <div data-hf-id="hf-rty6" class="mono" id="formlabel" style="position:absolute;left:30px;top:44px;font-size:28px;color:var(--ink60);">Domain URL to audit</div>
+            <img data-hf-id="hf-dosy" id="formimg" src="/assets/captures/home-el.png" alt="" style="position:absolute;left:30px;top:110px;width:1210px;height:126px;" />
+            <div data-hf-id="hf-6jkr" id="typecover" style="position:absolute;left:58px;top:116px;width:886px;height:112px;background:var(--ground);"></div>
+            <div data-hf-id="hf-gemk" class="mono" id="typed" style="position:absolute;left:72px;top:150px;font-size:30px;color:var(--ink);"></div>
+            <div data-hf-id="hf-ybqd" class="ripple" id="ripple" style="left:1102px;top:153px;"></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-fs6l" id="s2-cursor" class="clip" data-start="2.4" data-duration="3.6" data-track-index="2">
+          <svg data-hf-id="hf-fxlv" class="cursor" id="cursor" viewBox="0 0 62 96"><path data-hf-id="hf-at6k" d="M4 2 L4 74 L22 57 L34 90 L47 84 L35 52 L58 50 Z" fill="#1c1e21" stroke="#ffffff" stroke-width="4" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- S3 REVEAL 6.0-8.4 : real H1 + subline, mark carried from the button -->
+      <div data-hf-id="hf-9kla" id="s3-reveal" class="clip scene" data-start="6" data-duration="2.4" data-track-index="0">
+        <div data-hf-id="hf-aana" id="s3-type" class="clip" data-start="6" data-duration="2.4" data-track-index="1">
+          <div data-hf-id="hf-iirn" class="h1line" id="t1" style="top:340px;">Meet the all-new</div>
+          <div data-hf-id="hf-i0ju" class="h1line" id="t2" style="top:450px;">Catalyst Telemetry</div>
+          <div data-hf-id="hf-lj38" class="subline" id="t3">More engines. More dimensions. More edge intelligence.</div>
+        </div>
+        <div data-hf-id="hf-gytk" id="s3-mark" class="clip" data-start="6" data-duration="2.4" data-track-index="2">
+          <img data-hf-id="hf-27xr" id="mark3" src="/assets/brand/logo-mark.svg" alt="" style="position:absolute;left:192px;top:760px;width:120px;height:120px;" />
+        </div>
+      </div>
+
+      <!-- S4a PROOF fan-out 8.4-11.2 : one URL, 42 PoPs, counter ticks -->
+      <div data-hf-id="hf-4aqh" id="s4-fanout" class="clip scene" data-start="8.4" data-duration="2.8" data-track-index="0">
+        <div data-hf-id="hf-r15e" id="s4-fan" class="clip" data-start="8.4" data-duration="2.8" data-track-index="1">
+          <div data-hf-id="hf-nlzi" class="urlchip hairbox" id="urlchip">your-domain.com</div>
+          <svg data-hf-id="hf-ykea" id="fansvg" style="position:absolute;inset:0;width:1920px;height:1080px;"></svg>
+          <div data-hf-id="hf-f8d2" id="chips"></div>
+        </div>
+        <div data-hf-id="hf-z81j" id="s4-count" class="clip" data-start="8.4" data-duration="2.8" data-track-index="2">
+          <div data-hf-id="hf-dcut" class="counter" id="counter">01</div>
+          <div data-hf-id="hf-350i" class="counterlab">edge PoPs answering</div>
+        </div>
+      </div>
+
+      <!-- S4b PROOF worlds 11.2-20.0 : four canonical engines, real data -->
+      <div data-hf-id="hf-zol9" id="s4-worlds" class="clip scene" data-start="11.2" data-duration="8.8" data-track-index="0">
+        <div data-hf-id="hf-ikjn" id="s4-w1" class="clip" data-start="11.2" data-duration="2.4" data-track-index="1">
+          <div data-hf-id="hf-rtk4" class="card world" id="w1">
+            <div data-hf-id="hf-u37r" class="wname">Website Health</div><div data-hf-id="hf-10dl" class="wverb">measures</div><div data-hf-id="hf-n4gh" class="wrule"></div>
+            <div data-hf-id="hf-tat5" class="wrow" style="top:170px;"><span data-hf-id="hf-uvn5" class="wlab">HSTS</span><span data-hf-id="hf-ciik" class="wval">present</span></div>
+            <div data-hf-id="hf-bmgz" class="wrow" style="top:240px;"><span data-hf-id="hf-9s60" class="wlab">X-Frame-Options</span><span data-hf-id="hf-qkhg" class="wval">present</span></div>
+            <div data-hf-id="hf-drr9" class="wrow" style="top:310px;"><span data-hf-id="hf-h0bt" class="wlab">CSP</span><span data-hf-id="hf-pdkd" class="wval">present</span></div>
+            <div data-hf-id="hf-lyb8" class="wrow" style="top:380px;"><span data-hf-id="hf-bp17" class="wlab">MIME sniffing</span><span data-hf-id="hf-f0ub" class="wval">blocked</span></div>
+            <div data-hf-id="hf-ldmi" class="wherolab">SSL validity score</div>
+            <div data-hf-id="hf-efsn" class="whero" id="w1hero">0</div>
+          </div>
+        </div>
+        <div data-hf-id="hf-ytt9" id="s4-w2" class="clip" data-start="13.4" data-duration="2.4" data-track-index="2">
+          <div data-hf-id="hf-2p1r" class="card world" id="w2">
+            <div data-hf-id="hf-kmh5" class="wname">Edge Latency Radar</div><div data-hf-id="hf-nsw1" class="wverb">pings</div><div data-hf-id="hf-nd1h" class="wrule"></div>
+            <div data-hf-id="hf-h7t9" class="wrow" style="top:170px;"><span data-hf-id="hf-ro5r" class="wlab">US-East (N. Virginia)</span><span data-hf-id="hf-m4i0" class="wval">12 ms jitter</span></div>
+            <div data-hf-id="hf-1fk3" class="wrow" style="top:240px;"><span data-hf-id="hf-umnu" class="wlab">US-West (Oregon)</span><span data-hf-id="hf-r51z" class="wval">48 ms jitter</span></div>
+            <div data-hf-id="hf-1xy1" class="wrow" style="top:310px;"><span data-hf-id="hf-9of9" class="wlab">EU-Central (Frankfurt)</span><span data-hf-id="hf-akxn" class="wval">35 ms jitter</span></div>
+            <div data-hf-id="hf-bxw6" class="wherolab">p95 edge response</div>
+            <div data-hf-id="hf-jypg" class="whero" id="w2hero">0.00 ms</div>
+          </div>
+        </div>
+        <div data-hf-id="hf-tw2h" id="s4-w3" class="clip" data-start="15.6" data-duration="2.4" data-track-index="1">
+          <div data-hf-id="hf-yqxq" class="card world" id="w3">
+            <div data-hf-id="hf-w0mw" class="wname">AI Readiness</div><div data-hf-id="hf-vmyd" class="wverb">reads</div><div data-hf-id="hf-ojyk" class="wrule"></div>
+            <div data-hf-id="hf-ieqc" class="wrow" style="top:170px;"><span data-hf-id="hf-w1cr" class="wlab">GPTBot</span><span data-hf-id="hf-drl8" class="wval">100 allowed</span></div>
+            <div data-hf-id="hf-z9wo" class="bartrack" style="left:520px;top:196px;width:600px;"></div><div data-hf-id="hf-c4nb" class="bar w3bar" style="left:520px;top:196px;width:0px;" data-w="600"></div>
+            <div data-hf-id="hf-4j1u" class="wrow" style="top:250px;"><span data-hf-id="hf-w8p3" class="wlab">Claude</span><span data-hf-id="hf-0jgc" class="wval">90 allowed</span></div>
+            <div data-hf-id="hf-d2rj" class="bartrack" style="left:520px;top:276px;width:600px;"></div><div data-hf-id="hf-yug7" class="bar w3bar" style="left:520px;top:276px;width:0px;" data-w="540"></div>
+            <div data-hf-id="hf-c13b" class="wrow" style="top:330px;"><span data-hf-id="hf-r55c" class="wlab">CCBot</span><span data-hf-id="hf-i315" class="wval">80 allowed</span></div>
+            <div data-hf-id="hf-g06y" class="bartrack" style="left:520px;top:356px;width:600px;"></div><div data-hf-id="hf-4gkf" class="bar w3bar" style="left:520px;top:356px;width:0px;" data-w="480"></div>
+            <div data-hf-id="hf-451c" class="wherolab">Perplexity allowance</div>
+            <div data-hf-id="hf-nzat" class="whero" id="w3hero">0</div>
+          </div>
+        </div>
+        <div data-hf-id="hf-lxot" id="s4-w4" class="clip" data-start="17.8" data-duration="2.2" data-track-index="2">
+          <div data-hf-id="hf-7etl" class="card world" id="w4">
+            <div data-hf-id="hf-sgyk" class="wname">Eco-Carbon Footprint</div><div data-hf-id="hf-mknp" class="wverb">weighs</div><div data-hf-id="hf-o5nj" class="wrule"></div>
+            <div data-hf-id="hf-i0fb" class="wrow" style="top:170px;"><span data-hf-id="hf-9wez" class="wlab">Images</span><span data-hf-id="hf-tik7" class="wval">60% of CO2</span></div>
+            <div data-hf-id="hf-vaw0" class="bartrack" style="left:520px;top:196px;width:600px;"></div><div data-hf-id="hf-ur20" class="bar w4bar" style="left:520px;top:196px;width:0px;" data-w="600"></div>
+            <div data-hf-id="hf-5quu" class="wrow" style="top:250px;"><span data-hf-id="hf-azuk" class="wlab">Video</span><span data-hf-id="hf-aox7" class="wval">20% of CO2</span></div>
+            <div data-hf-id="hf-6iin" class="bartrack" style="left:520px;top:276px;width:600px;"></div><div data-hf-id="hf-230b" class="bar w4bar" style="left:520px;top:276px;width:0px;" data-w="200"></div>
+            <div data-hf-id="hf-4otj" class="wrow" style="top:330px;"><span data-hf-id="hf-zyi4" class="wlab">JS / CSS</span><span data-hf-id="hf-9js7" class="wval">15% of CO2</span></div>
+            <div data-hf-id="hf-pb4u" class="bartrack" style="left:520px;top:356px;width:600px;"></div><div data-hf-id="hf-qbby" class="bar w4bar" style="left:520px;top:356px;width:0px;" data-w="150"></div>
+            <div data-hf-id="hf-d1md" class="wherolab">renewable energy mix</div>
+            <div data-hf-id="hf-81ar" class="whero" id="w4hero">0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S5 PAYOFF 20-26 : the real page scrolls, verdict locks -->
+      <div data-hf-id="hf-tuvo" id="s5-payoff" class="clip scene" data-start="20" data-duration="6" data-track-index="0">
+        <div data-hf-id="hf-1yyk" id="s5-scroll" class="clip" data-start="20" data-duration="6" data-track-index="1" style="overflow:hidden;">
+          <img data-hf-id="hf-zn0f" id="scrollimg" src="/assets/captures/home-full.png" alt="" style="position:absolute;left:-100px;top:0;width:3056px;" />
+        </div>
+        <div data-hf-id="hf-5t0a" id="s5-verdict" class="clip" data-start="24" data-duration="2" data-track-index="2">
+          <div data-hf-id="hf-urqa" class="verdict hairbox" id="verdict">p95<b data-hf-id="hf-e49p">24.13 ms</b>·<b data-hf-id="hf-ig4j">42</b>PoPs ·<b data-hf-id="hf-pjvr">8</b>engines</div>
+        </div>
+      </div>
+
+      <!-- S6 CLAIM 26-28.4 : three hard-cut beats of the real subline -->
+      <div data-hf-id="hf-vu1c" id="s6-claim" class="clip scene" data-start="26" data-duration="2.4" data-track-index="0">
+        <div data-hf-id="hf-nnve" id="s6-b1" class="clip" data-start="26" data-duration="0.8" data-track-index="1"><div data-hf-id="hf-pzci" class="claim" id="c1">More engines.</div></div>
+        <div data-hf-id="hf-5nz7" id="s6-b2" class="clip" data-start="26.8" data-duration="0.8" data-track-index="1"><div data-hf-id="hf-swqx" class="claim" id="c2">More dimensions.</div></div>
+        <div data-hf-id="hf-gyf9" id="s6-b3" class="clip" data-start="27.6" data-duration="0.8" data-track-index="1"><div data-hf-id="hf-j0zw" class="claim" id="c3">More <span data-hf-id="hf-futh" class="cobalt">edge</span> intelligence.</div></div>
+      </div>
+
+      <!-- S7 END CARD 28.4-31 : fragments assemble the real mark, CTA holds -->
+      <div data-hf-id="hf-bdzg" id="s7-end" class="clip scene" data-start="28.4" data-duration="2.6" data-track-index="0">
+        <div data-hf-id="hf-mka3" class="clip" data-start="28.4" data-duration="2.6" data-track-index="1" id="fragwrap"></div>
+        <div data-hf-id="hf-6nx4" id="s7-mark" class="clip" data-start="28.4" data-duration="2.6" data-track-index="2">
+          <div data-hf-id="hf-sqh4" id="mark7" role="img" aria-label="Catalyst mark" style="position:absolute;left:768px;top:300px;width:384px;height:384px;background:url('/assets/brand/logo-mark.svg') center/contain no-repeat;"></div>
+        </div>
+        <div data-hf-id="hf-mtnb" id="s7-cta" class="clip" data-start="29" data-duration="2" data-track-index="3">
+          <div data-hf-id="hf-rej7" class="cta" id="cta">Audit Now — catalystlab.tech</div>
+        </div>
+      </div>
+
+    </div>
+    <script>
+      // deterministic geometry (no Math.random, no timers, no network)
+      var tiles = document.getElementById('tiles');
+      var chips = document.getElementById('chips');
+      var fansvg = document.getElementById('fansvg');
+      var fragwrap = document.getElementById('fragwrap');
+      var SVGNS = 'http://www.w3.org/2000/svg';
+      function arcPos(i, cx, cy, rx, ry) {
+        var a = (-72 + (144 * i) / 41) * (Math.PI / 180);
+        var r = 0.62 + (i % 4) * 0.13;
+        var x = cx + Math.sin(a) * rx * r;
+        var y = cy - Math.cos(a) * ry * r;
+        return [Math.round(x), Math.round(y)];
+      }
+      var tileEls = [];
+      for (var i = 0; i < 42; i++) {
+        var p = arcPos(i, 1310, 620, 620, 430);
+        var d = document.createElement('div');
+        d.className = 'tile';
+        d.style.left = p[0] + 'px';
+        d.style.top = p[1] + 'px';
+        d.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+        tiles.appendChild(d);
+        tileEls.push(d);
+        var c = document.createElement('div');
+        c.className = 'chip';
+        var q = arcPos(i, 1250, 640, 560, 380);
+        c.style.left = q[0] + 'px';
+        c.style.top = q[1] + 'px';
+        c.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+        chips.appendChild(c);
+        var ln = document.createElementNS(SVGNS, 'line');
+        ln.setAttribute('x1', 670); ln.setAttribute('y1', 542);
+        ln.setAttribute('x2', q[0] + 36); ln.setAttribute('y2', q[1] + 20);
+        var len = Math.round(Math.hypot(q[0] + 36 - 670, q[1] + 20 - 542));
+        ln.setAttribute('stroke', '#CED0D4'); ln.setAttribute('stroke-width', '1');
+        ln.setAttribute('stroke-dasharray', len); ln.setAttribute('stroke-dashoffset', len);
+        fansvg.appendChild(ln);
+      }
+      var lineEls = fansvg.querySelectorAll('line');
+      var chipEls = chips.querySelectorAll('.chip');
+      var fragEls = [];
+      var fragFrom = [[120, 120, 0], [1660, 140, 0], [140, 940, 0], [1640, 920, 0], [900, 80, 90], [900, 980, 90]];
+      for (var f = 0; f < 6; f++) {
+        var fr = document.createElement('div');
+        fr.className = 'frag';
+        fr.style.left = fragFrom[f][0] + 'px';
+        fr.style.top = fragFrom[f][1] + 'px';
+        fragwrap.appendChild(fr);
+        fragEls.push(fr);
+      }
+      // typed characters (staggered reveal, deterministic)
+      var typedText = 'your-domain.com';
+      var typed = document.getElementById('typed');
+      var charEls = [];
+      for (var t = 0; t < typedText.length; t++) {
+        var s = document.createElement('span');
+        s.textContent = typedText[t];
+        s.style.opacity = '0';
+        typed.appendChild(s);
+        charEls.push(s);
+      }
+
+      var tl = gsap.timeline({ paused: true });
+      var F = 1 / 30; // frame in seconds
+
+      // S1 — tiles rain (stagger 2f), stamp impacts at 0.2
+      tl.set(tileEls.slice(0, 12), { opacity: 1, y: 0 }, 0);
+      tl.fromTo(tileEls.slice(12), { y: -760, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power4.out', stagger: 2 * F }, 0.05);
+      tl.set('#stamp', { opacity: 1, scale: 1.1 }, 0);
+      tl.to('#stamp', { scale: 1, duration: 0.3, ease: 'power2.out' }, 0.0);
+
+      // S2 — cursor in, type, press
+      tl.fromTo('#formcard', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.36, ease: 'power4.out' }, 2.4);
+      tl.fromTo('#cursor', { x: 1560, y: 940, opacity: 0 }, { x: 1560, y: 940, opacity: 1, duration: 0.12 }, 2.5);
+      tl.to('#cursor', { x: 300, y: 560, duration: 0.5, ease: 'power2.inOut' }, 2.62);
+      tl.to(charEls, { opacity: 1, duration: 0.05, stagger: 2 * F }, 3.2);
+      tl.to('#cursor', { x: 1210, y: 560, duration: 0.6, ease: 'power2.inOut' }, 4.3);
+      tl.to('#cursor', { scale: 0.9, duration: 0.07, ease: 'power2.in' }, 5.0);
+      tl.to('#formimg', { scale: 0.985, duration: 0.07, ease: 'power2.in' }, 5.0);
+      tl.fromTo('#ripple', { opacity: 0.55, scale: 0.4 }, { opacity: 0, scale: 3.2, duration: 0.55, ease: 'power2.out' }, 5.04);
+      tl.to('#cursor', { scale: 1, duration: 0.1 }, 5.07);
+      tl.to('#formimg', { scale: 1, duration: 0.14, ease: 'power2.out' }, 5.07);
+
+      // S3 — title lands dead-still, mark carried from button position
+      tl.fromTo('#t1', { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.36, ease: 'power4.out' }, 6.2);
+      tl.fromTo('#t2', { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.36, ease: 'power4.out' }, 6.32);
+      tl.fromTo('#t3', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 6.4);
+      tl.fromTo('#mark3', { opacity: 0, scale: 0.3, x: 880, y: -190 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: 'power3.out' }, 6.1);
+
+      // S4a — hairlines draw, chips pop, counter ticks 01->42
+      tl.fromTo('#urlchip', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: 'power3.out' }, 8.4);
+      tl.to(lineEls, { attr: { 'stroke-dashoffset': 0 }, duration: 0.7, ease: 'power2.inOut', stagger: 1.5 * F }, 8.6);
+      tl.fromTo(chipEls, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.24, ease: 'back.out(2)', stagger: 1.5 * F }, 8.7);
+      var cnt = { v: 1 };
+      var counterEl = document.getElementById('counter');
+      tl.to(cnt, { v: 42, duration: 2.2, ease: 'none', onUpdate: function () { var n = Math.round(cnt.v); counterEl.textContent = (n < 10 ? '0' : '') + n; } }, 8.6);
+
+      // S4b — worlds: match-cut scale-in, hero numbers count, bars draw
+      function world(id, at) {
+        tl.fromTo('#' + id, { opacity: 0, scale: 0.24, x: 620, y: 240 }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.3, ease: 'power4.out' }, at);
+        tl.to('#' + id, { opacity: 0, scale: 1.05, duration: 0.3, ease: 'power2.in' }, at + 2.0);
+      }
+      world('w1', 11.2); world('w2', 13.4); world('w3', 15.6); world('w4', 17.8);
+      var h1c = { v: 0 }; var h1el = document.getElementById('w1hero');
+      tl.to(h1c, { v: 92, duration: 1.2, ease: 'power2.out', onUpdate: function () { h1el.textContent = Math.round(h1c.v); } }, 11.5);
+      var h2c = { v: 0 }; var h2el = document.getElementById('w2hero');
+      tl.to(h2c, { v: 24.13, duration: 1.2, ease: 'power2.out', onUpdate: function () { h2el.textContent = h2c.v.toFixed(2) + ' ms'; } }, 13.7);
+      tl.to('.w3bar', { width: function (i, el) { return el.getAttribute('data-w'); }, duration: 0.9, ease: 'power2.out', stagger: 0.12 }, 15.9);
+      var h3c = { v: 0 }; var h3el = document.getElementById('w3hero');
+      tl.to(h3c, { v: 100, duration: 1.0, ease: 'power2.out', onUpdate: function () { h3el.textContent = Math.round(h3c.v); } }, 15.9);
+      tl.to('.w4bar', { width: function (i, el) { return el.getAttribute('data-w'); }, duration: 0.9, ease: 'power2.out', stagger: 0.12 }, 18.1);
+      var h4c = { v: 0 }; var h4el = document.getElementById('w4hero');
+      tl.to(h4c, { v: 85, duration: 1.0, ease: 'power2.out', onUpdate: function () { h4el.textContent = Math.round(h4c.v) + '%'; } }, 18.1);
+
+      // S5 — page scroll, verdict locks with a spring
+      tl.fromTo('#scrollimg', { y: -1120 }, { y: -4160, duration: 5.2, ease: 'none' }, 20.0);
+      tl.fromTo('#verdict', { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2.2)' }, 24.0);
+
+      // S6 — claim beats enter small and stop dead
+      tl.fromTo('#c1', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 26.0);
+      tl.fromTo('#c2', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 26.8);
+      tl.fromTo('#c3', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 27.6);
+
+      // S7 — fragments converge, mark performs in, CTA holds
+      tl.fromTo(fragEls, { opacity: 0.9 }, { opacity: 0, x: function (i) { return 960 - 70 - fragFrom[i][0]; }, y: function (i) { return 486 - fragFrom[i][1]; }, duration: 0.9, ease: 'power3.inOut', stagger: 0.05 }, 28.4);
+      tl.fromTo('#mark7', { opacity: 0, scale: 0.62 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' }, 29.0);
+      tl.fromTo('#cta', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.24, ease: 'power2.out' }, 29.0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
