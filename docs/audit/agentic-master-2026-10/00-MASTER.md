@@ -1,129 +1,124 @@
-# Master report — CatalystLab agentic-loop audit
+# Master Audit Report — CatalystLab, New-Generation Optimization (re-run)
 
-**Audited:** 2026-10-21 · **Branch:** `arena/d85a5b1f-catalystlab` (from `af86b7f`, main incl. PR #31/#32)
-**Scope:** the whole CatalystLab system, decomposed into 8 auditable domains — design system/UI,
-frontend app, backend API & engines, testing & CI, media pipeline, docs & knowledge,
-deployment & ops, security — scored on the agentic-readiness rubric of
-`myself-aas/claude-skills/audit/engineering-agentic-2026-07` (AR v1), whose 00-MASTER.md
-this report deliberately mirrors.
-**Method:** (1) re-read the prior baselines (`docs/design-system-audit.md`,
-`docs/impeccable-audit.md` 9/20 → 15/20, `docs/plan/*`, ADR 0001); (2) re-ran every
-locally-runnable Verify criterion deterministically (results below — no sampling);
-(3) scripted source scans (363 src files, 54 pages, 142 routes, 15 scripts,
-5 workflows) for orphan tooling, drift, and loop-discipline evidence.
+**Audited:** 2026-10-21 (re-run; supersedes the AR-rubric run of the same date) ·
+**Branch:** `arena/d85a5b1f-catalystlab` · **Scope:** every auditable unit of the
+CatalystLab system — 8 domains, the `scripts/` tool class, and the instruction
+surfaces (DESIGN.md, PRODUCT.md, docs/) that steer agents working in this repo.
+**Rubric:** New-Generation Model Optimization Rubric v1 from
+`myself-aas/claude-skills/audit/newgen-2026-06/RUBRIC.md`, whose 00-MASTER.md this
+report mirrors. Verdicts: **KEEP · OPTIMIZE · REWRITE · CUT-OR-MERGE**, scored on
+A1 trigger/context quality, A2 context economy, A3 tool wiring, A4 verification
+loop, A5 real-world expertise, A6 freshness, A7 no filler — plus the source's
+D-class script contract (`--help` exits 0, deterministic, machine-parseable).
+**Method:** two automated sweep layers (scripted scans for triggers/freshness/
+phantom paths/counter drift + a `--help` smoke of every script) followed by deep
+dives per domain that **executed** empirical claims. This re-run replaces the
+AR1–AR6 agentic-readiness scoring of the previous run; where the two rubrics
+disagree, the disagreement is itself reported (§3, note).
 
-**Verification actually executed for this audit (2026-10-21):**
+**Verification executed for this audit (fresh, 2026-10-21):**
 
-| Gate | Command | Result |
-|---|---|---|
-| Env parity | `npm run check:env` | ✓ 42 keys parity-verified |
-| Design tokens | `npm run check:design` | ✓ — **but see Finding 1: not wired into CI** |
-| Lint | `npm run lint` | ✓ |
-| Typecheck | `npm run typecheck` | ✓ |
-| Unit/integration | `npm run test` | ✓ 330/330 (36 files) |
-| Build + bundle budget | `npm run build`, `check:bundle` | ✓ 80 chunks, budgets satisfied |
-| Secrets | `npm run sec:secrets` | ✓ 590 files, 0 secrets |
-| Media endpoints | `npm run media:check` | ✗ in sandbox (egress-blocked hosts) — **Finding 2** |
+| Check | Result |
+|---|---|
+| check:env / check:design / lint / typecheck | ✓ all pass |
+| `npm run test` | ✓ 330/330 (36 files) |
+| build + check:bundle | ✓ budgets satisfied |
+| sec:secrets | ✓ 593 tracked files, 0 secrets |
+| Script `--help` smoke (D1 contract) | **8/10 pass** — `verify-deployment.mjs` and `verify-media.mjs` exit 1 on `--help` (they run their full check instead) |
+| Phantom-path scan (42 docs, backticked repo paths) | ✓ all exist (line-number suffixes stripped) |
+| Counter derivation | ✓ docs claims match tree exactly: 363 src files, 54 pages, 142 routes, 330 tests |
+| Orphan scripts | ✓ zero (all 15 wired into package.json/workflows/docs) |
+| media:check | ✗ in sandbox only (egress-blocked) — see P1-2 |
 
 ---
 
-## 1. The two questions
+## 1. Repo-wide scorecard
 
-The prior audit wave (frontend-design + impeccable) asked: **does the frontend earn
-its context window?** (identity, tokens, a11y floor). It drove the 9/20 → 15/20
-remediation, the owner palettes, the Meta-system adoption, and Lighthouse-green CI.
+**8 domains audited as units** (per-unit verdicts + "Verify (definition of done)"
+blocks in [domains.md](domains.md)):
 
-This audit asks the next question, per the source rubric: **can an agent pick up a
-goal in each domain and drive it to a verified close?** — the gather → act → verify →
-repeat loop, scored AR1 goal intake, AR2 decomposition, AR3 deterministic execution,
-AR4 verification, AR5 loop discipline, AR6 close-out (0–2 each; classes gated on
-AR4 ≥ 1 **and** AR5 ≥ 1 for HARNESS-READY, regardless of total).
+| Verdict | Count | Units |
+|---|---|---|
+| **KEEP** | 4 | Frontend app · Backend API & engines · Deployment & ops · Security |
+| **OPTIMIZE** | 3 | Testing & CI · Media pipeline · Docs & knowledge |
+| **REWRITE** | 1 | Design system (DESIGN.md body — §2, P0-1) |
+| **CUT-OR-MERGE** | 0 | — nothing failed to earn its context; the root `components/` tree was re-verified as intentional 2-line re-export shims, not duplication |
 
-## 2. Combined scorecard (8 domains)
+Artifact classes: 15 scripts (13 wired + smoke-clean; 2 `--help` contract fails) ·
+5 workflows (all jobs exit-code gated) · 42 docs (0 phantom paths, counters exact).
 
-| Class | Domains | Count | Meaning |
+## 2. P0 — Correctness defects (fix before anything else)
+
+| # | Defect | Where | Evidence |
 |---|---|---|---|
-| **HARNESS-READY** (≥9, AR4≥1, AR5≥1) | Frontend app (9), Backend & engines (10), Testing & CI (11), Deployment & ops (11), Security (10) | **5** | An agent can loop this today |
-| **LOOP-CAPABLE** (6–8) | Design system (8), Docs & knowledge (6) | **2** | One or two additions away |
-| **TOOL-ONLY** (3–5) | Media pipeline (5) | **1** | Good tools, no loop spine |
-| **PROSE-ONLY** (0–2) | — | **0** | — |
+| P0-1 | **DESIGN.md's body teaches a superseded design system as current.** The frontmatter and System-source note (updated 2026-10-21) declare the Meta system; the body still specifies the Clean SaaS palette ("Royal Blue #2563EB: every primary action, link, and focus ring", Deep Blue hover, Ink Navy, bench-charcoal canvas) and "Display Font: Space Grotesk" — a font removed from `index.html` in the same pass. An agent (or human) following the body rebuilds the wrong product; the code (`--app-primary: #000000`, cobalt `#0064E0` buy-only, Optimistic/Inter) contradicts it. Identical defect class to the source audit's P0-10 (stale orchestrator text bypassing shipped systems). | `DESIGN.md:103–160` vs `src/index.css:175,514` | DESIGN.md body, re-read in full this run |
 
-Full per-domain AR tables and evidence: [domains.md](domains.md).
+No other P0s: no stale model names, dead prices, or 2024-isms in instruction
+surfaces (A6 sweep clean outside P0-1); secrets scan clean; SSRF guard refuses
+internal hosts in executed tests.
 
-**Delta vs the prior baselines:** of the impeccable A-1…A-11 findings, all are
-RESOLVED except A-6 (dual CSS systems — `patch.css`, 1,148 lines, still competes
-with `src/index.css` by import order) and the media-catalogue depth item, both
-PARTIALLY-RESOLVED and carried into §6. New since baseline: logo system, Meta
-tokens, zero Pexels *image* hotlinks in the frontend, 4 distinct author avatars.
+## 3. P1 — Systemic wiring failures (one fix clears many)
 
-## 3. The single biggest finding: two verification gates are described, not required (AR4), and loop discipline (AR5) is nowhere written down
+1. **`check:design` is not load-bearing.** The token validator passes but is in
+   neither `npm run ci` nor any workflow — P0-1 survived precisely because nothing
+   diffs DESIGN.md against the tokens it describes. (Under the previous AR-rubric
+   run this was "AR4 described ≠ required"; both rubrics converge here — the
+   finding is rubric-independent.)
+2. **`verify-media.mjs` verifies a manifest the app no longer serves.** It
+   hardcodes 19 URLs; its U-FACE-1…4 point at Unsplash portraits while
+   `src/lib/media/registry.ts` serves self-hosted avatars (avatar-1…4). It also
+   cannot distinguish dead links from blocked egress (all-FAIL in this sandbox,
+   green in CI). Only the 4 `V_*` Pexels videos remain genuinely remote.
+3. **`--help` contract fails on 2/10 scripts** (D1): `verify-deployment.mjs` and
+   `verify-media.mjs` execute their full (network-dependent) check on `--help`.
+   The source audit's meta-tool-hygiene defect, verbatim.
+4. **Dual CSS systems persist** (baseline A-6, still open): `patch.css` (1,148
+   lines) competes with `src/index.css` tokens, winner decided by import order;
+   `index.html:129` fallback markup still paints the old `#1F2223` charcoal.
+5. **807 raw hex literals in TSX** — mostly legitimate data-viz encoding, but
+   unscope-guarded: nothing stops new arbitrary hex in page components
+   (the `--hue-*` token route exists and is unused as a lint rule).
 
-CatalystLab is unusually gate-rich — coverage ratchets, bundle budgets, strict
-Lighthouse, 0-vulnerability, CSP-zero-violation, restore drills. But the audit found
-the exact failure mode the source rubric warns about, twice:
+## 4. What's already excellent (the template to copy)
 
-1. **`check:design` is not load-bearing.** `scripts/check-design-tokens.mjs` passes
-   today, yet it appears in **neither** `npm run ci` nor any GitHub workflow. The
-   Meta-token system it pins can regress silently — the same "validator exists but
-   its exit code isn't required" defect class as the source audit's Field 3.
-   **Fix cost: one line** (add to the `ci` script). This alone moves the design
-   system 8 → 10, LOOP-CAPABLE → HARNESS-READY.
-2. **`verify-media.mjs` has drifted from the registry it verifies.** It hardcodes a
-   second, stale manifest (19 URLs): its `U-FACE-1…4` still point at Unsplash
-   portraits while `src/lib/media/registry.ts` now serves self-hosted avatars, and
-   it cannot distinguish a dead link from blocked egress (it failed every check in
-   this sandbox while CI passes). The runtime truth is narrower: only the four
-   `V_*` Pexels *videos* remain remote. A verifier that cries wolf trains agents to
-   ignore it — the reward-hacking hazard the rubric's AR4/AR5 gate exists to prevent.
+- **Testing & CI gates** — coverage ratchet, bundle budget, 0-vulnerability,
+  strict Lighthouse reporter, restore drill and payments sandbox executing real
+  contracts in CI. 330/330 green under shuffled sequence.
+- **Refusal-oriented intake** — zod validation, SSRF guard, env-parity gate:
+  the newgen "forcing/refusal" pattern, already shipped in the backend domain.
+- **Counter honesty** — every number in the docs (363 files, 54 pages, 142
+  routes, 330 tests) derives exactly from the tree today; rare, and worth
+  protecting with gate G3 below.
+- **Media registry design** — fallback chains + licence provenance per entry;
+  its verifier (P1-2), not the registry, is the defect.
 
-Second gap, mirroring the source audit: **AR5 (loop discipline) is the weakest
-dimension repo-wide** (median 1/2). Retries exist in code (mongo sync middleware,
-webhook fan-out, LHCI's 2 runs) but no domain states an iteration cap or escalation
-threshold an agent could obey. Nothing today can "run confidently and forever" in
-production paths — but an *agent following these docs* has no written stop rule.
+## 5. Recommended verification harness (CI gates to add)
 
-## 4. What this audit ships
+Adapted from the source audit's G-gates to this repo's defect classes:
 
-This report set, in `docs/audit/agentic-master-2026-10/`, following the source layout:
+| Gate | Catches | Spec |
+|---|---|---|
+| **G1 docs↔code token diff** | P0-1 | Assert every hex/font named in DESIGN.md's Colors/Typography sections exists in `src/index.css` tokens; fail on orphans either direction. |
+| **G2 `--help` contract** | P1-3 | Every `scripts/*` exits 0 on `--help` within 5s, side-effect-free; exceptions listed in-file. |
+| **G3 counter derivation** | future drift | Script derives files/pages/routes/tests counts and diffs against audit-doc claims (currently exact — lock it in). |
+| **G4 design gate binding** | P1-1 | `npm run ci` includes `check:design`; breaking a pinned token fails Gates. |
+| **G5 media manifest single-source** | P1-2 | Verifier generates its list from `MEDIA_REGISTRY`; sandbox runs report BLOCKED-EGRESS ≠ DEAD. |
+| **G6 path-existence linter** | phantom paths | Backticked repo paths in docs must exist (passes today — keep it that way). |
 
-- **00-MASTER.md** (this file) — scorecard, biggest finding, follow-ups.
-- **domains.md** — per-domain AR tables with file/line evidence and each domain's
-  single top improvement.
-- **improvement-fields.md** — the cross-domain fields ordered by leverage, each with
-  an executable acceptance criterion.
-- No code changes: like the source audit, fixes land as the follow-up PRs in §6 so
-  each carries its own verification.
+## 6. Suggested execution order (follow-up PRs)
 
-## 5. Per-domain reports
+1. **PR-1 (P0, ~1h):** rewrite DESIGN.md Colors/Typography/North-Star body to the
+   shipped Meta system; fix `index.html:129` fallback colours. Verify: G1 passes.
+2. **PR-2 (binding):** G4 + G2 (add `--help` short-circuits to the two scripts).
+3. **PR-3 (media):** G5 + self-host/poster the 4 `V_*` videos → media:check hermetic.
+4. **PR-4 (structure):** close A-6 — fold `patch.css` into the token layer; scope
+   the hex rule (charts via `--hue-*` only).
+5. **PR-5 (CI):** land G1, G3, G6 as blocking gates.
 
-- [domains.md](domains.md) — 8 domains, AR 0–2 per dimension, evidence, top fix each.
-- [improvement-fields.md](improvement-fields.md) — five fields, leverage-ordered.
-- Baselines: `docs/impeccable-audit.md`, `docs/design-system-audit.md`.
+## 7. Where the per-unit verification criteria live
 
-## 6. Recommended follow-up PRs (in leverage order)
-
-1. **Bind the design gate** — add `npm run check:design` to the `ci` script (and
-   thereby CI Gates). Acceptance: deliberately breaking a pinned token makes
-   `npm run ci` exit non-zero locally. *(Design system → HARNESS-READY.)*
-2. **Single-source the media manifest** — generate `verify-media`'s URL list from
-   `MEDIA_REGISTRY` (no hardcoded duplicate); make the verifier hermetic-aware
-   (report `BLOCKED-EGRESS` distinctly from `DEAD`, exit 1 only on DEAD in CI mode).
-   Acceptance: rename a registry entry → verifier output changes with zero edits to
-   the script; sandbox run reports BLOCKED-EGRESS, not FAIL.
-3. **Retire the last remote media** — self-host or poster-replace the four `V_*`
-   Pexels videos (HyperFrames render on a Chrome-equipped machine is the standing
-   path). Acceptance: `grep -r "videos.pexels.com" src/` → 0; media:check passes
-   with egress to Pexels blocked.
-4. **Loop-cap sweep (AR5)** — one standardized block in the runbook + engine docs:
-   "remediate → re-run gate → exit 0 required; max 3 cycles, then escalate with the
-   evidence log." Acceptance: `docs/ops/runbook.md` carries the block and every
-   `drill:*`/`test:*` script header cites it.
-5. **Close the dual-CSS debt (A-6, deferred since the impeccable audit)** — fold
-   `patch.css` rules into the token layer or formally scope it, so import order no
-   longer decides winners. Acceptance: `patch.css` < 100 lines or deleted;
-   `check:design` + visual smoke on /, /pricing, /dashboard unchanged.
-6. **Docs gate (AR4 for knowledge)** — link/anchor check + ADR-index drift check in
-   CI. Acceptance: a deliberately broken intra-docs link fails Gates.
-
-Every item has an executable acceptance criterion — the "definition of done"
-discipline both the source audit and this repo's prior waves established.
+[domains.md](domains.md): every unit carries A-dimension notes and 2–4 executable
+"Verify (definition of done)" checks — the input for gates G1–G6.
+[improvement-fields.md](improvement-fields.md): the cross-unit fields by leverage.
+Prior AR-rubric scoring is superseded by this re-run; its one rubric-independent
+finding (unbound design gate) is carried above as P1-1.
