@@ -22,8 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": [
-        "./src/*",
-        "./*"
+        "./src/*"
       ],
       "@server/*": [
         "./server/*"
@@ -35,9 +34,7 @@
     "server.ts",
     "vite.config.ts",
     "server",
-    "scripts",
-    "types",
-    "components"
+    "scripts"
   ],
   "exclude": [
     "dist",

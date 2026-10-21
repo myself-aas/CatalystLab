@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
-import { CoverFlowCarousel, auditorsCarouselItems } from '../ui/3-d-coverflow-carousel';
-import { PartnerMarquee } from './PartnerMarquee';
-
-const PRESETS = [
-  { label: 'stripe.com', url: 'https://stripe.com' },
-  { label: 'vercel.com', url: 'https://vercel.com' },
-  { label: 'github.com', url: 'https://github.com' },
-  { label: 'cloudflare.com', url: 'https://cloudflare.com' },
-];
 
 export const HeroSection: React.FC = () => {
   const [url, setUrl] = useState('');

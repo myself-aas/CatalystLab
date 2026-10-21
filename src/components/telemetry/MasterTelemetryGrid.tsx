@@ -27,8 +27,8 @@ import { DiagnosticConsoleCard } from './DiagnosticConsoleCard';
 import { LiveTerminalStream, type TerminalLogEntry } from './LiveTerminalStream';
 import { GuestQuotaBanner } from './GuestQuotaBanner';
 import { AuditScoreMatrixRadar } from './AuditScoreMatrixRadar';
-import { ExportReportDropdown } from '../../src/components/common/ExportReportDropdown';
-import type { AuditReport } from '../../src/types';
+import { ExportReportDropdown } from '../common/ExportReportDropdown';
+import type { AuditReport } from '../../types';
 import type {
   DiagnosticEngineId,
   MasterTelemetryReport,
