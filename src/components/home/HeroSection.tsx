@@ -32,24 +32,52 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden w-full min-h-dvh max-w-none flex flex-col bg-background">
-      {/* Visual Contrast and Ambience Scrim */}
-      <div
-        data-testid="hero-contrast-scrim"
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-blue-600/10 via-transparent to-transparent z-0"
-      />
+    <section className="relative w-full min-h-[80vh] flex flex-col justify-center items-start text-left bg-background pt-32 pb-24 px-6 md:px-12">
+      <div className="relative z-20 w-full max-w-2xl">
+        <motion.h1 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="framer-hero-title text-foreground tracking-[-0.03em] leading-[1.1] mb-6"
+        >
+          Meet the all-new Catalyst Telemetry
+        </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="framer-section-headline text-muted-foreground mb-10"
+        >
+          More engines. More dimensions. More edge intelligence.
+        </motion.p>
+        
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-row items-center gap-4 mb-16"
+        >
+          <button 
+            onClick={() => {
+              const element = document.getElementById('audit-form');
+              element?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="ds-btn ds-btn-primary px-8 py-3 text-base rounded-full shadow-lg hover:shadow-xl transition-all"
+          >
+            Audit Now
+          </button>
+          <button 
+            onClick={() => navigate('/engines')}
+            className="ds-btn ds-btn-secondary px-8 py-3 text-base rounded-full bg-white/5 hover:bg-white/10 transition-all"
+          >
+            Explore engines
+          </button>
+        </motion.div>
+      </div>
 
-      {/* The one job of this surface: run an audit. Visible to everyone —
-          no sr-only duplicate (parity between sighted and AT users). */}
-      <div className="relative z-20 w-full max-w-3xl mx-auto px-6 pt-14 pb-8 text-center">
-        <h1 className="framer-hero-title drop-shadow text-foreground">
-          Deep visibility. Zero overhead. Autonomous edge intelligence.
-        </h1>
-        <p className="framer-body-text mt-4 max-w-[65ch] mx-auto">
-          Inspect Core Web Vitals, OWASP transport security, AI manifests, and edge nodes in real time.
-        </p>
-        <form onSubmit={handleAudit} className="mt-6 flex flex-col gap-3 sm:flex-row">
+      {/* Audit Form Section (Integrated into the hero flow) */}
+      <div id="audit-form" className="w-full max-w-2xl">
+        <form onSubmit={handleAudit} className="flex flex-col sm:flex-row gap-3 p-2 bg-muted/30 rounded-full border border-border shadow-inner">
           <label htmlFor="hero-audit-url-input" className="sr-only">Domain URL to audit</label>
           <input
             id="hero-audit-url-input"
@@ -60,45 +88,12 @@ export const HeroSection: React.FC = () => {
             aria-label="Domain URL to audit"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            className="ds-input min-h-11 flex-1 text-base"
+            className="flex-1 bg-transparent border-none focus:ring-0 text-base px-4 min-h-[44px]"
           />
-          <button type="submit" className="ds-btn ds-btn-primary min-h-11 shrink-0">
+          <button type="submit" className="ds-btn ds-btn-primary rounded-full min-h-[44px] px-6">
             Run Instant Audit
           </button>
         </form>
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-          <span className="text-label text-muted-foreground">Presets:</span>
-          {PRESETS.map((preset) => (
-            <button
-              key={preset.url}
-              type="button"
-              onClick={() => {
-                setUrl(preset.url);
-                launchAudit(preset.url);
-              }}
-              className="rounded-full border border-border bg-muted/40 px-3 min-h-11 font-mono text-data text-foreground transition hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              {preset.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Supporting proof: the auditors, as a carousel below the action. */}
-      <motion.div
-        style={{ opacity, scale }}
-        className="relative z-10 w-full flex-1 min-h-[320px] flex items-center justify-center overflow-hidden"
-      >
-        <CoverFlowCarousel
-          items={auditorsCarouselItems}
-          autoplay={!prefersReducedMotion}
-          autoplayDelay={4000}
-        />
-      </motion.div>
-
-      {/* Official Partners Horizontal Logo Marquee */}
-      <div className="relative z-20 w-full shrink-0 flex flex-col justify-center border-t border-foreground/[0.08] bg-background/60 backdrop-blur-xl overflow-hidden">
-        <PartnerMarquee />
       </div>
     </section>
   );

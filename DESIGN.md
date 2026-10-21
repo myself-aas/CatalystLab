@@ -80,17 +80,54 @@ components:
     rounded: "{rounded.full}"
     padding: "14px 30px"
     height: "44px"
-  button-buy:
+  button-buy-cta:
     backgroundColor: "{colors.primary}"
     textColor: "{colors.on-primary}"
     rounded: "{rounded.full}"
     padding: "14px 30px"
     height: "44px"
-  card-panel:
+  button-secondary:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-deep}"
+    border: "2px solid {colors.ink-deep}"
+    rounded: "{rounded.full}"
+    padding: "12px 28px"
+    height: "44px"
+  button-ghost:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-deep}"
+    border: "2px solid rgba(10, 19, 23, 0.12)"
+    rounded: "{rounded.full}"
+    padding: "10px 22px"
+    height: "44px"
+  button-pill-tab:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    border: "1px solid {colors.hairline}"
+    rounded: "{rounded.full}"
+    padding: "8px 16px"
+  button-pill-tab-active:
+    backgroundColor: "{colors.ink-deep}"
+    textColor: "{colors.canvas}"
+    rounded: "{rounded.full}"
+    padding: "8px 16px"
+  card-product-feature:
     backgroundColor: "{colors.canvas}"
     textColor: "{colors.ink}"
     rounded: "{rounded.xxxl}"
     padding: "32px"
+  card-checkout-summary:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.xl}"
+    padding: "24px"
+  text-input:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    border: "1px solid {colors.hairline}"
+    rounded: "{rounded.lg}"
+    padding: "12px 16px"
+    height: "44px"
 ---
 
 

@@ -67,8 +67,30 @@
   z-index: 40;
   transition: background-color 300ms cubic-bezier(0.16,1,0.3,1),
               backdrop-filter 300ms ease,
+              -webkit-backdrop-filter 300ms ease,
               border-color 300ms ease,
               box-shadow 300ms ease;
+}
+
+/* Translucent 75% (70-80%) background with frosted glass on scroll */
+.top-nav.scrolled,
+#catalyst-main-navbar.scrolled {
+  background-color: color-mix(in srgb, var(--app-background) 75%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--app-border);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 767px) {
+  /* On mobile devices during scrolling: guaranteed 75% (70-80%) transparency frosted glass */
+  .top-nav.scrolled,
+  #catalyst-main-navbar.scrolled {
+    background-color: color-mix(in srgb, var(--app-background) 75%, transparent) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-bottom: 1px solid var(--app-border) !important;
+  }
 }
 
 @media (min-width: 768px) {
@@ -1149,7 +1171,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   .ds-card {
     position: relative;
     border: 1px solid var(--border-default);
-    border-radius: var(--card-radius-outer, 1rem);
+    border-radius: var(--card-radius-outer, 32px);
     background: var(--bg-surface-card);
     color: var(--text-primary);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
@@ -1177,7 +1199,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     border-color: var(--border-hover);
     box-shadow: 0 8px 40px -4px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 var(--border-hover);
   }
-  .ds-control { min-height: 2.75rem; border-radius: 0.65rem; }
+  .ds-control { min-height: 2.75rem; border-radius: 0.5rem; }
   .ds-muted { color: var(--app-muted-foreground); }
 
   /* Canonical interactive primitives — use instead of hand-rolled button/input
@@ -1187,12 +1209,14 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 2.75rem; /* Matches a substantial CTA height */
-    border-radius: 9999px; /* Pill shape */
-    padding-inline: 1.5rem;
+    min-height: 2.75rem; /* Matches Meta 44px CTA height */
+    border-radius: 100px; /* Meta 100px Pill shape */
+    padding-inline: 1.875rem; /* 30px horizontal padding per Meta button-md */
+    padding-block: 0.875rem; /* 14px vertical padding per Meta button-md */
     font-size: 0.875rem;
-    font-weight: 600;
-    transition: all 160ms ease;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     border: 1px solid transparent;
   }
@@ -1200,25 +1224,37 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   .ds-btn:active { transform: translateY(1px); }
   
   .ds-btn-primary { 
-    background: var(--text-primary); 
-    color: var(--bg-canvas); 
-    border: 1px solid var(--text-primary);
+    background: var(--app-primary, #000000); 
+    color: var(--app-background, #FFFFFF); 
+    border: 1px solid var(--app-primary, #000000);
   }
   .ds-btn-primary:hover { 
-    background: var(--text-secondary);
-    color: var(--bg-canvas);
-    border-color: var(--text-secondary);
-    box-shadow: 0 0 20px rgba(247, 253, 255, 0.35);
+    background: var(--app-primary-hover, #444950);
+    color: #FFFFFF;
+    border-color: var(--app-primary-hover, #444950);
+  }
+  .ds-btn-buy {
+    background: var(--color-buy, #0064E0);
+    color: #FFFFFF;
+    border: 1px solid var(--color-buy, #0064E0);
+  }
+  .ds-btn-buy:hover {
+    background: var(--color-buy-hover, #0457CB);
+    border-color: var(--color-buy-hover, #0457CB);
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px 0 rgba(0, 100, 224, 0.35);
   }
   .ds-btn-secondary { 
-    background: var(--bg-surface-elevated); 
-    color: var(--text-primary); 
-    border: 1px solid var(--border-default); 
+    background: transparent; 
+    color: var(--app-foreground, #1C1E21); 
+    border: 2px solid var(--app-foreground, #1C1E21); 
+    padding-inline: 1.75rem;
+    padding-block: 0.75rem;
   }
   .ds-btn-secondary:hover { 
-    background: var(--bg-surface-low); 
-    border-color: var(--border-hover); 
-    color: var(--text-primary);
+    background: var(--app-muted, #F1F4F7); 
+    border-color: var(--app-foreground, #1C1E21); 
+    color: var(--app-foreground, #1C1E21);
   }
   .ds-btn-ghost { 
     background: transparent; 

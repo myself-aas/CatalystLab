@@ -67,9 +67,9 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-col justify-between rounded-2xl p-5 sm:p-6 transition duration-200 bg-background ${
+      className={`relative flex flex-col justify-between rounded-[32px] p-6 sm:p-7 transition duration-200 bg-background ${
         isPopular
-          ? 'border-2 border-border shadow-md lg:-translate-y-1.5'
+          ? 'border-2 border-[#0064E0] shadow-md lg:-translate-y-1.5'
           : 'border border-border hover:border-border shadow-sm'
       } ${className || ''}`}
     >
@@ -174,10 +174,10 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
         <button
           onClick={onCtaClick}
           disabled={ctaDisabled}
-          className={`w-full py-2.5 px-4 rounded-xl font-mono text-xs font-bold transition shadow-sm cursor-pointer ${
+          className={`w-full min-h-[44px] py-3 px-6 rounded-full font-sans text-sm font-bold transition shadow-sm cursor-pointer ${
             isPopular
-              ? 'bg-primary hover:bg-primary-hover text-primary-foreground'
-              : 'bg-accent hover:bg-accent text-foreground border border-border'
+              ? 'bg-[#0064E0] hover:bg-[#0457CB] text-white shadow-[0_4px_14px_0_rgba(0,100,224,0.35)]'
+              : 'bg-primary hover:bg-primary-hover text-primary-foreground border border-transparent'
           } ${isCurrent ? 'opacity-60 cursor-not-allowed' : ''}`}
         >
           {ctaLabel}

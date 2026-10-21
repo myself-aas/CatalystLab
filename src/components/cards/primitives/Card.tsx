@@ -24,13 +24,13 @@ export const cardVariants = cva(
     variants: {
       variant: {
         immersive:
-          'bg-[#F3F4F6] text-foreground rounded-[24px] border border-[rgba(240,250,255,0.07)] shadow-[0_1px_2px_rgba(0,0,0,0.2),0_8px_28px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-xl hover:border-[rgba(240,250,255,0.14)] hover:bg-[#F3F4F6] hover:shadow-[0_2px_4px_rgba(0,0,0,0.25),0_16px_48px_-8px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(240,250,255,0.08)]',
+          'bg-[#F1F4F7] dark:bg-[#1C1E21] text-foreground rounded-[32px] border border-border shadow-[0_1px_2px_rgba(0,0,0,0.06),0_8px_28px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_24px_-6px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-foreground/20 hover:shadow-[0_2px_4px_rgba(0,0,0,0.1),0_16px_48px_-8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_8px_40px_-4px_rgba(0,0,0,0.6)]',
         surface:
-          'bg-[#F3F4F6] text-foreground rounded-[24px] border border-[rgba(240,250,255,0.07)] shadow-[0_1px_2px_rgba(0,0,0,0.18),0_8px_28px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(240,250,255,0.06)] p-4 sm:p-5 hover:border-[rgba(240,250,255,0.14)] hover:bg-[#F3F4F6] hover:shadow-[0_2px_4px_rgba(0,0,0,0.25),0_16px_48px_-8px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(240,250,255,0.08)]',
+          'bg-[#F1F4F7] dark:bg-[#1C1E21] text-foreground rounded-[32px] border border-border shadow-[0_1px_2px_rgba(0,0,0,0.06),0_8px_28px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_24px_-6px_rgba(0,0,0,0.5)] p-5 sm:p-6 hover:border-foreground/20 hover:shadow-[0_2px_4px_rgba(0,0,0,0.1),0_16px_48px_-8px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_8px_40px_-4px_rgba(0,0,0,0.6)]',
         terminal:
-          'bg-background text-foreground rounded-[24px] border border-[rgba(240,250,255,0.10)] scanline-overlay font-mono shadow-[0_1px_2px_rgba(0,0,0,0.2),0_8px_28px_-8px_rgba(0,0,0,0.5)] backdrop-blur-xl p-5 sm:p-6 hover:border-[rgba(240,250,255,0.16)] hover:shadow-[0_2px_4px_rgba(0,0,0,0.25),0_16px_48px_-8px_rgba(0,0,0,0.65)]',
+          'bg-background dark:bg-[#0A1317] text-foreground rounded-[32px] border border-border scanline-overlay font-mono shadow-[0_1px_2px_rgba(0,0,0,0.06),0_8px_28px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_24px_-6px_rgba(0,0,0,0.5)] backdrop-blur-xl p-5 sm:p-6 hover:border-foreground/20',
         swatch:
-          'bg-[#F3F4F6] text-foreground rounded-[20px] border border-[rgba(240,250,255,0.07)] p-4 font-mono shadow-[0_1px_2px_rgba(0,0,0,0.18),0_8px_28px_-8px_rgba(0,0,0,0.4)] hover:border-[rgba(240,250,255,0.14)] hover:bg-[#F3F4F6]',
+          'bg-[#F1F4F7] dark:bg-[#1C1E21] text-foreground rounded-[24px] border border-border p-4 font-mono shadow-[0_1px_2px_rgba(0,0,0,0.06),0_8px_28px_-8px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_24px_-6px_rgba(0,0,0,0.5)] hover:border-foreground/20',
       },
       hue: {
         vitalzyme: 'card-hue-vitalzyme',

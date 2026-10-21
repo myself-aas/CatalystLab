@@ -12,6 +12,9 @@ import {
   LayoutDashboard,
   LogOut,
   Lock,
+  Search,
+  ShoppingBag,
+  User as UserIcon,
 } from 'lucide-react';
 import { BrandLogo } from '../common/BrandLogo';
 import {
@@ -91,7 +94,8 @@ export const Navbar: React.FC = () => {
       clearTimeout(scrollPauseTimeout.current);
     }
 
-    if (current <= 20) {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile || current <= 20) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -109,12 +113,18 @@ export const Navbar: React.FC = () => {
       lastScrollY.current = initialY;
       setIsScrolled(initialY > 8);
 
+      const handleScroll = () => {
+        setIsScrolled(window.scrollY > 8);
+      };
+
       const handleScrollEnd = () => {
         setIsVisible(true);
       };
 
+      window.addEventListener('scroll', handleScroll, { passive: true });
       window.addEventListener('scrollend', handleScrollEnd, { passive: true });
       return () => {
+        window.removeEventListener('scroll', handleScroll);
         window.removeEventListener('scrollend', handleScrollEnd);
         if (scrollPauseTimeout.current) {
           clearTimeout(scrollPauseTimeout.current);
@@ -191,20 +201,14 @@ export const Navbar: React.FC = () => {
           to={item.to}
           onClick={() => setIsEnginesOpen(false)}
           className={cn(
-            'relative flex items-center gap-1.5 text-sm transition-colors duration-200 focus:outline-none py-1.5 px-1 font-medium',
+            'relative flex items-center gap-2 text-sm transition-all duration-200 focus:outline-none py-2 px-3 rounded-xl font-medium',
             active
-              ? 'text-foreground'
-              : 'text-[rgba(240,250,255,0.6)] hover:text-foreground',
+              ? 'text-foreground bg-[rgba(240,250,255,0.08)] shadow-sm'
+              : 'text-[rgba(240,250,255,0.7)] hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]',
           )}
         >
-          {Icon && <Icon className="size-4" />}
-          {item.label}
-          {active && (
-            <motion.span
-              layoutId="nav-active-dot"
-              className="absolute -bottom-1 left-1/2 -translate-x-1/2 size-1 rounded-full bg-[#F0FAFF]"
-            />
-          )}
+          {Icon && <Icon className="size-4 shrink-0" />}
+          <span>{item.label}</span>
         </Link>
       );
     });
@@ -240,19 +244,39 @@ export const Navbar: React.FC = () => {
         style={{
           pointerEvents: shouldShow ? 'auto' : 'none',
         }}
-          className="top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 z-40 w-full border-b border-transparent bg-transparent transition-[background-color,backdrop-filter,border-color] duration-300"
+          className={cn(
+            "top-nav fixed top-[var(--trial-banner-height,0px)] inset-x-0 z-40 w-full transition-[background-color,backdrop-filter,border-color,box-shadow] duration-300",
+            isScrolled
+              ? "scrolled bg-background/75 md:bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm"
+              : "border-b border-transparent bg-transparent"
+          )}
       >
         <nav
           aria-label="Main Navigation"
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
         >
-          {/* Left Anchor: Monogram + Wordmark + Live Node Chip */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Left Anchor: Hamburger + Official Meta Logo */}
+          <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              className="text-foreground focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -ml-1 cursor-pointer rounded-full hover:bg-[rgba(240,250,255,0.08)]"
+              onClick={() => {
+                setIsMobileMenuOpen(true);
+                window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'));
+              }}
+              aria-label="Open navigation menu"
+            >
+              <Menu className="size-6 text-foreground stroke-[2.2]" />
+            </motion.button>
+
             <Link to="/" className="flex items-center gap-2 group focus:outline-none">
               <BrandLogo size="md" />
             </Link>
 
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+            <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-75" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#F0FAFF]" />
@@ -272,15 +296,18 @@ export const Navbar: React.FC = () => {
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setIsEnginesOpen(!isEnginesOpen)}
                 className={cn(
-                  "flex items-center gap-1 text-sm transition-colors duration-200 focus:outline-none cursor-pointer py-1.5 px-2 font-medium",
-                  isEnginesOpen ? "text-foreground" : "text-[rgba(240,250,255,0.6)] hover:text-foreground"
+                  "flex items-center gap-2 text-sm transition-all duration-200 focus:outline-none cursor-pointer py-2 px-3 rounded-xl font-medium",
+                  isEnginesOpen 
+                    ? "text-foreground bg-[rgba(240,250,255,0.08)] shadow-sm" 
+                    : "text-[rgba(240,250,255,0.7)] hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]"
                 )}
                 aria-expanded={isEnginesOpen}
               >
+                <Activity className="size-4 shrink-0 text-[#0066FF]" />
                 <span>Engines</span>
                 <ChevronDown
                   className={cn(
-                    "size-3.5 transition-transform duration-200",
+                    "size-3.5 transition-transform duration-200 ml-0.5",
                     isEnginesOpen && "rotate-180"
                   )}
                 />
@@ -390,25 +417,33 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Action Area */}
-          <div className="hidden md:flex items-center gap-2">
+          {/* Right Action Area (Meta Standard: Search, Bag, User, Shop CTA) */}
+          <div className="flex items-center gap-1 sm:gap-2">
             <NavbarSearch isScrolled={isScrolled} />
+
+            <Link
+              to="/pricing"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition focus:outline-none"
+              aria-label="Store & Plans"
+              title="Store & Plans"
+            >
+              <ShoppingBag className="size-5 stroke-[2]" />
+            </Link>
 
             {user ? (
               <div className="relative" onMouseEnter={handleProfileEnter} onMouseLeave={handleProfileLeave}>
                 <motion.button
                   type="button"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2 rounded-full border border-[rgba(240,250,255,0.10)] bg-[#F3F4F6]/70 backdrop-blur-xl px-2 py-1.5 text-xs font-medium text-foreground hover:border-[rgba(240,250,255,0.20)] transition-colors cursor-pointer shadow-[inset_0_1px_0_rgba(240,250,255,0.06)]"
+                  className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition-colors cursor-pointer focus:outline-none"
                   aria-expanded={profileOpen}
                   aria-haspopup="menu"
+                  aria-label="User Account"
                 >
-                  <span className="flex size-7 items-center justify-center rounded-full bg-[#F0FAFF]/20 text-foreground text-[11px] font-bold border border-[#F0FAFF]/30">{initials}</span>
-                  <span className="max-w-[110px] truncate">{userName}</span>
-                  <ChevronDown className={cn('size-3.5 text-[rgba(240,250,255,0.5)] transition-transform', profileOpen && 'rotate-180')} />
+                  <UserIcon className="size-5 stroke-[2]" />
                 </motion.button>
 
                 <AnimatePresence>
@@ -421,24 +456,24 @@ export const Navbar: React.FC = () => {
                       className="absolute right-0 top-full pt-3 z-50 w-64"
                       role="menu"
                     >
-                      <div className="rounded-3xl border border-[rgba(240,250,255,0.08)] bg-[#F3F4F6]/95 p-2 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl">
-                        <div className="px-3 py-2.5 border-b border-[rgba(240,250,255,0.06)] mb-1 rounded-2xl">
+                      <div className="rounded-3xl border border-[rgba(240,250,255,0.08)] bg-[#F3F4F6]/95 dark:bg-[#1C1E21]/95 p-2 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
+                        <div className="px-3 py-2.5 border-b border-border/50 mb-1 rounded-2xl">
                           <div className="text-sm font-semibold text-foreground truncate">{userName}</div>
-                          <div className="text-[11px] font-mono text-[rgba(240,250,255,0.5)] uppercase tracking-wider">{planId} • {currentPlan?.name || 'Account'}</div>
+                          <div className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">{planId} • {currentPlan?.name || 'Account'}</div>
                         </div>
                         {isAdmin && (
-                          <Link to="/admin" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[rgba(240,250,255,0.05)] hover:text-foreground">
-                            <span className="size-8 rounded-xl bg-[#F0FAFF]/10 border border-amber-500/20 flex items-center justify-center"><Lock className="size-3.5 text-amber-400" /></span> Admin
+                          <Link to="/admin" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-foreground/5 hover:text-foreground">
+                            <span className="size-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center"><Lock className="size-3.5 text-amber-400" /></span> Admin
                           </Link>
                         )}
-                        <Link to="/dashboard" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[rgba(240,250,255,0.05)] hover:text-foreground">
-                          <span className="size-8 rounded-xl bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 flex items-center justify-center"><LayoutDashboard className="size-3.5 text-foreground" /></span> Dashboard
+                        <Link to="/dashboard" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-foreground/5 hover:text-foreground">
+                          <span className="size-8 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center"><LayoutDashboard className="size-3.5 text-foreground" /></span> Dashboard
                         </Link>
-                        <Link to="/" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[rgba(240,250,255,0.05)] hover:text-foreground">
-                          <span className="size-8 rounded-xl bg-[rgba(240,250,255,0.06)] border border-[rgba(240,250,255,0.08)] flex items-center justify-center"><HomeIcon /></span> Home
+                        <Link to="/" onClick={() => setProfileOpen(false)} className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-foreground/5 hover:text-foreground">
+                          <span className="size-8 rounded-xl bg-foreground/5 border border-border flex items-center justify-center"><HomeIcon /></span> Home
                         </Link>
-                        <button type="button" onClick={handleLogout} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-[rgba(240,250,255,0.6)] hover:bg-[#FFFFFF]/10 hover:text-rose-400 cursor-pointer">
-                          <span className="size-8 rounded-xl bg-[#FFFFFF]/10 border border-rose-500/20 flex items-center justify-center"><LogOut className="size-3.5" /></span> Logout
+                        <button type="button" onClick={handleLogout} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-foreground/80 hover:bg-rose-500/10 hover:text-rose-400 cursor-pointer">
+                          <span className="size-8 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center"><LogOut className="size-3.5" /></span> Logout
                         </button>
                       </div>
                     </motion.div>
@@ -446,40 +481,22 @@ export const Navbar: React.FC = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <>
-                <Link to="/login" className="text-sm text-[rgba(240,250,255,0.65)] hover:text-foreground px-3 py-1.5 transition-colors duration-200 focus:outline-none font-medium">
-                  Login
-                </Link>
-                <Link to="/signup" className="rounded-full border border-[rgba(240,250,255,0.12)] bg-[#F3F4F6]/70 backdrop-blur hover:bg-[#F3F4F6] px-4 py-1.5 text-sm font-medium text-foreground transition-colors shadow-[inset_0_1px_0_rgba(240,250,255,0.06)]">
-                  Sign up
-                </Link>
-              </>
+              <Link
+                to="/login"
+                className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition focus:outline-none"
+                aria-label="Sign in"
+                title="Sign in"
+              >
+                <UserIcon className="size-5 stroke-[2]" />
+              </Link>
             )}
+
             <Link
               to="/audit"
-              className="bg-primary text-primary-foreground font-semibold hover:bg-[#FFFFFF] rounded-full px-4 py-2 text-sm shadow-[0_2px_12px_rgba(240,250,255,0.15),inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center gap-1.5 transition active:scale-95 focus:outline-none shrink-0 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(240,250,255,0.22)]"
+              className="hidden sm:inline-flex bg-[#0064E0] hover:bg-[#0052CC] text-white font-semibold rounded-full px-5 py-2 text-sm shadow-md transition active:scale-95 focus:outline-none ml-1"
             >
-              <span>Audit</span>
-              <ArrowRight className="size-3.5" />
+              Shop
             </Link>
-          </div>
-
-          {/* Mobile Right Controls */}
-          <div className="flex md:hidden items-center gap-1">
-            <motion.button
-              type="button"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="text-foreground focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -mr-2 cursor-pointer rounded-full hover:bg-[rgba(240,250,255,0.06)]"
-              onClick={() => {
-                setIsMobileMenuOpen(true);
-                window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'));
-              }}
-              aria-label="Open mobile navigation menu"
-            >
-              <Menu className="size-5" />
-            </motion.button>
           </div>
         </nav>
       </motion.header>

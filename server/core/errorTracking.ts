@@ -142,7 +142,7 @@ export function initErrorTracking(env: NodeJS.ProcessEnv = process.env): boolean
     enabled = false;
     if (!initialized) {
       initialized = true;
-      logger.info({ service: 'catalystlab-api' }, '[errors] SENTRY_DSN not set; error tracking disabled');
+      logger.debug({ service: 'catalystlab-api' }, '[errors] SENTRY_DSN not set; error tracking disabled');
     }
     return false;
   }

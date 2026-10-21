@@ -10,10 +10,10 @@
   --text-primary-white: #F7FDFF;
   --text-muted-secondary: #F0FAFF;
   
-  /* --- Structural Geometry (16px Card Radius per Linear Design System) --- */
+  /* --- Structural Geometry (32px Card Radius & 100px Pill per Meta Design System) --- */
   --card-radius-outer: 32px;
   --card-radius-inner: 16px;
-  --card-radius-pill: 9999px;
+  --card-radius-pill: 100px;
   --card-radius-chip: 6px;
   --trail-card-radius-outer: 32px;
   --trail-card-radius-inner: 16px;

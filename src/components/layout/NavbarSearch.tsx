@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Search,
+  SearchX,
   X,
   ArrowRight,
   Sparkles,
@@ -333,13 +334,13 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
       <motion.div
         initial={false}
         animate={{
-          width: isOpen ? (window.innerWidth < 640 ? '220px' : '280px') : '36px',
+          width: isOpen ? (window.innerWidth < 640 ? '200px' : '260px') : '40px',
         }}
         transition={{ type: 'spring', stiffness: 450, damping: 35 }}
-        className={`relative flex items-center h-9 rounded-full transition-colors overflow-visible ${
+        className={`relative flex items-center h-10 rounded-full transition-colors overflow-visible ${
           isOpen
-            ? 'bg-[var(--app-background)] border border-accent/50 text-foreground shadow-linear-card ring-2 ring-accent/20'
-            : 'bg-[var(--app-background)]/80 border border-[var(--border-subtle)] text-foreground-muted hover:text-foreground hover:bg-[var(--bg-surface)] hover:border-accent/40 shadow-linear-card'
+            ? 'bg-background border border-accent/50 text-foreground shadow-lg ring-2 ring-accent/20 px-2'
+            : 'hover:bg-foreground/15 text-foreground transition-colors'
         }`}
       >
         {/* Search Trigger / Left Icon */}
@@ -349,18 +350,18 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
             setIsOpen(true);
             setTimeout(() => inputRef.current?.focus(), 50);
           }}
-          className={`h-9 w-9 flex items-center justify-center shrink-0 cursor-pointer rounded-full transition-transform active:scale-95 ${
-            !isOpen ? 'w-9' : 'w-8 pl-1.5'
+          className={`h-10 w-10 flex items-center justify-center shrink-0 cursor-pointer rounded-full transition-transform active:scale-95 ${
+            !isOpen ? 'text-foreground' : 'w-8 pl-1'
           }`}
           aria-label="Search"
           title={isOpen ? 'Search' : 'Search (Cmd+K)'}
         >
-          <Search className="size-3.5 shrink-0 text-foreground-muted" />
+          <Search className="size-5 shrink-0 stroke-[2]" />
         </button>
 
         {/* Expandable Input Field */}
         {isOpen && (
-          <div className="flex items-center w-full pr-1.5 overflow-hidden">
+          <div className="flex items-center w-full pr-1 overflow-hidden">
             <input
               ref={inputRef}
               type="text"
@@ -371,7 +372,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                 setSelectedIndex(0);
               }}
               onKeyDown={handleKeyDown}
-              placeholder="Search engines, docs..."
+              placeholder="Search..."
               className="w-full bg-transparent text-xs font-mono py-1.5 pr-1 focus:outline-none placeholder:text-[11px] text-foreground placeholder:text-foreground-muted/60"
             />
 
@@ -383,10 +384,10 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   setQuery('');
                   inputRef.current?.focus();
                 }}
-                className="p-1 rounded-md hover:bg-[var(--bg-panel-hover)] transition-colors shrink-0 text-foreground-muted hover:text-foreground"
+                className="p-1 rounded-md hover:bg-foreground/10 transition-colors shrink-0 text-foreground-muted hover:text-foreground"
                 title="Clear input"
               >
-                <X className="size-3" />
+                <X className="size-3.5" />
               </button>
             ) : (
               <button
@@ -395,7 +396,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   setIsOpen(false);
                   setQuery('');
                 }}
-                className="px-1.5 py-0.5 rounded-md text-[11px] font-mono shrink-0 transition-colors bg-[var(--bg-surface)] text-foreground-muted hover:text-foreground"
+                className="px-1.5 py-0.5 rounded-md text-[10px] font-mono shrink-0 transition-colors bg-foreground/10 text-foreground-muted hover:text-foreground"
                 title="Close search"
               >
                 Esc
@@ -405,7 +406,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
         )}
       </motion.div>
 
-      {/* Typing Suggestions Dropdown */}
+      {/* Simplified Dropdown Suggestions Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -413,129 +414,78 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
             transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-2xl border border-[var(--border-subtle)] bg-[var(--app-background)]/95 shadow-linear-card z-50 overflow-hidden font-mono text-xs backdrop-blur-2xl text-foreground"
+            className="absolute right-0 top-full mt-2 w-72 sm:w-88 rounded-2xl border border-border bg-background/95 shadow-xl z-50 overflow-hidden font-mono text-xs backdrop-blur-xl text-foreground"
           >
             {/* Header label inside dropdown */}
-            <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[11px] uppercase tracking-wider text-foreground-muted">
-              <span>{query ? `Suggestions for "${query}"` : 'Quick Navigation'}</span>
-              <span className="text-[11px] font-normal normal-case opacity-75">↑↓ Navigate • ↵ Select</span>
+            <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-muted/30 text-[10px] uppercase tracking-wider text-foreground-muted">
+              <span>{query ? `Results for "${query}"` : 'Quick Jump'}</span>
+              <span>↑↓ / ↵</span>
             </div>
 
-            {/* Suggestions list */}
-            <div className="max-h-[320px] overflow-y-auto p-1.5 space-y-1">
+            {/* Suggestions grouped by category in a grid layout */}
+            <div className="max-h-[340px] overflow-y-auto p-2 space-y-3">
               {filteredItems.length > 0 ? (
-                filteredItems.map((item, idx) => {
-                  const isSelected = selectedIndex === idx;
-                  return (
-                    <div
-                      key={item.id}
-                      {...clickableProps} onClick={() => handleSelect(item)}
-                      onMouseEnter={() => setSelectedIndex(idx)}
-                      className={`flex items-start gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition duration-150 ${
-                        isSelected
-                          ? 'bg-[var(--bg-panel-hover)] text-foreground shadow-2xs'
-                          : 'hover:bg-[var(--bg-surface)] text-foreground-muted'
-                      }`}
-                    >
-                      {/* Left icon according to category */}
-                      <div className="mt-0.5 shrink-0">
-                        {item.category === 'Engine' && (
-                          <Zap className="size-3.5 text-amber-400" />
-                        )}
-                        {item.category === 'Docs' && (
-                          <FileText className="size-3.5 text-emerald-400" />
-                        )}
-                        {item.category === 'API' && (
-                          <Code className="size-3.5 text-purple-400" />
-                        )}
-                        {item.category === 'Blog' && (
-                          <Sparkles className="size-3.5 text-indigo-400" />
-                        )}
-                        {item.category === 'Platform' && (
-                          <Layers className={`size-3.5 ${isSelected ? 'text-foreground' : 'text-foreground-muted'}`} />
-                        )}
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-1.5">
-                          <span className={`text-xs font-medium truncate ${
-                            isSelected ? 'text-foreground font-semibold' : ''
-                          }`}>
-                            {item.title}
-                          </span>
-                          <span className={`text-[11px] px-1.5 py-0.5 rounded-md border font-mono shrink-0 ${getCategoryBadgeClass(item.category)}`}>
-                            {item.category}
-                          </span>
-                        </div>
-                        <p className="text-[11px] truncate mt-0.5 text-foreground-muted">
-                          {item.description}
-                        </p>
-                      </div>
-
-                      {isSelected && (
-                        <ArrowRight className="size-3 mt-1 shrink-0 text-accent-bright" />
-                      )}
+                Object.entries(
+                  filteredItems.reduce((acc, item) => {
+                    const cat = item.category || 'Platform';
+                    if (!acc[cat]) acc[cat] = [];
+                    acc[cat].push(item);
+                    return acc;
+                  }, {} as Record<string, SearchSuggestionItem[]>)
+                ).map(([category, items]) => (
+                  <div key={category} className="space-y-1">
+                    <div className="px-2 py-0.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-foreground-muted/70">
+                      {category}
                     </div>
-                  );
-                })
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                      {items.map((item) => {
+                        const globalIdx = filteredItems.findIndex((i) => i.id === item.id);
+                        const isSelected = selectedIndex === globalIdx;
+                        return (
+                          <div
+                            key={item.id}
+                            {...clickableProps} onClick={() => handleSelect(item)}
+                            onMouseEnter={() => setSelectedIndex(globalIdx)}
+                            className={`flex flex-col justify-between p-2.5 rounded-xl cursor-pointer transition duration-150 border ${
+                              isSelected
+                                ? 'bg-foreground/10 border-accent/40 text-foreground shadow-sm'
+                                : 'bg-muted/20 border-border/40 hover:bg-foreground/5 text-foreground-muted hover:text-foreground'
+                            }`}
+                          >
+                            <div className="min-w-0">
+                              <div className="text-xs font-medium text-foreground truncate">{item.title}</div>
+                              <div className="text-[10px] text-foreground-muted/80 line-clamp-1 mt-0.5">{item.description}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))
               ) : (
-                <div className="px-4 py-5 text-center">
-                  <p className="text-xs text-foreground-muted">
-                    No direct matches found for "{query}"
-                  </p>
+                <div className="px-4 py-8 text-center space-y-3">
+                  <div className="size-10 mx-auto rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent-bright shadow-inner">
+                    <SearchX className="size-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-foreground">No telemetry signals found for "{query}"</p>
+                    <p className="text-[11px] text-foreground-muted/70 mt-0.5">Check query syntax or explore engine documentation.</p>
+                  </div>
                   <button
                     type="button"
                     onClick={() => {
                       setIsOpen(false);
-                      navigate(`/docs?search=${encodeURIComponent(query)}`);
+                      setQuery('');
+                      navigate('/docs');
                     }}
-                    className="mt-2 text-[11px] text-accent-bright hover:underline flex items-center justify-center gap-1 mx-auto focus-visible:outline-none"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-foreground/10 hover:bg-foreground/15 text-foreground text-[11px] font-medium transition-colors cursor-pointer"
                   >
-                    <span>Search full documentation</span>
+                    <span>Browse Documentation</span>
                     <ArrowRight className="size-3" />
                   </button>
                 </div>
               )}
             </div>
-
-            {/* Quick action chips when not typing */}
-            {!query && (
-              <div className="px-3 py-2 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-wrap items-center gap-1.5 text-[11px] text-foreground-muted">
-                <span>Trending:</span>
-                <button
-                  type="button"
-                  onClick={() => handleSelect(STATIC_SUGGESTIONS[0])}
-                  className="px-2 py-0.5 rounded-md hover:bg-[var(--bg-panel-hover)] text-foreground font-medium cursor-pointer transition-colors"
-                >
-                  Health
-                </button>
-                <span>•</span>
-                <button
-                  type="button"
-                  onClick={() => handleSelect(STATIC_SUGGESTIONS[1])}
-                  className="px-2 py-0.5 rounded-md hover:bg-[var(--bg-panel-hover)] text-foreground font-medium cursor-pointer transition-colors"
-                >
-                  llms.txt
-                </button>
-                <span>•</span>
-                <button
-                  type="button"
-                  onClick={() => handleSelect(STATIC_SUGGESTIONS[2])}
-                  className="px-2 py-0.5 rounded-md hover:bg-[var(--bg-panel-hover)] text-foreground font-medium cursor-pointer transition-colors"
-                >
-                  OWASP
-                </button>
-                <span>•</span>
-                <button
-                  type="button"
-                  onClick={() => handleSelect(STATIC_SUGGESTIONS[11])}
-                  className="px-2 py-0.5 rounded-md hover:bg-[var(--bg-panel-hover)] text-foreground font-medium cursor-pointer transition-colors"
-                >
-                  API
-                </button>
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

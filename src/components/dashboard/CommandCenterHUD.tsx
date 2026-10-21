@@ -30,6 +30,7 @@ import { EdgeMeshGlobe } from '../ui/edge-mesh-globe';
 import { EngineType } from '../../types';
 import { ENGINES_MAP } from '../../data/engines';
 import { motion, AnimatePresence } from 'motion/react';
+import { TelemetryInsights } from './TelemetryInsights';
 
 interface SubVector {
   name: string;
@@ -440,8 +441,10 @@ export const CommandCenterHUD: React.FC = () => {
             </div>
           </div>
 
-          {/* ================= COLUMN 2: 8 ENZYME TELEMETRY HUD (6 COLS) ================= */}
+          {/* ================= COLUMN 2: 8 ENZYME TELEMETRY HUD & INSIGHTS (6 COLS) ================= */}
           <div className="lg:col-span-5 space-y-4">
+            {/* Recharts Telemetry Insights Chart Component */}
+            <TelemetryInsights />
             
             {/* View Mode Bar */}
             <div className="flex items-center justify-between bg-card border border-border rounded-2xl p-2.5 text-xs font-mono">

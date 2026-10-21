@@ -216,7 +216,7 @@ export const StickyHUD: React.FC = () => {
               id="telemetry-engine-selector"
               role="region"
               aria-label="Telemetry engine focus selector"
-              className="mb-2 p-3 rounded-2xl border border-border-default bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-linear-card font-mono text-xs"
+              className="mb-2 p-3 rounded-[28px] border border-border-default bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-linear-card font-mono text-xs"
             >
               <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-border-default text-foreground-muted text-[11px]">
                 <span className="font-semibold text-foreground flex items-center gap-1.5">
@@ -279,7 +279,7 @@ export const StickyHUD: React.FC = () => {
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             type="button"
             onClick={toggleHudExpanded}
-            className="group relative flex items-center justify-center size-14 rounded-2xl border border-accent/40 bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition duration-200 cursor-pointer pointer-events-auto"
+            className="group relative flex items-center justify-center size-14 rounded-full border border-accent/40 bg-card/95 dark:bg-card/95 backdrop-blur-xl shadow-2xl hover:border-accent hover:shadow-[0_0_24px_rgba(94,106,210,0.4)] transition duration-200 cursor-pointer pointer-events-auto"
             aria-label="Open Telemetry HUD Terminal"
             title="Open Telemetry HUD Terminal"
           >
@@ -301,7 +301,7 @@ export const StickyHUD: React.FC = () => {
             </svg>
           </motion.button>
         ) : (
-          <div className="relative w-full max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-2xl border border-border-default bg-card/90 dark:bg-card/90 backdrop-blur-xl shadow-linear-card font-mono text-xs transition duration-300">
+          <div className="relative w-full max-h-[calc(100vh-1.5rem)] overflow-hidden rounded-[32px] border border-border-default bg-card/90 dark:bg-card/90 backdrop-blur-xl shadow-linear-card font-mono text-xs transition duration-300">
             
             {/* Top Scanline / Scanning Progress Bar */}
             {isScanning ? (
