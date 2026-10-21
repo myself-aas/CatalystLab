@@ -1,5 +1,7 @@
 # 04 — State and timers, build and budgets, server, dependencies, tests
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Supporting evidence for the 2026-10 performance audit; current baselines: [`docs/ops/slo.md`](../../ops/slo.md).
+
 Evidence grades: **M** measured, **S** static, **U** not measured.
 
 ---

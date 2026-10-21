@@ -1,5 +1,7 @@
 # Per-unit verdicts — CatalystLab newgen re-run, 2026-10-21
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time per-unit verdicts from the newgen re-run; remediation landed the same day. Current state: [`docs/codebase/`](../../codebase/).
+
 Rubric: New-Generation Optimization v1 (A1–A7 + D script contract).
 Every non-KEEP unit carries a "Verify (definition of done)" block of executable
 checks — the acceptance criteria for the follow-up PRs in 00-MASTER.md §6.

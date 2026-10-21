@@ -1,5 +1,11 @@
 # CatalystLab operations runbook
 
+**What this answers:** how the service is wired (§1), what "healthy" means in
+numbers (§2), which commands gate a release (§3), what to do when something
+breaks (§4), and how to triage the known failure modes (§5). The zero-to-deployed
+path — env schema, Oracle VM, tunnels, backups — lives in
+[`environment-and-deployment-guide.md`](environment-and-deployment-guide.md).
+
 Owner decisions this runbook implements: **D3** (split hosting), **D16** (SLO
 targets and recovery objectives), **Q31** (Cloudflare Worker `/api` proxy),
 **Q32** (zero-budget API host + payments kill-switch), **D10** (Sentry error
@@ -34,15 +40,19 @@ Single-operator service. Escalation path: `legal@catalystlab.tech` and
 
 | Layer | Host | Notes |
 | --- | --- | --- |
-| Static frontend | Cloudflare Pages (`catalystlab-web`) | D3 (b). Deploys `dist/` including 74 prerendered route shells, `404.html`, `_redirects`, and `_headers` (with exact build-stamped SHA-256 inline script hashes and zero `'unsafe-inline'`). |
+| Static frontend | Cloudflare Pages (`catalystlab-web`) | D3 (b). Deploys `dist/`: **74 route shells — 61 prerendered public routes + 13 client-only app shells** (auth/dashboard/admin; counts per `dist/routes.json`), plus `404.html`, `_redirects`, and `_headers` (with exact build-stamped SHA-256 inline script hashes and zero `'unsafe-inline'`). |
 | `/api/*` proxy | Cloudflare Worker (`wrangler.toml`, `worker/api-proxy.js`) | Q31 (a). Appends verified `cf-connecting-ip` as the rightmost `X-Forwarded-For` entry (Plan 3.6); fails closed with `503 API_ORIGIN_NOT_CONFIGURED` until `wrangler secret put API_ORIGIN` is set. |
-| API + SSR host | Oracle Cloud Always Free (`2 OCPU / 12 GB`) | Q32. Packaged in `Dockerfile` (non-root `node` user) and `ops/systemd/catalystlab.service`. Documented standby fallback: Render Free Web Service. |
-| Shared rate limits / quota | Upstash Redis REST (`server/core/sharedLimiter.ts`, `dailyQuota.ts`) | Shared across instances (Plan 3.2, 4.1); local fallback uses bounded LRU maps (`MAX_LOCAL_WINDOW_KEYS = 5,000`). |
+| API + SSR host | Oracle Cloud Always Free (`2 OCPU / 12 GB`) | Q32. Packaged in `Dockerfile` (non-root `node` user) and `ops/systemd/catalystlab.service`. Documented standby fallback: Render Free Web Service (manual promote — see [`architecture-redundancy.md`](architecture-redundancy.md) §4). |
+| Shared rate limits / quota | Upstash Redis REST (`server/core/sharedLimiter.ts`, `dailyQuota.ts`) | Shared across instances (Plan 3.2, 4.1); local fallback uses bounded LRU maps (`MAX_LOCAL_WINDOW_KEYS = 5,000`) and resets on restart — not acceptable in production (owner answer #1). Tier budgets: [`../ENGINES.md`](../ENGINES.md). |
 | Paid checkout gate | `PAYMENTS_ENABLED=false` default (`server/routes/payments.ts`) | Q32. `POST /api/payments/create-checkout` returns `503 PAYMENTS_DISABLED` until owner sets `PAYMENTS_ENABLED=true` with live Upstash Redis (`PAYMENTS_SHARED_STATE_REQUIRED`) and live backups verified. |
+
+Delivery note: the frontend rides Cloudflare's 330+ anycast PoPs. The product's
+own "42 edge PoPs" is a separate, presentation-layer registry
+(`src/lib/edge/pops.ts`) — see [`../ENGINES.md`](../ENGINES.md).
 
 ---
 
-## 2. Locked SLOs & Recovery Objectives (D16 / `docs/ops/slo.md`)
+## 2. Locked SLOs & Recovery Objectives (D16 / [`slo.md`](slo.md))
 
 | Objective | Locked Target | Baseline (`dist/server.cjs`, Node 24) |
 | --- | --- | --- |
@@ -53,7 +63,7 @@ Single-operator service. Escalation path: `legal@catalystlab.tech` and
 | RPO | **≤ 24 hours** | Daily `02:15 UTC` backup workflow (`.github/workflows/backup.yml`) + GCP PITR |
 | RTO | **≤ 4 hours** | **`7.41 ms`** core restore (`npm run drill:restore`) + `< 10 min` container redeploy |
 
-Alert rules enforcing these targets live in `docs/ops/alerts.yml` and are validated on every PR via `promtool check rules docs/ops/alerts.yml`.
+Alert rules enforcing these targets live in [`alerts.yml`](alerts.yml) and are validated on every PR via `promtool check rules docs/ops/alerts.yml`.
 
 ---
 
@@ -61,13 +71,18 @@ Alert rules enforcing these targets live in `docs/ops/alerts.yml` and are valida
 
 ```bash
 npm ci
-npm run ci:full              # check:env (41 parity keys), lint, typecheck, coverage, build, bundle, restore drill, payment sandbox e2e, secret scan
+npm run ci:full              # check:env (42 parity keys), lint, typecheck, coverage, build, bundle, restore drill, payment sandbox e2e, secret scan
 npm audit --audit-level=low  # must report 0 vulnerabilities across production + dev
 npm run test:load            # peak load test against compiled dist/server.cjs (verifies D16 p95 SLOs)
 npm run test:e2e             # headless Chromium Playwright smoke + zero CSP violations check
 node scripts/verify-deployment.mjs https://staging.catalystlab.tech
 node scripts/verify-deployment.mjs https://www.catalystlab.tech
 ```
+
+The env preflight enforces **42-key parity** across `.env.example`,
+`.env.staging.example`, `.env.production.example` (`PORT` and `NODE_ENV`
+included since the 2026-10-21 docs pass). Full key-by-key annotation:
+[`environment-and-deployment-guide.md`](environment-and-deployment-guide.md) Part 1.
 
 ---
 
@@ -77,7 +92,7 @@ node scripts/verify-deployment.mjs https://www.catalystlab.tech
    - **Frontend:** Promote previous green deployment in Cloudflare Pages or run `.github/workflows/rollback.yml`.
    - **API Host:** Deploy previous tagged container image (`docker run ...`) or previous release tarball and restart `systemctl restart catalystlab`.
    - **Payments Emergency Stop:** Set `PAYMENTS_ENABLED=false` in `/etc/catalystlab/catalystlab.env` and restart; `/api/payments/create-checkout` immediately returns `503 PAYMENTS_DISABLED` while signed refund/cancellation webhooks continue to be honored safely.
-2. **Data Restore:** Follow `docs/ops/drills/restore-drill-2026-10-21.md` (`gcloud firestore import gs://<PROJECT_ID>-firestore-backups/daily/<STAMP>` into staging first, run `verifyBackupSnapshotIntegrity`, then cut over).
+2. **Data Restore:** Follow [`drills/restore-drill-2026-10-21.md`](drills/restore-drill-2026-10-21.md) (`gcloud firestore import gs://<PROJECT_ID>-firestore-backups/daily/<STAMP>` into staging first, run `verifyBackupSnapshotIntegrity`, then cut over).
 3. **Personal Data Breach (Q20):** Notify the competent supervisory authority within **72 hours** of awareness and affected users without undue delay.
 
 ---
@@ -91,3 +106,8 @@ node scripts/verify-deployment.mjs https://www.catalystlab.tech
 | `503 PAYMENTS_SHARED_STATE_REQUIRED` on checkout | `PAYMENTS_ENABLED=true` in production without Upstash Redis | Configure `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`. |
 | `429` with `Retry-After` on `/api/telemetry/event` | Per-IP (`60/min`) or per-key (`300/min`) ingestion rate limit hit | Expected flood protection (`TELEMETRY_INGEST_MAX_PER_MIN` overrides default). |
 | Missing request header in logs | `server/core/logger.ts` strict allowlist serializer (Plan 3.12) | Intentional security control: sensitive/custom headers (`authorization`, `cookie`, `x-api-key`, signatures) are never serialized. |
+
+---
+
+*Failure posture per layer, secret-custody planes, and the honest list of
+non-redundant components: [`architecture-redundancy.md`](architecture-redundancy.md).*

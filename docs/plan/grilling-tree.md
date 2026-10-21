@@ -1,5 +1,7 @@
 # Grilling: design tree for the production-readiness plan
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Decision-tree record of the grilling rounds — all rounds resolved. Outcomes: [`decisions.md`](decisions.md) (D1–D17, Q17–Q52).
+
 Method: the `grilling` skill (`mattpocock/skills`, installed to `~/.agents/skills/grilling`), run by `grill-me`. Questions are asked in rounds. Each round holds the frontier: decisions whose prerequisites are settled. Facts are looked up in the repo or on primary sources. Decisions belong to the owner. A round is not acted on until the owner answers it.
 
 Status 2026-10-19: Rounds 1–3 answered with every recommendation accepted (Q1–Q16, Q18–Q29). D3 revised to option b by the owner (supersedes Round 1 Q2 option A). Open: Q17 (registered address), Q30 (hosting provider and region), Q31 (`/api` proxy mechanism), Q18b (notebook destination), and Round 4 (governing law, courts, effective date, dispute steps; depends on Q17). `docs/plan/decisions.md` records the answers.

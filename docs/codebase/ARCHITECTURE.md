@@ -72,7 +72,7 @@ Browser SPA ──Bearer ID token──▶ [Cloudflare Pages (static) ─▶ Wor
 - `server.ts`, `server/app.ts`, `server/core/` (16 modules), `server/routes/` (12 modules)
 - `src/main.tsx`, `src/App.tsx`, `src/store/useAppStore.ts`, `src/lib/{nodeEngines,networkSecurity,serverAuth,analyticsEngine,firebase,webhookService,logger}.ts`
 - `worker/api-proxy.js`, `wrangler.toml`, `scripts/prerender.ts`, `public/_headers`, `firestore.rules`
-- Narrative docs cross-checked: `docs/ARCHITECTURE.md`, `docs/ENGINES.md`, `docs/ops/runbook.md` (topology diagram), `docs/plan/decisions.md` (D1–D17, Q17–Q42), `docs/security/review-2026-10.md`
+- Narrative docs cross-checked: `docs/ARCHITECTURE.md`, `docs/ENGINES.md`, `docs/ops/runbook.md` (topology diagram), `docs/plan/decisions.md` (D1–D17, Q17–Q52), `docs/security/review-2026-10.md`
 - `README.md` ("Architecture", "Security model", env table), `package.json` (actual versions)
 
 ## Extended: Deployment Topology (as documented + configured)

@@ -1,5 +1,7 @@
 # CatalystLab — Impeccable Audit (`$impeccable audit`, v4.7.0)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time `$impeccable audit` (v4.7.0) record; predates the Meta design-system adoption ([ADR 0002](adr/0002-meta-design-system.md)). Normative tokens now: [`DESIGN.md`](../DESIGN.md).
+
 **How this ran:** `npx skills add pbakaus/impeccable -y --agent '*'` installed the skill to
 `.agents/skills/impeccable` (plus `skills-lock.json` and agent symlinks). The skill launcher
 (`scripts/impeccable context` and `… detect`) could not download its engine binary —

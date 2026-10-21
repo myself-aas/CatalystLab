@@ -1,5 +1,7 @@
 # CatalystLab: SEO and AEO audit (2026-10-19)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time SEO/AEO audit (2026-10-19) — source of decisions D11–D15. Its recommendations shipped in `scripts/prerender.ts` (61 prerendered routes, sitemap, JSON-LD); current claims: [`docs/ENGINES.md`](../../ENGINES.md), [`docs/ops/runbook.md`](../../ops/runbook.md).
+
 Scope: the public web app served by `server.ts` (production build, `dist/`, local server on :3000). Method: the `seo-audit` workflow (crawlability, technical, on-page, structured data, checked in a rendered browser), the `ai-seo` agent-readiness checks (access, discovery, parseability), the `seo-geo` audit script, and `seo-aeo-best-practices` checklist items. Evidence is in `tools/` and was re-runnable on the same build.
 
 Skill sources (fetched through `npx skills use`, read in full):

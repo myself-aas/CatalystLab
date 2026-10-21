@@ -1,5 +1,7 @@
 # CatalystLab Release Checklist & 8-Blocker Resolution Ledger
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Resolution ledger (branch `arena/5eba323f-catalystlab`) — counts in the matrix describe that moment. Since then: env parity is **42 keys** (`PORT`/`NODE_ENV` added 2026-10-21) and `.nvmrc` pins major `24` (CI resolves the latest 24.x; `v24.22.0` when verified). **§2 owner cutover steps remain the live procedure.**
+
 **Release branch:** `arena/5eba323f-catalystlab`  
 **Verification date:** 2026-10-21  
 **Node / npm toolchain:** Node `v24.22.0` (`.nvmrc`), `npm 10.9.8`  

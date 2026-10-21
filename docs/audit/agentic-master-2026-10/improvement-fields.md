@@ -1,5 +1,7 @@
 # Improvement fields — newgen re-run, 2026-10-21
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time improvement fields from the newgen re-run; remediation landed the same day. Current state: [`docs/codebase/`](../../codebase/).
+
 Leverage-ordered fields; gates referenced are defined in 00-MASTER.md §5.
 
 ## Field 1 — Freshness of instruction surfaces (A6)

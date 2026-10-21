@@ -1,5 +1,7 @@
 # Performance audit tools (perf-rendering-2026-10)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Tool notes accompanying the 2026-10 performance audit; kept for reproducibility of that audit only.
+
 Scripts used for the measurements in `../01-measurements.md`. They drive a
 headless Chromium through `@sparticuz/chromium` + `puppeteer-core` (and
 `lighthouse` for `lh.mjs`) against a running production build.

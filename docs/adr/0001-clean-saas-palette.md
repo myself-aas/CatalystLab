@@ -1,7 +1,10 @@
 # ADR 0001 — Owner-pinned Clean SaaS palette replaces the Mission Control palette
 
 ## Status
-Superseded (2026-10-21) by the owner-directed adoption of the Meta design system (voltagent/awesome-design-md `design-md/meta/DESIGN.md`); see DESIGN.md. Retained for history.
+Superseded (2026-10-21) by the owner-directed adoption of the Meta design system
+(voltagent/awesome-design-md `design-md/meta/DESIGN.md`) — recorded in
+[ADR 0002](0002-meta-design-system.md); normative tokens now live in the
+root [`DESIGN.md`](../../DESIGN.md). Retained for history.
 
 ## Context
 The frontend carried a charcoal/ice "Mission Control" palette assembled by past

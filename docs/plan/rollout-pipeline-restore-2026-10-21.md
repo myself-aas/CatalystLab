@@ -25,7 +25,7 @@ Run locally / verify in CI before merge (all were executed in the 2026-10-21 wor
 
 | Check | Command / signal | Go criteria |
 |---|---|---|
-| Env template parity | `npm run check:env` (CI mode) | `40 parity-verified keys` message, exit 0 |
+| Env template parity | `npm run check:env` (CI mode) | `42 parity-verified keys` message (40 at execution time; `PORT`/`NODE_ENV` added in the 2026-10-21 docs pass), exit 0 |
 | Types | `npm run typecheck` | 0 errors (`strict: true`) |
 | Lint | `npm run lint` | 0 problems over `src/`, `server/`, `server.ts` |
 | Unit/UI/server suite | `npm test` | All 36 files pass (330 tests) |
@@ -86,7 +86,7 @@ Run locally / verify in CI before merge (all were executed in the 2026-10-21 wor
 
 | Area | Files | Nature |
 |---|---|---|
-| Pipeline restore | `.nvmrc` (new, `24` per D5), `package-lock.json` (new, npm per D6), `.env.staging.example`, `.env.production.example` (new, 40-key parity, prod `APP_ORIGIN=https://www.catalystlab.tech` + `PAYMENTS_ENABLED=false` per D14/Q32) | Additive — unblocks all 5 workflows + Docker |
+| Pipeline restore | `.nvmrc` (new, `24` per D5), `package-lock.json` (new, npm per D6), `.env.staging.example`, `.env.production.example` (new; 42-key parity after the 2026-10-21 `PORT`/`NODE_ENV` addition, prod `APP_ORIGIN=https://www.catalystlab.tech` + `PAYMENTS_ENABLED=false` per D14/Q32) | Additive — unblocks all 5 workflows + Docker |
 | Component consolidation | root `components/` + `types/` deleted; 5 implementations + `telemetry.ts` moved into `src/`; shims replaced; `tsconfig.json` (`include`, `@/*` single-root), `eslint.config.js` (files list) | Structural, render-neutral |
 | Archive | `archive/` (14 codemods + README) via `git mv` | Housekeeping |
 | Binary purge | `.aistudio/`, `videos/`, `public/assets/aistudio/`, `assets/banners/hero-banner.png` (regenerable via `scripts/screenshot-banner.cjs`), 4 unreferenced images in `src/assets/images/`; `.gitignore` += `.aistudio/` | −~4.4 MB working tree |
