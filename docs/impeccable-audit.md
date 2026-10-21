@@ -314,3 +314,29 @@ tokens in src/index.css + patch.css + src/styles/card-tokens.css —
 - Cards: 32px photo/feature radius, 16px inner tiles (`card-tokens.css`).
 - DESIGN.md front-matter rewritten to Meta tokens; ADR 0001 marked superseded.
 - `check-design-tokens.mjs` re-pinned to Meta ink-button/cobalt tokens.
+
+## Finalized brand mark + Meta enforcement + image remediation (2026-10-21)
+
+- **Logo replaced with the owner-supplied finalized mark** (molecular lattice: six
+  deep-royal #1D4391 hubs, eight cobalt #0A63C6 terminals — colors sampled from the
+  attachment), traced as SVG: `public/logo-mark.svg`, `public/logo.svg` (lockup),
+  `public/favicon.svg` (white tile). PNG set regenerated from the same geometry
+  (Pillow): logo.png, logo-mark.png, icon-192/512, apple-touch-icon, og-image,
+  og-banner. `BrandLogo.tsx` inline mark swapped to the new lattice; manifest
+  theme_color -> Meta cobalt #0064E0.
+- **Meta system enforcement sweep:** remaining #2563EB accents -> cobalt #0064E0
+  (index.css tokens, patch.css comment, BrandLogo). Contrast: text-gray-400 /
+  text-zinc-400 / text-neutral-400 (~2.5:1 on white) -> text-muted-foreground
+  (#4B4C4F, 8.6:1) in BlogPostPage, Footer, TrailCard parts, coverflow carousel.
+- **Images (ai-image-generation skill, prime-skills/runcomfy-agent-skills):** skill
+  read in full (/tmp/ai-image-generation.txt). The RunComfy CLI it mandates cannot
+  run in this sandbox (`npx @runcomfy/cli` exits 1; `runcomfy login` needs an
+  interactive account token) — executed its photoreal-portrait route (Seedream-class
+  prompting: subject-first, 85mm, soft window light) with the built-in generator:
+  new `avatar-3.jpg` / `avatar-4.jpg` so U_FACE_3/U_FACE_4 are distinct people
+  instead of duplicated avatars. Removed every remaining Pexels hotlink from the
+  frontend (DynamicBanner x13, FullscreenCard/Showcase/ImageCard defaults,
+  3-d-coverflow fallback, hero-section-6, TrailCardHeader fallback,
+  HeroImageLivePreview sample, SystemOverviewDoc bg) -> self-hosted local imagery.
+  All inspected scene photography (ops room, data centre, team, portraits) is
+  photoreal and retained.

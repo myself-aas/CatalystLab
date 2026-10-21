@@ -43,7 +43,7 @@ export const TrailCardMiddleRow: React.FC<TrailCardMiddleRowProps> = ({
 
         {metadataSubtext && (
           <p 
-            className="text-xs font-normal text-zinc-400 mt-1.5 line-clamp-1 leading-snug"
+            className="text-xs font-normal text-muted-foreground mt-1.5 line-clamp-1 leading-snug"
             title={metadataSubtext}
           >
             {metadataSubtext}

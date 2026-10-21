@@ -35,7 +35,7 @@
   /* Catalyst identity: reaction-blue primary + per-engine hues (see
      src/styles/card-tokens.css --hue-*). Status must never collapse to the
      text colour — colour is data here (WCAG 1.4.1). */
-  --accent-framer-blue: #2563EB;
+  --accent-framer-blue: #0064E0;
   --accent-cyan-edge: #22D3EE;
   --accent-emerald-vital: #34D399;
   --accent-violet-synth: #A78BFA;
@@ -251,7 +251,7 @@
   --color-success: #047857;
   --color-warning: #B45309;
   --color-danger: #C81E1E;
-  --color-info: #2563EB;
+  --color-info: #0064E0;
   --surface-overlay: rgba(255, 255, 255, 0.88);
   --surface-overlay-strong: rgba(255, 255, 255, 0.96);
   --content-max-width: 1400px;
@@ -522,8 +522,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
 
 @theme {
   /* CatalystLab Blue Core */
-  --color-linear-indigo: #2563EB;
-  --color-linear-indigo-bright: #2563EB;
+  --color-linear-indigo: #0064E0;
+  --color-linear-indigo-bright: #0064E0;
   --color-linear-indigo-glow: rgba(240,250,255,0.15);
   --color-linear-space-deep: #1F2223;
   --color-linear-space-base: #1F2223;

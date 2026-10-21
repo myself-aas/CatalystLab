@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import localHeroImage from '../../assets/images/about_us_hero_1787216854874.jpg';
 import heroImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
 import { cn } from "@/lib/utils";
 import { motion, type Variants } from "motion/react";
@@ -251,7 +252,7 @@ export default function HeroSection6() {
               className="relative w-full rounded-2xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-900"
             >
               <img
-                src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src={localHeroImage}
                 alt="CatalystLab Telemetry Dashboard"
                 className="object-cover object-top w-full h-[320px] sm:h-[440px] md:h-[520px]"
               loading="lazy" decoding="async" />

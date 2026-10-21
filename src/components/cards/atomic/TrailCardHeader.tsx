@@ -1,4 +1,5 @@
 import React from 'react';
+import fallbackImage from '../../../assets/images/hero_network_visualization_1787838371820.jpg';
 import { motion } from 'motion/react';
 import { TrailCardHeaderProps } from '../../../types/card';
 
@@ -27,7 +28,7 @@ export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
         onError={(e) => {
           // Fallback image if source fails
           (e.currentTarget as HTMLImageElement).src =
-            'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1';
+            fallbackImage;
         }}
       />
 
@@ -48,7 +49,7 @@ export const TrailCardHeader: React.FC<TrailCardHeaderProps> = ({
         >
           {title}
         </h3>
-        <p className="text-sm font-medium font-sans text-zinc-400 mt-0.5 line-clamp-1">
+        <p className="text-sm font-medium font-sans text-muted-foreground mt-0.5 line-clamp-1">
           {subtitle}
         </p>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import sampleHeroImage from '../../assets/images/page-blog-performance.jpg';
 import { motion } from 'motion/react';
 import { 
   Image as ImageIcon, 
@@ -102,7 +103,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
       const random = presetImages[Math.floor(Math.random() * presetImages.length)];
       onUrlChange(random.url);
     } else {
-      onUrlChange(`https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`);
+      onUrlChange(sampleHeroImage);
     }
   };
 
@@ -186,7 +187,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             type="url"
             value={imageUrl || ''}
             onChange={(e) => onUrlChange(e.target.value)}
-            placeholder="Paste image URL (e.g. https://images.pexels.com/...)"
+            placeholder="Paste an image URL or pick a local preset below"
             className="w-full rounded-xl border border-border bg-background pl-3.5 pr-20 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-background focus:outline-none font-mono"
           />
           <div className="absolute right-1.5 flex items-center gap-1">

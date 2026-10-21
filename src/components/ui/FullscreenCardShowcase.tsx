@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import localShowcaseImage from '../../assets/images/page-products.jpg';
 import showcaseImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
 import { FullscreenCard } from './FullscreenCard';
 import { FullscreenImageCard } from './FullscreenImageCard';
@@ -11,7 +12,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'embercrest-ridge',
     title: 'Embercrest Ridge',
     subtitle: 'Silverpine Mountains',
-    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1',
+    imageUrl: localShowcaseImage,
     imageAltText: 'Embercrest Ridge alpine mountain summit view',
     difficulty: 'Moderate',
     metadataSubtext: '1886 by Helen Rowe & Elias Mendez',
@@ -25,7 +26,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'azure-creek-canyon',
     title: 'Azure Creek Canyon',
     subtitle: 'Cascade Wilderness',
-    imageUrl: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&dpr=1',
+    imageUrl: localShowcaseImage,
     imageAltText: 'Azure Creek Canyon pristine river valley',
     difficulty: 'Easy',
     metadataSubtext: 'Maintained by Cascade Alpine Conservancy',
@@ -111,7 +112,7 @@ export const FullscreenCardShowcase: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <FullscreenCard
-            imageUrl="https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            imageUrl={localShowcaseImage}
             imageAlt="DOM Telemetry"
             badge="Engine 01"
             score="99.4/100"
@@ -123,7 +124,7 @@ export const FullscreenCardShowcase: React.FC = () => {
           />
 
           <FullscreenCard
-            imageUrl="https://images.pexels.com/photos/2599244/pexels-photo-2599244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            imageUrl={localShowcaseImage}
             imageAlt="Network Jitter"
             badge="Engine 02"
             score="98.1/100"
@@ -135,7 +136,7 @@ export const FullscreenCardShowcase: React.FC = () => {
           />
 
           <FullscreenImageCard
-            imageUrl="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            imageUrl={localShowcaseImage}
             imageAlt="Security Protease"
             badge="Engine 03"
             score="A+ Grade"

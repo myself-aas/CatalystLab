@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import localDefaultImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { ArrowRight, Sparkles } from 'lucide-react';
@@ -25,7 +26,7 @@ export interface FullscreenCardProps {
 }
 
 export const FullscreenCard: React.FC<FullscreenCardProps> = ({
-  imageUrl = 'https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  imageUrl = localDefaultImage,
   imageAlt = 'Card background',
   badge,
   score,

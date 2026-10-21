@@ -1,4 +1,5 @@
 import React from 'react';
+import localBgImage from '../../assets/images/page-methodology.jpg';
 import { Link } from 'react-router-dom';
 import { Info, CheckCircle2, Server, Cpu, Database, Activity, Play, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
@@ -27,7 +28,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
  {/* Immersive Docs Parallax Banner */}
  <ParallaxSection
- bgImage="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+ bgImage={localBgImage}
  overlayOpacity={0.88}
  height="min-h-[260px]"
  className="rounded-xl overflow-hidden my-6 border border-border"

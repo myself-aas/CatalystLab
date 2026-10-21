@@ -1,4 +1,5 @@
 import React from 'react';
+import localDefaultImage from '../../assets/images/about_us_hero_1787216854874.jpg';
 import { cn } from '../../lib/utils';
 
 export interface FullscreenImageCardProps {
@@ -22,7 +23,7 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
   action,
   children,
   className,
-  imageUrl = 'https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  imageUrl = localDefaultImage,
   imageAlt = 'Card image',
   overlay = true,
 }) => {
