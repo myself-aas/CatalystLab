@@ -39,6 +39,7 @@ import { calculateReadingTime } from '../utils/readingTime';
 
 import firebaseConfig from '../../firebase-applet-config.json';
 import { logger } from './logger';
+import { SITE_ORIGIN } from '../config/site';
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
@@ -774,11 +775,17 @@ export const deleteBlogPost = async (postId: string): Promise<boolean> => {
 
 // --- MONITORED SITES CRUD ---
 
+// Fallback seed for the admin Site-Monitoring view when Firestore has no
+// `monitored_sites` documents. The URL is derived from the canonical
+// configured origin (Q42: `VITE_APP_ORIGIN`/`APP_ORIGIN`, D14 default
+// `https://www.catalystlab.tech`) instead of a hardcoded dev environment,
+// and probes the real production health endpoint used by the Dockerfile
+// HEALTHCHECK, CI smoke tests and the runbook (`/api/v1/system/health`).
 export const INITIAL_MONITORED_SITES: MonitoredSite[] = [
   {
     id: 'site-catalyst-api',
     name: 'Catalyst Diagnostic Engine Cluster',
-    url: 'https://ais-dev-2z7dtoomnl7nm53osnbyys-329537149747.asia-east1.run.app/api/health',
+    url: `${SITE_ORIGIN}/api/v1/system/health`,
     checkIntervalMinutes: 1,
     status: 'healthy',
     lastCheckedAt: Date.now() - 1 * 60 * 1000,
@@ -789,7 +796,7 @@ export const INITIAL_MONITORED_SITES: MonitoredSite[] = [
     uptimePercentage: 100.0,
     createdAt: Date.now() - 14 * 24 * 60 * 60 * 1000,
     ownerId: 'system',
-    notes: 'Edge API gateway hosting 8 Python telemetry engines.'
+    notes: 'CatalystLab API host health endpoint — 8 TypeScript audit engines (src/lib/nodeEngines.ts, D7).'
   }
 ];
 
