@@ -1,6 +1,16 @@
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
+import bannerProducts from '../../assets/images/page-products.jpg';
+import bannerPricing from '../../assets/images/page-pricing.jpg';
+import bannerApi from '../../assets/images/page-api.jpg';
+import bannerBlog from '../../assets/images/page-blog-performance.jpg';
+import bannerContact from '../../assets/images/page-contact.jpg';
+import bannerSecurity from '../../assets/images/page-security.jpg';
+import bannerMethod from '../../assets/images/page-methodology.jpg';
+import bannerOps from '../../assets/images/hero_network_visualization_1787838371820.jpg';
+import bannerStudio from '../../assets/images/product-studio.jpg';
+
 
 export const DynamicBanner: React.FC = () => {
   const location = useLocation();
@@ -10,80 +20,80 @@ export const DynamicBanner: React.FC = () => {
     let config = {
       title: 'Catalyst Score',
       subtitle: 'Next-Generation Telemetry & Analytics',
-      image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+      image: bannerOps
     };
 
     if (path.startsWith('/products')) {
       config = {
         title: 'Our Products',
         subtitle: 'Enterprise-grade tools for modern engineering teams.',
-        image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerProducts
       };
     } else if (path.startsWith('/pricing')) {
       config = {
         title: 'Transparent Pricing',
         subtitle: 'Scale your infrastructure without unexpected costs.',
-        image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerPricing
       };
     } else if (path.startsWith('/api-docs') || path.startsWith('/docs')) {
       config = {
         title: 'Developer Documentation',
         subtitle: 'Build powerful integrations with the Catalyst API.',
-        image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerApi
       };
     } else if (path.startsWith('/blog')) {
       config = {
         title: 'Engineering Blog',
         subtitle: 'Insights, tutorials, and updates from the Catalyst team.',
-        image: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerBlog
       };
     } else if (path.startsWith('/contact')) {
       config = {
         title: 'Get in Touch',
         subtitle: 'We are here to help you build better software.',
-        image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerContact
       };
     } else if (path.startsWith('/dashboard') || path.startsWith('/admin')) {
       config = {
         title: 'Command Center',
         subtitle: 'Manage your telemetry, users, and infrastructure.',
-        image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerOps
       };
     } else if (path.startsWith('/report')) {
       config = {
         title: 'Audit Reports',
         subtitle: 'Comprehensive performance and security analysis.',
-        image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerSecurity
       };
     } else if (path.startsWith('/health') || path.startsWith('/latency') || path.startsWith('/eco-audit') || path.startsWith('/compliance') || path.startsWith('/migration') || path.startsWith('/llmo') || path.startsWith('/ai-readiness') || path.startsWith('/repo-scanner') || path.startsWith('/compare')) {
        config = {
         title: 'Diagnostic Engines',
         subtitle: 'Real-time infrastructure health and latency monitoring.',
-        image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerStudio
       };
     } else if (path.startsWith('/privacy') || path.startsWith('/terms') || path.startsWith('/security') || path.startsWith('/cookies')) {
        config = {
         title: 'Trust & Security',
         subtitle: 'Your data privacy and security are our top priority.',
-        image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerSecurity
       };
     } else if (path.startsWith('/playground')) {
        config = {
         title: 'Interactive Playground',
         subtitle: 'Test our engines and APIs in a safe sandbox environment.',
-        image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerStudio
       };
     } else if (path.startsWith('/methodology')) {
        config = {
         title: 'Our Methodology',
         subtitle: 'The science and engineering behind Catalyst Score.',
-        image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerMethod
       };
     } else if (path.startsWith('/login') || path.startsWith('/signup')) {
        config = {
         title: 'Authentication',
         subtitle: 'Secure access to your Catalyst Lab environment.',
-        image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: bannerSecurity
       };
     }
 

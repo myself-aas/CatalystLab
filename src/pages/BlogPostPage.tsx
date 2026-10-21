@@ -58,7 +58,7 @@ export const BlogPostPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-background text-white flex flex-col items-center justify-center p-6">
         <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
-        <p className="text-gray-400 mb-6 text-center">The article you are looking for does not exist.</p>
+        <p className="text-muted-foreground mb-6 text-center">The article you are looking for does not exist.</p>
         <Link to="/blogs" className="px-6 py-3 bg-[#F3F4F6] rounded-full text-sm font-medium hover:bg-[#F3F4F6] transition-colors">
           Back to Discover
         </Link>
@@ -129,7 +129,7 @@ export const BlogPostPage: React.FC = () => {
               <span className="font-semibold text-sm">{post.authorName || 'Catalyst Team'}</span>
             </div>
             
-            <div className="flex items-center gap-4 text-xs font-medium text-gray-400">
+            <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground">
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
                 {getArticleReadingTime(post)}

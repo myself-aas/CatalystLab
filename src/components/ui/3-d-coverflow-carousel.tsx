@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import localFallbackImage from '../../assets/images/product-studio.jpg';
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -46,7 +47,7 @@ export const auditorsCarouselItems: CarouselItem[] = SDLC_CATALYSTS_LIST.map((en
   titleLine1: engine.catalystName || engine.name,
   titleLine2: engine.catalystName && engine.name !== engine.catalystName ? `(${engine.name})` : undefined,
   desc: engine.description,
-  img: engine.image || "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  img: engine.image || localFallbackImage,
   color: engine.color,
   phaseNumber: engine.sdlcPhaseNumber,
   ctaText: `Launch ${engine.catalystName || engine.name}`,
@@ -189,7 +190,7 @@ function CoverflowCard({
                   </span>
                 )}
               </div>
-              <p className="text-[11px] font-mono text-neutral-400 truncate">
+              <p className="text-[11px] font-mono text-muted-foreground truncate">
                 {item.tag || `Phase 0${item.phaseNumber || 1} • ${item.category || "Autonomous"}`}
               </p>
             </div>

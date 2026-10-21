@@ -25,6 +25,8 @@ import imgAiSearch from '../../assets/images/allostersearch_llmo_1787420226857.j
 import imgTeam from '../../assets/images/about_us_hero_1787216854874.jpg';
 import avatar1 from '../../assets/images/avatar-1.jpg';
 import avatar2 from '../../assets/images/avatar-2.jpg';
+import avatar3 from '../../assets/images/avatar-3.jpg';
+import avatar4 from '../../assets/images/avatar-4.jpg';
 
 export type MediaTreatment =
   | 'catalyst-grade-hero'
@@ -102,8 +104,8 @@ export const U_NEON = imgAiSearch;
 // Pexels Avatars (Faces crop)
 export const U_FACE_1 = avatar2;
 export const U_FACE_2 = avatar1;
-export const U_FACE_3 = avatar1;
-export const U_FACE_4 = avatar2;
+export const U_FACE_3 = avatar3;
+export const U_FACE_4 = avatar4;
 
 // Pexels Images
 export const P_DC = imgServer;

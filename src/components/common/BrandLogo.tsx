@@ -1,16 +1,27 @@
 import React from 'react';
-/** Catalyst molecule mark — reaction centre + three bonded nodes (see public/logo-mark.svg). */
+/** Finalized CatalystLab mark — catalytic lattice of six deep-royal hubs + eight cobalt terminals (public/logo-mark.svg). */
 const MoleculeMark: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <svg viewBox="0 0 64 64" className={className} aria-hidden="true" focusable="false">
-    <g stroke="#1E40AF" strokeWidth="5" strokeLinecap="round">
-      <line x1="32" y1="32" x2="32" y2="13" />
-      <line x1="32" y1="32" x2="15.5" y2="41.5" />
-      <line x1="32" y1="32" x2="48.5" y2="41.5" />
+  <svg viewBox="95 195 660 545" className={className} aria-hidden="true" focusable="false">
+    <g stroke="#1B56B0" strokeWidth="26" strokeLinecap="round">
+      <line x1="298" y1="278" x2="317" y2="406" /><line x1="298" y1="278" x2="452" y2="348" />
+      <line x1="540" y1="262" x2="452" y2="348" /><line x1="452" y1="348" x2="317" y2="406" />
+      <line x1="452" y1="348" x2="444" y2="460" /><line x1="317" y1="406" x2="444" y2="460" />
+      <line x1="317" y1="406" x2="168" y2="474" /><line x1="168" y1="474" x2="311" y2="533" />
+      <line x1="444" y1="460" x2="311" y2="533" /><line x1="444" y1="460" x2="452" y2="580" />
+      <line x1="444" y1="460" x2="571" y2="461" /><line x1="311" y1="533" x2="452" y2="580" />
+      <line x1="311" y1="533" x2="327" y2="659" /><line x1="452" y1="580" x2="521" y2="667" />
+      <line x1="571" y1="461" x2="652" y2="361" /><line x1="571" y1="461" x2="681" y2="469" />
+      <line x1="571" y1="461" x2="624" y2="566" />
     </g>
-    <circle cx="32" cy="32" r="10" fill="#2563EB" />
-    <circle cx="32" cy="11" r="6.5" fill="#1E40AF" />
-    <circle cx="13.5" cy="43" r="6.5" fill="#1E40AF" />
-    <circle cx="50.5" cy="43" r="6.5" fill="#2563EB" />
+    <g fill="#1D4391">
+      <circle cx="444" cy="460" r="56" /><circle cx="452" cy="348" r="56" /><circle cx="317" cy="406" r="56" />
+      <circle cx="311" cy="533" r="56" /><circle cx="452" cy="580" r="56" /><circle cx="571" cy="461" r="56" />
+    </g>
+    <g fill="#0A63C6">
+      <circle cx="298" cy="278" r="45" /><circle cx="540" cy="262" r="45" /><circle cx="652" cy="361" r="45" />
+      <circle cx="681" cy="469" r="45" /><circle cx="624" cy="566" r="45" /><circle cx="521" cy="667" r="45" />
+      <circle cx="327" cy="659" r="45" /><circle cx="168" cy="474" r="45" />
+    </g>
   </svg>
 );
 
@@ -64,17 +75,17 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={`group/logo flex items-center gap-2.5 select-none ${className}`}>
       {/* CatalystLab brand mark — soft card tile with icon */}
       <div
-        className={`relative flex ${current.box} items-center justify-center bg-white border border-[#111827]/[0.08] shadow-[0_2px_8px_rgba(17,24,39,0.08)] group-hover/logo:border-[#2563EB]/40 group-hover/logo:shadow-[0_4px_16px_rgba(37,99,235,0.16)] shrink-0 transition duration-300 active:scale-95`}
+        className={`relative flex ${current.box} items-center justify-center bg-white border border-[#111827]/[0.08] shadow-[0_2px_8px_rgba(17,24,39,0.08)] group-hover/logo:border-[#0064E0]/40 group-hover/logo:shadow-[0_4px_16px_rgba(0,100,224,0.16)] shrink-0 transition duration-300 active:scale-95`}
         aria-hidden="true"
       >
         <MoleculeMark className={`${current.icon} transition duration-300 group-hover/logo:scale-110`} />
         {/* Status beacon in brand cyan */}
-        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-[#2563EB] ring-2 ring-white shadow-[0_0_6px_rgba(37,99,235,0.5)] animate-pulse" />
+        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-[#0064E0] ring-2 ring-white shadow-[0_0_6px_rgba(0,100,224,0.5)] animate-pulse" />
       </div>
 
       {showText && (
         <span className={`font-bold tracking-tight transition-colors duration-200 text-foreground ${current.title}`}>
-          Catalyst<span className="font-bold text-[#2563EB]">Lab</span>
+          Catalyst<span className="font-bold text-[#0064E0]">Lab</span>
         </span>
       )}
 
