@@ -1,6 +1,6 @@
 # CatalystLab Agent Instructions
 
-You are building components for CatalystLab, a premium, dark-mode-first developer tooling platform. The UI borrows heavily from high-end SaaS ecosystems (Vercel, Framer, Linear). You must strictly adhere to the following primitive variables, layout spacing formulas, and interaction physics. Do not invent new UI paradigms; use the established `ds-*` and `framer-*` class systems.
+You are building components for CatalystLab, a premium, light-mode-first developer tooling platform (white canvas per `DESIGN.md`; owner directive 2026-10-21). A dark theme remains available via the ThemeToggle — scope dark-only styling under `html.dark` / `[data-theme="dark"]`, never unscoped. The UI borrows heavily from high-end SaaS ecosystems (Vercel, Framer, Linear). You must strictly adhere to the following primitive variables, layout spacing formulas, and interaction physics. Do not invent new UI paradigms; use the established `ds-*` and `framer-*` class systems.
 
 ## 1. Global Layout & Canvas Architecture
 
@@ -9,7 +9,7 @@ Every page must sit atop the canonical layout shell to avoid overlapping with th
 **Page Wrapper Pattern:**
 ```tsx
 return (
-  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+  <div data-theme="light" className="min-h-screen ds-page-top bg-background text-foreground">
     <SEOHead title="..." description="..." />
     {/* Page Content */}
   </div>

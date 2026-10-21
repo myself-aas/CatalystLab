@@ -17,36 +17,36 @@
   --react-wash: #F7FDFF;
   --react-card: #ffffff;
   --react-card-hover: #ffffff;
-  --react-border: #F0FAFF;
-  --react-border-subtle: #F0FAFF;
-  --react-border-strong: rgba(240,250,255,0.7);
+  --react-border: #CED0D4;
+  --react-border-subtle: #DEE3E9;
+  --react-border-strong: rgba(28,30,33,0.35);
 
   /* Typography */
   --react-text-primary: #2C3032;
-  --react-text-secondary: rgba(240,250,255,0.5);
-  --react-text-tertiary: rgba(240,250,255,0.55);
-  --react-link: #2C3032;
-  --react-link-hover: #2C3032;
+  --react-text-secondary: rgba(28,30,33,0.62);
+  --react-text-tertiary: rgba(28,30,33,0.55);
+  --react-link: #0457CB;
+  --react-link-hover: #0064E0;
 
   /* Callout Semantic Surfaces */
   --callout-note-bg: rgba(8, 126, 164, 0.05);
-  --callout-note-border: #2C3032;
+  --callout-note-border: #0064E0;
   --callout-note-text: #2C3032;
   
   --callout-pitfall-bg: rgba(239, 68, 68, 0.06);
-  --callout-pitfall-border: #F7FDFF;
+  --callout-pitfall-border: #E41E3F;
   --callout-pitfall-text: #2C3032;
 
   --callout-deepdive-bg: rgba(99, 102, 241, 0.05);
-  --callout-deepdive-border: #F0FAFF;
-  --callout-deepdive-text: #F0FAFF;
+  --callout-deepdive-border: rgba(99, 102, 241, 0.5);
+  --callout-deepdive-text: #2C3032;
 
   --callout-wip-bg: rgba(245, 158, 11, 0.06);
-  --callout-wip-border: #F0FAFF;
+  --callout-wip-border: #F2A918;
   --callout-wip-text: #2C3032;
 
   --callout-challenge-bg: rgba(16, 185, 129, 0.06);
-  --callout-challenge-border: #F0FAFF;
+  --callout-challenge-border: #31A24C;
   --callout-challenge-text: #2C3032;
 
   /* Code Blocks */

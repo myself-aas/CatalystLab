@@ -136,9 +136,9 @@
   --theme-slate-50: #F7FDFF;
   --theme-slate-100: #F0FAFF;
   --theme-slate-200: #F0FAFF;
-  --theme-slate-300: rgba(240,250,255,0.6);
-  --theme-slate-400: rgba(240,250,255,0.5);
-  --theme-slate-500: rgba(240,250,255,0.45);
+  --theme-slate-300: #CED0D4;
+  --theme-slate-400: #8595A4;
+  --theme-slate-500: #5D6C7B;
   --theme-slate-600: #2C3032;
   --theme-slate-700: #2C3032;
   --theme-slate-800: #1F2223;
@@ -148,9 +148,9 @@
   --theme-gray-50: #F7FDFF;
   --theme-gray-100: #F0FAFF;
   --theme-gray-200: #F0FAFF;
-  --theme-gray-300: rgba(240,250,255,0.7);
-  --theme-gray-400: rgba(240,250,255,0.55);
-  --theme-gray-500: rgba(240,250,255,0.45);
+  --theme-gray-300: #CED0D4;
+  --theme-gray-400: #8595A4;
+  --theme-gray-500: #5D6C7B;
   --theme-gray-600: #2C3032;
   --theme-gray-700: #2C3032;
   --theme-gray-800: #1F2223;
@@ -161,8 +161,8 @@
   --theme-zinc-100: #F0FAFF;
   --theme-zinc-200: #F0FAFF;
   --theme-zinc-300: #d4d4d8;
-  --theme-zinc-400: rgba(240,250,255,0.55);
-  --theme-zinc-500: rgba(240,250,255,0.45);
+  --theme-zinc-400: #8595A4;
+  --theme-zinc-500: #5D6C7B;
   --theme-zinc-600: #2C3032;
   --theme-zinc-700: #2C3032;
   --theme-zinc-800: #2C3032;
@@ -184,7 +184,7 @@
   
   --border-subtle: #dadce0;
   --border-medium: #dadce0;
-  --border-bright: rgba(240,250,255,0.5);
+  --border-bright: #CED0D4;
   --border-focus: #2C3032;
 
   /* Semantic Core */
@@ -196,9 +196,9 @@
   --app-popover-foreground: #1C1E21;
   --app-primary: #000000;
   --app-primary-hover: #444950;
-  --app-primary-foreground: #000000;
-  --app-secondary: rgba(255,255,255,0.08);
-  --app-secondary-foreground: #F0FAFF;
+  --app-primary-foreground: #FFFFFF;
+  --app-secondary: #F1F4F7;
+  --app-secondary-foreground: #1C1E21;
   --app-muted: #F1F4F7;
   --app-muted-foreground: #4B4C4F;
   --app-accent: rgba(0,100,224,0.08);
@@ -210,7 +210,7 @@
   --app-info: #0091FF;
   --app-destructive-foreground: #F7FDFF;
   --app-border: #CED0D4;
-  --app-input: rgba(240,250,255,0.65);
+  --app-input: #FFFFFF;
   --app-ring: rgba(0,100,224,0.45);
 
   /* Surface Layers (Light Mode) */
@@ -228,13 +228,13 @@
   --surface: rgba(0, 0, 0, 0.03);
   --surface-hover: rgba(0, 0, 0, 0.05);
   --foreground: #1F2223;
-  --foreground-muted: rgba(240,250,255,0.5);
+  --foreground-muted: rgba(28,30,33,0.62);
   --foreground-subtle: rgba(9, 13, 22, 0.60);
-  --accent: #F0FAFF;
-  --accent-bright: #F7FDFF;
-  --accent-glow: rgba(240,250,255,0.10);
+  --accent: #0457CB;
+  --accent-bright: #0064E0;
+  --accent-glow: rgba(0,100,224,0.12);
   --border-default: #dadce0;
-  --border-hover: rgba(240,250,255,0.65);
+  --border-hover: rgba(28,30,33,0.35);
   --border-accent: rgba(37, 99, 235, 0.25);
 
   /* Legacy aliases for backward compatibility */
@@ -253,7 +253,7 @@
   --color-muted: var(--app-muted-foreground);
   --color-border: var(--app-border);
   --color-border-subtle: #F0FAFF;
-  --color-border-strong: rgba(240,250,255,0.6);
+  --color-border-strong: rgba(28,30,33,0.35);
   --button-bg: var(--app-primary);
   --button-text: var(--app-primary-foreground);
   --button-hover: var(--app-primary-hover);
@@ -1622,6 +1622,10 @@ p { text-wrap: pretty; }
 /* ==========================================================================
    DEVSITE / GOOGLE DOCS POLARITY
    Map Linear dark hardcoded utilities to Material light when not in dark mode.
+   Companion to patch.css §4 (monochrome normalization — dark theme only).
+   Arbitrary-value utilities are matched with [class~="…"] attribute selectors:
+   the quotes make bracket/hash/slash escaping unnecessary and match whole
+   class tokens exactly (so `bg-black` never catches `bg-black/40` scrims).
    ========================================================================== */
 html:not(.dark) .text-gradient-linear {
   background: none;
@@ -1629,30 +1633,94 @@ html:not(.dark) .text-gradient-linear {
   -webkit-text-fill-color: #1F2223;
   color: #1F2223;
 }
-html:not(.dark) .text-\[\#F0FAFF\] { color: #1F2223; }
-html:not(.dark) .text-\[\rgba(240,250,255,0.5)\] { color: rgba(240,250,255,0.45); }
-html:not(.dark) .text-\[\#F0FAFF\] { color: #F0FAFF; }
-html:not(.dark) .text-\[\#F0FAFF\] { color: #F0FAFF; }
-html:not(.dark) .bg-\[\#1F2223\],
-html:not(.dark) .bg-\[\#1F2223\],
-html:not(.dark) .bg-\[\#1F2223\],
-html:not(.dark) .bg-\[\#1F2223\],
-html:not(.dark) .bg-\[\#1F2223\],
-html:not(.dark) .bg-\[\#1F2223\] { background-color: #ffffff; }
-html:not(.dark) .bg-\[\#F0FAFF\] { background-color: #F0FAFF; }
-html:not(.dark) .hover\:bg-\[\#F0FAFF\]:hover { background-color: #2C3032; }
+
+/* Cream text values authored for dark surfaces → ink */
+html:not(.dark) [class~="text-[#F0FAFF]"],
+html:not(.dark) [class~="text-[#F7FDFF]"] { color: #1F2223; }
+html:not(.dark) [class~="text-[rgba(240,250,255,0.5)]"],
+html:not(.dark) [class~="text-[rgba(240,250,255,0.6)]"],
+html:not(.dark) [class~="text-[rgba(240,250,255,0.65)]"],
+html:not(.dark) [class~="text-[rgba(240,250,255,0.7)]"] { color: #4B4C4F; }
+
+/* Dark surface arbitrary values → white paper */
+html:not(.dark) [class~="bg-[#1F2223]"],
+html:not(.dark) [class~="bg-[#111726]"],
+html:not(.dark) [class~="bg-[#111726]/95"],
+html:not(.dark) [class~="bg-[#111726]/90"],
+html:not(.dark) [class~="bg-[#111726]/80"],
+html:not(.dark) [class~="bg-[#090D16]"],
+html:not(.dark) [class~="bg-[#0A1317]"],
+html:not(.dark) [class~="bg-[#0B111A]"],
+html:not(.dark) [class~="bg-black"] { background-color: #FFFFFF; }
+html:not(.dark) [class~="bg-[#111726]/50"] { background-color: #F7FDFF; }
+/* Code/log wells stay recessed, but on paper */
+html:not(.dark) [class~="bg-black/90"],
+html:not(.dark) [class~="bg-black/70"] { background-color: #F1F4F7; }
+/* Cream emphasis chips/dots → visible soft gray on white */
+html:not(.dark) [class~="bg-[#F0FAFF]"] { background-color: #E4E8EC; }
+html:not(.dark) [class~="hover:bg-[#F0FAFF]"]:hover { background-color: #D8DEE4; }
+
+/* Dark Tailwind surface utilities → paper wells. Needed because the light
+   token block remaps --theme-*-900 to dark ink for TEXT semantics; surface
+   semantics (bg-*) must flip here. Scrims (bg-black/40 and lighter) are
+   deliberately untouched — overlays should stay dark in both themes. */
+html:not(.dark) .bg-slate-900,
+html:not(.dark) .bg-slate-950,
+html:not(.dark) .bg-zinc-900,
+html:not(.dark) .bg-zinc-950,
+html:not(.dark) .bg-neutral-900,
+html:not(.dark) .bg-gray-900 { background-color: #F1F4F7; }
+html:not(.dark) [class~="bg-slate-900/90"],
+html:not(.dark) [class~="bg-slate-900/60"],
+html:not(.dark) [class~="bg-slate-900/50"] { background-color: #F1F4F7; }
+html:not(.dark) [class~="hover:bg-slate-900/50"]:hover { background-color: rgba(28,30,33,0.04); }
+
+/* Hairlines authored as white alpha / dark slate → gray hairlines */
 html:not(.dark) .border-white\/\[0\.06\],
 html:not(.dark) .border-white\/\[0\.10\] { border-color: #dadce0; }
+html:not(.dark) [class~="border-[rgba(240,250,255,0.08)]"],
+html:not(.dark) [class~="border-[rgba(240,250,255,0.10)]"],
+html:not(.dark) [class~="border-[rgba(240,250,255,0.14)]"] { border-color: #DEE3E9; }
+html:not(.dark) .border-slate-800,
+html:not(.dark) .border-slate-700,
+html:not(.dark) [class~="border-slate-800/60"],
+html:not(.dark) [class~="border-slate-800/80"] { border-color: #dadce0; }
+html:not(.dark) .hover\:border-slate-700:hover { border-color: #CED0D4; }
+
+/* White-alpha washes → faint ink washes */
 html:not(.dark) .bg-white\/\[0\.03\],
 html:not(.dark) .bg-white\/\[0\.04\],
 html:not(.dark) .bg-white\/\[0\.05\],
-html:not(.dark) .bg-white\/\[0\.08\] { background-color: #F7FDFF; }
+html:not(.dark) .bg-white\/\[0\.08\] { background-color: rgba(28,30,33,0.04); }
+
+/* Card shadows — Google-style elevation instead of Linear black bloom.
+   !important: patch.css ships token-driven shadows with !important; this is
+   the belt-and-braces override for any surface that also carries the class. */
 html:not(.dark) .shadow-linear-card {
-  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15), 0 2px 6px rgba(60, 64, 67, 0.08);
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15), 0 2px 6px rgba(60, 64, 67, 0.08) !important;
 }
 html:not(.dark) .shadow-linear-cta {
-  box-shadow: 0 1px 2px rgba(26, 115, 232, 0.3);
+  box-shadow: 0 1px 2px rgba(26, 115, 232, 0.3) !important;
 }
+
+/* Status-hue text authored as 300/400 tints (readable on dark surfaces) →
+   dark variants on white. Severity stays distinguishable (WCAG 1.4.1). */
+html:not(.dark) [class*="text-emerald-3"], html:not(.dark) [class*="text-emerald-4"],
+html:not(.dark) [class*="text-green-3"], html:not(.dark) [class*="text-green-4"],
+html:not(.dark) [class*="text-teal-3"], html:not(.dark) [class*="text-teal-4"] { color: #047857 !important; }
+html:not(.dark) [class*="text-red-3"], html:not(.dark) [class*="text-red-4"],
+html:not(.dark) [class*="text-rose-3"], html:not(.dark) [class*="text-rose-4"],
+html:not(.dark) [class*="text-pink-4"] { color: #C81E1E !important; }
+html:not(.dark) [class*="text-amber-3"], html:not(.dark) [class*="text-amber-4"],
+html:not(.dark) [class*="text-yellow-3"], html:not(.dark) [class*="text-yellow-4"],
+html:not(.dark) [class*="text-orange-4"] { color: #B45309 !important; }
+html:not(.dark) [class*="text-cyan-3"], html:not(.dark) [class*="text-cyan-4"],
+html:not(.dark) [class*="text-sky-3"], html:not(.dark) [class*="text-sky-4"],
+html:not(.dark) [class*="text-blue-3"], html:not(.dark) [class*="text-blue-4"],
+html:not(.dark) [class*="text-indigo-4"] { color: #0457CB !important; }
+html:not(.dark) [class*="text-violet-3"], html:not(.dark) [class*="text-violet-4"],
+html:not(.dark) [class*="text-purple-3"], html:not(.dark) [class*="text-purple-4"],
+html:not(.dark) [class*="text-fuchsia-4"] { color: #6D28D9 !important; }
 
 /* ==========================================================================
    REDUCED MOTION
