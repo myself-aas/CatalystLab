@@ -5,7 +5,7 @@ CatalystLab is a single-process deployable: one HTTP server hosts the Express AP
 ```mermaid
 flowchart LR
     subgraph Browser
-        SPA["React 18 SPA<br/>(Vite 6 build, code-split routes)"]
+        SPA["React 19 SPA<br/>(Vite 8 build, code-split routes)"]
         SW["Service Worker<br/>(offline asset + telemetry doc cache)"]
         CL["logger facade<br/>src/lib/logger.ts"]
     end
@@ -24,13 +24,13 @@ flowchart LR
             CLS["clientLogs"]
         end
         RL["core/rateLimit<br/>daily units + 60s bursts"]
-        AUTH["lib/serverAuth<br/>firebase-admin verifyIdToken"]
+        AUTH["src/lib/serverAuth<br/>firebase-admin verifyIdToken"]
     end
 
-    subgraph Engines["Audit engines (lib/engines/*)"]
+    subgraph Engines["Audit engines (src/lib/nodeEngines.ts — canonical, D7)"]
         GUARD["networkSecurity SSRF guard<br/>DNS pin + private-range block"]
-        E1["health · migration · repo-hygiene"]
-        E2["eco-carbon · compliance · ai-readiness<br/>ai-search · edge-latency"]
+        E1["health · latency · ai_ready · repo"]
+        E2["eco · compliance · migration · llmo"]
     end
 
     FB[("Firebase Auth<br/>+ Firestore")]
@@ -62,7 +62,7 @@ flowchart LR
 2. **Security middleware** (in order): helmet CSP — production drops `'unsafe-inline'` by allowlisting startup-computed hashes of the theme-bootstrap script; per-route JSON body limits (256 KB default, 2 MB only for state-sync bulk mutations); structured request logging with `x-request-id` (inbound IDs honored when they match a safe pattern); `attachIdentity` verifies the Firebase ID token once and attaches the server-derived identity (plan, trial, superadmin claim).
 3. **Routing**: decomposed route modules register under `/api/*` (+ legacy `/stats/*`, `/telemetry/*`). An API 404 catch-all always answers JSON — the SPA fallback can never shadow an API route. A terminal error handler degrades gracefully when MongoDB is offline.
 4. **Rate limiting**: engine-scan routes run `createEngineRateLimitMiddleware`, which resolves the caller's tier (visitor → free/starter/pro/team/enterprise/api_pro → superadmin) from the attached identity, charges units from the daily budget, enforces the 60-second burst window, and answers `429` with a machine-readable envelope.
-5. **Engine execution**: `server/routes/engines.ts` validates the target URL, runs the SSRF guard (scheme allowlist, private-range block, DNS resolve → validate → pin the socket to that address), then dispatches to the TypeScript engine in `lib/engines/*` and returns a structured report. Redirects are never auto-followed.
+5. **Engine execution**: `server/routes/engines.ts` validates the target URL, runs the SSRF guard (scheme allowlist, private-range block, DNS resolve → validate → pin the socket to that address), then dispatches to the TypeScript engine in `src/lib/nodeEngines.ts` (canonical implementation, D7) and returns a structured report. Redirects are never auto-followed.
 
 ## Identity and trust boundaries
 

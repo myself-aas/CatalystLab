@@ -1,10 +1,10 @@
 # CatalystLab
 
-Website-quality intelligence platform: a Vite 6 + React 18 SPA with an integrated Express 4 server that runs website-audit **engines** against user-supplied URLs, metered by a tiered rate limiter, with Firebase auth/Firestore on the client, MongoDB analytics, and fail-closed payment-gateway integrations.
+Website-quality intelligence platform: a Vite 8 + React 19 SPA with an integrated Express 5 server that runs website-audit **engines** against user-supplied URLs, metered by a tiered rate limiter, with Firebase auth/Firestore on the client, MongoDB analytics, and fail-closed payment-gateway integrations.
 
-> Review remediation status: **Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ✅** — see [`CODE_REVIEW.md`](./CODE_REVIEW.md) for the historical audit, and [`PRODUCTION_READINESS_AUDIT.md`](./PRODUCTION_READINESS_AUDIT.md) for the current full audit, findings, and phased plan.
+> Review remediation status: **Phase 0 ✅ · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ✅** — see [`CODE_REVIEW.md`](./CODE_REVIEW.md) for the historical audit, [`docs/plan/production-readiness-plan.md`](./docs/plan/production-readiness-plan.md) for the phased plan, and [`docs/plan/decisions.md`](./docs/plan/decisions.md) for the owner decision log (D1–D17, Q17–Q42). Repository-level knowledge docs live in [`docs/codebase/`](./docs/codebase/).
 
-> **Current state (2026-10-19):** every gate is green — `npm run check:env`, `npm run lint` (0 problems over `src/`, `server/`, `components/`, `types/`, `scripts/`), `npx tsc --noEmit` (0 errors, `strict: true`), `npm test` (309 passed in 29 files), `npm run test:coverage` (ratchet met), `npm run build` (including the prerender step) and `npm run check:bundle`. CI runs the same set on every PR.
+> **Current state (2026-10-21):** every local gate re-verified green after the pipeline restore — `npm run check:env` (40 parity-verified keys across `.env.example` / `.env.staging.example` / `.env.production.example`), `npm run lint` (0 problems over `src/`, `server/`, `server.ts`), `npx tsc --noEmit` (0 errors, `strict: true`), `npm test` (330 passed in 36 files), `npm run test:coverage` (ratchet met for `server/**`), `npm run build` (including the prerender step), `npm run check:bundle` (all six budgets pass), a production smoke boot of `dist/server.cjs` (prerendered shells, legacy `.html` 301s, real 404s, zero-`unsafe-inline` CSP, fail-closed payments `503`, `verify-deployment.mjs` contracts) and the Python tooling gates (32 pytest + ruff + mypy strict + black). Runs executed on Node v22.22.3 in the working sandbox; declared runtime is Node 24 (`.nvmrc`, D5). CI runs the same set plus gitleaks/semgrep/Docker/k6/Playwright/Lighthouse on every PR.
 
 ## Quickstart
 
@@ -23,7 +23,7 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 | --- | --- |
 | `npm run dev` | tsx server.ts (Express + Vite middleware, HMR off for proxy compatibility) |
 | `npm run build` | Production bundle to `dist/`, then `scripts/prerender.ts` (74 route shells, `404.html`, `sitemap.xml`, `routes.json`), then esbuild → `dist/server.cjs` |
-| `npm test` | Vitest suite (309 tests in 29 files: UI + server route suite) |
+| `npm test` | Vitest suite (36 test files: UI (jsdom) + server route suite (node + supertest) + unit) |
 | `npm run test:coverage` | Same suite with v8 coverage; global thresholds are the measured baseline (68/55/72/69) and may only be raised |
 | `npm run typecheck` | `tsc --noEmit` (hard gate, must stay clean) |
 | `npm run lint` | ESLint (0 warnings tolerated) |
@@ -33,7 +33,7 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 | `npm run lhci` | Lighthouse CI against `./dist` using `.lighthouserc.json` (a11y ≥ 0.9 and best-practices/SEO ≥ 0.85 fail; performance < 0.5 warns) |
 | `npm run media:check` | Verify referenced media assets exist |
 
-Every pull request runs the full gate set in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) on Node 24 (owner answer #8): `npm run ci` (check:env, ESLint over `src/`, `server/`, `components/`, `types/`, `scripts/`, `tsc --noEmit` under `strict: true`, the 309-test suite, the production build including prerender, and the bundle budget), then the coverage ratchet, a production smoke test that boots `dist/server.cjs` and asserts the prerendered shells, the real 404 status, the legacy `.html` 301s and the `501` synthetic endpoints, and `npm run media:check`. A second job runs Lighthouse CI (answer #12). `.github/workflows/media-verify.yml` is kept for media integrity on its own trigger.
+Every pull request runs the full gate set in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) on Node 24 (`.nvmrc`, owner answer #8 / D5) across five jobs: **gates** — `npm run ci` (check:env incl. the three-template env parity gate, ESLint over `src/`, `server/` and `server.ts`, `tsc --noEmit` under `strict: true`, the Vitest suite, the production build including prerender, and the bundle budget), then the coverage ratchet, `npm audit --audit-level=low`, the backup/restore drill, the payment sandbox e2e, the working-tree + history secret audit, the k6 peak-load SLO check, a production smoke test that boots `dist/server.cjs` and asserts the prerendered shells, the real 404 status, the legacy `.html` 301s and the `501` synthetic endpoints, and `npm run media:check`; **security-and-container** — gitleaks full-history scan, semgrep SAST, promtool validation of `docs/ops/alerts.yml`, and a Docker build asserting the non-root runtime + live health/contract probes; **e2e-chromium** — the Playwright zero-CSP-violation smoke; **lighthouse** — Lighthouse CI against the running production server (answer #12, D17); **python-tooling** — pytest/ruff/mypy/black over `scripts/replace_images.py`. `.github/workflows/media-verify.yml` is kept for media integrity on its own trigger.
 
 ## Environment variables
 
@@ -66,11 +66,12 @@ server.ts                 process entrypoint: HTTP server, Vite/static wiring, P
 server/app.ts             createApp(): helmet CSP, body limits, identity, routes, 404/errors
 server/core/              logger (pino), rate limiter, engine catalog, SSL probe, runtime
 server/routes/            telemetry · stateSync · plans · engines · reports · account ·
-                          github · payments · notifications · system · clientLogs
+                          github · payments · notifications · system · clientLogs · contact
 src/lib/serverAuth.ts     Firebase ID-token verification → server-derived identity/tiers
-lib/engines/              the actual audit-engine implementations (TypeScript)
+src/lib/nodeEngines.ts    the canonical audit-engine implementations (TypeScript, D7)
 src/lib/networkSecurity.ts  SSRF guard: DNS pinning, private-range blocking, size caps
-src/                      React SPA (279 files) — pages, components, stores, engines UI
+src/                      React SPA — pages, components (incl. types/ + telemetry UI), stores
+worker/api-proxy.js       Cloudflare Worker: same-origin /api/* proxy (split hosting, Q31)
 ```
 
 ## Security model (summary)
@@ -91,7 +92,7 @@ src/                      React SPA (279 files) — pages, components, stores, e
 ## Testing
 
 ```bash
-npm test                 # 309 tests in 29 files — UI (jsdom) + server routes (node + supertest)
+npm test                 # 36 test files — UI (jsdom) + server routes (node + supertest) + unit
 npm run test:coverage    # coverage ratchet: global thresholds are the measured baseline (see vitest.config.ts)
 ```
 
