@@ -156,7 +156,7 @@ export const AboutPage: React.FC = () => {
  const activeEngine = ENGINES_CATALOG.find((e) => e.id === selectedEngine) || ENGINES_CATALOG[0];
 
  return (
- <div data-theme="dark" className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="About Us & Engineering Methodology — CatalystLab"
  description="Learn about CatalystLab, our 8-engine telemetry architecture, deterministic benchmarks, 42-PoP global edge mesh, and zero-trust engineering standards."

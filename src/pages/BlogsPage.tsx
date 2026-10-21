@@ -70,7 +70,7 @@ export const BlogsPage: React.FC = () => {
   const listPosts = filteredPosts.length > 1 ? filteredPosts.slice(1) : [];
 
   return (
-    <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-sans pb-20">
+    <div className="min-h-screen ds-page-top bg-background text-foreground font-sans pb-20">
       <SEOHead 
         title="Discover News | CatalystLab" 
         description="Latest news from all over the world." 

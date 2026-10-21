@@ -125,7 +125,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  );
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground font-mono">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground font-mono">
  <SEOHead
  title="Diagnostic Report Directory"
  description="Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide."

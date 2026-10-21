@@ -6,7 +6,7 @@ import { SEOHead } from '../components/common/SEOHead';
 
 export const SecurityPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Security Policy, PGP Key & Safe Harbor Disclosure"
  description="CatalystLab's RFC-9116 security disclosure program, PGP public key for encrypted reporting, response SLAs, and legal Safe Harbor protection for security researchers."

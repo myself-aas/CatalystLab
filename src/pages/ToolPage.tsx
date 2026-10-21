@@ -185,7 +185,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background font-sans text-foreground">
+ <div className="min-h-screen ds-page-top-hero bg-background font-sans text-foreground">
  <SEOHead
  title={`${meta.catalystName || meta.name} Catalyst — CatalystLab`}
  description={meta.description}

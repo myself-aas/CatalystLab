@@ -240,7 +240,7 @@ func main() {
  const codeSnippet = generateSnippet();
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Rate Limit Modal Alert */}
  {rateLimitAlertOpen && (
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-4">

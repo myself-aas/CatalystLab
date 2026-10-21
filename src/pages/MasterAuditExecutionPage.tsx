@@ -206,7 +206,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  const progressPct = Math.round((completedCount / MASTER_ENGINES.length) * 100);
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground font-sans">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground font-sans">
  <SEOHead
  title="Master Audit Orchestrator"
  description="Run all eight CatalystLab diagnostic engines against a target URL and review the composite telemetry dossier."

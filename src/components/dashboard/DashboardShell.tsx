@@ -172,7 +172,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
   };
 
   return (
-    <div data-theme="dark" className="flex min-h-screen bg-background text-foreground">
+    <div className="flex min-h-screen bg-background text-foreground">
       {/* ================= DESKTOP DOCKED SIDEBAR ================= */}
       <aside 
         className={`hidden lg:flex flex-col justify-between p-3 shrink-0 select-none z-30 sticky top-[var(--nav-height,4rem)] h-[calc(100vh-var(--nav-height,4rem))] bg-background border-r border-[rgba(240,250,255,0.08)] transition duration-200 ease-in-out ${

@@ -41,7 +41,7 @@ export default function PricingPage() {
  const enterprise = ALL_PLANS_LIST.find((p) => p.id === 'enterprise');
 
  return (
- <div data-theme="dark" className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Pricing — CatalystLab"
  description="Transparent diagnostic tiers from community scans to enterprise air-gapped runners."

@@ -170,7 +170,7 @@ export const SignUpPage: React.FC = () => {
  const activeErrorMessage = localError || authError?.message;
 
  return (
- <div data-theme="dark" className="relative min-h-screen ds-page-top flex flex-col items-center px-4 bg-background text-foreground">
+ <div className="relative min-h-screen ds-page-top flex flex-col items-center px-4 bg-background text-foreground">
  <SEOHead
  title="Sign Up | Initialize Telemetry Console | CatalystLab"
  description="Deploy autonomous web diagnostics in seconds. Zero SDK instrumentation, 100% edge-native inspection across 38 global PoPs."

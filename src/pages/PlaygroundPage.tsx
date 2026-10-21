@@ -464,7 +464,7 @@ func main() {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[#F0FAFF] selection:text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[#F0FAFF] selection:text-foreground">
  <SEOHead
  title="Live REST API Playground — CatalystLab"
  description="Interactive REST test harness for single diagnostic engines and composite master audits."

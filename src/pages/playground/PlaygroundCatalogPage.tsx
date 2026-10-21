@@ -39,7 +39,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Hero Banner */}
  <div className="border-b border-border bg-background py-8 md:py-12">
  <div className="ds-page-shell">

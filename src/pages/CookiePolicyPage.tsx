@@ -6,7 +6,7 @@ import { SEOHead } from '../components/common/SEOHead';
 
 export const CookiePolicyPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  <SEOHead
  title="Cookie Policy & Preference Manager"
  description="Configure your cookie preferences and learn about CatalystLab's minimal session telemetry and zero third-party advertising tracking policies."

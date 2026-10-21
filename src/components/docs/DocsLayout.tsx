@@ -303,7 +303,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
   
   return (
-    <div data-theme="dark" className="docs-devsite min-h-screen bg-background text-foreground">
+    <div className="docs-devsite min-h-screen bg-background text-foreground">
       <SEOHead
         title={`${title} | CatalystLab Documentation`}
         description={description}

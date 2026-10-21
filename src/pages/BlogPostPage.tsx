@@ -56,7 +56,7 @@ export const BlogPostPage: React.FC = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-background text-white flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-6">
         <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
         <p className="text-muted-foreground mb-6 text-center">The article you are looking for does not exist.</p>
         <Link to="/blogs" className="px-6 py-3 bg-[#F3F4F6] rounded-full text-sm font-medium hover:bg-[#F3F4F6] transition-colors">
@@ -67,7 +67,7 @@ export const BlogPostPage: React.FC = () => {
   }
 
   return (
-    <div data-theme="dark" className="min-h-screen bg-background text-white font-sans pb-20">
+    <div className="min-h-screen bg-background text-foreground font-sans pb-20">
       <SEOHead 
         title={post.title} 
         description={post.excerpt || `Read ${post.title}`}
@@ -119,7 +119,7 @@ export const BlogPostPage: React.FC = () => {
           {/* Author Strip */}
           <div className="flex items-center justify-between border-t border-gray-100 pt-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-background text-white flex items-center justify-center font-bold overflow-hidden">
+              <div className="w-10 h-10 rounded-full bg-background text-foreground flex items-center justify-center font-bold overflow-hidden">
                 {post.authorAvatar ? (
                   <img src={post.authorAvatar} alt={post.authorName} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 ) : (

@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
  const activeErrorMessage = localMessage?.type === 'error' ? localMessage.text : authError?.message;
 
  return (
- <div data-theme="dark" className="relative min-h-screen ds-page-top flex flex-col items-center px-4 bg-background text-foreground">
+ <div className="relative min-h-screen ds-page-top flex flex-col items-center px-4 bg-background text-foreground">
  <SEOHead
  title="Sign In | CatalystLab Security Gateway"
  description="Authenticate into the CatalystLab telemetry console to access live edge dossiers, AST diffs, and autonomous PR branches."

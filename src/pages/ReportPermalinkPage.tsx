@@ -92,7 +92,7 @@ export const ReportPermalinkPage: React.FC = () => {
 
  if (error || !report) {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground flex items-center justify-center p-4">
+ <div className="min-h-screen ds-page-top bg-background text-foreground flex items-center justify-center p-4">
  <div className="ds-card p-8 max-w-md w-full text-center">
  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#FFFFFF]/10 text-red-400 mb-3 border border-red-500/20">
  <AlertCircle className="h-6 w-6"/>
@@ -132,7 +132,7 @@ export const ReportPermalinkPage: React.FC = () => {
  : 'Unknown Date';
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-mono">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-mono">
  <SEOHead
  title={`Audit Report: ${report.url}`}
  description={`Diagnostic telemetry trace for ${report.url} on CatalystLab.`}

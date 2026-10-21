@@ -49,7 +49,7 @@ export const AdminDashboardPage: React.FC = () => {
  // Access Control: Strict Superadmin Authorization Gate
  if (!user || !isAdmin) {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-mono flex items-center justify-center p-4 relative overflow-hidden">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-mono flex items-center justify-center p-4 relative overflow-hidden">
  {/* Subsurface glow */}
  <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
@@ -149,7 +149,7 @@ export const AdminDashboardPage: React.FC = () => {
 
  // Authorized Superadmin Workspace
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-[#F0FAFF] selection:text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-[#F0FAFF] selection:text-foreground">
  <SEOHead
  title="Command Center & Infrastructure Radar — CatalystLab Admin"
  description="Continuous uptime monitoring, live Firestore audit logs, diagnostic container telemetry, and blog publishing."

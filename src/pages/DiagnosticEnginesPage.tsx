@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 export const DiagnosticEnginesPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  <SEOHead
  title="Diagnostic Engines Catalog — CatalystLab"
  description="Explore the 8 standalone automated diagnostic engines of CatalystLab: performance, security, LLM readiness, and carbon intelligence."

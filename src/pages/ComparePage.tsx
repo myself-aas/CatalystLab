@@ -257,7 +257,7 @@ export const ComparePage: React.FC = () => {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Side-by-Side Delta Comparison — CatalystLab"
  description="Benchmark performance, security headers, and DOM complexity between two competing websites in real-time."

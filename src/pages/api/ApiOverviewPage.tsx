@@ -77,7 +77,7 @@ export const ApiOverviewPage: React.FC = () => {
  });
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Top Banner Hero */}
  <div className="border-b border-border bg-background ds-section">
  <div className="ds-page-shell">

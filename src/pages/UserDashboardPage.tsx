@@ -255,7 +255,7 @@ export const UserDashboardPage: React.FC = () => {
 
  if (!user) {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top flex items-center justify-center px-4 bg-background text-foreground relative overflow-hidden font-sans">
+ <div className="min-h-screen ds-page-top flex items-center justify-center px-4 bg-background text-foreground relative overflow-hidden font-sans">
  <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(240,250,255,0.05),transparent_70%)] pointer-events-none" />
  
  <div className="w-full max-w-md p-8 ds-card bg-surface border-border shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">

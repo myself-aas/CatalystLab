@@ -73,7 +73,7 @@ export const ContactPage: React.FC = () => {
  description="Direct line to CatalystLab engineering. No sales fluff. Support, enterprise API keys, and custom technical integrations."
  />
 
- <div data-theme="dark" className="min-h-[100dvh] ds-page-top px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-16 lg:gap-24">
+ <div className="min-h-[100dvh] ds-page-top px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-16 lg:gap-24">
  
  {/* Split Hero Section */}
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">

@@ -5,7 +5,7 @@ import { SEOHead } from '../components/common/SEOHead';
 
 export const ApiDocsPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  <SEOHead 
  title="API Documentation - CatalystLab"
  description="Integrate CatalystLab diagnostics into your CI/CD pipelines."

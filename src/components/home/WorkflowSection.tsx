@@ -51,7 +51,7 @@ export const WorkflowSection: React.FC = () => {
     <section
       id="workflow-section"
       ref={containerRef}
-      data-theme="dark"
+     
       className="ds-section relative bg-background text-foreground border-b border-border overflow-hidden"
     >
       <div className="ds-page-shell">

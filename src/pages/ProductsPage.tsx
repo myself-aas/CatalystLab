@@ -121,7 +121,7 @@ export default {
 };`;
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Automated Plugins & Domain Monitoring Watchdog | CatalystLab"
  description="Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains."
