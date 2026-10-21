@@ -1,5 +1,7 @@
 # CatalystLab — Performance and rendering audit (2026-10)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time performance audit (2026-10); remediation ([`05-remediation.md`](05-remediation.md)) landed in the tree. Locked baselines now: [`docs/ops/slo.md`](../../ops/slo.md).
+
 **Date:** 2026-10-19 · **Branch:** `arena/9369d7c0-catalystlab` · **Build audited:** production (`NODE_ENV=production npm run build`, served by `dist/server.cjs`)
 
 **Question:** why is the site slow, laggy, and showing rendering problems?

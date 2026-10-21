@@ -1,5 +1,10 @@
 # Audit engine inventory
 
+**What this answers:** exactly which engines exist, what each one is called in
+the API vs the UI, what a scan costs, and what stands between a user-supplied URL
+and the open internet. Every number below is verified against
+`server/core/rateLimit.ts` and `src/lib/edge/pops.ts` as of 2026-10-21.
+
 CatalystLab runs website-quality audit engines against user-supplied URLs. Every
 scan passes through the SSRF guard (`src/lib/networkSecurity.ts`, `guardedFetch`)
 before any outbound byte is sent: scheme allowlist, private/loopback/reserved
@@ -23,18 +28,20 @@ naming only: no `.py` file is loaded at runtime, and the catalog header says so.
 ## Server engine catalog
 
 Eight engines, each with a canonical id and one alias; both resolve to the same
-implementation. `GET /api/v1/engines` returns exactly these ids.
+implementation. `GET /api/v1/engines` returns exactly these ids. The UI presents
+the same eight under product names (`src/data/diagnosticEngines.ts`); the
+subtitle↔alias correspondence is 1:1.
 
-| Engine id | Alias | What it audits |
-| --- | --- | --- |
-| `health` | `testing_vitals` | Availability, TLS certificate validity on port 443, response status, core health checks |
-| `latency` | `release_edge` | Response timing profile and edge-delivery characteristics |
-| `ai_ready` | `operations_ai_ready` | AI-discovery readiness (`llms.txt`, structured data, machine-readable metadata) |
-| `repo` | `code_quality` | Repository hygiene surfaces exposed by the site (manifests, source links, metadata) |
-| `eco` | `build_eco` | Build/asset carbon efficiency — asset weight rankings, transfer size, carbon estimates |
-| `compliance` | `devsecops_compliance` | Security headers, OWASP baseline signals, compliance/privacy markers |
-| `migration` | `planning_arch` | Platform/architecture migration readiness (server detection, legacy stack signals) |
-| `llmo` | `evolution_llmo` | LLMOptimizer-style continuous-evolution scoring |
+| Engine id | Alias | UI product name | What it audits |
+| --- | --- | --- | --- |
+| `health` | `testing_vitals` | **VitalZyme** (Web Vitals) | Availability, TLS certificate validity on port 443, response status, core health checks |
+| `latency` | `release_edge` | **EdgeVmax** (Latency Radar) | Response timing profile and edge-delivery characteristics |
+| `ai_ready` | `operations_ai_ready` | **LLM-Kinase** (AI Readiness) | AI-discovery readiness (`llms.txt`, structured data, machine-readable metadata) |
+| `repo` | `code_quality` | **GitLygase** (Repo Hygiene) | Repository hygiene surfaces exposed by the site (manifests, source links, metadata) |
+| `eco` | `build_eco` | **EcoHolo** (Carbon Audit) | Build/asset carbon efficiency — asset weight rankings, transfer size, carbon estimates |
+| `compliance` | `devsecops_compliance` | **RiskProtease** (OWASP SecOps) | Security headers, OWASP baseline signals, compliance/privacy markers |
+| `migration` | `planning_arch` | **SynthShift** (Architecture PAR) | Platform/architecture migration readiness (server detection, legacy stack signals) |
+| `llmo` | `evolution_llmo` | **AllosterSearch** (LLMO Search) | LLMOptimizer-style continuous-evolution scoring |
 
 There is **no `ai_search` engine** (owner answer Q39). Older docs and the legacy
 marketing pages listed a ninth engine for "AI-search surface readiness"; that id
@@ -43,11 +50,12 @@ deleted with the rest of `public/*.html` (D14).
 
 ## Client-side telemetry engines
 
-`src/data/diagnosticEngines.ts` defines **8** client-presented diagnostic
-engines that power the playground and dashboard UI (categories: Performance,
-Security, SEO, Accessibility, DOM & Vitals, and others). They render engine
-cards, presets and the interactive playground; every network-level check still
-executes server-side through the catalog above.
+`src/data/diagnosticEngines.ts` defines the **8** client-presented diagnostic
+engines in the table above (categories: Performance, Security, SEO,
+Accessibility, DOM & Vitals, and others). They render engine cards, presets and
+the interactive playground; every network-level check still executes server-side
+through the catalog above. The client ids (`vitalzyme`, `llm-kinase`, …) are UI
+identifiers — the API speaks the canonical ids/aliases.
 
 ## Execution surfaces
 
@@ -73,7 +81,7 @@ as if it were data.
 ## Cost model
 
 A single engine scan costs **1 unit**; a master audit costs **10 units**
-(`MASTER_AUDIT_COST`, `SINGLE_ENGINE_COST` in `server/core/rateLimit.ts`).
+(`MASTER_AUDIT_COST = 10`, `SINGLE_ENGINE_COST = 1`, `server/core/rateLimit.ts:22-23`).
 
 | Tier | Daily units | Burst per 60 s |
 | --- | --- | --- |
@@ -86,8 +94,20 @@ A single engine scan costs **1 unit**; a master audit costs **10 units**
 | API key (`api_pro`) | 500 (or the key's `dailyComputeLimit`) | 120 |
 | Superadmin | unlimited | unlimited |
 
+(Constants verified at `server/core/rateLimit.ts:15-27`: `VISITOR_DAILY_UNITS`,
+`FREE_USER_DAILY_UNITS`, `STARTER_DAILY_UNITS`, `PRO_DAILY_UNITS`,
+`TEAM_DAILY_UNITS`, `ENTERPRISE_DAILY_UNITS`, `PRO_API_DAILY_UNITS`,
+`VISITOR_BURST_MAX = 15`, `USER_BURST_MAX = 45`, `BURST_WINDOW_MS = 60_000`.)
+
 Daily units reset at UTC midnight. The ledger lives in Upstash Redis when it is
 configured (`catalystlab:quota:<date>:<identifier>`) and falls back to
 per-process memory otherwise, which resets on restart — production must
-configure Upstash (owner answer #1). Telemetry edge claims quote the real PoP
-registry: **42** nodes (`src/lib/edge/pops.ts`, `TOTAL_POPS_COUNT`).
+configure Upstash (owner answer #1).
+
+## Two different "PoP" numbers — don't conflate them
+
+- **42** = the product's measurement/edge-mesh registry
+  (`TOTAL_POPS_COUNT`, `src/lib/edge/pops.ts:753`). It feeds the dashboard globe,
+  the JSON-LD in `scripts/prerender.ts`, and telemetry edge claims.
+- **330+** = Cloudflare's anycast delivery network, which serves the static
+  frontend (`ops/runbook.md` §1). It is not a CatalystLab data structure.

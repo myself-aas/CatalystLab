@@ -1,5 +1,7 @@
 # Backup & Clean-Instance Restore Verification Drill — 2026-10-21
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Dated drill record — evidence for the RPO/RTO rows in [`docs/ops/slo.md`](../slo.md). Re-runnable any time: `npm run drill:restore` (`scripts/run-restore-drill.ts`).
+
 **Plan reference:** Item `4.6`, owner decisions `D9` (`RPO ≤ 24h`), `D16` (`RTO ≤ 4h`), `Q32`  
 **Executed command:** `npm run drill:restore` (`scripts/run-restore-drill.ts` via `server/core/backupRestore.ts`)  
 **Result:** **PASSED** (`status: "passed"`, `withinRto: true`)

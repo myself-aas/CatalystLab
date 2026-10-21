@@ -1,5 +1,7 @@
 # 05 — Remediation and re-measurement (2026-10-19)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Remediation record for the 2026-10 performance audit — the fixes described here are in the tree; current locked baselines: [`docs/ops/slo.md`](../../ops/slo.md).
+
 Companion to `00-MASTER.md`. Covers the fixes applied after the audit, how each was verified, and what was measured before and after. Measurements use the same sandbox as `01-measurements.md`: headless Chromium with software rendering, so absolute times are inflated. Compare before and after only.
 
 ## Summary

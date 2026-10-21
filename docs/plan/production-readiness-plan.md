@@ -1,5 +1,7 @@
 # CatalystLab: Production-Readiness Plan
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Draft plan (revised 2026-10-19) — kept as the planning record. Execution landed via decisions Q43–Q52 ([`decisions.md`](decisions.md)), the rollout plan ([`rollout-pipeline-restore-2026-10-21.md`](rollout-pipeline-restore-2026-10-21.md)), and the resolution log in [`codebase/CONCERNS.md`](../codebase/CONCERNS.md) §8.
+
 Status: draft, revised 2026-10-19 after the SEO/AEO audit (Phase 7b, D11–D15) and a skills review (SRE, DevOps, security, test, monitoring, cloud, and a pre-mortem; D16, Phases 3, 4b, 5, 8, 10, and §16). Branch `arena/9369d7c0-catalystlab`. Written against the current tree (uncommitted changes on this branch, including the 2026-10-19 perf remediation in `docs/audit/perf-rendering-2026-10/05-remediation.md` and the SEO/AEO audit in `docs/audit/seo-aeo-2026-10/00-SEO-AEO-AUDIT.md`).
 
 ## 0. Scope, goal, and stop conditions

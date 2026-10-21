@@ -1,5 +1,7 @@
 # Header / Footer / Navigation audit — web, tablet, mobile
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time header/footer/nav audit; findings shipped. Current implementation: `src/components/layout/`.
+
 **Audited:** 2026-10-21 · **Branch:** `arena/d85a5b1f-catalystlab` · **Standard:**
 `cs-frontend-engineer` (claude-skills/agents/engineering) — its Q6 (design-system
 consistency) and Q7 (WCAG, named owner) lenses, plus the Web Vitals canon it cites.

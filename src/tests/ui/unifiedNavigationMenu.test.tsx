@@ -94,8 +94,9 @@ describe('Unified Right-Side Hamburger Menu & Navigation Drawer', () => {
   it('triggers the unified drawer from Navbar hamburger button and custom event', () => {
     render(<Navbar />, { wrapper });
 
-    // Click the Navbar hamburger button
-    const hamburgerBtn = screen.getByLabelText(/Open mobile navigation menu/i);
+    // Click the Navbar hamburger button (label updated by the 2026-10-21
+    // design-system refactor: "Open navigation menu")
+    const hamburgerBtn = screen.getByLabelText(/Open navigation menu/i);
     fireEvent.click(hamburgerBtn);
 
     // The right-side drawer dialog should now be in the document

@@ -1,5 +1,7 @@
 # CatalystLab — Frontend Design System Audit
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time audit against the `frontend-design` skill; predates the Meta design-system adoption ([ADR 0002](adr/0002-meta-design-system.md), 2026-10-21). Normative tokens now: [`DESIGN.md`](../DESIGN.md) + `.impeccable/design.json`, guarded by `npm run check:design`.
+
 **Method:** Audited against the `frontend-design` skill (anthropics/skills) — distinctive,
 subject-grounded identity; deliberate typography; no templated defaults; restraint;
 accessible quality floor. Skill instructions were fetched with

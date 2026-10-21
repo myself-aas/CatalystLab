@@ -1,5 +1,7 @@
 # 03 — Startup path, bundle, delivery, and caching
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Supporting evidence for the 2026-10 performance audit; current baselines: [`docs/ops/slo.md`](../../ops/slo.md).
+
 Scope: `src/main.tsx`, `src/App.tsx`, `src/context/*`, `src/lib/firebase.ts`, `src/components/common/NewsletterModal.tsx`, `index.html`, `vite.config.ts`, `public/sw.js`, `server.ts`, `server/app.ts`.
 Evidence grades: **M** measured, **S** static, **U** not measured.
 

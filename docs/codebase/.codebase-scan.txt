@@ -1,143 +1,103 @@
 
 === DIRECTORY TREE (max depth 3, source files only) ===
+.dockerignore
 .env.example
 .env.production.example
+.env.staging.example
 .github
 .github/CODEOWNERS
 .github/copilot-instructions.md
+.github/dependabot.yml
+.github/fixtures
+.github/fixtures/ci-service-account.json
 .github/workflows
+.github/workflows/backup.yml
+.github/workflows/ci.yml
+.github/workflows/deploy.yml
 .github/workflows/media-verify.yml
+.github/workflows/rollback.yml
 .gitignore
+.gitleaks.toml
+.impeccable
+.impeccable/design.json
 .lighthouserc.json
+.mypy_cache
+.mypy_cache/.gitignore
+.mypy_cache/3.11
+.mypy_cache/3.11/cache.0.db
+.mypy_cache/3.11/cache.1.db
+.mypy_cache/3.11/cache.10.db
+.mypy_cache/3.11/cache.11.db
+.mypy_cache/3.11/cache.12.db
+.mypy_cache/3.11/cache.13.db
+.mypy_cache/3.11/cache.14.db
+.mypy_cache/3.11/cache.15.db
+.mypy_cache/3.11/cache.2.db
+.mypy_cache/3.11/cache.3.db
+.mypy_cache/3.11/cache.4.db
+.mypy_cache/3.11/cache.5.db
+.mypy_cache/3.11/cache.6.db
+.mypy_cache/3.11/cache.7.db
+.mypy_cache/3.11/cache.8.db
+.mypy_cache/3.11/cache.9.db
+.mypy_cache/CACHEDIR.TAG
+.mypy_cache/missing_stubs
 .nvmrc
+.pytest_cache
+.pytest_cache/.gitignore
+.pytest_cache/CACHEDIR.TAG
+.pytest_cache/README.md
+.pytest_cache/v
+.pytest_cache/v/cache
+.pytest_cache/v/cache/nodeids
+.ruff_cache
+.ruff_cache/.gitignore
+.ruff_cache/0.17.1
+.ruff_cache/0.17.1/12674998640961588163
+.ruff_cache/0.17.1/732960087626788634
+.ruff_cache/CACHEDIR.TAG
+.semgrep.yml
 AGENTS.md
 CLAUDE.md
 CODE_REVIEW.md
+DESIGN.md
+Dockerfile
 GEMINI.md
+GLOSSARY.md
+PRODUCT.md
 README.md
-api
-api/health.ts
-api/monitor
-api/monitor/probe.ts
-api/monitor/system-health.ts
-api/run-engine.ts
-app
-app/api
-app/api/scan
-app/api/scan/stream
-app/applet
-app/applet/metadata.json
-app/applet/src
-app/applet/src/App.tsx
-app/applet/src/components
-app/applet/src/index.css
-app/applet/src/main.tsx
-app/applet/src/types.ts
 archive
-archive/automation
-archive/automation/append_css.cjs
-archive/automation/clean_typography.cjs
-archive/automation/ds_sidebar.py
-archive/automation/ds_upgrade.py
-archive/automation/fix_admin_tabs.py
-archive/automation/fix_buttons.cjs
-archive/automation/fix_charts_files.py
-archive/automation/fix_colors.py
-archive/automation/fix_colors_audit_insights.py
-archive/automation/fix_colors_blogeditor.py
-archive/automation/fix_colors_carousel.py
-archive/automation/fix_colors_cli.py
-archive/automation/fix_colors_code_block.py
-archive/automation/fix_colors_engine_charts.py
-archive/automation/fix_colors_enterprise.py
-archive/automation/fix_colors_logstream.py
-archive/automation/fix_colors_master_audit.py
-archive/automation/fix_colors_matrix.py
-archive/automation/fix_colors_pipeline.py
-archive/automation/fix_colors_radar.py
-archive/automation/fix_colors_sandbox.py
-archive/automation/fix_components.py
-archive/automation/fix_components_1.py
-archive/automation/fix_components_2.py
-archive/automation/fix_components_3.py
-archive/automation/fix_doc_colors.cjs
-archive/automation/fix_docs_files.py
-archive/automation/fix_docs_mobile_bar.cjs
-archive/automation/fix_eyebrows.py
-archive/automation/fix_grid.cjs
-archive/automation/fix_hero_section.py
-archive/automation/fix_heroes.py
-archive/automation/fix_home_files.py
-archive/automation/fix_home_hero.py
-archive/automation/fix_inputs.py
-archive/automation/fix_inputs2.py
-archive/automation/fix_layouts.cjs
-archive/automation/fix_overflow.sh
-archive/automation/fix_remaining.py
-archive/automation/fix_remaining_pages.py
-archive/automation/fix_sections.py
-archive/automation/fix_seven_day.cjs
-archive/automation/fix_sidebar.py
-archive/automation/fix_tables.sh
-archive/automation/fix_toolpage.cjs
-archive/automation/fix_typography.sh
-archive/automation/fix_typography2.sh
-archive/automation/fix_typography_sizes.cjs
-archive/automation/fix_workflow_grid_finally.cjs
-archive/automation/fix_workflow_typography.cjs
-archive/automation/massive_hex_replace.py
-archive/automation/rewrite_workflow.cjs
-archive/automation/test_master_audit.cjs
-archive/automation/test_pipeline.cjs
-archive/automation/update_bento_grid.cjs
-archive/automation/update_contact_page.cjs
-archive/automation/update_contact_page2.cjs
-archive/automation/update_docs_css.cjs
-archive/automation/update_docs_layout.cjs
-archive/automation/update_docslayout.cjs
-archive/automation/update_faq.cjs
-archive/automation/update_hub_widgets.cjs
-archive/automation/update_navbar.cjs
-archive/automation/update_system_overview.cjs
-archive/automation/workspace
-archive/automation/workspace/refactor_colors.sh
-archive/legacy-next
-archive/legacy-next/api
-archive/legacy-next/api/health.ts
-archive/legacy-next/api/monitor
-archive/legacy-next/api/run-engine.ts
-archive/legacy-next/app
-archive/legacy-next/app/api
-archive/legacy-next/app/applet
-archive/legacy-next/next.config.ts
+archive/README.md
+archive/ds_section_divs.cjs
+archive/fix-bg-white5.mjs
+archive/fix-slate-replacements.mjs
+archive/fix_ambient.cjs
+archive/fix_badges.cjs
+archive/fix_sections.cjs
+archive/replace-colors.mjs
+archive/replace-slate.mjs
+archive/replace_colors.sh
+archive/replace_padding.cjs
+archive/replace_padding_v2.cjs
+archive/test-browser.mjs
+archive/update_hero_layout.cjs
+archive/update_heroes.cjs
 assets
 assets/banners
 assets/banners/hero-banner.html
-assets/banners/hero-banner.png
-bun.lock
-components
-components/telemetry
-components/telemetry/AuditScoreMatrixRadar.tsx
-components/telemetry/DiagnosticConsoleCard.tsx
-components/telemetry/GuestQuotaBanner.tsx
-components/telemetry/LiveTerminalStream.tsx
-components/telemetry/MasterTelemetryGrid.tsx
-components/telemetry/SideBySideDeltaMatrix.tsx
-components/ui
-components/ui/BenchmarkCard.tsx
-components/ui/CodeBlock.tsx
-components/ui/TelemetryCard.tsx
-components/ui/TerminalInput.tsx
-components/ui/cobe-globe-cdn.tsx
-components/ui/dashboard-sidebar.tsx
-components/ui/demo.tsx
-components/ui/edge-mesh-globe.tsx
-components/ui/index.ts
 components.json
 docs
 docs/ARCHITECTURE.md
 docs/ENGINES.md
+docs/adr
+docs/adr/0001-clean-saas-palette.md
 docs/audit
+docs/audit/agentic-master-2026-10
+docs/audit/agentic-master-2026-10/00-MASTER.md
+docs/audit/agentic-master-2026-10/domains.md
+docs/audit/agentic-master-2026-10/improvement-fields.md
+docs/audit/cs-frontend-engineer-2026-10.md
+docs/audit/header-footer-nav-2026-10.md
 docs/audit/perf-rendering-2026-10
 docs/audit/perf-rendering-2026-10/00-MASTER.md
 docs/audit/perf-rendering-2026-10/01-measurements.md
@@ -158,48 +118,88 @@ docs/codebase/INTEGRATIONS.md
 docs/codebase/STACK.md
 docs/codebase/STRUCTURE.md
 docs/codebase/TESTING.md
+docs/design-system-audit.md
+docs/hero-shape-brief.md
+docs/impeccable-audit.md
+docs/ops
+docs/ops/alerts.yml
+docs/ops/architecture-redundancy.md
+docs/ops/drills
+docs/ops/drills/restore-drill-2026-10-21.md
+docs/ops/environment-and-deployment-guide.md
+docs/ops/runbook.md
+docs/ops/slo.md
 docs/plan
 docs/plan/decisions.md
 docs/plan/grilling-tree.md
 docs/plan/production-readiness-plan.md
-ds_section_divs.cjs
-ds_sidebar.py
-ds_upgrade.py
+docs/plan/rollout-pipeline-restore-2026-10-21.md
+docs/release
+docs/release/checklist.md
+docs/security
+docs/security/review-2026-10.md
+e2e
+e2e/smoke
+e2e/smoke/release-smoke.spec.ts
 eslint.config.js
-favicon.svg
 firebase-applet-config.json
-firebase-blueprint.json
 firestore.rules
-fix-bg-white5.mjs
-fix-slate-replacements.mjs
-fix_admin_tabs.py
-fix_ambient.cjs
-fix_badges.cjs
-fix_charts_files.py
-fix_colors.py
-fix_colors_audit_insights.py
-fix_colors_blogeditor.py
-fix_colors_carousel.py
-fix_colors_cli.py
-fix_colors_code_block.py
-fix_colors_engine_charts.py
-fix_colors_enterprise.py
-fix_colors_logstream.py
-fix_colors_master_audit.py
-fix_colors_matrix.py
-fix_colors_pipeline.py
-fix_colors_radar.py
-fix_colors_sandbox.py
-fix_components.py
-fix_components_1.py
-fix_components_2.py
-fix_components_3.py
-fix_docs_files.py
-fix_docs_mobile_bar.cjs
-fix_eyebrows.py
-fix_hero_section.py
-fix_heroes.py
-fix_home_files.py
+index.html
+meta
+meta/DESIGN.md
+ops
+ops/gcloud
+ops/gcloud/setup-firestore-backups.sh
+ops/loadtest
+ops/loadtest/k6-peak.js
+ops/systemd
+ops/systemd/catalystlab.service
+package-lock.json
+package.json
+patch.css
+playwright.config.ts
+public
+public/_headers
+public/_redirects
+public/apple-touch-icon.png
+public/favicon.svg
+public/icon-192.png
+public/icon-512.png
+public/llms-full.txt
+public/llms.txt
+public/logo-mark.png
+public/logo-mark.svg
+public/logo.png
+public/logo.svg
+public/manifest.json
+public/og-banner.png
+public/og-image.png
+public/robots.txt
+public/rss.xml
+public/style.css
+public/sw.js
+public/telemetry.js
+public/xss-guard.js
+pyproject.toml
+scripts
+scripts/check-bundle-budget.mjs
+scripts/check-design-tokens.mjs
+scripts/check-env.mjs
+scripts/e2e-payment-sandbox.ts
+scripts/prerender.ts
+scripts/replace_images.py
+scripts/report-lhci.mjs
+scripts/requirements-dev.txt
+scripts/run-loadtest.mjs
+scripts/run-restore-drill.ts
+scripts/scan-secrets.mjs
+scripts/screenshot-banner.cjs
+scripts/tests
+scripts/tests/test_replace_images.py
+scripts/verify-deployment.mjs
+scripts/verify-media.mjs
+server
+server/app.ts
 
 === STACK DETECTION (manifest files) ===
 
@@ -214,64 +214,64 @@ fix_home_files.py
       "name": "catalystlab",
       "version": "2.4.0",
       "dependencies": {
-        "@tailwindcss/vite": "^4.0.0",
-        "@upstash/ratelimit": "^2.0.8",
-        "@upstash/redis": "^1.38.2",
-        "@vitejs/plugin-react": "^4.3.4",
-        "cheerio": "^1.0.0",
+        "@sentry/node": "^11.8.0",
+        "@tailwindcss/vite": "^4.3.3",
+        "@upstash/ratelimit": "^2.2.0",
+        "@upstash/redis": "^1.39.0",
+        "@vitejs/plugin-react": "^6.1.2",
+        "cheerio": "^1.2.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cobe": "^2.0.1",
         "d3": "^7.9.0",
-        "dompurify": "^3.4.17",
-        "dotenv": "^17.4.2",
-        "express": "^4.22.3",
-        "firebase": "^12.17.1",
-        "firebase-admin": "^14.2.0",
+        "dotenv": "^18.0.8",
+        "express": "^5.3.0",
+        "firebase": "^13.0.0",
+        "firebase-admin": "^14.5.0",
         "geoip-lite": "^2.0.3",
         "helmet": "^8.3.0",
-        "lucide-react": "^1.33.0",
-        "mongodb": "^7.5.0",
-        "motion": "^13.1.0",
-        "pino": "^10.3.1",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
+        "lucide-react": "^1.60.0",
+        "mongodb": "^7.7.0",
+        "motion": "^14.4.0",
+        "pino": "^10.4.0",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
         "react-router-dom": "^7.18.4",
         "recharts": "^3.10.1",
-        "tailwind-merge": "^3.6.0",
-        "tailwindcss": "^4.0.0",
-        "tsx": "^4.19.2",
-        "typescript": "^5.7.2",
+        "tailwind-merge": "^3.7.0",
+        "tailwindcss": "^4.3.3",
+        "tsx": "^4.23.15",
         "ua-parser-js": "^2.0.10",
-        "vite": "^6.0.3",
-        "zod": "^4.5.4",
+        "vite": "^8.3.4",
+        "zod": "^4.6.7",
         "zustand": "^5.0.15"
       },
       "devDependencies": {
-        "@eslint/js": "^9.20.0",
-        "@playwright/test": "^1.63.0",
+        "@eslint/js": "^9.39.5",
+        "@lhci/cli": "^0.15.1",
+        "@playwright/test": "^1.64.1",
         "@testing-library/jest-dom": "^7.0.1",
-        "@testing-library/react": "^16.3.2",
+        "@testing-library/react": "^16.3.3",
         "@types/d3": "^7.4.3",
-        "@types/dompurify": "^3.2.0",
-        "@types/express": "^4.17.21",
+        "@types/express": "^5.0.6",
         "@types/geoip-lite": "^1.4.4",
-        "@types/node": "^26.2.0",
-        "@types/react": "^18.3.0",
-        "@types/react-dom": "^18.3.0",
+        "@types/node": "^26.6.5",
+        "@types/react": "^19.3.0",
+        "@types/react-dom": "^19.3.0",
         "@types/supertest": "^7.2.1",
         "@types/ua-parser-js": "^0.7.39",
-        "@vitest/coverage-v8": "^5.0.0",
+        "@vitest/coverage-v8": "^5.0.5",
         "esbuild": "^0.28.2",
-        "eslint": "^9.20.0",
+        "eslint": "^9.39.5",
         "eslint-plugin-jsx-a11y": "^6.10.2",
-        "eslint-plugin-react": "^7.37.4",
-        "jsdom": "^30.0.1",
-        "playwright": "^1.63.0",
-        "supertest": "^7.2.2",
+        "eslint-plugin-react": "^7.37.5",
+        "jsdom": "^30.1.3",
+        "playwright": "^1.64.1",
+        "supertest": "^7.3.1",
         "terser": "^5.51.2",
-        "typescript-eslint": "^8.24.0",
-        "vitest": "^5.0.0"
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.72.0",
+        "vitest": "^5.0.5"
       },
       "engines": {
         "node": ">=24"
@@ -285,7 +285,7 @@ fix_home_files.py
       "license": "MIT"
     },
 
-[TRUNCATED] Showing first 80 of 13426 lines.
+[TRUNCATED] Showing first 80 of 16207 lines.
 --- package.json ---
 {
   "name": "catalystlab",
@@ -297,78 +297,78 @@ fix_home_files.py
   },
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "build": "vite build && tsx scripts/prerender.ts && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
-    "test": "vitest run",
+    "test": "vitest run --sequence.shuffle",
+    "test:e2e": "playwright test",
+    "test:load": "node scripts/run-loadtest.mjs",
+    "test:payments-sandbox": "tsx scripts/e2e-payment-sandbox.ts",
+    "drill:restore": "tsx scripts/run-restore-drill.ts",
+    "sec:secrets": "node scripts/scan-secrets.mjs",
+    "verify:deploy": "node scripts/verify-deployment.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "ci": "npm run check:env && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
     "check:env": "node scripts/check-env.mjs",
     "media:check": "node scripts/verify-media.mjs",
     "test:coverage": "vitest run --coverage",
-    "check:bundle": "node scripts/check-bundle-budget.mjs"
+    "check:bundle": "node scripts/check-bundle-budget.mjs",
+    "lhci": "lhci autorun",
+    "ci:full": "npm run ci && npm run test:coverage && npm run drill:restore && npm run test:payments-sandbox && npm run sec:secrets",
+    "check:design": "node scripts/check-design-tokens.mjs"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.0.0",
-    "@upstash/ratelimit": "^2.0.8",
-    "@upstash/redis": "^1.38.2",
-    "@vitejs/plugin-react": "^4.3.4",
-    "cheerio": "^1.0.0",
+    "@sentry/node": "^11.8.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@upstash/ratelimit": "^2.2.0",
+    "@upstash/redis": "^1.39.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "cheerio": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cobe": "^2.0.1",
     "d3": "^7.9.0",
-    "dompurify": "^3.4.17",
-    "dotenv": "^17.4.2",
-    "express": "^4.22.3",
-    "firebase": "^12.17.1",
-    "firebase-admin": "^14.2.0",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "firebase": "^13.0.0",
+    "firebase-admin": "^14.5.0",
     "geoip-lite": "^2.0.3",
     "helmet": "^8.3.0",
-    "lucide-react": "^1.33.0",
-    "mongodb": "^7.5.0",
-    "motion": "^13.1.0",
-    "pino": "^10.3.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "lucide-react": "^1.60.0",
+    "mongodb": "^7.7.0",
+    "motion": "^14.4.0",
+    "pino": "^10.4.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.4",
     "recharts": "^3.10.1",
-    "tailwind-merge": "^3.6.0",
-    "tailwindcss": "^4.0.0",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "ua-parser-js": "^2.0.10",
-    "vite": "^6.0.3",
-    "zod": "^4.5.4",
+    "vite": "^8.3.4",
+    "zod": "^4.6.7",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@eslint/js": "^9.20.0",
-    "@playwright/test": "^1.63.0",
+    "@eslint/js": "^9.39.5",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.64.1",
     "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.2",
+    "@testing-library/react": "^16.3.3",
     "@types/d3": "^7.4.3",
-    "@types/dompurify": "^3.2.0",
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.6",
     "@types/geoip-lite": "^1.4.4",
-    "@types/node": "^26.2.0",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@types/supertest": "^7.2.1",
     "@types/ua-parser-js": "^0.7.39",
-    "@vitest/coverage-v8": "^5.0.0",
+    "@vitest/coverage-v8": "^5.0.5",
     "esbuild": "^0.28.2",
-    "eslint": "^9.20.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.4",
-    "jsdom": "^30.0.1",
-    "playwright": "^1.63.0",
-    "supertest": "^7.2.2",
-    "terser": "^5.51.2",
-    "typescript-eslint": "^8.24.0",
-    "vitest": "^5.0.0"
+    "eslint": "^9.39.5",
 
-[TRUNCATED] Showing first 80 of 82 lines.
+[TRUNCATED] Showing first 80 of 99 lines.
 --- pyproject.toml ---
 # Python tooling config for scripts/replace_images.py (inert to the JS toolchain).
 # Install dev tools:  python3 -m pip install -r scripts/requirements-dev.txt
@@ -415,14 +415,17 @@ Found: tsconfig.json
 === ENVIRONMENT VARIABLE TEMPLATES ===
 --- .env.example ---
 ALLOW_UNAUTH_DEMO=
+APP_ORIGIN=
 DODOPAY_API_KEY=
 DODOPAY_SANDBOX_MODE=
 DODOPAY_WEBHOOK_SECRET=
 FIREBASE_SERVICE_ACCOUNT_JSON=
 FIREBASE_SERVICE_ACCOUNT_PATH=
+FIRESTORE_DATABASE_ID=
 GITHUB_WEBHOOK_SECRET=
 GOOGLE_APPLICATION_CREDENTIALS=
 HOST=
+JWT_SECRET=
 LOG_LEVEL=
 MAILGUN_API_KEY=
 MAILGUN_DOMAIN=
@@ -431,9 +434,18 @@ MAILGUN_FROM_NAME=
 MAILGUN_HOST=
 MONGODB_DB_NAME=
 MONGODB_URI=
+PAYMENTS_ENABLED=
 PAYMENTS_WEBHOOK_SECRET=
 PAYMENTS_WEBHOOK_SECRET_2CHECKOUT=
 PAYMENTS_WEBHOOK_SECRET_DODOPAY=
+PAYMENT_GATEWAY=
+PAYMENT_SIGNING_SECRET=
+SENTRY_DSN=
+SENTRY_ENVIRONMENT=
+SENTRY_RELEASE=
+SENTRY_TRACES_SAMPLE_RATE=
+SWEEP_INTERVAL_MS=
+TELEMETRY_INGEST_MAX_PER_MIN=
 TRUST_PROXY=
 UPSTASH_REDIS_REST_TOKEN=
 UPSTASH_REDIS_REST_URL=
@@ -441,66 +453,67 @@ V2CHECKOUT_MERCHANT_CODE=
 V2CHECKOUT_SANDBOX_MODE=
 V2CHECKOUT_SECRET_KEY=
 VALID_API_KEYS=
+VITE_APP_ORIGIN=
 
 === TODO / FIXME / HACK (production code only, test dirs excluded) ===
 None found.
 
 === GIT RECENT COMMITS (last 20) ===
-d6c15be Merge pull request #25 from myself-aas/arena/9369d7c0-catalystlab
+d2c26ef refactor: update design system and component UI
 
 === HIGH-CHURN FILES (last 90 days, top 20) ===
+   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/.tempmediaStorage/media_1792562337939_4c13ae60.png
+   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/.tempmediaStorage/media_1792562648838_8b432327.png
+   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/.tempmediaStorage/media_1792564014157_58fec7aa.png
+   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/implementation_plan.md
+   1 .aistudio/artifacts/brain/ad8c3d3b-543d-4dc6-a22c-8d9adbb5ea83/implementation_plan.md.metadata.json
+   1 .dockerignore
    1 .env.example
-   1 .env.production.example
    1 .github/CODEOWNERS
    1 .github/copilot-instructions.md
+   1 .github/dependabot.yml
+   1 .github/fixtures/ci-service-account.json
+   1 .github/workflows/backup.yml
+   1 .github/workflows/ci.yml
+   1 .github/workflows/deploy.yml
    1 .github/workflows/media-verify.yml
+   1 .github/workflows/rollback.yml
    1 .gitignore
+   1 .gitleaks.toml
+   1 .impeccable/design.json
    1 .lighthouserc.json
-   1 .nvmrc
-   1 AGENTS.md
-   1 CLAUDE.md
-   1 CODE_REVIEW.md
-   1 GEMINI.md
-   1 README.md
-   1 api/health.ts
-   1 api/monitor/probe.ts
-   1 api/monitor/system-health.ts
-   1 api/run-engine.ts
-   1 app/api/scan/stream/route.ts
-   1 app/applet/metadata.json
-   1 app/applet/src/App.tsx
 
 === MONOREPO SIGNALS ===
 No monorepo signals detected.
 
 === CODE METRICS ===
-Total files scanned: 653
-Total lines of code: 100612
+Total files scanned: 582
+Total lines of code: 102239
 
 Files by language:
-  TypeScript/React: 292
-  Other: 151
-  TypeScript: 133
-  Python: 72
-  JavaScript: 5
+  TypeScript/React: 266
+  Other: 171
+  TypeScript: 137
+  JavaScript: 6
+  Python: 2
 
 Top 10 largest files:
-src/assets/images/allostersearch_llmo_1787420226857.jpg: 1308.2KB
-src/assets/images/about_us_hero_1787216854874.jpg: 1163.7KB
-src/assets/images/catalyst_bg_2_1787217684318.jpg: 1034.1KB
-assets/banners/hero-banner.png: 797.7KB
-src/assets/images/hero_network_visualization_1787838371820.jpg: 644.0KB
-src/assets/images/hero_ambient_background_1787838402609.jpg: 565.2KB
-package-lock.json: 469.5KB
-src/assets/images/catalystlab_logo_1787003898085.jpg: 252.9KB
-bun.lock: 230.6KB
-public/style.css: 66.0KB
+.mypy_cache/3.11/cache.9.db: 936.0KB
+package-lock.json: 567.0KB
+.mypy_cache/3.11/cache.2.db: 500.0KB
+.mypy_cache/3.11/cache.11.db: 496.0KB
+.mypy_cache/3.11/cache.13.db: 484.0KB
+.mypy_cache/3.11/cache.4.db: 416.0KB
+.mypy_cache/3.11/cache.8.db: 372.0KB
+.mypy_cache/3.11/cache.5.db: 360.0KB
+.mypy_cache/3.11/cache.6.db: 308.0KB
+.mypy_cache/3.11/cache.1.db: 296.0KB
 
 === CI/CD PIPELINES ===
 CI/CD: GitHub Actions
 
 === CONTAINERS & ORCHESTRATION ===
-No containerization configs detected.
+Container: Docker found
 
 === SECURITY & COMPLIANCE ===
 No security configs detected.

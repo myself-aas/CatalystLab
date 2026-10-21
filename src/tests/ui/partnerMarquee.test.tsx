@@ -54,26 +54,23 @@ describe('PartnerMarquee & Viewport Layout Tests', () => {
     expect(supabaseLink).toHaveAttribute('href', 'https://supabase.com');
   });
 
-  it('renders HeroSection integrating both 2.5/3 carousel and 0.5/3 partner marquee', () => {
-    const { container } = render(
+  it('renders the redesigned audit-first HeroSection without the embedded marquee/carousel', () => {
+    render(
       <MemoryRouter>
         <HeroSection />
       </MemoryRouter>
     );
 
-    // Verify marquee region exists within HeroSection
-    const marqueeRegion = screen.getByRole('region', { name: /Partner Logos Marquee/i });
-    expect(marqueeRegion).toBeInTheDocument();
-
-    // Verify layout allocations: visible pitch, flexible proof carousel, base marquee strip
-    const carouselContainer = container.querySelector('div[class*="flex-1"]');
-    expect(carouselContainer).toBeInTheDocument();
-
-    const marqueeContainer = container.querySelector('div[class*="shrink-0"]');
-    expect(marqueeContainer).toBeInTheDocument();
-
-    // The audit form and H1 are visible (no sr-only duplicate)
+    // The 2026-10-21 design-system refactor redesigned the hero into an
+    // audit-first layout (H1 + pitch + dual CTAs + integrated audit form).
+    // The partner marquee and the cover-flow carousel are no longer embedded
+    // in the hero; PartnerMarquee remains a standalone component and is
+    // covered by the two tests above.
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     expect(screen.getByLabelText(/Domain URL to audit/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Run Instant Audit/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Audit Now/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Explore engines/i })).toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: /Partner Logos Marquee/i })).toBeNull();
   });
 });

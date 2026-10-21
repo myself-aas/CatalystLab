@@ -1,5 +1,7 @@
 # 01 — Measurements (lab evidence)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Supporting evidence for the 2026-10 performance audit; current baselines: [`docs/ops/slo.md`](../../ops/slo.md).
+
 Date: 2026-10-19. Build: `npm run build` with `NODE_ENV=production`, served by `node dist/server.cjs` on port 3000. Browser: headless Chromium 153 via `@sparticuz/chromium`, 1366×900 viewport, no CPU or network throttling unless noted.
 
 **Read these numbers as relative, not absolute.** The sandbox CPU is slow, there is no GPU, and Chromium composites in software. Google Fonts, Firestore, and Pexels are unreachable from the sandbox, so those requests fail fast. Real-device numbers will differ. The A/B comparisons inside one run are the reliable part.

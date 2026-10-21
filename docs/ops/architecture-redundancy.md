@@ -1,5 +1,9 @@
 # CatalystLab Architecture & Single-Point-of-Failure Analysis
 
+**What this answers:** what fails when each layer dies, what the code does about
+it automatically, what an operator must do manually — and, just as important,
+what is deliberately *not* redundant under the $0/month constraint (Q32).
+
 **Plan reference:** Item `4.7`, owner decisions `D3`, `D9`, `D10`, `D16`, `Q31`, `Q32`  
 **Last verified:** 2026-10-21
 
@@ -25,3 +29,36 @@ Per owner decision **Q32** (`$0/month` infrastructure posture):
 - The API runs as a single supervised Node 24 process on Oracle Cloud Always Free rather than an active-active multi-region cluster.
 - All stateful concerns (API keys, subscriptions, payment event ledger, connected GitHub repositories, daily quotas, sliding-window rate limits) live in external stores (Firestore, MongoDB, Upstash Redis), making the Node container **100% stateless and replaceable in minutes** via `Dockerfile`.
 - In-process memory maps (`BoundedSlidingWindowStore`, `dailyRateLimitStore`, `sessionCostMap`, `htmlShellCache`) have strict hard cardinality caps (`5,000`, `10,000`, `256`, `256`) so sustained flood traffic cannot trigger OOM kills on the VM.
+
+---
+
+## 3. Secret Custody Redundancy (Four Planes)
+
+Secrets never live in Git; each has exactly one authoritative home and a
+rotation path (`environment-and-deployment-guide.md` Part 0):
+
+| Plane | Store | Custody | Rotation path |
+| --- | --- | --- | --- |
+| **A — Static build** | `.github/workflows/deploy.yml` build env | Public build metadata only (`APP_ORIGIN`, `VITE_*` — never keys) | Commit + redeploy |
+| **B — Cloudflare edge** | Worker secret `API_ORIGIN` | Encrypted, `wrangler secret put` only | Re-put secret (< 30 s, no redeploy) |
+| **C — Node host** | `/etc/catalystlab/catalystlab.env` (`root:root`, `0600`) | All 42 runtime keys | Edit file + `systemctl restart catalystlab` |
+| **D — CI/CD & backups** | GitHub Environments (`staging`, `production`; production behind Required Reviewer) | `CLOUDFLARE_API_TOKEN`, `FIREBASE_SERVICE_ACCOUNT_JSON`, `FIRESTORE_BACKUP_BUCKET`, origins | GitHub UI rotation; env-scoped so staging cannot read production |
+
+The 42-key template parity (`npm run check:env`) guarantees plane C can always be
+reconstructed from `.env.production.example` + the plane D/A secret stores — no
+key exists only in someone's memory.
+
+---
+
+## 4. What Is *Not* Redundant (Honest Gaps)
+
+Recorded so nobody discovers them during an incident:
+
+| Gap | Impact if it fails | Mitigation in place |
+| --- | --- | --- |
+| Single Oracle Always Free VM | API down until redeploy (minutes-to-hours) | systemd `Restart=always`; documented Render Free standby (§1); stateless container |
+| Single operator | Human availability is the incident-response bottleneck | Runbook §4 is written to be executable by any engineer; escalation addresses fixed |
+| Single DNS zone (Cloudflare) | Apex + www resolution loss | Cloudflare anycast/registrar lock; `public/_redirects` covers apex→www |
+| GitHub Actions as sole CI/CD | Cannot deploy or prove gates during a GitHub outage | All gates are runnable locally (`npm run ci:full`); Pages promotion is a UI action |
+| In-memory quota fallback | Restart wipes non-Upstash rate-limit state | Production **requires** Upstash (owner answer #1); fail-closed checkout |
+| Atlas credential `SEC-2026-01` | Historical commit exposure until rotated | Owner action assigned (Q44) — tracked in `../security/review-2026-10.md` |

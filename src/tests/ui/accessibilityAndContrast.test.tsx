@@ -71,25 +71,26 @@ describe('Browserbase UI-Test: Accessibility & Visual Contrast Layering', () => 
     });
   });
 
-  it('ensures HeroSection applies protective contrast scrim overlays and high-contrast typography tokens', () => {
+  it('ensures HeroSection paints high-contrast theme tokens on its solid canvas', () => {
     render(<HeroSection />, { wrapper });
 
-    const scrim = screen.getByTestId('hero-contrast-scrim');
-    expect(scrim).toBeInTheDocument();
-    expect(scrim).toHaveAttribute('aria-hidden', 'true');
-    expect(scrim.className).toContain('bg-gradient-to-b');
+    // The 2026-10-21 design-system refactor replaced the photographic hero
+    // (which needed a `hero-contrast-scrim` gradient overlay for WCAG
+    // contrast) with a solid `bg-background` canvas, so contrast now comes
+    // from the canonical theme/type tokens instead of a scrim layer.
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toBeInTheDocument();
+    expect(heading.className).toContain('framer-hero-title');
+    expect(heading.className).toContain('text-foreground');
+
+    const heroSection = heading.closest('section');
+    expect(heroSection).not.toBeNull();
+    expect(heroSection?.className).toContain('bg-background');
 
     const inputs = screen.getAllByPlaceholderText(/your-domain\.com/i);
     expect(inputs.length).toBeGreaterThanOrEqual(1);
     inputs.forEach((input) => {
       expect(input).toHaveAttribute('aria-label');
     });
-
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toBeInTheDocument();
-    expect(heading.className).toContain('drop-shadow');
-
-    const presetsLabel = screen.getAllByText(/Presets:/i);
-    expect(presetsLabel.length).toBeGreaterThanOrEqual(1);
   });
 });

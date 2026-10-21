@@ -1,5 +1,7 @@
 # Shape Brief — Hero (MasterAuditPage)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Dated creative brief. As shipped (verified 2026-10-21), `MasterAuditPage` mounts [`HeroSection`](../src/components/home/HeroSection.tsx) standalone — the marquee-base-strip / cover-flow composition described here is not mounted on any page (`PartnerMarquee` and the cover-flow carousel have no page importers). Kept as design rationale.
+
 *Produced by `$impeccable shape`. Discovery answers confirmed by the product
 owner on 2026-10-21; implemented in the same pass at their instruction
 ("run these all at once").*

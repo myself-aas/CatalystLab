@@ -1,5 +1,7 @@
 # Frontend audit — against `cs-frontend-engineer` (claude-skills/agents/engineering)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time frontend audit. Current conventions and open concerns: [`codebase/CONVENTIONS.md`](../codebase/CONVENTIONS.md), [`codebase/CONCERNS.md`](../codebase/CONCERNS.md).
+
 **Audited:** 2026-10-21 · **Branch:** `arena/d85a5b1f-catalystlab` · **Standard:**
 `myself-aas/claude-skills/agents/engineering/cs-frontend-engineer.md` + its
 forcing-question library (`engineering-team/skills/senior-frontend/references/

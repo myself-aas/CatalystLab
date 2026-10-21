@@ -1,5 +1,7 @@
 # 02 — Client rendering and interaction
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Supporting evidence for the 2026-10 performance audit; current baselines: [`docs/ops/slo.md`](../../ops/slo.md).
+
 Scope: `src/App.tsx`, `src/components/layout/*`, `src/components/ui/*`, `src/components/home/*`, `src/index.css`, `src/store/useTelemetryHUDStore.ts`, `src/components/cards/hooks/useSpotlight.ts`, `public/sw.js`.
 Evidence grades: **M** measured in this audit, **S** static reading only, **U** not measured.
 

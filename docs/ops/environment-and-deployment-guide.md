@@ -1,7 +1,7 @@
 # CatalystLab — Complete Environment Variables Reference & Production Deployment Playbook
 
 > **Canonical Reference (`D3(b)`, `D9`, `D10`, `D14`, `D16`, `Q31`, `Q32`, Plan Phases `4`–`10`)**  
-> **Runtime:** Node `>=24` (`v24.22.0` pinned in `.nvmrc`) · **Frontend Edge:** Cloudflare Pages (`catalystlab-web`) · **API Reverse Proxy:** Cloudflare Worker (`catalystlab-api-proxy`) · **Origin Compute:** Oracle Cloud Always Free Ampere A1 VM (`systemd` or non-root `Docker` + `cloudflared` Zero-Inbound Tunnel)
+> **Runtime:** Node `>=24` (major `24` pinned in `.nvmrc`; CI resolves the latest 24.x — `v24.22.0` at the 2026-10-21 verification) · **Frontend Edge:** Cloudflare Pages (`catalystlab-web`) · **API Reverse Proxy:** Cloudflare Worker (`catalystlab-api-proxy`) · **Origin Compute:** Oracle Cloud Always Free Ampere A1 VM (`systemd` or non-root `Docker` + `cloudflared` Zero-Inbound Tunnel)
 
 ---
 
@@ -47,6 +47,8 @@ Local Developer Workstation ─────────────────�
 ## Part 1 — Master Annotated Production `.env` Template (All 42 Parity-Verified Keys)
 
 > **Parity Rule (`scripts/check-env.mjs`):** `.env.example`, `.env.staging.example`, and `.env.production.example` enforce **exact 42-key schema parity** in CI (`npm run check:env`). Save populated values **only** on the target server at `/etc/catalystlab/catalystlab.env` (`chmod 0600`) — **never** inside the Git working tree.
+>
+> **Template state (2026-10-21):** the committed templates now ship all 42 keys — `PORT` and `NODE_ENV` included. `.env.example` (local) uses `NODE_ENV=development`; the staging and production templates use `NODE_ENV=production` (the server requires exactly `production` for hardened behavior). Verified: `npm run check:env` prints `42 parity-verified keys` in both local and CI modes.
 
 ```dotenv
 # ==============================================================================

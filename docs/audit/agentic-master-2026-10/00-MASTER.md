@@ -1,5 +1,7 @@
 # Master Audit Report — CatalystLab, New-Generation Optimization (re-run)
 
+> **Status (2026-10-21): dated record — kept verbatim as evidence, not rewritten.** Point-in-time master audit (newgen re-run). Findings were remediated the same day; the verified current state lives in [`docs/codebase/`](../../codebase/). Docs index: [`docs/README.md`](../../README.md).
+
 **Audited:** 2026-10-21 (re-run; supersedes the AR-rubric run of the same date) ·
 **Branch:** `arena/d85a5b1f-catalystlab` · **Scope:** every auditable unit of the
 CatalystLab system — 8 domains, the `scripts/` tool class, and the instruction

@@ -99,3 +99,24 @@ Phase 3 items 3.2, 3.5-3.8, 3.10-3.16 (telemetry ingest limit, public system
 detail endpoints, trusted-proxy hop count, demo seed removal, CSP tightening,
 `npm audit`, gitleaks, semgrep, the security review note and staging-only active
 testing).
+
+---
+
+## Owner answers — codebase-knowledge session (2026-10-21)
+
+The ten `[ASK USER]` questions raised by the regenerated `docs/codebase/CONCERNS.md` §6, answered by the owner in the Arena session of 2026-10-21 and implemented on branch `arena/8a8e3bc4-catalystlab` the same day. Rollout details: `docs/plan/rollout-pipeline-restore-2026-10-21.md`.
+
+| Q | Decision | Status | Owner answer | Implementation |
+|---|---|---|---|---|
+| Q43 | Restore the missing pipeline files (`.nvmrc`, `package-lock.json`, `.env.staging.example`, `.env.production.example`)? | answered | "regenerate … per D5/D6" | `.nvmrc` = `24` (D5); lockfile regenerated with npm (D6); both env templates restored with 40-key parity → **42-key parity** after the 2026-10-21 docs pass added `PORT`/`NODE_ENV` (deployment-guide Part 1 is the normative schema), prod `APP_ORIGIN=https://www.catalystlab.tech` + `PAYMENTS_ENABLED=false` (D14/Q32); `check:env` passes in local + CI mode (prints `42 parity-verified keys`) |
+| Q44 | SEC-2026-01 Atlas credential rotation + remote history purge? | answered (owner action) | "No, I'll rotate Atlas password" | Owner rotates the Atlas password out-of-band; no repo change. History in this clone is already the single squashed commit |
+| Q45 | Consolidate root `components/` into `src/components/`? | answered | "Yes" | 5 implementations + root `types/telemetry.ts` moved into `src/`; shim web deleted; `tsconfig.json` `@/*` single-root + `include` trimmed; `eslint.config.js` files list trimmed; typecheck/lint/suite green |
+| Q46 | Refresh README / `docs/ARCHITECTURE.md` to HEAD? | answered | "Yes" | Vite 8 / React 19 / Express 5, 36 test files, `src/lib/nodeEngines.ts`, dead `PRODUCTION_READINESS_AUDIT.md` link replaced with plan/decisions links, CI job inventory incl. new `python-tooling` job, mermaid labels fixed |
+| Q47 | Archive the 14 root codemods? | answered | "Move … to the archive/ that Q18 named but never created" | `archive/` created (14 scripts + README explaining each); root `patch.css` stays (Q37) |
+| Q48 | Purge committed artifacts/binaries? | answered | "Yes" | Deleted `.aistudio/`, `videos/`, `public/assets/aistudio/`, regenerable `assets/banners/hero-banner.png`, 4 zero-reference images in `src/assets/images/` (~4.4 MB); `.gitignore` += `.aistudio/`; referenced hero JPEGs verified already-efficiently-encoded (recompression gained only 7% ⇒ left untouched) |
+| Q49 | Single-commit history squash intentional? | answered | "Yes" | Recorded; churn analysis stays impossible by design; CODE_REVIEW.md hashes are historical references only |
+| Q50 | Hardcoded dev Cloud Run URL in `INITIAL_MONITORED_SITES`? | answered | "Do the best practices" | Seed URL now `${SITE_ORIGIN}/api/v1/system/health` (env-derived per Q42/D14, real health endpoint per Dockerfile/CI/runbook); stale "8 Python telemetry engines" note corrected to the D7 TypeScript reality |
+| Q51 | Empty `recaptchaSiteKey` in `firebase-applet-config.json`? | answered | "Don't know … do best practices" | Investigated: zero consumers repo-wide and not a standard Firebase web-config field ⇒ dead config removed; if bot protection is ever needed it returns with a real implementation |
+| Q52 | Wire the Python pytest suite into CI? | answered | "Wire up into CI" | New `python-tooling` job in `ci.yml` (Python 3.11: pytest 32 tests, ruff, mypy strict, black --check — all verified green locally before wiring) |
+
+Additional repair in the same session (no question raised): the 3 UI tests broken by the `d2c26ef` design refactor (`accessibilityAndContrast`, `partnerMarquee`, `unifiedNavigationMenu`) were re-based on the new hero/navbar contract, and `HeroSection.tsx` dead imports (`CoverFlowCarousel`, `PartnerMarquee`, `PRESETS`) were removed. `PartnerMarquee`/`CoverFlowCarousel` remain in the codebase as standalone components — re-surfacing them on the landing page is a future design decision, not part of this change.
