@@ -79,9 +79,9 @@ export const HeroSection: React.FC = () => {
             aria-label="Domain URL to audit"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            className="flex-1 bg-transparent border-none focus:ring-0 text-base px-4 min-h-[44px]"
+            className="flex-1 bg-transparent border-none focus:ring-0 text-base px-4 min-h-[var(--control-min-size)]"
           />
-          <button type="submit" className="ds-btn ds-btn-primary rounded-full min-h-[44px] px-6">
+          <button type="submit" className="ds-btn ds-btn-primary rounded-full min-h-[var(--control-min-size)] px-6">
             Run Instant Audit
           </button>
         </form>

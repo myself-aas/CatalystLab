@@ -68,7 +68,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
             <span className="text-xs font-semibold text-slate-200">{title}</span>
           </div>
           {isStreaming && (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#06B6D4]/10 text-[var(--chart-cyan)] border border-[#06B6D4]/30 animate-pulse">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#06B6D4]/10 text-[var(--chart-cyan)] border border-[#06B6D4]/30 animate-pulse">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--chart-cyan)]" />
               LIVE SSE
             </span>
@@ -78,7 +78,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
         {/* Controls */}
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           {/* Level Filter */}
-          <div className="flex items-center rounded-lg bg-slate-900 border border-slate-800 p-0.5 text-[10px]">
+          <div className="flex items-center rounded-lg bg-slate-900 border border-slate-800 p-0.5 text-[11px]">
             {(['all', 'info', 'warn', 'error', 'success'] as const).map(lvl => (
               <button
                 key={lvl}
@@ -110,18 +110,18 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
               isHovered ? (
                 <>
                   <Pause className="w-3 h-3 text-amber-400" />
-                  <span className="text-[10px] hidden sm:inline text-amber-300">Paused (Hover)</span>
+                  <span className="text-[11px] hidden sm:inline text-amber-300">Paused (Hover)</span>
                 </>
               ) : (
                 <>
                   <Pause className="w-3 h-3 text-[var(--chart-cyan)]" />
-                  <span className="text-[10px] hidden sm:inline">Auto-Scroll ON</span>
+                  <span className="text-[11px] hidden sm:inline">Auto-Scroll ON</span>
                 </>
               )
             ) : (
               <>
                 <Play className="w-3 h-3" />
-                <span className="text-[10px] hidden sm:inline">Locked</span>
+                <span className="text-[11px] hidden sm:inline">Locked</span>
               </>
             )}
           </button>
@@ -133,7 +133,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
             title="Copy Terminal Output"
           >
             {copied ? <Check className="w-3 h-3 text-[var(--chart-green)]" /> : <Copy className="w-3 h-3" />}
-            <span className="text-[10px] hidden sm:inline">{copied ? 'Copied' : 'Copy'}</span>
+            <span className="text-[11px] hidden sm:inline">{copied ? 'Copied' : 'Copy'}</span>
           </button>
 
           {/* Clear Logs */}
@@ -150,7 +150,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
       </div>
 
       {/* Filter search line */}
-      <div className="flex items-center gap-2 px-4 py-1.5 bg-black/40 border-b border-slate-800/60 text-xs z-20">
+      <div className="flex items-center gap-2 px-4 py-1.5 bg-black/40 border-b border-slate-800/60 text-xs z-20 focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
         <Filter className="w-3 h-3 text-slate-500" />
         <input
           type="text"
@@ -162,7 +162,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
         {filterQuery && (
           <button
             onClick={() => setFilterQuery('')}
-            className="text-[10px] text-slate-500 hover:text-slate-300"
+            className="inline-flex items-center px-1.5 rounded text-[11px] text-slate-500 hover:text-slate-300"
           >
             Clear
           </button>
@@ -200,11 +200,11 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
                 key={log.id}
                 className="flex items-start gap-2 leading-relaxed hover:bg-slate-900/60 px-1 py-0.5 rounded transition-colors group font-mono text-xs"
               >
-                <span className="text-slate-600 text-[10px] select-none flex-shrink-0 pt-0.5 w-16">
+                <span className="text-slate-600 text-[11px] select-none flex-shrink-0 pt-0.5 w-16">
                   {log.timestamp}
                 </span>
                 {log.engineId && (
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-800/90 text-[var(--chart-cyan)] border border-slate-700/60 flex-shrink-0 font-bold">
+                  <span className="text-[11px] px-1.5 py-0.2 rounded bg-slate-800/90 text-[var(--chart-cyan)] border border-slate-700/60 flex-shrink-0 font-bold">
                     {log.engineId}
                   </span>
                 )}
@@ -230,7 +230,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
       </div>
 
       {/* Terminal Status Footer */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#111726]/60 border-t border-slate-800 text-[10px] text-slate-500 z-20">
+      <div className="flex items-center justify-between px-4 py-2 bg-[#111726]/60 border-t border-slate-800 text-[11px] text-slate-500 z-20">
         <div className="flex items-center gap-3">
           <span>{filteredLogs.length} events streamed</span>
           <span>•</span>

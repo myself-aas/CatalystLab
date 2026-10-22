@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import type { EngineType } from '../../types';
 
 interface EngineChartsProps {
@@ -7,7 +7,7 @@ interface EngineChartsProps {
   metrics: any;
 }
 
-const COLORS = ['#F0FAFF', '#F0FAFF', '#F0FAFF', '#F0FAFF', '#FFFFFF'];
+const COLORS = ['var(--chart-cyan)', 'var(--chart-green)', 'var(--chart-amber)', 'var(--chart-red)', 'var(--chart-violet)', 'var(--chart-blue)', 'var(--chart-cyan-bright)'];
 
 export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics }) => {
   const data: { name: string; value: number }[] = Array.isArray(metrics?.plot1)
@@ -55,7 +55,8 @@ export const EngineCharts: React.FC<EngineChartsProps> = ({ engineType, metrics 
                   <Cell key={`${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#FFFFFF' }} />
+              <Tooltip contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', color: '#1F2937' }} />
+              <Legend verticalAlign="bottom" height={36} iconType="circle" formatter={(value: string) => <span style={{ color: 'var(--app-foreground)', fontSize: 11 }}>{value}</span>} />
             </PieChart>
           </ResponsiveContainer>
         </div>

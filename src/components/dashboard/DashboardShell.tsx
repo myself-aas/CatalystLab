@@ -326,7 +326,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
 
             <button
               onClick={handleLogout}
-              className="min-h-11 min-w-11 p-1.5 text-muted-foreground hover:text-foreground hover:bg-foreground/10 rounded-lg transition-colors cursor-pointer"
+              className="min-h-[var(--control-min-size)] min-w-11 p-1.5 text-muted-foreground hover:text-foreground hover:bg-foreground/10 rounded-lg transition-colors cursor-pointer"
               title="Sign Out"
             >
               <LogOut className="size-3.5" />
@@ -348,7 +348,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-background/70 backdrop-blur-md animate-fadeIn">
           <div className="w-full max-w-xl bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden font-sans">
             {/* Input row */}
-            <div className="flex items-center gap-3 p-4 border-b border-border">
+            <div className="flex items-center gap-3 p-4 border-b border-border focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
               <Search className="size-4 text-foreground shrink-0" />
               <input
                 type="text"

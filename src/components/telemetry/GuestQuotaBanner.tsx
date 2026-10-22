@@ -87,7 +87,7 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
                   : `${quota.remaining} of ${quota.limit} Scans Remaining Today`}
               </span>
               <span
-                className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider font-semibold border ${
+                className={`px-2 py-0.5 rounded-full text-[11px] font-mono uppercase tracking-wider font-semibold border ${
                   quota.tier === 'visitor'
                     ? 'bg-slate-800/80 text-slate-300 border-slate-700'
                     : 'bg-[#10B981]/10 text-[var(--chart-green)] border-[#10B981]/30'

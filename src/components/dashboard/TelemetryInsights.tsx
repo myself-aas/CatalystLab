@@ -46,7 +46,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <div className="space-y-1">
           {payload.map((entry: any, index: number) => (
             <div key={`item-${index}`} className="flex items-center justify-between gap-6">
-              <span className="text-muted-foreground uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+              <span className="text-muted-foreground uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                 <span className="size-2 rounded-full" style={{ backgroundColor: entry.color }} />
                 {entry.dataKey}:
               </span>
@@ -102,7 +102,7 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
 
         {/* Time-Range Dropdown Filter */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-background/50 border border-border text-xs font-mono text-muted-foreground">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-background/50 border border-border text-xs font-mono text-muted-foreground focus-within:ring-2 focus-within:ring-ring">
             <Calendar className="size-3.5 text-accent-bright" />
             <select
               value={timeRange}

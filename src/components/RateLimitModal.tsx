@@ -43,7 +43,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         <button
           onClick={onClose}
           aria-label="Close Rate Limit Modal"
-          className="min-h-11 min-w-11 absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="min-h-[var(--control-min-size)] min-w-11 absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <X className="h-5 w-5" />
         </button>

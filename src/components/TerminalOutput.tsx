@@ -439,7 +439,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
       {/* Filter and Search Bar for High-Density Cockpit */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-1.5 border-b border-border/80 bg-foreground/80 text-xs font-mono z-20">
-        <div className="flex items-center gap-2 flex-1 min-w-[200px]">
+        <div className="flex items-center gap-2 flex-1 min-w-[200px] rounded-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
           <Search className="h-3 w-3 text-muted-foreground shrink-0" />
           <input
             type="text"
@@ -452,7 +452,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           {filterQuery && (
             <button
               onClick={() => setFilterQuery('')}
-              className="text-[11px] text-muted-foreground hover:text-muted-foreground"
+              className="inline-flex items-center px-1.5 rounded text-[11px] text-muted-foreground hover:text-muted-foreground"
             >
               Clear
             </button>

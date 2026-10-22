@@ -219,7 +219,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                   <select
                     value={targetAsset}
                     onChange={(e) => setTargetAsset(e.target.value)}
-                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
                   >
                     <option>catalystlab.tech (Web Portal)</option>
                     <option>Diagnostic Container Workers (Cloud Run)</option>
@@ -236,7 +236,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                   <select
                     value={vulnType}
                     onChange={(e) => setVulnType(e.target.value)}
-                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
                   >
                     <option>Server-Side Request Forgery (SSRF)</option>
                     <option>Cross-Site Scripting (XSS)</option>
@@ -281,7 +281,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="researcher@secops.io"
-                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus:outline-none"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                 </div>
               </div>
@@ -296,7 +296,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                   value={details}
                   onChange={(e) => setDetails(e.target.value)}
                   placeholder="Provide exact HTTP request headers, payload reproduction steps, and impact assessment..."
-                  className="w-full rounded-lg border border-border bg-muted p-3 text-xs text-foreground focus:border-border focus:outline-none"
+                  className="w-full rounded-lg border border-border bg-muted p-3 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
               </div>
 

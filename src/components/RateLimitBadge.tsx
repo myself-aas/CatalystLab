@@ -87,7 +87,7 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
           <button
             type="button"
             onClick={onOpenInfo}
-            className="min-h-11 min-w-11 text-foreground hover:text-foreground p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="min-h-[var(--control-min-size)] min-w-11 text-foreground hover:text-foreground p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="View Rate Limit Tiers"
           >
             <Info className="h-3.5 w-3.5" />

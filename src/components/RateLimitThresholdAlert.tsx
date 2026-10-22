@@ -94,7 +94,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
           </div>
           <button
             onClick={handleRefresh}
-            className="min-h-11 min-w-11 text-muted-foreground hover:text-foreground p-1.5 rounded-lg hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="min-h-[var(--control-min-size)] min-w-11 text-muted-foreground hover:text-foreground p-1.5 rounded-lg hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Refresh quota status"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />
@@ -188,7 +188,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
             {onOpenRateLimitModal && (
               <button
                 onClick={onOpenRateLimitModal}
-                className="min-h-11 min-w-11 flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-h-[var(--control-min-size)] min-w-11 flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Info className="h-3.5 w-3.5" />
                 <span>Tier Details</span>
@@ -274,7 +274,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
 
             <button
               onClick={handleRefresh}
-              className="min-h-11 min-w-11 flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="min-h-[var(--control-min-size)] min-w-11 flex items-center justify-center gap-1.5 rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               title="Sync status with server"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />
@@ -318,7 +318,7 @@ export const RateLimitThresholdAlert: React.FC<RateLimitThresholdAlertProps> = (
           )}
           <button
             onClick={handleRefresh}
-            className="min-h-11 min-w-11 text-muted-foreground hover:text-foreground p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="min-h-[var(--control-min-size)] min-w-11 text-muted-foreground hover:text-foreground p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title="Refresh quota count"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${syncing ? 'animate-spin' : ''}`} />

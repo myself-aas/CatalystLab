@@ -167,7 +167,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
               <h3 className="font-semibold text-slate-100 text-sm md:text-base leading-snug">
                 {name}
               </h3>
-              <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono rounded-full bg-slate-800/80 text-slate-400 border border-slate-700/50">
+              <span className="hidden sm:inline-block px-2 py-0.5 text-[11px] font-mono rounded-full bg-slate-800/80 text-slate-400 border border-slate-700/50">
                 {config.badgeText}
               </span>
             </div>
@@ -201,7 +201,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
             >
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>{score}</span>
-              <span className="text-[10px] font-normal opacity-70">/100</span>
+              <span className="text-[11px] font-normal opacity-70">/100</span>
             </div>
           ) : status === 'ERROR' ? (
             <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#EF4444]/10 border border-[#EF4444]/30 text-[var(--chart-red)] text-xs font-mono">
@@ -329,10 +329,10 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
               className="relative mt-2 rounded-lg bg-black/70 border border-slate-800 p-3 font-mono text-[11px] text-slate-300 max-h-48 overflow-y-auto space-y-1 select-text"
             >
               <div className="sticky top-0 flex justify-between items-center pb-2 mb-1 border-b border-slate-800/80 bg-black/90 px-1 -mx-1 -mt-1 pt-1 z-10">
-                <span className="text-[10px] text-slate-400 uppercase tracking-wider">Engine Log Trace</span>
+                <span className="text-[11px] text-slate-400 uppercase tracking-wider">Engine Log Trace</span>
                 <button
                   onClick={handleCopyLogs}
-                  className="flex items-center gap-1 text-[10px] text-slate-400 hover:text-slate-200 bg-slate-800/80 px-2 py-0.5 rounded"
+                  className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-200 bg-slate-800/80 px-2 py-0.5 rounded"
                 >
                   {copiedLogs ? <Check className="w-3 h-3 text-[var(--chart-green)]" /> : <Copy className="w-3 h-3" />}
                   <span>{copiedLogs ? 'Copied' : 'Copy'}</span>
@@ -388,7 +388,7 @@ function MetricPill({
 
   return (
     <div className={`p-2 rounded-lg border flex flex-col justify-between ${getColors()}`}>
-      <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">{label}</span>
+      <span className="text-[11px] text-slate-400 font-mono uppercase tracking-wider">{label}</span>
       <span className="text-xs md:text-sm font-mono font-semibold truncate mt-0.5">{value}</span>
     </div>
   );

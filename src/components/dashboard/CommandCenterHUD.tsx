@@ -299,7 +299,7 @@ export const CommandCenterHUD: React.FC = () => {
                 <label className="text-[11px] text-muted-foreground block font-sans">
                   Inspect URL or Edge Hostname
                 </label>
-                <div className="flex items-center bg-muted/30 dark:bg-background border border-border rounded-xl px-3 py-1.5 focus-within:border-primary transition-colors">
+                <div className="flex items-center bg-muted/30 dark:bg-background border border-border rounded-xl px-3 py-1.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-ring transition-colors">
                   <span className="text-muted-foreground mr-1.5">&gt;</span>
                   <input
                     type="text"

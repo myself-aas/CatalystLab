@@ -1,5 +1,5 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend } from 'recharts';
 import { Activity, Users, Clock, Globe, ArrowUpRight } from 'lucide-react';
 import type { AuditReport } from '../../types';
 import { motion } from 'motion/react';
@@ -8,7 +8,7 @@ interface UserAnalyticsDashboardProps {
   reports?: AuditReport[];
 }
 
-const BRAND_COLORS = ['#F0FAFF', '#F0FAFF', '#F0FAFF', '#F0FAFF'];
+const BRAND_COLORS = ['var(--chart-cyan)', 'var(--chart-green)', 'var(--chart-amber)', 'var(--chart-violet)'];
 
 const mockTraffic = [
   { name: 'Mon', value: 400 },
@@ -94,13 +94,13 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   dataKey="name" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 10, fontFamily: 'monospace'}} 
+                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 11, fontFamily: 'monospace'}} 
                   dy={10} 
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 10, fontFamily: 'monospace'}} 
+                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 11, fontFamily: 'monospace'}} 
                   dx={-10} 
                 />
                 <Tooltip 
@@ -143,10 +143,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   ))}
                 </Pie>
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', color: '#FFFFFF' }}
-                  itemStyle={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: '12px' }}
-                  labelStyle={{ color: '#F0FAFF' }}
+                  contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', color: '#1F2937' }}
+                  itemStyle={{ color: '#1F2937', fontWeight: 'bold', fontSize: '12px' }}
+                  labelStyle={{ color: '#374151' }}
                 />
+                <Legend verticalAlign="bottom" height={36} iconType="circle" formatter={(value: string) => <span style={{ color: 'var(--app-foreground)', fontSize: 11 }}>{value}</span>} />
               </PieChart>
             </ResponsiveContainer>
           </div>

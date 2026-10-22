@@ -188,7 +188,7 @@ export const MeshNetworkSection: React.FC = () => {
                   placeholder="Filter by city, code, or region..."
                   value={filterQuery}
                   onChange={(e) => setFilterQuery(e.target.value)}
-                  className="w-full rounded-xl bg-primary/90 border border-border px-3 py-2 text-xs font-mono text-primary-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-cyan-500 transition-colors"
+                  className="w-full rounded-xl bg-primary/90 border border-border px-3 py-2 text-xs font-mono text-primary-foreground placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-cyan-500 transition-colors"
                 />
               </div>
 

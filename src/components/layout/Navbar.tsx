@@ -201,7 +201,7 @@ export const Navbar: React.FC = () => {
           to={item.to}
           onClick={() => setIsEnginesOpen(false)}
           className={cn(
-            'relative flex items-center gap-2 text-sm transition-all duration-200 focus:outline-none py-2 px-3 rounded-xl font-medium',
+            'relative flex items-center gap-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring py-2 px-3 rounded-xl font-medium',
             active
               ? 'text-foreground bg-[rgba(240,250,255,0.08)] shadow-sm'
               : 'text-[rgba(240,250,255,0.7)] hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]',
@@ -262,7 +262,7 @@ export const Navbar: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="text-foreground focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -ml-1 cursor-pointer rounded-full hover:bg-[rgba(240,250,255,0.08)]"
+              className="text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center -ml-1 cursor-pointer rounded-full hover:bg-[rgba(240,250,255,0.08)]"
               onClick={() => {
                 setIsMobileMenuOpen(true);
                 window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'));
@@ -272,7 +272,7 @@ export const Navbar: React.FC = () => {
               <Menu className="size-6 text-foreground stroke-[2.2]" />
             </motion.button>
 
-            <Link to="/" className="flex items-center gap-2 group focus:outline-none">
+            <Link to="/" className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <BrandLogo size="md" />
             </Link>
 
@@ -296,7 +296,7 @@ export const Navbar: React.FC = () => {
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setIsEnginesOpen(!isEnginesOpen)}
                 className={cn(
-                  "flex items-center gap-2 text-sm transition-all duration-200 focus:outline-none cursor-pointer py-2 px-3 rounded-xl font-medium",
+                  "flex items-center gap-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer py-2 px-3 rounded-xl font-medium",
                   isEnginesOpen 
                     ? "text-foreground bg-[rgba(240,250,255,0.08)] shadow-sm" 
                     : "text-[rgba(240,250,255,0.7)] hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]"
@@ -423,7 +423,7 @@ export const Navbar: React.FC = () => {
 
             <Link
               to="/pricing"
-              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition focus:outline-none"
+              className="p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-label="Store & Plans"
               title="Store & Plans"
             >
@@ -438,7 +438,7 @@ export const Navbar: React.FC = () => {
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition-colors cursor-pointer focus:outline-none"
+                  className="p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   aria-expanded={profileOpen}
                   aria-haspopup="menu"
                   aria-label="User Account"
@@ -483,7 +483,7 @@ export const Navbar: React.FC = () => {
             ) : (
               <Link
                 to="/login"
-                className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition focus:outline-none"
+                className="p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center rounded-full text-foreground hover:bg-foreground/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 aria-label="Sign in"
                 title="Sign in"
               >
@@ -493,7 +493,7 @@ export const Navbar: React.FC = () => {
 
             <Link
               to="/audit"
-              className="hidden sm:inline-flex bg-[#0064E0] hover:bg-[#0052CC] text-white font-semibold rounded-full px-5 py-2 text-sm shadow-md transition active:scale-95 focus:outline-none ml-1"
+              className="hidden sm:inline-flex bg-[#0064E0] hover:bg-[#0052CC] text-white font-semibold rounded-full px-5 py-2 text-sm shadow-md transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ml-1"
             >
               Shop
             </Link>

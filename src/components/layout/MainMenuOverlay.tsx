@@ -275,7 +275,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
               <div className="flex items-center justify-between pb-3.5 border-b border-border">
                 <Link
                   to="/"
-                  className="flex items-center gap-2 group cursor-pointer focus:outline-none"
+                  className="flex items-center gap-2 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   onClick={onClose}
                 >
                   <BrandLogo size="sm" showText={true} />
@@ -314,7 +314,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="p-1.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors cursor-pointer focus:outline-none"
+                    className="p-1.5 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     aria-label="Close navigation menu"
                   >
                     <X className="size-5" />

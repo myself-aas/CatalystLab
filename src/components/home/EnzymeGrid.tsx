@@ -46,7 +46,7 @@ const BarChartCard = ({ delay }: { delay: number }) => (
         </div>
       ))}
     </div>
-    <div className="flex justify-between text-[8px] sm:text-[11px] text-muted-foreground uppercase tracking-widest font-mono mb-6 sm:mb-8">
+    <div className="flex justify-between text-[11px] text-muted-foreground uppercase tracking-widest font-mono mb-6 sm:mb-8">
       <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
     </div>
     
@@ -131,7 +131,7 @@ const SegmentedThresholdCard = ({ delay }: { delay: number }) => (
                   transition={{ duration: 1, delay: delay + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   className="bg-background border border-white/10 rounded-xl sm:rounded-2xl relative flex items-end justify-center pb-2 sm:pb-3 shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
                 >
-                  <span className="text-[8px] sm:text-[11px] lg:text-xs font-mono text-foreground font-medium">{item.label}</span>
+                  <span className="text-[11px] lg:text-xs font-mono text-foreground font-medium">{item.label}</span>
                 </motion.div>
               </div>
             ))}
@@ -191,8 +191,8 @@ const LayeredCodeCard = ({ delay }: { delay: number }) => (
 const TimelineCard = ({ delay }: { delay: number }) => (
   <CardBase delay={delay}>
     <div className="flex justify-between items-start mb-6 sm:mb-8">
-      <span className="text-[8px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-widest">Migrations</span>
-      <span className="text-[8px] sm:text-[11px] font-mono text-foreground uppercase tracking-widest bg-foreground/10 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">AST</span>
+      <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-widest">Migrations</span>
+      <span className="text-[11px] font-mono text-foreground uppercase tracking-widest bg-foreground/10 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">AST</span>
     </div>
     
     <div className="flex-1 flex flex-col gap-3 sm:gap-5 mb-6 sm:mb-10 justify-center mt-auto">
@@ -235,7 +235,7 @@ const MetricCard = ({ delay }: { delay: number }) => (
     </div>
     
     <div className="flex flex-col mb-6 sm:mb-8 mt-auto">
-      <span className="text-[8px] sm:text-[11px] font-mono font-medium text-muted-foreground mb-1 sm:mb-2 uppercase tracking-widest">Success Rate</span>
+      <span className="text-[11px] font-mono font-medium text-muted-foreground mb-1 sm:mb-2 uppercase tracking-widest">Success Rate</span>
       <h3 className="text-3xl sm:text-6xl font-light text-foreground tracking-tighter mb-3 sm:mb-4">
         99<span className="text-xl sm:text-3xl text-muted-foreground">.8%</span>
       </h3>
@@ -250,7 +250,7 @@ const MetricCard = ({ delay }: { delay: number }) => (
             className="h-full bg-[#F0FAFF] rounded-full" 
           />
         </div>
-        <span className="text-[8px] sm:text-[11px] font-mono text-emerald-400 font-medium bg-[#F0FAFF]/10 px-1.5 sm:px-2 py-0.5 rounded">+1.2%</span>
+        <span className="text-[11px] font-mono text-emerald-400 font-medium bg-[#F0FAFF]/10 px-1.5 sm:px-2 py-0.5 rounded">+1.2%</span>
       </div>
     </div>
     

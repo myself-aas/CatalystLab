@@ -116,7 +116,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="relative z-10 w-full max-w-md mx-auto my-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
  {/* Top Brand Anchor */}
  <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
- <Link to="/" className="flex items-center gap-2 group focus:outline-none">
+ <Link to="/" className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
  <BrandLogo size="sm" />
  <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
  Catalyst<span className="text-foreground">Lab</span>
@@ -147,14 +147,14 @@ export const ForgotPasswordPage: React.FC = () => {
 
  {/* Error Display */}
  {(localError || authError?.message) && (
- <div className="mb-5 p-3 rounded-xl bg-[#FFFFFF]/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
+ <div id="forgot-form-error" role="alert" tabIndex={-1} className="mb-5 p-3 rounded-xl bg-[#FFFFFF]/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
  <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
  <span>{localError || authError?.message}</span>
  </div>
  )}
 
  {/* Form */}
- <form onSubmit={handleSubmit} className="space-y-4">
+ <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={(localError || authError?.message) ? 'forgot-form-error' : undefined}>
  <div>
  <label className="ds-label block mb-1.5">
  Authorized Workspace Email

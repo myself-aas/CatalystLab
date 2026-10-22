@@ -27,7 +27,7 @@ export const PresetChip: React.FC<PresetChipProps> = ({
       onClick={() => onSelectDomain?.(domain)}
       className={twMerge(
         clsx(
-          'inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 min-h-[44px] sm:min-h-0 rounded-full font-mono text-xs transition duration-200 cursor-pointer select-none whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
+          'inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 min-h-[var(--control-min-size)] sm:min-h-0 rounded-full font-mono text-xs transition duration-200 cursor-pointer select-none whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400',
           selected
             ? 'bg-[#F0FAFF]/20 text-cyan-300 border border-cyan-400/50 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
             : 'bg-primary/80 hover:bg-primary-hover/90 text-muted-foreground hover:text-primary-foreground border border-border/70 hover:border-border',

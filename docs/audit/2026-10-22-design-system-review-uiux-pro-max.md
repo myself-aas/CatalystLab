@@ -88,3 +88,42 @@ categories, searchable data (ux-guidelines/styles/colors/typography/charts/icons
 ## Verdict
 
 System is coherent, token-driven, and accessibility-strong post theme-remediation (P1/P5/P9/P10 clean). Residual debt concentrates in **focus-indicator hygiene (A1)**, **small touch targets (A2)**, and **literal-color/typography-role drift (T1/T2)** — all catalogued with rule citations and repo evidence above.
+
+---
+
+## Remediation log — R1–R5 implemented (2026-10-22)
+
+Executed the same day as the audit, on branch `arena/d95acddd-catalystlab`. Recommendation numbers refer to the list above.
+
+**R1 — focus-indicator hygiene (A1): DONE.**
+All 45 ring-less `focus:outline-none`/`outline-none` sites triaged:
+- 32 interactive elements (nav links, icon buttons, switches, stretched links, bordered inputs/selects/textareas) now carry the repo-canonical `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring` (Sidebar keeps its local `ring-accent` variant; the DiagnosticHub stretched link gained `rounded-[inherit]`).
+- Invisible `focus:border-background` indicators removed (BlogManagementView, HeroImageLivePreview, UserBlogManagementView).
+- 9 borderless inputs inside styled containers (cmd-K rows, terminal prompts, filter bars, nav search, time-range pill) keep `outline-none` but their **wrappers** now expose `focus-within:ring-2 focus-within:ring-ring` (ring-inset where flush to a panel edge); NavbarSearch's open-state ring upgrades via `focus-within:ring-ring`; CommandCenterHUD's wrapper pairs the ring with its existing `focus-within:border-primary`.
+- 2 intentionally left: `EngineInput` (wrapper already had focus-within border+ring) and `CatalystCarouselRail` scroll container (not focusable).
+- Verified live: 25-stop keyboard tab-sweep at 375px on 6 routes → **0 stops without a visible indicator**.
+
+**R2 — touch targets (A2): DONE.**
+- Footer: column links (`inline-flex items-center min-w-[var(--control-min-size)]`), legal links (`inline-flex items-center`) → measured **44×44** (was 32×15); social buttons `size-9`→`size-11 shrink-0` + `flex-wrap` container (were flex-shrunk to 25px in narrow mobile columns) → measured **44×44**.
+- New base-layer rule: `input[type="checkbox"], input[type="radio"]` exempt from the 44px control height but held to the WCAG 2.5.8 **24px minimum** (fixes 13×44 stretched checkboxes app-wide).
+- Password-visibility toggles (Login/SignUp) rebuilt as centered 44px hits; text-only clear buttons (TerminalOutput, LiveTerminalStream) padded to ≥24px; “Create an account”/“Log in to console” links blockified so the base min-height applies.
+- Re-probe at 375×844 (`/`, `/login`, `/signup`, `/contact`, `/blogs`, `/products`, `/pricing`): **AA failures (<24px) 0 on every route** (was: 32×15 footer links, 25px socials, 21×44 “API”, 16px eye toggles, 13px checkboxes); no horizontal overflow anywhere; residual under-44 elements (4–7/route) are ≥24px dense-UI affordances (TOP button, skip link, nav icon rows) allowed by the WCAG-24 criterion.
+
+**R3 — raw color literals (T1): PARTIAL (ratchet in place, mass migration deferred).**
+- New CI gate `scripts/check-raw-color-literals.mjs` (`npm run check:colors`, wired into `npm run ci`): counts all raw hex literals in `src/**/*.ts(x)` and fails above a frozen baseline of **923** (across 152 files) — new color decisions must use tokens; tighten the baseline as literals are tokenized.
+- Targeted tokenization done en route: chart pie slices `COLORS`/`BRAND_COLORS` moved from indistinguishable `#F0FAFF` repeats to theme-aware `var(--chart-*)` (this also closes the only genuine color-only encoding found — see R5 note), Footer brand-link `ring-[#F0FAFF]` → `ring-ring`, and recharts tooltip text colors fixed from white-on-#F3F4F6 (illegible) to #1F2937.
+- The remaining ~900 literals are legacy debt for a dedicated migration pass (would touch 150+ files); the ratchet prevents growth.
+
+**R4 — 8–10px typography (T2): DONE.**
+All 28 sub-11px sites consolidated to the 11px data role: `text-[8px]/[9px]/[10px]` → `text-[11px]` (EnzymeGrid mobile labels, LiveTerminalStream, NavbarSearch, MasterTelemetryGrid, DiagnosticConsoleCard, TelemetryInsights, GuestQuotaBanner, dashboard-sidebar), redundant `text-[8px] sm:text-[11px]` responsive pairs collapsed, and the UserAnalyticsDashboard axis ticks `fontSize: 10` → `11`. Live 375px probe: tiny-text (<11px) count **0** on all re-probed routes (was 15 on `/`).
+
+**R5 — `--control-min-size` consumption (A3): DONE.**
+All 29 hardcoded control-size literals (`min-h-[44px]` ×11, `min-w-[44px]` ×5, `min-h-11` ×13) across 14 files now consume `min-h-[var(--control-min-size)]` / `min-w-[var(--control-min-size)]`, matching the token's definition (index.css) and the base-layer `:where(button, a, input, select, textarea)` rule; the footer social/link fixes above add two more consumers.
+
+**Bonus (R6 forms + chart pass, landed in the same change):**
+- Forms pass per rec 6 delivered as [`docs/forms.md`](../forms.md): Login/SignUp/ForgotPassword error banners gained `role="alert"` + `tabIndex={-1}` + ids referenced by conditional `aria-describedby` on their forms; ContactPage's blocking `alert()` replaced with an inline `role="alert"` banner and its success panel became a focusable `role="status"` region that receives focus.
+- Charts (rec list had none outstanding; verification found two real defects, both fixed): the EngineCharts and UserAnalyticsDashboard pies rendered **4–5 identical `#F0FAFF` slices with no legend** — now theme-token colored with `<Legend>`; illegible tooltip text colors corrected. TelemetryInsights (4 gradient cards, titled single-series + Tooltip) and BenchmarkCard (labeled category axis + Tooltip) verified not-color-alone.
+
+**Gates after remediation:** `tsc --noEmit` clean · `eslint .` clean · vitest **330/330** · `check:design` pass · `check:colors` ratchet pass (923 ≤ 923) · 375×844 probe: 0 AA target failures, 0 horizontal overflow, 0 focus stops without indicator on 6 routes.
+
+**Still open (not in R1–R5 scope):** R3 full literal migration (ratchet holds the line), rec 7 perf items (AVIF/WebP plates, font `size-adjust`/preload, landscape probe).

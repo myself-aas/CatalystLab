@@ -101,7 +101,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={toggleAutoStream}
-            className={`min-h-11 min-w-11 p-1.5 rounded-lg border transition cursor-pointer flex items-center gap-1 text-[11px] ${
+            className={`min-h-[var(--control-min-size)] min-w-11 p-1.5 rounded-lg border transition cursor-pointer flex items-center gap-1 text-[11px] ${
               autoStreamActive 
                 ? 'bg-[#F0FAFF]/10 border-emerald-500/30 text-emerald-400 hover:bg-[#F0FAFF]/20' 
                 : 'bg-muted border-border text-muted-foreground hover:text-muted-foreground'
@@ -124,7 +124,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={clearLogs}
-            className="min-h-11 min-w-11 p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 hover:border-rose-500/30 transition-colors cursor-pointer"
+            className="min-h-[var(--control-min-size)] min-w-11 p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 hover:border-rose-500/30 transition-colors cursor-pointer"
             title="Clear logs"
           >
             <Trash2 className="h-3 w-3" />

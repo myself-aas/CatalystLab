@@ -129,7 +129,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
         whileTap={{ scale: 0.97 }}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex min-h-[44px] items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-colors cursor-pointer backdrop-blur-md ${
+        className={`flex min-h-[var(--control-min-size)] items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-colors cursor-pointer backdrop-blur-md ${
           isSimulating
             ? 'border-amber-400/60 bg-amber-950/80 text-amber-200 hover:bg-amber-900/90'
             : 'border-border bg-background/90 text-foreground hover:bg-muted'

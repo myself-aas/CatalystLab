@@ -318,7 +318,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
       </div>
 
       {/* Command Input Prompt */}
-      <div className="p-3 bg-card border-t border-border flex items-center gap-2">
+      <div className="p-3 bg-card border-t border-border flex items-center gap-2 focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
         <span aria-hidden="true" className="text-cyan-400 font-bold select-none">&gt;_</span>
         <input
           ref={inputRef}

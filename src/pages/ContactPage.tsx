@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import contactImage from '../assets/images/page-contact.jpg';
 import { 
+ AlertCircle,
  ArrowRight,
  Send,
  RotateCw,
@@ -31,6 +32,14 @@ export const ContactPage: React.FC = () => {
  const [message, setMessage] = useState('');
  const [isSubmitting, setIsSubmitting] = useState(false);
  const [honeypot, setHoneypot] = useState('');
+ const [submitError, setSubmitError] = useState<string | null>(null);
+ const successPanelRef = useRef<HTMLDivElement>(null);
+
+ // Move focus to the success panel when the form is replaced, so keyboard
+ // and screen-reader users are not dropped back to <body> (forms pass, R4).
+ useEffect(() => {
+   if (submitted) successPanelRef.current?.focus();
+ }, [submitted]);
 
  const departments = [
  { id: 'technical', label: 'Technical Audit' },
@@ -42,6 +51,7 @@ export const ContactPage: React.FC = () => {
  const handleSubmit = async (e: React.FormEvent) => {
  e.preventDefault();
  setIsSubmitting(true);
+ setSubmitError(null);
  try {
  const id = await submitContactInquiry({
  name,
@@ -60,7 +70,7 @@ export const ContactPage: React.FC = () => {
  setSubmitted(true);
  } catch (error) {
  logger.error('Failed to transmit support ticket', error as Error);
- alert('Transmission failed. Please attempt again or reach out to support@catalystlab.tech directly.');
+ setSubmitError('Transmission failed. Please attempt again or reach out to support@catalystlab.tech directly.');
  } finally {
  setIsSubmitting(false);
  }
@@ -117,7 +127,7 @@ export const ContactPage: React.FC = () => {
  
  <div className="relative z-10 ds-card bg-surface/90 backdrop-blur-xl border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
  {submitted ? (
- <div className="flex flex-col items-center justify-center text-center gap-4">
+ <div ref={successPanelRef} role="status" tabIndex={-1} className="flex flex-col items-center justify-center text-center gap-4">
  <div className="size-16 rounded-full bg-[#F0FAFF]/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
  <Send className="size-8" />
  </div>
@@ -136,7 +146,13 @@ export const ContactPage: React.FC = () => {
  </button>
  </div>
  ) : (
- <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+ <form onSubmit={handleSubmit} className="flex flex-col gap-5" aria-describedby={submitError ? 'contact-form-error' : undefined}>
+ {submitError && (
+  <div id="contact-form-error" role="alert" tabIndex={-1} className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-xs text-rose-300 flex items-start gap-2.5">
+   <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
+   <p className="font-medium text-rose-200 leading-snug">{submitError}</p>
+  </div>
+ )}
  {/* Honeypot anti-bot field (hidden from humans; bots fill it) */}
  <div className="hidden" aria-hidden="true">
  <label htmlFor="contact-website">Website</label>

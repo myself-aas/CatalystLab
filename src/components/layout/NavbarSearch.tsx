@@ -339,7 +339,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
         transition={{ type: 'spring', stiffness: 450, damping: 35 }}
         className={`relative flex items-center h-10 rounded-full transition-colors overflow-visible ${
           isOpen
-            ? 'bg-background border border-accent/50 text-foreground shadow-lg ring-2 ring-accent/20 px-2'
+            ? 'bg-background border border-accent/50 text-foreground shadow-lg ring-2 ring-accent/20 focus-within:ring-ring px-2'
             : 'hover:bg-foreground/15 text-foreground transition-colors'
         }`}
       >
@@ -396,7 +396,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   setIsOpen(false);
                   setQuery('');
                 }}
-                className="px-1.5 py-0.5 rounded-md text-[10px] font-mono shrink-0 transition-colors bg-foreground/10 text-foreground-muted hover:text-foreground"
+                className="px-1.5 py-0.5 rounded-md text-[11px] font-mono shrink-0 transition-colors bg-foreground/10 text-foreground-muted hover:text-foreground"
                 title="Close search"
               >
                 Esc
@@ -417,7 +417,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
             className="absolute right-0 top-full mt-2 w-72 sm:w-88 rounded-2xl border border-border bg-background/95 shadow-xl z-50 overflow-hidden font-mono text-xs backdrop-blur-xl text-foreground"
           >
             {/* Header label inside dropdown */}
-            <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-muted/30 text-[10px] uppercase tracking-wider text-foreground-muted">
+            <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-muted/30 text-[11px] uppercase tracking-wider text-foreground-muted">
               <span>{query ? `Results for "${query}"` : 'Quick Jump'}</span>
               <span>↑↓ / ↵</span>
             </div>
@@ -434,7 +434,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                   }, {} as Record<string, SearchSuggestionItem[]>)
                 ).map(([category, items]) => (
                   <div key={category} className="space-y-1">
-                    <div className="px-2 py-0.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-foreground-muted/70">
+                    <div className="px-2 py-0.5 text-[11px] font-mono font-semibold uppercase tracking-wider text-foreground-muted/70">
                       {category}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
@@ -454,7 +454,7 @@ export const NavbarSearch: React.FC<NavbarSearchProps> = ({ isScrolled }) => {
                           >
                             <div className="min-w-0">
                               <div className="text-xs font-medium text-foreground truncate">{item.title}</div>
-                              <div className="text-[10px] text-foreground-muted/80 line-clamp-1 mt-0.5">{item.description}</div>
+                              <div className="text-[11px] text-foreground-muted/80 line-clamp-1 mt-0.5">{item.description}</div>
                             </div>
                           </div>
                         );

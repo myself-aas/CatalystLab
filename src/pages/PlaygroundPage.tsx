@@ -752,7 +752,7 @@ func main() {
  rows={8}
  value={rawJsonPayload}
  onChange={(e) => setRawJsonPayload(e.target.value)}
- className="ds-card w-full p-3 text-xs font-mono focus:outline-none focus:border-[#F0FAFF]"
+ className="ds-card w-full p-3 text-xs font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-[#F0FAFF]"
  placeholder="{\n &quot;engine&quot;: &quot;health&quot;,\n &quot;url&quot;: &quot;https://example.com&quot;\n}"
  />
  </div>

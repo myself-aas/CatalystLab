@@ -104,7 +104,7 @@ export const BlogsPage: React.FC = () => {
               placeholder="Search articles"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-muted text-foreground rounded-full py-3 pl-11 pr-11 text-sm outline-none border border-foreground/10 focus:border-foreground/20 transition-colors placeholder:text-muted-foreground shadow-[inset_0_1px_0_rgba(240,250,255,0.04)]"
+              className="w-full bg-muted text-foreground rounded-full py-3 pl-11 pr-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring border border-foreground/10 focus:border-foreground/20 transition-colors placeholder:text-muted-foreground shadow-[inset_0_1px_0_rgba(240,250,255,0.04)]"
             />
             <button type="button" aria-label="Filter articles" className="absolute right-3 top-1/2 -translate-y-1/2 size-8 rounded-full bg-background border border-foreground/10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
               <Sliders className="w-3.5 h-3.5" />

@@ -664,6 +664,13 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     min-height: var(--control-min-size);
   }
 
+  /* Checkbox/radio are exempt from the 44px control height but must still
+     meet the WCAG 2.5.8 minimum 24x24 target (design-system audit 2026-10-22, R2). */
+  :where(input[type="checkbox"], input[type="radio"]) {
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+  }
+
   :where(a, button) {
     -webkit-tap-highlight-color: transparent;
   }

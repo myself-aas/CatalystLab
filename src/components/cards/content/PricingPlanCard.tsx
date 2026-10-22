@@ -174,7 +174,7 @@ export const PricingPlanCard: React.FC<PricingPlanCardProps> = ({
         <button
           onClick={onCtaClick}
           disabled={ctaDisabled}
-          className={`w-full min-h-[44px] py-3 px-6 rounded-full font-sans text-sm font-bold transition shadow-sm cursor-pointer ${
+          className={`w-full min-h-[var(--control-min-size)] py-3 px-6 rounded-full font-sans text-sm font-bold transition shadow-sm cursor-pointer ${
             isPopular
               ? 'bg-[#0064E0] hover:bg-[#0457CB] text-white shadow-[0_4px_14px_0_rgba(0,100,224,0.35)]'
               : 'bg-primary hover:bg-primary-hover text-primary-foreground border border-transparent'

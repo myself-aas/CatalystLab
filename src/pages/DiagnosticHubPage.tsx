@@ -296,7 +296,7 @@ export const DiagnosticHubPage: React.FC = () => {
  
  <Link
  to={ENGINES_MAP[engine.id]?.route || '/hub'}
- className="absolute inset-0 z-20 focus:outline-none"
+ className="absolute inset-0 z-20 rounded-[inherit] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
  />
  
  <div className="absolute bottom-4 right-4 flex items-center gap-1 text-xs font-medium text-foreground opacity-0 group-hover/widget:opacity-100 transition-opacity z-30">

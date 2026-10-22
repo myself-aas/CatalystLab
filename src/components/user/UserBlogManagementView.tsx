@@ -152,7 +152,7 @@ export const UserBlogManagementView: React.FC = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter your articles by title, topic, or keyword..."
-          className="w-full ds-control bg-background border border-border pl-9 pr-4 py-2.5 text-xs text-foreground placeholder:ds-muted focus:border-primary focus:outline-none"
+          className="w-full ds-control bg-background border border-border pl-9 pr-4 py-2.5 text-xs text-foreground placeholder:ds-muted focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       </div>
 

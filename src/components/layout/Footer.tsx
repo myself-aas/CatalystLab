@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
             <div className="flex flex-col space-y-6">
               <Link 
                 to="/" 
-                className="inline-flex items-center gap-2 transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0FAFF] rounded-lg"
+                className="inline-flex items-center gap-2 transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
                 aria-label="CatalystLab home"
               >
                 <BrandLogo size="md" />
@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
               <h4 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
                 Connect
               </h4>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 {[
                   { icon: Code2, label: 'GitHub', href: 'https://github.com' },
                   { icon: Share2, label: 'Twitter', href: 'https://twitter.com' },
@@ -65,7 +65,7 @@ export const Footer: React.FC = () => {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="size-9 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-muted-foreground hover:text-foreground transition shadow-2xs group"
+                    className="size-11 shrink-0 rounded-lg border border-border bg-surface hover:bg-surface-elevated hover:border-border-strong flex items-center justify-center text-muted-foreground hover:text-foreground transition shadow-2xs group"
                     aria-label={`CatalystLab on ${social.label}`}
                   >
                     <social.icon className="size-4.5 transition-transform group-hover:scale-110" />
@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
                 <li key={item.label}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -104,7 +104,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -123,7 +123,7 @@ export const Footer: React.FC = () => {
                 <li key={item.id}>
                   <Link
                     to={item.to}
-                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
+                    className="inline-flex items-center min-w-[var(--control-min-size)] text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-150 hover:pl-1 transition"
                   >
                     {item.label}
                   </Link>
@@ -151,7 +151,7 @@ export const Footer: React.FC = () => {
               <Link
                 key={item.to}
                 to={item.to}
-                className="text-xs font-mono text-muted-foreground transition-colors hover:text-foreground"
+                className="inline-flex items-center text-xs font-mono text-muted-foreground transition-colors hover:text-foreground"
               >
                 {item.label}
               </Link>

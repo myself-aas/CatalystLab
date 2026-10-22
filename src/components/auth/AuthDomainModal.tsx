@@ -64,7 +64,7 @@ export const AuthDomainModal: React.FC = () => {
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="min-h-11 min-w-11 absolute right-4 top-4 rounded-xl p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="min-h-[var(--control-min-size)] min-w-11 absolute right-4 top-4 rounded-xl p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Close dialog"
         >
           <X className="h-5 w-5" />
@@ -100,7 +100,7 @@ export const AuthDomainModal: React.FC = () => {
             </div>
             <button
               onClick={handleCopyDomain}
-              className={`min-h-11 min-w-11 flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition shrink-0 ${
+              className={`min-h-[var(--control-min-size)] min-w-11 flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition shrink-0 ${
                 copied 
                   ? 'bg-emerald-600 text-primary-foreground' 
                   : 'bg-muted-foreground text-primary-foreground hover:bg-muted-foreground/80'

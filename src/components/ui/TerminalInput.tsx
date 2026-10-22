@@ -118,7 +118,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
         )}
 
         {/* Command Line Input Row */}
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 px-2">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2 px-2 rounded-lg focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
           {/* Prompt Indicator */}
           <div aria-hidden="true" className="flex items-center gap-1.5 shrink-0 select-none text-xs sm:text-sm font-mono font-bold">
             <span className="text-emerald-400 hidden sm:inline">{promptPrefix}</span>

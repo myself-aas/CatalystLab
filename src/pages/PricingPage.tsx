@@ -122,7 +122,7 @@ export default function PricingPage() {
  )}
  </div>
  <h2 className="framer-card-title text-foreground">{plan.name}</h2>
- <p className="mt-2 min-h-[44px] framer-body-text text-sm">{plan.tagline}</p>
+ <p className="mt-2 min-h-[var(--control-min-size)] framer-body-text text-sm">{plan.tagline}</p>
  <div className="mt-6 flex items-baseline gap-1 border-y border-border py-4">
  <span className="font-mono text-4xl font-semibold tracking-tight text-foreground">${price}</span>
  <span className="font-mono text-sm text-muted-foreground">/mo</span>

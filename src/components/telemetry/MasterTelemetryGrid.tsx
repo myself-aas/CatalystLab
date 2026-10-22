@@ -206,7 +206,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
           <div className="flex items-center gap-4">
             {/* Score Ring */}
             <div className="relative w-16 h-16 rounded-xl bg-slate-900/90 border border-slate-700 flex flex-col items-center justify-center shadow-inner">
-              <span className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Index</span>
+              <span className="text-[11px] text-slate-400 font-mono uppercase tracking-wider">Index</span>
               <span className="text-xl font-bold font-mono text-slate-100">{isScanning ? '--' : overallScore}</span>
             </div>
 
@@ -373,7 +373,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold text-slate-100">{engine.name}</h4>
-                    <span className="text-[10px] text-slate-400 font-mono">{engine.sdlcPhase}</span>
+                    <span className="text-[11px] text-slate-400 font-mono">{engine.sdlcPhase}</span>
                   </div>
                 </div>
 
@@ -383,11 +383,11 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
                       {score}/100
                     </span>
                   ) : isEngineActive ? (
-                    <span className="px-2 py-0.5 rounded-md font-mono text-[10px] text-[var(--chart-cyan)] bg-[#06B6D4]/10 border border-[#06B6D4]/30 animate-pulse">
+                    <span className="px-2 py-0.5 rounded-md font-mono text-[11px] text-[var(--chart-cyan)] bg-[#06B6D4]/10 border border-[#06B6D4]/30 animate-pulse">
                       RUNNING
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 rounded-md font-mono text-[10px] text-slate-500 bg-slate-800 border border-slate-700">
+                    <span className="px-2 py-0.5 rounded-md font-mono text-[11px] text-slate-500 bg-slate-800 border border-slate-700">
                       STANDBY
                     </span>
                   )}
