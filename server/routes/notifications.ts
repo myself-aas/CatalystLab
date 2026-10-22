@@ -211,6 +211,10 @@ app.post('/api/notifications/webhook/dispatch', async (req: Request, res: Respon
   try {
     if (!requireSuperadminInProduction(req, res)) return;
     const { slackWebhookUrl, discordWebhookUrl, genericWebhookUrl, webhookSecret, payload } = req.body;
+    if (!slackWebhookUrl && !discordWebhookUrl && !genericWebhookUrl) {
+      res.status(400).json({ success: false, error: 'At least one webhook URL is required.' });
+      return;
+    }
     const results: Record<string, any> = {};
 
     if (slackWebhookUrl) {
