@@ -1,252 +1,140 @@
 import React from 'react';
-import localBgImage from '../../assets/images/page-methodology.jpg';
 import { Link } from 'react-router-dom';
-import { Info, CheckCircle2, Server, Cpu, Database, Activity, Play, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
-import { DocsLayout, CodeSnippet } from '../../components/docs/DocsLayout';
-import { ParallaxSection } from '../../components/common/ParallaxSection';
+import { Info, ArrowRight } from 'lucide-react';
+import { DocsLayout } from '../../components/docs/DocsLayout';
+import { ENGINES_MAP } from '../../data/engines';
+
+const PRINCIPLES = [
+  {
+    title: 'Sub-second determinism',
+    body: 'Every audit returns within 800 ms to 2.5 s with no cold boot, so it can sit inside a CI gate.',
+  },
+  {
+    title: 'Zero-trust targeting',
+    body: 'SSRF mitigation, memory caps, and process timeouts protect the platform from a hostile target.',
+  },
+  {
+    title: 'One output schema',
+    body: 'All eight engines emit the same JSON shape: a 0–100 score, pass/fail status, and remediation notes.',
+  },
+  {
+    title: 'Durable permalinks',
+    body: 'A saved audit gets a permanent URL (/reports/<domain>), so a reading can be shared or cited.',
+  },
+];
 
 export const SystemOverviewDoc: React.FC = () => {
  return (
  <DocsLayout
  title="System Overview & Philosophy"
- description="System overview, core architectural tenets, non-evaluating streaming telemetry, and the 8 automated diagnostic engines of CatalystLab."
+ description="How CatalystLab measures a domain without executing its scripts: streaming TLS probes, AST parsing, and eight engines writing one telemetry schema."
  canonicalPath="/docs"
  >
- {/* Hero Header */}
  <section id="overview-philosophy" className="space-y-4">
- <h1 className="text-4xl sm:text-5xl font-display font-medium text-foreground">
- System Overview & Engineering Philosophy
+ <h1 className="text-4xl font-display font-medium text-foreground sm:text-5xl">
+ System overview
  </h1>
- <p className="text-base text-foreground-muted leading-relaxed">
- CatalystLab is an enterprise-grade automated telemetry and web quality intelligence platform. It orchestrates synchronous diagnostics across 8 isolated evaluation modules to measure Core Web Vitals, AI LLM crawler accessibility, Git repository hygiene, multi-region edge latency, OWASP compliance, and green hosting carbon metrics.
+ <p className="text-base leading-relaxed text-foreground-muted">
+ CatalystLab measures a site the way a lab measures a sample: eight engines each
+ run one assay against a domain and write the reading into a single telemetry
+ schema. The engines cover Core Web Vitals, edge latency, transport security and
+ OWASP headers, repository hygiene, carbon, platform migration, AI crawlability,
+ and AI search visibility.
  </p>
  </section>
 
- {/* Immersive Docs Parallax Banner */}
- <ParallaxSection
- bgImage={localBgImage}
- overlayOpacity={0.88}
- height="min-h-[260px]"
- className="rounded-xl overflow-hidden my-6 border border-border"
- >
- <div className="ds-page-shell ds-section">
- <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground py-1 text-xs font-mono font-bold uppercase tracking-wider">
- Zero-Eval Architecture
- </span>
- <h2 className="text-2xl sm:text-3xl font-display font-medium text-foreground tracking-normal">
- Deterministic Telemetry &amp; TLS Probing
+ <section id="zero-eval-model" className="space-y-3">
+ <h2 className="text-2xl font-display font-medium text-foreground">
+ Nothing on your site is executed
  </h2>
- </div>
- </ParallaxSection>
-
- {/* Callout Note */}
- <section id="zero-eval-model" className="space-y-4">
- <div className="rounded-xl border border-border bg-surface p-5 text-sm text-foreground">
- <div className="flex items-start gap-3">
- <Info className="h-5 w-5 text-primary shrink-0 mt-0.5"/>
- <div className="space-y-2">
- <h2 className="font-bold text-foreground text-base">Zero Client-Script Execution Model</h2>
- <p className="leading-relaxed">
- Unlike traditional headless browser clusters (Puppeteer / Playwright) that load and execute unvetted client-side JavaScript—introducing security vulnerabilities, crypto-mining risks, and high memory overhead—CatalystLab utilizes high-speed non-evaluating streaming HTTP/TLS socket timing probes, Abstract Syntax Tree (AST) HTML parsers, and DNS anycast radars.
+ <div className="flex items-start gap-3 rounded-xl border border-border bg-surface p-5">
+ <Info className="mt-0.5 h-5 w-5 shrink-0 text-info" aria-hidden="true" />
+ <div className="space-y-2 text-sm leading-relaxed text-foreground">
+ <p>
+ CatalystLab does not load the target page in a headless browser. A headless
+ cluster executes unvetted client-side JavaScript, which brings crypto-mining
+ and memory-exhaustion risk into the scanning infrastructure and makes a
+ reading depend on which browser version ran it.
  </p>
- <p className="leading-relaxed">
- This delivers sub-second deterministic telemetry while protecting host infrastructure and providing tamper-free diagnostic repeatability.
+ <p>
+ Instead the engines use non-evaluating streaming HTTP and TLS socket timing
+ probes, AST HTML parsing, and DNS anycast measurements. The same URL therefore
+ produces the same reading, and the platform never holds a page&apos;s payload.
  </p>
- </div>
  </div>
  </div>
  </section>
 
- 
- {/* Key Architectural Tenets */}
  <section className="space-y-4 ds-section">
- <h2 className="text-2xl font-display font-medium text-foreground">Four Core Principles</h2>
- 
-      <blockquote className="my-6 rounded-lg bg-surface p-4">
- <p className="text-foreground m-0 text-sm flex items-center gap-2 font-medium">
- <ShieldCheck className="size-4 text-cream/60" />
- <strong>Architectural Warning:</strong> CatalystLab is a strict non-evaluating telemetry layer. It never stores payload data locally and operates in a purely ephemeral streaming context to ensure compliance with SOC2 Type II constraints.
- </p>
- </blockquote>
-
- <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
- <div className="ds-card p-4 space-y-1.5">
- <div className="flex items-center gap-2 font-bold text-foreground">
- <Zap className="h-4 w-4 text-warning"/>
- <span>1. Sub-Second Determinism</span>
+ <h2 className="text-2xl font-display font-medium text-foreground">Four principles</h2>
+ <dl className="grid grid-cols-1 gap-x-8 gap-y-5 text-sm sm:grid-cols-2">
+ {PRINCIPLES.map((principle) => (
+ <div key={principle.title} className="space-y-1 border-t border-border pt-3">
+ <dt className="font-semibold text-foreground">{principle.title}</dt>
+ <dd className="leading-relaxed text-foreground-muted">{principle.body}</dd>
  </div>
- <p className="text-foreground-muted leading-relaxed">
- Every audit returns within 800ms to 2.5s with zero cold-boot overhead, enabling seamless integration into CI/CD build gates.
- </p>
- </div>
-
- <div className="ds-card p-4 space-y-1.5">
- <div className="flex items-center gap-2 font-bold text-foreground">
- <ShieldCheck className="h-4 w-4 text-success"/>
- <span>2. Zero-Trust Security</span>
- </div>
- <p className="text-foreground-muted leading-relaxed">
- Strict SSRF mitigation, regex shell escapes, memory caps, and process timeouts protect against malicious target domains.
- </p>
- </div>
-
- <div className="ds-card p-4 space-y-1.5">
- <div className="flex items-center gap-2 font-bold text-foreground">
- <Activity className="h-4 w-4 text-info"/>
- <span>3. Standardized Output Schema</span>
- </div>
- <p className="text-foreground-muted leading-relaxed">
- All 8 engines emit uniform JSON telemetry with score indexes (0–100), passing statuses, and actionable remediation instructions.
- </p>
- </div>
-
- <div className="ds-card p-4 space-y-1.5">
- <div className="flex items-center gap-2 font-bold text-foreground">
- <Database className="h-4 w-4 text-[color:var(--chart-violet)]"/>
- <span>4. Durable Permalinks</span>
- </div>
- <p className="text-foreground-muted leading-relaxed">
- Dossier snapshots are automatically indexed into permanent shareable reports (e.g. <code>/reports/example-com</code>).
- </p>
- </div>
- </div>
+ ))}
+ </dl>
  </section>
 
- {/* SDLC Catalysts Summary */}
  <section id="engines-summary" className="space-y-4">
- <h2 className="text-2xl font-display font-medium text-foreground">The 8 SDLC Catalysts</h2>
+ <h2 className="text-2xl font-display font-medium text-foreground">The eight engines</h2>
  <p className="text-sm text-foreground-muted">
- CatalystLab divides modern web telemetry into 8 specialized diagnostic vectors:
+ Each engine maps to a stage of the software lifecycle and answers a different
+ question about the same domain.
  </p>
 
- <div className="ds-card p-4 overflow-x-auto scrollbar-none touch-pan-x">
+ <div className="ds-card overflow-x-auto p-4">
  <table className="w-full text-left text-sm">
- <thead className="border-b border-border bg-muted/20 text-foreground-muted font-semibold">
+ <thead className="border-b border-border font-semibold text-foreground-muted">
  <tr>
- <th className="py-2.5">Phase / Engine</th>
- <th className="py-2.5">Diagnostic Vector</th>
- <th className="py-2.5">Key Output</th>
- <th className="py-2.5">Action</th>
+ <th scope="col" className="py-2.5">Engine</th>
+ <th scope="col" className="py-2.5">What it measures</th>
+ <th scope="col" className="py-2.5 text-right">Docs</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-white/[0.06] text-foreground">
- <tr>
- <td className="py-2 font-semibold text-warning">1. SynthShift</td>
- <td className="py-2 text-foreground-muted">Platform Migration & System Blueprint</td>
- <td className="py-2 text-xs font-mono">Firebase + Mongo Schemas</td>
- <td className="py-2">
- <Link to="/docs/synthshift" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <tbody className="divide-y divide-border text-foreground">
+ {Object.values(ENGINES_MAP).map((engine) => (
+ <tr key={engine.id}>
+ <th scope="row" className="py-2.5 pr-4 text-left font-semibold text-foreground">
+ {engine.catalystName || engine.name}
+ </th>
+ <td className="py-2.5 pr-4 text-foreground-muted">
+ {engine.lifecycleFocus || engine.description}
+ </td>
+ <td className="py-2.5 text-right">
+ <Link
+ to={engine.route}
+ className="text-sm font-medium text-info hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ >
+ Read docs
+ </Link>
  </td>
  </tr>
- <tr>
- <td className="py-2 font-semibold text-foreground">2. GitLygase</td>
- <td className="py-2 text-foreground-muted">Git Repository SecOps & Hygiene</td>
- <td className="py-2 text-xs font-mono">License, SECURITY.md, CI</td>
- <td className="py-2">
- <Link to="/docs/gitlygase" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
- </td>
- </tr>
- <tr>
- <td className="py-2 font-semibold text-foreground">3. EcoHolo</td>
- <td className="py-2 text-foreground-muted">Sustainable Web Carbon Footprint</td>
- <td className="py-2 text-xs font-mono">SWD v4 (g CO2 / view)</td>
- <td className="py-2">
- <Link to="/docs/ecoholo" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
- </td>
- </tr>
- <tr>
- <td className="py-2 font-semibold text-foreground">4. VitalZyme</td>
- <td className="py-2 text-foreground-muted">Core Web Vitals & DOM Tree Depth</td>
- <td className="py-2 text-xs font-mono">Tree Depth, Total Nodes</td>
- <td className="py-2">
- <Link to="/docs/vitalzyme" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
- </td>
- </tr>
- <tr>
- <td className="py-2 font-semibold text-foreground">5. EdgeVmax</td>
- <td className="py-2 text-foreground-muted">Multi-PoP Global Edge Latency</td>
- <td className="py-2 text-xs font-mono">12-Region Synthetic TTFB</td>
- <td className="py-2">
- <Link to="/docs/edgevmax" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
- </td>
- </tr>
- <tr>
- <td className="py-2 font-semibold text-foreground">6. RiskProtease</td>
- <td className="py-2 text-foreground-muted">OWASP Security & Compliance</td>
- <td className="py-2 text-xs font-mono">HSTS, CSP, WCAG 2.2 AA</td>
- <td className="py-2">
- <Link to="/docs/riskprotease" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
- </td>
- </tr>
- <tr>
- <td className="py-2 font-semibold text-foreground">7. LLM-Kinase</td>
- <td className="py-2 text-foreground-muted">AI Readiness & llms.txt Discovery</td>
- <td className="py-2 text-xs font-mono">GPTBot, JSON-LD Schemas</td>
- <td className="py-2">
- <Link to="/docs/llm-kinase" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
- </td>
- </tr>
- <tr>
- <td className="py-2 font-semibold text-foreground">8. AllosterSearch</td>
- <td className="py-2 text-foreground-muted">AI Search Engine Optimization (LLMO)</td>
- <td className="py-2 text-xs font-mono">RAG Density, E-E-A-T Index</td>
- <td className="py-2">
- <Link to="/docs/allostersearch" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
- </td>
- </tr>
+ ))}
  </tbody>
  </table>
  </div>
  </section>
 
- {/* Next Steps */}
- <section id="next-steps" className="space-y-4">
- <h2 className="text-2xl font-display font-medium text-foreground">Next Steps</h2>
- <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
- <Link
- to="/products#webhook-mesh"
- className="rounded-xl border border-primary/30 bg-primary/10 p-4 hover:border-primary/50 hover:bg-primary/15 transition group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
- >
- <div className="font-bold text-foreground group-hover:text-primary flex items-center justify-between">
- <span>Edge Mesh &amp; Webhooks</span>
- <ArrowRight className="h-3.5 w-3.5"/>
- </div>
- <p className="text-xs text-foreground-muted mt-1">Interactive 42-PoP Anycast mesh & webhook fan-out live visualizer.</p>
+ <section id="next-steps" className="space-y-3">
+ <h2 className="text-2xl font-display font-medium text-foreground">Where to go next</h2>
+ <ul className="space-y-2 text-sm">
+ {[
+ { to: '/docs/architecture', label: 'Architecture', note: 'ingress, workers, and storage' },
+ { to: '/docs/api', label: 'REST API', note: 'parameters and response schema' },
+ { to: '/docs/cicd', label: 'CI/CD gates', note: 'fail a build on a regression' },
+ { to: '/docs/scoring-matrix', label: 'Scoring matrix', note: 'how the composite score is weighted' },
+ ].map((item) => (
+ <li key={item.to}>
+ <Link to={item.to} className="group inline-flex items-center gap-2 text-info hover:underline">
+ <span className="font-medium">{item.label}</span>
+ <span className="text-foreground-muted">— {item.note}</span>
+ <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
  </Link>
-
- <Link
- to="/docs/architecture"
- className="ds-card p-4 group ds-card-interactive"
- >
- <div className="font-bold text-foreground group-hover:text-primary flex items-center justify-between">
- <span>Full-Stack Architecture</span>
- <ArrowRight className="h-3.5 w-3.5"/>
- </div>
- <p className="text-xs text-foreground-muted mt-1">Explore ingress, worker processes & Firestore storage.</p>
- </Link>
-
- <Link
- to="/docs/api"
- className="ds-card p-4 group ds-card-interactive"
- >
- <div className="font-bold text-foreground group-hover:text-primary flex items-center justify-between">
- <span>REST API Spec</span>
- <ArrowRight className="h-3.5 w-3.5"/>
- </div>
- <p className="text-xs text-foreground-muted mt-1">Programmatic endpoint schemas and execution parameters.</p>
- </Link>
-
- <Link
- to="/docs/synthshift"
- className="ds-card p-4 group ds-card-interactive"
- >
- <div className="font-bold text-foreground group-hover:text-primary flex items-center justify-between">
- <span>Engine Deep-Dives</span>
- <ArrowRight className="h-3.5 w-3.5"/>
- </div>
- <p className="text-xs text-foreground-muted mt-1">Detailed blueprints, calculations, and remediation guides.</p>
- </Link>
- </div>
+ </li>
+ ))}
+ </ul>
  </section>
  </DocsLayout>
  );

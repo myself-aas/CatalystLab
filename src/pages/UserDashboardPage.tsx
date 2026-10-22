@@ -336,7 +336,6 @@ export const UserDashboardPage: React.FC = () => {
    {/* Welcome Header Section */}
    <div className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-5 bg-background/85 backdrop-blur-xl border-b border-border px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
      <div>
-       <div className="framer-micro-tag text-foreground mb-2">Platform Control Center</div>
        <h1 className="framer-hero-title text-3xl sm:text-4xl lg:text-5xl text-foreground">
          {getGreeting()}, <span className="text-foreground/60">{userName}</span>
        </h1>
@@ -346,12 +345,9 @@ export const UserDashboardPage: React.FC = () => {
        </p>
      </div>
      <div className="flex items-center gap-3">
-       <Link 
-         to="/master-audit" 
-         className="ds-btn ds-btn-primary px-5"
-       >
-         <Sparkles className="size-4 mr-2" />
-         <span>New Master Audit</span>
+       <Link to="/audit" className="ds-btn ds-btn-primary px-5">
+         <Sparkles className="size-4" aria-hidden="true" />
+         <span>Run a new audit</span>
        </Link>
      </div>
    </div>
@@ -376,26 +372,25 @@ export const UserDashboardPage: React.FC = () => {
 
  {/* Quick Recent Dossiers Vault Strip - 3-Column Bento Grid Layout with ds-card and ds-card-interactive */}
 <div className="space-y-4">
-<div className="flex items-center justify-between">
-<div className="flex items-center gap-3">
-<div className="framer-micro-tag text-foreground">Telemetry Vault</div>
-<h2 className="framer-card-title text-foreground">Recent Audit Dossiers</h2>
-</div>
+<div className="flex items-center justify-between gap-3">
+<h2 className="framer-card-title text-foreground">Recent audits</h2>
 <button
+type="button"
 onClick={() => navigate('/dashboard?tab=audits')}
 className="ds-btn ds-btn-secondary h-9 px-3 text-xs"
 >
-<span>View All Vaults</span>
-<ArrowRight className="size-3 ml-1.5" />
+<span>View all</span>
+<ArrowRight className="size-3 ml-1.5" aria-hidden="true" />
 </button>
 </div>
 
 {reports.length === 0 ? (
 <div className="ds-card p-12 text-center border-dashed border-foreground/10">
 <FileText className="size-8 mx-auto text-muted-foreground/30 mb-3" />
-<p className="framer-body-text max-w-xs mx-auto">
-No telemetry audits recorded yet. Run a domain inspection above to record your first dossier.
+<p className="framer-body-text mx-auto max-w-sm">
+No audits yet. Run one and the reading appears here, with a permalink you can share.
 </p>
+<Link to="/audit" className="ds-btn ds-btn-primary mt-5 text-sm">Run your first audit</Link>
 </div>
 ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -472,7 +467,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <div className="ds-card p-5 sm:p-6 font-mono">
  <div className="flex items-center gap-2 text-xs text-foreground mb-1">
  <GitBranch className="size-3.5" />
- <span>GitLygase · Autonomous patch deployment</span>
+ <span>GitLygase · Automated pull requests</span>
  </div>
  <h2 className="text-base font-semibold text-foreground font-sans">Automated GitHub Pull Request Patches</h2>
  <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">

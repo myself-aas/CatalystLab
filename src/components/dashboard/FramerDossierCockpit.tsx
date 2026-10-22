@@ -1,577 +1,110 @@
-import React, { useState } from 'react';
-import { 
-  Activity, 
-  ShieldCheck, 
-  Cpu, 
-  Globe, 
-  GitBranch, 
-  GitPullRequest, 
-  CheckCircle2, 
-  ArrowUpRight, 
-  Terminal, 
-  Zap, 
-  FileCode2, 
-  Layers, 
-  Clock, 
-  RotateCw, 
-  Check, 
-  AlertTriangle, 
-  Sparkles,
-  ExternalLink,
-  ChevronDown,
-  ChevronRight
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+  Activity,
+  ShieldCheck,
+  Cpu,
+  Globe,
+  GitBranch,
+  Terminal,
+  Leaf,
+  Search,
+  ArrowRight,
+  RotateCw,
 } from 'lucide-react';
-import { CopyButton } from '../ui/CopyButton';
+import { ENGINES_MAP } from '../../data/engines';
 import { TOTAL_POPS_COUNT } from '../../lib/edge/pops';
 
 interface FramerDossierCockpitProps {
   targetDomain?: string;
   onRefreshScan?: () => void;
   isScanning?: boolean;
+  /** Kept for call-site compatibility; the compact panel has no KPI strip. */
   showTopKpi?: boolean;
 }
 
+const ENGINE_ORDER = [
+  { id: 'health', icon: Activity },
+  { id: 'latency', icon: Globe },
+  { id: 'eco', icon: Leaf },
+  { id: 'compliance', icon: ShieldCheck },
+  { id: 'repo', icon: Terminal },
+  { id: 'ai_ready', icon: Cpu },
+  { id: 'llmo', icon: Search },
+  { id: 'migration', icon: GitBranch },
+] as const;
+
+/**
+ * Scan panel for the dashboard overview.
+ *
+ * This replaces a cockpit that rendered invented telemetry (a 99.9% pass rate,
+ * an A+ transport grade, and a pull-request number drawn from Math.random) for
+ * whatever domain was in scope. A dashboard that shows made-up readings is
+ * worse than one that shows none, so this panel states what each engine
+ * measures, launches a real audit, and links to the stored results.
+ */
 export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
-  targetDomain = 'acme.corp',
+  targetDomain,
   onRefreshScan,
   isScanning = false,
-  showTopKpi = true,
 }) => {
-  const [activeEngineTab, setActiveEngineTab] = useState<'synthshift' | 'vitalzyme' | 'edgekinase' | 'riskprotease'>('synthshift');
-  const [diffMode, setDiffMode] = useState<'split' | 'unified'>('split');
-  const [showDiffModal, setShowDiffModal] = useState(false);
-  const [prDeployStatus, setPrDeployStatus] = useState<'idle' | 'deploying' | 'deployed'>('idle');
-  const [deployedPrNumber, setDeployedPrNumber] = useState<number | null>(null);
-
-  const handleDeployPR = () => {
-    setPrDeployStatus('deploying');
-    setTimeout(() => {
-      setPrDeployStatus('deployed');
-      setDeployedPrNumber(Math.floor(Math.random() * 400) + 120);
-    }, 1800);
-  };
+  const domain = targetDomain?.trim();
+  const auditHref = domain ? `/audit?url=${encodeURIComponent(domain)}` : '/audit';
 
   return (
-    <div className="space-y-6 text-foreground font-sans">
-      {/* 4.2 A: Top KPI Strip (4 Modular Metrics) */}
-      {showTopKpi && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Metric 1: Core Web Vitals Pass Rate */}
-          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Activity className="size-3.5 text-foreground" />
-                CWV Pass Rate
-              </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-success border border-success/20">
-                Pass
-              </span>
-            </div>
-
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-semibold tracking-[-0.03em] text-foreground">99.9%</span>
-              <div className="flex items-center text-xs text-foreground">
-                <ArrowUpRight className="size-3 mr-0.5" />
-                <span>+0.4%</span>
-              </div>
-            </div>
-
-            <div className="mt-3 pt-3 border-t border-foreground/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-              <span>LCP <strong className="text-foreground">1.06s</strong></span>
-              <span>INP <strong className="text-foreground">38ms</strong></span>
-              <span>CLS <strong className="text-foreground">0.002</strong></span>
-            </div>
-          </div>
-
-          {/* Metric 2: OWASP Transport Shield */}
-          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <ShieldCheck className="size-3.5 text-foreground" />
-                OWASP Transport
-              </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-info border border-info/20">
-                Grade A+
-              </span>
-            </div>
-
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-semibold tracking-[-0.03em] text-foreground">Grade A+</span>
-            </div>
-
-            <div className="mt-3 pt-3 border-t border-foreground/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-              <span className="text-success flex items-center gap-1">
-                <Check className="size-3" /> TLS 1.3 Preload
-              </span>
-              <span>0 Unencrypted</span>
-            </div>
-          </div>
-
-          {/* Metric 3: AI Discoverability Index */}
-          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Cpu className="size-3.5 text-cream/75" />
-                AI Discoverability
-              </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-[color:var(--chart-violet)] border border-[color:var(--chart-violet)]/20">
-                AEO Index
-              </span>
-            </div>
-
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-semibold tracking-[-0.03em] text-foreground">98/100</span>
-              <span className="text-xs text-[color:var(--chart-violet)] font-mono">LLM Kinase</span>
-            </div>
-
-            <div className="mt-3 pt-3 border-t border-foreground/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-              <span>llms.txt <strong className="text-success">Valid</strong></span>
-              <span>Schema <strong className="text-success">JSON-LD</strong></span>
-            </div>
-          </div>
-
-          {/* Metric 4: Active Edge Mesh P95 */}
-          <div className="p-5 ds-card ds-card-interactive relative overflow-hidden group">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Globe className="size-3.5 text-foreground" />
-                Edge Mesh P95
-              </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-info border border-info/20">
-                {TOTAL_POPS_COUNT} PoPs
-              </span>
-            </div>
-
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-semibold tracking-[-0.03em] text-foreground">18.4ms</span>
-              <span className="text-xs text-info font-mono">Fastly/CF</span>
-            </div>
-
-            <div className="mt-3 pt-3 border-t border-foreground/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-              <span>Global Handshake</span>
-              <span className="text-success font-medium">0% Drops</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 4.2 B: The 8 Autonomous Engines Real-Time Telemetry Matrix */}
-      <div className="p-6 rounded-2xl bg-surface border border-border relative overflow-hidden">
-        {/* Header with Engine Switcher Tabs */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-border">
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-lg font-semibold tracking-tight text-foreground">
-                Autonomous Diagnostic Engines
-              </h2>
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-foreground/10 text-foreground border border-border">
-                8 Active
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              Live AST schema parsing, sub-millisecond waterfall telemetry, and mesh ingress inspection.
-            </p>
-          </div>
-
-          {/* Engine Selector Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-background border border-border">
-            <button
-              onClick={() => setActiveEngineTab('synthshift')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                activeEngineTab === 'synthshift'
-                  ? 'bg-surface text-foreground shadow-sm border border-border'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              SynthShift (AST Diff)
-            </button>
-            <button
-              onClick={() => setActiveEngineTab('vitalzyme')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                activeEngineTab === 'vitalzyme'
-                  ? 'bg-surface text-foreground shadow-sm border border-border'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              VitalZyme (CWV Waterfall)
-            </button>
-            <button
-              onClick={() => setActiveEngineTab('edgekinase')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                activeEngineTab === 'edgekinase'
-                  ? 'bg-surface text-foreground shadow-sm border border-border'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              EdgeKinase (Ping Sparkline)
-            </button>
-            <button
-              onClick={() => setActiveEngineTab('riskprotease')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer ${
-                activeEngineTab === 'riskprotease'
-                  ? 'bg-surface text-foreground shadow-sm border border-border'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              RiskProtease (OWASP Log)
-            </button>
-          </div>
+    <section className="ds-card p-5 sm:p-6">
+      <div className="flex flex-col justify-between gap-4 border-b border-border pb-5 sm:flex-row sm:items-center">
+        <div className="space-y-1">
+          <h2 className="framer-card-title text-foreground">New audit</h2>
+          <p className="text-sm text-muted-foreground">
+            {domain
+              ? <>Every engine below runs against <span className="font-medium text-foreground">{domain}</span> and the reading is saved to this account.</>
+              : 'Choose a domain, then run all eight engines and keep the resulting dossier.'}
+          </p>
         </div>
 
-        {/* Tab 1: SynthShift AST Split-Pane Code Visualizer */}
-        {activeEngineTab === 'synthshift' && (
-          <div className="pt-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
-                <FileCode2 className="size-4 text-cream/75" />
-                <span className="text-foreground font-medium">AST Code Visualizer: index.html DOM Schema</span>
-                <span className="px-2 py-0.5 rounded bg-cream/10 border border-[color:var(--chart-violet)]/20 text-[color:var(--chart-violet)] text-[11px]">
-                  +24 lines / -18 lines
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => setDiffMode('split')}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-lg transition ${
-                    diffMode === 'split' ? 'bg-foreground/15 text-foreground' : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  Split View
-                </button>
-                <button
-                  onClick={() => setDiffMode('unified')}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-lg transition ${
-                    diffMode === 'unified' ? 'bg-foreground/15 text-foreground' : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  Unified Diff
-                </button>
-              </div>
-            </div>
-
-            {diffMode === 'split' ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 font-mono text-xs">
-                {/* Left: Broken/Unoptimized DOM */}
-                <div className="rounded-xl border border-danger/20 bg-background p-4 space-y-2 overflow-x-auto">
-                  <div className="flex items-center justify-between text-[11px] text-danger pb-2 border-b border-danger/20">
-                    <span>- Source DOM (Render-Blocking)</span>
-                    <span className="text-danger">Unoptimized</span>
-                  </div>
-                  <pre className="text-muted-foreground leading-relaxed text-[11px]">
-                    <span className="text-danger/80 line-through block">
-                      &lt;link rel=&quot;stylesheet&quot; href=&quot;/styles/global.css&quot;&gt;
-                    </span>
-                    <span className="text-danger/80 line-through block">
-                      &lt;script src=&quot;/scripts/analytics.js&quot;&gt;&lt;/script&gt;
-                    </span>
-                    <span className="text-danger/80 line-through block">
-                      &lt;script src=&quot;/scripts/heavy-vendor.js&quot;&gt;&lt;/script&gt;
-                    </span>
-                    <span className="text-muted-foreground block">
-                      &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
-                    </span>
-                    <span className="text-danger/80 line-through block">
-                      &lt;!-- Missing preconnect for assets.acme.corp --&gt;
-                    </span>
-                  </pre>
-                </div>
-
-                {/* Right: Optimized AST Patch */}
-                <div className="rounded-xl border border-success/20 bg-background p-4 space-y-2 overflow-x-auto">
-                  <div className="flex items-center justify-between text-[11px] text-success pb-2 border-b border-success/20">
-                    <span>+ SynthShift Optimized AST</span>
-                    <span className="text-success">Patch Ready</span>
-                  </div>
-                  <pre className="text-muted-foreground leading-relaxed text-[11px]">
-                    <span className="text-success block">
-                      &lt;link rel=&quot;preload&quot; href=&quot;/styles/critical.css&quot; as=&quot;style&quot;&gt;
-                    </span>
-                    <span className="text-success block">
-                      &lt;link rel=&quot;preconnect&quot; href=&quot;https://assets.acme.corp&quot; crossorigin&gt;
-                    </span>
-                    <span className="text-success block">
-                      &lt;script src=&quot;/scripts/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;
-                    </span>
-                    <span className="text-success block">
-                      &lt;script type=&quot;module&quot; src=&quot;/scripts/vendor.mjs&quot; async&gt;&lt;/script&gt;
-                    </span>
-                    <span className="text-success block">
-                      &lt;script type=&quot;application/ld+json&quot;&gt;&#123;&quot;@context&quot;:&quot;https://schema.org&quot;&#125;&lt;/script&gt;
-                    </span>
-                  </pre>
-                </div>
-              </div>
-            ) : (
-              <div className="rounded-xl border border-border bg-background p-4 font-mono text-[11px] overflow-x-auto">
-                <div className="text-muted-foreground pb-2 border-b border-border mb-2">
-                  --- a/index.html (Source)<br />
-                  +++ b/index.html (SynthShift AST Synthesized)
-                </div>
-                <div className="text-danger">- &lt;link rel=&quot;stylesheet&quot; href=&quot;/styles/global.css&quot;&gt;</div>
-                <div className="text-danger">- &lt;script src=&quot;/scripts/analytics.js&quot;&gt;&lt;/script&gt;</div>
-                <div className="text-danger">- &lt;script src=&quot;/scripts/heavy-vendor.js&quot;&gt;&lt;/script&gt;</div>
-                <div className="text-success">+ &lt;link rel=&quot;preload&quot; href=&quot;/styles/critical.css&quot; as=&quot;style&quot;&gt;</div>
-                <div className="text-success">+ &lt;link rel=&quot;preconnect&quot; href=&quot;https://assets.acme.corp&quot; crossorigin&gt;</div>
-                <div className="text-success">+ &lt;script src=&quot;/scripts/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;</div>
-                <div className="text-success">+ &lt;script type=&quot;module&quot; src=&quot;/scripts/vendor.mjs&quot; async&gt;&lt;/script&gt;</div>
-                <div className="text-success">+ &lt;script type=&quot;application/ld+json&quot;&gt;&#123;&quot;@context&quot;: &quot;https://schema.org&quot;&#125;&lt;/script&gt;</div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Tab 2: VitalZyme Waterfall Telemetry */}
-        {activeEngineTab === 'vitalzyme' && (
-          <div className="pt-5 space-y-4">
-            <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Clock className="size-4 text-foreground" />
-                <span className="text-foreground font-medium">Sub-Millisecond Loading Timeline</span>
-              </div>
-              <span>Total Session: 1,060ms</span>
-            </div>
-
-            <div className="space-y-3 font-mono text-xs">
-              {/* DNS Lookup */}
-              <div>
-                <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-muted-foreground">1. DNS Resolution (EdgeKinase Anycast)</span>
-                  <span className="text-foreground">12.4ms</span>
-                </div>
-                <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
-                  <div className="h-full bg-cream rounded-full" style={{ width: '4%' }} />
-                </div>
-              </div>
-
-              {/* TCP & TLS 1.3 */}
-              <div>
-                <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-muted-foreground">2. TLS 1.3 Handshake (CHACHA20)</span>
-                  <span className="text-foreground">22.8ms</span>
-                </div>
-                <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
-                  <div className="h-full bg-cream rounded-full" style={{ width: '8%' }} />
-                </div>
-              </div>
-
-              {/* TTFB */}
-              <div>
-                <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-muted-foreground">3. Time to First Byte (TTFB)</span>
-                  <span className="text-success">142.1ms (Pass)</span>
-                </div>
-                <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
-                  <div className="h-full bg-cream rounded-full" style={{ width: '22%' }} />
-                </div>
-              </div>
-
-              {/* FCP */}
-              <div>
-                <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-muted-foreground">4. First Contentful Paint (FCP)</span>
-                  <span className="text-success">580.0ms (Optimal)</span>
-                </div>
-                <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
-                  <div className="h-full bg-cream rounded-full" style={{ width: '55%' }} />
-                </div>
-              </div>
-
-              {/* LCP */}
-              <div>
-                <div className="flex justify-between text-[11px] mb-1">
-                  <span className="text-muted-foreground">5. Largest Contentful Paint (LCP)</span>
-                  <span className="text-foreground">1,060.0ms (P95 Target Met)</span>
-                </div>
-                <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-emerald-500 to-cream rounded-full" style={{ width: '92%' }} />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tab 3: EdgeKinase Ping Sparklines */}
-        {activeEngineTab === 'edgekinase' && (
-          <div className="pt-5 space-y-4">
-            <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Globe className="size-4 text-foreground" />
-                <span className="text-foreground font-medium">38-PoP Global Mesh Ping Telemetry</span>
-              </div>
-              <span className="text-success">100% Health Status</span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs">
-              <div className="p-3.5 rounded-xl bg-background border border-border">
-                <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
-                  <span>North America (IAD, SFO)</span>
-                  <span className="text-info">14ms</span>
-                </div>
-                <div className="text-lg font-semibold text-foreground">P95: 14.2ms</div>
-                <div className="text-[11px] text-success mt-1">16 PoPs Active</div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-background border border-border">
-                <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
-                  <span>Europe (LHR, FRA, AMS)</span>
-                  <span className="text-info">19ms</span>
-                </div>
-                <div className="text-lg font-semibold text-foreground">P95: 19.1ms</div>
-                <div className="text-[11px] text-success mt-1">12 PoPs Active</div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-background border border-border">
-                <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
-                  <span>Asia-Pacific (NRT, SIN, SYD)</span>
-                  <span className="text-info">32ms</span>
-                </div>
-                <div className="text-lg font-semibold text-foreground">P95: 32.6ms</div>
-                <div className="text-[11px] text-success mt-1">8 PoPs Active</div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-background border border-border">
-                <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
-                  <span>South America (GRU, SCL)</span>
-                  <span className="text-info">44ms</span>
-                </div>
-                <div className="text-lg font-semibold text-foreground">P95: 44.0ms</div>
-                <div className="text-[11px] text-success mt-1">2 PoPs Active</div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tab 4: RiskProtease Security Events */}
-        {activeEngineTab === 'riskprotease' && (
-          <div className="pt-5 space-y-4">
-            <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="size-4 text-cream/60" />
-                <span className="text-foreground font-medium">OWASP Transport Security Audit Log</span>
-              </div>
-              <span className="text-success">0 Critical Vulnerabilities</span>
-            </div>
-
-            <div className="divide-y divide-white/5 border border-border rounded-xl bg-background font-mono text-xs overflow-hidden">
-              <div className="p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-success border border-success/20 text-[11px]">
-                    PASS
-                  </span>
-                  <span className="text-foreground">TLS 1.3 Cipher Suite Enforced (CHACHA20-POLY1305)</span>
-                </div>
-                <span className="text-muted-foreground text-[11px]">RFC 8446</span>
-              </div>
-
-              <div className="p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-success border border-success/20 text-[11px]">
-                    PASS
-                  </span>
-                  <span className="text-foreground">HSTS Preload Directive with max-age=31536000</span>
-                </div>
-                <span className="text-muted-foreground text-[11px]">RFC 6797</span>
-              </div>
-
-              <div className="p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-success border border-success/20 text-[11px]">
-                    PASS
-                  </span>
-                  <span className="text-foreground">Content-Security-Policy (default-src &apos;self&apos;)</span>
-                </div>
-                <span className="text-muted-foreground text-[11px]">W3C CSP3</span>
-              </div>
-
-              <div className="p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-info border border-info/20 text-[11px]">
-                    INFO
-                  </span>
-                  <span className="text-muted-foreground">Permissions-Policy refined for camera=(), microphone=()</span>
-                </div>
-                <span className="text-muted-foreground text-[11px]">W3C Perms</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* 4.2 C: One-Click GitHub PR Patch Engine (GHLyase) */}
-      <div className="p-6 rounded-2xl bg-gradient-to-b from-surface to-surface border border-border relative overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-          <div className="space-y-1.5 max-w-xl">
-            <div className="flex items-center gap-2">
-              <GitPullRequest className="size-4 text-foreground" />
-              <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                Automated Patch Ready for {targetDomain}
-              </span>
-            </div>
-            <h3 className="text-lg font-semibold tracking-tight text-foreground">
-              Branch: <span className="font-mono text-foreground">catalyst/patch-cwv-vitalzyme-v24</span>
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Eliminates render-blocking CSS and defers non-critical JS chunks to recover 420ms on mobile LCP. Tested against AST regression suites.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+        <div className="flex shrink-0 items-center gap-2">
+          {onRefreshScan && (
             <button
               type="button"
-              onClick={() => setShowDiffModal(!showDiffModal)}
-              className="px-4 py-2 rounded-xl bg-surface hover:bg-surface border border-border hover:border-border-strong text-foreground text-xs font-medium transition cursor-pointer"
+              onClick={onRefreshScan}
+              disabled={isScanning}
+              className="ds-btn ds-btn-secondary text-sm disabled:opacity-50"
             >
-              {showDiffModal ? 'Hide Unified Diff' : 'Review Unified Diff'}
+              <RotateCw className={`size-4 shrink-0 ${isScanning ? 'animate-spin' : ''}`} aria-hidden="true" />
+              <span>{isScanning ? 'Refreshing…' : 'Refresh list'}</span>
             </button>
-
-            {prDeployStatus === 'deployed' ? (
-              <div className="px-4 py-2 rounded-xl bg-cream/15 border border-success/30 text-success text-xs font-medium flex items-center gap-2">
-                <CheckCircle2 className="size-4" />
-                <span>PR #{deployedPrNumber} Created on GitHub</span>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={handleDeployPR}
-                disabled={prDeployStatus === 'deploying'}
-                className="px-4 py-2 rounded-xl bg-foreground hover:bg-neutral-200 text-background text-xs font-semibold shadow-[0_0_18px_rgba(255,255,255,0.3)] flex items-center gap-2 transition active:scale-[0.98] cursor-pointer disabled:opacity-50"
-              >
-                {prDeployStatus === 'deploying' ? (
-                  <>
-                    <RotateCw className="size-3.5 animate-spin text-background" />
-                    <span>Triggering GitHub Webhook...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Deploy PR to GitHub &rarr;</span>
-                  </>
-                )}
-              </button>
-            )}
-          </div>
+          )}
+          <Link to={auditHref} className="ds-btn ds-btn-primary text-sm">
+            <span>Run audit</span>
+            <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+          </Link>
         </div>
-
-        {/* Unified Diff Preview Drawer */}
-        {showDiffModal && (
-          <div className="mt-5 pt-4 border-t border-border animate-fadeIn">
-            <div className="p-4 rounded-xl bg-background border border-border font-mono text-xs overflow-x-auto">
-              <div className="text-muted-foreground pb-2 border-b border-border mb-2">
-                diff --git a/index.html b/index.html<br />
-                index 4b825dc..a71ef09 100644<br />
-                --- a/index.html<br />
-                +++ b/index.html
-              </div>
-              <div className="text-muted-foreground">@@ -14,6 +14,8 @@</div>
-              <div className="text-danger">-    &lt;link rel=&quot;stylesheet&quot; href=&quot;/assets/app.css&quot;&gt;</div>
-              <div className="text-danger">-    &lt;script src=&quot;/assets/analytics.js&quot;&gt;&lt;/script&gt;</div>
-              <div className="text-success">+    &lt;link rel=&quot;preload&quot; href=&quot;/assets/app.css&quot; as=&quot;style&quot; onload=&quot;this.rel=&apos;stylesheet&apos;&quot;&gt;</div>
-              <div className="text-success">+    &lt;script src=&quot;/assets/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;</div>
-              <div className="text-success">+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://cdn.catalystlab.tech&quot; crossorigin&gt;</div>
-            </div>
-          </div>
-        )}
       </div>
-    </div>
+
+      <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+        {ENGINE_ORDER.map(({ id, icon: Icon }) => {
+          const meta = ENGINES_MAP[id];
+          return (
+            <li key={id} className="flex items-start gap-3 rounded-lg bg-surface p-3">
+              <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground">
+                <Icon className="size-4" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-foreground">{meta?.catalystName || meta?.name || id}</p>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  {meta?.lifecycleFocus || meta?.description}
+                </p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      <p className="mt-4 text-xs text-muted-foreground">
+        Readings are measured now across {TOTAL_POPS_COUNT} edge locations. A single audit costs one unit from your daily allowance.
+      </p>
+    </section>
   );
 };
 

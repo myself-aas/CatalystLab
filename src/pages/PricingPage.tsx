@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import pricingImage from '../assets/images/page-pricing.jpg';
-import { PlateImage } from '../components/common/PlateImage';
-import pricingImageWebp from '../assets/images/page-pricing.webp';
-import pricingImageAvif from '../assets/images/page-pricing.avif';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Check, Sparkles, X } from 'lucide-react';
@@ -58,10 +54,6 @@ export default function PricingPage() {
  <p className="mx-auto mt-4 max-w-3xl framer-body-text">
  Start free on 42 edge nodes. Upgrade when you need CI gates, scheduled sweeps, and white-label dossiers.
  </p>
- <figure className="mx-auto mt-10 max-w-4xl">
-   <PlateImage src={pricingImage} webp={pricingImageWebp} avif={pricingImageAvif} alt="Team comparing CatalystLab pricing plans at a bright office table" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
- </figure>
-
  <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-border bg-surface p-1" role="group" aria-label="Billing period">
  <button
  type="button"

@@ -123,7 +123,17 @@ export const ReportsDirectoryPage: React.FC = () => {
  </section>
 
  <main className="ds-page-shell space-y-10 ds-section">
- <div className="relative">
+ <section className="space-y-5">
+ <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
+ <div className="flex flex-1 flex-col gap-2 sm:max-w-md">
+ <h2 className="framer-card-title text-foreground">
+ Your saved reports
+ {!loadingReports && user ? <span className="ml-2 font-mono text-sm text-muted-foreground">{filteredUserReports.length}</span> : null}
+ </h2>
+ </div>
+ {user ? (
+ <div className="flex flex-1 flex-wrap items-center justify-end gap-3">
+ <div className="relative min-w-[220px] flex-1">
  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true"/>
  <label htmlFor="report-search" className="sr-only">Search your saved reports</label>
  <input
@@ -131,22 +141,15 @@ export const ReportsDirectoryPage: React.FC = () => {
  type="text"
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
- placeholder="Search your reports by domain, engine, or title"
+ placeholder="Search saved reports"
  className="ds-input w-full bg-background pl-10 text-sm"
  />
  </div>
-
- <section className="space-y-5">
- <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
- <h2 className="framer-card-title text-foreground">
- Your saved reports
- {!loadingReports && user ? <span className="ml-2 font-mono text-sm text-muted-foreground">{filteredUserReports.length}</span> : null}
- </h2>
- {user ? (
  <Link to="/dashboard?tab=audits" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
- <span>Manage in dashboard</span>
+ <span>Manage</span>
  <ArrowRight className="h-4 w-4"/>
  </Link>
+ </div>
  ) : null}
  </div>
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { LEGAL_VERSION, EFFECTIVE_DATE } from '../legal/legalMeta';
 
 export const LegalPage: React.FC = () => {
  const location = useLocation();
@@ -33,12 +34,11 @@ export const LegalPage: React.FC = () => {
  />
  <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
  <div className="ds-page-shell space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-2.5 py-1 framer-micro-tag text-muted-foreground">
- <ShieldCheck className="h-3.5 w-3.5 shrink-0"/>
- <span>Compliance &amp; Legal Standards</span>
- </div>
- <h1 className="framer-section-headline text-foreground">{title}</h1>
- <p className="text-xs text-muted-foreground font-mono">Last updated: August 2026</p>
+ <h1 className="framer-section-headline flex items-center gap-3 text-foreground">
+ <ShieldCheck className="size-7 shrink-0 text-info" aria-hidden="true" />
+ {title}
+ </h1>
+ <p className="text-sm text-muted-foreground">Version {LEGAL_VERSION} · Effective {EFFECTIVE_DATE}</p>
  </div>
  </section>
 
