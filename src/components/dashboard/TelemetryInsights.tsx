@@ -124,7 +124,7 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
           <div className="text-[11px] font-mono text-muted-foreground uppercase">Current Health Score</div>
           <div className="text-2xl font-bold text-foreground mt-1 flex flex-wrap items-center gap-2">
             <span>97%</span>
-            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+            <span className="text-xs font-mono text-success bg-success/10 border border-success/20 px-2 py-0.5 rounded-full flex items-center gap-1">
               <TrendingUp className="size-3" /> {trends.score}
             </span>
           </div>
@@ -134,7 +134,7 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
           <div className="text-[11px] font-mono text-muted-foreground uppercase">OWASP Security Grade</div>
           <div className="text-2xl font-bold text-foreground mt-1 flex flex-wrap items-center gap-2">
             <span>A+</span>
-            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+            <span className="text-xs font-mono text-success bg-success/10 border border-success/20 px-2 py-0.5 rounded-full flex items-center gap-1">
               <ShieldCheck className="size-3" /> {trends.security}
             </span>
           </div>
@@ -144,7 +144,7 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
           <div className="text-[11px] font-mono text-muted-foreground uppercase">Edge Latency P95</div>
           <div className="text-2xl font-bold text-foreground mt-1 flex flex-wrap items-center gap-2">
             <span>28ms</span>
-            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+            <span className="text-xs font-mono text-success bg-success/10 border border-success/20 px-2 py-0.5 rounded-full flex items-center gap-1">
               <TrendingDown className="size-3" /> {trends.latency}
             </span>
           </div>

@@ -51,7 +51,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         )}
         
         <pre className={cn(
-          "p-4 overflow-x-auto text-[13px] leading-relaxed font-mono text-[var(--react-code-text)]",
+          "p-4 overflow-x-auto text-sm leading-relaxed font-mono text-[var(--react-code-text)]",
           showLineNumbers ? "pl-12" : ""
         )}>
           <code>

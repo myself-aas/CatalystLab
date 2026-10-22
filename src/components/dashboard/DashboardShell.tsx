@@ -222,7 +222,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                 <div className="absolute top-full left-0 mt-1.5 w-56 bg-surface border border-border rounded-lg p-1.5 shadow-2xl z-50 animate-fadeIn">
                   <div className="text-[11px] font-mono uppercase text-muted-foreground px-2 py-1 flex items-center justify-between">
                     <span>Select Mesh</span>
-                    <span className="text-emerald-400">Pro Plan</span>
+                    <span className="text-success">Pro Plan</span>
                   </div>
                   {['Acme Mesh Prod', 'Staging Edge V2', 'Personal Lab'].map((ws) => (
                     <button

@@ -68,7 +68,7 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
                 </g>
               </svg>
             )}
-            <span className="font-bold text-[17px] tracking-tight">{brandName}</span>
+            <span className="font-bold text-lg tracking-tight">{brandName}</span>
           </a>
         </div>
 

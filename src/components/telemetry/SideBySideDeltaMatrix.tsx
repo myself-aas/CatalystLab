@@ -4,7 +4,8 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Minus,
-  Zap
+  Zap,
+  AlertCircle,
 } from 'lucide-react';
 import type { MasterTelemetryReport, DiagnosticEngineId } from '../../types/telemetry';
 import { Skeleton, SkeletonTable } from '../skeleton';
@@ -14,208 +15,241 @@ export interface SideBySideDeltaMatrixProps {
   reportB?: MasterTelemetryReport | null;
   onCompare?: (urlA: string, urlB: string) => void;
   isLoading?: boolean;
+  error?: string | null;
 }
 
-const COMPARISON_DIMENSIONS: Array<{
+interface DimensionReading {
+  /** Human-readable measurement, when the engine actually returned one. */
+  detail: string | null;
+  /** Engine score, when the engine actually returned one. */
+  score: number | null;
+}
+
+const DIMENSIONS: Array<{
   id: DiagnosticEngineId;
   name: string;
-  category: string;
   metricLabel: string;
-  getValue: (report?: MasterTelemetryReport | null) => { value: string | number; score: number };
+  read: (report?: MasterTelemetryReport | null) => DimensionReading;
 }> = [
   {
     id: 'health',
-    name: 'Website Health & DOM',
-    category: 'Performance',
-    metricLabel: 'LCP & TTFB',
-    getValue: (r) => {
-      const eng = r?.engines?.health;
+    name: 'Health & Core Web Vitals',
+    metricLabel: 'TTFB',
+    read: (report) => {
+      const engine = report?.engines?.health;
+      const ttfb = (engine?.metrics as { ttfbMs?: number } | undefined)?.ttfbMs;
       return {
-        value: eng ? `${(eng.metrics as any)?.ttfbMs || 120}ms TTFB` : '--',
-        score: eng?.score || 0,
+        detail: typeof ttfb === 'number' ? `${ttfb} ms TTFB` : null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
   {
     id: 'ai_ready',
-    name: 'AI & LLM Readiness',
-    category: 'Intelligence',
-    metricLabel: 'llms.txt & RAG',
-    getValue: (r) => {
-      const eng = r?.engines?.ai_ready;
+    name: 'AI & LLM readiness',
+    metricLabel: 'llms.txt, RAG context',
+    read: (report) => {
+      const engine = report?.engines?.ai_ready;
+      const rag = (engine?.metrics as { ragContextExtractionScore?: number } | undefined)?.ragContextExtractionScore;
       return {
-        value: eng ? `${(eng.metrics as any)?.ragContextExtractionScore || 70}% RAG` : '--',
-        score: eng?.score || 0,
+        detail: typeof rag === 'number' ? `${rag}% RAG context` : null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
   {
     id: 'latency',
-    name: 'Global Edge Latency',
-    category: 'Performance',
-    metricLabel: 'Avg Multi-Region Latency',
-    getValue: (r) => {
-      const eng = r?.engines?.latency;
+    name: 'Global edge latency',
+    metricLabel: 'Average across PoPs',
+    read: (report) => {
+      const engine = report?.engines?.latency;
+      const avg = (engine?.metrics as { globalAvgLatencyMs?: number } | undefined)?.globalAvgLatencyMs;
       return {
-        value: eng ? `${(eng.metrics as any)?.globalAvgLatencyMs || 85}ms Avg` : '--',
-        score: eng?.score || 0,
+        detail: typeof avg === 'number' ? `${avg} ms average` : null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
   {
     id: 'eco',
-    name: 'Carbon & Green Hosting',
-    category: 'Performance',
-    metricLabel: 'CO2 / Pageview',
-    getValue: (r) => {
-      const eng = r?.engines?.eco;
+    name: 'Carbon per page view',
+    metricLabel: 'CO₂e',
+    read: (report) => {
+      const engine = report?.engines?.eco;
+      const co2 = (engine?.metrics as { co2GramsPerPageview?: number } | undefined)?.co2GramsPerPageview;
       return {
-        value: eng ? `${(eng.metrics as any)?.co2GramsPerPageview || 0.3}g CO2` : '--',
-        score: eng?.score || 0,
+        detail: typeof co2 === 'number' ? `${co2} g CO₂e` : null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
   {
     id: 'compliance',
-    name: 'Security & OWASP Headers',
-    category: 'Security',
-    metricLabel: 'Security Headers & SSL',
-    getValue: (r) => {
-      const eng = r?.engines?.compliance;
+    name: 'Security & OWASP headers',
+    metricLabel: 'Transport headers present',
+    read: (report) => {
+      const engine = report?.engines?.compliance;
+      const headers = (engine?.metrics as { owaspHeaders?: Array<{ isPresent: boolean }> } | undefined)?.owaspHeaders;
+      const present = headers?.filter((h) => h.isPresent).length;
       return {
-        value: eng ? `${(eng.metrics as any)?.owaspHeaders?.filter((h: any) => h.isPresent).length || 4}/6 Headers` : '--',
-        score: eng?.score || 0,
+        detail: typeof present === 'number' && headers ? `${present} of ${headers.length} headers` : null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
   {
     id: 'migration',
-    name: 'Stack Modernization AST',
-    category: 'Architecture',
-    metricLabel: 'Frontend Runtime & Lock-in',
-    getValue: (r) => {
-      const eng = r?.engines?.migration;
+    name: 'Frontend & migration',
+    metricLabel: 'Detected stack',
+    read: (report) => {
+      const engine = report?.engines?.migration;
+      const stack = (engine?.metrics as { detectedFrontend?: string } | undefined)?.detectedFrontend;
       return {
-        value: eng ? (eng.metrics as any)?.detectedFrontend?.split(' ')[0] || 'Modern' : '--',
-        score: eng?.score || 0,
+        detail: stack || null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
   {
     id: 'ai_search',
-    name: 'AI Search & LLMO',
-    category: 'Intelligence',
-    metricLabel: 'Perplexity & SearchGPT',
-    getValue: (r) => {
-      const eng = r?.engines?.ai_search;
+    name: 'AI search & LLMO',
+    metricLabel: 'AI synthesizability',
+    read: (report) => {
+      const engine = report?.engines?.ai_search;
+      const score = (engine?.metrics as { aiSynthesizabilityScore?: number } | undefined)?.aiSynthesizabilityScore;
       return {
-        value: eng ? `${(eng.metrics as any)?.aiSynthesizabilityScore || 80}% Synthesizable` : '--',
-        score: eng?.score || 0,
+        detail: typeof score === 'number' ? `${score}% synthesizable` : null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
   {
     id: 'repo',
-    name: 'Repository Hygiene',
-    category: 'Architecture',
-    metricLabel: 'Supply Chain & License',
-    getValue: (r) => {
-      const eng = r?.engines?.repo;
+    name: 'Repository hygiene',
+    metricLabel: 'License & supply chain',
+    read: (report) => {
+      const engine = report?.engines?.repo;
+      const license = (engine?.metrics as { licenseName?: string } | undefined)?.licenseName;
       return {
-        value: eng ? (eng.metrics as any)?.licenseName || 'MIT' : '--',
-        score: eng?.score || 0,
+        detail: license || null,
+        score: typeof engine?.score === 'number' ? engine.score : null,
       };
     },
   },
 ];
+
+const scoreOf = (report?: MasterTelemetryReport | null): number | null =>
+  typeof report?.overallScore === 'number' ? report.overallScore : null;
 
 export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
   reportA,
   reportB,
   onCompare,
   isLoading = false,
+  error = null,
 }) => {
-  const [urlAInput, setUrlAInput] = useState(reportA?.targetUrl || 'catalystlab.tech');
-  const [urlBInput, setUrlBInput] = useState(reportB?.targetUrl || 'vercel.com');
+  const [urlAInput, setUrlAInput] = useState(reportA?.targetUrl || '');
+  const [urlBInput, setUrlBInput] = useState(reportB?.targetUrl || '');
 
-  const scoreA = reportA?.overallScore ?? 88;
-  const scoreB = reportB?.overallScore ?? 82;
-  const scoreDelta = scoreA - scoreB;
+  const scoreA = scoreOf(reportA);
+  const scoreB = scoreOf(reportB);
+  const hasResult = scoreA !== null && scoreB !== null;
+  const scoreDelta = hasResult ? (scoreA as number) - (scoreB as number) : null;
+  const winner = !hasResult || scoreDelta === null
+    ? null
+    : scoreDelta > 0
+      ? reportA?.targetUrl
+      : scoreDelta < 0
+        ? reportB?.targetUrl
+        : null;
 
-  const winner = scoreDelta > 0 ? reportA?.targetUrl || urlAInput : scoreDelta < 0 ? reportB?.targetUrl || urlBInput : 'Tied';
+  const rows = DIMENSIONS.map((dim) => ({
+    ...dim,
+    a: dim.read(reportA),
+    b: dim.read(reportB),
+  })).filter((row) => row.a.score !== null || row.b.score !== null);
 
   const handleRunComparison = (e: React.FormEvent) => {
     e.preventDefault();
-    if (onCompare && urlAInput && urlBInput) {
-      onCompare(urlAInput, urlBInput);
+    if (onCompare && urlAInput.trim() && urlBInput.trim()) {
+      onCompare(urlAInput.trim(), urlBInput.trim());
     }
   };
 
+  const formatDelta = (delta: number) => `${delta > 0 ? '+' : ''}${delta} pts`;
+
   return (
     <div className="w-full space-y-6">
-      {/* Comparison Input Bar */}
-      <div className="rounded-xl border border-border bg-card/90 p-5 backdrop-blur-md shadow-xl">
-        <form onSubmit={handleRunComparison} className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-          {/* Domain A Input */}
-          <div className="md:col-span-5 relative">
-            <label className="block text-[11px] font-mono uppercase text-primary font-semibold mb-1">
-              Domain Alpha (Benchmark A)
+      <div className="rounded-xl border border-border bg-card p-5">
+        <form onSubmit={handleRunComparison} className="grid grid-cols-1 items-end gap-4 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <label htmlFor="compare-domain-a" className="mb-1.5 block text-sm font-medium text-foreground">
+              First domain
             </label>
             <input
+              id="compare-domain-a"
               type="text"
+              inputMode="url"
+              autoComplete="url"
               value={urlAInput}
               onChange={(e) => setUrlAInput(e.target.value)}
-              placeholder="e.g. catalystlab.tech"
-              className="w-full px-3.5 py-2 rounded-lg border border-border bg-background text-foreground text-sm font-mono focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none"
+              placeholder="example.com"
+              className="ds-input w-full bg-background text-sm"
             />
           </div>
 
-          {/* VS Divider */}
-          <div className="md:col-span-2 flex items-center justify-center pt-4 md:pt-0">
-            <span className="w-8 h-8 rounded-full bg-muted border border-border flex items-center justify-center text-xs font-mono font-bold text-muted-foreground">
-              VS
-            </span>
+          <div className="hidden items-center justify-center pb-2 md:col-span-2 md:flex">
+            <span className="font-mono text-xs text-muted-foreground" aria-hidden="true">vs</span>
           </div>
 
-          {/* Domain B Input */}
-          <div className="md:col-span-5 relative">
-            <label className="block text-[11px] font-mono uppercase text-emerald-500 font-semibold mb-1">
-              Domain Beta (Benchmark B)
+          <div className="md:col-span-5">
+            <label htmlFor="compare-domain-b" className="mb-1.5 block text-sm font-medium text-foreground">
+              Second domain
             </label>
             <input
+              id="compare-domain-b"
               type="text"
+              inputMode="url"
+              autoComplete="url"
               value={urlBInput}
               onChange={(e) => setUrlBInput(e.target.value)}
-              placeholder="e.g. competitor.com"
-              className="w-full px-3.5 py-2 rounded-lg border border-border bg-background text-foreground text-sm font-mono focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none"
+              placeholder="competitor.com"
+              className="ds-input w-full bg-background text-sm"
             />
           </div>
 
-          <div className="md:col-span-12 flex justify-end mt-2">
+          <div className="md:col-span-12 flex justify-end">
             <button
               type="submit"
-              disabled={isLoading || !urlAInput || !urlBInput}
-              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-sm font-mono flex items-center justify-center gap-2 shadow-md transition disabled:opacity-50"
+              disabled={isLoading || !urlAInput.trim() || !urlBInput.trim()}
+              className="ds-btn ds-btn-primary w-full text-sm disabled:opacity-50 md:w-auto"
             >
-              {isLoading ? (
-                <span>Synthesizing Comparative Delta...</span>
-              ) : (
-                <>
-                  <Zap className="w-4 h-4 fill-current" />
-                  <span>Run Differential Matrix</span>
-                </>
-              )}
+              <Zap className="size-4 shrink-0" aria-hidden="true" />
+              <span>{isLoading ? 'Comparing…' : 'Compare domains'}</span>
             </button>
           </div>
         </form>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Compare runs the health engine against both domains. Open a dossier for the full
+          eight-engine reading.
+        </p>
       </div>
 
-      {/* Comparison Content */}
+      {error && (
+        <div role="alert" className="flex items-start gap-2 rounded-xl border border-danger/30 bg-danger/5 p-4 text-sm">
+          <AlertCircle className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true" />
+          <div>
+            <p className="font-medium text-foreground">Comparison failed</p>
+            <p className="mt-0.5 text-muted-foreground">{error}</p>
+          </div>
+        </div>
+      )}
+
       {isLoading ? (
-        <div className="space-y-6" role="status" aria-label="Synthesizing comparative delta...">
-          <div className="rounded-xl border border-border bg-card/80 p-5 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="space-y-6" role="status" aria-label="Comparing both domains">
+          <div className="flex flex-col items-center justify-between gap-4 rounded-xl border border-border bg-card p-5 md:flex-row">
             <div className="flex items-center gap-3.5">
-              <Skeleton className="w-12 h-12 rounded-xl" />
+              <Skeleton className="h-12 w-12 rounded-xl" />
               <div className="space-y-2">
                 <Skeleton className="h-3.5 w-36 rounded-xs" />
                 <Skeleton className="h-6 w-48 rounded-md" />
@@ -226,114 +260,113 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
               <Skeleton className="h-14 w-20 rounded-lg" />
             </div>
           </div>
-          <SkeletonTable rows={6} columns={4} />
+          <SkeletonTable rows={4} columns={4} />
+        </div>
+      ) : !hasResult ? (
+        <div className="rounded-xl border border-dashed border-border p-8 text-center">
+          <p className="framer-card-title text-lg text-foreground">No comparison yet</p>
+          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+            Enter two domains above and run the comparison. Scores come back in a few seconds,
+            one health reading per domain.
+          </p>
         </div>
       ) : (
         <>
-          {/* Winner Summary Banner */}
-          <div className="rounded-xl border border-border bg-card/80 p-5 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-500/5 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-md shadow-amber-500/10">
-            <Trophy className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono uppercase text-muted-foreground">Differential Synthesis</span>
-              <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-cream/15 text-emerald-500 border border-emerald-500/30">
-                {scoreDelta >= 0 ? `+${scoreDelta} pts Delta` : `${scoreDelta} pts Delta`}
-              </span>
+          <div className="flex flex-col items-center justify-between gap-4 rounded-xl border border-border bg-card p-5 md:flex-row">
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-warning/30 bg-warning/10 text-warning">
+                <Trophy className="h-6 w-6" aria-hidden="true" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">Score difference</span>
+                  <span className="rounded-md border border-border px-2 py-0.5 font-mono text-xs font-semibold text-foreground">
+                    {scoreDelta === 0 ? 'Level' : formatDelta(scoreDelta as number)}
+                  </span>
+                </div>
+                <h3 className="mt-0.5 text-base font-semibold text-foreground md:text-lg">
+                  {winner ? <>Higher score: <span className="text-info">{winner}</span></> : 'Both domains score the same'}
+                </h3>
+              </div>
             </div>
-            <h3 className="text-base md:text-lg font-bold text-foreground mt-0.5">
-              Winner: <span className="text-primary">{winner}</span>
-            </h3>
+
+            <div className="flex items-center gap-4 font-mono">
+              <div className="rounded-lg border border-border bg-muted px-4 py-2 text-center">
+                <div className="text-xs text-muted-foreground">First</div>
+                <div className="text-xl font-bold text-foreground">{scoreA}</div>
+              </div>
+              <div className="font-bold text-muted-foreground">:</div>
+              <div className="rounded-lg border border-border bg-muted px-4 py-2 text-center">
+                <div className="text-xs text-muted-foreground">Second</div>
+                <div className="text-xl font-bold text-foreground">{scoreB}</div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* Head-to-Head Big Score Chips */}
-        <div className="flex items-center gap-4 font-mono">
-          <div className="text-center px-4 py-2 rounded-lg bg-muted border border-border">
-            <div className="text-[11px] text-primary uppercase font-semibold">Alpha</div>
-            <div className="text-xl font-bold text-foreground">{scoreA}</div>
-          </div>
-          <div className="text-muted-foreground font-bold">:</div>
-          <div className="text-center px-4 py-2 rounded-lg bg-muted border border-emerald-500/40">
-            <div className="text-[11px] text-emerald-500 uppercase font-semibold">Beta</div>
-            <div className="text-xl font-bold text-foreground">{scoreB}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Differential Matrix Table */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden shadow-2xl">
-        <div className="overflow-x-auto scrollbar-none touch-pan-x">
-          <table className="w-full text-left font-mono text-xs border-collapse">
-            <thead>
-              <tr className="bg-muted/40 border-b border-border text-muted-foreground">
-                <th className="py-3 px-4 font-semibold text-muted-foreground">Engine / Vector</th>
-                <th className="py-3 px-4 font-semibold text-primary">{urlAInput || 'Domain Alpha'}</th>
-                <th className="py-3 px-4 font-semibold text-emerald-500">{urlBInput || 'Domain Beta'}</th>
-                <th className="py-3 px-4 font-semibold text-right">Variance Delta</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {COMPARISON_DIMENSIONS.map((dim) => {
-                const resA = dim.getValue(reportA);
-                const resB = dim.getValue(reportB);
-                const delta = (resA.score || 80) - (resB.score || 75);
-
-                return (
-                  <tr key={dim.id} className="hover:bg-primary/40 transition-colors">
-                    {/* Vector Name */}
-                    <td className="py-3.5 px-4">
-                      <div className="font-semibold text-muted-foreground text-xs">{dim.name}</div>
-                      <div className="text-[11px] text-muted-foreground">{dim.metricLabel}</div>
-                    </td>
-
-                    {/* Domain A Metric & Score */}
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-foreground">{resA.score || 80}</span>
-                        <span className="text-[11px] text-muted-foreground">({resA.value})</span>
-                      </div>
-                    </td>
-
-                    {/* Domain B Metric & Score */}
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-foreground">{resB.score || 75}</span>
-                        <span className="text-[11px] text-muted-foreground">({resB.value})</span>
-                      </div>
-                    </td>
-
-                    {/* Variance Delta Badge */}
-                    <td className="py-3.5 px-4 text-right">
-                      {delta > 0 ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-cream/15 text-emerald-500 border border-emerald-500/30 font-bold text-[11px]">
-                          <ArrowUpRight className="w-3 h-3" />
-                          +{delta} pts
-                        </span>
-                      ) : delta < 0 ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/15 text-rose-500 border border-rose-500/30 font-bold text-[11px]">
-                          <ArrowDownRight className="w-3 h-3" />
-                          {delta} pts
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-muted text-muted-foreground border border-border font-bold text-[11px]">
-                          <Minus className="w-3 h-3" />
-                          PARITY
-                        </span>
-                      )}
-                    </td>
+          <div className="overflow-hidden rounded-xl border border-border bg-card">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-sm">
+                <caption className="sr-only">Measured engine scores for both domains</caption>
+                <thead>
+                  <tr className="border-b border-border bg-muted/40 text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 font-medium">Engine</th>
+                    <th scope="col" className="px-4 py-3 font-medium">{urlAInput || 'First domain'}</th>
+                    <th scope="col" className="px-4 py-3 font-medium">{urlBInput || 'Second domain'}</th>
+                    <th scope="col" className="px-4 py-3 text-right font-medium">Difference</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {rows.map((row) => {
+                    const delta = row.a.score !== null && row.b.score !== null ? row.a.score - row.b.score : null;
+                    return (
+                      <tr key={row.id}>
+                        <th scope="row" className="px-4 py-3.5 text-left font-normal">
+                          <div className="font-medium text-foreground">{row.name}</div>
+                          <div className="text-xs text-muted-foreground">{row.metricLabel}</div>
+                        </th>
+                        <td className="px-4 py-3.5">
+                          <Reading reading={row.a} />
+                        </td>
+                        <td className="px-4 py-3.5">
+                          <Reading reading={row.b} />
+                        </td>
+                        <td className="px-4 py-3.5 text-right">
+                          {delta === null ? (
+                            <span className="font-mono text-xs text-muted-foreground">—</span>
+                          ) : delta > 0 ? (
+                            <span className="inline-flex items-center gap-1 rounded border border-success/30 bg-success/10 px-2 py-0.5 font-mono text-xs font-semibold text-success">
+                              <ArrowUpRight className="h-3 w-3" aria-hidden="true" />+{delta}
+                            </span>
+                          ) : delta < 0 ? (
+                            <span className="inline-flex items-center gap-1 rounded border border-danger/30 bg-danger/10 px-2 py-0.5 font-mono text-xs font-semibold text-danger">
+                              <ArrowDownRight className="h-3 w-3" aria-hidden="true" />{delta}
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded border border-border bg-muted px-2 py-0.5 font-mono text-xs font-semibold text-muted-foreground">
+                              <Minus className="h-3 w-3" aria-hidden="true" />equal
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </>
       )}
     </div>
   );
 };
 
+const Reading: React.FC<{ reading: DimensionReading }> = ({ reading }) => (
+  <div className="flex flex-wrap items-baseline gap-2">
+    <span className="font-mono font-semibold text-foreground">
+      {reading.score === null ? '—' : reading.score}
+    </span>
+    <span className="text-xs text-muted-foreground">
+      {reading.detail ?? 'Not measured in compare'}
+    </span>
+  </div>
+);

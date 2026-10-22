@@ -13,11 +13,7 @@ export const SystemOverviewDoc: React.FC = () => {
  canonicalPath="/docs"
  >
  {/* Hero Header */}
- <section id="overview-philosophy"className="space-y-4">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 py-0.5 text-xs font-semibold text-primary">
- <span className="h-1.5 w-1.5 rounded-full bg-primary"/>
- <span>CatalystLab Core Architecture</span>
- </div>
+ <section id="overview-philosophy" className="space-y-4">
  <h1 className="text-4xl sm:text-5xl font-display font-medium text-foreground">
  System Overview & Engineering Philosophy
  </h1>
@@ -44,8 +40,8 @@ export const SystemOverviewDoc: React.FC = () => {
  </ParallaxSection>
 
  {/* Callout Note */}
- <section id="zero-eval-model"className="space-y-4">
- <div className="rounded-xl border-l-4 border-primary bg-primary/10 p-5 text-sm text-foreground">
+ <section id="zero-eval-model" className="space-y-4">
+ <div className="rounded-xl border border-border bg-surface p-5 text-sm text-foreground">
  <div className="flex items-start gap-3">
  <Info className="h-5 w-5 text-primary shrink-0 mt-0.5"/>
  <div className="space-y-2">
@@ -66,7 +62,7 @@ export const SystemOverviewDoc: React.FC = () => {
  <section className="space-y-4 ds-section">
  <h2 className="text-2xl font-display font-medium text-foreground">Four Core Principles</h2>
  
-      <blockquote className="border-l-[3px] border-cream/60 bg-cream/5 p-4 my-6 rounded-r-lg">
+      <blockquote className="my-6 rounded-lg bg-surface p-4">
  <p className="text-foreground m-0 text-sm flex items-center gap-2 font-medium">
  <ShieldCheck className="size-4 text-cream/60" />
  <strong>Architectural Warning:</strong> CatalystLab is a strict non-evaluating telemetry layer. It never stores payload data locally and operates in a purely ephemeral streaming context to ensure compliance with SOC2 Type II constraints.
@@ -76,7 +72,7 @@ export const SystemOverviewDoc: React.FC = () => {
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
  <div className="ds-card p-4 space-y-1.5">
  <div className="flex items-center gap-2 font-bold text-foreground">
- <Zap className="h-4 w-4 text-amber-500"/>
+ <Zap className="h-4 w-4 text-warning"/>
  <span>1. Sub-Second Determinism</span>
  </div>
  <p className="text-foreground-muted leading-relaxed">
@@ -86,7 +82,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
  <div className="ds-card p-4 space-y-1.5">
  <div className="flex items-center gap-2 font-bold text-foreground">
- <ShieldCheck className="h-4 w-4 text-emerald-600"/>
+ <ShieldCheck className="h-4 w-4 text-success"/>
  <span>2. Zero-Trust Security</span>
  </div>
  <p className="text-foreground-muted leading-relaxed">
@@ -96,7 +92,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
  <div className="ds-card p-4 space-y-1.5">
  <div className="flex items-center gap-2 font-bold text-foreground">
- <Activity className="h-4 w-4 text-sky-600"/>
+ <Activity className="h-4 w-4 text-info"/>
  <span>3. Standardized Output Schema</span>
  </div>
  <p className="text-foreground-muted leading-relaxed">
@@ -106,7 +102,7 @@ export const SystemOverviewDoc: React.FC = () => {
 
  <div className="ds-card p-4 space-y-1.5">
  <div className="flex items-center gap-2 font-bold text-foreground">
- <Database className="h-4 w-4 text-purple-600"/>
+ <Database className="h-4 w-4 text-[color:var(--chart-violet)]"/>
  <span>4. Durable Permalinks</span>
  </div>
  <p className="text-foreground-muted leading-relaxed">
@@ -117,7 +113,7 @@ export const SystemOverviewDoc: React.FC = () => {
  </section>
 
  {/* SDLC Catalysts Summary */}
- <section id="engines-summary"className="space-y-4">
+ <section id="engines-summary" className="space-y-4">
  <h2 className="text-2xl font-display font-medium text-foreground">The 8 SDLC Catalysts</h2>
  <p className="text-sm text-foreground-muted">
  CatalystLab divides modern web telemetry into 8 specialized diagnostic vectors:
@@ -135,67 +131,67 @@ export const SystemOverviewDoc: React.FC = () => {
  </thead>
  <tbody className="divide-y divide-white/[0.06] text-foreground">
  <tr>
- <td className="py-2 font-semibold text-orange-400">1. SynthShift</td>
+ <td className="py-2 font-semibold text-warning">1. SynthShift</td>
  <td className="py-2 text-foreground-muted">Platform Migration & System Blueprint</td>
  <td className="py-2 text-xs font-mono">Firebase + Mongo Schemas</td>
  <td className="py-2">
- <Link to="/docs/synthshift"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/synthshift" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  <tr>
- <td className="py-2 font-semibold text-emerald-400">2. GitLygase</td>
+ <td className="py-2 font-semibold text-foreground">2. GitLygase</td>
  <td className="py-2 text-foreground-muted">Git Repository SecOps & Hygiene</td>
  <td className="py-2 text-xs font-mono">License, SECURITY.md, CI</td>
  <td className="py-2">
- <Link to="/docs/gitlygase"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/gitlygase" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  <tr>
- <td className="py-2 font-semibold text-emerald-400">3. EcoHolo</td>
+ <td className="py-2 font-semibold text-foreground">3. EcoHolo</td>
  <td className="py-2 text-foreground-muted">Sustainable Web Carbon Footprint</td>
  <td className="py-2 text-xs font-mono">SWD v4 (g CO2 / view)</td>
  <td className="py-2">
- <Link to="/docs/ecoholo"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/ecoholo" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  <tr>
- <td className="py-2 font-semibold text-primary">4. VitalZyme</td>
+ <td className="py-2 font-semibold text-foreground">4. VitalZyme</td>
  <td className="py-2 text-foreground-muted">Core Web Vitals & DOM Tree Depth</td>
  <td className="py-2 text-xs font-mono">Tree Depth, Total Nodes</td>
  <td className="py-2">
- <Link to="/docs/vitalzyme"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/vitalzyme" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  <tr>
- <td className="py-2 font-semibold text-pink-400">5. EdgeVmax</td>
+ <td className="py-2 font-semibold text-foreground">5. EdgeVmax</td>
  <td className="py-2 text-foreground-muted">Multi-PoP Global Edge Latency</td>
  <td className="py-2 text-xs font-mono">12-Region Synthetic TTFB</td>
  <td className="py-2">
- <Link to="/docs/edgevmax"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/edgevmax" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  <tr>
- <td className="py-2 font-semibold text-amber-400">6. RiskProtease</td>
+ <td className="py-2 font-semibold text-foreground">6. RiskProtease</td>
  <td className="py-2 text-foreground-muted">OWASP Security & Compliance</td>
  <td className="py-2 text-xs font-mono">HSTS, CSP, WCAG 2.2 AA</td>
  <td className="py-2">
- <Link to="/docs/riskprotease"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/riskprotease" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  <tr>
- <td className="py-2 font-semibold text-violet-400">7. LLM-Kinase</td>
+ <td className="py-2 font-semibold text-foreground">7. LLM-Kinase</td>
  <td className="py-2 text-foreground-muted">AI Readiness & llms.txt Discovery</td>
  <td className="py-2 text-xs font-mono">GPTBot, JSON-LD Schemas</td>
  <td className="py-2">
- <Link to="/docs/llm-kinase"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/llm-kinase" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  <tr>
- <td className="py-2 font-semibold text-indigo-300">8. AllosterSearch</td>
+ <td className="py-2 font-semibold text-foreground">8. AllosterSearch</td>
  <td className="py-2 text-foreground-muted">AI Search Engine Optimization (LLMO)</td>
  <td className="py-2 text-xs font-mono">RAG Density, E-E-A-T Index</td>
  <td className="py-2">
- <Link to="/docs/allostersearch"className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
+ <Link to="/docs/allostersearch" className="text-primary hover:underline font-bold text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Explore Docs →</Link>
  </td>
  </tr>
  </tbody>
@@ -204,7 +200,7 @@ export const SystemOverviewDoc: React.FC = () => {
  </section>
 
  {/* Next Steps */}
- <section id="next-steps"className="space-y-4">
+ <section id="next-steps" className="space-y-4">
  <h2 className="text-2xl font-display font-medium text-foreground">Next Steps</h2>
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
  <Link

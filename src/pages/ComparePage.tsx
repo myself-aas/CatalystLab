@@ -2,302 +2,176 @@ import React, { useState } from 'react';
 import { SideBySideDeltaMatrix } from '../components/telemetry/SideBySideDeltaMatrix';
 import { SEOHead } from '../components/common/SEOHead';
 import { urlToDomainSlug } from '../utils/slugUtils';
-import type { MasterTelemetryReport } from '../types/telemetry';
+import type { MasterTelemetryReport, DiagnosticEngineId, EngineResult } from '../types/telemetry';
 import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
 
+interface CompareResponse {
+  success: boolean;
+  error?: string;
+  domainA?: { url: string; score: number | null; status: 'pass' | 'fail' | 'unknown' };
+  domainB?: { url: string; score: number | null; status: 'pass' | 'fail' | 'unknown' };
+  differential?: { scoreDelta: string | null };
+}
+
+const ENGINE_IDS: DiagnosticEngineId[] = [
+  'health',
+  'ai_ready',
+  'repo',
+  'latency',
+  'eco',
+  'compliance',
+  'migration',
+  'ai_search',
+];
+
+/** Builds a report containing only what the compare endpoint actually measured. */
+function reportFrom(
+  domain: { url: string; score: number | null } | undefined,
+  key: string
+): MasterTelemetryReport | null {
+  if (!domain || typeof domain.score !== 'number') return null;
+
+  const idle = (engineId: DiagnosticEngineId): EngineResult => ({
+    engineId,
+    name: engineId,
+    category: 'Performance',
+    status: 'IDLE',
+    executionTimeMs: 0,
+    score: 0,
+    rawLogStream: [],
+  });
+
+  const engines = Object.fromEntries(ENGINE_IDS.map((id) => [id, idle(id)])) as Record<
+    DiagnosticEngineId,
+    EngineResult
+  >;
+
+  engines.health = {
+    engineId: 'health',
+    name: 'Health',
+    category: 'Performance',
+    status: 'COMPLETE',
+    executionTimeMs: 0,
+    score: domain.score,
+    rawLogStream: [],
+    completedAt: new Date().toISOString(),
+  };
+
+  const grade: MasterTelemetryReport['grade'] =
+    domain.score >= 90 ? 'A+' : domain.score >= 80 ? 'A' : domain.score >= 70 ? 'B' : domain.score >= 60 ? 'C' : domain.score >= 50 ? 'D' : 'F';
+
+  return {
+    id: key,
+    targetUrl: domain.url,
+    normalizedUrl: domain.url,
+    domainSlug: urlToDomainSlug(domain.url),
+    overallScore: domain.score,
+    grade,
+    engines,
+    startedAt: new Date().toISOString(),
+    totalDurationMs: 0,
+    isCompleted: true,
+    initiatedBy: { tier: 'visitor', ipHash: 'compare' },
+  };
+}
+
 export const ComparePage: React.FC = () => {
- const [reportA, setReportA] = useState<MasterTelemetryReport | null>(null);
- const [reportB, setReportB] = useState<MasterTelemetryReport | null>(null);
- const [loading, setLoading] = useState(false);
+  const [reportA, setReportA] = useState<MasterTelemetryReport | null>(null);
+  const [reportB, setReportB] = useState<MasterTelemetryReport | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
- const normalizeUrl = (input: string): string => {
- let trimmed = input.trim();
- if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
- trimmed = 'https://' + trimmed;
- }
- return trimmed;
- };
+  const normalizeUrl = (input: string): string => {
+    const trimmed = input.trim();
+    if (!trimmed) return '';
+    if (!/^https?:\/\//i.test(trimmed)) {
+      return `https://${trimmed}`;
+    }
+    return trimmed;
+  };
 
- const handleCompare = async (rawA: string, rawB: string) => {
- if (!rawA.trim() || !rawB.trim()) return;
+  const handleCompare = async (rawA: string, rawB: string) => {
+    const cleanA = normalizeUrl(rawA);
+    const cleanB = normalizeUrl(rawB);
+    if (!cleanA || !cleanB) return;
 
- const cleanA = normalizeUrl(rawA);
- const cleanB = normalizeUrl(rawB);
+    setLoading(true);
+    setError(null);
 
- setLoading(true);
+    try {
+      const response = await authorizedFetch('/api/v1/audit/compare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ urlA: cleanA, urlB: cleanB }),
+      });
 
- try {
- const [resA, resB] = await Promise.all([
- authorizedFetch('/api/run-engine', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ url: cleanA, engine: 'health' }),
- }).then(r => r.json()).catch(() => null),
- authorizedFetch('/api/run-engine', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ url: cleanB, engine: 'health' }),
- }).then(r => r.json()).catch(() => null),
- ]);
+      const data = (await response.json()) as CompareResponse;
 
- const constructedReportA: MasterTelemetryReport = {
- id: `rep_${Date.now()}_a`,
- targetUrl: cleanA,
- normalizedUrl: cleanA,
- domainSlug: urlToDomainSlug(cleanA),
- overallScore: 92,
- grade: 'A',
- startedAt: new Date().toISOString(),
- totalDurationMs: 540,
- isCompleted: true,
- initiatedBy: { tier: 'pro', ipHash: 'compare' },
- engines: {
- health: {
- engineId: 'health',
- name: 'Website Health',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 120,
- score: 94,
- metrics: { ttfbMs: 110 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_ready: {
- engineId: 'ai_ready',
- name: 'AI Readiness',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 80,
- score: 90,
- metrics: { ragContextExtractionScore: 85 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- latency: {
- engineId: 'latency',
- name: 'Edge Latency',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 95,
- score: 95,
- metrics: { globalAvgLatencyMs: 64 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- eco: {
- engineId: 'eco',
- name: 'Eco Carbon',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 110,
- score: 88,
- metrics: { co2GramsPerPageview: 0.28 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- compliance: {
- engineId: 'compliance',
- name: 'Security Compliance',
- category: 'Security',
- status: 'COMPLETE',
- executionTimeMs: 90,
- score: 92,
- metrics: { owaspHeaders: [{ isPresent: true }, { isPresent: true }, { isPresent: true }, { isPresent: true }, { isPresent: true }] } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- migration: {
- engineId: 'migration',
- name: 'Migration AST',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 85,
- score: 96,
- metrics: { detectedFrontend: 'Next.js (React)' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_search: {
- engineId: 'ai_search',
- name: 'AI Search',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 100,
- score: 89,
- metrics: { aiSynthesizabilityScore: 88 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- repo: {
- engineId: 'repo',
- name: 'Repo Hygiene',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 70,
- score: 92,
- metrics: { licenseName: 'MIT' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- },
- };
+      if (!response.ok || !data.success) {
+        setReportA(null);
+        setReportB(null);
+        setError(
+          data.error ||
+            (response.status === 429
+              ? 'You have used the comparison allowance for now. Sign in for a higher limit, or try again shortly.'
+              : 'We could not compare those domains. Check both addresses and try again.')
+        );
+        return;
+      }
 
- const constructedReportB: MasterTelemetryReport = {
- id: `rep_${Date.now()}_b`,
- targetUrl: cleanB,
- normalizedUrl: cleanB,
- domainSlug: urlToDomainSlug(cleanB),
- overallScore: 84,
- grade: 'B',
- startedAt: new Date().toISOString(),
- totalDurationMs: 620,
- isCompleted: true,
- initiatedBy: { tier: 'pro', ipHash: 'compare' },
- engines: {
- health: {
- engineId: 'health',
- name: 'Website Health',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 150,
- score: 82,
- metrics: { ttfbMs: 195 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_ready: {
- engineId: 'ai_ready',
- name: 'AI Readiness',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 110,
- score: 78,
- metrics: { ragContextExtractionScore: 68 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- latency: {
- engineId: 'latency',
- name: 'Edge Latency',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 130,
- score: 80,
- metrics: { globalAvgLatencyMs: 112 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- eco: {
- engineId: 'eco',
- name: 'Eco Carbon',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 125,
- score: 81,
- metrics: { co2GramsPerPageview: 0.48 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- compliance: {
- engineId: 'compliance',
- name: 'Security Compliance',
- category: 'Security',
- status: 'COMPLETE',
- executionTimeMs: 115,
- score: 86,
- metrics: { owaspHeaders: [{ isPresent: true }, { isPresent: true }, { isPresent: true }] } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- migration: {
- engineId: 'migration',
- name: 'Migration AST',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 95,
- score: 85,
- metrics: { detectedFrontend: 'WordPress' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_search: {
- engineId: 'ai_search',
- name: 'AI Search',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 110,
- score: 80,
- metrics: { aiSynthesizabilityScore: 74 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- repo: {
- engineId: 'repo',
- name: 'Repo Hygiene',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 80,
- score: 88,
- metrics: { licenseName: 'Apache-2.0' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- },
- };
+      const nextA = reportFrom(data.domainA, `compare_${Date.now()}_a`);
+      const nextB = reportFrom(data.domainB, `compare_${Date.now()}_b`);
 
- setReportA(constructedReportA);
- setReportB(constructedReportB);
- } catch (err) {
- logger.error("Side-by-side comparison failed:", err);
- } finally {
- setLoading(false);
- }
- };
+      if (!nextA || !nextB) {
+        setReportA(null);
+        setReportB(null);
+        setError('One of the domains did not return a measurable health score. Check that it is publicly reachable, then try again.');
+        return;
+      }
 
- return (
- <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
- <SEOHead
- title="Side-by-Side Delta Comparison — CatalystLab"
- description="Benchmark performance, security headers, and DOM complexity between two competing websites in real-time."
- keywords={['site comparison', 'benchmark websites', 'performance comparison', 'OWASP headers', 'DOM complexity']}
- canonicalUrl="https://www.catalystlab.tech/compare"
- />
+      setReportA(nextA);
+      setReportB(nextB);
+    } catch (err) {
+      logger.error('Side-by-side comparison failed:', err);
+      setReportA(null);
+      setReportB(null);
+      setError('The comparison request did not reach CatalystLab. Check your connection and try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
- {/* Header */}
- <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,210,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
+  return (
+    <div className="min-h-screen ds-page-top bg-background text-foreground">
+      <SEOHead
+        title="Compare two domains — CatalystLab"
+        description="Run the CatalystLab health engine against two domains and read the score difference side by side."
+        keywords={['site comparison', 'benchmark websites', 'performance comparison', 'health score comparison']}
+        canonicalUrl="https://www.catalystlab.tech/compare"
+      />
 
- <div className="relative z-10 ds-page-shell text-center space-y-4">
- <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cream/10 px-3 py-1 framer-micro-tag text-foreground shadow-xs backdrop-blur-md">
- <span className="h-2 w-2 rounded-full bg-cream animate-pulse shrink-0"/>
- <span>SIDE-BY-SIDE COMPARATIVE TELEMETRY</span>
- </div>
+      <section className="border-b border-border w-full ds-section">
+        <div className="ds-page-shell max-w-3xl space-y-3">
+          <h1 className="framer-hero-title text-foreground">Compare two domains</h1>
+          <p className="framer-body-text">
+            Both domains get the same health reading, measured now, and the difference is shown
+            engine by engine.
+          </p>
+        </div>
+      </section>
 
- <h1 className="framer-hero-title text-foreground">
- Head-to-Head Telemetry{' '}
- <span className="text-foreground">
- Delta Matrix
- </span>
- </h1>
- <p className="framer-body-text max-w-xl mx-auto">
- Benchmark performance, security headers, and DOM complexity between two competing web architectures with synchronous multi-engine delta calculations.
- </p>
- </div>
- </section>
-
- {/* Main Matrix Workspace */}
- <main className="ds-page-shell mt-8 ds-section">
- <SideBySideDeltaMatrix
- reportA={reportA}
- reportB={reportB}
- onCompare={handleCompare}
- isLoading={loading}
- />
- </main>
- </div>
- );
+      <main className="ds-page-shell mt-8 ds-section">
+        <SideBySideDeltaMatrix
+          reportA={reportA}
+          reportB={reportB}
+          onCompare={handleCompare}
+          isLoading={loading}
+          error={error}
+        />
+      </main>
+    </div>
+  );
 };
 
 export default ComparePage;

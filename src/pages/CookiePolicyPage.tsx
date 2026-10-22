@@ -14,39 +14,27 @@ export const CookiePolicyPage: React.FC = () => {
  canonicalUrl="https://www.catalystlab.tech/cookies"
  />
 
- {/* Dedicated Hero Header */}
  <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
- <div className="mx-auto max-w-5xl">
- <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
- <div className="space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-cream/10 px-2.5 py-1 framer-micro-tag text-amber-400">
- <Cookie className="h-3.5 w-3.5 text-amber-400 shrink-0"/>
- <span>Transparent Consent Architecture</span>
- </div>
- <h1 className="framer-section-headline text-foreground">
- Cookie Policy &amp; Consent Manager
+ <div className="mx-auto flex max-w-5xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
+ <div className="max-w-3xl space-y-3">
+ <h1 className="framer-section-headline flex items-center gap-3 text-foreground">
+ <Cookie className="size-7 shrink-0 text-warning" aria-hidden="true" />
+ Cookie Policy
  </h1>
- <p className="framer-body-text max-w-3xl">
- Full transparency into session tokens, local telemetry storage, and granular client-side controls. We do not use third-party advertising cookies.
+ <p className="framer-body-text">
+ CatalystLab stores one essential sign-in cookie and, with your consent, a local
+ cache of your recent scans. Nothing here follows you to other sites.
  </p>
  </div>
 
- {/* Quick Actions */}
- <div className="shrink-0 flex items-center gap-3">
- <Link
- to="/privacy"
- className="ds-btn ds-btn-primary text-xs"
- >
- <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
- <span>View Full Privacy Policy</span>
- <ArrowRight className="h-3 w-3 shrink-0"/>
+ <Link to="/privacy" className="ds-btn ds-btn-secondary shrink-0 text-sm">
+ <ShieldCheck className="size-4 shrink-0"/>
+ <span>Read the privacy policy</span>
+ <ArrowRight className="size-4 shrink-0"/>
  </Link>
- </div>
- </div>
  </div>
  </section>
 
- {/* Main Content */}
  <main className="ds-page-shell ds-section">
  <CookiePreferenceCenter />
  </main>

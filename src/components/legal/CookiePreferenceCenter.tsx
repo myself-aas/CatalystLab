@@ -84,7 +84,7 @@ export const CookiePreferenceCenter: React.FC = () => {
       {/* Policy Banner */}
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-sm">
-          <div className="flex items-center gap-2 text-xs text-amber-600 mb-1">
+          <div className="flex items-center gap-2 text-xs text-warning mb-1">
             <Cookie className="h-4 w-4" />
             <span className="font-bold">TRANSPARENT PRIVACY TOKENS • STRICT OPT-IN</span>
           </div>
@@ -103,7 +103,7 @@ export const CookiePreferenceCenter: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
             <div>
               <h3 className="text-base font-bold text-foreground flex items-center gap-2 font-sans">
-                <Sliders className="h-4 w-4 text-amber-600" />
+                <Sliders className="h-4 w-4 text-warning" />
                 <span>Interactive Cookie Preference Center</span>
               </h3>
               <p className="text-xs text-muted-foreground mt-0.5 font-sans">
@@ -115,7 +115,7 @@ export const CookiePreferenceCenter: React.FC = () => {
               onClick={handleSave}
               className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-sm cursor-pointer"
             >
-              {saved ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <ShieldCheck className="h-3.5 w-3.5 text-amber-400" />}
+              {saved ? <Check className="h-3.5 w-3.5 text-success" /> : <ShieldCheck className="h-3.5 w-3.5 text-warning" />}
               <span>{saved ? 'Preferences Saved!' : 'Save My Preferences'}</span>
             </button>
           </div>
@@ -125,9 +125,9 @@ export const CookiePreferenceCenter: React.FC = () => {
             <div className="rounded-xl border border-border bg-muted p-4 flex items-start justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-3.5 w-3.5 text-emerald-400" />
+                  <Lock className="h-3.5 w-3.5 text-success" />
                   <span className="font-bold text-xs text-foreground font-sans">Strictly Essential &amp; Authentication Tokens</span>
-                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-500/20 bg-cream/10 text-emerald-400">
+                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-success/20 bg-cream/10 text-success">
                     Always Active
                   </span>
                 </div>
@@ -149,9 +149,9 @@ export const CookiePreferenceCenter: React.FC = () => {
             <div className="rounded-xl border border-border bg-muted p-4 flex items-start justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Zap className="h-3.5 w-3.5 text-amber-400" />
+                  <Zap className="h-3.5 w-3.5 text-warning" />
                   <span className="font-bold text-xs text-foreground font-sans">Diagnostic Telemetry Cache</span>
-                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-500/20 bg-cream/10 text-amber-400">
+                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-warning/20 bg-cream/10 text-warning">
                     Recommended
                   </span>
                 </div>
@@ -166,7 +166,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   aria-checked={preferences.telemetryCache}
                   onClick={() => setPreferences({ ...preferences, telemetryCache: !preferences.telemetryCache })}
                   className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                    preferences.telemetryCache ? 'bg-amber-600' : 'bg-muted'
+                    preferences.telemetryCache ? 'bg-warning' : 'bg-muted'
                   }`}
                 >
                   <span
@@ -199,7 +199,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   aria-checked={preferences.analytics}
                   onClick={() => setPreferences({ ...preferences, analytics: !preferences.analytics })}
                   className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                    preferences.analytics ? 'bg-amber-600' : 'bg-muted'
+                    preferences.analytics ? 'bg-warning' : 'bg-muted'
                   }`}
                 >
                   <span
@@ -238,7 +238,7 @@ export const CookiePreferenceCenter: React.FC = () => {
               <tbody className="divide-y divide-border text-muted-foreground">
                 {cookieList.map((item, idx) => (
                   <tr key={idx} className="hover:bg-muted transition-colors">
-                    <td className="py-3 px-3 font-bold text-amber-700 font-mono">{item.name}</td>
+                    <td className="py-3 px-3 font-bold text-warning font-mono">{item.name}</td>
                     <td className="py-3 px-3">
                       <span className="rounded bg-accent border border-border px-2 py-0.5 text-[11px] font-semibold text-foreground">
                         {item.category}
@@ -284,7 +284,7 @@ export const CookiePreferenceCenter: React.FC = () => {
           </div>
 
           <div className="mt-5 rounded-xl border border-border bg-muted p-4">
-            <span className="text-[11px] uppercase font-bold text-amber-700">Instructions for {activeBrowser.toUpperCase()}:</span>
+            <span className="text-[11px] uppercase font-bold text-warning">Instructions for {activeBrowser.toUpperCase()}:</span>
             <p className="text-xs text-muted-foreground mt-1.5 font-sans leading-relaxed">
               {browserInstructions[activeBrowser]}
             </p>

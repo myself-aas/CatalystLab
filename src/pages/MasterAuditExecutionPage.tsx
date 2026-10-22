@@ -216,28 +216,25 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <section className="relative overflow-hidden border-b border-border w-full ds-section">
  <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
- <div className="relative z-10 ds-page-shell text-center">
+ <div className="relative z-10 ds-page-shell">
  <div className="mb-8 flex items-center justify-between">
- <Link
- to="/"
- className="ds-btn ds-btn-secondary text-xs"
- >
- <ArrowLeft className="size-3.5 shrink-0"/>
+ <Link to="/" className="ds-btn ds-btn-secondary text-sm">
+ <ArrowLeft className="size-4 shrink-0"/>
  Back to home
  </Link>
- <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-cream/10 px-3 py-1 framer-micro-tag text-foreground">
- <ShieldCheck className="size-3.5 shrink-0"/>
- 8-engine orchestrator
+ <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+ <ShieldCheck className="size-4 shrink-0 text-success" aria-hidden="true"/>
+ Eight engines, one report
  </span>
  </div>
 
- <h1 className="framer-hero-title text-foreground">
- Master Audit
- </h1>
- <p className="mx-auto mt-3 max-w-3xl framer-body-text">
- Dispatch every Catalyst sequentially through the same engine runtime as single-tool scans.
- Composite score is the mean of completed engines.
+ <div className="mx-auto max-w-3xl space-y-3 text-center">
+ <h1 className="framer-hero-title text-foreground">Run all eight engines</h1>
+ <p className="framer-body-text">
+ Enter a domain and CatalystLab runs every engine against it, one after another. The
+ composite score is the average of the engines that returned a score.
  </p>
+ </div>
 
  <div className="mx-auto mt-8 max-w-3xl text-left">
  <EngineInput
@@ -262,17 +259,17 @@ export const MasterAuditExecutionPage: React.FC = () => {
 
  <main className="ds-page-shell space-y-6 ds-section">
  {(loading || completedCount > 0) && (
- <LinearCard className="p-5"lift={false}>
- <div className="flex items-center justify-between gap-3">
- <div className="flex items-center gap-2 text-sm text-foreground">
- <Activity className="size-4 text-foreground shrink-0"/>
+ <LinearCard className="p-5" lift={false}>
+ <div className="flex flex-wrap items-center justify-between gap-3">
+ <div className="flex items-center gap-2 text-sm text-foreground" role="status" aria-live="polite">
+ <Activity className="size-4 text-foreground shrink-0" aria-hidden="true"/>
  {loading
- ? `Engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
+ ? `Running engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
  : `${completedCount} of ${MASTER_ENGINES.length} engines finished`}
  </div>
  {compositeScore !== null && (
  <div className="font-mono text-sm text-foreground">
- Composite {compositeScore}/100
+ Composite score <span className="font-semibold">{compositeScore}</span>/100
  </div>
  )}
  </div>
@@ -286,16 +283,24 @@ export const MasterAuditExecutionPage: React.FC = () => {
  )}
 
  {error && (
- <LinearCard className="flex items-start gap-2 p-4 text-sm text-rose-300"lift={false}>
- <AlertCircle className="mt-0.5 size-4 shrink-0"/>
- {error}
+ <LinearCard className="flex items-start gap-2 p-4 text-sm" lift={false}>
+ <AlertCircle className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true"/>
+ <div>
+ <p className="font-medium text-foreground">The audit stopped early</p>
+ <p className="mt-0.5 text-muted-foreground">{error} Check the domain is publicly reachable, then run it again.</p>
+ </div>
  </LinearCard>
  )}
 
  {savedReportId && (
- <LinearCard className="flex items-center gap-2 p-4 text-sm ds-muted"lift={false}>
- <CheckCircle2 className="size-4 text-primary"/>
- Saved to your dashboard as report {savedReportId}.
+ <LinearCard className="flex items-start gap-2 p-4 text-sm" lift={false}>
+ <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true"/>
+ <div>
+ <p className="font-medium text-foreground">Saved to your account</p>
+ <p className="mt-0.5 text-muted-foreground">
+ Open it any time from <Link to={`/reports/${savedReportId}`} className="underline underline-offset-4">your reports</Link>.
+ </p>
+ </div>
  </LinearCard>
  )}
 
@@ -307,12 +312,14 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <div className="flex items-center justify-between gap-2">
  <span className="text-sm font-medium text-foreground">{meta?.catalystName || run.id}</span>
  {run.status === 'running' && <Loader2 className="size-3.5 animate-spin text-primary"/>}
- {run.status === 'complete' && <CheckCircle2 className="size-3.5 text-emerald-400"/>}
- {run.status === 'error' && <AlertCircle className="size-3.5 text-rose-400"/>}
+ {run.status === 'complete' && <CheckCircle2 className="size-3.5 text-success"/>}
+ {run.status === 'error' && <AlertCircle className="size-3.5 text-danger"/>}
  </div>
- <p className="mt-1 font-mono text-[11px] uppercase tracking-wider ds-muted">
- {run.status}
- {run.status === 'complete' ? ` · ${run.score}/100` : ''}
+ <p className="mt-1 text-sm ds-muted">
+ {run.status === 'queued' && 'Waiting'}
+ {run.status === 'running' && 'Measuring…'}
+ {run.status === 'complete' && `Score ${run.score}/100`}
+ {run.status === 'error' && 'Failed'}
  </p>
  </LinearCard>
  );

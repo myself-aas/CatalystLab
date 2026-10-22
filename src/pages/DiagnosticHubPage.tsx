@@ -1,313 +1,234 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
- ArrowRight,
- Sparkles,
- Terminal,
- Activity,
- Cpu,
- Leaf,
- ShieldCheck,
- GitBranch,
- Search,
- Globe,
- CheckCircle2,
- Clock
+import {
+  ArrowRight,
+  Activity,
+  Cpu,
+  Leaf,
+  ShieldCheck,
+  GitBranch,
+  Search,
+  Globe,
+  Terminal,
 } from 'lucide-react';
 import { PageTransition } from '../components/common/LazyAnimate';
 import { ENGINES_MAP } from '../data/engines';
 
-import { 
- PerfWidget, 
- LatencyWidget, 
- EcoWidget, 
- SecurityWidget, 
- RepoWidget, 
- AiWidget, 
- MigrationWidget, 
- LlmoWidget 
+import {
+  PerfWidget,
+  LatencyWidget,
+  EcoWidget,
+  SecurityWidget,
+  RepoWidget,
+  AiWidget,
+  MigrationWidget,
+  LlmoWidget
 } from '../components/hub/SimulationWidgets';
 
+/** The eight engines in SDLC order — names, routes and copy come from ENGINES_MAP. */
+const ENGINE_ORDER = [
+  'migration',
+  'repo',
+  'eco',
+  'health',
+  'latency',
+  'compliance',
+  'ai_ready',
+  'llmo',
+] as const;
 
-const CATEGORIES = [
- { id: 'all', label: 'All', count: 8 },
- { id: 'perf', label: 'Core Performance', count: 3 },
- { id: 'sec', label: 'Security & OWASP', count: 2 },
- { id: 'ai', label: 'AI Discoverability', count: 3 }
+type Group = 'perf' | 'sec' | 'ai';
+type HubEngineId = (typeof ENGINE_ORDER)[number];
+
+const GROUPS: Array<{ id: 'all' | Group; label: string }> = [
+  { id: 'all', label: 'All engines' },
+  { id: 'perf', label: 'Performance' },
+  { id: 'sec', label: 'Security & repository' },
+  { id: 'ai', label: 'AI discoverability' },
 ];
 
-const ENGINE_DETAILS = [
- {
- id: 'health', // VitalZyme
- cat: 'perf',
- title: 'VitalZyme',
- desc: 'Deep DOM & TTFB performance analysis. Identifies render-blocking resources and layout shifts.',
- icon: Activity,
- color: 'var(--color-cream)',
- status: 'Operational',
- specs: [
- { label: 'Frequency', value: 'Per-deploy / 5m pulse' },
- { label: 'CPU Impact', value: '< 1% (Passive)' },
- { label: 'Protocols', value: 'HTTP/2, HTTP/3, TLS 1.3' },
- { label: 'Standards', value: 'W3C Navigation Timing API' }
- ],
- widget: 'perf'
- },
- {
- id: 'latency', // EdgeKinase
- cat: 'perf',
- title: 'EdgeKinase',
- desc: 'Multi-region 42-PoP latency testing and edge caching validation.',
- icon: Globe,
- color: 'var(--color-cream)',
- status: 'Operational',
- specs: [
- { label: 'Frequency', value: 'Continuous (Global PoPs)' },
- { label: 'CPU Impact', value: 'Zero (Edge-bound)' },
- { label: 'Protocols', value: 'Anycast DNS, TCP/UDP' },
- { label: 'Standards', value: 'RFC 1035, RFC 793' }
- ],
- widget: 'latency'
- },
- {
- id: 'eco', // EcoHolo
- cat: 'perf',
- title: 'EcoHolo',
- desc: 'Carbon and CO2e profiling. Measure the environmental impact of your digital footprint.',
- icon: Leaf,
- color: 'var(--color-cream)',
- status: 'Beta',
- specs: [
- { label: 'Frequency', value: 'Post-render' },
- { label: 'CPU Impact', value: 'Low' },
- { label: 'Protocols', value: 'HTTP/s' },
- { label: 'Standards', value: 'Sustainable Web Manifesto' }
- ],
- widget: 'eco'
- },
- {
- id: 'compliance', // RiskProtease
- cat: 'sec',
- title: 'RiskProtease',
- desc: 'OWASP Top 10 compliance checker. Scans headers, CSPs, and common vulnerability endpoints.',
- icon: ShieldCheck,
- color: 'var(--color-cream)',
- status: 'Operational',
- specs: [
- { label: 'Frequency', value: 'Pre-flight / CI Gate' },
- { label: 'CPU Impact', value: 'Medium (Parsing)' },
- { label: 'Protocols', value: 'HTTPS, WSS' },
- { label: 'Standards', value: 'OWASP ASVS v4.0' }
- ],
- widget: 'sec'
- },
- {
- id: 'repo', // GitLygase
- cat: 'sec',
- title: 'GitLygase',
- desc: 'Repository hygiene, CI/CD pipeline health, and code structure telemetry.',
- icon: Terminal,
- color: 'var(--color-cream)',
- status: 'Operational',
- specs: [
- { label: 'Frequency', value: 'On Commit' },
- { label: 'CPU Impact', value: 'Variable' },
- { label: 'Protocols', value: 'Git, SSH' },
- { label: 'Standards', value: 'GitOps, DORA' }
- ],
- widget: 'repo'
- },
- {
- id: 'ai_ready', // LLM-Kinase
- cat: 'ai',
- title: 'LLM-Kinase',
- desc: 'Validates llms.txt readiness and AI crawler accessibility for semantic ingestion.',
- icon: Cpu,
- color: 'var(--color-cream)',
- status: 'Operational',
- specs: [
- { label: 'Frequency', value: 'On-demand' },
- { label: 'CPU Impact', value: 'Low' },
- { label: 'Protocols', value: 'HTTP/s' },
- { label: 'Standards', value: 'robots.txt, llms.txt' }
- ],
- widget: 'ai'
- },
- {
- id: 'llmo', // AllosterSearch
- cat: 'ai',
- title: 'AllosterSearch',
- desc: 'LLM Optimization (LLMO) and geographic SEO visibility scoring.',
- icon: Search,
- color: 'var(--color-cream)',
- status: 'Operational',
- specs: [
- { label: 'Frequency', value: 'Daily crawl' },
- { label: 'CPU Impact', value: 'None' },
- { label: 'Protocols', value: 'HTTPS' },
- { label: 'Standards', value: 'Schema.org JSON-LD' }
- ],
- widget: 'llmo'
- },
- {
- id: 'migration', // SynthShift
- cat: 'ai', // Mapping SynthShift to AI for 3 AI Discoverability items
- title: 'SynthShift',
- desc: 'Cross-framework migration complexity analysis and schema structure validation.',
- icon: GitBranch,
- color: 'var(--color-cream)',
- status: 'Operational',
- specs: [
- { label: 'Frequency', value: 'CI/CD Pipeline' },
- { label: 'CPU Impact', value: 'High' },
- { label: 'Protocols', value: 'AST Parsing' },
- { label: 'Standards', value: 'ECMAScript, JSX' }
- ],
- widget: 'migration'
- }
-];
+const GROUP_OF: Record<HubEngineId, Group> = {
+  health: 'perf',
+  latency: 'perf',
+  eco: 'perf',
+  compliance: 'sec',
+  repo: 'sec',
+  ai_ready: 'ai',
+  llmo: 'ai',
+  migration: 'ai',
+};
+
+const ENGINE_VISUALS: Record<
+  HubEngineId,
+  { icon: React.ElementType; hue: string; sweep: string; widget: 'perf' | 'latency' | 'eco' | 'sec' | 'repo' | 'ai' | 'migration' | 'llmo' }
+> = {
+  health: { icon: Activity, hue: 'var(--hue-vitalzyme)', sweep: '5-minute pulse, per deploy', widget: 'perf' },
+  latency: { icon: Globe, hue: 'var(--hue-edgevmax)', sweep: 'Continuous, 42 edge PoPs', widget: 'latency' },
+  eco: { icon: Leaf, hue: 'var(--hue-ecoholo)', sweep: 'After each page render', widget: 'eco' },
+  compliance: { icon: ShieldCheck, hue: 'var(--hue-riskprotease)', sweep: 'Before a release, in CI', widget: 'sec' },
+  repo: { icon: Terminal, hue: 'var(--hue-gitlygase)', sweep: 'On every commit', widget: 'repo' },
+  ai_ready: { icon: Cpu, hue: 'var(--hue-llmkinase)', sweep: 'On demand', widget: 'ai' },
+  llmo: { icon: Search, hue: 'var(--hue-alloster)', sweep: 'Daily crawl', widget: 'llmo' },
+  migration: { icon: GitBranch, hue: 'var(--hue-synthshift)', sweep: 'In the release pipeline', widget: 'migration' },
+};
+
+const WIDGETS = {
+  perf: PerfWidget,
+  latency: LatencyWidget,
+  eco: EcoWidget,
+  sec: SecurityWidget,
+  repo: RepoWidget,
+  ai: AiWidget,
+  migration: MigrationWidget,
+  llmo: LlmoWidget,
+} as const;
 
 export const DiagnosticHubPage: React.FC = () => {
- const [activeTab, setActiveTab] = useState('all');
+ const [activeTab, setActiveTab] = useState<'all' | Group>('all');
 
- const filteredEngines = ENGINE_DETAILS.filter(
- (eng) => activeTab === 'all' || eng.cat === activeTab
+ const engines = ENGINE_ORDER.map((id) => {
+   const meta = ENGINES_MAP[id];
+   const visual = ENGINE_VISUALS[id];
+   return {
+     id,
+     name: meta.catalystName || meta.name,
+     description: meta.description,
+     route: meta.route,
+     focus: meta.lifecycleFocus,
+     group: GROUP_OF[id],
+     ...visual,
+   };
+ });
+
+ const filteredEngines = engines.filter(
+  (engine) => activeTab === 'all' || engine.group === activeTab
  );
+
+ const countFor = (group: 'all' | Group) =>
+  group === 'all' ? engines.length : engines.filter((e) => e.group === group).length;
 
  return (
  <PageTransition>
- <div className="min-h-[100dvh] ds-page-top-hero px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto flex flex-col gap-12">
- {/* Header Section */}
- <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
- <div className="max-w-2xl">
- <h1 className="framer-hero-title text-foreground mb-4">
- Diagnostic Hub.
+ <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 ds-page-top-hero px-4 sm:px-6 lg:px-8">
+ <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+ <div className="max-w-2xl space-y-3">
+ <h1 className="framer-hero-title text-foreground">
+ Diagnostic engines.
  </h1>
  <p className="framer-body-text">
- The Engine Matrix. Select a specialized vector to analyze your domain's architecture, 
- security, and performance directly from the command center.
+ Eight engines inspect one domain at a time — performance, security, carbon, and AI
+ readiness. Pick an engine to see what it measures, then run it from the audit page.
  </p>
  </div>
- 
- <Link
- to="/launch-audit"
- className="ds-btn ds-btn-primary h-12 px-6 text-sm sm:text-base shrink-0 group"
- >
- <Sparkles className="size-4" />
- Launch Master Audit
+
+ <Link to="/audit" className="ds-btn ds-btn-primary h-12 shrink-0 px-6 text-sm sm:text-base">
+ <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
+ <span>Run all eight engines</span>
  </Link>
  </div>
 
- {/* Engine Filter Tabs */}
- <div className="flex overflow-x-auto scrollbar-none touch-pan-x no-scrollbar pb-4 -mb-4">
- <div className="flex items-center gap-2 p-1.5 bg-surface border border-border rounded-full">
- {CATEGORIES.map((cat) => (
+ <div className="flex overflow-x-auto pb-1 no-scrollbar" role="tablist" aria-label="Filter engines">
+ <div className="flex items-center gap-1 rounded-full border border-border bg-surface p-1">
+ {GROUPS.map((group) => {
+ const selected = activeTab === group.id;
+ return (
  <button
- key={cat.id}
- onClick={() => setActiveTab(cat.id)}
- className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
- activeTab === cat.id ? 'text-background' : 'text-muted-foreground hover:text-foreground'
+ key={group.id}
+ type="button"
+ role="tab"
+ aria-selected={selected}
+ onClick={() => setActiveTab(group.id)}
+ className={`relative min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+ selected ? 'text-background' : 'text-muted-foreground hover:text-foreground'
  }`}
  >
- {activeTab === cat.id && (
- <motion.div
+ {selected && (
+ <motion.span
  layoutId="hub-active-tab"
- className="absolute inset-0 bg-foreground rounded-full z-0"
- transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+ className="absolute inset-0 z-0 rounded-full bg-foreground"
+ transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
  />
  )}
- <span className="relative z-10">{cat.label} ({cat.count})</span>
+ <span className="relative z-10 whitespace-nowrap">
+ {group.label}
+ <span className="ml-2 font-mono text-xs opacity-70">{countFor(group.id)}</span>
+ </span>
  </button>
- ))}
+ );
+ })}
  </div>
  </div>
 
- {/* Card Matrix */}
- <div className="flex flex-col gap-6 mt-4">
- <AnimatePresence mode="popLayout">
- {filteredEngines.map((engine, idx) => (
- <motion.div
+ <div className="flex flex-col gap-4">
+ <AnimatePresence initial={false} mode="popLayout">
+ {filteredEngines.map((engine, idx) => {
+ const Icon = engine.icon;
+ const Widget = WIDGETS[engine.widget];
+ return (
+ <motion.article
  key={engine.id}
  layout
- initial={{ opacity: 0, y: 20 }}
+ initial={{ opacity: 0, y: 12 }}
  animate={{ opacity: 1, y: 0 }}
- exit={{ opacity: 0, scale: 0.95 }}
- transition={{ duration: 0.4, delay: idx * 0.05 }}
- className="group relative ds-card bg-surface border-border rounded-2xl overflow-hidden flex flex-col md:flex-row hover:border-border-strong transition-colors"
+ exit={{ opacity: 0 }}
+ transition={{ duration: 0.3, delay: idx * 0.03, ease: [0.16, 1, 0.3, 1] }}
+ className="ds-card group grid gap-0 overflow-hidden md:grid-cols-[1.15fr_1fr]"
+ style={{ ['--engine-hue' as string]: engine.hue }}
  >
- <div
- className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-0"
- style={{ background: 'var(--glow-card-subsurface)' }}
- />
- 
- {/* Left Side: Specs & Info */}
- <div className="p-6 sm:p-8 flex-1 border-b md:border-b-0 md:border-r border-border relative z-10 flex flex-col justify-between">
- <div>
- <div className="flex items-center justify-between mb-6">
+ <div className="flex flex-col justify-between gap-6 border-b border-border p-6 sm:p-8 md:border-b-0 md:border-r">
+ <div className="space-y-4">
  <div className="flex items-center gap-3">
- <div className="flex size-12 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-border" style={{ color: engine.color }}>
- <engine.icon className="size-6" />
+ <span
+ aria-hidden="true"
+ className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-border"
+ style={{ color: `hsl(${engine.hue} / 0.95)`, background: `hsl(${engine.hue} / 0.08)` }}
+ >
+ <Icon className="size-5" />
+ </span>
+ <h2 className="framer-card-title text-foreground">{engine.name}</h2>
  </div>
- <div>
- <h3 className="text-xl font-semibold text-foreground tracking-tight">{engine.title}</h3>
- <div className="flex items-center gap-1.5 mt-1">
- {engine.status === 'Operational' ? (
- <CheckCircle2 className="size-3.5 text-emerald-400" />
- ) : (
- <Clock className="size-3.5 text-amber-400" />
- )}
- <span className="text-xs font-mono text-muted-foreground uppercase tracking-widest">{engine.status}</span>
- </div>
- </div>
- </div>
- </div>
- 
- <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-8">
- {engine.desc}
+
+ <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+ {engine.description}
  </p>
  </div>
 
- <div className="grid grid-cols-2 gap-4">
- {engine.specs.map((spec, i) => (
- <div key={i} className="flex flex-col gap-1">
- <span className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">{spec.label}</span>
- <span className="text-sm font-medium text-foreground">{spec.value}</span>
+ <dl className="grid gap-4 sm:grid-cols-2">
+ <div className="space-y-1">
+ <dt className="font-mono text-xs text-muted-foreground">Runs</dt>
+ <dd className="text-sm text-foreground">{engine.sweep}</dd>
  </div>
- ))}
+ <div className="space-y-1">
+ <dt className="font-mono text-xs text-muted-foreground">Lifecycle stage</dt>
+ <dd className="text-sm text-foreground">{engine.focus || engine.name}</dd>
  </div>
+ </dl>
  </div>
 
- {/* Right Side: Live Simulation Widget */}
- <div className="w-full md:w-[45%] lg:w-[40%] bg-background relative z-10 p-6 sm:p-8 flex items-center justify-center">
- {/* Mock Widget Container */}
- <div className="w-full h-full min-h-[220px] ds-card bg-surface border-border rounded-2xl flex flex-col items-center justify-center p-0 relative overflow-hidden group/widget">
- {/* Background Grid Pattern */}
- <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '16px 16px' }} />
- 
- {engine.widget === 'perf' && <PerfWidget />}
- {engine.widget === 'latency' && <LatencyWidget />}
- {engine.widget === 'eco' && <EcoWidget />}
- {engine.widget === 'sec' && <SecurityWidget />}
- {engine.widget === 'repo' && <RepoWidget />}
- {engine.widget === 'ai' && <AiWidget />}
- {engine.widget === 'migration' && <MigrationWidget />}
- {engine.widget === 'llmo' && <LlmoWidget />}
- 
+ <div className="relative flex min-h-[200px] items-center justify-center bg-background p-4">
+ <div className="w-full" aria-hidden="true">
+ <Widget />
+ </div>
  <Link
- to={ENGINES_MAP[engine.id]?.route || '/hub'}
+ to={engine.route}
  className="absolute inset-0 z-20 rounded-[inherit] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
- />
- 
- <div className="absolute bottom-4 right-4 flex items-center gap-1 text-xs font-medium text-foreground opacity-0 group-hover/widget:opacity-100 transition-opacity z-30">
- Inspect <ArrowRight className="size-3" />
+ >
+ <span className="sr-only">Read the {engine.name} documentation</span>
+ </Link>
+ <span className="pointer-events-none absolute bottom-3 right-3 z-30 inline-flex items-center gap-1 text-xs font-medium text-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+ Docs <ArrowRight className="size-3" aria-hidden="true" />
+ </span>
  </div>
- </div>
- </div>
- </motion.div>
- ))}
+ </motion.article>
+ );
+ })}
  </AnimatePresence>
  </div>
+
+ <p className="framer-body-text text-sm">
+ Need a single number instead of eight? <Link to="/compare" className="text-info underline underline-offset-4">Compare two domains</Link> on the health engine, or <Link to="/api-docs" className="text-info underline underline-offset-4">call the API</Link> from your pipeline.
+ </p>
  </div>
  </PageTransition>
  );

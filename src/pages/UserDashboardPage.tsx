@@ -238,7 +238,7 @@ export const UserDashboardPage: React.FC = () => {
  const validScores = reports.filter(r => typeof r.score === 'number').map(r => r.score!);
  const avgScore = validScores.length > 0
  ? Math.round(validScores.reduce((acc, s) => acc + s, 0) / validScores.length)
- : 92;
+ : null;
 
  const getGreeting = () => {
  const hour = new Date().getHours();
@@ -263,7 +263,7 @@ export const UserDashboardPage: React.FC = () => {
  <LogIn className="h-5 w-5" />
  </div>
  <h2 className="framer-card-title text-xl sm:text-2xl text-foreground">Developer Access Required</h2>
- <p className="mt-2 framer-body-text text-xs sm:text-[13px]">
+ <p className="mt-2 framer-body-text text-sm">
  Sign in to access real-time telemetry dossiers, autonomous patch branches, domain uptime monitoring, and API tokens.
  </p>
 
@@ -291,7 +291,7 @@ export const UserDashboardPage: React.FC = () => {
  displayName: 'CatalystLab Developer',
  isAdmin: false
  })}
- className="ds-btn ds-btn-secondary w-full text-xs text-emerald-400 bg-cream/10 border-emerald-500/20 hover:bg-cream/20"
+ className="ds-btn ds-btn-secondary w-full text-xs text-success bg-cream/10 border-success/20 hover:bg-cream/20"
  >
  <Sparkles className="h-3.5 w-3.5 shrink-0" />
  <span>Preview Developer Session</span>
@@ -320,9 +320,6 @@ export const UserDashboardPage: React.FC = () => {
  />
 
  <div className="relative min-h-full">
-   {/* Ambient Subsurface Glows */}
-   <div className="absolute -top-24 -left-24 w-96 h-96 bg-cream/10 blur-[120px] rounded-full pointer-events-none" />
-   <div className="absolute top-1/2 -right-24 w-80 h-80 bg-cream/5 blur-[100px] rounded-full pointer-events-none" />
 
    <AnimatePresence mode="wait">
      <motion.div
@@ -337,7 +334,7 @@ export const UserDashboardPage: React.FC = () => {
  {(activeTab === 'overview' || activeTab === 'analytics' || activeTab === 'engines') && (
  <div className="space-y-8">
    {/* Welcome Header Section */}
-   <div className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-5 bg-[rgba(31,34,35,0.85)] backdrop-blur-2xl border-b border-cream/8 px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+   <div className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-5 bg-background/85 backdrop-blur-xl border-b border-border px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
      <div>
        <div className="framer-micro-tag text-foreground mb-2">Platform Control Center</div>
        <h1 className="framer-hero-title text-3xl sm:text-4xl lg:text-5xl text-foreground">
@@ -345,7 +342,7 @@ export const UserDashboardPage: React.FC = () => {
        </h1>
        <p className="framer-body-text mt-2 max-w-2xl">
          Your telemetry mesh is active across <span className="text-foreground font-medium">{uniqueDomains} domains</span>. 
-         The mean health score is currently <span className="text-emerald-400 font-medium">{avgScore}/100</span>.
+         The mean health score is currently <span className="text-success font-medium">{avgScore}/100</span>.
        </p>
      </div>
      <div className="flex items-center gap-3">
@@ -386,7 +383,7 @@ export const UserDashboardPage: React.FC = () => {
 </div>
 <button
 onClick={() => navigate('/dashboard?tab=audits')}
-className="ds-btn ds-btn-secondary py-1 px-3 text-[11px] h-8"
+className="ds-btn ds-btn-secondary h-9 px-3 text-xs"
 >
 <span>View All Vaults</span>
 <ArrowRight className="size-3 ml-1.5" />
@@ -420,7 +417,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-foreground transition-colors tracking-tight">
  {extractDomainFromUrl(report.url)}
  </h4>
- <span className="text-[11px] font-mono text-muted-foreground flex items-center gap-1.5 mt-0.5">
+ <span className="font-mono text-xs text-muted-foreground flex items-center gap-1.5 mt-0.5">
  <Calendar className="h-3 w-3" />
  {report.createdAt ? new Date(report.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'}
  </span>
@@ -429,10 +426,10 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
 
  {/* Score Pill */}
  <div
- className={`py-1 px-2.5 rounded-lg text-[11px] font-bold border shrink-0 ${
+ className={`px-2.5 py-1 rounded-lg font-mono text-xs font-semibold border shrink-0 ${
  (report.score ?? 0) >= 90
- ?"bg-cream/10 text-emerald-400 border-emerald-500/20"
- :"bg-cream/10 text-amber-400 border-amber-500/20"
+ ?"bg-cream/10 text-success border-success/20"
+ :"bg-cream/10 text-warning border-warning/20"
  }`}
  >
  {report.score ?? 85}
@@ -441,11 +438,11 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
 
  {/* Middle Content */}
  <div className="py-4 space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full bg-cream/10 border border-cream/20 py-0.5 px-2 text-[11px] font-mono font-bold text-foreground uppercase tracking-wider">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2 py-0.5 font-mono text-xs text-foreground">
  <Sparkles className="h-2.5 w-2.5" />
  <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
  </div>
- <p className="framer-body-text text-[13px] line-clamp-2 leading-relaxed">
+ <p className="framer-body-text text-sm line-clamp-2 leading-relaxed">
  {report.summary || report.title || `Autonomous telemetry dossier evaluated for ${report.url}`}
  </p>
  </div>
@@ -454,16 +451,9 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Card Action Footer */}
  <div className="pt-3 border-t border-foreground/5 flex items-center justify-between">
  <div className="flex items-center gap-2">
-   <div className="flex -space-x-1">
-     {[1, 2, 3].map((i) => (
-       <div key={i} className="size-4 rounded-full bg-surface border border-background flex items-center justify-center overflow-hidden">
-         <Activity className="size-2 text-muted-foreground/50" />
-       </div>
-     ))}
-   </div>
-   <span className="text-[11px] font-mono text-muted-foreground">{TOTAL_POPS_COUNT} PoPs</span>
+   <span className="font-mono text-xs text-muted-foreground">{TOTAL_POPS_COUNT} PoPs</span>
  </div>
- <div className="text-[11px] font-semibold text-foreground opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+ <div className="flex items-center gap-1 text-xs font-semibold text-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
  <span>Open Dossier</span>
  <ArrowRight className="h-3 w-3" />
  </div>
@@ -482,11 +472,11 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <div className="ds-card p-5 sm:p-6 font-mono">
  <div className="flex items-center gap-2 text-xs text-foreground mb-1">
  <GitBranch className="size-3.5" />
- <span>GHLyase · Autonomous Patch Deployment Pipeline</span>
+ <span>GitLygase · Autonomous patch deployment</span>
  </div>
  <h2 className="text-base font-semibold text-foreground font-sans">Automated GitHub Pull Request Patches</h2>
  <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">
- When CatalystLab engines detect Core Web Vitals degradation, render-blocking scripts, or OWASP transport gaps, GHLyase automatically compiles AST patches and dispatches verified PRs directly to your GitHub repository.
+ When CatalystLab engines detect Core Web Vitals degradation, render-blocking scripts, or OWASP transport gaps, GitLygase compiles AST patches and dispatches verified PRs directly to your GitHub repository.
  </p>
  </div>
  <UserGithubWebhookView />
@@ -497,7 +487,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {activeTab === 'security' && (
  <div className="space-y-6">
  <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-amber-400 mb-1">
+ <div className="flex items-center gap-2 text-xs text-warning mb-1">
  <ShieldAlert className="size-3.5" />
  <span>RiskProtease · OWASP Transport Security Vault</span>
  </div>
@@ -640,14 +630,14 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Top Card Bar */}
  <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
  <div className="flex items-center gap-2 min-w-0">
- <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-amber-600 shrink-0">
+ <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-warning shrink-0">
  <Globe className="h-3.5 w-3.5"/>
  </div>
  <div className="min-w-0">
- <h4 className="text-xs font-bold text-foreground truncate group-hover:text-amber-600 transition-colors">
+ <h4 className="text-xs font-bold text-foreground truncate group-hover:text-warning transition-colors">
  {domain}
  </h4>
- <span className="text-[11px] ds-muted flex items-center gap-1">
+ <span className="flex items-center gap-1 text-xs ds-muted">
  <Calendar className="h-2.5 w-2.5"/>
  {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
  </span>
@@ -656,23 +646,23 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
 
  {/* Score Pill */}
  <div className={` py-0.5 rounded text-xs font-bold border ${
- (report.score || 90) >= 90
- ? 'bg-cream/10 text-emerald-400 border-emerald-500/20'
- : (report.score || 90) >= 75
- ? 'bg-cream/10 text-amber-400 border-amber-500/20'
- : 'bg-white/10 text-rose-400 border-rose-500/20'
+ (report.score ?? 0) >= 90
+ ? 'bg-success/10 text-success border-success/30'
+ : (report.score ?? 0) >= 75
+ ? 'bg-warning/10 text-warning border-warning/30'
+ : 'bg-danger/10 text-danger border-danger/30'
  }`}>
- {report.score || 92}/100
+ {typeof report.score === 'number' ? <>{report.score}/100</> : 'No score'}
  </div>
  </div>
 
  {/* Middle Content */}
  <div className="py-3 space-y-1.5">
- <div className="inline-flex items-center gap-1 rounded bg-accent border border-border py-0.5 text-[11px] font-bold ds-muted">
- <Sparkles className="h-2.5 w-2.5 text-amber-500"/>
+ <div className="inline-flex items-center gap-1 rounded border border-border bg-accent px-1.5 py-0.5 text-xs font-medium ds-muted">
+ <Sparkles className="h-2.5 w-2.5 text-warning"/>
  <span>{engineMeta.name}</span>
  </div>
- <p className="text-[11px] ds-muted line-clamp-2 leading-relaxed font-sans">
+ <p className="line-clamp-2 text-sm leading-relaxed ds-muted">
  {report.summary || report.title || `Telemetry audit evaluated for ${report.url}`}
  </p>
  </div>
@@ -697,19 +687,19 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  className="p-1 rounded ds-muted hover:bg-accent hover:text-foreground transition-colors cursor-pointer"
  title="Export PDF"
  >
- <Download className={`h-3.5 w-3.5 ${exportingId === report.id ? 'animate-bounce' : ''}`} />
+ <Download className={`h-3.5 w-3.5 ${exportingId === report.id ? 'animate-pulse' : ''}`} />
  </button>
  <button
  onClick={(e) => handleCopyLink(report, e)}
  className="p-1 rounded ds-muted hover:bg-accent hover:text-foreground transition-colors cursor-pointer"
  title="Copy Permalink"
  >
- {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-emerald-600"/> : <Share2 className="h-3.5 w-3.5"/>}
+ {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-success"/> : <Share2 className="h-3.5 w-3.5"/>}
  </button>
  <button
  onClick={(e) => handleDelete(report.id!, e)}
  disabled={deletingId === report.id}
- className="p-1 rounded ds-muted hover:bg-white/10 hover:text-rose-400 transition-colors cursor-pointer"
+ className="p-1 rounded ds-muted hover:bg-white/10 hover:text-danger transition-colors cursor-pointer"
  title="Delete Report"
  >
  <Trash2 className="h-3.5 w-3.5"/>
@@ -753,20 +743,20 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  >
  <td className="py-3 font-bold text-foreground">
  <div className="flex items-center gap-2">
- <Globe className="h-3.5 w-3.5 text-amber-600"/>
+ <Globe className="h-3.5 w-3.5 text-warning"/>
  <span>{domain}</span>
  </div>
  </td>
  <td className="py-3 ds-muted">
- <span className="rounded bg-accent py-0.5 font-bold text-[11px] border border-border text-foreground">
+ <span className="rounded border border-border bg-accent px-1.5 py-0.5 font-mono text-xs font-semibold text-foreground">
  {engineName}
  </span>
  </td>
  <td className="py-3 font-bold">
- <span className={` py-0.5 rounded text-[11px] border ${
+ <span className={`rounded border px-1.5 py-0.5 font-mono text-xs ${
  (report.score || 90) >= 90
- ? 'bg-cream/10 text-emerald-400 border-emerald-500/20'
- : 'bg-cream/10 text-amber-400 border-amber-500/20'
+ ? 'bg-cream/10 text-success border-success/20'
+ : 'bg-cream/10 text-warning border-warning/20'
  }`}>
  {report.score || 92}/100
  </span>
@@ -798,11 +788,11 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  className="p-1 rounded ds-muted hover:text-foreground cursor-pointer"
  title="Copy Link"
  >
- {copiedId === report.id ? <Check className="h-3 w-3 text-emerald-600"/> : <Share2 className="h-3 w-3"/>}
+ {copiedId === report.id ? <Check className="h-3 w-3 text-success"/> : <Share2 className="h-3 w-3"/>}
  </button>
  <button
  onClick={(e) => handleDelete(report.id!, e)}
- className="p-1 rounded ds-muted hover:text-red-600 cursor-pointer"
+ className="p-1 rounded ds-muted hover:text-danger cursor-pointer"
  title="Delete"
  >
  <Trash2 className="h-3 w-3"/>
@@ -839,7 +829,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  to="/master-audit"
  className="ds-btn ds-btn-primary text-xs shrink-0 self-start sm:self-auto"
  >
- <Sparkles className="size-3.5 text-amber-300 shrink-0" />
+ <Sparkles className="size-3.5 text-warning shrink-0" />
  <span>Generate New Report</span>
  </Link>
  </div>
@@ -847,20 +837,20 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Summary Metrics Grid */}
  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-border">
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[11px] uppercase text-muted-foreground">Total Dossiers</div>
+ <div className="text-xs text-muted-foreground">Total Dossiers</div>
  <div className="text-lg font-bold text-foreground mt-0.5">{reports.length}</div>
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[11px] uppercase text-muted-foreground">Mean Health Score</div>
- <div className="text-lg font-bold text-emerald-400 mt-0.5">{avgScore}/100</div>
+ <div className="text-xs text-muted-foreground">Mean Health Score</div>
+ <div className="text-lg font-bold text-success mt-0.5">{avgScore}/100</div>
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[11px] uppercase text-muted-foreground">Unique Edge Meshes</div>
+ <div className="text-xs text-muted-foreground">Unique Edge Meshes</div>
  <div className="text-lg font-bold text-foreground mt-0.5">{uniqueDomains}</div>
  </div>
  <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-[11px] uppercase text-muted-foreground">Export Standards</div>
- <div className="text-lg font-bold text-purple-400 mt-0.5">PDF · JSON · CSV</div>
+ <div className="text-xs text-muted-foreground">Export Standards</div>
+ <div className="text-lg font-bold text-[color:var(--chart-violet)] mt-0.5">PDF · JSON · CSV</div>
  </div>
  </div>
  </div>
@@ -892,7 +882,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <span className="text-xs font-bold text-foreground truncate max-w-[160px]">
  {extractDomainFromUrl(report.url)}
  </span>
- <span className="text-xs font-bold text-emerald-400">
+ <span className="text-xs font-bold text-success">
  {report.score || 92}/100
  </span>
  </div>
@@ -906,7 +896,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  disabled={exportingId === report.id}
  className="ds-btn ds-btn-secondary text-[11px] py-1 px-2.5 flex items-center gap-1.5 cursor-pointer"
  >
- <Download className={`size-3 ${exportingId === report.id ? 'animate-bounce' : ''}`} />
+ <Download className={`size-3 ${exportingId === report.id ? 'animate-pulse' : ''}`} />
  <span>Export PDF</span>
  </button>
  <button

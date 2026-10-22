@@ -63,7 +63,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 <Activity className="size-3.5 text-foreground" />
                 CWV Pass Rate
               </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-emerald-400 border border-emerald-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-success border border-success/20">
                 Pass
               </span>
             </div>
@@ -90,7 +90,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 <ShieldCheck className="size-3.5 text-foreground" />
                 OWASP Transport
               </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-blue-400 border border-blue-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-info border border-info/20">
                 Grade A+
               </span>
             </div>
@@ -100,7 +100,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             </div>
 
             <div className="mt-3 pt-3 border-t border-foreground/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-              <span className="text-emerald-400 flex items-center gap-1">
+              <span className="text-success flex items-center gap-1">
                 <Check className="size-3" /> TLS 1.3 Preload
               </span>
               <span>0 Unencrypted</span>
@@ -114,19 +114,19 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 <Cpu className="size-3.5 text-cream/75" />
                 AI Discoverability
               </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-purple-400 border border-purple-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-[color:var(--chart-violet)] border border-[color:var(--chart-violet)]/20">
                 AEO Index
               </span>
             </div>
 
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-semibold tracking-[-0.03em] text-foreground">98/100</span>
-              <span className="text-xs text-purple-400 font-mono">LLM Kinase</span>
+              <span className="text-xs text-[color:var(--chart-violet)] font-mono">LLM Kinase</span>
             </div>
 
             <div className="mt-3 pt-3 border-t border-foreground/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-              <span>llms.txt <strong className="text-emerald-400">Valid</strong></span>
-              <span>Schema <strong className="text-emerald-400">JSON-LD</strong></span>
+              <span>llms.txt <strong className="text-success">Valid</strong></span>
+              <span>Schema <strong className="text-success">JSON-LD</strong></span>
             </div>
           </div>
 
@@ -137,19 +137,19 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 <Globe className="size-3.5 text-foreground" />
                 Edge Mesh P95
               </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-cyan-400 border border-cyan-500/20">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-cream/10 text-info border border-info/20">
                 {TOTAL_POPS_COUNT} PoPs
               </span>
             </div>
 
             <div className="flex items-baseline gap-3">
               <span className="text-3xl font-semibold tracking-[-0.03em] text-foreground">18.4ms</span>
-              <span className="text-xs text-cyan-400 font-mono">Fastly/CF</span>
+              <span className="text-xs text-info font-mono">Fastly/CF</span>
             </div>
 
             <div className="mt-3 pt-3 border-t border-foreground/5 flex items-center justify-between text-[11px] font-mono text-muted-foreground">
               <span>Global Handshake</span>
-              <span className="text-emerald-400 font-medium">0% Drops</span>
+              <span className="text-success font-medium">0% Drops</span>
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
               <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
                 <FileCode2 className="size-4 text-cream/75" />
                 <span className="text-foreground font-medium">AST Code Visualizer: index.html DOM Schema</span>
-                <span className="px-2 py-0.5 rounded bg-cream/10 border border-purple-500/20 text-purple-300 text-[11px]">
+                <span className="px-2 py-0.5 rounded bg-cream/10 border border-[color:var(--chart-violet)]/20 text-[color:var(--chart-violet)] text-[11px]">
                   +24 lines / -18 lines
                 </span>
               </div>
@@ -252,50 +252,50 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             {diffMode === 'split' ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 font-mono text-xs">
                 {/* Left: Broken/Unoptimized DOM */}
-                <div className="rounded-xl border border-rose-500/20 bg-background p-4 space-y-2 overflow-x-auto">
-                  <div className="flex items-center justify-between text-[11px] text-rose-400 pb-2 border-b border-rose-500/20">
+                <div className="rounded-xl border border-danger/20 bg-background p-4 space-y-2 overflow-x-auto">
+                  <div className="flex items-center justify-between text-[11px] text-danger pb-2 border-b border-danger/20">
                     <span>- Source DOM (Render-Blocking)</span>
-                    <span className="text-rose-500">Unoptimized</span>
+                    <span className="text-danger">Unoptimized</span>
                   </div>
                   <pre className="text-muted-foreground leading-relaxed text-[11px]">
-                    <span className="text-rose-400/80 line-through block">
+                    <span className="text-danger/80 line-through block">
                       &lt;link rel=&quot;stylesheet&quot; href=&quot;/styles/global.css&quot;&gt;
                     </span>
-                    <span className="text-rose-400/80 line-through block">
+                    <span className="text-danger/80 line-through block">
                       &lt;script src=&quot;/scripts/analytics.js&quot;&gt;&lt;/script&gt;
                     </span>
-                    <span className="text-rose-400/80 line-through block">
+                    <span className="text-danger/80 line-through block">
                       &lt;script src=&quot;/scripts/heavy-vendor.js&quot;&gt;&lt;/script&gt;
                     </span>
                     <span className="text-muted-foreground block">
                       &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
                     </span>
-                    <span className="text-rose-400/80 line-through block">
+                    <span className="text-danger/80 line-through block">
                       &lt;!-- Missing preconnect for assets.acme.corp --&gt;
                     </span>
                   </pre>
                 </div>
 
                 {/* Right: Optimized AST Patch */}
-                <div className="rounded-xl border border-emerald-500/20 bg-background p-4 space-y-2 overflow-x-auto">
-                  <div className="flex items-center justify-between text-[11px] text-emerald-400 pb-2 border-b border-emerald-500/20">
+                <div className="rounded-xl border border-success/20 bg-background p-4 space-y-2 overflow-x-auto">
+                  <div className="flex items-center justify-between text-[11px] text-success pb-2 border-b border-success/20">
                     <span>+ SynthShift Optimized AST</span>
-                    <span className="text-emerald-400">Patch Ready</span>
+                    <span className="text-success">Patch Ready</span>
                   </div>
                   <pre className="text-muted-foreground leading-relaxed text-[11px]">
-                    <span className="text-emerald-400 block">
+                    <span className="text-success block">
                       &lt;link rel=&quot;preload&quot; href=&quot;/styles/critical.css&quot; as=&quot;style&quot;&gt;
                     </span>
-                    <span className="text-emerald-400 block">
+                    <span className="text-success block">
                       &lt;link rel=&quot;preconnect&quot; href=&quot;https://assets.acme.corp&quot; crossorigin&gt;
                     </span>
-                    <span className="text-emerald-400 block">
+                    <span className="text-success block">
                       &lt;script src=&quot;/scripts/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;
                     </span>
-                    <span className="text-emerald-400 block">
+                    <span className="text-success block">
                       &lt;script type=&quot;module&quot; src=&quot;/scripts/vendor.mjs&quot; async&gt;&lt;/script&gt;
                     </span>
-                    <span className="text-emerald-400 block">
+                    <span className="text-success block">
                       &lt;script type=&quot;application/ld+json&quot;&gt;&#123;&quot;@context&quot;:&quot;https://schema.org&quot;&#125;&lt;/script&gt;
                     </span>
                   </pre>
@@ -307,14 +307,14 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                   --- a/index.html (Source)<br />
                   +++ b/index.html (SynthShift AST Synthesized)
                 </div>
-                <div className="text-rose-400">- &lt;link rel=&quot;stylesheet&quot; href=&quot;/styles/global.css&quot;&gt;</div>
-                <div className="text-rose-400">- &lt;script src=&quot;/scripts/analytics.js&quot;&gt;&lt;/script&gt;</div>
-                <div className="text-rose-400">- &lt;script src=&quot;/scripts/heavy-vendor.js&quot;&gt;&lt;/script&gt;</div>
-                <div className="text-emerald-400">+ &lt;link rel=&quot;preload&quot; href=&quot;/styles/critical.css&quot; as=&quot;style&quot;&gt;</div>
-                <div className="text-emerald-400">+ &lt;link rel=&quot;preconnect&quot; href=&quot;https://assets.acme.corp&quot; crossorigin&gt;</div>
-                <div className="text-emerald-400">+ &lt;script src=&quot;/scripts/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;</div>
-                <div className="text-emerald-400">+ &lt;script type=&quot;module&quot; src=&quot;/scripts/vendor.mjs&quot; async&gt;&lt;/script&gt;</div>
-                <div className="text-emerald-400">+ &lt;script type=&quot;application/ld+json&quot;&gt;&#123;&quot;@context&quot;: &quot;https://schema.org&quot;&#125;&lt;/script&gt;</div>
+                <div className="text-danger">- &lt;link rel=&quot;stylesheet&quot; href=&quot;/styles/global.css&quot;&gt;</div>
+                <div className="text-danger">- &lt;script src=&quot;/scripts/analytics.js&quot;&gt;&lt;/script&gt;</div>
+                <div className="text-danger">- &lt;script src=&quot;/scripts/heavy-vendor.js&quot;&gt;&lt;/script&gt;</div>
+                <div className="text-success">+ &lt;link rel=&quot;preload&quot; href=&quot;/styles/critical.css&quot; as=&quot;style&quot;&gt;</div>
+                <div className="text-success">+ &lt;link rel=&quot;preconnect&quot; href=&quot;https://assets.acme.corp&quot; crossorigin&gt;</div>
+                <div className="text-success">+ &lt;script src=&quot;/scripts/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;</div>
+                <div className="text-success">+ &lt;script type=&quot;module&quot; src=&quot;/scripts/vendor.mjs&quot; async&gt;&lt;/script&gt;</div>
+                <div className="text-success">+ &lt;script type=&quot;application/ld+json&quot;&gt;&#123;&quot;@context&quot;: &quot;https://schema.org&quot;&#125;&lt;/script&gt;</div>
               </div>
             )}
           </div>
@@ -358,7 +358,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
                   <span className="text-muted-foreground">3. Time to First Byte (TTFB)</span>
-                  <span className="text-emerald-400">142.1ms (Pass)</span>
+                  <span className="text-success">142.1ms (Pass)</span>
                 </div>
                 <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
                   <div className="h-full bg-cream rounded-full" style={{ width: '22%' }} />
@@ -369,7 +369,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
               <div>
                 <div className="flex justify-between text-[11px] mb-1">
                   <span className="text-muted-foreground">4. First Contentful Paint (FCP)</span>
-                  <span className="text-emerald-400">580.0ms (Optimal)</span>
+                  <span className="text-success">580.0ms (Optimal)</span>
                 </div>
                 <div className="h-2 rounded-full bg-foreground/10 overflow-hidden">
                   <div className="h-full bg-cream rounded-full" style={{ width: '55%' }} />
@@ -398,44 +398,44 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 <Globe className="size-4 text-foreground" />
                 <span className="text-foreground font-medium">38-PoP Global Mesh Ping Telemetry</span>
               </div>
-              <span className="text-emerald-400">100% Health Status</span>
+              <span className="text-success">100% Health Status</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs">
               <div className="p-3.5 rounded-xl bg-background border border-border">
                 <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
                   <span>North America (IAD, SFO)</span>
-                  <span className="text-cyan-400">14ms</span>
+                  <span className="text-info">14ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 14.2ms</div>
-                <div className="text-[11px] text-emerald-400 mt-1">16 PoPs Active</div>
+                <div className="text-[11px] text-success mt-1">16 PoPs Active</div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-background border border-border">
                 <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
                   <span>Europe (LHR, FRA, AMS)</span>
-                  <span className="text-cyan-400">19ms</span>
+                  <span className="text-info">19ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 19.1ms</div>
-                <div className="text-[11px] text-emerald-400 mt-1">12 PoPs Active</div>
+                <div className="text-[11px] text-success mt-1">12 PoPs Active</div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-background border border-border">
                 <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
                   <span>Asia-Pacific (NRT, SIN, SYD)</span>
-                  <span className="text-cyan-400">32ms</span>
+                  <span className="text-info">32ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 32.6ms</div>
-                <div className="text-[11px] text-emerald-400 mt-1">8 PoPs Active</div>
+                <div className="text-[11px] text-success mt-1">8 PoPs Active</div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-background border border-border">
                 <div className="flex justify-between text-muted-foreground text-[11px] mb-1">
                   <span>South America (GRU, SCL)</span>
-                  <span className="text-cyan-400">44ms</span>
+                  <span className="text-info">44ms</span>
                 </div>
                 <div className="text-lg font-semibold text-foreground">P95: 44.0ms</div>
-                <div className="text-[11px] text-emerald-400 mt-1">2 PoPs Active</div>
+                <div className="text-[11px] text-success mt-1">2 PoPs Active</div>
               </div>
             </div>
           </div>
@@ -449,13 +449,13 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 <ShieldCheck className="size-4 text-cream/60" />
                 <span className="text-foreground font-medium">OWASP Transport Security Audit Log</span>
               </div>
-              <span className="text-emerald-400">0 Critical Vulnerabilities</span>
+              <span className="text-success">0 Critical Vulnerabilities</span>
             </div>
 
             <div className="divide-y divide-white/5 border border-border rounded-xl bg-background font-mono text-xs overflow-hidden">
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
+                  <span className="px-2 py-0.5 rounded bg-cream/10 text-success border border-success/20 text-[11px]">
                     PASS
                   </span>
                   <span className="text-foreground">TLS 1.3 Cipher Suite Enforced (CHACHA20-POLY1305)</span>
@@ -465,7 +465,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
 
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
+                  <span className="px-2 py-0.5 rounded bg-cream/10 text-success border border-success/20 text-[11px]">
                     PASS
                   </span>
                   <span className="text-foreground">HSTS Preload Directive with max-age=31536000</span>
@@ -475,7 +475,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
 
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-emerald-400 border border-emerald-500/20 text-[11px]">
+                  <span className="px-2 py-0.5 rounded bg-cream/10 text-success border border-success/20 text-[11px]">
                     PASS
                   </span>
                   <span className="text-foreground">Content-Security-Policy (default-src &apos;self&apos;)</span>
@@ -485,7 +485,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
 
               <div className="p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2 py-0.5 rounded bg-cream/10 text-blue-400 border border-blue-500/20 text-[11px]">
+                  <span className="px-2 py-0.5 rounded bg-cream/10 text-info border border-info/20 text-[11px]">
                     INFO
                   </span>
                   <span className="text-muted-foreground">Permissions-Policy refined for camera=(), microphone=()</span>
@@ -525,7 +525,7 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
             </button>
 
             {prDeployStatus === 'deployed' ? (
-              <div className="px-4 py-2 rounded-xl bg-cream/15 border border-emerald-500/30 text-emerald-400 text-xs font-medium flex items-center gap-2">
+              <div className="px-4 py-2 rounded-xl bg-cream/15 border border-success/30 text-success text-xs font-medium flex items-center gap-2">
                 <CheckCircle2 className="size-4" />
                 <span>PR #{deployedPrNumber} Created on GitHub</span>
               </div>
@@ -562,11 +562,11 @@ export const FramerDossierCockpit: React.FC<FramerDossierCockpitProps> = ({
                 +++ b/index.html
               </div>
               <div className="text-muted-foreground">@@ -14,6 +14,8 @@</div>
-              <div className="text-rose-400">-    &lt;link rel=&quot;stylesheet&quot; href=&quot;/assets/app.css&quot;&gt;</div>
-              <div className="text-rose-400">-    &lt;script src=&quot;/assets/analytics.js&quot;&gt;&lt;/script&gt;</div>
-              <div className="text-emerald-400">+    &lt;link rel=&quot;preload&quot; href=&quot;/assets/app.css&quot; as=&quot;style&quot; onload=&quot;this.rel=&apos;stylesheet&apos;&quot;&gt;</div>
-              <div className="text-emerald-400">+    &lt;script src=&quot;/assets/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;</div>
-              <div className="text-emerald-400">+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://cdn.catalystlab.tech&quot; crossorigin&gt;</div>
+              <div className="text-danger">-    &lt;link rel=&quot;stylesheet&quot; href=&quot;/assets/app.css&quot;&gt;</div>
+              <div className="text-danger">-    &lt;script src=&quot;/assets/analytics.js&quot;&gt;&lt;/script&gt;</div>
+              <div className="text-success">+    &lt;link rel=&quot;preload&quot; href=&quot;/assets/app.css&quot; as=&quot;style&quot; onload=&quot;this.rel=&apos;stylesheet&apos;&quot;&gt;</div>
+              <div className="text-success">+    &lt;script src=&quot;/assets/analytics.js&quot; defer fetchpriority=&quot;low&quot;&gt;&lt;/script&gt;</div>
+              <div className="text-success">+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://cdn.catalystlab.tech&quot; crossorigin&gt;</div>
             </div>
           </div>
         )}

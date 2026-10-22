@@ -2,7 +2,6 @@ import React from 'react';
 import { cn } from '../../lib/utils';
 
 interface SectionHeaderProps {
-  eyebrow?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
   align?: 'left' | 'center';
@@ -10,8 +9,14 @@ interface SectionHeaderProps {
   action?: React.ReactNode;
 }
 
+/**
+ * Section heading for marketing surfaces.
+ *
+ * The heading carries itself: no kicker/eyebrow pill above it (DESIGN.md
+ * "Don't put an eyebrow/kicker label above a heading"), and no gradient fill
+ * (emphasis comes from weight and size, never from a gradient clipped to text).
+ */
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
-  eyebrow,
   title,
   description,
   align = 'left',
@@ -28,14 +33,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       )}
     >
       <div className={cn('max-w-2xl', align === 'center' && 'mx-auto')}>
-        {eyebrow && (
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 framer-micro-tag text-primary backdrop-blur-md">
-            {eyebrow}
-          </div>
-        )}
-        <h2 className="framer-section-headline text-foreground">
-          <span className="text-gradient-linear">{title}</span>
-        </h2>
+        <h2 className="framer-section-headline text-foreground">{title}</h2>
         {description && (
           <p className="mt-3 framer-body-text">
             {description}

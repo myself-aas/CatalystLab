@@ -121,7 +121,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
               <label htmlFor="roi-slider-domains" className="text-foreground font-bold flex items-center gap-1.5 cursor-pointer">
-                <Sliders className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
+                <Sliders className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Active Production Endpoints / Domains
               </label>
               <span className="text-primary font-bold font-mono">
@@ -154,10 +154,10 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
               <label htmlFor="roi-slider-seats" className="text-foreground font-bold flex items-center gap-1.5 cursor-pointer">
-                <Clock className="h-3.5 w-3.5 text-indigo-600" aria-hidden="true" />
+                <Clock className="h-3.5 w-3.5 text-info" aria-hidden="true" />
                 Engineering &amp; DevOps Seats
               </label>
-              <span className="text-indigo-700 font-bold font-mono">
+              <span className="text-info font-bold font-mono">
                 {engineerSeats} developers
               </span>
             </div>
@@ -202,7 +202,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
             {/* Metric 2 */}
             <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
               <div className="text-[11px] text-muted-foreground font-bold flex items-center gap-1">
-                <ShieldCheck className="h-3 w-3 text-emerald-600" />
+                <ShieldCheck className="h-3 w-3 text-success" />
                 Outages Prevented
               </div>
               <div className="text-xl font-extrabold text-foreground font-mono">
@@ -214,7 +214,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
             {/* Metric 3 */}
             <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
               <div className="text-[11px] text-muted-foreground font-bold flex items-center gap-1">
-                <Leaf className="h-3 w-3 text-emerald-600" />
+                <Leaf className="h-3 w-3 text-success" />
                 Carbon Offset
               </div>
               <div className="text-xl font-extrabold text-foreground font-mono">
@@ -226,7 +226,7 @@ export const TelemetryRoiCalculator: React.FC<TelemetryRoiCalculatorProps> = ({
             {/* Metric 4 */}
             <div className="p-3.5 rounded-2xl bg-muted/40 border border-border space-y-1">
               <div className="text-[11px] text-muted-foreground font-bold flex items-center gap-1">
-                <DollarSign className="h-3 w-3 text-amber-600" />
+                <DollarSign className="h-3 w-3 text-warning" />
                 Net Productivity
               </div>
               <div className="text-xl font-extrabold text-foreground font-mono">

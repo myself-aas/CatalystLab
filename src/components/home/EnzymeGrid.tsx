@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowRight, Layers, Terminal } from 'lucide-react';
+import { ArrowRight, Terminal } from 'lucide-react';
 import { SectionHeader } from './SectionHeader';
 
 const PlainArrowLink = ({ to, label }: { to: string; label: string }) => (
@@ -265,12 +265,6 @@ export const EnzymeGrid: React.FC = () => {
     <section id="engines" className="ds-section relative overflow-hidden">
       <div className="relative z-10 ds-page-shell">
         <SectionHeader
-          eyebrow={
-            <>
-              <Layers className="size-3.5 text-foreground" />
-              <span>Autonomous engines</span>
-            </>
-          }
           title="A lab, not a lighthouse."
           description="Each catalyst maps to a phase of the SDLC — migration, hygiene, carbon, vitals, edge, security, AI readiness, and generative search."
         />

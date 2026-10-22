@@ -77,10 +77,10 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
 
   const score = report?.score ?? 92;
   const getScoreColor = (val: number) => {
-    if (val >= 90) return 'text-emerald-400 border-emerald-500/30 bg-cream/10';
-    if (val >= 75) return 'text-cyan-400 border-cyan-500/30 bg-cream/10';
-    if (val >= 50) return 'text-amber-400 border-amber-500/30 bg-cream/10';
-    return 'text-rose-400 border-rose-500/30 bg-white/10';
+    if (val >= 90) return 'text-success border-success/30 bg-cream/10';
+    if (val >= 75) return 'text-info border-info/30 bg-cream/10';
+    if (val >= 50) return 'text-warning border-warning/30 bg-cream/10';
+    return 'text-danger border-danger/30 bg-white/10';
   };
 
   const getScoreGrade = (val: number) => {
@@ -141,7 +141,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
             <div className="relative px-6 py-5 border-b border-border/60 bg-gradient-to-r from-foreground/[0.03] via-transparent to-blue-500/[0.04] shrink-0">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="size-9 rounded-lg bg-cream/10 border border-blue-500/20 flex items-center justify-center text-foreground shrink-0">
+                  <div className="size-9 rounded-lg bg-cream/10 border border-info/20 flex items-center justify-center text-foreground shrink-0">
                     <Activity className="size-5" />
                   </div>
                   <div className="min-w-0">
@@ -149,7 +149,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                       <span className="framer-micro-tag text-foreground">
                         {report.engine || 'Master Audit Engine'}
                       </span>
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-mono bg-cream/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-mono bg-cream/10 text-success border border-success/20">
                         <CheckCircle2 className="size-2.5" />
                         Verified Telemetry
                       </span>
@@ -245,18 +245,18 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               >
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <Zap className="size-3.5 text-amber-400" />
+                    <Zap className="size-3.5 text-warning" />
                     <span className="framer-micro-tag text-[11px]">Latency / TTFB</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">
                     {score >= 90 ? '24ms' : score >= 75 ? '68ms' : '142ms'}
                   </div>
-                  <span className="text-[11px] text-emerald-400 font-mono">99.9th percentile</span>
+                  <span className="text-[11px] text-success font-mono">99.9th percentile</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
                   <div className="flex items-center gap-1.5 text-muted-foreground mb-1.5">
-                    <ShieldCheck className="size-3.5 text-emerald-400" />
+                    <ShieldCheck className="size-3.5 text-success" />
                     <span className="framer-micro-tag text-[11px]">Security / RFC</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">100%</div>
@@ -269,7 +269,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                     <span className="framer-micro-tag text-[11px]">Edge Cache</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">HIT (98.4%)</div>
-                  <span className="text-[11px] text-cyan-400 font-mono">Global CDN Warm</span>
+                  <span className="text-[11px] text-info font-mono">Global CDN Warm</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-foreground/[0.02] border border-border/60">
@@ -278,7 +278,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                     <span className="framer-micro-tag text-[11px]">Engine Status</span>
                   </div>
                   <div className="text-lg font-bold font-mono text-foreground">Stable</div>
-                  <span className="text-[11px] text-emerald-400 font-mono">Zero Drift</span>
+                  <span className="text-[11px] text-success font-mono">Zero Drift</span>
                 </div>
               </motion.div>
 
@@ -292,7 +292,7 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                   <motion.div 
                     animate={{ opacity: [1, 0.5, 1] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400"
+                    className="flex items-center gap-1.5 text-[11px] font-mono text-success"
                   >
                     <span className="size-1.5 rounded-full bg-cream" />
                     Phase 04 Verified
@@ -323,8 +323,8 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
                   >
                     {copied ? (
                       <>
-                        <Check className="size-3 text-emerald-400" />
-                        <span className="text-emerald-400">Copied</span>
+                        <Check className="size-3 text-success" />
+                        <span className="text-success">Copied</span>
                       </>
                     ) : (
                       <>
@@ -349,9 +349,9 @@ export const AuditDetailModal: React.FC<AuditDetailModalProps> = ({
               {/* CONTENT ELEMENT 6: Remediation & Best Practices Text Block */}
               <motion.div 
                 variants={contentItemVariants}
-                className="p-3.5 rounded-xl bg-cream/[0.04] border border-blue-500/20 text-xs flex items-start gap-2.5"
+                className="p-3.5 rounded-xl bg-cream/[0.04] border border-info/20 text-xs flex items-start gap-2.5"
               >
-                <AlertTriangle className="size-4 text-amber-400 shrink-0 mt-0.5" />
+                <AlertTriangle className="size-4 text-warning shrink-0 mt-0.5" />
                 <div className="text-muted-foreground leading-relaxed">
                   <span className="font-semibold text-foreground">Recommended Next Action:</span>{' '}
                   All mission-critical telemetry markers passed threshold requirements. To inspect raw microsecond request timelines or schedule continuous cron synthetic health probes, launch the Full Dossier view below.

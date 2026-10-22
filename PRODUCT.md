@@ -29,7 +29,7 @@ named engines perform named assays (VitalZyme, RiskProtease, LLMKinase,
 EdgeVmax, EcoHolo, SynthShift, GitLygase, Alloster) against a domain and report
 instrument-grade readings across 42 edge nodes.
 
-## Constraints & Facts to Preserve
+## Capabilities and Constraints
 
 - Eight engines and their names/hues are product truth (see
   `src/styles/card-tokens.css` `--hue-*`).
@@ -37,6 +37,25 @@ instrument-grade readings across 42 edge nodes.
 - Free tier exists; pricing tops at $199 (index.html structured data).
 - Accessibility is a feature the product sells — the product itself must meet
   WCAG AA (see DESIGN.md).
+- Report records are real or absent, never synthesised: the API answers 501 for
+  report catalogues it cannot serve (`server/routes/reports.ts`, owner decision
+  2026-10-19). Any surface that lists or opens a dossier must show stored data
+  or an honest empty state.
+
+## Evidence on Hand
+
+- `docs/impeccable-audit.md`, `docs/design-system-audit.md`,
+  `docs/audit/*`: dated, reproducible design/quality records.
+- `DESIGN.md` + `.impeccable/design.json`: the token system and its narration.
+- `docs/adr/*`: decisions, including the Meta design-system adoption (ADR 0002).
+- No customer testimonials, logos, benchmark scores, or case studies exist in
+  the repository. Surfaces must not invent them.
+
+## Accessibility & Inclusion
+
+The product sells accessibility audits, so the product itself targets WCAG 2.2
+AA: 44px touch targets, visible focus, no readable text below 12px, and severity
+carried by more than colour.
 
 ## Open Decisions
 

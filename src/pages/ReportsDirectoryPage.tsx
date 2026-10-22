@@ -5,86 +5,34 @@ import { getUserReports } from '../lib/firebase';
 import { ENGINES_MAP } from '../data/engines';
 import { urlToDomainSlug, extractDomainFromUrl } from '../utils/slugUtils';
 import type { AuditReport } from '../types';
-import { 
- Search, 
- ArrowRight, 
- FileText, 
+import {
+ Search,
+ ArrowRight,
+ FileText,
  Sparkles,
  Zap,
  Globe,
  Activity,
- CreditCard,
- Package,
- Triangle,
- Shield,
- Star
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { logger } from '../lib/logger';
 import { SkeletonCard } from '../components/skeleton';
 
-const FEATURED_BENCHMARKS = [
- {
- domain: 'catalystlab.tech',
- title: 'CatalystLab Telemetry Benchmark',
- category: 'Architecture Platform',
- score: 94,
- grade: 'A+',
- icon: Zap,
- date: 'Verified Recently'
- },
- {
- domain: 'stripe.com',
- title: 'Stripe Global Financial Infrastructure',
- category: 'Fintech & Payments',
- score: 92,
- grade: 'A',
- icon: CreditCard,
- date: 'Verified Recently'
- },
- {
- domain: 'github.com',
- title: 'GitHub Developer Platform',
- category: 'Developer Tools',
- score: 89,
- grade: 'A-',
- icon: Package,
- date: 'Verified Recently'
- },
- {
- domain: 'vercel.com',
- title: 'Vercel Edge Platform Benchmark',
- category: 'Edge & Cloud Hosting',
- score: 95,
- grade: 'A+',
- icon: Triangle,
- date: 'Verified Recently'
- },
- {
- domain: 'cloudflare.com',
- title: 'Cloudflare Zero-Trust & Edge POPs',
- category: 'CDN & Security',
- score: 93,
- grade: 'A',
- icon: Shield,
- date: 'Verified Recently'
- },
- {
- domain: 'google.com',
- title: 'Google Search & Hyper-scale Edge',
- category: 'Search & Infrastructure',
- score: 96,
- grade: 'A+',
- icon: Globe,
- date: 'Verified Recently'
- }
-];
-
+/**
+ * Reports directory.
+ *
+ * Only real data is listed: the signed-in user's stored audits, plus a domain
+ * lookup that opens the stored dossier for that domain (or its honest empty
+ * state). A fabricated "featured benchmarks" catalogue used to live here; the
+ * owner decision recorded in server/routes/reports.ts (2026-10-19) forbids
+ * inventing report records, so it is gone.
+ */
 export const ReportsDirectoryPage: React.FC = () => {
  const { user, login } = useAuth();
  const navigate = useNavigate();
  const [userReports, setUserReports] = useState<AuditReport[]>([]);
  const [loadingReports, setLoadingReports] = useState(false);
+ const [loadError, setLoadError] = useState<string | null>(null);
  const [searchQuery, setSearchQuery] = useState('');
  const [domainInput, setDomainInput] = useState('');
 
@@ -92,11 +40,13 @@ export const ReportsDirectoryPage: React.FC = () => {
  const load = async () => {
  if (user) {
  setLoadingReports(true);
+ setLoadError(null);
  try {
  const data = await getUserReports();
  setUserReports(data);
  } catch (e) {
  logger.error("Failed to load user reports:", e);
+ setLoadError('Your saved reports could not be loaded.');
  } finally {
  setLoadingReports(false);
  }
@@ -112,82 +62,59 @@ export const ReportsDirectoryPage: React.FC = () => {
  navigate(`/reports/${slug}`);
  };
 
- const filteredFeatured = FEATURED_BENCHMARKS.filter(b => 
- b.domain.toLowerCase().includes(searchQuery.toLowerCase()) ||
- b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
- b.category.toLowerCase().includes(searchQuery.toLowerCase())
- );
-
- const filteredUserReports = userReports.filter(r => 
- r.url?.toLowerCase().includes(searchQuery.toLowerCase()) || 
- r.engine?.toLowerCase().includes(searchQuery.toLowerCase()) ||
- (r.title && r.title.toLowerCase().includes(searchQuery.toLowerCase()))
+ const query = searchQuery.trim().toLowerCase();
+ const filteredUserReports = userReports.filter(r =>
+ r.url?.toLowerCase().includes(query) ||
+ r.engine?.toLowerCase().includes(query) ||
+ (r.title && r.title.toLowerCase().includes(query))
  );
 
  return (
- <div className="min-h-screen ds-page-top-hero bg-background text-foreground font-mono">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Diagnostic Report Directory"
- description="Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide."
- keywords={['audit directory', 'web health benchmark', 'dossier directory', 'performance reports']}
+ description="Open a stored telemetry dossier for a domain, or search the audits saved to your CatalystLab account."
+ keywords={['audit directory', 'web health report', 'dossier directory', 'performance reports']}
  canonicalUrl="https://www.catalystlab.tech/reports"
  />
- 
- {/* Header Banner */}
- <section className="relative overflow-hidden border-b border-border sm:px-6 lg:px-8 ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
- <div className="relative z-10 max-w-3xl mx-auto space-y-6">
- <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
- <div>
- <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-cream/10 px-3.5 py-1 framer-micro-tag text-foreground mb-4">
- <FileText className="h-3.5 w-3.5 text-foreground shrink-0"/>
- <span>Diagnostic Report Directory</span>
- </div>
- <h1 className="framer-hero-title text-foreground">
- Web Performance, Security &amp; AI Readiness Dossiers
+ <section className="border-b border-border ds-section sm:px-6 lg:px-8">
+ <div className="mx-auto max-w-5xl space-y-6">
+ <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+ <div className="max-w-2xl space-y-3">
+ <h1 className="framer-hero-title flex items-center gap-3 text-foreground">
+ <FileText className="size-8 shrink-0 text-info" aria-hidden="true" />
+ Reports
  </h1>
- <p className="mt-3 framer-body-text max-w-3xl leading-relaxed">
- Explore deep engineering telemetry articles, interactive radar benchmarks, and OWASP compliance dossiers across domains worldwide.
+ <p className="framer-body-text">
+ Open a stored dossier by domain, or sign in to see the audits saved to your account.
  </p>
  </div>
 
- <div className="flex items-center gap-2 shrink-0">
- <Link
- to="/master-audit"
- className="ds-btn ds-btn-primary text-xs sm:text-sm"
- >
- <Zap className="h-4 w-4 text-amber-300 shrink-0"/>
- <span>Run New Audit</span>
+ <Link to="/audit" className="ds-btn ds-btn-primary shrink-0 text-sm">
+ <Zap className="h-4 w-4 shrink-0"/>
+ <span>Run a new audit</span>
  </Link>
  </div>
- </div>
 
- {/* Quick Domain Inspector Input */}
- <form onSubmit={handleInstantInspect} className="mt-4">
- <div className="ds-card flex flex-col sm:flex-row gap-2 p-2">
- <div className="relative flex-1 flex items-center">
- <span className="absolute left-4 text-muted-foreground">
- <Globe className="h-4 w-4 shrink-0"/>
- </span>
- <label htmlFor="domain-inspect" className="sr-only">Domain to inspect</label>
+ <form onSubmit={handleInstantInspect}>
+ <div className="ds-card flex flex-col gap-2 p-2 sm:flex-row">
+ <div className="relative flex flex-1 items-center">
+ <Globe className="pointer-events-none absolute left-3 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true"/>
+ <label htmlFor="domain-inspect" className="sr-only">Domain to open</label>
  <input
  id="domain-inspect"
  type="text"
  value={domainInput}
  onChange={(e) => setDomainInput(e.target.value)}
- placeholder="Enter any domain to view dossier (e.g. stripe.com or catalystlab.tech)..."
- className="w-full ds-input pl-11 pr-4 text-sm font-sans bg-background"
+ placeholder="example.com"
+ className="ds-input w-full bg-background pl-10 pr-4 text-sm"
  required
  />
  </div>
 
- <button
- type="submit"
- className="ds-btn ds-btn-primary text-sm shrink-0"
- >
- <span>Open Dossier</span>
+ <button type="submit" className="ds-btn ds-btn-primary shrink-0 text-sm">
+ <span>Open dossier</span>
  <ArrowRight className="h-4 w-4 shrink-0"/>
  </button>
  </div>
@@ -195,77 +122,106 @@ export const ReportsDirectoryPage: React.FC = () => {
  </div>
  </section>
 
- {/* Main Content */}
- <main className="ds-page-shell space-y-12 ds-section">
- 
- {/* Search Bar */}
+ <main className="ds-page-shell space-y-10 ds-section">
  <div className="relative">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground shrink-0"/>
+ <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true"/>
+ <label htmlFor="report-search" className="sr-only">Search your saved reports</label>
  <input
+ id="report-search"
  type="text"
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
- placeholder="Search report directory by domain name, technology, or category..."
- className="ds-input pl-11 w-full text-sm font-sans bg-background"
+ placeholder="Search your reports by domain, engine, or title"
+ className="ds-input w-full bg-background pl-10 text-sm"
  />
  </div>
 
- {/* User Saved Reports (If authenticated & has reports) */}
- {user && (loadingReports || userReports.length > 0) && (
- <section className="space-y-6 ds-section">
- <div className="flex items-center justify-between border-b border-border pb-3">
- <h2 className="text-sm font-extrabold text-foreground flex items-center gap-2">
- <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-accent text-muted-foreground border border-border">
- <Zap className="h-3.5 w-3.5 text-amber-500"/>
- </span>
- <span>Your Saved Audit Reports {loadingReports ? '' : `(${filteredUserReports.length})`}</span>
+ <section className="space-y-5">
+ <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
+ <h2 className="framer-card-title text-foreground">
+ Your saved reports
+ {!loadingReports && user ? <span className="ml-2 font-mono text-sm text-muted-foreground">{filteredUserReports.length}</span> : null}
  </h2>
- <Link to="/dashboard"className="text-sm font-semibold text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
- <span>Manage in Dashboard</span>
+ {user ? (
+ <Link to="/dashboard?tab=audits" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+ <span>Manage in dashboard</span>
  <ArrowRight className="h-4 w-4"/>
  </Link>
+ ) : null}
  </div>
 
- {loadingReports ? (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"role="status"aria-label="Loading your saved reports...">
+ {!user ? (
+ <div className="ds-card p-8 text-center">
+ <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-surface text-info">
+ <Sparkles className="h-6 w-6" aria-hidden="true"/>
+ </div>
+ <h3 className="framer-card-title text-lg text-foreground">Sign in to see your saved audits</h3>
+ <p className="mx-auto mt-2 max-w-xl framer-body-text text-sm">
+ Your account keeps every completed audit, so you can compare readings over time and share a permalink.
+ </p>
+ <button onClick={() => login()} className="ds-btn ds-btn-primary mt-6 text-sm">
+ Sign in to your account
+ </button>
+ </div>
+ ) : loadingReports ? (
+ <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" role="status" aria-label="Loading your saved reports">
  {Array.from({ length: 3 }).map((_, i) => (
  <SkeletonCard key={i} />
  ))}
  </div>
+ ) : loadError ? (
+ <div className="ds-card border-danger/30 p-6" role="alert">
+ <p className="text-sm font-medium text-foreground">{loadError}</p>
+ <p className="mt-1 text-sm text-muted-foreground">Reload the page to try again, or run a new audit and it will be saved here.</p>
+ </div>
+ ) : filteredUserReports.length === 0 ? (
+ <div className="ds-card border-dashed p-8 text-center">
+ <Activity className="mx-auto mb-3 h-8 w-8 text-muted-foreground" aria-hidden="true"/>
+ <h3 className="text-base font-semibold text-foreground">
+ {userReports.length === 0 ? 'No saved reports yet' : 'No reports match that search'}
+ </h3>
+ <p className="mx-auto mt-1.5 max-w-md text-sm text-muted-foreground">
+ {userReports.length === 0
+ ? 'Run an audit while signed in and it will appear here with its full telemetry.'
+ : 'Clear the search to see all of your saved reports.'}
+ </p>
+ {userReports.length === 0 ? (
+ <Link to="/audit" className="ds-btn ds-btn-primary mt-5 text-sm">Run your first audit</Link>
  ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+ <button type="button" onClick={() => setSearchQuery('')} className="ds-btn ds-btn-secondary mt-5 text-sm">Clear search</button>
+ )}
+ </div>
+ ) : (
+ <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
  {filteredUserReports.map((r) => {
  const meta = ENGINES_MAP[r.engine] || { name: r.engine };
  const domainSlug = urlToDomainSlug(r.url);
  const domainName = extractDomainFromUrl(r.url);
 
  return (
- <Link
- key={r.id || domainSlug}
- to={`/reports/${domainSlug}`}
- className="ds-card group p-5 ds-card-interactive"
- >
- <div className="flex items-center justify-between gap-2 mb-4">
- <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-muted text-muted-foreground border border-border shadow-sm">
- <Activity className="h-4 w-4"/>
+ <Link key={r.id || domainSlug} to={`/reports/${domainSlug}`} className="ds-card ds-card-interactive group flex flex-col p-5">
+ <div className="mb-4 flex items-center justify-between gap-2">
+ <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-surface text-muted-foreground">
+ <Activity className="h-4 w-4" aria-hidden="true"/>
  </span>
- <span className="text-[11px] uppercase font-bold text-muted-foreground bg-accent .5 py-1 rounded-md border border-border tracking-wider">
- {meta.name}
+ {typeof r.score === 'number' ? (
+ <span className="rounded-md border border-border px-2 py-0.5 font-mono text-xs text-foreground">
+ Score {r.score}
  </span>
+ ) : null}
  </div>
 
- <div className="font-extrabold text-base text-foreground group-hover:text-foreground transition-colors truncate font-sans">
+ <div className="truncate text-base font-semibold text-foreground">
  {domainName}
  </div>
- <div className="text-xs text-muted-foreground truncate mt-1 font-sans">
+ <div className="mt-1 truncate font-mono text-xs text-muted-foreground">
  {r.url}
  </div>
 
- <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-sans">
- <span>{r.createdAt ? new Date(r.createdAt).toLocaleDateString() : 'Recent'}</span>
- <span className="flex items-center gap-1 font-bold text-muted-foreground group-hover:text-foreground transition-colors">
- <span>View Dossier</span>
- <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"/>
+ <div className="mt-4 flex items-center justify-between border-t border-border pt-4 text-sm text-muted-foreground">
+ <span>{meta.name}</span>
+ <span className="flex items-center gap-1 font-medium text-foreground">
+ Open <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"/>
  </span>
  </div>
  </Link>
@@ -274,91 +230,10 @@ export const ReportsDirectoryPage: React.FC = () => {
  </div>
  )}
  </section>
- )}
 
- {/* Featured Benchmark Articles (Always visible to everyone) */}
- <section className="space-y-6 ds-section">
- <div className="border-b border-border pb-3">
- <h2 className="text-sm font-extrabold text-foreground flex items-center gap-2">
- <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-cream/10 text-amber-400 border border-amber-500/20">
- <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-400"/>
- </span>
- <span>Featured Architecture &amp; Telemetry Dossiers</span>
- </h2>
- <p className="text-sm text-muted-foreground mt-2 font-sans">
- Public benchmarks demonstrating DOM depth, OWASP header compliance, and edge latency across industry standards.
+ <p className="framer-body-text text-sm">
+ Looking for a domain someone else audited? Open its permalink directly, or ask the owner to share it.
  </p>
- </div>
-
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
- {filteredFeatured.map((item) => {
- const slug = urlToDomainSlug(item.domain);
- const isGradeA = item.grade.startsWith('A');
- const Icon = item.icon;
-
- return (
- <Link
- key={item.domain}
- to={`/reports/${slug}`}
- className="ds-card group p-5 ds-card-interactive"
- >
- <div className="flex items-center justify-between gap-2 mb-4">
- <div className="flex items-center gap-2">
- <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-surface text-muted-foreground border border-border shadow-sm">
- <Icon className="h-4 w-4 shrink-0"/>
- </span>
- <span className="text-[11px] uppercase font-mono text-muted-foreground bg-[var(--bg-surface)] px-2 py-0.5 rounded border border-foreground/10 tracking-wider">
- {item.category}
- </span>
- </div>
- <span className={`text-[11px] font-mono px-2 py-0.5 rounded border ${
- isGradeA 
- ? 'border-emerald-500/20 bg-cream/10 text-emerald-400' 
- : 'border-amber-500/20 bg-cream/10 text-amber-400'
- }`}>
- Grade {item.grade}
- </span>
- </div>
-
- <div className="framer-card-title text-foreground group-hover:text-foreground transition-colors truncate">
- {item.domain}
- </div>
- <p className="framer-body-text text-sm mt-1.5 line-clamp-2">
- {item.title}
- </p>
-
- <div className="flex items-center justify-between pt-4 mt-4 border-t border-border text-xs text-muted-foreground font-mono">
- <span className="text-foreground font-bold">{item.score}/100 Score</span>
- <span className="flex items-center gap-1 font-bold text-muted-foreground group-hover:text-foreground transition-colors">
- <span>Explore Benchmark</span>
- <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 shrink-0"/>
- </span>
- </div>
- </Link>
- );
- })}
- </div>
- </section>
-
- {/* Guest Call-to-action Banner if not signed in */}
- {!user && (
- <div className="ds-card p-8 sm:p-12 text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-amber-400 mb-4 shadow-sm">
- <Sparkles className="h-6 w-6"/>
- </div>
- <h3 className="framer-card-title text-xl sm:text-2xl text-foreground">Save &amp; Organize Your Custom Domain Audits</h3>
- <p className="mt-3 framer-body-text max-w-3xl mx-auto">
- Sign in to permanently track historical audits, monitor regressions over time, and generate dedicated whitepaper dossiers.
- </p>
- <button
- onClick={() => login()}
- className="mt-6 ds-btn ds-btn-primary text-sm"
- >
- Sign In to Your Account
- </button>
- </div>
- )}
-
  </main>
  </div>
  );

@@ -5,7 +5,7 @@ import pricingImageWebp from '../assets/images/page-pricing.webp';
 import pricingImageAvif from '../assets/images/page-pricing.avif';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowRight, Check, CreditCard, Sparkles, X } from 'lucide-react';
+import { ArrowRight, Check, Sparkles, X } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { LinearCard } from '../components/ui/LinearCard';
 import { SectionHeader } from '../components/home/SectionHeader';
@@ -50,43 +50,39 @@ export default function PricingPage() {
  description="Transparent diagnostic tiers from community scans to enterprise air-gapped runners."
  />
 
- <section className="relative overflow-hidden pb-8 w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
- <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 ds-page-shell text-center">
- <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cream/20 bg-cream/10 px-3 py-1 framer-micro-tag text-foreground">
- <CreditCard className="size-3.5 text-foreground shrink-0"/>
- <span>Compute units, not seats-first</span>
- </div>
+ <section className="w-full ds-section">
+ <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center">
  <h1 className="framer-hero-title text-foreground">
  Pricing that scales with the mesh.
  </h1>
  <p className="mx-auto mt-4 max-w-3xl framer-body-text">
- Start free. Unlock 42 PoPs, CI gates, and white-label dossiers when the lab outgrows a laptop.
+ Start free on 42 edge nodes. Upgrade when you need CI gates, scheduled sweeps, and white-label dossiers.
  </p>
  <figure className="mx-auto mt-10 max-w-4xl">
    <PlateImage src={pricingImage} webp={pricingImageWebp} avif={pricingImageAvif} alt="Team comparing CatalystLab pricing plans at a bright office table" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
 
- <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-foreground/10 bg-[var(--bg-surface)] p-1 font-mono text-xs">
+ <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-border bg-surface p-1" role="group" aria-label="Billing period">
  <button
  type="button"
+ aria-pressed={!annual}
  onClick={() => setAnnual(false)}
- className={`rounded-full px-3 py-1.5 transition duration-200 ${
- !annual ? 'bg-foreground/15 text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+ className={`min-h-11 rounded-full px-4 py-1.5 text-sm transition-colors ${
+ !annual ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  Monthly
  </button>
  <button
  type="button"
+ aria-pressed={annual}
  onClick={() => setAnnual(true)}
- className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 transition duration-200 ${
- annual ? 'bg-foreground/15 text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+ className={`inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-1.5 text-sm transition-colors ${
+ annual ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
  }`}
  >
  Annual
- <span className="rounded-full bg-cream/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 text-[11px]">
+ <span className={`rounded-full px-2 py-0.5 font-mono text-xs ${annual ? 'bg-background/15 text-background' : 'bg-success/10 text-success'}`}>
  −20%
  </span>
  </button>
@@ -125,7 +121,7 @@ export default function PricingPage() {
  )}
  </div>
  <h2 className="framer-card-title text-foreground">{plan.name}</h2>
- <p className="mt-2 min-h-[var(--control-min-size)] framer-body-text text-sm">{plan.tagline}</p>
+ <p className="mt-2 framer-body-text text-sm">{plan.tagline}</p>
  <div className="mt-6 flex items-baseline gap-1 border-y border-border py-4">
  <span className="font-mono text-4xl font-semibold tracking-tight text-foreground">${price}</span>
  <span className="font-mono text-sm text-muted-foreground">/mo</span>
@@ -135,23 +131,21 @@ export default function PricingPage() {
  ${plan.annualBillingTotal}/yr · save {plan.annualSavingsPercent}%
  </p>
  )}
- <ul className="mt-6 flex-1 space-y-2.5">
- {plan.features.slice(0, 7).map((feat) => (
- <li
- key={feat.text}
- className={`flex items-start gap-2 text-sm ${
- feat.included ? 'text-muted-foreground' : 'text-muted-foreground/40 line-through'
- }`}
- >
- {feat.included ? (
- <Check className="mt-0.5 size-4 shrink-0 text-primary"/>
- ) : (
- <X className="mt-0.5 size-4 shrink-0 text-muted-foreground/40"/>
- )}
+ <ul className="mt-6 space-y-2.5">
+ {plan.features.filter((feat) => feat.included).slice(0, 7).map((feat) => (
+ <li key={feat.text} className="flex items-start gap-2 text-sm text-muted-foreground">
+ <Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true"/>
  <span>{feat.text}</span>
  </li>
  ))}
  </ul>
+ {plan.features.some((feat) => !feat.included) && (
+ <p className="mt-4 flex-1 text-xs leading-relaxed text-muted-foreground">
+ <X className="mr-1 inline size-3.5 shrink-0 align-[-2px] text-muted-foreground" aria-hidden="true" />
+ Not included: {plan.features.filter((feat) => !feat.included).map((feat) => feat.text).join(' · ')}
+ </p>
+ )}
+ <div className="flex-1" />
  <button
  type="button"
  onClick={() => openCheckout(plan.id)}
@@ -209,7 +203,6 @@ export default function PricingPage() {
 
  <section className="mx-auto mt-24 max-w-3xl ds-section">
  <SectionHeader
- eyebrow={<span>Model the spend</span>}
  title="Hours back. Incidents down."
  description="Slide probe volume, domains, and seats. We recommend a tier from the same catalog as checkout."
  />

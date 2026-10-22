@@ -45,12 +45,6 @@ export const HowItWorks: React.FC = () => {
     >
       <div className="relative z-10 ds-page-shell">
         <SectionHeader
-          eyebrow={
-            <>
-              <Network className="size-3.5 text-foreground" />
-              <span>Synchronous pipeline</span>
-            </>
-          }
           title="Four Gates. 1.06s P95."
           description="From edge resolution to a shareable remediation dossier — no queue, no waterfall, no waiting on a vendor dashboard."
         />

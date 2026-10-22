@@ -96,7 +96,7 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
           <button
             type="button"
             onClick={handleRunInCli}
-            className="inline-flex h-7 items-center gap-1 rounded px-2 text-[12px] font-medium text-foreground hover:bg-cream/10 transition-colors"
+            className="inline-flex h-7 items-center gap-1 rounded px-2 text-xs font-medium text-foreground hover:bg-cream/10 transition-colors"
             title="Run in CLI"
           >
             <Play className="size-3 fill-current" />
@@ -107,11 +107,11 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
             variant="terminal"
             label="Copy"
             copiedLabel="Copied"
-            className="h-7 text-[11px] px-2"
+            className="h-7 text-xs px-2"
           />
         </div>
       </div>
-      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed text-foreground">
+      <pre className="overflow-x-auto p-4 text-sm leading-relaxed text-foreground">
         <code>{code}</code>
       </pre>
     </div>
@@ -233,8 +233,8 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
       <Link to="/docs" className="mb-4 flex items-center gap-2 px-1 no-underline">
             <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">C</span>
         <span className="leading-tight">
-          <span className="block text-[13px] font-medium text-foreground">CatalystLab</span>
-          <span className="block text-[11px] text-muted-foreground">Documentation</span>
+          <span className="block text-sm font-medium text-foreground">CatalystLab</span>
+          <span className="block text-xs text-muted-foreground">Documentation</span>
         </span>
       </Link>
 
@@ -247,9 +247,9 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter docs"
           aria-label="Filter documentation"
-          className="h-9 w-full rounded-full border border-border bg-background pl-9 pr-10 text-[13px] text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+          className="h-9 w-full rounded-full border border-border bg-background pl-9 pr-10 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
         />
-        <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-border bg-muted/50 px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
+        <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-border bg-muted/50 px-1.5 py-0.5 font-mono text-xs text-muted-foreground">
           /
         </kbd>
       </div>
@@ -261,7 +261,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             <button
               type="button"
               onClick={() => setOpenGroups((prev) => ({ ...prev, [group.group]: !expanded }))}
-              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground hover:bg-accent"
+              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-xs font-semibold text-muted-foreground hover:bg-accent"
               aria-expanded={expanded}
             >
               {group.group}
@@ -276,16 +276,16 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       <Link
                         to={item.path}
                         onClick={() => setMobileNavOpen(false)}
-                        className={`flex min-h-9 items-center justify-between rounded-r-full border-l-[3px] py-1.5 pl-3 pr-3 text-[13px] leading-snug no-underline ${
+                        className={`flex min-h-9 items-center justify-between rounded-full py-1.5 pl-3 pr-3 text-sm leading-snug no-underline ${
                           active
-                            ? 'border-cream bg-cream/10 font-semibold text-foreground'
+                            ? 'bg-accent font-semibold text-foreground'
                             : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
                         }`}
                         aria-current={active ? 'page' : undefined}
                       >
                         <span className="truncate">{item.title}</span>
                         {item.badge && (
-                          <span className="ml-2 shrink-0 rounded-full bg-cream/10 px-1.5 py-0.5 font-mono text-[11px] text-foreground">
+                          <span className="ml-2 shrink-0 rounded-full bg-cream/10 px-1.5 py-0.5 font-mono text-xs text-foreground">
                             {item.badge}
                           </span>
                         )}
@@ -368,7 +368,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               <button
                 type="button"
                 onClick={() => setCliOpen((v) => !v)}
-                className={`inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium ${
+                className={`inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium ${
                   cliOpen
                     ? 'bg-cream/10 text-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent'
@@ -379,7 +379,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               </button>
               <Link
                 to="/contact"
-                className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent"
+                className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent"
               >
                 <MessageSquare className="size-4" />
                 <span className="hidden md:inline">Send feedback</span>
@@ -392,12 +392,12 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <div className="flex">
             <article className="min-w-0 flex-1 px-4 py-8 sm:px-8 lg:px-12 xl:max-w-[860px]">
               <header className="mb-8">
-                <p className="mb-2 text-[13px] font-medium text-foreground">CatalystLab documentation</p>
+                <p className="mb-2 text-sm font-medium text-foreground">CatalystLab documentation</p>
                 <h1 className="text-4xl font-display font-medium leading-tight text-foreground sm:text-5xl">
                   {title}
                 </h1>
-                <p className="mt-3 max-w-[42rem] text-[16px] leading-7 text-muted-foreground">{description}</p>
-                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-muted-foreground">
+                <p className="mt-3 max-w-[42rem] text-base leading-7 text-muted-foreground">{description}</p>
+                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
                   <span>Stay organized with collections</span>
                   <span aria-hidden="true">·</span>
                   <time dateTime="2026-09-03">Last updated 2026-09-03 UTC</time>
@@ -412,11 +412,11 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     to={prevItem.path}
                     className="group flex flex-col gap-1 rounded-lg border border-border p-4 no-underline hover:border-primary"
                   >
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground">
                       <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
                       Previous
                     </span>
-                    <span className="text-[15px] text-foreground">{prevItem.title}</span>
+                    <span className="text-base text-foreground">{prevItem.title}</span>
                   </Link>
                 ) : (
                   <div />
@@ -426,11 +426,11 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     to={nextItem.path}
                     className="group flex flex-col items-end gap-1 rounded-lg border border-border p-4 text-right no-underline hover:border-primary sm:col-start-2"
                   >
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground">
                       Next
                       <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
                     </span>
-                    <span className="text-[15px] text-foreground">{nextItem.title}</span>
+                    <span className="text-base text-foreground">{nextItem.title}</span>
                   </Link>
                 )}
               </nav>
@@ -438,16 +438,16 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               <div className="mt-8 rounded-lg border border-border p-5">
                 <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                   <div>
-                    <p className="text-[15px] font-medium text-foreground">Was this helpful?</p>
-                    <p className="text-[13px] text-muted-foreground">Except as otherwise noted, content is licensed for developer use.</p>
+                    <p className="text-base font-medium text-foreground">Was this helpful?</p>
+                    <p className="text-sm text-muted-foreground">Except as otherwise noted, content is licensed for developer use.</p>
                   </div>
                   <div className="flex gap-2">
                     <button
                       type="button"
                       onClick={() => setFeedbackGiven('yes')}
-                      className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
+                      className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-sm font-medium ${
                         feedbackGiven === 'yes'
-                          ? 'border-emerald-500 bg-cream/10 text-emerald-600 dark:text-emerald-400'
+                          ? 'border-success bg-cream/10 text-success dark:text-success'
                           : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >
@@ -456,9 +456,9 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     <button
                       type="button"
                       onClick={() => setFeedbackGiven('no')}
-                      className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
+                      className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-sm font-medium ${
                         feedbackGiven === 'no'
-                          ? 'border-rose-500 bg-white/10 text-rose-600 dark:text-rose-400'
+                          ? 'border-danger bg-white/10 text-danger dark:text-danger'
                           : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >
@@ -467,14 +467,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                   </div>
                 </div>
                 {feedbackGiven && (
-                  <p className="mt-3 inline-flex items-center gap-1.5 text-[13px] text-emerald-600 dark:text-emerald-400">
+                  <p className="mt-3 inline-flex items-center gap-1.5 text-sm text-success dark:text-success">
                     <CheckCircle2 className="size-4" />
                     Thank you for your feedback.
                   </p>
                 )}
               </div>
 
-              <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5 text-[12px] text-muted-foreground">
+              <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5 text-xs text-muted-foreground">
                 <p>Except as otherwise noted, the content of this page is licensed for CatalystLab developer documentation.</p>
                 <div className="flex gap-4">
                   <Link to="/blogs" className="inline-flex items-center gap-1 hover:text-foreground">
@@ -495,7 +495,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                     <a
                       key={item.id}
                       href={`#${item.id}`}
-                      className={`text-[13px] leading-tight transition-colors ${
+                      className={`text-sm leading-tight transition-colors ${
                         activeId === item.id ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground'
                       }`}
                       style={{ paddingLeft: `${(item.level - 2) * 12}px` }}
@@ -527,7 +527,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background shadow-xl lg:left-[268px]">
           <div className="flex items-center justify-between border-b border-border px-4 py-2">
-            <span className="text-[13px] font-medium">Try it in the CLI</span>
+            <span className="text-sm font-medium">Try it in the CLI</span>
             <button type="button" onClick={() => setCliOpen(false)} className="flex size-8 items-center justify-center rounded-full hover:bg-accent" aria-label="Close CLI">
               <X className="size-4" />
             </button>

@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getReport, saveReport } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { ENGINES_MAP } from '../data/engines';
-import { parseTelemetryOutput, generateDomainBenchmarkTelemetry, type ParsedTelemetryData } from '../utils/telemetryParser';
+import { parseTelemetryOutput, type ParsedTelemetryData } from '../utils/telemetryParser';
 import { urlToDomainSlug, slugToDisplayDomain, extractDomainFromUrl } from '../utils/slugUtils';
 import { exportReportToPdf } from '../utils/pdfExport';
 import { VitalsRadarOverview } from '../components/charts/VitalsRadarOverview';
@@ -152,36 +152,18 @@ export const DomainReportArticlePage: React.FC = () => {
  return;
  }
 
- const reconstructedDomain = slugToDisplayDomain(reportIdentifier);
- const benchmark = generateDomainBenchmarkTelemetry(reconstructedDomain);
- 
- const fallbackReport: AuditReport = {
- url: `https://${reconstructedDomain}`,
- engine: 'master-audit',
- output: benchmark.rawOutput,
- createdAt: Date.now(),
- ownerId: user?.uid || 'public-benchmark',
- title: `Master Audit: ${reconstructedDomain}`,
- score: benchmark.telemetry.overallScore
- };
-
- setReport(fallbackReport);
- setTelemetry(benchmark.telemetry);
+ // Owner decision (2026-10-19, server/routes/reports.ts): no fabricated
+ // catalogues. An unknown slug shows the honest empty state and offers a real
+ // audit instead of inventing a benchmark for the domain in the URL.
+ setReport(null);
+ setTelemetry(null);
+ setError(`No dossier is stored for ${slugToDisplayDomain(reportIdentifier)} yet.`);
  setLoading(false);
  } catch (err: unknown) {
  logger.error("Failed to load audit article:", err);
- const reconstructedDomain = slugToDisplayDomain(reportIdentifier);
- const benchmark = generateDomainBenchmarkTelemetry(reconstructedDomain);
- setReport({
- url: `https://${reconstructedDomain}`,
- engine: 'master-audit',
- output: benchmark.rawOutput,
- createdAt: Date.now(),
- ownerId: 'public-benchmark',
- title: `Master Audit: ${reconstructedDomain}`,
- score: benchmark.telemetry.overallScore
- });
- setTelemetry(benchmark.telemetry);
+ setReport(null);
+ setTelemetry(null);
+ setError('We could not load this dossier. It may have been deleted, or the link may be mistyped.');
  setLoading(false);
  }
  };
