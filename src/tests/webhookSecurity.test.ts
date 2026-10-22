@@ -135,7 +135,13 @@ describe('guardedFetch positive path (offline integration via local server)', ()
         res.end();
       } else {
         res.writeHead(200, { 'content-type': 'application/json', 'x-proof': 'guarded-fetch' });
-        res.end(JSON.stringify({ landed: req.url }));
+        res.end(
+          JSON.stringify({
+            landed: req.url,
+            auth: req.headers['authorization'] ?? null,
+            custom: req.headers['x-custom'] ?? null
+          })
+        );
       }
     });
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
@@ -157,19 +163,20 @@ describe('guardedFetch positive path (offline integration via local server)', ()
     expect(res.ok).toBe(true);
     expect(res.status).toBe(200);
     expect(res.headers.get('x-proof')).toBe('guarded-fetch');
-    expect(await res.json()).toEqual({ landed: '/data' });
+    expect(await res.json()).toEqual({ landed: '/data', auth: null, custom: null });
   });
 
-  it('follows redirects with per-hop SSRF re-validation (public hop 2)', async () => {
+  it('follows redirects with per-hop SSRF re-validation (public hop 2) and strips credentials on cross-origin redirect', async () => {
     lookupMock.mockImplementation((...args: unknown[]) => {
       const cb = args[args.length - 1] as (e: null, a: string, f: number) => void;
       cb(null, '93.184.215.14', 4);
     });
     const res = await guardedFetch(`http://guarded-test.example:${port}/start`, {
-      connectIpOverride: '127.0.0.1'
+      connectIpOverride: '127.0.0.1',
+      headers: { Authorization: 'Bearer secret-token', 'X-Custom': 'keep-me' }
     });
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ landed: '/landed' });
+    expect(await res.json()).toEqual({ landed: '/landed', auth: null, custom: 'keep-me' });
     expect(hits).toEqual(['/start', '/landed']);
   });
 

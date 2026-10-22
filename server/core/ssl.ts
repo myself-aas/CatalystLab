@@ -126,6 +126,10 @@ export function getSslDetails(
         socket.destroy();
         safeResolve({ valid: false, daysRemaining: 0 });
       });
+
+      socket.on('close', () => {
+        safeResolve({ valid: false, daysRemaining: 0 });
+      });
     } catch {
       safeResolve({ valid: false });
     }

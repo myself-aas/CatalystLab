@@ -12,7 +12,7 @@ import { getAttachedIdentity, getAdminFirestore } from '../../src/lib/serverAuth
 
 export const MAX_GITHUB_SSE_SUBSCRIBERS = 500;
 export const MAX_CONNECTED_REPOS = 1_000;
-const GITHUB_REPOS_COLLECTION = 'github_connected_repos';
+const GITHUB_REPOS_COLLECTION = 'github_repos';
 
 function randomIntInclusive(min: number, max: number): number {
   return min + (crypto.randomBytes(2).readUInt16BE(0) % (max - min + 1));
@@ -90,22 +90,32 @@ export function registerGithubRoutes(app: express.Express): void {
       ];
 
   let reposHydrated = false;
+  let reposHydratePromise: Promise<void> | null = null;
   async function ensureReposHydrated(): Promise<void> {
     if (reposHydrated) return;
-    reposHydrated = true;
-    try {
-      const db = await getAdminFirestore();
-      if (!db) return;
-      const snap = await db.collection(GITHUB_REPOS_COLLECTION).limit(MAX_CONNECTED_REPOS).get();
-      for (const doc of snap.docs) {
-        const data = doc.data();
-        if (data?.id && typeof data.id === 'string') {
-          serverConnectedRepos.set(data.id, data);
+    if (reposHydratePromise) return reposHydratePromise;
+    reposHydratePromise = (async () => {
+      try {
+        const db = await getAdminFirestore();
+        if (!db) {
+          reposHydrated = true;
+          return;
         }
+        const snap = await db.collection(GITHUB_REPOS_COLLECTION).limit(MAX_CONNECTED_REPOS).get();
+        for (const doc of snap.docs) {
+          const data = doc.data();
+          if (data?.id && typeof data.id === 'string') {
+            serverConnectedRepos.set(data.id, data);
+          }
+        }
+        reposHydrated = true;
+      } catch (err) {
+        logger.warn({ err }, '[GitHub] Connected repo store hydration skipped');
+      } finally {
+        reposHydratePromise = null;
       }
-    } catch (err) {
-      logger.warn({ err }, '[GitHub] Connected repo store hydration skipped');
-    }
+    })();
+    return reposHydratePromise;
   }
 
   function broadcastGithubTelemetry(event: any) {

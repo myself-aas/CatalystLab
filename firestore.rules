@@ -61,7 +61,8 @@ service cloud.firestore {
       return data.keys().hasAll(['action', 'status', 'timestamp'])
         && data.action is string && data.action.size() <= 150
         && data.status in ['healthy', 'warning', 'critical', 'info', 'success']
-        && data.timestamp is number;
+        && data.timestamp is number
+        && (!data.keys().hasAny(['ownerId']) || (data.ownerId is string && data.ownerId == request.auth.uid));
     }
 
     function isValidMonitoredSite(data) {
@@ -148,7 +149,8 @@ service cloud.firestore {
                     && isValidGithubRepo(incoming());
       allow update: if isSignedIn()
                     && isValidId(repoId)
-                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin())
+                    && isValidGithubRepo(incoming());
       allow delete: if isSignedIn()
                     && isValidId(repoId)
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
@@ -162,7 +164,8 @@ service cloud.firestore {
                     && isValidGithubTelemetryEvent(incoming());
       allow update: if isSignedIn()
                     && isValidId(eventId)
-                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin())
+                    && isValidGithubTelemetryEvent(incoming());
       allow delete: if isSignedIn()
                     && isValidId(eventId)
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());
@@ -261,7 +264,8 @@ service cloud.firestore {
                     && isValidMonitoredSite(incoming());
       allow update: if isSignedIn() 
                     && isValidId(siteId)
-                    && (existing().ownerId == request.auth.uid || isSuperAdmin());
+                    && (existing().ownerId == request.auth.uid || isSuperAdmin())
+                    && isValidMonitoredSite(incoming());
       allow delete: if isSignedIn() 
                     && isValidId(siteId) 
                     && (existing().ownerId == request.auth.uid || isSuperAdmin());

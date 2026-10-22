@@ -24,12 +24,6 @@ function extractScoreFromOutput(output: string | undefined): number | null {
   return n;
 }
 
-function averageScores(values: Array<number | null>): number | null {
-  const nums = values.filter((v): v is number => typeof v === 'number');
-  if (nums.length === 0) return null;
-  return Math.round(nums.reduce((a, b) => a + b, 0) / nums.length);
-}
-
 export function registerEngineRoutes(app: express.Express): void {
 
 app.post('/api/check-url', createEngineRateLimitMiddleware({ cost: SINGLE_ENGINE_COST }), async (req: Request, res: Response): Promise<void> => {
@@ -165,9 +159,9 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
           ? 'TLS certificate probes are restricted to port 443.'
           : 'Target is not served over HTTPS; no certificate to probe.')
     };
-    if (tlsProbeAllowed) {
-      sslInfo = await getSslDetails(parsedUrl.hostname);
-    }
+    const sslPromise = tlsProbeAllowed
+      ? getSslDetails(parsedUrl.hostname)
+      : Promise.resolve(sslInfo);
 
     const reqPromise = (async (): Promise<{
       statusCode: number;
@@ -213,7 +207,8 @@ app.post('/api/monitor/probe', createEngineRateLimitMiddleware({ cost: SINGLE_EN
     })();
 
     try {
-      const probeData = await reqPromise;
+      const [resolvedSsl, probeData] = await Promise.all([sslPromise, reqPromise]);
+      sslInfo = resolvedSsl;
       res.json({
         success: true,
         url: parsedUrl.toString(),
@@ -407,43 +402,51 @@ const handleMasterAuditStream = async (req: Request, res: Response): Promise<voi
   ];
 
   const completedResults: Record<string, any> = {};
+  let finishedCount = 0;
 
-  for (let i = 0; i < engines.length; i++) {
-    const eng = engines[i];
-    const progressPct = Math.round(((i) / engines.length) * 100);
+  // shortcut: batch size 2 caps per-stream Python subprocess fanout; move to worker queue if concurrent SSE audits exceed 10
+  for (let i = 0; i < engines.length; i += 2) {
+    if (req.destroyed || res.writableEnded) break;
+    const batch = engines.slice(i, i + 2);
+    await Promise.all(
+      batch.map(async (eng, offset) => {
+        const idx = i + offset;
+        sendSse('engine_start', {
+          engine: eng.key,
+          name: eng.name,
+          index: idx,
+          total: engines.length,
+          progress: Math.round((finishedCount / engines.length) * 100),
+          timestamp: Date.now()
+        });
 
-    sendSse('engine_start', {
-      engine: eng.key,
-      name: eng.name,
-      index: i,
-      total: engines.length,
-      progress: progressPct,
-      timestamp: Date.now()
-    });
+        try {
+          const rawOutput = await runNativeEngine(targetUrl, eng.key);
+          completedResults[eng.key] = rawOutput;
+          finishedCount += 1;
 
-    try {
-      const rawOutput = await runNativeEngine(targetUrl, eng.key);
-      completedResults[eng.key] = rawOutput;
-
-      sendSse('engine_complete', {
-        engine: eng.key,
-        name: eng.name,
-        status: 'success',
-        output: rawOutput,
-        preview: rawOutput ? rawOutput.slice(0, 200) : '',
-        progress: Math.round(((i + 1) / engines.length) * 100),
-        timestamp: Date.now()
-      });
-    } catch (err: any) {
-      sendSse('engine_complete', {
-        engine: eng.key,
-        name: eng.name,
-        status: 'error',
-        error: err.message || 'Engine execution failed',
-        progress: Math.round(((i + 1) / engines.length) * 100),
-        timestamp: Date.now()
-      });
-    }
+          sendSse('engine_complete', {
+            engine: eng.key,
+            name: eng.name,
+            status: 'success',
+            output: rawOutput,
+            preview: rawOutput ? rawOutput.slice(0, 200) : '',
+            progress: Math.round((finishedCount / engines.length) * 100),
+            timestamp: Date.now()
+          });
+        } catch (err: any) {
+          finishedCount += 1;
+          sendSse('engine_complete', {
+            engine: eng.key,
+            name: eng.name,
+            status: 'error',
+            error: err.message || 'Engine execution failed',
+            progress: Math.round((finishedCount / engines.length) * 100),
+            timestamp: Date.now()
+          });
+        }
+      })
+    );
   }
 
   sendSse('audit_complete', {
