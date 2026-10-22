@@ -52,7 +52,7 @@ export const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
     shortLabel: 'Guest',
     tagline: 'Public explorer with basic instant diagnostics',
     colorClass: 'text-muted-foreground',
-    badgeBg: 'bg-muted0/10',
+    badgeBg: 'bg-muted/40',
     badgeText: 'text-muted-foreground',
     badgeBorder: 'border-border',
     dailyComputeUnits: 20,

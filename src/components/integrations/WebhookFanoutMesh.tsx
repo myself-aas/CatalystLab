@@ -99,7 +99,7 @@ export const WebhookFanoutMesh: React.FC = () => {
               <Webhook className="h-3.5 w-3.5 text-cyan-400" />
               <span>Multi-Region Incident Dispatching</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-foreground tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-foreground tracking-tight">
               Synchronous Webhook Fan-Out Mesh
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground mt-2 max-w-2xl font-normal">
@@ -112,7 +112,7 @@ export const WebhookFanoutMesh: React.FC = () => {
             type="button"
             onClick={handleTestFanout}
             disabled={isFiring}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-foreground text-xs sm:text-sm font-mono font-bold transition shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs sm:text-sm font-mono font-bold transition shadow-lg shadow-cyan-500/20 active:scale-95 cursor-pointer disabled:opacity-50"
           >
             <Send className={`h-4 w-4 ${isFiring ? 'animate-bounce' : ''}`} />
             <span>{isFiring ? 'Broadcasting Fan-Out Webhooks...' : 'Trigger Fan-Out Test'}</span>
@@ -124,7 +124,7 @@ export const WebhookFanoutMesh: React.FC = () => {
           
           {/* Left Column: Interactive 3D WebGL Globe */}
           <div className="lg:col-span-7 flex flex-col items-center justify-center relative">
-            <div className="w-full bg-primary/60 border border-border rounded-3xl p-4 sm:p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden">
+            <div className="w-full bg-card border border-border rounded-3xl p-4 sm:p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden">
               
               {/* Globe Status HUD */}
               <div className="w-full flex items-center justify-between border-b border-border/80 pb-3 mb-2 text-xs font-mono">
@@ -176,12 +176,12 @@ export const WebhookFanoutMesh: React.FC = () => {
                   {...clickableProps} onClick={() => setSelectedDest(dest.id)}
                   className={`p-4 rounded-2xl border transition cursor-pointer ${
                     isSelected
-                      ? 'bg-blue-600/20 border-cyan-500 shadow-lg ring-1 ring-cyan-500/50 text-primary-foreground'
-                      : 'bg-primary/60 border-border hover:bg-primary text-muted-foreground'
+                      ? 'bg-blue-600/20 border-cyan-500 shadow-lg ring-1 ring-cyan-500/50 text-foreground'
+                      : 'bg-card border-border hover:bg-muted text-muted-foreground'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2 font-bold font-sans text-sm text-primary-foreground">
+                    <div className="flex items-center gap-2 font-bold font-sans text-sm text-foreground">
                       <Webhook className={`h-4 w-4 ${isSelected ? 'text-cyan-400' : 'text-muted-foreground'}`} />
                       <span>{dest.name}</span>
                     </div>

@@ -23,7 +23,7 @@ export const StackedDateChip: React.FC<StackedDateChipProps> = ({
           'flex flex-col items-center justify-center w-12 h-14 rounded-xl font-mono select-none shrink-0 shadow-md',
           variant === 'solid'
             ? 'bg-background text-foreground border border-border'
-            : 'bg-background/20 text-primary-foreground border border-foreground/30 backdrop-blur-md',
+            : 'bg-black/50 text-white border border-white/30 backdrop-blur-md',
           className
         )
       )}
@@ -34,7 +34,7 @@ export const StackedDateChip: React.FC<StackedDateChipProps> = ({
           'text-[11px] font-bold uppercase tracking-wider px-1 rounded-t-lg w-full text-center',
           variant === 'solid'
             ? 'bg-primary text-primary-foreground'
-            : 'bg-background/30 text-primary-foreground'
+            : 'bg-black/60 text-white'
         )}
       >
         {month}

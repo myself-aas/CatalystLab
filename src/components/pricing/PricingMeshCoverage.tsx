@@ -110,7 +110,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
               <Globe2 className="h-3.5 w-3.5 text-cyan-400" />
               <span>Coverage-Driven Scalability</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-foreground tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-foreground tracking-tight">
               Global Anycast PoP Mesh by Plan Tier
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground mt-2 max-w-2xl font-normal">
@@ -119,7 +119,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
           </div>
 
           {/* Tier Selector Buttons */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-primary/90 p-1.5 rounded-2xl border border-border backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-1.5 bg-card p-1.5 rounded-2xl border border-border backdrop-blur-md">
             {TIER_SPECS.map((spec) => {
               const isSelected = selectedTier === spec.id;
               return (
@@ -133,8 +133,8 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition cursor-pointer ${
                     isSelected
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-foreground shadow-lg shadow-cyan-500/20 scale-105'
-                      : 'text-muted-foreground hover:text-primary-foreground hover:bg-primary-hover/60'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 scale-105'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                   }`}
                 >
                   <span>{spec.label}</span>
@@ -149,7 +149,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
           
           {/* Left Column: Interactive 3D WebGL Globe with Plan Tier filtering */}
           <div className="lg:col-span-7 flex flex-col items-center justify-center relative">
-            <div className="w-full bg-primary/60 border border-border rounded-3xl p-4 sm:p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden">
+            <div className="w-full bg-card border border-border rounded-3xl p-4 sm:p-6 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden">
               
               {/* Globe Status HUD */}
               <div className="w-full flex items-center justify-between border-b border-border/80 pb-3 mb-2 text-xs font-mono">
@@ -190,12 +190,12 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
 
           {/* Right Column: Tier Metrics & SLA Guarantee Details */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="rounded-3xl border border-border bg-primary/80 p-6 shadow-2xl backdrop-blur-xl space-y-5 font-mono text-xs">
+            <div className="rounded-3xl border border-border bg-card p-6 shadow-2xl backdrop-blur-xl space-y-5 font-mono text-xs">
               
               <div className="flex items-center justify-between border-b border-border pb-4">
                 <div>
                   <div className="text-[11px] text-cyan-400 uppercase tracking-wider font-bold">Selected Subscription Level</div>
-                  <div className="text-2xl font-black text-primary-foreground font-sans mt-0.5">{currentSpec.name}</div>
+                  <div className="text-2xl font-black text-foreground font-sans mt-0.5">{currentSpec.name}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-black text-emerald-400">{currentSpec.price}</div>
@@ -209,17 +209,17 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
 
               {/* Quick Spec Metrics Grid */}
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="p-3 rounded-2xl bg-foreground/80 border border-border">
+                <div className="p-3 rounded-2xl bg-muted border border-border">
                   <div className="text-muted-foreground text-[11px]">ANYCAST LATENCY</div>
                   <div className="text-base font-bold text-cyan-300 mt-0.5">{currentSpec.latency}</div>
                 </div>
-                <div className="p-3 rounded-2xl bg-foreground/80 border border-border">
+                <div className="p-3 rounded-2xl bg-muted border border-border">
                   <div className="text-muted-foreground text-[11px]">UPTIME SLA</div>
                   <div className="text-base font-bold text-emerald-400 mt-0.5">{currentSpec.sla}</div>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-foreground/80 border border-border space-y-1.5">
+              <div className="p-3.5 rounded-2xl bg-muted border border-border space-y-1.5">
                 <div className="text-muted-foreground text-[11px] font-bold">CONTINENTAL ROUTING FOOTPRINT:</div>
                 <div className="text-muted-foreground text-xs leading-relaxed font-sans">{currentSpec.regions}</div>
               </div>
@@ -228,7 +228,7 @@ export const PricingMeshCoverage: React.FC<PricingMeshCoverageProps> = ({ onSele
               <div className="pt-2">
                 <Link
                   to={selectedTier === 'free' ? '/launch-audit' : `/login?tier=${selectedTier}`}
-                  className="w-full py-3 px-4 rounded-xl bg-cream hover:bg-cream text-foreground font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-cyan-500/20 active:scale-95 text-sm"
+                  className="w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground font-bold flex items-center justify-center gap-2 transition shadow-lg shadow-cyan-500/20 active:scale-95 text-sm"
                 >
                   <span>{selectedTier === 'free' ? 'Run Free 6-Node Scan' : `Start 7-Day ${currentSpec.name} Trial`}</span>
                   <ArrowRight className="h-4 w-4" />

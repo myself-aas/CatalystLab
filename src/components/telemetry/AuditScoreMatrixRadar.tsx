@@ -298,7 +298,7 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
             <span>Industry Benchmark</span>
           </button>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-border bg-primary/90 font-mono">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-border bg-muted font-mono">
             <span className="text-[11px] text-muted-foreground">Composite:</span>
             <span className="text-base font-bold text-foreground">{averageScore}/100</span>
             <span className="px-1.5 py-0.2 rounded bg-cream/20 text-cyan-300 text-xs font-bold border border-cyan-500/30">
@@ -595,8 +595,8 @@ export const AuditScoreMatrixRadar: React.FC<AuditScoreMatrixRadarProps> = ({
                   onClick={() => onSelectEngine && onSelectEngine(dim.id)}
                   className={`group flex items-center justify-between gap-3 p-3 rounded-xl border transition cursor-pointer ${
                     isHovered
-                      ? 'border-cyan-500/50 bg-primary/90 shadow-lg shadow-cyan-500/5'
-                      : 'border-border/80 bg-foreground/60 hover:border-border hover:bg-primary/50'
+                      ? 'border-cyan-500/50 bg-muted shadow-lg shadow-cyan-500/5'
+                      : 'border-border/80 bg-muted/40 hover:border-border hover:bg-muted/80'
                   }`}
                 >
                   {/* Left: Icon and Name */}

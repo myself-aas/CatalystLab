@@ -7,28 +7,28 @@ import { CardChipProps, EnzymeHue } from '../types';
 import { useCardContext } from './CardContext';
 
 const chipVariants = cva(
-  'inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono font-bold tracking-tight whitespace-nowrap shrink-0 transition duration-200 select-none text-primary-foreground',
+  'inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono font-bold tracking-tight whitespace-nowrap shrink-0 transition duration-200 select-none text-foreground',
   {
     variants: {
       variant: {
-        default: 'bg-foreground/60 text-primary-foreground border border-foreground/20 shadow-sm backdrop-blur-md',
-        live: 'bg-foreground/60 text-primary-foreground border border-foreground/25 shadow-[0_0_12px_rgba(16,185,129,0.25)] backdrop-blur-md',
-        accent: 'bg-background/15 text-primary-foreground border border-foreground/25 shadow-md backdrop-blur-md',
-        rating: 'bg-foreground/60 text-primary-foreground border border-amber-400/40 shadow-sm backdrop-blur-md',
-        glass: 'bg-background/15 hover:bg-background/25 text-primary-foreground border border-foreground/25 backdrop-blur-lg shadow-sm',
-        solid: 'bg-primary text-primary-foreground border border-foreground/20 shadow-sm',
-        enzyme: 'text-primary-foreground border border-foreground/20 bg-foreground/60 shadow-sm backdrop-blur-md',
+        default: 'bg-muted/90 text-foreground border border-border shadow-sm backdrop-blur-md',
+        live: 'bg-muted/90 text-foreground border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.25)] backdrop-blur-md',
+        accent: 'bg-accent text-foreground border border-border shadow-md backdrop-blur-md',
+        rating: 'bg-muted/90 text-foreground border border-amber-400/40 shadow-sm backdrop-blur-md',
+        glass: 'bg-muted/80 hover:bg-muted text-foreground border border-border backdrop-blur-lg shadow-sm',
+        solid: 'bg-primary text-primary-foreground border border-border shadow-sm',
+        enzyme: 'text-foreground border border-border bg-muted/90 shadow-sm backdrop-blur-md',
       },
       hue: {
-        vitalzyme: 'border-emerald-400/40 bg-foreground/60 text-primary-foreground',
-        riskprotease: 'border-rose-400/40 bg-foreground/60 text-primary-foreground',
-        llmkinase: 'border-purple-400/40 bg-foreground/60 text-primary-foreground',
-        edgevmax: 'border-cyan-400/40 bg-foreground/60 text-primary-foreground',
-        ecoholo: 'border-emerald-400/40 bg-foreground/60 text-primary-foreground',
-        synthshift: 'border-amber-400/40 bg-foreground/60 text-primary-foreground',
-        gitlygase: 'border-blue-400/40 bg-foreground/60 text-primary-foreground',
-        alloster: 'border-fuchsia-400/40 bg-foreground/60 text-primary-foreground',
-        neutral: 'border-foreground/20 bg-foreground/60 text-primary-foreground',
+        vitalzyme: 'border-emerald-400/40 bg-muted/90 text-foreground',
+        riskprotease: 'border-rose-400/40 bg-muted/90 text-foreground',
+        llmkinase: 'border-purple-400/40 bg-muted/90 text-foreground',
+        edgevmax: 'border-cyan-400/40 bg-muted/90 text-foreground',
+        ecoholo: 'border-emerald-400/40 bg-muted/90 text-foreground',
+        synthshift: 'border-amber-400/40 bg-muted/90 text-foreground',
+        gitlygase: 'border-blue-400/40 bg-muted/90 text-foreground',
+        alloster: 'border-fuchsia-400/40 bg-muted/90 text-foreground',
+        neutral: 'border-border bg-muted/90 text-foreground',
       },
     },
     defaultVariants: {

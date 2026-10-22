@@ -307,6 +307,9 @@
   /* Font Stacks */
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Optimistic VF", "Inter", "Inter Fallback", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --theme-cream: #1F2223;
+  --color-cream: #1F2223;
 }
 
 html.dark, [data-theme="dark"], .theme-dark, .page-dark {
@@ -403,11 +406,13 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --app-muted-foreground: rgba(255,255,255,0.72);
   --app-accent: rgba(240,250,255,0.08);
   --app-accent-foreground: #F0FAFF;
-  --app-destructive: #DC2626;
+  --app-destructive: #F87171;
   --app-success: #31A24C;
   --app-warning: #F7B928;
   --app-danger: #F0284A;
   --app-info: #22D3EE;
+  --theme-cream: #F0FAFF;
+  --color-cream: #F0FAFF;
   --app-destructive-foreground: #FFFFFF;
   --app-border: rgba(255,255,255,0.14);
   --app-input: rgba(240, 250, 255, 0.22);
@@ -598,7 +603,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
      exact dark-cockpit rendering while removing literal hex from TSX. Semantic
      promotion (e.g. cream -> foreground on themed surfaces) is tracked as a
      follow-up in docs/audit/2026-10-22-design-system-review-uiux-pro-max.md. */
-  --color-cream: #F0FAFF;        /* cockpit text/tint "cream" */
+  --color-cream: var(--theme-cream, #F0FAFF); /* cockpit text/tint "cream" (flips to ink on light surfaces) */
   --color-ink-navy: #111827;     /* dark canvas ink-navy */
   --color-ink-panel: #111726;    /* telemetry console panels */
   --color-ink-soft: #1C1E21;     /* dark-mode card ink */
@@ -1565,20 +1570,20 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   
   .docs-content a {
-    color: #F0FAFF;
+    color: var(--color-link);
     text-decoration: none;
     transition: color 0.15s ease;
   }
   
   .docs-content a:hover {
-    color: #F0FAFF;
+    color: var(--color-link);
     text-decoration: underline;
   }
   
   .docs-content code {
     font-family: var(--font-mono);
     font-size: 0.85em;
-    color: #F0FAFF;
+    color: var(--p-code-chip-text, var(--app-foreground));
     background: var(--app-muted);
     padding: 0.2em 0.4em;
     border-radius: 4px;
@@ -1586,7 +1591,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   }
   
   .docs-content pre {
-    background: var(--app-background) !important;
+    background: #1F2223 !important;
+    color: #F7FDFF !important;
     border: 1px solid var(--app-border);
     border-radius: 12px;
     padding: 1rem;
@@ -1604,8 +1610,8 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   
   /* Inline Warning Callouts */
   .docs-content blockquote {
-    border-left: 3px solid rgba(240,250,255,0.6);
-    background: color-mix(in srgb, rgba(240,250,255,0.6) 5%, transparent);
+    border-left: 3px solid var(--color-link);
+    background: color-mix(in srgb, var(--color-link) 6%, transparent);
     padding: 1rem 1.25rem;
     margin: 1.5rem 0;
     border-radius: 0 8px 8px 0;
@@ -1688,13 +1694,28 @@ html:not(.dark) .text-gradient-linear {
 
 /* Cream text values authored for dark surfaces → ink */
 html:not(.dark) [class~="text-[#F0FAFF]"],
-html:not(.dark) [class~="text-[#F7FDFF]"] { color: #1F2223; }
+html:not(.dark) [class~="text-[#F7FDFF]"],
+html:not(.dark) [class~="text-cream"] { color: #1F2223; }
 html:not(.dark) [class~="text-[rgba(240,250,255,0.5)]"],
 html:not(.dark) [class~="text-[rgba(240,250,255,0.6)]"],
 html:not(.dark) [class~="text-[rgba(240,250,255,0.65)]"],
-html:not(.dark) [class~="text-[rgba(240,250,255,0.7)]"] { color: #4B4C4F; }
+html:not(.dark) [class~="text-[rgba(240,250,255,0.7)]"],
+html:not(.dark) [class~="text-cream/40"],
+html:not(.dark) [class~="text-cream/50"],
+html:not(.dark) [class~="text-cream/55"],
+html:not(.dark) [class~="text-cream/60"],
+html:not(.dark) [class~="text-cream/65"],
+html:not(.dark) [class~="text-cream/70"],
+html:not(.dark) [class~="text-cream/75"],
+html:not(.dark) [class~="text-silver-main"],
+html:not(.dark) [class~="text-silver-light"],
+html:not(.dark) [class~="text-foreground-muted"],
+html:not(.dark) [class~="text-foreground-muted/50"],
+html:not(.dark) [class~="text-foreground-muted/60"],
+html:not(.dark) [class~="text-foreground-muted/70"],
+html:not(.dark) [class~="text-foreground-muted/80"] { color: #4B4C4F; }
 
-/* Dark surface arbitrary values → white paper */
+/* Dark surface arbitrary & token values → white paper */
 html:not(.dark) [class~="bg-[#1F2223]"],
 html:not(.dark) [class~="bg-[#111726]"],
 html:not(.dark) [class~="bg-[#111726]/95"],
@@ -1703,12 +1724,25 @@ html:not(.dark) [class~="bg-[#111726]/80"],
 html:not(.dark) [class~="bg-[#090D16]"],
 html:not(.dark) [class~="bg-[#0A1317]"],
 html:not(.dark) [class~="bg-[#0B111A]"],
+html:not(.dark) [class~="bg-linear-space-deep"],
+html:not(.dark) [class~="bg-linear-space-base"],
+html:not(.dark) [class~="bg-linear-space-elevated"],
+html:not(.dark) [class~="bg-ink-panel"],
+html:not(.dark) [class~="bg-ink-panel/95"],
+html:not(.dark) [class~="bg-ink-panel/90"],
+html:not(.dark) [class~="bg-ink-panel/80"],
+html:not(.dark) [class~="bg-ink-panel/60"],
+html:not(.dark) [class~="bg-ink-console"],
+html:not(.dark) [class~="bg-ink-abyss"],
+html:not(.dark) [class~="bg-ink-well"],
+html:not(.dark) [class~="bg-ink-well/95"],
 html:not(.dark) [class~="bg-black"] { background-color: #FFFFFF; }
-html:not(.dark) [class~="bg-[#111726]/50"] { background-color: #F7FDFF; }
+html:not(.dark) [class~="bg-[#111726]/50"],
+html:not(.dark) [class~="bg-ink-panel/50"] { background-color: #F7FDFF; }
 /* Code/log wells stay recessed, but on paper */
 html:not(.dark) [class~="bg-black/90"],
 html:not(.dark) [class~="bg-black/70"] { background-color: #F1F4F7; }
-/* Cream emphasis chips/dots → visible soft gray on white */
+/* Cream emphasis chips/dots → visible ink/gray on white */
 html:not(.dark) [class~="bg-[#F0FAFF]"] { background-color: #E4E8EC; }
 html:not(.dark) [class~="hover:bg-[#F0FAFF]"]:hover { background-color: #D8DEE4; }
 
@@ -1724,17 +1758,31 @@ html:not(.dark) .bg-neutral-900,
 html:not(.dark) .bg-gray-900 { background-color: #F1F4F7; }
 html:not(.dark) [class~="bg-slate-900/90"],
 html:not(.dark) [class~="bg-slate-900/60"],
-html:not(.dark) [class~="bg-slate-900/50"] { background-color: #F1F4F7; }
-html:not(.dark) [class~="hover:bg-slate-900/50"]:hover { background-color: rgba(28,30,33,0.04); }
+html:not(.dark) [class~="bg-slate-900/50"],
+html:not(.dark) [class~="bg-zinc-900/40"] { background-color: #F1F4F7; }
+html:not(.dark) [class~="hover:bg-slate-900/50"]:hover,
+html:not(.dark) [class~="group-hover:bg-zinc-800/40"]:hover { background-color: rgba(28,30,33,0.04); }
 
 /* Hairlines authored as white alpha / dark slate → gray hairlines */
 html:not(.dark) .border-white\/\[0\.06\],
-html:not(.dark) .border-white\/\[0\.10\] { border-color: #dadce0; }
+html:not(.dark) .border-white\/\[0\.10\],
+html:not(.dark) .border-white\/15 { border-color: #dadce0; }
 html:not(.dark) [class~="border-[rgba(240,250,255,0.08)]"],
 html:not(.dark) [class~="border-[rgba(240,250,255,0.10)]"],
-html:not(.dark) [class~="border-[rgba(240,250,255,0.14)]"] { border-color: #DEE3E9; }
+html:not(.dark) [class~="border-[rgba(240,250,255,0.14)]"],
+html:not(.dark) [class~="border-cream/6"],
+html:not(.dark) [class~="border-cream/8"],
+html:not(.dark) [class~="border-cream/10"],
+html:not(.dark) [class~="border-cream/12"],
+html:not(.dark) [class~="border-cream/20"],
+html:not(.dark) [class~="border-cream/30"],
+html:not(.dark) [class~="border-cream/40"],
+html:not(.dark) [class~="border-cream/60"],
+html:not(.dark) [class~="border-cream"] { border-color: #DEE3E9; }
 html:not(.dark) .border-slate-800,
 html:not(.dark) .border-slate-700,
+html:not(.dark) .border-zinc-800,
+html:not(.dark) [class~="border-zinc-800/50"],
 html:not(.dark) [class~="border-slate-800/60"],
 html:not(.dark) [class~="border-slate-800/80"] { border-color: #dadce0; }
 html:not(.dark) .hover\:border-slate-700:hover { border-color: #CED0D4; }
@@ -1755,24 +1803,59 @@ html:not(.dark) .shadow-linear-cta {
   box-shadow: 0 1px 2px rgba(26, 115, 232, 0.3) !important;
 }
 
-/* Status-hue text authored as 300/400 tints (readable on dark surfaces) →
-   dark variants on white. Severity stays distinguishable (WCAG 1.4.1). */
-html:not(.dark) [class*="text-emerald-3"], html:not(.dark) [class*="text-emerald-4"],
-html:not(.dark) [class*="text-green-3"], html:not(.dark) [class*="text-green-4"],
-html:not(.dark) [class*="text-teal-3"], html:not(.dark) [class*="text-teal-4"] { color: #047857 !important; }
-html:not(.dark) [class*="text-red-3"], html:not(.dark) [class*="text-red-4"],
-html:not(.dark) [class*="text-rose-3"], html:not(.dark) [class*="text-rose-4"],
-html:not(.dark) [class*="text-pink-4"] { color: #C81E1E !important; }
-html:not(.dark) [class*="text-amber-3"], html:not(.dark) [class*="text-amber-4"],
-html:not(.dark) [class*="text-yellow-3"], html:not(.dark) [class*="text-yellow-4"],
-html:not(.dark) [class*="text-orange-4"] { color: #B45309 !important; }
-html:not(.dark) [class*="text-cyan-3"], html:not(.dark) [class*="text-cyan-4"],
-html:not(.dark) [class*="text-sky-3"], html:not(.dark) [class*="text-sky-4"],
-html:not(.dark) [class*="text-blue-3"], html:not(.dark) [class*="text-blue-4"],
-html:not(.dark) [class*="text-indigo-4"] { color: #0457CB !important; }
-html:not(.dark) [class*="text-violet-3"], html:not(.dark) [class*="text-violet-4"],
-html:not(.dark) [class*="text-purple-3"], html:not(.dark) [class*="text-purple-4"],
-html:not(.dark) [class*="text-fuchsia-4"] { color: #6D28D9 !important; }
+/* Status-hue text authored as 200/300/400/500 tints (readable on dark surfaces) →
+   dark variants on white (>= 4.5:1 WCAG AA). Severity stays distinguishable (WCAG 1.4.1).
+   Code blocks (<pre>) are excluded so syntax highlighting stays bright on dark #1F2223. */
+html:not(.dark) [class*="text-emerald-2"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-emerald-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-emerald-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-emerald-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-green-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-green-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-green-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-teal-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-teal-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-teal-5"]:not(pre):not(pre *) { color: #047857 !important; }
+html:not(.dark) [class*="text-red-2"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-red-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-red-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-red-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-rose-2"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-rose-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-rose-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-rose-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-pink-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-pink-5"]:not(pre):not(pre *) { color: #C81E1E !important; }
+html:not(.dark) [class*="text-amber-2"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-amber-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-amber-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-amber-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-yellow-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-yellow-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-yellow-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-orange-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-orange-5"]:not(pre):not(pre *) { color: #B45309 !important; }
+html:not(.dark) [class*="text-cyan-2"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-cyan-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-cyan-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-cyan-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-sky-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-sky-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-sky-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-blue-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-blue-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-blue-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-indigo-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-indigo-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-indigo-5"]:not(pre):not(pre *) { color: #0457CB !important; }
+html:not(.dark) [class*="text-violet-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-violet-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-violet-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-purple-3"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-purple-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-purple-5"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-fuchsia-4"]:not(pre):not(pre *),
+html:not(.dark) [class*="text-fuchsia-5"]:not(pre):not(pre *) { color: #6D28D9 !important; }
 
 /* ==========================================================================
    REDUCED MOTION
@@ -1801,10 +1884,10 @@ html:not(.dark) [class*="text-fuchsia-4"] { color: #6D28D9 !important; }
   }
 }
 .ds-nav-active {
-  background-color: rgba(240, 250, 255, 0.12);
-  color: var(--text-primary);
+  background-color: var(--p-chip-active, rgba(240, 250, 255, 0.12));
+  color: var(--p-chip-active-text, var(--text-primary));
   font-weight: 600;
-  border: 1px solid rgba(240, 250, 255, 0.22);
+  border: 1px solid var(--p-chip-active-border, rgba(240, 250, 255, 0.22));
 }
 
 /* Below-fold sections skip off-screen rendering work (vercel-react-best-practices: rendering-content-visibility) */

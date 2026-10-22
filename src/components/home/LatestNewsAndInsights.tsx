@@ -120,10 +120,10 @@ export const LatestNewsAndInsights: React.FC = () => {
                       {/* Top Row: Meta & Icon */}
                       <div className="flex justify-between items-start">
                         <div className="flex flex-col gap-1.5 text-xs font-mono font-medium opacity-90 drop-shadow-sm uppercase tracking-wider">
-                          <span className="text-muted-foreground">{article.createdAt ? new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Latest'}</span>
-                          <span className="text-foreground">{article.category || 'Engineering'}</span>
+                          <span className="text-white/75">{article.createdAt ? new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Latest'}</span>
+                          <span className="text-white">{article.category || 'Engineering'}</span>
                         </div>
-                        <div className="size-10 rounded-full border border-cream/20 backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-cream/20 group-hover:border-cream/40 shrink-0">
+                        <div className="size-10 rounded-full border border-white/20 backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-white/20 group-hover:border-white/40 shrink-0">
                           <ArrowUpRight className="size-5" />
                         </div>
                       </div>
@@ -158,7 +158,7 @@ export const LatestNewsAndInsights: React.FC = () => {
             <div className="size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
               <ArrowRight className="size-4" />
             </div>
-            <span className="text-sm font-medium text-white">View all articles</span>
+            <span className="text-sm font-medium text-foreground">View all articles</span>
           </Link>
         </motion.div>
 

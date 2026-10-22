@@ -40,7 +40,7 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
             <span
               className={clsx(
                 'font-bold font-mono tracking-tight truncate drop-shadow-sm',
-                isSurface ? 'text-foreground dark:text-primary-foreground' : 'text-primary-foreground',
+                isSurface ? 'text-foreground' : 'text-white',
                 size === 'sm' && 'text-xs',
                 size === 'md' && 'text-sm sm:text-base',
                 size === 'lg' && 'text-lg font-black'
@@ -56,7 +56,7 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
                     ? 'text-emerald-300 bg-emerald-950/80 border border-emerald-500/30'
                     : stat.trend === 'down'
                     ? 'text-rose-300 bg-rose-950/80 border border-rose-500/30'
-                    : 'text-primary-foreground bg-muted border border-border'
+                    : 'text-foreground bg-muted border border-border'
                 )}
               >
                 {stat.delta}
@@ -66,7 +66,7 @@ export const CardStatRow: React.FC<CardStatRowProps> = ({
           <span
             className={clsx(
               'text-[11px] font-sans truncate tracking-tight drop-shadow-sm',
-              isSurface ? 'text-muted-foreground dark:text-muted-foreground' : 'text-primary-foreground font-medium'
+              isSurface ? 'text-muted-foreground' : 'text-white/85 font-medium'
             )}
           >
             {stat.label}

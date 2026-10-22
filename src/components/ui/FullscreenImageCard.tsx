@@ -59,13 +59,13 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
 
       {/* Card Content Layout */}
       <div
-        className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 z-10 text-primary-foreground bg-gradient-to-t from-background/80 to-transparent"
+        className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8 z-10 text-white bg-gradient-to-t from-black/80 to-transparent"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
       >
         {/* Top Header / Badge / Actions */}
         <div className="flex items-center justify-between gap-2">
           {badge ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/20 backdrop-blur-md border border-foreground/30 text-xs font-mono font-bold uppercase tracking-wider text-primary-foreground shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/30 text-xs font-mono font-bold uppercase tracking-wider text-white shadow-sm">
               {badge}
             </span>
           ) : (
@@ -73,7 +73,7 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
           )}
 
           {score && (
-            <div className="px-3 py-1 rounded-full bg-foreground/40 backdrop-blur-md border border-foreground/20 text-xs font-mono font-bold text-primary-foreground shadow-sm">
+            <div className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-xs font-mono font-bold text-white shadow-sm">
               {score}
             </div>
           )}
@@ -82,12 +82,12 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
         {/* Middle / Bottom Content */}
         <div className="space-y-2 mt-auto">
           {subtitle && (
-            <div className="text-xs font-mono uppercase tracking-widest text-primary-foreground/80 font-bold">
+            <div className="text-xs font-mono uppercase tracking-widest text-white/80 font-bold">
               {subtitle}
             </div>
           )}
-          <div className="text-2xl font-bold tracking-tight text-primary-foreground">{title}</div>
-          {children && <div className="text-sm text-primary-foreground/90 leading-relaxed pt-1">{children}</div>}
+          <div className="text-2xl font-bold tracking-tight text-white">{title}</div>
+          {children && <div className="text-sm text-white/90 leading-relaxed pt-1">{children}</div>}
 
           {action && <div className="pt-4">{action}</div>}
         </div>

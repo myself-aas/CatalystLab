@@ -32,7 +32,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       lift={false}
       className={twMerge(
         clsx(
-          'relative w-full rounded-3xl border border-foreground/15 bg-muted/40/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between min-h-[460px]',
+          'relative w-full rounded-3xl border border-foreground/15 bg-card/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between min-h-[460px]',
           className
         )
       )}
@@ -47,21 +47,21 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       />
 
       {/* 2. Top Header Row: Brand Wordmark Left + Live Timestamp Right (R1 Top Row) */}
-      <div className="z-10 flex items-center justify-between p-4 sm:p-5 border-b border-foreground/10 bg-foreground/40 backdrop-blur-md">
+      <div className="z-10 flex items-center justify-between p-4 sm:p-5 border-b border-border bg-muted/60 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 mr-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-white/80" />
+            <span className="w-2.5 h-2.5 rounded-full bg-cream/60" />
             <span className="w-2.5 h-2.5 rounded-full bg-cream/80" />
             <span className="w-2.5 h-2.5 rounded-full bg-cream/80" />
           </div>
-          <span className="font-mono font-bold text-xs sm:text-sm tracking-wider text-primary-foreground uppercase flex items-center gap-1.5">
+          <span className="font-mono font-bold text-xs sm:text-sm tracking-wider text-foreground uppercase flex items-center gap-1.5">
             <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
             <span>CATALYSTLAB TELEMETRY OS</span>
           </span>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1 bg-primary/80 p-0.5 rounded-lg border border-border">
+        <div className="flex items-center gap-1 bg-muted p-0.5 rounded-lg border border-border">
           {(['stream', 'pops', 'vectors'] as const).map((tab) => (
             <button
               key={tab}
@@ -70,8 +70,8 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
               className={clsx(
                 'px-2.5 py-1 rounded text-[11px] font-mono font-semibold uppercase tracking-wider transition-colors cursor-pointer',
                 activeTab === tab
-                  ? 'bg-cream text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-muted-foreground'
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               )}
             >
               {tab}
@@ -81,11 +81,11 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       </div>
 
       {/* Active Target Banner */}
-      <div className="z-10 px-4 sm:px-5 py-2.5 bg-foreground/30 border-b border-foreground/5 flex items-center justify-between">
+      <div className="z-10 px-4 sm:px-5 py-2.5 bg-muted/40 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Globe className="w-3.5 h-3.5 text-cyan-400" />
           <span className="text-xs font-mono text-muted-foreground">
-            Target: <strong className="text-primary-foreground">{activeDomain}</strong>
+            Target: <strong className="text-foreground">{activeDomain}</strong>
           </span>
         </div>
         <CardChip variant="live" isLive label="SYNCHRONOUS AST" />
@@ -93,7 +93,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
 
       {/* 3. Middle Telemetry Grid */}
       <div className="z-10 p-4 sm:p-5 grid grid-cols-3 gap-2.5">
-        <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
+        <div className="p-3 rounded-xl bg-muted/60 border border-border backdrop-blur-md flex flex-col justify-between">
           <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
             <span>EDGE TTFB</span>
@@ -104,7 +104,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
           </div>
         </div>
 
-        <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
+        <div className="p-3 rounded-xl bg-muted/60 border border-border backdrop-blur-md flex flex-col justify-between">
           <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span>OWASP</span>
@@ -115,7 +115,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
           </div>
         </div>
 
-        <div className="p-3 rounded-xl bg-foreground/50 border border-foreground/10 backdrop-blur-md flex flex-col justify-between">
+        <div className="p-3 rounded-xl bg-muted/60 border border-border backdrop-blur-md flex flex-col justify-between">
           <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
             <Bot className="w-3.5 h-3.5 text-purple-400" />
             <span>LLM-RAG</span>
@@ -130,7 +130,7 @@ export const LiveTelemetryPanel: React.FC<LiveTelemetryPanelProps> = ({
       {/* 4. Bottom Row (R1 Anatomy: Bottom-Left Title/Subtitle + Bottom-Right Pill CTA) */}
       <div className="z-10 p-4 sm:p-5 pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto">
         <div className="space-y-0.5">
-          <h3 className="text-base sm:text-lg font-bold font-sans text-primary-foreground tracking-tight">
+          <h3 className="text-base sm:text-lg font-bold font-sans text-foreground tracking-tight">
             Autonomous Audit Terminal
           </h3>
           <p className="text-xs text-muted-foreground font-sans">

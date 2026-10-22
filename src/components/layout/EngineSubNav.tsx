@@ -3,7 +3,35 @@ import { NavLink } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { SDLC_CATALYSTS_LIST } from '../../data/engines';
 import { cn } from '../../lib/utils';
-import { ChevronRight } from 'lucide-react';
+import {
+  ChevronRight,
+  GitFork,
+  Terminal,
+  Leaf,
+  Gauge,
+  Globe,
+  ShieldCheck,
+  Cpu,
+  SearchCode,
+  Sparkles,
+  type LucideIcon,
+} from 'lucide-react';
+
+const ENGINE_ICON_MAP: Record<string, LucideIcon> = {
+  account_tree: GitFork,
+  terminal: Terminal,
+  energy_savings_leaf: Leaf,
+  speed: Gauge,
+  public: Globe,
+  security: ShieldCheck,
+  psychology: Cpu,
+  travel_explore: SearchCode,
+};
+
+export function renderEngineIcon(iconName: string, className = 'size-4 shrink-0') {
+  const Icon = ENGINE_ICON_MAP[iconName] || Sparkles;
+  return <Icon className={className} aria-hidden="true" />;
+}
 
 export const EngineSubNav: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -45,12 +73,11 @@ export const EngineSubNav: React.FC = () => {
                       : "text-muted-foreground hover:bg-[var(--bg-surface)] hover:text-foreground"
                   )}
                 >
-                  <span 
-                    className="material-symbols-outlined text-[16px]" 
-                    style={{ color: engine.color }}
+                  <span
+                    className="inline-flex shrink-0 items-center justify-center text-current"
                     aria-hidden="true"
                   >
-                    {engine.icon}
+                    {renderEngineIcon(engine.icon, 'size-3.5 shrink-0')}
                   </span>
                   <span className="whitespace-nowrap">{engine.catalystName}</span>
                 </NavLink>

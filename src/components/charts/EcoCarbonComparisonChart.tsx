@@ -97,7 +97,7 @@ export const EcoCarbonComparisonChart: React.FC<EcoCarbonComparisonChartProps> =
             </div>
             <div className="h-2.5 w-full rounded-full bg-accent overflow-hidden border border-background/30">
               <div
-                className="h-full bg-muted0/60 rounded-full"
+                  className="h-full bg-muted-foreground/60 rounded-full"
                 style={{ width: `${(globalAvgPerVisit / 1.5) * 100}%` }}
               />
             </div>

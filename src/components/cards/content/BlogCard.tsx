@@ -179,7 +179,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           <Link to={`/blog/${slug}`} className="group/title block">
             <CardTitle
               as="h3"
-              className="text-base sm:text-lg font-bold text-primary-foreground group-hover/title:text-cyan-400 transition-colors line-clamp-2 leading-snug"
+              className="text-base sm:text-lg font-bold text-foreground group-hover/title:text-cyan-400 transition-colors line-clamp-2 leading-snug"
             >
               {title}
             </CardTitle>

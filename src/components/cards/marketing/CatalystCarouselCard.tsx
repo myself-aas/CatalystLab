@@ -78,8 +78,8 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
 
       {/* 4. Top Header Flag / Category Tag (R3 Flag / Icon row) */}
       <div className="relative z-10 flex items-center justify-between w-full">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-foreground/60 border border-foreground/25 text-[11px] font-mono font-bold text-primary-foreground backdrop-blur-md shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-cream animate-pulse" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 border border-white/25 text-[11px] font-mono font-bold text-white backdrop-blur-md shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span>{category}</span>
         </div>
       </div>
@@ -87,10 +87,10 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
       {/* 5. Bottom Title, "X • Y" Stat Line, and Full-Width Chevron CTA (R3 Signature) */}
       <div className="relative z-10 space-y-3 mt-auto pt-4">
         <div>
-          <h3 className="text-xl sm:text-2xl font-black font-sans text-primary-foreground tracking-tight leading-tight drop-shadow-md">
+          <h3 className="text-xl sm:text-2xl font-black font-sans text-white tracking-tight leading-tight drop-shadow-md">
             {title}
           </h3>
-          <p className="text-xs sm:text-sm font-mono text-primary-foreground font-medium tracking-tight mt-1 drop-shadow-sm">
+          <p className="text-xs sm:text-sm font-mono text-white/85 font-medium tracking-tight mt-1 drop-shadow-sm">
             {statLine}
           </p>
         </div>
@@ -100,7 +100,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
           {actionUrl ? (
             <a
               href={actionUrl}
-              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition group/cta shadow-sm"
+              className="w-full py-2.5 px-4 rounded-full bg-white/15 hover:bg-white/25 active:bg-white/35 text-white border border-white/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition group/cta shadow-sm"
             >
               <span>{actionLabel}</span>
               <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" />
@@ -108,7 +108,7 @@ export const CatalystCarouselCard: React.FC<CatalystCarouselCardProps> = ({
           ) : (
             <button
               type="button"
-              className="w-full py-2.5 px-4 rounded-full bg-background/20 hover:bg-background/30 active:bg-background/40 text-primary-foreground border border-foreground/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition group/cta shadow-sm"
+              className="w-full py-2.5 px-4 rounded-full bg-white/15 hover:bg-white/25 active:bg-white/35 text-white border border-white/25 backdrop-blur-md flex items-center justify-between text-xs font-bold tracking-wide transition group/cta shadow-sm"
             >
               <span>{actionLabel}</span>
               <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover/cta:translate-x-1" />

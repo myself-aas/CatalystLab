@@ -71,7 +71,7 @@ export const EnterpriseScaleChart: React.FC = () => {
   };
 
   return (
-    <section className="py-12 lg:py-14 bg-accent text-primary-foreground relative overflow-hidden border-b border-border">
+    <section className="py-12 lg:py-14 bg-accent text-foreground relative overflow-hidden border-b border-border">
       {/* Background Glow Elements */}
       <div className="absolute top-1/3 left-1/3 w-[450px] h-[450px] bg-cream/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-muted rounded-full blur-[140px] pointer-events-none" />
@@ -86,7 +86,7 @@ export const EnterpriseScaleChart: React.FC = () => {
               <Server className="h-3 w-3 text-sky-400" />
               <span>Enterprise SLA & Governance</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-primary-foreground">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
               Scale & Compliance Engine
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mt-1 leading-relaxed">
@@ -98,9 +98,9 @@ export const EnterpriseScaleChart: React.FC = () => {
             type="button"
             onClick={triggerSimulation}
             disabled={simulationActive}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary text-foreground hover:bg-background text-sm font-mono font-bold transition shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover text-sm font-mono font-bold transition shadow-sm active:scale-95 cursor-pointer disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <Sparkles className={`h-3.5 w-3.5 text-foreground ${simulationActive ? 'animate-spin' : ''}`} />
+            <Sparkles className={`h-3.5 w-3.5 text-primary-foreground ${simulationActive ? 'animate-spin' : ''}`} />
             <span>{simulationActive ? 'Simulating SLA Load...' : 'Simulate Enterprise Load'}</span>
           </button>
         </div>
@@ -133,7 +133,7 @@ export const EnterpriseScaleChart: React.FC = () => {
                   <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider block">
                     {pillar.subtitle}
                   </span>
-                  <h3 className="text-sm sm:text-base font-bold text-primary-foreground leading-tight mt-0.5">
+                  <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight mt-0.5">
                     {pillar.title}
                   </h3>
                 </div>
@@ -158,7 +158,7 @@ export const EnterpriseScaleChart: React.FC = () => {
                 </span>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-bold text-primary-foreground">
+              <h3 className="text-lg sm:text-xl font-bold text-foreground">
                 {current.title}
               </h3>
 
@@ -169,7 +169,7 @@ export const EnterpriseScaleChart: React.FC = () => {
               <div className="pt-2 flex flex-wrap items-center gap-3 text-sm font-mono">
                 <Link
                   to="/launch-audit"
-                  className="inline-flex items-center gap-1.5 bg-primary hover:bg-background text-foreground px-3.5 py-1.5 rounded-xl font-bold transition shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-hover text-primary-foreground px-3.5 py-1.5 rounded-xl font-bold transition shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span>Audit Infrastructure SLA</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -182,7 +182,7 @@ export const EnterpriseScaleChart: React.FC = () => {
 
             {/* Right Metric Dial */}
             <div className="lg:col-span-4 flex flex-col items-center justify-center p-3 bg-background rounded-2xl border border-border">
-              <div className="text-2xl sm:text-3xl font-black font-mono text-primary-foreground tracking-tight">
+              <div className="text-2xl sm:text-3xl font-black font-mono text-foreground tracking-tight">
                 {current.dialValue}
               </div>
               <div className="text-sm font-mono text-sky-400 font-semibold mt-0.5">

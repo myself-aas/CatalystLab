@@ -66,7 +66,7 @@ export const FullscreenCardShowcase: React.FC = () => {
               <Compass className="h-3.5 w-3.5 text-cyan-400" />
               <span>Unified Modular Card System</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-primary-foreground tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-black text-foreground tracking-tight">
               High-Cohesion Trail & Route Cards
             </h2>
             <p className="text-muted-foreground max-w-2xl text-sm sm:text-base mt-2">
@@ -100,7 +100,7 @@ export const FullscreenCardShowcase: React.FC = () => {
             <Layers className="h-3.5 w-3.5 text-indigo-400" />
             <span>Interactive Diagnostic Engine Cards</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-primary-foreground">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
             Fullscreen 3D Parallax Telemetry Cards
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">

@@ -75,7 +75,7 @@ export const LiveCronLogStream: React.FC = () => {
       case 'BENCHMARK':
         return 'bg-cream/10 text-fuchsia-500 border-purple-500/30';
       default:
-        return 'bg-muted0/10 text-muted-foreground border-border';
+        return 'bg-muted/50 text-muted-foreground border-border';
     }
   };
 
@@ -143,8 +143,8 @@ export const LiveCronLogStream: React.FC = () => {
               onClick={() => setSelectedLevel(lvl)}
               className={`px-2 py-0.5 rounded border transition-colors cursor-pointer ${
                 selectedLevel === lvl
-                  ? 'bg-cream text-foreground font-bold border-cyan-500'
-                  : 'bg-muted/40 text-muted-foreground border-border hover:text-muted-foreground'
+                  ? 'bg-primary text-primary-foreground font-bold border-cyan-500'
+                  : 'bg-muted/40 text-muted-foreground border-border hover:text-foreground'
               }`}
             >
               {lvl}

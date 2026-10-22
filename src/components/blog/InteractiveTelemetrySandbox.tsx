@@ -91,7 +91,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
       <div className="p-3.5 bg-muted/40 border-b border-border flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-cream animate-pulse" />
-          <span className="text-xs font-bold text-primary-foreground flex items-center gap-1.5">
+          <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
             <TerminalIcon className="h-3.5 w-3.5 text-cyan-400" />
             {title || `Interactive Telemetry Sandbox [${activeSandbox.toUpperCase()}]`}
           </span>
@@ -106,8 +106,8 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
               onClick={() => setActiveSandbox(st)}
               className={`px-2 py-0.5 rounded-md font-bold uppercase transition cursor-pointer ${
                 activeSandbox === st
-                  ? 'bg-primary text-foreground shadow-xs'
-                  : 'text-muted-foreground hover:text-primary-foreground'
+                  ? 'bg-primary text-primary-foreground shadow-xs'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {st === 'vitalzyme' && 'VitalZyme'}
@@ -202,7 +202,7 @@ export const InteractiveTelemetrySandbox: React.FC<InteractiveTelemetrySandboxPr
                   className={`px-3 py-1.5 rounded-lg border text-xs font-mono transition cursor-pointer ${
                     selectedPoP === pop
                       ? 'bg-primary/20 border-primary text-cyan-400 font-bold'
-                      : 'bg-background border-border text-muted-foreground hover:text-primary-foreground'
+                      : 'bg-background border-border text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   PoP: {pop}

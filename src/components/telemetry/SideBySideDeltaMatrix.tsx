@@ -166,7 +166,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
               value={urlAInput}
               onChange={(e) => setUrlAInput(e.target.value)}
               placeholder="e.g. catalystlab.tech"
-              className="w-full px-3.5 py-2 rounded-lg border border-border bg-primary text-foreground text-sm font-mono focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none"
+              className="w-full px-3.5 py-2 rounded-lg border border-border bg-background text-foreground text-sm font-mono focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none"
             />
           </div>
 
@@ -187,7 +187,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
               value={urlBInput}
               onChange={(e) => setUrlBInput(e.target.value)}
               placeholder="e.g. competitor.com"
-              className="w-full px-3.5 py-2 rounded-lg border border-border bg-primary text-foreground text-sm font-mono focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none"
+              className="w-full px-3.5 py-2 rounded-lg border border-border bg-background text-foreground text-sm font-mono focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none"
             />
           </div>
 
@@ -195,7 +195,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
             <button
               type="submit"
               disabled={isLoading || !urlAInput || !urlBInput}
-              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-gradient-to-r from-primary to-emerald-500 hover:opacity-95 text-foreground font-bold text-sm font-mono flex items-center justify-center gap-2 shadow-md shadow-primary/20 transition disabled:opacity-50"
+              className="w-full md:w-auto px-6 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-sm font-mono flex items-center justify-center gap-2 shadow-md transition disabled:opacity-50"
             >
               {isLoading ? (
                 <span>Synthesizing Comparative Delta...</span>
@@ -251,12 +251,12 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
 
         {/* Head-to-Head Big Score Chips */}
         <div className="flex items-center gap-4 font-mono">
-          <div className="text-center px-4 py-2 rounded-lg bg-primary/90 border border-primary/40">
+          <div className="text-center px-4 py-2 rounded-lg bg-muted border border-border">
             <div className="text-[11px] text-primary uppercase font-semibold">Alpha</div>
             <div className="text-xl font-bold text-foreground">{scoreA}</div>
           </div>
           <div className="text-muted-foreground font-bold">:</div>
-          <div className="text-center px-4 py-2 rounded-lg bg-primary/90 border border-emerald-500/40">
+          <div className="text-center px-4 py-2 rounded-lg bg-muted border border-emerald-500/40">
             <div className="text-[11px] text-emerald-500 uppercase font-semibold">Beta</div>
             <div className="text-xl font-bold text-foreground">{scoreB}</div>
           </div>

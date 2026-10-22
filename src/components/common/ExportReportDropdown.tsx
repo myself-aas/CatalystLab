@@ -63,7 +63,7 @@ export const ExportReportDropdown: React.FC<ExportReportDropdownProps> = ({
 
   const buttonStyle =
     variant === 'primary'
-      ? 'bg-cream hover:bg-cream text-foreground font-bold shadow-lg shadow-cyan-500/20'
+      ? 'bg-primary hover:bg-primary-hover text-primary-foreground font-bold shadow-lg shadow-cyan-500/20'
       : variant === 'compact'
       ? 'bg-muted hover:bg-muted/80 text-muted-foreground border border-border/60 py-1.5 px-3 text-xs font-semibold'
       : 'bg-muted hover:bg-muted/90 text-muted-foreground border border-border py-2 px-4 text-xs font-semibold';

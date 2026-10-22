@@ -91,7 +91,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                   }}
                   className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition ${
                     isSelected
-                      ? 'bg-cream/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
+                      ? 'bg-cream/20 border border-cyan-400/50 text-foreground shadow-sm'
                       : 'hover:bg-muted text-muted-foreground border border-transparent'
                   }`}
                 >
@@ -117,7 +117,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
           </div>
 
           <div className="mt-3 pt-2.5 border-t border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground">
-            <span>Effective: <strong className="text-primary-foreground">{currentConfig.displayName}</strong></span>
+            <span>Effective: <strong className="text-foreground">{currentConfig.displayName}</strong></span>
             <span>Compute: <strong className="text-cyan-300">{currentConfig.dailyComputeUnits > 90000 ? '∞' : currentConfig.dailyComputeUnits}</strong></span>
           </div>
         </div>

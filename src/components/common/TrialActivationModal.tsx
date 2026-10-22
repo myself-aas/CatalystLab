@@ -73,7 +73,7 @@ export const TrialActivationModal: React.FC = () => {
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-primary/80 backdrop-blur-md animate-fadeIn">
       <div 
         id="trial-activation-modal-card"
-        className="relative w-full max-w-2xl bg-primary border border-border/80 rounded-2xl shadow-2xl overflow-hidden text-primary-foreground animate-scaleUp"
+        className="relative w-full max-w-2xl bg-card border border-border rounded-2xl shadow-2xl overflow-hidden text-foreground animate-scaleUp"
       >
         {/* Header gradient bar */}
         <div className="h-2 bg-gradient-to-r from-emerald-500 via-cyan-500 to-indigo-500" />
@@ -81,7 +81,7 @@ export const TrialActivationModal: React.FC = () => {
         {/* Close Button */}
         <button 
           onClick={closeTrialModal}
-          className="absolute top-5 right-5 p-2 text-muted-foreground hover:text-primary-foreground rounded-lg hover:bg-background/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="absolute top-5 right-5 p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Close Modal"
         >
           <X className="w-5 h-5" />
@@ -98,7 +98,7 @@ export const TrialActivationModal: React.FC = () => {
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary-foreground mt-1">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mt-1">
             Unlock Full <span className="text-cyan-500">{plan.name} Tier</span> for 7 Days
           </h2>
           <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
@@ -121,17 +121,17 @@ export const TrialActivationModal: React.FC = () => {
                     onClick={() => setSelectedPlan(tierKey)}
                     className={`relative p-3 rounded-xl text-left border transition ${
                       isSelected 
-                        ? 'bg-cream/10 border-cyan-500 shadow-md text-primary-foreground' 
+                        ? 'bg-cream/10 border-cyan-500 shadow-md text-foreground' 
                         : 'bg-background/60 border-border/60 text-muted-foreground hover:border-border'
                     }`}
                   >
                     {item.popular && (
-                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[11px] font-bold rounded bg-cream text-foreground">
+                      <span className="absolute -top-2 right-2 px-1.5 py-0.5 text-[11px] font-bold rounded bg-primary text-primary-foreground">
                         POPULAR
                       </span>
                     )}
                     <div className="text-xs font-medium text-muted-foreground">{item.name}</div>
-                    <div className="text-lg font-bold text-primary-foreground mt-0.5">
+                    <div className="text-lg font-bold text-foreground mt-0.5">
                       ${item.priceMonthly}<span className="text-xs text-muted-foreground font-normal">/mo</span>
                     </div>
                     <div className="text-[11px] text-emerald-400 font-medium mt-1">
@@ -144,9 +144,9 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Active Plan Highlights Box */}
-          <div className="mt-6 p-4 rounded-xl bg-background/5 border border-border/80">
+          <div className="mt-6 p-4 rounded-xl bg-muted/50 border border-border">
             <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground pb-3 border-b border-border/40">
-              <span className="flex items-center gap-1.5 text-primary-foreground">
+              <span className="flex items-center gap-1.5 text-foreground">
                 <Cpu className="w-4 h-4 text-cyan-500" /> {plan.dailyComputeUnits} Daily Compute Units
               </span>
               <span className="text-emerald-400 font-mono">
@@ -165,7 +165,7 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {/* Security & Zero Risk Banner */}
-          <div className="mt-5 flex items-center justify-between p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/20 text-xs text-emerald-300">
+          <div className="mt-5 flex items-center justify-between p-3 rounded-lg bg-cream/10 border border-emerald-500/20 text-xs text-emerald-300">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Zero-risk guarantee: Automatically reverts to Free Community tier after 7 days unless you choose to upgrade.</span>
@@ -173,7 +173,7 @@ export const TrialActivationModal: React.FC = () => {
           </div>
 
           {error && (
-            <div className="mt-4 p-3 rounded-lg bg-rose-950/40 border border-rose-500/30 text-xs text-rose-300" role="alert">
+            <div className="mt-4 p-3 rounded-lg bg-cream/10 border border-rose-500/30 text-xs text-rose-300" role="alert">
               <span className="font-semibold">Trial could not be activated.</span> {error}
             </div>
           )}
@@ -182,7 +182,7 @@ export const TrialActivationModal: React.FC = () => {
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border/60">
             <div className="text-xs text-muted-foreground text-center sm:text-left">
               {user ? (
-                <span>Signed in as <strong className="text-primary-foreground">{user.email}</strong></span>
+                <span>Signed in as <strong className="text-foreground">{user.email}</strong></span>
               ) : (
                 <span>Requires Google sign-in (1-click, no password needed)</span>
               )}
@@ -192,7 +192,7 @@ export const TrialActivationModal: React.FC = () => {
               <button
                 type="button"
                 onClick={closeTrialModal}
-                className="w-1/2 sm:w-auto px-4 py-2.5 text-xs font-semibold text-muted-foreground hover:text-primary-foreground rounded-lg hover:bg-background/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="w-1/2 sm:w-auto px-4 py-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Cancel
               </button>
@@ -203,8 +203,8 @@ export const TrialActivationModal: React.FC = () => {
                 disabled={loading || success}
                 className={`w-1/2 sm:w-auto px-6 py-2.5 rounded-lg text-xs font-bold transition shadow-lg flex items-center justify-center gap-2 ${
                   success
-                    ? 'bg-cream text-primary-foreground'
-                    : 'bg-primary hover:bg-muted border border-border text-primary-foreground'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-primary hover:bg-primary-hover border border-border text-primary-foreground'
                 }`}
               >
                 {loading ? (

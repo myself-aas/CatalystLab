@@ -708,7 +708,7 @@ export default {
  <Sparkles className="h-3.5 w-3.5"/>
  <span>Enterprise Custom Domain Networks</span>
  </div>
- <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-primary-foreground font-sans">
+ <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-sans">
  Need Dedicated Telemetry Probes for 100+ Domains?
  </h2>
  <p className="text-sm text-muted-foreground leading-relaxed font-sans">
