@@ -1,3 +1,4 @@
+import type { PlateSource } from '../lib/media/plates';
 export type TrailDifficulty = 'Easy' | 'Moderate' | 'Hard' | 'Expert';
 
 export interface TrailMetrics {
@@ -10,7 +11,7 @@ export interface TrailCardProps {
   id: string;
   title: string;          // e.g., "Embercrest Ridge"
   subtitle: string;       // e.g., "Silverpine Mountains"
-  imageUrl: string;       // Background image source
+  imageUrl?: PlateSource | string;       // Background image source
   imageAltText?: string;
   difficulty: TrailDifficulty;
   metadataSubtext?: string; // e.g., "1886 by Helen Rowe & Elias Mendez"
@@ -24,7 +25,7 @@ export interface TrailCardProps {
 export interface TrailCardHeaderProps {
   title: string;
   subtitle: string;
-  imageUrl: string;
+  imageUrl?: PlateSource | string;
   imageAltText?: string;
 }
 

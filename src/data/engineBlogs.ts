@@ -1,14 +1,9 @@
 import type { BlogPost, EngineType } from '../types';
 import authorAvatar1 from '../assets/images/avatar-1.jpg';
 import authorAvatar2 from '../assets/images/avatar-2.jpg';
-import blogApiImage from '../assets/images/page-api.jpg';
-import blogTeamImage from '../assets/images/about_us_hero_1787216854874.jpg';
-import blogWorkImage from '../assets/images/page-products.jpg';
-import blogCodeImage from '../assets/images/page-blog-performance.jpg';
-import blogPlansImage from '../assets/images/page-pricing.jpg';
+import { PLATE } from '../lib/media/plates';
 // Local covers: the Pexels photo 3861958 these two posts used answers 503 (D17).
-import securityGovernanceCover from '../assets/images/catalyst_bg_2_1787217684318.jpg';
-import migrationSeoCover from '../assets/images/hero_network_visualization_1787838371820.jpg';
+
 
 export const ENGINE_SEEDED_BLOGS: Record<string, BlogPost[]> = {
   health: [
@@ -17,7 +12,7 @@ export const ENGINE_SEEDED_BLOGS: Record<string, BlogPost[]> = {
       title: 'Optimizing DOM Depth and Eliminating Render-Blocking Bottlenecks in Next.js',
       slug: 'optimizing-dom-depth-render-blocking-nextjs',
       excerpt: 'Why deep DOM hierarchies severely degrade layout recalculation and mobile INP, and architectural strategies to flatten nested component trees.',
-      coverImage: blogApiImage,
+      coverImage: PLATE.api,
       authorAvatar: authorAvatar1,
       featured: true,
       content: `## The Hidden Cost of Deep DOM Hierarchies
@@ -74,7 +69,7 @@ export const UserCard = ({ user }) => (
       title: 'Decoupling Critical CSS and Preloading Key Display Fonts for Sub-Second LCP',
       slug: 'decoupling-critical-css-font-preloading',
       excerpt: 'How inlining critical path CSS while asynchronous loading secondary styles reduces Largest Contentful Paint to under 800ms.',
-      coverImage: blogTeamImage,
+      coverImage: PLATE.aboutHero,
       authorAvatar: authorAvatar2,
       content: `## Achieving Sub-Second Largest Contentful Paint (LCP)
 
@@ -111,7 +106,7 @@ Using \`font-display: swap\` prevents invisible text flashes (FOIT), while prelo
       title: 'Decimating TTFB with Multi-Region Edge Workers & Smart Anycast Routing',
       slug: 'decimating-ttfb-edge-workers',
       excerpt: 'A deep-dive into synthetic edge latency telemetry across Tokyo, Frankfurt, Virginia, and Sydney points of presence.',
-      coverImage: blogTeamImage,
+      coverImage: PLATE.aboutHero,
       authorAvatar: authorAvatar1,
       featured: true,
       content: `## The Geography of Milliseconds
@@ -148,7 +143,7 @@ Time To First Byte (TTFB) is the single highest predictor of bounce rates for mo
       title: 'The /llms.txt Standard: Preparing Knowledge Bases for Autonomous AI Crawlers',
       slug: 'llmstxt-standard-autonomous-ai-crawlers',
       excerpt: 'How to structure root documentation manifests and robots.txt policies to ensure seamless vector ingestion by frontier AI models.',
-      coverImage: blogWorkImage,
+      coverImage: PLATE.products,
       authorAvatar: authorAvatar1,
       featured: true,
       content: `## The Paradigm Shift: From Keywords to Vector Embeddings
@@ -188,7 +183,7 @@ In 2026, web crawlers are no longer simple heuristic indexers—they are autonom
       title: 'Automating Git Repository SecOps & Hygiene Verification in Modern CI/CD',
       slug: 'automating-git-secops-hygiene',
       excerpt: 'How automated branch protection, license checks, and SECURITY.md audits prevent catastrophic supply-chain leaks.',
-      coverImage: blogCodeImage,
+      coverImage: PLATE.blogPerformance,
       authorAvatar: authorAvatar1,
       content: `## Securing the Modern Software Supply Chain
 
@@ -219,7 +214,7 @@ A high percentage of security breaches begin not in production firewalls, but in
       title: 'Sustainable Web Engineering: Reducing Digital Carbon Footprints with Modern Formats',
       slug: 'sustainable-web-engineering-carbon-reduction',
       excerpt: 'Applying the Sustainable Web Design (SWD) model, choosing 100% renewable datacenters, and optimizing transfer weights.',
-      coverImage: blogCodeImage,
+      coverImage: PLATE.blogPerformance,
       authorAvatar: authorAvatar2,
       content: `## The Environmental Impact of Cloud Computing
 
@@ -254,7 +249,7 @@ The standard SWD formula models energy consumption across four primary segments:
       title: 'OWASP Hardened Security Headers & GDPR Cookie Governance Architecture',
       slug: 'owasp-security-headers-gdpr-governance',
       excerpt: 'Complete production implementation of Strict-Transport-Security, Content-Security-Policy nonces, and privacy consent tiers.',
-      coverImage: securityGovernanceCover,
+      coverImage: PLATE.catalystBg2,
       authorAvatar: authorAvatar1,
       content: `## Defense-in-Depth for Modern Ingress Points
 
@@ -283,7 +278,7 @@ Web application firewalls are insufficient if individual HTTP responses lack cry
       title: 'Zero-Downtime Platform Migration: 301 Redirects and SEO Canonical Parity',
       slug: 'zero-downtime-platform-migration-seo-parity',
       excerpt: 'Architectural blueprint for transitioning legacy CMS systems to modern decoupled edge frameworks without traffic loss.',
-      coverImage: migrationSeoCover,
+      coverImage: PLATE.heroNetwork,
       authorAvatar: authorAvatar2,
       content: `## Migrating Without Losing Organic Authority
 
@@ -312,7 +307,7 @@ Re-platforming from legacy systems like WordPress or Magento to modern edge stac
       title: 'Generative Engine Optimization (LLMO): Mastering Citations in Perplexity and SearchGPT',
       slug: 'generative-engine-optimization-llmo-citations',
       excerpt: 'How to structure Schema.org entity graphs, factual densities, and semantic hierarchies to dominate answer engine summaries.',
-      coverImage: blogWorkImage,
+      coverImage: PLATE.products,
       authorAvatar: authorAvatar1,
       featured: true,
       content: `## Winning Citations in Generative Answer Engines
@@ -341,7 +336,7 @@ Traditional search engines ranked pages based on backlink counts and keyword den
       title: 'The Modern Anatomy of Website Health in the Era of AI Search',
       slug: 'modern-website-health-ai-search',
       excerpt: 'Why traditional SEO is yielding ground to structured RAG indexing and how llms.txt standardizes generative search ingestion.',
-      coverImage: blogPlansImage,
+      coverImage: PLATE.pricing,
       authorAvatar: authorAvatar1,
       featured: true,
       content: `## The Next Decade of Web Quality Intelligence

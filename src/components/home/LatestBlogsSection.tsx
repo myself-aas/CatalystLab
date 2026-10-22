@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import type { BlogPost } from '../../types';
 import { getBlogPosts } from '../../lib/firebase';
 import { ENGINE_SEEDED_BLOGS } from '../../data/engineBlogs';
+import { PlateImage } from '../common/PlateImage';
 import { getBlogCoverImage } from '../../utils/blogImageMap';
 import { getArticleReadingTime } from '../../utils/readingTime';
 import { 
@@ -427,12 +428,11 @@ export const LatestBlogsSection: React.FC<LatestBlogsSectionProps> = ({
               </h3>
 
               <div className="w-full aspect-[16/8] rounded-2xl overflow-hidden mb-4 bg-accent border border-border shadow-sm">
-                <img 
-                  src={getBlogCoverImage(previewPost)} 
-                  alt={previewPost.title} 
+                <PlateImage
+                  {...getBlogCoverImage(previewPost)}
+                  alt={previewPost.title}
                   className="w-full h-full object-cover"
-                  
-                loading="lazy" decoding="async" />
+                />
               </div>
 
               <p className="text-sm text-muted-foreground font-medium leading-relaxed mb-6">

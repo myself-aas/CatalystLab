@@ -217,3 +217,54 @@ clients cannot resolve CSS custom properties).
 **Gates after third pass:** tsc clean · eslint clean · vitest **333/333** ·
 `check:design` pass · `check:colors` 0 ≤ 0 · full build emits hashed avif/webp assets ·
 live AVIF negotiation verified.
+
+---
+
+### Fourth-pass addendum — registry renderers migrated to PlateImage source sets (rec 7 completion, 2026-10-22)
+
+The incremental-migration note from the third pass is now resolved: every self-hosted
+plate that flows through the data registries renders as an AVIF → WebP → JPEG source set.
+
+**Plate source-set module.** `src/lib/media/plates.ts` exports `PlateSource`
+(`{ src; webp?; avif? }`), the `PLATE` map of all 12 wired plates, and `asPlate()`
+which normalises legacy bare strings (remote registry URLs, runtime Firebase posts,
+user input) into a plate. `PlateImage` re-exports the type/helper. The variant
+generator's TARGETS list grew from 6 to 12 plates (methodology, hero-network,
+catalyst-bg-2, allostersearch-llmo, product-studio, blog-performance added).
+
+**Registries.** `engines.ts` (all 6 `image:` fields) and `engineBlogs.ts` (all 7
+`coverImage:` fields) now carry `PLATE` triples instead of bare JPEG imports;
+`DynamicBanner`'s 8 route banners likewise. `Engine.image` and `BlogPost.coverImage`
+widened to `PlateSource | string` unions so runtime Firebase documents keep working.
+`getBlogCoverImage()` now returns a `PlateSource`; CSS-background consumers
+(`LatestNewsAndInsights`) use its `.src` — `url()` cannot negotiate formats.
+
+**Renderers converted.** CardMedia (BlogCard path — `<picture>` wraps the motion.img
+only while `sourceIdx === 0`, so the onError fallback chain keeps plain-JPEG
+semantics), TrailCardHeader (failed-state guard re-renders without `<picture>`,
+because a source set would otherwise override the fallback src), 3-D coverflow
+primary artwork (ambient blurred layer stays a bare motion.img — it is an
+AnimatePresence child and a decorative 50px-blur layer where format negotiation adds
+nothing), FullscreenCard, FullscreenImageCard, FullscreenCardShowcase,
+HeroImageLivePreview (preload uses `plate.src`; both render sites use PlateImage),
+hero-section-6's Iphone15Pro foreignObject plate, BlogsPage list thumbs, BlogPostPage
+hero (eager — article LCP), LatestBlogsSection preview, and AboutPage team photos
+(remote URLs normalise via `asPlate`, gaining variants the moment local plates
+replace them).
+
+**Out of scope (documented).** MEDIA_REGISTRY remote-source chains
+(PexelsImage/CinematicMedia/ScanRevealFigure and the U_* registry URLs) keep their
+string-based fallback semantics — remote Pexels endpoints already negotiate formats
+via `auto=format`. Author avatars remain strings.
+
+**Verification.** Wire-line cost of the 6 newly platted images: 853 KB JPEG →
+320 KB AVIF (−62 %). Live Chromium probe: DynamicBanner negotiates AVIF on /pricing
+(`page-pricing.avif`) and /products (`page-products.avif`); BlogsPage thumbs render
+`<picture>` (their covers resolve through the out-of-scope MEDIA_REGISTRY chain, so
+they stay JPEG by design); zero broken images on /blogs, /pricing, /about, /products
+(/about's 4 remote Unsplash team photos fail only because the sandbox blocks
+external hosts).
+
+**Gates after fourth pass:** tsc clean · eslint clean · vitest **333/333** ·
+`check:design` pass · `check:colors` 0 ≤ 0 · build emits 12 hashed `.avif` +
+12 `.webp` assets · live AVIF negotiation verified on banner routes.

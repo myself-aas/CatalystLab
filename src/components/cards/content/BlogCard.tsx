@@ -1,3 +1,4 @@
+import type { PlateSource } from '../../../lib/media/plates';
 import React from 'react';
 import { Card } from '../primitives/Card';
 import { CardMedia } from '../primitives/CardMedia';
@@ -26,7 +27,7 @@ export interface BlogCardProps {
     avatarUrl?: string;
   };
   assetId?: string;
-  imageUrl?: string;
+  imageUrl?: PlateSource | string;
   stats?: StatPair[];
   hue?: EnzymeHue;
   isBookmarked?: boolean;

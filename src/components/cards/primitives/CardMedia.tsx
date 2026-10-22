@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { motion, useReducedMotion } from 'motion/react';
 import { CardMediaProps, AspectPreset, EnzymeHue } from '../types';
+import { asPlate } from '../../../lib/media/plates';
 import { useCardContext } from './CardContext';
 import { getMediaAsset, MediaAsset } from '../../../lib/media/registry';
 import { logger } from '../../../lib/logger';
@@ -19,7 +20,7 @@ const aspectMap: Record<AspectPreset, string> = {
 export const CardMedia: React.FC<CardMediaProps> = ({
   assetId,
   sources: customSources,
-  src,
+  src: srcProp,
   alt,
   aspect = 'auto',
   aspectClassName,
@@ -40,18 +41,19 @@ export const CardMedia: React.FC<CardMediaProps> = ({
   const asset: MediaAsset | null = assetId ? getMediaAsset(assetId) : null;
   const finalAlt = alt || asset?.alt || 'CatalystLab Visual Asset';
 
+  const plate = asPlate(srcProp);
   const sourceList: string[] =
     customSources && customSources.length > 0
       ? customSources
-      : src
-      ? [src, ...(asset?.sources || [])]
+      : plate.src
+      ? [plate.src, ...(asset?.sources || [])]
       : asset?.sources && asset.sources.length > 0
       ? asset.sources
       : asset?.url
       ? [asset.url]
       : [];
 
-  const currentSrc = sourceList[sourceIdx] || src || asset?.url || '';
+  const currentSrc = sourceList[sourceIdx] || plate.src || asset?.url || '';
 
   const handleError = () => {
     if (sourceIdx < sourceList.length - 1) {
@@ -137,6 +139,10 @@ export const CardMedia: React.FC<CardMediaProps> = ({
 
       {/* 2. Image Media with Normalized Grayscale & Hover Colorize */}
       {!isDegraded && currentSrc ? (
+        sourceIdx === 0 && (plate.avif || plate.webp) ? (
+        <picture>
+          {plate.avif && <source srcSet={plate.avif} type="image/avif" />}
+          {plate.webp && <source srcSet={plate.webp} type="image/webp" />}
         <motion.img
           key={currentSrc}
           src={currentSrc}
@@ -156,6 +162,19 @@ export const CardMedia: React.FC<CardMediaProps> = ({
             )
           )}
         />
+        </picture>
+        ) : (
+        <motion.img
+          key={currentSrc}
+          src={currentSrc}
+          alt={finalAlt}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding={priority ? 'sync' : 'async'}
+          onLoad={() => setIsLoaded(true)}
+          onError={handleError}
+          className="w-full h-full object-cover"
+        />
+        )
       ) : (
         <div className="w-full h-full bg-gradient-to-br from-background via-muted/40 to-background" aria-label={finalAlt} />
       )}

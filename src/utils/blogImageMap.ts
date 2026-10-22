@@ -1,4 +1,5 @@
 import type { BlogPost } from '../types';
+import { asPlate, type PlateSource } from '../lib/media/plates';
 import { 
   U_MATRIX, 
   U_CODE, 
@@ -58,9 +59,12 @@ export const PEXELS_ASSET_LIBRARY = {
 /**
  * Maps any blog post to a contextual, copyright-free Pexels image URL.
  */
-export function getBlogCoverImage(post: Partial<BlogPost>): string {
+export function getBlogCoverImage(post: Partial<BlogPost>): PlateSource {
   // If post explicitly specifies a valid URL or data-uri, return it
-  if (post.coverImage && (post.coverImage.startsWith('http') || post.coverImage.startsWith('data:') || post.coverImage.startsWith('/'))) {
+  if (post.coverImage && typeof post.coverImage === 'string' && (post.coverImage.startsWith('http') || post.coverImage.startsWith('data:') || post.coverImage.startsWith('/'))) {
+    return asPlate(post.coverImage);
+  }
+  if (typeof post.coverImage === 'object' && post.coverImage !== null) {
     return post.coverImage;
   }
 
@@ -73,57 +77,57 @@ export function getBlogCoverImage(post: Partial<BlogPost>): string {
   // 1. AI & LLMO
   if (combined.includes('ai') || combined.includes('llm') || combined.includes('llmo') || combined.includes('searchgpt') || combined.includes('perplexity') || combined.includes('rag') || combined.includes('claude')) {
     if (combined.includes('citation') || combined.includes('knowledge')) {
-      return PEXELS_ASSET_LIBRARY.ai_intelligence;
+      return asPlate(PEXELS_ASSET_LIBRARY.ai_intelligence);
     }
     if (combined.includes('crawler') || combined.includes('llms.txt')) {
-      return PEXELS_ASSET_LIBRARY.ai_neural;
+      return asPlate(PEXELS_ASSET_LIBRARY.ai_neural);
     }
-    return PEXELS_ASSET_LIBRARY.ai_abstract_wave;
+    return asPlate(PEXELS_ASSET_LIBRARY.ai_abstract_wave);
   }
 
   // 2. DOM & Performance
   if (combined.includes('dom') || combined.includes('health') || combined.includes('lcp') || combined.includes('inp') || combined.includes('cls') || combined.includes('vital') || combined.includes('performance') || combined.includes('css') || combined.includes('font')) {
     if (combined.includes('css') || combined.includes('font')) {
-      return PEXELS_ASSET_LIBRARY.speed_rendering;
+      return asPlate(PEXELS_ASSET_LIBRARY.speed_rendering);
     }
-    return PEXELS_ASSET_LIBRARY.dom_performance;
+    return asPlate(PEXELS_ASSET_LIBRARY.dom_performance);
   }
 
   // 3. Edge Latency & CDN
   if (combined.includes('latency') || combined.includes('ttfb') || combined.includes('edge') || combined.includes('worker') || combined.includes('pop') || combined.includes('speed') || combined.includes('anycast') || combined.includes('quic')) {
     if (combined.includes('anycast') || combined.includes('pop')) {
-      return PEXELS_ASSET_LIBRARY.edge_network;
+      return asPlate(PEXELS_ASSET_LIBRARY.edge_network);
     }
-    return PEXELS_ASSET_LIBRARY.fiber_optics;
+    return asPlate(PEXELS_ASSET_LIBRARY.fiber_optics);
   }
 
   // 4. SecOps & OWASP
   if (combined.includes('security') || combined.includes('secops') || combined.includes('owasp') || combined.includes('csp') || combined.includes('hsts') || combined.includes('gdpr') || combined.includes('compliance') || combined.includes('threat')) {
     if (combined.includes('threat') || combined.includes('vulnerability')) {
-      return PEXELS_ASSET_LIBRARY.cyber_matrix;
+      return asPlate(PEXELS_ASSET_LIBRARY.cyber_matrix);
     }
-    return PEXELS_ASSET_LIBRARY.secops_shield;
+    return asPlate(PEXELS_ASSET_LIBRARY.secops_shield);
   }
 
   // 5. Git & Repo Hygiene
   if (combined.includes('repo') || combined.includes('git') || combined.includes('ci/cd') || combined.includes('pipeline') || combined.includes('github') || combined.includes('hygiene') || combined.includes('branch')) {
-    return PEXELS_ASSET_LIBRARY.git_branches;
+    return asPlate(PEXELS_ASSET_LIBRARY.git_branches);
   }
 
   // 6. Sustainability & Green Web
   if (combined.includes('eco') || combined.includes('carbon') || combined.includes('green') || combined.includes('sustainability') || combined.includes('sustainable') || combined.includes('esg')) {
-    return PEXELS_ASSET_LIBRARY.green_datacenter;
+    return asPlate(PEXELS_ASSET_LIBRARY.green_datacenter);
   }
 
   // 7. Migration & Architecture
   if (combined.includes('migration') || combined.includes('synth') || combined.includes('301') || combined.includes('architecture') || combined.includes('redirect') || combined.includes('platform')) {
-    return PEXELS_ASSET_LIBRARY.architecture_blueprint;
+    return asPlate(PEXELS_ASSET_LIBRARY.architecture_blueprint);
   }
 
   // 8. Infrastructure & Cloud
   if (combined.includes('server') || combined.includes('cluster') || combined.includes('infra') || combined.includes('cloud')) {
-    return PEXELS_ASSET_LIBRARY.cloud_servers;
+    return asPlate(PEXELS_ASSET_LIBRARY.cloud_servers);
   }
 
-  return PEXELS_ASSET_LIBRARY.telemetry_dashboard;
+  return asPlate(PEXELS_ASSET_LIBRARY.telemetry_dashboard);
 }

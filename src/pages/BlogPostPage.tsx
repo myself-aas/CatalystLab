@@ -4,6 +4,7 @@ import type { BlogPost } from '../types';
 import { getBlogPostBySlug } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { MarkdownRenderer } from '../components/common/MarkdownRenderer';
+import { PlateImage } from '../components/common/PlateImage';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 import { 
@@ -77,11 +78,12 @@ export const BlogPostPage: React.FC = () => {
         
         {/* Full Bleed Image Header */}
         <div className="relative h-[45vh] w-full">
-          <img 
-            src={getBlogCoverImage(post)} 
+          <PlateImage
+            {...getBlogCoverImage(post)}
             alt={post.title}
             className="w-full h-full object-cover"
-          loading="lazy" decoding="async" />
+            loading="eager"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-ink-navy/90" />
           
           {/* Top Actions */}

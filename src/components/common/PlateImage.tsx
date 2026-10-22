@@ -1,5 +1,7 @@
 import { forwardRef, type ImgHTMLAttributes } from 'react';
 
+export { asPlate, type PlateSource } from '../../lib/media/plates';
+
 export interface PlateImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   /** JPEG fallback URL (Vite asset import). */
   src: string;

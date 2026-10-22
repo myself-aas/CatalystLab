@@ -108,7 +108,7 @@ export const LatestNewsAndInsights: React.FC = () => {
                     {/* Background Image */}
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${getBlogCoverImage(article)})` }}
+                      style={{ backgroundImage: `url(${getBlogCoverImage(article).src})` }}
                     />
                     
                     {/* Gradient Overlay for Text Readability */}

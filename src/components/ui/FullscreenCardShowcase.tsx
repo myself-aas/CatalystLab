@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import localShowcaseImage from '../../assets/images/page-products.jpg';
-import showcaseImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
+import { PLATE } from '../../lib/media/plates';
 import { FullscreenCard } from './FullscreenCard';
 import { FullscreenImageCard } from './FullscreenImageCard';
 import { TrailCard } from '../cards/TrailCard';
@@ -12,7 +11,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'embercrest-ridge',
     title: 'Embercrest Ridge',
     subtitle: 'Silverpine Mountains',
-    imageUrl: localShowcaseImage,
+    imageUrl: PLATE.products,
     imageAltText: 'Embercrest Ridge alpine mountain summit view',
     difficulty: 'Moderate',
     metadataSubtext: '1886 by Helen Rowe & Elias Mendez',
@@ -26,7 +25,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'azure-creek-canyon',
     title: 'Azure Creek Canyon',
     subtitle: 'Cascade Wilderness',
-    imageUrl: localShowcaseImage,
+    imageUrl: PLATE.products,
     imageAltText: 'Azure Creek Canyon pristine river valley',
     difficulty: 'Easy',
     metadataSubtext: 'Maintained by Cascade Alpine Conservancy',
@@ -40,7 +39,7 @@ const SAMPLE_TRAILS: TrailCardProps[] = [
     id: 'obsidian-spire',
     title: 'Obsidian Spire',
     subtitle: 'Blackrock Range',
-    imageUrl: showcaseImage,
+    imageUrl: PLATE.heroNetwork,
     imageAltText: 'Obsidian Spire rugged alpine ascent',
     difficulty: 'Expert',
     metadataSubtext: 'First ascent 1924 by Arthur Sterling',
@@ -112,7 +111,7 @@ export const FullscreenCardShowcase: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <FullscreenCard
-            imageUrl={localShowcaseImage}
+            imageUrl={PLATE.products}
             imageAlt="DOM Telemetry"
             badge="Engine 01"
             score="99.4/100"
@@ -124,7 +123,7 @@ export const FullscreenCardShowcase: React.FC = () => {
           />
 
           <FullscreenCard
-            imageUrl={localShowcaseImage}
+            imageUrl={PLATE.products}
             imageAlt="Network Jitter"
             badge="Engine 02"
             score="98.1/100"
@@ -136,7 +135,7 @@ export const FullscreenCardShowcase: React.FC = () => {
           />
 
           <FullscreenImageCard
-            imageUrl={localShowcaseImage}
+            imageUrl={PLATE.products}
             imageAlt="Security Protease"
             badge="Engine 03"
             score="A+ Grade"

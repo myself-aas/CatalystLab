@@ -1,14 +1,9 @@
 import type { EngineMeta } from '../types';
-import methodImage from '../assets/images/page-methodology.jpg';
-import apiImage from '../assets/images/page-api.jpg';
-import productsHero from '../assets/images/page-products.jpg';
-import synthShiftImage from '../assets/images/product-studio.jpg';
+import { PLATE } from '../lib/media/plates';
 // The Pexels photo 3861958 that these three engines used now answers 503, so
 // they mount local assets instead: a dead third-party image was the homepage's
 // only console error and it cost best-practices points on every run (D17).
-import gitLygaseImage from '../assets/images/hero_network_visualization_1787838371820.jpg';
-import ecoHoloImage from '../assets/images/catalyst_bg_2_1787217684318.jpg';
-import llmKinaseImage from '../assets/images/allostersearch_llmo_1787420226857.jpg';
+
 
 export const ENGINES_MAP: Record<string, EngineMeta> = {
   // SDLC Phase 1: SynthShift
@@ -30,7 +25,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'platform_migration_audit.py',
     route: '/docs/synthshift',
     docsAnchor: 'engine-par',
-    image: synthShiftImage,
+    image: PLATE.productStudio,
     keyVectors: [
       'Site Topology & Route Hierarchy Mapping',
       'Canonical URL Destination Synchronization',
@@ -88,7 +83,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'repo_scanner.py',
     route: '/docs/gitlygase',
     docsAnchor: 'engine-repo-scanner',
-    image: gitLygaseImage,
+    image: PLATE.heroNetwork,
     keyVectors: [
       'Open-Source License Compatibility (MIT, Apache, GPL)',
       'SECURITY.md Vulnerability Disclosure Policy',
@@ -146,7 +141,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'eco_carbon_audit.py',
     route: '/docs/ecoholo',
     docsAnchor: 'engine-eco-audit',
-    image: ecoHoloImage,
+    image: PLATE.catalystBg2,
     keyVectors: [
       'Sustainable Web Design (SWD) Carbon Model Scoring',
       'CO2 Grams per 10,000 Pageviews Benchmark',
@@ -204,7 +199,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'website_health.py',
     route: '/docs/vitalzyme',
     docsAnchor: 'engine-health',
-    image: synthShiftImage,
+    image: PLATE.productStudio,
     keyVectors: [
       'DOM Tree Recursion Depth & Total Node Volume',
       'Render-Blocking Stylesheets & Script Bottlenecks',
@@ -263,7 +258,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'edge_latency.py',
     route: '/docs/edgevmax',
     docsAnchor: 'engine-latency',
-    image: productsHero,
+    image: PLATE.products,
     keyVectors: [
       'Multi-Region Anycast Edge Routing Radar (US, EU, AP, SA)',
       '12 Global PoPs Time-To-First-Byte (TTFB) Comparison',
@@ -321,7 +316,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'compliance_risk_audit.py',
     route: '/docs/riskprotease',
     docsAnchor: 'engine-compliance',
-    image: methodImage,
+    image: PLATE.methodology,
     keyVectors: [
       'Strict-Transport-Security (HSTS 2-Year Preload Verification)',
       'Content-Security-Policy (Strict CSP Nonces & Hash Validation)',
@@ -379,7 +374,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'ai_readiness.py',
     route: '/docs/llm-kinase',
     docsAnchor: 'engine-ai-readiness',
-    image: llmKinaseImage,
+    image: PLATE.llmo,
     keyVectors: [
       'Root /llms.txt and /llms-full.txt Manifest Discovery',
       'Robots.txt AI Agent Crawling Directives (GPTBot, ClaudeBot, PerplexityBot)',
@@ -437,7 +432,7 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     pythonScript: 'llmo_optimizer.py',
     route: '/docs/allostersearch',
     docsAnchor: 'engine-llmo',
-    image: methodImage,
+    image: PLATE.methodology,
     keyVectors: [
       'Schema.org TechArticle & Entity Graph Depth',
       'Factual Information Density Index for AI Citation',

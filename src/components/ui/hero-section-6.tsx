@@ -4,7 +4,7 @@ import localHeroImage from '../../assets/images/about_us_hero_1787216854874.jpg'
 import localHeroImageWebp from '../../assets/images/about_us_hero_1787216854874.webp';
 import localHeroImageAvif from '../../assets/images/about_us_hero_1787216854874.avif';
 import { PlateImage } from '../../components/common/PlateImage';
-import heroImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
+import { PLATE, asPlate, type PlateSource } from '../../lib/media/plates';
 import { cn } from "@/lib/utils";
 import { motion, type Variants } from "motion/react";
 import { AnimatedGroup } from "@/components/ui/animated-group";
@@ -13,7 +13,7 @@ import { Sparkles, Terminal, ArrowRight, ShieldCheck } from "lucide-react";
 interface Iphone15ProProps extends React.SVGProps<SVGSVGElement> {
   width?: string | number;
   height?: string | number;
-  src?: string;
+  src?: PlateSource | string;
   alt?: string;
 }
 
@@ -98,8 +98,8 @@ const Iphone15Pro: React.FC<Iphone15ProProps> = ({
               }}
               className="bg-card dark:bg-card"
             >
-              <img
-                src={src}
+              <PlateImage
+                {...asPlate(src)}
                 alt={alt}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 loading="eager"
@@ -272,7 +272,7 @@ export default function HeroSection6() {
                 transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
               >
                 <Iphone15Pro
-                  src={heroImage}
+                  src={PLATE.heroNetwork}
                   className="w-full h-[260px] md:h-[380px] lg:h-[440px]"
                 />
               </motion.div>

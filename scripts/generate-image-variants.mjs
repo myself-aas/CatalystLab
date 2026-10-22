@@ -25,6 +25,12 @@ const TARGETS = [
   'page-security.jpg',
   'page-products.jpg',
   'about_us_hero_1787216854874.jpg',
+  'page-methodology.jpg',
+  'hero_network_visualization_1787838371820.jpg',
+  'catalyst_bg_2_1787217684318.jpg',
+  'allostersearch_llmo_1787420226857.jpg',
+  'product-studio.jpg',
+  'page-blog-performance.jpg',
 ];
 
 const force = process.argv.includes('--force');

@@ -1,5 +1,6 @@
 import React from 'react';
-import localDefaultImage from '../../assets/images/about_us_hero_1787216854874.jpg';
+import { PLATE, asPlate, type PlateSource } from '../../lib/media/plates';
+import { PlateImage } from '../common/PlateImage';
 import { cn } from '../../lib/utils';
 
 export interface FullscreenImageCardProps {
@@ -10,7 +11,7 @@ export interface FullscreenImageCardProps {
   action?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
-  imageUrl?: string;
+  imageUrl?: PlateSource | string;
   imageAlt?: string;
   overlay?: boolean;
 }
@@ -23,7 +24,7 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
   action,
   children,
   className,
-  imageUrl = localDefaultImage,
+  imageUrl = PLATE.aboutHero,
   imageAlt = 'Card image',
   overlay = true,
 }) => {
@@ -36,12 +37,11 @@ export const FullscreenImageCard: React.FC<FullscreenImageCardProps> = ({
     >
       {/* Background Image */}
       {imageUrl && (
-        <img
-          src={imageUrl}
+        <PlateImage
+          {...asPlate(imageUrl)}
           alt={imageAlt}
           className="absolute inset-0 h-full w-full object-cover object-center"
           referrerPolicy="no-referrer"
-          loading="lazy"
         />
       )}
 

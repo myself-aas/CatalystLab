@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
-import localDefaultImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
+import { PLATE, asPlate, type PlateSource } from '../../lib/media/plates';
+import { PlateImage } from '../common/PlateImage';
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react';
 import { cn } from '../../lib/utils';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 export interface FullscreenCardProps {
-  imageUrl?: string;
+  imageUrl?: PlateSource | string;
   imageAlt?: string;
   badge?: React.ReactNode;
   score?: React.ReactNode;
@@ -26,7 +27,7 @@ export interface FullscreenCardProps {
 }
 
 export const FullscreenCard: React.FC<FullscreenCardProps> = ({
-  imageUrl = localDefaultImage,
+  imageUrl = PLATE.heroNetwork,
   imageAlt = 'Card background',
   badge,
   score,
@@ -287,12 +288,11 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
             scale: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
           }}
         >
-          <img
-            src={imageUrl}
+          <PlateImage
+            {...asPlate(imageUrl)}
             alt={imageAlt}
             className="h-full w-full object-cover object-center"
             referrerPolicy="no-referrer"
-            loading="lazy"
           />
         </motion.div>
 

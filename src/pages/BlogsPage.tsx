@@ -10,6 +10,7 @@ import {
   Sliders
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { PlateImage } from '../components/common/PlateImage';
 import { getBlogCoverImage } from '../utils/blogImageMap';
 import { getArticleReadingTime } from '../utils/readingTime';
 import { logger } from '../lib/logger';
@@ -158,11 +159,11 @@ export const BlogsPage: React.FC = () => {
                   >
                     <Link to={`/blog/${post.slug || post.id}`} className="group flex gap-4 items-center p-3 rounded-2xl hover:bg-muted transition-colors border border-transparent hover:border-foreground/10">
                       <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden bg-muted border border-foreground/10">
-                        <img
-                          src={getBlogCoverImage(post)}
+                        <PlateImage
+                          {...getBlogCoverImage(post)}
                           alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        loading="lazy" decoding="async" />
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h2 className="text-sm font-semibold text-foreground leading-snug line-clamp-2 mb-2 group-hover:text-foreground transition-colors">

@@ -27,6 +27,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { LazyReveal } from '../components/common/LazyAnimate';
 import { LinearCard } from '../components/ui/LinearCard';
 import { ScanRevealFigure } from '../components/media/ScanRevealFigure';
+import { PlateImage, asPlate } from '../components/common/PlateImage';
 
 interface EngineDetail {
  id: string;
@@ -545,12 +546,11 @@ export const AboutPage: React.FC = () => {
  {TEAM_MEMBERS.map((member, i) => (
  <LinearCard key={i} className="p-5 space-y-4">
  <div className="relative overflow-hidden rounded-xl border border-border dark:border-foreground/[0.08] aspect-square bg-muted/30 dark:bg-muted/20">
- <img 
- src={member.image} 
+ <PlateImage 
+ {...asPlate(member.image)} 
  alt={member.name} 
  referrerPolicy="no-referrer"
- className="w-full h-full object-cover grayscale contrast-125 opacity-90 group-hover/card:scale-105 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition duration-500"
- loading="lazy" decoding="async" />
+ className="w-full h-full object-cover grayscale contrast-125 opacity-90 group-hover/card:scale-105 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition duration-500" />
  <div className="absolute inset-0 bg-gradient-to-t from-background dark:from-[var(--bg-surface-elevated)] via-transparent to-transparent opacity-60"/>
  </div>
 
