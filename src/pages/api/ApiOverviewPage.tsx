@@ -83,7 +83,7 @@ export const ApiOverviewPage: React.FC = () => {
  <div className="ds-page-shell">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
- <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-foreground">
+ <div className="inline-flex items-center gap-2 rounded-full border border-cream/20 bg-cream/10 px-3 py-1 framer-micro-tag text-foreground">
  <Code2 className="h-3.5 w-3.5"/>
  <span>REST API v1.0 • OpenAPI 3.1 Compliant</span>
  </div>
@@ -200,7 +200,7 @@ export const ApiOverviewPage: React.FC = () => {
  <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
  <div className="ds-card p-6 space-y-3">
  <div className="flex items-center gap-2.5">
- <div className="p-2 rounded-xl bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
+ <div className="p-2 rounded-xl bg-cream/10 text-foreground border border-cream/20">
  <Server className="h-5 w-5"/>
  </div>
  <h3 className="text-base font-bold text-foreground">Base URL</h3>
@@ -222,7 +222,7 @@ export const ApiOverviewPage: React.FC = () => {
 
  <div className="ds-card p-6 space-y-3">
  <div className="flex items-center gap-2.5">
- <div className="p-2 rounded-xl bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+ <div className="p-2 rounded-xl bg-cream/10 text-emerald-400 border border-emerald-500/20">
  <Key className="h-5 w-5"/>
  </div>
  <h3 className="text-base font-bold text-foreground">Authentication</h3>
@@ -312,10 +312,10 @@ export const ApiOverviewPage: React.FC = () => {
  >
  <div className="flex items-start sm:items-center gap-3 min-w-0">
  <span className={`px-2 py-0.5 rounded-full text-[11px] font-mono font-bold uppercase shrink-0 border ${
- ep.method === 'POST' ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20' :
- ep.method === 'GET' ? 'bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20' :
- ep.method === 'DELETE' ? 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20' :
- 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
+ ep.method === 'POST' ? 'bg-cream/10 text-emerald-400 border-emerald-500/20' :
+ ep.method === 'GET' ? 'bg-cream/10 text-foreground border border-cream/20' :
+ ep.method === 'DELETE' ? 'bg-white/10 text-rose-400 border border-rose-500/20' :
+ 'bg-cream/10 text-amber-400 border border-amber-500/20'
  }`}>
  {ep.method}
  </span>

@@ -28,7 +28,7 @@ const BarChartCard = ({ delay }: { delay: number }) => (
     <div className="flex justify-between items-start mb-6 sm:mb-8">
       <h3 className="text-base sm:text-xl font-medium text-foreground tracking-tight">Consumption</h3>
       <div className="flex items-center gap-1.5">
-        <div className="size-1.5 sm:size-2 rounded-full bg-[#F0FAFF] animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.6)]" />
+        <div className="size-1.5 sm:size-2 rounded-full bg-cream animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.6)]" />
         <span className="text-[11px] sm:text-[11px] text-muted-foreground font-mono uppercase tracking-wider hidden sm:inline-block">Live</span>
       </div>
     </div>
@@ -41,7 +41,7 @@ const BarChartCard = ({ delay }: { delay: number }) => (
              whileInView={{ height: `${h}%` }}
              viewport={{ once: true }}
              transition={{ duration: 0.8, delay: delay + i * 0.05, ease: 'easeOut' }}
-             className="w-full bg-[#F0FAFF] rounded-t-full opacity-90"
+             className="w-full bg-cream rounded-t-full opacity-90"
            />
         </div>
       ))}
@@ -110,7 +110,7 @@ const SegmentedThresholdCard = ({ delay }: { delay: number }) => (
       <div className="flex-1 bg-foreground/[0.02] rounded-[16px] sm:rounded-[24px] p-4 sm:p-8 border border-foreground/5 flex flex-col justify-center relative overflow-hidden group-hover:bg-foreground/[0.04] transition-colors duration-500 order-1 lg:order-2">
          <div className="flex justify-between items-center text-[11px] sm:text-xs font-mono text-muted-foreground mb-4 sm:mb-6">
            <span>Q1 - Q2</span>
-           <span className="text-red-400 font-medium bg-[#FFFFFF]/10 px-2 py-0.5 rounded-full">68%</span>
+           <span className="text-red-400 font-medium bg-white/10 px-2 py-0.5 rounded-full">68%</span>
          </div>
          
          <div className="relative h-24 sm:h-36 flex items-end justify-between gap-2 sm:gap-6 z-10 mt-auto">
@@ -151,16 +151,16 @@ const LayeredCodeCard = ({ delay }: { delay: number }) => (
             
             <div className="absolute inset-0 bg-card rounded-[20px] sm:rounded-3xl border border-border shadow-xl p-4 sm:p-6 flex flex-col transform transition-transform duration-500 group-hover:translate-y-0 group-hover:scale-[1.02] overflow-hidden">
                 <div className="flex gap-1 sm:gap-1.5 mb-4 sm:mb-6">
-                  <div className="size-2 sm:size-3 rounded-full bg-[#FFFFFF]/80" />
-                  <div className="size-2 sm:size-3 rounded-full bg-[#F0FAFF]/80" />
-                  <div className="size-2 sm:size-3 rounded-full bg-[#F0FAFF]/80" />
+                  <div className="size-2 sm:size-3 rounded-full bg-white/80" />
+                  <div className="size-2 sm:size-3 rounded-full bg-cream/80" />
+                  <div className="size-2 sm:size-3 rounded-full bg-cream/80" />
                 </div>
                 <div className="font-mono text-[11px] sm:text-xs leading-loose text-muted-foreground whitespace-pre overflow-x-auto no-scrollbar">
                   <span className="text-purple-400">class</span> <span className="text-amber-400">LLMKinase</span>:<br/>
                   &nbsp;&nbsp;<span className="text-blue-400">def</span> <span className="text-emerald-400">__init__</span>(self):<br/>
                   <span className="opacity-50 mt-1 sm:mt-2 block"># AI Manifest Validation</span>
                   &nbsp;&nbsp;<span className="text-blue-400">def</span> <span className="text-emerald-400">validate</span>(self):<br/>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">return</span> <span className="bg-[#F0FAFF]/20 text-blue-300 px-1 sm:px-1.5 py-0.5 rounded">self.check()</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">return</span> <span className="bg-cream/20 text-blue-300 px-1 sm:px-1.5 py-0.5 rounded">self.check()</span>
                 </div>
                 
                 {/* Floating Tag */}
@@ -170,7 +170,7 @@ const LayeredCodeCard = ({ delay }: { delay: number }) => (
                   transition={{ delay: delay + 0.5 }}
                   className="absolute right-3 bottom-3 sm:-right-2 sm:-bottom-2 bg-background border border-border shadow-lg rounded-full px-2 sm:px-4 py-1 sm:py-2 flex items-center gap-1.5 sm:gap-2 z-10"
                 >
-                  <div className="size-1.5 sm:size-2 rounded-full bg-[#F0FAFF] animate-pulse" />
+                  <div className="size-1.5 sm:size-2 rounded-full bg-cream animate-pulse" />
                   <span className="text-[11px] sm:text-xs font-mono font-medium text-foreground">Valid</span>
                 </motion.div>
             </div>
@@ -197,7 +197,7 @@ const TimelineCard = ({ delay }: { delay: number }) => (
     
     <div className="flex-1 flex flex-col gap-3 sm:gap-5 mb-6 sm:mb-10 justify-center mt-auto">
        {[
-         { label: '0:46', pattern: ['w-2 sm:w-3 bg-[#FFFFFF]', 'w-3 sm:w-5 bg-[#FFFFFF]'] },
+         { label: '0:46', pattern: ['w-2 sm:w-3 bg-white', 'w-3 sm:w-5 bg-white'] },
          { label: '1:32', pattern: ['w-4 sm:w-8 bg-foreground/20', 'w-6 sm:w-10 bg-foreground/20', 'w-3 sm:w-6 bg-foreground/20'] },
          { label: '4:54', pattern: ['w-3 sm:w-5 bg-foreground/40', 'w-2 sm:w-3 bg-foreground/40', 'w-8 sm:w-16 bg-foreground/40', 'w-4 sm:w-8 bg-foreground/40'] },
          { label: '8:12', pattern: ['w-4 sm:w-8 bg-foreground', 'w-6 sm:w-12 bg-foreground'] },
@@ -241,16 +241,16 @@ const MetricCard = ({ delay }: { delay: number }) => (
       </h3>
       
       <div className="flex gap-2 sm:gap-3 items-center">
-        <div className="h-1 sm:h-1.5 flex-1 bg-[#F0FAFF]/20 rounded-full overflow-hidden">
+        <div className="h-1 sm:h-1.5 flex-1 bg-cream/20 rounded-full overflow-hidden">
           <motion.div 
             initial={{ width: 0 }}
             whileInView={{ width: '99.8%' }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: delay + 0.2, ease: "easeOut" }}
-            className="h-full bg-[#F0FAFF] rounded-full" 
+            className="h-full bg-cream rounded-full" 
           />
         </div>
-        <span className="text-[11px] font-mono text-emerald-400 font-medium bg-[#F0FAFF]/10 px-1.5 sm:px-2 py-0.5 rounded">+1.2%</span>
+        <span className="text-[11px] font-mono text-emerald-400 font-medium bg-cream/10 px-1.5 sm:px-2 py-0.5 rounded">+1.2%</span>
       </div>
     </div>
     

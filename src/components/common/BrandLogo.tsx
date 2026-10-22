@@ -58,7 +58,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded-full bg-[rgba(240,250,255,0.08)] font-mono font-semibold text-foreground border border-[rgba(240,250,255,0.12)] uppercase tracking-wider ${current.badge}`}>
+        <span className={`rounded-full bg-cream/8 font-mono font-semibold text-foreground border border-cream/12 uppercase tracking-wider ${current.badge}`}>
           {badgeText}
         </span>
       )}

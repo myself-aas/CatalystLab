@@ -127,3 +127,46 @@ All 29 hardcoded control-size literals (`min-h-[44px]` ×11, `min-w-[44px]` ×5,
 **Gates after remediation:** `tsc --noEmit` clean · `eslint .` clean · vitest **330/330** · `check:design` pass · `check:colors` ratchet pass (923 ≤ 923) · 375×844 probe: 0 AA target failures, 0 horizontal overflow, 0 focus stops without indicator on 6 routes.
 
 **Still open (not in R1–R5 scope):** R3 full literal migration (ratchet holds the line), rec 7 perf items (AVIF/WebP plates, font `size-adjust`/preload, landscape probe).
+
+---
+
+## Second remediation pass — T1 completion + rec 7 (2026-10-22)
+
+**T1 raw-literal migration: effectively complete (923 → 5).**
+- New brand constants in `src/index.css` `@theme`: `cream` #F0FAFF, `ink-navy` #111827,
+  `ink-panel` #111726, `ink-soft` #1C1E21, `fog` #F3F4F6, `mist` #F1F4F7, `graphite`
+  #1F2937, `smoke` #888888 — theme-invariant by design, so every migration is
+  byte-identical (verified in-browser: `bg-cream` computes to `rgb(240,250,255)`).
+- Reused existing tokens where they already matched exactly: `accent-cyan/amber/red/
+  emerald`, `buy` / `buy-hover` (the Navbar CTA hover moved from #0052CC to the
+  `buy-hover` #0457CB token — one deliberate shade alignment), and `white` for #FFFFFF.
+- 952 replacements: 715 bracket utilities (`bg-[#F0FAFF]/10` → `bg-cream/10`), 149
+  quoted prop values (`fill="#F0FAFF"` → `var(--color-cream)`), 88 `rgba(240,250,255,x)`
+  bracket utilities → `cream/x`; plus gradient/shadow internals and `var()` fallbacks.
+- Ratchet hardened: HTML entities (`&#123;`, `#412` prose) excluded, and
+  `src/lib/emailService.ts` exempt (email clients do not support CSS custom properties,
+  so its inline CSS must stay literal). New baseline **5**: single-use deep-ink fills
+  (#0A1317, #0B111A, #090D16), the brand node-gradient stop (#0066FF), one graphite
+  label style (#374151). Semantic promotion (e.g. cream → foreground on themed
+  surfaces) remains the follow-up; the constants now make it a one-variable change.
+
+**Rec 7 performance: landed where architecture allows.**
+- Plates: all 20 JPEGs recompressed in place (q78 progressive, 4:2:0, stripped) —
+  2 570 KB → 2 246 KB (−323 KB) with unchanged dimensions and visually verified
+  output. AVIF/WebP *variants* + `<picture>` wiring deferred: plates are imported as
+  module URLs and flow through data-driven registries (`engines.ts`, `engineBlogs.ts`,
+  `DynamicBanner`), so per-consumer `<picture>` markup needs an image-renderer
+  component first — recommended as the next perf ticket.
+- Font swap: added metric-compatible `@font-face 'Inter Fallback'` (local Arial,
+  `size-adjust: 107%; ascent-override: 90%; descent-override: 22%`) and inserted it
+  into both `--font-sans` stacks and `--font-display` — the fallback now matches
+  Inter's box metrics, removing the swap-time layout shift (JetBrains Mono left as
+  `display=swap`; its small data-role sizes make shift negligible).
+- Landscape probe (844×375, 7 routes): **no document-level horizontal overflow
+  anywhere**; the only right-edge overflow elements sit inside the intentional
+  `overflow-x-auto` snap rails (Products carousel). Portrait AA/touch/focus results
+  from the first pass unchanged (0 failures).
+
+**Gates after second pass:** tsc clean · eslint clean · vitest 330/330 · `check:design`
+pass · `check:colors` pass (5 ≤ 5) · `npm run build` (incl. prerender + bundle budget)
+pass · probes as above.

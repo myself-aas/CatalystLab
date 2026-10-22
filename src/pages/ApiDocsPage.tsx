@@ -22,7 +22,7 @@ export const ApiDocsPage: React.FC = () => {
  </div>
 
  <figure className="mx-auto mb-12 max-w-4xl">
-   <img src={apiImage} alt="Developers pair-programming against the CatalystLab API" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+   <img src={apiImage} alt="Developers pair-programming against the CatalystLab API" loading="lazy" decoding="async" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
  <ApiPlayground />
  </div>

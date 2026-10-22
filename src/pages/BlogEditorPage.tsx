@@ -163,7 +163,7 @@ export const BlogEditorPage: React.FC = () => {
  </div>
 
  {error && (
- <div className="mb-4 rounded-xl border border-rose-500/20 bg-[#FFFFFF]/10 p-3 text-sm text-rose-300 font-mono">
+ <div className="mb-4 rounded-xl border border-rose-500/20 bg-white/10 p-3 text-sm text-rose-300 font-mono">
  {error}
  </div>
  )}
@@ -215,7 +215,7 @@ export const BlogEditorPage: React.FC = () => {
  value={content}
  onChange={(e) => setContent(e.target.value)}
  placeholder="Write your post in markdown…"
- className="ds-card h-96 w-full p-4 text-base font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-[#F0FAFF]"
+ className="ds-card h-96 w-full p-4 text-base font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-cream"
  />
  </form>
  )}

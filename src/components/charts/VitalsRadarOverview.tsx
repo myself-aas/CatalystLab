@@ -10,11 +10,11 @@ interface VitalsRadarOverviewProps {
 export const VitalsRadarOverview: React.FC<VitalsRadarOverviewProps> = React.memo(({ telemetry, targetDomain }) => {
   const dimensions = [
     { name: 'Core DOM Depth', score: telemetry.health.score, icon: Layers, color: 'rgba(240,250,255,0.25)' },
-    { name: 'OWASP Security', score: telemetry.security.score, icon: Lock, color: '#F0FAFF' },
+    { name: 'OWASP Security', score: telemetry.security.score, icon: Lock, color: 'var(--color-cream)' },
     { name: 'WCAG Accessibility', score: telemetry.accessibility.score, icon: Eye, color: 'rgba(240,250,255,0.45)' },
     { name: 'AI Crawler Readiness', score: telemetry.aiReadiness.score, icon: Bot, color: 'rgba(240,250,255,0.35)' },
     { name: 'Global Edge Latency', score: Math.max(30, Math.min(100, 100 - Math.round(telemetry.latency.globalAverageMs * 0.4))), icon: Activity, color: 'rgba(240,250,255,0.25)' },
-    { name: 'Eco-Carbon Footprint', score: telemetry.eco.rating === 'A+' ? 98 : telemetry.eco.rating === 'A' ? 90 : 75, icon: Leaf, color: '#F0FAFF' },
+    { name: 'Eco-Carbon Footprint', score: telemetry.eco.rating === 'A+' ? 98 : telemetry.eco.rating === 'A' ? 90 : 75, icon: Leaf, color: 'var(--color-cream)' },
     { name: 'Platform Portability', score: telemetry.migration.portabilityScore, icon: Server, color: 'rgba(240,250,255,0.35)' },
     { name: 'LLMO Citations', score: telemetry.llmo.score, icon: Search, color: 'rgba(240,250,255,0.45)' }
   ];

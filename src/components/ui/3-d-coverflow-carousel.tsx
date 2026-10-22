@@ -177,7 +177,7 @@ function CoverflowCard({
           <div className="flex items-center gap-2.5 text-left min-w-0">
             <span
               className="size-2.5 rounded-full animate-pulse shrink-0"
-              style={{ backgroundColor: item.color || "#F0FAFF" }}
+              style={{ backgroundColor: item.color || "var(--color-cream)" }}
             />
             <div className="min-w-0">
               <div className="flex items-center gap-2">
@@ -334,7 +334,7 @@ export function CoverFlowCarousel({
         opacity: 1,
         zIndex: 30,
         filter: "brightness(1)",
-        boxShadow: `0 35px 95px rgba(0,0,0,0.95), 0 0 60px ${currentItem?.color || "#F0FAFF"}55`,
+        boxShadow: `0 35px 95px rgba(0,0,0,0.95), 0 0 60px ${currentItem?.color || "var(--color-cream)"}55`,
         isCenter: true,
       };
     }

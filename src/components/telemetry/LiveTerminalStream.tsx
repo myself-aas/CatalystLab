@@ -55,12 +55,12 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
       className="rounded-xl border border-slate-800 bg-[#090D16] shadow-2xl overflow-hidden flex flex-col font-mono relative"
     >
       {/* Terminal Bar Chrome */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-[#111726]/90 border-b border-slate-800 z-20">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 bg-ink-panel/90 border-b border-slate-800 z-20">
         <div className="flex items-center gap-2.5">
           <div className="flex gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-[#EF4444]/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-[#F59E0B]/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-[#10B981]/80 inline-block" />
+            <span className="w-3 h-3 rounded-full bg-accent-red/80 inline-block" />
+            <span className="w-3 h-3 rounded-full bg-accent-amber/80 inline-block" />
+            <span className="w-3 h-3 rounded-full bg-accent-emerald/80 inline-block" />
           </div>
           <div className="h-4 w-px bg-slate-800" />
           <div className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
             <span className="text-xs font-semibold text-slate-200">{title}</span>
           </div>
           {isStreaming && (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#06B6D4]/10 text-[var(--chart-cyan)] border border-[#06B6D4]/30 animate-pulse">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-accent-cyan/10 text-[var(--chart-cyan)] border border-accent-cyan/30 animate-pulse">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--chart-cyan)]" />
               LIVE SSE
             </span>
@@ -230,7 +230,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
       </div>
 
       {/* Terminal Status Footer */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#111726]/60 border-t border-slate-800 text-[11px] text-slate-500 z-20">
+      <div className="flex items-center justify-between px-4 py-2 bg-ink-panel/60 border-t border-slate-800 text-[11px] text-slate-500 z-20">
         <div className="flex items-center gap-3">
           <span>{filteredLogs.length} events streamed</span>
           <span>•</span>

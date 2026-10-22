@@ -9,6 +9,18 @@
    ========================================================================== */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Metric-compatible fallback for Inter: eliminates font-swap layout shift
+   (design-system audit 2026-10-22, rec 7). Standard Inter<-Arial adjustments;
+   the real font loads via the Google <link> in index.html (display=swap). */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
 :root {
   /* Surface Layers */
   --bg-canvas: #111827;                     /* Absolute ground — Ink Navy */
@@ -294,7 +306,7 @@
 
   /* Font Stacks */
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 html.dark, [data-theme="dark"], .theme-dark, .page-dark {
@@ -535,10 +547,10 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-border-default: var(--border-default, rgba(255, 255, 255, 0.06));
   --color-border-hover: var(--border-hover, rgba(255, 255, 255, 0.10));
   --color-border-accent: var(--border-accent, rgba(94, 106, 210, 0.30));
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", "Inter Fallback", system-ui, sans-serif;
   /* Display face: Space Grotesk (geometric, instrument-like) — headlines only.
      Body stays Inter for legibility; JetBrains Mono is for data/telemetry only. */
-  --font-display: "Optimistic VF", "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Optimistic VF", "Inter", "Inter Fallback", system-ui, -apple-system, sans-serif;
   /* Role scale (typeset): purpose-named, not per-component arbitrary sizes.
      Readable floor 12px (text-label); 11px only for mono data labels. */
   --text-display: 4rem;     --text-display--line-height: 1.16;
@@ -580,6 +592,20 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-accent-purple: #8B5CF6;
   --color-silver-main: rgba(240,250,255,0.55);
   --color-silver-light: rgba(240,250,255,0.65);
+
+  /* Brand constants — raw hex migrated out of component code (design-system
+     audit 2026-10-22, T1/R3). Theme-invariant by design: these preserve the
+     exact dark-cockpit rendering while removing literal hex from TSX. Semantic
+     promotion (e.g. cream -> foreground on themed surfaces) is tracked as a
+     follow-up in docs/audit/2026-10-22-design-system-review-uiux-pro-max.md. */
+  --color-cream: #F0FAFF;        /* cockpit text/tint "cream" */
+  --color-ink-navy: #111827;     /* dark canvas ink-navy */
+  --color-ink-panel: #111726;    /* telemetry console panels */
+  --color-ink-soft: #1C1E21;     /* dark-mode card ink */
+  --color-fog: #F3F4F6;          /* light-mode card / tooltip shell */
+  --color-mist: #F1F4F7;         /* light-mode card fill */
+  --color-graphite: #1F2937;     /* tooltip text graphite */
+  --color-smoke: #888888;        /* muted chrome smoke */
 }
 @layer base {
   html {

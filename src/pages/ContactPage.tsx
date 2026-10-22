@@ -98,7 +98,7 @@ export const ContactPage: React.FC = () => {
  No sales fluff. Whether you're debugging an OWASP flag, setting up CI/CD pipeline triggers, or upgrading to Enterprise, you speak directly with the engineers building the engines.
  </p>
  <figure className="mt-2">
-   <img src={contactImage} alt="CatalystLab support specialist ready to help" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+   <img src={contactImage} alt="CatalystLab support specialist ready to help" loading="lazy" decoding="async" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
  </div>
 
@@ -123,12 +123,12 @@ export const ContactPage: React.FC = () => {
 
  {/* Right Column: Floating Glass Form */}
  <div className="relative group">
- <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-[#F0FAFF]/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
+ <div className="pointer-events-none absolute -inset-4 bg-gradient-to-br from-cream/20 to-transparent opacity-50 blur-3xl rounded-[3rem] z-0 transition-opacity duration-500 group-hover:opacity-70" />
  
  <div className="relative z-10 ds-card bg-surface/90 backdrop-blur-xl border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
  {submitted ? (
  <div ref={successPanelRef} role="status" tabIndex={-1} className="flex flex-col items-center justify-center text-center gap-4">
- <div className="size-16 rounded-full bg-[#F0FAFF]/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
+ <div className="size-16 rounded-full bg-cream/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2">
  <Send className="size-8" />
  </div>
  <h3 className="text-2xl font-semibold text-foreground tracking-[-0.02em]">Transmission Complete</h3>
@@ -201,14 +201,14 @@ export const ContactPage: React.FC = () => {
  onClick={() => setDepartment(dep.id)}
  className={`relative px-4 py-3 rounded-xl text-sm font-medium transition-colors text-left overflow-hidden border ${
  department === dep.id 
- ? 'text-foreground border-[#F0FAFF]/30' 
+ ? 'text-foreground border-cream/30' 
  : 'bg-surface text-muted-foreground border-border hover:border-border-strong hover:text-foreground'
  }`}
  >
  {department === dep.id && (
  <motion.div
  layoutId="contact-active-topic"
- className="absolute inset-0 bg-[#F0FAFF]/10 z-0"
+ className="absolute inset-0 bg-cream/10 z-0"
  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
  />
  )}

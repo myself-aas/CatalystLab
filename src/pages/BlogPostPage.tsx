@@ -49,7 +49,7 @@ export const BlogPostPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-[#F3F4F6] border-t-[#FFFFFF] rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-fog border-t-white rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -59,7 +59,7 @@ export const BlogPostPage: React.FC = () => {
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-6">
         <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
         <p className="text-muted-foreground mb-6 text-center">The article you are looking for does not exist.</p>
-        <Link to="/blogs" className="px-6 py-3 bg-[#F3F4F6] rounded-full text-sm font-medium hover:bg-[#F3F4F6] transition-colors">
+        <Link to="/blogs" className="px-6 py-3 bg-fog rounded-full text-sm font-medium hover:bg-fog transition-colors">
           Back to Discover
         </Link>
       </div>
@@ -82,7 +82,7 @@ export const BlogPostPage: React.FC = () => {
             alt={post.title}
             className="w-full h-full object-cover"
           loading="lazy" decoding="async" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#111827]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-ink-navy/90" />
           
           {/* Top Actions */}
           <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
@@ -102,13 +102,13 @@ export const BlogPostPage: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-20 -mt-16 mx-4 bg-[#FFFFFF] rounded-[32px] p-6 shadow-2xl text-[#111827]"
+          className="relative z-20 -mt-16 mx-4 bg-white rounded-[32px] p-6 shadow-2xl text-ink-navy"
         >
           <div className="inline-block px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-4">
             {post.category || 'Article'}
           </div>
           
-          <h1 className="text-2xl font-bold leading-tight mb-4 text-[#111827]">
+          <h1 className="text-2xl font-bold leading-tight mb-4 text-ink-navy">
             {post.title}
           </h1>
           
@@ -146,7 +146,7 @@ export const BlogPostPage: React.FC = () => {
         <div className="px-6 py-6 flex items-center justify-between mt-4">
           <button 
             onClick={handleShare}
-            className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-[#F3F4F6]"
+            className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-fog"
           >
             {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
             {copied ? 'Copied' : 'Share Article'}
@@ -155,7 +155,7 @@ export const BlogPostPage: React.FC = () => {
           {user && (isAdmin || user.email === post.authorEmail) && (
             <Link 
               to={`/blogs/edit/${post.id || post.slug}`}
-              className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-[#F3F4F6]"
+              className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-fog"
             >
               <Edit3 className="w-4 h-4" />
               Edit

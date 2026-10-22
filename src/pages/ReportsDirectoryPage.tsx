@@ -135,13 +135,13 @@ export const ReportsDirectoryPage: React.FC = () => {
  
  {/* Header Banner */}
  <section className="relative overflow-hidden border-b border-border sm:px-6 lg:px-8 ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 max-w-3xl mx-auto space-y-6">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div>
- <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-foreground mb-4">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-cream/10 px-3.5 py-1 framer-micro-tag text-foreground mb-4">
  <FileText className="h-3.5 w-3.5 text-foreground shrink-0"/>
  <span>Diagnostic Report Directory</span>
  </div>
@@ -280,7 +280,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  <section className="space-y-6 ds-section">
  <div className="border-b border-border pb-3">
  <h2 className="text-sm font-extrabold text-foreground flex items-center gap-2">
- <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20">
+ <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-cream/10 text-amber-400 border border-amber-500/20">
  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-400"/>
  </span>
  <span>Featured Architecture &amp; Telemetry Dossiers</span>
@@ -313,8 +313,8 @@ export const ReportsDirectoryPage: React.FC = () => {
  </div>
  <span className={`text-[11px] font-mono px-2 py-0.5 rounded border ${
  isGradeA 
- ? 'border-emerald-500/20 bg-[#F0FAFF]/10 text-emerald-400' 
- : 'border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400'
+ ? 'border-emerald-500/20 bg-cream/10 text-emerald-400' 
+ : 'border-amber-500/20 bg-cream/10 text-amber-400'
  }`}>
  Grade {item.grade}
  </span>

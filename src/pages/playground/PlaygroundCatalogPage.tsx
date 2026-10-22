@@ -45,7 +45,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <div className="ds-page-shell">
  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
  <div className="space-y-4 max-w-2xl">
- <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-emerald-400">
+ <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-cream/10 px-3 py-1 framer-micro-tag text-emerald-400">
  <Terminal className="h-3.5 w-3.5"/>
  <span>Interactive Developer Playground</span>
  </div>
@@ -143,7 +143,7 @@ export const PlaygroundCatalogPage: React.FC = () => {
  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-foreground/10 text-foreground">
  <Icon className="h-5 w-5 text-foreground shrink-0 transition-colors"/>
  </div>
- <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
+ <span className="framer-micro-tag px-2.5 py-0.5 rounded-full bg-cream/10 text-foreground border border-cream/20">
  {engine.category}
  </span>
  </div>

@@ -126,7 +126,7 @@ export const DynamicBanner: React.FC = () => {
           className="max-w-2xl"
         >
           <div className="inline-flex items-center gap-2 px-2.5 py-1 mb-4 rounded-lg bg-muted border border-border backdrop-blur-md text-[11px] font-mono text-primary tracking-wider uppercase shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-cream animate-pulse" />
             Active Module
           </div>
           

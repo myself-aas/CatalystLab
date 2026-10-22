@@ -50,7 +50,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
           </span>
         </div>
         <div className="text-[11px] font-mono text-muted-foreground hidden sm:flex items-center gap-1.5">
-          <span className="inline-block size-2 rounded-full bg-[#F0FAFF] animate-pulse" />
+          <span className="inline-block size-2 rounded-full bg-cream animate-pulse" />
           <span>Real-Time Engine Sync</span>
         </div>
       </div>
@@ -85,10 +85,10 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               <div
                 className={`py-0.5 px-2 rounded text-xs font-bold border shrink-0 ${
                   avgScore >= 90
-                    ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20'
+                    ? 'bg-cream/10 text-emerald-400 border-emerald-500/20'
                     : avgScore >= 75
-                    ? 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
-                    : 'bg-[#FFFFFF]/10 text-red-400 border-red-500/20'
+                    ? 'bg-cream/10 text-amber-400 border-amber-500/20'
+                    : 'bg-white/10 text-red-400 border-red-500/20'
                 }`}
               >
                 {avgScore}/100
@@ -116,7 +116,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
                 <div
                   className={`h-full rounded-full transition duration-500 ${
                     avgScore >= 90
-                      ? 'bg-gradient-to-r from-emerald-500 to-[#F0FAFF]'
+                      ? 'bg-gradient-to-r from-emerald-500 to-cream'
                       : avgScore >= 75
                       ? 'bg-gradient-to-r from-amber-500 to-yellow-400'
                       : 'bg-gradient-to-r from-red-500 to-rose-400'
@@ -164,7 +164,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </div>
 
               {/* Pill */}
-              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-[#F0FAFF]/10 text-cyan-400 border-cyan-500/20">
+              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-cream/10 text-cyan-400 border-cyan-500/20">
                 {totalAudits} Dossiers
               </div>
             </div>
@@ -216,7 +216,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[rgba(240,250,255,0.6)] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-cream/60 shrink-0">
                   <Zap className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
@@ -230,7 +230,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </div>
 
               {/* Pill */}
-              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20">
+              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-cream/10 text-amber-400 border-amber-500/20">
                 {rateStatus.tier.toUpperCase()} TIER
               </div>
             </div>
@@ -296,7 +296,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </div>
 
               {/* Pill */}
-              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20">
+              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-cream/10 text-emerald-400 border-emerald-500/20">
                 {TOTAL_POPS_COUNT} PoPs Active
               </div>
             </div>
@@ -359,7 +359,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </div>
 
               {/* Pill */}
-              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-[#F0FAFF]/10 text-blue-400 border-blue-500/20">
+              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-cream/10 text-blue-400 border-blue-500/20">
                 3 Ready
               </div>
             </div>
@@ -408,7 +408,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-[rgba(240,250,255,0.75)] shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-cream/75 shrink-0">
                   <ShieldCheck className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
@@ -422,7 +422,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
               </div>
 
               {/* Pill */}
-              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-[#F0FAFF]/10 text-purple-400 border-purple-500/20">
+              <div className="py-0.5 px-2 rounded text-xs font-bold border shrink-0 bg-cream/10 text-purple-400 border-purple-500/20">
                 Grade A+
               </div>
             </div>

@@ -195,8 +195,8 @@ export const SystemHealthWidget: React.FC = () => {
                 <h2 className="text-xl font-extrabold text-foreground tracking-tight">
                   System Health & Audit Telemetry
                 </h2>
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FAFF]/10 border border-cyan-500/30 px-2.5 py-0.5 text-[11px] font-bold text-cyan-300 font-mono">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF] animate-ping" />
+                <span className="inline-flex items-center gap-1 rounded-full bg-cream/10 border border-cyan-500/30 px-2.5 py-0.5 text-[11px] font-bold text-cyan-300 font-mono">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cream animate-ping" />
                   LIVE FIRESTORE STREAM
                 </span>
               </div>
@@ -254,10 +254,10 @@ export const SystemHealthWidget: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className={`h-3 w-3 rounded-full ${
                 systemStatus === 'optimal' 
-                  ? 'bg-[#F0FAFF] shadow-[0_0_8px_rgba(52,211,153,0.8)]' 
+                  ? 'bg-cream shadow-[0_0_8px_rgba(52,211,153,0.8)]' 
                   : systemStatus === 'warning' 
-                    ? 'bg-[#F0FAFF]' 
-                    : 'bg-[#FFFFFF]'
+                    ? 'bg-cream' 
+                    : 'bg-white'
               }`} />
               <span className="text-xl font-black text-foreground">
                 {systemStatus === 'optimal' ? '100% Nominal' : systemStatus === 'warning' ? 'Warning' : 'Degraded'}
@@ -424,10 +424,10 @@ export const SystemHealthWidget: React.FC = () => {
                       {/* Status indicator */}
                       <span className={`h-2 w-2 rounded-full shrink-0 ${
                         log.status === 'healthy' || log.status === 'success'
-                          ? 'bg-[#F0FAFF]'
+                          ? 'bg-cream'
                           : log.status === 'warning'
-                            ? 'bg-[#F0FAFF]'
-                            : 'bg-[#FFFFFF]'
+                            ? 'bg-cream'
+                            : 'bg-white'
                       }`} />
 
                       {/* Engine Tag */}

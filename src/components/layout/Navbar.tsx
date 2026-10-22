@@ -40,8 +40,8 @@ interface EngineItem {
   icon: React.ElementType;
 }
 
-const PERF_TAG_COLOR = 'text-foreground bg-[#F0FAFF]/10 border-[#F0FAFF]/20';
-const SEC_TAG_COLOR = 'text-purple-400 bg-[#F0FAFF]/10 border-purple-500/20';
+const PERF_TAG_COLOR = 'text-foreground bg-cream/10 border-cream/20';
+const SEC_TAG_COLOR = 'text-purple-400 bg-cream/10 border-purple-500/20';
 
 const PERFORMANCE_ENGINES: EngineItem[] = ENGINE_ITEMS.slice(0, 4).map((e) => ({
   id: e.id,
@@ -203,8 +203,8 @@ export const Navbar: React.FC = () => {
           className={cn(
             'relative flex items-center gap-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring py-2 px-3 rounded-xl font-medium',
             active
-              ? 'text-foreground bg-[rgba(240,250,255,0.08)] shadow-sm'
-              : 'text-[rgba(240,250,255,0.7)] hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]',
+              ? 'text-foreground bg-cream/8 shadow-sm'
+              : 'text-cream/70 hover:text-foreground hover:bg-cream/5',
           )}
         >
           {Icon && <Icon className="size-4 shrink-0" />}
@@ -262,7 +262,7 @@ export const Navbar: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className="text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center -ml-1 cursor-pointer rounded-full hover:bg-[rgba(240,250,255,0.08)]"
+              className="text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring p-2 min-h-[var(--control-min-size)] min-w-[var(--control-min-size)] flex items-center justify-center -ml-1 cursor-pointer rounded-full hover:bg-cream/8"
               onClick={() => {
                 setIsMobileMenuOpen(true);
                 window.dispatchEvent(new CustomEvent('catalyst:open-mobile-menu'));
@@ -276,10 +276,10 @@ export const Navbar: React.FC = () => {
               <BrandLogo size="md" />
             </Link>
 
-            <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+            <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono bg-cream/10 text-emerald-400 border border-emerald-500/20">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#F0FAFF]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cream" />
               </span>
               <span>{TOTAL_POPS_COUNT} PoPs Active</span>
             </div>
@@ -298,8 +298,8 @@ export const Navbar: React.FC = () => {
                 className={cn(
                   "flex items-center gap-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer py-2 px-3 rounded-xl font-medium",
                   isEnginesOpen 
-                    ? "text-foreground bg-[rgba(240,250,255,0.08)] shadow-sm" 
-                    : "text-[rgba(240,250,255,0.7)] hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]"
+                    ? "text-foreground bg-cream/8 shadow-sm" 
+                    : "text-cream/70 hover:text-foreground hover:bg-cream/5"
                 )}
                 aria-expanded={isEnginesOpen}
               >
@@ -323,15 +323,15 @@ export const Navbar: React.FC = () => {
                     className="absolute -left-24 top-full pt-3 w-[580px] z-50 pointer-events-auto"
                   >
                     <div
-                      className="bg-[#F3F4F6]/95 border border-[rgba(240,250,255,0.08)] rounded-3xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden"
+                      className="bg-fog/95 border border-cream/8 rounded-3xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden"
                     >
                       <div
                         className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-20 blur-3xl"
-                        style={{ background: 'radial-gradient(circle, #F0FAFF 0%, transparent 70%)' }}
+                        style={{ background: 'radial-gradient(circle, var(--color-cream) 0%, transparent 70%)' }}
                       />
 
                       <div className="space-y-1.5">
-                        <div className="px-2 py-1.5 text-[11px] font-mono uppercase tracking-wider text-[rgba(240,250,255,0.5)] flex items-center justify-between border-b border-[rgba(240,250,255,0.06)] pb-2 mb-1.5">
+                        <div className="px-2 py-1.5 text-[11px] font-mono uppercase tracking-wider text-cream/50 flex items-center justify-between border-b border-cream/6 pb-2 mb-1.5">
                           <span>Performance</span>
                           <span className="text-foreground">4 Engines</span>
                         </div>
@@ -347,16 +347,16 @@ export const Navbar: React.FC = () => {
                               <Link
                                 to={engine.path}
                                 onClick={() => setIsEnginesOpen(false)}
-                                className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-[rgba(240,250,255,0.04)] transition duration-150 border border-transparent hover:border-[rgba(240,250,255,0.08)]"
+                                className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-cream/4 transition duration-150 border border-transparent hover:border-cream/8"
                               >
-                                <div className="size-10 rounded-xl bg-background border border-[rgba(240,250,255,0.06)] flex items-center justify-center shrink-0 text-[rgba(240,250,255,0.5)] group-hover:text-foreground group-hover:border-[#F0FAFF]/30 transition-colors shadow-inner">
+                                <div className="size-10 rounded-xl bg-background border border-cream/6 flex items-center justify-center shrink-0 text-cream/50 group-hover:text-foreground group-hover:border-cream/30 transition-colors shadow-inner">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1.5">
                                     <span className="text-sm font-medium text-foreground group-hover:text-foreground transition-colors truncate">{engine.name}</span>
                                   </div>
-                                  <p className="text-[11px] text-[rgba(240,250,255,0.5)] leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
+                                  <p className="text-[11px] text-cream/50 leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
                                 </div>
                               </Link>
                             </motion.div>
@@ -364,8 +364,8 @@ export const Navbar: React.FC = () => {
                         })}
                       </div>
 
-                      <div className="space-y-1.5 border-l border-[rgba(240,250,255,0.06)] pl-3">
-                        <div className="px-2 py-1.5 text-[11px] font-mono uppercase tracking-wider text-[rgba(240,250,255,0.5)] flex items-center justify-between border-b border-[rgba(240,250,255,0.06)] pb-2 mb-1.5">
+                      <div className="space-y-1.5 border-l border-cream/6 pl-3">
+                        <div className="px-2 py-1.5 text-[11px] font-mono uppercase tracking-wider text-cream/50 flex items-center justify-between border-b border-cream/6 pb-2 mb-1.5">
                           <span>Security & AI</span>
                           <span className="text-purple-400">4 Engines</span>
                         </div>
@@ -381,16 +381,16 @@ export const Navbar: React.FC = () => {
                               <Link
                                 to={engine.path}
                                 onClick={() => setIsEnginesOpen(false)}
-                                className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-[rgba(240,250,255,0.04)] transition duration-150 border border-transparent hover:border-[rgba(240,250,255,0.08)]"
+                                className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-cream/4 transition duration-150 border border-transparent hover:border-cream/8"
                               >
-                                <div className="size-10 rounded-xl bg-background border border-[rgba(240,250,255,0.06)] flex items-center justify-center shrink-0 text-[rgba(240,250,255,0.5)] group-hover:text-purple-400 group-hover:border-purple-400/30 transition-colors shadow-inner">
+                                <div className="size-10 rounded-xl bg-background border border-cream/6 flex items-center justify-center shrink-0 text-cream/50 group-hover:text-purple-400 group-hover:border-purple-400/30 transition-colors shadow-inner">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                   <div className="flex items-center gap-1.5">
                                     <span className="text-sm font-medium text-foreground group-hover:text-purple-400 transition-colors truncate">{engine.name}</span>
                                   </div>
-                                  <p className="text-[11px] text-[rgba(240,250,255,0.5)] leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
+                                  <p className="text-[11px] text-cream/50 leading-snug line-clamp-1 mt-0.5">{engine.tagline}</p>
                                 </div>
                               </Link>
                             </motion.div>
@@ -398,12 +398,12 @@ export const Navbar: React.FC = () => {
                         })}
                       </div>
 
-                      <div className="col-span-2 mt-2 pt-3 border-t border-[rgba(240,250,255,0.06)] flex items-center justify-between px-2">
-                        <Link to="/engines" onClick={() => setIsEnginesOpen(false)} className="text-[rgba(240,250,255,0.6)] hover:text-foreground flex items-center gap-1.5 text-xs font-medium group">
+                      <div className="col-span-2 mt-2 pt-3 border-t border-cream/6 flex items-center justify-between px-2">
+                        <Link to="/engines" onClick={() => setIsEnginesOpen(false)} className="text-cream/60 hover:text-foreground flex items-center gap-1.5 text-xs font-medium group">
                           <span>Explore All 8 Telemetry Engines</span>
                           <ArrowRight className="size-3 group-hover:translate-x-0.5 transition-transform" />
                         </Link>
-                        <span className="text-[11px] font-mono text-[rgba(240,250,255,0.4)]">Zero-SDK • RFC 9110</span>
+                        <span className="text-[11px] font-mono text-cream/40">Zero-SDK • RFC 9110</span>
                       </div>
                     </div>
                   </motion.div>
@@ -456,7 +456,7 @@ export const Navbar: React.FC = () => {
                       className="absolute right-0 top-full pt-3 z-50 w-64"
                       role="menu"
                     >
-                      <div className="rounded-3xl border border-[rgba(240,250,255,0.08)] bg-[#F3F4F6]/95 dark:bg-[#1C1E21]/95 p-2 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
+                      <div className="rounded-3xl border border-cream/8 bg-fog/95 dark:bg-ink-soft/95 p-2 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
                         <div className="px-3 py-2.5 border-b border-border/50 mb-1 rounded-2xl">
                           <div className="text-sm font-semibold text-foreground truncate">{userName}</div>
                           <div className="text-[11px] font-mono text-muted-foreground uppercase tracking-wider">{planId} • {currentPlan?.name || 'Account'}</div>
@@ -493,7 +493,7 @@ export const Navbar: React.FC = () => {
 
             <Link
               to="/audit"
-              className="hidden sm:inline-flex bg-[#0064E0] hover:bg-[#0052CC] text-white font-semibold rounded-full px-5 py-2 text-sm shadow-md transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ml-1"
+              className="hidden sm:inline-flex bg-buy hover:bg-buy-hover text-white font-semibold rounded-full px-5 py-2 text-sm shadow-md transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ml-1"
             >
               Shop
             </Link>

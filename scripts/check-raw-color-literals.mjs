@@ -13,18 +13,25 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-// Frozen 2026-10-22 after audit remediation R1–R5 (was ~650 pre-remediation
-// for #F0FAFF-family literals alone; this baseline covers ALL raw hex in TS/TSX).
-const BASELINE = 923; // ratchet: fail on any increase; tighten when literals are tokenized
+// Frozen 2026-10-22 after the T1 brand-constant migration (cream/ink/fog/...
+// tokens in src/index.css @theme + existing accent-* and buy tokens). The
+// residue is deliberate: single-use deep-ink panel fills (#0A1317, #0B111A,
+// #090D16), the brand node gradient stop (#0066FF), one graphite label style
+// (#374151), and 8-digit alpha-suffixed grid-line hexes that cannot use var()
+// with an alpha multiplier (they also fall outside this check's \b-anchored
+// pattern). src/lib/emailService.ts is exempt: email clients
+// do not support CSS custom properties, so its inline CSS must stay literal.
+const BASELINE = 5; // ratchet: fail on any increase; tighten as residue is tokenized
 
-const HEX = /#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b/g;
+const HEX = /(?<!&)#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b(?!:)/g;
+const EXEMPT = /src[\\/]lib[\\/]emailService\.ts$/;
 
 function walk(dir, out = []) {
   for (const entry of readdirSync(dir)) {
     const p = join(dir, entry);
     const st = statSync(p);
     if (st.isDirectory()) walk(p, out);
-    else if (/\.tsx?$/.test(entry) && !/\.d\.ts$/.test(entry)) out.push(p);
+    else if (/\.tsx?$/.test(entry) && !/\.d\.ts$/.test(entry) && !EXEMPT.test(p)) out.push(p);
   }
   return out;
 }

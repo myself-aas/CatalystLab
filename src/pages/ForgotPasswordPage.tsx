@@ -107,7 +107,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#F3F4F6 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(var(--color-fog) 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -128,7 +128,7 @@ export const ForgotPasswordPage: React.FC = () => {
  </div>
 
  {/* Live Ingress Badge */}
- <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+ <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cream/10 text-emerald-400 border border-emerald-500/20">
  <ShieldCheck className="size-3 text-emerald-400" />
  <span>TLS 1.3 &bull; Mutual TLS Auth Ready &bull; OWASP Compliant</span>
  </div>
@@ -147,7 +147,7 @@ export const ForgotPasswordPage: React.FC = () => {
 
  {/* Error Display */}
  {(localError || authError?.message) && (
- <div id="forgot-form-error" role="alert" tabIndex={-1} className="mb-5 p-3 rounded-xl bg-[#FFFFFF]/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
+ <div id="forgot-form-error" role="alert" tabIndex={-1} className="mb-5 p-3 rounded-xl bg-white/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
  <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
  <span>{localError || authError?.message}</span>
  </div>
@@ -216,8 +216,8 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="py-4 text-center space-y-5">
  {/* Animated Green Radar Pulse */}
  <div className="relative mx-auto size-16 flex items-center justify-center">
- <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-20" />
- <div className="relative size-14 rounded-full bg-[#F0FAFF]/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+ <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-20" />
+ <div className="relative size-14 rounded-full bg-cream/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
  <CheckCircle2 className="size-7" />
  </div>
  </div>

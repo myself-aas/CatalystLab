@@ -112,13 +112,13 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
     switch (g) {
       case 'A+':
       case 'A':
-        return 'border-[#10B981]/40 bg-[#10B981]/15 text-[var(--chart-green)]';
+        return 'border-accent-emerald/40 bg-accent-emerald/15 text-[var(--chart-green)]';
       case 'B':
-        return 'border-[#06B6D4]/40 bg-[#06B6D4]/15 text-[var(--chart-cyan)]';
+        return 'border-accent-cyan/40 bg-accent-cyan/15 text-[var(--chart-cyan)]';
       case 'C':
-        return 'border-[#F59E0B]/40 bg-[#F59E0B]/15 text-[var(--chart-amber)]';
+        return 'border-accent-amber/40 bg-accent-amber/15 text-[var(--chart-amber)]';
       default:
-        return 'border-[#EF4444]/40 bg-[#EF4444]/15 text-[var(--chart-red)]';
+        return 'border-accent-red/40 bg-accent-red/15 text-[var(--chart-red)]';
     }
   };
 
@@ -141,7 +141,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
       )}
 
       {/* Target URL Scan Controller Bar */}
-      <div className="rounded-xl border border-slate-800 bg-[#111726]/90 p-4 backdrop-blur-md shadow-xl">
+      <div className="rounded-xl border border-slate-800 bg-ink-panel/90 p-4 backdrop-blur-md shadow-xl">
         <form onSubmit={handleLaunch} className="flex flex-col sm:flex-row items-center gap-3">
           <div className="relative flex-1 w-full">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 font-mono text-xs">
@@ -153,7 +153,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
               onChange={(e) => setInputUrl(e.target.value)}
               placeholder="catalystlab.tech or target domain"
               disabled={isScanning}
-              className="w-full pl-20 pr-4 py-2.5 rounded-lg border border-slate-700 bg-slate-900/80 text-slate-100 text-sm font-mono placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/50 focus:border-[var(--chart-cyan)] disabled:opacity-50 transition-all"
+              className="w-full pl-20 pr-4 py-2.5 rounded-lg border border-slate-700 bg-slate-900/80 text-slate-100 text-sm font-mono placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-accent-cyan/50 focus:border-[var(--chart-cyan)] disabled:opacity-50 transition-all"
             />
           </div>
 
@@ -161,7 +161,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
             <button
               type="submit"
               disabled={isScanning || !inputUrl.trim()}
-              className="flex-1 sm:flex-none px-5 py-2.5 rounded-lg bg-gradient-to-r from-[var(--chart-cyan)] to-[var(--chart-green)] hover:opacity-95 text-slate-950 font-bold text-sm font-mono flex items-center justify-center gap-2 disabled:opacity-50 transition-all shadow-md shadow-[#06B6D4]/20"
+              className="flex-1 sm:flex-none px-5 py-2.5 rounded-lg bg-gradient-to-r from-[var(--chart-cyan)] to-[var(--chart-green)] hover:opacity-95 text-slate-950 font-bold text-sm font-mono flex items-center justify-center gap-2 disabled:opacity-50 transition-all shadow-md shadow-accent-cyan/20"
             >
               {isScanning ? (
                 <>
@@ -202,7 +202,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
 
       {/* Composite Score Header Banner (When report is ready or in-flight) */}
       {(report || isScanning) && (
-        <div className="rounded-xl border border-slate-800 bg-[#111726]/80 p-5 backdrop-blur-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="rounded-xl border border-slate-800 bg-ink-panel/80 p-5 backdrop-blur-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             {/* Score Ring */}
             <div className="relative w-16 h-16 rounded-xl bg-slate-900/90 border border-slate-700 flex flex-col items-center justify-center shadow-inner">
@@ -249,7 +249,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
               onClick={() => setShowLiveLogs(!showLiveLogs)}
               className={`px-3.5 py-1.5 rounded-lg border text-xs font-mono flex items-center gap-2 transition-all cursor-pointer ${
                 showLiveLogs
-                  ? 'border-[#06B6D4]/40 bg-[#06B6D4]/10 text-[var(--chart-cyan)]'
+                  ? 'border-accent-cyan/40 bg-accent-cyan/10 text-[var(--chart-cyan)]'
                   : 'border-slate-700 bg-slate-800/80 text-slate-300 hover:bg-slate-700'
               }`}
             >
@@ -360,7 +360,7 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
           return (
             <div
               key={engine.id}
-              className="rounded-xl border border-slate-800 bg-[#111726]/90 backdrop-blur-md overflow-hidden"
+              className="rounded-xl border border-slate-800 bg-ink-panel/90 backdrop-blur-md overflow-hidden"
             >
               {/* Accordion Header */}
               <button
@@ -379,11 +379,11 @@ export const MasterTelemetryGrid: React.FC<MasterTelemetryGridProps> = ({
 
                 <div className="flex items-center gap-2">
                   {score !== undefined ? (
-                    <span className="px-2 py-0.5 rounded-md font-mono text-xs font-bold bg-[#10B981]/15 text-[var(--chart-green)] border border-[#10B981]/30">
+                    <span className="px-2 py-0.5 rounded-md font-mono text-xs font-bold bg-accent-emerald/15 text-[var(--chart-green)] border border-accent-emerald/30">
                       {score}/100
                     </span>
                   ) : isEngineActive ? (
-                    <span className="px-2 py-0.5 rounded-md font-mono text-[11px] text-[var(--chart-cyan)] bg-[#06B6D4]/10 border border-[#06B6D4]/30 animate-pulse">
+                    <span className="px-2 py-0.5 rounded-md font-mono text-[11px] text-[var(--chart-cyan)] bg-accent-cyan/10 border border-accent-cyan/30 animate-pulse">
                       RUNNING
                     </span>
                   ) : (

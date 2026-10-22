@@ -153,7 +153,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
     if (numMatch) {
       elements.push(
         <div key={`num-${i}`} className="my-2 flex items-start gap-2.5 text-base text-foreground dark:text-muted-foreground leading-relaxed">
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#F0FAFF]/15 text-xs font-bold font-mono text-cyan-700 dark:text-cyan-400 border border-cyan-500/30">
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cream/15 text-xs font-bold font-mono text-cyan-700 dark:text-cyan-400 border border-cyan-500/30">
             {numMatch[1]}
           </span>
           <div className="pt-0.5">{renderInline(numMatch[2])}</div>

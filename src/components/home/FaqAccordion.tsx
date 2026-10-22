@@ -131,9 +131,9 @@ export const FaqAccordion: React.FC = () => {
               {/* Terminal Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-foreground/10 bg-surface relative z-10">
                 <div className="flex items-center gap-2">
-                  <div className="size-3 rounded-full bg-[#FFFFFF]/20 border border-red-500/50" />
+                  <div className="size-3 rounded-full bg-white/20 border border-red-500/50" />
                   <div className="size-3 rounded-full bg-yellow-500/20 border border-yellow-500/50" />
-                  <div className="size-3 rounded-full bg-[#F0FAFF]/20 border border-green-500/50" />
+                  <div className="size-3 rounded-full bg-cream/20 border border-green-500/50" />
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="px-3 py-1 bg-foreground/10 text-foreground text-xs font-mono rounded-md">

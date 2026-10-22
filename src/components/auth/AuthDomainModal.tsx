@@ -72,7 +72,7 @@ export const AuthDomainModal: React.FC = () => {
 
         {/* Modal Header */}
         <div className="flex items-start gap-3.5 mb-5">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-[#F0FAFF]/15 text-amber-300">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-cream/15 text-amber-300">
             <ShieldAlert className="h-6 w-6" />
           </div>
           <div>

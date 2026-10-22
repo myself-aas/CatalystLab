@@ -187,7 +187,7 @@ export const SignUpPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#F3F4F6 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(var(--color-fog) 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -208,7 +208,7 @@ export const SignUpPage: React.FC = () => {
  </div>
 
  {/* Live Ingress Badge */}
- <div className="mb-4 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+ <div className="mb-4 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cream/10 text-emerald-400 border border-emerald-500/20">
  <ShieldCheck className="size-3 text-emerald-400" />
  <span>TLS 1.3 &bull; Mutual TLS Auth Ready &bull; OWASP Compliant</span>
  </div>
@@ -272,7 +272,7 @@ export const SignUpPage: React.FC = () => {
 
  {/* Error Alert */}
  {activeErrorMessage && (
- <div id="signup-form-error" role="alert" tabIndex={-1} className="mb-4 rounded-xl border border-rose-500/30 bg-[#FFFFFF]/10 p-3 text-xs text-rose-300">
+ <div id="signup-form-error" role="alert" tabIndex={-1} className="mb-4 rounded-xl border border-rose-500/30 bg-white/10 p-3 text-xs text-rose-300">
  <div className="flex items-start gap-2">
  <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
  <div className="flex-1">
@@ -319,10 +319,10 @@ export const SignUpPage: React.FC = () => {
  <RotateCw className="size-3.5 animate-spin text-foreground" />
  ) : (
  <svg className="size-3.5" viewBox="0 0 24 24">
- <path fill="#F0FAFF" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
- <path fill="#F0FAFF" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
- <path fill="#F0FAFF" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
- <path fill="#F0FAFF" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+ <path fill="var(--color-cream)" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+ <path fill="var(--color-cream)" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+ <path fill="var(--color-cream)" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+ <path fill="var(--color-cream)" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
  </svg>
  )}
  <span>Google</span>
@@ -396,8 +396,8 @@ export const SignUpPage: React.FC = () => {
  </div>
  {/* Domain Verification Preview */}
  {cleanDomain && cleanDomain.includes('.') && (
- <div className="mt-1.5 p-2 rounded-lg bg-[#F0FAFF]/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-300 flex items-center gap-1.5 animate-fadeIn">
- <span className="size-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />
+ <div className="mt-1.5 p-2 rounded-lg bg-cream/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-300 flex items-center gap-1.5 animate-fadeIn">
+ <span className="size-1.5 rounded-full bg-cream animate-pulse" />
  <span className="truncate">EdgeKinase pre-resolving DNS for {cleanDomain}... Valid TLS 1.3 detected</span>
  </div>
  )}
@@ -433,10 +433,10 @@ export const SignUpPage: React.FC = () => {
 
  {/* 4-Bar Reactive Password Strength Gauge */}
  <div className="grid grid-cols-4 gap-1.5 mt-2">
- <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 1 ? (entropyScore === 1 ? 'bg-[#FFFFFF]' : entropyScore === 2 ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]') : 'bg-foreground/10'}`} />
- <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 2 ? (entropyScore === 2 ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]') : 'bg-foreground/10'}`} />
- <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 3 ? 'bg-[#F0FAFF]' : 'bg-foreground/10'}`} />
- <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 4 ? 'bg-[#F0FAFF]' : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 1 ? (entropyScore === 1 ? 'bg-white' : entropyScore === 2 ? 'bg-cream' : 'bg-cream') : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 2 ? (entropyScore === 2 ? 'bg-cream' : 'bg-cream') : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 3 ? 'bg-cream' : 'bg-foreground/10'}`} />
+ <div className={`h-1 rounded-full transition duration-300 ${entropyScore >= 4 ? 'bg-cream' : 'bg-foreground/10'}`} />
  </div>
  </div>
 

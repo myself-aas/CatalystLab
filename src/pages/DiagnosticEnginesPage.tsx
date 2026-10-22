@@ -30,7 +30,7 @@ export const DiagnosticEnginesPage: React.FC = () => {
  <span className="inline-flex items-center gap-1 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-3 py-1 framer-micro-tag text-muted-foreground">
  Deterministic Probes
  </span>
- <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-emerald-400">
+ <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-cream/10 px-3 py-1 framer-micro-tag text-emerald-400">
  Python 3.11 Runtime
  </span>
  </div>

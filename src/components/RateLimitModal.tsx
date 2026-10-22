@@ -52,7 +52,7 @@ export const RateLimitModal: React.FC<RateLimitModalProps> = ({
         <div className="flex items-center gap-3 mb-5">
           <div className={`flex h-11 w-11 items-center justify-center rounded-xl border text-xl ${
             (status.isMasterExceeded || status.isSingleExceeded)
-              ? 'border-rose-500/40 bg-[#FFFFFF]/20 text-rose-400' 
+              ? 'border-rose-500/40 bg-white/20 text-rose-400' 
               : 'border-border bg-foreground/20 text-muted-foreground'
           }`}>
             {(status.isMasterExceeded || status.isSingleExceeded) ? <AlertTriangle className="h-6 w-6" /> : <Zap className="h-6 w-6" />}

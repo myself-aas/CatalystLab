@@ -115,10 +115,10 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
   const score = result?.score ?? (isLoading ? 0 : 0);
 
   const getScoreColor = (sc: number) => {
-    if (sc >= 85) return 'text-[var(--chart-green)] border-[#10B981]/30 bg-[#10B981]/10';
-    if (sc >= 70) return 'text-[var(--chart-cyan)] border-[#06B6D4]/30 bg-[#06B6D4]/10';
-    if (sc >= 50) return 'text-[var(--chart-amber)] border-[#F59E0B]/30 bg-[#F59E0B]/10';
-    return 'text-[var(--chart-red)] border-[#EF4444]/30 bg-[#EF4444]/10';
+    if (sc >= 85) return 'text-[var(--chart-green)] border-accent-emerald/30 bg-accent-emerald/10';
+    if (sc >= 70) return 'text-[var(--chart-cyan)] border-accent-cyan/30 bg-accent-cyan/10';
+    if (sc >= 50) return 'text-[var(--chart-amber)] border-accent-amber/30 bg-accent-amber/10';
+    return 'text-[var(--chart-red)] border-accent-red/30 bg-accent-red/10';
   };
 
   const handleCopyLogs = (e: React.MouseEvent) => {
@@ -139,12 +139,12 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
       whileHover={{ scale: 1.01, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
       className={`relative rounded-xl border backdrop-blur-md overflow-hidden transition-all duration-300 ${
         isLoading
-          ? 'border-[#06B6D4]/50 bg-[#111726]/90 shadow-lg shadow-[#06B6D4]/10 ring-1 ring-[#06B6D4]/30'
+          ? 'border-accent-cyan/50 bg-ink-panel/90 shadow-lg shadow-accent-cyan/10 ring-1 ring-accent-cyan/30'
           : status === 'COMPLETE'
-          ? 'border-slate-800 bg-[#111726]/80 hover:border-slate-700 shadow-md'
+          ? 'border-slate-800 bg-ink-panel/80 hover:border-slate-700 shadow-md'
           : status === 'ERROR'
-          ? 'border-[#EF4444]/40 bg-[#111726]/80 shadow-lg shadow-[#EF4444]/10'
-          : 'border-slate-800/60 bg-[#111726]/50'
+          ? 'border-accent-red/40 bg-ink-panel/80 shadow-lg shadow-accent-red/10'
+          : 'border-slate-800/60 bg-ink-panel/50'
       }`}
     >
       {/* Background Accent Gradient */}
@@ -156,7 +156,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
           <div
             className={`w-10 h-10 rounded-lg flex items-center justify-center border ${
               isLoading
-                ? 'bg-[#06B6D4]/15 border-[#06B6D4]/40 text-[var(--chart-cyan)] animate-pulse'
+                ? 'bg-accent-cyan/15 border-accent-cyan/40 text-[var(--chart-cyan)] animate-pulse'
                 : 'bg-slate-900/90 border-slate-800 text-slate-200'
             }`}
           >
@@ -189,7 +189,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
         {/* Status / Score Indicator */}
         <div className="flex items-center gap-2 flex-shrink-0">
           {isLoading ? (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[var(--chart-cyan)] text-xs font-mono">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-accent-cyan/10 border border-accent-cyan/30 text-[var(--chart-cyan)] text-xs font-mono">
               <span className="w-2 h-2 rounded-full bg-[var(--chart-cyan)] animate-ping" />
               <span>STREAMING</span>
             </div>
@@ -204,7 +204,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
               <span className="text-[11px] font-normal opacity-70">/100</span>
             </div>
           ) : status === 'ERROR' ? (
-            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#EF4444]/10 border border-[#EF4444]/30 text-[var(--chart-red)] text-xs font-mono">
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-accent-red/10 border border-accent-red/30 text-[var(--chart-red)] text-xs font-mono">
               <XCircle className="w-3.5 h-3.5" />
               <span>FAILED</span>
             </div>
@@ -311,7 +311,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
           {onInspectDetails && (
             <button
               onClick={onInspectDetails}
-              className="flex items-center gap-1 text-xs font-mono text-[var(--chart-cyan)] hover:text-[#06B6D4]/80 transition-colors"
+              className="flex items-center gap-1 text-xs font-mono text-[var(--chart-cyan)] hover:text-accent-cyan/80 transition-colors"
             >
               <span>Full Dossier</span>
               <ExternalLink className="w-3 h-3" />
@@ -376,11 +376,11 @@ function MetricPill({
   const getColors = () => {
     switch (status) {
       case 'good':
-        return 'border-[#10B981]/20 bg-[#10B981]/5 text-[var(--chart-green)]';
+        return 'border-accent-emerald/20 bg-accent-emerald/5 text-[var(--chart-green)]';
       case 'warning':
-        return 'border-[#F59E0B]/20 bg-[#F59E0B]/5 text-[var(--chart-amber)]';
+        return 'border-accent-amber/20 bg-accent-amber/5 text-[var(--chart-amber)]';
       case 'critical':
-        return 'border-[#EF4444]/20 bg-[#EF4444]/5 text-[var(--chart-red)]';
+        return 'border-accent-red/20 bg-accent-red/5 text-[var(--chart-red)]';
       default:
         return 'border-slate-800 bg-slate-900/60 text-slate-300';
     }

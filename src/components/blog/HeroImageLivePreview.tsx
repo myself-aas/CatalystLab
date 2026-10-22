@@ -305,7 +305,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={handleRandomize}
-                className="min-h-[var(--control-min-size)] min-w-11 mt-3 inline-flex items-center gap-1 rounded-lg bg-[#FFFFFF]/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-[#FFFFFF]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-h-[var(--control-min-size)] min-w-11 mt-3 inline-flex items-center gap-1 rounded-lg bg-white/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Sparkles className="h-3 w-3" />
                 <span>Try Curated Preset</span>
@@ -517,7 +517,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#F0FAFF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-cream transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Close Preview
               </button>

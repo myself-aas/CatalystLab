@@ -68,8 +68,8 @@ export const CardChip: React.FC<CardChipProps> = ({
     >
       {isLive && (
         <span className="relative flex h-2 w-2 mr-0.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F0FAFF]" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-cream" />
         </span>
       )}
       {rating !== undefined && (

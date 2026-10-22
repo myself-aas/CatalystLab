@@ -24,14 +24,14 @@ export const TrialBanner: React.FC = () => {
       <aside
         id="catalyst-active-trial-banner"
         aria-label="Active subscription trial notification"
-        className="fixed top-0 inset-x-0 z-50 h-9 bg-background/95 backdrop-blur-md border-b border-[rgba(240,250,255,0.08)] px-4 text-xs text-[rgba(240,250,255,0.7)] flex items-center"
+        className="fixed top-0 inset-x-0 z-50 h-9 bg-background/95 backdrop-blur-md border-b border-cream/8 px-4 text-xs text-cream/70 flex items-center"
       >
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[rgba(240,250,255,0.08)] text-foreground font-semibold border border-[rgba(240,250,255,0.12)] text-[11px]">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cream/8 text-foreground font-semibold border border-cream/12 text-[11px]">
               <Zap className="w-3 h-3" /> Active {currentPlan.name} Trial
             </span>
-            <span className="text-[rgba(240,250,255,0.6)] hidden sm:inline text-[11px]">
+            <span className="text-cream/60 hidden sm:inline text-[11px]">
               You have <strong className="text-foreground font-semibold">{trialDaysRemaining} {trialDaysRemaining === 1 ? 'day' : 'days'} remaining</strong> with {currentPlan.dailyComputeUnits} units/day quota unlocked.
             </span>
           </div>
@@ -39,7 +39,7 @@ export const TrialBanner: React.FC = () => {
           <div className="flex items-center gap-3 text-xs">
             <Link
               to="/pricing"
-              className="inline-flex items-center gap-1 font-semibold text-foreground hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(240,250,255,0.45)] rounded-full px-1"
+              className="inline-flex items-center gap-1 font-semibold text-foreground hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/45 rounded-full px-1"
             >
               View Plan Features <ArrowRight className="w-3 h-3" />
             </Link>

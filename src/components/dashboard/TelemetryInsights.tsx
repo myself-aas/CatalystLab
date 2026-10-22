@@ -204,13 +204,13 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
             <XAxis 
               dataKey="date" 
-              stroke="#888888" 
+              stroke="var(--color-smoke)" 
               fontSize={11} 
               tickLine={false} 
               axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} 
             />
             <YAxis 
-              stroke="#888888" 
+              stroke="var(--color-smoke)" 
               fontSize={11} 
               tickLine={false} 
               axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} 
@@ -229,8 +229,8 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 fill="url(#colorScore)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: 'var(--chart-blue)', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: 'var(--chart-blue)', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-blue)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-blue)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
             {visibleSeries.security && (
@@ -244,8 +244,8 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 fill="url(#colorSecurity)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: 'var(--chart-green)', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: 'var(--chart-green)', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-green)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-green)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
             {visibleSeries.performance && (
@@ -259,8 +259,8 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 fill="url(#colorPerformance)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: 'var(--chart-cyan-bright)', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: 'var(--chart-cyan-bright)', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-cyan-bright)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-cyan-bright)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
             {visibleSeries.seo && (
@@ -274,8 +274,8 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 fill="url(#colorSeo)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: 'var(--chart-violet)', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: 'var(--chart-violet)', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-violet)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-violet)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
           </AreaChart>

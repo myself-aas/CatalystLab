@@ -30,9 +30,9 @@ export const RateLimitBadge: React.FC<RateLimitBadgeProps> = ({ compact = false,
   const isDanger = status.remaining === 0;
 
   const badgeColor = isDanger 
-    ? 'border-rose-500/20 bg-[#FFFFFF]/10 text-rose-400 font-semibold' 
+    ? 'border-rose-500/20 bg-white/10 text-rose-400 font-semibold' 
     : isWarning 
-    ? 'border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400 font-semibold' 
+    ? 'border-amber-500/20 bg-cream/10 text-amber-400 font-semibold' 
     : 'border-border bg-muted/60 text-foreground font-semibold';
 
   if (compact) {

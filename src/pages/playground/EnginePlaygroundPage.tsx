@@ -272,7 +272,7 @@ func main() {
  <h1 className="framer-section-headline text-foreground">
  {activeEngineConfig.name} Console
  </h1>
- <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
+ <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-cream/10 text-foreground border border-cream/20">
  {activeEngineConfig.category}
  </span>
  </div>
@@ -391,14 +391,14 @@ func main() {
  {statusCode !== null && (
  <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-mono border ${
  statusCode >= 200 && statusCode < 300 
- ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20' 
- : 'bg-[#FFFFFF]/10 text-rose-400 border-rose-500/20'
+ ? 'bg-cream/10 text-emerald-400 border-emerald-500/20' 
+ : 'bg-white/10 text-rose-400 border-rose-500/20'
  }`}>
  Status: {statusCode}
  </span>
  )}
  {responseTimeMs !== null && (
- <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
+ <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-cream/10 text-foreground border border-cream/20">
  {responseTimeMs} ms
  </span>
  )}

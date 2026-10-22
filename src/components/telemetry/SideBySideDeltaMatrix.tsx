@@ -239,7 +239,7 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono uppercase text-muted-foreground">Differential Synthesis</span>
-              <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-[#F0FAFF]/15 text-emerald-500 border border-emerald-500/30">
+              <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-cream/15 text-emerald-500 border border-emerald-500/30">
                 {scoreDelta >= 0 ? `+${scoreDelta} pts Delta` : `${scoreDelta} pts Delta`}
               </span>
             </div>
@@ -308,12 +308,12 @@ export const SideBySideDeltaMatrix: React.FC<SideBySideDeltaMatrixProps> = ({
                     {/* Variance Delta Badge */}
                     <td className="py-3.5 px-4 text-right">
                       {delta > 0 ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#F0FAFF]/15 text-emerald-500 border border-emerald-500/30 font-bold text-[11px]">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-cream/15 text-emerald-500 border border-emerald-500/30 font-bold text-[11px]">
                           <ArrowUpRight className="w-3 h-3" />
                           +{delta} pts
                         </span>
                       ) : delta < 0 ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#FFFFFF]/15 text-rose-500 border border-rose-500/30 font-bold text-[11px]">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/15 text-rose-500 border border-rose-500/30 font-bold text-[11px]">
                           <ArrowDownRight className="w-3 h-3" />
                           {delta} pts
                         </span>
