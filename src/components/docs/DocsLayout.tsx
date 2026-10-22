@@ -231,7 +231,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   const NavTree = (
     <nav aria-label="Documentation" className="docs-sidenav-inner">
       <Link to="/docs" className="mb-4 flex items-center gap-2 px-1 no-underline">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-cream text-foreground-foreground text-sm font-bold">C</span>
+            <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">C</span>
         <span className="leading-tight">
           <span className="block text-[13px] font-medium text-foreground">CatalystLab</span>
           <span className="block text-[11px] text-muted-foreground">Documentation</span>

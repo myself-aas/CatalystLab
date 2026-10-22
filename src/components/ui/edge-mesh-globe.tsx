@@ -189,7 +189,7 @@ export function PoPInspectorPanel({
 
       <div className="space-y-2.5 text-xs font-mono">
         <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-xl border border-border bg-foreground/60 p-2.5">
+          <div className="rounded-xl border border-border bg-muted/80 p-2.5">
             <span className="text-[11px] text-muted-foreground block mb-0.5">TTFB LATENCY</span>
             <span className="text-sm font-bold text-emerald-400 flex items-center gap-1">
               <Zap className="h-3.5 w-3.5 text-emerald-400" />
@@ -197,7 +197,7 @@ export function PoPInspectorPanel({
             </span>
           </div>
 
-          <div className="rounded-xl border border-border bg-foreground/60 p-2.5">
+          <div className="rounded-xl border border-border bg-muted/80 p-2.5">
             <span className="text-[11px] text-muted-foreground block mb-0.5">TLS HANDSHAKE</span>
             <span className="text-xs font-bold text-cyan-400 flex items-center gap-1 truncate">
               <Lock className="h-3 w-3 text-cyan-400 shrink-0" />
@@ -206,7 +206,7 @@ export function PoPInspectorPanel({
           </div>
         </div>
 
-        <div className="rounded-xl border border-border bg-foreground/60 p-2.5 space-y-1.5">
+        <div className="rounded-xl border border-border bg-muted/80 p-2.5 space-y-1.5">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-muted-foreground">HTTP/3 QUIC:</span>
             <span
@@ -678,8 +678,8 @@ export function EdgeMeshGlobe({
                       isSelected
                         ? 'border-cyan-400 bg-cyan-950/90 text-cyan-200 ring-2 ring-cyan-400/40'
                         : pop.status === 'optimal'
-                        ? 'border-emerald-500/40 bg-foreground/80 text-emerald-400 hover:border-emerald-400'
-                        : 'border-amber-500/40 bg-foreground/80 text-amber-400 hover:border-amber-400'
+                        ? 'border-emerald-500/40 bg-card/90 text-emerald-400 hover:border-emerald-400'
+                        : 'border-amber-500/40 bg-card/90 text-amber-400 hover:border-amber-400'
                     )}
                   >
                     <span
@@ -712,7 +712,7 @@ export function EdgeMeshGlobe({
       {/* Live HUD Telemetry Badge (Hero & Live variants) */}
       {(variant === 'hero' || variant === 'live') && (
         <div className="absolute bottom-3 left-3 z-30 flex flex-wrap items-center gap-2 pointer-events-auto">
-          <div className="flex items-center gap-2 rounded-xl border border-border bg-foreground/85 px-3 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md shadow-lg">
+          <div className="flex items-center gap-2 rounded-xl border border-border bg-card/90 px-3 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md shadow-lg">
             <Radio className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
             <span className="font-bold text-foreground">
               {trafficRate.toLocaleString()}
@@ -720,7 +720,7 @@ export function EdgeMeshGlobe({
             <span className="text-muted-foreground text-[11px]">req/s</span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1.5 rounded-xl border border-border bg-foreground/85 px-2.5 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md">
+          <div className="hidden sm:flex items-center gap-1.5 rounded-xl border border-border bg-card/90 px-2.5 py-1.5 text-xs font-mono text-muted-foreground backdrop-blur-md">
             <Server className="h-3.5 w-3.5 text-blue-400" />
             <span>{activePoPs.length} PoPs Mesh</span>
           </div>
@@ -737,8 +737,8 @@ export function EdgeMeshGlobe({
             className={cn(
               'flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-mono backdrop-blur-md transition cursor-pointer shadow-md',
               grabMode
-                ? 'border-blue-500 bg-blue-600 text-primary-foreground'
-                : 'border-border bg-foreground/80 text-muted-foreground hover:text-primary-foreground'
+                ? 'border-blue-500 bg-blue-600 text-white'
+                : 'border-border bg-card/90 text-muted-foreground hover:text-foreground'
             )}
           >
             <Move3d className="h-3.5 w-3.5" />

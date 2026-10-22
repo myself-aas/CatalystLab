@@ -82,28 +82,28 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-cream/10 text-amber-400">
             <AlertTriangle className="h-6 w-6" aria-hidden="true" />
           </div>
-          <h1 className="text-lg font-bold text-primary-foreground">
+          <h1 className="text-lg font-bold text-foreground">
             Something disrupted this view
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
             An unexpected error occurred while rendering this page. Reloading usually
             resolves it. The issue has been logged.
           </p>
-          <p className="mt-3 break-all rounded-lg bg-foreground/40 px-3 py-2 font-mono text-xs text-muted-foreground">
+          <p className="mt-3 break-all rounded-lg bg-muted/80 px-3 py-2 font-mono text-xs text-muted-foreground">
             {error.message.slice(0, 240)}
           </p>
           <div className="mt-6 flex items-center justify-center gap-3">
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="inline-flex items-center gap-2 rounded-lg bg-cream px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
             >
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               Reload
             </button>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
             >
               <Home className="h-4 w-4" aria-hidden="true" />
               Go to homepage

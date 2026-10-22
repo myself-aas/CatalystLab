@@ -165,7 +165,7 @@ export const AvatarStack: React.FC<AvatarStackProps> = ({
           transition={{ duration: 0.15 }}
           className="absolute -top-12 left-0 z-40 px-2.5 py-1.5 rounded-lg bg-muted/95 border border-border backdrop-blur-md shadow-2xl font-mono text-[11px] pointer-events-none whitespace-nowrap"
         >
-          <div className="font-bold text-primary-foreground leading-tight">{hoveredAvatar.name}</div>
+          <div className="font-bold text-foreground leading-tight">{hoveredAvatar.name}</div>
           <div className="text-[11px] text-cyan-400 leading-tight mt-0.5">
             {hoveredAvatar.role} • {hoveredAvatar.company}
           </div>

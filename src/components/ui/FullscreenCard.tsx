@@ -328,7 +328,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
               className="flex items-center gap-2 flex-wrap"
             >
               {badge && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/25 backdrop-blur-md border border-foreground/40 text-xs font-mono font-bold uppercase tracking-wider text-primary-foreground shadow-lg transition-colors group-hover:bg-background/35">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/30 text-xs font-mono font-bold uppercase tracking-wider text-white shadow-lg transition-colors group-hover:bg-black/60">
                   <Sparkles className="h-3.5 w-3.5 text-amber-300" />
                   {badge}
                 </span>
@@ -345,7 +345,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   rotateY: badgeRotateY,
                   transformStyle: 'preserve-3d',
                 }}
-                className="px-3 py-1 rounded-full bg-foreground/50 backdrop-blur-md border border-foreground/30 text-xs font-mono font-extrabold text-primary-foreground shadow-md"
+                className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/30 text-xs font-mono font-extrabold text-white shadow-md"
               >
                 {score}
               </motion.div>
@@ -363,7 +363,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   rotateY: subtitleRotateY,
                   transformStyle: 'preserve-3d',
                 }}
-                className="text-xs font-mono uppercase tracking-widest text-primary-foreground/80 font-bold drop-shadow-sm"
+                className="text-xs font-mono uppercase tracking-widest text-white/80 font-bold drop-shadow-sm"
               >
                 {subtitle}
               </motion.div>
@@ -378,7 +378,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                 rotateY: titleRotateY,
                 transformStyle: 'preserve-3d',
               }}
-              className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-primary-foreground drop-shadow-md"
+              className="text-2xl sm:text-3xl font-black tracking-tight leading-tight text-white drop-shadow-md"
             >
               {title}
             </motion.div>
@@ -401,7 +401,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   </div>
                 )}
                 {metricLabel && (
-                  <div className="text-xs text-primary-foreground/80 font-mono font-bold uppercase tracking-wider">
+                  <div className="text-xs text-white/80 font-mono font-bold uppercase tracking-wider">
                     {metricLabel}
                   </div>
                 )}
@@ -418,7 +418,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                   rotateY: descRotateY,
                   transformStyle: 'preserve-3d',
                 }}
-                className="text-xs sm:text-sm text-primary-foreground/90 line-clamp-3 leading-relaxed font-sans font-normal drop-shadow-sm"
+                className="text-xs sm:text-sm text-white/90 line-clamp-3 leading-relaxed font-sans font-normal drop-shadow-sm"
               >
                 {description}
               </motion.p>
@@ -427,7 +427,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
 
           <div
             style={{ transformStyle: 'preserve-3d' }}
-            className="pt-4 border-t border-foreground/20 flex items-center justify-between gap-3 mt-auto"
+            className="pt-4 border-t border-white/20 flex items-center justify-between gap-3 mt-auto"
           >
             <motion.div
               style={{
@@ -438,7 +438,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
                 rotateY: subtitleRotateY,
                 transformStyle: 'preserve-3d',
               }}
-              className="text-xs font-mono text-primary-foreground/80 font-bold truncate"
+              className="text-xs font-mono text-white/80 font-bold truncate"
             >
               {footer || 'CatalystLab Engine'}
             </motion.div>
@@ -455,7 +455,7 @@ export const FullscreenCard: React.FC<FullscreenCardProps> = ({
               className="shrink-0"
             >
               {action || (
-                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-background/20 hover:bg-background/30 backdrop-blur-md text-primary-foreground font-bold text-xs transition border border-foreground/30 shadow-md">
+                <span className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white font-bold text-xs transition border border-white/30 shadow-md">
                   <span>Run Audit</span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>

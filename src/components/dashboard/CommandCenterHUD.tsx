@@ -256,7 +256,7 @@ export const CommandCenterHUD: React.FC = () => {
               COMMAND CENTER HUD
             </span>
             <span className="hidden sm:inline text-muted-foreground">
-              Active Telemetry Node: <strong className="text-primary-foreground">{activeDomain}</strong>
+              Active Telemetry Node: <strong className="text-foreground">{activeDomain}</strong>
             </span>
           </div>
 
@@ -306,7 +306,7 @@ export const CommandCenterHUD: React.FC = () => {
                     value={domainInputValue}
                     onChange={(e) => setDomainInputValue(e.target.value)}
                     placeholder="example.com"
-                    className="w-full bg-transparent text-primary-foreground focus:outline-none text-xs font-mono"
+                    className="w-full bg-transparent text-foreground focus:outline-none text-xs font-mono"
                   />
                 </div>
                 <button
@@ -336,7 +336,7 @@ export const CommandCenterHUD: React.FC = () => {
                       className={`px-2 py-0.5 rounded border text-[11px] transition-colors cursor-pointer ${
                         activeDomain === d
                           ? 'bg-primary/20 border-primary text-primary font-bold'
-                          : 'bg-muted/40 dark:bg-card border-border text-muted-foreground hover:text-primary-foreground'
+                          : 'bg-muted/40 dark:bg-card border-border text-muted-foreground hover:text-foreground'
                       }`}
                     >
                       {d}
@@ -357,7 +357,7 @@ export const CommandCenterHUD: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setFocusEngine(null)}
-                    className="text-[11px] text-muted-foreground hover:text-primary-foreground underline cursor-pointer"
+                    className="text-[11px] text-muted-foreground hover:text-foreground underline cursor-pointer"
                   >
                     Reset (Show All)
                   </button>
@@ -423,19 +423,19 @@ export const CommandCenterHUD: React.FC = () => {
               <div className="grid grid-cols-2 gap-2 text-[11px]">
                 <div className="bg-muted/40 dark:bg-background p-2 rounded-lg border border-border">
                   <div className="text-muted-foreground">IAD • US-East</div>
-                  <div className="text-primary-foreground font-bold mt-0.5">12.4ms • 100%</div>
+                  <div className="text-foreground font-bold mt-0.5">12.4ms • 100%</div>
                 </div>
                 <div className="bg-muted/40 dark:bg-background p-2 rounded-lg border border-border">
                   <div className="text-muted-foreground">FRA • EU-Central</div>
-                  <div className="text-primary-foreground font-bold mt-0.5">14.1ms • 100%</div>
+                  <div className="text-foreground font-bold mt-0.5">14.1ms • 100%</div>
                 </div>
                 <div className="bg-muted/40 dark:bg-background p-2 rounded-lg border border-border">
                   <div className="text-muted-foreground">NRT • Tokyo</div>
-                  <div className="text-primary-foreground font-bold mt-0.5">18.6ms • 100%</div>
+                  <div className="text-foreground font-bold mt-0.5">18.6ms • 100%</div>
                 </div>
                 <div className="bg-muted/40 dark:bg-background p-2 rounded-lg border border-border">
                   <div className="text-muted-foreground">SJC • US-West</div>
-                  <div className="text-primary-foreground font-bold mt-0.5">15.2ms • 100%</div>
+                  <div className="text-foreground font-bold mt-0.5">15.2ms • 100%</div>
                 </div>
               </div>
             </div>
@@ -468,7 +468,7 @@ export const CommandCenterHUD: React.FC = () => {
                   className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     activeTab === 'hud'
                       ? 'bg-primary text-primary-foreground font-bold'
-                      : 'text-muted-foreground hover:text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Cards
@@ -479,7 +479,7 @@ export const CommandCenterHUD: React.FC = () => {
                   className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     activeTab === 'waterfall'
                       ? 'bg-primary text-primary-foreground font-bold'
-                      : 'text-muted-foreground hover:text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Radar
@@ -518,7 +518,7 @@ export const CommandCenterHUD: React.FC = () => {
 
                           <div>
                             <div className="flex items-center gap-2">
-                              <h3 className="font-bold text-primary-foreground text-base tracking-tight">
+                              <h3 className="font-bold text-foreground text-base tracking-tight">
                                 {engine.name}
                               </h3>
                               <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-muted text-cyan-500 dark:text-cyan-400 border border-border">
@@ -534,7 +534,7 @@ export const CommandCenterHUD: React.FC = () => {
                         {/* Health Score Pill */}
                         <div className="flex items-center gap-2 shrink-0">
                           <div className="text-right font-mono">
-                            <div className="text-lg font-black text-primary-foreground">{engine.score}</div>
+                            <div className="text-lg font-black text-foreground">{engine.score}</div>
                             <div className="text-[11px] text-emerald-500 dark:text-emerald-400 uppercase font-bold">● Healthy</div>
                           </div>
                         </div>
@@ -543,7 +543,7 @@ export const CommandCenterHUD: React.FC = () => {
                       {/* Primary Telemetry Metric Value */}
                       <div className="p-4 bg-muted/20 dark:bg-background/50 flex items-center justify-between gap-4 font-mono">
                         <div>
-                          <div className="text-2xl font-black text-primary-foreground tracking-tight">
+                          <div className="text-2xl font-black text-foreground tracking-tight">
                             {engine.primaryMetric}
                           </div>
                           <div className="text-xs text-muted-foreground mt-0.5 font-sans">
@@ -592,7 +592,7 @@ export const CommandCenterHUD: React.FC = () => {
                                     <div className="text-[11px] text-muted-foreground">Benchmark: {vec.benchmark}</div>
                                   </div>
                                   <div className="text-right shrink-0">
-                                    <div className="text-primary-foreground font-bold">{vec.value}</div>
+                                    <div className="text-foreground font-bold">{vec.value}</div>
                                     <div className="text-[11px] text-emerald-500 dark:text-emerald-400">● Pass</div>
                                   </div>
                                 </div>
@@ -611,7 +611,7 @@ export const CommandCenterHUD: React.FC = () => {
             {activeTab === 'waterfall' && (
               <div className="bg-card border border-border rounded-2xl p-5 shadow-xl space-y-4 font-mono text-xs">
                 <div className="flex items-center justify-between pb-2 border-b border-border">
-                  <span className="font-bold text-primary-foreground flex items-center gap-2">
+                  <span className="font-bold text-foreground flex items-center gap-2">
                     <BarChart3 className="h-4 w-4 text-cyan-500 dark:text-cyan-400" />
                     Multi-Region Latency & TTFB Distribution
                   </span>

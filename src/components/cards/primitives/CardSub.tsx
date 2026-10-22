@@ -25,7 +25,11 @@ export const CardSub: React.FC<CardSubProps> = ({
       {...props}
     >
       {icon && <span className="inline-flex shrink-0 opacity-90">{icon}</span>}
-      {location && <span className="font-mono text-xs text-primary-foreground/90 truncate">{location}</span>}
+      {location && (
+        <span className={clsx('font-mono text-xs truncate', isSurface ? 'text-muted-foreground' : 'text-white/90')}>
+          {location}
+        </span>
+      )}
       {children && <span className="truncate">{children}</span>}
     </div>
   );

@@ -28,7 +28,7 @@ import {
 function fakeMongo(domains: { domain: string; ownerId: string }[] = []) {
   const state = {
     domainCalls: [] as { domain: string; cutoff: Date }[],
-    orphanCalls: [] as Date[],
+    orphanCalls: [] as { cutoff: Date; monitoredDomains: string[] }[],
     indexCalls: 0
   };
   const target: MongoSweepTarget = {
@@ -39,8 +39,8 @@ function fakeMongo(domains: { domain: string; ownerId: string }[] = []) {
       state.domainCalls.push({ domain, cutoff });
       return 1;
     },
-    async deleteOrphanEventsOlderThan(cutoff) {
-      state.orphanCalls.push(cutoff);
+    async deleteOrphanEventsOlderThan(cutoff, monitoredDomains = []) {
+      state.orphanCalls.push({ cutoff, monitoredDomains });
       return 2;
     },
     async createTtlIndex() {
@@ -193,7 +193,12 @@ describe('sweepExpiredDocuments', () => {
     ]);
     // The plan is resolved once per owner, not once per domain.
     expect(resolvePlan).toHaveBeenCalledTimes(2);
-    expect(mongo.orphanCalls).toEqual([new Date(now.getTime() - TELEMETRY_FLOOR_DAYS * DAY_MS)]);
+    expect(mongo.orphanCalls).toEqual([
+      {
+        cutoff: new Date(now.getTime() - TELEMETRY_FLOOR_DAYS * DAY_MS),
+        monitoredDomains: ['pro-site.com', 'free-site.com', 'second-pro.com']
+      }
+    ]);
     expect(report.deleted['events:pro-site.com']).toBe(1);
     expect(report.deleted['events:orphaned']).toBe(2);
   });

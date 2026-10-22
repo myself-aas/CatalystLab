@@ -12,7 +12,7 @@ describe('server/core/backupRestore — snapshot integrity & clean-instance rest
     await source.writeFirestoreCollection('users', [{ id: 'u1', data: { email: 'ops@acme.io', role: 'owner' } }]);
     await source.writeFirestoreCollection('api_keys', [{ id: 'k1', data: { keyHash: 'sha256_abc', ownerUid: 'u1' } }]);
     await source.writeFirestoreCollection('user_subscriptions', [{ id: 'u1', data: { planId: 'pro', status: 'active' } }]);
-    await source.writeMongoCollection('analytics_events', [{ id: 'e1', data: { eventType: 'vitals', lcpMs: 990 } }]);
+    await source.writeMongoCollection('events', [{ id: 'e1', data: { eventType: 'vitals', lcpMs: 990 } }]);
 
     const snap = await exportBackupSnapshot(source, 'test');
     expect(verifyBackupSnapshotIntegrity(snap)).toEqual({ valid: true, errors: [] });

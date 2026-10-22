@@ -1,4 +1,4 @@
-import { EngineSubNav } from '../components/layout/EngineSubNav';
+import { EngineSubNav, renderEngineIcon } from '../components/layout/EngineSubNav';
 import { EngineInput } from '../components/common/EngineInput';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -211,12 +211,9 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  </div>
 
  <div
- className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border shadow-inner"
- style={{ color: meta.color, borderColor: `${meta.color}40` }}
+ className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-[var(--bg-surface)] border border-border text-foreground shadow-inner"
  >
- <span aria-hidden="true" className="material-symbols-outlined text-3xl">
- {meta.icon}
- </span>
+ {renderEngineIcon(meta.icon, 'size-7 text-foreground')}
  </div>
 
  <div className="mb-4 flex flex-wrap items-center justify-center gap-2">

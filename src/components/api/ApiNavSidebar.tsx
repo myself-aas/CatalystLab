@@ -54,7 +54,7 @@ export const ApiNavSidebar: React.FC = () => {
             to="/api-reference"
             className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
               location.pathname === '/api-reference' || location.pathname === '/api-docs'
-                ? 'bg-background text-primary-foreground'
+                ? 'bg-primary text-primary-foreground'
                 : 'text-muted-foreground hover:bg-accent hover:text-foreground'
             }`}
           >
@@ -98,7 +98,7 @@ export const ApiNavSidebar: React.FC = () => {
                 to={path}
                 className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
                   active
-                    ? 'bg-background text-primary-foreground font-bold'
+                    ? 'bg-primary text-primary-foreground font-bold'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground'
                 }`}
               >

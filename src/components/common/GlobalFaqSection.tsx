@@ -460,7 +460,7 @@ export const GlobalFaqSection: React.FC<GlobalFaqSectionProps> = ({
                               <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border whitespace-pre-line font-sans">
                                 {item.answer}
                                 {item.codeSnippet && (
-                                  <div className="mt-3 p-3 bg-primary text-foreground rounded-xl text-xs font-mono overflow-x-auto border border-border">
+                                  <div className="mt-3 p-3 bg-muted text-foreground rounded-xl text-xs font-mono overflow-x-auto border border-border">
                                     <code>{item.codeSnippet}</code>
                                   </div>
                                 )}

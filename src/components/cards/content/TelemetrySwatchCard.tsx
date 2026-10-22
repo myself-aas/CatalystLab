@@ -58,22 +58,22 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
 
   const statusStyles = {
     OPTIMAL: {
-      bg: 'bg-emerald-950/60 text-emerald-400 border-emerald-500/40',
+      bg: 'bg-cream/10 text-emerald-400 border-emerald-500/40',
       bar: 'bg-cream',
       icon: CheckCircle2,
     },
     PASS: {
-      bg: 'bg-cyan-950/60 text-cyan-400 border-cyan-500/40',
+      bg: 'bg-cream/10 text-cyan-400 border-cyan-500/40',
       bar: 'bg-cream',
       icon: CheckCircle2,
     },
     WARN: {
-      bg: 'bg-amber-950/60 text-amber-400 border-amber-500/40',
+      bg: 'bg-cream/10 text-amber-400 border-amber-500/40',
       bar: 'bg-cream',
       icon: AlertTriangle,
     },
     FAIL: {
-      bg: 'bg-rose-950/60 text-rose-400 border-rose-500/40',
+      bg: 'bg-cream/10 text-rose-400 border-rose-500/40',
       bar: 'bg-rose-400',
       icon: AlertTriangle,
     },
@@ -148,7 +148,7 @@ export const TelemetrySwatchCard: React.FC<TelemetrySwatchCardProps> = ({
 
         {/* Big Metric Value (Tabular font) */}
         <div className="flex items-baseline gap-1 my-2">
-          <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-primary-foreground metric-tabular">
+          <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-foreground metric-tabular">
             {displayValue}
           </span>
           {unit && <span className="text-xs font-mono text-muted-foreground">{unit}</span>}

@@ -57,6 +57,7 @@ const COLLECTION = 'api_keys';
 const byId = new Map<string, ApiKeyRecord>(); // `${ownerId}:${keyId}` -> record
 const byHash = new Map<string, ApiKeyRecord>(); // sha256(secret) -> record
 let cacheLoaded = false;
+let loadPromise: Promise<void> | null = null;
 
 export function hashApiKey(secretValue: string): string {
   return crypto.createHash('sha256').update(secretValue, 'utf8').digest('hex');
@@ -85,26 +86,31 @@ function unindexRecord(record: ApiKeyRecord): void {
   byHash.delete(record.keyHash);
 }
 
-/** Loads persisted keys into the in-memory index (idempotent). */
+/** Loads persisted keys into the in-memory index (idempotent, deduplicated, retry-safe). */
 export async function loadApiKeyStore(): Promise<void> {
   if (cacheLoaded) return;
-  try {
-    const db = await getAdminFirestore();
-    if (db) {
-      const snap = await db.collection(COLLECTION).get();
-      for (const doc of snap.docs) {
-        const data = doc.data() as unknown as ApiKeyRecord;
-        if (data && typeof data.keyHash === 'string' && data.id && data.ownerId) {
-          indexRecord(data);
+  if (loadPromise) return loadPromise;
+  loadPromise = (async () => {
+    try {
+      const db = await getAdminFirestore();
+      if (db) {
+        const snap = await db.collection(COLLECTION).get();
+        for (const doc of snap.docs) {
+          const data = doc.data() as unknown as ApiKeyRecord;
+          if (data && typeof data.keyHash === 'string' && data.id && data.ownerId) {
+            indexRecord(data);
+          }
         }
+        logger.info({ count: snap.size }, '[ApiKeys] Loaded persisted key index');
       }
-      logger.info({ count: snap.size }, '[ApiKeys] Loaded persisted key index');
+      cacheLoaded = true;
+    } catch (err: unknown) {
+      logger.warn({ err }, '[ApiKeys] Failed to load persisted key index; will retry on next request');
+    } finally {
+      loadPromise = null;
     }
-  } catch (err: unknown) {
-    logger.warn({ err }, '[ApiKeys] Failed to load persisted key index; using in-memory wallet');
-  } finally {
-    cacheLoaded = true;
-  }
+  })();
+  return loadPromise;
 }
 
 /** Resets the loaded store (test/dev hooks). */
@@ -112,6 +118,7 @@ export function resetApiKeyStore(): void {
   byId.clear();
   byHash.clear();
   cacheLoaded = false;
+  loadPromise = null;
 }
 
 /**

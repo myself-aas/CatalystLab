@@ -81,7 +81,7 @@ async function main() {
       }
     ]);
 
-    await primarySource.writeFirestoreCollection('github_connected_repos', [
+    await primarySource.writeFirestoreCollection('github_repos', [
       {
         id: 'gh_repo_prod_01',
         data: {
@@ -94,7 +94,7 @@ async function main() {
       }
     ]);
 
-    await primarySource.writeFirestoreCollection('contact_messages', [
+    await primarySource.writeFirestoreCollection('contact_inquiries', [
       {
         id: 'msg_prod_01',
         data: {
@@ -105,7 +105,7 @@ async function main() {
       }
     ]);
 
-    await primarySource.writeMongoCollection('analytics_events', [
+    await primarySource.writeMongoCollection('events', [
       {
         id: 'tel_evt_001',
         data: {
@@ -148,7 +148,7 @@ async function main() {
     const restoredKeys = await cleanStagingTarget.readFirestoreCollection('api_keys');
     const restoredSubs = await cleanStagingTarget.readFirestoreCollection('user_subscriptions');
     const restoredWebhooks = await cleanStagingTarget.readFirestoreCollection('payment_events');
-    const restoredTelemetry = await cleanStagingTarget.readMongoCollection('analytics_events');
+    const restoredTelemetry = await cleanStagingTarget.readMongoCollection('events');
 
     if (
       restoredUsers.length !== 2 ||

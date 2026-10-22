@@ -25,7 +25,7 @@ export const CardBadge: React.FC<CardBadgeProps> = ({
         return 'bg-rose-950/90 text-rose-300 border border-rose-500/40 shadow-rose-900/30';
       case 'neutral':
       default:
-        return 'bg-primary/90 text-muted-foreground border border-border/80 shadow-md';
+        return 'bg-muted text-foreground border border-border shadow-md';
     }
   };
 

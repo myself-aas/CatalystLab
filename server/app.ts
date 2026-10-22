@@ -22,6 +22,7 @@ import { registerPaymentRoutes } from './routes/payments';
 import { registerClientLogRoutes } from './routes/clientLogs';
 import { registerContactRoutes } from './routes/contact';
 import { ensureRetentionIndexes } from './core/retention';
+import { loadApiKeyStore } from './core/apiKeys';
 
 /** Empty-stylesheet SHA-256 hash (`""`), covering zero-rule `<style></style>` mounts (e.g. cobe WebGL). */
 export const EMPTY_STYLE_HASH = "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='";
@@ -287,7 +288,9 @@ export async function createApp(): Promise<express.Express> {
   });
 
   app.use((req: Request, res: Response, next: express.NextFunction) => {
-    attachIdentity(req, res, next).catch(next);
+    loadApiKeyStore()
+      .then(() => attachIdentity(req, res, next))
+      .catch(next);
   });
 
   registerTelemetryRoutes(app);

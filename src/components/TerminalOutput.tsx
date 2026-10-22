@@ -115,7 +115,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
     if (!output) {
       return (
         <span className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/60 px-2 py-0.5 text-[11px] font-mono font-medium text-muted-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-muted0" />
+          <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" />
           <span>Standby</span>
         </span>
       );
@@ -401,7 +401,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           <button
             onClick={handleCopy}
             disabled={!output}
-            className="flex items-center gap-1 rounded-lg border border-border bg-primary/90 px-2 py-1 text-[11px] font-mono font-medium text-muted-foreground hover:border-border hover:bg-primary-hover hover:text-primary-foreground disabled:opacity-40 transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+            className="flex items-center gap-1 rounded-lg border border-border bg-muted px-2 py-1 text-[11px] font-mono font-medium text-muted-foreground hover:border-border hover:bg-muted/80 hover:text-foreground disabled:opacity-40 transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
             title="Copy output"
             aria-label="Copy terminal output"
           >
@@ -421,7 +421,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
           {/* Expand / Minimize */}
           <button
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg border border-border bg-primary/90 p-1 text-muted-foreground hover:border-border hover:bg-primary-hover hover:text-primary-foreground transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+            className="rounded-lg border border-border bg-muted p-1 text-muted-foreground hover:border-border hover:bg-muted/80 hover:text-foreground transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
             title={expanded ? 'Collapse console' : 'Expand console'}
             aria-label={expanded ? 'Collapse console' : 'Expand console'}
           >
@@ -432,13 +432,13 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
 
       {/* Embedded D3.js Gauges for Compliance & Risk */}
       {isComplianceEngine && showGauges && (
-        <div className="border-b border-border/80 p-3 bg-foreground/60 z-20">
+        <div className="border-b border-border/80 p-3 bg-muted/40 z-20">
           <RiskSslGaugeChart rawOutput={output} compact />
         </div>
       )}
 
       {/* Filter and Search Bar for High-Density Cockpit */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-1.5 border-b border-border/80 bg-foreground/80 text-xs font-mono z-20">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-1.5 border-b border-border/80 bg-muted/60 text-xs font-mono z-20">
         <div className="flex items-center gap-2 flex-1 min-w-[200px] rounded-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
           <Search className="h-3 w-3 text-muted-foreground shrink-0" />
           <input
@@ -446,7 +446,7 @@ export const TerminalOutput: React.FC<TerminalOutputProps> = ({
             value={filterQuery}
             onChange={(e) => setFilterQuery(e.target.value)}
             placeholder="Filter logs by keyword or status..."
-            className="w-full bg-transparent text-[11px] text-muted-foreground placeholder:text-muted-foreground focus:outline-none"
+            className="w-full bg-transparent text-[11px] text-foreground placeholder:text-muted-foreground focus:outline-none"
             aria-label="Filter terminal logs"
           />
           {filterQuery && (

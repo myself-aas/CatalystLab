@@ -297,7 +297,17 @@ export async function guardedFetch(rawUrl: string, options: GuardedFetchOptions 
 
     if (REDIRECT_STATUSES.has(status) && hop < maxRedirects && headers.location) {
       stream.resume(); // drain the redirect body
-      currentUrl = new URL(headers.location, parsedUrl).toString();
+      const nextUrl = new URL(headers.location, parsedUrl);
+      if (nextUrl.origin !== parsedUrl.origin && options.headers) {
+        const strippedHeaders: Record<string, string> = {};
+        for (const [k, v] of Object.entries(options.headers)) {
+          if (!/^(authorization|cookie|x-api-key|proxy-authorization)$/i.test(k)) {
+            strippedHeaders[k] = v;
+          }
+        }
+        options = { ...options, headers: strippedHeaders };
+      }
+      currentUrl = nextUrl.toString();
       if (status === 303 && (options.method || 'GET') !== 'HEAD') {
         // A 303 must be re-issued as a GET without the original body.
         options = { ...options, method: 'GET', body: undefined };

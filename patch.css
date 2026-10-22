@@ -161,7 +161,7 @@ html.dark {
   --p-text: #F0FAFF;
   --p-text-strong: #F0FAFF;
   --p-text-muted: rgba(240, 250, 255, 0.72);
-  --p-text-faint: rgba(240, 250, 255, 0.55);
+  --p-text-faint: rgba(240, 250, 255, 0.65);
   --p-link: #F0FAFF;
   --p-link-underline: rgba(240, 250, 255, 0.3);
 
@@ -653,15 +653,16 @@ html { scrollbar-gutter: stable; }
 
 /* ==========================================================================
    CODE SNIPPETS — PROTECTED from theme overrides
-   Per user instruction: code snippets keep their syntax highlighting.
+   Fenced <pre> blocks stay a dark island (#1F2223) with light ink (#F7FDFF)
+   and vivid syntax colors across both light and dark themes.
    ========================================================================== */
-pre, pre *, code, code *, kbd, kbd *, samp, samp * {
-  color: revert !important;
-  background-color: revert !important;
-  border-color: revert !important;
-  fill: revert !important;
-  stroke: revert !important;
-}
+pre [class*="text-emerald"], pre [class*="text-green"], pre [class*="text-teal"] { color: #34D399 !important; }
+pre [class*="text-amber"], pre [class*="text-yellow"], pre [class*="text-orange"] { color: #FBBF24 !important; }
+pre [class*="text-cyan"], pre [class*="text-sky"] { color: #22D3EE !important; }
+pre [class*="text-rose"], pre [class*="text-red"], pre [class*="text-pink"] { color: #FB7185 !important; }
+pre [class*="text-purple"], pre [class*="text-violet"], pre [class*="text-fuchsia"] { color: #C084FC !important; }
+pre [class*="text-blue"], pre [class*="text-indigo"] { color: #60A5FA !important; }
+pre .text-foreground, pre .text-muted-foreground, pre .text-foreground-muted { color: #F7FDFF !important; }
 
 /* ==========================================================================
    PERFORMANCE: prevent transition on page load
@@ -983,6 +984,15 @@ th, td {
 pre {
   border: 1px solid var(--p-code-chip-border) !important;
   background: #1F2223 !important;
+  color: #F7FDFF !important;
+  --theme-cream: #F0FAFF;
+  --color-cream: #F0FAFF;
+}
+pre code {
+  background: transparent !important;
+  color: inherit !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 /* Sticky HUD */
@@ -1463,8 +1473,13 @@ html.dark [class*="caret-red"],html.dark [class*="caret-blue"]{caret-color:#F0FA
 /* ---------- F2 (audit 2026-10-22): dark-theme ink inside as-shipped WHITE cards ----------
    patch.css forces cream ink / dark wells globally under html.dark; the white bento/ds
    cards ship white in dark, so inside them the LIGHT values must win. */
-html.dark .ds-card [class*="text-foreground"], html.dark .bento-card [class*="text-foreground"], html.dark [class*="accordion-content"] [class*="text-foreground"] { color: #1C1E21 !important; }
-html.dark .ds-card [class*="text-muted-foreground"], html.dark .bento-card [class*="text-muted-foreground"], html.dark [class*="accordion-content"] [class*="text-muted-foreground"] { color: #4B4C4F !important; }
+html.dark .ds-card, html.dark .bento-card, html.dark [class*="accordion-content"], html.dark [class*="bg-primary"][class*="text-primary-foreground"]:not(.ds-card):not(.bento-card) {
+  --theme-cream: #1F2223;
+  --color-cream: #1F2223;
+}
+html.dark .ds-card [class*="text-foreground"]:not(pre):not(pre *), html.dark .bento-card [class*="text-foreground"]:not(pre):not(pre *), html.dark [class*="accordion-content"] [class*="text-foreground"]:not(pre):not(pre *) { color: #1C1E21 !important; }
+html.dark .ds-card [class*="text-muted-foreground"]:not(pre):not(pre *), html.dark .bento-card [class*="text-muted-foreground"]:not(pre):not(pre *), html.dark [class*="accordion-content"] [class*="text-muted-foreground"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-foreground-muted"]:not(pre):not(pre *), html.dark .bento-card [class*="text-foreground-muted"]:not(pre):not(pre *), html.dark [class*="accordion-content"] [class*="text-foreground-muted"]:not(pre):not(pre *) { color: #4B4C4F !important; }
 html.dark .ds-card .bg-muted, html.dark .ds-card [class*="bg-muted"], html.dark .bento-card .bg-muted, html.dark .bento-card [class*="bg-muted"] { background-color: #F1F4F7 !important; }
 html.dark .ds-card .bg-accent, html.dark .ds-card [class*="bg-accent"], html.dark .bento-card .bg-accent, html.dark .bento-card [class*="bg-accent"] { background-color: rgba(0, 100, 224, 0.08) !important; }
 html.dark .ds-card .border-border, html.dark .ds-card [class*="border-border"], html.dark .bento-card .border-border, html.dark .bento-card [class*="border-border"] { border-color: #CED0D4 !important; }
@@ -1472,24 +1487,49 @@ html.dark .ds-card .border-border, html.dark .ds-card [class*="border-border"], 
 /* ---------- F2 ext (audit 2026-10-22): inverted bg-primary islands (e.g. /products configurator) ----------
    The island flips surface+ink via bg-primary/text-primary-foreground; descendants using the
    GLOBAL foreground utilities must flip with it. */
-html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground"]:not(.ds-card):not(.bento-card) { color: #FFFFFF !important; }
-html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card) { color: rgba(255,255,255,0.72) !important; }
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground"]:not(.ds-card):not(.bento-card):not(pre):not(pre *) { color: #FFFFFF !important; }
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card):not(pre):not(pre *),
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground-muted"]:not(.ds-card):not(.bento-card):not(pre):not(pre *) { color: rgba(255,255,255,0.72) !important; }
 html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] .bg-muted, html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-muted"] { background-color: rgba(255,255,255,0.08) !important; }
 html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] .bg-accent, html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-accent"] { background-color: rgba(255,255,255,0.10) !important; }
 html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] .border-border, html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="border-border"] { border-color: rgba(255,255,255,0.14) !important; }
-html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground"]:not(.ds-card):not(.bento-card) { color: #1C1E21 !important; }
-html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card) { color: #4B4C4F !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground"]:not(.ds-card):not(.bento-card):not(pre):not(pre *) { color: #1C1E21 !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card):not(pre):not(pre *),
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground-muted"]:not(.ds-card):not(.bento-card):not(pre):not(pre *) { color: #4B4C4F !important; }
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] .bg-muted, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-muted"] { background-color: rgba(28,30,33,0.06) !important; }
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] .bg-accent, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-accent"] { background-color: rgba(0,100,224,0.08) !important; }
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] .border-border, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="border-border"] { border-color: #CED0D4 !important; }
 
-/* literal cream-ink classes (text-[#F0FAFF]) inside dark white cards / inverted islands */
-html.dark .ds-card [class*="text-[#F0FAFF]"], html.dark .bento-card [class*="text-[#F0FAFF]"], html.dark [class*="accordion-content"] [class*="text-[#F0FAFF]"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-[#F0FAFF]"] { color: #1C1E21 !important; }
-html.dark .ds-card [class*="text-[#F0FAFF]"]/10, html.dark .ds-card [class*="border-[#F0FAFF]"], html.dark .bento-card [class*="border-[#F0FAFF]"] { border-color: #CED0D4 !important; }
+/* literal & token cream-ink classes inside dark white cards / inverted islands */
+html.dark .ds-card [class*="text-[#F0FAFF]"], html.dark .bento-card [class*="text-[#F0FAFF]"], html.dark [class*="accordion-content"] [class*="text-[#F0FAFF]"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-[#F0FAFF]"],
+html.dark .ds-card [class~="text-cream"], html.dark .bento-card [class~="text-cream"], html.dark [class*="accordion-content"] [class~="text-cream"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class~="text-cream"] { color: #1C1E21 !important; }
+html.dark .ds-card [class*="text-cream/"], html.dark .bento-card [class*="text-cream/"], html.dark [class*="accordion-content"] [class*="text-cream/"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-cream/"],
+html.dark .ds-card [class*="text-silver-"], html.dark .bento-card [class*="text-silver-"] { color: #4B4C4F !important; }
+html.dark .ds-card [class*="border-[#F0FAFF]"], html.dark .bento-card [class*="border-[#F0FAFF]"],
+html.dark .ds-card [class*="border-cream"], html.dark .bento-card [class*="border-cream"] { border-color: #CED0D4 !important; }
+
+/* Status-hue text & tinted pills inside dark-mode white cards (.ds-card / .bento-card) */
+html.dark .ds-card [class*="text-emerald-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-emerald-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-green-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-green-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-teal-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-teal-"]:not(pre):not(pre *) { color: #047857 !important; }
+html.dark .ds-card [class*="text-red-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-red-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-rose-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-rose-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-pink-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-pink-"]:not(pre):not(pre *) { color: #C81E1E !important; }
+html.dark .ds-card [class*="text-amber-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-amber-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-yellow-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-yellow-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-orange-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-orange-"]:not(pre):not(pre *) { color: #B45309 !important; }
+html.dark .ds-card [class*="text-cyan-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-cyan-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-sky-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-sky-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-blue-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-blue-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-indigo-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-indigo-"]:not(pre):not(pre *) { color: #0457CB !important; }
+html.dark .ds-card [class*="text-violet-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-violet-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-purple-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-purple-"]:not(pre):not(pre *),
+html.dark .ds-card [class*="text-fuchsia-"]:not(pre):not(pre *), html.dark .bento-card [class*="text-fuchsia-"]:not(pre):not(pre *) { color: #6D28D9 !important; }
 
 /* ---------- F2 final (audit 2026-10-22): self-match variants (card/island element itself carries the ink class) ---------- */
 html.dark .ds-card[class*="text-foreground"], html.dark .bento-card[class*="text-foreground"], html.dark [class*="accordion-content"][class*="text-foreground"] { color: #1C1E21 !important; }
-html.dark .ds-card[class*="text-muted-foreground"], html.dark .bento-card[class*="text-muted-foreground"], html.dark [class*="accordion-content"][class*="text-muted-foreground"] { color: #4B4C4F !important; }
+html.dark .ds-card[class*="text-muted-foreground"], html.dark .bento-card[class*="text-muted-foreground"], html.dark [class*="accordion-content"][class*="text-muted-foreground"],
+html.dark .ds-card[class*="text-foreground-muted"], html.dark .bento-card[class*="text-foreground-muted"] { color: #4B4C4F !important; }
 html.dark .ds-card[class*="text-primary-foreground"], html.dark .bento-card[class*="text-primary-foreground"] { color: #1C1E21 !important; }
 html:not(.dark) .ds-card[class*="text-primary-foreground"], html:not(.dark) .bento-card[class*="text-primary-foreground"] { color: #1C1E21 !important; }
 html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-primary-foreground"]:not(.ds-card):not(.bento-card) { color: #1C1E21 !important; }

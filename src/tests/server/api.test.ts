@@ -753,3 +753,92 @@ describe('Client log sink (item 15 boundary)', () => {
     expect(res.status).toBe(400);
   });
 });
+
+describe('Firestore security rules invariants', () => {
+  it('enforces ownerId binding on audit_logs and schema validation on update rules', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+    const rules = fs.readFileSync(path.resolve(process.cwd(), 'firestore.rules'), 'utf8');
+
+    expect(rules).toContain("(!data.keys().hasAny(['ownerId']) || (data.ownerId is string && data.ownerId == request.auth.uid))");
+    expect(rules).toMatch(/match \/github_repos\/\{repoId\}[\s\S]*?allow update:[\s\S]*?isValidGithubRepo\(incoming\(\)\)/);
+    expect(rules).toMatch(/match \/github_telemetry_events\/\{eventId\}[\s\S]*?allow update:[\s\S]*?isValidGithubTelemetryEvent\(incoming\(\)\)/);
+    expect(rules).toMatch(/match \/monitored_sites\/\{siteId\}[\s\S]*?allow update:[\s\S]*?isValidMonitoredSite\(incoming\(\)\)/);
+  });
+});
+
+describe('Strict auth & SSRF boundaries on account, notifications, stateSync, and reports', () => {
+  let prevAllowDemo: string | undefined;
+
+  beforeEach(() => {
+    prevAllowDemo = process.env.ALLOW_UNAUTH_DEMO;
+  });
+
+  afterEach(() => {
+    if (prevAllowDemo === undefined) {
+      delete process.env.ALLOW_UNAUTH_DEMO;
+    } else {
+      process.env.ALLOW_UNAUTH_DEMO = prevAllowDemo;
+    }
+  });
+
+  it('enforces 401 on account, notifications, and stateSync mutations when ALLOW_UNAUTH_DEMO=false', async () => {
+    process.env.ALLOW_UNAUTH_DEMO = 'false';
+
+    const keys = await request(app).get('/api/v1/users/me/api-keys');
+    expect(keys.status).toBe(401);
+
+    const createKey = await request(app).post('/api/v1/users/me/api-keys').send({ name: 'test' });
+    expect(createKey.status).toBe(401);
+
+    const slack = await request(app)
+      .post('/api/notifications/webhook/test-slack')
+      .send({ webhookUrl: 'https://hooks.slack.com/services/T00/B00/X00' });
+    expect(slack.status).toBe(401);
+
+    const discord = await request(app)
+      .post('/api/notifications/webhook/test-discord')
+      .send({ webhookUrl: 'https://discord.com/api/webhooks/1/2' });
+    expect(discord.status).toBe(401);
+
+    const dispatch = await request(app)
+      .post('/api/notifications/webhook/dispatch')
+      .send({ slackWebhookUrl: 'https://hooks.slack.com/services/T00/B00/X00' });
+    expect(dispatch.status).toBe(401);
+
+    const syncDelete = await request(app).delete('/api/state/sync/audits/item-1');
+    expect(syncDelete.status).toBe(401);
+  });
+
+  it('validates notification webhook SSRF boundaries and report detail 501 responses', async () => {
+    const privateSlack = await request(app)
+      .post('/api/notifications/webhook/test-slack')
+      .send({ webhookUrl: 'http://127.0.0.1:8080/hook' });
+    expect(privateSlack.body.success).toBe(false);
+
+    const privateDiscord = await request(app)
+      .post('/api/notifications/webhook/test-discord')
+      .send({ webhookUrl: 'http://10.0.0.1/hook' });
+    expect(privateDiscord.body.success).toBe(false);
+
+    const emptyDispatch = await request(app)
+      .post('/api/notifications/webhook/dispatch')
+      .send({});
+    expect(emptyDispatch.status).toBe(400);
+
+    const reportExport = await request(app).post('/api/v1/reports/rep_123/export').send({ format: 'pdf' });
+    expect(reportExport.status).toBe(501);
+    expect(reportExport.body.code).toBe('NOT_IMPLEMENTED');
+
+    const cicdEval = await request(app)
+      .post('/api/v1/automation/ci-cd/evaluate')
+      .send({ url: 'https://example.com' });
+    expect(cicdEval.status).toBe(501);
+
+    const webhookTest = await request(app)
+      .post('/api/v1/integrations/webhook/test')
+      .send({ targetWebhookUrl: 'https://example.com/hook' });
+    expect(webhookTest.status).toBe(501);
+  });
+});
+

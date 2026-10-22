@@ -55,7 +55,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
       const boldMatch = remaining.match(/^\*\*([^*]+)\*\*/);
       if (boldMatch) {
         parts.push(
-          <strong key={keyIdx++} className="font-bold text-foreground dark:text-primary-foreground">
+          <strong key={keyIdx++} className="font-bold text-foreground">
             {boldMatch[1]}
           </strong>
         );
@@ -165,7 +165,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
     // Headings
     if (line.startsWith('### ')) {
       elements.push(
-        <h3 key={`h3-${i}`} className="mt-6 mb-3 text-lg sm:text-xl font-bold text-foreground dark:text-primary-foreground tracking-tight">
+        <h3 key={`h3-${i}`} className="mt-6 mb-3 text-lg sm:text-xl font-bold text-foreground tracking-tight">
           {renderInline(line.replace('### ', ''))}
         </h3>
       );
@@ -174,7 +174,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
 
     if (line.startsWith('## ')) {
       elements.push(
-        <h2 key={`h2-${i}`} className="mt-8 mb-4 text-xl sm:text-2xl font-extrabold text-foreground dark:text-primary-foreground tracking-tight border-b border-border dark:border-border pb-2">
+        <h2 key={`h2-${i}`} className="mt-8 mb-4 text-xl sm:text-2xl font-extrabold text-foreground tracking-tight border-b border-border pb-2">
           {renderInline(line.replace('## ', ''))}
         </h2>
       );
@@ -183,7 +183,7 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, cla
 
     if (line.startsWith('# ')) {
       elements.push(
-        <h1 key={`h1-${i}`} className="mt-8 mb-4 text-2xl sm:text-3xl font-extrabold text-foreground dark:text-primary-foreground tracking-tight">
+        <h1 key={`h1-${i}`} className="mt-8 mb-4 text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
           {renderInline(line.replace('# ', ''))}
         </h1>
       );

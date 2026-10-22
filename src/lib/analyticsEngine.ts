@@ -210,15 +210,10 @@ export function queueEvent(event: any) {
 }
 
 export async function flushQueue() {
-  if (eventQueue.length === 0) return;
-  
-  const batch = [...eventQueue];
-  eventQueue = []; // Clear queue immediately
-  
-  if (!db) {
-    return;
-  }
-  
+  if (!db || eventQueue.length === 0) return;
+
+  const batch = eventQueue.splice(0, BATCH_SIZE);
+
   try {
     const start = Date.now();
     await db.collection('events').insertMany(batch);
@@ -229,6 +224,7 @@ export async function flushQueue() {
       console.log(`[Edge Batch Ingestion] Flushed ${batch.length} events to MongoDB Time-Series collection in ${durationMs}ms.`);
     }
   } catch (err) {
+    eventQueue.unshift(...batch);
     console.error('[Edge Batch Ingestion] Failed to flush analytics events batch:', err);
   }
 }

@@ -36,7 +36,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
           { label: 'Total Audits', value: reports?.length || 0, icon: Activity, color: 'text-foreground', bg: 'bg-cream/10' },
           { label: 'Avg Latency', value: '124ms', icon: Clock, color: 'text-emerald-400', bg: 'bg-cream/10' },
           { label: 'Global Reach', value: '12 Regions', icon: Globe, color: 'text-foreground', bg: 'bg-cream/10' },
-          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-cream/75', bg: 'bg-cream/75/10' }
+          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-cream/75', bg: 'bg-cream/10' }
         ].map((stat, i) => (
           <motion.div 
             initial={{ opacity: 0, y: 15 }}

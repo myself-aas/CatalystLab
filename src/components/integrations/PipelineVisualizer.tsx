@@ -189,7 +189,7 @@ export const PipelineVisualizer: React.FC = () => {
             <GitPullRequest className="h-3.5 w-3.5" />
             <span>CI/CD PIPELINE MERGE-BLOCKER VISUALIZER</span>
           </div>
-          <h3 className="text-base sm:text-lg font-bold text-primary-foreground tracking-tight font-sans">
+          <h3 className="text-base sm:text-lg font-bold text-foreground tracking-tight font-sans">
             Pull Request #412: <span className="font-mono text-cyan-400">feat/optimize-edge-bundle</span>
           </h3>
         </div>
@@ -244,7 +244,7 @@ export const PipelineVisualizer: React.FC = () => {
                 </div>
 
                 <div className="space-y-0.5">
-                  <div className="text-xs font-bold text-primary-foreground flex items-center gap-2">
+                  <div className="text-xs font-bold text-foreground flex items-center gap-2">
                     <span>{stage.name}</span>
                     <span className="text-[11px] text-muted-foreground font-normal">({stage.durationMs}ms)</span>
                   </div>
@@ -293,7 +293,7 @@ export const PipelineVisualizer: React.FC = () => {
           </div>
 
           <div>
-            <div className="text-xs font-bold text-primary-foreground">
+            <div className="text-xs font-bold text-foreground">
               {prStatus === 'mergeable' 
                 ? 'All 4 Quality Gates Passed — PR is Mergeable' 
                 : 'Merge Blocked: Quality Gate Regressions Detected'}
@@ -311,7 +311,7 @@ export const PipelineVisualizer: React.FC = () => {
           disabled={prStatus === 'blocked'}
           className={`w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
             prStatus === 'mergeable'
-              ? 'bg-cream text-foreground hover:bg-cream shadow-[0_0_15px_rgba(0,255,102,0.3)]'
+              ? 'bg-primary text-primary-foreground hover:bg-primary-hover shadow-[0_0_15px_rgba(0,255,102,0.3)]'
               : 'bg-muted text-muted-foreground cursor-not-allowed border border-border'
           }`}
         >

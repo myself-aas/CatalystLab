@@ -81,4 +81,9 @@ describe('server/core/apiKeys', () => {
     expect(normalizeWhiteLabelConfig('nope')).toBeNull();
     expect(normalizeWhiteLabelConfig({ a: {}, b: 1 })).toBeNull();
   });
+
+  it('deduplicates concurrent loadApiKeyStore calls without throwing', async () => {
+    const { loadApiKeyStore } = await import('@server/core/apiKeys');
+    await Promise.all([loadApiKeyStore(), loadApiKeyStore()]);
+  });
 });

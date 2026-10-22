@@ -75,7 +75,7 @@ export const RoleContentGate: React.FC<RoleContentGateProps> = ({
           {isGuest ? <Lock className="h-6 w-6" /> : <Crown className="h-6 w-6 text-amber-400" />}
         </div>
 
-        <h4 className="text-base font-bold text-primary-foreground">
+        <h4 className="text-base font-bold text-foreground">
           {title || (isGuest ? 'Authentication Required' : `Unlock with ${minPlan}`)}
         </h4>
 

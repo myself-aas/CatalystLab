@@ -175,7 +175,7 @@ export const BlogManagementView: React.FC = () => {
           {/* Dedicated Page Navigation Link (No Popups!) */}
           <Link
             to="/admin/blogs/create"
-            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2.5 text-xs font-bold text-foreground transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2.5 text-xs font-bold text-primary-foreground transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Plus className="h-4 w-4 stroke-[3]" />
             <span>Create New Article</span>

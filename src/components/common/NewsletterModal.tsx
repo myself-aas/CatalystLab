@@ -78,7 +78,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full bg-background border border-border rounded-3xl shadow-2xl shadow-background/60 overflow-hidden text-primary-foreground"
+            className="relative w-full bg-background border border-border rounded-3xl shadow-2xl shadow-background/60 overflow-hidden text-foreground"
           >
             {/* Close Button */}
             <button
@@ -98,7 +98,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-cream/20 text-emerald-400">
                     <CheckCircle2 className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-primary-foreground tracking-tight">
+                  <h3 className="text-xl font-bold text-foreground tracking-tight">
                     You&apos;re on the list!
                   </h3>
                   <p className="text-muted-foreground text-sm">
@@ -112,7 +112,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                     <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 mb-4">
                       <Sparkles className="h-6 w-6" />
                     </div>
-                    <h3 id="newsletter-modal-title" className="text-xl sm:text-2xl font-black text-primary-foreground tracking-tight mb-2">
+                    <h3 id="newsletter-modal-title" className="text-xl sm:text-2xl font-black text-foreground tracking-tight mb-2">
                       Join the CatalystLab Newsletter
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
@@ -137,7 +137,7 @@ export const NewsletterModal: React.FC<NewsletterModalProps> = ({ defaultOpen = 
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="developer@enterprise.io"
-                          className="ds-input pl-10 font-mono text-sm bg-primary/90 text-primary-foreground focus:ring-2 focus:ring-cyan-400"
+                          className="ds-input pl-10 font-mono text-sm bg-background text-foreground focus:ring-2 focus:ring-cyan-400"
                         />
                       </div>
                     </div>

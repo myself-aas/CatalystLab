@@ -281,7 +281,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
             {log.type === 'input' && (
               <div className="flex items-start gap-2 text-cyan-400 font-bold">
                 <ChevronRight className="h-3.5 w-3.5 shrink-0 mt-0.5 text-cyan-400" />
-                <span className="text-primary-foreground">{log.content.replace(/^\$\s*/, '')}</span>
+                <span className="text-foreground">{log.content.replace(/^\$\s*/, '')}</span>
               </div>
             )}
 
@@ -327,7 +327,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
           onChange={(e) => setInputVal(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Type 'help' or command (e.g. catalyst audit)..."
-          className="flex-1 bg-transparent text-primary-foreground focus:outline-none font-mono text-xs placeholder:text-muted-foreground"
+          className="flex-1 bg-transparent text-foreground focus:outline-none font-mono text-xs placeholder:text-muted-foreground"
           aria-label="Interactive CLI command prompt"
         />
         <button
@@ -335,7 +335,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
           onClick={() => handleCommand(inputVal)}
           disabled={!inputVal.trim()}
           aria-label="Execute command"
-          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-cream disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+          className="p-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary-hover disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
           title="Run command (Enter)"
         >
           <CornerDownLeft className="h-3.5 w-3.5" aria-hidden="true" />

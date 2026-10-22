@@ -102,7 +102,7 @@ export interface MongoSweepTarget {
   listDomains(): Promise<{ domain: string; ownerId: string }[]>;
   deleteEventsForDomainOlderThan(domain: string, cutoff: Date): Promise<number>;
   /** Backstop for events whose domain is unknown or no longer monitored. */
-  deleteOrphanEventsOlderThan(cutoff: Date): Promise<number>;
+  deleteOrphanEventsOlderThan(cutoff: Date, monitoredDomains?: string[]): Promise<number>;
   createTtlIndex(): Promise<string>;
 }
 
@@ -158,10 +158,14 @@ class MongoSweep implements MongoSweepTarget {
     return result.deletedCount ?? 0;
   }
 
-  async deleteOrphanEventsOlderThan(cutoff: Date): Promise<number> {
-    // Anything older than the hard cap is removed regardless of ownership; the
-    // TTL index normally does this, and the sweep covers a missing index.
-    const result = await this.db.collection('events').deleteMany({ timestamp: { $lt: cutoff } });
+  async deleteOrphanEventsOlderThan(cutoff: Date, monitoredDomains: string[] = []): Promise<number> {
+    // Only delete events for domains that are no longer monitored (or have no domain)
+    // so paid-tier domains retain their 60/90/365/730-day windows.
+    const filter: Record<string, unknown> = { timestamp: { $lt: cutoff } };
+    if (monitoredDomains.length > 0) {
+      filter['metadata.domain'] = { $nin: monitoredDomains };
+    }
+    const result = await this.db.collection('events').deleteMany(filter);
     return result.deletedCount ?? 0;
   }
 
@@ -262,7 +266,8 @@ export async function sweepExpiredDocuments(
       }
       // Domains that are no longer monitored fall back to the free-tier floor.
       deleted['events:orphaned'] = await mongo.deleteOrphanEventsOlderThan(
-        new Date(now.getTime() - TELEMETRY_FLOOR_DAYS * DAY_MS)
+        new Date(now.getTime() - TELEMETRY_FLOOR_DAYS * DAY_MS),
+        domains.map((entry) => entry.domain)
       );
     } catch (err) {
       errors.push(`mongo telemetry sweep: ${err instanceof Error ? err.message : String(err)}`);

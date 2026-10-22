@@ -104,31 +104,31 @@ export const BlogPostPage: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-20 -mt-16 mx-4 bg-white rounded-[32px] p-6 shadow-2xl text-ink-navy"
+          className="ds-card relative z-20 -mt-16 mx-4 bg-card rounded-[32px] p-6 shadow-2xl text-foreground"
         >
-          <div className="inline-block px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-4">
+          <div className="inline-block px-3 py-1 rounded-full border border-border bg-muted text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-4">
             {post.category || 'Article'}
           </div>
           
-          <h1 className="text-2xl font-bold leading-tight mb-4 text-ink-navy">
+          <h1 className="text-2xl font-bold leading-tight mb-4 text-foreground">
             {post.title}
           </h1>
           
-          <p className="text-sm text-gray-500 leading-relaxed mb-6">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-6">
             {post.excerpt}
           </p>
           
           {/* Author Strip */}
-          <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+          <div className="flex items-center justify-between border-t border-border pt-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-background text-foreground flex items-center justify-center font-bold overflow-hidden">
+              <div className="w-10 h-10 rounded-full bg-muted text-foreground flex items-center justify-center font-bold overflow-hidden">
                 {post.authorAvatar ? (
                   <img src={post.authorAvatar} alt={post.authorName} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 ) : (
                   (post.authorName || 'C')[0]
                 )}
               </div>
-              <span className="font-semibold text-sm">{post.authorName || 'Catalyst Team'}</span>
+              <span className="font-semibold text-sm text-foreground">{post.authorName || 'Catalyst Team'}</span>
             </div>
             
             <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground">
@@ -144,11 +144,11 @@ export const BlogPostPage: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Actions Bar (Dark Mode) */}
+        {/* Actions Bar */}
         <div className="px-6 py-6 flex items-center justify-between mt-4">
           <button 
             onClick={handleShare}
-            className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-fog"
+            className="flex items-center gap-2 text-sm font-medium text-foreground hover:bg-muted/80 transition-colors px-4 py-2 rounded-full bg-muted border border-border"
           >
             {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
             {copied ? 'Copied' : 'Share Article'}
@@ -157,7 +157,7 @@ export const BlogPostPage: React.FC = () => {
           {user && (isAdmin || user.email === post.authorEmail) && (
             <Link 
               to={`/blogs/edit/${post.id || post.slug}`}
-              className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors px-4 py-2 rounded-full bg-fog"
+              className="flex items-center gap-2 text-sm font-medium text-foreground hover:bg-muted/80 transition-colors px-4 py-2 rounded-full bg-muted border border-border"
             >
               <Edit3 className="w-4 h-4" />
               Edit
@@ -165,8 +165,8 @@ export const BlogPostPage: React.FC = () => {
           )}
         </div>
 
-        {/* Main Content (Dark Mode) */}
-        <article className="px-6 pb-12 prose prose-invert prose-p:text-gray-300 prose-p:leading-relaxed prose-headings:text-white max-w-none">
+        {/* Main Content */}
+        <article className="px-6 pb-12 prose dark:prose-invert prose-p:text-muted-foreground prose-p:leading-relaxed prose-headings:text-foreground max-w-none">
           <MarkdownRenderer content={post.content} />
         </article>
 

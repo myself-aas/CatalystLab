@@ -6,9 +6,9 @@ import path from 'path';
  * CatalystLab Backup Export & Verified Restore Engine (Plan item 4.6, D9, Q32).
  *
  * Covers every authoritative persistence domain:
- *   - Firestore collections: `users`, `api_keys`, `subscriptions`,
- *     `payment_webhook_events`, `github_connected_repos`, `contact_messages`
- *   - MongoDB collections: `analytics_events`
+ *   - Firestore collections: `users`, `api_keys`, `user_subscriptions`,
+ *     `payment_events`, `github_repos`, `contact_inquiries`
+ *   - MongoDB collections: `events`
  *
  * Produces deterministic, canonically sorted JSON snapshots with per-collection
  * SHA-256 digests and a top-level manifest SHA-256 integrity seal, and verifies
@@ -22,11 +22,11 @@ export const FIRESTORE_BACKUP_COLLECTIONS = [
   'api_keys',
   'user_subscriptions',
   'payment_events',
-  'github_connected_repos',
-  'contact_messages'
+  'github_repos',
+  'contact_inquiries'
 ] as const;
 
-export const MONGO_BACKUP_COLLECTIONS = ['analytics_events'] as const;
+export const MONGO_BACKUP_COLLECTIONS = ['events'] as const;
 
 export type FirestoreCollectionName = (typeof FIRESTORE_BACKUP_COLLECTIONS)[number];
 export type MongoCollectionName = (typeof MONGO_BACKUP_COLLECTIONS)[number];
