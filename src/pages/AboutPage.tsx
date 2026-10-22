@@ -27,6 +27,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { LazyReveal } from '../components/common/LazyAnimate';
 import { LinearCard } from '../components/ui/LinearCard';
 import { ScanRevealFigure } from '../components/media/ScanRevealFigure';
+import { PlateImage, asPlate } from '../components/common/PlateImage';
 
 interface EngineDetail {
  id: string;
@@ -44,7 +45,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'DOM Structure & Hydration Engine',
  category: 'Architecture',
  icon: Layers,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Traverses the rendered DOM tree to calculate maximum nesting depth, total node count, and client-side hydration risks in modern SPA/SSR frameworks.',
  metrics: ['Max Tree Depth', 'Total Node Density', 'Hydration Mismatch Risk', 'Repaint Cost Index']
  },
@@ -53,7 +54,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'OWASP Zero-Trust Security Engine',
  category: 'SecOps',
  icon: ShieldCheck,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Audits edge HTTP response headers against OWASP Top 10 compliance, enforcing strict transport security, script sandboxing, and framing policies.',
  metrics: ['Strict-Transport-Security (HSTS)', 'Content-Security-Policy (CSP)', 'X-Frame-Options (XFO)', 'Permissions-Policy']
  },
@@ -62,7 +63,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Global Edge Performance Engine',
  category: 'Latency',
  icon: Zap,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Measures multi-region edge Time to First Byte (TTFB), Core Web Vitals (FCP, LCP, INP, CLS), and network transfer compression across 42 global PoPs.',
  metrics: ['Anycast TTFB Latency', 'Largest Contentful Paint (LCP)', 'Interaction to Next Paint (INP)', 'Brotli/Gzip Efficiency']
  },
@@ -71,7 +72,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'WCAG 2.2 Accessibility Engine',
  category: 'Compliance',
  icon: Eye,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Performs automated mathematical contrast calculations, keyboard focus traversals, and ARIA landmark evaluations to guarantee universal access.',
  metrics: ['Contrast Ratio 4.5:1 (AA)', 'ARIA Landmark Structure', 'Alt Text Coverage', 'Tab-Order Traversability']
  },
@@ -80,7 +81,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Semantic Graph & SEO Engine',
  category: 'Discoverability',
  icon: FileCode,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Validates canonical URLs, Open Graph schemas, JSON-LD structured microdata, and search crawl accessibility.',
  metrics: ['Canonical URL Integrity', 'JSON-LD Schema Verification', 'Open Graph Metadata', 'Sitemap & Heading Hierarchy']
  },
@@ -89,7 +90,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'AI Agent & LLM Discoverability Engine',
  category: 'AI Readiness',
  icon: Bot,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Analyzes machine readability for modern AI crawlers (SearchGPT, Perplexity, Gemini), validating llms.txt endpoints and clean markdown extractability.',
  metrics: ['llms.txt Endpoint Detection', 'AI Crawler robots.txt Permissions', 'Semantic Chunk Density', 'Noise-to-Signal Ratio']
  },
@@ -98,7 +99,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Edge Resilience & PWA Engine',
  category: 'Reliability',
  icon: Terminal,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Evaluates service worker registration, offline precaching strategies, and Web App Manifest compliance for resilient web experiences.',
  metrics: ['ServiceWorker Lifecycle', 'Web App Manifest Schema', 'Offline Fallback Capability', 'Maskable Icon Geometry']
  },
@@ -107,7 +108,7 @@ const ENGINES_CATALOG: EngineDetail[] = [
  name: 'Digital Carbon & SWD Engine',
  category: 'Sustainability',
  icon: Leaf,
- color: '#F0FAFF',
+ color: 'var(--color-cream)',
  summary: 'Calculates estimated grams of CO2 per pageview based on transferred byte weight and verifies Green Web Foundation renewable hosting.',
  metrics: ['Estimated CO2 / Pageview', 'Green Hosting Verification', 'Wire Payload Weight', 'Sustainable Web Score']
  }
@@ -156,7 +157,7 @@ export const AboutPage: React.FC = () => {
  const activeEngine = ENGINES_CATALOG.find((e) => e.id === selectedEngine) || ENGINES_CATALOG[0];
 
  return (
- <div data-theme="dark" className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="About Us & Engineering Methodology — CatalystLab"
  description="Learn about CatalystLab, our 8-engine telemetry architecture, deterministic benchmarks, 42-PoP global edge mesh, and zero-trust engineering standards."
@@ -165,14 +166,14 @@ export const AboutPage: React.FC = () => {
  />
 
  {/* Atmospheric Lighting */}
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  {/* Hero Section */}
  <section className="relative z-10 border-b border-border w-full ds-section">
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center space-y-6">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-foreground backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-cream/20 bg-cream/10 px-3.5 py-1 framer-micro-tag text-foreground backdrop-blur-md">
  <Sparkles className="size-3.5 text-foreground shrink-0"/>
  <span>Autonomous Telemetry Infrastructure</span>
  </div>
@@ -217,7 +218,7 @@ export const AboutPage: React.FC = () => {
  {/* The Problem & Our Mission */}
  <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
  <LazyReveal direction="left" className="lg:col-span-7 space-y-5">
- <div className="inline-flex items-center gap-2 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 framer-micro-tag text-foreground backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-cream/20 bg-cream/10 px-3 py-1 framer-micro-tag text-foreground backdrop-blur-md">
  <Terminal className="size-3.5 text-foreground shrink-0"/>
  <span>Genesis &amp; Mission</span>
  </div>
@@ -259,8 +260,8 @@ export const AboutPage: React.FC = () => {
  <Activity className="size-4 text-foreground shrink-0"/>
  <span>Telemetry Benchmark Grid</span>
  </div>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
- <span className="size-1.5 rounded-full bg-[#F0FAFF] animate-pulse shrink-0"/>
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-cream/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
+ <span className="size-1.5 rounded-full bg-cream animate-pulse shrink-0"/>
  Grid Live (v2.4)
  </span>
  </div>
@@ -445,7 +446,7 @@ export const AboutPage: React.FC = () => {
  </LinearCard>
 
  <LinearCard className="p-6 space-y-3">
- <div className="size-10 rounded-xl bg-[#F0FAFF]/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+ <div className="size-10 rounded-xl bg-cream/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
  <Globe className="size-5"/>
  </div>
  <h3 className="text-sm font-semibold text-foreground font-sans">42-PoP Global Mesh</h3>
@@ -455,7 +456,7 @@ export const AboutPage: React.FC = () => {
  </LinearCard>
 
  <LinearCard className="p-6 space-y-3">
- <div className="size-10 rounded-xl bg-[#F0FAFF]/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+ <div className="size-10 rounded-xl bg-cream/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
  <Lock className="size-5"/>
  </div>
  <h3 className="text-sm font-semibold text-foreground font-sans">Zero-Footprint Probes</h3>
@@ -465,7 +466,7 @@ export const AboutPage: React.FC = () => {
  </LinearCard>
 
  <LinearCard className="p-6 space-y-3">
- <div className="size-10 rounded-xl bg-[#F0FAFF]/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+ <div className="size-10 rounded-xl bg-cream/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
  <Database className="size-5"/>
  </div>
  <h3 className="text-sm font-semibold text-foreground font-sans">Immutable Permalinks</h3>
@@ -516,7 +517,7 @@ export const AboutPage: React.FC = () => {
  <ul className="space-y-1 text-[11px] font-mono text-muted-foreground">
  {pop.cities.map((c, ci) => (
  <li key={ci} className="flex items-center gap-1.5">
- <span className="size-1 rounded-full bg-[#F0FAFF]/80"/>
+ <span className="size-1 rounded-full bg-cream/80"/>
  <span>{c}</span>
  </li>
  ))}
@@ -545,12 +546,11 @@ export const AboutPage: React.FC = () => {
  {TEAM_MEMBERS.map((member, i) => (
  <LinearCard key={i} className="p-5 space-y-4">
  <div className="relative overflow-hidden rounded-xl border border-border dark:border-foreground/[0.08] aspect-square bg-muted/30 dark:bg-muted/20">
- <img 
- src={member.image} 
+ <PlateImage 
+ {...asPlate(member.image)} 
  alt={member.name} 
  referrerPolicy="no-referrer"
- className="w-full h-full object-cover grayscale contrast-125 opacity-90 group-hover/card:scale-105 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition duration-500"
- loading="lazy" decoding="async" />
+ className="w-full h-full object-cover grayscale contrast-125 opacity-90 group-hover/card:scale-105 group-hover/card:grayscale-0 group-hover/card:opacity-100 transition duration-500" />
  <div className="absolute inset-0 bg-gradient-to-t from-background dark:from-[var(--bg-surface-elevated)] via-transparent to-transparent opacity-60"/>
  </div>
 

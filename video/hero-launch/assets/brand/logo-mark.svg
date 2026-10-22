@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="CatalystLab Logo">
+  <defs>
+    <linearGradient id="node-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D2FF" />
+      <stop offset="100%" stop-color="#0066FF" />
+    </linearGradient>
+  </defs>
+  <!-- Minimalist network bonds -->
+  <g stroke="url(#node-grad)" stroke-width="6" stroke-linecap="round">
+    <line x1="50" y1="50" x2="50" y2="20" />
+    <line x1="50" y1="50" x2="78" y2="66" />
+    <line x1="50" y1="50" x2="22" y2="66" />
+    <line x1="50" y1="50" x2="50" y2="82" />
+  </g>
+  <!-- Nodes -->
+  <g fill="url(#node-grad)">
+    <circle cx="50" cy="50" r="10" />
+    <circle cx="50" cy="20" r="7" />
+    <circle cx="78" cy="66" r="7" />
+    <circle cx="22" cy="66" r="7" />
+    <circle cx="50" cy="82" r="7" />
+  </g>
+</svg>

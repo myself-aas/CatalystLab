@@ -127,7 +127,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Lock className="h-3.5 w-3.5 text-emerald-400" />
                   <span className="font-bold text-xs text-foreground font-sans">Strictly Essential &amp; Authentication Tokens</span>
-                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-500/20 bg-[#F0FAFF]/10 text-emerald-400">
+                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-500/20 bg-cream/10 text-emerald-400">
                     Always Active
                   </span>
                 </div>
@@ -151,7 +151,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <Zap className="h-3.5 w-3.5 text-amber-400" />
                   <span className="font-bold text-xs text-foreground font-sans">Diagnostic Telemetry Cache</span>
-                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400">
+                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-500/20 bg-cream/10 text-amber-400">
                     Recommended
                   </span>
                 </div>
@@ -165,7 +165,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   role="switch"
                   aria-checked={preferences.telemetryCache}
                   onClick={() => setPreferences({ ...preferences, telemetryCache: !preferences.telemetryCache })}
-                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     preferences.telemetryCache ? 'bg-amber-600' : 'bg-muted'
                   }`}
                 >
@@ -198,7 +198,7 @@ export const CookiePreferenceCenter: React.FC = () => {
                   role="switch"
                   aria-checked={preferences.analytics}
                   onClick={() => setPreferences({ ...preferences, analytics: !preferences.analytics })}
-                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     preferences.analytics ? 'bg-amber-600' : 'bg-muted'
                   }`}
                 >

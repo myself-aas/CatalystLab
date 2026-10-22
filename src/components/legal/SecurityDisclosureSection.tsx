@@ -45,14 +45,14 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
   const severityMatrix = [
     {
       level: 'Critical',
-      color: 'border-rose-500/20 bg-[#FFFFFF]/10 text-rose-400',
+      color: 'border-rose-500/20 bg-white/10 text-rose-400',
       badge: 'Immediate P0',
       targetFix: '< 12 Hours',
       examples: 'Remote Code Execution (RCE), Authentication Bypass, Database SQL/Firestore Injection'
     },
     {
       level: 'High',
-      color: 'border-amber-500/20 bg-[#F0FAFF]/10 text-amber-400',
+      color: 'border-amber-500/20 bg-cream/10 text-amber-400',
       badge: 'P1 High',
       targetFix: '< 48 Hours',
       examples: 'Server-Side Request Forgery (SSRF), Sensitive Token Leakage, Cross-Site Scripting (XSS) with Session Hijack'
@@ -179,7 +179,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
           <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground">
             <span>Security Contact: <strong className="text-foreground">security@catalystlab.tech</strong></span>
-            <span>Canonical security.txt: <code className="text-amber-400 bg-[#F0FAFF]/10 px-1 py-0.5 rounded border border-amber-500/20">https://www.catalystlab.tech/.well-known/security.txt</code></span>
+            <span>Canonical security.txt: <code className="text-amber-400 bg-cream/10 px-1 py-0.5 rounded border border-amber-500/20">https://www.catalystlab.tech/.well-known/security.txt</code></span>
           </div>
         </div>
       </LazyReveal>
@@ -196,7 +196,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
           </p>
 
           {submitted ? (
-            <div className="rounded-xl border border-emerald-500/20 bg-[#F0FAFF]/10 p-6 text-center space-y-2.5">
+            <div className="rounded-xl border border-emerald-500/20 bg-cream/10 p-6 text-center space-y-2.5">
               <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto" />
               <h4 className="text-sm font-bold text-foreground">Vulnerability Report Dispatched!</h4>
               <p className="text-xs text-muted-foreground max-w-md mx-auto font-sans leading-relaxed">
@@ -219,7 +219,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                   <select
                     value={targetAsset}
                     onChange={(e) => setTargetAsset(e.target.value)}
-                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
                   >
                     <option>catalystlab.tech (Web Portal)</option>
                     <option>Diagnostic Container Workers (Cloud Run)</option>
@@ -236,7 +236,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                   <select
                     value={vulnType}
                     onChange={(e) => setVulnType(e.target.value)}
-                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
                   >
                     <option>Server-Side Request Forgery (SSRF)</option>
                     <option>Cross-Site Scripting (XSS)</option>
@@ -281,7 +281,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="researcher@secops.io"
-                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus:outline-none"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-1.5 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                 </div>
               </div>
@@ -296,7 +296,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                   value={details}
                   onChange={(e) => setDetails(e.target.value)}
                   placeholder="Provide exact HTTP request headers, payload reproduction steps, and impact assessment..."
-                  className="w-full rounded-lg border border-border bg-muted p-3 text-xs text-foreground focus:border-border focus:outline-none"
+                  className="w-full rounded-lg border border-border bg-muted p-3 text-xs text-foreground focus:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
               </div>
 

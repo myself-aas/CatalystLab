@@ -56,7 +56,7 @@ export const ApiCategoryPage: React.FC = () => {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  {/* Category Header */}
  <div className="border-b border-border bg-background ds-section">
  <div className="ds-page-shell">
@@ -122,10 +122,10 @@ export const ApiCategoryPage: React.FC = () => {
  <div className="space-y-1">
  <div className="flex flex-wrap items-center gap-2.5">
  <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold uppercase shrink-0 border ${
- ep.method === 'POST' ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20' :
- ep.method === 'GET' ? 'bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20' :
- ep.method === 'DELETE' ? 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20' :
- 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
+ ep.method === 'POST' ? 'bg-cream/10 text-emerald-400 border-emerald-500/20' :
+ ep.method === 'GET' ? 'bg-cream/10 text-foreground border border-cream/20' :
+ ep.method === 'DELETE' ? 'bg-white/10 text-rose-400 border border-rose-500/20' :
+ 'bg-cream/10 text-amber-400 border border-amber-500/20'
  }`}>
  {ep.method}
  </span>

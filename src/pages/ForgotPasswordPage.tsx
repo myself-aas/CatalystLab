@@ -90,7 +90,7 @@ export const ForgotPasswordPage: React.FC = () => {
  const terminalCommand = `catalystlab auth recover --email ${email.trim() || 'engineer@acme.corp'} --vault`;
 
  return (
- <div data-theme="dark" className="relative min-h-screen ds-page-top flex flex-col items-center px-4 bg-background text-foreground">
+ <div className="relative min-h-screen ds-page-top flex flex-col items-center px-4 bg-background text-foreground">
  <SEOHead
  title="Recover Access Key | CatalystLab"
  description="Dispatch a cryptographically signed magic login link or recover workspace credentials via Catalyst CLI."
@@ -107,7 +107,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <div 
  className="pointer-events-none absolute inset-0 opacity-20"
  style={{
- backgroundImage: 'radial-gradient(#F3F4F6 1px, transparent 1px)',
+ backgroundImage: 'radial-gradient(var(--color-fog) 1px, transparent 1px)',
  backgroundSize: '24px 24px'
  }}
  />
@@ -116,7 +116,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="relative z-10 w-full max-w-md mx-auto my-auto p-6 sm:p-8 ds-card bg-surface border-border rounded-2xl sm:rounded-3xl shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl overflow-hidden">
  {/* Top Brand Anchor */}
  <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
- <Link to="/" className="flex items-center gap-2 group focus:outline-none">
+ <Link to="/" className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
  <BrandLogo size="sm" />
  <span className="text-xs font-semibold tracking-[-0.02em] text-foreground">
  Catalyst<span className="text-foreground">Lab</span>
@@ -128,7 +128,7 @@ export const ForgotPasswordPage: React.FC = () => {
  </div>
 
  {/* Live Ingress Badge */}
- <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+ <div className="mb-5 inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[11px] font-mono bg-cream/10 text-emerald-400 border border-emerald-500/20">
  <ShieldCheck className="size-3 text-emerald-400" />
  <span>TLS 1.3 &bull; Mutual TLS Auth Ready &bull; OWASP Compliant</span>
  </div>
@@ -147,14 +147,14 @@ export const ForgotPasswordPage: React.FC = () => {
 
  {/* Error Display */}
  {(localError || authError?.message) && (
- <div className="mb-5 p-3 rounded-xl bg-[#FFFFFF]/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
+ <div id="forgot-form-error" role="alert" tabIndex={-1} className="mb-5 p-3 rounded-xl bg-white/10 border border-rose-500/25 flex items-start gap-2 text-xs text-rose-300">
  <AlertCircle className="size-4 text-rose-400 shrink-0 mt-0.5" />
  <span>{localError || authError?.message}</span>
  </div>
  )}
 
  {/* Form */}
- <form onSubmit={handleSubmit} className="space-y-4">
+ <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={(localError || authError?.message) ? 'forgot-form-error' : undefined}>
  <div>
  <label className="ds-label block mb-1.5">
  Authorized Workspace Email
@@ -216,8 +216,8 @@ export const ForgotPasswordPage: React.FC = () => {
  <div className="py-4 text-center space-y-5">
  {/* Animated Green Radar Pulse */}
  <div className="relative mx-auto size-16 flex items-center justify-center">
- <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0FAFF] opacity-20" />
- <div className="relative size-14 rounded-full bg-[#F0FAFF]/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+ <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cream opacity-20" />
+ <div className="relative size-14 rounded-full bg-cream/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
  <CheckCircle2 className="size-7" />
  </div>
  </div>

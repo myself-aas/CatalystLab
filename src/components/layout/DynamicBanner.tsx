@@ -1,15 +1,8 @@
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
-import bannerProducts from '../../assets/images/page-products.jpg';
-import bannerPricing from '../../assets/images/page-pricing.jpg';
-import bannerApi from '../../assets/images/page-api.jpg';
-import bannerBlog from '../../assets/images/page-blog-performance.jpg';
-import bannerContact from '../../assets/images/page-contact.jpg';
-import bannerSecurity from '../../assets/images/page-security.jpg';
-import bannerMethod from '../../assets/images/page-methodology.jpg';
-import bannerOps from '../../assets/images/hero_network_visualization_1787838371820.jpg';
-import bannerStudio from '../../assets/images/product-studio.jpg';
+import { PLATE, type PlateSource } from '../../lib/media/plates';
+import { PlateImage } from '../common/PlateImage';
 
 
 export const DynamicBanner: React.FC = () => {
@@ -17,83 +10,83 @@ export const DynamicBanner: React.FC = () => {
   const path = location.pathname;
 
   const bannerConfig = useMemo(() => {
-    let config = {
+    let config: { title: string; subtitle: string; image: PlateSource } = {
       title: 'Catalyst Score',
       subtitle: 'Next-Generation Telemetry & Analytics',
-      image: bannerOps
+      image: PLATE.heroNetwork
     };
 
     if (path.startsWith('/products')) {
       config = {
         title: 'Our Products',
         subtitle: 'Enterprise-grade tools for modern engineering teams.',
-        image: bannerProducts
+        image: PLATE.products
       };
     } else if (path.startsWith('/pricing')) {
       config = {
         title: 'Transparent Pricing',
         subtitle: 'Scale your infrastructure without unexpected costs.',
-        image: bannerPricing
+        image: PLATE.pricing
       };
     } else if (path.startsWith('/api-docs') || path.startsWith('/docs')) {
       config = {
         title: 'Developer Documentation',
         subtitle: 'Build powerful integrations with the Catalyst API.',
-        image: bannerApi
+        image: PLATE.api
       };
     } else if (path.startsWith('/blog')) {
       config = {
         title: 'Engineering Blog',
         subtitle: 'Insights, tutorials, and updates from the Catalyst team.',
-        image: bannerBlog
+        image: PLATE.blogPerformance
       };
     } else if (path.startsWith('/contact')) {
       config = {
         title: 'Get in Touch',
         subtitle: 'We are here to help you build better software.',
-        image: bannerContact
+        image: PLATE.contact
       };
     } else if (path.startsWith('/dashboard') || path.startsWith('/admin')) {
       config = {
         title: 'Command Center',
         subtitle: 'Manage your telemetry, users, and infrastructure.',
-        image: bannerOps
+        image: PLATE.heroNetwork
       };
     } else if (path.startsWith('/report')) {
       config = {
         title: 'Audit Reports',
         subtitle: 'Comprehensive performance and security analysis.',
-        image: bannerSecurity
+        image: PLATE.security
       };
     } else if (path.startsWith('/health') || path.startsWith('/latency') || path.startsWith('/eco-audit') || path.startsWith('/compliance') || path.startsWith('/migration') || path.startsWith('/llmo') || path.startsWith('/ai-readiness') || path.startsWith('/repo-scanner') || path.startsWith('/compare')) {
        config = {
         title: 'Diagnostic Engines',
         subtitle: 'Real-time infrastructure health and latency monitoring.',
-        image: bannerStudio
+        image: PLATE.productStudio
       };
     } else if (path.startsWith('/privacy') || path.startsWith('/terms') || path.startsWith('/security') || path.startsWith('/cookies')) {
        config = {
         title: 'Trust & Security',
         subtitle: 'Your data privacy and security are our top priority.',
-        image: bannerSecurity
+        image: PLATE.security
       };
     } else if (path.startsWith('/playground')) {
        config = {
         title: 'Interactive Playground',
         subtitle: 'Test our engines and APIs in a safe sandbox environment.',
-        image: bannerStudio
+        image: PLATE.productStudio
       };
     } else if (path.startsWith('/methodology')) {
        config = {
         title: 'Our Methodology',
         subtitle: 'The science and engineering behind Catalyst Score.',
-        image: bannerMethod
+        image: PLATE.methodology
       };
     } else if (path.startsWith('/login') || path.startsWith('/signup')) {
        config = {
         title: 'Authentication',
         subtitle: 'Secure access to your Catalyst Lab environment.',
-        image: bannerSecurity
+        image: PLATE.security
       };
     }
 
@@ -107,11 +100,11 @@ export const DynamicBanner: React.FC = () => {
     <div className="relative w-full h-[32vh] min-h-[260px] max-h-[360px] overflow-hidden flex items-center justify-center border-b border-border bg-background">
       {/* Background Image with Dark Gradient Scrim */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <img
-          src={bannerConfig.image}
-          alt=""
-          className="w-full h-full object-cover object-center opacity-25 filter grayscale contrast-125"
-        loading="lazy" decoding="async" />
+        <PlateImage
+            {...bannerConfig.image}
+            alt=""
+            className="h-full w-full object-cover opacity-25 grayscale"
+          />
         {/* Dark Gradient Scrim Layering (Satisfies Background Layering Directive) */}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/60" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-950/20 via-transparent to-transparent" />
@@ -126,7 +119,7 @@ export const DynamicBanner: React.FC = () => {
           className="max-w-2xl"
         >
           <div className="inline-flex items-center gap-2 px-2.5 py-1 mb-4 rounded-lg bg-muted border border-border backdrop-blur-md text-[11px] font-mono text-primary tracking-wider uppercase shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-cream animate-pulse" />
             Active Module
           </div>
           

@@ -19,14 +19,15 @@
     "verify:deploy": "node scripts/verify-deployment.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "ci": "npm run check:env && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
+    "ci": "npm run check:env && npm run check:colors && npm run lint && npm run typecheck && npm test && npm run build && npm run check:bundle",
     "check:env": "node scripts/check-env.mjs",
     "media:check": "node scripts/verify-media.mjs",
     "test:coverage": "vitest run --coverage",
     "check:bundle": "node scripts/check-bundle-budget.mjs",
     "lhci": "lhci autorun",
     "ci:full": "npm run ci && npm run test:coverage && npm run drill:restore && npm run test:payments-sandbox && npm run sec:secrets",
-    "check:design": "node scripts/check-design-tokens.mjs"
+    "check:design": "node scripts/check-design-tokens.mjs",
+    "check:colors": "node scripts/check-raw-color-literals.mjs"
   },
   "dependencies": {
     "@sentry/node": "^11.8.0",

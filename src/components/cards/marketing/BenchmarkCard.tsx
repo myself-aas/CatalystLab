@@ -49,7 +49,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       {/* Header Row */}
       <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 flex items-center justify-center text-foreground">
+          <div className="w-8 h-8 rounded-lg bg-cream/10 border border-cream/20 flex items-center justify-center text-foreground">
             <Zap className="w-4 h-4" />
           </div>
           <div>
@@ -62,7 +62,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
           </div>
         </div>
 
-        <span className="px-2.5 py-1 rounded-full text-xs font-sans font-bold bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+        <span className="px-2.5 py-1 rounded-full text-xs font-sans font-bold bg-cream/10 text-emerald-400 border border-emerald-500/20">
           {deltaImprovement}
         </span>
       </div>
@@ -110,8 +110,8 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
               {catalystLabel}
             </span>
             {/* Visual Indicator */}
-            <div className="mt-2 h-1 w-full bg-[#F0FAFF]/20 rounded-full overflow-hidden">
-               <div className="h-full bg-[#F0FAFF] w-full" />
+            <div className="mt-2 h-1 w-full bg-cream/20 rounded-full overflow-hidden">
+               <div className="h-full bg-cream w-full" />
             </div>
           </div>
         </div>

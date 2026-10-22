@@ -47,7 +47,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   return (
     <div className={`group/logo flex items-center gap-2 select-none ${className}`}>
       {/* CatalystLab Molecular Catalyst Mark */}
-      <MoleculeMark className={`${current.icon} shrink-0 text-[#0066FF] transition duration-200 group-hover/logo:scale-105`} />
+      <MoleculeMark className={`${current.icon} shrink-0 text-[var(--chart-blue)] transition duration-200 group-hover/logo:scale-105`} />
 
       {showText && (
         <span
@@ -58,7 +58,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       )}
 
       {showBadge && badgeText && (
-        <span className={`rounded-full bg-[rgba(240,250,255,0.08)] font-mono font-semibold text-foreground border border-[rgba(240,250,255,0.12)] uppercase tracking-wider ${current.badge}`}>
+        <span className={`rounded-full bg-cream/8 font-mono font-semibold text-foreground border border-cream/12 uppercase tracking-wider ${current.badge}`}>
           {badgeText}
         </span>
       )}

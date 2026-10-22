@@ -255,7 +255,7 @@ export const UserDashboardPage: React.FC = () => {
 
  if (!user) {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top flex items-center justify-center px-4 bg-background text-foreground relative overflow-hidden font-sans">
+ <div className="min-h-screen ds-page-top flex items-center justify-center px-4 bg-background text-foreground relative overflow-hidden font-sans">
  <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_20%,rgba(240,250,255,0.05),transparent_70%)] pointer-events-none" />
  
  <div className="w-full max-w-md p-8 ds-card bg-surface border-border shadow-[0_24px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xl relative z-10 text-center">
@@ -291,7 +291,7 @@ export const UserDashboardPage: React.FC = () => {
  displayName: 'CatalystLab Developer',
  isAdmin: false
  })}
- className="ds-btn ds-btn-secondary w-full text-xs text-emerald-400 bg-[#F0FAFF]/10 border-emerald-500/20 hover:bg-[#F0FAFF]/20"
+ className="ds-btn ds-btn-secondary w-full text-xs text-emerald-400 bg-cream/10 border-emerald-500/20 hover:bg-cream/20"
  >
  <Sparkles className="h-3.5 w-3.5 shrink-0" />
  <span>Preview Developer Session</span>
@@ -321,8 +321,8 @@ export const UserDashboardPage: React.FC = () => {
 
  <div className="relative min-h-full">
    {/* Ambient Subsurface Glows */}
-   <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#F0FAFF]/10 blur-[120px] rounded-full pointer-events-none" />
-   <div className="absolute top-1/2 -right-24 w-80 h-80 bg-[#F0FAFF]/5 blur-[100px] rounded-full pointer-events-none" />
+   <div className="absolute -top-24 -left-24 w-96 h-96 bg-cream/10 blur-[120px] rounded-full pointer-events-none" />
+   <div className="absolute top-1/2 -right-24 w-80 h-80 bg-cream/5 blur-[100px] rounded-full pointer-events-none" />
 
    <AnimatePresence mode="wait">
      <motion.div
@@ -337,7 +337,7 @@ export const UserDashboardPage: React.FC = () => {
  {(activeTab === 'overview' || activeTab === 'analytics' || activeTab === 'engines') && (
  <div className="space-y-8">
    {/* Welcome Header Section */}
-   <div className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-5 bg-[rgba(31,34,35,0.85)] backdrop-blur-2xl border-b border-[rgba(240,250,255,0.08)] px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+   <div className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-5 bg-[rgba(31,34,35,0.85)] backdrop-blur-2xl border-b border-cream/8 px-4 sm:px-6 lg:px-8 -mx-4 sm:-mx-6 lg:-mx-8 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
      <div>
        <div className="framer-micro-tag text-foreground mb-2">Platform Control Center</div>
        <h1 className="framer-hero-title text-3xl sm:text-4xl lg:text-5xl text-foreground">
@@ -413,7 +413,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Top Card Bar - Visual Parity with Audit Dossier Cards */}
  <div className="flex items-start justify-between gap-3 pb-3 border-b border-foreground/5">
  <div className="flex items-center gap-3 min-w-0">
- <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-foreground shrink-0 group-hover:border-[#F0FAFF]/30 transition-colors">
+ <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-foreground shrink-0 group-hover:border-cream/30 transition-colors">
  <Globe className="h-4 w-4" />
  </div>
  <div className="min-w-0">
@@ -431,8 +431,8 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <div
  className={`py-1 px-2.5 rounded-lg text-[11px] font-bold border shrink-0 ${
  (report.score ?? 0) >= 90
- ?"bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20"
- :"bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20"
+ ?"bg-cream/10 text-emerald-400 border-emerald-500/20"
+ :"bg-cream/10 text-amber-400 border-amber-500/20"
  }`}
  >
  {report.score ?? 85}
@@ -441,7 +441,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
 
  {/* Middle Content */}
  <div className="py-4 space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 py-0.5 px-2 text-[11px] font-mono font-bold text-foreground uppercase tracking-wider">
+ <div className="inline-flex items-center gap-1.5 rounded-full bg-cream/10 border border-cream/20 py-0.5 px-2 text-[11px] font-mono font-bold text-foreground uppercase tracking-wider">
  <Sparkles className="h-2.5 w-2.5" />
  <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
  </div>
@@ -657,10 +657,10 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  {/* Score Pill */}
  <div className={` py-0.5 rounded text-xs font-bold border ${
  (report.score || 90) >= 90
- ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20'
+ ? 'bg-cream/10 text-emerald-400 border-emerald-500/20'
  : (report.score || 90) >= 75
- ? 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
- : 'bg-[#FFFFFF]/10 text-rose-400 border-rose-500/20'
+ ? 'bg-cream/10 text-amber-400 border-amber-500/20'
+ : 'bg-white/10 text-rose-400 border-rose-500/20'
  }`}>
  {report.score || 92}/100
  </div>
@@ -709,7 +709,7 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <button
  onClick={(e) => handleDelete(report.id!, e)}
  disabled={deletingId === report.id}
- className="p-1 rounded ds-muted hover:bg-[#FFFFFF]/10 hover:text-rose-400 transition-colors cursor-pointer"
+ className="p-1 rounded ds-muted hover:bg-white/10 hover:text-rose-400 transition-colors cursor-pointer"
  title="Delete Report"
  >
  <Trash2 className="h-3.5 w-3.5"/>
@@ -765,8 +765,8 @@ No telemetry audits recorded yet. Run a domain inspection above to record your f
  <td className="py-3 font-bold">
  <span className={` py-0.5 rounded text-[11px] border ${
  (report.score || 90) >= 90
- ? 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/20'
- : 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
+ ? 'bg-cream/10 text-emerald-400 border-emerald-500/20'
+ : 'bg-cream/10 text-amber-400 border-amber-500/20'
  }`}>
  {report.score || 92}/100
  </span>

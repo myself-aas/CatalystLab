@@ -65,15 +65,15 @@ export const LiveCronLogStream: React.FC = () => {
   const getLevelBadgeClass = (level: CronLogEntry['level']) => {
     switch (level) {
       case 'CRON':
-        return 'bg-[#F0FAFF]/10 text-cyan-400 border-cyan-500/30';
+        return 'bg-cream/10 text-cyan-400 border-cyan-500/30';
       case 'INFO':
-        return 'bg-[#F0FAFF]/10 text-emerald-400 border-emerald-500/30';
+        return 'bg-cream/10 text-emerald-400 border-emerald-500/30';
       case 'WARN':
-        return 'bg-[#F0FAFF]/10 text-amber-500 border-amber-500/30';
+        return 'bg-cream/10 text-amber-500 border-amber-500/30';
       case 'ERROR':
-        return 'bg-[#FFFFFF]/10 text-rose-500 border-rose-500/30';
+        return 'bg-white/10 text-rose-500 border-rose-500/30';
       case 'BENCHMARK':
-        return 'bg-[#F0FAFF]/10 text-fuchsia-500 border-purple-500/30';
+        return 'bg-cream/10 text-fuchsia-500 border-purple-500/30';
       default:
         return 'bg-muted0/10 text-muted-foreground border-border';
     }
@@ -87,7 +87,7 @@ export const LiveCronLogStream: React.FC = () => {
           <div className="relative flex items-center justify-center">
             <Radio className={`h-4 w-4 ${autoStreamActive ? 'text-emerald-400 animate-pulse' : 'text-muted-foreground'}`} />
             {autoStreamActive && (
-              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[#F0FAFF] animate-ping" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-cream animate-ping" />
             )}
           </div>
           <span className="font-bold text-foreground tracking-wide">Live Telemetry Cron Stream</span>
@@ -101,9 +101,9 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={toggleAutoStream}
-            className={`min-h-11 min-w-11 p-1.5 rounded-lg border transition cursor-pointer flex items-center gap-1 text-[11px] ${
+            className={`min-h-[var(--control-min-size)] min-w-11 p-1.5 rounded-lg border transition cursor-pointer flex items-center gap-1 text-[11px] ${
               autoStreamActive 
-                ? 'bg-[#F0FAFF]/10 border-emerald-500/30 text-emerald-400 hover:bg-[#F0FAFF]/20' 
+                ? 'bg-cream/10 border-emerald-500/30 text-emerald-400 hover:bg-cream/20' 
                 : 'bg-muted border-border text-muted-foreground hover:text-muted-foreground'
             }`}
             title={autoStreamActive ? 'Pause auto-stream' : 'Resume auto-stream'}
@@ -124,7 +124,7 @@ export const LiveCronLogStream: React.FC = () => {
           <button
             type="button"
             onClick={clearLogs}
-            className="min-h-11 min-w-11 p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 hover:border-rose-500/30 transition-colors cursor-pointer"
+            className="min-h-[var(--control-min-size)] min-w-11 p-1.5 rounded-lg bg-muted/60 border border-border text-muted-foreground hover:text-rose-500 hover:border-rose-500/30 transition-colors cursor-pointer"
             title="Clear logs"
           >
             <Trash2 className="h-3 w-3" />
@@ -143,7 +143,7 @@ export const LiveCronLogStream: React.FC = () => {
               onClick={() => setSelectedLevel(lvl)}
               className={`px-2 py-0.5 rounded border transition-colors cursor-pointer ${
                 selectedLevel === lvl
-                  ? 'bg-[#F0FAFF] text-foreground font-bold border-cyan-500'
+                  ? 'bg-cream text-foreground font-bold border-cyan-500'
                   : 'bg-muted/40 text-muted-foreground border-border hover:text-muted-foreground'
               }`}
             >
@@ -229,7 +229,7 @@ export const LiveCronLogStream: React.FC = () => {
       <div className="p-2 bg-muted/40 border-t border-border flex items-center justify-between text-[11px] text-muted-foreground">
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF] animate-pulse" />
+            <span className="h-1.5 w-1.5 rounded-full bg-cream animate-pulse" />
             <span className="text-muted-foreground">Target:</span> {activeDomain}
           </span>
           {focusEngine && (

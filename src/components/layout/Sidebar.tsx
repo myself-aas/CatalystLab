@@ -262,7 +262,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <button
                   type="button"
                   onClick={() => logout()}
-                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--bg-panel-hover)] transition-colors focus-visible:outline-none cursor-pointer"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--bg-panel-hover)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
                   title="Sign out"
                   aria-label="Sign out"
                 >
@@ -272,7 +272,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
                 <Link
                   to="/login"
                   onClick={onCloseMobile}
-                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--bg-panel-hover)] transition-colors focus-visible:outline-none"
+                  className="p-1 rounded ds-muted hover:text-foreground hover:bg-[var(--bg-panel-hover)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   title="Sign in"
                   aria-label="Sign in"
                 >

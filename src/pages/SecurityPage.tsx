@@ -1,12 +1,15 @@
 import React from 'react';
 import securityImage from '../assets/images/page-security.jpg';
+import { PlateImage } from '../components/common/PlateImage';
+import securityImageWebp from '../assets/images/page-security.webp';
+import securityImageAvif from '../assets/images/page-security.avif';
 import { ArrowRight, Key, ShieldCheck } from 'lucide-react';
 import { SecurityDisclosureSection } from '../components/legal/SecurityDisclosureSection';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const SecurityPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Security Policy, PGP Key & Safe Harbor Disclosure"
  description="CatalystLab's RFC-9116 security disclosure program, PGP public key for encrypted reporting, response SLAs, and legal Safe Harbor protection for security researchers."
@@ -16,13 +19,13 @@ export const SecurityPage: React.FC = () => {
 
  {/* Dedicated Hero Header */}
  <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <div className="relative z-10 ds-page-shell">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
  <div className="space-y-3 max-w-2xl">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-3.5 py-1 framer-micro-tag text-emerald-400">
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-cream/10 px-3.5 py-1 framer-micro-tag text-emerald-400">
  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>RFC-9116 Coordinated Disclosure</span>
  </div>
@@ -33,7 +36,7 @@ export const SecurityPage: React.FC = () => {
  Our vulnerability intake program, PGP public key, CVSS severity tiers, and legal Safe Harbor pledge protecting ethical security researchers.
  </p>
  <figure className="mx-auto mt-10 max-w-4xl">
-   <img src={securityImage} alt="Security analyst reviewing blue security dashboards" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+   <PlateImage src={securityImage} webp={securityImageWebp} avif={securityImageAvif} alt="Security analyst reviewing blue security dashboards" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
  </div>
 

@@ -114,13 +114,13 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     // Numerical value for risk: Low = 0.18, Medium = 0.52, High = 0.88
     let riskFraction = 0.18;
-    let riskColor = '#F0FAFF'; // Green
+    let riskColor = 'var(--color-cream)'; // Green
     if (resolvedData.risk === 'Medium Risk') {
       riskFraction = 0.52;
-      riskColor = '#F0FAFF'; // Amber
+      riskColor = 'var(--color-cream)'; // Amber
     } else if (resolvedData.risk === 'High Risk') {
       riskFraction = 0.88;
-      riskColor = '#FFFFFF'; // Rose
+      riskColor = 'white'; // Rose
     }
 
     const currentAngle = minAngle + riskFraction * (maxAngle - minAngle);
@@ -143,9 +143,9 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     // Segments: Low (0 - 33%), Medium (33% - 66%), High (66% - 100%)
     const segments = [
-      { start: minAngle, end: minAngle + (maxAngle - minAngle) * 0.33, color: '#F0FAFF', label: 'LOW' },
-      { start: minAngle + (maxAngle - minAngle) * 0.33, end: minAngle + (maxAngle - minAngle) * 0.66, color: '#F0FAFF', label: 'MED' },
-      { start: minAngle + (maxAngle - minAngle) * 0.66, end: maxAngle, color: '#FFFFFF', label: 'HIGH' }
+      { start: minAngle, end: minAngle + (maxAngle - minAngle) * 0.33, color: 'var(--color-cream)', label: 'LOW' },
+      { start: minAngle + (maxAngle - minAngle) * 0.33, end: minAngle + (maxAngle - minAngle) * 0.66, color: 'var(--color-cream)', label: 'MED' },
+      { start: minAngle + (maxAngle - minAngle) * 0.66, end: maxAngle, color: 'white', label: 'HIGH' }
     ];
 
     segments.forEach((seg, i) => {
@@ -193,7 +193,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
       .attr('fill', 'var(--app-foreground)')
-      .attr('stroke', 'var(--app-background, #111827)')
+      .attr('stroke', 'var(--app-background, var(--color-ink-navy))')
       .attr('stroke-width', 2);
 
     // Needle Line
@@ -223,9 +223,9 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     // Ticks & Labels
     const ticks = [
-      { angle: minAngle, label: 'Low', color: '#F0FAFF' },
-      { angle: 0, label: 'Med', color: '#F0FAFF' },
-      { angle: maxAngle, label: 'High', color: '#FFFFFF' }
+      { angle: minAngle, label: 'Low', color: 'var(--color-cream)' },
+      { angle: 0, label: 'Med', color: 'var(--color-cream)' },
+      { angle: maxAngle, label: 'High', color: 'white' }
     ];
 
     ticks.forEach((t) => {
@@ -280,11 +280,11 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
     const maxDays = 90;
     const dayFraction = Math.min(1, Math.max(0, days / maxDays));
 
-    let sslColor = '#F0FAFF'; // Green
+    let sslColor = 'var(--color-cream)'; // Green
     if (resolvedData.ssl.is_expired || days <= 0) {
-      sslColor = '#FFFFFF'; // Rose / Expired
+      sslColor = 'white'; // Rose / Expired
     } else if (days <= 30) {
-      sslColor = '#F0FAFF'; // Amber / Expiring Soon
+      sslColor = 'var(--color-cream)'; // Amber / Expiring Soon
     }
 
     const currentAngle = minAngle + dayFraction * (maxAngle - minAngle);
@@ -318,7 +318,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     g.append('path')
       .attr('d', warnArc as any)
-      .attr('fill', '#F0FAFF')
+      .attr('fill', 'var(--color-cream)')
       .attr('opacity', 0.2);
 
     const safeArc = d3
@@ -330,7 +330,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     g.append('path')
       .attr('d', safeArc as any)
-      .attr('fill', '#F0FAFF')
+      .attr('fill', 'var(--color-cream)')
       .attr('opacity', 0.2);
 
     // Active Day Arc
@@ -364,7 +364,7 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
       .attr('cy', 0)
       .attr('r', compact ? 5 : 7)
       .attr('fill', 'var(--app-foreground)')
-      .attr('stroke', 'var(--app-background, #111827)')
+      .attr('stroke', 'var(--app-background, var(--color-ink-navy))')
       .attr('stroke-width', 2);
 
     // Needle
@@ -390,9 +390,9 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
 
     // Ticks & Labels
     const ticks = [
-      { angle: minAngle, label: '0d', color: '#FFFFFF' },
-      { angle: minAngle + (maxAngle - minAngle) * (30 / maxDays), label: '30d', color: '#F0FAFF' },
-      { angle: maxAngle, label: '90d+', color: '#F0FAFF' }
+      { angle: minAngle, label: '0d', color: 'white' },
+      { angle: minAngle + (maxAngle - minAngle) * (30 / maxDays), label: '30d', color: 'var(--color-cream)' },
+      { angle: maxAngle, label: '90d+', color: 'var(--color-cream)' }
     ];
 
     ticks.forEach((t) => {
@@ -451,10 +451,10 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
           <span
             className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded-full border ${
               resolvedData.risk === 'Low Risk'
-                ? 'bg-[#F0FAFF]/10 text-emerald-600 border-emerald-500/30'
+                ? 'bg-cream/10 text-emerald-600 border-emerald-500/30'
                 : resolvedData.risk === 'Medium Risk'
-                ? 'bg-[#F0FAFF]/10 text-amber-700 border-amber-500/30'
-                : 'bg-[#FFFFFF]/10 text-rose-600 border-rose-500/30'
+                ? 'bg-cream/10 text-amber-700 border-amber-500/30'
+                : 'bg-white/10 text-rose-600 border-rose-500/30'
             }`}
           >
             {resolvedData.risk}
@@ -474,10 +474,10 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
             <span
               className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                 resolvedData.risk === 'Low Risk'
-                  ? 'text-emerald-600 border-emerald-500/30 bg-[#F0FAFF]/10'
+                  ? 'text-emerald-600 border-emerald-500/30 bg-cream/10'
                   : resolvedData.risk === 'Medium Risk'
-                  ? 'text-amber-700 border-amber-500/30 bg-[#F0FAFF]/10'
-                  : 'text-rose-600 border-rose-500/30 bg-[#FFFFFF]/10'
+                  ? 'text-amber-700 border-amber-500/30 bg-cream/10'
+                  : 'text-rose-600 border-rose-500/30 bg-white/10'
               }`}
             >
               {resolvedData.risk}
@@ -496,8 +496,8 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
             <div
               className={`flex items-center justify-between p-2 rounded-lg border ${
                 resolvedData.spf === 'Configured'
-                  ? 'bg-[#F0FAFF]/10 border-emerald-500/30 text-emerald-700'
-                  : 'bg-[#FFFFFF]/10 border-rose-500/30 text-rose-700'
+                  ? 'bg-cream/10 border-emerald-500/30 text-emerald-700'
+                  : 'bg-white/10 border-rose-500/30 text-rose-700'
               }`}
             >
               <div className="flex items-center gap-1">
@@ -514,8 +514,8 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
             <div
               className={`flex items-center justify-between p-2 rounded-lg border ${
                 resolvedData.dmarc === 'Configured'
-                  ? 'bg-[#F0FAFF]/10 border-emerald-500/30 text-emerald-700'
-                  : 'bg-[#FFFFFF]/10 border-rose-500/30 text-rose-700'
+                  ? 'bg-cream/10 border-emerald-500/30 text-emerald-700'
+                  : 'bg-white/10 border-rose-500/30 text-rose-700'
               }`}
             >
               <div className="flex items-center gap-1">
@@ -541,10 +541,10 @@ export const RiskSslGaugeChart: React.FC<RiskSslGaugeProps> = React.memo(({
             <span
               className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                 resolvedData.ssl.validation_alert === 'Secure'
-                  ? 'text-emerald-600 border-emerald-500/30 bg-[#F0FAFF]/10'
+                  ? 'text-emerald-600 border-emerald-500/30 bg-cream/10'
                   : resolvedData.ssl.validation_alert === 'Warning: Expiring Soon'
-                  ? 'text-amber-700 border-amber-500/30 bg-[#F0FAFF]/10'
-                  : 'text-rose-600 border-rose-500/30 bg-[#FFFFFF]/10'
+                  ? 'text-amber-700 border-amber-500/30 bg-cream/10'
+                  : 'text-rose-600 border-rose-500/30 bg-white/10'
               }`}
             >
               {resolvedData.ssl.validation_alert}

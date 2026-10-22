@@ -101,7 +101,7 @@ const Block: React.FC<{ block: LegalBlock }> = ({ block }) => {
 };
 
 export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc }) => (
-  <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+  <div className="min-h-screen ds-page-top bg-background text-foreground">
     <SEOHead
       title={`${doc.title} | CatalystLab`}
       description={doc.seoDescription}

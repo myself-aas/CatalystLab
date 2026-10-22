@@ -63,10 +63,10 @@ export function getMailgunConfig(): MailgunConfig {
  * Generate high-fidelity HTML for Weekly Telemetry & Analytics Email Dossier
  */
 export function generateWeeklyReportHtml(data: AnalyticsWeeklyData): string {
-  const primaryColor = '#111827';
-  const slateColor = '#F0FAFF';
-  const periwinkleColor = '#FFFFFF';
-  const emeraldColor = '#F0FAFF';
+  const primaryColor = 'var(--color-ink-navy)';
+  const slateColor = 'var(--color-cream)';
+  const periwinkleColor = 'white';
+  const emeraldColor = 'var(--color-cream)';
 
   return `
 <!DOCTYPE html>

@@ -1,7 +1,10 @@
 "use client";
 import React from "react";
 import localHeroImage from '../../assets/images/about_us_hero_1787216854874.jpg';
-import heroImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
+import localHeroImageWebp from '../../assets/images/about_us_hero_1787216854874.webp';
+import localHeroImageAvif from '../../assets/images/about_us_hero_1787216854874.avif';
+import { PlateImage } from '../../components/common/PlateImage';
+import { PLATE, asPlate, type PlateSource } from '../../lib/media/plates';
 import { cn } from "@/lib/utils";
 import { motion, type Variants } from "motion/react";
 import { AnimatedGroup } from "@/components/ui/animated-group";
@@ -10,7 +13,7 @@ import { Sparkles, Terminal, ArrowRight, ShieldCheck } from "lucide-react";
 interface Iphone15ProProps extends React.SVGProps<SVGSVGElement> {
   width?: string | number;
   height?: string | number;
-  src?: string;
+  src?: PlateSource | string;
   alt?: string;
 }
 
@@ -95,8 +98,8 @@ const Iphone15Pro: React.FC<Iphone15ProProps> = ({
               }}
               className="bg-card dark:bg-card"
             >
-              <img
-                src={src}
+              <PlateImage
+                {...asPlate(src)}
                 alt={alt}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 loading="eager"
@@ -186,7 +189,7 @@ export default function HeroSection6() {
           <a href="/login" className="px-3.5 py-1.5 text-xs font-medium border border-neutral-700 text-neutral-200 hover:bg-neutral-800 transition-colors rounded-lg">
             Log in
           </a>
-          <a href="/signup" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-primary-foreground hover:bg-[#F0FAFF] transition-colors rounded-lg shadow-sm">
+          <a href="/signup" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-primary-foreground hover:bg-cream transition-colors rounded-lg shadow-sm">
             Sign Up
           </a>
         </div>
@@ -207,7 +210,7 @@ export default function HeroSection6() {
             item: textVariants,
           }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-[#F0FAFF]/10 px-3.5 py-1 text-xs font-mono text-blue-400 mb-6 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-cream/10 px-3.5 py-1 text-xs font-mono text-blue-400 mb-6 backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5" />
             <span>SYNCHRONOUS TELEMETRY • AUTONOMOUS AGENTS</span>
           </div>
@@ -225,7 +228,7 @@ export default function HeroSection6() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mb-16 mx-auto">
             <a
               href="/master-audit"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-[#F0FAFF] text-primary-foreground w-full sm:w-auto shadow-lg shadow-blue-600/30 transition cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl bg-blue-600 hover:bg-cream text-primary-foreground w-full sm:w-auto shadow-lg shadow-blue-600/30 transition cursor-pointer"
             >
               <span>Launch Master Audit</span>
               <ArrowRight className="h-4 w-4" />
@@ -251,11 +254,13 @@ export default function HeroSection6() {
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
               className="relative w-full rounded-2xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-900"
             >
-              <img
+              <PlateImage
                 src={localHeroImage}
+                webp={localHeroImageWebp}
+                avif={localHeroImageAvif}
                 alt="CatalystLab Telemetry Dashboard"
                 className="object-cover object-top w-full h-[320px] sm:h-[440px] md:h-[520px]"
-              loading="lazy" decoding="async" />
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
             </motion.div>
 
@@ -267,7 +272,7 @@ export default function HeroSection6() {
                 transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
               >
                 <Iphone15Pro
-                  src={heroImage}
+                  src={PLATE.heroNetwork}
                   className="w-full h-[260px] md:h-[380px] lg:h-[440px]"
                 />
               </motion.div>

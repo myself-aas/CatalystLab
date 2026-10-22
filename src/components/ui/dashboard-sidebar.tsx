@@ -192,12 +192,12 @@ export function NavItem({
         
         <div className="flex items-center gap-2">
           {item.shortcut && (
-             <kbd className="hidden group-hover:inline-flex items-center justify-center h-5 px-1.5 text-[10px] font-medium font-mono text-muted-foreground/60 bg-background/50 border border-border/50 rounded-[4px] shadow-xs">
+             <kbd className="hidden group-hover:inline-flex items-center justify-center h-5 px-1.5 text-[11px] font-medium font-mono text-muted-foreground/60 bg-background/50 border border-border/50 rounded-[4px] shadow-xs">
                {item.shortcut}
              </kbd>
           )}
           {item.badge && (
-            <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[10px] font-medium rounded-full bg-primary/10 text-primary">
+            <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-medium rounded-full bg-primary/10 text-primary">
               {item.badge}
             </span>
           )}
@@ -431,7 +431,7 @@ export default function SidebarNavPreview() {
           <div className="absolute inset-0 z-50 flex items-start justify-center pt-[15vh] bg-background/40 backdrop-blur-sm px-4">
             <div className="absolute inset-0" onClick={() => setIsSearchOpen(false)} />
             <div className="relative w-full max-w-xl bg-card border border-border/50 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-              <div className="flex items-center px-4 border-b border-border/50">
+              <div className="flex items-center px-4 border-b border-border/50 focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
                 <Search className="w-[18px] h-[18px] text-muted-foreground/70 mr-3 shrink-0" strokeWidth={1.5} />
                 <input 
                   ref={searchInputRef}
@@ -440,7 +440,7 @@ export default function SidebarNavPreview() {
                 />
                 <kbd 
                   onClick={() => setIsSearchOpen(false)}
-                  className="hidden sm:inline-flex items-center justify-center h-5 px-1.5 ml-2 text-[10px] font-medium font-mono text-muted-foreground/70 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 rounded-[4px] cursor-pointer hover:text-foreground hover:bg-black/10 dark:hover:bg-white/20 transition-colors"
+                  className="hidden sm:inline-flex items-center justify-center h-5 px-1.5 ml-2 text-[11px] font-medium font-mono text-muted-foreground/70 bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 rounded-[4px] cursor-pointer hover:text-foreground hover:bg-black/10 dark:hover:bg-white/20 transition-colors"
                 >
                   ESC
                 </kbd>

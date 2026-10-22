@@ -91,7 +91,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
                   }}
                   className={`w-full flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition ${
                     isSelected
-                      ? 'bg-[#F0FAFF]/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
+                      ? 'bg-cream/20 border border-cyan-400/50 text-primary-foreground shadow-sm'
                       : 'hover:bg-muted text-muted-foreground border border-transparent'
                   }`}
                 >
@@ -129,7 +129,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
         whileTap={{ scale: 0.97 }}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex min-h-[44px] items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-colors cursor-pointer backdrop-blur-md ${
+        className={`flex min-h-[var(--control-min-size)] items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-bold shadow-xl transition-colors cursor-pointer backdrop-blur-md ${
           isSimulating
             ? 'border-amber-400/60 bg-amber-950/80 text-amber-200 hover:bg-amber-900/90'
             : 'border-border bg-background/90 text-foreground hover:bg-muted'
@@ -139,7 +139,7 @@ export const RoleSimulatorFloatingBar: React.FC = () => {
         <div className="flex items-center gap-1.5">
           <Eye className={`h-3.5 w-3.5 ${isSimulating ? 'text-amber-400 animate-pulse' : 'text-cyan-400'}`} />
           <span className="hidden sm:inline">Role Preview:</span>
-          <span className={`rounded px-1.5 py-0.5 text-[11px] font-mono ${isSimulating ? 'bg-[#F0FAFF]/20 text-amber-300' : 'bg-[#F0FAFF]/20 text-cyan-300'}`}>
+          <span className={`rounded px-1.5 py-0.5 text-[11px] font-mono ${isSimulating ? 'bg-cream/20 text-amber-300' : 'bg-cream/20 text-cyan-300'}`}>
             {currentConfig.shortLabel}
           </span>
         </div>

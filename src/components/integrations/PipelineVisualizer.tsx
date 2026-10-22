@@ -311,7 +311,7 @@ export const PipelineVisualizer: React.FC = () => {
           disabled={prStatus === 'blocked'}
           className={`w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
             prStatus === 'mergeable'
-              ? 'bg-[#F0FAFF] text-foreground hover:bg-[#F0FAFF] shadow-[0_0_15px_rgba(0,255,102,0.3)]'
+              ? 'bg-cream text-foreground hover:bg-cream shadow-[0_0_15px_rgba(0,255,102,0.3)]'
               : 'bg-muted text-muted-foreground cursor-not-allowed border border-border'
           }`}
         >

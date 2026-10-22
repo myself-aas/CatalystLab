@@ -6,13 +6,13 @@ export const PerfWidget = () => (
   <div className="flex flex-col gap-4 w-full h-full relative p-4">
     <div className="flex items-center justify-between">
       <span className="text-[11px] font-mono text-muted-foreground uppercase">Core Web Vitals</span>
-      <span className="text-[11px] bg-[#F0FAFF]/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">PASSING</span>
+      <span className="text-[11px] bg-cream/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">PASSING</span>
     </div>
     <div className="grid grid-cols-3 gap-2 flex-1 mt-2">
       {[
-        { label: 'LCP', val: '1.06s', color: 'bg-[#F0FAFF]' },
-        { label: 'INP', val: '42ms', color: 'bg-[#F0FAFF]' },
-        { label: 'CLS', val: '0.00', color: 'bg-[#F0FAFF]' }
+        { label: 'LCP', val: '1.06s', color: 'bg-cream' },
+        { label: 'INP', val: '42ms', color: 'bg-cream' },
+        { label: 'CLS', val: '0.00', color: 'bg-cream' }
       ].map(m => (
         <div key={m.label} className="bg-[var(--bg-surface)] rounded-lg flex flex-col items-center justify-center gap-1 border border-foreground/5 relative overflow-hidden">
           <div className={`absolute bottom-0 left-0 right-0 h-1 opacity-50 ${m.color}`} />
@@ -23,7 +23,7 @@ export const PerfWidget = () => (
     </div>
     <div className="h-10 mt-auto bg-background rounded-lg border border-border flex items-center px-3 overflow-hidden relative">
       <motion.div 
-        className="absolute inset-y-0 left-0 bg-[#F0FAFF]/20" 
+        className="absolute inset-y-0 left-0 bg-cream/20" 
         animate={{ width: ['0%', '100%'] }} 
         transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
       />
@@ -36,7 +36,7 @@ export const LatencyWidget = () => (
   <div className="flex flex-col gap-3 w-full h-full relative p-4">
     <div className="flex items-center justify-between">
       <span className="text-[11px] font-mono text-muted-foreground uppercase">Edge PoP Matrix</span>
-      <span className="text-[11px] bg-[#F0FAFF]/10 text-foreground px-2 py-0.5 rounded-full border border-[#F0FAFF]/20">ACTIVE</span>
+      <span className="text-[11px] bg-cream/10 text-foreground px-2 py-0.5 rounded-full border border-cream/20">ACTIVE</span>
     </div>
     <div className="flex-1 flex flex-col gap-2 mt-2">
       {[
@@ -48,14 +48,14 @@ export const LatencyWidget = () => (
           <span className="text-muted-foreground">{r.reg}</span>
           <div className="flex items-center gap-2">
             <div className="w-16 h-1 bg-foreground/10 rounded-full overflow-hidden">
-               <motion.div className="h-full bg-[#F0FAFF]" initial={{width: 0}} animate={{width: '60%'}} transition={{duration: 1}} />
+               <motion.div className="h-full bg-cream" initial={{width: 0}} animate={{width: '60%'}} transition={{duration: 1}} />
             </div>
             <span className="text-foreground w-8 text-right">{r.lat}</span>
           </div>
         </div>
       ))}
     </div>
-    <div className="mt-auto flex items-center justify-center gap-2 text-[11px] font-mono text-foreground border border-[#F0FAFF]/20 bg-[#F0FAFF]/5 py-1.5 rounded-md">
+    <div className="mt-auto flex items-center justify-center gap-2 text-[11px] font-mono text-foreground border border-cream/20 bg-cream/5 py-1.5 rounded-md">
       <Activity className="size-3" /> HTTP/3 QUIC Negotiated
     </div>
   </div>
@@ -93,7 +93,7 @@ export const EcoWidget = () => (
         <span className="text-[11px] font-mono text-muted-foreground">CO2e</span>
       </div>
     </div>
-    <div className="text-[11px] font-mono text-emerald-400 border border-emerald-500/20 bg-[#F0FAFF]/5 px-3 py-1 rounded-full mt-2">
+    <div className="text-[11px] font-mono text-emerald-400 border border-emerald-500/20 bg-cream/5 px-3 py-1 rounded-full mt-2">
       Cleaner than 85% of pages
     </div>
   </div>
@@ -108,7 +108,7 @@ export const SecurityWidget = () => (
       <div><span className="text-muted-foreground">&gt;</span> Checking Strict-Transport-Security... <span className="text-emerald-400">OK</span></div>
       <div><span className="text-muted-foreground">&gt;</span> Checking X-Frame-Options... <span className="text-emerald-400">DENY</span></div>
       <div><span className="text-muted-foreground">&gt;</span> Checking Content-Security-Policy...</div>
-      <div className="pl-4 text-[rgba(240,250,255,0.6)]">WARN: 'unsafe-inline' detected</div>
+      <div className="pl-4 text-cream/60">WARN: 'unsafe-inline' detected</div>
       <motion.div 
         initial={{ opacity: 0 }} 
         animate={{ opacity: [0, 1, 0] }} 
@@ -123,10 +123,10 @@ export const AiWidget = () => (
   <div className="flex flex-col w-full h-full p-4 relative font-mono text-xs">
     <div className="flex items-center justify-between mb-4">
       <span className="text-muted-foreground uppercase text-[11px]">/llms.txt Parser</span>
-      <Cpu className="size-3 text-[rgba(240,250,255,0.75)]" />
+      <Cpu className="size-3 text-cream/75" />
     </div>
     <div className="bg-background border border-border rounded p-3 flex-1 overflow-hidden relative">
-      <pre className="text-[rgba(240,250,255,0.75)] leading-relaxed">
+      <pre className="text-cream/75 leading-relaxed">
 {`{
   "crawler": "GPTBot",
   "status": "allowed",
@@ -160,12 +160,12 @@ export const RepoWidget = () => (
     </div>
     <div className="flex flex-col gap-3 relative pl-4 border-l border-border ml-2">
       <div className="relative">
-        <div className="absolute -left-[21px] top-1 size-2 rounded-full bg-[#F0FAFF] ring-2 ring-background" />
+        <div className="absolute -left-[21px] top-1 size-2 rounded-full bg-cream ring-2 ring-background" />
         <p className="text-xs text-foreground">CI/CD Pipeline Passing</p>
         <p className="text-[11px] text-muted-foreground font-mono mt-0.5">7a9f8b2 • 2m ago</p>
       </div>
       <div className="relative opacity-50">
-        <div className="absolute -left-[21px] top-1 size-2 rounded-full bg-[#F0FAFF] ring-2 ring-background" />
+        <div className="absolute -left-[21px] top-1 size-2 rounded-full bg-cream ring-2 ring-background" />
         <p className="text-xs text-foreground">Dependency Audit</p>
         <p className="text-[11px] text-muted-foreground font-mono mt-0.5">b43a1c9 • 1h ago</p>
       </div>
@@ -181,7 +181,7 @@ export const LlmoWidget = () => (
     <div className="text-4xl font-semibold text-foreground tracking-tight mt-6">
       98<span className="text-lg text-muted-foreground">/100</span>
     </div>
-    <div className="text-[11px] font-mono text-purple-400 border border-purple-500/20 bg-[#F0FAFF]/5 px-3 py-1 rounded-full">
+    <div className="text-[11px] font-mono text-purple-400 border border-purple-500/20 bg-cream/5 px-3 py-1 rounded-full">
       Highly optimized for RAG
     </div>
   </div>

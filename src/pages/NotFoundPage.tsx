@@ -15,14 +15,14 @@ import {
 
 export const NotFoundPage: React.FC = () => {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground flex flex-col justify-between relative overflow-hidden">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground flex flex-col justify-between relative overflow-hidden">
  <SEOHead
  title="404 - Node Unreachable | CatalystLab Anycast Mesh"
  description="The requested routing endpoint could not be resolved across any of our 42 global Edge PoPs."
  />
 
  {/* Ambient background grid & glow */}
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--app-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--app-border)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none opacity-20"/>
 
@@ -32,7 +32,7 @@ export const NotFoundPage: React.FC = () => {
  {/* Left Column: 404 Diagnostics & Navigation */}
  <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
  
- <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-[#F0FAFF]/10 px-2.5 py-1.5 framer-micro-tag text-amber-400 backdrop-blur-md">
+ <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-cream/10 px-2.5 py-1.5 framer-micro-tag text-amber-400 backdrop-blur-md">
  <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0"/>
  <span>HTTP 404 • ANYCAST NODE UNREACHABLE</span>
  </div>

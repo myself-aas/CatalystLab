@@ -104,7 +104,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
     <div className="space-y-8 font-sans">
       {/* Toast alert banner */}
       {toastMessage && (
-        <div className="p-3 rounded-xl bg-[#F0FAFF]/10 border border-[#F0FAFF]/30 text-foreground text-xs font-mono flex items-center justify-between animate-fadeIn">
+        <div className="p-3 rounded-xl bg-cream/10 border border-cream/30 text-foreground text-xs font-mono flex items-center justify-between animate-fadeIn">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="size-4" />
             <span>{toastMessage}</span>
@@ -159,10 +159,10 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     </div>
                     <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
                       pop.status === 'active' 
-                        ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20' 
+                        ? 'bg-cream/10 text-emerald-400 border border-emerald-500/20' 
                         : pop.status === 'draining'
-                        ? 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
-                        : 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20'
+                        ? 'bg-cream/10 text-amber-400 border border-amber-500/20'
+                        : 'bg-white/10 text-rose-400 border border-rose-500/20'
                     }`}>
                       {pop.status.toUpperCase()}
                     </span>
@@ -194,7 +194,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     disabled={drainingNode === pop.code}
                     className={`w-full py-1.5 px-2 rounded-lg font-mono text-[11px] transition cursor-pointer flex items-center justify-center gap-1.5 ${
                       pop.status === 'draining'
-                        ? 'bg-[#F0FAFF]/10 text-emerald-400 hover:bg-[#F0FAFF]/20 border border-emerald-500/20'
+                        ? 'bg-cream/10 text-emerald-400 hover:bg-cream/20 border border-emerald-500/20'
                         : 'bg-[var(--bg-surface)] text-muted-foreground hover:text-foreground hover:bg-foreground/10 border border-border'
                     }`}
                   >
@@ -253,10 +253,10 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                     <td className="p-3.5">
                       <span className={`px-2 py-0.5 rounded text-[11px] uppercase font-semibold ${
                         tenant.status === 'normal' 
-                          ? 'bg-[#F0FAFF]/10 text-emerald-400' 
+                          ? 'bg-cream/10 text-emerald-400' 
                           : tenant.status === 'throttled'
-                          ? 'bg-[#FFFFFF]/10 text-rose-400'
-                          : 'bg-[#F0FAFF]/10 text-blue-400'
+                          ? 'bg-white/10 text-rose-400'
+                          : 'bg-cream/10 text-blue-400'
                       }`}>
                         {tenant.status}
                       </span>
@@ -265,14 +265,14 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => handleTenantAction(tenant.id, 'elevate')}
-                          className="px-2 py-1 rounded bg-[#F0FAFF]/10 text-blue-400 hover:bg-[#F0FAFF]/20 text-[11px] cursor-pointer"
+                          className="px-2 py-1 rounded bg-cream/10 text-blue-400 hover:bg-cream/20 text-[11px] cursor-pointer"
                           title="Elevate API burst limits"
                         >
                           Elevate
                         </button>
                         <button
                           onClick={() => handleTenantAction(tenant.id, 'throttle')}
-                          className="px-2 py-1 rounded bg-[#FFFFFF]/10 text-rose-400 hover:bg-[#FFFFFF]/20 text-[11px] cursor-pointer"
+                          className="px-2 py-1 rounded bg-white/10 text-rose-400 hover:bg-white/20 text-[11px] cursor-pointer"
                           title="Throttle traffic"
                         >
                           Throttle
@@ -309,7 +309,7 @@ export const FramerAdminCockpit: React.FC<{ activeSubTab: string }> = ({ activeS
               </p>
             </div>
             <div className="flex items-center gap-2 font-mono text-xs text-emerald-400">
-              <span className="size-2 rounded-full bg-[#F0FAFF] animate-ping" />
+              <span className="size-2 rounded-full bg-cream animate-ping" />
               <span>8/8 Pools Healthy</span>
             </div>
           </div>

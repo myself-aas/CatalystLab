@@ -1,3 +1,5 @@
+import type { PlateSource } from '../lib/media/plates';
+
 export type CoreEngineType = 
   | 'master-audit'
   | 'health' 
@@ -62,7 +64,7 @@ export interface EngineMeta {
   pythonScript: string;
   route: string;
   docsAnchor?: string;
-  image?: string;
+  image?: PlateSource | string;
   keyVectors?: string[];
   stateOfTheArtCapabilities?: string[];
   autonomousActions?: string[];
@@ -91,7 +93,7 @@ export interface BlogPost {
   authorAvatar?: string;
   status: 'published' | 'draft' | 'archived';
   readTime: string;
-  coverImage?: string;
+  coverImage?: PlateSource | string;
   featured?: boolean;
   createdAt: number;
   updatedAt?: number;

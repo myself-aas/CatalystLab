@@ -38,15 +38,15 @@ const timeRangeData: Record<string, Array<{ date: string; score: number; securit
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#0B111A]/95 backdrop-blur-xl border border-white/15 px-4 py-3 shadow-2xl rounded-xl font-mono text-xs space-y-2">
+      <div className="bg-ink-well/95 backdrop-blur-xl border border-white/15 px-4 py-3 shadow-2xl rounded-xl font-mono text-xs space-y-2">
         <div className="text-muted-foreground flex items-center gap-2 border-b border-white/10 pb-1.5">
-          <span className="size-2 rounded-full bg-[#00D2FF] animate-pulse" />
+          <span className="size-2 rounded-full bg-[var(--chart-cyan-bright)] animate-pulse" />
           <span className="text-foreground font-semibold">{label}</span>
         </div>
         <div className="space-y-1">
           {payload.map((entry: any, index: number) => (
             <div key={`item-${index}`} className="flex items-center justify-between gap-6">
-              <span className="text-muted-foreground uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+              <span className="text-muted-foreground uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                 <span className="size-2 rounded-full" style={{ backgroundColor: entry.color }} />
                 {entry.dataKey}:
               </span>
@@ -90,7 +90,7 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-2 rounded-lg bg-[#0066FF]/10 text-[#0066FF]">
+            <span className="p-2 rounded-lg bg-node-blue/10 text-[var(--chart-blue)]">
               <Activity className="size-5" />
             </span>
             <h3 className="framer-card-title text-foreground font-semibold">Telemetry Insights</h3>
@@ -102,7 +102,7 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
 
         {/* Time-Range Dropdown Filter */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-background/50 border border-border text-xs font-mono text-muted-foreground">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-background/50 border border-border text-xs font-mono text-muted-foreground focus-within:ring-2 focus-within:ring-ring">
             <Calendar className="size-3.5 text-accent-bright" />
             <select
               value={timeRange}
@@ -155,10 +155,10 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
       <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-border/40">
         <span className="text-[11px] font-mono uppercase text-muted-foreground mr-1">Data Series:</span>
         {[
-          { key: 'score', label: 'Score', color: '#0066FF' },
-          { key: 'security', label: 'Security', color: '#10B981' },
-          { key: 'performance', label: 'Performance', color: '#00D2FF' },
-          { key: 'seo', label: 'SEO', color: '#8A2BE2' },
+          { key: 'score', label: 'Score', color: 'var(--chart-blue)' },
+          { key: 'security', label: 'Security', color: 'var(--chart-green)' },
+          { key: 'performance', label: 'Performance', color: 'var(--chart-cyan-bright)' },
+          { key: 'seo', label: 'SEO', color: 'var(--chart-violet)' },
         ].map((s) => {
           const isActive = visibleSeries[s.key as keyof typeof visibleSeries];
           return (
@@ -185,32 +185,32 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
           <AreaChart data={currentData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#0066FF" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#0066FF" stopOpacity={0} />
+                <stop offset="5%" stopColor="var(--chart-blue)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="var(--chart-blue)" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="colorSecurity" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                <stop offset="5%" stopColor="var(--chart-green)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="var(--chart-green)" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="colorPerformance" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#00D2FF" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#00D2FF" stopOpacity={0} />
+                <stop offset="5%" stopColor="var(--chart-cyan-bright)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="var(--chart-cyan-bright)" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="colorSeo" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8A2BE2" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#8A2BE2" stopOpacity={0} />
+                <stop offset="5%" stopColor="var(--chart-violet)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="var(--chart-violet)" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
             <XAxis 
               dataKey="date" 
-              stroke="#888888" 
+              stroke="var(--color-smoke)" 
               fontSize={11} 
               tickLine={false} 
               axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} 
             />
             <YAxis 
-              stroke="#888888" 
+              stroke="var(--color-smoke)" 
               fontSize={11} 
               tickLine={false} 
               axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} 
@@ -223,14 +223,14 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 type="monotone" 
                 dataKey="score" 
                 name="Score"
-                stroke="#0066FF" 
+                stroke="var(--chart-blue)" 
                 strokeWidth={2.5} 
                 fillOpacity={1} 
                 fill="url(#colorScore)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: '#0066FF', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: '#0066FF', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-blue)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-blue)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
             {visibleSeries.security && (
@@ -238,14 +238,14 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 type="monotone" 
                 dataKey="security" 
                 name="Security"
-                stroke="#10B981" 
+                stroke="var(--chart-green)" 
                 strokeWidth={2.5} 
                 fillOpacity={1} 
                 fill="url(#colorSecurity)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: '#10B981', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: '#10B981', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-green)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-green)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
             {visibleSeries.performance && (
@@ -253,14 +253,14 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 type="monotone" 
                 dataKey="performance" 
                 name="Performance"
-                stroke="#00D2FF" 
+                stroke="var(--chart-cyan-bright)" 
                 strokeWidth={2.5} 
                 fillOpacity={1} 
                 fill="url(#colorPerformance)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: '#00D2FF', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: '#00D2FF', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-cyan-bright)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-cyan-bright)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
             {visibleSeries.seo && (
@@ -268,14 +268,14 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
                 type="monotone" 
                 dataKey="seo" 
                 name="SEO"
-                stroke="#8A2BE2" 
+                stroke="var(--chart-violet)" 
                 strokeWidth={2.5} 
                 fillOpacity={1} 
                 fill="url(#colorSeo)"
                 isAnimationActive={true}
                 animationDuration={1200}
-                dot={{ r: 4, fill: '#8A2BE2', stroke: '#fff', strokeWidth: 2 }}
-                activeDot={{ r: 7, fill: '#8A2BE2', stroke: '#fff', strokeWidth: 2 }}
+                dot={{ r: 4, fill: 'var(--chart-violet)', stroke: 'white', strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: 'var(--chart-violet)', stroke: 'white', strokeWidth: 2 }}
               />
             )}
           </AreaChart>

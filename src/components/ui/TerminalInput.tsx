@@ -94,9 +94,9 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
             <div className="flex items-center gap-2">
               {/* Traffic light LEDs */}
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FFFFFF]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-white" />
+                <span className="w-2.5 h-2.5 rounded-full bg-cream" />
+                <span className="w-2.5 h-2.5 rounded-full bg-cream" />
               </div>
               <span className="text-[11px] font-mono text-muted-foreground tracking-wider flex items-center gap-1.5 ml-2">
                 <Terminal className="w-3 h-3 text-primary" />
@@ -118,7 +118,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
         )}
 
         {/* Command Line Input Row */}
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 px-2">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2 px-2 rounded-lg focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
           {/* Prompt Indicator */}
           <div aria-hidden="true" className="flex items-center gap-1.5 shrink-0 select-none text-xs sm:text-sm font-mono font-bold">
             <span className="text-emerald-400 hidden sm:inline">{promptPrefix}</span>

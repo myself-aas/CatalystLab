@@ -9,7 +9,7 @@ const steps = [
     title: 'Ingest & Resolve (0ms - 120ms)',
     description: 'Multi-region DNS & TLS 1.3 handshake resolution.',
     icon: Network,
-    color: '#F0FAFF',
+    color: 'var(--color-cream)',
     time: '120ms',
   },
   {
@@ -17,7 +17,7 @@ const steps = [
     title: 'Eight Engines Parallel (120ms - 640ms)',
     description: 'Asynchronous bytecode and DOM tree telemetry.',
     icon: Cpu,
-    color: '#F0FAFF',
+    color: 'var(--color-cream)',
     time: '520ms',
   },
   {
@@ -25,7 +25,7 @@ const steps = [
     title: 'AI Discoverability (640ms - 880ms)',
     description: 'LLM crawlability, robots.txt, and semantic schema check.',
     icon: Bot,
-    color: '#F0FAFF',
+    color: 'var(--color-cream)',
     time: '240ms',
   },
   {
@@ -33,7 +33,7 @@ const steps = [
     title: 'Dossier & Automated Patches (880ms - 1060ms)',
     description: 'One-click PR branch generation with verified patch diffs.',
     icon: FileCheck,
-    color: '#F0FAFF',
+    color: 'var(--color-cream)',
     time: '180ms',
   },
 ];
@@ -51,7 +51,7 @@ export const WorkflowSection: React.FC = () => {
     <section
       id="workflow-section"
       ref={containerRef}
-      data-theme="dark"
+     
       className="ds-section relative bg-background text-foreground border-b border-border overflow-hidden"
     >
       <div className="ds-page-shell">
@@ -65,7 +65,7 @@ export const WorkflowSection: React.FC = () => {
             </p>
           </LazyReveal>
           <div className="flex items-center gap-2 text-sm font-mono text-muted-foreground bg-background border border-border p-3 rounded-xl shadow-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#F0FAFF] animate-ping" />
+            <span className="w-2.5 h-2.5 rounded-full bg-cream animate-ping" />
             <span>TOTAL LATENCY: <strong className="text-foreground text-base">1.06s</strong></span>
           </div>
         </div>
@@ -75,7 +75,7 @@ export const WorkflowSection: React.FC = () => {
           <div className="hidden lg:block absolute top-[40px] left-[12.5%] right-[12.5%] h-px bg-foreground/10 -z-10" />
           <motion.div 
             style={{ width: lineHeight }} 
-            className="hidden lg:block absolute top-[40px] left-[12.5%] h-px bg-gradient-to-r from-[#F0FAFF] via-[#F0FAFF] to-[#F0FAFF] -z-10 shadow-[0_0_10px_rgba(240,250,255,0.25)]" 
+            className="hidden lg:block absolute top-[40px] left-[12.5%] h-px bg-gradient-to-r from-cream via-cream to-cream -z-10 shadow-[0_0_10px_rgba(240,250,255,0.25)]" 
           />
           
           <div className="flex flex-col gap-6 lg:grid lg:grid-cols-4 lg:gap-6">
@@ -86,14 +86,14 @@ export const WorkflowSection: React.FC = () => {
                   <div className="relative flex items-start gap-4 lg:flex-col lg:items-center group">
                     {/* Mobile Timeline Track Indicator */}
                     <div className="flex flex-col items-center shrink-0 lg:hidden pt-2">
-                      <div className="w-2 h-2 rounded-full bg-foreground/20 group-hover:bg-[#F0FAFF] transition-colors" />
+                      <div className="w-2 h-2 rounded-full bg-foreground/20 group-hover:bg-cream transition-colors" />
                       {idx < steps.length - 1 && <div className="w-px flex-1 min-h-[50px] bg-border my-2" />}
                     </div>
                     
                     <div className="hidden lg:flex w-[80px] h-[80px] mx-auto bg-surface border border-border rounded-2xl items-center justify-center relative group-hover:border-foreground/30 transition-colors shadow-xl">
                       <Icon className="size-8 text-foreground/50 group-hover:text-foreground transition-colors" />
                       <div className="absolute -bottom-3 left-1/2 -translate-x-1/2">
-                        <span className="text-foreground font-mono text-xs bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 px-2 py-0.5 rounded shadow-sm whitespace-nowrap">
+                        <span className="text-foreground font-mono text-xs bg-cream/10 border border-cream/20 px-2 py-0.5 rounded shadow-sm whitespace-nowrap">
                           {step.time}
                         </span>
                       </div>
@@ -105,7 +105,7 @@ export const WorkflowSection: React.FC = () => {
                         {step.title.split(' (')[0]}
                       </h3>
                       <div className="lg:hidden mb-2">
-                        <span className="text-foreground font-mono text-[11px] bg-[#F0FAFF]/10 border border-[#F0FAFF]/20 px-1.5 py-0.5 rounded">
+                        <span className="text-foreground font-mono text-[11px] bg-cream/10 border border-cream/20 px-1.5 py-0.5 rounded">
                           {step.title.match(/\((.*?)\)/)?.[1]}
                         </span>
                       </div>

@@ -223,9 +223,9 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
       <div className="p-3 bg-muted/40 border-b border-border flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-[#FFFFFF]/80 border border-rose-600/50" />
-            <span className="h-3 w-3 rounded-full bg-[#F0FAFF]/80 border border-amber-500/50" />
-            <span className="h-3 w-3 rounded-full bg-[#F0FAFF]/80 border border-emerald-600/50" />
+            <span className="h-3 w-3 rounded-full bg-white/80 border border-rose-600/50" />
+            <span className="h-3 w-3 rounded-full bg-cream/80 border border-amber-500/50" />
+            <span className="h-3 w-3 rounded-full bg-cream/80 border border-emerald-600/50" />
           </div>
           <span className="text-muted-foreground font-bold ml-1 flex items-center gap-1.5">
             <TerminalIcon className="h-3.5 w-3.5 text-cyan-400" />
@@ -309,7 +309,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
 
         {isExecuting && (
           <div className="flex items-center gap-2 text-muted-foreground pl-5 animate-pulse">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#F0FAFF]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-cream" />
             <span>Executing probe via daemon...</span>
           </div>
         )}
@@ -318,7 +318,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
       </div>
 
       {/* Command Input Prompt */}
-      <div className="p-3 bg-card border-t border-border flex items-center gap-2">
+      <div className="p-3 bg-card border-t border-border flex items-center gap-2 focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
         <span aria-hidden="true" className="text-cyan-400 font-bold select-none">&gt;_</span>
         <input
           ref={inputRef}
@@ -335,7 +335,7 @@ export const CLISimulator: React.FC<CLISimulatorProps> = ({
           onClick={() => handleCommand(inputVal)}
           disabled={!inputVal.trim()}
           aria-label="Execute command"
-          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-[#F0FAFF] disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+          className="p-1.5 rounded-lg bg-primary text-foreground hover:bg-cream disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
           title="Run command (Enter)"
         >
           <CornerDownLeft className="h-3.5 w-3.5" aria-hidden="true" />

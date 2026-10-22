@@ -49,9 +49,9 @@ export const AdminDashboardPage: React.FC = () => {
  // Access Control: Strict Superadmin Authorization Gate
  if (!user || !isAdmin) {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-mono flex items-center justify-center p-4 relative overflow-hidden">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-mono flex items-center justify-center p-4 relative overflow-hidden">
  {/* Subsurface glow */}
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  
  <SEOHead
@@ -65,7 +65,7 @@ export const AdminDashboardPage: React.FC = () => {
  </div>
 
  {/* Admin badge */}
- <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full framer-micro-tag bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20 mb-3">
+ <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full framer-micro-tag bg-cream/10 text-amber-400 border border-amber-500/20 mb-3">
  <span>Access Control Restricted</span>
  </div>
 
@@ -127,7 +127,7 @@ export const AdminDashboardPage: React.FC = () => {
  displayName: 'Asif Ahmed Shuvo (Superadmin)',
  isAdmin: true
  })}
- className="w-full py-2 px-3 rounded-xl border border-emerald-500/20 bg-[#F0FAFF]/10 hover:bg-[#F0FAFF]/20 text-emerald-400 text-xs font-mono transition flex items-center justify-center gap-1.5 cursor-pointer"
+ className="w-full py-2 px-3 rounded-xl border border-emerald-500/20 bg-cream/10 hover:bg-cream/20 text-emerald-400 text-xs font-mono transition flex items-center justify-center gap-1.5 cursor-pointer"
  >
  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
  <span>Dev-only preview session</span>
@@ -149,7 +149,7 @@ export const AdminDashboardPage: React.FC = () => {
 
  // Authorized Superadmin Workspace
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-[#F0FAFF] selection:text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-foreground selection:text-foreground">
  <SEOHead
  title="Command Center & Infrastructure Radar — CatalystLab Admin"
  description="Continuous uptime monitoring, live Firestore audit logs, diagnostic container telemetry, and blog publishing."
@@ -157,12 +157,12 @@ export const AdminDashboardPage: React.FC = () => {
  />
 
  {/* Admin Shell Header Banner */}
- <section className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-6 bg-[rgba(31,34,35,0.8)] backdrop-blur-2xl border-b border-[rgba(240,250,255,0.08)] px-4 sm:px-6 lg:px-10">
+ <section className="sticky top-[var(--nav-height,4rem)] z-20 pt-0 pb-6 bg-[rgba(31,34,35,0.8)] backdrop-blur-2xl border-b border-cream/8 px-4 sm:px-6 lg:px-10">
  <div className="max-w-7xl mx-auto space-y-4">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
  {/* Specification 5.1: Banner Badge */}
- <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full framer-micro-tag bg-[#F0FAFF]/10 text-foreground border border-cyan-500/20 mb-2">
+ <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full framer-micro-tag bg-cream/10 text-foreground border border-cyan-500/20 mb-2">
  <Terminal className="size-3.5 text-amber-400 shrink-0" />
  <span>[ SYSTEM ADMIN · ROOT PRIVILEGES ENABLED ]</span>
  </div>
@@ -178,9 +178,9 @@ export const AdminDashboardPage: React.FC = () => {
  {/* Superadmin Status Pill */}
  <div className="flex items-center gap-3 shrink-0">
  <div className="px-3.5 py-2 rounded-xl ds-card flex items-center gap-2.5 font-mono text-xs">
- <span className="size-2 rounded-full bg-[#F0FAFF] animate-pulse shrink-0" />
+ <span className="size-2 rounded-full bg-cream animate-pulse shrink-0" />
  <span className="text-foreground truncate max-w-[180px]">{user.email}</span>
- <span className="px-1.5 py-0.5 rounded bg-[#F0FAFF]/10 text-amber-400 text-[11px] font-semibold border border-amber-500/20 font-mono">
+ <span className="px-1.5 py-0.5 rounded bg-cream/10 text-amber-400 text-[11px] font-semibold border border-amber-500/20 font-mono">
  ROOT
  </span>
  </div>

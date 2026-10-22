@@ -25,7 +25,7 @@ export const LegalPage: React.FC = () => {
  }
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground">
  <SEOHead
  title={`${title} — CatalystLab`}
  description={content}

@@ -163,7 +163,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
   const wins = activeVectors.filter((v) => v.verdict === 'WIN').length;
 
   const chartData = [
-    { name: 'Target', score: activeSelected.targetScore, fill: '#F0FAFF' },
+    { name: 'Target', score: activeSelected.targetScore, fill: 'var(--color-cream)' },
     { name: 'Benchmark', score: activeSelected.benchmarkScore, fill: 'rgba(240,250,255,0.5)' },
   ];
 
@@ -177,7 +177,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
       <div className="p-5 border-b border-border">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
+            <div className="p-2 rounded-lg bg-cream/10 text-foreground border border-cream/20">
               <ArrowLeftRight className="w-4 h-4" />
             </div>
             <div>
@@ -189,7 +189,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
               </h3>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-sans font-bold bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-sans font-bold bg-cream/10 text-emerald-400 border border-emerald-500/20">
             <Trophy className="w-3.5 h-3.5 text-emerald-400" />
             <span>{wins}/{activeVectors.length} Vectors Ahead</span>
           </span>
@@ -210,7 +210,7 @@ export const BenchmarkCard: React.FC<BenchmarkCardProps> = ({
                 onClick={() => setSelectedVectorId(vec.id)}
                 className={`w-full p-3 rounded-xl border transition ${
                   isSelected
-                    ? 'border-[#F0FAFF]/30 bg-[#F0FAFF]/10 shadow-sm'
+                    ? 'border-cream/30 bg-cream/10 shadow-sm'
                     : 'border-border hover:border-border hover:bg-muted'
                 }`}
               >

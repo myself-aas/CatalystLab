@@ -65,15 +65,15 @@ export const LatestNewsAndInsights: React.FC = () => {
           
           {/* Filtering Toolbar */}
           <div className="flex justify-center">
-            <div className="flex gap-2 p-1.5 bg-[rgba(240,250,255,0.03)] border border-[rgba(240,250,255,0.1)] rounded-full font-mono text-xs shadow-sm">
+            <div className="flex gap-2 p-1.5 bg-cream/3 border border-cream/10 rounded-full font-mono text-xs shadow-sm">
               {(['Engineering', 'Security', 'AI'] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={`rounded-full px-5 py-2 transition duration-300 ${
                     activeTab === tab
-                      ? 'bg-[rgba(240,250,255,0.15)] text-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-[rgba(240,250,255,0.05)]'
+                      ? 'bg-cream/15 text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-cream/5'
                   }`}
                 >
                   {tab}
@@ -103,16 +103,16 @@ export const LatestNewsAndInsights: React.FC = () => {
                 >
                     <Link
                       to={`/blog/${article.slug || article.id}`}
-                      className="group relative block aspect-[4/5] overflow-hidden rounded-3xl sm:rounded-[32px] border border-[rgba(240,250,255,0.1)] shadow-lg"
+                      className="group relative block aspect-[4/5] overflow-hidden rounded-3xl sm:rounded-[32px] border border-cream/10 shadow-lg"
                     >
                     {/* Background Image */}
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${getBlogCoverImage(article)})` }}
+                      style={{ backgroundImage: `url(${getBlogCoverImage(article).src})` }}
                     />
                     
                     {/* Gradient Overlay for Text Readability */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#111827]/80 via-transparent to-[#111827]/95" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-ink-navy/80 via-transparent to-ink-navy/95" />
                     
                     {/* Content Container */}
                     <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between text-white">
@@ -123,7 +123,7 @@ export const LatestNewsAndInsights: React.FC = () => {
                           <span className="text-muted-foreground">{article.createdAt ? new Date(article.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Latest'}</span>
                           <span className="text-foreground">{article.category || 'Engineering'}</span>
                         </div>
-                        <div className="size-10 rounded-full border border-[rgba(240,250,255,0.2)] backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-[rgba(240,250,255,0.2)] group-hover:border-[rgba(240,250,255,0.4)] shrink-0">
+                        <div className="size-10 rounded-full border border-cream/20 backdrop-blur-md flex items-center justify-center transition-colors duration-300 group-hover:bg-cream/20 group-hover:border-cream/40 shrink-0">
                           <ArrowUpRight className="size-5" />
                         </div>
                       </div>
@@ -153,7 +153,7 @@ export const LatestNewsAndInsights: React.FC = () => {
         >
           <Link
             to="/blogs"
-            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[rgba(240,250,255,0.1)] hover:border-[rgba(240,250,255,0.3)] transition-colors bg-[rgba(240,250,255,0.05)] backdrop-blur-sm"
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-cream/10 hover:border-cream/30 transition-colors bg-cream/5 backdrop-blur-sm"
           >
             <div className="size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
               <ArrowRight className="size-4" />

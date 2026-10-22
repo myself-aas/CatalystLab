@@ -185,7 +185,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background font-sans text-foreground">
+ <div className="min-h-screen ds-page-top-hero bg-background font-sans text-foreground">
  <SEOHead
  title={`${meta.catalystName || meta.name} Catalyst — CatalystLab`}
  description={meta.description}
@@ -196,7 +196,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <EngineSubNav />
 
  <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex justify-end">
@@ -223,7 +223,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <span className="rounded-full border border-border bg-[var(--bg-surface)] px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
  {meta.sdlcPhase || `SDLC Phase ${meta.sdlcPhaseNumber}`}
  </span>
- <span className="inline-flex items-center gap-1 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 font-mono text-[11px] text-foreground">
+ <span className="inline-flex items-center gap-1 rounded-full border border-cream/20 bg-cream/10 px-3 py-1 font-mono text-[11px] text-foreground">
  <ShieldCheck className="size-3.5 shrink-0"/>
  Replaces {meta.departmentReplaced}
  </span>

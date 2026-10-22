@@ -1,3 +1,4 @@
+import type { PlateSource } from '../../lib/media/plates';
 import React from 'react';
 
 export type CardVariant = 'immersive' | 'surface' | 'terminal' | 'swatch';
@@ -38,7 +39,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLElement> {
 
 export interface CardMediaProps extends React.HTMLAttributes<HTMLElement> {
   assetId?: string;
-  src?: string;
+  src?: PlateSource | string;
   /** Optional fallback source URLs; tried in order when earlier ones fail. */
   sources?: string[];
   alt: string;

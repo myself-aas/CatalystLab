@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import sampleHeroImage from '../../assets/images/page-blog-performance.jpg';
+import { PLATE } from '../../lib/media/plates';
 import { motion } from 'motion/react';
 import { 
   Image as ImageIcon, 
@@ -25,6 +25,7 @@ import {
   X
 } from 'lucide-react';
 import { getBlogCoverImage } from '../../utils/blogImageMap';
+import { PlateImage, asPlate, type PlateSource } from '../common/PlateImage';
 
 interface HeroImageLivePreviewProps {
   imageUrl: string;
@@ -56,7 +57,8 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState(false);
 
-  const effectiveUrl = imageUrl?.trim() || getBlogCoverImage({ title, category, coverImage: imageUrl } as any);
+  const effectivePlate: PlateSource = imageUrl?.trim() ? asPlate(imageUrl) : getBlogCoverImage({ title, category, coverImage: imageUrl } as any);
+  const effectiveUrl = effectivePlate.src;
 
   // Validate image URL on load
   useEffect(() => {
@@ -103,7 +105,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
       const random = presetImages[Math.floor(Math.random() * presetImages.length)];
       onUrlChange(random.url);
     } else {
-      onUrlChange(sampleHeroImage);
+      onUrlChange(PLATE.blogPerformance.src);
     }
   };
 
@@ -188,13 +190,13 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             value={imageUrl || ''}
             onChange={(e) => onUrlChange(e.target.value)}
             placeholder="Paste an image URL or pick a local preset below"
-            className="w-full rounded-xl border border-border bg-background pl-3.5 pr-20 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-background focus:outline-none font-mono"
+            className="w-full rounded-xl border border-border bg-background pl-3.5 pr-20 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring font-mono"
           />
           <div className="absolute right-1.5 flex items-center gap-1">
             <button
               type="button"
               onClick={handleCopyUrl}
-              className="min-h-11 min-w-11 p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="min-h-[var(--control-min-size)] min-w-11 p-1.5 rounded-lg text-muted-foreground hover:text-amber-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               title="Copy Image URL"
             >
               {copiedUrl ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
@@ -263,7 +265,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <select
             value={aspectRatio}
             onChange={(e) => setAspectRatio(e.target.value as any)}
-            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus:border-background focus:outline-none"
+            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <option value="16/9">16:9 Standard</option>
             <option value="21/9">21:9 Cinema</option>
@@ -274,7 +276,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
           <select
             value={overlayDarkness}
             onChange={(e) => setOverlayDarkness(e.target.value as any)}
-            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus:border-background focus:outline-none"
+            className="rounded-lg border border-border bg-background px-2 py-1 text-muted-foreground font-mono text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <option value="none">No Overlay</option>
             <option value="subtle">Subtle Darken</option>
@@ -305,7 +307,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={handleRandomize}
-                className="min-h-11 min-w-11 mt-3 inline-flex items-center gap-1 rounded-lg bg-[#FFFFFF]/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-[#FFFFFF]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-h-[var(--control-min-size)] min-w-11 mt-3 inline-flex items-center gap-1 rounded-lg bg-white/30 border border-rose-400/40 px-3 py-1 text-[11px] font-bold text-foreground hover:bg-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Sparkles className="h-3 w-3" />
                 <span>Try Curated Preset</span>
@@ -313,8 +315,8 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
             </div>
           ) : (
             <>
-              <img
-                src={effectiveUrl}
+              <PlateImage
+                {...effectivePlate}
                 alt={title || 'Article Hero Banner'}
                 className={`w-full h-full transition duration-500 ${
                   fitMode === 'contain' ? 'object-contain bg-primary' : 'object-cover'
@@ -478,12 +480,11 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
 
             {/* High-Res Banner in Modal */}
             <div className="relative rounded-3xl overflow-hidden border border-border aspect-[16/9] shadow-2xl bg-primary">
-              <img
-                src={effectiveUrl}
+              <PlateImage
+                {...effectivePlate}
                 alt={title}
                 className="w-full h-full object-cover"
-                
-              loading="lazy" decoding="async" />
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent p-6 sm:p-10 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <span className="rounded-lg bg-primary text-primary-foreground px-3.5 py-1 text-xs font-extrabold uppercase tracking-wider">
@@ -517,7 +518,7 @@ export const HeroImageLivePreview: React.FC<HeroImageLivePreviewProps> = ({
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-[#F0FAFF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="rounded-xl bg-primary px-6 py-2.5 text-xs font-bold text-primary-foreground hover:bg-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Close Preview
               </button>

@@ -464,7 +464,7 @@ func main() {
  };
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-[#F0FAFF] selection:text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground selection:bg-foreground selection:text-foreground">
  <SEOHead
  title="Live REST API Playground — CatalystLab"
  description="Interactive REST test harness for single diagnostic engines and composite master audits."
@@ -474,7 +474,7 @@ func main() {
  
  {/* Top Header Hero */}
  <section className="relative overflow-hidden border-b border-border bg-card w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
  <div className="absolute inset-0 bg-[linear-gradient(to_right,#F0FAFF25_1px,transparent_1px),linear-gradient(to_bottom,#F0FAFF25_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"/>
 
@@ -493,7 +493,7 @@ func main() {
  Playground
  </span>
  </h1>
- <span className="rounded-full bg-[#F0FAFF]/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-foreground">
+ <span className="rounded-full bg-cream/10 border border-cyan-500/20 px-2.5 py-1 text-xs font-mono font-bold text-foreground">
  {endpointPath}
  </span>
  </div>
@@ -551,7 +551,7 @@ func main() {
  }`}
  >
  <span className={`h-2 w-2 rounded-full ${
- eng.id === 'master' ? 'bg-[#F0FAFF]' : 'bg-[#F0FAFF]'
+ eng.id === 'master' ? 'bg-cream' : 'bg-cream'
  }`} />
  <span>{eng.name}</span>
  <span className={`text-[11px] py-0.5 rounded ${
@@ -612,7 +612,7 @@ func main() {
  <span className="rounded bg-primary px-2.5 py-0.5 text-[11px] text-primary-foreground">POST</span>
  <span>{endpointPath}</span>
  </div>
- <span className="text-[11px] font-bold text-amber-400 bg-[#F0FAFF]/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
+ <span className="text-[11px] font-bold text-amber-400 bg-cream/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
  Cost: {activeEngine.cost} Unit
  </span>
  </div>
@@ -752,7 +752,7 @@ func main() {
  rows={8}
  value={rawJsonPayload}
  onChange={(e) => setRawJsonPayload(e.target.value)}
- className="ds-card w-full p-3 text-xs font-mono focus:outline-none focus:border-[#F0FAFF]"
+ className="ds-card w-full p-3 text-xs font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-cream"
  placeholder="{\n &quot;engine&quot;: &quot;health&quot;,\n &quot;url&quot;: &quot;https://example.com&quot;\n}"
  />
  </div>
@@ -798,7 +798,7 @@ func main() {
  ))}
  </select>
  ) : (
- <div className="flex items-center justify-between rounded-xl bg-[#F0FAFF]/10 border border-amber-500/20 p-2 text-xs text-amber-400">
+ <div className="flex items-center justify-between rounded-xl bg-cream/10 border border-amber-500/20 p-2 text-xs text-amber-400">
  <span>No saved keys found.</span>
  <Link to="/dashboard?tab=api-keys" className="font-bold underline">
  Generate Key
@@ -871,7 +871,7 @@ func main() {
  >
  <div className="flex items-center gap-1.5 overflow-hidden">
  <span className={`text-[11px] font-mono font-bold py-0.5 rounded ${
- item.status === 200 ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20' : 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20'
+ item.status === 200 ? 'bg-cream/10 text-emerald-400 border border-emerald-500/20' : 'bg-white/10 text-rose-400 border border-rose-500/20'
  }`}>
  {item.status}
  </span>
@@ -909,10 +909,10 @@ func main() {
  <div className="flex items-center gap-1.5 ml-2">
  <span className={`rounded px-2.5 py-0.5 text-[11px] font-bold ${
  responseStatus === 200 
- ? 'bg-[#F0FAFF]/10 text-emerald-400 border border-emerald-500/20'
+ ? 'bg-cream/10 text-emerald-400 border border-emerald-500/20'
  : responseStatus === 429
- ? 'bg-[#FFFFFF]/10 text-rose-400 border border-rose-500/20'
- : 'bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20'
+ ? 'bg-white/10 text-rose-400 border border-rose-500/20'
+ : 'bg-cream/10 text-amber-400 border border-amber-500/20'
  }`}>
  {responseStatus} {responseStatusText}
  </span>
@@ -1004,7 +1004,7 @@ func main() {
 
  {/* Rate Limit Remaining Callout in Output */}
  {responsePayload?.rateLimit && (
- <div className="rounded-xl border border-emerald-500/20 bg-[#F0FAFF]/10 p-3 text-xs text-emerald-400 flex items-center justify-between">
+ <div className="rounded-xl border border-emerald-500/20 bg-cream/10 p-3 text-xs text-emerald-400 flex items-center justify-between">
  <div className="flex items-center gap-1.5">
  <Zap className="h-3.5 w-3.5 text-emerald-400"/>
  <span>

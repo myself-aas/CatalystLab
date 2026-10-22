@@ -96,7 +96,7 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = ({ code, language, title,
           <button
             type="button"
             onClick={handleRunInCli}
-            className="inline-flex h-7 items-center gap-1 rounded px-2 text-[12px] font-medium text-foreground hover:bg-[#F0FAFF]/10 transition-colors"
+            className="inline-flex h-7 items-center gap-1 rounded px-2 text-[12px] font-medium text-foreground hover:bg-cream/10 transition-colors"
             title="Run in CLI"
           >
             <Play className="size-3 fill-current" />
@@ -231,7 +231,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
   const NavTree = (
     <nav aria-label="Documentation" className="docs-sidenav-inner">
       <Link to="/docs" className="mb-4 flex items-center gap-2 px-1 no-underline">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-[#F0FAFF] text-foreground-foreground text-sm font-bold">C</span>
+        <span className="flex size-8 items-center justify-center rounded-lg bg-cream text-foreground-foreground text-sm font-bold">C</span>
         <span className="leading-tight">
           <span className="block text-[13px] font-medium text-foreground">CatalystLab</span>
           <span className="block text-[11px] text-muted-foreground">Documentation</span>
@@ -278,14 +278,14 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                         onClick={() => setMobileNavOpen(false)}
                         className={`flex min-h-9 items-center justify-between rounded-r-full border-l-[3px] py-1.5 pl-3 pr-3 text-[13px] leading-snug no-underline ${
                           active
-                            ? 'border-[#F0FAFF] bg-[#F0FAFF]/10 font-semibold text-foreground'
+                            ? 'border-cream bg-cream/10 font-semibold text-foreground'
                             : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
                         }`}
                         aria-current={active ? 'page' : undefined}
                       >
                         <span className="truncate">{item.title}</span>
                         {item.badge && (
-                          <span className="ml-2 shrink-0 rounded-full bg-[#F0FAFF]/10 px-1.5 py-0.5 font-mono text-[11px] text-foreground">
+                          <span className="ml-2 shrink-0 rounded-full bg-cream/10 px-1.5 py-0.5 font-mono text-[11px] text-foreground">
                             {item.badge}
                           </span>
                         )}
@@ -303,7 +303,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
   
   return (
-    <div data-theme="dark" className="docs-devsite min-h-screen bg-background text-foreground">
+    <div className="docs-devsite min-h-screen bg-background text-foreground">
       <SEOHead
         title={`${title} | CatalystLab Documentation`}
         description={description}
@@ -370,7 +370,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                 onClick={() => setCliOpen((v) => !v)}
                 className={`inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium ${
                   cliOpen
-                    ? 'bg-[#F0FAFF]/10 text-foreground'
+                    ? 'bg-cream/10 text-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
@@ -447,7 +447,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       onClick={() => setFeedbackGiven('yes')}
                       className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
                         feedbackGiven === 'yes'
-                          ? 'border-emerald-500 bg-[#F0FAFF]/10 text-emerald-600 dark:text-emerald-400'
+                          ? 'border-emerald-500 bg-cream/10 text-emerald-600 dark:text-emerald-400'
                           : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >
@@ -458,7 +458,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       onClick={() => setFeedbackGiven('no')}
                       className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-[13px] font-medium ${
                         feedbackGiven === 'no'
-                          ? 'border-rose-500 bg-[#FFFFFF]/10 text-rose-600 dark:text-rose-400'
+                          ? 'border-rose-500 bg-white/10 text-rose-600 dark:text-rose-400'
                           : 'border-border text-foreground hover:bg-accent'
                       }`}
                     >

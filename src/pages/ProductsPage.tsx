@@ -1,6 +1,9 @@
 import { motion } from "motion/react";
 import productLifestyle from '../assets/images/product-lifestyle.jpg';
 import productsImage from '../assets/images/page-products.jpg';
+import { PlateImage } from '../components/common/PlateImage';
+import productsImageWebp from '../assets/images/page-products.webp';
+import productsImageAvif from '../assets/images/page-products.avif';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -121,7 +124,7 @@ export default {
 };`;
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top-hero bg-background text-foreground">
+ <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Automated Plugins & Domain Monitoring Watchdog | CatalystLab"
  description="Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains."
@@ -131,7 +134,7 @@ export default {
 
  {/* Hero Section */}
  <section className="relative overflow-hidden bg-card border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(#F3F4F6_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
+ <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
 <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 ds-page-shell text-center space-y-5">
@@ -140,11 +143,11 @@ export default {
  <Radio className="h-3.5 w-3.5 text-foreground animate-pulse shrink-0"/>
  <span className="font-semibold">Products &amp; Continuous Telemetry</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-cream/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
  <span>Automated Multi-Engine Cron</span>
  </span>
- <span className="inline-flex items-center gap-1.5 rounded-full border border-[#F0FAFF]/20 bg-[#F0FAFF]/10 px-3 py-1 text-xs font-mono text-foreground font-semibold shadow-xs">
+ <span className="inline-flex items-center gap-1.5 rounded-full border border-cream/20 bg-cream/10 px-3 py-1 text-xs font-mono text-foreground font-semibold shadow-xs">
  <Globe className="h-3.5 w-3.5 text-foreground shrink-0"/>
  <span>42 Global PoPs</span>
  </span>
@@ -160,7 +163,7 @@ export default {
  Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains. Prevent Core Web Vitals regressions, OWASP header drift, and AI readiness drops before users notice.
  </p>
  <figure className="mx-auto mt-10 max-w-4xl">
-   <img src={productsImage} alt="CatalystLab dashboard on laptop, tablet and phone in a bright studio" loading="lazy" decoding="async" className="w-full rounded-2xl border border-[#111827]/[0.08] object-cover aspect-[16/9]" />
+   <PlateImage src={productsImage} webp={productsImageWebp} avif={productsImageAvif} alt="CatalystLab dashboard on laptop, tablet and phone in a bright studio" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
 
  <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -325,10 +328,10 @@ export default {
  <div className="ds-card flex flex-col p-6 ds-card-interactive">
  <div>
  <div className="flex items-center justify-between gap-2 mb-5">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20">
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cream/10 text-amber-400 border border-amber-500/20">
  <Terminal className="h-5 w-5"/>
  </div>
- <span className="text-[11px] font-mono font-bold bg-[#F0FAFF]/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-lg">
+ <span className="text-[11px] font-mono font-bold bg-cream/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-lg">
  CI / CD Quality Gate
  </span>
  </div>
@@ -369,10 +372,10 @@ export default {
  <div className="ds-card flex flex-col p-6 ds-card-interactive">
  <div>
  <div className="flex items-center justify-between gap-2 mb-5">
- <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20">
+ <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cream/10 text-foreground border border-cream/20">
  <Globe className="h-5 w-5"/>
  </div>
- <span className="text-[11px] font-mono font-bold bg-[#F0FAFF]/10 text-foreground border border-[#F0FAFF]/20 px-2.5 py-1 rounded-lg">
+ <span className="text-[11px] font-mono font-bold bg-cream/10 text-foreground border border-cream/20 px-2.5 py-1 rounded-lg">
  Edge Telemetry
  </span>
  </div>
@@ -574,7 +577,7 @@ export default {
  <div className="flex space-x-1.5">
  <div className="h-2.5 w-2.5 rounded-full bg-muted"/>
  <div className="h-2.5 w-2.5 rounded-full bg-muted"/>
- <div className="h-2.5 w-2.5 rounded-full bg-[#F0FAFF] shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"/>
+ <div className="h-2.5 w-2.5 rounded-full bg-cream shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"/>
  </div>
  <span className="text-xs font-mono font-medium text-muted-foreground">catalystlab-config.json</span>
  </div>
@@ -723,7 +726,7 @@ export default {
  </Link>
  <Link
  to="/contact"
- className="ds-card w-full items-center gap-2 text-primary-foreground text-sm font-sans font-semibold ds-card-interactive p-4"
+ className="ds-card w-full items-center gap-2 text-foreground text-sm font-sans font-semibold ds-card-interactive p-4"
  >
  <span>Contact Engineering</span>
  </Link>

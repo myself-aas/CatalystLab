@@ -1,5 +1,5 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend } from 'recharts';
 import { Activity, Users, Clock, Globe, ArrowUpRight } from 'lucide-react';
 import type { AuditReport } from '../../types';
 import { motion } from 'motion/react';
@@ -8,7 +8,7 @@ interface UserAnalyticsDashboardProps {
   reports?: AuditReport[];
 }
 
-const BRAND_COLORS = ['#F0FAFF', '#F0FAFF', '#F0FAFF', '#F0FAFF'];
+const BRAND_COLORS = ['var(--chart-cyan)', 'var(--chart-green)', 'var(--chart-amber)', 'var(--chart-violet)'];
 
 const mockTraffic = [
   { name: 'Mon', value: 400 },
@@ -33,10 +33,10 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Audits', value: reports?.length || 0, icon: Activity, color: 'text-foreground', bg: 'bg-[#F0FAFF]/10' },
-          { label: 'Avg Latency', value: '124ms', icon: Clock, color: 'text-emerald-400', bg: 'bg-[#F0FAFF]/10' },
-          { label: 'Global Reach', value: '12 Regions', icon: Globe, color: 'text-foreground', bg: 'bg-[#F0FAFF]/10' },
-          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-[rgba(240,250,255,0.75)]', bg: 'bg-[rgba(240,250,255,0.75)]/10' }
+          { label: 'Total Audits', value: reports?.length || 0, icon: Activity, color: 'text-foreground', bg: 'bg-cream/10' },
+          { label: 'Avg Latency', value: '124ms', icon: Clock, color: 'text-emerald-400', bg: 'bg-cream/10' },
+          { label: 'Global Reach', value: '12 Regions', icon: Globe, color: 'text-foreground', bg: 'bg-cream/10' },
+          { label: 'Active Users', value: '4,291', icon: Users, color: 'text-cream/75', bg: 'bg-cream/75/10' }
         ].map((stat, i) => (
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
@@ -50,7 +50,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
               <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} border border-foreground/5`}>
                 <stat.icon className="size-5" />
               </div>
-              <span className="flex items-center text-[11px] font-mono font-bold text-emerald-400 bg-[#F0FAFF]/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="flex items-center text-[11px] font-mono font-bold text-emerald-400 bg-cream/10 border border-emerald-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider">
                 <ArrowUpRight className="size-3 mr-1" />
                 12%
               </span>
@@ -85,8 +85,8 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
               <AreaChart data={mockTraffic}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#F0FAFF" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#F0FAFF" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="var(--color-cream)" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="var(--color-cream)" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(240, 250, 255, 0.08)" />
@@ -94,21 +94,21 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   dataKey="name" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 10, fontFamily: 'monospace'}} 
+                  tick={{fill: 'var(--color-cream)', opacity: 0.7, fontSize: 11, fontFamily: 'monospace'}} 
                   dy={10} 
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fill: '#F0FAFF', opacity: 0.7, fontSize: 10, fontFamily: 'monospace'}} 
+                  tick={{fill: 'var(--color-cream)', opacity: 0.7, fontSize: 11, fontFamily: 'monospace'}} 
                   dx={-10} 
                 />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }}
-                  itemStyle={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: '12px' }}
-                  labelStyle={{ color: '#F0FAFF', marginBottom: '4px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
+                  contentStyle={{ backgroundColor: 'var(--color-fog)', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.5)' }}
+                  itemStyle={{ color: 'white', fontWeight: 'bold', fontSize: '12px' }}
+                  labelStyle={{ color: 'var(--color-cream)', marginBottom: '4px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}
                 />
-                <Area type="monotone" dataKey="value" stroke="#F0FAFF" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" />
+                <Area type="monotone" dataKey="value" stroke="var(--color-cream)" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -143,10 +143,11 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                   ))}
                 </Pie>
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#F3F4F6', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', color: '#FFFFFF' }}
-                  itemStyle={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: '12px' }}
-                  labelStyle={{ color: '#F0FAFF' }}
+                  contentStyle={{ backgroundColor: 'var(--color-fog)', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', color: 'var(--color-graphite)' }}
+                  itemStyle={{ color: 'var(--color-graphite)', fontWeight: 'bold', fontSize: '12px' }}
+                  labelStyle={{ color: 'var(--color-graphite-deep)' }}
                 />
+                <Legend verticalAlign="bottom" height={36} iconType="circle" formatter={(value: string) => <span style={{ color: 'var(--app-foreground)', fontSize: 11 }}>{value}</span>} />
               </PieChart>
             </ResponsiveContainer>
           </div>

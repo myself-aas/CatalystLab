@@ -4,8 +4,8 @@ export const MoleculeMark: React.FC<{ className?: string }> = ({ className = '' 
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className={className} role="img" aria-label="CatalystLab Logo">
     <defs>
       <linearGradient id="node-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#00D2FF" />
-        <stop offset="100%" stopColor="#0066FF" />
+        <stop offset="0%" stopColor="var(--chart-cyan-bright)" />
+        <stop offset="100%" stopColor="var(--chart-blue)" />
       </linearGradient>
     </defs>
     {/* Minimalist network bonds */}

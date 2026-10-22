@@ -92,9 +92,9 @@ export const ReportPermalinkPage: React.FC = () => {
 
  if (error || !report) {
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground flex items-center justify-center p-4">
+ <div className="min-h-screen ds-page-top bg-background text-foreground flex items-center justify-center p-4">
  <div className="ds-card p-8 max-w-md w-full text-center">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-[#FFFFFF]/10 text-red-400 mb-3 border border-red-500/20">
+ <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-red-400 mb-3 border border-red-500/20">
  <AlertCircle className="h-6 w-6"/>
  </div>
  <h2 className="framer-card-title text-foreground">Report Not Found</h2>
@@ -121,7 +121,7 @@ export const ReportPermalinkPage: React.FC = () => {
  const meta = ENGINES_MAP[report.engine] || {
  name: report.engine,
  icon: 'bolt',
- badgeClass: 'bg-[#F0FAFF]/10 text-amber-400 border-amber-500/20'
+ badgeClass: 'bg-cream/10 text-amber-400 border-amber-500/20'
  };
 
  const formattedDate = report.createdAt
@@ -132,7 +132,7 @@ export const ReportPermalinkPage: React.FC = () => {
  : 'Unknown Date';
 
  return (
- <div data-theme="dark" className="min-h-screen ds-page-top bg-background text-foreground font-mono">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-mono">
  <SEOHead
  title={`Audit Report: ${report.url}`}
  description={`Diagnostic telemetry trace for ${report.url} on CatalystLab.`}
@@ -190,10 +190,10 @@ export const ReportPermalinkPage: React.FC = () => {
  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
  <div>
  <div className="flex items-center gap-2 mb-2 flex-wrap">
- <span className="text-[11px] uppercase font-mono px-2 py-0.5 rounded border border-blue-500/20 bg-[#F0FAFF]/10 text-foreground">
+ <span className="text-[11px] uppercase font-mono px-2 py-0.5 rounded border border-blue-500/20 bg-cream/10 text-foreground">
  {meta.name}
  </span>
- <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-[11px] font-mono text-emerald-400 bg-[#F0FAFF]/10 border border-emerald-500/20">
+ <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-[11px] font-mono text-emerald-400 bg-cream/10 border border-emerald-500/20">
  <ShieldCheck className="h-3 w-3 text-emerald-400 shrink-0"/>
  Immutable Permalink
  </span>

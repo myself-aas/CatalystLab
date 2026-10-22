@@ -59,7 +59,7 @@ export const HowItWorks: React.FC = () => {
           {/* Desktop Connecting Line */}
           <div className="hidden md:block absolute top-[28px] left-8 right-8 h-[2px] bg-foreground/10 z-0">
             <motion.div
-              className="h-full bg-gradient-to-r from-[#F0FAFF]/0 via-[#F0FAFF] to-[#F0FAFF]/0"
+              className="h-full bg-gradient-to-r from-cream/0 via-cream to-cream/0"
               initial={{ x: '-100%' }}
               whileInView={{ x: '100%' }}
               transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
@@ -81,7 +81,7 @@ export const HowItWorks: React.FC = () => {
                 >
                   {/* Mobile Timeline Track Indicator */}
                   <div className="flex flex-col items-center shrink-0 md:hidden pt-1">
-                    <div className="size-3 rounded-full bg-[#F0FAFF] shadow-[0_0_10px_rgba(240,250,255,0.5)]" />
+                    <div className="size-3 rounded-full bg-cream shadow-[0_0_10px_rgba(240,250,255,0.5)]" />
                     {i < STEPS.length - 1 && <div className="w-px flex-1 min-h-[60px] bg-foreground/10 my-2" />}
                   </div>
 
@@ -101,7 +101,7 @@ export const HowItWorks: React.FC = () => {
                     </h3>
                     
                     <div className="my-2 md:my-3">
-                      <span className="text-emerald-400 font-mono text-xs bg-[#F0FAFF]/10 border border-emerald-500/20 px-2 py-0.5 rounded-full inline-block">
+                      <span className="text-emerald-400 font-mono text-xs bg-cream/10 border border-emerald-500/20 px-2 py-0.5 rounded-full inline-block">
                         {step.time}
                       </span>
                     </div>

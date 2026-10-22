@@ -28,20 +28,20 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
       animate={{ opacity: 1, y: 0 }}
       className={`relative rounded-xl border p-4 backdrop-blur-md overflow-hidden transition-all duration-300 ${
         isExhausted
-          ? 'bg-[#111726]/95 border-[#EF4444]/40 shadow-lg shadow-[#EF4444]/10'
+          ? 'bg-ink-panel/95 border-accent-red/40 shadow-lg shadow-accent-red/10'
           : isCritical
-          ? 'bg-[#111726]/90 border-[#F59E0B]/40 shadow-md'
-          : 'bg-[#111726]/80 border-slate-800'
+          ? 'bg-ink-panel/90 border-accent-amber/40 shadow-md'
+          : 'bg-ink-panel/80 border-slate-800'
       }`}
     >
       {/* Background Ambience */}
       <div
         className={`absolute inset-0 pointer-events-none opacity-20 bg-gradient-to-r ${
           isExhausted
-            ? 'from-[#EF4444]/30 to-transparent'
+            ? 'from-accent-red/30 to-transparent'
             : isCritical
-            ? 'from-[#F59E0B]/20 to-transparent'
-            : 'from-[#06B6D4]/20 via-[#10B981]/10 to-transparent'
+            ? 'from-accent-amber/20 to-transparent'
+            : 'from-accent-cyan/20 via-accent-emerald/10 to-transparent'
         }`}
       />
 
@@ -63,7 +63,7 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
                 cx="24"
                 cy="24"
                 r={radius}
-                stroke={isExhausted ? '#EF4444' : isCritical ? '#F59E0B' : '#06B6D4'}
+                stroke={isExhausted ? 'var(--chart-red)' : isCritical ? 'var(--chart-amber)' : 'var(--chart-cyan)'}
                 strokeWidth="3.5"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
@@ -87,10 +87,10 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
                   : `${quota.remaining} of ${quota.limit} Scans Remaining Today`}
               </span>
               <span
-                className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider font-semibold border ${
+                className={`px-2 py-0.5 rounded-full text-[11px] font-mono uppercase tracking-wider font-semibold border ${
                   quota.tier === 'visitor'
                     ? 'bg-slate-800/80 text-slate-300 border-slate-700'
-                    : 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/30'
+                    : 'bg-accent-emerald/10 text-[var(--chart-green)] border-accent-emerald/30'
                 }`}
               >
                 {quota.tier} Tier
@@ -123,7 +123,7 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
           {onUpgradeClick && (
             <button
               onClick={onUpgradeClick}
-              className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#06B6D4] to-[#10B981] hover:opacity-90 text-slate-950 font-bold text-xs font-mono transition-opacity flex items-center gap-1.5 shadow-md shadow-[#06B6D4]/20"
+              className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[var(--chart-cyan)] to-[var(--chart-green)] hover:opacity-90 text-slate-950 font-bold text-xs font-mono transition-opacity flex items-center gap-1.5 shadow-md shadow-accent-cyan/20"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Unlock Unlimited</span>

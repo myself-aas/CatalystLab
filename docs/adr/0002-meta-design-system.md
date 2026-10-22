@@ -37,11 +37,15 @@ express it.
   `.impeccable/design.json` says Catalyst Blue `#0066FF`. The CI guard enforces
   the `DESIGN.md` value, so `DESIGN.md` wins where they conflict; the design.json
   ramps predate full reconciliation and are illustrative until regenerated.
-- **Open tension 2 — stale contributor instructions.** `AGENTS.md` still
-  describes a "dark-mode-first" platform with `data-theme="dark"` scaffolding,
-  while `src/index.css` implements a light-gray CSS-variable base with light as
-  the default theme (ADR 0001's consequence). Flagged here, not resolved: either
-  `AGENTS.md` gets updated or dark-first gets reinstated — owner call.
+- **Resolved tension 2 (owner directive, 2026-10-21) — white mode is the
+  default.** The owner asked for a white/light frontend. `AGENTS.md` now says
+  light-mode-first; `patch.css`'s STRICT MONOCHROME normalization and its
+  unconditional dark surface overrides are scoped to `html.dark` only; and the
+  light token layer was repaired so light mode actually renders white (it
+  previously shipped white-on-white token values — `--foreground-muted`,
+  `--accent`, `--app-primary-foreground: #000` on `--app-primary: #000` — and
+  `patch.css` forced `#1F2223`/`#2C3032` surfaces with `!important` in *both*
+  themes). Dark-mode visuals are preserved value-for-value via `--p-*` tokens.
 - Dated design audits (`../design-system-audit.md`, `../impeccable-audit.md`)
   pre-date this adoption; their findings are read against `DESIGN.md`, not
   against the Clean SaaS palette of ADR 0001.

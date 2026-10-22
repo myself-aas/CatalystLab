@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import localFallbackImage from '../../assets/images/product-studio.jpg';
+import { PLATE, asPlate, type PlateSource } from "../../lib/media/plates";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -18,7 +18,7 @@ export interface CarouselItem {
   titleLine1: string;
   titleLine2?: string;
   desc?: string;
-  img: string;
+  img: PlateSource | string;
   color?: string;
   phaseNumber?: number;
   ctaText?: string;
@@ -47,7 +47,7 @@ export const auditorsCarouselItems: CarouselItem[] = SDLC_CATALYSTS_LIST.map((en
   titleLine1: engine.catalystName || engine.name,
   titleLine2: engine.catalystName && engine.name !== engine.catalystName ? `(${engine.name})` : undefined,
   desc: engine.description,
-  img: engine.image || localFallbackImage,
+  img: engine.image || PLATE.productStudio,
   color: engine.color,
   phaseNumber: engine.sdlcPhaseNumber,
   ctaText: `Launch ${engine.catalystName || engine.name}`,
@@ -156,8 +156,12 @@ function CoverflowCard({
       }}
     >
       {/* Photo Artwork with subtle interactive parallax response */}
+      {(() => { const itemPlate = asPlate(item.img); return (
+      <picture>
+        {itemPlate.avif && <source srcSet={itemPlate.avif} type="image/avif" />}
+        {itemPlate.webp && <source srcSet={itemPlate.webp} type="image/webp" />}
       <motion.img
-        src={item.img}
+        src={itemPlate.src}
         alt={item.titleLine1}
         animate={{
           scale: card.isCenter && isCardHovered ? 1.08 : 1.02,
@@ -169,6 +173,8 @@ function CoverflowCard({
         loading="lazy"
         draggable={false}
       />
+      </picture>
+      ); })()}
 
       {/* Floating Card CTA Bar: Clean, focused action controls without dense textual clutter */}
       <div className="absolute bottom-4 sm:bottom-6 inset-x-4 sm:inset-x-6 z-20 pointer-events-auto">
@@ -177,7 +183,7 @@ function CoverflowCard({
           <div className="flex items-center gap-2.5 text-left min-w-0">
             <span
               className="size-2.5 rounded-full animate-pulse shrink-0"
-              style={{ backgroundColor: item.color || "#F0FAFF" }}
+              style={{ backgroundColor: item.color || "var(--color-cream)" }}
             />
             <div className="min-w-0">
               <div className="flex items-center gap-2">
@@ -334,7 +340,7 @@ export function CoverFlowCarousel({
         opacity: 1,
         zIndex: 30,
         filter: "brightness(1)",
-        boxShadow: `0 35px 95px rgba(0,0,0,0.95), 0 0 60px ${currentItem?.color || "#F0FAFF"}55`,
+        boxShadow: `0 35px 95px rgba(0,0,0,0.95), 0 0 60px ${currentItem?.color || "var(--color-cream)"}55`,
         isCenter: true,
       };
     }
@@ -421,8 +427,8 @@ export function CoverFlowCarousel({
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <AnimatePresence mode="wait">
           <motion.img
-            key={currentItem.img}
-            src={currentItem.img}
+            key={asPlate(currentItem.img).src}
+            src={asPlate(currentItem.img).src}
             alt=""
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.22 }}

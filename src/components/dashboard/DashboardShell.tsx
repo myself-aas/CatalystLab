@@ -159,23 +159,23 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         {(!isSidebarCollapsed || isMobile) && (
           <div className="flex items-center gap-1.5 shrink-0">
             {active && (
-              <span className="size-1.5 rounded-full bg-[#F0FAFF] shadow-[0_0_8px_#F0FAFF] animate-pulse" />
+              <span className="size-1.5 rounded-full bg-cream shadow-[0_0_8px_var(--color-cream)] animate-pulse" />
             )}
           </div>
         )}
 
         {isSidebarCollapsed && !isMobile && active && (
-          <span className="absolute right-1 top-1/2 -translate-y-1/2 size-1.5 rounded-full bg-[#F0FAFF] shadow-[0_0_8px_#F0FAFF]" />
+          <span className="absolute right-1 top-1/2 -translate-y-1/2 size-1.5 rounded-full bg-cream shadow-[0_0_8px_var(--color-cream)]" />
         )}
       </button>
     );
   };
 
   return (
-    <div data-theme="dark" className="flex min-h-screen bg-background text-foreground">
+    <div className="flex min-h-screen bg-background text-foreground">
       {/* ================= DESKTOP DOCKED SIDEBAR ================= */}
       <aside 
-        className={`hidden lg:flex flex-col justify-between p-3 shrink-0 select-none z-30 sticky top-[var(--nav-height,4rem)] h-[calc(100vh-var(--nav-height,4rem))] bg-background border-r border-[rgba(240,250,255,0.08)] transition duration-200 ease-in-out ${
+        className={`hidden lg:flex flex-col justify-between p-3 shrink-0 select-none z-30 sticky top-[var(--nav-height,4rem)] h-[calc(100vh-var(--nav-height,4rem))] bg-background border-r border-cream/8 transition duration-200 ease-in-out ${
           isSidebarCollapsed ? 'w-18' : 'w-64'
         }`}
       >
@@ -211,7 +211,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                 <div className="truncate">
                   <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                     <span>Workspace</span>
-                    <span className="size-1 rounded-full bg-[#F0FAFF]" />
+                    <span className="size-1 rounded-full bg-cream" />
                   </div>
                   <div className="text-xs font-medium text-foreground truncate">{currentWorkspace}</div>
                 </div>
@@ -326,7 +326,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
 
             <button
               onClick={handleLogout}
-              className="min-h-11 min-w-11 p-1.5 text-muted-foreground hover:text-foreground hover:bg-foreground/10 rounded-lg transition-colors cursor-pointer"
+              className="min-h-[var(--control-min-size)] min-w-11 p-1.5 text-muted-foreground hover:text-foreground hover:bg-foreground/10 rounded-lg transition-colors cursor-pointer"
               title="Sign Out"
             >
               <LogOut className="size-3.5" />
@@ -348,7 +348,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-background/70 backdrop-blur-md animate-fadeIn">
           <div className="w-full max-w-xl bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden font-sans">
             {/* Input row */}
-            <div className="flex items-center gap-3 p-4 border-b border-border">
+            <div className="flex items-center gap-3 p-4 border-b border-border focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset">
               <Search className="size-4 text-foreground shrink-0" />
               <input
                 type="text"

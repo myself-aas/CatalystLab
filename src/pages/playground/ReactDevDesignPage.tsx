@@ -60,7 +60,7 @@ export const ReactDevDesignPage: React.FC = () => {
  In a typical React application, theming can be achieved by toggling a class on the `&lt;html&gt;` element (e.g., `.dark`) which then redefines CSS custom properties.
  </p>
  <CodeBlock 
- code={`html.dark {\n --react-cyan: #F0FAFF;\n --react-wash: #111827;\n}`} 
+ code={`html.dark {\n --react-cyan: var(--color-cream);\n --react-wash: var(--color-ink-navy);\n}`} 
  language="css"
  filename="styles.css"
  />
