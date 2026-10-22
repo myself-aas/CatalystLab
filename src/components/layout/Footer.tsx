@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowUp, 
@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 import { BrandLogo } from '../common/BrandLogo';
 import { SyncStatusBadge } from '../common/SyncStatusBadge';
-import { FooterBackgroundGradient } from '../ui/hover-footer';
 import { FOOTER_GROUPS, CANONICAL } from '../../navigation';
 import { TOTAL_POPS_COUNT } from '../../lib/edge/pops';
 
@@ -21,12 +20,30 @@ const LEGAL_LINKS = [
 ];
 
 export const Footer: React.FC = () => {
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  useEffect(() => {
+    let hideTimer: number | undefined;
+
+    const handleScroll = () => {
+      setIsScrolling(true);
+      window.clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(() => setIsScrolling(false), 180);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.clearTimeout(hideTimer);
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-foreground/[0.08] bg-background text-neutral-300 overflow-hidden m-0 p-0">
+    <footer id="main-footer" className="w-full !max-w-none !rounded-none relative z-20 border-t border-neutral-200 bg-white text-neutral-700 overflow-hidden m-0 p-0" style={{ backgroundColor: '#ffffff' }}>
       
       <div className="relative w-full max-w-none px-6 lg:px-12 pt-16 pb-12 z-40">
         
@@ -158,19 +175,20 @@ export const Footer: React.FC = () => {
             ))}
           </nav>
 
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="group flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-mono text-muted-foreground transition duration-200 hover:border-border-strong hover:text-foreground hover:bg-surface-elevated shadow-2xs cursor-pointer"
-            aria-label="Scroll to top"
-          >
-            <ArrowUp className="size-3.5 text-foreground group-hover:-translate-y-0.5 transition-transform duration-200" />
-            <span>TOP</span>
-          </button>
         </div>
       </div>
 
-      <FooterBackgroundGradient />
+      <button
+        type="button"
+        onClick={scrollToTop}
+        className={`group fixed bottom-4 left-4 z-50 flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-700 shadow-lg transition-all duration-200 hover:border-neutral-300 hover:bg-neutral-50 hover:text-neutral-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 ${
+          isScrolling ? 'pointer-events-none translate-y-2 opacity-0' : 'translate-y-0 opacity-100'
+        }`}
+        aria-label="Scroll to top"
+        tabIndex={isScrolling ? -1 : 0}
+      >
+        <ArrowUp className="size-5 transition-transform duration-200 group-hover:-translate-y-0.5" />
+      </button>
     </footer>
   );
 };
