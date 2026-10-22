@@ -1,0 +1,123 @@
+{
+  "assets": [
+    {
+      "id": "97ec6c41-bd16-46ec-b4cf-04ac3026cf39",
+      "name": "logo-mark.svg",
+      "type": "logo",
+      "path": "public/logo-mark.svg",
+      "fileSize": 849,
+      "mimeType": "image/svg+xml",
+      "tags": [
+        "logo",
+        "mark",
+        "gradient"
+      ],
+      "status": "approved",
+      "source": {
+        "origin": "repo",
+        "createdAt": "2026-10-22T00:00:00Z"
+      },
+      "version": 1,
+      "createdBy": "repo:history",
+      "approvedBy": "user:owner",
+      "approvedAt": "2026-10-22T00:00:00Z",
+      "dimensions": {
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "id": "3ed73a15-75be-47c1-ae4c-ddae5a5c71ef",
+      "name": "logo.svg",
+      "type": "logo",
+      "path": "public/logo.svg",
+      "fileSize": 2053,
+      "mimeType": "image/svg+xml",
+      "tags": [
+        "logo",
+        "lockup",
+        "legacy-meta-labels-cleanup-queued"
+      ],
+      "status": "approved",
+      "source": {
+        "origin": "repo",
+        "createdAt": "2026-10-22T00:00:00Z"
+      },
+      "version": 1,
+      "createdBy": "repo:history",
+      "approvedBy": "user:owner",
+      "approvedAt": "2026-10-22T00:00:00Z",
+      "dimensions": {
+        "width": 100,
+        "height": 24
+      }
+    },
+    {
+      "id": "cdf8db30-06a6-4ff3-b266-984029489946",
+      "name": "favicon.svg",
+      "type": "icon",
+      "path": "public/favicon.svg",
+      "fileSize": 1785,
+      "mimeType": "image/svg+xml",
+      "tags": [
+        "icon",
+        "favicon"
+      ],
+      "status": "approved",
+      "source": {
+        "origin": "repo",
+        "createdAt": "2026-10-22T00:00:00Z"
+      },
+      "version": 1,
+      "createdBy": "repo:history",
+      "approvedBy": "user:owner",
+      "approvedAt": "2026-10-22T00:00:00Z"
+    },
+    {
+      "id": "3de874da-cd44-476c-b5e0-90765d37f76a",
+      "name": "og-image.png",
+      "type": "social",
+      "path": "public/og-image.png",
+      "fileSize": 25646,
+      "mimeType": "image/png",
+      "tags": [
+        "social",
+        "og"
+      ],
+      "status": "approved",
+      "source": {
+        "origin": "repo",
+        "createdAt": "2026-10-22T00:00:00Z"
+      },
+      "version": 1,
+      "createdBy": "repo:history",
+      "approvedBy": "user:owner",
+      "approvedAt": "2026-10-22T00:00:00Z"
+    },
+    {
+      "id": "350a6aef-58ab-47cc-a9c9-356f48ac0f89",
+      "name": "logo-mark.svg (film copy)",
+      "type": "logo",
+      "path": "video/hero-launch/assets/brand/logo-mark.svg",
+      "fileSize": 0,
+      "mimeType": "image/svg+xml",
+      "tags": [
+        "logo",
+        "film"
+      ],
+      "status": "approved",
+      "source": {
+        "origin": "repo",
+        "createdAt": "2026-10-22T00:00:00Z"
+      },
+      "version": 1,
+      "createdBy": "repo:history",
+      "approvedBy": "user:owner",
+      "approvedAt": "2026-10-22T00:00:00Z",
+      "dimensions": {
+        "width": 100,
+        "height": 100
+      }
+    }
+  ]
+}
