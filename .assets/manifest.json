@@ -11,14 +11,14 @@
         "logo",
         "mark",
         "gradient",
-        "jsx-syntax-inline-only"
+        "standalone-valid-2026-10-22"
       ],
       "status": "approved",
       "source": {
         "origin": "repo",
         "createdAt": "2026-10-22T00:00:00Z"
       },
-      "version": 1,
+      "version": 2,
       "createdBy": "repo:history",
       "approvedBy": "user:owner",
       "approvedAt": "2026-10-22T00:00:00Z",
@@ -104,14 +104,15 @@
       "mimeType": "image/svg+xml",
       "tags": [
         "logo",
-        "film"
+        "film",
+        "standalone-valid-2026-10-22"
       ],
       "status": "approved",
       "source": {
         "origin": "repo",
         "createdAt": "2026-10-22T00:00:00Z"
       },
-      "version": 1,
+      "version": 2,
       "createdBy": "repo:history",
       "approvedBy": "user:owner",
       "approvedAt": "2026-10-22T00:00:00Z",
