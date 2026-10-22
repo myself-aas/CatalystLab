@@ -10,7 +10,8 @@
       "tags": [
         "logo",
         "mark",
-        "gradient"
+        "gradient",
+        "jsx-syntax-inline-only"
       ],
       "status": "approved",
       "source": {
@@ -36,14 +37,14 @@
       "tags": [
         "logo",
         "lockup",
-        "legacy-meta-labels-cleanup-queued"
+        "relabeled-2026-10-22"
       ],
       "status": "approved",
       "source": {
         "origin": "repo",
         "createdAt": "2026-10-22T00:00:00Z"
       },
-      "version": 1,
+      "version": 2,
       "createdBy": "repo:history",
       "approvedBy": "user:owner",
       "approvedAt": "2026-10-22T00:00:00Z",

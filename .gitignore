@@ -65,3 +65,6 @@ __pycache__/
 
 # AI Studio session artifacts (purged 2026-10-21; never track generated brain/temp media)
 .aistudio/
+
+# Agent skill installs (local tooling, not repo content)
+skills/awwwards-design/

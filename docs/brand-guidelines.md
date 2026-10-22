@@ -131,7 +131,7 @@ Scale (shipped): H1 72px/600 (48–32 responsive), H2 48px/600, H3 28px, body 16
 | Raster set | `favicon.svg`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `logo.png`, `og-image.png`, `og-banner.png` | PWA/social; manifest theme_color `#0064E0`, background `#FFFFFF` |
 
 Mark spec: network-bond molecule, stroke gradient `#00D2FF → #0066FF`, viewBox 100×100. Clear space ≥ mark height; min digital width 24px (mark) / 120px (lockup). Don'ts: rotate/skew, recolor outside palette, add shadows/glows, crop proportions, place on busy backgrounds < 3:1 contrast, replace gradient with flat fill except mono contexts (use ink `#1C1E21` light / `#F7FDFF` dark).
-**Asset finding (2026-10-22):** `public/logo.svg` still carries template leftovers (`aria-label="Meta"`, `.meta-wordmark` class). It is superseded by `BrandLogo.tsx`; schedule cleanup or relabel — do not ship it in new contexts.
+**Asset findings (2026-10-22):** `public/logo.svg` shipped as the upstream Meta template lockup (Meta glyph, `aria-label="Meta"`, `.meta-wordmark`); it was **relabeled/rebuilt** the same day as a valid standalone CatalystLab lockup (molecule mark 24px + Inter wordmark, `#00D2FF→#0066FF`, ink/cream dark-scheme toggle). Note: `public/logo-mark.svg` contains JSX-style attributes (`strokeWidth`, `{/* */}` comments) and is therefore only valid when inlined via `MoleculeMark.tsx` — it must not be served or referenced as a standalone `.svg` until converted (cleanup queued).
 
 ---
 
