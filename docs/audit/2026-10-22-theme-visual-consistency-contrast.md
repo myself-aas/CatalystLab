@@ -82,3 +82,21 @@ LD_LIBRARY_PATH=/tmp/nsslibs node ../../tools/theme-audit.mjs   # probes + sheet
 ```
 
 Evidence: `evidence/sheet-light.png`, `evidence/sheet-dark.png`, `evidence/dark-products.png`, `evidence/dark-blogs.png`, `evidence/light-products.png`, `evidence/contrast-table-2026-10-22.md`.
+
+---
+
+## Remediation implemented (follow-up commit, same branch)
+
+All findings F1–F9 fixed; verification re-run afterwards.
+
+- **F1+F3:** dark `--app-primary: #F7FDFF` / `--app-primary-foreground: #1F2223` (index.css); black `.ds-btn-primary` pill scoped to `html:not(.dark)` with a dark light-pill counterpart + `--app-primary-hover` hover (patch.css). Pill boundary now 17.3:1 vs canvas, text 15.6:1; hover is a tint shift in both themes.
+- **F2:** card-scoped ink blocks (patch.css, appended): inside `.ds-card` / `.bento-card` / accordion content under `html.dark`, foreground/muted/primary-foreground utilities, `bg-muted`, `bg-accent`, `border-border` and literal `text-[#F0FAFF]` classes revert to light values (self-match and descendant variants). Extended to inverted `bg-primary text-primary-foreground` islands in both themes (light island descendants get white ink; dark island gets dark ink), with `:not(.ds-card):not(.bento-card)` so white cards inside islands keep card ink.
+- **F4:** per-theme chart tokens `--chart-{cyan,green,amber,red,cyan-bright,violet,blue}` (index.css both blocks); TSX literals converted to `var(--chart-*)` for plain arbitrary classes, quoted strings, and SVG attrs. Opacity-modifier forms (`border-[#10B981]/30`) left as decorative washes (exempt from SC 1.4.11); terminal popups keep their intentional dark aesthetic.
+- **F5:** `BlogManagementView.tsx` hover → `hover:bg-primary-hover`.
+- **F6:** light faint tier `#8595A4` → `#5D6C7B` (5.39/4.88:1); dark `--p-text-faint` .35 → .55 (5.78/4.96:1); dark `slate/gray/zinc-500` .45 → .60 (6.69/5.59:1).
+- **F7:** light secondary/input borders `#CED0D4` → `#8595A4` (3.07:1); dark input/secondary borders .10/.12 → .40 (3.65/3.59:1).
+- **F8:** light `--text-muted` converged to `#4B4C4F`; `.ds-input::placeholder` opacity .75 → .9 (6.48:1).
+- **F9:** light `--app-info` → `#0064E0` (5.39:1). Dark destructive: no `text-destructive` consumers exist → no change needed.
+- **F10:** dead `priceStyle` variant now uses `text-[var(--p-text-strong)]`; `Contact Engineering` link switched to `text-foreground` (was white-on-white in light).
+
+**Post-fix verification:** `tools/contrast-verify.py` — all flagged pairs PASS (table above in commit). Invisible-ink sweep (both themes × 6 routes, solid backgrounds): **ALL CLEAN**. `npm run build` ✓ · `check:design` ✓. Evidence: `evidence/final-dark-products.png`, `evidence/final-light-products.png`.

@@ -723,7 +723,7 @@ export default {
  </Link>
  <Link
  to="/contact"
- className="ds-card w-full items-center gap-2 text-primary-foreground text-sm font-sans font-semibold ds-card-interactive p-4"
+ className="ds-card w-full items-center gap-2 text-foreground text-sm font-sans font-semibold ds-card-interactive p-4"
  >
  <span>Contact Engineering</span>
  </Link>

@@ -137,7 +137,7 @@
   --theme-slate-100: #F0FAFF;
   --theme-slate-200: #F0FAFF;
   --theme-slate-300: #CED0D4;
-  --theme-slate-400: #8595A4;
+  --theme-slate-400: #5D6C7B;
   --theme-slate-500: #5D6C7B;
   --theme-slate-600: #2C3032;
   --theme-slate-700: #2C3032;
@@ -149,7 +149,7 @@
   --theme-gray-100: #F0FAFF;
   --theme-gray-200: #F0FAFF;
   --theme-gray-300: #CED0D4;
-  --theme-gray-400: #8595A4;
+  --theme-gray-400: #5D6C7B;
   --theme-gray-500: #5D6C7B;
   --theme-gray-600: #2C3032;
   --theme-gray-700: #2C3032;
@@ -161,7 +161,7 @@
   --theme-zinc-100: #F0FAFF;
   --theme-zinc-200: #F0FAFF;
   --theme-zinc-300: #d4d4d8;
-  --theme-zinc-400: #8595A4;
+  --theme-zinc-400: #5D6C7B;
   --theme-zinc-500: #5D6C7B;
   --theme-zinc-600: #2C3032;
   --theme-zinc-700: #2C3032;
@@ -179,7 +179,7 @@
   
   --text-primary: #1F2223;
   --text-secondary: #2C2F32;
-  --text-muted: #2C3032;
+  --text-muted: #4B4C4F;
   --text-inverse: #F7FDFF;
   
   --border-subtle: #dadce0;
@@ -207,11 +207,18 @@
   --app-success: #1E7D34;
   --app-warning: #9A6B0F;
   --app-danger: #E41E3F;
-  --app-info: #0091FF;
+  --app-info: #0064E0;
   --app-destructive-foreground: #F7FDFF;
   --app-border: #CED0D4;
   --app-input: #FFFFFF;
   --app-ring: rgba(0,100,224,0.45);
+  --chart-cyan: #0E7490;
+  --chart-green: #047857;
+  --chart-amber: #B45309;
+  --chart-red: #C81E1E;
+  --chart-cyan-bright: #0891B2;
+  --chart-violet: #7C3AED;
+  --chart-blue: #0064E0;
 
   /* Surface Layers (Light Mode) */
   --bg-canvas: #F7FDFF;
@@ -315,7 +322,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --theme-slate-200: #2C2F32;
   --theme-slate-300: #2C3032;
   --theme-slate-400: #2C3032;
-  --theme-slate-500: rgba(240,250,255,0.45);
+  --theme-slate-500: rgba(240,250,255,0.60);
   --theme-slate-600: rgba(240,250,255,0.5);
   --theme-slate-700: rgba(240,250,255,0.6);
   --theme-slate-800: rgba(240,250,255,0.7);
@@ -327,7 +334,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --theme-gray-200: #2C2F32;
   --theme-gray-300: #2C3032;
   --theme-gray-400: #2C3032;
-  --theme-gray-500: rgba(240,250,255,0.45);
+  --theme-gray-500: rgba(240,250,255,0.60);
   --theme-gray-600: rgba(240,250,255,0.5);
   --theme-gray-700: rgba(240,250,255,0.6);
   --theme-gray-800: rgba(240,250,255,0.7);
@@ -339,7 +346,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --theme-zinc-200: #2C2F32;
   --theme-zinc-300: #2C3032;
   --theme-zinc-400: #2C3032;
-  --theme-zinc-500: rgba(240,250,255,0.45);
+  --theme-zinc-500: rgba(240,250,255,0.60);
   --theme-zinc-600: rgba(240,250,255,0.5);
   --theme-zinc-700: rgba(240,250,255,0.6);
   --theme-zinc-800: rgba(240,250,255,0.7);
@@ -375,9 +382,9 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --app-card-foreground: #FFFFFF;
   --app-popover: #1C1E21;
   --app-popover-foreground: #FFFFFF;
-  --app-primary: #FFFFFF;
+  --app-primary: #F7FDFF;
   --app-primary-hover: #DEE3E9;
-  --app-primary-foreground: #FFFFFF;
+  --app-primary-foreground: #1F2223;
   --app-secondary: #2C3032;
   --app-secondary-foreground: #F0FAFF;
   --app-muted: rgba(255,255,255,0.08);
@@ -393,6 +400,13 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --app-border: rgba(255,255,255,0.14);
   --app-input: rgba(240, 250, 255, 0.22);
   --app-ring: rgba(240,250,255,0.35);
+  --chart-cyan: #06B6D4;
+  --chart-green: #10B981;
+  --chart-amber: #F59E0B;
+  --chart-red: #EF4444;
+  --chart-cyan-bright: #00D2FF;
+  --chart-violet: #A78BFA;
+  --chart-blue: #66A6FF;
 
   /* Legacy aliases for backward compatibility */
   --color-background: var(--app-background);
@@ -1448,7 +1462,7 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
     font-size: 0.875rem;
     transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
   }
-  .ds-input::placeholder { color: var(--text-muted); opacity: 0.75; }
+  .ds-input::placeholder { color: var(--text-muted); opacity: 0.9; }
   .ds-input:focus { outline: none; border-color: var(--border-hover); box-shadow: 0 0 0 1px var(--border-hover); }
   .ds-input:disabled { opacity: 0.5; cursor: not-allowed; }
 

@@ -63,7 +63,7 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
                 cx="24"
                 cy="24"
                 r={radius}
-                stroke={isExhausted ? '#EF4444' : isCritical ? '#F59E0B' : '#06B6D4'}
+                stroke={isExhausted ? 'var(--chart-red)' : isCritical ? 'var(--chart-amber)' : 'var(--chart-cyan)'}
                 strokeWidth="3.5"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
@@ -90,7 +90,7 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
                 className={`px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider font-semibold border ${
                   quota.tier === 'visitor'
                     ? 'bg-slate-800/80 text-slate-300 border-slate-700'
-                    : 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/30'
+                    : 'bg-[#10B981]/10 text-[var(--chart-green)] border-[#10B981]/30'
                 }`}
               >
                 {quota.tier} Tier
@@ -123,7 +123,7 @@ export const GuestQuotaBanner: React.FC<GuestQuotaBannerProps> = ({
           {onUpgradeClick && (
             <button
               onClick={onUpgradeClick}
-              className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[#06B6D4] to-[#10B981] hover:opacity-90 text-slate-950 font-bold text-xs font-mono transition-opacity flex items-center gap-1.5 shadow-md shadow-[#06B6D4]/20"
+              className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-[var(--chart-cyan)] to-[var(--chart-green)] hover:opacity-90 text-slate-950 font-bold text-xs font-mono transition-opacity flex items-center gap-1.5 shadow-md shadow-[#06B6D4]/20"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Unlock Unlimited</span>

@@ -47,7 +47,7 @@ html:not(.dark) {
 
   /* Inputs */
   --p-input: #FFFFFF;
-  --p-input-border: #CED0D4;
+  --p-input-border: #8595A4;
   --p-input-focus-border: #0064E0;
   --p-input-focus-ring: rgba(0, 100, 224, 0.14);
 
@@ -55,7 +55,7 @@ html:not(.dark) {
   --p-text: #1C1E21;
   --p-text-strong: #1C1E21;
   --p-text-muted: #4B4C4F;
-  --p-text-faint: #8595A4;
+  --p-text-faint: #5D6C7B;
   --p-link: #0064E0;
   --p-link-underline: rgba(0, 100, 224, 0.35);
 
@@ -73,7 +73,7 @@ html:not(.dark) {
   --p-btn-primary-hover-text: #FFFFFF;
   --p-btn-secondary-bg: #F1F4F7;
   --p-btn-secondary-text: #1C1E21;
-  --p-btn-secondary-border: #CED0D4;
+  --p-btn-secondary-border: #8595A4;
   --p-btn-secondary-hover: #E4E8EC;
   --p-btn-secondary-hover-border: #CED0D4;
   --p-accent-dot: rgba(0, 100, 224, 0.5);
@@ -153,7 +153,7 @@ html.dark {
 
   /* Inputs */
   --p-input: #1F2223;
-  --p-input-border: rgba(240, 250, 255, 0.10);
+  --p-input-border: rgba(240, 250, 255, 0.40);
   --p-input-focus-border: rgba(240, 250, 255, 0.25);
   --p-input-focus-ring: rgba(240, 250, 255, 0.06);
 
@@ -161,7 +161,7 @@ html.dark {
   --p-text: #F0FAFF;
   --p-text-strong: #F0FAFF;
   --p-text-muted: rgba(240, 250, 255, 0.72);
-  --p-text-faint: rgba(240, 250, 255, 0.35);
+  --p-text-faint: rgba(240, 250, 255, 0.55);
   --p-link: #F0FAFF;
   --p-link-underline: rgba(240, 250, 255, 0.3);
 
@@ -179,7 +179,7 @@ html.dark {
   --p-btn-primary-hover-text: #1F2223;
   --p-btn-secondary-bg: #2C3032;
   --p-btn-secondary-text: #F0FAFF;
-  --p-btn-secondary-border: rgba(240, 250, 255, 0.12);
+  --p-btn-secondary-border: rgba(240, 250, 255, 0.40);
   --p-btn-secondary-hover: #2C2F32;
   --p-btn-secondary-hover-border: rgba(240, 250, 255, 0.22);
   --p-accent-dot: rgba(240, 250, 255, 0.5);
@@ -708,13 +708,24 @@ body.preload * { transition: none !important; }
   border: 1px solid #0064E0 !important;
 }
 .ds-btn-buy:hover { background: #0457CB !important; border-color: #0457CB !important; }
-.ds-btn-primary {
+html:not(.dark) .ds-btn-primary {
   background: #000000 !important;
   color: #FFFFFF !important;
   border: 1px solid #000000 !important;
   box-shadow: 0 2px 10px rgba(28, 30, 33, 0.12), inset 0 1px 0 rgba(255,255,255,0.2);
 }
-.ds-btn-primary:hover {
+html.dark .ds-btn-primary {
+  background: var(--app-primary) !important;
+  color: var(--app-primary-foreground) !important;
+  border: 1px solid var(--app-primary) !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+html.dark .ds-btn-primary:hover {
+  background: var(--app-primary-hover) !important;
+  color: var(--app-primary-foreground) !important;
+  transform: translateY(-1px);
+}
+html:not(.dark) .ds-btn-primary:hover {
   background: var(--p-btn-primary-hover-bg) !important;
   color: var(--p-btn-primary-hover-text) !important;
   box-shadow: 0 6px 24px rgba(28, 30, 33, 0.18), inset 0 1px 0 rgba(255,255,255,0.25);
@@ -1448,3 +1459,38 @@ html.dark [class*="decoration-purple"],html.dark [class*="decoration-amber"]{
 }
 html.dark [class*="accent-red"],html.dark [class*="accent-blue"],html.dark [class*="accent-emerald"]{accent-color:#F0FAFF!important}
 html.dark [class*="caret-red"],html.dark [class*="caret-blue"]{caret-color:#F0FAFF!important}
+
+/* ---------- F2 (audit 2026-10-22): dark-theme ink inside as-shipped WHITE cards ----------
+   patch.css forces cream ink / dark wells globally under html.dark; the white bento/ds
+   cards ship white in dark, so inside them the LIGHT values must win. */
+html.dark .ds-card [class*="text-foreground"], html.dark .bento-card [class*="text-foreground"], html.dark [class*="accordion-content"] [class*="text-foreground"] { color: #1C1E21 !important; }
+html.dark .ds-card [class*="text-muted-foreground"], html.dark .bento-card [class*="text-muted-foreground"], html.dark [class*="accordion-content"] [class*="text-muted-foreground"] { color: #4B4C4F !important; }
+html.dark .ds-card .bg-muted, html.dark .ds-card [class*="bg-muted"], html.dark .bento-card .bg-muted, html.dark .bento-card [class*="bg-muted"] { background-color: #F1F4F7 !important; }
+html.dark .ds-card .bg-accent, html.dark .ds-card [class*="bg-accent"], html.dark .bento-card .bg-accent, html.dark .bento-card [class*="bg-accent"] { background-color: rgba(0, 100, 224, 0.08) !important; }
+html.dark .ds-card .border-border, html.dark .ds-card [class*="border-border"], html.dark .bento-card .border-border, html.dark .bento-card [class*="border-border"] { border-color: #CED0D4 !important; }
+
+/* ---------- F2 ext (audit 2026-10-22): inverted bg-primary islands (e.g. /products configurator) ----------
+   The island flips surface+ink via bg-primary/text-primary-foreground; descendants using the
+   GLOBAL foreground utilities must flip with it. */
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground"]:not(.ds-card):not(.bento-card) { color: #FFFFFF !important; }
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card) { color: rgba(255,255,255,0.72) !important; }
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] .bg-muted, html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-muted"] { background-color: rgba(255,255,255,0.08) !important; }
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] .bg-accent, html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-accent"] { background-color: rgba(255,255,255,0.10) !important; }
+html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] .border-border, html:not(.dark) [class*="bg-primary"][class*="text-primary-foreground"] [class*="border-border"] { border-color: rgba(255,255,255,0.14) !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-foreground"]:not(.ds-card):not(.bento-card) { color: #1C1E21 !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card) { color: #4B4C4F !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] .bg-muted, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-muted"] { background-color: rgba(28,30,33,0.06) !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] .bg-accent, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="bg-accent"] { background-color: rgba(0,100,224,0.08) !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] .border-border, html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="border-border"] { border-color: #CED0D4 !important; }
+
+/* literal cream-ink classes (text-[#F0FAFF]) inside dark white cards / inverted islands */
+html.dark .ds-card [class*="text-[#F0FAFF]"], html.dark .bento-card [class*="text-[#F0FAFF]"], html.dark [class*="accordion-content"] [class*="text-[#F0FAFF]"], html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-[#F0FAFF]"] { color: #1C1E21 !important; }
+html.dark .ds-card [class*="text-[#F0FAFF]"]/10, html.dark .ds-card [class*="border-[#F0FAFF]"], html.dark .bento-card [class*="border-[#F0FAFF]"] { border-color: #CED0D4 !important; }
+
+/* ---------- F2 final (audit 2026-10-22): self-match variants (card/island element itself carries the ink class) ---------- */
+html.dark .ds-card[class*="text-foreground"], html.dark .bento-card[class*="text-foreground"], html.dark [class*="accordion-content"][class*="text-foreground"] { color: #1C1E21 !important; }
+html.dark .ds-card[class*="text-muted-foreground"], html.dark .bento-card[class*="text-muted-foreground"], html.dark [class*="accordion-content"][class*="text-muted-foreground"] { color: #4B4C4F !important; }
+html.dark .ds-card[class*="text-primary-foreground"], html.dark .bento-card[class*="text-primary-foreground"] { color: #1C1E21 !important; }
+html:not(.dark) .ds-card[class*="text-primary-foreground"], html:not(.dark) .bento-card[class*="text-primary-foreground"] { color: #1C1E21 !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-primary-foreground"]:not(.ds-card):not(.bento-card) { color: #1C1E21 !important; }
+html.dark [class*="bg-primary"][class*="text-primary-foreground"] [class*="text-muted-foreground"]:not(.ds-card):not(.bento-card) { color: #4B4C4F !important; }

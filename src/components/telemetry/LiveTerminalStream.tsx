@@ -64,12 +64,12 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
           </div>
           <div className="h-4 w-px bg-slate-800" />
           <div className="flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-[#06B6D4]" />
+            <Terminal className="w-4 h-4 text-[var(--chart-cyan)]" />
             <span className="text-xs font-semibold text-slate-200">{title}</span>
           </div>
           {isStreaming && (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#06B6D4]/10 text-[#06B6D4] border border-[#06B6D4]/30 animate-pulse">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#06B6D4]/10 text-[var(--chart-cyan)] border border-[#06B6D4]/30 animate-pulse">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--chart-cyan)]" />
               LIVE SSE
             </span>
           )}
@@ -114,7 +114,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
                 </>
               ) : (
                 <>
-                  <Pause className="w-3 h-3 text-[#06B6D4]" />
+                  <Pause className="w-3 h-3 text-[var(--chart-cyan)]" />
                   <span className="text-[10px] hidden sm:inline">Auto-Scroll ON</span>
                 </>
               )
@@ -132,7 +132,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
             className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300 transition-colors"
             title="Copy Terminal Output"
           >
-            {copied ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
+            {copied ? <Check className="w-3 h-3 text-[var(--chart-green)]" /> : <Copy className="w-3 h-3" />}
             <span className="text-[10px] hidden sm:inline">{copied ? 'Copied' : 'Copy'}</span>
           </button>
 
@@ -140,7 +140,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
           {onClearLogs && (
             <button
               onClick={onClearLogs}
-              className="p-1 rounded-md border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-[#EF4444] transition-colors"
+              className="p-1 rounded-md border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-[var(--chart-red)] transition-colors"
               title="Clear Terminal Output"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -204,18 +204,18 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
                   {log.timestamp}
                 </span>
                 {log.engineId && (
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-800/90 text-[#06B6D4] border border-slate-700/60 flex-shrink-0 font-bold">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-800/90 text-[var(--chart-cyan)] border border-slate-700/60 flex-shrink-0 font-bold">
                     {log.engineId}
                   </span>
                 )}
                 <span
                   className={`break-all ${
                     log.level === 'error'
-                      ? 'text-[#EF4444] font-semibold'
+                      ? 'text-[var(--chart-red)] font-semibold'
                       : log.level === 'warn'
-                      ? 'text-[#F59E0B]'
+                      ? 'text-[var(--chart-amber)]'
                       : log.level === 'success'
-                      ? 'text-[#10B981]'
+                      ? 'text-[var(--chart-green)]'
                       : log.message.includes('[EXECUTING]') || log.message.includes('[START]')
                       ? 'text-purple-400'
                       : 'text-slate-300'
@@ -239,7 +239,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
         {!autoScroll && (
           <button
             onClick={() => setAutoScroll(true)}
-            className="flex items-center gap-1 text-[#06B6D4] hover:underline"
+            className="flex items-center gap-1 text-[var(--chart-cyan)] hover:underline"
           >
             <span>Jump to live</span>
             <ArrowDown className="w-3 h-3" />

@@ -115,10 +115,10 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
   const score = result?.score ?? (isLoading ? 0 : 0);
 
   const getScoreColor = (sc: number) => {
-    if (sc >= 85) return 'text-[#10B981] border-[#10B981]/30 bg-[#10B981]/10';
-    if (sc >= 70) return 'text-[#06B6D4] border-[#06B6D4]/30 bg-[#06B6D4]/10';
-    if (sc >= 50) return 'text-[#F59E0B] border-[#F59E0B]/30 bg-[#F59E0B]/10';
-    return 'text-[#EF4444] border-[#EF4444]/30 bg-[#EF4444]/10';
+    if (sc >= 85) return 'text-[var(--chart-green)] border-[#10B981]/30 bg-[#10B981]/10';
+    if (sc >= 70) return 'text-[var(--chart-cyan)] border-[#06B6D4]/30 bg-[#06B6D4]/10';
+    if (sc >= 50) return 'text-[var(--chart-amber)] border-[#F59E0B]/30 bg-[#F59E0B]/10';
+    return 'text-[var(--chart-red)] border-[#EF4444]/30 bg-[#EF4444]/10';
   };
 
   const handleCopyLogs = (e: React.MouseEvent) => {
@@ -156,7 +156,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
           <div
             className={`w-10 h-10 rounded-lg flex items-center justify-center border ${
               isLoading
-                ? 'bg-[#06B6D4]/15 border-[#06B6D4]/40 text-[#06B6D4] animate-pulse'
+                ? 'bg-[#06B6D4]/15 border-[#06B6D4]/40 text-[var(--chart-cyan)] animate-pulse'
                 : 'bg-slate-900/90 border-slate-800 text-slate-200'
             }`}
           >
@@ -189,8 +189,8 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
         {/* Status / Score Indicator */}
         <div className="flex items-center gap-2 flex-shrink-0">
           {isLoading ? (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#06B6D4] text-xs font-mono">
-              <span className="w-2 h-2 rounded-full bg-[#06B6D4] animate-ping" />
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[var(--chart-cyan)] text-xs font-mono">
+              <span className="w-2 h-2 rounded-full bg-[var(--chart-cyan)] animate-ping" />
               <span>STREAMING</span>
             </div>
           ) : status === 'COMPLETE' ? (
@@ -204,7 +204,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
               <span className="text-[10px] font-normal opacity-70">/100</span>
             </div>
           ) : status === 'ERROR' ? (
-            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#EF4444]/10 border border-[#EF4444]/30 text-[#EF4444] text-xs font-mono">
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#EF4444]/10 border border-[#EF4444]/30 text-[var(--chart-red)] text-xs font-mono">
               <XCircle className="w-3.5 h-3.5" />
               <span>FAILED</span>
             </div>
@@ -222,10 +222,10 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
           <div className="space-y-2 py-3">
             <div className="flex justify-between text-xs font-mono text-slate-400">
               <span>Synthesizing neural AST telemetry...</span>
-              <span className="text-[#06B6D4]">IN PROGRESS</span>
+              <span className="text-[var(--chart-cyan)]">IN PROGRESS</span>
             </div>
             <div className="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
-              <div className="bg-gradient-to-r from-[#06B6D4] to-[#10B981] h-1.5 rounded-full animate-pulse w-3/4" />
+              <div className="bg-gradient-to-r from-[var(--chart-cyan)] to-[var(--chart-green)] h-1.5 rounded-full animate-pulse w-3/4" />
             </div>
           </div>
         ) : result && status === 'COMPLETE' ? (
@@ -303,7 +303,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
             disabled={!result?.rawLogStream?.length}
             className="flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-slate-200 disabled:opacity-40 transition-colors"
           >
-            <Terminal className="w-3.5 h-3.5 text-[#06B6D4]" />
+            <Terminal className="w-3.5 h-3.5 text-[var(--chart-cyan)]" />
             <span>{showLogs ? 'Hide Console Logs' : 'View Stream Logs'}</span>
             <ChevronDown className={`w-3 h-3 transition-transform ${showLogs ? 'rotate-180' : ''}`} />
           </button>
@@ -311,7 +311,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
           {onInspectDetails && (
             <button
               onClick={onInspectDetails}
-              className="flex items-center gap-1 text-xs font-mono text-[#06B6D4] hover:text-[#06B6D4]/80 transition-colors"
+              className="flex items-center gap-1 text-xs font-mono text-[var(--chart-cyan)] hover:text-[#06B6D4]/80 transition-colors"
             >
               <span>Full Dossier</span>
               <ExternalLink className="w-3 h-3" />
@@ -334,7 +334,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
                   onClick={handleCopyLogs}
                   className="flex items-center gap-1 text-[10px] text-slate-400 hover:text-slate-200 bg-slate-800/80 px-2 py-0.5 rounded"
                 >
-                  {copiedLogs ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
+                  {copiedLogs ? <Check className="w-3 h-3 text-[var(--chart-green)]" /> : <Copy className="w-3 h-3" />}
                   <span>{copiedLogs ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
@@ -344,11 +344,11 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
                   <span
                     className={
                       log.includes('FAIL') || log.includes('ERROR')
-                        ? 'text-[#EF4444]'
+                        ? 'text-[var(--chart-red)]'
                         : log.includes('PASS') || log.includes('FOUND') || log.includes('COMPLETE')
-                        ? 'text-[#10B981]'
+                        ? 'text-[var(--chart-green)]'
                         : log.includes('WARN')
-                        ? 'text-[#F59E0B]'
+                        ? 'text-[var(--chart-amber)]'
                         : 'text-slate-300'
                     }
                   >
@@ -376,11 +376,11 @@ function MetricPill({
   const getColors = () => {
     switch (status) {
       case 'good':
-        return 'border-[#10B981]/20 bg-[#10B981]/5 text-[#10B981]';
+        return 'border-[#10B981]/20 bg-[#10B981]/5 text-[var(--chart-green)]';
       case 'warning':
-        return 'border-[#F59E0B]/20 bg-[#F59E0B]/5 text-[#F59E0B]';
+        return 'border-[#F59E0B]/20 bg-[#F59E0B]/5 text-[var(--chart-amber)]';
       case 'critical':
-        return 'border-[#EF4444]/20 bg-[#EF4444]/5 text-[#EF4444]';
+        return 'border-[#EF4444]/20 bg-[#EF4444]/5 text-[var(--chart-red)]';
       default:
         return 'border-slate-800 bg-slate-900/60 text-slate-300';
     }

@@ -303,7 +303,7 @@ export const Navbar: React.FC = () => {
                 )}
                 aria-expanded={isEnginesOpen}
               >
-                <Activity className="size-4 shrink-0 text-[#0066FF]" />
+                <Activity className="size-4 shrink-0 text-[var(--chart-blue)]" />
                 <span>Engines</span>
                 <ChevronDown
                   className={cn(
