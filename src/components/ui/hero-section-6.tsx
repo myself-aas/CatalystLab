@@ -1,6 +1,9 @@
 "use client";
 import React from "react";
 import localHeroImage from '../../assets/images/about_us_hero_1787216854874.jpg';
+import localHeroImageWebp from '../../assets/images/about_us_hero_1787216854874.webp';
+import localHeroImageAvif from '../../assets/images/about_us_hero_1787216854874.avif';
+import { PlateImage } from '../../components/common/PlateImage';
 import heroImage from '../../assets/images/hero_network_visualization_1787838371820.jpg';
 import { cn } from "@/lib/utils";
 import { motion, type Variants } from "motion/react";
@@ -251,11 +254,13 @@ export default function HeroSection6() {
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
               className="relative w-full rounded-2xl overflow-hidden border border-neutral-800 shadow-2xl bg-neutral-900"
             >
-              <img
+              <PlateImage
                 src={localHeroImage}
+                webp={localHeroImageWebp}
+                avif={localHeroImageAvif}
                 alt="CatalystLab Telemetry Dashboard"
                 className="object-cover object-top w-full h-[320px] sm:h-[440px] md:h-[520px]"
-              loading="lazy" decoding="async" />
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
             </motion.div>
 

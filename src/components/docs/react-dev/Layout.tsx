@@ -44,7 +44,7 @@ export const ReactDevLayout: React.FC<ReactDevLayoutProps> = ({
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system'); // Local mock for demo if no context
 
   return (
-    <div className="min-h-screen bg-background font-sans antialiased selection:bg-cream/10 selection:text-foreground text-foreground pt-16">
+    <div className="min-h-screen bg-background font-sans antialiased selection:bg-foreground/10 selection:text-foreground text-foreground pt-16">
       {/* Top Navigation Bar */}
       <TopNav>
         {/* Left: Brand & Mobile Menu */}

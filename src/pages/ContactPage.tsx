@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import contactImage from '../assets/images/page-contact.jpg';
+import { PlateImage } from '../components/common/PlateImage';
+import contactImageWebp from '../assets/images/page-contact.webp';
+import contactImageAvif from '../assets/images/page-contact.avif';
 import { 
  AlertCircle,
  ArrowRight,
@@ -98,7 +101,7 @@ export const ContactPage: React.FC = () => {
  No sales fluff. Whether you're debugging an OWASP flag, setting up CI/CD pipeline triggers, or upgrading to Enterprise, you speak directly with the engineers building the engines.
  </p>
  <figure className="mt-2">
-   <img src={contactImage} alt="CatalystLab support specialist ready to help" loading="lazy" decoding="async" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
+   <PlateImage src={contactImage} webp={contactImageWebp} avif={contactImageAvif} alt="CatalystLab support specialist ready to help" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
  </div>
 

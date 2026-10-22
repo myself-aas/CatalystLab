@@ -170,3 +170,50 @@ All 29 hardcoded control-size literals (`min-h-[44px]` ×11, `min-w-[44px]` ×5,
 **Gates after second pass:** tsc clean · eslint clean · vitest 330/330 · `check:design`
 pass · `check:colors` pass (5 ≤ 5) · `npm run build` (incl. prerender + bundle budget)
 pass · probes as above.
+
+---
+
+## Third remediation pass — cream promotion, plate renderer, residue zero (2026-10-22)
+
+**Semantic cream promotion: 14 sites promoted, remainder formally plate-scoped.**
+A same-class-string census (cream utility + a themed background token in the *same*
+class attribute) found exactly 16 high-precision candidates; 14 were promoted to
+semantic tokens — `bg-cream/N` → `bg-foreground/N`, `text-cream/N` → `text-foreground/N`,
+`border-cream/N` → `border-foreground/N`, `selection:bg-cream` → `selection:bg-foreground`,
+and one `hover:bg-cream` on a primary button → `hover:bg-foreground` (the cream hover
+was an invisible-on-light defect), plus one `ring-cream/35` → canonical `ring-ring`
+(TrialBanner, Navbar tiles/dropdown, Bento metric chips, Blogs empty state, Admin/
+Playground selection tints, react-dev Layout, MainMenuOverlay panel + avatar hover,
+HeroImageLivePreview CTA, UserApiKey copy button). Two candidates were excluded as
+false positives of the census (CLISimulator run button and a MainMenuOverlay string
+whose surface is an inverted cockpit panel). The remaining ~600 cream uses sit on
+dark-fixed or inverted cockpit surfaces where cream **is** the correct ink; they now
+resolve through the single `--color-cream` constant, so any future semantic shift is a
+one-variable change in `src/index.css`.
+
+**Plate renderer (rec 7 completion): AVIF/WebP now served.**
+- `src/components/common/PlateImage.tsx`: `<picture>` renderer (AVIF → WebP → JPEG
+  fallback; lazy/async defaults; alt mandatory; ref-forwarding; extra props pass
+  through). Covered by `src/tests/ui/PlateImage.test.tsx` (3 tests).
+- `scripts/generate-image-variants.mjs`: emits q80 WebP + q50 AVIF siblings for the
+  wired TARGETS list (ImageMagick webp/heif delegates); re-run with `--force` to
+  refresh, extend TARGETS when wiring more plates.
+- Wired 6 LCP render sites: Contact, ApiDocs, Pricing, Security, Products pages +
+  hero-section-6 dashboard plate. Verified live: Chromium negotiates the AVIF source
+  (`currentSrc …page-contact.avif`, HTTP 200, `content-type: image/avif`).
+- Wire-line savings (JPEG → AVIF): contact 142→51 KB, api 154→65, pricing 138→51,
+  security 138→47, products 72→16, hero 133→48 — **777 KB → 278 KB (−64 %)**.
+- Registries that pass bare `src` strings (engines.ts, engineBlogs.ts,
+  media/registry.ts, DynamicBanner, Iphone15Pro, foreignObject SVG plate) intentionally
+  keep JPEG until their renderers accept source sets; PlateImage's optional `webp`/
+  `avif` props make that migration incremental.
+
+**Residue literals: 5 → 0.** `ink-well` #0B111A, `ink-console` #090D16, `node-blue`
+#0066FF, `graphite-deep` #374151 joined `@theme`; the Card dark face uses
+`bg-background dark:bg-ink-abyss` (#0A1317). The ratchet baseline is now **0**: any raw
+hex re-entering `src/**/*.ts(x)` fails CI (emailService.ts remains exempt — email
+clients cannot resolve CSS custom properties).
+
+**Gates after third pass:** tsc clean · eslint clean · vitest **333/333** ·
+`check:design` pass · `check:colors` 0 ≤ 0 · full build emits hashed avif/webp assets ·
+live AVIF negotiation verified.

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import pricingImage from '../assets/images/page-pricing.jpg';
+import { PlateImage } from '../components/common/PlateImage';
+import pricingImageWebp from '../assets/images/page-pricing.webp';
+import pricingImageAvif from '../assets/images/page-pricing.avif';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Check, CreditCard, Sparkles, X } from 'lucide-react';
@@ -62,7 +65,7 @@ export default function PricingPage() {
  Start free. Unlock 42 PoPs, CI gates, and white-label dossiers when the lab outgrows a laptop.
  </p>
  <figure className="mx-auto mt-10 max-w-4xl">
-   <img src={pricingImage} alt="Team comparing CatalystLab pricing plans at a bright office table" loading="lazy" decoding="async" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
+   <PlateImage src={pricingImage} webp={pricingImageWebp} avif={pricingImageAvif} alt="Team comparing CatalystLab pricing plans at a bright office table" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
 
  <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-foreground/10 bg-[var(--bg-surface)] p-1 font-mono text-xs">

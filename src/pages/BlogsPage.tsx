@@ -143,7 +143,7 @@ export const BlogsPage: React.FC = () => {
               ))}
             </div>
           ) : filteredPosts.length === 0 ? (
-            <div className="py-12 text-center text-cream/50 rounded-3xl border border-foreground/10 bg-muted">
+            <div className="py-12 text-center text-foreground/50 rounded-3xl border border-foreground/10 bg-muted">
               No articles found.
             </div>
           ) : (

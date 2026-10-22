@@ -261,7 +261,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed right-0 top-0 bottom-0 w-[320px] sm:w-[360px] md:w-[400px] max-w-[88vw] sm:max-w-[420px] h-screen h-[100dvh] max-h-[100dvh] bg-background border-l border-cream/8 p-5 sm:p-6 flex flex-col justify-between overflow-y-auto shadow-[-30px_0_80px_rgba(0,0,0,0.5)] z-10 select-none text-foreground rounded-l-[28px]"
+            className="fixed right-0 top-0 bottom-0 w-[320px] sm:w-[360px] md:w-[400px] max-w-[88vw] sm:max-w-[420px] h-screen h-[100dvh] max-h-[100dvh] bg-background border-l border-foreground/8 p-5 sm:p-6 flex flex-col justify-between overflow-y-auto shadow-[-30px_0_80px_rgba(0,0,0,0.5)] z-10 select-none text-foreground rounded-l-[28px]"
           >
             {/* Ambient Lighting Blobs inside drawer */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
@@ -291,7 +291,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                     <Link
                       to="/dashboard"
                       onClick={onClose}
-                      className="size-8 rounded-lg overflow-hidden border border-border bg-surface flex items-center justify-center hover:border-cream transition"
+                      className="size-8 rounded-lg overflow-hidden border border-border bg-surface flex items-center justify-center hover:border-foreground transition"
                       title="User CMS"
                     >
                       {user.photoURL ? (

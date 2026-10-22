@@ -24,7 +24,7 @@ export const TrialBanner: React.FC = () => {
       <aside
         id="catalyst-active-trial-banner"
         aria-label="Active subscription trial notification"
-        className="fixed top-0 inset-x-0 z-50 h-9 bg-background/95 backdrop-blur-md border-b border-cream/8 px-4 text-xs text-cream/70 flex items-center"
+        className="fixed top-0 inset-x-0 z-50 h-9 bg-background/95 backdrop-blur-md border-b border-foreground/8 px-4 text-xs text-foreground/70 flex items-center"
       >
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">

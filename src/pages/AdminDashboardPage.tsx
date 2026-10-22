@@ -149,7 +149,7 @@ export const AdminDashboardPage: React.FC = () => {
 
  // Authorized Superadmin Workspace
  return (
- <div className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-cream selection:text-foreground">
+ <div className="min-h-screen ds-page-top bg-background text-foreground font-sans selection:bg-foreground selection:text-foreground">
  <SEOHead
  title="Command Center & Infrastructure Radar — CatalystLab Admin"
  description="Continuous uptime monitoring, live Firestore audit logs, diagnostic container telemetry, and blog publishing."

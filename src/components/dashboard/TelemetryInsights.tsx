@@ -38,7 +38,7 @@ const timeRangeData: Record<string, Array<{ date: string; score: number; securit
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#0B111A]/95 backdrop-blur-xl border border-white/15 px-4 py-3 shadow-2xl rounded-xl font-mono text-xs space-y-2">
+      <div className="bg-ink-well/95 backdrop-blur-xl border border-white/15 px-4 py-3 shadow-2xl rounded-xl font-mono text-xs space-y-2">
         <div className="text-muted-foreground flex items-center gap-2 border-b border-white/10 pb-1.5">
           <span className="size-2 rounded-full bg-[var(--chart-cyan-bright)] animate-pulse" />
           <span className="text-foreground font-semibold">{label}</span>
@@ -90,7 +90,7 @@ export const TelemetryInsights: React.FC<{ targetDomain?: string }> = ({ targetD
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-2 rounded-lg bg-[#0066FF]/10 text-[var(--chart-blue)]">
+            <span className="p-2 rounded-lg bg-node-blue/10 text-[var(--chart-blue)]">
               <Activity className="size-5" />
             </span>
             <h3 className="framer-card-title text-foreground font-semibold">Telemetry Insights</h3>

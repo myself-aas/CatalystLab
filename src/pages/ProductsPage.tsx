@@ -1,6 +1,9 @@
 import { motion } from "motion/react";
 import productLifestyle from '../assets/images/product-lifestyle.jpg';
 import productsImage from '../assets/images/page-products.jpg';
+import { PlateImage } from '../components/common/PlateImage';
+import productsImageWebp from '../assets/images/page-products.webp';
+import productsImageAvif from '../assets/images/page-products.avif';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -160,7 +163,7 @@ export default {
  Deploy continuous telemetry agents, CI/CD quality gates, webhook dispatchers, and edge interceptors directly inside your custom domains. Prevent Core Web Vitals regressions, OWASP header drift, and AI readiness drops before users notice.
  </p>
  <figure className="mx-auto mt-10 max-w-4xl">
-   <img src={productsImage} alt="CatalystLab dashboard on laptop, tablet and phone in a bright studio" loading="lazy" decoding="async" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
+   <PlateImage src={productsImage} webp={productsImageWebp} avif={productsImageAvif} alt="CatalystLab dashboard on laptop, tablet and phone in a bright studio" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
 
  <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

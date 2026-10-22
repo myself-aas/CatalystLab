@@ -323,7 +323,7 @@ export const Navbar: React.FC = () => {
                     className="absolute -left-24 top-full pt-3 w-[580px] z-50 pointer-events-auto"
                   >
                     <div
-                      className="bg-fog/95 border border-cream/8 rounded-3xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden"
+                      className="bg-fog/95 border border-foreground/8 rounded-3xl p-5 shadow-[0_2px_4px_rgba(0,0,0,0.3),0_24px_60px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(240,250,255,0.06)] backdrop-blur-2xl grid grid-cols-2 gap-3 relative overflow-hidden"
                     >
                       <div
                         className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full opacity-20 blur-3xl"
@@ -349,7 +349,7 @@ export const Navbar: React.FC = () => {
                                 onClick={() => setIsEnginesOpen(false)}
                                 className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-cream/4 transition duration-150 border border-transparent hover:border-cream/8"
                               >
-                                <div className="size-10 rounded-xl bg-background border border-cream/6 flex items-center justify-center shrink-0 text-cream/50 group-hover:text-foreground group-hover:border-cream/30 transition-colors shadow-inner">
+                                <div className="size-10 rounded-xl bg-background border border-foreground/6 flex items-center justify-center shrink-0 text-foreground/50 group-hover:text-foreground group-hover:border-cream/30 transition-colors shadow-inner">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
@@ -383,7 +383,7 @@ export const Navbar: React.FC = () => {
                                 onClick={() => setIsEnginesOpen(false)}
                                 className="group flex items-start gap-3 p-2.5 rounded-2xl hover:bg-cream/4 transition duration-150 border border-transparent hover:border-cream/8"
                               >
-                                <div className="size-10 rounded-xl bg-background border border-cream/6 flex items-center justify-center shrink-0 text-cream/50 group-hover:text-purple-400 group-hover:border-purple-400/30 transition-colors shadow-inner">
+                                <div className="size-10 rounded-xl bg-background border border-foreground/6 flex items-center justify-center shrink-0 text-foreground/50 group-hover:text-purple-400 group-hover:border-purple-400/30 transition-colors shadow-inner">
                                   <Icon className="size-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">

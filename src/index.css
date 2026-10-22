@@ -606,6 +606,11 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   --color-mist: #F1F4F7;         /* light-mode card fill */
   --color-graphite: #1F2937;     /* tooltip text graphite */
   --color-smoke: #888888;        /* muted chrome smoke */
+  --color-ink-well: #0B111A;     /* telemetry insight well */
+  --color-ink-console: #090D16;  /* live terminal console shell */
+  --color-node-blue: #0066FF;    /* brand node-gradient blue */
+  --color-graphite-deep: #374151; /* chart label graphite (light shells) */
+  --color-ink-abyss: #0A1317;    /* deep canvas variant (card dark face) */
 }
 @layer base {
   html {

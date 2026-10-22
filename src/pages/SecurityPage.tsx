@@ -1,5 +1,8 @@
 import React from 'react';
 import securityImage from '../assets/images/page-security.jpg';
+import { PlateImage } from '../components/common/PlateImage';
+import securityImageWebp from '../assets/images/page-security.webp';
+import securityImageAvif from '../assets/images/page-security.avif';
 import { ArrowRight, Key, ShieldCheck } from 'lucide-react';
 import { SecurityDisclosureSection } from '../components/legal/SecurityDisclosureSection';
 import { SEOHead } from '../components/common/SEOHead';
@@ -33,7 +36,7 @@ export const SecurityPage: React.FC = () => {
  Our vulnerability intake program, PGP public key, CVSS severity tiers, and legal Safe Harbor pledge protecting ethical security researchers.
  </p>
  <figure className="mx-auto mt-10 max-w-4xl">
-   <img src={securityImage} alt="Security analyst reviewing blue security dashboards" loading="lazy" decoding="async" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
+   <PlateImage src={securityImage} webp={securityImageWebp} avif={securityImageAvif} alt="Security analyst reviewing blue security dashboards" className="w-full rounded-2xl border border-ink-navy/[0.08] object-cover aspect-[16/9]" />
  </figure>
  </div>
 

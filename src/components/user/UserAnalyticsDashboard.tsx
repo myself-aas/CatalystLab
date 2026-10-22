@@ -145,7 +145,7 @@ export const UserAnalyticsDashboard: React.FC<UserAnalyticsDashboardProps> = ({ 
                 <Tooltip 
                   contentStyle={{ backgroundColor: 'var(--color-fog)', borderRadius: '12px', border: '1px solid rgba(240, 250, 255, 0.14)', color: 'var(--color-graphite)' }}
                   itemStyle={{ color: 'var(--color-graphite)', fontWeight: 'bold', fontSize: '12px' }}
-                  labelStyle={{ color: '#374151' }}
+                  labelStyle={{ color: 'var(--color-graphite-deep)' }}
                 />
                 <Legend verticalAlign="bottom" height={36} iconType="circle" formatter={(value: string) => <span style={{ color: 'var(--app-foreground)', fontSize: 11 }}>{value}</span>} />
               </PieChart>

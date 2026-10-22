@@ -216,7 +216,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-cream/60 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-foreground/60 shrink-0">
                   <Zap className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">
@@ -408,7 +408,7 @@ export const DashboardMetricsBentoGrid: React.FC<DashboardMetricsBentoGridProps>
             {/* Top Card Bar */}
             <div className="flex items-start justify-between gap-2.5 pb-2.5 border-b border-border">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-cream/75 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent border border-border text-foreground/75 shrink-0">
                   <ShieldCheck className="h-4 w-4" />
                 </div>
                 <div className="min-w-0">

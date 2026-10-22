@@ -21,7 +21,7 @@ import { join } from 'node:path';
 // with an alpha multiplier (they also fall outside this check's \b-anchored
 // pattern). src/lib/emailService.ts is exempt: email clients
 // do not support CSS custom properties, so its inline CSS must stay literal.
-const BASELINE = 5; // ratchet: fail on any increase; tighten as residue is tokenized
+const BASELINE = 0; // fully tokenized 2026-10-22 (cream-promotion + residue pass)
 
 const HEX = /(?<!&)#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b(?!:)/g;
 const EXEMPT = /src[\\/]lib[\\/]emailService\.ts$/;
