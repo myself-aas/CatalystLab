@@ -5,7 +5,6 @@ import {
   ArrowRight,
   BookOpen,
   Check,
-  CheckCircle2,
   ChevronDown,
   ChevronRight,
   HelpCircle,
@@ -14,8 +13,6 @@ import {
   Play,
   Search,
   Terminal as TerminalIcon,
-  ThumbsDown,
-  ThumbsUp,
   X,
 } from 'lucide-react';
 import { SEOHead } from '../common/SEOHead';
@@ -169,7 +166,6 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
 
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [feedbackGiven, setFeedbackGiven] = useState<'yes' | 'no' | null>(null);
   const [cliOpen, setCliOpen] = useState(false);
   const [injectedCommand, setInjectedCommand] = useState('catalyst run --engine vitalzyme');
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
@@ -239,7 +235,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
       </Link>
 
       <div className="relative mb-4">
-        <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <input
           ref={searchRef}
           type="search"
@@ -247,7 +243,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter docs"
           aria-label="Filter documentation"
-          className="h-9 w-full rounded-full border border-border bg-background pl-9 pr-10 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary"
+          className="h-11 w-full rounded-full border border-border bg-background pl-9 pr-10 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary lg:h-9"
         />
         <kbd className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-border bg-muted/50 px-1.5 py-0.5 font-mono text-xs text-muted-foreground">
           /
@@ -261,7 +257,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
             <button
               type="button"
               onClick={() => setOpenGroups((prev) => ({ ...prev, [group.group]: !expanded }))}
-              className="flex h-9 w-full items-center justify-between rounded-md px-2 text-left text-xs font-semibold text-muted-foreground hover:bg-accent"
+              className="flex min-h-11 w-full items-center justify-between rounded-md px-2 text-left text-xs font-semibold text-muted-foreground hover:bg-accent lg:min-h-9"
               aria-expanded={expanded}
             >
               {group.group}
@@ -276,7 +272,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
                       <Link
                         to={item.path}
                         onClick={() => setMobileNavOpen(false)}
-                        className={`flex min-h-9 items-center justify-between rounded-full py-1.5 pl-3 pr-3 text-sm leading-snug no-underline ${
+                        className={`flex min-h-11 items-center justify-between rounded-full py-1.5 pl-3 pr-3 text-sm leading-snug no-underline lg:min-h-9 ${
                           active
                             ? 'bg-accent font-semibold text-foreground'
                             : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-[var(--bg-surface)]'
@@ -438,40 +434,16 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
               <div className="mt-8 rounded-lg border border-border p-5">
                 <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
                   <div>
-                    <p className="text-base font-medium text-foreground">Was this helpful?</p>
-                    <p className="text-sm text-muted-foreground">Except as otherwise noted, content is licensed for developer use.</p>
+                    <p className="text-base font-medium text-foreground">Something wrong or unclear?</p>
+                    <p className="text-sm text-muted-foreground">
+                      Send it to us and we will correct the page.
+                    </p>
                   </div>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setFeedbackGiven('yes')}
-                      className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-sm font-medium ${
-                        feedbackGiven === 'yes'
-                          ? 'border-success bg-cream/10 text-success dark:text-success'
-                          : 'border-border text-foreground hover:bg-accent'
-                      }`}
-                    >
-                      <ThumbsUp className="size-4" /> Yes
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setFeedbackGiven('no')}
-                      className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-4 text-sm font-medium ${
-                        feedbackGiven === 'no'
-                          ? 'border-danger bg-white/10 text-danger dark:text-danger'
-                          : 'border-border text-foreground hover:bg-accent'
-                      }`}
-                    >
-                      <ThumbsDown className="size-4" /> No
-                    </button>
-                  </div>
+                  <Link to="/contact" className="ds-btn ds-btn-secondary h-11 text-sm">
+                    <MessageSquare className="size-4" aria-hidden="true" />
+                    <span>Contact support</span>
+                  </Link>
                 </div>
-                {feedbackGiven && (
-                  <p className="mt-3 inline-flex items-center gap-1.5 text-sm text-success dark:text-success">
-                    <CheckCircle2 className="size-4" />
-                    Thank you for your feedback.
-                  </p>
-                )}
               </div>
 
               <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5 text-xs text-muted-foreground">

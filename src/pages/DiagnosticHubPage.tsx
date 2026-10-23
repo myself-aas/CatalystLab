@@ -11,35 +11,14 @@ import {
   Search,
   Globe,
   Terminal,
+  Check,
 } from 'lucide-react';
 import { PageTransition } from '../components/common/LazyAnimate';
-import { ENGINES_MAP } from '../data/engines';
+import { ENGINES_MAP, ENGINE_ORDER, type EngineId } from '../data/engines';
 
-import {
-  PerfWidget,
-  LatencyWidget,
-  EcoWidget,
-  SecurityWidget,
-  RepoWidget,
-  AiWidget,
-  MigrationWidget,
-  LlmoWidget
-} from '../components/hub/SimulationWidgets';
-
-/** The eight engines in SDLC order — names, routes and copy come from ENGINES_MAP. */
-const ENGINE_ORDER = [
-  'migration',
-  'repo',
-  'eco',
-  'health',
-  'latency',
-  'compliance',
-  'ai_ready',
-  'llmo',
-] as const;
 
 type Group = 'perf' | 'sec' | 'ai';
-type HubEngineId = (typeof ENGINE_ORDER)[number];
+type HubEngineId = EngineId;
 
 const GROUPS: Array<{ id: 'all' | Group; label: string }> = [
   { id: 'all', label: 'All engines' },
@@ -59,30 +38,16 @@ const GROUP_OF: Record<HubEngineId, Group> = {
   migration: 'ai',
 };
 
-const ENGINE_VISUALS: Record<
-  HubEngineId,
-  { icon: React.ElementType; hue: string; sweep: string; widget: 'perf' | 'latency' | 'eco' | 'sec' | 'repo' | 'ai' | 'migration' | 'llmo' }
-> = {
-  health: { icon: Activity, hue: 'var(--hue-vitalzyme)', sweep: '5-minute pulse, per deploy', widget: 'perf' },
-  latency: { icon: Globe, hue: 'var(--hue-edgevmax)', sweep: 'Continuous, 42 edge PoPs', widget: 'latency' },
-  eco: { icon: Leaf, hue: 'var(--hue-ecoholo)', sweep: 'After each page render', widget: 'eco' },
-  compliance: { icon: ShieldCheck, hue: 'var(--hue-riskprotease)', sweep: 'Before a release, in CI', widget: 'sec' },
-  repo: { icon: Terminal, hue: 'var(--hue-gitlygase)', sweep: 'On every commit', widget: 'repo' },
-  ai_ready: { icon: Cpu, hue: 'var(--hue-llmkinase)', sweep: 'On demand', widget: 'ai' },
-  llmo: { icon: Search, hue: 'var(--hue-alloster)', sweep: 'Daily crawl', widget: 'llmo' },
-  migration: { icon: GitBranch, hue: 'var(--hue-synthshift)', sweep: 'In the release pipeline', widget: 'migration' },
+const ENGINE_VISUALS: Record<HubEngineId, { icon: React.ElementType; hue: string }> = {
+  health: { icon: Activity, hue: 'var(--hue-vitalzyme)' },
+  latency: { icon: Globe, hue: 'var(--hue-edgevmax)' },
+  eco: { icon: Leaf, hue: 'var(--hue-ecoholo)' },
+  compliance: { icon: ShieldCheck, hue: 'var(--hue-riskprotease)' },
+  repo: { icon: Terminal, hue: 'var(--hue-gitlygase)' },
+  ai_ready: { icon: Cpu, hue: 'var(--hue-llmkinase)' },
+  llmo: { icon: Search, hue: 'var(--hue-alloster)' },
+  migration: { icon: GitBranch, hue: 'var(--hue-synthshift)' },
 };
-
-const WIDGETS = {
-  perf: PerfWidget,
-  latency: LatencyWidget,
-  eco: EcoWidget,
-  sec: SecurityWidget,
-  repo: RepoWidget,
-  ai: AiWidget,
-  migration: MigrationWidget,
-  llmo: LlmoWidget,
-} as const;
 
 export const DiagnosticHubPage: React.FC = () => {
  const [activeTab, setActiveTab] = useState<'all' | Group>('all');
@@ -96,6 +61,7 @@ export const DiagnosticHubPage: React.FC = () => {
      description: meta.description,
      route: meta.route,
      focus: meta.lifecycleFocus,
+     measures: (meta.keyVectors ?? []).slice(0, 4),
      group: GROUP_OF[id],
      ...visual,
    };
@@ -117,18 +83,18 @@ export const DiagnosticHubPage: React.FC = () => {
  Diagnostic engines.
  </h1>
  <p className="framer-body-text">
- Eight engines inspect one domain at a time — performance, security, carbon, and AI
- readiness. Pick an engine to see what it measures, then run it from the audit page.
+ Eight engines inspect one domain at a time: performance, security, carbon, and AI
+ readiness. Each card lists what that engine measures; a master audit runs all eight.
  </p>
  </div>
 
  <Link to="/audit" className="ds-btn ds-btn-primary h-12 shrink-0 px-6 text-sm sm:text-base">
  <ArrowRight className="size-4 shrink-0" aria-hidden="true" />
- <span>Run all eight engines</span>
+ <span>Run a master audit</span>
  </Link>
  </div>
 
- <div className="flex overflow-x-auto pb-1 no-scrollbar" role="tablist" aria-label="Filter engines">
+ <div className="no-scrollbar flex overflow-x-auto pb-1" role="group" aria-label="Filter engines by area">
  <div className="flex items-center gap-1 rounded-full border border-border bg-surface p-1">
  {GROUPS.map((group) => {
  const selected = activeTab === group.id;
@@ -136,8 +102,7 @@ export const DiagnosticHubPage: React.FC = () => {
  <button
  key={group.id}
  type="button"
- role="tab"
- aria-selected={selected}
+ aria-pressed={selected}
  onClick={() => setActiveTab(group.id)}
  className={`relative min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
  selected ? 'text-background' : 'text-muted-foreground hover:text-foreground'
@@ -164,7 +129,6 @@ export const DiagnosticHubPage: React.FC = () => {
  <AnimatePresence initial={false} mode="popLayout">
  {filteredEngines.map((engine, idx) => {
  const Icon = engine.icon;
- const Widget = WIDGETS[engine.widget];
  return (
  <motion.article
  key={engine.id}
@@ -173,7 +137,7 @@ export const DiagnosticHubPage: React.FC = () => {
  animate={{ opacity: 1, y: 0 }}
  exit={{ opacity: 0 }}
  transition={{ duration: 0.3, delay: idx * 0.03, ease: [0.16, 1, 0.3, 1] }}
- className="ds-card group grid gap-0 overflow-hidden md:grid-cols-[1.15fr_1fr]"
+ className="ds-card grid gap-0 overflow-hidden md:grid-cols-[1.15fr_1fr]"
  style={{ ['--engine-hue' as string]: engine.hue }}
  >
  <div className="flex flex-col justify-between gap-6 border-b border-border p-6 sm:p-8 md:border-b-0 md:border-r">
@@ -196,8 +160,10 @@ export const DiagnosticHubPage: React.FC = () => {
 
  <dl className="grid gap-4 sm:grid-cols-2">
  <div className="space-y-1">
- <dt className="font-mono text-xs text-muted-foreground">Runs</dt>
- <dd className="text-sm text-foreground">{engine.sweep}</dd>
+ <dt className="font-mono text-xs text-muted-foreground">Area</dt>
+ <dd className="text-sm text-foreground">
+ {GROUPS.find((group) => group.id === engine.group)?.label ?? engine.group}
+ </dd>
  </div>
  <div className="space-y-1">
  <dt className="font-mono text-xs text-muted-foreground">Lifecycle stage</dt>
@@ -206,19 +172,34 @@ export const DiagnosticHubPage: React.FC = () => {
  </dl>
  </div>
 
- <div className="relative flex min-h-[200px] items-center justify-center bg-background p-4">
- <div className="w-full" aria-hidden="true">
- <Widget />
+ <div className="relative flex flex-col justify-between gap-6 bg-background p-6 sm:p-8">
+ {engine.measures.length > 0 ? (
+ <div className="space-y-3">
+ <h3 className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
+ Measures
+ </h3>
+ <ul className="space-y-2">
+ {engine.measures.map((item) => (
+ <li key={item} className="flex gap-2 text-sm text-foreground">
+ <Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true" />
+ <span>{item}</span>
+ </li>
+ ))}
+ </ul>
  </div>
+ ) : (
+ <p className="text-sm text-muted-foreground">
+ {engine.focus || engine.name}
+ </p>
+ )}
+
  <Link
  to={engine.route}
- className="absolute inset-0 z-20 rounded-[inherit] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+ className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
  >
- <span className="sr-only">Read the {engine.name} documentation</span>
+ <span>Read the {engine.name} documentation</span>
+ <ArrowRight className="size-4" aria-hidden="true" />
  </Link>
- <span className="pointer-events-none absolute bottom-3 right-3 z-30 inline-flex items-center gap-1 text-xs font-medium text-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
- Docs <ArrowRight className="size-3" aria-hidden="true" />
- </span>
  </div>
  </motion.article>
  );
@@ -227,7 +208,7 @@ export const DiagnosticHubPage: React.FC = () => {
  </div>
 
  <p className="framer-body-text text-sm">
- Need a single number instead of eight? <Link to="/compare" className="text-info underline underline-offset-4">Compare two domains</Link> on the health engine, or <Link to="/api-docs" className="text-info underline underline-offset-4">call the API</Link> from your pipeline.
+ Checking one domain against another? <Link to="/compare" className="text-info underline underline-offset-4">Compare two domains</Link> on the health score, or <Link to="/api-docs" className="text-info underline underline-offset-4">call the API</Link> from a pipeline.
  </p>
  </div>
  </PageTransition>

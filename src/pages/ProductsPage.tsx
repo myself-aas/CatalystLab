@@ -600,13 +600,13 @@ export default {
  </div>
 
  {/* Code display */}
- <pre className="flex-1 overflow-x-auto scrollbar-none touch-pan-x text-[13px] font-mono leading-relaxed text-muted-foreground bg-foreground/40 p-4 rounded-xl border border-foreground/5 custom-scrollbar">
+ <pre className="flex-1 overflow-x-auto scrollbar-none touch-pan-x text-sm font-mono leading-relaxed text-muted-foreground bg-foreground/40 p-4 rounded-xl border border-foreground/5 custom-scrollbar">
  {generateConfigJson()}
  </pre>
 
  {/* Action Buttons */}
  <div className="mt-5 pt-5 border-t border-foreground/10 flex flex-col sm:flex-row items-center justify-between gap-4">
- <div className="text-[11px] font-mono text-muted-foreground text-center sm:text-left">
+ <div className="text-center font-mono text-xs text-muted-foreground sm:text-left">
  Ready to deploy to your background cron runner or CI/CD pipeline.
  </div>
  <Link

@@ -38,6 +38,10 @@ export default function PricingPage() {
  ) as SubscriptionPlan[];
  const community = ALL_PLANS_LIST.find((p) => p.id === 'free');
  const enterprise = ALL_PLANS_LIST.find((p) => p.id === 'enterprise');
+ const maxAnnualSaving = Math.max(
+ 0,
+ ...ALL_PLANS_LIST.map((plan) => plan.annualSavingsPercent || 0)
+ );
 
  return (
  <div className="relative min-h-screen ds-page-top-hero bg-background text-foreground">
@@ -49,10 +53,11 @@ export default function PricingPage() {
  <section className="w-full ds-section">
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="ds-page-shell text-center">
  <h1 className="framer-hero-title text-foreground">
- Pricing that scales with the mesh.
+ Simple pricing, one catalog
  </h1>
  <p className="mx-auto mt-4 max-w-3xl framer-body-text">
- Start free on 42 edge nodes. Upgrade when you need CI gates, scheduled sweeps, and white-label dossiers.
+ Start free. Upgrade when you need more scans per day, CI gates, or white-label
+ reports. Prices are per workspace, in US dollars, before tax.
  </p>
  <div className="mt-8 inline-flex items-center gap-1 rounded-full border border-border bg-surface p-1" role="group" aria-label="Billing period">
  <button
@@ -74,9 +79,11 @@ export default function PricingPage() {
  }`}
  >
  Annual
+ {maxAnnualSaving > 0 && (
  <span className={`rounded-full px-2 py-0.5 font-mono text-xs ${annual ? 'bg-background/15 text-background' : 'bg-success/10 text-success'}`}>
- −20%
+ save up to {maxAnnualSaving}%
  </span>
+ )}
  </button>
  </div>
  </motion.div>
@@ -101,10 +108,7 @@ export default function PricingPage() {
  popular ? 'border-cream/40 shadow-linear-cta' : ''
  }`}
  >
- <div className="mb-5 flex items-center justify-between">
- <span className="framer-micro-tag text-muted-foreground">
- {plan.badge}
- </span>
+ <div className="mb-5 flex min-h-6 items-center justify-end">
  {popular && (
  <span className="inline-flex items-center gap-1 rounded-full border border-cream/20 bg-cream/10 px-2.5 py-0.5 framer-micro-tag text-foreground">
  <Sparkles className="size-3 shrink-0"/>
@@ -116,15 +120,17 @@ export default function PricingPage() {
  <p className="mt-2 framer-body-text text-sm">{plan.tagline}</p>
  <div className="mt-6 flex items-baseline gap-1 border-y border-border py-4">
  <span className="font-mono text-4xl font-semibold tracking-tight text-foreground">${price}</span>
- <span className="font-mono text-sm text-muted-foreground">/mo</span>
+ <span className="font-mono text-sm text-muted-foreground">
+ /month{annual ? ', billed yearly' : ''}
+ </span>
  </div>
  {annual && plan.annualBillingTotal > 0 && (
- <p className="mt-2 font-mono text-[11px] text-muted-foreground">
- ${plan.annualBillingTotal}/yr · save {plan.annualSavingsPercent}%
+ <p className="mt-2 font-mono text-xs text-muted-foreground">
+ ${plan.annualBillingTotal} charged once a year · saves {plan.annualSavingsPercent}%
  </p>
  )}
  <ul className="mt-6 space-y-2.5">
- {plan.features.filter((feat) => feat.included).slice(0, 7).map((feat) => (
+ {plan.features.filter((feat) => feat.included).map((feat) => (
  <li key={feat.text} className="flex items-start gap-2 text-sm text-muted-foreground">
  <Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true"/>
  <span>{feat.text}</span>
@@ -145,8 +151,8 @@ export default function PricingPage() {
  popular ? 'ds-btn-buy' : 'ds-btn-secondary'
  }`}
  >
- {plan.ctaTextTrial}
- <ArrowRight className="size-4 shrink-0"/>
+ {plan.hasFreeTrial ? `Start the ${plan.trialDays}-day trial` : `Choose ${plan.name}`}
+ <ArrowRight className="size-4 shrink-0" aria-hidden="true"/>
  </button>
  </LinearCard>
  </motion.div>
@@ -158,8 +164,7 @@ export default function PricingPage() {
  {community && (
  <LinearCard className="flex flex-col justify-between gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
  <div>
- <p className="framer-micro-tag text-foreground">{community.badge}</p>
- <h3 className="mt-1 framer-card-title text-foreground">{community.name}</h3>
+ <h3 className="framer-card-title text-foreground">{community.name}</h3>
  <p className="mt-1 framer-body-text text-sm">{community.tagline}</p>
  </div>
  <div className="flex shrink-0 items-center gap-4">
@@ -176,8 +181,7 @@ export default function PricingPage() {
  {enterprise && (
  <LinearCard className="flex flex-col justify-between gap-6 border-primary/20 p-6 sm:flex-row sm:items-center sm:p-8">
  <div>
- <p className="framer-micro-tag text-foreground">{enterprise.badge}</p>
- <h3 className="mt-1 framer-card-title text-foreground">{enterprise.name}</h3>
+ <h3 className="framer-card-title text-foreground">{enterprise.name}</h3>
  <p className="mt-1 framer-body-text text-sm">{enterprise.tagline}</p>
  </div>
  <button
@@ -195,8 +199,8 @@ export default function PricingPage() {
 
  <section className="mx-auto mt-24 max-w-3xl ds-section">
  <SectionHeader
- title="Hours back. Incidents down."
- description="Slide probe volume, domains, and seats. We recommend a tier from the same catalog as checkout."
+ title="Estimate what you need"
+ description="Set how many scans and monitored sites you run. The estimate names the cheapest plan from the same catalog checkout uses."
  />
  <TelemetryRoiCalculator onSelectRecommendedPlan={openCheckout} />
  </section>

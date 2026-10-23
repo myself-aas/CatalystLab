@@ -7,7 +7,6 @@ import { RoleContentGate } from '../components/common/RoleContentGate';
 import { getUserReports, deleteReport } from '../lib/firebase';
 import { ENGINES_MAP } from '../data/engines';
 import { urlToDomainSlug, extractDomainFromUrl } from '../utils/slugUtils';
-import { exportAuditReportDataToPdf } from '../utils/pdfExport';
 import { 
  getRateLimitStatus, 
  fetchServerRateLimitStatus,
@@ -28,7 +27,7 @@ import {
  Globe, 
  Calendar,
  LogIn,
- Download,
+ Printer,
  FileText,
  ArrowRight,
  Sparkles,
@@ -57,7 +56,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import { GitBranch } from 'lucide-react';
 import { logger } from '../lib/logger';
 import { UserDashboardSkeleton, SkeletonCard, SkeletonTable } from '../components/skeleton';
-import { TOTAL_POPS_COUNT } from '../lib/edge/pops';
 
 export const UserDashboardPage: React.FC = () => {
  const { 
@@ -113,7 +111,6 @@ export const UserDashboardPage: React.FC = () => {
  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
  const [copiedId, setCopiedId] = useState<string | null>(null);
  const [deletingId, setDeletingId] = useState<string | null>(null);
- const [exportingId, setExportingId] = useState<string | null>(null);
  const [quickViewReport, setQuickViewReport] = useState<AuditReport | null>(null);
 
  const [rateStatus, setRateStatus] = useState<RateLimitStatus>(() => getRateLimitStatus(user, isAdmin));
@@ -194,17 +191,11 @@ export const UserDashboardPage: React.FC = () => {
  setTimeout(() => setCopiedId(null), 2000);
  };
 
- const handleDirectExportPdf = async (report: AuditReport, e: React.MouseEvent) => {
+ const handlePrintReport = (report: AuditReport, e: React.MouseEvent) => {
  e.stopPropagation();
- setExportingId(report.id || 'current');
- try {
- await exportAuditReportDataToPdf(report);
- } catch (err) {
- logger.error("Export PDF failed:", err);
+ // There is no server-side PDF renderer, so this opens the browser print dialog
+ // (where "Save as PDF" is available) instead of claiming a generated file.
  window.print();
- } finally {
- setExportingId(null);
- }
  };
 
  const handleNavigateToReport = (report: AuditReport) => {
@@ -262,9 +253,9 @@ export const UserDashboardPage: React.FC = () => {
  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-surface border border-border text-foreground mb-5 shadow-inner">
  <LogIn className="h-5 w-5" />
  </div>
- <h2 className="framer-card-title text-xl sm:text-2xl text-foreground">Developer Access Required</h2>
+ <h2 className="framer-card-title text-xl sm:text-2xl text-foreground">Sign in to open your dashboard</h2>
  <p className="mt-2 framer-body-text text-sm">
- Sign in to access real-time telemetry dossiers, autonomous patch branches, domain uptime monitoring, and API tokens.
+ Your saved audits, score history, API keys and monitoring all live under your account.
  </p>
 
  <div className="mt-6 space-y-3 font-mono text-xs">
@@ -273,18 +264,19 @@ export const UserDashboardPage: React.FC = () => {
  className="ds-btn ds-btn-primary w-full text-xs sm:text-sm"
  >
  <LogIn className="h-3.5 w-3.5 shrink-0" />
- <span>Sign In with Email or Google</span>
+ <span>Sign in</span>
  </Link>
 
  <Link
  to="/signup?redirect=/dashboard"
  className="ds-btn ds-btn-secondary w-full text-xs sm:text-sm"
  >
- <span>Create Free Developer Account &rarr;</span>
+ <span>Create an account &rarr;</span>
  </Link>
  </div>
 
- <div className="mt-6 pt-5 border-t border-border flex flex-col items-center justify-center gap-2 font-mono sm:flex-row">
+ {import.meta.env.DEV && (
+ <div className="mt-6 border-t border-border pt-5 font-mono">
  <button
  onClick={() => loginWithLocalSession({
  email: 'developer@catalystlab.io',
@@ -294,9 +286,10 @@ export const UserDashboardPage: React.FC = () => {
  className="ds-btn ds-btn-secondary w-full text-xs text-success bg-cream/10 border-success/20 hover:bg-cream/20"
  >
  <Sparkles className="h-3.5 w-3.5 shrink-0" />
- <span>Preview Developer Session</span>
+ <span>Preview developer session</span>
  </button>
  </div>
+ )}
  </div>
  </div>
  );
@@ -340,8 +333,13 @@ export const UserDashboardPage: React.FC = () => {
          {getGreeting()}, <span className="text-foreground/60">{userName}</span>
        </h1>
        <p className="framer-body-text mt-2 max-w-2xl">
-         Your telemetry mesh is active across <span className="text-foreground font-medium">{uniqueDomains} domains</span>. 
-         The mean health score is currently <span className="text-success font-medium">{avgScore}/100</span>.
+         {totalAudits === 0
+           ? 'No audits saved yet. Run one and the result, with a shareable permalink, appears here.'
+           : <>
+               {totalAudits} {totalAudits === 1 ? 'audit' : 'audits'} across {uniqueDomains}{' '}
+               {uniqueDomains === 1 ? 'domain' : 'domains'}.
+               {avgScore !== null && <> Mean health score <span className="font-medium text-foreground">{avgScore}/100</span>.</>}
+             </>}
        </p>
      </div>
      <div className="flex items-center gap-3">
@@ -351,7 +349,7 @@ export const UserDashboardPage: React.FC = () => {
        </Link>
      </div>
    </div>
- {/* 3-Column Bento-Grid Layout for Platform Metrics (Visual Parity with Audit Dossiers) */}
+ {/* Summary tiles */}
  <DashboardMetricsBentoGrid
  totalAudits={totalAudits}
  avgScore={avgScore}
@@ -362,7 +360,7 @@ export const UserDashboardPage: React.FC = () => {
  />
 
 
- {/* Autonomous Dossier Engine Cockpit */}
+ {/* New audit panel */}
  <FramerDossierCockpit
  targetDomain={targetDomain}
  onRefreshScan={handleRefreshScan}
@@ -370,7 +368,7 @@ export const UserDashboardPage: React.FC = () => {
  showTopKpi={false}
  />
 
- {/* Quick Recent Dossiers Vault Strip - 3-Column Bento Grid Layout with ds-card and ds-card-interactive */}
+ {/* Recent audits */}
 <div className="space-y-4">
 <div className="flex items-center justify-between gap-3">
 <h2 className="framer-card-title text-foreground">Recent audits</h2>
@@ -402,7 +400,7 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  className="ds-card ds-card-interactive group p-5 flex flex-col justify-between cursor-pointer bg-surface/50 backdrop-blur-sm"
  >
  <div>
- {/* Top Card Bar - Visual Parity with Audit Dossier Cards */}
+ {/* Card header */}
  <div className="flex items-start justify-between gap-3 pb-3 border-b border-foreground/5">
  <div className="flex items-center gap-3 min-w-0">
  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--bg-surface)] border border-foreground/10 text-foreground shrink-0 group-hover:border-cream/30 transition-colors">
@@ -412,46 +410,60 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-foreground transition-colors tracking-tight">
  {extractDomainFromUrl(report.url)}
  </h4>
- <span className="font-mono text-xs text-muted-foreground flex items-center gap-1.5 mt-0.5">
- <Calendar className="h-3 w-3" />
- {report.createdAt ? new Date(report.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'}
+ {report.createdAt ? (
+ <span className="mt-0.5 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+ <Calendar className="h-3 w-3" aria-hidden="true" />
+ <time dateTime={new Date(report.createdAt).toISOString()}>
+ {new Date(report.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+ </time>
  </span>
+ ) : null}
  </div>
  </div>
 
- {/* Score Pill */}
+ {/* Score */}
  <div
- className={`px-2.5 py-1 rounded-lg font-mono text-xs font-semibold border shrink-0 ${
- (report.score ?? 0) >= 90
- ?"bg-cream/10 text-success border-success/20"
- :"bg-cream/10 text-warning border-warning/20"
+ className={`shrink-0 rounded-lg border px-2.5 py-1 font-mono text-xs font-semibold ${
+ typeof report.score !== 'number'
+ ? 'border-border bg-muted text-muted-foreground'
+ : report.score >= 90
+ ? 'border-success/20 bg-success/10 text-success'
+ : report.score >= 75
+ ? 'border-warning/20 bg-warning/10 text-warning'
+ : 'border-danger/20 bg-danger/10 text-danger'
  }`}
  >
- {report.score ?? 85}
+ {typeof report.score === 'number' ? report.score : 'No score'}
  </div>
  </div>
 
  {/* Middle Content */}
  <div className="py-4 space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2 py-0.5 font-mono text-xs text-foreground">
- <Sparkles className="h-2.5 w-2.5" />
- <span>{report.engine ? report.engine.toUpperCase() : 'MASTER AUDIT'}</span>
+ <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2 py-0.5 text-xs text-foreground">
+ <Sparkles className="h-3 w-3" aria-hidden="true" />
+ <span>
+ {report.engine && ENGINES_MAP[report.engine]
+ ? ENGINES_MAP[report.engine].name
+ : 'Master audit (8 engines)'}
+ </span>
  </div>
  <p className="framer-body-text text-sm line-clamp-2 leading-relaxed">
- {report.summary || report.title || `Autonomous telemetry dossier evaluated for ${report.url}`}
+ {report.summary || report.title || `Audit of ${extractDomainFromUrl(report.url)}`}
  </p>
  </div>
  </div>
 
- {/* Card Action Footer */}
- <div className="pt-3 border-t border-foreground/5 flex items-center justify-between">
- <div className="flex items-center gap-2">
-   <span className="font-mono text-xs text-muted-foreground">{TOTAL_POPS_COUNT} PoPs</span>
- </div>
- <div className="flex items-center gap-1 text-xs font-semibold text-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
- <span>Open Dossier</span>
- <ArrowRight className="h-3 w-3" />
- </div>
+ {/* Card footer */}
+ <div className="flex items-center justify-between border-t border-foreground/5 pt-3">
+ <span className="truncate font-mono text-xs text-muted-foreground">
+ {report.createdAt
+ ? new Date(report.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+ : 'Date not recorded'}
+ </span>
+ <span className="flex items-center gap-1 text-xs font-semibold text-foreground">
+ <span>Open report</span>
+ <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+ </span>
  </div>
  </motion.div>
  ))}
@@ -464,14 +476,15 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  {/* TAB: AUTOMATED PR PATCHES */}
  {activeTab === 'patches' && (
  <div className="space-y-6">
- <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-foreground mb-1">
- <GitBranch className="size-3.5" />
- <span>GitLygase · Automated pull requests</span>
- </div>
- <h2 className="text-base font-semibold text-foreground font-sans">Automated GitHub Pull Request Patches</h2>
- <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">
- When CatalystLab engines detect Core Web Vitals degradation, render-blocking scripts, or OWASP transport gaps, GitLygase compiles AST patches and dispatches verified PRs directly to your GitHub repository.
+ <div className="ds-card p-5 sm:p-6">
+ <h2 className="flex items-center gap-2 text-base font-semibold text-foreground">
+ <GitBranch className="size-4 text-muted-foreground" aria-hidden="true" />
+ Automated pull requests
+ </h2>
+ <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+ When an engine finds a Core Web Vitals regression, a render-blocking script, or a
+ transport-security gap, GitLygase can open a pull request with the fix in the GitHub
+ repository you connect below.
  </p>
  </div>
  <UserGithubWebhookView />
@@ -481,21 +494,33 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  {/* TAB: SECURITY */}
  {activeTab === 'security' && (
  <div className="space-y-6">
- <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-warning mb-1">
- <ShieldAlert className="size-3.5" />
- <span>RiskProtease · OWASP Transport Security Vault</span>
- </div>
- <h2 className="text-base font-semibold text-foreground font-sans">Security Alerts &amp; Compliance Logs</h2>
- <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">
- Continuous inspection of TLS 1.3 cipher negotiation, Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), and Permissions-Policy headers.
+ <div className="ds-card p-5 sm:p-6">
+ <h2 className="flex items-center gap-2 text-base font-semibold text-foreground">
+ <ShieldAlert className="size-4 text-warning" aria-hidden="true" />
+ Security checks
+ </h2>
+ <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+ The RiskProtease engine reads the transport layer of one URL: TLS version and
+ cipher, Strict-Transport-Security, Content-Security-Policy, and Permissions-Policy
+ headers. Run it on demand; results appear under Audits.
  </p>
+ <Link to="/audit" className="ds-btn ds-btn-secondary mt-4 h-11 text-sm">
+ <span>Run an audit</span>
+ <ArrowRight className="size-4" aria-hidden="true" />
+ </Link>
  </div>
- <FramerDossierCockpit targetDomain={targetDomain} />
+ <ul className="grid gap-3 sm:grid-cols-2">
+ {['TLS version and cipher negotiation', 'HSTS max-age and includeSubDomains', 'Content-Security-Policy presence', 'Permissions-Policy presence'].map((check) => (
+ <li key={check} className="ds-card flex items-center gap-2 p-3 text-sm text-muted-foreground">
+ <CheckCircle2 className="size-4 shrink-0 text-success" aria-hidden="true" />
+ {check}
+ </li>
+ ))}
+ </ul>
  </div>
  )}
 
- {/* TAB 1: AUDIT REPORTS & DOSSIERS */}
+ {/* TAB 1: AUDITS */}
  {activeTab === 'audits' && (
  <div className="space-y-5">
  
@@ -504,7 +529,7 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  
  {/* Search Bar */}
  <div className="relative flex-1">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground"/>
+ <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" aria-hidden="true"/>
  <input
  type="text"
  value={searchQuery}
@@ -517,16 +542,16 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  {/* Engine Selector Dropdown */}
  <div className="flex flex-wrap items-center gap-2">
  <div className="flex items-center gap-1 text-xs font-bold text-muted-foreground">
- <Filter className="h-3 w-3 text-muted-foreground"/>
- <span>Catalyst:</span>
+ <Filter className="h-3 w-3 text-muted-foreground" aria-hidden="true"/>
+ <span>Engine</span>
  </div>
  <select
  value={selectedEngine}
  onChange={(e) => setSelectedEngine(e.target.value)}
  className="ds-select text-xs font-mono"
  >
- <option value="all">All Catalysts</option>
- <option value="master">Master Audit (All 8)</option>
+ <option value="all">All engines</option>
+ <option value="master">Master audit (all 8 engines)</option>
  {Object.entries(ENGINES_MAP).map(([key, item]) => (
  <option key={key} value={key}>
  {item.shortCode ? `[${item.shortCode}] ` : ''}{item.name}
@@ -588,20 +613,29 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-foreground/5 border border-foreground/10">
  <FileText className="h-7 w-7 text-muted-foreground"/>
  </div>
- <h2 className="text-base sm:text-lg font-semibold text-foreground">No Reports Found</h2>
- <p className="mt-4 max-w-lg mx-auto text-sm sm:text-base text-muted-foreground leading-relaxed font-sans">
- {searchQuery || selectedEngine !== 'all' 
- ?"No reports match your active search filters. Try clearing the search query."
- :"You haven't run any audits yet. Launch your first Master Audit to generate a permanent dossier."}
+ <h2 className="text-base font-semibold text-foreground sm:text-lg">
+ {searchQuery || selectedEngine !== 'all' ? 'No audits match these filters' : 'No saved audits yet'}
+ </h2>
+ <p className="mx-auto mt-3 max-w-lg font-sans text-sm leading-relaxed text-muted-foreground">
+ {searchQuery || selectedEngine !== 'all'
+ ? 'Clear the search or choose "All engines" to see every audit you have run.'
+ : 'A master audit runs all eight engines against one URL and saves the result here.'}
  </p>
- <div className="mt-8 flex justify-center">
- <Link
- to="/master-audit"
- className="ds-btn ds-btn-primary text-sm"
+ <div className="mt-6 flex justify-center">
+ {(searchQuery || selectedEngine !== 'all') ? (
+ <button
+ type="button"
+ onClick={() => { setSearchQuery(''); setSelectedEngine('all'); }}
+ className="ds-btn ds-btn-secondary text-sm"
  >
- <Sparkles className="h-4 w-4 shrink-0"/>
- <span>Run Master Audit</span>
+ <span>Clear filters</span>
+ </button>
+ ) : (
+ <Link to="/audit" className="ds-btn ds-btn-primary text-sm">
+ <Sparkles className="h-4 w-4 shrink-0" aria-hidden="true"/>
+ <span>Run a master audit</span>
  </Link>
+ )}
  </div>
  </div>
  ) : viewMode === 'grid' ? (
@@ -611,9 +645,9 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  {filteredReports.map((report) => {
  const domain = extractDomainFromUrl(report.url);
  const isMaster = report.engine === 'all' || report.engine === 'master';
- const engineMeta = isMaster 
- ? { name: 'Master Multi-Catalyst Audit', icon: 'auto_awesome' } 
- : ENGINES_MAP[report.engine] || { name: report.engine, icon: 'analytics' };
+ const engineMeta = isMaster
+ ? { name: 'Master audit (all 8 engines)' }
+ : ENGINES_MAP[report.engine] || { name: report.engine };
 
  return (
  <div
@@ -632,10 +666,14 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  <h4 className="text-xs font-bold text-foreground truncate group-hover:text-warning transition-colors">
  {domain}
  </h4>
+ {report.createdAt ? (
  <span className="flex items-center gap-1 text-xs ds-muted">
- <Calendar className="h-2.5 w-2.5"/>
- {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
+ <Calendar className="h-2.5 w-2.5" aria-hidden="true"/>
+ <time dateTime={new Date(report.createdAt).toISOString()}>
+ {new Date(report.createdAt).toLocaleDateString()}
+ </time>
  </span>
+ ) : null}
  </div>
  </div>
 
@@ -658,7 +696,7 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  <span>{engineMeta.name}</span>
  </div>
  <p className="line-clamp-2 text-sm leading-relaxed ds-muted">
- {report.summary || report.title || `Telemetry audit evaluated for ${report.url}`}
+ {report.summary || report.title || `Audit of ${domain}`}
  </p>
  </div>
  </div>
@@ -671,39 +709,42 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  e.stopPropagation();
  setQuickViewReport(report);
  }}
- className="p-1 rounded ds-muted hover:bg-accent hover:text-foreground transition-colors cursor-pointer"
- title="Quick View"
+ className="flex size-11 items-center justify-center rounded ds-muted transition-colors hover:bg-accent hover:text-foreground sm:size-8"
+ aria-label={`Quick view of the ${domain} audit`}
+ title="Quick view"
  >
- <Eye className="h-3.5 w-3.5"/>
+ <Eye className="h-3.5 w-3.5" aria-hidden="true"/>
  </button>
  <button
- onClick={(e) => handleDirectExportPdf(report, e)}
- disabled={exportingId === report.id}
- className="p-1 rounded ds-muted hover:bg-accent hover:text-foreground transition-colors cursor-pointer"
- title="Export PDF"
+ onClick={(e) => handlePrintReport(report, e)}
+ className="flex size-11 items-center justify-center rounded ds-muted transition-colors hover:bg-accent hover:text-foreground sm:size-8"
+ aria-label={`Print the ${domain} audit`}
+ title="Print or save as PDF"
  >
- <Download className={`h-3.5 w-3.5 ${exportingId === report.id ? 'animate-pulse' : ''}`} />
+ <Printer className="h-3.5 w-3.5" aria-hidden="true" />
  </button>
  <button
  onClick={(e) => handleCopyLink(report, e)}
- className="p-1 rounded ds-muted hover:bg-accent hover:text-foreground transition-colors cursor-pointer"
- title="Copy Permalink"
+ className="flex size-11 items-center justify-center rounded ds-muted transition-colors hover:bg-accent hover:text-foreground sm:size-8"
+ aria-label={`Copy the link to the ${domain} audit`}
+ title="Copy link"
  >
- {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-success"/> : <Share2 className="h-3.5 w-3.5"/>}
+ {copiedId === report.id ? <Check className="h-3.5 w-3.5 text-success" aria-hidden="true"/> : <Share2 className="h-3.5 w-3.5" aria-hidden="true"/>}
  </button>
  <button
  onClick={(e) => handleDelete(report.id!, e)}
  disabled={deletingId === report.id}
- className="p-1 rounded ds-muted hover:bg-white/10 hover:text-danger transition-colors cursor-pointer"
- title="Delete Report"
+ className="flex size-11 items-center justify-center rounded ds-muted transition-colors hover:bg-danger/10 hover:text-danger disabled:opacity-50 sm:size-8"
+ aria-label={`Delete the ${domain} audit`}
+ title="Delete audit"
  >
- <Trash2 className="h-3.5 w-3.5"/>
+ <Trash2 className="h-3.5 w-3.5" aria-hidden="true"/>
  </button>
  </div>
 
- <span className="text-xs font-bold ds-muted group-hover:text-foreground flex items-center gap-1">
- <span>Read Dossier</span>
- <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1"/>
+ <span className="flex items-center gap-1 text-xs font-bold ds-muted group-hover:text-foreground">
+ <span>Open report</span>
+ <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" aria-hidden="true"/>
  </span>
  </div>
  </div>
@@ -717,10 +758,10 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  <table className="w-full text-left text-xs"aria-label="Audit reports list">
  <thead className="bg-muted border-b border-border ds-eyebrow">
  <tr>
- <th className="py-3">Target Domain</th>
- <th className="py-3">Diagnostic Engine</th>
- <th className="py-3">Health Score</th>
- <th className="py-3">Audited Date</th>
+ <th className="py-3">Domain</th>
+ <th className="py-3">Engine</th>
+ <th className="py-3">Health score</th>
+ <th className="py-3">Audited</th>
  <th className="py-3 text-right">Actions</th>
  </tr>
  </thead>
@@ -728,7 +769,7 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  {filteredReports.map((report) => {
  const domain = extractDomainFromUrl(report.url);
  const isMaster = report.engine === 'all' || report.engine === 'master';
- const engineName = isMaster ? 'Master Audit (All 8)' : ENGINES_MAP[report.engine]?.name || report.engine;
+ const engineName = isMaster ? 'Master audit (8 engines)' : ENGINES_MAP[report.engine]?.name || report.engine;
 
  return (
  <tr 
@@ -749,15 +790,19 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  </td>
  <td className="py-3 font-bold">
  <span className={`rounded border px-1.5 py-0.5 font-mono text-xs ${
- (report.score || 90) >= 90
- ? 'bg-cream/10 text-success border-success/20'
- : 'bg-cream/10 text-warning border-warning/20'
+ typeof report.score !== 'number'
+ ? 'border-border bg-muted text-muted-foreground'
+ : report.score >= 90
+ ? 'border-success/20 bg-success/10 text-success'
+ : report.score >= 75
+ ? 'border-warning/20 bg-warning/10 text-warning'
+ : 'border-danger/20 bg-danger/10 text-danger'
  }`}>
- {report.score || 92}/100
+ {typeof report.score === 'number' ? `${report.score}/100` : 'No score'}
  </span>
  </td>
  <td className="py-3 ds-muted">
- {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : 'Recent'}
+ {report.createdAt ? new Date(report.createdAt).toLocaleDateString() : '—'}
  </td>
  <td className="py-3 text-right"onClick={(e) => e.stopPropagation()}>
  <div className="flex items-center justify-end gap-1">
@@ -766,31 +811,35 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  e.stopPropagation();
  setQuickViewReport(report);
  }}
- className="p-1 rounded ds-muted hover:text-foreground cursor-pointer"
- title="Quick View"
+ className="flex size-11 items-center justify-center rounded ds-muted hover:text-foreground sm:size-8"
+ aria-label={`Quick view of the ${domain} audit`}
+ title="Quick view"
  >
- <Eye className="h-3 w-3"/>
+ <Eye className="h-3 w-3" aria-hidden="true"/>
  </button>
  <button
- onClick={(e) => handleDirectExportPdf(report, e)}
- className="p-1 rounded ds-muted hover:text-foreground cursor-pointer"
- title="Export PDF"
+ onClick={(e) => handlePrintReport(report, e)}
+ className="flex size-11 items-center justify-center rounded ds-muted hover:text-foreground sm:size-8"
+ aria-label={`Print the ${domain} audit`}
+ title="Print or save as PDF"
  >
- <Download className="h-3 w-3"/>
+ <Printer className="h-3 w-3" aria-hidden="true"/>
  </button>
  <button
  onClick={(e) => handleCopyLink(report, e)}
- className="p-1 rounded ds-muted hover:text-foreground cursor-pointer"
- title="Copy Link"
+ className="flex size-11 items-center justify-center rounded ds-muted hover:text-foreground sm:size-8"
+ aria-label={`Copy the link to the ${domain} audit`}
+ title="Copy link"
  >
- {copiedId === report.id ? <Check className="h-3 w-3 text-success"/> : <Share2 className="h-3 w-3"/>}
+ {copiedId === report.id ? <Check className="h-3 w-3 text-success" aria-hidden="true"/> : <Share2 className="h-3 w-3" aria-hidden="true"/>}
  </button>
  <button
  onClick={(e) => handleDelete(report.id!, e)}
- className="p-1 rounded ds-muted hover:text-danger cursor-pointer"
- title="Delete"
+ className="flex size-11 items-center justify-center rounded ds-muted hover:text-danger sm:size-8"
+ aria-label={`Delete the ${domain} audit`}
+ title="Delete audit"
  >
- <Trash2 className="h-3 w-3"/>
+ <Trash2 className="h-3 w-3" aria-hidden="true"/>
  </button>
  </div>
  </td>
@@ -805,94 +854,84 @@ No audits yet. Run one and the reading appears here, with a permalink you can sh
  </div>
  )}
 
- {/* TAB: EXECUTIVE TELEMETRY REPORTS & DOSSIERS */}
+ {/* TAB: SAVED REPORTS */}
  {activeTab === 'reports' && (
  <div className="space-y-6">
- <div className="ds-card p-5 sm:p-6 font-mono">
- <div className="flex items-center gap-2 text-xs text-foreground mb-1">
- <FileText className="size-3.5" />
- <span>CatalystLab · Telemetry Dossiers &amp; Executive Compliance Reports</span>
- </div>
- <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+ <div className="ds-card p-5 sm:p-6">
+ <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
  <div>
- <h2 className="text-base font-semibold text-foreground font-sans">Executive Telemetry Reports &amp; Audit Dossiers</h2>
- <p className="text-xs text-muted-foreground font-sans mt-1 max-w-xl">
- Permanent audit compliance records, Core Web Vitals score distributions, and certified PDF dossier exports across inspected edge domains.
+ <h2 className="text-base font-semibold text-foreground">Saved reports</h2>
+ <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+ Every completed audit is stored to your account. Open one to read the full
+ readings, copy its permalink, or print it.
  </p>
  </div>
- <Link
- to="/master-audit"
- className="ds-btn ds-btn-primary text-xs shrink-0 self-start sm:self-auto"
- >
- <Sparkles className="size-3.5 text-warning shrink-0" />
- <span>Generate New Report</span>
+ <Link to="/audit" className="ds-btn ds-btn-primary h-11 shrink-0 self-start text-sm">
+ <Sparkles className="size-4" aria-hidden="true" />
+ <span>Run a master audit</span>
  </Link>
  </div>
 
  {/* Summary Metrics Grid */}
- <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-border">
- <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-xs text-muted-foreground">Total Dossiers</div>
- <div className="text-lg font-bold text-foreground mt-0.5">{reports.length}</div>
+ <dl className="mt-5 grid grid-cols-3 gap-3 border-t border-border pt-4">
+ <div className="rounded-xl border border-border bg-surface p-3">
+ <dt className="text-xs text-muted-foreground">Audits saved</dt>
+ <dd className="mt-0.5 font-mono text-lg font-semibold text-foreground">{reports.length}</dd>
  </div>
- <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-xs text-muted-foreground">Mean Health Score</div>
- <div className="text-lg font-bold text-success mt-0.5">{avgScore}/100</div>
+ <div className="rounded-xl border border-border bg-surface p-3">
+ <dt className="text-xs text-muted-foreground">Mean health score</dt>
+ <dd className="mt-0.5 font-mono text-lg font-semibold text-foreground">
+ {avgScore !== null ? `${avgScore}/100` : '—'}
+ </dd>
  </div>
- <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-xs text-muted-foreground">Unique Edge Meshes</div>
- <div className="text-lg font-bold text-foreground mt-0.5">{uniqueDomains}</div>
+ <div className="rounded-xl border border-border bg-surface p-3">
+ <dt className="text-xs text-muted-foreground">Domains audited</dt>
+ <dd className="mt-0.5 font-mono text-lg font-semibold text-foreground">{uniqueDomains}</dd>
  </div>
- <div className="p-3 rounded-xl bg-surface border border-border">
- <div className="text-xs text-muted-foreground">Export Standards</div>
- <div className="text-lg font-bold text-[color:var(--chart-violet)] mt-0.5">PDF · JSON · CSV</div>
- </div>
- </div>
+ </dl>
  </div>
 
- {/* Dossiers Archive Grid */}
- <div className="ds-card p-5 font-mono">
- <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
- <div className="flex items-center gap-2">
- <span className="text-xs uppercase tracking-wider text-muted-foreground">Certified Audit Dossiers Vault</span>
- <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--bg-surface)] border border-border text-foreground">
- {reports.length} Recorded
- </span>
- </div>
- </div>
+ {/* Reports list */}
+ <div className="ds-card p-5">
+ <h2 className="mb-4 border-b border-border pb-3 text-base font-semibold text-foreground">
+ All audits
+ <span className="ml-2 font-mono text-sm font-normal text-muted-foreground">{reports.length}</span>
+ </h2>
 
  {reports.length === 0 ? (
- <div className="p-8 text-center border border-dashed border-border rounded-xl text-xs text-muted-foreground">
- No audit dossiers recorded yet. Launch a Master Audit to generate your first certified telemetry report.
+ <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+ No audits saved yet. A master audit runs all eight engines against one URL and
+ stores the result here.
  </div>
  ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+ <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
  {reports.map((report) => (
  <div
  key={report.id}
- className="ds-card ds-card-interactive p-4 flex flex-col justify-between"
+ className="ds-card ds-card-interactive flex flex-col justify-between p-4"
  >
  <div>
- <div className="flex items-center justify-between pb-2 border-b border-border">
- <span className="text-xs font-bold text-foreground truncate max-w-[160px]">
+ <div className="flex items-center justify-between gap-2 border-b border-border pb-2">
+ <span className="max-w-[160px] truncate text-sm font-semibold text-foreground">
  {extractDomainFromUrl(report.url)}
  </span>
- <span className="text-xs font-bold text-success">
- {report.score || 92}/100
+ <span className={`font-mono text-sm font-semibold ${
+ typeof report.score === 'number' ? 'text-foreground' : 'text-muted-foreground'
+ }`}>
+ {typeof report.score === 'number' ? `${report.score}/100` : 'No score'}
  </span>
  </div>
- <p className="text-[11px] text-muted-foreground my-2 line-clamp-2 font-sans">
- {report.summary || report.title || `Autonomous telemetry audit dossier evaluated for ${report.url}`}
+ <p className="my-2 line-clamp-2 font-sans text-xs text-muted-foreground">
+ {report.summary || report.title || `Audit of ${extractDomainFromUrl(report.url)}`}
  </p>
  </div>
- <div className="pt-2 border-t border-border flex items-center justify-between gap-2">
+ <div className="flex items-center justify-between gap-2 border-t border-border pt-2">
  <button
- onClick={(e) => handleDirectExportPdf(report, e)}
- disabled={exportingId === report.id}
- className="ds-btn ds-btn-secondary text-[11px] py-1 px-2.5 flex items-center gap-1.5 cursor-pointer"
+ onClick={(e) => handlePrintReport(report, e)}
+ className="ds-btn ds-btn-secondary h-11 px-3 text-xs"
  >
- <Download className={`size-3 ${exportingId === report.id ? 'animate-pulse' : ''}`} />
- <span>Export PDF</span>
+ <Printer className="size-3.5" aria-hidden="true" />
+ <span>Print</span>
  </button>
  <button
  onClick={() => handleNavigateToReport(report)}

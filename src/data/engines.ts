@@ -20,7 +20,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Core',
     icon: 'account_tree',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-orange-600 border-orange-500/30',
     description: 'Binding disparate systems together for a seamless, risk-free infrastructure migration.',
     pythonScript: 'platform_migration_audit.py',
     route: '/docs/synthshift',
@@ -78,7 +77,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Enterprise',
     icon: 'terminal',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-green-600 border-green-500/30',
     description: 'Repairing, cleaning, and binding your repository structure for flawless code hygiene.',
     pythonScript: 'repo_scanner.py',
     route: '/docs/gitlygase',
@@ -136,7 +134,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Enterprise',
     icon: 'energy_savings_leaf',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-emerald-600 border-emerald-500/30',
     description: 'Synthesizing your entire digital footprint into a complete, transparent carbon accounting system.',
     pythonScript: 'eco_carbon_audit.py',
     route: '/docs/ecoholo',
@@ -194,7 +191,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Core',
     icon: 'speed',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-sky-600 border-sky-500/30',
     description: 'Optimizing your site’s core vitals to ensure peak health, performance, and unbroken uptime.',
     pythonScript: 'website_health.py',
     route: '/docs/vitalzyme',
@@ -253,7 +249,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Developer & AI',
     icon: 'public',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-pink-600 border-pink-500/30',
     description: 'Pushing global edge networks to maximum velocity to achieve near-zero latency.',
     pythonScript: 'edge_latency.py',
     route: '/docs/edgevmax',
@@ -311,7 +306,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Enterprise',
     icon: 'security',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-amber-600 border-amber-500/30',
     description: 'Actively breaking down system liabilities to ensure absolute security and compliance.',
     pythonScript: 'compliance_risk_audit.py',
     route: '/docs/riskprotease',
@@ -369,7 +363,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Developer & AI',
     icon: 'psychology',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-purple-600 border-purple-500/30',
     description: 'Activating and accelerating your data infrastructure to unlock true enterprise AI readiness.',
     pythonScript: 'ai_readiness.py',
     route: '/docs/llm-kinase',
@@ -427,7 +420,6 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     category: 'Developer & AI',
     icon: 'auto_awesome',
     color: 'var(--color-cream)',
-    badgeClass: 'bg-cream/10 text-cyan-600 border-cyan-500/30',
     description: 'Dynamically adapting your web architecture to dominate AI search and discovery engines.',
     pythonScript: 'llmo_optimizer.py',
     route: '/docs/allostersearch',
@@ -472,6 +464,24 @@ export const ENGINES_MAP: Record<string, EngineMeta> = {
     ]
   }
 };
+
+/**
+ * The eight engines in the order the orchestrator runs them (SDLC phase order).
+ * Defined once so the hub, the dashboard panel and the command centre cannot
+ * drift apart in order, naming or count.
+ */
+export const ENGINE_ORDER = [
+  'migration',
+  'repo',
+  'eco',
+  'health',
+  'latency',
+  'compliance',
+  'ai_ready',
+  'llmo',
+] as const;
+
+export type EngineId = (typeof ENGINE_ORDER)[number];
 
 export const SDLC_CATALYSTS_LIST: EngineMeta[] = Object.values(ENGINES_MAP).sort((a, b) => a.sdlcPhaseNumber - b.sdlcPhaseNumber);
 

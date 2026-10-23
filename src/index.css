@@ -778,11 +778,12 @@ html.dark, [data-theme="dark"], .theme-dark, .page-dark {
   .framer-body-text {
     @apply text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed tracking-[-0.01em];
   }
+  /* 12px is the floor in DESIGN.md; this label utility used to sit at 11px. */
   .framer-micro-tag {
-    @apply text-[11px] font-mono tracking-[0.04em] uppercase;
+    @apply font-mono text-xs tracking-[0.04em] uppercase;
   }
   .framer-code-terminal {
-    @apply font-mono text-xs sm:text-[13px] leading-relaxed text-[#22D3EE];
+    @apply font-mono text-xs leading-relaxed text-info sm:text-sm;
   }
 
   .animate-in {

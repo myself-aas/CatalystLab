@@ -73,8 +73,8 @@ export const ReportsDirectoryPage: React.FC = () => {
  <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
  <SEOHead
  title="Diagnostic Report Directory"
- description="Open a stored telemetry dossier for a domain, or search the audits saved to your CatalystLab account."
- keywords={['audit directory', 'web health report', 'dossier directory', 'performance reports']}
+ description="Open the stored report for a domain, or search the audits saved to your CatalystLab account."
+ keywords={['audit directory', 'web health report', 'stored reports', 'performance reports']}
  canonicalUrl="https://www.catalystlab.tech/reports"
  />
 
@@ -87,7 +87,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  Reports
  </h1>
  <p className="framer-body-text">
- Open a stored dossier by domain, or sign in to see the audits saved to your account.
+ Open the report stored for a domain, or sign in to search the audits saved to your account.
  </p>
  </div>
 
@@ -114,7 +114,7 @@ export const ReportsDirectoryPage: React.FC = () => {
  </div>
 
  <button type="submit" className="ds-btn ds-btn-primary shrink-0 text-sm">
- <span>Open dossier</span>
+ <span>Open report</span>
  <ArrowRight className="h-4 w-4 shrink-0"/>
  </button>
  </div>

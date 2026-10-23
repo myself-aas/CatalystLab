@@ -59,7 +59,6 @@ export interface EngineMeta {
   category: 'Core' | 'Developer & AI' | 'Enterprise';
   icon: string;
   color: string;
-  badgeClass: string;
   description: string;
   pythonScript: string;
   route: string;
