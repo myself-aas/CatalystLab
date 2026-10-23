@@ -513,6 +513,16 @@ a[class*="border"][class*="border-subtle"] {
 footer#main-footer {
   border-radius: 0 !important;
 }
+
+/* The directory is intentionally omitted from the compact legal footer. */
+footer#main-footer nav[aria-label="Footer directory navigation"] {
+  display: none !important;
+}
+
+footer#main-footer > div:first-child {
+  padding-block: 2rem !important;
+}
+
 footer#main-footer a {
   border-radius: 8px;
 }
