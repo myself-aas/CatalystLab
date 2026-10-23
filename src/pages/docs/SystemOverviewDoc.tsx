@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Info, ArrowRight } from 'lucide-react';
 import { DocsLayout } from '../../components/docs/DocsLayout';
-import { ENGINES_MAP } from '../../data/engines';
+import { ENGINES_MAP, ENGINE_ORDER } from '../../data/engines';
+
+const ENGINES = ENGINE_ORDER.map((id) => ENGINES_MAP[id]);
 
 const PRINCIPLES = [
   {
-    title: 'Sub-second determinism',
-    body: 'Every audit returns within 800 ms to 2.5 s with no cold boot, so it can sit inside a CI gate.',
+    title: 'Deterministic readings',
+    body: 'An engine returns in under three seconds and does not depend on a browser boot, so a score can gate a build.',
   },
   {
     title: 'Zero-trust targeting',
@@ -31,9 +33,6 @@ export const SystemOverviewDoc: React.FC = () => {
  canonicalPath="/docs"
  >
  <section id="overview-philosophy" className="space-y-4">
- <h1 className="text-4xl font-display font-medium text-foreground sm:text-5xl">
- System overview
- </h1>
  <p className="text-base leading-relaxed text-foreground-muted">
  CatalystLab measures a site the way a lab measures a sample: eight engines each
  run one assay against a domain and write the reading into a single telemetry
@@ -94,7 +93,7 @@ export const SystemOverviewDoc: React.FC = () => {
  </tr>
  </thead>
  <tbody className="divide-y divide-border text-foreground">
- {Object.values(ENGINES_MAP).map((engine) => (
+ {ENGINES.map((engine) => (
  <tr key={engine.id}>
  <th scope="row" className="py-2.5 pr-4 text-left font-semibold text-foreground">
  {engine.catalystName || engine.name}

@@ -388,16 +388,10 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
           <div className="flex">
             <article className="min-w-0 flex-1 px-4 py-8 sm:px-8 lg:px-12 xl:max-w-[860px]">
               <header className="mb-8">
-                <p className="mb-2 text-sm font-medium text-foreground">CatalystLab documentation</p>
                 <h1 className="text-4xl font-display font-medium leading-tight text-foreground sm:text-5xl">
                   {title}
                 </h1>
                 <p className="mt-3 max-w-[42rem] text-base leading-7 text-muted-foreground">{description}</p>
-                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-                  <span>Stay organized with collections</span>
-                  <span aria-hidden="true">·</span>
-                  <time dateTime="2026-09-03">Last updated 2026-09-03 UTC</time>
-                </div>
               </header>
 
               <div ref={contentRef} className="docs-content docs-devsite-article">{children}</div>

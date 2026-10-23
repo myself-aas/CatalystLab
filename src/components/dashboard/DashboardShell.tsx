@@ -29,6 +29,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../../context/AuthContext';
 import { BrandLogo } from '../common/BrandLogo';
+import { ENGINES_MAP, ENGINE_ORDER } from '../../data/engines';
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -120,16 +121,32 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
     return activeView === itemId;
   };
 
-  // Quick search results
-  const searchResults = [
-    { title: 'VitalZyme Core Web Vitals Audit', desc: 'P95 LCP sub-second optimization engine', href: '/docs/vitalzyme' },
-    { title: 'SynthShift AST & DOM Preloader', desc: 'Eliminates render-blocking CSS and JS scripts', href: '/dashboard?tab=engines' },
-    { title: 'RiskProtease OWASP Transport Check', desc: 'TLS 1.3, HSTS, CSP and Permissions-Policy audit', href: '/dashboard?tab=security' },
-    { title: 'EdgeKinase Anycast DNS Mesh', desc: '38 Global Point-of-Presence latency matrix', href: '/dashboard?tab=monitoring' },
-    { title: 'RFC 8446: The Transport Layer Security (TLS) Protocol v1.3', desc: 'Official IETF standard specification', href: 'https://datatracker.ietf.org/doc/html/rfc8446', isExternal: true },
-    { title: 'RFC 6797: HTTP Strict Transport Security (HSTS)', desc: 'Web security mechanism standard', href: 'https://datatracker.ietf.org/doc/html/rfc6797', isExternal: true },
-  ].filter(item => 
-    !searchQuery || item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase())
+  // Quick links behind Cmd/Ctrl+K. This was a hard-coded list titled "search"
+  // that carried an engine name (EdgeKinase) and a PoP count (38) the product
+  // does not have; the engine links now come from ENGINES_MAP.
+  const quickLinks = [
+    ...ENGINE_ORDER.map((id) => ({
+      title: ENGINES_MAP[id].catalystName || ENGINES_MAP[id].name,
+      desc: ENGINES_MAP[id].lifecycleFocus ?? ENGINES_MAP[id].description,
+      href: ENGINES_MAP[id].route,
+      isExternal: false,
+    })),
+    {
+      title: 'Your saved audits',
+      desc: 'Every completed audit stored to your account',
+      href: '/dashboard?tab=audits',
+      isExternal: false,
+    },
+    {
+      title: 'RFC 8446: TLS 1.3',
+      desc: 'The transport standard the security engine checks against',
+      href: 'https://datatracker.ietf.org/doc/html/rfc8446',
+      isExternal: true,
+    },
+  ].filter((item) =>
+    !searchQuery ||
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Render individual navigation button
@@ -354,7 +371,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search audits, RFC standards, engine metrics..."
+                placeholder="Jump to an engine, page, or standard…"
                 className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
               />
               <button
@@ -366,9 +383,9 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
             </div>
 
             {/* Results list */}
-            <div className="p-2 max-h-80 overflow-y-auto divide-y divide-white/5 font-mono text-xs">
-              {searchResults.length > 0 ? (
-                searchResults.map((item, i) => (
+            <div className="max-h-80 divide-y divide-border overflow-y-auto p-2 text-xs">
+              {quickLinks.length > 0 ? (
+                quickLinks.map((item, i) => (
                   <a
                     key={i}
                     href={item.href}
@@ -382,21 +399,25 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                         <span>{item.title}</span>
                         {item.isExternal && <ExternalLink className="size-3 text-muted-foreground" />}
                       </div>
-                      <div className="text-[11px] text-muted-foreground font-sans mt-0.5">{item.desc}</div>
+                      <div className="mt-0.5 font-sans text-xs text-muted-foreground">{item.desc}</div>
                     </div>
-                    <span className="text-[11px] text-muted-foreground group-hover:text-foreground">&rarr;</span>
+                    <span className="text-xs text-muted-foreground group-hover:text-foreground">&rarr;</span>
                   </a>
                 ))
               ) : (
-                <div className="p-4 text-center text-xs text-muted-foreground">
-                  No matching telemetry standards found.
+                <div className="p-4 text-center text-sm text-muted-foreground">
+                  Nothing matches “{searchQuery}”. Try an engine name, or open{' '}
+                  <Link to="/dashboard?tab=audits" className="text-foreground underline underline-offset-4" onClick={() => setSearchOpen(false)}>
+                    your saved audits
+                  </Link>
+                  .
                 </div>
               )}
             </div>
 
-            <div className="p-2.5 bg-background border-t border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground px-4">
-              <span>Navigate with arrow keys</span>
-              <span>ESC to close</span>
+            <div className="flex items-center justify-between border-t border-border bg-background px-4 py-2.5 font-mono text-xs text-muted-foreground">
+              <span>Jump to an engine or a page</span>
+              <span>Esc to close</span>
             </div>
           </div>
         </div>

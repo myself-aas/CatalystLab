@@ -113,11 +113,11 @@ export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc
 
     <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
       <div className="mx-auto max-w-6xl space-y-4">
+        <h1 className="framer-section-headline text-foreground">{doc.title}</h1>
+        <p className="framer-body-text max-w-3xl"><RenderText text={doc.intro} /></p>
         <p className="font-mono text-xs text-muted-foreground">
           Version {doc.version || LEGAL_VERSION} · Effective <RenderText text={EFFECTIVE_DATE} />
         </p>
-        <h1 className="framer-section-headline text-foreground">{doc.title}</h1>
-        <p className="framer-body-text max-w-3xl"><RenderText text={doc.intro} /></p>
         {PUBLICATION_NOTICE ? (
           <div
             role="note"

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Check, ShieldCheck, Sliders, Lock, Cookie } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Check, Trash2, ShieldCheck, Cookie, Lock } from 'lucide-react';
 import { logger } from '../../lib/logger';
 
 /**
@@ -12,182 +12,163 @@ import { logger } from '../../lib/logger';
  */
 const STORED_ITEMS = [
   {
-    name: 'catalystlab_local_session',
-    kind: 'Sign-in',
-    purpose: 'Keeps the local preview sign-in active on this device.',
-    lifetime: 'Until you sign out or clear storage',
+    name: 'Firebase Auth storage',
+    kind: 'Required',
+    purpose: 'Your sign-in session, managed by the Firebase SDK.',
+    lifetime: 'Until you sign out',
+    removable: false,
   },
   {
-    name: 'Firebase Auth storage',
-    kind: 'Sign-in',
-    purpose: 'Your real sign-in session, managed by the Firebase SDK.',
-    lifetime: 'Until you sign out',
+    name: 'catalystlab_local_session',
+    kind: 'Required',
+    purpose: 'Keeps the local preview sign-in active on this device.',
+    lifetime: 'Until you sign out or clear storage',
+    removable: false,
   },
   {
     name: 'catalyst_visitor_id',
     kind: 'Required',
     purpose: 'Anonymous id the rate limiter uses to count your daily scans.',
     lifetime: 'Until you clear storage',
+    removable: false,
   },
   {
     name: 'catalystlab_cached_reports',
-    kind: 'Optional',
+    kind: 'Cache',
     purpose: 'Caches your recent audits so the dashboard opens without a round trip.',
     lifetime: 'Until you clear storage',
+    removable: true,
   },
   {
     name: 'catalystlab_theme_preference',
-    kind: 'Optional',
+    kind: 'Preference',
     purpose: 'Remembers whether you chose the light or dark theme.',
     lifetime: 'Until you clear storage',
+    removable: true,
   },
   {
     name: 'catalystlab_cookie_consent',
-    kind: 'Required',
-    purpose: 'Records the choice you save on this page.',
+    kind: 'Record',
+    purpose: 'Records the choice you saved on this page.',
     lifetime: 'Until you clear storage',
+    removable: true,
   },
 ];
 
+const REMOVABLE_KEYS = STORED_ITEMS.filter((item) => item.removable).map((item) => item.name);
+
 const BROWSER_INSTRUCTIONS = {
   chrome: 'Settings → Privacy and security → Third-party cookies',
-  safari: 'Settings → Privacy → Prevent cross-site tracking',
-  firefox: 'Settings → Privacy & Security → Enhanced Tracking Protection',
+  safari: 'Settings → Privacy → Manage Website Data',
+  firefox: 'Settings → Privacy & Security → Cookies and Site Data',
   edge: 'Settings → Cookies and site permissions → Manage and delete cookies',
 } as const;
 
 type Browser = keyof typeof BROWSER_INSTRUCTIONS;
 
+/**
+ * Cookie preference centre.
+ *
+ * The previous version offered a "local cache and theme" switch that wrote a
+ * flag nothing ever read: turning it off changed no behaviour. Rather than
+ * describe an opt-out that does not exist, this page lists what is stored,
+ * removes the items a page is allowed to remove, and points at the browser for
+ * the rest.
+ */
 export const CookiePreferenceCenter: React.FC = () => {
-  const [preferences, setPreferences] = useState({
-    essential: true,
-    localCache: true,
-  });
-  const [saved, setSaved] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
   const [activeBrowser, setActiveBrowser] = useState<Browser>('chrome');
+  const [removed, setRemoved] = useState<string[] | null>(null);
+  const [clearError, setClearError] = useState<string | null>(null);
+  const [hasConsentRecord, setHasConsentRecord] = useState(false);
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('catalystlab_cookie_consent');
-      if (stored) {
-        const parsed = JSON.parse(stored) as { localCache?: boolean };
-        setPreferences({ essential: true, localCache: parsed.localCache ?? true });
-      }
-    } catch (e) {
-      logger.warn('Could not read the stored cookie preference:', e);
+      setHasConsentRecord(localStorage.getItem('catalystlab_cookie_consent') !== null);
+    } catch {
+      setHasConsentRecord(false);
     }
   }, []);
 
-  const handleSave = () => {
-    setSaveError(null);
+  const recordAcknowledged = () => {
+    setClearError(null);
     try {
-      localStorage.setItem('catalystlab_cookie_consent', JSON.stringify(preferences));
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    } catch (e) {
-      logger.warn('Could not save the cookie preference:', e);
-      setSaveError('Your browser blocked local storage, so this choice could not be saved.');
+      localStorage.setItem(
+        'catalystlab_cookie_consent',
+        JSON.stringify({ acknowledgedAt: new Date().toISOString() }),
+      );
+      setHasConsentRecord(true);
+    } catch (error) {
+      logger.warn('Could not record the cookie notice acknowledgement:', error);
+      setClearError('Your browser blocked local storage, so this acknowledgement could not be recorded.');
+    }
+  };
+
+  const clearOptionalStorage = () => {
+    setClearError(null);
+    setRemoved(null);
+    try {
+      const cleared = REMOVABLE_KEYS.filter((key) => {
+        if (localStorage.getItem(key) === null) return false;
+        localStorage.removeItem(key);
+        return true;
+      });
+      setRemoved(cleared);
+      setHasConsentRecord(false);
+    } catch (error) {
+      logger.warn('Could not clear optional storage:', error);
+      setClearError('Your browser blocked local storage, so these items could not be removed here.');
     }
   };
 
   return (
-    <div className="space-y-6">
-      <section className="ds-card p-6 sm:p-8">
-        <div className="flex flex-col justify-between gap-4 border-b border-border pb-5 sm:flex-row sm:items-start">
-          <div className="space-y-1">
-            <h2 className="framer-card-title flex items-center gap-2 text-foreground">
-              <Sliders className="size-5 shrink-0 text-info" aria-hidden="true" />
-              Your choice
+    <div className="space-y-8">
+      <section aria-labelledby="stored-heading" className="space-y-4">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="max-w-2xl space-y-1">
+            <h2 id="stored-heading" className="framer-card-title text-foreground">
+              What is stored on this device
             </h2>
             <p className="text-sm text-muted-foreground">
-              One item is optional. Everything else is required for the app to work.
+              Six items. Three are required for sign-in and rate limiting; three are conveniences
+              you can remove below.
             </p>
           </div>
-
-          <button type="button" onClick={handleSave} className="ds-btn ds-btn-primary shrink-0 text-sm">
-            {saved ? <Check className="size-4 shrink-0" aria-hidden="true" /> : <ShieldCheck className="size-4 shrink-0" aria-hidden="true" />}
-            <span>{saved ? 'Choice saved' : 'Save my choice'}</span>
-          </button>
-        </div>
-
-        {saveError && (
-          <p role="alert" className="mt-4 rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm text-foreground">
-            {saveError}
-          </p>
-        )}
-
-        <div className="mt-5 space-y-3">
-          <div className="flex items-start justify-between gap-4 rounded-lg border border-border bg-surface p-4">
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <Lock className="size-3.5 shrink-0 text-success" aria-hidden="true" />
-                <span className="text-sm font-medium text-foreground">Sign-in and rate limiting</span>
-                <span className="rounded border border-success/30 bg-success/10 px-2 py-0.5 text-xs font-medium text-success">
-                  Always on
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Without these two items you cannot stay signed in and the daily scan allowance
-                cannot be counted.
-              </p>
-            </div>
-            <input
-              type="checkbox"
-              checked
-              disabled
-              aria-label="Sign-in and rate limiting storage, always on"
-              className="mt-0.5 size-4 shrink-0 cursor-not-allowed rounded border-border"
-            />
-          </div>
-
-          <div className="flex items-start justify-between gap-4 rounded-lg border border-border bg-surface p-4">
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <Cookie className="size-3.5 shrink-0 text-info" aria-hidden="true" />
-                <span className="text-sm font-medium text-foreground">Local cache and theme</span>
-                <span className="rounded border border-border bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
-                  Optional
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Keeps your recent audits and theme choice on this device so pages open faster.
-                Turning this off deletes nothing already stored; use your browser settings for that.
-              </p>
-            </div>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={preferences.localCache}
-              aria-label="Local cache and theme"
-              onClick={() => setPreferences((p) => ({ ...p, localCache: !p.localCache }))}
-              className={`relative mt-0.5 inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                preferences.localCache ? 'bg-success' : 'bg-muted'
-              }`}
-            >
-              <span
-                className={`pointer-events-none inline-block size-4 rounded-full bg-background shadow transition-transform ${
-                  preferences.localCache ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
+          <div className="flex shrink-0 flex-wrap gap-3">
+            {!hasConsentRecord ? (
+              <button type="button" onClick={recordAcknowledged} className="ds-btn ds-btn-primary h-11 text-sm">
+                <ShieldCheck className="size-4" aria-hidden="true" />
+                <span>Record that I read this</span>
+              </button>
+            ) : (
+              <span className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground">
+                <Check className="size-4 text-success" aria-hidden="true" />
+                Recorded {new Date().toLocaleDateString()}
+              </span>
+            )}
+            <button type="button" onClick={clearOptionalStorage} className="ds-btn ds-btn-secondary h-11 text-sm">
+              <Trash2 className="size-4" aria-hidden="true" />
+              <span>Delete cached and optional items</span>
             </button>
           </div>
         </div>
 
-        <p className="mt-4 text-sm text-muted-foreground">
-          No advertising, cross-site tracking, or third-party analytics script is loaded on this
-          site, so there is nothing to opt out of beyond the cache above.
-        </p>
-      </section>
+        {clearError ? (
+          <p role="alert" className="rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm text-foreground">
+            {clearError}
+          </p>
+        ) : null}
 
-      <section className="ds-card p-6 sm:p-8">
-        <h2 className="framer-card-title text-foreground">What is stored on this device</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Every key below is written by shipped CatalystLab code.
-        </p>
+        {removed ? (
+          <p role="status" className="rounded-lg border border-border bg-surface p-3 text-sm text-foreground">
+            {removed.length === 0
+              ? 'There was nothing to delete: none of the optional items were stored.'
+              : `Deleted ${removed.length} ${removed.length === 1 ? 'item' : 'items'}: ${removed.join(', ')}.`}
+          </p>
+        ) : null}
 
-        <div className="mt-4 overflow-x-auto">
+        <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
+            <caption className="sr-only">Browser storage written by CatalystLab</caption>
             <thead>
               <tr className="border-b border-border text-muted-foreground">
                 <th scope="col" className="py-2.5 pr-4 font-medium">Key</th>
@@ -202,7 +183,18 @@ export const CookiePreferenceCenter: React.FC = () => {
                   <th scope="row" className="py-3 pr-4 text-left font-mono text-xs font-medium text-foreground">
                     {item.name}
                   </th>
-                  <td className="py-3 pr-4 text-muted-foreground">{item.kind}</td>
+                  <td className="py-3 pr-4">
+                    <span
+                      className={`inline-flex items-center gap-1 rounded border px-2 py-0.5 text-xs font-medium ${
+                        item.removable
+                          ? 'border-border bg-muted text-muted-foreground'
+                          : 'border-success/30 bg-success/10 text-success'
+                      }`}
+                    >
+                      {item.removable ? <Cookie className="size-3" aria-hidden="true" /> : <Lock className="size-3" aria-hidden="true" />}
+                      {item.kind}
+                    </span>
+                  </td>
                   <td className="py-3 pr-4 text-muted-foreground">{item.purpose}</td>
                   <td className="py-3 text-muted-foreground">{item.lifetime}</td>
                 </tr>
@@ -210,22 +202,30 @@ export const CookiePreferenceCenter: React.FC = () => {
             </tbody>
           </table>
         </div>
+
+        <p className="text-sm text-muted-foreground">
+          No advertising, cross-site tracking, or third-party analytics script is loaded on this
+          site, so there is nothing else to opt out of.
+        </p>
       </section>
 
-      <section className="ds-card p-6 sm:p-8">
-        <h2 className="framer-card-title text-foreground">Clear it from your browser</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          This page can record a choice but cannot delete browser storage. Use the settings for
-          the browser you are in.
-        </p>
+      <section aria-labelledby="clear-heading" className="space-y-4 border-t border-border pt-8">
+        <div className="max-w-2xl space-y-1">
+          <h2 id="clear-heading" className="framer-card-title text-foreground">
+            Clear everything from your browser
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            This page cannot remove the sign-in session or the rate-limit id. Use the settings for
+            the browser you are in.
+          </p>
+        </div>
 
-        <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Browser">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Choose your browser">
           {(Object.keys(BROWSER_INSTRUCTIONS) as Browser[]).map((browser) => (
             <button
               key={browser}
               type="button"
-              role="tab"
-              aria-selected={activeBrowser === browser}
+              aria-pressed={activeBrowser === browser}
               onClick={() => setActiveBrowser(browser)}
               className={`min-h-11 rounded-full border px-4 py-1.5 text-sm capitalize transition-colors ${
                 activeBrowser === browser
@@ -238,7 +238,7 @@ export const CookiePreferenceCenter: React.FC = () => {
           ))}
         </div>
 
-        <p className="mt-4 rounded-lg bg-surface p-4 text-sm text-foreground">
+        <p className="rounded-lg bg-surface p-4 text-sm text-foreground">
           {BROWSER_INSTRUCTIONS[activeBrowser]}
         </p>
       </section>

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Send, Terminal, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { authorizedFetch } from '../../lib/authHeaders';
-import { ENGINES_MAP } from '../../data/engines';
-
-const SCANNABLE_ENGINES = Object.keys(ENGINES_MAP);
+import { ENGINES_MAP, ENGINE_ORDER } from '../../data/engines';
 
 type RequestState =
   | { kind: 'idle' }
@@ -65,16 +63,16 @@ export const ApiPlayground: React.FC = () => {
   };
 
   return (
-    <section className="mx-auto w-full max-w-5xl rounded-xl border border-border bg-surface p-5 sm:p-6">
-      <div className="mb-5">
-        <h2 className="framer-card-title text-foreground">Try a scan</h2>
+    <section className="mx-auto w-full max-w-5xl">
+      <div className="mb-4">
+        <h3 className="text-base font-medium text-foreground">Send one request</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          Sends a real request to <code className="font-mono text-xs">POST /api/v1/engines/&lt;engine&gt;/scan</code> and
+          Calls <code className="font-mono text-xs">POST /api/v1/engines/&lt;engine&gt;/scan</code> and
           prints the response. It counts against your daily scan allowance.
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <form onSubmit={handleSend} className="space-y-4">
           <div>
             <label htmlFor="api-engine" className="mb-1.5 block text-sm font-medium text-foreground">Engine</label>
@@ -84,9 +82,9 @@ export const ApiPlayground: React.FC = () => {
               onChange={(e) => setEngine(e.target.value)}
               className="ds-select w-full bg-background text-sm"
             >
-              {SCANNABLE_ENGINES.map((id) => (
+              {ENGINE_ORDER.map((id) => (
                 <option key={id} value={id}>
-                  {ENGINES_MAP[id]?.name || id}
+                  {`${id} — ${ENGINES_MAP[id]?.name ?? 'Engine'}`}
                 </option>
               ))}
             </select>

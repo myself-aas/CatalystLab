@@ -61,7 +61,7 @@ export const ApiDocsPage: React.FC = () => {
  </div>
 
  <div className="space-y-4">
- <h2 className="framer-card-title text-foreground">Try it now</h2>
+ <h2 className="framer-card-title text-foreground">Try a request</h2>
  <ApiPlayground />
  </div>
  </section>

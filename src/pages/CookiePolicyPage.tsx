@@ -23,9 +23,8 @@ export const CookiePolicyPage: React.FC = () => {
  </h1>
  <p className="framer-body-text">
  CatalystLab writes six items to this browser: sign-in session data, an
- anonymous id for rate limits, the consent choice below, and an optional theme
- preference and local cache. The full list is below, and nothing here follows
- you to other sites.
+ anonymous id for rate limits, your theme, a cache of recent reports, and the
+ record below. Nothing here follows you to other sites.
  </p>
  </div>
 

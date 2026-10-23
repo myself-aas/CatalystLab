@@ -6,7 +6,7 @@ import { EngineInput } from '../components/common/EngineInput';
 import { RateLimitModal } from '../components/RateLimitModal';
 import { LinearCard } from '../components/ui/LinearCard';
 import { TerminalOutput } from '../components/TerminalOutput';
-import { ENGINES_MAP } from '../data/engines';
+import { ENGINES_MAP, ENGINE_ORDER } from '../data/engines';
 import { authorizedFetch } from '../lib/authHeaders';
 import { saveReport } from '../lib/firebase';
 import { logger } from '../lib/logger';
@@ -22,16 +22,8 @@ import {
  ShieldCheck,
 } from 'lucide-react';
 
-const MASTER_ENGINES: EngineType[] = [
- 'health',
- 'compliance',
- 'ai_ready',
- 'latency',
- 'eco',
- 'migration',
- 'llmo',
- 'repo',
-];
+/** The orchestrator's own order, shared with the hub and the dashboard. */
+const MASTER_ENGINES: EngineType[] = [...ENGINE_ORDER];
 
 type EngineRunStatus = 'queued' | 'running' | 'complete' | 'error';
 
@@ -209,14 +201,12 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <div className="min-h-screen ds-page-top-hero bg-background text-foreground font-sans">
  <SEOHead
  title="Master Audit Orchestrator"
- description="Run all eight CatalystLab diagnostic engines against a target URL and review the composite telemetry dossier."
+ description="Run all eight CatalystLab engines against one URL, engine by engine, and read the composite score."
  canonicalUrl="https://www.catalystlab.tech/master-audit"
  />
 
- <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
- <div className="relative z-10 ds-page-shell">
+ <section className="w-full border-b border-border ds-section">
+ <div className="ds-page-shell">
  <div className="mb-8 flex items-center justify-between">
  <Link to="/" className="ds-btn ds-btn-secondary text-sm">
  <ArrowLeft className="size-4 shrink-0"/>
@@ -273,10 +263,17 @@ export const MasterAuditExecutionPage: React.FC = () => {
  </div>
  )}
  </div>
- <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted/60">
  <div
- className="h-full rounded-full bg-cream transition"
- style={{ width: `${loading ? Math.max(progressPct, 8) : progressPct}%` }}
+ className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted"
+ role="progressbar"
+ aria-label="Engines finished"
+ aria-valuemin={0}
+ aria-valuemax={MASTER_ENGINES.length}
+ aria-valuenow={completedCount}
+ >
+ <div
+ className="h-full rounded-full bg-foreground transition-[width] duration-300"
+ style={{ width: `${progressPct}%` }}
  />
  </div>
  </LinearCard>
@@ -287,7 +284,9 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <AlertCircle className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true"/>
  <div>
  <p className="font-medium text-foreground">The audit stopped early</p>
- <p className="mt-0.5 text-muted-foreground">{error} Check the domain is publicly reachable, then run it again.</p>
+ <p className="mt-0.5 text-muted-foreground">
+ {error} Nothing was saved. Check that the domain is publicly reachable, then run it again.
+ </p>
  </div>
  </LinearCard>
  )}
