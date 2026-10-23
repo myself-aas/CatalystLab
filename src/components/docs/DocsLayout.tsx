@@ -482,7 +482,7 @@ export const DocsLayout: React.FC<DocsLayoutProps> = ({
         <div className="fixed bottom-6 inset-x-0 z-40 flex justify-center lg:hidden pointer-events-none">
           <button
             onClick={() => setMobileNavOpen(true)}
-            className="pointer-events-auto bg-surface/95 backdrop-blur-xl border border-border text-foreground shadow-[0_12px_36px_-8px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.12)] px-5 py-2.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-surface-elevated transition-colors"
+            className="pointer-events-auto flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-surface-elevated"
           >
             <Menu className="size-4" /> Table of Contents
           </button>

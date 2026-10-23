@@ -176,13 +176,13 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         {(!isSidebarCollapsed || isMobile) && (
           <div className="flex items-center gap-1.5 shrink-0">
             {active && (
-              <span className="size-1.5 rounded-full bg-cream shadow-[0_0_8px_var(--color-cream)] animate-pulse" />
+              <span className="size-1.5 rounded-full bg-foreground" aria-hidden="true" />
             )}
           </div>
         )}
 
         {isSidebarCollapsed && !isMobile && active && (
-          <span className="absolute right-1 top-1/2 -translate-y-1/2 size-1.5 rounded-full bg-cream shadow-[0_0_8px_var(--color-cream)]" />
+          <span className="absolute right-1 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-foreground" aria-hidden="true" />
         )}
       </button>
     );
