@@ -322,7 +322,7 @@ body {
 /* ---------- NAVBAR GEOMETRY ---------- */
 .top-nav,
 #catalyst-main-navbar {
-  background: transparent !important;
+  background: #FFFFFF !important;
   transition: background-color 300ms ease, backdrop-filter 300ms ease, border-color 300ms ease !important;
   z-index: 40 !important;
 }
@@ -509,10 +509,26 @@ a[class*="border"][class*="border-subtle"] {
 /* ---------- Section padding and spacing ---------- */
 .ds-section { padding-block: clamp(4rem, 7vw, 7rem); }
 
+/* Keep the fixed navbar readable over image-led article heroes. */
+.top-nav.scrolled {
+  background-color: rgb(255 255 255 / 96%) !important;
+  backdrop-filter: blur(14px);
+}
+
 /* ---------- Footer geometry ---------- */
 footer#main-footer {
   border-radius: 0 !important;
 }
+
+/* The directory is intentionally omitted from the compact legal footer. */
+footer#main-footer nav[aria-label="Footer directory navigation"] {
+  display: none !important;
+}
+
+footer#main-footer > div:first-child {
+  padding-block: 2rem !important;
+}
+
 footer#main-footer a {
   border-radius: 8px;
 }
@@ -788,7 +804,7 @@ html:not(.dark) .ds-btn-primary:hover {
 #catalyst-main-navbar.scrolled,
 #catalyst-main-navbar[class*="bg-\\[rgba"],
 .top-nav[class*="backdrop-blur"] {
-  background: var(--p-glass) !important;
+  background: rgb(255 255 255 / 96%) !important;
   backdrop-filter: blur(24px) saturate(1.4) !important;
   -webkit-backdrop-filter: blur(24px) saturate(1.4) !important;
   border-bottom: 1px solid var(--p-glass-border) !important;
@@ -1061,11 +1077,11 @@ button[class*="bg-foreground"]:hover {
 
 /* Footer styling */
 footer, [class*="Footer"], [data-slot="footer"] {
-  background: var(--p-well) !important;
+  background: #FFFFFF !important;
   border-top: 1px solid var(--p-card-border);
 }
 footer#main-footer {
-  background: var(--p-well) !important;
+  background: #FFFFFF !important;
   border-top: 1px solid var(--p-card-border) !important;
 }
 footer#main-footer .size-9.rounded-lg {

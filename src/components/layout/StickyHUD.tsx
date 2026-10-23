@@ -76,7 +76,7 @@ export const StickyHUD: React.FC = () => {
   const logContainerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
-  const showAppChrome = /^\/(dashboard|admin|app|hud|user-dashboard)(\/|$|\.html$)/.test(location.pathname);
+  const showAppChrome = /^\/(dashboard|admin|app|hud|user-dashboard|blog|blogs)(\/|$|\.html$)/.test(location.pathname);
 
   // Monitor scroll depth of window
   useEffect(() => {

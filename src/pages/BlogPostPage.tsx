@@ -88,7 +88,7 @@ export const BlogPostPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans pb-20">
+    <div className="min-h-screen overflow-x-hidden bg-background text-foreground font-sans pb-24">
       <SEOHead
         // Same strings the build wrote into this page's <head>, so hydration
         // does not rewrite the title a crawler already indexed.
@@ -98,10 +98,10 @@ export const BlogPostPage: React.FC = () => {
         absoluteTitle
       />
 
-      <div className="max-w-md mx-auto relative bg-background min-h-screen">
+      <div className="relative mx-auto min-h-screen w-full max-w-5xl bg-background">
         
         {/* Full Bleed Image Header */}
-        <div className="relative h-[45vh] w-full">
+        <div className="relative h-[45vh] min-h-[300px] max-h-[560px] w-full">
           <PlateImage
             {...getBlogCoverImage(post)}
             alt={post.title}
@@ -112,12 +112,13 @@ export const BlogPostPage: React.FC = () => {
           
           {/* Top Actions */}
           <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-10">
-            <Link to="/blogs" className="w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/40 transition-colors">
+            <Link to="/blogs" aria-label="Back to blog index" className="flex size-10 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-md transition-colors hover:bg-black/40">
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <button 
               onClick={() => setBookmarked(!bookmarked)}
-              className={`w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center transition-colors ${bookmarked ? 'text-white' : 'text-white/80 hover:text-white'}`}
+              aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark article'}
+              className={`flex size-10 items-center justify-center rounded-full bg-black/20 backdrop-blur-md transition-colors ${bookmarked ? 'text-white' : 'text-white/80 hover:text-white'}`}
             >
               <Bookmark className="w-5 h-5" fill={bookmarked ? "currentColor" : "none"} />
             </button>
@@ -128,7 +129,7 @@ export const BlogPostPage: React.FC = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="ds-card relative z-20 -mt-16 mx-4 bg-card rounded-[32px] p-6 shadow-2xl text-foreground"
+          className="ds-card relative z-20 -mt-16 mx-4 rounded-[32px] bg-card p-6 text-foreground shadow-2xl sm:mx-8 sm:p-8 lg:mx-auto lg:max-w-3xl"
         >
           <div className="inline-block px-3 py-1 rounded-full border border-border bg-muted text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-4">
             {post.category || 'Article'}
@@ -190,7 +191,7 @@ export const BlogPostPage: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <article className="px-6 pb-12 prose dark:prose-invert prose-p:text-muted-foreground prose-p:leading-relaxed prose-headings:text-foreground max-w-none">
+        <article className="mx-auto max-w-3xl px-6 pb-16 prose dark:prose-invert prose-p:text-muted-foreground prose-p:leading-relaxed prose-headings:text-foreground sm:px-8">
           <MarkdownRenderer content={post.content} />
         </article>
 
