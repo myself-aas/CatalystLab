@@ -180,27 +180,26 @@ describe('Browserbase UI-Test: Modals, Drawers & Overlay Systems', () => {
     expect(screen.getByText(/vitalzyme/i)).toBeInTheDocument();
     expect(screen.getByText('https://acme-corp.catalystlab.io')).toBeInTheDocument();
 
-    // Score cards
-    expect(screen.getByText('96')).toBeInTheDocument();
-    expect(screen.getByText(/Composite Diagnostic Index/i)).toBeInTheDocument();
-    expect(screen.getByText(/Grade A\+ • Production Optimal/i)).toBeInTheDocument();
-    expect(screen.getByText(/Latency \/ TTFB/i)).toBeInTheDocument();
-    expect(screen.getByText(/Edge Cache/i)).toBeInTheDocument();
-
-    // Text blocks
-    expect(screen.getByText(/Executive Diagnostic Summary/i)).toBeInTheDocument();
+    // The stored reading, and nothing the report does not contain.
+    expect(screen.getByText('96/100')).toBeInTheDocument();
+    expect(screen.getByText(/^Summary$/i)).toBeInTheDocument();
     expect(screen.getByText(/TLS 1.3 cryptographic handshake validated with sub-millisecond edge response\./i)).toBeInTheDocument();
-    expect(screen.getByText(/Raw Telemetry Findings & Output/i)).toBeInTheDocument();
-    expect(screen.getByText(/Recommended Next Action:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Engine output/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/\[200 OK\] TLS 1\.3 negotiated via cipher ECDHE-ECDSA-AES128-GCM-SHA256/)
+    ).toBeInTheDocument();
+    // Invented tiles from the previous design must stay gone.
+    expect(screen.queryByText(/Composite Diagnostic Index/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Edge Cache/i)).not.toBeInTheDocument();
 
     // Action button clicks
-    const fullReportBtn = screen.getByRole('button', { name: /View Full Dossier/i });
+    const fullReportBtn = screen.getByRole('button', { name: /Open full report/i });
     fireEvent.click(fullReportBtn);
     expect(handleViewFullReport).toHaveBeenCalledWith(mockReport);
     expect(handleClose).toHaveBeenCalled();
 
     // Close button
-    const closeBtn = screen.getByLabelText(/Close Audit Detail Modal/i);
+    const closeBtn = screen.getByLabelText(/Close the audit quick view/i);
     fireEvent.click(closeBtn);
     expect(handleClose).toHaveBeenCalledTimes(2);
   });

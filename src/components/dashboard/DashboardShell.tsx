@@ -226,7 +226,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                 className="w-full flex items-center justify-between p-2 rounded-lg bg-surface border border-border hover:border-border-strong text-left transition cursor-pointer"
               >
                 <div className="truncate">
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                  <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
                     <span>Workspace</span>
                     <span className="size-1 rounded-full bg-cream" />
                   </div>
@@ -237,7 +237,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
 
               {workspaceMenuOpen && (
                 <div className="absolute top-full left-0 mt-1.5 w-56 bg-surface border border-border rounded-lg p-1.5 shadow-2xl z-50 animate-fadeIn">
-                  <div className="text-[11px] font-mono uppercase text-muted-foreground px-2 py-1 flex items-center justify-between">
+                  <div className="text-xs font-mono uppercase text-muted-foreground px-2 py-1 flex items-center justify-between">
                     <span>Select Mesh</span>
                     <span className="text-success">Pro Plan</span>
                   </div>
@@ -272,7 +272,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           {/* Target Domain Pill & Live Scan Refresh in Sidebar */}
           {!isSidebarCollapsed && (
             <div className="px-2 pt-2 pb-1">
-              <div className="flex items-center justify-between p-2 rounded-lg bg-surface border border-border text-[11px] font-mono">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-surface border border-border text-xs font-mono">
                 <div className="flex items-center gap-1.5 truncate">
                   <Globe className="size-3 text-muted-foreground" />
                   <strong className="text-foreground font-medium truncate">{targetDomain}</strong>
@@ -292,7 +292,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           {/* Core Platform Navigation Links (Overview, Audits, Reports, Webhooks, Monitoring, API Keys) */}
           <div className="space-y-1 pt-1">
             {!isSidebarCollapsed && (
-              <div className="px-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold">
+              <div className="px-2 pb-1 text-xs font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold">
                 Platform Suite
               </div>
             )}
@@ -304,7 +304,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           {/* Secondary Telemetry & Infrastructure Tools */}
           <div className="space-y-1 pt-2 border-t border-border">
             {!isSidebarCollapsed && (
-              <div className="px-2 pb-1 text-[11px] font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold">
+              <div className="px-2 pb-1 text-xs font-mono uppercase tracking-wider text-muted-foreground/60 font-semibold">
                 Engines &amp; Security
               </div>
             )}
@@ -334,7 +334,7 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
                   <div className="text-xs font-medium text-foreground truncate">
                     {user?.displayName || 'Engineering Team'}
                   </div>
-                  <div className="text-[11px] font-mono text-foreground">
+                  <div className="text-xs font-mono text-foreground">
                     {isAdmin ? 'Superadmin Root' : 'Team Pro'}
                   </div>
                 </div>
