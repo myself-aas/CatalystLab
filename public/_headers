@@ -40,3 +40,18 @@
 # The service worker must never be cached stale.
 /sw.js
   Cache-Control: no-cache, no-store, must-revalidate
+
+# URL-level indexing policy (SEO audit 2026-10-23). The prerendered shells carry
+# a <meta name="robots"> directive, but a deep link that Cloudflare rewrites to
+# an app shell does not, so the header is the guarantee. /reports/<slug> and
+# /playground/<engine> are client-rendered and cannot be validated at the edge.
+/dashboard/*
+  X-Robots-Tag: noindex, nofollow
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+/reports/*
+  X-Robots-Tag: noindex, nofollow
+/playground/*
+  X-Robots-Tag: noindex, nofollow
+/design-system
+  X-Robots-Tag: noindex, nofollow

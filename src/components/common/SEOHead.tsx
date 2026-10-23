@@ -18,6 +18,8 @@ export interface SEOProps {
    * location, which already makes application and auth surfaces `noindex`.
    */
   routePath?: string;
+  /** Explicit override, used by client-rendered "not found" states. */
+  robots?: string;
 }
 
 export const SEOHead: React.FC<SEOProps> = ({
@@ -31,13 +33,14 @@ export const SEOHead: React.FC<SEOProps> = ({
   author = 'CatalystLab Telemetry Team',
   publishedTime,
   structuredData,
-  routePath
+  routePath,
+  robots
 }) => {
   const fullTitle = title.includes('CatalystLab') ? title : `${title} | CatalystLab Documentation & Developer Hub`;
   const pathForRobots =
     routePath || (typeof window !== 'undefined' ? window.location.pathname : '/');
   // D11: application, authentication and editor surfaces stay out of the index.
-  const robotsDirective = robotsDirectiveFor(pathForRobots);
+  const robotsDirective = robots ?? robotsDirectiveFor(pathForRobots);
   const currentUrl = canonicalUrl || (canonicalPath ? `${SITE_ORIGIN}${canonicalPath}` : typeof window !== 'undefined' ? window.location.href : SITE_ORIGIN);
 
   useEffect(() => {

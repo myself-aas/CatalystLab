@@ -25,47 +25,84 @@ https://catalystlab.tech/   https://www.catalystlab.tech/        301
 /health.html         /health              301
 /latency.html        /latency             301
 /llmo.html           /llmo                301
-/methodology.html    /methodology         301
+/methodology.html    /about               301
 /migration.html      /migration           301
 /repo-scanner.html   /repo-scanner        301
-/report.html         /report              301
+/report.html         /reports             301
 /reports.html        /reports             301
 /security.html       /security            301
 
 # Other legacy aliases that the SPA router still lists.
 /api-docs.html       /api-docs            301
-/api-reference.html  /api-reference       301
+/api-reference.html  /api-docs            301
 /audit.html          /audit               301
 /cookies.html        /cookies             301
 /docs.html           /docs                301
 /engines.html        /engines             301
 /forgot-password.html /forgot-password    301
-/integrations.html   /integrations        301
+/integrations.html   /products             301
 /launch-audit.html   /launch-audit        301
 /legal.html          /legal               301
 /login.html          /login               301
 /master-audit.html   /master-audit        301
 /playground.html     /playground          301
-/plugins.html        /plugins             301
+/plugins.html        /products             301
 /pricing.html        /pricing             301
 /privacy.html        /privacy             301
 /products.html       /products            301
 /refund.html         /refund              301
 /register.html       /register            301
 /reset-password.html /reset-password      301
-/signin.html         /signin              301
-/signup.html         /signup              301
+/signin.html         /login               301
+/signup.html         /register            301
 /terms.html          /terms               301
 /user-dashboard.html /user-dashboard      301
 
-# --- Client-only (dynamic) SPA routes: rewrite to the app shell ---
-# Anything not prerendered and not matched above falls through to /404.html,
-# which Cloudflare Pages serves with a real 404 status (D11).
-/blogs/*       /index.html  200
-/blog/*        /index.html  200
-/reports/*     /index.html  200
-/report/*      /index.html  200
-/playground/*  /index.html  200
-/dashboard/*   /index.html  200
-/admin/*       /index.html  200
-/docs/*        /index.html  200
+# --- One URL per document: 301 the duplicate mounts -------------------------
+# SEO audit 2026-10-23, issue 5. The same list lives in
+# src/config/routeAliases.ts (which decides what the build prerenders) and in
+# `server.ts` (which answers the same paths when Node serves the app).
+/hub                /engines              301
+/services           /engines              301
+/plugins            /products             301
+/integrations       /products             301
+/insights           /blogs                301
+/report             /reports              301
+/methodology        /about                301
+/developer/api      /api-docs             301
+/api-reference      /api-docs             301
+/docs/overview      /docs                 301
+/docs/health        /docs/vitalzyme       301
+/docs/latency       /docs/edgevmax        301
+/docs/eco-audit     /docs/ecoholo         301
+/docs/migration     /docs/synthshift      301
+/docs/repo-scanner  /docs/gitlygase       301
+/docs/compliance    /docs/riskprotease    301
+/docs/ai-readiness  /docs/llm-kinase      301
+/docs/llmo          /docs/allostersearch  301
+/docs/orchestrator  /docs/master-audit    301
+/docs/devops        /docs/cicd            301
+/docs/api-reference /docs/api             301
+/signin             /login                301
+/signup             /register             301
+/blog/*             /blogs/:splat         301
+
+# --- Client-only (dynamic) SPA routes: rewrite to the app shell ------------
+# Only surfaces that genuinely render on the client and must survive a direct
+# link are listed here. Anything else falls through to /404.html, which
+# Cloudflare Pages serves with a real 404 status (D11).
+#
+# /docs/* is deliberately absent: every real docs URL is a prerendered file,
+# so a rewrite would only ever catch a typo and turn it into a 200.
+# /dashboard/* and /admin/* rewrite to their own noindex shells rather than to
+# the home page, so a deep link never inherits the homepage metadata.
+# /blogs/* is deliberately absent. Cloudflare follows a _redirects rule even
+# when a matching static asset exists, so a /blogs/* rewrite would shadow the
+# prerendered post files this build writes (SEO audit issue 4). Unknown slugs
+# fall through to /404.html, and a newly published post needs a rebuild before
+# a direct link resolves.
+/reports/*     /index.html            200
+/report/*      /index.html            200
+/playground/*  /index.html            200
+/dashboard/*   /dashboard/index.html  200
+/admin/*       /admin/index.html      200

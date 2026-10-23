@@ -528,7 +528,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                       <span>Log In</span>
                     </Link>
                     <Link
-                      to="/signup"
+                      to="/register"
                       onClick={onClose}
                       className="flex items-center justify-center gap-1.5 p-2.5 rounded-lg bg-primary hover:bg-primary-hover text-xs font-medium text-primary-foreground transition-colors shadow-sm text-center"
                     >

@@ -2,6 +2,7 @@ import type { BlogPost, EngineType } from '../types';
 import authorAvatar1 from '../assets/images/avatar-1.jpg';
 import authorAvatar2 from '../assets/images/avatar-2.jpg';
 import { PLATE } from '../lib/media/plates';
+import { BLOG_SEO_BY_SLUG } from './blogSeo';
 // Local covers: the Pexels photo 3861958 these two posts used answers 503 (D17).
 
 
@@ -60,7 +61,7 @@ export const UserCard = ({ user }) => (
       authorEmail: 'alex.rivera@catalystlab.tech',
       status: 'published',
       readTime: '5 min read',
-      createdAt: Date.now() - 2 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['optimizing-dom-depth-render-blocking-nextjs'].publishedAt),
       updatedAt: Date.now() - 2 * 24 * 60 * 60 * 1000,
       views: 1240
     },
@@ -94,7 +95,7 @@ Using \`font-display: swap\` prevents invisible text flashes (FOIT), while prelo
       authorEmail: 'maria@catalystlab.tech',
       status: 'published',
       readTime: '4 min read',
-      createdAt: Date.now() - 6 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['decoupling-critical-css-font-preloading'].publishedAt),
       updatedAt: Date.now() - 6 * 24 * 60 * 60 * 1000,
       views: 890
     }
@@ -131,7 +132,7 @@ Time To First Byte (TTFB) is the single highest predictor of bounce rates for mo
       authorEmail: 'elena.rostova@catalystlab.tech',
       status: 'published',
       readTime: '8 min read',
-      createdAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['decimating-ttfb-edge-workers'].publishedAt),
       updatedAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
       views: 1540
     }
@@ -171,7 +172,7 @@ In 2026, web crawlers are no longer simple heuristic indexers—they are autonom
       authorEmail: 'marcus.chen@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
-      createdAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['llmstxt-standard-autonomous-ai-crawlers'].publishedAt),
       updatedAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
       views: 2120
     }
@@ -202,7 +203,7 @@ A high percentage of security breaches begin not in production firewalls, but in
       authorEmail: 'aris.thorne@catalystlab.tech',
       status: 'published',
       readTime: '5 min read',
-      createdAt: Date.now() - 7 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['automating-git-secops-hygiene'].publishedAt),
       updatedAt: Date.now() - 7 * 24 * 60 * 60 * 1000,
       views: 940
     }
@@ -237,7 +238,7 @@ The standard SWD formula models energy consumption across four primary segments:
       authorEmail: 'sofia.lindqvist@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
-      createdAt: Date.now() - 8 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['sustainable-web-engineering-carbon-reduction'].publishedAt),
       updatedAt: Date.now() - 8 * 24 * 60 * 60 * 1000,
       views: 1100
     }
@@ -266,7 +267,7 @@ Web application firewalls are insufficient if individual HTTP responses lack cry
       authorEmail: 'elena.rostova@catalystlab.tech',
       status: 'published',
       readTime: '7 min read',
-      createdAt: Date.now() - 9 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['owasp-security-headers-gdpr-governance'].publishedAt),
       updatedAt: Date.now() - 9 * 24 * 60 * 60 * 1000,
       views: 1350
     }
@@ -295,7 +296,7 @@ Re-platforming from legacy systems like WordPress or Magento to modern edge stac
       authorEmail: 'alex.rivera@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
-      createdAt: Date.now() - 11 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['zero-downtime-platform-migration-seo-parity'].publishedAt),
       updatedAt: Date.now() - 11 * 24 * 60 * 60 * 1000,
       views: 980
     }
@@ -324,7 +325,7 @@ Traditional search engines ranked pages based on backlink counts and keyword den
       authorEmail: 'marcus.chen@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
-      createdAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['generative-engine-optimization-llmo-citations'].publishedAt),
       updatedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
       views: 1890
     }
@@ -348,7 +349,7 @@ Evaluating websites requires a holistic approach spanning DOM complexity, edge l
       authorEmail: 'aris.thorne@catalystlab.tech',
       status: 'published',
       readTime: '6 min read',
-      createdAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
+      createdAt: Date.parse(BLOG_SEO_BY_SLUG['modern-website-health-ai-search'].publishedAt),
       updatedAt: Date.now() - 4 * 24 * 60 * 60 * 1000,
       views: 2400
     }

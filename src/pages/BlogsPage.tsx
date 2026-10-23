@@ -91,9 +91,8 @@ export const BlogsPage: React.FC = () => {
 
         {/* Discover Header */}
         <div className="px-6 pt-6 pb-4">
-          <p className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground mb-1.5">News & Insights</p>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground mb-1">Discover</h1>
-          <p className="text-sm text-muted-foreground">News from all over the world.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Engineering notes on web health and AI search</h1>
+          <p className="text-sm text-muted-foreground">Written by the engineers who build the engines, with the measurement each post is based on.</p>
         </div>
 
         {/* Search — pill shape */}

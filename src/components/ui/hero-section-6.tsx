@@ -189,7 +189,7 @@ export default function HeroSection6() {
           <a href="/login" className="px-3.5 py-1.5 text-xs font-medium border border-neutral-700 text-neutral-200 hover:bg-neutral-800 transition-colors rounded-lg">
             Log in
           </a>
-          <a href="/signup" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-primary-foreground hover:bg-cream transition-colors rounded-lg shadow-sm">
+          <a href="/register" className="px-3.5 py-1.5 text-xs font-medium bg-blue-600 text-primary-foreground hover:bg-cream transition-colors rounded-lg shadow-sm">
             Sign Up
           </a>
         </div>

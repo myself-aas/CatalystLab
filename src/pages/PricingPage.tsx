@@ -17,7 +17,7 @@ export default function PricingPage() {
 
  const openCheckout = (planId: SubscriptionPlanId) => {
  if (planId === 'free') {
- window.location.assign('/signup');
+ window.location.assign('/register');
  return;
  }
  if (planId === 'enterprise') {
@@ -170,7 +170,7 @@ export default function PricingPage() {
  <div className="flex shrink-0 items-center gap-4">
  <span className="font-mono text-3xl font-semibold text-foreground">$0</span>
  <Link
- to="/signup"
+ to="/register"
  className="ds-btn ds-btn-secondary h-11 text-sm font-medium"
  >
  Start free

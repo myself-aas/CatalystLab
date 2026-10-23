@@ -58,6 +58,14 @@ export const BlogPostPage: React.FC = () => {
   if (!post) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-6">
+        {/* A missing slug must not stay indexable: without this the document
+            keeps the shell head it arrived with (SEO audit 2026-10-23, issue 3). */}
+        <SEOHead
+          title="Article not found | CatalystLab"
+          description="That article does not exist. Browse the engineering blog for published posts."
+          canonicalPath="/blogs"
+          robots="noindex, nofollow"
+        />
         <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
         <p className="text-muted-foreground mb-6 text-center">The article you are looking for does not exist.</p>
         <Link to="/blogs" className="px-6 py-3 bg-fog rounded-full text-sm font-medium hover:bg-fog transition-colors">

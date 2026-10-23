@@ -208,6 +208,12 @@ export const DomainReportArticlePage: React.FC = () => {
  <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl border border-warning/30 bg-warning/10 text-warning">
  <AlertTriangle className="size-6" aria-hidden="true" />
  </div>
+ <SEOHead
+ title="Report not found | CatalystLab"
+ description="No stored audit exists at this address. Run an audit to create one."
+ canonicalPath="/reports"
+ robots="noindex, nofollow"
+ />
  <h1 className="text-lg font-semibold text-foreground">No report stored for {displayDomain}</h1>
  <p className="mt-2 text-sm text-muted-foreground">
  {error || 'This domain has no saved audit under this link.'} Run an audit to create one; it

@@ -394,7 +394,7 @@ export const LoginPage: React.FC = () => {
  {/* Switch to Sign Up */}
  <div className="mt-5 pt-4 border-t border-border text-center text-xs text-muted-foreground">
  Don&apos;t have an organization workspace yet?{' '}
- <Link to="/signup" className="inline-flex items-center text-foreground hover:text-foreground font-medium transition-colors">
+ <Link to="/register" className="inline-flex items-center text-foreground hover:text-foreground font-medium transition-colors">
  Create an account &rarr;
  </Link>
  </div>

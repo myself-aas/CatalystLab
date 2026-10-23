@@ -71,7 +71,7 @@ export const CANONICAL = {
   report: '/reports',
   about: '/about',
   contact: '/contact',
-  methodology: '/methodology',
+  methodology: '/about',
   security: '/security',
   legal: '/legal',
   privacy: '/privacy',
@@ -81,7 +81,7 @@ export const CANONICAL = {
   dashboard: '/dashboard',
   admin: '/admin',
   login: '/login',
-  signup: '/signup',
+  signup: '/register',
   forgotPassword: '/forgot-password',
 } as const;
 

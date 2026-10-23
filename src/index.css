@@ -1896,3 +1896,143 @@ html:not(.dark) [class*="text-fuchsia-5"]:not(pre):not(pre *) { color: #6D28D9 !
   content-visibility: auto;
   contain-intrinsic-size: auto 640px;
 }
+
+/* ==========================================================================
+   STATIC DOCUMENT SHELL (SEO audit 2026-10-23, issue 1)
+
+   Every prerendered route ships a real document inside #root: one H1, a
+   summary, and the site links. Crawlers that do not execute JavaScript read
+   it; React replaces it on first commit. The rules below keep it legible
+   during that handover, using design tokens only (no gradients, no glass, no
+   inline styles, so the CSP needs no new hash or unsafe-inline).
+   ========================================================================== */
+.seo-shell {
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: Inter, 'Inter Fallback', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.seo-shell__masthead {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1rem 1.5rem;
+}
+
+.seo-shell__brand {
+  display: inline-block;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.seo-shell__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+.seo-shell__nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seo-shell__nav a,
+.seo-shell__links a,
+.seo-shell__footer a {
+  color: var(--text-tertiary);
+  text-decoration: none;
+}
+
+.seo-shell__nav a:hover,
+.seo-shell__links a:hover,
+.seo-shell__footer a:hover,
+.seo-shell__nav a:focus-visible,
+.seo-shell__links a:focus-visible,
+.seo-shell__footer a:focus-visible {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.seo-shell__main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 0;
+}
+
+.seo-shell h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.seo-shell__lede {
+  max-width: 68ch;
+  margin: 0 0 1.5rem;
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+}
+
+.seo-shell__points {
+  max-width: 68ch;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-tertiary);
+}
+
+.seo-shell__points li {
+  margin-bottom: 0.5rem;
+}
+
+.seo-shell__links {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.25rem;
+  font-size: 0.875rem;
+}
+
+.seo-shell__links h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.seo-shell__links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seo-shell__footer {
+  max-width: 46rem;
+  margin: 3rem auto 0;
+  border-top: 1px solid var(--border-subtle);
+  padding: 1.5rem;
+  color: var(--text-disabled);
+  font-size: 0.8125rem;
+}
+
+.seo-shell__footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
