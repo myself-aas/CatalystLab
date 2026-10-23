@@ -14,9 +14,9 @@ export const SecurityDoc: React.FC = () => {
  <ShieldCheck className="h-3.5 w-3.5"/>
  <span>Security & Ingress Protection</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  Zero-Trust Probe Sandbox
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  To guarantee absolute security when analyzing arbitrary public URLs, all network requests and subprocess invocations are strictly sanitized against server-side request forgery (SSRF), command injection, and resource exhaustion.
  </p>

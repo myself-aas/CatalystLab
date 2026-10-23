@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Plus, Minus, Terminal } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { SectionHeader } from './SectionHeader';
 import { CopyButton } from '../ui/CopyButton';
 import { onSpotlightMouseMove } from '../../hooks/useSpotlight';
@@ -46,12 +46,6 @@ export const FaqAccordion: React.FC = () => {
     <section className="ds-section relative overflow-hidden">
       <div className="relative z-10 ds-page-shell">
         <SectionHeader
-          eyebrow={
-            <>
-              <Terminal className="size-3.5 text-foreground" />
-              <span>Programmatic Access</span>
-            </>
-          }
           title="Interactive technical FAQ."
         />
 

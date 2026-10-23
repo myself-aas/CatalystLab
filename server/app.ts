@@ -60,7 +60,21 @@ export const CSP_CONNECT_ALLOWLIST = [
   'https://*.run.app'
 ];
 
-const COMPRESSIBLE_CONTENT_TYPE_RE = /\b(text\/html|text\/css|text\/plain|text\/xml|application\/javascript|application\/json|application\/xml|application\/rss\+xml|image\/svg\+xml)\b/i;
+/**
+ * SEO audit 2026-10-23, issue 2. Express 5 (and the current mime-types
+ * database) serve `.js` as `text/javascript`, not `application/javascript`.
+ * The pattern only listed the latter, so every JavaScript response skipped
+ * compression while HTML and CSS were compressed: 1.7 MB of bundles left the
+ * server raw on a 533 KB gzipped first paint. Both spellings are listed now,
+ * and `src/tests/unit/compression.test.ts` pins them.
+ */
+const COMPRESSIBLE_CONTENT_TYPE_RE =
+  /\b(text\/html|text\/css|text\/plain|text\/xml|text\/javascript|application\/javascript|application\/ecmascript|application\/json|application\/xml|application\/rss\+xml|image\/svg\+xml)\b/i;
+
+/** Exported for the unit test: a response type must be gzip-eligible. */
+export function isCompressibleContentType(contentType: string): boolean {
+  return COMPRESSIBLE_CONTENT_TYPE_RE.test(contentType);
+}
 
 /**
  * Zero-dependency response compression middleware (Plan 5.4).
@@ -68,6 +82,9 @@ const COMPRESSIBLE_CONTENT_TYPE_RE = /\b(text\/html|text\/css|text\/plain|text\/
  * `Accept-Encoding: gzip`, while strictly skipping Server-Sent Event streams.
  */
 function gzipCompressionMiddleware(req: Request, res: Response, next: NextFunction): void {
+  // Always advertise the negotiation, including on the branches that bail out
+  // below, so a shared cache cannot hand a raw body to a gzip-capable client.
+  res.setHeader('Vary', 'Accept-Encoding');
   const acceptEncoding = req.headers['accept-encoding'];
   if (
     req.method === 'HEAD' ||
@@ -136,10 +153,6 @@ function gzipCompressionMiddleware(req: Request, res: Response, next: NextFuncti
     }
 
     const body = Buffer.concat(chunks);
-    const existingVary = String(res.getHeader('Vary') || '');
-    if (!/accept-encoding/i.test(existingVary)) {
-      res.setHeader('Vary', existingVary ? `${existingVary}, Accept-Encoding` : 'Accept-Encoding');
-    }
     zlib.gzip(body, { level: 1 }, (err, compressed) => {
       if (err || !compressed) {
         origWrite(body);

@@ -1,131 +1,55 @@
 import React from 'react';
-import { Activity, Globe } from 'lucide-react';
+import { Activity } from 'lucide-react';
+import type { LatencySection } from '../../utils/telemetryParser';
 
 interface EdgeLatencyRadarChartProps {
-  originTtfbMs: number;
-  globalAverageMs: number;
-  infrastructure: string;
-  pops: {
-    region: string;
-    location: string;
-    latencyMs: number;
-    status: 'optimal' | 'moderate' | 'slow';
-  }[];
+  latency: LatencySection;
 }
 
-export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = React.memo(({
-  originTtfbMs,
-  globalAverageMs,
-  infrastructure,
-  pops
-}) => {
-  const maxLatency = Math.max(...pops.map(p => p.latencyMs), 150);
-
-  // Simulated waterfall connection phases based on TTFB
-  const dnsTime = Math.max(4, Math.round(originTtfbMs * 0.12));
-  const tlsTime = Math.max(12, Math.round(originTtfbMs * 0.28));
-  const ttfbWaitTime = Math.max(16, Math.round(originTtfbMs * 0.45));
-  const downloadTime = Math.max(8, Math.round(originTtfbMs * 0.15));
-  const totalRoundTrip = dnsTime + tlsTime + ttfbWaitTime + downloadTime;
+export const EdgeLatencyRadarChart: React.FC<EdgeLatencyRadarChartProps> = React.memo(({ latency }) => {
+  const ttfb = latency.originTtfbMs;
 
   return (
-    <div className="rounded-2xl border border-background/30 bg-background p-6 shadow-xl space-y-6 text-foreground">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-background/25 pb-5">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/25 text-muted-foreground border border-background/40">
-              <Activity className="h-4 w-4" />
-            </span>
-            <h3 className="text-base font-bold text-foreground">
-              Global Edge Latency & Multi-POP Radar
-            </h3>
+    <div className="space-y-6 rounded-xl border border-border bg-surface p-6 text-foreground">
+      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border pb-5">
+        <div className="flex items-start gap-3">
+          <span className="flex size-8 items-center justify-center rounded-lg border border-border bg-muted text-muted-foreground">
+            <Activity className="size-4" aria-hidden="true" />
+          </span>
+          <div>
+            <h3 className="text-base font-semibold text-foreground">Origin response time</h3>
+            <p className="mt-1 max-w-prose text-sm text-muted-foreground">
+              One HEAD request timed from the server that ran this audit. Regional point-of-presence
+              timings need probes in each region, so they are not shown.
+            </p>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
-            Measures anycast routing speed, DNS resolution, TLS handshakes, and TTFB across 6 global continents.
-          </p>
         </div>
-
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <div className="text-xs font-semibold text-muted-foreground">Global Average</div>
-            <div className="text-xl font-black text-muted-foreground font-mono">~{globalAverageMs} ms</div>
+        <div className="text-right">
+          <div className="text-xs text-muted-foreground">Measured round trip</div>
+          <div className="font-mono text-xl font-semibold tabular-nums text-foreground">
+            {ttfb != null ? `${ttfb} ms` : 'Not measured'}
           </div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-foreground/25 text-muted-foreground border border-background/40">
-            <Globe className="h-6 w-6" />
-          </div>
+          {latency.score != null && (
+            <div className="mt-1 text-xs text-muted-foreground">Latency score {latency.score}/100</div>
+          )}
         </div>
       </div>
 
-      {/* Global POP Latency Bars */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-          <span className="font-semibold text-foreground">Multi-Region Point of Presence (POP) Dispersion</span>
-          <span className="font-mono text-[11px] text-muted-foreground">{infrastructure}</span>
+      <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="rounded-lg border border-border p-4">
+          <dt className="text-xs text-muted-foreground">Probing host</dt>
+          <dd className="mt-1 text-sm text-foreground">CatalystLab server, single location</dd>
         </div>
-
-        <div className="space-y-2.5">
-          {pops.map((pop) => {
-            const barWidth = Math.min(100, Math.max(10, (pop.latencyMs / maxLatency) * 100));
-            const isFast = pop.latencyMs < 60;
-            const isModerate = pop.latencyMs >= 60 && pop.latencyMs < 120;
-
-            return (
-              <div key={pop.location} className="rounded-xl border border-background/30 bg-background p-3">
-                <div className="flex items-center justify-between text-xs mb-1.5">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full" style={{
-                      backgroundColor: isFast ? 'var(--color-cream)' : isModerate ? 'var(--chart-amber)' : 'var(--chart-red)'
-                    }} />
-                    <span className="font-bold text-foreground">{pop.region}</span>
-                    <span className="text-muted-foreground font-mono text-[11px]">({pop.location})</span>
-                  </div>
-                  <span className="font-mono font-bold text-foreground">{pop.latencyMs} ms</span>
-                </div>
-
-                <div className="h-2 w-full rounded-full bg-muted overflow-hidden border border-border">
-                  <div
-                    className={`h-full rounded-full transition duration-700 ${
-                      isFast ? 'bg-cream' : isModerate ? 'bg-amber-500' : 'bg-rose-500'
-                    }`}
-                    style={{ width: `${barWidth}%` }}
-                  />
-                </div>
-              </div>
-            );
-          })}
+        <div className="rounded-lg border border-border p-4">
+          <dt className="text-xs text-muted-foreground">Reported infrastructure</dt>
+          <dd className="mt-1 font-mono text-sm text-foreground">{latency.infrastructure ?? 'Not reported'}</dd>
         </div>
-      </div>
+      </dl>
 
-      {/* Connection Lifecycle Waterfall */}
-      <div className="rounded-xl border border-background/30 bg-background p-4 space-y-3">
-        <div className="flex items-center justify-between text-xs font-bold text-foreground">
-          <span>Connection Phase Waterfall (Origin TTFB ~{originTtfbMs}ms)</span>
-          <span className="font-mono text-muted-foreground">Total: ~{totalRoundTrip}ms</span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-          <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[11px] text-muted-foreground uppercase font-mono">1. DNS Resolution</div>
-            <div className="text-sm font-bold text-muted-foreground font-mono mt-0.5">{dnsTime} ms</div>
-          </div>
-
-          <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[11px] text-muted-foreground uppercase font-mono">2. TLS Handshake</div>
-            <div className="text-sm font-bold text-stone-500 font-mono mt-0.5">{tlsTime} ms</div>
-          </div>
-
-          <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[11px] text-muted-foreground uppercase font-mono">3. Server Processing</div>
-            <div className="text-sm font-bold text-emerald-400 font-mono mt-0.5">{ttfbWaitTime} ms</div>
-          </div>
-
-          <div className="rounded-lg bg-background p-2.5 border border-background/30">
-            <div className="text-[11px] text-muted-foreground uppercase font-mono">4. Content Stream</div>
-            <div className="text-sm font-bold text-foreground font-mono mt-0.5">{downloadTime} ms</div>
-          </div>
-        </div>
-      </div>
+      <p className="text-sm text-muted-foreground">
+        A single probe is a single sample: it shows how quickly one host got a response, not a
+        global average.
+      </p>
     </div>
   );
 });

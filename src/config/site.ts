@@ -62,6 +62,12 @@ export const APP_ROUTE_PREFIXES = [
   '/hub'
 ] as const;
 
+/**
+ * Developer surfaces: reachable in production, but not a landing page and not a
+ * search result (SEO audit 2026-10-23, issue 9).
+ */
+export const DEV_ROUTE_PREFIXES = ['/design-system'] as const;
+
 /** Authentication surfaces: indexable content is nil, so they stay out of the index. */
 export const AUTH_ROUTE_PREFIXES = [
   '/login',
@@ -90,6 +96,19 @@ export function isAuthRoute(rawPath: string): boolean {
   return matchesPrefixes(normalizePath(rawPath), AUTH_ROUTE_PREFIXES);
 }
 
+export function isDevRoute(rawPath: string): boolean {
+  return matchesPrefixes(normalizePath(rawPath), DEV_ROUTE_PREFIXES);
+}
+
+/**
+ * Every surface that carries `noindex`: application UI, auth, editor and the
+ * developer design-system page. The server reads this for `X-Robots-Tag`, so a
+ * path added here is unindexable even when it is served as an SPA shell.
+ */
+export function isNoindexSurface(rawPath: string): boolean {
+  return isAppRoute(rawPath) || isAuthRoute(rawPath) || isEditorRoute(rawPath) || isDevRoute(rawPath);
+}
+
 /** Editor surfaces (blog composers) are app routes too. */
 export function isEditorRoute(rawPath: string): boolean {
   const path = normalizePath(rawPath);
@@ -101,7 +120,7 @@ export function isEditorRoute(rawPath: string): boolean {
  * surfaces are `noindex, nofollow`; everything else is indexable (D11).
  */
 export function robotsDirectiveFor(rawPath: string): string {
-  if (isAppRoute(rawPath) || isAuthRoute(rawPath) || isEditorRoute(rawPath)) {
+  if (isNoindexSurface(rawPath)) {
     return 'noindex, nofollow';
   }
   return 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';

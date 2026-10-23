@@ -14,9 +14,9 @@ export const AllosterSearchDoc: React.FC = () => {
  <SearchCode className="h-3.5 w-3.5"/>
  <span>SDLC Phase 8: AI Search & LLMO Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  AllosterSearch: AI Search Optimization (LLMO) Engine
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  AllosterSearch evaluates how effectively generative search engines (Perplexity AI, OpenAI SearchGPT, Google Gemini Overviews) can cite and summarize your web content during automated question-answering and RAG workflows.
  </p>

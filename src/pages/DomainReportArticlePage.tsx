@@ -3,9 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { getReport, saveReport } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import { ENGINES_MAP } from '../data/engines';
-import { parseTelemetryOutput, generateDomainBenchmarkTelemetry, type ParsedTelemetryData } from '../utils/telemetryParser';
+import { parseTelemetryOutput, type ParsedTelemetryData } from '../utils/telemetryParser';
 import { urlToDomainSlug, slugToDisplayDomain, extractDomainFromUrl } from '../utils/slugUtils';
-import { exportReportToPdf } from '../utils/pdfExport';
 import { VitalsRadarOverview } from '../components/charts/VitalsRadarOverview';
 import { DOMDepthChart } from '../components/charts/DOMDepthChart';
 import { OWASPSecurityMatrixChart } from '../components/charts/OWASPSecurityMatrixChart';
@@ -17,26 +16,41 @@ import { LLMOCitationScorecard } from '../components/charts/LLMOCitationScorecar
 import { TerminalOutput } from '../components/TerminalOutput';
 import type { AuditReport } from '../types';
 import { 
- Download, 
+
+ Printer,
  Share2, 
  RotateCw, 
  Check, 
  ExternalLink, 
  Calendar, 
- Clock, 
- ShieldCheck, 
+
+
  ArrowLeft,
  Terminal,
- Sparkles,
- Server,
- Zap,
- Flame,
+
+
+
+
  AlertTriangle
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
 import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
 import { DomainReportSkeleton } from '../components/skeleton';
+
+/** Shown when the engine behind a section never ran for this report. */
+const NotMeasured: React.FC<{ engine: string }> = ({ engine }) => {
+ const meta = ENGINES_MAP[engine as keyof typeof ENGINES_MAP];
+ return (
+ <div className="rounded-xl border border-border bg-surface p-6">
+ <p className="text-sm font-medium text-foreground">Not measured</p>
+ <p className="mt-1 max-w-prose text-sm text-muted-foreground">
+ This run has no {meta?.name?.toLowerCase() || engine} section: the engine either did not run or
+ returned no readings. Run a new audit to collect it.
+ </p>
+ </div>
+ );
+};
 
 export const DomainReportArticlePage: React.FC = () => {
  const { slug, id } = useParams<{ slug?: string; id?: string }>();
@@ -50,7 +64,6 @@ export const DomainReportArticlePage: React.FC = () => {
  const [isAuditingLive, setIsAuditingLive] = useState(false);
  const [error, setError] = useState<string | null>(null);
  const [copied, setCopied] = useState(false);
- const [isExportingPdf, setIsExportingPdf] = useState(false);
  const [showRawTerminal, setShowRawTerminal] = useState(false);
 
  const displayDomain = report ? extractDomainFromUrl(report.url) : slugToDisplayDomain(reportIdentifier);
@@ -104,7 +117,7 @@ export const DomainReportArticlePage: React.FC = () => {
  createdAt: Date.now(),
  ownerId: user?.uid || 'guest-telemetry',
  title: `Master Audit: ${extractDomainFromUrl(cleanUrl)}`,
- score: parsed.overallScore
+ score: parsed.overallScore ?? undefined
  };
 
  setReport(newReport);
@@ -152,36 +165,18 @@ export const DomainReportArticlePage: React.FC = () => {
  return;
  }
 
- const reconstructedDomain = slugToDisplayDomain(reportIdentifier);
- const benchmark = generateDomainBenchmarkTelemetry(reconstructedDomain);
- 
- const fallbackReport: AuditReport = {
- url: `https://${reconstructedDomain}`,
- engine: 'master-audit',
- output: benchmark.rawOutput,
- createdAt: Date.now(),
- ownerId: user?.uid || 'public-benchmark',
- title: `Master Audit: ${reconstructedDomain}`,
- score: benchmark.telemetry.overallScore
- };
-
- setReport(fallbackReport);
- setTelemetry(benchmark.telemetry);
+ // Owner decision (2026-10-19, server/routes/reports.ts): no fabricated
+ // catalogues. An unknown slug shows the honest empty state and offers a real
+ // audit instead of inventing a benchmark for the domain in the URL.
+ setReport(null);
+ setTelemetry(null);
+ setError(`No dossier is stored for ${slugToDisplayDomain(reportIdentifier)} yet.`);
  setLoading(false);
  } catch (err: unknown) {
  logger.error("Failed to load audit article:", err);
- const reconstructedDomain = slugToDisplayDomain(reportIdentifier);
- const benchmark = generateDomainBenchmarkTelemetry(reconstructedDomain);
- setReport({
- url: `https://${reconstructedDomain}`,
- engine: 'master-audit',
- output: benchmark.rawOutput,
- createdAt: Date.now(),
- ownerId: 'public-benchmark',
- title: `Master Audit: ${reconstructedDomain}`,
- score: benchmark.telemetry.overallScore
- });
- setTelemetry(benchmark.telemetry);
+ setReport(null);
+ setTelemetry(null);
+ setError('We could not load this dossier. It may have been deleted, or the link may be mistyped.');
  setLoading(false);
  }
  };
@@ -196,16 +191,10 @@ export const DomainReportArticlePage: React.FC = () => {
  setTimeout(() => setCopied(false), 2000);
  };
 
- const handleExportPdf = async () => {
- setIsExportingPdf(true);
- try {
- await exportReportToPdf('article-dossier-root', `CatalystLab-Benchmark-${canonicalDomainSlug}.pdf`);
- } catch (err) {
- logger.error("PDF export failed:", err);
+ const handleExportPdf = () => {
+ // No server-side PDF renderer exists, so this opens the browser print dialog
+ // (where "Save as PDF" is available) rather than producing a file itself.
  window.print();
- } finally {
- setIsExportingPdf(false);
- }
  };
 
  if (loading) {
@@ -215,26 +204,33 @@ export const DomainReportArticlePage: React.FC = () => {
  if (error || !telemetry || !report) {
  return (
  <div className="ds-page-shell py-16">
- <div className="ds-card p-8 shadow-xl">
- <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-cream/10 text-amber-400 mb-3 border border-amber-500/20">
- <AlertTriangle className="h-6 w-6"/>
+ <div className="ds-card mx-auto max-w-xl p-8 text-center">
+ <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl border border-warning/30 bg-warning/10 text-warning">
+ <AlertTriangle className="size-6" aria-hidden="true" />
  </div>
- <h2 className="text-lg font-bold text-foreground">Benchmark Report Unavailable</h2>
- <p className="mt-1.5 text-xs text-muted-foreground">{error || 'Could not locate telemetry for this domain.'}</p>
- <div className="mt-5 flex flex-wrap justify-center gap-2.5">
+ <SEOHead
+ title="Report not found | CatalystLab"
+ description="No stored audit exists at this address. Run an audit to create one."
+ canonicalPath="/reports"
+ robots="noindex, nofollow"
+ />
+ <h1 className="text-lg font-semibold text-foreground">No report stored for {displayDomain}</h1>
+ <p className="mt-2 text-sm text-muted-foreground">
+ {error || 'This domain has no saved audit under this link.'} Run an audit to create one; it
+ will be stored under your account if you are signed in.
+ </p>
+ <div className="mt-6 flex flex-wrap justify-center gap-3">
  <button
+ type="button"
  onClick={() => runLiveAuditForDomain(displayDomain)}
- className="ds-btn ds-btn-primary text-xs"
+ className="ds-btn ds-btn-primary h-11 text-sm"
  >
- <RotateCw className="h-3.5 w-3.5"/>
- <span>Retry Diagnostic Audit</span>
+ <RotateCw className="size-4" aria-hidden="true" />
+ <span>Audit this domain now</span>
  </button>
- <Link
- to="/reports"
- className="ds-card flex items-center gap-2 text-xs font-bold ds-card-interactive p-4"
- >
- <ArrowLeft className="h-3.5 w-3.5"/>
- <span>Browse All Reports</span>
+ <Link to="/reports" className="ds-btn ds-btn-secondary h-11 text-sm">
+ <ArrowLeft className="size-4" aria-hidden="true" />
+ <span>All reports</span>
  </Link>
  </div>
  </div>
@@ -242,113 +238,91 @@ export const DomainReportArticlePage: React.FC = () => {
  );
  }
 
- const formattedDate = report.createdAt 
- ? new Date(report.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
- : 'Recent Verification';
+ const formattedDate = report.createdAt
+ ? new Date(report.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })
+ : 'Date not recorded';
 
  return (
  <article id="article-dossier-root" className="min-h-screen ds-page-top bg-background text-foreground selection:bg-primary selection:text-primary-foreground font-mono">
  <SEOHead
- title={`Benchmark: ${displayDomain}`}
- description={`Full-stack performance, security, and AI readiness benchmark for ${displayDomain}.`}
+ title={`Audit report for ${displayDomain}`}
+ description={`The stored CatalystLab audit readings for ${displayDomain}, one section per engine.`}
  canonicalUrl={`https://www.catalystlab.tech/reports/${canonicalDomainSlug}`}
  />
  
  {/* Main Hero Header */}
- <header className="border-b border-border bg-fog py-8 md:py-12 sm:px-6 lg:px-8">
- <div className="ds-page-shell space-y-5">
- 
- {/* Badge & Category */}
- <div className="flex flex-wrap items-center gap-2">
- <span className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-0.5 text-xs font-bold text-amber-700 uppercase tracking-wider">
- <Sparkles className="h-3 w-3 text-amber-600"/>
- Engineering Benchmark Dossier
- </span>
- <span className="inline-flex items-center gap-1 rounded-md border border-border bg-background py-0.5 text-xs font-semibold text-muted-foreground">
- <ShieldCheck className="h-3 w-3 text-emerald-600"/>
- Verified Telemetry
- </span>
- </div>
+ <header className="border-b border-border ds-section sm:px-6 lg:px-8">
+ <div className="ds-page-shell space-y-4">
+ <Link
+ to="/reports"
+ className="inline-flex min-h-11 items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+ >
+ <ArrowLeft className="size-4" aria-hidden="true" />
+ <span>All reports</span>
+ </Link>
 
- {/* Article Title */}
- <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground tracking-tight leading-tight font-sans">
- Full-Stack Performance, Security &amp; AI Readiness Benchmark:{' '}
- <span className="text-foreground">
- {displayDomain}
- </span>
- </h1>
+ <h1 className="framer-hero-title text-foreground">{displayDomain}</h1>
 
- {/* Subtitle */}
- <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-3xl mx-auto font-sans">
- A comprehensive multi-vector telemetry benchmark inspecting DOM element depth, OWASP security headers, 
- WCAG 2.2 accessibility, SearchGPT vector chunking, global edge latency dispersion, and Sustainable Web Design carbon metrics.
+ <p className="max-w-2xl framer-body-text">
+ Engine-by-engine readings for this domain.{' '}
+ {telemetry.overallScore !== null ? (
+ <>
+ Mean score of the {telemetry.scoredSections}{' '}
+ {telemetry.scoredSections === 1 ? 'engine' : 'engines'} that returned one:{' '}
+ <span className="font-mono text-foreground">{telemetry.overallScore}/100</span>, grade{' '}
+ <span className="font-mono text-foreground">{telemetry.grade}</span>.
+ </>
+ ) : (
+ 'No engine returned a score for this run, so there is no composite score.'
+ )}
  </p>
 
  {/* Metadata & Actions Bar */}
- <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-border">
- 
- {/* Author Profile */}
- <div className="flex items-center gap-3">
- <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-background border border-border text-foreground font-bold text-sm shadow-sm">
- <Terminal className="h-4 w-4 text-amber-600"/>
- </div>
- <div>
- <div className="text-xs font-bold text-foreground flex items-center gap-2">
- <span>CatalystLab Automated Diagnostic Grid</span>
- </div>
- <div className="flex items-center gap-2 text-[11px] text-muted-foreground mt-0.5">
- <span className="flex items-center gap-1">
- <Calendar className="h-3 w-3"/>
+ <div className="flex flex-col justify-between gap-4 border-t border-border pt-4 lg:flex-row lg:items-center">
+ <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+ <span className="flex items-center gap-1.5">
+ <Calendar className="size-3.5" aria-hidden="true" />
  {formattedDate}
  </span>
- <span>•</span>
- <span className="flex items-center gap-1">
- <Clock className="h-3 w-3"/>
- ~8 min read
- </span>
- <span>•</span>
  <a
  href={targetUrl}
  target="_blank"
  rel="noopener noreferrer"
- className="flex items-center gap-1 text-foreground hover:underline"
+ className="flex items-center gap-1.5 text-foreground hover:underline"
  >
  <span>{displayDomain}</span>
- <ExternalLink className="h-2.5 w-2.5"/>
+ <ExternalLink className="size-3.5" aria-hidden="true" />
  </a>
  </div>
- </div>
- </div>
 
- {/* Quick Action Controls */}
- <div className="flex items-center gap-2">
+ {/* Actions */}
+ <div className="flex flex-wrap items-center gap-2">
  <button
+ type="button"
  onClick={handleExportPdf}
- disabled={isExportingPdf}
- className="ds-btn ds-btn-primary text-xs disabled:opacity-50"
- title="Export PDF Benchmark Dossier"
+ className="ds-btn ds-btn-primary h-11 text-sm disabled:opacity-50"
  >
- <Download className="h-3 w-3 text-primary-foreground"/>
- <span>{isExportingPdf ? 'Exporting PDF...' : 'Export PDF'}</span>
+ <Printer className="size-4" aria-hidden="true" />
+ <span>Print or save as PDF</span>
  </button>
 
  <button
+ type="button"
  onClick={handleCopyLink}
- className="ds-btn ds-btn-secondary text-xs flex items-center gap-1"
- title="Copy Permalink URL"
+ className="ds-btn ds-btn-secondary h-11 text-sm"
  >
- {copied ? <Check className="h-3 w-3 text-emerald-600"/> : <Share2 className="h-3 w-3 text-muted-foreground"/>}
- <span>{copied ? 'Copied' : 'Share'}</span>
+ {copied ? <Check className="size-4 text-success" aria-hidden="true" /> : <Share2 className="size-4" aria-hidden="true" />}
+ <span>{copied ? 'Link copied' : 'Copy link'}</span>
  </button>
 
  <button
+ type="button"
  onClick={() => runLiveAuditForDomain(displayDomain)}
  disabled={isAuditingLive}
- className="ds-btn ds-btn-secondary text-xs flex items-center gap-1"
- title="Re-run Diagnostic Telemetry"
+ className="ds-btn ds-btn-secondary h-11 text-sm disabled:opacity-50"
  >
- <RotateCw className={`h-3 w-3 text-muted-foreground ${isAuditingLive ? 'animate-spin' : ''}`} />
- <span>Re-Audit</span>
+ <RotateCw className={`size-4 ${isAuditingLive ? 'animate-spin' : ''}`} aria-hidden="true" />
+ <span>{isAuditingLive ? 'Auditing…' : 'Audit again'}</span>
  </button>
  </div>
 
@@ -357,332 +331,120 @@ export const DomainReportArticlePage: React.FC = () => {
  </div>
  </header>
 
- {/* Main Editorial Body */}
- <main className="ds-page-shell space-y-10 py-10 pb-28">
+ <main className="ds-page-shell space-y-10 py-10">
 
- {/* Section 1: Executive Summary & Composite Vitals Radar */}
  <section className="space-y-3">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
- 01
- </span>
- <span>Executive Telemetry Summary &amp; Vitals Radar</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Below is the aggregated telemetry signature for <strong className="text-foreground">{displayDomain}</strong>. 
- The global composite score of <strong className="text-foreground">{telemetry.overallScore}/100</strong> represents 
- a weighted average across all 8 diagnostic vectors.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">Composite score</h2>
 
  <VitalsRadarOverview telemetry={telemetry} targetDomain={displayDomain} />
  </section>
 
  {/* Section 2: DOM Depth & Rendering Tree */}
  <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
- 02
- </span>
- <span>Core DOM Depth, Node Count &amp; Payload Weight</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Excessive DOM elements and deep subtree nesting directly degrade First Contentful Paint (FCP) and Time to Interactive (TTI). 
- Modern browser layout engines must recalculate bounding rects whenever nodes exceed 1,500 elements.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">Health: DOM, payload and blocking scripts</h2>
 
- <DOMDepthChart
- domElementsCount={telemetry.health.domElementsCount}
- domDepthLevel={telemetry.health.domDepthLevel}
- payloadKb={telemetry.health.payloadKb}
- blockingScriptsCount={telemetry.health.blockingScriptsCount}
- modernImagesPct={telemetry.health.modernImagesPct}
- />
+ {telemetry.health ? (
+ <DOMDepthChart health={telemetry.health} />
+ ) : (
+ <NotMeasured engine="health" />
+ )}
  </section>
 
  {/* Section 3: OWASP Top 10 Security Headers */}
  <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-emerald-600 border border-border text-xs font-bold">
- 03
- </span>
- <span>OWASP Top 10 Security Headers &amp; Protocol Matrix</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Zero-Trust HTTP response headers prevent malicious third-party scripts from executing unauthorized API calls, 
- iframe clickjacking, and protocol downgrade attacks.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">Security headers</h2>
 
- <OWASPSecurityMatrixChart
- hsts={telemetry.security.hsts}
- csp={telemetry.security.csp}
- xFrameOptions={telemetry.security.xFrameOptions}
- referrerPolicy={telemetry.security.referrerPolicy}
- permissionsPolicy={telemetry.security.permissionsPolicy}
- riskCount={telemetry.security.riskCount}
- score={telemetry.security.score}
- />
+ {telemetry.security ? (
+ <OWASPSecurityMatrixChart security={telemetry.security} />
+ ) : (
+ <NotMeasured engine="compliance" />
+ )}
  </section>
 
  {/* Section 4: WCAG 2.2 Accessibility */}
  <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
- 04
- </span>
- <span>WCAG 2.2 Accessibility &amp; Legal Index</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Website accessibility compliance is both a legal mandate under ADA Title III and a core UX metric. 
- Screen readers require descriptive image alt tags and labeled form controls to navigate interactive interfaces.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">Accessibility</h2>
 
- <WCAGAccessibilityGauge
- altTextCoveragePct={telemetry.accessibility.altTextCoveragePct}
- missingAltCount={telemetry.accessibility.missingAltCount}
- totalImages={telemetry.accessibility.totalImages}
- unlabeledInputsCount={telemetry.accessibility.unlabeledInputsCount}
- score={telemetry.accessibility.score}
- complianceLevel={telemetry.accessibility.complianceLevel}
- />
+ {telemetry.accessibility ? (
+ <WCAGAccessibilityGauge accessibility={telemetry.accessibility} />
+ ) : (
+ <NotMeasured engine="compliance" />
+ )}
  </section>
 
  {/* Section 5: AI Agent & LLM Crawler Readiness */}
  <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
- 05
- </span>
- <span>Autonomous AI Agent &amp; LLM Crawler Readiness</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- With SearchGPT, Perplexity, and Gemini replacing traditional search queries, sites must provide structured 
- plain-text endpoints (`/llms.txt`), clear heading hierarchies, and explicit crawler directives to avoid hallucinations.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">AI crawler readiness</h2>
 
- <AIRadarChart
- score={telemetry.aiReadiness.score}
- hasLlmsTxt={telemetry.aiReadiness.hasLlmsTxt}
- hasAiPlugin={telemetry.aiReadiness.hasAiPlugin}
- hasRobotsAiDirectives={telemetry.aiReadiness.hasRobotsAiDirectives}
- wordCount={telemetry.aiReadiness.wordCount}
- headingsCount={telemetry.aiReadiness.headingsCount}
- ragIndexability={telemetry.aiReadiness.ragIndexability}
- />
+ {telemetry.aiReadiness ? (
+ <AIRadarChart aiReadiness={telemetry.aiReadiness} />
+ ) : (
+ <NotMeasured engine="ai_ready" />
+ )}
  </section>
 
  {/* Section 6: Global Edge Latency */}
  <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-amber-700 border border-border text-xs font-bold">
- 06
- </span>
- <span>Global Edge Latency &amp; Multi-Region POP Radar</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Edge routing and TLS session resumption determine user latency globally. The probe below measures 
- origin TTFB and calculates multi-region dispersion across North America, Europe, Asia, and South America.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">Edge latency</h2>
 
- <EdgeLatencyRadarChart
- originTtfbMs={telemetry.latency.originTtfbMs}
- globalAverageMs={telemetry.latency.globalAverageMs}
- infrastructure={telemetry.latency.infrastructure}
- pops={telemetry.latency.pops}
- />
+ {telemetry.latency ? (
+ <EdgeLatencyRadarChart latency={telemetry.latency} />
+ ) : (
+ <NotMeasured engine="latency" />
+ )}
  </section>
 
  {/* Section 7: Sustainable Web Design Eco-Carbon Footprint */}
  <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-emerald-600 border border-border text-xs font-bold">
- 07
- </span>
- <span>Sustainable Web Design (SWD) Eco-Carbon Footprint</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Digital carbon emissions stem from data transfer across network routers, data centers, and client device screens. 
- The Sustainable Web Design model quantifies kilowatt-hours and grams CO2e per visit.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">Carbon footprint</h2>
 
- <EcoCarbonComparisonChart
- rating={telemetry.eco.rating}
- color={telemetry.eco.color}
- emissionsPerVisitGrams={telemetry.eco.emissionsPerVisitGrams}
- monthly10kKg={telemetry.eco.monthly10kKg}
- pageWeightMb={telemetry.eco.pageWeightMb}
- treesEquivalentYearly={telemetry.eco.treesEquivalentYearly}
- />
+ {telemetry.eco ? (
+ <EcoCarbonComparisonChart eco={telemetry.eco} />
+ ) : (
+ <NotMeasured engine="eco" />
+ )}
  </section>
 
  {/* Section 8: LLMO Citations */}
  <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
- 08
- </span>
- <span>LLMO &amp; Semantic Citation Scorecard</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Ensuring JSON-LD schema blocks, OpenGraph social cards, and canonical links are fully declared allows 
- large language models to accurately attribute quotes, pricing, and brand data.
- </p>
- </div>
+ <h2 className="framer-card-title text-foreground">LLM citation readiness</h2>
 
- <LLMOCitationScorecard
- score={telemetry.llmo.score}
- jsonLdBlocksCount={telemetry.llmo.jsonLdBlocksCount}
- hasOgTags={telemetry.llmo.hasOgTags}
- hasOgImage={telemetry.llmo.hasOgImage}
- hasCanonical={telemetry.llmo.hasCanonical}
- citationConfidence={telemetry.llmo.citationConfidence}
- />
+ {telemetry.llmo ? (
+ <LLMOCitationScorecard llmo={telemetry.llmo} />
+ ) : (
+ <NotMeasured engine="llmo" />
+ )}
  </section>
 
- {/* Section 9: Architectural Takeaways & Remediation Blueprint */}
- <section className="space-y-3 pt-4 border-t border-border">
- <div className="space-y-1">
- <h2 className="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
- <span className="flex h-5 w-5 items-center justify-center rounded bg-accent text-foreground border border-border text-xs font-bold">
- 09
- </span>
- <span>Architectural Takeaways &amp; Remediation Roadmap</span>
- </h2>
- <p className="text-xs text-muted-foreground font-sans leading-relaxed">
- Recommended prioritization matrix for software engineering teams to resolve detected performance bottlenecks, 
- security liabilities, and indexing blind spots.
- </p>
- </div>
-
- <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
- <div className="ds-card p-4 space-y-2.5">
- <div className="flex items-center gap-1.5 text-foreground font-bold text-xs uppercase tracking-wider">
- <Flame className="h-3.5 w-3.5 text-amber-600"/>
- <span>Priority 1: Instant Wins</span>
- </div>
- <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside font-sans">
- <li>Deploy missing OWASP headers via edge CDN (HSTS, CSP, X-Frame-Options).</li>
- <li>Add explicit `alt` attributes to all unlabeled image assets.</li>
- <li>Enable Brotli/Gzip text compression on all static text assets.</li>
- </ul>
- </div>
-
- <div className="ds-card p-4 space-y-2.5">
- <div className="flex items-center gap-1.5 text-amber-700 font-bold text-xs uppercase tracking-wider">
- <Zap className="h-3.5 w-3.5 text-amber-600"/>
- <span>Priority 2: AI &amp; SEO</span>
- </div>
- <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside font-sans">
- <li>Create `/llms.txt` plain-text API directory for autonomous crawlers.</li>
- <li>Implement JSON-LD Schema.org markup for entity recognition.</li>
- <li>Ensure explicit `robots.txt` directives for GPTBot and ClaudeBot.</li>
- </ul>
- </div>
-
- <div className="ds-card p-4 space-y-2.5">
- <div className="flex items-center gap-1.5 text-emerald-700 font-bold text-xs uppercase tracking-wider">
- <Server className="h-3.5 w-3.5 text-emerald-600"/>
- <span>Priority 3: Architecture &amp; Edge</span>
- </div>
- <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside font-sans">
- <li>Migrate legacy PNG/JPEG media to next-gen WebP/AVIF formats.</li>
- <li>Flatten DOM nesting hierarchy to stay under 800 total elements.</li>
- <li>Utilize Anycast Global Edge caching to minimize origin TTFB.</li>
- </ul>
- </div>
- </div>
- </section>
-
- {/* Section 10: Raw Telemetry Logs Drawer */}
- <section className="space-y-3 pt-4 border-t border-border">
- <div className="flex items-center justify-between">
- <div>
- <h3 className="text-xs font-bold text-foreground flex items-center gap-1.5">
- <Terminal className="h-3.5 w-3.5 text-foreground"/>
- <span>Raw Diagnostic Engine Console Output</span>
- </h3>
- <p className="text-[11px] text-muted-foreground mt-0.5">
- Inspect raw telemetry traces generated by CatalystLab backend engines.
- </p>
- </div>
-
+ {/* Raw engine output */}
+ <section className="space-y-3 border-t border-border pt-4">
+ <div className="flex flex-wrap items-center justify-between gap-3">
+ <h2 className="framer-card-title text-foreground">Raw engine output</h2>
  <button
+ type="button"
+ aria-expanded={showRawTerminal}
  onClick={() => setShowRawTerminal(!showRawTerminal)}
- className="ds-card flex items-center gap-1.5 text-xs font-semibold ds-card-interactive p-4"
+ className="ds-btn ds-btn-secondary h-11 text-sm"
  >
- <Terminal className="h-3 w-3 text-foreground"/>
- <span>{showRawTerminal ? 'Collapse Console' : 'Expand Raw Output'}</span>
+ <Terminal className="size-4" aria-hidden="true" />
+ <span>{showRawTerminal ? 'Hide output' : 'Show output'}</span>
  </button>
  </div>
+ <p className="text-sm text-muted-foreground">
+ Exactly what the engines printed for this run, so every chart above can be checked against it.
+ </p>
 
  {showRawTerminal && (
- <div className="ds-card p-1">
  <TerminalOutput
- title={`Telemetry Log Traces: ${displayDomain}`}
+ title={`Engine output: ${displayDomain}`}
  icon="bolt"
  output={report.output}
  maxHeight="max-h-[600px]"
  />
- </div>
  )}
  </section>
 
  </main>
-
- {/* Bottom Sticky Action / Share Strip */}
- <footer className="sticky bottom-0 z-30 border-t border-border bg-background/95 backdrop-blur-md py-3 shadow-lg">
- <div className="ds-page-shell flex items-center justify-between gap-4">
- <div className="flex items-center gap-2.5">
- <span className="text-xs font-bold text-foreground hidden sm:inline">
- Benchmark Dossier: <span className="text-foreground">{displayDomain}</span>
- </span>
- <span className="text-xs font-bold text-foreground bg-accent py-0.5 rounded border border-border">
- Grade {telemetry.grade} ({telemetry.overallScore}/100)
- </span>
- </div>
-
- <div className="flex items-center gap-2">
- <button
- onClick={handleExportPdf}
- disabled={isExportingPdf}
- className="ds-btn ds-btn-primary text-xs"
- >
- <Download className="h-3 w-3 text-primary-foreground"/>
- <span>{isExportingPdf ? 'Exporting...' : 'Export PDF'}</span>
- </button>
-
- <button
- onClick={handleCopyLink}
- className="ds-btn ds-btn-secondary text-xs flex items-center gap-1"
- >
- {copied ? <Check className="h-3 w-3 text-emerald-600"/> : <Share2 className="h-3 w-3 text-muted-foreground"/>}
- <span>{copied ? 'Copied' : 'Share'}</span>
- </button>
-
- <Link
- to="/reports"
- className="ds-btn ds-btn-secondary text-xs flex items-center gap-1 text-muted-foreground"
- >
- <span>Directory</span>
- </Link>
- </div>
- </div>
- </footer>
-
  </article>
  );
 };

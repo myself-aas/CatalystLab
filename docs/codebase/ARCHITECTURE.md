@@ -44,7 +44,7 @@ Browser SPA ──Bearer ID token──▶ [Cloudflare Pages (static) ─▶ Wor
 | `src/lib/networkSecurity.ts` | SSRF guard: scheme allowlist, private/loopback/reserved blocking, single DNS resolution pinned to validated address (anti-rebinding), per-hop redirect revalidation (max 3), 5 MB cap, TLS verify on, 10 s timeout | — | `docs/ENGINES.md` header |
 | `src/store/` + `src/context/` | Client state (zustand slices + mongoSync mutation queue; Auth/Subscription/RoleSecurity/Theme contexts) | Entitlement truth (server-derived only; client cache "can never upgrade the displayed entitlement on a failed server write") | `src/store/useAppStore.ts`, README "Security model" |
 | `worker/api-proxy.js` | Same-origin `/api/*` forwarding, fail-closed config validation, rightmost-XFF client IP integrity, hop-by-hop stripping, SSE passthrough | Buffering SSE, trusting leftmost XFF, placeholder origins | `worker/api-proxy.js:1-38` |
-| `scripts/prerender.ts` | Build-time shells for public routes, `404.html`, `sitemap.xml`, `routes.json`, JSON-LD generated from the same data tables the UI renders (D11/D15) | Prerendering app/auth routes (client-only + noindex) | `scripts/prerender.ts:1-30` |
+| `scripts/prerender.ts` | Build-time shells for public routes, `404.html`, `sitemap.xml` (index) plus one sitemap per page type, `routes.json`, JSON-LD generated from the same data tables the UI renders (D11/D15) | Prerendering app/auth routes (client-only + noindex) | `scripts/prerender.ts:1-30` |
 
 ### 4) Reused Patterns
 

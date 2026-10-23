@@ -1,296 +1,249 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Cookie, 
-  Check, 
-  ShieldCheck, 
-  Sliders, 
-  Globe, 
-  Lock, 
-  Zap 
-} from 'lucide-react';
-import { LazyReveal } from '../common/LazyAnimate';
+import React, { useEffect, useState } from 'react';
+import { Check, Trash2, ShieldCheck, Cookie, Lock } from 'lucide-react';
 import { logger } from '../../lib/logger';
 
+/**
+ * What CatalystLab actually writes to this browser.
+ *
+ * Source of truth: the annex in `src/legal/privacy.ts` and the storage keys in
+ * `src/context/*`, `src/lib/firebase.ts`, and `src/utils/rateLimiter.ts`. Every
+ * row below is read or written by shipped code; the previous list advertised a
+ * "catalystlab_telemetry_cache" and Google Analytics cookies that do not exist.
+ */
+const STORED_ITEMS = [
+  {
+    name: 'Firebase Auth storage',
+    kind: 'Required',
+    purpose: 'Your sign-in session, managed by the Firebase SDK.',
+    lifetime: 'Until you sign out',
+    removable: false,
+  },
+  {
+    name: 'catalystlab_local_session',
+    kind: 'Required',
+    purpose: 'Keeps the local preview sign-in active on this device.',
+    lifetime: 'Until you sign out or clear storage',
+    removable: false,
+  },
+  {
+    name: 'catalyst_visitor_id',
+    kind: 'Required',
+    purpose: 'Anonymous id the rate limiter uses to count your daily scans.',
+    lifetime: 'Until you clear storage',
+    removable: false,
+  },
+  {
+    name: 'catalystlab_cached_reports',
+    kind: 'Cache',
+    purpose: 'Caches your recent audits so the dashboard opens without a round trip.',
+    lifetime: 'Until you clear storage',
+    removable: true,
+  },
+  {
+    name: 'catalystlab_theme_preference',
+    kind: 'Preference',
+    purpose: 'Remembers whether you chose the light or dark theme.',
+    lifetime: 'Until you clear storage',
+    removable: true,
+  },
+  {
+    name: 'catalystlab_cookie_consent',
+    kind: 'Record',
+    purpose: 'Records the choice you saved on this page.',
+    lifetime: 'Until you clear storage',
+    removable: true,
+  },
+];
+
+const REMOVABLE_KEYS = STORED_ITEMS.filter((item) => item.removable).map((item) => item.name);
+
+const BROWSER_INSTRUCTIONS = {
+  chrome: 'Settings → Privacy and security → Third-party cookies',
+  safari: 'Settings → Privacy → Manage Website Data',
+  firefox: 'Settings → Privacy & Security → Cookies and Site Data',
+  edge: 'Settings → Cookies and site permissions → Manage and delete cookies',
+} as const;
+
+type Browser = keyof typeof BROWSER_INSTRUCTIONS;
+
+/**
+ * Cookie preference centre.
+ *
+ * The previous version offered a "local cache and theme" switch that wrote a
+ * flag nothing ever read: turning it off changed no behaviour. Rather than
+ * describe an opt-out that does not exist, this page lists what is stored,
+ * removes the items a page is allowed to remove, and points at the browser for
+ * the rest.
+ */
 export const CookiePreferenceCenter: React.FC = () => {
-  const [preferences, setPreferences] = useState({
-    essential: true, // Always locked true
-    telemetryCache: true,
-    analytics: false
-  });
-  const [saved, setSaved] = useState(false);
-  const [activeBrowser, setActiveBrowser] = useState<'chrome' | 'safari' | 'firefox' | 'edge'>('chrome');
+  const [activeBrowser, setActiveBrowser] = useState<Browser>('chrome');
+  const [removed, setRemoved] = useState<string[] | null>(null);
+  const [clearError, setClearError] = useState<string | null>(null);
+  const [hasConsentRecord, setHasConsentRecord] = useState(false);
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('catalystlab_cookie_consent');
-      if (stored) {
-        setPreferences(JSON.parse(stored));
-      }
-    } catch (e) {
-      logger.warn("Could not read stored cookie preferences:", e);
+      setHasConsentRecord(localStorage.getItem('catalystlab_cookie_consent') !== null);
+    } catch {
+      setHasConsentRecord(false);
     }
   }, []);
 
-  const handleSave = () => {
+  const recordAcknowledged = () => {
+    setClearError(null);
     try {
-      localStorage.setItem('catalystlab_cookie_consent', JSON.stringify(preferences));
-    } catch (e) {
-      logger.warn("Could not save cookie preferences:", e);
+      localStorage.setItem(
+        'catalystlab_cookie_consent',
+        JSON.stringify({ acknowledgedAt: new Date().toISOString() }),
+      );
+      setHasConsentRecord(true);
+    } catch (error) {
+      logger.warn('Could not record the cookie notice acknowledgement:', error);
+      setClearError('Your browser blocked local storage, so this acknowledgement could not be recorded.');
     }
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
   };
 
-  const cookieList = [
-    {
-      name: '__session',
-      category: 'Essential',
-      provider: 'Firebase Auth',
-      purpose: 'Authenticates your active superadmin and user dashboard sessions across browser tabs.',
-      expiry: 'Session / 14 Days'
-    },
-    {
-      name: 'catalystlab_telemetry_cache',
-      category: 'Performance',
-      provider: 'CatalystLab Engine',
-      purpose: 'Stores local client-side audit history to reduce redundant DNS probe latency.',
-      expiry: '30 Days'
-    },
-    {
-      name: 'catalystlab_theme_prefs',
-      category: 'Functional',
-      provider: 'CatalystLab UI',
-      purpose: 'Remembers your terminal font scaling, chart animations, and high-contrast toggle.',
-      expiry: '1 Year'
-    },
-    {
-      name: '_ga / _gid (Optional)',
-      category: 'Analytics',
-      provider: 'Google Analytics (if enabled)',
-      purpose: 'Measures page load speeds and detects synthetic navigation drops.',
-      expiry: '24 Hours / 2 Years'
+  const clearOptionalStorage = () => {
+    setClearError(null);
+    setRemoved(null);
+    try {
+      const cleared = REMOVABLE_KEYS.filter((key) => {
+        if (localStorage.getItem(key) === null) return false;
+        localStorage.removeItem(key);
+        return true;
+      });
+      setRemoved(cleared);
+      setHasConsentRecord(false);
+    } catch (error) {
+      logger.warn('Could not clear optional storage:', error);
+      setClearError('Your browser blocked local storage, so these items could not be removed here.');
     }
-  ];
-
-  const browserInstructions = {
-    chrome: "Go to Settings > Privacy and security > Third-party cookies > Select your preferred cookie blocking rules.",
-    safari: "Go to Preferences > Privacy > Ensure 'Prevent cross-site tracking' and customize cookie blocking.",
-    firefox: "Go to Settings > Privacy & Security > Enhanced Tracking Protection > Choose Standard or Strict mode.",
-    edge: "Go to Settings > Cookies and site permissions > Manage and delete cookies and site data."
   };
 
   return (
-    <div className="space-y-8 font-mono">
-      {/* Policy Banner */}
-      <LazyReveal direction="up">
-        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-sm">
-          <div className="flex items-center gap-2 text-xs text-amber-600 mb-1">
-            <Cookie className="h-4 w-4" />
-            <span className="font-bold">TRANSPARENT PRIVACY TOKENS • STRICT OPT-IN</span>
+    <div className="space-y-8">
+      <section aria-labelledby="stored-heading" className="space-y-4">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="max-w-2xl space-y-1">
+            <h2 id="stored-heading" className="framer-card-title text-foreground">
+              What is stored on this device
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Six items. Three are required for sign-in and rate limiting; three are conveniences
+              you can remove below.
+            </p>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-sans">
-            Cookie Policy &amp; Consent Manager
-          </h2>
-          <p className="mt-2 text-xs text-muted-foreground max-w-3xl leading-relaxed font-sans">
-            CatalystLab does not use tracking pixels, ad networks, or invasive cross-domain beacons. We only use lightweight functional session tokens to keep your diagnostic consoles responsive.
-          </p>
-        </div>
-      </LazyReveal>
-
-      {/* Interactive Preference Center */}
-      <LazyReveal direction="up">
-        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
-            <div>
-              <h3 className="text-base font-bold text-foreground flex items-center gap-2 font-sans">
-                <Sliders className="h-4 w-4 text-amber-600" />
-                <span>Interactive Cookie Preference Center</span>
-              </h3>
-              <p className="text-xs text-muted-foreground mt-0.5 font-sans">
-                Customize which token types CatalystLab is permitted to store in your browser.
-              </p>
-            </div>
-
-            <button
-              onClick={handleSave}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover border border-border px-4 py-2 text-xs font-bold text-primary-foreground transition shadow-sm cursor-pointer"
-            >
-              {saved ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <ShieldCheck className="h-3.5 w-3.5 text-amber-400" />}
-              <span>{saved ? 'Preferences Saved!' : 'Save My Preferences'}</span>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            {!hasConsentRecord ? (
+              <button type="button" onClick={recordAcknowledged} className="ds-btn ds-btn-primary h-11 text-sm">
+                <ShieldCheck className="size-4" aria-hidden="true" />
+                <span>Record that I read this</span>
+              </button>
+            ) : (
+              <span className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground">
+                <Check className="size-4 text-success" aria-hidden="true" />
+                Recorded {new Date().toLocaleDateString()}
+              </span>
+            )}
+            <button type="button" onClick={clearOptionalStorage} className="ds-btn ds-btn-secondary h-11 text-sm">
+              <Trash2 className="size-4" aria-hidden="true" />
+              <span>Delete cached and optional items</span>
             </button>
           </div>
-
-          <div className="space-y-3">
-            {/* Essential (Locked) */}
-            <div className="rounded-xl border border-border bg-muted p-4 flex items-start justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Lock className="h-3.5 w-3.5 text-emerald-400" />
-                  <span className="font-bold text-xs text-foreground font-sans">Strictly Essential &amp; Authentication Tokens</span>
-                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-emerald-500/20 bg-cream/10 text-emerald-400">
-                    Always Active
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed font-sans">
-                  Required for Firebase OAuth session persistence, CSRF security, and route protection. Cannot be disabled without breaking application authentication.
-                </p>
-              </div>
-              <div className="shrink-0 pt-0.5">
-                <input
-                  type="checkbox"
-                  checked={true}
-                  disabled={true}
-                  className="h-4 w-4 rounded border-border text-foreground cursor-not-allowed opacity-80"
-                />
-              </div>
-            </div>
-
-            {/* Telemetry Cache (Toggle) */}
-            <div className="rounded-xl border border-border bg-muted p-4 flex items-start justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Zap className="h-3.5 w-3.5 text-amber-400" />
-                  <span className="font-bold text-xs text-foreground font-sans">Diagnostic Telemetry Cache</span>
-                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-amber-500/20 bg-cream/10 text-amber-400">
-                    Recommended
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed font-sans">
-                  Caches recent synthetic DNS latency and terminal audit results in browser storage for instant page restoration without hitting worker rate limits.
-                </p>
-              </div>
-              <div className="shrink-0 pt-0.5">
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={preferences.telemetryCache}
-                  onClick={() => setPreferences({ ...preferences, telemetryCache: !preferences.telemetryCache })}
-                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                    preferences.telemetryCache ? 'bg-amber-600' : 'bg-muted'
-                  }`}
-                >
-                  <span
-                    className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-background shadow ring-0 transition duration-200 ease-in-out ${
-                      preferences.telemetryCache ? 'translate-x-4' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
-              </div>
-            </div>
-
-            {/* Performance Analytics (Toggle) */}
-            <div className="rounded-xl border border-border bg-muted p-4 flex items-start justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Globe className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="font-bold text-xs text-foreground font-sans">Anonymous Usage &amp; Crash Metrics</span>
-                  <span className="text-[11px] uppercase font-mono font-extrabold px-2 py-0.5 rounded border border-border bg-accent text-muted-foreground">
-                    Optional
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed font-sans">
-                  Helps our engineering team detect UI rendering bottlenecks, socket disconnects, and mobile viewport errors without collecting IP addresses.
-                </p>
-              </div>
-              <div className="shrink-0 pt-0.5">
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={preferences.analytics}
-                  onClick={() => setPreferences({ ...preferences, analytics: !preferences.analytics })}
-                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                    preferences.analytics ? 'bg-amber-600' : 'bg-muted'
-                  }`}
-                >
-                  <span
-                    className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-background shadow ring-0 transition duration-200 ease-in-out ${
-                      preferences.analytics ? 'translate-x-4' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
-      </LazyReveal>
 
-      {/* Complete Cookie Inventory Table */}
-      <LazyReveal direction="up">
-        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm space-y-4">
-          <div>
-            <h3 className="text-base font-bold text-foreground font-sans">Detailed Cookie &amp; Token Inventory</h3>
-            <p className="text-xs text-muted-foreground mt-0.5 font-sans">
-              Comprehensive audit of every token written by CatalystLab.tech or authenticated cloud providers.
-            </p>
-          </div>
+        {clearError ? (
+          <p role="alert" className="rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm text-foreground">
+            {clearError}
+          </p>
+        ) : null}
 
-          <div className="overflow-x-auto scrollbar-none touch-pan-x">
-            <table className="w-full text-left text-xs border-collapse font-mono">
-              <thead>
-                <tr className="border-b border-border bg-muted text-foreground font-bold">
-                  <th className="py-2.5 px-3 rounded-l-lg">Cookie Identifier</th>
-                  <th className="py-2.5 px-3">Category</th>
-                  <th className="py-2.5 px-3">Provider</th>
-                  <th className="py-2.5 px-3">Functional Purpose</th>
-                  <th className="py-2.5 px-3 rounded-r-lg">Duration</th>
+        {removed ? (
+          <p role="status" className="rounded-lg border border-border bg-surface p-3 text-sm text-foreground">
+            {removed.length === 0
+              ? 'There was nothing to delete: none of the optional items were stored.'
+              : `Deleted ${removed.length} ${removed.length === 1 ? 'item' : 'items'}: ${removed.join(', ')}.`}
+          </p>
+        ) : null}
+
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-left text-sm">
+            <caption className="sr-only">Browser storage written by CatalystLab</caption>
+            <thead>
+              <tr className="border-b border-border text-muted-foreground">
+                <th scope="col" className="py-2.5 pr-4 font-medium">Key</th>
+                <th scope="col" className="py-2.5 pr-4 font-medium">Type</th>
+                <th scope="col" className="py-2.5 pr-4 font-medium">Purpose</th>
+                <th scope="col" className="py-2.5 font-medium">Lifetime</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {STORED_ITEMS.map((item) => (
+                <tr key={item.name} className="align-top">
+                  <th scope="row" className="py-3 pr-4 text-left font-mono text-xs font-medium text-foreground">
+                    {item.name}
+                  </th>
+                  <td className="py-3 pr-4">
+                    <span
+                      className={`inline-flex items-center gap-1 rounded border px-2 py-0.5 text-xs font-medium ${
+                        item.removable
+                          ? 'border-border bg-muted text-muted-foreground'
+                          : 'border-success/30 bg-success/10 text-success'
+                      }`}
+                    >
+                      {item.removable ? <Cookie className="size-3" aria-hidden="true" /> : <Lock className="size-3" aria-hidden="true" />}
+                      {item.kind}
+                    </span>
+                  </td>
+                  <td className="py-3 pr-4 text-muted-foreground">{item.purpose}</td>
+                  <td className="py-3 text-muted-foreground">{item.lifetime}</td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-border text-muted-foreground">
-                {cookieList.map((item, idx) => (
-                  <tr key={idx} className="hover:bg-muted transition-colors">
-                    <td className="py-3 px-3 font-bold text-amber-700 font-mono">{item.name}</td>
-                    <td className="py-3 px-3">
-                      <span className="rounded bg-accent border border-border px-2 py-0.5 text-[11px] font-semibold text-foreground">
-                        {item.category}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 font-medium text-foreground">{item.provider}</td>
-                    <td className="py-3 px-3 max-w-xs font-sans text-xs">{item.purpose}</td>
-                    <td className="py-3 px-3 text-[11px] text-muted-foreground">{item.expiry}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </LazyReveal>
-
-      {/* Browser Specific Guides */}
-      <LazyReveal direction="up">
-        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-sm">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
-            <div>
-              <h3 className="text-base font-bold text-foreground font-sans">Browser-Level Cookie Management</h3>
-              <p className="text-xs text-muted-foreground mt-0.5 font-sans">
-                You can also configure global cookie restrictions directly inside your browser settings.
-              </p>
-            </div>
-
-            <div className="flex items-center rounded-xl bg-accent p-1 border border-border">
-              {(['chrome', 'safari', 'firefox', 'edge'] as const).map((b) => (
-                <button
-                  key={b}
-                  onClick={() => setActiveBrowser(b)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-bold capitalize transition cursor-pointer ${
-                    activeBrowser === b
-                      ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {b}
-                </button>
               ))}
-            </div>
-          </div>
-
-          <div className="mt-5 rounded-xl border border-border bg-muted p-4">
-            <span className="text-[11px] uppercase font-bold text-amber-700">Instructions for {activeBrowser.toUpperCase()}:</span>
-            <p className="text-xs text-muted-foreground mt-1.5 font-sans leading-relaxed">
-              {browserInstructions[activeBrowser]}
-            </p>
-          </div>
+            </tbody>
+          </table>
         </div>
-      </LazyReveal>
+
+        <p className="text-sm text-muted-foreground">
+          No advertising, cross-site tracking, or third-party analytics script is loaded on this
+          site, so there is nothing else to opt out of.
+        </p>
+      </section>
+
+      <section aria-labelledby="clear-heading" className="space-y-4 border-t border-border pt-8">
+        <div className="max-w-2xl space-y-1">
+          <h2 id="clear-heading" className="framer-card-title text-foreground">
+            Clear everything from your browser
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            This page cannot remove the sign-in session or the rate-limit id. Use the settings for
+            the browser you are in.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Choose your browser">
+          {(Object.keys(BROWSER_INSTRUCTIONS) as Browser[]).map((browser) => (
+            <button
+              key={browser}
+              type="button"
+              aria-pressed={activeBrowser === browser}
+              onClick={() => setActiveBrowser(browser)}
+              className={`min-h-11 rounded-full border px-4 py-1.5 text-sm capitalize transition-colors ${
+                activeBrowser === browser
+                  ? 'border-foreground bg-foreground text-background'
+                  : 'border-border text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {browser}
+            </button>
+          ))}
+        </div>
+
+        <p className="rounded-lg bg-surface p-4 text-sm text-foreground">
+          {BROWSER_INSTRUCTIONS[activeBrowser]}
+        </p>
+      </section>
     </div>
   );
 };
+
+export default CookiePreferenceCenter;

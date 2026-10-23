@@ -14,9 +14,9 @@ export const EcoHoloDoc: React.FC = () => {
  <Leaf className="h-3.5 w-3.5"/>
  <span>SDLC Phase 3: Carbon Footprint Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  EcoHolo: Sustainable Web & Carbon Audit Engine
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  EcoHolo measures the environmental impact of web endpoints using the Sustainable Web Design (SWD) Model v4 standard. It quantifies data transfer energy consumption (kWh), estimates greenhouse gas emissions (g CO2 per page view), and queries the Green Web Foundation API to verify renewable energy usage.
  </p>

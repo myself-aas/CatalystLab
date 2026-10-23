@@ -22,6 +22,7 @@ import {
  BookOpen,
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { engineSeoForPath } from '../data/engineSeo';
 import { LinearCard } from '../components/ui/LinearCard';
 import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
@@ -33,6 +34,9 @@ interface ToolPageProps {
 export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  const meta = ENGINES_MAP[engineType];
  const location = useLocation();
+ // The same table the prerender reads, so the H1 and the head cannot drift
+ // from the delivered document (programmatic-seo skill, template design).
+ const seo = engineSeoForPath(location.pathname);
  const { user, isAdmin, login } = useAuth();
 
  const [targetUrl, setTargetUrl] = useState('');
@@ -187,9 +191,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  return (
  <div className="min-h-screen ds-page-top-hero bg-background font-sans text-foreground">
  <SEOHead
- title={`${meta.catalystName || meta.name} Catalyst — CatalystLab`}
- description={meta.description}
- canonicalUrl={`https://www.catalystlab.tech/tool/${engineType}`}
+ title={seo?.seoTitle ?? `${meta.catalystName || meta.name} | CatalystLab`}
+ description={seo?.summary ?? meta.description}
+ canonicalUrl={`https://www.catalystlab.tech${location.pathname.replace(/\/+$/, '')}`}
+ absoluteTitle={Boolean(seo)}
  />
  
  {/* Sticky Contextual Breadcrumb Nav */}
@@ -201,7 +206,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  <div className="relative z-10 ds-page-shell text-center">
  <div className="mb-8 flex justify-end">
  <Link
- to={`/docs#${meta.docsAnchor || 'overview'}`}
+ to={seo?.docsPath ?? '/docs'}
  className="ds-btn ds-btn-secondary text-xs"
  >
  <BookOpen className="size-3.5 text-foreground shrink-0"/>
@@ -227,10 +232,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  </div>
 
  <h1 className="framer-hero-title text-foreground">
- {meta.catalystName || `${meta.name} Catalyst`}
+ {seo?.heading ?? meta.catalystName ?? `${meta.name} Catalyst`}
  </h1>
  <p className="framer-body-text max-w-3xl mx-auto mt-3">
- {meta.description}
+ {seo?.summary ?? meta.description}
  </p>
 
  <div className="mx-auto mt-8 max-w-3xl text-left">
@@ -355,6 +360,68 @@ export const ToolPage: React.FC<ToolPageProps> = ({ engineType }) => {
  Sign in with Google
  </button>
  </LinearCard>
+ )}
+
+ {/* The same material the prerendered document carries (2026-10-23), so a
+ reader who arrives with JavaScript sees the detail rather than a shorter
+ page than the crawler saw. */}
+ {seo && (
+ <section className="ds-page-shell space-y-6 pt-2" aria-labelledby="engine-detail-heading">
+ <h2 id="engine-detail-heading" className="text-lg font-semibold text-foreground">
+ What {seo.catalystName} reads
+ </h2>
+ <div className="grid gap-6 sm:grid-cols-3">
+ <div>
+ <h3 className="text-sm font-semibold text-foreground">What it measures</h3>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.measures.map((item) => (
+ <li key={item}>{item}</li>
+ ))}
+ </ul>
+ </div>
+ <div>
+ <h3 className="text-sm font-semibold text-foreground">What the report returns</h3>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.returns.map((item) => (
+ <li key={item}>{item}</li>
+ ))}
+ </ul>
+ </div>
+ <div>
+ <h3 className="text-sm font-semibold text-foreground">What it does not measure</h3>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.limits.map((item) => (
+ <li key={item}>{item}</li>
+ ))}
+ </ul>
+ </div>
+ </div>
+
+ <div>
+ <h2 className="text-lg font-semibold text-foreground">Questions and answers</h2>
+ <dl className="mt-3 space-y-4">
+ {seo.faq.map((entry) => (
+ <div key={entry.question}>
+ <dt className="text-sm font-semibold text-foreground">{entry.question}</dt>
+ <dd className="mt-1 max-w-3xl text-sm text-muted-foreground">{entry.answer}</dd>
+ </div>
+ ))}
+ </dl>
+ </div>
+
+ <div>
+ <h2 className="text-lg font-semibold text-foreground">Sources</h2>
+ <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+ {seo.sources.map(([href, label]) => (
+ <li key={href}>
+ <a href={href} target="_blank" rel="noopener noreferrer" className="text-foreground underline underline-offset-2">
+ {label}
+ </a>
+ </li>
+ ))}
+ </ul>
+ </div>
+ </section>
  )}
  </main>
  </div>

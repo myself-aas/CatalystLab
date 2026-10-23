@@ -14,9 +14,9 @@ export const RiskProteaseDoc: React.FC = () => {
  <ShieldCheck className="h-3.5 w-3.5"/>
  <span>SDLC Phase 6: SecOps & Compliance Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  RiskProtease: OWASP Security & Compliance Guard
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  RiskProtease executes automated penetration and compliance checks, auditing TLS cipher suites, Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), WCAG 2.2 AA color contrast ratios, ARIA semantic landmarks, and GDPR cookie banners.
  </p>

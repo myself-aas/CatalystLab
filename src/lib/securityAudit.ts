@@ -71,6 +71,7 @@ export async function getSslCertificateInfo(rawHostname: string): Promise<SslSta
 
               socket.destroy();
               resolve({
+                measured: true,
                 is_expired,
                 days_until_expiration,
                 encryption_algorithm,
@@ -86,41 +87,37 @@ export async function getSslCertificateInfo(rawHostname: string): Promise<SslSta
             // fallback below
           }
           socket.destroy();
-          resolve(getDefaultSslInfo(cleanHost));
+          resolve(getUnknownSslInfo());
         }
       );
 
       socket.on('error', () => {
         socket.destroy();
-        resolve(getDefaultSslInfo(cleanHost));
+        resolve(getUnknownSslInfo());
       });
 
       socket.on('timeout', () => {
         socket.destroy();
-        resolve(getDefaultSslInfo(cleanHost));
+        resolve(getUnknownSslInfo());
       });
     } catch {
-      resolve(getDefaultSslInfo(cleanHost));
+      resolve(getUnknownSslInfo());
     }
   });
 }
 
-function getDefaultSslInfo(host: string): SslStatusInfo {
-  // Deterministic seed based on hostname for consistent testing
-  let hash = 0;
-  for (let i = 0; i < host.length; i++) {
-    hash = (hash << 5) - hash + host.charCodeAt(i);
-    hash |= 0;
-  }
-  const days = Math.abs(hash % 70) + 20; // 20 to 90 days
-
+/**
+ * The TLS handshake did not complete. Say so instead of seeding plausible
+ * certificate values from the hostname: an unmeasured certificate is unknown,
+ * not "valid for N days".
+ */
+function getUnknownSslInfo(): SslStatusInfo {
   return {
-    is_expired: false,
-    days_until_expiration: days,
-    encryption_algorithm: 'TLS_AES_256_GCM_SHA384 (TLSv1.3)',
-    validation_alert: days > 30 ? 'Secure' : 'Warning: Expiring Soon',
-    issuer: "Let's Encrypt / Cloudflare Edge TLS",
-    protocol: 'TLSv1.3'
+    measured: false,
+    is_expired: null,
+    days_until_expiration: null,
+    encryption_algorithm: null,
+    validation_alert: null
   };
 }
 
@@ -144,13 +141,21 @@ export async function getEmailSecurityProfile(rawDomain: string): Promise<Securi
 
   let hasSpf = false;
   let hasDmarc = false;
+  // A resolver answer (including "no such record") is a measurement; a network
+  // failure is not. Only answered lookups may be reported as "Missing".
+  let spfAnswered = false;
+  let dmarcAnswered = false;
   let spfRawRecord = '';
   let dmarcRawRecord = '';
   let hostingEcosystem = 'Cloud Edge Network & Authenticated Relay Infrastructure';
 
   // 1. Direct DNS TXT queries via Node.js dns.promises
   try {
-    const txtRecords = await dns.promises.resolveTxt(cleanDomain).catch(() => []);
+    const txtRecords = await dns.promises.resolveTxt(cleanDomain).catch((err: NodeJS.ErrnoException) => {
+      if (err?.code === 'ENOTFOUND' || err?.code === 'ENODATA') spfAnswered = true;
+      return [];
+    });
+    if (txtRecords.length > 0) spfAnswered = true;
     for (const chunk of txtRecords) {
       const fullTxt = chunk.join(' ').trim();
       if (fullTxt.toLowerCase().startsWith('v=spf1')) {
@@ -164,7 +169,11 @@ export async function getEmailSecurityProfile(rawDomain: string): Promise<Securi
   }
 
   try {
-    const dmarcTxtRecords = await dns.promises.resolveTxt(`_dmarc.${cleanDomain}`).catch(() => []);
+    const dmarcTxtRecords = await dns.promises.resolveTxt(`_dmarc.${cleanDomain}`).catch((err: NodeJS.ErrnoException) => {
+      if (err?.code === 'ENOTFOUND' || err?.code === 'ENODATA') dmarcAnswered = true;
+      return [];
+    });
+    if (dmarcTxtRecords.length > 0) dmarcAnswered = true;
     for (const chunk of dmarcTxtRecords) {
       const fullTxt = chunk.join(' ').trim();
       if (fullTxt.toLowerCase().startsWith('v=dmarc1')) {
@@ -186,6 +195,7 @@ export async function getEmailSecurityProfile(rawDomain: string): Promise<Securi
       });
       if (dohRes.ok) {
         const data = await dohRes.json();
+        if (data.Status === 0 || data.Status === 3) spfAnswered = true;
         if (data.Answer && Array.isArray(data.Answer)) {
           for (const ans of data.Answer) {
             const dataStr = (ans.data || '').replace(/^"|"$/g, '').trim();
@@ -210,6 +220,7 @@ export async function getEmailSecurityProfile(rawDomain: string): Promise<Securi
       });
       if (dohDmarc.ok) {
         const data = await dohDmarc.json();
+        if (data.Status === 0 || data.Status === 3) dmarcAnswered = true;
         if (data.Answer && Array.isArray(data.Answer)) {
           for (const ans of data.Answer) {
             const dataStr = (ans.data || '').replace(/^"|"$/g, '').trim();
@@ -226,17 +237,21 @@ export async function getEmailSecurityProfile(rawDomain: string): Promise<Securi
     }
   }
 
-  // Special cases for major domains
-  if (cleanDomain.includes('google.com') || cleanDomain.includes('github.com') || cleanDomain.includes('catalystlab.tech')) {
-    hasSpf = true;
-    hasDmarc = true;
-  }
+  const spf_status: ProtectionStatus = hasSpf
+    ? 'Configured'
+    : spfAnswered
+      ? 'Missing Protection'
+      : 'Not measured';
+  const dmarc_status: ProtectionStatus = hasDmarc
+    ? 'Configured'
+    : dmarcAnswered
+      ? 'Missing Protection'
+      : 'Not measured';
 
-  const spf_status: ProtectionStatus = hasSpf ? 'Configured' : 'Missing Protection';
-  const dmarc_status: ProtectionStatus = hasDmarc ? 'Configured' : 'Missing Protection';
-
-  let spoofing_risk_level: SpoofingRiskLevel = 'Low Risk';
-  if (!hasSpf && !hasDmarc) {
+  let spoofing_risk_level: SpoofingRiskLevel;
+  if (spf_status === 'Not measured' || dmarc_status === 'Not measured') {
+    spoofing_risk_level = 'Not measured';
+  } else if (!hasSpf && !hasDmarc) {
     spoofing_risk_level = 'High Risk';
   } else if (!hasSpf || !hasDmarc) {
     spoofing_risk_level = 'Medium Risk';
@@ -247,13 +262,19 @@ export async function getEmailSecurityProfile(rawDomain: string): Promise<Securi
   // Live SSL analysis
   const ssl_status = await getSslCertificateInfo(cleanDomain);
 
+  const tlsNote = ssl_status.measured
+    ? `TLS probe negotiated ${ssl_status.encryption_algorithm}.`
+    : 'The TLS probe did not complete, so certificate details are unknown.';
+
   let pipeline_summary = '';
   if (spoofing_risk_level === 'Low Risk') {
-    pipeline_summary = `Domain ${cleanDomain} exhibits hardened anti-spoofing defense with compliant SPF (v=spf1) and DMARC (v=DMARC1) enforcement under ${ssl_status.encryption_algorithm}.`;
+    pipeline_summary = `${cleanDomain} publishes both an SPF and a DMARC record. ${tlsNote}`;
   } else if (spoofing_risk_level === 'Medium Risk') {
-    pipeline_summary = `Domain ${cleanDomain} presents partial email authentication liability (${!hasSpf ? 'Missing SPF' : 'Missing DMARC policy'}), enabling potential sender spoofing vectors.`;
+    pipeline_summary = `${cleanDomain} is missing ${!hasSpf ? 'an SPF record' : 'a DMARC record'}, so sender verification is only partial. ${tlsNote}`;
+  } else if (spoofing_risk_level === 'High Risk') {
+    pipeline_summary = `${cleanDomain} publishes neither SPF nor DMARC, leaving the domain open to sender impersonation. ${tlsNote}`;
   } else {
-    pipeline_summary = `Domain ${cleanDomain} has zero structural email security declarations (Missing SPF and DMARC), resulting in critical vulnerability to unauthenticated domain impersonation.`;
+    pipeline_summary = `DNS lookups for ${cleanDomain} did not complete, so SPF and DMARC status is unknown. ${tlsNote}`;
   }
 
   return {
@@ -286,26 +307,11 @@ export async function enumerateSubdomains(rawTarget: string): Promise<{
     domain = 'github.com';
   }
 
-  const prefixCandidates = [
-    'api', 'dev', 'staging', 'auth', 'admin', 'cdn', 'app', 'docs',
-    'mail', 'status', 'vpn', 'git', 'test', 'portal', 'ws', 'preview',
-    'metrics', 'analytics', 'assets', 'beta', 'sso', 'static'
-  ];
+  const discovered = new Map<string, SubdomainDiscoveryRecord>();
 
-  const discoveredMap = new Map<string, SubdomainDiscoveryRecord>();
-
-  // Always include the apex domain
-  discoveredMap.set(domain, {
-    subdomain: domain,
-    ip: '104.21.48.192',
-    cname: 'origin.cloudprovider.net',
-    status: 'active',
-    type: 'A',
-    discovered_at: new Date().toISOString(),
-    cloud_provider: 'Cloudflare Edge / Anycast Network'
-  });
-
-  // Query Certificate Transparency passive logs via crt.sh if reachable
+  // Certificate Transparency logs are the only source here: a hostname is
+  // listed because a certificate was issued for it, never because the prefix
+  // looked plausible.
   try {
     const crtRes = await fetch(`https://crt.sh/?q=%25.${encodeURIComponent(domain)}&output=json`, {
       headers: { 'User-Agent': 'CatalystLab-PassiveDNS/2.0' },
@@ -314,66 +320,54 @@ export async function enumerateSubdomains(rawTarget: string): Promise<{
     if (crtRes.ok) {
       const data = await crtRes.json();
       if (Array.isArray(data)) {
-        for (const item of data.slice(0, 15)) {
-          const nameValue = (item.name_value || '').toLowerCase();
-          const subNames = nameValue.split('\n');
-          for (const sub of subNames) {
-            const cleanSub = sub.replace(/^\*\./, '').trim();
-            if (cleanSub.endsWith(domain) && cleanSub.length > domain.length) {
-              discoveredMap.set(cleanSub, {
-                subdomain: cleanSub,
-                ip: '172.67.182.204',
-                status: 'active',
-                type: 'A',
-                discovered_at: new Date().toISOString(),
-                cloud_provider: 'Cloudflare / AWS CloudFront'
-              });
-            }
+        for (const item of data.slice(0, 60)) {
+          for (const rawName of String(item.name_value || '').toLowerCase().split('\n')) {
+            const name = rawName.replace(/^\*\./, '').trim();
+            if (!name || !name.endsWith(domain)) continue;
+            if (discovered.size >= 24) break;
+            discovered.set(name, {
+              subdomain: name,
+              status: 'unresolved',
+              type: 'A',
+              discovered_at: new Date().toISOString(),
+            });
           }
         }
       }
     }
   } catch {
-    // fallback to synthetic high-probability prefix discovery
+    // No CT data: the engine reports an empty footprint rather than inventing one.
   }
 
-  // If fewer than 6 subdomains discovered via crt.sh, add high-value passive infrastructure vectors
-  if (discoveredMap.size < 6) {
-    const selectedPrefixes = ['api', 'app', 'cdn', 'auth', 'docs', 'staging', 'mail', 'status'];
-    selectedPrefixes.forEach((prefix, idx) => {
-      const sub = `${prefix}.${domain}`;
-      const providers = ['AWS CloudFront', 'Cloudflare Anycast', 'Google Cloud CDN', 'Fastly Edge', 'Vercel Edge Network'];
-      discoveredMap.set(sub, {
-        subdomain: sub,
-        ip: `198.51.100.${idx * 14 + 10}`,
-        cname: `${prefix}.edge.cdnprovider.io`,
-        status: idx < 6 ? 'active' : 'unresolved',
-        type: idx % 2 === 0 ? 'A' : 'CNAME',
-        discovered_at: new Date(Date.now() - idx * 86400000).toISOString(),
-        cloud_provider: providers[idx % providers.length]
-      });
-    });
-  }
-
-  const subdomains = Array.from(discoveredMap.values());
-  const active_hosts = subdomains.filter((s) => s.status === 'active').length;
-  const cloud_providers = Array.from(
-    new Set(subdomains.map((s) => s.cloud_provider || 'Cloudflare Anycast'))
+  // Resolve every listed hostname; `active` now means an A record answered.
+  await Promise.all(
+    Array.from(discovered.values()).map(async (record) => {
+      const addresses = await dns.promises.resolve4(record.subdomain).catch(() => [] as string[]);
+      if (addresses.length > 0) {
+        record.ip = addresses[0];
+        record.status = 'active';
+      }
+    })
   );
 
-  // Calculate footprint expansion rate
-  const growthPercent = Math.min(65, Math.max(12, subdomains.length * 4 + 8));
+  const subdomains = Array.from(discovered.values());
+  const active_hosts = subdomains.filter((s) => s.status === 'active').length;
 
   const infrastructure_growth: InfrastructureGrowthSummary = {
     total_discovered: subdomains.length,
     active_hosts,
-    cloud_providers,
-    expansion_rate: `+${growthPercent}% YoY`,
-    discovery_source: 'Passive DNS & Certificate Transparency Logs (crt.sh + DoH)'
+    // Provider attribution needs ASN lookups, which this engine does not do.
+    cloud_providers: [],
+    // No historical baseline is stored, so year-over-year growth is unknown.
+    expansion_rate: null,
+    discovery_source:
+      subdomains.length > 0
+        ? 'Certificate Transparency logs (crt.sh) with live A-record lookups'
+        : 'No certificate transparency records were returned for this domain',
   };
 
   return {
     subdomains,
-    infrastructure_growth
+    infrastructure_growth,
   };
 }

@@ -68,3 +68,10 @@ __pycache__/
 
 # Agent skill installs (local tooling, not repo content)
 skills/awwwards-design/
+# Impeccable skill payload, installed by `npx impeccable install` (the committed
+# .github/hooks/impeccable.json manifest is what teammates need; the skill body
+# is re-installed per machine).
+.github/skills/
+.github/agents/
+# Per-developer Impeccable state (hook consent, private detector ignores)
+.impeccable/config.local.json

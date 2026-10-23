@@ -6,10 +6,13 @@ import { existsSync, readFileSync } from 'fs';
 import type { Request, Response, NextFunction } from 'express';
 import { initAnalyticsDB } from './src/lib/analyticsEngine';
 import { createApp } from './server/app';
-import { loadRoutesManifest, matchesSpaRoute } from './server/core/spaRoutes';
+import { isKnownBlogPath, loadRoutesManifest, matchesSpaRoute } from './server/core/spaRoutes';
 import { captureException, initErrorTracking, installProcessErrorHandlers } from './server/core/errorTracking';
 import { logger } from './server/core/logger';
-import { isAuthRoute, isAppRoute } from './src/config/site';
+import { isNoindexSurface } from './src/config/site';
+import { aliasTargetFor, splatAliasFor } from './src/config/routeAliases';
+import { isDomainSlug } from './src/utils/slugUtils';
+import { isPlaygroundEngineId } from './src/data/playgroundEngines';
 import dotenv from 'dotenv';
 dotenv.config({ quiet: true });
 
@@ -58,8 +61,46 @@ async function startServer(): Promise<void> {
       if (req.url.endsWith('.map')) {
         return res.status(404).send('Not Found');
       }
-      // Plan 7b.2: emit X-Robots-Tag: noindex on application and auth surfaces
-      if (isAppRoute(req.path) || isAuthRoute(req.path)) {
+      // SEO audit 2026-10-23, issue 5: one URL per document. The alias map is
+      // shared with scripts/prerender.ts (which stops writing the shells) and
+      // public/_redirects (which mirrors the same list for Cloudflare Pages).
+      const aliasTarget = aliasTargetFor(req.path) ?? splatAliasFor(req.path);
+      if (aliasTarget && (req.method === 'GET' || req.method === 'HEAD')) {
+        const query = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+        res.redirect(301, `${aliasTarget}${query}`);
+        return;
+      }
+      // Programmatic page families with an open-ended parameter (2026-10-23):
+      //   /playground/<engine>  -> 308 to the canonical engine, or 404
+      //   /report/<id>          -> 301 to /reports/<id>
+      //   /reports/<slug>       -> only slugs that can name a domain survive
+      // Without these, any invented string answered 200 with the home page's
+      // metadata, which is a duplicate page for every value a bot tries.
+      if (req.method === 'GET' || req.method === 'HEAD') {
+        const playground = req.path.match(/^\/playground\/([^/]+)\/?$/);
+        if (playground && !isPlaygroundEngineId(playground[1])) {
+          res.redirect(302, '/playground/master');
+          return;
+        }
+        const legacyReport = req.path.match(/^\/report\/([^/]+)\/?$/);
+        if (legacyReport) {
+          res.redirect(301, `/reports/${legacyReport[1]}`);
+          return;
+        }
+        const reportSlug = req.path.match(/^\/reports\/([^/]+)\/?$/);
+        if (reportSlug && !isDomainSlug(reportSlug[1])) {
+          if (hasShellFile(notFoundHtml)) {
+            res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+            sendHtmlShell(res, notFoundHtml, 404);
+            return;
+          }
+          res.status(404).json({ success: false, error: `Page '${req.path}' not found.` });
+          return;
+        }
+      }
+      // Plan 7b.2: noindex on application, auth, editor and developer surfaces,
+      // including the dynamic ones served from the SPA shell below.
+      if (isNoindexSurface(req.path) || /^\/(reports|playground)\/[^/]+\/?$/.test(req.path)) {
         res.setHeader('X-Robots-Tag', 'noindex, nofollow');
       }
       next();
@@ -134,6 +175,19 @@ async function startServer(): Promise<void> {
         return;
       }
       const pathname = req.path;
+
+      // A blog slug only resolves when the build wrote that page; everything
+      // else under /blogs is a real 404 rather than a 200 copy of the home page.
+      const isBlogPath = /^\/blogs?\/[^/]+\/?$/.test(pathname);
+      if (isBlogPath && (!compiledRoutes || !isKnownBlogPath(compiledRoutes, pathname))) {
+        if (hasShellFile(notFoundHtml)) {
+          res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+          sendHtmlShell(res, notFoundHtml, 404);
+          return;
+        }
+        res.status(404).json({ success: false, error: `Page '${pathname}' not found.` });
+        return;
+      }
 
       if (compiledRoutes && matchesSpaRoute(compiledRoutes, pathname)) {
         sendHtmlShell(res, indexHtml, 200);

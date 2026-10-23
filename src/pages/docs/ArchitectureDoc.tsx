@@ -15,9 +15,9 @@ export const ArchitectureDoc: React.FC = () => {
  <Layers className="h-3.5 w-3.5"/>
  <span>System Design Blueprint</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  Full-Stack Application Architecture
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  CatalystLab is architected as a high-concurrency Node.js Express server integrated with Vite middleware, Python 3 sandboxed worker subprocesses, and Firebase Firestore cloud persistence.
  </p>

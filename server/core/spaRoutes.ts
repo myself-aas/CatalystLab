@@ -16,6 +16,10 @@ export interface RoutesManifest {
   appRoutes?: string[];
   dynamicRoutes?: string[];
   spaRoutes?: string[];
+  /** Slugs with a prerendered page under /blogs/<slug> (SEO audit issue 4). */
+  blogSlugs?: string[];
+  /** 301 map, mirrored in public/_redirects (SEO audit issue 5). */
+  aliases?: Record<string, string>;
 }
 
 export interface CompiledRoutes {
@@ -64,4 +68,22 @@ export function loadRoutesManifest(distPath: string): CompiledRoutes | null {
 
 export function matchesSpaRoute(compiled: CompiledRoutes, pathname: string): boolean {
   return compiled.matchers.some((matcher) => matcher.test(pathname));
+}
+
+/**
+ * `/blogs/<slug>` is only a real page when the build wrote one. Without this
+ * check any invented slug answered 200 with the home shell (SEO audit 2026-10-23,
+ * issue 3), which made the blog a soft-404 factory.
+ */
+export function isKnownBlogPath(compiled: CompiledRoutes, pathname: string): boolean {
+  const match = pathname.match(/^\/blogs?\/([^/]+)\/?$/);
+  if (!match) return false;
+  const slugs = compiled.manifest.blogSlugs ?? [];
+  let slug = match[1];
+  try {
+    slug = decodeURIComponent(slug);
+  } catch {
+    return false;
+  }
+  return slugs.includes(slug);
 }

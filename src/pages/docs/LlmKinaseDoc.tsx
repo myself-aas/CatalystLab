@@ -14,9 +14,9 @@ export const LlmKinaseDoc: React.FC = () => {
  <Cpu className="h-3.5 w-3.5"/>
  <span>SDLC Phase 7: AI Readiness Engine</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  LLM-Kinase: AI Crawler Readiness & Manifest Engine
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  LLM-Kinase evaluates a domain's accessibility to generative AI models and Retrieval-Augmented Generation (RAG) pipelines by checking for <code>/llms.txt</code>, testing AI bot user-agent permissions in <code>robots.txt</code>, and verifying Schema.org JSON-LD structured data.
  </p>

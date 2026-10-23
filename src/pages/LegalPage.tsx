@@ -1,64 +1,109 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ShieldCheck, ArrowRight } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { LEGAL_VERSION, EFFECTIVE_DATE, LEGAL_EMAIL } from '../legal/legalMeta';
 
+interface LegalEntry {
+  to: string;
+  title: string;
+  description: string;
+}
+
+const DOCUMENTS: LegalEntry[] = [
+  {
+    to: '/terms',
+    title: 'Terms of Service',
+    description:
+      'What you may scan, what the scores mean, how billing and cancellation work, and the limits of our liability.',
+  },
+  {
+    to: '/privacy',
+    title: 'Privacy Policy',
+    description:
+      'What we store, where it lives, how long we keep it, and the rights you can exercise over it.',
+  },
+  {
+    to: '/refund',
+    title: 'Refund Policy',
+    description: 'When a paid plan can be refunded, the windows that apply, and how to ask.',
+  },
+  {
+    to: '/cookies',
+    title: 'Cookie Policy',
+    description: 'Every item CatalystLab writes to your browser, and how to change your choice.',
+  },
+  {
+    to: '/security',
+    title: 'Security Disclosure',
+    description: 'How to report a vulnerability in our scanners, the API, or this site.',
+  },
+];
+
+/**
+ * Legal index (/legal).
+ *
+ * The page used to guess its own identity from the URL and would have shown a
+ * Privacy Policy heading with Terms copy for any unknown path. Each policy has
+ * its own route, so this page is only an index: one heading, one list, one
+ * effective date.
+ */
 export const LegalPage: React.FC = () => {
- const location = useLocation();
- const path = location.pathname;
+  return (
+    <div className="min-h-screen ds-page-top bg-background text-foreground">
+      <SEOHead
+        title="Legal & Compliance — CatalystLab"
+        description="Terms, privacy, refunds, cookies and security disclosure for the CatalystLab platform."
+        canonicalUrl="https://www.catalystlab.tech/legal"
+      />
 
- let title = 'Legal & Compliance';
- let content = 'Policies covering privacy, acceptable use, cookies, and coordinated vulnerability disclosure for the CatalystLab telemetry platform.';
+      <section className="border-b border-border ds-section sm:px-6 lg:px-8">
+        <div className="ds-page-shell max-w-3xl space-y-3">
+          <h1 className="framer-section-headline flex items-center gap-3 text-foreground">
+            <ShieldCheck className="size-7 shrink-0 text-info" aria-hidden="true" />
+            Legal &amp; compliance
+          </h1>
+          <p className="framer-body-text">
+            The documents that govern your use of CatalystLab. Version {LEGAL_VERSION},
+            effective {EFFECTIVE_DATE}.
+          </p>
+        </div>
+      </section>
 
- if (path.includes('privacy')) {
- title = 'Privacy Policy';
- content = 'We respect your privacy. CatalystLab stores diagnostic telemetry reports securely in Firestore under your authenticated user ID. We never sell your data or expose private credentials.';
- } else if (path.includes('terms')) {
- title = 'Terms & Conditions';
- content = 'By using CatalystLab telemetry tools, you agree to scan only URLs and repositories that you own or have explicit authorization to inspect. Diagnostic results are provided on an as-is basis.';
- } else if (path.includes('cookies')) {
- title = 'Cookie Policy';
- content = 'CatalystLab utilizes essential authentication cookies via Firebase Auth to persist your login session across tab reloads and generate secure diagnostic dossiers.';
- } else if (path.includes('security')) {
- title = 'Security Disclosure';
- content = 'We prioritize application security. If you discover a vulnerability in our scanning engines or API endpoints, please contact security@catalystlab.tech for coordinated disclosure.';
- }
+      <main className="ds-page-shell ds-section">
+        <ul className="grid gap-4 sm:grid-cols-2">
+          {DOCUMENTS.map((doc) => (
+            <li key={doc.to}>
+              <Link
+                to={doc.to}
+                className="ds-card ds-card-interactive group flex h-full flex-col justify-between gap-3 p-5"
+              >
+                <span className="space-y-1.5">
+                  <span className="block text-base font-medium text-foreground">{doc.title}</span>
+                  <span className="block text-sm text-muted-foreground">{doc.description}</span>
+                </span>
+                <span className="flex items-center gap-1.5 text-sm text-foreground">
+                  Read
+                  <ArrowRight
+                    className="size-4 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
 
- return (
- <div className="min-h-screen ds-page-top bg-background text-foreground">
- <SEOHead
- title={`${title} — CatalystLab`}
- description={content}
- canonicalUrl={`https://www.catalystlab.tech${path}`}
- />
- <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
- <div className="ds-page-shell space-y-2">
- <div className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-[var(--bg-surface)] px-2.5 py-1 framer-micro-tag text-muted-foreground">
- <ShieldCheck className="h-3.5 w-3.5 shrink-0"/>
- <span>Compliance &amp; Legal Standards</span>
- </div>
- <h1 className="framer-section-headline text-foreground">{title}</h1>
- <p className="text-xs text-muted-foreground font-mono">Last updated: August 2026</p>
- </div>
- </section>
-
- <main className="ds-page-shell ds-section">
- <div className="ds-card space-y-4 p-6 sm:p-8">
- <p className="framer-body-text text-foreground">{content}</p>
- <ul className="grid gap-2 sm:grid-cols-2 text-sm font-mono">
- <li><Link to="/privacy" className="text-foreground hover:underline">Privacy Policy</Link></li>
- <li><Link to="/terms" className="text-foreground hover:underline">Terms of Service</Link></li>
- <li><Link to="/cookies" className="text-foreground hover:underline">Cookie Preferences</Link></li>
- <li><Link to="/security" className="text-foreground hover:underline">Security Disclosure</Link></li>
- </ul>
- <p className="framer-body-text text-xs text-muted-foreground pt-4 border-t border-border">
- For questions or requests regarding data retention or legal compliance, please refer to our{' '}
- <Link to="/contact" className="font-semibold text-foreground underline hover:text-foreground">Contact Support</Link> portal.
- </p>
- </div>
- </main>
- </div>
- );
+        <p className="mt-10 border-t border-border pt-6 text-sm text-muted-foreground">
+          Questions about a document, or a data request under it? Write to{' '}
+          <a href={`mailto:${LEGAL_EMAIL}`} className="text-foreground underline underline-offset-4">
+            {LEGAL_EMAIL}
+          </a>{' '}
+          or use the <Link to="/contact" className="text-foreground underline underline-offset-4">contact form</Link>.
+        </p>
+      </main>
+    </div>
+  );
 };
 
 export default LegalPage;

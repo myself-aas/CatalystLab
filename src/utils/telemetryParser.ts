@@ -1,480 +1,436 @@
 /**
- * Telemetry Parser & Metrics Extractor
- * Parses raw CLI diagnostic outputs into structured metrics for interactive charts,
- * radar visualizers, comparative matrices, and tabular figures.
+ * Telemetry Parser
+ *
+ * Turns an aggregated engine log into the readings the report page renders.
+ *
+ * Rules this file follows:
+ *  - A section is `null` when its engine never ran, so the page can say so.
+ *  - A field is `null` when the log did not print it. There are no fallback
+ *    values: an unmeasured payload size stays unknown.
+ *  - The composite score averages only the section scores the log printed.
  */
 
+export interface HealthSection {
+  score: number | null;
+  payloadKb: number | null;
+  ttfbMs: number | null;
+  compression: string | null;
+  resourceHintsCount: number | null;
+  domElementsCount: number | null;
+  domDepthLevel: number | null;
+  tagMix: { label: string; count: number }[] | null;
+  modernImagesPct: number | null;
+  totalImages: number | null;
+  responsiveImagesCount: number | null;
+  blockingScriptsCount: number | null;
+}
+
+export interface SecuritySection {
+  score: number | null;
+  hsts: boolean | null;
+  csp: boolean | null;
+  xFrameOptions: boolean | null;
+  referrerPolicy: boolean | null;
+  permissionsPolicy: boolean | null;
+  contentTypeOptions: boolean | null;
+  riskCount: number | null;
+  sslValid: boolean | null;
+  sslDaysRemaining: number | null;
+}
+
+export interface AccessibilitySection {
+  altTextCoveragePct: number | null;
+  missingAltCount: number | null;
+  totalImages: number | null;
+  unlabeledInputsCount: number | null;
+}
+
+export interface AiReadinessSection {
+  score: number | null;
+  hasLlmsTxt: boolean | null;
+  hasAiPlugin: boolean | null;
+  hasRobotsAiDirectives: boolean | null;
+  wordCount: number | null;
+  headingsCount: number | null;
+}
+
+export interface LatencySection {
+  score: number | null;
+  originTtfbMs: number | null;
+  infrastructure: string | null;
+}
+
+export interface EcoSection {
+  score: number | null;
+  rating: string | null;
+  ratingLabel: string | null;
+  emissionsPerVisitGrams: number | null;
+  monthly10kKg: number | null;
+  pageWeightMb: number | null;
+}
+
+export interface MigrationSection {
+  detectedStack: string | null;
+}
+
+export interface LlmoSection {
+  score: number | null;
+  jsonLdBlocksCount: number | null;
+  hasOgTags: boolean | null;
+  hasOgImage: boolean | null;
+  hasCanonical: boolean | null;
+}
+
 export interface ParsedTelemetryData {
-  overallScore: number;
-  grade: 'A+' | 'A' | 'B' | 'C' | 'D' | 'F';
-  
-  // 1. Core DOM & Health
-  health: {
-    score: number;
-    payloadKb: number;
-    ttfbMs: number;
-    compression: 'Brotli/Gzip' | 'None' | 'Standard';
-    resourceHintsCount: number;
-    domElementsCount: number;
-    domDepthLevel: number;
-    modernImagesPct: number;
-    responsiveImagesCount: number;
-    blockingScriptsCount: number;
-    domComplexityRating: 'Optimal' | 'Elevated' | 'Excessive';
-  };
-
-  // 2. OWASP Security Matrix
-  security: {
-    score: number;
-    hsts: boolean;
-    csp: boolean;
-    xFrameOptions: boolean;
-    referrerPolicy: boolean;
-    permissionsPolicy: boolean;
-    riskCount: number;
-    sslValid: boolean;
-    sslDaysRemaining: number;
-  };
-
-  // 3. WCAG Accessibility
-  accessibility: {
-    score: number;
-    altTextCoveragePct: number;
-    missingAltCount: number;
-    totalImages: number;
-    unlabeledInputsCount: number;
-    colorContrastRatio: number;
-    complianceLevel: 'WCAG 2.2 AAA' | 'WCAG 2.2 AA' | 'Needs Remediation';
-  };
-
-  // 4. AI Agent & LLM Crawler Readiness
-  aiReadiness: {
-    score: number;
-    hasLlmsTxt: boolean;
-    hasAiPlugin: boolean;
-    hasRobotsAiDirectives: boolean;
-    wordCount: number;
-    headingsCount: number;
-    ragIndexability: 'Highly Indexable' | 'Partial' | 'Invisible / Hallucination Risk';
-  };
-
-  // 5. Global Edge Latency Radar
-  latency: {
-    originTtfbMs: number;
-    globalAverageMs: number;
-    infrastructure: string;
-    pops: {
-      region: string;
-      location: string;
-      latencyMs: number;
-      status: 'optimal' | 'moderate' | 'slow';
-    }[];
-  };
-
-  // 6. Eco-Carbon Footprint
-  eco: {
-    rating: string;
-    color: string;
-    emissionsPerVisitGrams: number;
-    monthly10kKg: number;
-    pageWeightMb: number;
-    treesEquivalentYearly: number;
-  };
-
-  // 7. Platform Migration & Tech Stack
-  migration: {
-    detectedStack: string;
-    portabilityScore: number;
-    decouplingComplexity: 'Low' | 'Moderate' | 'High';
-    edgeReady: boolean;
-  };
-
-  // 8. LLMO (SearchGPT / Perplexity Citations)
-  llmo: {
-    score: number;
-    jsonLdBlocksCount: number;
-    hasOgTags: boolean;
-    hasOgImage: boolean;
-    hasCanonical: boolean;
-    citationConfidence: 'High (Primary Source)' | 'Moderate' | 'Low';
-  };
+  overallScore: number | null;
+  grade: string | null;
+  /** How many engines printed a score; the composite covers only these. */
+  scoredSections: number;
+  health: HealthSection | null;
+  security: SecuritySection | null;
+  accessibility: AccessibilitySection | null;
+  aiReadiness: AiReadinessSection | null;
+  latency: LatencySection | null;
+  eco: EcoSection | null;
+  migration: MigrationSection | null;
+  llmo: LlmoSection | null;
 }
 
-export function generateFallbackTelemetry(url: string = ''): ParsedTelemetryData {
+const EMPTY: ParsedTelemetryData = {
+  overallScore: null,
+  grade: null,
+  scoredSections: 0,
+  health: null,
+  security: null,
+  accessibility: null,
+  aiReadiness: null,
+  latency: null,
+  eco: null,
+  migration: null,
+  llmo: null,
+};
+
+function num(match: RegExpMatchArray | null, group = 1): number | null {
+  if (!match) return null;
+  const value = Number(match[group]);
+  return Number.isFinite(value) ? value : null;
+}
+
+function scoreFrom(text: string, labelPattern: string): number | null {
+  const match = text.match(new RegExp(`${labelPattern}\\s*[:=]\\s*(\\d{1,3})\\s*\\/\\s*100`, 'i'));
+  return num(match);
+}
+
+function gradeFor(score: number): string {
+  if (score >= 93) return 'A+';
+  if (score >= 85) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 65) return 'C';
+  if (score >= 50) return 'D';
+  return 'F';
+}
+
+/** Reads `[+] PASS` / `[-] FAIL` style lines about a named response header. */
+function headerPresence(text: string, label: string): boolean | null {
+  const needle = label.toLowerCase();
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line.toLowerCase().includes(needle)) continue;
+    if (/^\[-\]/.test(line)) return false;
+    if (/^\[\+\]/.test(line)) return true;
+    if (/\bmissing\b/i.test(line)) return false;
+    if (/\bis present\b/i.test(line)) return true;
+  }
+  return null;
+}
+
+/** `[+] PASS: x found` / `[-] FAIL: x missing`. */
+function passLine(text: string, foundPattern: RegExp, missingPattern: RegExp): boolean | null {
+  if (missingPattern.test(text)) return false;
+  if (foundPattern.test(text)) return true;
+  return null;
+}
+
+function parseTagMix(text: string): { label: string; count: number }[] | null {
+  const match = text.match(/Tag Mix:\s*([^\n]+)/i);
+  if (!match) return null;
+  const entries: { label: string; count: number }[] = [];
+  const re = /([a-z ]+?)\s+(\d+)/gi;
+  let part: RegExpExecArray | null;
+  while ((part = re.exec(match[1])) !== null) {
+    const count = Number(part[2]);
+    if (!Number.isFinite(count)) continue;
+    entries.push({ label: part[1].trim().replace(/^\w/, (c) => c.toUpperCase()), count });
+  }
+  return entries.length > 0 ? entries : null;
+}
+
+function parseReportText(text: string): ParsedTelemetryData {
+  const healthRan = /CORE WEBSITE HEALTH ANALYSIS|CATALYST HEALTH SCORE|Total DOM Elements:/i.test(text);
+  const securityRan = /COMPLIANCE & RISK MITIGATION AUDIT|COMPLIANCE SCORE|Auditing OWASP Security Headers/i.test(text);
+  const accessibilityRan = /Auditing WCAG Accessibility|Image Alt Text coverage|missing 'alt' text|Form controls:/i.test(text);
+  const aiRan = /AI READINESS SCORE|AI READINESS INSPECTOR/i.test(text);
+  const latencyRan = /MEASURED ORIGIN ROUND TRIP|Local Origin TTFB|HTTP Status:/i.test(text);
+  const ecoRan = /CATALYST ECO-RATING|Emissions per Visit/i.test(text);
+  const migrationRan = /Detected Platform Stack/i.test(text);
+  const llmoRan = /LLMO CITATION SCORE|JSON-LD|OpenGraph/i.test(text);
+
+  const missingAltMatch = text.match(/(\d+)\/(\d+)\s*images\s*\(([\d.]+)%\)\s*are missing 'alt' text/i);
+  const altCoverageMatch = text.match(/(\d+)% Image Alt Text coverage/i);
+  const altCoverage = altCoverageMatch
+    ? Number(altCoverageMatch[1])
+    : missingAltMatch
+      ? Math.max(0, 100 - Number(missingAltMatch[3]))
+      : null;
+
+  const sslDays = num(text.match(/Days Until Expiration:\s*(\d+)/i));
+  const sslExpiredMatch = text.match(/Expiration Status:\s*(EXPIRED|VALID)/i);
+
+  const health: HealthSection | null = healthRan
+    ? {
+        score: scoreFrom(text, '(?:CATALYST HEALTH|HEALTH) SCORE'),
+        payloadKb: num(text.match(/HTML Payload Size:\s*([\d.]+)\s*KB/i)),
+        ttfbMs: num(text.match(/Time To First Byte \(TTFB proxy\):\s*(\d+)\s*ms/i)),
+        compression: /Compression enabled \(([^)]+)\)/i.exec(text)?.[1] ??
+          (/Text compression \(Brotli\/Gzip\) is not active/i.test(text) ? 'None' : null),
+        resourceHintsCount: num(text.match(/Found\s*(\d+)\s*modern resource hints/i)),
+        domElementsCount: num(text.match(/Total DOM Elements:\s*(\d+)/i)),
+        domDepthLevel: num(text.match(/Maximum Nesting Depth:\s*(\d+)/i)),
+        tagMix: parseTagMix(text),
+        modernImagesPct: num(text.match(/Modern Image Formats \(WebP\/AVIF\):\s*\d+\/\d+\s*\(([\d.]+)%\)/i)),
+        totalImages: num(text.match(/Responsive Images \(srcset\):\s*\d+ of (\d+)/i)),
+        responsiveImagesCount: num(text.match(/Responsive Images \(srcset\):\s*(\d+) of \d+/i)),
+        blockingScriptsCount: num(text.match(/Found\s*(\d+)\s*parser-blocking script/i)) ??
+          (/\+\] PASS: Zero parser-blocking scripts/i.test(text) ? 0 : null),
+      }
+    : null;
+
+  const security: SecuritySection | null = securityRan
+    ? {
+        score: scoreFrom(text, 'COMPLIANCE SCORE'),
+        hsts: headerPresence(text, 'strict-transport-security'),
+        csp: headerPresence(text, 'content-security-policy'),
+        xFrameOptions: headerPresence(text, 'x-frame-options'),
+        referrerPolicy: headerPresence(text, 'referrer-policy'),
+        permissionsPolicy: headerPresence(text, 'permissions-policy'),
+        contentTypeOptions: headerPresence(text, 'x-content-type-options'),
+        riskCount: num(text.match(/TOTAL IDENTIFIED LIABILITIES:\s*(\d+)/i)),
+        sslValid: sslExpiredMatch ? sslExpiredMatch[1].toUpperCase() === 'VALID' : null,
+        sslDaysRemaining: sslDays,
+      }
+    : null;
+
+  const accessibility: AccessibilitySection | null = accessibilityRan
+    ? {
+        altTextCoveragePct: altCoverage,
+        missingAltCount: missingAltMatch ? Number(missingAltMatch[1]) : altCoverage === 100 ? 0 : null,
+        totalImages: missingAltMatch ? Number(missingAltMatch[2]) : num(text.match(/coverage \((\d+) images?\)/i)),
+        unlabeledInputsCount: num(text.match(/(\d+) without an associated label/i)),
+      }
+    : null;
+
+  const aiReadiness: AiReadinessSection | null = aiRan
+    ? {
+        score: scoreFrom(text, 'AI READINESS SCORE'),
+        hasLlmsTxt: passLine(text, /\/llms\.txt found/i, /\/llms\.txt missing/i),
+        hasAiPlugin: /ai-plugin\.json found/i.test(text),
+        hasRobotsAiDirectives: /Found specific rules for AI crawlers/i.test(text),
+        wordCount: num(text.match(/Extracted Text:\s*~?(\d+)\s*words/i)),
+        headingsCount: num(text.match(/structured with\s*(\d+)\s*heading tags/i)),
+      }
+    : null;
+
+  const latency: LatencySection | null = latencyRan
+    ? {
+        score: scoreFrom(text, 'LATENCY SCORE FROM THAT PROBE'),
+        originTtfbMs:
+          num(text.match(/Local Origin TTFB:\s*(\d+)\s*ms/i)) ??
+          num(text.match(/MEASURED ORIGIN ROUND TRIP:\s*(\d+)\s*ms/i)),
+        infrastructure: /Reported Edge Infrastructure:\s*([^\n]+)/i.exec(text)?.[1]?.trim() ?? null,
+      }
+    : null;
+
+  const ecoRatingMatch = text.match(/CATALYST ECO-RATING:\s*\[([A-F+]+)\]\s*-\s*([^\n\r]+)/i);
+  const eco: EcoSection | null = ecoRan
+    ? {
+        score: scoreFrom(text, 'ECO EFFICIENCY SCORE'),
+        rating: ecoRatingMatch ? ecoRatingMatch[1] : null,
+        ratingLabel: ecoRatingMatch ? ecoRatingMatch[2].trim() : null,
+        emissionsPerVisitGrams: num(text.match(/Emissions per Visit:\s*([\d.]+)\s*grams CO2e/i)),
+        monthly10kKg: num(text.match(/Monthly Emissions.*?:\s*([\d.]+)\s*kg CO2e/i)),
+        pageWeightMb: num(text.match(/Estimated Total Page Weight:\s*([\d.]+)\s*MB/i)),
+      }
+    : null;
+
+  const migration: MigrationSection | null = migrationRan
+    ? { detectedStack: /Detected Platform Stack:\s*([^\n\r]+)/i.exec(text)?.[1]?.trim() ?? null }
+    : null;
+
+  const jsonLdMatch = text.match(/Found\s*(\d+)\s*JSON-LD/i);
+  const llmo: LlmoSection | null = llmoRan
+    ? {
+        score: scoreFrom(text, 'LLMO CITATION SCORE'),
+        jsonLdBlocksCount: jsonLdMatch
+          ? Number(jsonLdMatch[1])
+          : /Missing JSON-LD structured data/i.test(text)
+            ? 0
+            : null,
+        hasOgTags: passLine(text, /Complete OpenGraph title and description tags found/i, /Incomplete OpenGraph tags/i),
+        hasOgImage: passLine(text, /og:image present/i, /Missing og:image/i),
+        hasCanonical: passLine(text, /Canonical URL explicitly defined/i, /Missing canonical URL/i),
+      }
+    : null;
+
+  const scored = [health?.score, security?.score, aiReadiness?.score, latency?.score, llmo?.score, eco?.score]
+    .filter((value): value is number => typeof value === 'number');
+
+  const overallScore = scored.length
+    ? Math.round(scored.reduce((sum, value) => sum + value, 0) / scored.length)
+    : null;
+
   return {
-    overallScore: 88,
-    grade: 'A',
-    health: {
-      score: 90,
-      payloadKb: 38.4,
-      ttfbMs: 65,
-      compression: 'Brotli/Gzip',
-      resourceHintsCount: 4,
-      domElementsCount: 450,
-      domDepthLevel: 10,
-      modernImagesPct: 85,
-      responsiveImagesCount: 8,
-      blockingScriptsCount: 0,
-      domComplexityRating: 'Optimal'
-    },
-    security: {
-      score: 94,
-      hsts: true,
-      csp: true,
-      xFrameOptions: true,
-      referrerPolicy: true,
-      permissionsPolicy: true,
-      riskCount: 0,
-      sslValid: true,
-      sslDaysRemaining: 90
-    },
-    accessibility: {
-      score: 92,
-      altTextCoveragePct: 100,
-      missingAltCount: 0,
-      totalImages: 12,
-      unlabeledInputsCount: 0,
-      colorContrastRatio: 7.2,
-      complianceLevel: 'WCAG 2.2 AAA'
-    },
-    aiReadiness: {
-      score: 86,
-      hasLlmsTxt: true,
-      hasAiPlugin: true,
-      hasRobotsAiDirectives: true,
-      wordCount: 1450,
-      headingsCount: 14,
-      ragIndexability: 'Highly Indexable'
-    },
-    latency: {
-      originTtfbMs: 45,
-      globalAverageMs: 58,
-      infrastructure: 'Global Anycast Edge CDN',
-      pops: [
-        { region: 'US-East', location: 'N. Virginia (IAD)', latencyMs: 18, status: 'optimal' },
-        { region: 'US-West', location: 'Oregon (PDX)', latencyMs: 34, status: 'optimal' },
-        { region: 'EU-Central', location: 'Frankfurt (FRA)', latencyMs: 42, status: 'optimal' },
-        { region: 'AP-East', location: 'Tokyo (NRT)', latencyMs: 72, status: 'moderate' },
-        { region: 'AP-South', location: 'Mumbai (BOM)', latencyMs: 88, status: 'moderate' },
-        { region: 'SA-East', location: 'São Paulo (GRU)', latencyMs: 112, status: 'slow' }
-      ]
-    },
-    eco: {
-      rating: 'A+',
-      color: 'Clean Green Edge',
-      emissionsPerVisitGrams: 0.28,
-      monthly10kKg: 2.8,
-      pageWeightMb: 0.85,
-      treesEquivalentYearly: 1.5
-    },
-    migration: {
-      detectedStack: 'Vite / React / Edge TypeScript',
-      portabilityScore: 94,
-      decouplingComplexity: 'Low',
-      edgeReady: true
-    },
-    llmo: {
-      score: 92,
-      jsonLdBlocksCount: 2,
-      hasOgTags: true,
-      hasOgImage: true,
-      hasCanonical: true,
-      citationConfidence: 'High (Primary Source)'
-    }
+    overallScore,
+    grade: overallScore === null ? null : gradeFor(overallScore),
+    scoredSections: scored.length,
+    health,
+    security,
+    accessibility,
+    aiReadiness,
+    latency,
+    eco,
+    migration,
+    llmo,
   };
 }
 
-export function parseTelemetryOutput(rawOutput: string, url: string = ''): ParsedTelemetryData {
+/**
+ * Structured JSON reports (older stored dossiers) are read field by field.
+ * Anything the JSON does not contain stays null.
+ */
+function parseJsonReport(input: unknown): ParsedTelemetryData {
+  const source = input as Record<string, any>;
+  const value = (v: unknown): number | null => (typeof v === 'number' ? v : null);
+  const flag = (v: unknown): boolean | null => (typeof v === 'boolean' ? v : null);
+
+  const health = source.health
+    ? {
+        score: value(source.health.score),
+        payloadKb: value(source.health.payloadKb),
+        ttfbMs: value(source.health.ttfbMs),
+        compression: typeof source.health.compression === 'string' ? source.health.compression : null,
+        resourceHintsCount: value(source.health.resourceHintsCount),
+        domElementsCount: value(source.health.domElementsCount),
+        domDepthLevel: value(source.health.domDepthLevel),
+        tagMix: null,
+        modernImagesPct: value(source.health.modernImagesPct),
+        totalImages: value(source.health.totalImages),
+        responsiveImagesCount: value(source.health.responsiveImagesCount),
+        blockingScriptsCount: value(source.health.blockingScriptsCount),
+      }
+    : null;
+
+  const security = source.security
+    ? {
+        score: value(source.security.score),
+        hsts: flag(source.security.hsts),
+        csp: flag(source.security.csp),
+        xFrameOptions: flag(source.security.xFrameOptions),
+        referrerPolicy: flag(source.security.referrerPolicy),
+        permissionsPolicy: flag(source.security.permissionsPolicy),
+        contentTypeOptions: flag(source.security.contentTypeOptions),
+        riskCount: value(source.security.riskCount),
+        sslValid: flag(source.security.sslValid),
+        sslDaysRemaining: value(source.security.sslDaysRemaining),
+      }
+    : null;
+
+  const accessibility = source.accessibility
+    ? {
+        altTextCoveragePct: value(source.accessibility.altTextCoveragePct),
+        missingAltCount: value(source.accessibility.missingAltCount),
+        totalImages: value(source.accessibility.totalImages),
+        unlabeledInputsCount: value(source.accessibility.unlabeledInputsCount),
+      }
+    : null;
+
+  const aiReadiness = source.aiReadiness
+    ? {
+        score: value(source.aiReadiness.score),
+        hasLlmsTxt: flag(source.aiReadiness.hasLlmsTxt),
+        hasAiPlugin: flag(source.aiReadiness.hasAiPlugin),
+        hasRobotsAiDirectives: flag(source.aiReadiness.hasRobotsAiDirectives),
+        wordCount: value(source.aiReadiness.wordCount),
+        headingsCount: value(source.aiReadiness.headingsCount),
+      }
+    : null;
+
+  const latency = source.latency
+    ? {
+        score: null,
+        originTtfbMs: value(source.latency.originTtfbMs),
+        infrastructure: typeof source.latency.infrastructure === 'string' ? source.latency.infrastructure : null,
+      }
+    : null;
+
+  const eco = source.eco
+    ? {
+        score: null,
+        rating: typeof source.eco.rating === 'string' ? source.eco.rating : null,
+        ratingLabel: typeof source.eco.color === 'string' ? source.eco.color : null,
+        emissionsPerVisitGrams: value(source.eco.emissionsPerVisitGrams),
+        monthly10kKg: value(source.eco.monthly10kKg),
+        pageWeightMb: value(source.eco.pageWeightMb),
+      }
+    : null;
+
+  const migration = source.migration
+    ? { detectedStack: typeof source.migration.detectedStack === 'string' ? source.migration.detectedStack : null }
+    : null;
+
+  const llmo = source.llmo
+    ? {
+        score: value(source.llmo.score),
+        jsonLdBlocksCount: value(source.llmo.jsonLdBlocksCount),
+        hasOgTags: flag(source.llmo.hasOgTags),
+        hasOgImage: flag(source.llmo.hasOgImage),
+        hasCanonical: flag(source.llmo.hasCanonical),
+      }
+    : null;
+
+  const scored = [health?.score, security?.score, aiReadiness?.score, llmo?.score]
+    .filter((v): v is number => typeof v === 'number');
+  const providedOverall = value(source.overallScore);
+  const overallScore = providedOverall ?? (scored.length ? Math.round(scored.reduce((a, b) => a + b, 0) / scored.length) : null);
+
+  return {
+    ...EMPTY,
+    overallScore,
+    grade: overallScore === null ? null : typeof source.grade === 'string' ? source.grade : gradeFor(overallScore),
+    scoredSections: scored.length,
+    health,
+    security,
+    accessibility,
+    aiReadiness,
+    latency,
+    eco,
+    migration,
+    llmo,
+  };
+}
+
+export function parseTelemetryOutput(rawOutput: string, _url: string = ''): ParsedTelemetryData {
   const text = rawOutput || '';
 
-  // Direct JSON parse if output is already structured JSON
   if (text.trim().startsWith('{') && text.trim().endsWith('}')) {
     try {
       const parsedJson = JSON.parse(text);
       if (parsedJson && (parsedJson.overallScore !== undefined || parsedJson.health || parsedJson.security)) {
-        const defaultData = generateFallbackTelemetry(url);
-        return {
-          ...defaultData,
-          ...parsedJson,
-          overallScore: typeof parsedJson.overallScore === 'number' ? parsedJson.overallScore : defaultData.overallScore,
-          health: { ...defaultData.health, ...(parsedJson.health || {}) },
-          security: { ...defaultData.security, ...(parsedJson.security || {}) },
-          accessibility: { ...defaultData.accessibility, ...(parsedJson.accessibility || {}) },
-          aiReadiness: { ...defaultData.aiReadiness, ...(parsedJson.aiReadiness || {}) },
-          latency: { ...defaultData.latency, ...(parsedJson.latency || {}) },
-          eco: { ...defaultData.eco, ...(parsedJson.eco || {}) },
-          migration: { ...defaultData.migration, ...(parsedJson.migration || {}) },
-          llmo: { ...defaultData.llmo, ...(parsedJson.llmo || {}) }
-        };
+        return parseJsonReport(parsedJson);
       }
     } catch {
-      // Fallback to text parsing
+      // Fall through to log parsing.
     }
   }
 
-  // Extract health metrics
-  const payloadMatch = text.match(/HTML Payload Size:\s*([\d.]+)\s*KB/i);
-  const payloadKb = payloadMatch ? parseFloat(payloadMatch[1]) : 38.4;
-
-  const ttfbMatch = text.match(/Time To First Byte.*?:\s*(\d+)\s*ms/i);
-  const ttfbMs = ttfbMatch ? parseInt(ttfbMatch[1]) : 110;
-
-  const domMatch = text.match(/Total DOM Elements:\s*(\d+)/i);
-  const domElementsCount = domMatch ? parseInt(domMatch[1]) : 540;
-
-  const modernImgMatch = text.match(/Modern Image Formats.*?\((\d+(?:\.\d+)?)%\)/i);
-  const modernImagesPct = modernImgMatch ? parseFloat(modernImgMatch[1]) : 75;
-
-  const blockingScriptsMatch = text.match(/Found\s*(\d+)\s*parser-blocking script/i);
-  const blockingScriptsCount = blockingScriptsMatch ? parseInt(blockingScriptsMatch[1]) : 0;
-
-  const hintsMatch = text.match(/Found\s*(\d+)\s*modern resource hints/i);
-  const resourceHintsCount = hintsMatch ? parseInt(hintsMatch[1]) : 3;
-
-  // Extract OWASP
-  const hasHsts = text.includes('Strict-Transport-Security is present') || !text.includes('Missing Strict-Transport-Security');
-  const hasCsp = text.includes('Content-Security-Policy is present') || !text.includes('Missing Content-Security-Policy');
-  const hasXFrame = text.includes('X-Frame-Options is present') || !text.includes('Missing X-Frame-Options');
-  
-  let riskCount = 0;
-  if (!hasHsts) riskCount++;
-  if (!hasCsp) riskCount++;
-  if (!hasXFrame) riskCount++;
-  if (text.includes('No visible link to a Privacy Policy')) riskCount++;
-
-  // Extract WCAG
-  const altPctMatch = text.match(/([\d.]+)%\)\s*are missing 'alt' text/i);
-  const missingAltPct = altPctMatch ? parseFloat(altPctMatch[1]) : 0;
-  const altTextCoveragePct = text.includes('100% Image Alt Text coverage') ? 100 : Math.max(0, 100 - missingAltPct);
-
-  // Extract AI Readiness
-  const hasLlmsTxt = text.includes('/llms.txt found');
-  const hasAiPlugin = text.includes('/.well-known/ai-plugin.json found');
-  const hasRobotsAiDirectives = text.includes('Found specific rules for AI crawlers') || text.includes('GPTBot');
-  
-  const wordsMatch = text.match(/Extracted Text:\s*~?(\d+)\s*words/i);
-  const wordCount = wordsMatch ? parseInt(wordsMatch[1]) : 1450;
-
-  const headingsMatch = text.match(/structured with\s*(\d+)\s*heading tags/i);
-  const headingsCount = headingsMatch ? parseInt(headingsMatch[1]) : 14;
-
-  const aiScoreMatch = text.match(/AI READINESS SCORE:\s*(\d+)\/100/i);
-  const aiScore = aiScoreMatch ? parseInt(aiScoreMatch[1]) : (hasLlmsTxt ? 92 : 78);
-
-  // Extract Eco
-  const carbonMatch = text.match(/Emissions per Visit:\s*([\d.]+)\s*grams CO2e/i);
-  const emissionsPerVisitGrams = carbonMatch ? parseFloat(carbonMatch[1]) : 0.38;
-
-  const monthlyCarbonMatch = text.match(/Monthly Emissions.*?:\s*([\d.]+)\s*kg CO2e/i);
-  const monthly10kKg = monthlyCarbonMatch ? parseFloat(monthlyCarbonMatch[1]) : 3.8;
-
-  const weightMatch = text.match(/Estimated Total Page Weight:\s*([\d.]+)\s*MB/i);
-  const pageWeightMb = weightMatch ? parseFloat(weightMatch[1]) : 1.45;
-
-  const ecoRatingMatch = text.match(/CATALYST ECO-RATING:\s*\[([A-F+]+)\]\s*-\s*([^\n\r]+)/i);
-  const ecoRating = ecoRatingMatch ? ecoRatingMatch[1] : (emissionsPerVisitGrams < 0.5 ? 'A+' : 'A');
-  const ecoColor = ecoRatingMatch ? ecoRatingMatch[2].trim() : 'Good';
-
-  // Extract Stack
-  const stackMatch = text.match(/Detected Platform Stack:\s*([^\n\r]+)/i);
-  const detectedStack = stackMatch ? stackMatch[1].trim() : 'Modern Jamstack / Next.js';
-
-  // Extract LLMO
-  const jsonLdMatch = text.match(/Found\s*(\d+)\s*JSON-LD/i);
-  const jsonLdBlocksCount = jsonLdMatch ? parseInt(jsonLdMatch[1]) : (text.includes('PASS: Found') ? 2 : 1);
-  const hasOg = text.includes('OpenGraph title and description tags found') || !text.includes('Incomplete OpenGraph');
-  const hasOgImg = text.includes('og:image present');
-  const hasCanonical = text.includes('Canonical URL explicitly defined');
-  const llmoScore = (jsonLdBlocksCount > 0 ? 30 : 0) + (hasOg ? 30 : 15) + (hasOgImg ? 20 : 10) + (hasCanonical ? 20 : 0);
-
-  // Scores calculations
-  const healthScore = Math.max(20, Math.min(100, Math.round(
-    100 - (payloadKb > 100 ? 15 : 0) - (domElementsCount > 1200 ? 15 : 0) - (blockingScriptsCount * 8) + (resourceHintsCount > 0 ? 5 : 0)
-  )));
-
-  const securityScore = Math.max(10, Math.min(100, Math.round(100 - (riskCount * 22))));
-  const accessibilityScore = Math.max(15, Math.min(100, Math.round(altTextCoveragePct * 0.7 + 30)));
-  const ecoScore = ecoRating === 'A+' ? 98 : ecoRating === 'A' ? 90 : ecoRating === 'B' ? 75 : ecoRating === 'C' ? 60 : 40;
-
-  const overallScore = Math.round(
-    (healthScore * 0.25) +
-    (securityScore * 0.2) +
-    (aiScore * 0.2) +
-    (accessibilityScore * 0.15) +
-    (ecoScore * 0.1) +
-    (llmoScore * 0.1)
-  );
-
-  let grade: 'A+' | 'A' | 'B' | 'C' | 'D' | 'F' = 'B';
-  if (overallScore >= 93) grade = 'A+';
-  else if (overallScore >= 85) grade = 'A';
-  else if (overallScore >= 75) grade = 'B';
-  else if (overallScore >= 65) grade = 'C';
-  else if (overallScore >= 50) grade = 'D';
-  else grade = 'F';
-
-  // Global Edge POPs
-  const originTtfb = ttfbMs;
-  const pops = [
-    { region: 'US-East', location: 'N. Virginia (IAD)', latencyMs: Math.max(12, Math.round(originTtfb * 0.35 + 8)), status: 'optimal' as const },
-    { region: 'US-West', location: 'Oregon (PDX)', latencyMs: Math.max(28, Math.round(originTtfb * 0.6 + 24)), status: 'optimal' as const },
-    { region: 'EU-Central', location: 'Frankfurt (FRA)', latencyMs: Math.max(35, Math.round(originTtfb * 0.7 + 30)), status: 'optimal' as const },
-    { region: 'AP-East', location: 'Tokyo (NRT)', latencyMs: Math.max(68, Math.round(originTtfb * 1.1 + 55)), status: 'moderate' as const },
-    { region: 'AP-South', location: 'Mumbai (BOM)', latencyMs: Math.max(88, Math.round(originTtfb * 1.3 + 70)), status: 'moderate' as const },
-    { region: 'SA-East', location: 'São Paulo (GRU)', latencyMs: Math.max(115, Math.round(originTtfb * 1.6 + 95)), status: 'slow' as const }
-  ];
-
-  const globalAvg = Math.round(pops.reduce((acc, p) => acc + p.latencyMs, 0) / pops.length);
-
-  return {
-    overallScore,
-    grade,
-    health: {
-      score: healthScore,
-      payloadKb,
-      ttfbMs,
-      compression: 'Brotli/Gzip',
-      resourceHintsCount,
-      domElementsCount,
-      domDepthLevel: Math.min(32, Math.max(6, Math.round(domElementsCount / 65))),
-      modernImagesPct,
-      responsiveImagesCount: Math.round(domElementsCount / 40),
-      blockingScriptsCount,
-      domComplexityRating: domElementsCount > 1500 ? 'Excessive' : domElementsCount > 800 ? 'Elevated' : 'Optimal'
-    },
-    security: {
-      score: securityScore,
-      hsts: hasHsts,
-      csp: hasCsp,
-      xFrameOptions: hasXFrame,
-      referrerPolicy: true,
-      permissionsPolicy: true,
-      riskCount,
-      sslValid: true,
-      sslDaysRemaining: 78
-    },
-    accessibility: {
-      score: accessibilityScore,
-      altTextCoveragePct,
-      missingAltCount: Math.max(0, Math.round((100 - altTextCoveragePct) * 0.2)),
-      totalImages: Math.max(4, Math.round(domElementsCount / 35)),
-      unlabeledInputsCount: text.includes('Found 0 form inputs missing') ? 0 : 0,
-      colorContrastRatio: 7.2,
-      complianceLevel: accessibilityScore >= 90 ? 'WCAG 2.2 AAA' : accessibilityScore >= 75 ? 'WCAG 2.2 AA' : 'Needs Remediation'
-    },
-    aiReadiness: {
-      score: aiScore,
-      hasLlmsTxt,
-      hasAiPlugin,
-      hasRobotsAiDirectives,
-      wordCount,
-      headingsCount,
-      ragIndexability: aiScore >= 85 ? 'Highly Indexable' : aiScore >= 60 ? 'Partial' : 'Invisible / Hallucination Risk'
-    },
-    latency: {
-      originTtfbMs: originTtfb,
-      globalAverageMs: globalAvg,
-      infrastructure: text.includes('Detected Edge Infrastructure') ? 'Cloudflare Anycast / Global CDN' : 'Anycast Global Edge Network',
-      pops
-    },
-    eco: {
-      rating: ecoRating,
-      color: ecoColor,
-      emissionsPerVisitGrams,
-      monthly10kKg,
-      pageWeightMb,
-      treesEquivalentYearly: parseFloat(((monthly10kKg * 12) / 21.77).toFixed(1))
-    },
-    migration: {
-      detectedStack,
-      portabilityScore: 92,
-      decouplingComplexity: detectedStack.includes('WordPress') ? 'Moderate' : 'Low',
-      edgeReady: true
-    },
-    llmo: {
-      score: llmoScore,
-      jsonLdBlocksCount,
-      hasOgTags: hasOg,
-      hasOgImage: hasOgImg,
-      hasCanonical,
-      citationConfidence: llmoScore >= 80 ? 'High (Primary Source)' : 'Moderate'
-    }
-  };
-}
-
-export function generateDomainBenchmarkTelemetry(targetDomain: string): { rawOutput: string; telemetry: ParsedTelemetryData } {
-  const domain = targetDomain.toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
-  
-  // Specific domain profiles for accurate benchmarks
-  const isTopTier = ['cloudflare.com', 'google.com', 'vercel.com', 'stripe.com', 'catalystlab.tech'].includes(domain);
-  const isDevPlatform = ['github.com', 'gitlab.com', 'npm.org'].includes(domain);
-
-  const payloadKb = isTopTier ? 28.6 : isDevPlatform ? 62.4 : 45.2;
-  const ttfbMs = isTopTier ? 42 : isDevPlatform ? 78 : 65;
-  const domCount = isTopTier ? 420 : isDevPlatform ? 890 : 640;
-  const modernImages = isTopTier ? 95 : 82;
-  const overallScore = isTopTier ? 94 : isDevPlatform ? 89 : 88;
-  const grade: 'A+' | 'A' | 'B' = overallScore >= 93 ? 'A+' : overallScore >= 85 ? 'A' : 'B';
-
-  const rawOutput = `
-=== Engine: Website Health & DOM Analyzer ===
-[*] Target Endpoint: https://${domain}
-[+] Time To First Byte (TTFB): ${ttfbMs} ms (Optimal Cloudflare Edge / Anycast)
-[+] Compression: Brotli active (HTTP/2.0)
-[+] HTML Payload Size: ${payloadKb} KB (Gzipped)
-[+] Total DOM Elements: ${domCount} nodes
-[+] Maximum DOM Tree Depth: 12 levels
-[+] Modern Image Formats: ${modernImages}% (WebP / AVIF)
-[+] Found 0 parser-blocking script tags in <head>
-[+] Found 4 modern resource hints (preconnect, dns-prefetch)
-
-=== Engine: OWASP Security & Headers Suite ===
-[+] Strict-Transport-Security is present (max-age=31536000; includeSubDomains; preload)
-[+] Content-Security-Policy is present with strict nonce directives
-[+] X-Frame-Options is present (DENY)
-[+] X-Content-Type-Options: nosniff
-[+] Referrer-Policy: strict-origin-when-cross-origin
-[+] Permissions-Policy: camera=(), microphone=(), geolocation=()
-[+] SSL Certificate: Valid, 88 days remaining (Let's Encrypt / Google Trust Services)
-
-=== Engine: WCAG 2.2 Accessibility & Contrast ===
-[+] 100% Image Alt Text coverage (0 of 24 images missing alt attributes)
-[+] Found 0 form inputs missing associated <label> tags
-[+] Color Contrast Ratio: 7.4:1 (Passes WCAG AA and AAA)
-[+] Semantic Landmarks: <header>, <main>, <nav>, <footer> present
-
-=== Engine: AI Readiness & LLM Crawler Suite ===
-[+] /llms.txt found (Structured Markdown index for LLM agents)
-[+] Found specific rules for AI crawlers (GPTBot, ClaudeBot, PerplexityBot) in robots.txt
-[+] Extracted Text: ~1,850 words structured with 16 heading tags
-[+] Content-to-HTML Ratio: 34.2% (High Semantic Purity)
-[+] AI READINESS SCORE: ${overallScore}/100
-
-=== Engine: Global Multi-Region Edge Latency Radar ===
-[+] Detected Edge Infrastructure: Anycast Global Edge Network
-[+] Origin TTFB: ${ttfbMs} ms
-[+] US-East (N. Virginia): 18 ms
-[+] US-West (Oregon): 34 ms
-[+] EU-Central (Frankfurt): 42 ms
-[+] AP-East (Tokyo): 76 ms
-[+] AP-South (Mumbai): 94 ms
-[+] SA-East (São Paulo): 118 ms
-
-=== Engine: Eco-Carbon Footprint & Sustainability ===
-[+] Estimated Total Page Weight: 0.85 MB
-[+] Emissions per Visit: 0.28 grams CO2e
-[+] Monthly Emissions (10k visits): 2.80 kg CO2e
-[+] CATALYST ECO-RATING: [A+] - Clean Green Edge Infrastructure
-
-=== Engine: LLMO Semantic Citation Scorecard ===
-[+] PASS: Found 2 JSON-LD Schema.org structured data blocks (Organization, WebSite)
-[+] OpenGraph title and description tags found
-[+] og:image present
-[+] Canonical URL explicitly defined: https://${domain}
-`;
-
-  return {
-    rawOutput,
-    telemetry: parseTelemetryOutput(rawOutput, `https://${domain}`)
-  };
+  return parseReportText(text);
 }

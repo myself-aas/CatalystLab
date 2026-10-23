@@ -6,7 +6,7 @@ import { EngineInput } from '../components/common/EngineInput';
 import { RateLimitModal } from '../components/RateLimitModal';
 import { LinearCard } from '../components/ui/LinearCard';
 import { TerminalOutput } from '../components/TerminalOutput';
-import { ENGINES_MAP } from '../data/engines';
+import { ENGINES_MAP, ENGINE_ORDER } from '../data/engines';
 import { authorizedFetch } from '../lib/authHeaders';
 import { saveReport } from '../lib/firebase';
 import { logger } from '../lib/logger';
@@ -22,16 +22,8 @@ import {
  ShieldCheck,
 } from 'lucide-react';
 
-const MASTER_ENGINES: EngineType[] = [
- 'health',
- 'compliance',
- 'ai_ready',
- 'latency',
- 'eco',
- 'migration',
- 'llmo',
- 'repo',
-];
+/** The orchestrator's own order, shared with the hub and the dashboard. */
+const MASTER_ENGINES: EngineType[] = [...ENGINE_ORDER];
 
 type EngineRunStatus = 'queued' | 'running' | 'complete' | 'error';
 
@@ -40,7 +32,7 @@ interface EngineRun {
  status: EngineRunStatus;
  output: string;
  error?: string;
- score: number;
+ score: number | null;
 }
 
 function emptyRuns(): EngineRun[] {
@@ -48,7 +40,7 @@ function emptyRuns(): EngineRun[] {
  id,
  status: 'queued',
  output: '',
- score: 0,
+ score: null,
  }));
 }
 
@@ -76,6 +68,8 @@ export const MasterAuditExecutionPage: React.FC = () => {
  const autoLaunchedRef = useRef(false);
 
  const completedCount = runs.filter((r) => r.status === 'complete' || r.status === 'error').length;
+ const failedCount = runs.filter((r) => r.status === 'error').length;
+ const scoredCount = runs.filter((r) => r.status === 'complete' && (r.score ?? 0) > 0).length;
  const runningEngine = runs.find((r) => r.status === 'running');
 
  const updateRun = (id: EngineType, patch: Partial<EngineRun>) => {
@@ -129,12 +123,15 @@ export const MasterAuditExecutionPage: React.FC = () => {
  }
  const output = String(data.output || data.error || 'No output returned.');
  const parsed = parseEngineOutput(output);
+ // An engine can answer 200 while its own log reports that the scan never
+ // completed (TLS reset, DNS failure). That run has no score to report.
+ const incomplete = data.success === false || !parsed.measured;
  const next: EngineRun = {
  id: engine,
- status: data.success === false ? 'error' : 'complete',
+ status: incomplete ? 'error' : 'complete',
  output,
- error: data.success === false ? data.error : undefined,
- score: parsed.healthScore,
+ error: data.success === false ? data.error : !parsed.measured ? 'The engine could not reach the target.' : undefined,
+ score: incomplete ? null : parsed.healthScore,
  };
  collected[MASTER_ENGINES.indexOf(engine)] = next;
  updateRun(engine, next);
@@ -145,16 +142,16 @@ export const MasterAuditExecutionPage: React.FC = () => {
  status: 'error',
  output: '',
  error: message,
- score: 0,
+ score: null,
  };
  collected[MASTER_ENGINES.indexOf(engine)] = failed;
  updateRun(engine, failed);
  }
  }
 
- const scored = collected.filter((r) => r.status === 'complete' && r.score > 0);
+ const scored = collected.filter((r) => r.status === 'complete' && (r.score ?? 0) > 0);
  const avg = scored.length
- ? Math.round(scored.reduce((acc, r) => acc + r.score, 0) / scored.length)
+ ? Math.round(scored.reduce((acc, r) => acc + (r.score ?? 0), 0) / scored.length)
  : null;
  setCompositeScore(avg);
 
@@ -209,35 +206,30 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <div className="min-h-screen ds-page-top-hero bg-background text-foreground font-sans">
  <SEOHead
  title="Master Audit Orchestrator"
- description="Run all eight CatalystLab diagnostic engines against a target URL and review the composite telemetry dossier."
+ description="Run all eight CatalystLab engines against one URL, engine by engine, and read the composite score."
  canonicalUrl="https://www.catalystlab.tech/master-audit"
  />
 
- <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(var(--color-fog)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20 pointer-events-none" />
-<div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(240,250,255,0.05)_0%,transparent_70%)] pointer-events-none" />
- <div className="relative z-10 ds-page-shell text-center">
+ <section className="w-full border-b border-border ds-section">
+ <div className="ds-page-shell">
  <div className="mb-8 flex items-center justify-between">
- <Link
- to="/"
- className="ds-btn ds-btn-secondary text-xs"
- >
- <ArrowLeft className="size-3.5 shrink-0"/>
+ <Link to="/" className="ds-btn ds-btn-secondary text-sm">
+ <ArrowLeft className="size-4 shrink-0"/>
  Back to home
  </Link>
- <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/20 bg-cream/10 px-3 py-1 framer-micro-tag text-foreground">
- <ShieldCheck className="size-3.5 shrink-0"/>
- 8-engine orchestrator
+ <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+ <ShieldCheck className="size-4 shrink-0 text-success" aria-hidden="true"/>
+ Eight engines, one report
  </span>
  </div>
 
- <h1 className="framer-hero-title text-foreground">
- Master Audit
- </h1>
- <p className="mx-auto mt-3 max-w-3xl framer-body-text">
- Dispatch every Catalyst sequentially through the same engine runtime as single-tool scans.
- Composite score is the mean of completed engines.
+ <div className="mx-auto max-w-3xl space-y-3 text-center">
+ <h1 className="framer-hero-title text-foreground">Run all eight engines</h1>
+ <p className="framer-body-text">
+ Enter a domain and CatalystLab runs every engine against it, one after another. The
+ composite score is the average of the engines that returned a score.
  </p>
+ </div>
 
  <div className="mx-auto mt-8 max-w-3xl text-left">
  <EngineInput
@@ -262,40 +254,62 @@ export const MasterAuditExecutionPage: React.FC = () => {
 
  <main className="ds-page-shell space-y-6 ds-section">
  {(loading || completedCount > 0) && (
- <LinearCard className="p-5"lift={false}>
- <div className="flex items-center justify-between gap-3">
- <div className="flex items-center gap-2 text-sm text-foreground">
- <Activity className="size-4 text-foreground shrink-0"/>
+ <LinearCard className="p-5" lift={false}>
+ <div className="flex flex-wrap items-center justify-between gap-3">
+ <div className="flex items-center gap-2 text-sm text-foreground" role="status" aria-live="polite">
+ <Activity className="size-4 text-foreground shrink-0" aria-hidden="true"/>
  {loading
- ? `Engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
- : `${completedCount} of ${MASTER_ENGINES.length} engines finished`}
+ ? `Running engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
+ : `${completedCount} of ${MASTER_ENGINES.length} engines finished${failedCount > 0 ? `, ${failedCount} failed` : ''}`}
  </div>
  {compositeScore !== null && (
  <div className="font-mono text-sm text-foreground">
- Composite {compositeScore}/100
+ Composite score <span className="font-semibold">{compositeScore}</span>/100
+ {scoredCount < MASTER_ENGINES.length && (
+ <span className="ml-2 text-muted-foreground">
+ (mean of {scoredCount} {scoredCount === 1 ? 'engine' : 'engines'})
+ </span>
+ )}
  </div>
  )}
  </div>
- <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted/60">
  <div
- className="h-full rounded-full bg-cream transition"
- style={{ width: `${loading ? Math.max(progressPct, 8) : progressPct}%` }}
+ className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted"
+ role="progressbar"
+ aria-label="Engines finished"
+ aria-valuemin={0}
+ aria-valuemax={MASTER_ENGINES.length}
+ aria-valuenow={completedCount}
+ >
+ <div
+ className="h-full rounded-full bg-foreground transition-[width] duration-300"
+ style={{ width: `${progressPct}%` }}
  />
  </div>
  </LinearCard>
  )}
 
  {error && (
- <LinearCard className="flex items-start gap-2 p-4 text-sm text-rose-300"lift={false}>
- <AlertCircle className="mt-0.5 size-4 shrink-0"/>
- {error}
+ <LinearCard className="flex items-start gap-2 p-4 text-sm" lift={false}>
+ <AlertCircle className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true"/>
+ <div>
+ <p className="font-medium text-foreground">The audit stopped early</p>
+ <p className="mt-0.5 text-muted-foreground">
+ {error} Nothing was saved. Check that the domain is publicly reachable, then run it again.
+ </p>
+ </div>
  </LinearCard>
  )}
 
  {savedReportId && (
- <LinearCard className="flex items-center gap-2 p-4 text-sm ds-muted"lift={false}>
- <CheckCircle2 className="size-4 text-primary"/>
- Saved to your dashboard as report {savedReportId}.
+ <LinearCard className="flex items-start gap-2 p-4 text-sm" lift={false}>
+ <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true"/>
+ <div>
+ <p className="font-medium text-foreground">Saved to your account</p>
+ <p className="mt-0.5 text-muted-foreground">
+ Open it any time from <Link to={`/reports/${savedReportId}`} className="underline underline-offset-4">your reports</Link>.
+ </p>
+ </div>
  </LinearCard>
  )}
 
@@ -307,12 +321,14 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <div className="flex items-center justify-between gap-2">
  <span className="text-sm font-medium text-foreground">{meta?.catalystName || run.id}</span>
  {run.status === 'running' && <Loader2 className="size-3.5 animate-spin text-primary"/>}
- {run.status === 'complete' && <CheckCircle2 className="size-3.5 text-emerald-400"/>}
- {run.status === 'error' && <AlertCircle className="size-3.5 text-rose-400"/>}
+ {run.status === 'complete' && <CheckCircle2 className="size-3.5 text-success"/>}
+ {run.status === 'error' && <AlertCircle className="size-3.5 text-danger"/>}
  </div>
- <p className="mt-1 font-mono text-[11px] uppercase tracking-wider ds-muted">
- {run.status}
- {run.status === 'complete' ? ` · ${run.score}/100` : ''}
+ <p className="mt-1 text-sm ds-muted">
+ {run.status === 'queued' && 'Waiting'}
+ {run.status === 'running' && 'Measuring…'}
+ {run.status === 'complete' && ((run.score ?? 0) > 0 ? `Score ${run.score}/100` : 'Finished, no score')}
+ {run.status === 'error' && 'Failed'}
  </p>
  </LinearCard>
  );

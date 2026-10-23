@@ -14,9 +14,9 @@ export const GitLygaseDoc: React.FC = () => {
  <span className="h-1.5 w-1.5 rounded-full bg-green-600"/>
  <span>SDLC Phase 2: Repository Scanner</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  GitLygase: Repository SecOps & Hygiene Engine
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  GitLygase audits Git repositories for security compliance policies, open source licensing (MIT, Apache 2.0, GPL, BSD), vulnerability disclosure protocols (<code>SECURITY.md</code>), automated dependency updates, and continuous integration workflows.
  </p>

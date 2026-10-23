@@ -59,7 +59,6 @@ export interface EngineMeta {
   category: 'Core' | 'Developer & AI' | 'Enterprise';
   icon: string;
   color: string;
-  badgeClass: string;
   description: string;
   pythonScript: string;
   route: string;
@@ -289,15 +288,20 @@ export interface UserSubscription {
   updatedAt?: number;
 }
 
-export type SpoofingRiskLevel = 'Low Risk' | 'Medium Risk' | 'High Risk';
-export type ProtectionStatus = 'Configured' | 'Missing Protection';
+export type SpoofingRiskLevel = 'Low Risk' | 'Medium Risk' | 'High Risk' | 'Not measured';
+export type ProtectionStatus = 'Configured' | 'Missing Protection' | 'Not measured';
 export type SslValidationAlert = 'Secure' | 'Warning: Expiring Soon' | 'Critical: Expired/Missing';
 
+/**
+ * TLS readings. Every field is null when the probe could not open a
+ * connection, so a failed handshake never reports certificate details.
+ */
 export interface SslStatusInfo {
-  is_expired: boolean;
-  days_until_expiration: number;
-  encryption_algorithm: string;
-  validation_alert: SslValidationAlert;
+  measured: boolean;
+  is_expired: boolean | null;
+  days_until_expiration: number | null;
+  encryption_algorithm: string | null;
+  validation_alert: SslValidationAlert | null;
   issuer?: string;
   valid_from?: string;
   valid_to?: string;
@@ -327,7 +331,7 @@ export interface InfrastructureGrowthSummary {
   total_discovered: number;
   active_hosts: number;
   cloud_providers: string[];
-  expansion_rate: string;
+  expansion_rate: string | null;
   discovery_source: string;
 }
 

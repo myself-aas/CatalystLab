@@ -262,7 +262,7 @@ export const ForgotPasswordPage: React.FC = () => {
  <span>Back to Login</span>
  </Link>
  <Link
- to="/signup"
+ to="/register"
  className="text-foreground hover:underline"
  >
  Create New Account &rarr;

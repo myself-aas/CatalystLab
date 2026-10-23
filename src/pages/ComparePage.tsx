@@ -1,303 +1,266 @@
 import React, { useState } from 'react';
-import { SideBySideDeltaMatrix } from '../components/telemetry/SideBySideDeltaMatrix';
+import { Link } from 'react-router-dom';
+import { AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
-import { urlToDomainSlug } from '../utils/slugUtils';
-import type { MasterTelemetryReport } from '../types/telemetry';
 import { authorizedFetch } from '../lib/authHeaders';
 import { logger } from '../lib/logger';
 
+interface DomainSide {
+  url: string;
+  score: number | null;
+  status: 'pass' | 'fail' | 'unknown';
+}
+
+interface CompareResponse {
+  success: boolean;
+  error?: string;
+  domainA?: DomainSide;
+  domainB?: DomainSide;
+  differential?: { scoreDelta?: string | number | null };
+}
+
+interface ComparisonResult {
+  a: DomainSide;
+  b: DomainSide;
+}
+
+const PASS_THRESHOLD = 85;
+
+const normalizeUrl = (input: string): string => {
+  const trimmed = input.trim();
+  if (!trimmed) return '';
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+};
+
+const statusLabel = (status: DomainSide['status']): string =>
+  status === 'pass'
+    ? `Passes the ${PASS_THRESHOLD}-point bar`
+    : status === 'fail'
+      ? `Below the ${PASS_THRESHOLD}-point bar`
+      : 'Result not reported';
+
+const displayDomain = (url: string): string => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+};
+
+/**
+ * Comparison surface.
+ *
+ * `POST /api/v1/audit/compare` measures the health engine on both domains and
+ * returns one score per side. The page used to dress that up as an eight-engine
+ * sidebar matrix by inventing an "idle" result for the other seven engines; it
+ * now reports exactly the one reading the endpoint takes and points at the full
+ * audit when more is needed.
+ */
 export const ComparePage: React.FC = () => {
- const [reportA, setReportA] = useState<MasterTelemetryReport | null>(null);
- const [reportB, setReportB] = useState<MasterTelemetryReport | null>(null);
- const [loading, setLoading] = useState(false);
+  const [inputA, setInputA] = useState('');
+  const [inputB, setInputB] = useState('');
+  const [result, setResult] = useState<ComparisonResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
- const normalizeUrl = (input: string): string => {
- let trimmed = input.trim();
- if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
- trimmed = 'https://' + trimmed;
- }
- return trimmed;
- };
+  const runComparison = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const urlA = normalizeUrl(inputA);
+    const urlB = normalizeUrl(inputB);
+    if (!urlA || !urlB) return;
 
- const handleCompare = async (rawA: string, rawB: string) => {
- if (!rawA.trim() || !rawB.trim()) return;
+    setLoading(true);
+    setError(null);
 
- const cleanA = normalizeUrl(rawA);
- const cleanB = normalizeUrl(rawB);
+    try {
+      const response = await authorizedFetch('/api/v1/audit/compare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ urlA, urlB }),
+      });
 
- setLoading(true);
+      const data = (await response.json().catch(() => null)) as CompareResponse | null;
 
- try {
- const [resA, resB] = await Promise.all([
- authorizedFetch('/api/run-engine', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ url: cleanA, engine: 'health' }),
- }).then(r => r.json()).catch(() => null),
- authorizedFetch('/api/run-engine', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ url: cleanB, engine: 'health' }),
- }).then(r => r.json()).catch(() => null),
- ]);
+      if (!response.ok || !data?.success || !data.domainA || !data.domainB) {
+        setResult(null);
+        setError(
+          response.status === 429
+            ? 'You have used the comparison allowance for now. Sign in for a higher limit, or try again shortly.'
+            : data?.error ||
+                'The comparison did not complete. Check that both addresses are public, then try again.',
+        );
+        return;
+      }
 
- const constructedReportA: MasterTelemetryReport = {
- id: `rep_${Date.now()}_a`,
- targetUrl: cleanA,
- normalizedUrl: cleanA,
- domainSlug: urlToDomainSlug(cleanA),
- overallScore: 92,
- grade: 'A',
- startedAt: new Date().toISOString(),
- totalDurationMs: 540,
- isCompleted: true,
- initiatedBy: { tier: 'pro', ipHash: 'compare' },
- engines: {
- health: {
- engineId: 'health',
- name: 'Website Health',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 120,
- score: 94,
- metrics: { ttfbMs: 110 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_ready: {
- engineId: 'ai_ready',
- name: 'AI Readiness',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 80,
- score: 90,
- metrics: { ragContextExtractionScore: 85 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- latency: {
- engineId: 'latency',
- name: 'Edge Latency',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 95,
- score: 95,
- metrics: { globalAvgLatencyMs: 64 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- eco: {
- engineId: 'eco',
- name: 'Eco Carbon',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 110,
- score: 88,
- metrics: { co2GramsPerPageview: 0.28 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- compliance: {
- engineId: 'compliance',
- name: 'Security Compliance',
- category: 'Security',
- status: 'COMPLETE',
- executionTimeMs: 90,
- score: 92,
- metrics: { owaspHeaders: [{ isPresent: true }, { isPresent: true }, { isPresent: true }, { isPresent: true }, { isPresent: true }] } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- migration: {
- engineId: 'migration',
- name: 'Migration AST',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 85,
- score: 96,
- metrics: { detectedFrontend: 'Next.js (React)' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_search: {
- engineId: 'ai_search',
- name: 'AI Search',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 100,
- score: 89,
- metrics: { aiSynthesizabilityScore: 88 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- repo: {
- engineId: 'repo',
- name: 'Repo Hygiene',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 70,
- score: 92,
- metrics: { licenseName: 'MIT' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- },
- };
+      if (typeof data.domainA.score !== 'number' || typeof data.domainB.score !== 'number') {
+        setResult(null);
+        setError(
+          'At least one domain did not return a health score. That usually means the page did not load in time — try again, or audit it directly.',
+        );
+        return;
+      }
 
- const constructedReportB: MasterTelemetryReport = {
- id: `rep_${Date.now()}_b`,
- targetUrl: cleanB,
- normalizedUrl: cleanB,
- domainSlug: urlToDomainSlug(cleanB),
- overallScore: 84,
- grade: 'B',
- startedAt: new Date().toISOString(),
- totalDurationMs: 620,
- isCompleted: true,
- initiatedBy: { tier: 'pro', ipHash: 'compare' },
- engines: {
- health: {
- engineId: 'health',
- name: 'Website Health',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 150,
- score: 82,
- metrics: { ttfbMs: 195 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_ready: {
- engineId: 'ai_ready',
- name: 'AI Readiness',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 110,
- score: 78,
- metrics: { ragContextExtractionScore: 68 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- latency: {
- engineId: 'latency',
- name: 'Edge Latency',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 130,
- score: 80,
- metrics: { globalAvgLatencyMs: 112 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- eco: {
- engineId: 'eco',
- name: 'Eco Carbon',
- category: 'Performance',
- status: 'COMPLETE',
- executionTimeMs: 125,
- score: 81,
- metrics: { co2GramsPerPageview: 0.48 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- compliance: {
- engineId: 'compliance',
- name: 'Security Compliance',
- category: 'Security',
- status: 'COMPLETE',
- executionTimeMs: 115,
- score: 86,
- metrics: { owaspHeaders: [{ isPresent: true }, { isPresent: true }, { isPresent: true }] } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- migration: {
- engineId: 'migration',
- name: 'Migration AST',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 95,
- score: 85,
- metrics: { detectedFrontend: 'WordPress' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- ai_search: {
- engineId: 'ai_search',
- name: 'AI Search',
- category: 'Intelligence',
- status: 'COMPLETE',
- executionTimeMs: 110,
- score: 80,
- metrics: { aiSynthesizabilityScore: 74 } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- repo: {
- engineId: 'repo',
- name: 'Repo Hygiene',
- category: 'Architecture',
- status: 'COMPLETE',
- executionTimeMs: 80,
- score: 88,
- metrics: { licenseName: 'Apache-2.0' } as any,
- rawLogStream: [],
- completedAt: new Date().toISOString(),
- },
- },
- };
+      setResult({ a: data.domainA, b: data.domainB });
+    } catch (err) {
+      logger.error('Side-by-side comparison failed:', err);
+      setResult(null);
+      setError('The request did not reach CatalystLab. Check your connection and try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
- setReportA(constructedReportA);
- setReportB(constructedReportB);
- } catch (err) {
- logger.error("Side-by-side comparison failed:", err);
- } finally {
- setLoading(false);
- }
- };
+  const delta = result ? result.a.score! - result.b.score! : null;
+  const winner =
+    result && delta !== null && delta !== 0
+      ? delta > 0
+        ? result.a
+        : result.b
+      : null;
 
- return (
- <div className="min-h-screen ds-page-top-hero bg-background text-foreground">
- <SEOHead
- title="Side-by-Side Delta Comparison — CatalystLab"
- description="Benchmark performance, security headers, and DOM complexity between two competing websites in real-time."
- keywords={['site comparison', 'benchmark websites', 'performance comparison', 'OWASP headers', 'DOM complexity']}
- canonicalUrl="https://www.catalystlab.tech/compare"
- />
+  return (
+    <div className="min-h-screen ds-page-top bg-background text-foreground">
+      <SEOHead
+        title="Compare two domains — CatalystLab"
+        description="Score two domains on the same health engine at the same moment and see which is ahead."
+        keywords={['site comparison', 'compare websites', 'health score comparison']}
+        canonicalUrl="https://www.catalystlab.tech/compare"
+      />
 
- {/* Header */}
- <section className="relative overflow-hidden border-b border-border w-full ds-section">
- <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,210,255,0.12)_0%,transparent_70%)] pointer-events-none z-0"/>
+      <section className="w-full border-b border-border ds-section">
+        <div className="ds-page-shell max-w-3xl space-y-3">
+          <h1 className="framer-hero-title text-foreground">Compare two domains</h1>
+          <p className="framer-body-text">
+            Both domains get one health score, measured when you submit. The bar is{' '}
+            {PASS_THRESHOLD} points; a full audit runs all eight engines.
+          </p>
+        </div>
+      </section>
 
- <div className="relative z-10 ds-page-shell text-center space-y-4">
- <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cream/10 px-3 py-1 framer-micro-tag text-foreground shadow-xs backdrop-blur-md">
- <span className="h-2 w-2 rounded-full bg-cream animate-pulse shrink-0"/>
- <span>SIDE-BY-SIDE COMPARATIVE TELEMETRY</span>
- </div>
+      <main className="ds-page-shell mt-8 space-y-8 ds-section">
+        <form onSubmit={runComparison} className="ds-card p-5 sm:p-6">
+          <div className="grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-end">
+            <div className="space-y-2">
+              <label htmlFor="compare-a" className="block text-sm font-medium text-foreground">
+                First domain
+              </label>
+              <input
+                id="compare-a"
+                type="text"
+                inputMode="url"
+                autoComplete="url"
+                value={inputA}
+                onChange={(e) => setInputA(e.target.value)}
+                placeholder="example.com"
+                className="ds-input h-11 w-full bg-background text-sm"
+                required
+              />
+            </div>
+            <span className="hidden pb-3 text-sm text-muted-foreground sm:block" aria-hidden="true">
+              vs
+            </span>
+            <div className="space-y-2">
+              <label htmlFor="compare-b" className="block text-sm font-medium text-foreground">
+                Second domain
+              </label>
+              <input
+                id="compare-b"
+                type="text"
+                inputMode="url"
+                autoComplete="url"
+                value={inputB}
+                onChange={(e) => setInputB(e.target.value)}
+                placeholder="competitor.com"
+                className="ds-input h-11 w-full bg-background text-sm"
+                required
+              />
+            </div>
+          </div>
 
- <h1 className="framer-hero-title text-foreground">
- Head-to-Head Telemetry{' '}
- <span className="text-foreground">
- Delta Matrix
- </span>
- </h1>
- <p className="framer-body-text max-w-xl mx-auto">
- Benchmark performance, security headers, and DOM complexity between two competing web architectures with synchronous multi-engine delta calculations.
- </p>
- </div>
- </section>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-muted-foreground">
+              Uses one request per domain; both count against your daily allowance.
+            </p>
+            <button
+              type="submit"
+              disabled={loading || !inputA.trim() || !inputB.trim()}
+              className="ds-btn ds-btn-primary h-11 text-sm disabled:opacity-50"
+            >
+              {loading ? (
+                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <ArrowRight className="size-4" aria-hidden="true" />
+              )}
+              <span>{loading ? 'Measuring both domains…' : 'Compare domains'}</span>
+            </button>
+          </div>
+        </form>
 
- {/* Main Matrix Workspace */}
- <main className="ds-page-shell mt-8 ds-section">
- <SideBySideDeltaMatrix
- reportA={reportA}
- reportB={reportB}
- onCompare={handleCompare}
- isLoading={loading}
- />
- </main>
- </div>
- );
+        {error ? (
+          <div role="alert" className="ds-card flex items-start gap-3 border-danger/30 p-4">
+            <AlertCircle className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true" />
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-foreground">Comparison did not complete</p>
+              <p className="text-sm text-muted-foreground">{error}</p>
+            </div>
+          </div>
+        ) : null}
+
+        {loading ? (
+          <p role="status" className="font-mono text-sm text-muted-foreground">
+            Measuring both domains…
+          </p>
+        ) : result ? (
+          <section aria-labelledby="compare-result-heading" className="space-y-5">
+            <h2 id="compare-result-heading" className="framer-card-title text-foreground">
+              {winner
+                ? `${displayDomain(winner.url)} scores higher`
+                : `Both domains score ${result.a.score}`}
+            </h2>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[result.a, result.b].map((side, index) => (
+                <div key={side.url} className="ds-card space-y-3 p-5">
+                  <p className="text-sm text-muted-foreground">
+                    {index === 0 ? 'First domain' : 'Second domain'}
+                  </p>
+                  <p className="truncate text-base font-medium text-foreground">
+                    {displayDomain(side.url)}
+                  </p>
+                  <p className="font-mono text-4xl tabular-nums text-foreground">
+                    {side.score}
+                    <span className="text-base text-muted-foreground">/100</span>
+                  </p>
+                  <p className="text-sm text-muted-foreground">{statusLabel(side.status)}</p>
+                </div>
+              ))}
+            </div>
+
+            <dl className="ds-card divide-y divide-border p-0">
+              <div className="flex items-center justify-between gap-4 px-5 py-4">
+                <dt className="text-sm text-muted-foreground">Score difference</dt>
+                <dd className="font-mono text-sm tabular-nums text-foreground">
+                  {delta === 0 ? 'Level' : `${delta! > 0 ? '+' : ''}${delta} pts`}
+                </dd>
+              </div>
+              <div className="flex items-center justify-between gap-4 px-5 py-4">
+                <dt className="text-sm text-muted-foreground">Engines measured</dt>
+                <dd className="text-sm text-foreground">Health only — run an audit for all eight</dd>
+              </div>
+            </dl>
+
+            <p className="framer-body-text text-sm">
+              Scores are point-in-time. For the other seven engines,{' '}
+              <Link to="/audit" className="text-info underline underline-offset-4">
+                run a master audit
+              </Link>{' '}
+              on either domain.
+            </p>
+          </section>
+        ) : null}
+      </main>
+    </div>
+  );
 };
 
 export default ComparePage;

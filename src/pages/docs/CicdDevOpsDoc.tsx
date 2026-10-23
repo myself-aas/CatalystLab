@@ -15,9 +15,9 @@ export const CicdDevOpsDoc: React.FC = () => {
  <Workflow className="h-3.5 w-3.5"/>
  <span>DevOps &amp; Pipeline Automation</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight font-sans">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight font-sans">
  CI/CD Quality Gates &amp; Automation
- </h1>
+ </h2>
  <p className="text-sm text-foreground-muted leading-relaxed font-sans">
  Prevent performance regressions and security vulnerabilities before staging or production deployments. Embed CatalystLab audits directly into your pull request merge checks using GitHub Actions or GitLab CI.
  </p>

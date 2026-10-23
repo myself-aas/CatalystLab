@@ -11,6 +11,8 @@ import {
   ArrowLeft, Bookmark, Clock, Share2, Check, Edit3, Eye
 } from 'lucide-react';
 import { SEOHead } from '../components/common/SEOHead';
+import { BLOG_SEO_BY_SLUG } from '../data/blogSeo';
+import { getSeededBlogPost } from '../data/engineBlogs';
 import { logger } from '../lib/logger';
 import { motion } from 'motion/react';
 
@@ -25,12 +27,22 @@ export const BlogPostPage: React.FC = () => {
   useEffect(() => {
     const load = async () => {
       if (!slug) return;
-      setLoading(true);
+      // Seed first, then replace if Firestore has a newer copy (2026-10-23).
+      // The prerendered document carries the seeded body, so rendering nothing
+      // until a network round trip finishes would replace a full article with a
+      // spinner. Posts that only exist in Firestore still arrive in the swap.
+      const seeded = getSeededBlogPost(slug);
+      if (seeded) {
+        setPost(seeded);
+        setLoading(false);
+      } else {
+        setLoading(true);
+      }
       try {
         const data = await getBlogPostBySlug(slug);
-        setPost(data);
+        if (data) setPost(data);
       } catch (err) {
-        logger.error("Error loading blog post:", err);
+        if (!seeded) logger.error("Error loading blog post:", err);
       } finally {
         setLoading(false);
       }
@@ -58,6 +70,14 @@ export const BlogPostPage: React.FC = () => {
   if (!post) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-6">
+        {/* A missing slug must not stay indexable: without this the document
+            keeps the shell head it arrived with (SEO audit 2026-10-23, issue 3). */}
+        <SEOHead
+          title="Article not found | CatalystLab"
+          description="That article does not exist. Browse the engineering blog for published posts."
+          canonicalPath="/blogs"
+          robots="noindex, nofollow"
+        />
         <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
         <p className="text-muted-foreground mb-6 text-center">The article you are looking for does not exist.</p>
         <Link to="/blogs" className="px-6 py-3 bg-fog rounded-full text-sm font-medium hover:bg-fog transition-colors">
@@ -69,9 +89,13 @@ export const BlogPostPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans pb-20">
-      <SEOHead 
-        title={post.title} 
-        description={post.excerpt || `Read ${post.title}`}
+      <SEOHead
+        // Same strings the build wrote into this page's <head>, so hydration
+        // does not rewrite the title a crawler already indexed.
+        title={BLOG_SEO_BY_SLUG[post.slug]?.seoTitle ?? post.title}
+        description={BLOG_SEO_BY_SLUG[post.slug]?.excerpt ?? post.excerpt ?? `Read ${post.title}`}
+        canonicalPath={`/blogs/${post.slug}`}
+        absoluteTitle
       />
 
       <div className="max-w-md mx-auto relative bg-background min-h-screen">

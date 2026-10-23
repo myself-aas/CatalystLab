@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { MessageSquare, Quote, BadgeCheck } from 'lucide-react';
+import { Quote, BadgeCheck } from 'lucide-react';
 import { SectionHeader } from './SectionHeader';
 import { onSpotlightMouseMove } from '../../hooks/useSpotlight';
 
@@ -36,12 +36,6 @@ export const Testimonials: React.FC = () => {
     <section className="ds-section relative overflow-hidden">
       <div className="relative z-10 ds-page-shell">
         <SectionHeader
-          eyebrow={
-            <>
-              <MessageSquare className="size-3.5 text-foreground" />
-              <span>Field validation</span>
-            </>
-          }
           title="Validated by engineering leaders."
         />
 

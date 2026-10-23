@@ -4,6 +4,11 @@ import { SITE_ORIGIN, robotsDirectiveFor } from '../../config/site';
 export interface SEOProps {
   title: string;
   description: string;
+  /**
+   * @deprecated Ignored. The meta keywords tag is not used by search engines and
+   * shipped the same 13-term list on every page; callers may still pass it so
+   * no page has to change, but nothing is written (2026-10-23).
+   */
   keywords?: string[];
   canonicalUrl?: string;
   /** Path-only canonical (e.g. '/blogs'); composed with the site origin. */
@@ -18,12 +23,19 @@ export interface SEOProps {
    * location, which already makes application and auth surfaces `noindex`.
    */
   routePath?: string;
+  /** Explicit override, used by client-rendered "not found" states. */
+  robots?: string;
+  /**
+   * Use `title` exactly as given instead of appending the site suffix.
+   * Generated page families (docs, engines, blog) pass a pre-built title from
+   * their own table so the hydrated title matches the prerendered one.
+   */
+  absoluteTitle?: boolean;
 }
 
 export const SEOHead: React.FC<SEOProps> = ({
   title,
   description,
-  keywords = [],
   canonicalUrl,
   canonicalPath,
   ogType = 'website',
@@ -31,13 +43,19 @@ export const SEOHead: React.FC<SEOProps> = ({
   author = 'CatalystLab Telemetry Team',
   publishedTime,
   structuredData,
-  routePath
+  routePath,
+  robots,
+  absoluteTitle = false
 }) => {
-  const fullTitle = title.includes('CatalystLab') ? title : `${title} | CatalystLab Documentation & Developer Hub`;
+  const fullTitle = absoluteTitle
+    ? title
+    : title.includes('CatalystLab')
+      ? title
+      : `${title} | CatalystLab Documentation & Developer Hub`;
   const pathForRobots =
     routePath || (typeof window !== 'undefined' ? window.location.pathname : '/');
   // D11: application, authentication and editor surfaces stay out of the index.
-  const robotsDirective = robotsDirectiveFor(pathForRobots);
+  const robotsDirective = robots ?? robotsDirectiveFor(pathForRobots);
   const currentUrl = canonicalUrl || (canonicalPath ? `${SITE_ORIGIN}${canonicalPath}` : typeof window !== 'undefined' ? window.location.href : SITE_ORIGIN);
 
   useEffect(() => {
@@ -57,9 +75,6 @@ export const SEOHead: React.FC<SEOProps> = ({
 
     // Standard SEO
     setMetaTag('name', 'description', description);
-    if (keywords.length > 0) {
-      setMetaTag('name', 'keywords', keywords.join(', '));
-    }
     setMetaTag('name', 'author', author);
     setMetaTag('name', 'robots', robotsDirective);
 
@@ -107,7 +122,7 @@ export const SEOHead: React.FC<SEOProps> = ({
     } else if (scriptTag) {
       scriptTag.remove();
     }
-  }, [fullTitle, description, keywords, currentUrl, ogType, ogImage, author, publishedTime, structuredData, robotsDirective]);
+  }, [fullTitle, description, currentUrl, ogType, ogImage, author, publishedTime, structuredData, robotsDirective]);
 
   return null;
 };

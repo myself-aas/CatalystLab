@@ -6,7 +6,6 @@
     <meta property="csp-nonce" content="" />
     <title>CatalystLab — Multi-Dimensional Web Health & Telemetry Platform</title>
     <meta name="description" content="Precision auditing for the modern engineering stack. Multi-dimensional web health, architecture intelligence & automated telemetry diagnostics across 42 global edge nodes." />
-    <meta name="keywords" content="web health, telemetry, diagnostics, OWASP, security audit, WCAG, accessibility, edge computing, AI readiness, telemetry diagnostics" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
@@ -125,9 +124,14 @@
   </head>
   <body class="min-h-screen font-sans antialiased">
     <noscript>
-      <div class="mx-auto my-16 max-w-2xl rounded-3xl border border-white/10 bg-[#1F2223] p-8 font-sans text-[#F0FAFF]">
-        <h1 class="mb-4 text-2xl font-bold">JavaScript is required</h1>
-        <p class="leading-relaxed text-white/75">CatalystLab is an interactive web telemetry application that requires JavaScript for live diagnostics. Enable JavaScript in your browser settings and reload the page to continue.</p>
+      <!-- The prerendered document inside #root already carries the page, its
+           heading and its links, so this note adds context instead of
+           replacing the page (SEO audit 2026-10-23, issue 1). It reuses the
+           shell classes so no inline style (and no extra CSP hash) is needed. -->
+      <div class="seo-shell">
+        <div class="seo-shell__main">
+          <p class="seo-shell__lede">JavaScript is off, so the live audit tools are unavailable in this tab. Everything on this page is readable, and every link works. Enable JavaScript to run the engines.</p>
+        </div>
       </div>
     </noscript>
     <div id="root"></div>

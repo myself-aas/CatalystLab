@@ -14,9 +14,9 @@ export const RateLimitingDoc: React.FC = () => {
  <Sliders className="h-3.5 w-3.5"/>
  <span>Traffic Control & Fair Quotas</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  Multi-Tier Sliding Rate Limiter
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  CatalystLab employs a hybrid client-device and IP rate limiter to protect upstream infrastructure, prevent abuse, and ensure fair resource allocation across all users.
  </p>

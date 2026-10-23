@@ -18,7 +18,7 @@ export const RenderText: React.FC<{ text: string }> = ({ text }) => (
         <mark
           key={i}
           data-ask-user="true"
-          className="rounded bg-amber-400/15 px-1 text-amber-200 not-italic"
+          className="rounded bg-warning/10 px-1 text-warning not-italic"
         >
           {part}
         </mark>
@@ -32,7 +32,7 @@ export const RenderText: React.FC<{ text: string }> = ({ text }) => (
 const PlanTable: React.FC = () => (
   <div className="overflow-x-auto">
     <table className="w-full text-left text-sm">
-      <thead className="text-xs uppercase tracking-wide text-muted-foreground">
+      <thead className="text-xs text-muted-foreground">
         <tr>
           <th className="py-2 pr-4 font-medium">Plan</th>
           <th className="py-2 pr-4 font-medium">Monthly list price</th>
@@ -78,7 +78,7 @@ const Block: React.FC<{ block: LegalBlock }> = ({ block }) => {
       return (
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="text-[11px] uppercase tracking-wide text-muted-foreground">
+            <thead className="text-xs text-muted-foreground">
               <tr>
                 {block.headers.map((h) => <th key={h} className="py-2 pr-4 font-medium">{h}</th>)}
               </tr>
@@ -100,7 +100,10 @@ const Block: React.FC<{ block: LegalBlock }> = ({ block }) => {
   }
 };
 
-export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc }) => (
+export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc }) => {
+  const [tocOpen, setTocOpen] = React.useState(false);
+
+  return (
   <div className="min-h-screen ds-page-top bg-background text-foreground">
     <SEOHead
       title={`${doc.title} | CatalystLab`}
@@ -110,15 +113,15 @@ export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc
 
     <section className="border-b border-border sm:px-6 lg:px-8 ds-section">
       <div className="mx-auto max-w-6xl space-y-4">
-        <p className="framer-micro-tag text-muted-foreground font-mono">
-          Version {doc.version || LEGAL_VERSION} · Effective <RenderText text={EFFECTIVE_DATE} />
-        </p>
         <h1 className="framer-section-headline text-foreground">{doc.title}</h1>
         <p className="framer-body-text max-w-3xl"><RenderText text={doc.intro} /></p>
+        <p className="font-mono text-xs text-muted-foreground">
+          Version {doc.version || LEGAL_VERSION} · Effective <RenderText text={EFFECTIVE_DATE} />
+        </p>
         {PUBLICATION_NOTICE ? (
           <div
             role="note"
-            className="flex items-start gap-2 rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground"
+            className="flex items-start gap-2 rounded-lg bg-muted/40 p-3 text-sm text-muted-foreground"
           >
             <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
             <span>{PUBLICATION_NOTICE}</span>
@@ -129,10 +132,38 @@ export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc
 
     <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[240px_1fr] lg:px-8">
       <nav aria-label={`${doc.title} sections`} className="lg:sticky lg:top-24 lg:h-fit">
-        <p className="mb-3 flex items-center gap-2 text-xs font-mono uppercase tracking-wide text-muted-foreground">
-          <ListTree className="h-3.5 w-3.5" aria-hidden="true" /> Contents
+        <div className="lg:hidden">
+          <button
+            type="button"
+            aria-expanded={tocOpen}
+            aria-controls="legal-toc-mobile"
+            onClick={() => setTocOpen((open) => !open)}
+            className="flex min-h-11 w-full items-center gap-2 text-sm font-medium text-foreground"
+          >
+            <ListTree className="h-4 w-4" aria-hidden="true" /> Contents
+            <span className="ml-auto text-xs text-muted-foreground">{doc.sections.length} sections</span>
+          </button>
+          {tocOpen && (
+            <ol id="legal-toc-mobile" className="mt-3 space-y-2 text-sm">
+              {doc.sections.map((s, i) => (
+                <li key={s.id}>
+                  <a
+                    href={`#${s.id}`}
+                    onClick={() => setTocOpen(false)}
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <span className="mr-2 font-mono text-xs">{i + 1}.</span>
+                    {s.title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+        <p className="mb-3 hidden items-center gap-2 text-sm font-medium text-foreground lg:flex">
+          <ListTree className="h-4 w-4" aria-hidden="true" /> Contents
         </p>
-        <ol className="space-y-1.5 text-sm">
+        <ol className="hidden space-y-1.5 text-sm lg:block">
           {doc.sections.map((s, i) => (
             <li key={s.id}>
               <a href={`#${s.id}`} className="text-muted-foreground transition-colors hover:text-foreground">
@@ -145,23 +176,20 @@ export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc
       </nav>
 
       <main className="min-w-0 space-y-6">
-        {doc.sections.map((section, i) => (
+        {doc.sections.map((section) => (
           <section key={section.id} id={section.id} className="ds-card scroll-mt-28 space-y-5 p-6">
-            <header className="flex items-baseline gap-3">
-              <span className="font-mono text-sm text-muted-foreground">{i + 1}.</span>
-              <h2 className="framer-card-title text-foreground">{section.title}</h2>
-            </header>
+            <h2 className="framer-card-title text-foreground">{section.title}</h2>
 
-            <div className="rounded-lg border border-border bg-surface/50 p-4">
-              <p className="mb-1 text-[11px] font-mono uppercase tracking-wide text-muted-foreground">Summary</p>
-              <p className="text-sm leading-relaxed"><RenderText text={section.summary} /></p>
-            </div>
+            {/* Plain-language summary leads the section; no nested container. */}
+            <p className="text-base leading-relaxed text-muted-foreground">
+              <RenderText text={section.summary} />
+            </p>
 
             {section.clauses.map((clause) => (
               <div key={clause.id} id={`c-${clause.id}`} className="space-y-2 scroll-mt-28">
                 <p className="text-xs font-mono text-muted-foreground">
-                  {clause.id}
-                  {clause.heading ? <span className="ml-2 text-foreground">{clause.heading}</span> : null}
+                  <span className="mr-2">{clause.id}</span>
+                  {clause.heading ? <span className="font-sans text-sm font-medium text-foreground">{clause.heading}</span> : null}
                 </p>
                 {clause.blocks.map((block, b) => <Block key={b} block={block} />)}
               </div>
@@ -169,7 +197,7 @@ export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc
 
             {section.annex && section.annex.length > 0 && (
               <details className="group rounded-lg border border-border p-4">
-                <summary className="cursor-pointer text-xs font-mono uppercase tracking-wide text-muted-foreground hover:text-foreground">
+                <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
                   Technical annex
                 </summary>
                 <div className="mt-4 space-y-4">
@@ -182,6 +210,7 @@ export const LegalDocumentView: React.FC<{ doc: LegalDocumentContent }> = ({ doc
       </main>
     </div>
   </div>
-);
+  );
+};
 
 export default LegalDocumentView;

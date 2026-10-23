@@ -26,9 +26,9 @@ Please provide the exact collection schemas, indexing commands, and zero-downtim
  <span className="h-1.5 w-1.5 rounded-full bg-orange-600"/>
  <span>SDLC Phase 1: Platform Migration</span>
  </div>
- <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
+ <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
  SynthShift: Architectural System Design Blueprint
- </h1>
+ </h2>
  <p className="text-base text-foreground-muted leading-relaxed">
  SynthShift provides enterprise technical system design specifications, NoSQL schema models, and capacity planning algorithms for migrating legacy applications to resilient cloud architectures.
  </p>

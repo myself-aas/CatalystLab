@@ -45,14 +45,14 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
   const severityMatrix = [
     {
       level: 'Critical',
-      color: 'border-rose-500/20 bg-white/10 text-rose-400',
+      color: 'border-danger/20 bg-white/10 text-danger',
       badge: 'Immediate P0',
       targetFix: '< 12 Hours',
       examples: 'Remote Code Execution (RCE), Authentication Bypass, Database SQL/Firestore Injection'
     },
     {
       level: 'High',
-      color: 'border-amber-500/20 bg-cream/10 text-amber-400',
+      color: 'border-warning/20 bg-cream/10 text-warning',
       badge: 'P1 High',
       targetFix: '< 48 Hours',
       examples: 'Server-Side Request Forgery (SSRF), Sensitive Token Leakage, Cross-Site Scripting (XSS) with Session Hijack'
@@ -78,7 +78,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
       {/* Safe Harbor Banner */}
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-sm">
-          <div className="flex items-center gap-2 text-xs font-mono text-emerald-600 mb-1">
+          <div className="flex items-center gap-2 text-xs font-mono text-success mb-1">
             <ShieldCheck className="h-4 w-4" />
             <span className="font-bold">DISCLOSE.IO &amp; RFC-9116 COMPLIANT SAFE HARBOR</span>
           </div>
@@ -91,25 +91,25 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-border pt-5">
             <div className="rounded-xl border border-border bg-muted p-3.5">
-              <span className="text-[11px] uppercase font-bold text-amber-600">Target Triage Time</span>
+              <span className="text-[11px] uppercase font-bold text-warning">Target Triage Time</span>
               <div className="text-base font-bold text-foreground mt-0.5 flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-amber-600" />
+                <Clock className="h-3.5 w-3.5 text-warning" />
                 <span>&lt; 2 Hours</span>
               </div>
             </div>
 
             <div className="rounded-xl border border-border bg-muted p-3.5">
-              <span className="text-[11px] uppercase font-bold text-emerald-600">Safe Harbor Status</span>
+              <span className="text-[11px] uppercase font-bold text-success">Safe Harbor Status</span>
               <div className="text-base font-bold text-foreground mt-0.5 flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                <ShieldCheck className="h-3.5 w-3.5 text-success" />
                 <span>Full Legal Pledge</span>
               </div>
             </div>
 
             <div className="rounded-xl border border-border bg-muted p-3.5">
-              <span className="text-[11px] uppercase font-bold text-amber-600">Hall of Fame</span>
+              <span className="text-[11px] uppercase font-bold text-warning">Hall of Fame</span>
               <div className="text-base font-bold text-foreground mt-0.5 flex items-center gap-1.5">
-                <Award className="h-3.5 w-3.5 text-amber-600" />
+                <Award className="h-3.5 w-3.5 text-warning" />
                 <span>Public Recognition</span>
               </div>
             </div>
@@ -121,7 +121,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
       <LazyReveal direction="up">
         <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 shadow-sm">
           <div className="flex items-center gap-2 mb-1.5">
-            <AlertOctagon className="h-4 w-4 text-amber-600" />
+            <AlertOctagon className="h-4 w-4 text-warning" />
             <h3 className="text-base font-bold text-foreground font-sans">Severity Classification &amp; Resolution SLAs</h3>
           </div>
           <p className="text-xs text-muted-foreground mb-5 font-sans">
@@ -154,7 +154,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
         <div className="rounded-2xl border border-border bg-background p-6 sm:p-8 text-foreground shadow-sm space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
             <div>
-              <div className="flex items-center gap-2 text-xs text-amber-600 mb-1">
+              <div className="flex items-center gap-2 text-xs text-warning mb-1">
                 <Key className="h-3.5 w-3.5" />
                 <span className="font-bold">ENCRYPTED COMMUNICATIONS</span>
               </div>
@@ -168,7 +168,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
               onClick={handleCopyPgp}
               className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-bold text-foreground border border-border hover:bg-accent transition-colors cursor-pointer"
             >
-              {pgpCopied ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3 text-amber-600" />}
+              {pgpCopied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3 text-warning" />}
               <span>{pgpCopied ? 'PGP Block Copied!' : 'Copy Public Key'}</span>
             </button>
           </div>
@@ -179,7 +179,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
 
           <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground">
             <span>Security Contact: <strong className="text-foreground">security@catalystlab.tech</strong></span>
-            <span>Canonical security.txt: <code className="text-amber-400 bg-cream/10 px-1 py-0.5 rounded border border-amber-500/20">https://www.catalystlab.tech/.well-known/security.txt</code></span>
+            <span>Canonical security.txt: <code className="text-warning bg-cream/10 px-1 py-0.5 rounded border border-warning/20">https://www.catalystlab.tech/.well-known/security.txt</code></span>
           </div>
         </div>
       </LazyReveal>
@@ -196,8 +196,8 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
           </p>
 
           {submitted ? (
-            <div className="rounded-xl border border-emerald-500/20 bg-cream/10 p-6 text-center space-y-2.5">
-              <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto" />
+            <div className="rounded-xl border border-success/20 bg-cream/10 p-6 text-center space-y-2.5">
+              <CheckCircle2 className="h-8 w-8 text-success mx-auto" />
               <h4 className="text-sm font-bold text-foreground">Vulnerability Report Dispatched!</h4>
               <p className="text-xs text-muted-foreground max-w-md mx-auto font-sans leading-relaxed">
                 Thank you for contributing to web telemetry safety. Our security team has received your ticket and will verify the PoC within 2 hours.
@@ -311,7 +311,7 @@ Subkey: ed25519/0x91F4B8C3 2026-01-01 [Expires: 2028-01-01]
                 type="submit"
                 className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-hover border border-border py-2.5 text-xs font-bold text-primary-foreground transition shadow-sm cursor-pointer"
               >
-                <Send className="h-3.5 w-3.5 text-amber-400" />
+                <Send className="h-3.5 w-3.5 text-warning" />
                 <span>Transmit Encrypted Security Report</span>
               </button>
             </form>

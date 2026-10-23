@@ -21,6 +21,10 @@ Disallow: /admin
 Disallow: /admin/
 
 # AI answer engines that attribute and link back to the source: allowed.
+# The split below follows each vendor's documented purpose (2026-10-23):
+# search discovery and user-triggered retrieval are allowed, bulk training
+# crawlers are not (D12). Blocking a training crawler does not remove a page
+# from search results; blocking a search crawler does.
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /api/
@@ -57,6 +61,18 @@ Disallow: /api/
 Disallow: /dashboard
 Disallow: /admin
 
+User-agent: meta-webindexer
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
+User-agent: meta-externalfetcher
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /admin
+
 # --- Bulk training crawlers: not allowed (D12) ---
 # These fetch at scale for model training without sending readers to the site.
 User-agent: GPTBot
@@ -75,6 +91,9 @@ User-agent: Bytespider
 Disallow: /
 
 User-agent: meta-externalagent
+Disallow: /
+
+User-agent: Applebot-Extended
 Disallow: /
 
 User-agent: Amazonbot

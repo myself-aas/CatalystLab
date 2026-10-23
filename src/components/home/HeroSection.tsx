@@ -26,12 +26,12 @@ export const HeroSection: React.FC = () => {
     <section className="relative w-full min-h-[80vh] flex flex-col justify-center items-start text-left bg-background pt-32 pb-24 px-6 md:px-12">
       <div className="relative z-20 w-full max-w-2xl">
         <motion.h1 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ y: 8 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="framer-hero-title text-foreground tracking-[-0.03em] leading-[1.1] mb-6"
         >
-          Meet the all-new Catalyst Telemetry
+          Website health audits across six dimensions
         </motion.h1>
         <motion.p 
           initial={{ opacity: 0, x: -20 }}
@@ -39,7 +39,7 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="framer-section-headline text-muted-foreground mb-10"
         >
-          More engines. More dimensions. More edge intelligence.
+          Eight diagnostic engines run in parallel on one domain and return a scored report with the measurement behind every field.
         </motion.p>
         
         <motion.div 

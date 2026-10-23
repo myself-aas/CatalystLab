@@ -25,7 +25,7 @@ export const privacyDocument: LegalDocumentContent = {
   canonicalPath: '/privacy',
   version: LEGAL_VERSION,
   intro:
-    'This policy explains what personal data CatalystLab processes, why, which service providers help us, how long we keep it, and how to make a request. It describes what the software does today. Where a statement depends on a decision the company has not made yet, it is marked as an open item.',
+    'This policy explains what personal data CatalystLab processes, why, which service providers help us, how long we keep it, and how to make a request. It describes what the software does today.',
   sections: [
     {
       id: 'controller',
