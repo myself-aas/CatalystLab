@@ -23,6 +23,14 @@ import { BLOG_SEO } from '../src/data/blogSeo';
 import { DOC_SEO, DOC_SEO_BY_PATH } from '../src/data/docsSeo';
 import { ENGINE_SEO, ENGINE_SEO_BY_PATH } from '../src/data/engineSeo';
 import { ROUTE_ALIASES } from '../src/config/routeAliases';
+import {
+  SITEMAP_INDEX_PATH,
+  SITEMAP_SECTIONS,
+  changefreqFor,
+  priorityFor,
+  sitemapSectionFor,
+  type SitemapSectionId
+} from '../src/config/sitemapSections';
 import { TOTAL_POPS_COUNT } from '../src/lib/edge/pops';
 import {
   ENTITY_NAME,
@@ -798,7 +806,7 @@ function main(): void {
   const written: string[] = [];
   const missing: string[] = [];
   const aliasPaths = new Set(Object.keys(ROUTE_ALIASES));
-  const sitemapEntries: { path: string; lastmod?: string; priority: string }[] = [];
+  const sitemapEntries: { path: string; lastmod?: string }[] = [];
   const metaForPath = new Map<string, RouteMeta>();
 
   for (const meta of routes) {
@@ -810,11 +818,7 @@ function main(): void {
     }
     written.push(writeRoute(meta.path, renderRoute(template, meta)));
     metaForPath.set(meta.path, meta);
-    sitemapEntries.push({
-      path: meta.path,
-      lastmod: meta.lastmod,
-      priority: meta.path === '/' ? '1.0' : meta.path.startsWith('/docs') ? '0.6' : '0.8'
-    });
+    sitemapEntries.push({ path: meta.path, lastmod: meta.lastmod });
   }
 
   // Blog posts (SEO audit issue 4). The slugs and titles come from the same
@@ -866,7 +870,7 @@ function main(): void {
       heading: post.title,
       summary: post.excerpt
     });
-    sitemapEntries.push({ path: path_, lastmod: post.publishedDate, priority: '0.7' });
+    sitemapEntries.push({ path: path_, lastmod: post.publishedDate });
   }
 
   // Build-time metadata budget. A duplicated or over-long title in a generated
@@ -929,28 +933,76 @@ function main(): void {
   });
   writeFileSync(path.join(DIST, '404.html'), notFound);
 
-  // Sitemap generated from the same tables, so it can never list a route that
-  // is noindex, redirected or missing from the router (D11/D14).
+  // Sitemaps, one file per page type plus an index (2026-10-23). Same source
+  // tables as the shells, so a sitemap can never list a route that is noindex,
+  // redirected or missing from the router (D11/D14).
   const sitemapRoutes = sitemapEntries.filter(
     (entry) => !isAppRoute(entry.path) && !isAuthRoute(entry.path) && !aliasPaths.has(entry.path)
   );
-  const sitemap = [
+
+  const bySection = new Map<SitemapSectionId, typeof sitemapRoutes>();
+  for (const section of SITEMAP_SECTIONS) bySection.set(section.id, []);
+  for (const entry of sitemapRoutes) {
+    bySection.get(sitemapSectionFor(entry.path))!.push(entry);
+  }
+
+  // Guard the format limits, not just today's count: a section file may hold at
+  // most 50,000 URLs and be at most 50 MB uncompressed. A section that outgrows
+  // this needs splitting by the section's own axis, which is a decision, not a
+  // silent truncation.
+  for (const section of SITEMAP_SECTIONS) {
+    const entries = bySection.get(section.id) ?? [];
+    if (entries.length > 50_000) {
+      throw new Error(`[prerender] ${section.path} would list ${entries.length} URLs; the limit is 50,000.`);
+    }
+  }
+
+  const writtenSitemaps: { section: SitemapSectionId; path: string; urls: number; lastmod?: string }[] = [];
+  for (const section of SITEMAP_SECTIONS) {
+    const entries = bySection.get(section.id) ?? [];
+    const latest = entries
+      .map((entry) => entry.lastmod)
+      .filter((value): value is string => Boolean(value))
+      .sort()
+      .pop();
+    const xml = [
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+      ...entries.flatMap((entry) => [
+        '  <url>',
+        `    <loc>${canonicalUrlFor(entry.path)}</loc>`,
+        // `<lastmod>` only when the change date is known: a build timestamp on
+        // every URL teaches crawlers to ignore the field (SEO audit T8).
+        ...(entry.lastmod ? [`    <lastmod>${entry.lastmod}</lastmod>`] : []),
+        `    <changefreq>${changefreqFor(entry.path)}</changefreq>`,
+        `    <priority>${priorityFor(entry.path)}</priority>`,
+        '  </url>'
+      ]),
+      '</urlset>',
+      ''
+    ].join('\n');
+    writeFileSync(path.join(DIST, section.path.replace(/^\/+/, '')), xml);
+    writtenSitemaps.push({ section: section.id, path: section.path, urls: entries.length, lastmod: latest });
+  }
+
+  // The index: what robots.txt points at, so adding a section never means
+  // editing robots.txt or resubmitting a different URL.
+  // Per-entry `<lastmod>`: the newest known change inside that section, or no
+  // value at all when the section has no dated content. Copying one date onto
+  // every section would claim the docs set changed when the blog did.
+  const sitemapIndex = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...sitemapRoutes.flatMap((entry) => [
-      '  <url>',
-      `    <loc>${canonicalUrlFor(entry.path)}</loc>`,
-      // `<lastmod>` only when the change date is known: a build timestamp on
-      // every URL teaches crawlers to ignore the field (SEO audit T8).
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...writtenSitemaps.flatMap((entry) => [
+      '  <sitemap>',
+      `    <loc>${SITE_ORIGIN}${entry.path}</loc>`,
       ...(entry.lastmod ? [`    <lastmod>${entry.lastmod}</lastmod>`] : []),
-      `    <changefreq>${entry.path === '/' ? 'daily' : 'weekly'}</changefreq>`,
-      `    <priority>${entry.priority}</priority>`,
-      '  </url>'
+      '  </sitemap>'
     ]),
-    '</urlset>',
+    '</sitemapindex>',
     ''
   ].join('\n');
-  writeFileSync(path.join(DIST, 'sitemap.xml'), sitemap);
+  writeFileSync(path.join(DIST, SITEMAP_INDEX_PATH.replace(/^\/+/, '')), sitemapIndex);
 
   const dynamicRoutes = spaRoutes.filter((route) => route.includes(':'));
   writeFileSync(
@@ -963,6 +1015,16 @@ function main(): void {
         edgeNodes: TOTAL_POPS_COUNT,
         prerendered: sitemapEntries.map((entry) => entry.path),
         sitemap: sitemapRoutes.map((entry) => entry.path),
+        sitemapIndex: SITEMAP_INDEX_PATH,
+        sitemaps: Object.fromEntries(
+          writtenSitemaps.map((entry) => [
+            entry.section,
+            {
+              path: entry.path,
+              urls: bySection.get(entry.section)?.map((item) => item.path) ?? []
+            }
+          ])
+        ),
         appRoutes: appShells,
         dynamicRoutes,
         /** Slugs the server accepts for `/blogs/:slug`; anything else is a 404. */
@@ -1003,7 +1065,9 @@ function main(): void {
   }
 
   console.log(
-    `[prerender] wrote ${written.length} route shells (${indexable} indexable, ${appShells.length} noindex), dist/404.html, dist/sitemap.xml (${sitemapRoutes.length} URLs), dist/_headers (${scriptHashes.size} CSP hashes) and dist/routes.json`
+    `[prerender] wrote ${written.length} route shells (${indexable} indexable, ${appShells.length} noindex), dist/404.html, ${SITEMAP_INDEX_PATH} + ${writtenSitemaps.length} sitemaps (${sitemapRoutes.length} URLs: ${writtenSitemaps
+      .map((entry) => `${entry.section} ${entry.urls}`)
+      .join(', ')}), dist/_headers (${scriptHashes.size} CSP hashes) and dist/routes.json`
   );
   if (missing.length) {
     console.warn(`[prerender] skipped ${missing.length} route(s) absent from src/App.tsx: ${missing.join(', ')}`);

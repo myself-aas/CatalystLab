@@ -22,7 +22,7 @@ GITHUB_WEBHOOK_SECRET=dev-secret npm run dev   # Express (port 3000) + Vite midd
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | tsx server.ts (Express + Vite middleware, HMR off for proxy compatibility) |
-| `npm run build` | Production bundle to `dist/`, then `scripts/prerender.ts` (74 route shells, `404.html`, `sitemap.xml`, `routes.json`), then esbuild → `dist/server.cjs` |
+| `npm run build` | Production bundle to `dist/`, then `scripts/prerender.ts` (65 route shells, `404.html`, `sitemap.xml` index plus `sitemap-core|engines|docs|blog.xml`, `routes.json`), then esbuild → `dist/server.cjs` |
 | `npm test` | Vitest suite (36 test files: UI (jsdom) + server route suite (node + supertest) + unit) |
 | `npm run test:coverage` | Same suite with v8 coverage; global thresholds are the measured baseline (68/55/72/69) and may only be raised |
 | `npm run typecheck` | `tsc --noEmit` (hard gate, must stay clean) |

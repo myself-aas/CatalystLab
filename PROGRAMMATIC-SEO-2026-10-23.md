@@ -138,9 +138,29 @@ That is the difference between a page set that erodes quietly and one that canno
 
 A report becomes indexable only when the data behind it exists. That is the skill's "noindex very thin variations" applied literally: the page family is allowed to grow to any size, but a page does not enter the index until it has content.
 
-### One sitemap, by decision
+### Sitemaps split by page type
 
-The skill recommends splitting sitemaps by page type. At 53 URLs that adds a sitemap index and three files to manage without changing crawl behaviour, and a sitemap index that is wrong is worse than a sitemap that is long. The split is worth doing at roughly 500 URLs, when a single regeneration starts to matter and Search Console reporting per section becomes useful. Recorded here so the decision is visible rather than assumed.
+`/sitemap.xml` is a sitemap index that lists four section files. `robots.txt` still points at `/sitemap.xml`, so nothing external changes when a section is added.
+
+| Section | File | URLs | `lastmod` |
+|---|---|---|---|
+| Marketing and legal | `/sitemap-core.xml` | 17 | omitted (no dated content) |
+| Engine landing pages | `/sitemap-engines.xml` | 9 | omitted |
+| Documentation | `/sitemap-docs.xml` | 16 | omitted |
+| Blog | `/sitemap-blog.xml` | 11 | newest post date |
+
+Why the split earns its keep here:
+- **Reporting.** Search Console reports index coverage per sitemap, so "are the ten posts indexed" stops being a guess.
+- **Diagnosis.** A crawl error in the docs set is no longer indistinguishable from one in the pricing pages.
+- **Budgets.** Each file has its own 50,000-URL limit, so a family that grows (reports, playground) does not force a reshuffle of the others.
+
+Rules the build enforces:
+- every indexable path lands in exactly one section (`src/config/sitemapSections.ts` decides, so the classifier is testable);
+- a section file cannot exceed 50,000 URLs, and the build fails rather than truncate;
+- `<lastmod>` is written only where a real change date is known, per section;
+- the index repeats each section's own newest `lastmod`, never one date copied across all four.
+
+`src/tests/unit/sitemapSections.test.ts` pins the classifier to `ENGINE_SEO`, `DOC_SEO` and `BLOG_SEO`, so a new engine or docs route cannot fall silently into the catch-all.
 
 ### Internal linking
 
@@ -182,12 +202,18 @@ Every issue found in the audit of the existing programmatic surface is fixed in 
 
 ### Measured after the change
 
-- 53 of 53 sitemap URLs return 200 with one H1, a self-canonical, an `index` directive and at least 10 internal links.
+- 53 of 53 sitemap URLs, across the four section files, return 200 with one H1, a self-canonical, an `index` directive and at least 10 internal links.
 - Unique body content per indexable page: minimum 27 words (static legal pages), median 75, maximum 192 (was a median of 40, with engine pages at 19 to 25).
 - 35 generated pages carry a visible breadcrumb and a `BreadcrumbList`; every JSON-LD block on every sitemap URL parses.
 - `/reports/foo` and `/reports/not-a-post` return 404; `/reports/stripe-com` returns 200 with `X-Robots-Tag: noindex`.
 - `/playground/nope` and `/playground/MASTER` return 302 to `/playground/master`.
 - `tsc`, `eslint`, `npm test` (393 tests, 42 files) and `npm run build` pass.
+
+### Sitemap verification
+
+- `/sitemap.xml` returns a `<sitemapindex>` listing exactly the four section files; each child returns `application/xml`.
+- 17 + 9 + 16 + 11 = 53 URLs, no path in two files, and the union equals the set of indexable prerendered pages.
+- Every `<loc>` in every section resolves to 200, matching the crawl above.
 
 ### Not measured
 

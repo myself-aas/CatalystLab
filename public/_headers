@@ -34,6 +34,14 @@
   Cache-Control: public, max-age=3600
 /sitemap.xml
   Cache-Control: public, max-age=3600
+/sitemap-core.xml
+  Cache-Control: public, max-age=3600
+/sitemap-engines.xml
+  Cache-Control: public, max-age=3600
+/sitemap-docs.xml
+  Cache-Control: public, max-age=3600
+/sitemap-blog.xml
+  Cache-Control: public, max-age=3600
 /robots.txt
   Cache-Control: public, max-age=3600
 
