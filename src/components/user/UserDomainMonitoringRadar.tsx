@@ -113,7 +113,7 @@ export const UserDomainMonitoringRadar: React.FC<UserDomainMonitoringRadarProps>
   if (domains.length === 0) {
     return (
       <div className="ds-card p-12 text-center shadow-sm">
-        <Radio className="mx-auto h-12 w-12 ds-muted/30 mb-4 animate-pulse" />
+        <Radio className="mx-auto h-12 w-12 ds-muted/30 mb-4 " />
         <h3 className="text-lg font-bold text-foreground">No Monitored Endpoints Yet</h3>
         <p className="mt-1 max-w-md mx-auto text-xs ds-muted leading-relaxed">
           Run your first Master Audit or single-engine diagnostic on any website or API to register it onto your real-time telemetry radar.

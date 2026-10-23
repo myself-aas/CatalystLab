@@ -178,7 +178,7 @@ export const AdminDashboardPage: React.FC = () => {
  {/* Superadmin Status Pill */}
  <div className="flex items-center gap-3 shrink-0">
  <div className="px-3.5 py-2 rounded-xl ds-card flex items-center gap-2.5 font-mono text-xs">
- <span className="size-2 rounded-full bg-cream animate-pulse shrink-0" />
+ <span className="size-2 rounded-full bg-cream  shrink-0" />
  <span className="text-foreground truncate max-w-[180px]">{user.email}</span>
  <span className="px-1.5 py-0.5 rounded bg-cream/10 text-amber-400 text-[11px] font-semibold border border-amber-500/20 font-mono">
  ROOT

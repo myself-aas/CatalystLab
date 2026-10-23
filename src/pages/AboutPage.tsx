@@ -261,7 +261,7 @@ export const AboutPage: React.FC = () => {
  <span>Telemetry Benchmark Grid</span>
  </div>
  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-cream/10 px-2.5 py-0.5 framer-micro-tag text-emerald-400">
- <span className="size-1.5 rounded-full bg-cream animate-pulse shrink-0"/>
+ <span className="size-1.5 rounded-full bg-cream  shrink-0"/>
  Grid Live (v2.4)
  </span>
  </div>

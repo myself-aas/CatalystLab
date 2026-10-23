@@ -215,8 +215,12 @@ async function startServer(): Promise<void> {
       try {
         const rawTemplate = readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf8');
         const transformed = await vite.transformIndexHtml(req.originalUrl, rawTemplate);
+        const withoutHmrClient = transformed.replace(
+          /<script\b[^>]*\bsrc=["'][^"']*\/@vite\/client(?:\?[^"']*)?["'][^>]*><\/script>/gi,
+          '',
+        );
         const nonce = typeof res.locals.cspNonce === 'string' ? res.locals.cspNonce : '';
-        res.status(200).setHeader('Content-Type', 'text/html; charset=utf-8').end(injectNonceIntoHtml(transformed, nonce));
+        res.status(200).setHeader('Content-Type', 'text/html; charset=utf-8').end(injectNonceIntoHtml(withoutHmrClient, nonce));
       } catch (err) {
         next(err);
       }

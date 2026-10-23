@@ -173,7 +173,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
                   : 'text-rose-400 border-rose-500/20 bg-white/10'
               }`}
             >
-              <Activity className="w-4 h-4 animate-pulse" />
+              <Activity className="w-4 h-4 " />
               <span>{score}</span>
               <span className="text-[11px] font-medium text-muted-foreground">/100</span>
             </div>
@@ -190,7 +190,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
             <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-card/40 backdrop-blur-xl border border-border shadow-sm">
               <span
                 style={{ backgroundColor: themeColor }}
-                className="w-2 h-2 rounded-full animate-ping absolute opacity-75"
+                className="w-2 h-2 rounded-full absolute opacity-25"
               />
               <span
                 style={{ backgroundColor: themeColor }}

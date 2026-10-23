@@ -229,7 +229,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
 
         <div className="flex items-center gap-1.5 shrink-0">
           {active && (
-            <span className="size-1.5 rounded-full bg-cream shadow-[0_0_8px_var(--color-cream)] animate-pulse shrink-0" />
+            <span className="size-1.5 rounded-full bg-cream shadow-[0_0_8px_var(--color-cream)]  shrink-0" />
           )}
         </div>
       </button>
@@ -283,7 +283,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
 
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-mono bg-cream/10 text-emerald-400 border border-emerald-500/20">
-                    <span className="size-1.5 rounded-full bg-cream animate-pulse" />
+                    <span className="size-1.5 rounded-full bg-cream " />
                     <span>Live</span>
                   </span>
 
@@ -390,7 +390,7 @@ export const MainMenuOverlay: React.FC<MainMenuOverlayProps> = ({
                           <span className="text-[11px] font-mono text-foreground truncate font-medium">{displayDomain}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <span className="size-1.5 rounded-full bg-cream animate-pulse" />
+                          <span className="size-1.5 rounded-full bg-cream " />
                           <span className="text-[11px] font-mono text-emerald-400">Live</span>
                         </div>
                       </div>

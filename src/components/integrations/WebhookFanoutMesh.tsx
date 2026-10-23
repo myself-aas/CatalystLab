@@ -129,7 +129,7 @@ export const WebhookFanoutMesh: React.FC = () => {
               {/* Globe Status HUD */}
               <div className="w-full flex items-center justify-between border-b border-border/80 pb-3 mb-2 text-xs font-mono">
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <Activity className="h-4 w-4 text-emerald-400 animate-pulse" />
+                  <Activity className="h-4 w-4 text-emerald-400 " />
                   <span className="font-bold uppercase tracking-wider">FAN-OUT ORIGIN: IAD (US-East)</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -152,7 +152,7 @@ export const WebhookFanoutMesh: React.FC = () => {
               {/* Last Dispatched status */}
               <div className="w-full mt-2 pt-3 border-t border-border/80 flex items-center justify-between text-xs font-mono text-muted-foreground">
                 <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-cream animate-ping" />
+                  <span className="h-2 w-2 rounded-full bg-cream" />
                   <span>HMAC-SHA256 Signatures Enforced</span>
                 </div>
                 <div className="text-[11px] text-muted-foreground">

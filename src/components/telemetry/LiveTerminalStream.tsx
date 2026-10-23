@@ -68,7 +68,7 @@ export const LiveTerminalStream: React.FC<LiveTerminalStreamProps> = ({
             <span className="text-xs font-semibold text-slate-200">{title}</span>
           </div>
           {isStreaming && (
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-accent-cyan/10 text-[var(--chart-cyan)] border border-accent-cyan/30 animate-pulse">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-accent-cyan/10 text-[var(--chart-cyan)] border border-accent-cyan/30">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--chart-cyan)]" />
               LIVE SSE
             </span>

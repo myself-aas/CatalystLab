@@ -156,7 +156,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
           <div
             className={`w-10 h-10 rounded-lg flex items-center justify-center border ${
               isLoading
-                ? 'bg-accent-cyan/15 border-accent-cyan/40 text-[var(--chart-cyan)] animate-pulse'
+                ? 'bg-accent-cyan/15 border-accent-cyan/40 text-[var(--chart-cyan)]'
                 : 'bg-slate-900/90 border-slate-800 text-slate-200'
             }`}
           >
@@ -190,7 +190,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
         <div className="flex items-center gap-2 flex-shrink-0">
           {isLoading ? (
             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-accent-cyan/10 border border-accent-cyan/30 text-[var(--chart-cyan)] text-xs font-mono">
-              <span className="w-2 h-2 rounded-full bg-[var(--chart-cyan)] animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-[var(--chart-cyan)]" />
               <span>STREAMING</span>
             </div>
           ) : status === 'COMPLETE' ? (
@@ -225,7 +225,7 @@ export const DiagnosticConsoleCard: React.FC<DiagnosticConsoleCardProps> = ({
               <span className="text-[var(--chart-cyan)]">IN PROGRESS</span>
             </div>
             <div className="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
-              <div className="bg-gradient-to-r from-[var(--chart-cyan)] to-[var(--chart-green)] h-1.5 rounded-full animate-pulse w-3/4" />
+              <div className="bg-gradient-to-r from-[var(--chart-cyan)] to-[var(--chart-green)] h-1.5 rounded-full w-3/4" />
             </div>
           </div>
         ) : result && status === 'COMPLETE' ? (

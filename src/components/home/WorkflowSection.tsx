@@ -65,7 +65,7 @@ export const WorkflowSection: React.FC = () => {
             </p>
           </LazyReveal>
           <div className="flex items-center gap-2 text-sm font-mono text-muted-foreground bg-background border border-border p-3 rounded-xl shadow-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-cream animate-ping" />
+            <span className="w-2.5 h-2.5 rounded-full bg-cream" />
             <span>TOTAL LATENCY: <strong className="text-foreground text-base">1.06s</strong></span>
           </div>
         </div>

@@ -140,7 +140,7 @@ export default {
  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="relative z-10 ds-page-shell text-center space-y-5">
  <div className="flex flex-wrap items-center justify-center gap-2.5">
  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-[var(--bg-surface)] backdrop-blur-md px-3 py-1 text-xs font-mono text-foreground shadow-xs">
- <Radio className="h-3.5 w-3.5 text-foreground animate-pulse shrink-0"/>
+ <Radio className="h-3.5 w-3.5 text-foreground  shrink-0"/>
  <span className="font-semibold">Products &amp; Continuous Telemetry</span>
  </span>
  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-cream/10 px-3 py-1 text-xs font-mono text-emerald-400 font-bold shadow-xs">
@@ -577,7 +577,7 @@ export default {
  <div className="flex space-x-1.5">
  <div className="h-2.5 w-2.5 rounded-full bg-muted"/>
  <div className="h-2.5 w-2.5 rounded-full bg-muted"/>
- <div className="h-2.5 w-2.5 rounded-full bg-cream shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"/>
+ <div className="h-2.5 w-2.5 rounded-full bg-cream shadow-[0_0_8px_rgba(16,185,129,0.5)] "/>
  </div>
  <span className="text-xs font-mono font-medium text-muted-foreground">catalystlab-config.json</span>
  </div>

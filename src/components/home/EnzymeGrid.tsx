@@ -28,7 +28,7 @@ const BarChartCard = ({ delay }: { delay: number }) => (
     <div className="flex justify-between items-start mb-6 sm:mb-8">
       <h3 className="text-base sm:text-xl font-medium text-foreground tracking-tight">Consumption</h3>
       <div className="flex items-center gap-1.5">
-        <div className="size-1.5 sm:size-2 rounded-full bg-cream animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.6)]" />
+        <div className="size-1.5 sm:size-2 rounded-full bg-cream shadow-[0_0_8px_rgba(96,165,250,0.6)]" />
         <span className="text-[11px] sm:text-[11px] text-muted-foreground font-mono uppercase tracking-wider hidden sm:inline-block">Live</span>
       </div>
     </div>
@@ -170,7 +170,7 @@ const LayeredCodeCard = ({ delay }: { delay: number }) => (
                   transition={{ delay: delay + 0.5 }}
                   className="absolute right-3 bottom-3 sm:-right-2 sm:-bottom-2 bg-background border border-border shadow-lg rounded-full px-2 sm:px-4 py-1 sm:py-2 flex items-center gap-1.5 sm:gap-2 z-10"
                 >
-                  <div className="size-1.5 sm:size-2 rounded-full bg-cream animate-pulse" />
+                  <div className="size-1.5 sm:size-2 rounded-full bg-cream " />
                   <span className="text-[11px] sm:text-xs font-mono font-medium text-foreground">Valid</span>
                 </motion.div>
             </div>

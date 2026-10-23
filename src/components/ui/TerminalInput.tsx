@@ -249,7 +249,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({
               className="mt-2 pt-2 px-3 border-t border-border/50 flex items-center justify-between text-[11px] font-mono text-muted-foreground"
             >
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                 <span>{statusMessage}</span>
               </div>
               <span className="text-muted-foreground hidden sm:inline">8 Micro-Analyzers Ready</span>

@@ -397,7 +397,7 @@ export const SignUpPage: React.FC = () => {
  {/* Domain Verification Preview */}
  {cleanDomain && cleanDomain.includes('.') && (
  <div className="mt-1.5 p-2 rounded-lg bg-cream/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-300 flex items-center gap-1.5 animate-fadeIn">
- <span className="size-1.5 rounded-full bg-cream animate-pulse" />
+ <span className="size-1.5 rounded-full bg-cream " />
  <span className="truncate">EdgeKinase pre-resolving DNS for {cleanDomain}... Valid TLS 1.3 detected</span>
  </div>
  )}

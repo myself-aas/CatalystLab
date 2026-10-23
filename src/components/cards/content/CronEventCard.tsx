@@ -51,7 +51,7 @@ export const CronEventCard: React.FC<CronEventCardProps> = ({
 }) => {
   const statusColors = {
     COMPLETED: 'bg-emerald-950/80 text-emerald-400 border-emerald-500/30',
-    RUNNING: 'bg-cyan-950/80 text-cyan-400 border-cyan-500/30 animate-pulse',
+    RUNNING: 'bg-cyan-950/80 text-cyan-400 border-cyan-500/30',
     SCHEDULED: 'bg-black/70 text-white/80 border-white/20',
     FAILED: 'bg-rose-950/80 text-rose-400 border-rose-500/30',
   };

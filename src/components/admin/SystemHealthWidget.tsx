@@ -188,7 +188,7 @@ export const SystemHealthWidget: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted ds-muted border border-border shadow-inner">
-              <Activity className="h-6 w-6 text-cyan-400 animate-pulse" />
+              <Activity className="h-6 w-6 text-cyan-400 " />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -196,7 +196,7 @@ export const SystemHealthWidget: React.FC = () => {
                   System Health & Audit Telemetry
                 </h2>
                 <span className="inline-flex items-center gap-1 rounded-full bg-cream/10 border border-cyan-500/30 px-2.5 py-0.5 text-[11px] font-bold text-cyan-300 font-mono">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cream animate-ping" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-cream " />
                   LIVE FIRESTORE STREAM
                 </span>
               </div>
