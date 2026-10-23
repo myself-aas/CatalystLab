@@ -196,7 +196,7 @@ export const CommandCenterPage: React.FC = () => {
                 <div className="ds-card p-4">
                   <dt className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Cpu className="size-4" aria-hidden="true" />
-                    Engine runs served
+                    Engine runs logged
                   </dt>
                   <dd className="mt-2 font-mono text-xl tabular-nums text-foreground">
                     {health ? health.totalAuditsLogged : '—'}
@@ -207,8 +207,9 @@ export const CommandCenterPage: React.FC = () => {
 
             {health ? (
               <p className="font-mono text-xs text-muted-foreground">
-                {health.activeEnginesCount} engines registered · {health.platform} · Node {health.nodeVersion} ·
-                updated {new Date(health.timestamp).toLocaleTimeString()}
+                {ENGINE_ORDER.length} engines, {health.activeEnginesCount} engine ids accepted (legacy
+                aliases included) · {health.platform} · Node {health.nodeVersion} · updated{' '}
+                {new Date(health.timestamp).toLocaleTimeString()}
               </p>
             ) : null}
           </section>

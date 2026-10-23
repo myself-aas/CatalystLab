@@ -68,6 +68,8 @@ export const MasterAuditExecutionPage: React.FC = () => {
  const autoLaunchedRef = useRef(false);
 
  const completedCount = runs.filter((r) => r.status === 'complete' || r.status === 'error').length;
+ const failedCount = runs.filter((r) => r.status === 'error').length;
+ const scoredCount = runs.filter((r) => r.status === 'complete' && r.score > 0).length;
  const runningEngine = runs.find((r) => r.status === 'running');
 
  const updateRun = (id: EngineType, patch: Partial<EngineRun>) => {
@@ -121,12 +123,15 @@ export const MasterAuditExecutionPage: React.FC = () => {
  }
  const output = String(data.output || data.error || 'No output returned.');
  const parsed = parseEngineOutput(output);
+ // An engine can answer 200 while its own log reports that the scan never
+ // completed (TLS reset, DNS failure). That run has no score to report.
+ const reportedFailure = /Failed to complete|\[!\] CRITICAL/i.test(output);
  const next: EngineRun = {
  id: engine,
- status: data.success === false ? 'error' : 'complete',
+ status: data.success === false || reportedFailure ? 'error' : 'complete',
  output,
- error: data.success === false ? data.error : undefined,
- score: parsed.healthScore,
+ error: data.success === false ? data.error : reportedFailure ? 'The engine could not reach the target.' : undefined,
+ score: data.success === false || reportedFailure ? 0 : parsed.healthScore,
  };
  collected[MASTER_ENGINES.indexOf(engine)] = next;
  updateRun(engine, next);
@@ -255,11 +260,16 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <Activity className="size-4 text-foreground shrink-0" aria-hidden="true"/>
  {loading
  ? `Running engine ${Math.min(completedCount + 1, MASTER_ENGINES.length)} of ${MASTER_ENGINES.length}`
- : `${completedCount} of ${MASTER_ENGINES.length} engines finished`}
+ : `${completedCount} of ${MASTER_ENGINES.length} engines finished${failedCount > 0 ? `, ${failedCount} failed` : ''}`}
  </div>
  {compositeScore !== null && (
  <div className="font-mono text-sm text-foreground">
  Composite score <span className="font-semibold">{compositeScore}</span>/100
+ {scoredCount < MASTER_ENGINES.length && (
+ <span className="ml-2 text-muted-foreground">
+ (mean of {scoredCount} {scoredCount === 1 ? 'engine' : 'engines'})
+ </span>
+ )}
  </div>
  )}
  </div>
@@ -317,7 +327,7 @@ export const MasterAuditExecutionPage: React.FC = () => {
  <p className="mt-1 text-sm ds-muted">
  {run.status === 'queued' && 'Waiting'}
  {run.status === 'running' && 'Measuring…'}
- {run.status === 'complete' && `Score ${run.score}/100`}
+ {run.status === 'complete' && (run.score > 0 ? `Score ${run.score}/100` : 'Finished, no score')}
  {run.status === 'error' && 'Failed'}
  </p>
  </LinearCard>
